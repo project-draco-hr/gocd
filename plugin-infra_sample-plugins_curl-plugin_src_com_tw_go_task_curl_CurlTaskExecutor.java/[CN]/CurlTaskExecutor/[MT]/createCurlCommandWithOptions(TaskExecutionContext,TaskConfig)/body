@@ -1,0 +1,6 @@
+{
+  String url=taskConfig.getValue(CurlTask.URL_PROPERTY);
+  String secureConnection=taskConfig.getValue(CurlTask.SECURE_CONNECTION_PROPERTY).equals("yes") ? "" : "--insecure";
+  String requestType=taskConfig.getValue(CurlTask.REQUEST_PROPERTY);
+  return new ProcessBuilder("curl",requestType,secureConnection,"-o",taskContext.workingDir() + "/" + CURLED_FILE,url);
+}

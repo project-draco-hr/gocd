@@ -1,5 +1,5 @@
 {
-  ProcessBuilder curl=new ProcessBuilder("curl","-o",taskContext.workingDir() + "/" + CURLED_FILE,url);
+  ProcessBuilder curl=createCurlCommandWithOptions(taskContext,taskConfig);
   Console console=taskContext.console();
   console.printLine("Launching command: " + curl.command());
   EnvironmentVariables environment=taskContext.environment();

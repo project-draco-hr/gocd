@@ -1,9 +1,8 @@
 {
-  String value=config.getValue(CurlTask.URL_PROPERTY);
   try {
-    return runCommand(taskEnvironment,value);
+    return runCommand(taskEnvironment,config);
   }
  catch (  Exception e) {
-    return ExecutionResult.failure("Failed to download file from URL: " + value,e);
+    return ExecutionResult.failure("Failed to download file from URL: " + config.getValue(CurlTask.URL_PROPERTY),e);
   }
 }
