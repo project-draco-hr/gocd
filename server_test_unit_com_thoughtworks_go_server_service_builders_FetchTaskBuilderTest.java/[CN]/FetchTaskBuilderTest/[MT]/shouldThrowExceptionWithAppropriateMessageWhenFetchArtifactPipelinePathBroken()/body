@@ -1,0 +1,16 @@
+{
+  Pipeline downInstance=pipelineWithDepencencyMaterial("down","up3",1,"up3-label","up3-stage",1);
+  Pipeline up3Instance=pipelineWithDepencencyMaterial("up3","old",1,"old-label","old-stage",1);
+  when(resolver.buildCauseFor("up3",1)).thenReturn(up3Instance.getBuildCause());
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("up1/up2/up3"),new CaseInsensitiveString("up3-stage"),new CaseInsensitiveString("up3-job"),"src","dest");
+  try {
+    fetchTaskBuilder.createBuilder(builderFactory,fetchTask,downInstance,resolver);
+    fail("should have failed");
+  }
+ catch (  Exception e) {
+    assertEquals(String.format("Pipeline [down] could not fetch artifact [%s]. Unable to resolve revision for [up2] from build cause",fetchTask),e.getMessage());
+  }
+ finally {
+    verify(resolver).buildCauseFor("up3",1);
+  }
+}
