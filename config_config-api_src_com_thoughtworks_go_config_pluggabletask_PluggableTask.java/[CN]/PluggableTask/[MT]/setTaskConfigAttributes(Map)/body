@@ -1,8 +1,12 @@
 {
-  for (  ConfigurationProperty property : configuration) {
-    String key=property.getConfigurationKey().getName();
+  TaskConfig taskConfig=PluggableTaskConfigStore.store().preferenceFor(pluginConfiguration.getId()).getConfig();
+  for (  Property property : taskConfig.list()) {
+    String key=property.getKey();
     if (attributes.containsKey(key)) {
-      property.setConfigurationValue(new ConfigurationValue((String)attributes.get(key)));
+      if (configuration.getProperty(key) == null) {
+        configuration.addNewConfiguration(property.getKey(),property.getOption(Property.SECURE));
+      }
+      configuration.getProperty(key).setConfigurationValue(new ConfigurationValue((String)attributes.get(key)));
     }
   }
 }
