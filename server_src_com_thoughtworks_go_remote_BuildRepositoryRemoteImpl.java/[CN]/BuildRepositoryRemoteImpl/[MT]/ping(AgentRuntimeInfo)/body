@@ -1,0 +1,16 @@
+{
+  if (LOGGER.isTraceEnabled()) {
+    LOGGER.trace(info + " ping received.");
+  }
+  try {
+    agentService.updateRuntimeInfo(info);
+    return new AgentInstruction(agentService.findAgentAndRefreshStatus(info.getUUId()).isCancelled());
+  }
+ catch (  AgentWithDuplicateUUIDException agentException) {
+    throw wrappedException(agentException);
+  }
+catch (  Exception e) {
+    LOGGER.error("Error occurred in " + info + " ping.",e);
+    throw wrappedException(e);
+  }
+}

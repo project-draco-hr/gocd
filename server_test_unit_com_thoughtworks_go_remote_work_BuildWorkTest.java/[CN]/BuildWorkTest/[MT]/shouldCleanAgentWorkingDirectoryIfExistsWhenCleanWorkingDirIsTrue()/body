@@ -1,0 +1,16 @@
+{
+  String pipelineName="pipeline" + UUID.randomUUID();
+  File workingdir=new File("pipelines/" + pipelineName);
+  if (workingdir.exists()) {
+    FileUtils.deleteDirectory(workingdir);
+  }
+  workingdir.mkdirs();
+  createDummyFilesAndDirectories(workingdir);
+  assertThat(workingdir.listFiles().length,is(2));
+  buildWork=(BuildWork)getWork(WILL_PASS,pipelineName,false,true);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertThat(artifactManipulator.consoleOut(),containsString("Cleaning working directory \"" + workingdir.getAbsolutePath()));
+  assertThat(buildRepository.results.contains(Passed),is(true));
+  assertThat(workingdir.exists(),is(true));
+  assertThat(workingdir.listFiles().length,is(1));
+}

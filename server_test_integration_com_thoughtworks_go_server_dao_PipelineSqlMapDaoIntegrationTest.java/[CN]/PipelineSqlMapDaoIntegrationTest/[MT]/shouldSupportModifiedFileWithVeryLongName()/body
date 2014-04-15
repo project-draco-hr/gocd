@@ -1,0 +1,8 @@
+{
+  Modification modification=ModificationsMother.withModifiedFileWhoseNameLengthIsOneK();
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createWithModifications(ModificationsMother.createSvnMaterialRevisions(modification),""));
+  savePipeline(pipeline);
+  Pipeline loaded=pipelineDao.loadPipeline(pipeline.getId());
+  Modification loadedModification=loaded.getBuildCause().getMaterialRevisions().getMaterialRevision(0).getModification(0);
+  assertEquals(modification,loadedModification);
+}

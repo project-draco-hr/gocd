@@ -1,0 +1,9 @@
+{
+  try {
+    return upgradeValidateAndVersion(configFile,true,currentGoServerVersion);
+  }
+ catch (  Exception e) {
+    upgradeFailed.handle(e);
+  }
+  return GoConfigMigrationResult.unexpectedFailure("Failed to upgrade");
+}

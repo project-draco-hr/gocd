@@ -1,0 +1,9 @@
+{
+  String id="com.tw.go.exception.throwing.at.loadplugin";
+  GoPluginDescriptor pluginDescriptor=new GoPluginDescriptor(id,null,null,null,exceptionThrowingAtLoadDescriptorBundleDir,true);
+  registry.loadPlugin(pluginDescriptor);
+  assertThat(pluginDescriptor.isInvalid(),is(false));
+  Bundle bundle=pluginOSGiFramework.loadPlugin(pluginDescriptor);
+  assertThat(pluginDescriptor.isInvalid(),is(true));
+  assertThat(bundle.getState(),is(Bundle.UNINSTALLED));
+}

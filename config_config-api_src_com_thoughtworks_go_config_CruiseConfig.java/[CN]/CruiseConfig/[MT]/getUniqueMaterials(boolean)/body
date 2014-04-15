@@ -1,0 +1,18 @@
+{
+  Set<MaterialConfig> materialConfigs=new HashSet<MaterialConfig>();
+  Set<Map> uniqueMaterials=new HashSet<Map>();
+  for (  PipelineConfig pipelineConfig : pipelinesFromAllGroups()) {
+    for (    MaterialConfig materialConfig : pipelineConfig.materialConfigs()) {
+      if (!uniqueMaterials.contains(materialConfig.getSqlCriteria())) {
+        boolean shouldSkipPolling=!materialConfig.isAutoUpdate();
+        boolean scmOrPackageMaterial=!(materialConfig instanceof DependencyMaterialConfig);
+        if (ignoreManualPipelines && scmOrPackageMaterial && shouldSkipPolling) {
+          continue;
+        }
+        materialConfigs.add(materialConfig);
+        uniqueMaterials.add(materialConfig.getSqlCriteria());
+      }
+    }
+  }
+  return materialConfigs;
+}

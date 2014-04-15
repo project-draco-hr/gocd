@@ -1,0 +1,7 @@
+{
+  List<Revision> revisions=node.revisions();
+  assertThat(revisions.size(),is(pipelineCounters.length));
+  for (  Integer pipelineCounter : pipelineCounters) {
+    assertThat(revisions.contains(new PipelineRevision(pipelineName,pipelineCounter,pipelineCounter.toString())),is(true));
+  }
+}

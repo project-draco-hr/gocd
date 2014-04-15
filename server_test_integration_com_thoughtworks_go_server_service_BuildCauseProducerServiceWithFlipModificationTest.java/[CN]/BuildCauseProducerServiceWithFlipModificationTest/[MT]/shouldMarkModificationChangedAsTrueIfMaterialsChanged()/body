@@ -1,0 +1,8 @@
+{
+  SvnMaterialConfig svnMaterialConfig=setUpPipelineWithTwoMaterials();
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(PIPELINE_NAME);
+  consume(buildCauseForPipeline());
+  configHelper.replaceMaterialForPipeline(PIPELINE_NAME,svnMaterialConfig);
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(PIPELINE_NAME);
+  verifyBuildCauseHasModificationsWith(pipelineScheduleQueue.toBeScheduled(),true);
+}

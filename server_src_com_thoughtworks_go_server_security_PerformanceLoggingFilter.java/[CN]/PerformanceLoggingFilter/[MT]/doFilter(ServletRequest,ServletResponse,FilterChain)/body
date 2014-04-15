@@ -1,0 +1,9 @@
+{
+  long start=System.currentTimeMillis();
+  try {
+    filterChain.doFilter(servletRequest,servletResponse);
+  }
+  finally {
+    if (logRequestTimings)     LOGGER.warn(((HttpServletRequest)servletRequest).getRequestURI() + " took: " + (System.currentTimeMillis() - start)+ " ms");
+  }
+}

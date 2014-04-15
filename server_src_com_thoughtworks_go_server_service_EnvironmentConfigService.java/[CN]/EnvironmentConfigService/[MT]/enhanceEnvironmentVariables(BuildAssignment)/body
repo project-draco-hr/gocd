@@ -1,0 +1,6 @@
+{
+  EnvironmentConfig environment=environments.findEnvironmentForPipeline(new CaseInsensitiveString(assignment.getPlan().getPipelineName()));
+  if (environment != null) {
+    assignment.enhanceEnvironmentVariables(environment.createEnvironmentContext());
+  }
+}

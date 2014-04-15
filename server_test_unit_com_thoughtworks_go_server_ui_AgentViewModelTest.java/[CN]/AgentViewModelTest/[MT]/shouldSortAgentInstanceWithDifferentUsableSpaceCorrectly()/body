@@ -1,0 +1,10 @@
+{
+  List<Long> magicValuesForTimSort=Arrays.asList(1L,1L,1L,1L,2L,2L,2L,2L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,-1L,1L,2L);
+  List<AgentViewModel> avmList=new ArrayList<AgentViewModel>();
+  for (  Long cur : magicValuesForTimSort) {
+    avmList.add(new AgentViewModel(updateUsableSpace(pending(),cur)));
+  }
+  AgentsViewModel list=new AgentsViewModel(avmList.toArray(new AgentViewModel[magicValuesForTimSort.size()]));
+  list.sortBy(AgentViewModel.USABLE_SPACE_COMPARATOR,SortOrder.ASC);
+  isSortedByUsableSpace(list);
+}

@@ -1,0 +1,10 @@
+{
+  JobIdentifier identifier=job.getIdentifier();
+  if (job.getState().isBuilding()) {
+    consoleActivityMonitor.jobLastActivityMap.putIfAbsent(identifier,consoleActivityMonitor.timeProvider.currentTimeMillis());
+  }
+ else   if (job.isCompleted() || job.isRescheduled()) {
+    consoleActivityMonitor.jobLastActivityMap.remove(identifier);
+    consoleActivityMonitor.removeHungJobWarning(identifier);
+  }
+}

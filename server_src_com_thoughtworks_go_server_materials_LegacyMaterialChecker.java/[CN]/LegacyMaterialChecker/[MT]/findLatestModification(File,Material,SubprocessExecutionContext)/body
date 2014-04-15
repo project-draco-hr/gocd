@@ -1,0 +1,7 @@
+{
+  List<Modification> modifications=materialService.latestModification(material,workingFolder,execCtx);
+  if (modifications.isEmpty()) {
+    throw new RuntimeException(String.format("Latest modifications check for the material '%s' returned an empty modification list. This might be because the material might be wrongly configured.",material));
+  }
+  return modifications;
+}

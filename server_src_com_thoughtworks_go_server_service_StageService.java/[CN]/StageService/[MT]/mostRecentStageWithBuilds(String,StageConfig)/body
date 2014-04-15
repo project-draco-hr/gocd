@@ -1,0 +1,8 @@
+{
+  Stage stage=findLatestStage(pipelineName,CaseInsensitiveString.str(stageConfig.name()));
+  if (stage == null) {
+    return NullStage.createNullStage(stageConfig);
+  }
+  stage.setJobInstances(jobInstanceService.currentJobsOfStage(pipelineName,stageConfig));
+  return stage;
+}

@@ -1,0 +1,11 @@
+{
+  securityContext=mock(SecurityContext.class);
+  SecurityContextHolder.setContext(securityContext);
+  authenticationManager=mock(AuthenticationManager.class);
+  filter=new OauthAuthenticationFilter(authenticationManager);
+  req=mock(HttpServletRequest.class);
+  res=mock(HttpServletResponse.class);
+  chain=mock(FilterChain.class);
+  LogFixture.enableDebug();
+  logFixture=LogFixture.startListening();
+}

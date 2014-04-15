@@ -1,0 +1,10 @@
+{
+  FileOutputStream fileOutputStream=null;
+  try {
+    fileOutputStream=maybeOutputStream(storeFile);
+    lazyLoadedStore.store(fileOutputStream,maybePassword(password));
+  }
+  finally {
+    IOUtils.closeQuietly(fileOutputStream);
+  }
+}

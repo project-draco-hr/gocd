@@ -1,0 +1,12 @@
+{
+  Map attributeMap=(Map)attributes;
+  pipelineTemplateConfig.setConfigAttributes(attributeMap.get(TEMPLATE));
+  useExistingPipeline="1".equals(attributeMap.get(USE_EXISTING_PIPELINE));
+  if (useExistingPipeline) {
+    selectedPipelineName=attributeMap.get(SELECTED_PIPELINE_NAME).toString();
+    pipelineTemplateConfig.copyStages(getPipeline(selectedPipelineName));
+  }
+ else {
+    pipelineTemplateConfig.addDefaultStage();
+  }
+}

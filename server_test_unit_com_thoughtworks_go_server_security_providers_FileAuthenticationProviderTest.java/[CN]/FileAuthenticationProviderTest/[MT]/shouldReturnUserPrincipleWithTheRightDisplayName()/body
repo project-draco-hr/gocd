@@ -1,0 +1,15 @@
+{
+  setupFile(String.format("jez=%s\ncharan=%s\nbabe=%s",SHA1_BADGER,SHA1_BADGER,SHA1_BADGER));
+  when(userService.findUserByName("jez")).thenReturn(new com.thoughtworks.go.domain.User("jez","Jezz Humbles","jez@humble.com"));
+  when(userService.findUserByName("charan")).thenReturn(new com.thoughtworks.go.domain.User("charan","","ch@ar.an"));
+  FileAuthenticationProvider provider=new FileAuthenticationProvider(goConfigService,new AuthorityGranter(securityService),userService,securityService);
+  GoUserPrinciple details=(GoUserPrinciple)provider.retrieveUser("jez",null);
+  assertThat(details.getUsername(),is("jez"));
+  assertThat(details.getDisplayName(),is("Jezz Humbles"));
+  details=(GoUserPrinciple)provider.retrieveUser("charan",null);
+  assertThat(details.getUsername(),is("charan"));
+  assertThat(details.getDisplayName(),is("charan"));
+  details=(GoUserPrinciple)provider.retrieveUser("babe",null);
+  assertThat(details.getUsername(),is("babe"));
+  assertThat(details.getDisplayName(),is("babe"));
+}

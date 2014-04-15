@@ -1,0 +1,9 @@
+{
+  Pipeline latestGoInstance=PipelineMother.schedule(goPipelineConfig,BuildCause.createManualForced(svnMaterialRevs,new Username(new CaseInsensitiveString("loser"))));
+  latestGoInstance=pipelineDao.saveWithStages(latestGoInstance);
+  dbHelper.passStage(latestGoInstance.getStages().first());
+  configHelper.addMaterialToPipeline(GO_PIPELINE_NAME,new DependencyMaterialConfig(new CaseInsensitiveString(GO_PIPELINE_UPSTREAM),new CaseInsensitiveString(STAGE_NAME)));
+  svnRepository.checkInOneFile("a.java");
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(GO_PIPELINE_NAME);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),not(hasItem(GO_PIPELINE_NAME)));
+}

@@ -1,0 +1,9 @@
+{
+  PackageMaterial material=MaterialsMother.packageMaterial("repo-id","repo-name","pkg-id","pkg-name",ConfigurationPropertyMother.create("key1",false,"value1"));
+  MaterialInstance materialInstance=material.createMaterialInstance();
+  MaterialInstance materialInstanceCopy=material.createMaterialInstance();
+  material.getPackageDefinition().getConfiguration().add(ConfigurationPropertyMother.create("key2",false,"value2"));
+  MaterialInstance newMaterialInstance=material.createMaterialInstance();
+  assertThat(materialInstance,is(materialInstanceCopy));
+  assertThat(materialInstance,is(not(newMaterialInstance)));
+}

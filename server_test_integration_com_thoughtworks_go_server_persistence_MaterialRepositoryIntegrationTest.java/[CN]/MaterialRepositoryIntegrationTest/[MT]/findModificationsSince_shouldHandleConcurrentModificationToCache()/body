@@ -1,0 +1,32 @@
+{
+  final SvnMaterial svn=MaterialsMother.svnMaterial();
+  final MaterialRevision first=saveOneScmModification(svn,"user1","file1");
+  final MaterialRevision second=saveOneScmModification(svn,"user2","file2");
+  final MaterialRevision third=saveOneScmModification(svn,"user2","file3");
+  repo=new MaterialRepository(sessionFactory,goCache=new GoCache(goCache){
+    @Override public Object get(    String key){
+      Object value=super.get(key);
+      TestUtils.sleepQuietly(200);
+      return value;
+    }
+  }
+,200,transactionSynchronizationManager,materialConfigConverter,materialExpansionService,databaseStrategy);
+  Thread thread1=new Thread(new Runnable(){
+    public void run(){
+      repo.findModificationsSince(svn,first);
+    }
+  }
+);
+  thread1.start();
+  TestUtils.sleepQuietly(50);
+  Thread thread2=new Thread(new Runnable(){
+    public void run(){
+      repo.findModificationsSince(svn,second);
+    }
+  }
+);
+  thread2.start();
+  thread1.join();
+  thread2.join();
+  assertThat(repo.cachedModifications(repo.findMaterialInstance(svn)).size(),is(3));
+}

@@ -1,0 +1,25 @@
+{
+  String agentUuid="special_uuid";
+  JobInstance buildingJob=building("job1",new Date(1));
+  buildingJob.setAgentUuid(agentUuid);
+  jobInstanceDao.save(stageId,buildingJob);
+  JobInstance completedJob=completed("job2",JobResult.Passed,new Date(1));
+  completedJob.setAgentUuid(agentUuid);
+  jobInstanceDao.save(stageId,completedJob);
+  JobInstance cancelledJob=cancelled("job3");
+  cancelledJob.setAgentUuid("something_different");
+  jobInstanceDao.save(stageId,cancelledJob);
+  JobInstance rescheduledJob=rescheduled("rescheduled",agentUuid);
+  jobInstanceDao.save(stageId,rescheduledJob);
+  jobInstanceDao.ignore(rescheduledJob);
+  List<JobInstance> jobInstances=jobInstanceDao.completedJobsOnAgent(agentUuid,JobInstanceService.JobHistoryColumns.stage,SortOrder.ASC,0,10);
+  assertThat(jobInstances.size(),is(2));
+  JobInstance actual=jobInstances.get(0);
+  assertThat(actual.getName(),is(completedJob.getName()));
+  completedJob.setIdentifier(actual.getIdentifier());
+  assertThat(actual,is(completedJob));
+  actual=jobInstances.get(1);
+  assertThat(actual.getName(),is(rescheduledJob.getName()));
+  rescheduledJob.setIdentifier(actual.getIdentifier());
+  assertThat(actual,is(rescheduledJob));
+}

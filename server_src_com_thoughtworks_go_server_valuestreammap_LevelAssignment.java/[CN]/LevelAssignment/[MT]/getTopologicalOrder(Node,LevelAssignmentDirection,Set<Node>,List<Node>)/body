@@ -1,0 +1,13 @@
+{
+  if (visitedNodes.contains(rootNode)) {
+    return;
+  }
+  visitedNodes.add(rootNode);
+  List<Node> relatedNodes=direction.getRelatedNodes(rootNode);
+  if (!relatedNodes.isEmpty()) {
+    for (    Node relatedNode : relatedNodes) {
+      getTopologicalOrder(relatedNode,direction,visitedNodes,topologicalOrder);
+    }
+  }
+  topologicalOrder.add(rootNode);
+}

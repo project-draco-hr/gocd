@@ -1,0 +1,15 @@
+{
+  HashMap<String,String> uidToUrlMap=new HashMap<String,String>();
+  try {
+    Document document=builder.build(new StringReader(output));
+    Element root=document.getRootElement();
+    List<Element> entries=root.getChildren("entry");
+    for (    Element entry : entries) {
+      uidToUrlMap.put(queryURL,entry.getChild("repository").getChild("uuid").getValue());
+    }
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+  return uidToUrlMap;
+}

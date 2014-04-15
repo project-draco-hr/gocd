@@ -1,0 +1,12 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  configFileHelper.turnOnSecurity();
+  configFileHelper.addAdmins("Jake","Pavan","Yogi");
+  userService.create(users("Jake","Pavan","Shilpa","Yogi"),new HttpLocalizedOperationResult());
+  userService.disable(Arrays.asList("Yogi"),result);
+  assertThat(result.isSuccessful(),is(true));
+  userService.disable(Arrays.asList("Pavan","Jake"),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpServletResponse.SC_BAD_REQUEST));
+  assertThat(result.message(localizer),is("Did not disable any of the selected users. Ensure that all configured admins are not being disabled."));
+}

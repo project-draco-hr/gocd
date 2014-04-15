@@ -1,0 +1,6 @@
+{
+  AgentConfig agentConfig=new AgentConfig();
+  agentConfig.setIpAddress(address);
+  agentConfig.validate(ValidationContext.forChain(cruiseConfig));
+  assertThat(agentConfig.errors().on("ipAddress"),is(errorMsg));
+}

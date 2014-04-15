@@ -1,0 +1,7 @@
+{
+  String templateAdmin="template-admin-1";
+  Authorization authorization=new Authorization(new AdminsConfig(new AdminUser(new CaseInsensitiveString(templateAdmin))));
+  configHelper.addTemplate("pipeline-name",authorization,"stage-name");
+  boolean isAuthorized=securityService.isAuthorizedToViewAndEditTemplates(new Username(new CaseInsensitiveString(templateAdmin)));
+  assertThat(isAuthorized,is(true));
+}

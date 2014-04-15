@@ -1,0 +1,14 @@
+{
+  String grandParent="grandParent";
+  String parent="parent";
+  String child="child";
+  String currentPipeline="current";
+  ValueStreamMap graph=new ValueStreamMap(currentPipeline,null);
+  graph.addDownstreamNode(new PipelineDependencyNode(child,child),currentPipeline);
+  graph.addDownstreamNode(new PipelineDependencyNode(grandParent,grandParent),child);
+  graph.addUpstreamNode(new PipelineDependencyNode(parent,parent),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode(grandParent,grandParent),null,parent);
+  graph.addUpstreamNode(new SCMDependencyNode("g","g","git"),null,grandParent);
+  graph.addUpstreamNode(new SCMDependencyNode("g","g","git"),null,parent);
+  assertThat(graph.hasCycle(),is(true));
+}

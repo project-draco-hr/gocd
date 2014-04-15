@@ -1,0 +1,7 @@
+{
+  initMocks(this);
+  PluginManagerReference.reference().setPluginManager(pluginManager);
+  when(pluggableTask.getPluginConfiguration()).thenReturn(new PluginConfiguration(TEST_PLUGIN_ID,"1.0"));
+  HashMap<String,Map<String,String>> pluginConfig=new HashMap<String,Map<String,String>>();
+  when(pluggableTask.configAsMap()).thenReturn(pluginConfig);
+}

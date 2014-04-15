@@ -1,0 +1,10 @@
+{
+  FileUtil.deleteFolder(repoLocation);
+  try {
+    git.latestModification();
+    fail("Should throw exception when repo cannot connected");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("The remote end hung up unexpectedly"));
+  }
+}

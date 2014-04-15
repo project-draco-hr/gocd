@@ -1,0 +1,4 @@
+{
+  RolesConfig rolesConfig=new RolesConfig(new Role(new CaseInsensitiveString("role1"),new RoleUser(new CaseInsensitiveString("user1"))));
+  assertThat("shouldReturnFalseIfUserIsNotMemberOfRole",rolesConfig.isUserMemberOfRole(new CaseInsensitiveString("user2"),new CaseInsensitiveString("role1")),is(false));
+}

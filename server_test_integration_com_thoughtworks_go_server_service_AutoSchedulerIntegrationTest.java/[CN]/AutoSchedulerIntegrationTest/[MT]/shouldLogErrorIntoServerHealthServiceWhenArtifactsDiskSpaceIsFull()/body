@@ -1,0 +1,17 @@
+{
+  serverHealthService.removeAllLogs();
+  ArtifactsDiskIsFull full=new ArtifactsDiskIsFull();
+  full.onSetUp();
+  if (!configService.artifactsDir().exists()) {
+    configService.artifactsDir().createNewFile();
+  }
+  try {
+    pipelineScheduler.onTimer();
+    HealthStateType healthStateType=HealthStateType.artifactsDiskFull();
+    assertThat(serverHealthService,containsState(healthStateType,HealthStateLevel.ERROR,"Go Server has run out of artifacts disk space. Scheduling has been stopped"));
+  }
+  finally {
+    full.onTearDown();
+    configService.artifactsDir().delete();
+  }
+}

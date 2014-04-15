@@ -1,0 +1,8 @@
+{
+  Modification lastCommit=hgCommand.latestOneModificationAsModifications().get(0);
+  makeACommitToSecondBranch();
+  hg(workingDirectory,"pull").runOrBomb(null);
+  Modification actual=hgCommand.latestOneModificationAsModifications().get(0);
+  assertThat(actual,is(lastCommit));
+  assertThat(actual.getComment(),is(lastCommit.getComment()));
+}

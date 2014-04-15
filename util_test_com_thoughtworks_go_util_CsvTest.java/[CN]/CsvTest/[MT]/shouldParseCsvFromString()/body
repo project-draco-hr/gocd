@@ -1,0 +1,11 @@
+{
+  Csv csv=Csv.fromString("a,b\n1,2");
+  assertThat(csv.rowCount(),is(1));
+  assertThat(csv.containsRow(new HashMap<String,String>(){
+{
+      put("a","1");
+      put("b","2");
+    }
+  }
+),is(true));
+}

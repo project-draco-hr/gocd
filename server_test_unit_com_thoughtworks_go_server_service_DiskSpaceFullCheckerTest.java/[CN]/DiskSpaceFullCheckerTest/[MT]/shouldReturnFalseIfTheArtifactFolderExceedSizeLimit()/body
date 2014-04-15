@@ -1,0 +1,10 @@
+{
+  CruiseConfig cruiseConfig=simulateFullDisk();
+  ArtifactsDiskSpaceFullChecker fullChecker=createChecker(cruiseConfig);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  fullChecker.check(result);
+  assertThat(result.getServerHealthState().isSuccess(),is(false));
+  assertThat(result.getServerHealthState().getMessage(),is("Go Server has run out of artifacts disk space. Scheduling has been stopped"));
+  assertThat(result.getServerHealthState().getType(),is(HealthStateType.artifactsDiskFull()));
+  verify(sender).sendEmail(any(SendEmailMessage.class));
+}

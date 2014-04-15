@@ -1,0 +1,13 @@
+{
+  String pluginId=pluginConfiguration.getId();
+  for (  ConfigurationProperty configurationProperty : configuration) {
+    RepositoryMetadataStore repositoryMetadataStore=RepositoryMetadataStore.getInstance();
+    if (repositoryMetadataStore.getMetadata(pluginId) != null) {
+      boolean isSecureProperty=repositoryMetadataStore.hasOption(pluginId,configurationProperty.getConfigurationKey().getName(),PackageConfiguration.SECURE);
+      configurationProperty.handleSecureValueConfiguration(isSecureProperty);
+    }
+  }
+  for (  PackageDefinition packageDefinition : packages) {
+    packageDefinition.applyPackagePluginMetadata(pluginId);
+  }
+}

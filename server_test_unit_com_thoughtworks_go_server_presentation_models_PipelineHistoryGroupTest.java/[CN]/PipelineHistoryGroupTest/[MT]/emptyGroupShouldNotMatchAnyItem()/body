@@ -1,0 +1,5 @@
+{
+  PipelineInstanceGroupModel group=new PipelineInstanceGroupModel();
+  PipelineInstanceModel pipelineInstanceModel=PipelineHistoryItemMother.custom(StageHistoryItemMother.custom("stage1",true),StageHistoryItemMother.custom("stage2",false));
+  assertThat(group.hasSameStagesAs(pipelineInstanceModel),is(false));
+}

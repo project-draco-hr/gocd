@@ -1,0 +1,11 @@
+{
+  if (!defaultDirectory.exists()) {
+    return;
+  }
+  try {
+    FileUtils.deleteDirectory(defaultDirectory);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Failed to delete directory: " + defaultDirectory.getAbsolutePath(),e);
+  }
+}

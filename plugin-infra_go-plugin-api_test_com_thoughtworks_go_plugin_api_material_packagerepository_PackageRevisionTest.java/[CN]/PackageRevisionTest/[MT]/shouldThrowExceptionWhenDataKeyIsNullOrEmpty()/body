@@ -1,0 +1,15 @@
+{
+  PackageRevision packageRevision=new PackageRevision("rev123",new Date(),"loser");
+  try {
+    packageRevision.addData(null,"value");
+  }
+ catch (  InvalidPackageRevisionDataException e) {
+    assertThat(e.getMessage(),is("Key names cannot be null or empty."));
+  }
+  try {
+    packageRevision.addData("","value");
+  }
+ catch (  InvalidPackageRevisionDataException e) {
+    assertThat(e.getMessage(),is("Key names cannot be null or empty."));
+  }
+}

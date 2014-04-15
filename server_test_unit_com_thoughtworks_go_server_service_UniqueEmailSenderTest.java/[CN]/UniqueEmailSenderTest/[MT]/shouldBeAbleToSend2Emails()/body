@@ -1,0 +1,14 @@
+{
+  ClassMockery mockery=new ClassMockery();
+  final EmailNotificationTopic topic=mockery.mock(EmailNotificationTopic.class);
+  final SendEmailMessage message=new SendEmailMessage("pavan","hu kai","someone");
+  mockery.checking(new Expectations(){
+{
+      exactly(2).of(topic).post(message);
+    }
+  }
+);
+  EmailSender sender=new AsynchronousEmailSender(topic);
+  sender.sendEmail(message);
+  sender.sendEmail(message);
+}

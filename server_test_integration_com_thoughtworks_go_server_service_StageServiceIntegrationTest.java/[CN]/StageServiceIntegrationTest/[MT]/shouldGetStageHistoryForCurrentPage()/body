@@ -1,0 +1,9 @@
+{
+  StageHistoryEntry[] stages=createFiveStages();
+  StageHistoryPage history=stageService.findStageHistoryPage(stageService.stageById(stages[2].getId()),3);
+  assertThat("Found " + history,history.getPagination(),is(Pagination.pageStartingAt(0,5,3)));
+  assertThat("Found " + history,history.getStages().size(),is(3));
+  assertThat("Found " + history,history.getStages().get(0),is(stages[4]));
+  assertThat("Found " + history,history.getStages().get(1),is(stages[3]));
+  assertThat("Found " + history,history.getStages().get(2),is(stages[2]));
+}

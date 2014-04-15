@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  assertThat(schedulingChecker.canScheduleStage(pipeline.getIdentifier(),fixture.devStage,"anyone",result),is(false));
+  assertThat(schedulingChecker.canScheduleStage(pipeline.getIdentifier(),fixture.devStage,"anyone",new ServerHealthStateOperationResult()),is(false));
+}

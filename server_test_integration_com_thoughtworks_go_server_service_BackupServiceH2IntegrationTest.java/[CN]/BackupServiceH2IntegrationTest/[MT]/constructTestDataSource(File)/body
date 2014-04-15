@@ -1,0 +1,10 @@
+{
+  BasicDataSource source=new BasicDataSource();
+  source.setDriverClassName("org.h2.Driver");
+  source.setUrl("jdbc:h2:" + file.getAbsolutePath() + "/cruise;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+  source.setUsername("sa");
+  source.setPassword("");
+  source.setMaxActive(32);
+  source.setMaxIdle(32);
+  return source;
+}

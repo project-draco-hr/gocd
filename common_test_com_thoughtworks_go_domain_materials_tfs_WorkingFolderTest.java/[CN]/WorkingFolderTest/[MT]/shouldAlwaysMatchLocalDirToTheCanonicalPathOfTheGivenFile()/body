@@ -1,0 +1,11 @@
+{
+  TempFiles tempFiles=new TempFiles();
+  File parent=tempFiles.createUniqueFolder("parent");
+  File child=new File(parent.getAbsolutePath() + "/child");
+  child.mkdir();
+  File grandchild=new File(child.getAbsolutePath() + "/grandchild");
+  grandchild.mkdir();
+  WorkingFolder workingFolder=new WorkingFolder("$/helloworld",grandchild.getAbsolutePath());
+  assertThat(workingFolder.matchesLocalDir(new File(child.getAbsolutePath() + "/../child/grandchild")),is(true));
+  tempFiles.cleanUp();
+}

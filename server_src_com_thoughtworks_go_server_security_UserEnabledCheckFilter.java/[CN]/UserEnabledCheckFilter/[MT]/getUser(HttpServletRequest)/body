@@ -1,0 +1,10 @@
+{
+  Long userId=UserHelper.getUserId(request);
+  if (userId == null) {
+    Username userName=UserHelper.getUserName();
+    return userName.isAnonymous() ? new NullUser() : userService.findUserByName(CaseInsensitiveString.str(userName.getUsername()));
+  }
+ else {
+    return userService.load(userId);
+  }
+}

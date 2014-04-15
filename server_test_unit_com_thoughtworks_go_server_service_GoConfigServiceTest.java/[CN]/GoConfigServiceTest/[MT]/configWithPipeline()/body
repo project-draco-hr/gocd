@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipelineConfig=createPipelineConfig("pipeline","stage","first");
+  pipelineConfig.addMaterialConfig(MaterialConfigsMother.hgMaterialConfig());
+  CruiseConfig config=configWith(pipelineConfig);
+  config.server().setArtifactsDir("/var/logs");
+  return config;
+}

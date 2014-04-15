@@ -1,0 +1,10 @@
+{
+  instance.setAgentUuid("1234");
+  DateTime now=new DateTime();
+  Date scheduledDate=now.minusMinutes(5).toDate();
+  instance.setScheduledDate(scheduledDate);
+  setTransitionConditionally(instance,JobState.Scheduled,scheduledDate);
+  setTransitionConditionally(instance,JobState.Assigned,now.minusMinutes(4).toDate());
+  setTransitionConditionally(instance,JobState.Preparing,now.minusMinutes(3).toDate());
+  setTransitionConditionally(instance,JobState.Building,now.minusMinutes(2).toDate());
+}

@@ -1,0 +1,10 @@
+{
+  if (!securityService.isAuthorizedToEditTemplate(templateName,username)) {
+    result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT_TEMPLATE",templateName),HealthStateType.unauthorised());
+    return null;
+  }
+  GoConfigHolder configHolder=goConfigService.getConfigHolder();
+  configHolder=cloner.deepClone(configHolder);
+  PipelineTemplateConfig template=findTemplate(templateName,result,configHolder);
+  return template != null ? new ConfigForEdit<PipelineTemplateConfig>(template,configHolder) : null;
+}

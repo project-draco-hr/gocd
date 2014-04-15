@@ -1,0 +1,13 @@
+{
+  File defaultDirectory=systemEnvironment.getDefaultCommandRepository();
+  try {
+    if (shouldUsePackagedRepository(defaultDirectory)) {
+      usePackagedCommandRepository(getPackagedRepositoryZipStream(),defaultDirectory);
+    }
+  }
+ catch (  Exception e) {
+    String message="Unable to upgrade command repository located at " + defaultDirectory.getAbsolutePath() + ". Message: "+ e.getMessage();
+    serverHealthService.update(ServerHealthState.error("Command Repository",message,HealthStateType.commandRepositoryUpgradeIssue()));
+    LOG.error("[Command Repository] " + message,e);
+  }
+}

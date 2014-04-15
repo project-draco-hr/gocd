@@ -1,0 +1,8 @@
+{
+  return (User)transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus transactionStatus){
+      return sessionFactory.getCurrentSession().load(User.class,id);
+    }
+  }
+);
+}

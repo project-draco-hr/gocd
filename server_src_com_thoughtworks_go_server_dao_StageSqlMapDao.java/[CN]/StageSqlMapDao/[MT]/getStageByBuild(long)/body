@@ -1,0 +1,7 @@
+{
+  Stage stage=(Stage)getSqlMapClientTemplate().queryForObject("getStageByBuildId",buildId);
+  if (stage == null) {
+    throw new DataRetrievalFailureException("Unable to load related stage data for buildId " + buildId);
+  }
+  return stage;
+}

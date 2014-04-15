@@ -1,0 +1,7 @@
+{
+  String link="http://mingle05/projects/cce/cards/${ID}";
+  String regex="#(\\d+)";
+  trackingTool=new DefaultCommentRenderer(link,regex);
+  String result=trackingTool.render("#111, #222: checkin message; #333: another message");
+  assertThat(result,is("<a href=\"http://mingle05/projects/cce/cards/111\" target=\"story_tracker\">#111</a>, " + "<a href=\"http://mingle05/projects/cce/cards/222\" " + "target=\"story_tracker\">#222</a>: checkin message; "+ "<a href=\"http://mingle05/projects/cce/cards/333\" "+ "target=\"story_tracker\">#333</a>: another message"));
+}

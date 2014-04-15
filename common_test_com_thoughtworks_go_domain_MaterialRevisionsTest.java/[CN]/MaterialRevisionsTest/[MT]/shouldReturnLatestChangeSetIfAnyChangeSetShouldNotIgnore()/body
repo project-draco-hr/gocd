@@ -1,0 +1,5 @@
+{
+  MaterialRevisions first=new MaterialRevisions(svnMaterialRevision("folder1",FILTER_DOC_PDF,aCheckIn("99","/b.java")),svnMaterialRevision("folder2",FILTER_DOC_PDF,aCheckIn("5","/a.html")));
+  MaterialRevisions second=new MaterialRevisions(svnMaterialRevision("folder1",FILTER_DOC_PDF,aCheckIn("100","/a.doc"),aCheckIn("100","/b.doc")),svnMaterialRevision("folder2",FILTER_DOC_PDF,aCheckIn("5","/a.html")));
+  assertThat(second.hasChangedSince(first),is(false));
+}

@@ -1,0 +1,11 @@
+{
+  if (ids.isEmpty()) {
+    return PipelineInstanceModels.createPipelineInstanceModels();
+  }
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("from",Collections.min(ids)).and("to",Collections.max(ids)).asMap();
+  PipelineInstanceModels history=PipelineInstanceModels.createPipelineInstanceModels((List<PipelineInstanceModel>)getSqlMapClientTemplate().queryForList("getPipelineHistoryByName",args));
+  for (  PipelineInstanceModel pipelineInstanceModel : history) {
+    loadPipelineHistoryBuildCause(pipelineInstanceModel);
+  }
+  return history;
+}

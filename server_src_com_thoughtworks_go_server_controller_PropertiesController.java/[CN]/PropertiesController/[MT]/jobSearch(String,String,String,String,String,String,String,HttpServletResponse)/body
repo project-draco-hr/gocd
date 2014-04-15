@@ -1,0 +1,10 @@
+{
+  JobIdentifier jobIdentifier;
+  try {
+    jobIdentifier=restfulService.findJob(pipelineName,pipelineLabel,stageName,stageCounter,buildName);
+    return propertyService.listPropertiesForJob(jobIdentifier,type,propertyKey).respond(response);
+  }
+ catch (  Exception e) {
+    return BasicRestfulAction.jobNotFound(new JobIdentifier(pipelineName,-1,pipelineLabel,stageName,stageCounter,buildName)).respond(response);
+  }
+}

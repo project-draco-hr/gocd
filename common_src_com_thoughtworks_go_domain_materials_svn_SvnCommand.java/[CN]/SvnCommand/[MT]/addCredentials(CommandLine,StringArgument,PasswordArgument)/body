@@ -1,0 +1,13 @@
+{
+  if (!StringUtils.isBlank(svnUserName.forCommandline())) {
+    line.withArgs("--username",svnUserName.forCommandline());
+    if (StringUtils.isBlank(svnPassword.forCommandline())) {
+      line.withArg(String.format("--password="));
+    }
+ else {
+      line.withArg("--password");
+      line.withArg(svnPassword);
+    }
+    line.withNonArgSecret(svnPassword);
+  }
+}

@@ -1,0 +1,25 @@
+{
+  TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  final boolean[] afterCommitHappened=new boolean[1];
+  String returnVal=null;
+  try {
+    returnVal=(String)template.transactionSurrounding(new TransactionTemplate.TransactionSurrounding<IOException>(){
+      public Object surrounding() throws IOException {
+        transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+          @Override public void afterCommit(){
+            afterCommitHappened[0]=true;
+          }
+        }
+);
+        throw new IOException("boo ha!");
+      }
+    }
+);
+    fail("should have propagated exception");
+  }
+ catch (  IOException e) {
+    assertThat(e.getMessage(),is("boo ha!"));
+  }
+  assertThat(returnVal,nullValue());
+  assertThat(afterCommitHappened[0],is(false));
+}

@@ -1,0 +1,10 @@
+{
+  StageConfig previousStage=goConfigService.previousStage(pipelineName,currentStage.getName());
+  Stage mostRecentPassed=stageService.mostRecentPassed(pipelineName,CaseInsensitiveString.str(previousStage.name()));
+  if (mostRecentPassed != null && mostRecentPassed.getPipelineId() > currentStage.getPipelineId()) {
+    Pipeline mostRecentEligiblePipeline=pipelineDao.loadPipeline(mostRecentPassed.getPipelineId());
+    if (!mostRecentEligiblePipeline.hasStageBeenRun(currentStage.getName())) {
+      triggerNextStageInPipeline(mostRecentEligiblePipeline,mostRecentPassed.getName(),DEFAULT_APPROVED_BY);
+    }
+  }
+}

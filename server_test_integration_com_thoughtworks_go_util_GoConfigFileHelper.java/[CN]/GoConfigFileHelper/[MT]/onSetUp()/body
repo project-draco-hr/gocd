@@ -1,0 +1,8 @@
+{
+  initializeConfigFile();
+  goConfigFileDao.forceReload();
+  writeConfigFile(load());
+  originalConfigDir=sysEnv.getConfigDir();
+  File configDir=configFile.getParentFile();
+  sysEnv.setProperty(SystemEnvironment.CONFIG_DIR_PROPERTY,configDir.getAbsolutePath());
+}

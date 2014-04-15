@@ -1,0 +1,18 @@
+{
+  if (attributes == null) {
+    return;
+  }
+  Map attributeMap=(Map)attributes;
+  if (attributeMap.containsKey(NAME_FIELD)) {
+    name=new CaseInsensitiveString((String)attributeMap.get(NAME_FIELD));
+  }
+  if (attributeMap.containsKey(PIPELINES_FIELD)) {
+    pipelines.setConfigAttributes(attributeMap.get(PIPELINES_FIELD));
+  }
+  if (attributeMap.containsKey(AGENTS_FIELD)) {
+    agents.setConfigAttributes(attributeMap.get(AGENTS_FIELD));
+  }
+  if (attributeMap.containsKey(VARIABLES_FIELD)) {
+    variables.setConfigAttributes(attributeMap.get(VARIABLES_FIELD));
+  }
+}

@@ -1,0 +1,8 @@
+{
+  X509CertificateGenerator generator=new X509CertificateGenerator();
+  Registration caCert=generator.createAndStoreCACertificates(keystore);
+  Date epoch=new Date(0);
+  X509Certificate serverCert=caCert.getFirstCertificate();
+  serverCert.checkValidity(epoch);
+  serverCert.checkValidity(DateUtils.addYears(new Date(),9));
+}

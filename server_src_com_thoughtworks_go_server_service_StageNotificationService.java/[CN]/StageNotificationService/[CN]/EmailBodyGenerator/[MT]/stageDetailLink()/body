@@ -1,0 +1,6 @@
+{
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  int port=systemEnvironment.getServerPort();
+  String urlString=String.format("http://%s:%s/go/pipelines/%s",ipAddress,port,stageIdentifier.stageLocator());
+  return useConfiguredSiteUrl(urlString);
+}

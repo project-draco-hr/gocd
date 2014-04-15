@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipelineConfig1=PipelineConfigMother.createPipelineConfigWithStages("mingle-%","stage1-%","stage2");
+  PipelineHistoryJsonPresentationModel presenter=new PipelineHistoryJsonPresentationModel(pipelinePauseInfo,preparePipelineHistoryGroups(pipelineConfig1),pipelineConfig1,pagination(),CAN_FORCE,hasForceBuildCause,hasModification,true);
+  JsonValue json=JsonUtils.from(presenter.toJson());
+  String stageLocator=json.getString("groups",0,"history",0,"stages",0,"stageLocator");
+  assertThat(stageLocator,is("mingle-%25/1/stage1-%25/1"));
+}

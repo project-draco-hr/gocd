@@ -1,0 +1,8 @@
+{
+  assertThat(StringUtil.stripTillLastOccurrenceOf("HelloWorld@@\\nfoobar\\nquux@@keep_this","@@"),is("keep_this"));
+  assertThat(StringUtil.stripTillLastOccurrenceOf("HelloWorld","@@"),is("HelloWorld"));
+  assertThat(StringUtil.stripTillLastOccurrenceOf(null,"@@"),is(nullValue()));
+  assertThat(StringUtil.stripTillLastOccurrenceOf("HelloWorld",null),is("HelloWorld"));
+  assertThat(StringUtil.stripTillLastOccurrenceOf(null,null),is(nullValue()));
+  assertThat(StringUtil.stripTillLastOccurrenceOf("","@@"),is(""));
+}

@@ -1,0 +1,6 @@
+{
+  AgentIdentifier agentIdentifier=new AgentIdentifier("host","127.0.0.1","uuid");
+  agentDao.associateCookie(agentIdentifier,"cookie");
+  assertThat(agentDao.cookieFor(agentIdentifier),is("cookie"));
+  assertThat(cookieForUuid(),is("cookie"));
+}

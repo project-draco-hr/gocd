@@ -1,0 +1,8 @@
+{
+  UserSearchModel foo=new UserSearchModel(new User("fooUser","Mr Foo","foo@cruise.com"),UserSourceType.LDAP);
+  addUser(foo.getUser());
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.create(Arrays.asList(foo),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Failed to add user. User 'fooUser' already exists."));
+}

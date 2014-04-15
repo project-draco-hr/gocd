@@ -1,0 +1,19 @@
+{
+  return new TypeSafeMatcher<String>(){
+    public String consoleOut;
+    public String message;
+    public boolean matchesSafely(    String consoleOut){
+      this.consoleOut=consoleOut;
+      StringBuilder builder=new StringBuilder();
+      for (      String name : names) {
+        builder.append('[').append(name).append(']');
+      }
+      this.message="Failed to upload " + builder;
+      return StringUtils.contains(consoleOut,message);
+    }
+    public void describeTo(    Description description){
+      description.appendText("Expected console to contain [" + message + "] but was "+ consoleOut);
+    }
+  }
+;
+}

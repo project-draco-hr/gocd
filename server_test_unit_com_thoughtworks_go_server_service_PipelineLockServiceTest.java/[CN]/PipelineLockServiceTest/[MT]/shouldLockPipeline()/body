@@ -1,0 +1,6 @@
+{
+  when(goConfigService.isLockable("mingle")).thenReturn(true);
+  Pipeline pipeline=PipelineMother.firstStageBuildingAndSecondStageScheduled("mingle",asList("dev","ft"),asList("test"));
+  pipelineLockService.lockIfNeeded(pipeline);
+  verify(pipelineDao).lockPipeline(pipeline);
+}

@@ -1,0 +1,13 @@
+{
+  configHelper=new GoConfigFileHelper();
+  dbHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configHelper.onSetUp();
+  pipelineFixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  pipelineFixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  repository=new SvnCommand(null,testRepo.projectRepositoryUrl());
+  mingleConfig=configHelper.addPipeline("mingle",STAGE_NAME,repository,JOB_NAME,"functional");
+  goConfigService.forceNotifyListeners();
+  agentAssignment.clear();
+  goCache.clear();
+}

@@ -1,0 +1,10 @@
+{
+  JobInstance jobInstance=new JobInstance(jobName,new TimeProvider(){
+    @Override public Date currentTime(){
+      return date;
+    }
+  }
+);
+  jobInstance.setAgentUuid(UUID.randomUUID().toString());
+  return passJob(date,id,transitionIdStart,jobInstance);
+}

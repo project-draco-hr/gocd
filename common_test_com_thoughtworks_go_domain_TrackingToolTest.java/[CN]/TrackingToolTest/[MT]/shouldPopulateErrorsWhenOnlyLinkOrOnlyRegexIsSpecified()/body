@@ -1,0 +1,8 @@
+{
+  trackingTool=new TrackingTool("link","");
+  trackingTool.validate(null);
+  assertThat(trackingTool.errors().on(TrackingTool.REGEX),is("Regex should be populated"));
+  trackingTool=new TrackingTool("","regex");
+  trackingTool.validate(null);
+  assertThat(trackingTool.errors().on(TrackingTool.LINK),is("Link should be populated"));
+}

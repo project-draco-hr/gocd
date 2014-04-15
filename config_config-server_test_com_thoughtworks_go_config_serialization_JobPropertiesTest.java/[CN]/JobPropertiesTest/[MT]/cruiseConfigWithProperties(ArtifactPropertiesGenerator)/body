@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=loader.loadConfigHolder(ONE_PIPELINE).configForEdit;
+  JobConfig jobConfig=BuildPlanMother.withArtifactPropertiesGenerator(artifactPropertieses);
+  cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).first().allBuildPlans().add(jobConfig);
+  return cruiseConfig;
+}

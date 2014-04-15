@@ -1,0 +1,6 @@
+{
+  PipelineTemplateConfig template=PipelineTemplateConfigMother.createTemplateWithParams("template-name","foo","bar","baz");
+  int sizeBeforeCopy=template.size();
+  template.copyStages(null);
+  assertThat(template.size(),is(sizeBeforeCopy));
+}

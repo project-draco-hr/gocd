@@ -1,0 +1,15 @@
+{
+  stageService=mock(StageService.class);
+  shineDao=mock(ShineDao.class);
+  stageNotificationService=new StageNotificationService(pipelineService,userService,inMemoryEmailNotificationTopic,systemEnvironment,stageService,serverConfigService,shineDao);
+  stageNotificationListener=new StageNotificationListener(stageNotificationService,goConfigService,stageResultTopic);
+  dbHelper.onSetUp();
+  configFileHelper.onSetUp();
+  configFileHelper.usingEmptyConfigFileWithLicenseAllowsUnlimitedAgents();
+  configFileHelper.usingCruiseConfigDao(goConfigFileDao);
+  pipelineFixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  pipelineFixture.usingConfigHelper(configFileHelper).usingDbHelper(dbHelper).onSetUp();
+  configFileHelper.addSecurityWithAdminConfig();
+  inMemoryEmailNotificationTopic=new InMemoryEmailNotificationTopic();
+  stageNotificationService.setEmailNotificationTopic(inMemoryEmailNotificationTopic);
+}

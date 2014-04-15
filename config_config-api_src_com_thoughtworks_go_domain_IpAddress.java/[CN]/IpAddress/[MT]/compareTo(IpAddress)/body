@@ -1,0 +1,12 @@
+{
+  byte[] address1=address.getAddress();
+  byte[] address2=other.address.getAddress();
+  int compareLen=address1.length - address2.length;
+  if (compareLen != 0)   return compareLen;
+  for (int i=0; i < address1.length; i++) {
+    long compareByte=Unsigned.unsigned(address1[i]) - Unsigned.unsigned(address2[i]);
+    if (compareByte == 0)     continue;
+    return compareByte > 0 ? 1 : -1;
+  }
+  return 0;
+}

@@ -1,0 +1,9 @@
+{
+  pipelinePauseInfo.setPaused(true);
+  pipelinePauseInfo.setPauseCause("pauseCause");
+  pipelinePauseInfo.setPauseBy("pauseBy");
+  JsonTester jsonTester=new JsonTester(presenter.toJson());
+  jsonTester.shouldContain("{ 'paused' : 'true' }");
+  jsonTester.shouldContain("{ 'pauseCause' : 'pauseCause' }");
+  jsonTester.shouldContain("{ 'pauseBy' : 'pauseBy' }");
+}

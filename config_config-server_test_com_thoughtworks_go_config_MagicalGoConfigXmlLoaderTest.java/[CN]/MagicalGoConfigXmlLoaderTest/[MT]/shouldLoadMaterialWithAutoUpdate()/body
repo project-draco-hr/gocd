@@ -1,0 +1,10 @@
+{
+  MaterialConfig material=xmlLoader.fromXmlPartial("<hg url=\"file:///tmp/testSvnRepo/project1/trunk\" autoUpdate=\"false\"/>",HgMaterialConfig.class);
+  assertThat(material.isAutoUpdate(),is(false));
+  material=xmlLoader.fromXmlPartial("<git url=\"file:///tmp/testSvnRepo/project1/trunk\" autoUpdate=\"false\"/>",GitMaterialConfig.class);
+  assertThat(material.isAutoUpdate(),is(false));
+  material=xmlLoader.fromXmlPartial("<svn url=\"file:///tmp/testSvnRepo/project1/trunk\" autoUpdate=\"false\"/>",SvnMaterialConfig.class);
+  assertThat(material.isAutoUpdate(),is(false));
+  material=xmlLoader.fromXmlPartial("<p4 port='localhost:1666' autoUpdate='false' ><view/></p4>",P4MaterialConfig.class);
+  assertThat(material.isAutoUpdate(),is(false));
+}

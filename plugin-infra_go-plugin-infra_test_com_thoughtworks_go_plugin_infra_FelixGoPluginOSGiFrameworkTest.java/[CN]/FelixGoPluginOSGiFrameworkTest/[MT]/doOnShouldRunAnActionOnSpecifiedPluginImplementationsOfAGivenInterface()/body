@@ -1,0 +1,35 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  registerServices(firstService,secondService);
+  spy.start();
+  spy.doOn(SomeInterface.class,secondService.toString(),new ActionWithReturn<SomeInterface,Object>(){
+    @Override public Object execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      assertThat(pluginDescriptor,is(descriptor));
+      return obj.someMethodWithReturn();
+    }
+  }
+);
+  spy.doOn(SomeInterface.class,secondService.toString(),new Action<SomeInterface>(){
+    @Override public void execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      assertThat(pluginDescriptor,is(descriptor));
+      obj.someMethod();
+    }
+  }
+);
+  spy.doOnWithExceptionHandling(SomeInterface.class,secondService.toString(),new Action<SomeInterface>(){
+    @Override public void execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      assertThat(pluginDescriptor,is(descriptor));
+      obj.someMethod();
+    }
+  }
+,new ExceptionHandler<SomeInterface>(){
+    @Override public void handleException(    SomeInterface obj,    Throwable t){
+    }
+  }
+);
+  verify(firstService,never()).someMethodWithReturn();
+  verify(secondService).someMethodWithReturn();
+  verify(secondService,times(2)).someMethod();
+  verifyNoMoreInteractions(firstService,secondService);
+}

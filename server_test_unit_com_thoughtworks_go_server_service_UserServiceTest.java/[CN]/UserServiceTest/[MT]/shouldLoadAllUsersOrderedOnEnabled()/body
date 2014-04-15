@@ -1,0 +1,23 @@
+{
+  User foo=new User("foo",new ArrayList<String>(),"foo@cruise.com",false);
+  User bar=new User("bar",new ArrayList<String>(),"zooboo@go.com",false);
+  User quux=new User("quux",new ArrayList<String>(),"quux@cruise.go",false);
+  User baaz=new User("baaz",new ArrayList<String>(),"baaz@cruise.go",false);
+  when(userDao.allUsers()).thenReturn(new Users(Arrays.asList(quux,foo,bar,baaz)));
+  foo.disable();
+  quux.disable();
+  List<UserModel> models=userService.allUsersForDisplay(UserService.SortableColumn.ENABLED,UserService.SortDirection.DESC);
+  assertThat(models.size(),is(4));
+  assertThat(models.get(2),anyOf(is(model(quux)),is(model(foo))));
+  assertThat(models.get(3),anyOf(is(model(quux)),is(model(foo))));
+  assertThat(models.get(0),anyOf(is(model(bar)),is(model(baaz))));
+  assertThat(models.get(1),anyOf(is(model(bar)),is(model(baaz))));
+  assertThat(models,hasItems(model(bar),model(baaz),model(foo),model(quux)));
+  models=userService.allUsersForDisplay(UserService.SortableColumn.ENABLED,UserService.SortDirection.ASC);
+  assertThat(models.size(),is(4));
+  assertThat(models.get(0),anyOf(is(model(quux)),is(model(foo))));
+  assertThat(models.get(1),anyOf(is(model(quux)),is(model(foo))));
+  assertThat(models.get(2),anyOf(is(model(bar)),is(model(baaz))));
+  assertThat(models.get(3),anyOf(is(model(bar)),is(model(baaz))));
+  assertThat(models,hasItems(model(bar),model(baaz),model(foo),model(quux)));
+}

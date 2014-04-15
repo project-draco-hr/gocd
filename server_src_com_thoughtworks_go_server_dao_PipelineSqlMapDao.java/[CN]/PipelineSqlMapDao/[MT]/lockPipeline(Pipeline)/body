@@ -1,0 +1,21 @@
+{
+  lockPipelineMutex.writeLock().lock();
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      final String pipelineName=pipeline.getName();
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCompletion(        int status){
+          clearLockedPipelineCache(pipelineName);
+          lockPipelineMutex.writeLock().unlock();
+        }
+      }
+);
+      StageIdentifier identifier=lockedPipeline(pipelineName);
+      if (identifier != null && !identifier.pipelineIdentifier().equals(pipeline.getIdentifier())) {
+        throw new RuntimeException(String.format("Pipeline '%s' is already locked (counter = %s)",pipelineName,identifier.getPipelineCounter()));
+      }
+      getSqlMapClientTemplate().update("lockPipeline",pipeline.getId());
+    }
+  }
+);
+}

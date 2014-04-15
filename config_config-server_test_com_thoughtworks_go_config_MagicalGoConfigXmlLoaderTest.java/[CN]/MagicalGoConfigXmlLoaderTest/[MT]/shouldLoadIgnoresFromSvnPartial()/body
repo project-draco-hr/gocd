@@ -1,0 +1,8 @@
+{
+  String buildXmlPartial="<svn url=\"file:///tmp/testSvnRepo/project1/trunk\" >\n" + "            <filter>\n" + "                <ignore pattern=\"x\"/>\n"+ "            </filter>\n"+ "        </svn>";
+  MaterialConfig svnMaterial=xmlLoader.fromXmlPartial(toInputStream(buildXmlPartial),SvnMaterialConfig.class);
+  Filter parsedFilter=svnMaterial.filter();
+  Filter expectedFilter=new Filter();
+  expectedFilter.add(new IgnoredFiles("x"));
+  assertThat(parsedFilter,is(expectedFilter));
+}

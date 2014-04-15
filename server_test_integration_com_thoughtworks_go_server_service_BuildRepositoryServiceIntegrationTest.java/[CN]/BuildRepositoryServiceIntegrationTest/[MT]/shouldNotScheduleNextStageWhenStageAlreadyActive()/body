@@ -1,0 +1,7 @@
+{
+  createPipelineWithFirstStageCompletedAndNextStageBuilding(StageState.Passed);
+  Stage originalFt=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(FT_STAGE)));
+  createPipelineWithFirstStageCompletedAndNextStageBuilding(StageState.Passed);
+  Stage mingleFt=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(FT_STAGE)));
+  assertThat(mingleFt.getId(),is(originalFt.getId()));
+}

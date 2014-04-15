@@ -1,0 +1,10 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline1","pipeline2","pipeline3","go");
+  DependencyMaterialConfig one=new DependencyMaterialConfig(new CaseInsensitiveString(""),new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage"));
+  DependencyMaterialConfig another=new DependencyMaterialConfig(new CaseInsensitiveString(""),new CaseInsensitiveString("pipeline3"),new CaseInsensitiveString("stage"));
+  MaterialConfigs materials=new MaterialConfigs(one,another);
+  ValidationContext validationContext=ValidationContext.forChain(config);
+  materials.validate(validationContext);
+  assertThat(one.errors().isEmpty(),is(true));
+  assertThat(another.errors().isEmpty(),is(true));
+}

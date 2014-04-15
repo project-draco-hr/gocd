@@ -1,0 +1,6 @@
+{
+  ModelAndView mav=artifactsController.getArtifactAsHtml(pipelineName,"lastgood","stage","1","build","/foo.xml",null,null);
+  int status=SC_NOT_FOUND;
+  String content="Job " + pipelineName + "/lastgood/stage/1/build not found.";
+  assertValidContentAndStatus(mav,status,content);
+}

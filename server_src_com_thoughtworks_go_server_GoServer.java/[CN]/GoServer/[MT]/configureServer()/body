@@ -1,0 +1,12 @@
+{
+  JettyServer server=createServer();
+  server.getContainer().addEventListener(mbeans());
+  server.addConnector(selectChannelConnector());
+  server.addConnector(sslConnector());
+  server.addHandler(welcomeFileHandler());
+  server.addHandler(legacyRequestHandler());
+  server.addWebAppHandler(webApp());
+  performCustomConfiguration(server);
+  server.setStopAtShutdown(true);
+  return server;
+}

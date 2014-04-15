@@ -1,0 +1,14 @@
+{
+  final String output="Change 539921 on 2008/09/24 " + "by abc@SomeRefinery_abc_sa1-sgr-xyz-001 'more work in progress on MDC un'\n";
+  final String description="Change that I cannot parse :-(\n";
+  context.checking(new Expectations(){
+{
+      allowing(p4Client).describe(with(any(Long.class)));
+      will(returnValue(description));
+    }
+  }
+);
+  List<Modification> modifications=parser.modifications(new ConsoleResult(0,Arrays.asList(output.split("\n")),new ArrayList<String>(),new ArrayList<CommandArgument>(),new ArrayList<SecretString>()));
+  assertThat(modifications.size(),is(0));
+  assertThat(logging.getLog(),containsString(description));
+}

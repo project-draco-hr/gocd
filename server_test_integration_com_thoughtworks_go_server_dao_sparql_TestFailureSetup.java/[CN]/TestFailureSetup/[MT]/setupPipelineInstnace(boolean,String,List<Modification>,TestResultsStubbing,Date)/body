@@ -1,0 +1,30 @@
+{
+  return (SavedStage)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      MaterialInstance materialInstance=materialRepository.findOrCreateFrom(hgMaterial);
+      for (      Modification mod : modifications) {
+        mod.setMaterialInstance(materialInstance);
+      }
+      MaterialRevision rev=new MaterialRevision(hgMaterial,modifications);
+      materialRepository.saveMaterialRevision(rev);
+      Pipeline pipeline=PipelineMother.schedule(pipelineConfig,BuildCause.createManualForced(new MaterialRevisions(rev),new Username(new CaseInsensitiveString("loser"))));
+      if (overriddenLabel != null) {
+        pipeline.setLabel(overriddenLabel);
+      }
+      for (      JobInstance instance : pipeline.getStages().get(0).getJobInstances()) {
+        for (        JobStateTransition jobStateTransition : instance.getTransitions()) {
+          jobStateTransition.setStateChangeTime(latestTransitionDate);
+        }
+      }
+      dbHelper.save(pipeline);
+      Stage barStage=pipeline.getFirstStage();
+      if (failStage) {
+        dbHelper.failStage(barStage,latestTransitionDate);
+      }
+      test.stub(barStage);
+      pipelineTimeline.update();
+      return new SavedStage(pipeline);
+    }
+  }
+);
+}

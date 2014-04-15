@@ -1,0 +1,5 @@
+{
+  final Username user=new Username(new CaseInsensitiveString("user"));
+  when(goConfigService.isGroupAdministrator(user.getUsername())).thenReturn(Boolean.TRUE);
+  assertThat(securityService.canViewAdminPage(new Username(new CaseInsensitiveString("user"))),is(true));
+}

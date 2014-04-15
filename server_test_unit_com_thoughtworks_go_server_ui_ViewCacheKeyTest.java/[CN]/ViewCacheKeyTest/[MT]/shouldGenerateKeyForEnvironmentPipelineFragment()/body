@@ -1,0 +1,17 @@
+{
+  MaterialRevisions materialRevisions=ModificationsMother.createHgMaterialRevisions();
+  Modification latestModification=materialRevisions.getMaterialRevision(0).getModifications().remove(0);
+  PipelineModel model=new PipelineModel("pipelineName",true,true,PipelinePauseInfo.notPaused()).updateAdministrability(true);
+  StageInstanceModels stages=new StageInstanceModels();
+  stages.add(stageInstance("stageName",13,JobState.Building,JobResult.Unknown));
+  stages.add(new NullStageHistoryItem("stage2",true));
+  PipelineInstanceModel pipelineInstance=PipelineInstanceModel.createPipeline("pipelineName",10,"label-10",BuildCause.createWithModifications(materialRevisions,"someone"),stages);
+  pipelineInstance.setMaterialConfigs(materialRevisions.getMaterials().convertToConfigs());
+  pipelineInstance.setLatestRevisions(new MaterialRevisions(new MaterialRevision(materialRevisions.getMaterialRevision(0).getMaterial(),latestModification)));
+  pipelineInstance.setId(12);
+  model.addPipelineInstance(pipelineInstance);
+  assertThat(model.hasNewRevisions(),is(true));
+  assertThat(viewCacheKey.forEnvironmentPipelineBox(model),is("view_environmentPipelineFragment_pipelineName{false|false|false}[12|stageName|13|Building|stage2|0|Unknown|]true|true|false|||true|true"));
+  model.updateAdministrability(false);
+  assertThat(viewCacheKey.forEnvironmentPipelineBox(model),is("view_environmentPipelineFragment_pipelineName{false|false|false}[12|stageName|13|Building|stage2|0|Unknown|]true|true|false|||false|true"));
+}

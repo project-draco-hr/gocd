@@ -1,0 +1,10 @@
+{
+  super.setUp();
+  mockRequest=new MockHttpServletRequest();
+  mockResponse=new MockHttpServletResponse();
+  mockServletContext=mock(ServletContext.class);
+  view=new FileView();
+  view.setServletContext((ServletContext)mockServletContext.proxy());
+  file=TestFileUtil.createTempFile("file.txt");
+  FileUtils.writeStringToFile(file,"hello");
+}

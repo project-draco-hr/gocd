@@ -1,0 +1,9 @@
+{
+  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configHelper.onSetUp();
+  goConfigService.forceNotifyListeners();
+  ldapServer=new InMemoryLdapServerForTests(BASE_DN,MANAGER_DN,MANAGER_PASSWORD).start(PORT);
+  ldapServer.addOrganizationalUnit("Principal","ou=Principal," + BASE_DN);
+  ldapServer.addOrganizationalUnit("Company","ou=Company,ou=Principal," + BASE_DN);
+  employeesOrgUnit=ldapServer.addOrganizationalUnit("Employees","ou=Employees,ou=Company,ou=Principal," + BASE_DN);
+}

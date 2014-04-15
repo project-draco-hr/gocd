@@ -1,0 +1,21 @@
+{
+  try {
+    if (state != ParamStateMachine.ReaderState.NOT_IN_PATTERN) {
+      if (state == ParamStateMachine.ReaderState.INVALID_PATTERN) {
+        throw bombWithBadParamUsage(stringToResolve,fieldName);
+      }
+ else       if (state == ParamStateMachine.ReaderState.HASH_SEEN) {
+        throw bombWithBadParamUsage(stringToResolve,fieldName);
+      }
+ else       if (state == ParamStateMachine.ReaderState.IN_PATTERN) {
+        throw bombWithIncompleteParamUsage(stringToResolve);
+      }
+ else {
+        throw bomb("Unrecognized state: " + state);
+      }
+    }
+  }
+ catch (  IllegalStateException e) {
+    handleIllegalStateException(e);
+  }
+}

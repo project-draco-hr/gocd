@@ -1,0 +1,10 @@
+{
+  PackageRepository packageRepository=PackageRepositoryMother.create("repo-id1","packageRepository","plugin-id","1.0",null);
+  PackageDefinition packageDefinitionOne=PackageDefinitionMother.create("pid1",packageRepository);
+  PackageDefinition packageDefinitionTwo=PackageDefinitionMother.create("pid2",packageRepository);
+  packageRepository.getPackages().addAll(asList(packageDefinitionOne,packageDefinitionTwo));
+  Map attributes=new HashMap();
+  attributes.put("packageId","pid1");
+  PackageDefinition actualPackageDefinition=packageRepository.findOrCreatePackageDefinition(attributes);
+  assertThat(actualPackageDefinition,is(packageDefinitionOne));
+}

@@ -1,0 +1,8 @@
+{
+  String noAutoUpdate="  <materials>\n" + "    <svn url=\"/hgrepo2\" />\n" + "  </materials>\n";
+  MagicalGoConfigXmlLoaderFixture.assertValid(noAutoUpdate);
+  String validAutoUpdate="  <materials>\n" + "    <svn url=\"/hgrepo2\" autoUpdate='true'/>\n" + "  </materials>\n";
+  MagicalGoConfigXmlLoaderFixture.assertValid(validAutoUpdate);
+  String invalidautoUpdate="  <materials>\n" + "    <git url=\"/hgrepo2\" autoUpdate=\"fooo\"/>\n" + "  </materials>\n";
+  MagicalGoConfigXmlLoaderFixture.assertNotValid("'fooo' is not a valid value for 'boolean'.",invalidautoUpdate);
+}

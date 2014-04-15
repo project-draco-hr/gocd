@@ -1,0 +1,4 @@
+{
+  Collection<GadgetOauthAccessTokenDTO> tokenDTOs=persistenceHelper.listByColumn(GadgetOauthAccessToken.class,"gadgetsOauthClientId",gadgetsOauthClientId,"userId",userId);
+  return tokenDTOs.isEmpty() ? null : new ArrayList<GadgetOauthAccessTokenDTO>(tokenDTOs).get(0);
+}

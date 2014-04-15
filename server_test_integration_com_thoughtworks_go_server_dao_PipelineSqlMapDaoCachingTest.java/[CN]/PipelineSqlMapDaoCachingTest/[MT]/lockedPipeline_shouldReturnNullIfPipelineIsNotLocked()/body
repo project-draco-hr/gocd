@@ -1,0 +1,6 @@
+{
+  pipelineDao.lockedPipeline("mingle");
+  StageIdentifier actual=pipelineDao.lockedPipeline("mingle");
+  assertNull("got " + actual,actual);
+  verify(mockTemplate,times(1)).queryForObject("lockedPipeline","mingle");
+}

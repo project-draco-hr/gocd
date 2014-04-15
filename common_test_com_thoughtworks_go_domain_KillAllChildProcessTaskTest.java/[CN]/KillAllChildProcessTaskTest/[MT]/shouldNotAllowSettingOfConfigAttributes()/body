@@ -1,0 +1,10 @@
+{
+  KillAllChildProcessTask processTask=new KillAllChildProcessTask();
+  try {
+    processTask.setConfigAttributes(new HashMap());
+    fail("should have failed, as configuration of kill-all task is not allowed");
+  }
+ catch (  UnsupportedOperationException e) {
+    assertThat(e.getMessage(),is("Not a configurable task"));
+  }
+}

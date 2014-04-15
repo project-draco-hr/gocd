@@ -1,0 +1,18 @@
+{
+  SecurityService securityService=mock(SecurityService.class);
+  AgentConfigService agentConfigService=mock(AgentConfigService.class);
+  AgentInstance agentInstance=mock(AgentInstance.class);
+  String uuid="1234";
+  Username username=new Username(new CaseInsensitiveString("test"));
+  HttpOperationResult operationResult=mock(HttpOperationResult.class);
+  when(securityService.hasOperatePermissionForAgents(username)).thenReturn(true);
+  when(agentInstance.isNullAgent()).thenReturn(false);
+  when(agentInstance.isDisabled()).thenReturn(true);
+  when(agentInstance.isBuilding()).thenReturn(false);
+  when(agentInstance.isCancelled()).thenReturn(false);
+  doThrow(new RuntimeException()).when(agentConfigService).deleteAgents(agentInstance);
+  when(agentInstances.findAgent(uuid)).thenReturn(agentInstance);
+  AgentService agentService=new AgentService(agentConfigService,new SystemEnvironment(),agentInstances,mock(EnvironmentConfigService.class),mock(GoConfigService.class),securityService,agentDao,uuidGenerator,serverHealthService=mock(ServerHealthService.class));
+  agentService.deleteAgents(username,operationResult,Arrays.asList(uuid));
+  verify(operationResult).internalServerError(any(String.class),any(HealthStateType.class));
+}

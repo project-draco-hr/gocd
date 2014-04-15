@@ -1,0 +1,10 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Creating Loader For jar: " + jarURL);
+  }
+  ClassLoader jarLoader=new URLClassLoader(enumerateJar(jarURL),this);
+  if (jarLoader == null) {
+    LOGGER.warn("No jar found with url: " + jarURL);
+  }
+  return jarLoader;
+}

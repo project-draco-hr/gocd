@@ -1,0 +1,17 @@
+{
+  Matcher matcher=pattern().matcher(external);
+  try {
+    if (matcher.matches()) {
+      String root=relativeRoot(root(matcher,svnExternalRoot).trim(),repoUrl);
+      String externalDir=externalDir(matcher).trim();
+      String url=url(matcher).trim();
+      updateRoot(root,svnExternalRoot);
+      results.add(new SvnExternal(combine(root,externalDir),url));
+      return true;
+    }
+    return false;
+  }
+ catch (  Exception e) {
+    throw bomb(this + " unable to match " + external,e);
+  }
+}

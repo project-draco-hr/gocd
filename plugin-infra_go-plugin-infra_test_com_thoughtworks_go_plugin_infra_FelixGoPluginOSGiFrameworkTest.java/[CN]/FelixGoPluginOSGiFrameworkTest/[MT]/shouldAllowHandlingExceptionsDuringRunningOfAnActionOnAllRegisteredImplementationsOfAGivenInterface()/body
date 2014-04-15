@@ -1,0 +1,23 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  SomeInterface thirdService=mock(SomeInterface.class);
+  registerServices(firstService,secondService,thirdService);
+  spy.start();
+  RuntimeException exceptionToBeThrown=new RuntimeException("Ouch!");
+  ExceptionHandler<SomeInterface> exceptionHandler=mock(ExceptionHandler.class);
+  doThrow(exceptionToBeThrown).when(secondService).someMethod();
+  spy.doOnAllWithExceptionHandling(SomeInterface.class,new Action<SomeInterface>(){
+    public void execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      obj.someMethod();
+      assertThat(pluginDescriptor,is(descriptor));
+    }
+  }
+,exceptionHandler);
+  InOrder inOrder=inOrder(firstService,secondService,thirdService,exceptionHandler);
+  inOrder.verify(firstService).someMethod();
+  inOrder.verify(secondService).someMethod();
+  inOrder.verify(exceptionHandler).handleException(secondService,exceptionToBeThrown);
+  inOrder.verify(thirdService).someMethod();
+  verifyNoMoreInteractions(exceptionHandler,firstService,secondService,thirdService);
+}

@@ -1,0 +1,11 @@
+{
+  UiBasedConfigUpdateCommand command=new UiBasedConfigUpdateCommand("md5",null,null){
+    public boolean canContinue(    CruiseConfig cruiseConfig){
+      return true;
+    }
+  }
+;
+  CruiseConfig after=new CruiseConfig();
+  command.afterUpdate(after);
+  assertThat(command.configAfter(),sameInstance(after));
+}

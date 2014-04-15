@@ -1,0 +1,13 @@
+{
+  schedulingChecker.canScheduleStage(new PipelineIdentifier("name",1),"stage","user",operationResult);
+  verify(schedulingChecker).buildScheduleCheckers(argumentCaptor.capture());
+  verify(compositeChecker).check(operationResult);
+  assertFor(argumentCaptor.getValue(),EnabledUsersLicenseLimitChecker.class);
+  assertFor(argumentCaptor.getValue(),StageAuthorizationChecker.class);
+  assertFor(argumentCaptor.getValue(),StageLockChecker.class);
+  assertFor(argumentCaptor.getValue(),PipelinePauseChecker.class);
+  assertFor(argumentCaptor.getValue(),PipelineActiveChecker.class);
+  assertFor(argumentCaptor.getValue(),StageActiveChecker.class);
+  assertFor(argumentCaptor.getValue(),ArtifactsDiskSpaceFullChecker.class);
+  assertFor(argumentCaptor.getValue(),DatabaseDiskSpaceFullChecker.class);
+}

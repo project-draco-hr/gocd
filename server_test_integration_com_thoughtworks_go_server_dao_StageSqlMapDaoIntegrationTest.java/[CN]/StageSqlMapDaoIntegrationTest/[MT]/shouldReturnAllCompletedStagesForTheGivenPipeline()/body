@@ -1,0 +1,13 @@
+{
+  PipelineAndStage[] cruiseStages=run4Pipelines("cruise");
+  run4Pipelines("mingle");
+  List<FeedEntry> completedStages=new ArrayList<FeedEntry>(stageDao.findCompletedStagesFor("cruise",FeedModifier.Latest,-1,5));
+  StageFeedEntry latestFeedEntry=(StageFeedEntry)completedStages.get(0);
+  assertThat(completedStages.size(),is(4));
+  assertFeed(completedStages.get(0),cruiseStages[3].stage);
+  assertFeed(completedStages.get(1),cruiseStages[2].stage);
+  assertFeed(completedStages.get(2),cruiseStages[1].stage);
+  assertFeed(completedStages.get(3),cruiseStages[0].stage);
+  assertThat(latestFeedEntry.getResult(),is(StageResult.Failed.name()));
+  assertThat(latestFeedEntry.getPipelineId(),is(cruiseStages[3].stage.getPipelineId()));
+}

@@ -1,0 +1,8 @@
+{
+  if (shouldForce) {
+    execute(p4("sync","-f",clientView() + "@" + revision),"",outputStreamConsumer,true);
+  }
+ else {
+    execute(p4("sync",clientView() + "@" + revision),"",outputStreamConsumer,true);
+  }
+}

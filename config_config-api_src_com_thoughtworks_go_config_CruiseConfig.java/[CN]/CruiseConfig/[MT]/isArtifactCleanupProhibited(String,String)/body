@@ -1,0 +1,7 @@
+{
+  if (!hasStageConfigNamed(new CaseInsensitiveString(pipelineName),new CaseInsensitiveString(stageName),true)) {
+    return false;
+  }
+  StageConfig stageConfig=stageConfigByName(new CaseInsensitiveString(pipelineName),new CaseInsensitiveString(stageName));
+  return stageConfig.isArtifactCleanupProhibited();
+}

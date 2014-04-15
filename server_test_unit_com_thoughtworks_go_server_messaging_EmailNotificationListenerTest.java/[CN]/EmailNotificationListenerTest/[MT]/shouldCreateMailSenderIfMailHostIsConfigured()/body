@@ -1,0 +1,14 @@
+{
+  final MailHost mailHost=new MailHost("hostName",1234,"user","pass",true,true,"from","admin@local.com");
+  final CruiseConfig config=GoConfigMother.cruiseConfigWithMailHost(mailHost);
+  context.checking(new Expectations(){
+{
+      allowing(goConfigService).currentCruiseConfig();
+      will(returnValue(config));
+      one(goMailSenderFactory).createSender();
+      will(returnValue(GoSmtpMailSender.createSender(mailHost)));
+    }
+  }
+);
+  emailNotificationListener.onMessage(new SendEmailMessage("subject","body","to"));
+}

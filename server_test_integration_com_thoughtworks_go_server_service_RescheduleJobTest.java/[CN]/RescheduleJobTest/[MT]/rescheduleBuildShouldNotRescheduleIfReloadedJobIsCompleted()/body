@@ -1,0 +1,14 @@
+{
+  final JobInstance hungJob=stage.getJobInstances().get(0);
+  hungJob.changeState(JobState.Completed,new Date());
+  dbHelper.txTemplate().execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      jobInstanceService.save(new StageIdentifier(PIPELINE_NAME,-2,hungJob.getIdentifier().getPipelineLabel(),stage.getName(),String.valueOf(stage.getCounter())),stage.getId(),hungJob);
+    }
+  }
+);
+  assertThat(hungJob.isCompleted(),is(true));
+  assertThat(hungJob.isIgnored(),is(false));
+  scheduleService.rescheduleJob(hungJob);
+  assertThat(jobInstanceService.buildById(hungJob.getId()).isIgnored(),is(false));
+}

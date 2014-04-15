@@ -1,0 +1,11 @@
+{
+  HashMap<String,List<PipelineTimelineEntry.Revision>> modificationTimes=new HashMap<String,List<PipelineTimelineEntry.Revision>>();
+  modificationTimes.put("hg",a(new PipelineTimelineEntry.Revision(new Date(),"123","hg",10)));
+  newlyAddedEntry=new PipelineTimelineEntry("cruise",100,10,modificationTimes,5.0);
+  entryBeforeNew=new PipelineTimelineEntry("cruise",98,9,modificationTimes,4.0);
+  entryAfterNew=new PipelineTimelineEntry("cruise",99,11,modificationTimes,6.0);
+  timeline=new TreeSet<PipelineTimelineEntry>();
+  timeline.add(entryBeforeNew);
+  timeline.add(entryAfterNew);
+  timeline.add(newlyAddedEntry);
+}

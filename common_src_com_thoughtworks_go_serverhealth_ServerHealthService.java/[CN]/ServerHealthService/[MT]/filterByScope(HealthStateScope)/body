@@ -1,0 +1,10 @@
+{
+  List<ServerHealthState> filtered=new ArrayList<ServerHealthState>();
+  for (  Map.Entry<HealthStateType,ServerHealthState> entry : sortedEntries()) {
+    HealthStateType type=entry.getKey();
+    if (type.isSameScope(scope)) {
+      filtered.add(entry.getValue());
+    }
+  }
+  return filtered;
+}

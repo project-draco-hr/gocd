@@ -1,0 +1,11 @@
+{
+  firstJob.assign("AGENT-1",time1.toDate());
+  firstJob.completing(JobResult.Passed,time2.toDate());
+  firstJob.completed(time2.toDate());
+  secondJob.assign("AGENT-2",time3.toDate());
+  secondJob.completing(JobResult.Passed,time4.toDate());
+  secondJob.completed(time4.toDate());
+  secondJob.getTransitions().byState(JobState.Completed).setId(1);
+  stage.calculateResult();
+  assertThat(stage.completedDate(),is(time4.toDate()));
+}

@@ -1,0 +1,13 @@
+{
+  long start=System.currentTimeMillis();
+  while (!isAvailable(port)) {
+    if ((System.currentTimeMillis() - start) > timeout) {
+      throw new RuntimeException("Timed out");
+    }
+    try {
+      Thread.sleep(100L);
+    }
+ catch (    InterruptedException e) {
+    }
+  }
+}

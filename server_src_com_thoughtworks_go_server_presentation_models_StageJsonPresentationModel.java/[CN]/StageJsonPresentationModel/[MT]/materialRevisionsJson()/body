@@ -1,0 +1,6 @@
+{
+  MaterialRevisionsJsonBuilder jsonVisitor=new MaterialRevisionsJsonBuilder(trackingTool);
+  jsonVisitor.setIncludeModifiedFiles(false);
+  pipeline.getBuildCause().getMaterialRevisions().accept(jsonVisitor);
+  return jsonVisitor.json();
+}

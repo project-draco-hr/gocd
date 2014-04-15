@@ -1,0 +1,10 @@
+{
+  JobInstance instance=(JobInstance)getSqlMapClientTemplate().queryForObject(queryName,buildId);
+  if (instance == null) {
+    throw new DataRetrievalFailureException("Could not load build with id " + buildId);
+  }
+  if (instance.getIdentifier() == null) {
+    throw new RuntimeException("Identifier must not be null!");
+  }
+  return instance;
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    Session session=connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
+    MessageProducer producer=session.createProducer(session.createTopic(topic));
+    producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+    return new ActiveMqMessageSender(session,producer);
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}

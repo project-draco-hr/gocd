@@ -1,0 +1,10 @@
+{
+  long invalidId=buildId + 200L;
+  try {
+    propertyDao.save(invalidId,property("no.instance","boo"));
+    fail("Should not be able to save");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),is("No instance '" + invalidId + "' found to set property"));
+  }
+}

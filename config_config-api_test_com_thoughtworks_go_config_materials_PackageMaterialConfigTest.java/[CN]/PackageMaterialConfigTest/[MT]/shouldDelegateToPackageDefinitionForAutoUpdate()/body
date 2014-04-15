@@ -1,0 +1,7 @@
+{
+  PackageDefinition packageDefinition=mock(PackageDefinition.class);
+  when(packageDefinition.isAutoUpdate()).thenReturn(false);
+  PackageMaterialConfig materialConfig=new PackageMaterialConfig(new CaseInsensitiveString("name"),"package-id",packageDefinition);
+  assertThat(materialConfig.isAutoUpdate(),is(false));
+  verify(packageDefinition).isAutoUpdate();
+}

@@ -1,0 +1,22 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Importing artifacts for job " + jobResource.getURIText());
+  }
+  String artifactsPathFromRoot=jobArtifactsPath(jobResource,jobsGraph);
+  for (  String jobArtifactPath : unitTestArtifactPathsForJob(jobsGraph,jobResource)) {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Found artifact at pathFromArtifactRoot: " + artifactsPathFromRoot + " and artifactPath: "+ jobArtifactPath);
+    }
+    for (    File testSuiteXMLFile : getArtifactFilesOfType(artifactsPathFromRoot,jobArtifactPath,"xml")) {
+      try {
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug("Trying to import " + testSuiteXMLFile);
+        }
+        importer.importFile(jobsGraph,jobResource,new FileInputStream(testSuiteXMLFile));
+      }
+ catch (      FileNotFoundException e) {
+        LOGGER.debug("Unable to find file: " + testSuiteXMLFile.toString());
+      }
+    }
+  }
+}

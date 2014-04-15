@@ -1,0 +1,14 @@
+{
+  this.state=this.stageState();
+  this.result=state.stageResult();
+  if (state.completed()) {
+    long latestTransitionId=jobInstances.latestTransitionId();
+    if (latestTransitionId != JobStateTransition.NOT_PERSISTED) {
+      LOG.info("Stage is being completed by transition id: " + latestTransitionId);
+      if (completedByTransitionId != null) {
+        LOG.warn("Completing transition id for stage is being changed from " + completedByTransitionId + " to "+ latestTransitionId);
+      }
+      this.completedByTransitionId=latestTransitionId;
+    }
+  }
+}

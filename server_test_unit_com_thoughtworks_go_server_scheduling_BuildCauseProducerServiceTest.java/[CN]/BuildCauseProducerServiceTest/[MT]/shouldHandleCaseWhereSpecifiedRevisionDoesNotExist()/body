@@ -1,0 +1,8 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("upstream-pipeline"),new CaseInsensitiveString("stage"));
+  when(specificMaterialRevisionFactory.create(eq("pipeline"),eq(Collections.singletonMap(dependencyMaterial.getPipelineUniqueFingerprint(),"upstream-pipeline/200/stage/1")))).thenThrow(new RuntimeException("Invalid specified revision"));
+  ManualBuild buildType=new ManualBuild(Username.ANONYMOUS);
+  final HashMap<String,String> stringStringHashMap=new HashMap<String,String>();
+  buildCauseProducerService.newProduceBuildCause(pipelineConfig,buildType,new ScheduleOptions(Collections.singletonMap(dependencyMaterial.getPipelineUniqueFingerprint(),"upstream-pipeline/200/stage/1"),stringStringHashMap,new HashMap<String,String>()),new ServerHealthStateOperationResult(),12345);
+  verify(mockServerHealthService).update(argThat(hasErrorHealthState("Error while scheduling pipeline: pipeline","Invalid specified revision")));
+}

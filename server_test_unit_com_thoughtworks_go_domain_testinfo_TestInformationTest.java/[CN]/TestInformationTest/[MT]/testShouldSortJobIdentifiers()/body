@@ -1,0 +1,8 @@
+{
+  TestInformation info=new TestInformation("test",TestStatus.Error);
+  JobIdentifier first=new JobIdentifier(null,1,null,null,null,"job1");
+  JobIdentifier second=new JobIdentifier(null,1,null,null,null,"job");
+  info.addJob(first);
+  info.addJob(second);
+  assertThat(info.getJobs(),is(Arrays.asList(second,first)));
+}

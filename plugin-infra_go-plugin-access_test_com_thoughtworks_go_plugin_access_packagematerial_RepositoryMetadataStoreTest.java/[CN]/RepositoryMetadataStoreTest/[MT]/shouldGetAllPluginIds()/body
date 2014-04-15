@@ -1,0 +1,10 @@
+{
+  RepositoryMetadataStore metadataStore=RepositoryMetadataStore.getInstance();
+  metadataStore.addMetadataFor("plugin1",new PackageConfigurations());
+  metadataStore.addMetadataFor("plugin2",new PackageConfigurations());
+  metadataStore.addMetadataFor("plugin3",new PackageConfigurations());
+  assertThat(metadataStore.getPlugins().size(),is(3));
+  assertThat(metadataStore.getPlugins().contains("plugin1"),is(true));
+  assertThat(metadataStore.getPlugins().contains("plugin2"),is(true));
+  assertThat(metadataStore.getPlugins().contains("plugin3"),is(true));
+}

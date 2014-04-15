@@ -1,0 +1,13 @@
+{
+  Pipeline pipeline=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.pass(pipeline);
+  Stage firstRunOfStage=pipeline.getStages().get(0);
+  assertThat(firstRunOfStage.isLatestRun(),is(true));
+  assertThat(stageDao.findStageWithIdentifier(firstRunOfStage.getIdentifier()).isLatestRun(),is(true));
+  Stage stage=instanceFactory.createStageInstance(mingleConfig.getFirstStageConfig(),new DefaultSchedulingContext("anyone"),md5,new TimeProvider());
+  stage.building();
+  Stage rerun=stageDao.save(pipeline,stage);
+  assertThat(stageDao.findStageWithIdentifier(firstRunOfStage.getIdentifier()).isLatestRun(),is(false));
+  assertThat(rerun.isLatestRun(),is(true));
+  assertThat(stageDao.findStageWithIdentifier(rerun.getIdentifier()).isLatestRun(),is(true));
+}

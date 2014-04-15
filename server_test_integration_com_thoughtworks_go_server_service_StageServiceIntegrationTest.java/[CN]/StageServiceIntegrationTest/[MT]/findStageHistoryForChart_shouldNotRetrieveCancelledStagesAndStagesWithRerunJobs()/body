@@ -1,0 +1,15 @@
+{
+  PipelineConfig pipelineConfig=configFileHelper.addPipeline("pipeline-1","stage-1");
+  configFileHelper.turnOffSecurity();
+  Pipeline pipeline=dbHelper.schedulePipelineWithAllStages(pipelineConfig,ModificationsMother.modifySomeFiles(pipelineConfig));
+  dbHelper.pass(pipeline);
+  StageSummaryModels stages=stageService.findStageHistoryForChart(pipelineConfig.name().toString(),pipelineConfig.first().name().toString(),1,10,new Username(new CaseInsensitiveString("loser")));
+  assertThat(stages.size(),Is.is(1));
+  scheduleService.rerunJobs(pipeline.getFirstStage(),Arrays.asList(CaseInsensitiveString.str(pipelineConfig.first().getJobs().first().name())),new HttpOperationResult());
+  stages=stageService.findStageHistoryForChart(pipelineConfig.name().toString(),pipelineConfig.first().name().toString(),1,10,new Username(new CaseInsensitiveString("loser")));
+  assertThat(stages.size(),Is.is(1));
+  pipeline=dbHelper.schedulePipelineWithAllStages(pipelineConfig,ModificationsMother.modifySomeFiles(pipelineConfig));
+  dbHelper.cancelStage(pipeline.getFirstStage());
+  stages=stageService.findStageHistoryForChart(pipelineConfig.name().toString(),pipelineConfig.first().name().toString(),1,10,new Username(new CaseInsensitiveString("loser")));
+  assertThat(stages.size(),Is.is(1));
+}

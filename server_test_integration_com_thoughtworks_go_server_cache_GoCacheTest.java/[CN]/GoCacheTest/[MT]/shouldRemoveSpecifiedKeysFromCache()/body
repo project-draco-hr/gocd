@@ -1,0 +1,9 @@
+{
+  goCache.put("foo","1");
+  goCache.put("bar","2");
+  goCache.put("baz","3");
+  goCache.removeAll(Arrays.asList("foo","bar"));
+  assertThat(goCache.get("foo"),is(nullValue()));
+  assertThat(goCache.get("bar"),is(nullValue()));
+  assertThat((String)goCache.get("baz"),is("3"));
+}

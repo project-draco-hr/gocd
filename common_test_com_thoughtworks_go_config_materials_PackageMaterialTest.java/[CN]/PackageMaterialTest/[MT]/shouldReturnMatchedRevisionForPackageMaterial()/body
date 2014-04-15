@@ -1,0 +1,12 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo-name","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  material.setPackageDefinition(PackageDefinitionMother.create("p-id","package-name",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2")),repository));
+  Date timestamp=new Date();
+  MatchedRevision matchedRevision=material.createMatchedRevision(new Modification("go","comment",null,timestamp,"rev123"),"rev");
+  assertThat(matchedRevision.getShortRevision(),is("rev123"));
+  assertThat(matchedRevision.getLongRevision(),is("rev123"));
+  assertThat(matchedRevision.getCheckinTime(),is(timestamp));
+  assertThat(matchedRevision.getUser(),is("go"));
+  assertThat(matchedRevision.getComment(),is("comment"));
+}

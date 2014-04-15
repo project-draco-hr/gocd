@@ -1,0 +1,17 @@
+{
+  final HashMap params=new HashMap();
+  params.put(MaterialUpdateService.TYPE,"svn");
+  when(goConfigService.isUserAdmin(username)).thenReturn(true);
+  final CruiseConfig cruiseConfig=new CruiseConfig(PipelineConfigMother.createGroup("groupName","pipeline1","pipeline2"));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(postCommitHookMaterialType.toType("svn")).thenReturn(validMaterialType);
+  final PostCommitHookImplementer svnPostCommitHookImplementer=mock(PostCommitHookImplementer.class);
+  final Material svnMaterial=mock(Material.class);
+  when(svnPostCommitHookImplementer.prune(anySet(),eq(params))).thenReturn(new HashSet(Arrays.asList(svnMaterial)));
+  when(validMaterialType.getImplementer()).thenReturn(svnPostCommitHookImplementer);
+  final MaterialUpdateService spyService=spy(service);
+  doNothing().when(spyService).updateMaterial(svnMaterial);
+  spyService.notifyMaterialsForUpdate(username,params,result);
+  verify(svnPostCommitHookImplementer).prune(anySet(),eq(params));
+  verify(spyService).updateMaterial(svnMaterial);
+}

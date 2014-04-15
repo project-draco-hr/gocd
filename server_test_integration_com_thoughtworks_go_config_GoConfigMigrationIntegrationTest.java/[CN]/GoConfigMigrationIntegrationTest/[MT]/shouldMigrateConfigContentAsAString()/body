@@ -1,0 +1,4 @@
+{
+  String newContent=new GoConfigMigration(configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).upgradeIfNecessary(ConfigFileFixture.VERSION_0);
+  assertThat(newContent,containsString("schemaVersion=\"" + GoConfigSchema.currentSchemaVersion() + "\""));
+}

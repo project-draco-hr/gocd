@@ -1,0 +1,15 @@
+{
+  ValidationResult validationResult=(ValidationResult)pluginManager.doOn(Task.class,modifiedTask.getPluginConfiguration().getId(),new ActionWithReturn<Task,Object>(){
+    @Override public Object execute(    Task task,    GoPluginDescriptor pluginDescriptor){
+      TaskConfig configuration=new TaskConfig();
+      for (      ConfigurationProperty configurationProperty : modifiedTask.getConfiguration()) {
+        configuration.add(new TaskConfigProperty(configurationProperty.getConfigurationKey().getName(),configurationProperty.getValue()));
+      }
+      return task.validate(configuration);
+    }
+  }
+);
+  for (  ValidationError validationError : validationResult.getErrors()) {
+    modifiedTask.getConfiguration().getProperty(validationError.getKey()).addError(validationError.getKey(),validationError.getMessage());
+  }
+}

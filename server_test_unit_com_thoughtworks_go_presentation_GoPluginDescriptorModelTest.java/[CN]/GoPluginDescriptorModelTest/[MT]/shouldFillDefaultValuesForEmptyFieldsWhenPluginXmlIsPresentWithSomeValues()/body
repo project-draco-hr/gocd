@@ -1,0 +1,28 @@
+{
+  GoPluginDescriptor.Vendor vendor=new GoPluginDescriptor.Vendor(null,"http://ali.com");
+  GoPluginDescriptor.About about=new GoPluginDescriptor.About(null,null,"13.3.0","some description",vendor,Arrays.asList("Linux","Windows"));
+  GoPluginDescriptor descriptor=new GoPluginDescriptor("plugin.jar","1",about,"some_path",new File("bundle_location"),false);
+  GoPluginDescriptor descriptorModel=GoPluginDescriptorModel.convertToDescriptorWithAllValues(descriptor);
+  assertThat(descriptor.version(),is("1"));
+  assertThat(descriptor.about(),is(notNullValue()));
+  assertThat(descriptor.about().description(),is("some description"));
+  assertThat(descriptor.about().vendor(),is(notNullValue()));
+  assertThat(descriptor.about().vendor().name(),is(nullValue()));
+  assertThat(descriptor.about().vendor().url(),is("http://ali.com"));
+  assertThat(descriptor.about().name(),is(nullValue()));
+  assertThat(descriptor.about().targetGoVersion(),is("13.3.0"));
+  assertThat(descriptor.about().targetOperatingSystems().contains("Linux"),is(true));
+  assertThat(descriptor.about().targetOperatingSystems().contains("Windows"),is(true));
+  assertThat(descriptor.about().targetOperatingSystems().contains("Osx"),is(false));
+  assertThat(descriptorModel.about(),is(notNullValue()));
+  assertThat(descriptorModel.about().description(),is("some description"));
+  assertThat(descriptorModel.about().version().isEmpty(),is(true));
+  assertThat(descriptorModel.about().vendor(),is(notNullValue()));
+  assertThat(descriptorModel.about().vendor().name(),is("Unknown"));
+  assertThat(descriptorModel.about().vendor().url(),is("http://ali.com"));
+  assertThat(descriptorModel.about().name(),is("plugin.jar"));
+  assertThat(descriptorModel.about().targetGoVersion(),is("13.3.0"));
+  assertThat(descriptorModel.about().targetOperatingSystems().contains("Linux"),is(true));
+  assertThat(descriptor.about().targetOperatingSystems().contains("Windows"),is(true));
+  assertThat(descriptor.about().targetOperatingSystems().contains("Osx"),is(false));
+}

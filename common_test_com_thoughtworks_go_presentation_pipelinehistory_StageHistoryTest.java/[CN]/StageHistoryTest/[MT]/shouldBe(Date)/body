@@ -1,0 +1,15 @@
+{
+  return new BaseMatcher<Date>(){
+    public Date toMatch;
+    public boolean matches(    Object o){
+      this.toMatch=(Date)o;
+      long diff=Math.abs(toMatch.getTime() - futureDate.getTime());
+      return diff < 60 * 1000;
+    }
+    public void describeTo(    Description description){
+      description.appendValue(futureDate);
+      description.appendText(format("[expected: Date(%s), got: Date(%s)]",futureDate.getTime(),toMatch.getTime()));
+    }
+  }
+;
+}

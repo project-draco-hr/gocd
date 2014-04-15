@@ -1,0 +1,5 @@
+{
+  CommandLine getCurrentBranchCommand=git().withArg("rev-parse").withArg("--abbrev-ref").withArg("HEAD").withWorkingDir(workingDir);
+  ConsoleResult consoleResult=runOrBomb(getCurrentBranchCommand);
+  return consoleResult.outputAsString();
+}

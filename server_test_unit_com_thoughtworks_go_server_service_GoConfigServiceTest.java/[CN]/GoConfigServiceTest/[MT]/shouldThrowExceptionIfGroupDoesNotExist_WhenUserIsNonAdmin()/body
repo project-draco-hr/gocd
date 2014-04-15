@@ -1,0 +1,14 @@
+{
+  CaseInsensitiveString adminName=new CaseInsensitiveString("admin");
+  String groupName=String.format("group_%s",UUID.randomUUID());
+  GoConfigMother mother=new GoConfigMother();
+  mother.enableSecurityWithPasswordFile(cruiseConfig);
+  cruiseConfig.server().security().adminsConfig().add(new AdminUser(adminName));
+  try {
+    goConfigService.isUserAdminOfGroup(new CaseInsensitiveString("foo"),groupName);
+    fail("Should fail since group does not exist");
+  }
+ catch (  Exception e) {
+    assertThat(e,is(instanceOf(PipelineGroupNotFoundException.class)));
+  }
+}

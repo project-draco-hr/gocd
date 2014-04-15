@@ -1,0 +1,10 @@
+{
+  TestInformation info1=new TestInformation("test",TestStatus.Error);
+  info1.addJob(new JobIdentifier(null,1,null,null,null,"job1"));
+  info1.addJob(new JobIdentifier(null,2,null,null,null,"job"));
+  TestInformation info2=new TestInformation("anotherTest",TestStatus.Error);
+  info2.addJob(new JobIdentifier(null,3,null,null,null,"job1"));
+  info2.addJob(new JobIdentifier(null,4,null,null,null,"job"));
+  assertThat(info1,not(info2));
+  assertThat(info2,not(info1));
+}

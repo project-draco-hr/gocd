@@ -1,0 +1,10 @@
+{
+  nowMod=new Modification("user3","fixed the build.",null,new DateTime().toDate(),"100");
+  nowMod.createModifiedFile("foo.java",".",ModifiedAction.modified);
+  oneHourAgoMod=new Modification("user2","fixed the build.",null,new DateTime().minusHours(1).toDate(),"89");
+  oneHourAgoMod.createModifiedFile("foo.java",".",ModifiedAction.modified);
+  yesterdayMod=new Modification("user1","fixed the build.",null,new DateTime().minusDays(1).toDate(),"9");
+  yesterdayMod.createModifiedFile("foo.java",".",ModifiedAction.modified);
+  material=MaterialsMother.svnMaterial("foo");
+  material.setName(new CaseInsensitiveString("Foo"));
+}

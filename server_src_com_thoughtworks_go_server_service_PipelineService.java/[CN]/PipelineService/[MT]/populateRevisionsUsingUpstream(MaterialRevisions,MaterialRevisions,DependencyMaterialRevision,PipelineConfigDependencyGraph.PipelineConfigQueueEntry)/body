@@ -1,0 +1,18 @@
+{
+  if (!configQueueEntry.containsPipelineInPath(dmr.getPipelineName())) {
+    return;
+  }
+  for (  MaterialRevision materialRevision : actualRevisions) {
+    Material material=materialRevision.getMaterial();
+    if (currentPipelineHasMaterial(configQueueEntry,material) && !alreadyAdded(newRevisions,material)) {
+      List<PipelineConfig> paths=removePathHead(configQueueEntry);
+      if (!paths.isEmpty()) {
+        MaterialRevision revision=getRevisionFor(paths,dmr,material);
+        if (revision != null) {
+          materialRevision.replaceModifications(revision.getModifications());
+          newRevisions.addRevision(materialRevision);
+        }
+      }
+    }
+  }
+}

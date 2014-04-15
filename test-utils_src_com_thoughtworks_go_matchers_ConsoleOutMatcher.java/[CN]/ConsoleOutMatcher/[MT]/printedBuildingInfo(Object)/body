@@ -1,0 +1,15 @@
+{
+  return new TypeSafeMatcher<String>(){
+    private String consoleOut;
+    public String stdout;
+    public boolean matchesSafely(    String consoleOut){
+      this.consoleOut=consoleOut;
+      stdout=format("Start to build %s",jobIdentifer.toString());
+      return StringUtils.contains(consoleOut,stdout);
+    }
+    public void describeTo(    Description description){
+      description.appendText("expected console to contain [" + stdout + "]"+ " but was "+ consoleOut);
+    }
+  }
+;
+}

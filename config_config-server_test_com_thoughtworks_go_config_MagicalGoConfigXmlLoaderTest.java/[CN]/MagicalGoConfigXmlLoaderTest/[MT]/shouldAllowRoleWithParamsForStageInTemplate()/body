@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.server().security().addRole(new Role(new CaseInsensitiveString("role")));
+  cruiseConfig.addTemplate(new PipelineTemplateConfig(new CaseInsensitiveString("template"),stageWithAuth("#{ROLE}")));
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs());
+  pipelineConfig.setTemplateName(new CaseInsensitiveString("template"));
+  pipelineConfig.addParam(new ParamConfig("ROLE","role"));
+  cruiseConfig.addPipeline("group",pipelineConfig);
+  List<ConfigErrors> errorses=MagicalGoConfigXmlLoader.validate(cruiseConfig);
+  assertThat(errorses.isEmpty(),is(true));
+}

@@ -1,0 +1,8 @@
+{
+  FetchTask fetchTask=new FetchTask();
+  fetchTask.setSrcfile("a.txt");
+  assertThat(fetchTask.isSourceAFile(),is(true));
+  FetchTask fetchTaskWithDir=new FetchTask();
+  fetchTaskWithDir.setSrcdir("/a/b");
+  assertThat(fetchTaskWithDir.isSourceAFile(),is(false));
+}

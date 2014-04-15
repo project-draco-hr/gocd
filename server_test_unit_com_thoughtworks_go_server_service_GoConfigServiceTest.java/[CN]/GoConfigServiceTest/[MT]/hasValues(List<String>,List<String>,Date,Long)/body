@@ -1,0 +1,15 @@
+{
+  return new BaseMatcher<PipelineSelections>(){
+    public boolean matches(    Object o){
+      PipelineSelections pipelineSelections=(PipelineSelections)o;
+      assertHasSelected(pipelineSelections,have);
+      assertHasSelected(pipelineSelections,doesntHave,false);
+      assertThat(pipelineSelections.lastUpdated(),is(today));
+      assertThat(pipelineSelections.userId(),is(userId));
+      return true;
+    }
+    public void describeTo(    Description description){
+    }
+  }
+;
+}

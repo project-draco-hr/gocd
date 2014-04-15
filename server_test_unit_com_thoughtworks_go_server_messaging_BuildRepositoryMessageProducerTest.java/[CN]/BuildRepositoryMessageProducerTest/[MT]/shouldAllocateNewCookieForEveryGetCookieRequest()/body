@@ -1,0 +1,7 @@
+{
+  AgentIdentifier identifier=new AgentIdentifier("host","192.168.1.1","uuid");
+  when(oldImplementation.getCookie(identifier,"/foo/bar")).thenReturn("cookie");
+  assertThat(producer.getCookie(identifier,"/foo/bar"),is("cookie"));
+  when(oldImplementation.getCookie(identifier,"/foo/bar")).thenReturn("cookie1");
+  assertThat(producer.getCookie(identifier,"/foo/bar"),is("cookie1"));
+}

@@ -1,0 +1,18 @@
+{
+  context=context.permittedAgent(oldJob.getAgentUuid());
+  String configName=translateToConfigName(oldJob.getName());
+  JobConfig jobConfig=stageConfig.jobConfigByConfigName(new CaseInsensitiveString(configName));
+  if (jobConfig == null) {
+    throw new CannotRerunJobException(configName);
+  }
+  String newJobName=jobConfig.isRunOnAllAgents() ? oldJob.getName() : CaseInsensitiveString.str(jobConfig.name());
+  JobInstances instances=instanceFactory.createJobInstance(stageConfig.name(),jobConfig,context,clock,new IdentityNameGenerator(newJobName));
+  for (  JobInstance instance : instances) {
+    instance.setAgentUuid(oldJob.getAgentUuid());
+    instance.setRerun(true);
+    if (jobInstances.hasJobNamed(newJobName)) {
+      throw new IllegalArgumentException(String.format("Cannot schedule multiple instances of job named '%s'.",newJobName));
+    }
+  }
+  jobInstances.addAll(instances);
+}

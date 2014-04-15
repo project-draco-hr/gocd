@@ -1,0 +1,10 @@
+{
+  Stage stage=StageMother.passedStageInstance("cruise","ft","firefox",DATE);
+  stage.setId(STAGE_ID);
+  stage.setCompletedByTransitionId(100L);
+  stage.getJobInstances().getByName("firefox").setId(BUILD_ID);
+  Pipeline pipeline=PipelineMother.pipeline("cruise",stage);
+  pipeline.setId(ID);
+  pipeline.setLabel(LABEL);
+  cctrayXmlPresenter=new StageCctrayPresentationModel(pipeline,stage);
+}

@@ -1,0 +1,15 @@
+{
+  final AgentInstances agentInstances=new AgentInstances(null);
+  AgentAdder agentAdder=AgentAdder.startAdding(agentInstances);
+  try {
+    while (agentInstances.size() < 100) {
+      Thread.sleep(100);
+    }
+    for (int i=0; i < 1000; i++) {
+      agentInstances.findRegisteredAgents();
+    }
+  }
+  finally {
+    agentAdder.stop();
+  }
+}

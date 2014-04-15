@@ -1,0 +1,8 @@
+{
+  Tab tab=new Tab("foO","bar");
+  ArrayList<Tab> visitedTabs=new ArrayList<Tab>();
+  Tab existingTab=new Tab("foo","bar");
+  visitedTabs.add(existingTab);
+  tab.validateTabNameUniqueness(visitedTabs);
+  assertThat(visitedTabs.size(),is(2));
+}

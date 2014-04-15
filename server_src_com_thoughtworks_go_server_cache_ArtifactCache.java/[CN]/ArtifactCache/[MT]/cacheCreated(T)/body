@@ -1,0 +1,19 @@
+{
+  if (currentlyCreatingCache(artifactLocation)) {
+    return false;
+  }
+  if (exceptionCreatingCache(artifactLocation)) {
+    Exception e=pendingExceptions.get(artifactLocation);
+    if (e != null && pendingExceptions.remove(artifactLocation,e)) {
+      throw e;
+    }
+ else {
+      return false;
+    }
+  }
+  if (cacheAlreadyCreated(artifactLocation)) {
+    return true;
+  }
+  startCacheCreationThread(artifactLocation);
+  return false;
+}

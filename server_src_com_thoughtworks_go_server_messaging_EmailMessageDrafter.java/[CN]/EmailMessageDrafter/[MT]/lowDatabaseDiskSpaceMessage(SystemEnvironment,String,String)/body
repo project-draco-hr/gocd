@@ -1,0 +1,4 @@
+{
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  return new SendEmailMessage("Low database disk space warning message from Go Server at " + ipAddress,String.format(LOW_DATABASE_DISK_SPACE_EMAIL,ipAddress,systemEnvironment.getDatabaseDiskSpaceWarningLimit(),targetFolder,systemEnvironment.getDatabaseDiskSpaceFullLimit()),adminMail);
+}

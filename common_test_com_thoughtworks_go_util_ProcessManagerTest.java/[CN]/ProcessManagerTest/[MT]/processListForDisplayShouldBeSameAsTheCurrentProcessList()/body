@@ -1,0 +1,12 @@
+{
+  processManager=new ProcessManager();
+  ProcessWrapper processWrapperOne=mock(ProcessWrapper.class);
+  Process processOne=mock(Process.class);
+  ProcessWrapper processWrapperTwo=mock(ProcessWrapper.class);
+  Process processTwo=mock(Process.class);
+  ConcurrentHashMap<Process,ProcessWrapper> processMap=processManager.getProcessMap();
+  processMap.put(processOne,processWrapperOne);
+  processMap.put(processTwo,processWrapperTwo);
+  Collection<ProcessWrapper> processWrappersForDisplay=processManager.currentProcessListForDisplay();
+  assertThat(processWrappersForDisplay,is(processMap.values()));
+}

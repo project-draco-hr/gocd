@@ -1,0 +1,10 @@
+{
+  GoConfigHolder configHolder;
+  try {
+    configHolder=loadWithMigration(new ByteArrayInputStream(xml.getBytes()));
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+  return configHolder;
+}

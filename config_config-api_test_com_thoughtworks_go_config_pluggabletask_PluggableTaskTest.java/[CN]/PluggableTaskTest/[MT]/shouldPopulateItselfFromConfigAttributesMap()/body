@@ -1,0 +1,8 @@
+{
+  Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"),ConfigurationPropertyMother.create("Key2"));
+  PluggableTask task=new PluggableTask("abc",new PluginConfiguration("abc.def","1"),configuration);
+  Map<String,String> attributeMap=DataStructureUtils.m("KEY1","value1","Key2","value2");
+  task.setTaskConfigAttributes(attributeMap);
+  assertThat(task.configAsMap().get("KEY1").get(PluggableTask.VALUE_KEY),is("value1"));
+  assertThat(task.configAsMap().get("Key2").get(PluggableTask.VALUE_KEY),is("value2"));
+}

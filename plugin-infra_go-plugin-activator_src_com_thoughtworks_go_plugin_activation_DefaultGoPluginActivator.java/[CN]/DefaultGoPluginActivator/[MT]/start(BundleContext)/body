@@ -1,0 +1,9 @@
+{
+  Bundle bundle=bundleContext.getBundle();
+  pluginId=bundle.getSymbolicName();
+  pluginHealthService=bundleContext.getService(bundleContext.getServiceReference(PluginHealthService.class));
+  LoggingService loggingService=bundleContext.getService(bundleContext.getServiceReference(LoggingService.class));
+  Logger.initialize(loggingService);
+  getImplementersAndRegister(bundleContext,bundle);
+  reportErrorsToHealthService();
+}

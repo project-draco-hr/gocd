@@ -1,0 +1,13 @@
+{
+  JobResourceImporter rdfImporter=new JobResourceImporter("test/data/cruise",new InMemoryTempGraphFactory(),transformerRegistry,xmlApiService);
+  File[] files=rdfImporter.getArtifactFilesOfType("artifacts","job2","xml");
+  assertThat(files.length,equalTo(4));
+  List<String> actualFileNames=new ArrayList<String>();
+  for (  File f : files) {
+    actualFileNames.add(f.getName());
+  }
+  assertThat(actualFileNames,hasItem("junit-report-failed.xml"));
+  assertThat(actualFileNames,hasItem("junit-report-passed.xml"));
+  assertThat(actualFileNames,hasItem("junit-report-passed-with-capitalcase-extension.XML"));
+  assertThat(actualFileNames,hasItem("junit-report-passed-with-mixedcase-extension.Xml"));
+}

@@ -1,0 +1,10 @@
+{
+  subversion=new SvnCommand(null,testRepo.end2endRepositoryUrl() + "/unit-reports","user","pass",false);
+  List list=subversion.modificationsSince(new SubversionRevision(0));
+  Modification modification=(Modification)list.get(0);
+  assertThat(modification.getModifiedFiles().size(),is(3));
+  for (  ModifiedFile file : modification.getModifiedFiles()) {
+    assertThat(file.getFileName().startsWith("/unit-reports"),is(true));
+    assertThat(file.getFileName().startsWith("/ft-reports"),is(false));
+  }
+}

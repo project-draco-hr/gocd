@@ -1,0 +1,7 @@
+{
+  if (isTemplate(groupName)) {
+    getXmlPartial(groupName,md5,goConfigService.templatesSaver()).respond(response);
+    return;
+  }
+  getXmlPartial(groupName,md5,goConfigService.groupSaver(groupName)).respond(response);
+}

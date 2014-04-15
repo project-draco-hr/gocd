@@ -1,0 +1,11 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  assertThat(valueFor(BUNDLE_SYMBOLICNAME),is(nullValue()));
+  assertThat(valueFor(BUNDLE_CLASSPATH),is(nullValue()));
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("pluginId","some-plugin.jar",bundleLocation,true);
+  goPluginOSGiManifestGenerator.updateManifestOf(descriptor);
+  assertThat(valueFor(BUNDLE_SYMBOLICNAME),is("pluginId"));
+  assertThat(valueFor(BUNDLE_CLASSPATH),is("lib/go-plugin-activator.jar,.,lib/dependency.jar"));
+}

@@ -1,0 +1,12 @@
+{
+  for (  Stage stage : pipeline.getStages()) {
+    passStage(stage);
+  }
+  Stages loadedStages=new Stages();
+  for (  Stage stage : pipeline.getStages()) {
+    loadedStages.add(stageDao.stageById(stage.getId()));
+  }
+  Pipeline loadedPipeline=this.pipelineDao.loadPipeline(pipeline.getId());
+  loadedPipeline.setStages(loadedStages);
+  return loadedPipeline;
+}

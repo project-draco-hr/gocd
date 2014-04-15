@@ -1,0 +1,29 @@
+{
+  final TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  final int[] numberOfTimesAfterCommitHappened=new int[1];
+  numberOfTimesAfterCommitHappened[0]=0;
+  String returnVal=(String)template.transactionSurrounding(new TransactionTemplate.TransactionSurrounding<RuntimeException>(){
+    public Object surrounding(){
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCommit(){
+          numberOfTimesAfterCommitHappened[0]++;
+        }
+      }
+);
+      return template.execute(new org.springframework.transaction.support.TransactionCallback(){
+        public Object doInTransaction(        TransactionStatus status){
+          return goTransactionTemplate.execute(new org.springframework.transaction.support.TransactionCallback(){
+            public Object doInTransaction(            TransactionStatus status){
+              return "foo";
+            }
+          }
+);
+        }
+      }
+);
+    }
+  }
+);
+  assertThat(returnVal,is("foo"));
+  assertThat(numberOfTimesAfterCommitHappened[0],is(1));
+}

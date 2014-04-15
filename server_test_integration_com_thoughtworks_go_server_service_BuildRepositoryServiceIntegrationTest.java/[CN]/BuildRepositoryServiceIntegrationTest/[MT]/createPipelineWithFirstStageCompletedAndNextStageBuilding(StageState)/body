@@ -1,0 +1,14 @@
+{
+  Pipeline newPipeline=createPipelineWithFirstStageBuilding(mingle);
+  Stage mostRecent=newPipeline.getFirstStage();
+  if (stageState.equals(StageState.Failed)) {
+    dbHelper.failStage(mostRecent);
+  }
+ else {
+    dbHelper.passStage(mostRecent);
+  }
+  reportJobPassed(mostRecent.getJobInstances().first());
+  Stage nextStage=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(FT_STAGE)));
+  dbHelper.buildingBuildInstance(nextStage);
+  return nextStage;
+}

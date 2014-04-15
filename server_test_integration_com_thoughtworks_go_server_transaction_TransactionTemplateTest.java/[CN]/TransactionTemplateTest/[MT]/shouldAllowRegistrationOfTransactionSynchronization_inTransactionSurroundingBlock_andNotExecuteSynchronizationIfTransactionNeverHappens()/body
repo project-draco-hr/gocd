@@ -1,0 +1,18 @@
+{
+  TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  final boolean[] afterCommitHappened=new boolean[1];
+  String returnVal=(String)template.transactionSurrounding(new TransactionTemplate.TransactionSurrounding<RuntimeException>(){
+    public Object surrounding(){
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCommit(){
+          afterCommitHappened[0]=true;
+        }
+      }
+);
+      return "bar";
+    }
+  }
+);
+  assertThat(returnVal,is("bar"));
+  assertThat(afterCommitHappened[0],is(false));
+}

@@ -1,0 +1,6 @@
+{
+  pipelineFixture.createdPipelineWithAllStagesPassed();
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStageScheduled();
+  Stage expect=pipeline.getStages().byName(pipelineFixture.devStage);
+  assertThat(stageStatusCache.currentStage(new StageConfigIdentifier(pipelineFixture.pipelineName,pipelineFixture.devStage)),is(expect));
+}

@@ -1,0 +1,21 @@
+{
+  StringBuilder builder=new StringBuilder();
+  String str="a ";
+  int numberOfChars=ArtifactsService.DEFAULT_CONSOLE_LOG_LINE_BUFFER_SIZE * 4;
+  StringBuilder longLine=new StringBuilder();
+  for (int i=0; i < numberOfChars; i++) {
+    longLine.append(str);
+  }
+  String longLineStr=longLine.toString();
+  builder.append(longLineStr);
+  builder.append("\nTesting:\n");
+  builder.append(longLineStr);
+  ModelAndView mav=putConsoleLogContent("cruise-output/console.log",builder.toString());
+  String consoleLogContent=FileUtils.readFileToString(file(artifactRootForJob,"cruise-output/console.log"));
+  String[] lines=consoleLogContent.split("\n");
+  assertThat(lines.length,is(3));
+  assertThat(lines[0],is(longLineStr));
+  assertThat(lines[1] + "\n",is("Testing:\n"));
+  assertThat(lines[2],is(longLineStr));
+  assertStatus(mav,SC_OK);
+}

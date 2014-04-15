@@ -1,0 +1,12 @@
+{
+  URI baseUri=new URI(baseUrl,"UTF-8");
+  String originalPath=baseUri.getPath();
+  if (originalPath == null) {
+    originalPath="";
+  }
+  if (originalPath.endsWith(DELIMITER) && path.startsWith(DELIMITER)) {
+    path=path.replaceFirst(DELIMITER,"");
+  }
+  baseUri.setPath(originalPath + path);
+  return baseUri.toString();
+}

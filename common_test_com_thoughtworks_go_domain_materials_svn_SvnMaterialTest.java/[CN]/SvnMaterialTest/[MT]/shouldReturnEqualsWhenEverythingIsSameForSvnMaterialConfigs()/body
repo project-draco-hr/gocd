@@ -1,0 +1,13 @@
+{
+  SvnMaterialConfig svnMaterialConfig=MaterialConfigsMother.svnMaterialConfig();
+  svnMaterialConfig.setConfigAttributes(Collections.singletonMap(SvnMaterialConfig.CHECK_EXTERNALS,String.valueOf(true)));
+  svnMaterialConfig.setConfigAttributes(Collections.singletonMap(SvnMaterialConfig.USERNAME,"userName"));
+  svnMaterialConfig.setPassword("password");
+  svnMaterialConfig.setConfigAttributes(Collections.singletonMap(SvnMaterialConfig.URL,"URL"));
+  SvnMaterialConfig other=MaterialConfigsMother.svnMaterialConfig();
+  other.setConfigAttributes(Collections.singletonMap(SvnMaterialConfig.CHECK_EXTERNALS,String.valueOf(true)));
+  other.setConfigAttributes(Collections.singletonMap(SvnMaterialConfig.USERNAME,"userName"));
+  other.setPassword("password");
+  other.setConfigAttributes(Collections.singletonMap(SvnMaterialConfig.URL,"URL"));
+  assertThat(other,is(svnMaterialConfig));
+}

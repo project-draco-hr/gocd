@@ -1,0 +1,15 @@
+{
+  String target="not-exist-target";
+  String buildXml="./build.xml";
+  antTask.setBuildFile(buildXml);
+  antTask.setTarget(target);
+  Builder builder=antTaskBuilder.createBuilder(builderFactory,antTask,TasksTest.pipelineStub(PIPELINE_LABEL,"."),resolver);
+  BuildLogElement element=new BuildLogElement();
+  try {
+    builder.build(element,RunIfConfig.PASSED,new StubGoPublisher(),new EnvironmentVariableContext());
+  }
+ catch (  CruiseControlException e) {
+    assertThat(e.getMessage(),containsString("Build failed. Command ant reported [BUILD FAILED]."));
+    assertThat(element.getBuildError(),Is.is("Build failed. Command ant reported [BUILD FAILED]."));
+  }
+}

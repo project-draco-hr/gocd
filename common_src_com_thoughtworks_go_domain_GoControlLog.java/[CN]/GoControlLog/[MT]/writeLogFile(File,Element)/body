@@ -1,0 +1,14 @@
+{
+  OutputStream logStream=null;
+  try {
+    Format format=Format.getPrettyFormat();
+    XMLOutputter outputter=new XMLOutputter(format);
+    IO.mkdirFor(file);
+    file.setWritable(true);
+    logStream=new BufferedOutputStream(new FileOutputStream(file));
+    outputter.output(new Document(element),logStream);
+  }
+  finally {
+    IO.close(logStream);
+  }
+}

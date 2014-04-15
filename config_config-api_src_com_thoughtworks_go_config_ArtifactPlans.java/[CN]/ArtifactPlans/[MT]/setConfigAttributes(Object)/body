@@ -1,0 +1,24 @@
+{
+  clear();
+  if (attributes == null) {
+    return;
+  }
+  List<Map> attrList=(List<Map>)attributes;
+  for (  Map attrMap : attrList) {
+    String source=(String)attrMap.get(ArtifactPlan.SRC);
+    String destination=(String)attrMap.get(ArtifactPlan.DEST);
+    if (source.trim().isEmpty() && destination.trim().isEmpty()) {
+      continue;
+    }
+    String type=(String)attrMap.get("artifactTypeValue");
+    if (TestArtifactPlan.TEST_PLAN_DISPLAY_NAME.equals(type)) {
+      TestArtifactPlan plan=new TestArtifactPlan();
+      plan.setSrc(source);
+      plan.setDest(destination);
+      this.add(plan);
+    }
+ else {
+      this.add(artifactPlan(attrMap));
+    }
+  }
+}

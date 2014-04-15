@@ -1,0 +1,10 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  submoduleRepos.addSubmodule("submodule-1","sub1");
+  GitMaterial gitMaterial=new GitMaterial(submoduleRepos.mainRepo().getUrl());
+  when(materialConfigConverter.toMaterials(new MaterialConfigs(gitMaterial.config()))).thenReturn(new Materials(gitMaterial));
+  Materials materials=new Materials();
+  materialExpansionService.expandForScheduling(gitMaterial,materials);
+  assertThat(materials.size(),is(1));
+  assertThat((GitMaterial)materials.get(0),is(gitMaterial));
+}

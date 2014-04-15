@@ -1,0 +1,14 @@
+{
+  cruise=new Username(new CaseInsensitiveString("cruise"));
+  dbHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configHelper.onSetUp();
+  repository=new SvnCommand(null,testRepo.projectRepositoryUrl());
+  configHelper.addPipeline(PIPELINE_MINGLE,DEV_STAGE,repository,"unit","functional");
+  configHelper.addStageToPipeline(PIPELINE_MINGLE,FT_STAGE);
+  Subversion wrongRepository=new SvnCommand(null,"wrongurl");
+  configHelper.addPipeline(PIPELINE_EVOLVE,DEV_STAGE,wrongRepository,"unit","functional");
+  goConfigService.forceNotifyListeners();
+  serverHealthService.removeAllLogs();
+  goCache.clear();
+}

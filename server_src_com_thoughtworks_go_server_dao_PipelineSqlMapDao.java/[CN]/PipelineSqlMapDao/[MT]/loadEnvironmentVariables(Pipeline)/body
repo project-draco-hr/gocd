@@ -1,0 +1,7 @@
+{
+  if (pipeline == null) {
+    return pipeline;
+  }
+  pipeline.getBuildCause().setVariables(environmentVariableDao.load(pipeline.getId(),EnvironmentVariableSqlMapDao.EnvironmentVariableType.Trigger));
+  return pipeline;
+}

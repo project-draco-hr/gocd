@@ -1,0 +1,5 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.PLUGIN_FRAMEWORK_ENABLED)).thenReturn(false);
+  pluginsInitializer.initialize();
+  assertThat(FileUtils.listFiles(goPluginsDir,null,true).size(),is(0));
+}

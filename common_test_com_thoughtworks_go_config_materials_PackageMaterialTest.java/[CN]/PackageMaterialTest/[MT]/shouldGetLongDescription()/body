@@ -1,0 +1,8 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  Configuration configuration=new Configuration(ConfigurationPropertyMother.create("k1",false,"repo-v1"),ConfigurationPropertyMother.create("k2",false,"repo-v2"));
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo-name","pluginid","version",configuration);
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","package-name",new Configuration(ConfigurationPropertyMother.create("k3",false,"package-v1")),repository);
+  material.setPackageDefinition(packageDefinition);
+  assertThat(material.getLongDescription(),is(material.getUriForDisplay()));
+}

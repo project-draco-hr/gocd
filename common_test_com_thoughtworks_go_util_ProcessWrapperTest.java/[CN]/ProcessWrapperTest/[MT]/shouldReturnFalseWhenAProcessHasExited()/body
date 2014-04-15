@@ -1,0 +1,6 @@
+{
+  Process process=getMockedProcess(mock(OutputStream.class));
+  when(process.exitValue()).thenReturn(1);
+  ProcessWrapper processWrapper=new ProcessWrapper(process,"","",inMemoryConsumer(),null,null);
+  assertThat(processWrapper.isRunning(),is(false));
+}

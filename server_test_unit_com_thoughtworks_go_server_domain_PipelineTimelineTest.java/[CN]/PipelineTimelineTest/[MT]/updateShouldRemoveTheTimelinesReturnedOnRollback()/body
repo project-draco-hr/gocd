@@ -1,0 +1,9 @@
+{
+  stubTransactionSynchronization();
+  setupTransactionTemplateStub(TransactionSynchronization.STATUS_ROLLED_BACK,true);
+  final PipelineTimeline timeline=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  stubPipelineRepository(timeline,true,new PipelineTimelineEntry[]{first,second});
+  timeline.update();
+  verify(pipelineRepository).updatePipelineTimeline(timeline);
+  assertThat(timeline.maximumId(),is(-1L));
+}

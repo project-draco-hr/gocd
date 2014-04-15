@@ -1,0 +1,11 @@
+{
+  CheckedTestUpdateCommand command=new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(),false);
+  try {
+    goConfigFileDao.updateConfig(command);
+    fail("should have failed as check returned false");
+  }
+ catch (  ConfigUpdateCheckFailedException expected) {
+  }
+  assertThat(command.wasUpdated,is(false));
+  assertThat(command.after,not(nullValue()));
+}

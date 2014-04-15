@@ -1,0 +1,12 @@
+{
+  if (testRepo == null) {
+    testRepo=repoLocation;
+    try {
+      FileUtils.copyDirectory(templateRepo,testRepo);
+    }
+ catch (    IOException e) {
+      bomb(e);
+    }
+  }
+  return testRepo;
+}

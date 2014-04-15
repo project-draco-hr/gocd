@@ -1,0 +1,19 @@
+{
+  PipelineConfig current=GoConfigMother.createPipelineConfigWithMaterialConfig("current");
+  PipelineConfig up1=GoConfigMother.createPipelineConfigWithMaterialConfig("up1");
+  PipelineConfig upper=GoConfigMother.createPipelineConfigWithMaterialConfig("upper");
+  PipelineConfig up2=GoConfigMother.createPipelineConfigWithMaterialConfig("up2");
+  PipelineConfig uppest=GoConfigMother.createPipelineConfigWithMaterialConfig("uppest");
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1,new PipelineConfigDependencyGraph(upper,new PipelineConfigDependencyGraph(uppest)),new PipelineConfigDependencyGraph(uppest)),new PipelineConfigDependencyGraph(up2,new PipelineConfigDependencyGraph(upper,new PipelineConfigDependencyGraph(uppest)),new PipelineConfigDependencyGraph(uppest)));
+  Queue<PipelineConfigDependencyGraph.PipelineConfigQueueEntry> queue=new LinkedList<PipelineConfigDependencyGraph.PipelineConfigQueueEntry>();
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(up1,Arrays.asList(current,up1)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(up2,Arrays.asList(current,up2)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(upper,Arrays.asList(current,up1,upper)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(uppest,Arrays.asList(current,up1,uppest)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(upper,Arrays.asList(current,up2,upper)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(uppest,Arrays.asList(current,up2,uppest)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(uppest,Arrays.asList(current,up1,upper,uppest)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(uppest,Arrays.asList(current,up2,upper,uppest)));
+  Queue<PipelineConfigDependencyGraph.PipelineConfigQueueEntry> configQueueEntryQueue=dependencyGraph.buildQueue();
+  assertThat(configQueueEntryQueue,is(queue));
+}

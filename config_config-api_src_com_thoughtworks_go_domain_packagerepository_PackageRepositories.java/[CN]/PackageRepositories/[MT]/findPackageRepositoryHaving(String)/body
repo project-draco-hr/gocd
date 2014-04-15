@@ -1,0 +1,10 @@
+{
+  for (  PackageRepository packageRepository : this) {
+    for (    PackageDefinition packageDefinition : packageRepository.getPackages()) {
+      if (packageDefinition.getId().equals(packageId)) {
+        return packageRepository;
+      }
+    }
+  }
+  throw new RuntimeException(format("Could not find repository for given package id:[%s]",packageId));
+}

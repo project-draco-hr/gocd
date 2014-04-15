@@ -1,0 +1,12 @@
+{
+  String p1="p1";
+  String p2="p2";
+  ValueStreamMap graph=new ValueStreamMap(p1,null);
+  graph.addDownstreamNode(new PipelineDependencyNode(p2,p2),p1);
+  List<List<Node>> nodesAtEachLevel=graph.presentationModel().getNodesAtEachLevel();
+  assertThat(nodesAtEachLevel.size(),is(2));
+  VSMTestHelper.assertThatLevelHasNodes(nodesAtEachLevel.get(0),0,p1);
+  VSMTestHelper.assertThatLevelHasNodes(nodesAtEachLevel.get(1),0,p2);
+  VSMTestHelper.assertNodeHasChildren(graph,p1,p2);
+  VSMTestHelper.assertNodeHasParents(graph,p2,p1);
+}

@@ -1,0 +1,10 @@
+{
+  Document document=(Document)model.get("document");
+  ServletOutputStream outputStream=response.getOutputStream();
+  try {
+    XmlUtils.writeXml(document,outputStream);
+  }
+  finally {
+    IOUtils.closeQuietly(outputStream);
+  }
+}

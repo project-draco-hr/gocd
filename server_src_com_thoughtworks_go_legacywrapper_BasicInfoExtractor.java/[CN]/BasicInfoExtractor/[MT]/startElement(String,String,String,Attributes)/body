@@ -1,0 +1,15 @@
+{
+  if ("info".equals(qName)) {
+    readingInfo=true;
+    return;
+  }
+  if (readingInfo && "property".equals(qName)) {
+    String propName=attributes.getValue("name");
+    if ("projectname".equals(propName)) {
+      projectName=attributes.getValue("value");
+    }
+    if ("label".equals(propName)) {
+      label=attributes.getValue("value");
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  List<PipelineConfig> dependencies=new ArrayList<PipelineConfig>();
+  for (  PipelineConfig config : getAllPipelineConfigs()) {
+    if (config.dependsOn(new CaseInsensitiveString(pipelineName))) {
+      dependencies.add(config);
+    }
+  }
+  return dependencies;
+}

@@ -1,0 +1,10 @@
+{
+  final MaterialInstance materialInstance=hgInstance();
+  assertionUtil.assertCacheBehaviourInTxn(new TransactionCacheAssertionUtil.DoInTxn(){
+    public void invoke(){
+      hibernateDaoSupport.getHibernateTemplate().save(materialInstance);
+    }
+  }
+);
+  assertThat(materialInstance.getId(),greaterThan(0l));
+}

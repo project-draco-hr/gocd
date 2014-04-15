@@ -1,0 +1,17 @@
+{
+  final ServerConfigService serverConfigService=mock(ServerConfigService.class);
+  when(serverConfigService.hasAnyUrlConfigured()).thenReturn(true);
+  when(serverConfigService.siteUrlFor("http://url/go/admin?tab=oAuth",true)).thenReturn("https://url/go/admin?tab=oAuth");
+  Request request=new Request();
+  request.setUri(new HttpURI("/go/admin?tab=oAuth"));
+  request.setServerName("url");
+  DeploymentContextWriter writer=new DeploymentContextWriter(){
+    @Override protected BaseUrlProvider getBaseUrlProvider(    HttpServletRequest req){
+      return serverConfigService;
+    }
+  }
+;
+  writer.writeSecureSiteUrl(request);
+  assertThat((String)request.getAttribute("secure_site"),is("https://url/go/admin?tab=oAuth"));
+  assertThat((String)request.getAttribute("force_ssl"),is("true"));
+}

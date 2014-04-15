@@ -1,0 +1,6 @@
+{
+  PipelineLabel label=PipelineLabel.create("release-${svnMaterial}");
+  MaterialRevisions materialRevisions=ModificationsMother.oneUserOneFile();
+  label.updateLabel(materialRevisions.getNamedRevisions());
+  assertThat(label.toString(),is("release-" + ModificationsMother.currentRevision()));
+}

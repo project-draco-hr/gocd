@@ -1,0 +1,12 @@
+{
+  inTransactionInBody[depth]=transactionSynchronizationManager.isTransactionBodyExecuting();
+  transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+    @Override public void afterCommit(){
+      inTransactionInAfterCommit[depth]=transactionSynchronizationManager.isTransactionBodyExecuting();
+    }
+    @Override public void afterCompletion(    int status){
+      inTransactionInAfterComplete[depth]=transactionSynchronizationManager.isTransactionBodyExecuting();
+    }
+  }
+);
+}

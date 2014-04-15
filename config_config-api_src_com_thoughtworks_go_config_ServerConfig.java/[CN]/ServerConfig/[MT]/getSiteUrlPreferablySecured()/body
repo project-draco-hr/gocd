@@ -1,0 +1,11 @@
+{
+  ServerSiteUrlConfig siteUrl=getSiteUrl();
+  ServerSiteUrlConfig secureSiteUrlConfig=getSecureSiteUrl();
+  if (secureSiteUrlConfig.hasNonNullUrl()) {
+    return secureSiteUrlConfig;
+  }
+  if (!secureSiteUrlConfig.hasNonNullUrl()) {
+    return siteUrl;
+  }
+  return new ServerSiteUrlConfig();
+}

@@ -1,0 +1,13 @@
+{
+  AgentInstance instance=agent(AgentMother.localAgent());
+  Pipeline pipeline=instanceFactory.createPipelineInstance(evolveConfig,modifyNoFiles(evolveConfig),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline);
+  buildAssignmentService.onConfigChange(goConfigService.getCurrentConfig());
+  buildAssignmentService.onTimer();
+  buildAssignmentService.assignWorkToAgent(instance);
+  long firstAssignedBuildId=buildOf(pipeline).getId();
+  buildAssignmentService.assignWorkToAgent(instance);
+  JobInstance reloaded=jobInstanceDao.buildByIdWithTransitions(firstAssignedBuildId);
+  assertThat(reloaded.getState(),is(JobState.Rescheduled));
+  assertThat(reloaded.isIgnored(),is(true));
+}

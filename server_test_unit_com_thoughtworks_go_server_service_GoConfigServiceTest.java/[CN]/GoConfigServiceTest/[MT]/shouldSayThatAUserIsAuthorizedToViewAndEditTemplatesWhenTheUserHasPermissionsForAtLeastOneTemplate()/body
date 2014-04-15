@@ -1,0 +1,17 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  String theSuperAdmin="theSuperAdmin";
+  String templateName="template";
+  String secondTemplateName="secondTemplate";
+  CaseInsensitiveString templateAdminName=new CaseInsensitiveString("templateAdmin");
+  CaseInsensitiveString secondTemplateAdminName=new CaseInsensitiveString("secondTemplateAdmin");
+  GoConfigMother.enableSecurityWithPasswordFile(config);
+  GoConfigMother.enableSuperAdminForConfig(config,theSuperAdmin);
+  config.addTemplate(createTemplate(templateName,new Authorization(new AdminsConfig(new AdminUser(templateAdminName)))));
+  config.addTemplate(createTemplate(secondTemplateName,new Authorization(new AdminsConfig(new AdminUser(secondTemplateAdminName)))));
+  when(goConfigService.getCurrentConfig()).thenReturn(config);
+  assertThat(goConfigService.isAuthorizedToViewAndEditTemplates(new Username(templateAdminName)),is(true));
+  assertThat(goConfigService.isAuthorizedToViewAndEditTemplates(new Username(secondTemplateAdminName)),is(true));
+  assertThat(goConfigService.isAuthorizedToViewAndEditTemplates(new Username(new CaseInsensitiveString(theSuperAdmin))),is(false));
+  assertThat(goConfigService.isAuthorizedToViewAndEditTemplates(new Username(new CaseInsensitiveString("someOtherUserWhoIsNotAdminOfAnyTemplates"))),is(false));
+}

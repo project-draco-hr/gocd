@@ -1,0 +1,5 @@
+{
+  Connection connection=db.createDataSource().getConnection();
+  ResultSet set=connection.getMetaData().getTables(null,null,null,null);
+  assertThat(set.next(),is(true));
+}

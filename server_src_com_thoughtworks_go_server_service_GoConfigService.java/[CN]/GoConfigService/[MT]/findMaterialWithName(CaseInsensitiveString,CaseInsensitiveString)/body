@@ -1,0 +1,10 @@
+{
+  MaterialConfigs materialConfigs=materialConfigsFor(pipelineName);
+  for (  MaterialConfig materialConfig : materialConfigs) {
+    if (materialName.equals(materialConfig.getName())) {
+      return materialConfig;
+    }
+  }
+  LOGGER.error("material [" + materialName + "] not found in pipeline ["+ pipelineName+ "]");
+  return null;
+}

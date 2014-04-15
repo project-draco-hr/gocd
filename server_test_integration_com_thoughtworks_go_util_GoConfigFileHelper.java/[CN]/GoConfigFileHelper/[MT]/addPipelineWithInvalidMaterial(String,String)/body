@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=load();
+  StageConfig stageConfig=StageConfigMother.custom(stageName,defaultBuildPlans("buildName"));
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString(pipelineName),invalidRepositoryMaterialConfigs(),stageConfig);
+  cruiseConfig.addPipeline(DEFAULT_GROUP,pipelineConfig);
+  writeConfigFile(cruiseConfig);
+  return pipelineConfig;
+}

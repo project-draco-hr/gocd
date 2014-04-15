@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=load();
+  Admin[] admins=AdminUserMother.adminUsers(userNames);
+  for (  Admin admin : admins) {
+    cruiseConfig.getGroups().findGroup(groupName).getAuthorization().getOperationConfig().add(admin);
+  }
+  writeConfigFile(cruiseConfig);
+}

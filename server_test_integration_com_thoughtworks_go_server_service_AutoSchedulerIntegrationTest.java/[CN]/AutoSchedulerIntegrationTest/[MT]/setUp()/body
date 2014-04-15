@@ -1,0 +1,12 @@
+{
+  GoConfigFileHelper configFileHelper=new GoConfigFileHelper().usingCruiseConfigDao(goConfigFileDao);
+  dbHelper.onSetUp();
+  configFileHelper.onSetUp();
+  configFileHelper.usingCruiseConfigDao(goConfigFileDao);
+  configWithFreeEditionLicense=new ConfigWithFreeEditionLicense(configFileHelper);
+  configWithFreeEditionLicense.onSetUp();
+  configService.forceNotifyListeners();
+  twoPipelineGroups=new TwoPipelineGroups(configFileHelper);
+  twoPipelineGroups.onSetUp();
+  serverHealthService.removeAllLogs();
+}

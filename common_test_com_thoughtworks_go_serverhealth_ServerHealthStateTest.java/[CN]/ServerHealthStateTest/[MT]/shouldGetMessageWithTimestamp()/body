@@ -1,0 +1,4 @@
+{
+  ServerHealthState errorState=ServerHealthState.error("my message","my description",HealthStateType.general(HealthStateScope.forPipeline("foo")));
+  assertThat(errorState.getMessageWithTimestamp(),is("my message" + " [" + ServerHealthState.TIMESTAMP_FORMAT.format(errorState.getTimestamp()) + "]"));
+}

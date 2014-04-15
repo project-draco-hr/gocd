@@ -1,0 +1,16 @@
+{
+  String logFilename=decideLogfileName(now);
+  Element logDirElement=new Element("property");
+  logDirElement.setAttribute("name","logdir");
+  logDirElement.setAttribute("value",new File(logDir).getAbsolutePath());
+  buildLog.getChild("info").addContent(logDirElement);
+  Element logFileElement=new Element("property");
+  logFileElement.setAttribute("name","logfile");
+  logFileElement.setAttribute("value",logFilename);
+  buildLog.getChild("info").addContent(logFileElement);
+  File logfile=new File(logDir,logFilename);
+  if (LOG.isDebugEnabled()) {
+    LOG.debug("Writing log file [" + logfile.getAbsolutePath() + "]");
+  }
+  writeLogFile(logfile,buildLog);
+}

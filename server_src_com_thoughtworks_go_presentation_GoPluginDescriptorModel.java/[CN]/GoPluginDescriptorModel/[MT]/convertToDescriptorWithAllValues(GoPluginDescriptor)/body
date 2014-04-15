@@ -1,0 +1,9 @@
+{
+  GoPluginDescriptor.About about=aboutOrDefault(pluginDescriptor.about());
+  GoPluginDescriptor.Vendor vendor=vendorOrDefault(about.vendor());
+  vendor=new GoPluginDescriptor.Vendor(valueOrDefault(vendor.name(),"Unknown"),verifyProtocol(vendor.url()));
+  about=new GoPluginDescriptor.About(valueOrDefault(about.name(),pluginDescriptor.id()),valueOrDefault(about.version(),""),valueOrDefault(about.targetGoVersion(),"Unknown"),valueOrDefault(about.description(),"No description available."),vendor,valueOrDefault(about.targetOperatingSystems(),Arrays.asList("No restrictions")));
+  GoPluginDescriptor descriptorWithAllValues=new GoPluginDescriptor(pluginDescriptor.id(),valueOrDefault(pluginDescriptor.version(),"1"),about,pluginDescriptor.pluginFileLocation(),pluginDescriptor.bundleLocation(),pluginDescriptor.isBundledPlugin());
+  descriptorWithAllValues.setStatus(pluginDescriptor.getStatus());
+  return descriptorWithAllValues;
+}

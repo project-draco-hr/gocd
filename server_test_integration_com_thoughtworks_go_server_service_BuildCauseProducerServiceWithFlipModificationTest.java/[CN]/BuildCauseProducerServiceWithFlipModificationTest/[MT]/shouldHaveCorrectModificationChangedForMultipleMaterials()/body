@@ -1,0 +1,8 @@
+{
+  setUpPipelineWithTwoMaterials();
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(PIPELINE_NAME);
+  consume(buildCauseForPipeline());
+  svnRepository.checkInOneFile("abc");
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(PIPELINE_NAME);
+  assertModificationChangedStateBasedOnMaterial(pipelineScheduleQueue.toBeScheduled());
+}

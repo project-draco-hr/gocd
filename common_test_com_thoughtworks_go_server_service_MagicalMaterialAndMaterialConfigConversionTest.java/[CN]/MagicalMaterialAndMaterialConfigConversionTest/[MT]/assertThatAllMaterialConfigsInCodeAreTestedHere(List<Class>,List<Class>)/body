@@ -1,0 +1,7 @@
+{
+  List<Class> missingImplementations=new ArrayList<Class>(reflectionsSubTypesOf);
+  missingImplementations.removeAll(allExpectedMaterialConfigImplementations);
+  String message="You need to add a DataPoint for these materials in this test: " + missingImplementations;
+  assertThat(message,reflectionsSubTypesOf.size(),is(allExpectedMaterialConfigImplementations.size()));
+  assertThat(message,reflectionsSubTypesOf,hasItems(allExpectedMaterialConfigImplementations.toArray(new Class[allExpectedMaterialConfigImplementations.size()])));
+}

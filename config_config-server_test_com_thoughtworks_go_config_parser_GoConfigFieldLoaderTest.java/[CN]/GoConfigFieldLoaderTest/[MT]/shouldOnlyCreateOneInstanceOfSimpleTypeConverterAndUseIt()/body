@@ -1,0 +1,9 @@
+{
+  Integer dummyValue=0;
+  Field randomField=dummyValue.getClass().getDeclaredFields()[0];
+  GoConfigFieldLoader loader=GoConfigFieldLoader.fieldParser(null,null,randomField,null,null,new ConfigReferenceElements());
+  Field expectedField=loader.getClass().getDeclaredField("typeConverter");
+  int modifier=expectedField.getModifiers();
+  assertThat(Modifier.isStatic(modifier),is(true));
+  assertThat(Modifier.isFinal(modifier),is(true));
+}

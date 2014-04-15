@@ -1,0 +1,12 @@
+{
+  Application application=Application.getApplication();
+  application.setEnabledPreferencesMenu(true);
+  application.setEnabledAboutMenu(true);
+  setVisible(false);
+  setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+  setResizable(false);
+  setSize(getPreferredSize());
+  MacBootstrapperApplicationAdapter applicationAdapter=new MacBootstrapperApplicationAdapter(this);
+  application.addApplicationListener(applicationAdapter);
+  return applicationAdapter;
+}

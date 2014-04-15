@@ -1,0 +1,7 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("[TFS SDK] Deleting TFS workspace %s for user %s ",getWorkspace(),getUserName()));
+  }
+  GoTfsWorkspace workspace=client.queryWorkspace(getWorkspace(),getUserName());
+  client.deleteWorkspace(workspace);
+}

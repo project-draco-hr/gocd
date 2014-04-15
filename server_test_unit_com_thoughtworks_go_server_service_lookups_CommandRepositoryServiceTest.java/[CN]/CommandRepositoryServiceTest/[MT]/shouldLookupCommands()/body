@@ -1,0 +1,6 @@
+{
+  String prefix="some-prefix";
+  List<CommandSnippet> matchedSnippets=Arrays.asList(CommandSnippetMother.validSnippet("maven"));
+  when(snippets.filterBy(prefix)).thenReturn(matchedSnippets);
+  assertThat(commandRepositoryService.lookupCommand(prefix),is(matchedSnippets));
+}

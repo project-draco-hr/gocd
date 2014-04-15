@@ -1,0 +1,11 @@
+{
+  context.checking(new Expectations(){
+{
+      one(resultGetter).getString();
+      will(returnValue(JobResult.Passed.toString()));
+    }
+  }
+);
+  JobResult result=(JobResult)callback.getResult(resultGetter);
+  assertThat(result,is(equal(JobResult.Passed)));
+}

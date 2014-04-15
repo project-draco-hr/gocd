@@ -1,0 +1,10 @@
+{
+  configFile=TestFileUtil.createTempFileInSubfolder("cruise-config.xml");
+  GoConfigFileHelper.clearConfigVersions();
+  configHelper=new GoConfigFileHelper();
+  configHelper.onSetUp();
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  systemEnvironment.setProperty(SystemEnvironment.CONFIG_FILE_PROPERTY,configFile.getAbsolutePath());
+  new ConfigRepository(systemEnvironment).initialize();
+  serverHealthService.removeAllLogs();
+}

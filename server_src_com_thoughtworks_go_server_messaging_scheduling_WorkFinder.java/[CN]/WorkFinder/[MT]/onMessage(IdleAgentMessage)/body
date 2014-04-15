@@ -1,0 +1,20 @@
+{
+  AgentIdentifier agent=idleAgentMessage.getAgentIdentifier();
+  Work work=null;
+  long startTime=System.currentTimeMillis();
+  try {
+    work=workAssigner.assignWorkToAgent(agent);
+  }
+  finally {
+    if (work == null) {
+      work=NO_WORK;
+    }
+    workAssignmentPerformanceLogger.assignedWorkToAgent(work,agent,startTime,System.currentTimeMillis());
+    try {
+      assignedWorkTopic.post(new WorkAssignedMessage(agent,work));
+    }
+ catch (    Throwable e) {
+      LOGGER.fatal(null,e);
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  Pipeline pipeline=pipelineFixture.createdPipelineWithAllStagesPassed();
+  configHelper.setBaseUrls(new ServerSiteUrlConfig("http://10.99.99.99:8153"),new ServerSiteUrlConfig("https://10.99.99.99:8154"));
+  Stage devStage=pipeline.getStages().byName(pipelineFixture.devStage);
+  ccTrayStatus.stageStatusChanged(devStage);
+  Stage ftStage=pipeline.getStages().byName(pipelineFixture.ftStage);
+  ccTrayStatus.stageStatusChanged(ftStage);
+  Document document=ccTrayStatusService.createCctrayXmlDocument("https://localhost:8154/go/cctray.xml");
+  assertWebUrlContains(document,"https://10.99.99.99:8154");
+}

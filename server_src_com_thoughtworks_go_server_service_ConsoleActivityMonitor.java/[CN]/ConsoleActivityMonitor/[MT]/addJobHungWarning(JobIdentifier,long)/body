@@ -1,0 +1,4 @@
+{
+  String namespacedJob=String.format("%s/%s/%s",jobIdentifier.getPipelineName(),jobIdentifier.getStageName(),jobIdentifier.getBuildName());
+  serverHealthService.update(ServerHealthState.warning(String.format("Job '%s' is not responding",namespacedJob),String.format("Job <a href='/go/tab/build/detail/%s'>%s</a> is currently running but has not shown any console activity in the last %s minute(s). This job may be hung.",jobIdentifier.buildLocator(),namespacedJob,inMinutes(difference)),HealthStateType.general(HealthStateScope.forJob(jobIdentifier.getPipelineName(),jobIdentifier.getStageName(),jobIdentifier.getBuildName()))));
+}

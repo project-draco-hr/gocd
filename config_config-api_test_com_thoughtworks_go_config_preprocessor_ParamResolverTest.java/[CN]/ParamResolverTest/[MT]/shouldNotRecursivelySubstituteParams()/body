@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  pipelineConfig.setLabelTemplate("#{foo}");
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","#{bar}"),param("bar","baz"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.getLabelTemplate(),is("#{bar}"));
+  pipelineConfig.setLabelTemplate("#{foo}");
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","###"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.getLabelTemplate(),is("###"));
+}

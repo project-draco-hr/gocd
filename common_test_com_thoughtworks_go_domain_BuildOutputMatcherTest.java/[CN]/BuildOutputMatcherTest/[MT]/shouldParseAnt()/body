@@ -1,0 +1,6 @@
+{
+  BuildOutputMatcher matcher=new BuildOutputMatcher();
+  String output="foo bar\n" + "clean.target:\n" + "   [delete] Deleting directory /home/cceuser/projects/hg-cruise/cruise/target";
+  String matchedString=matcher.match(output);
+  assertThat(matchedString,is("clean.target"));
+}

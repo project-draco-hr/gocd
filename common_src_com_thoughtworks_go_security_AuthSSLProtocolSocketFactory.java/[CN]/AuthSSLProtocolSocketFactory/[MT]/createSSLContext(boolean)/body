@@ -1,0 +1,17 @@
+{
+  try {
+    SSLContext context=SSLContext.getInstance("SSL");
+    KeyManager[] keyManagers=keyManagerFactory == null ? null : keyManagerFactory.keyManagers();
+    TrustManager[] trustManagers=trustManagerFactory == null ? null : trustManagerFactory.trustManagers();
+    context.init(certAuth ? keyManagers : null,trustManagers,null);
+    return context;
+  }
+ catch (  NoSuchAlgorithmException e) {
+    LOG.error(e.getMessage(),e);
+    throw new AuthSSLInitializationError("Unsupported algorithm exception: " + e.getMessage());
+  }
+catch (  GeneralSecurityException e) {
+    LOG.error(e.getMessage(),e);
+    throw new AuthSSLInitializationError("Key management exception: " + e.getMessage());
+  }
+}

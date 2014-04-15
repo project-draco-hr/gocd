@@ -1,0 +1,11 @@
+{
+  File configDir=mock(File.class);
+  when(systemEnvironment.getConfigRepoDir()).thenReturn(configDir);
+  GarageService spy=spy(garageService);
+  String size="42MB";
+  doReturn(size).when(spy).getDirectorySize(configDir);
+  GarageData data=spy.getData();
+  assertThat(data.getConfigRepositorySize(),is(size));
+  verify(systemEnvironment).getConfigRepoDir();
+  verify(spy).getDirectorySize(configDir);
+}

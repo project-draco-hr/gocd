@@ -1,0 +1,12 @@
+{
+  ClassLoader tcl=Thread.currentThread().getContextClassLoader();
+  try {
+    Thread.currentThread().setContextClassLoader(sdkLoader);
+    Class<?> adapterClass=Class.forName("com.thoughtworks.go.tfssdk.TfsSDKCommandTCLAdapter",true,sdkLoader);
+    Constructor<?> constructor=adapterClass.getConstructor(String.class,CommandArgument.class,String.class,String.class,String.class,String.class,String.class);
+    return (TfsCommand)constructor.newInstance(materialFingerPrint,url,domain,userName,password,computedWorkspaceName,projectPath);
+  }
+  finally {
+    Thread.currentThread().setContextClassLoader(tcl);
+  }
+}

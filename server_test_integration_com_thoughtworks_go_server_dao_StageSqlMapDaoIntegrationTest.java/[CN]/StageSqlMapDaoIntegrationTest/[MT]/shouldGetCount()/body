@@ -1,0 +1,5 @@
+{
+  Pipeline[] pipelines=pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig);
+  Pipeline completed=pipelines[0];
+  assertThat(stageDao.getCount(completed.getName(),STAGE_DEV),is(2));
+}

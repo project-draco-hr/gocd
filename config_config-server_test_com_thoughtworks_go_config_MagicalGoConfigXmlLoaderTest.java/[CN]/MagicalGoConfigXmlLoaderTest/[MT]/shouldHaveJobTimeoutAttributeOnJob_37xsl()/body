@@ -1,0 +1,6 @@
+{
+  String content=CONFIG_WITH_ANT_BUILDER;
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  JobConfig jobConfig=cruiseConfig.findJob("pipeline1","mingle","cardlist");
+  assertThat(jobConfig.getTimeout(),is("5"));
+}

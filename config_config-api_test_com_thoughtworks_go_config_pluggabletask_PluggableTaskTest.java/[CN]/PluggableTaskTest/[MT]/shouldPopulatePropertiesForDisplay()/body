@@ -1,0 +1,9 @@
+{
+  Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1",false,"value1"),ConfigurationPropertyMother.create("Key2",false,"value2"),ConfigurationPropertyMother.create("key3",true,"encryptedValue1"));
+  PluggableTask task=new PluggableTask("abc",new PluginConfiguration("abc.def","1"),configuration);
+  List<TaskProperty> propertiesForDisplay=task.getPropertiesForDisplay();
+  assertThat(propertiesForDisplay.size(),is(3));
+  assertProperty(propertiesForDisplay.get(0),"KEY1","value1","key1");
+  assertProperty(propertiesForDisplay.get(1),"Key2","value2","key2");
+  assertProperty(propertiesForDisplay.get(2),"key3","****","key3");
+}

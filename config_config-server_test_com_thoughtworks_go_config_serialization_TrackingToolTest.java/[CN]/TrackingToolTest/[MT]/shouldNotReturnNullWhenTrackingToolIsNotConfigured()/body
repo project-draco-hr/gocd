@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=loader.loadConfigHolder(FileUtil.readToEnd(toInputStream(ONE_PIPELINE))).config;
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  TrackingTool trackingTool=pipelineConfig.trackingTool();
+  assertThat(trackingTool,is(not(nullValue())));
+  assertThat(trackingTool.getLink(),is(""));
+  assertThat(trackingTool.getRegex(),is(""));
+}

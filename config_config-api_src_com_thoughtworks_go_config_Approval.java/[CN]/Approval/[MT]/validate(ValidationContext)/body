@@ -1,0 +1,19 @@
+{
+  if (!isValidTypeValue()) {
+    errors.add(TYPE,String.format("You have defined approval type as '%s'. Approval can only be of the type '%s' or '%s'.",type,MANUAL,SUCCESS));
+  }
+  if (validationContext.isWithinPipelines()) {
+    PipelineConfigs group=validationContext.getPipelineGroup();
+    if (!group.hasOperationPermissionDefined()) {
+      return;
+    }
+    AdminsConfig adminsConfig=group.getAuthorization().getOperationConfig();
+    CruiseConfig cruiseConfig=validationContext.getCruiseConfig();
+    for (    Admin user : authConfig) {
+      RolesConfig roles=cruiseConfig.server().security().getRoles();
+      if (!userIsAdmin(user,cruiseConfig) && !adminsConfig.has(user,roles.memberRoles(user))) {
+        user.addError(String.format("%s \"%s\" who is not authorized to operate pipeline group can not be authorized to approve stage",user.describe(),user));
+      }
+    }
+  }
+}

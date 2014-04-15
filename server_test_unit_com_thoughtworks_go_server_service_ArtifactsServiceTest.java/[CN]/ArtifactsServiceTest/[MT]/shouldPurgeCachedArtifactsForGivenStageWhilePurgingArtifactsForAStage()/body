@@ -1,0 +1,24 @@
+{
+  File artifactsRoot=new File("artifact-root");
+  assumeArtifactsRoot(artifactsRoot);
+  willCleanUp(artifactsRoot);
+  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  artifactsService.initialize();
+  Stage stage=StageMother.createPassedStage("pipeline",10,"stage",20,"job1",new Date());
+  File job1Dir=createJobArtifactFolder("artifact-root/pipelines/pipeline/10/stage/20/job1");
+  File job2Dir=createJobArtifactFolder("artifact-root/pipelines/pipeline/10/stage/20/job2");
+  File job1DirFromADifferentStageRun=createJobArtifactFolder("artifact-root/pipelines/pipeline/10/stage/25/job2");
+  File job1CacheDir=createJobArtifactFolder("artifact-root/cache/artifacts/pipelines/pipeline/10/stage/20/job1");
+  File job2CacheDir=createJobArtifactFolder("artifact-root/cache/artifacts/pipelines/pipeline/10/stage/20/job2");
+  File job1CacheDirFromADifferentStageRun=createJobArtifactFolder("artifact-root/cache/artifacts/pipelines/pipeline/10/stage/25/job2");
+  artifactsService.purgeArtifactsForStage(stage);
+  assertThat(job1Dir.exists(),is(true));
+  assertThat(job1Dir.listFiles().length,is(0));
+  assertThat(job2Dir.exists(),is(true));
+  assertThat(job2Dir.listFiles().length,is(0));
+  assertThat(job1DirFromADifferentStageRun.exists(),is(true));
+  assertThat(job1DirFromADifferentStageRun.listFiles().length,is(1));
+  assertThat(job1CacheDir.exists(),is(false));
+  assertThat(job2CacheDir.exists(),is(false));
+  assertThat(job1CacheDirFromADifferentStageRun.exists(),is(true));
+}

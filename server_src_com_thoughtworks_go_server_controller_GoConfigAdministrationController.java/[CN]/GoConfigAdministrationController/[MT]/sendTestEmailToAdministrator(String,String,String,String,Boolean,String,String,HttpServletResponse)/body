@@ -1,0 +1,14 @@
+{
+  try {
+    validate(hostName,port,from,adminMail);
+  }
+ catch (  Exception e) {
+    HashMap map=new HashMap();
+    map.put("json",ValidationBean.notValid("Please make sure your cofiguration is correct"));
+    return new ModelAndView(new JsonView(),map);
+  }
+  MailHost mailHost=new MailHost(hostName.trim(),Integer.valueOf(port.trim()),username,password,true,tls == null ? Boolean.FALSE : tls,from,adminMail);
+  GoMailSender sender=provider.createSender(mailHost);
+  ValidationBean validationBean=sender.send(TEST_EMAIL_SUBJECT,GoSmtpMailSender.emailBody(),adminMail);
+  return JsonAction.jsonFound(validationBean).respond(response);
+}

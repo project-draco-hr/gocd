@@ -1,0 +1,12 @@
+{
+  EnvironmentVariablesConfig environmentVariablesConfig=new EnvironmentVariablesConfig();
+  GoCipher mockGoCipher=mock(GoCipher.class);
+  EnvironmentVariableConfig plainVar1=new EnvironmentVariableConfig("var1","var1_value");
+  EnvironmentVariableConfig var1=secureVariable(mockGoCipher,"foo1","bar1","encryptedBar1");
+  EnvironmentVariableConfig var2=secureVariable(mockGoCipher,"foo2","bar2","encryptedBar2");
+  EnvironmentVariableConfig var3=secureVariable(mockGoCipher,"foo3","bar3","encryptedBar3");
+  environmentVariablesConfig.addAll(Arrays.asList(var1,var2,var3,plainVar1));
+  List<EnvironmentVariableConfig> variables=environmentVariablesConfig.getSecureVariables();
+  assertThat(variables.size(),is(3));
+  assertThat(variables,hasItems(var1,var2,var3));
+}

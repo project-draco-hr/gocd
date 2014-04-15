@@ -1,0 +1,10 @@
+{
+  publisher.consumeLineWithPrefix("Start to execute cancel task: " + cancelBuilder.getDescription());
+  try {
+    cancelBuilder.build(new BuildLogElement(),publisher,environmentVariableContext);
+    publisher.consumeLineWithPrefix("Task is cancelled");
+  }
+ catch (  Exception e) {
+    LOGGER.error("",e);
+  }
+}

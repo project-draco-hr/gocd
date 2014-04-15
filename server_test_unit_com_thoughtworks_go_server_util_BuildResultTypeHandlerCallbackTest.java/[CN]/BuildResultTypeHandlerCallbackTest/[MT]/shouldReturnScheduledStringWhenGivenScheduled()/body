@@ -1,0 +1,10 @@
+{
+  final ParameterSetter parameterSetter=context.mock(ParameterSetter.class);
+  context.checking(new Expectations(){
+{
+      one(parameterSetter).setString(JobResult.Failed.toString());
+    }
+  }
+);
+  callback.setParameter(parameterSetter,JobResult.Failed);
+}

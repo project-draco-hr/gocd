@@ -1,0 +1,14 @@
+{
+  username=new Username(new CaseInsensitiveString("gli"));
+  dbHelper.onSetUp();
+  cruiseConfig=new GoConfigFileHelper().usingCruiseConfigDao(goConfigFileDao);
+  cruiseConfig.onSetUp();
+  cruiseConfig.initializeConfigFile();
+  hgTestRepo=new HgTestRepo();
+  SvnTestRepo svnRepo=new SvnTestRepo();
+  cruiseConfig.addPipeline(PIPELINE_NAME,DEV_STAGE,svnRepo.materialConfig(),"foo");
+  mingle=cruiseConfig.addStageToPipeline(PIPELINE_NAME,FT_STAGE,"bar");
+  pipeline=dbHelper.newPipelineWithAllStagesPassed(mingle);
+  listener=new StubScheduleCheckCompletedListener();
+  topic.addListener(listener);
+}

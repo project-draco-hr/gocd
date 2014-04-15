@@ -1,0 +1,9 @@
+{
+  Long id=(Long)attributes.get("id");
+  OauthClient oauthClient=new OauthClient();
+  if (id != null && id > 0) {
+    oauthClient=persistenceHelper.loadDomainEntity(OauthClient.class,id);
+  }
+  oauthClient.setAttributes(attributes);
+  return persistenceHelper.saveOrUpdateEntity(oauthClient);
+}

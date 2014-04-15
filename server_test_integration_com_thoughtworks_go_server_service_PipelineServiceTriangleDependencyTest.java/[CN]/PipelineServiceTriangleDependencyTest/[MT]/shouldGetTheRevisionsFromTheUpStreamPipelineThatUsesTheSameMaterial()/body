@@ -1,0 +1,20 @@
+{
+  MaterialRevisions expected=new MaterialRevisions();
+  MaterialRevision up1Revision=dependencyMaterialRevision("up1",1,"label","stage",1,new Date());
+  up1Revision.markAsChanged();
+  expected.addRevision(up1Revision);
+  expected.addAll(createHgMaterialWithMultipleRevisions(1L,first));
+  expected.addAll(createSvnMaterialWithMultipleRevisions(2L,third));
+  MaterialRevisions actual=new MaterialRevisions();
+  actual.addRevision(up1Revision);
+  actual.addAll(createHgMaterialWithMultipleRevisions(1L,third));
+  actual.addAll(createSvnMaterialWithMultipleRevisions(2L,third));
+  PipelineConfig current=createPipelineConfigWithMaterialConfig("current",new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("first")),actual.getMaterials().get(0).config());
+  PipelineConfig up1=createPipelineConfigWithMaterialConfig("up1",expected.getMaterials().get(1).config(),expected.getMaterials().get(2).config());
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("up1","stage","job");
+  pipeline.setId(10);
+  when(pipelineDao.findPipelineByNameAndCounter("up1",1)).thenReturn(pipeline);
+  when(materialRepository.findMaterialRevisionsForPipeline(10)).thenReturn(expected);
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1));
+  assertThat(service.getRevisionsBasedOnDependencies(dependencyGraph,actual),is(expected));
+}

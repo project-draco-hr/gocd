@@ -1,0 +1,9 @@
+{
+  Set<Seconds> keys=RULES.keySet();
+  for (  Seconds seconds : keys) {
+    if (duration <= seconds.getSeconds()) {
+      return RULES.get(seconds).getConvertedTime(duration);
+    }
+  }
+  return new TimeConverter.OverTwoYears().getConvertedTime(duration);
+}

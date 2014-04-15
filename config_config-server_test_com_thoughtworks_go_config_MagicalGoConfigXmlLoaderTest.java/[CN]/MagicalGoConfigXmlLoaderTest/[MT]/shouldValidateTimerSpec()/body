@@ -1,0 +1,10 @@
+{
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='pipeline1'>" + "    <timer>BAD BAD TIMER!!!!!</timer>" + "    <materials>"+ "      <svn url ='svnurl'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='cardlist' />"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",16);
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("XSD should validate timer spec");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Invalid cron syntax"));
+  }
+}

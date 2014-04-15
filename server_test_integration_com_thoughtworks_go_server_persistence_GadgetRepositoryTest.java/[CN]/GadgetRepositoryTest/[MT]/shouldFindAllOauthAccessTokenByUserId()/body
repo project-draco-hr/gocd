@@ -1,0 +1,19 @@
+{
+  GadgetOauthClient google=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(google);
+  GadgetOauthAccessToken token1=new GadgetOauthAccessToken("fooUser",google,"access_token","refresh_token",1000L);
+  template.save(token1);
+  GadgetOauthClient yahoo=new GadgetOauthClient("yahoo.com","yahoo","client_id","client_secret");
+  template.save(yahoo);
+  GadgetOauthAccessToken token2=new GadgetOauthAccessToken("fooUser",yahoo,"access_token","refresh_token",1000L);
+  template.save(token2);
+  GadgetOauthAccessToken token3=new GadgetOauthAccessToken("barUser",google,"access_token","refresh_token",1000L);
+  template.save(token3);
+  List<GadgetDataSource.GadgetOauthAccessTokenDTO> foosTokens=new ArrayList<GadgetDataSource.GadgetOauthAccessTokenDTO>(repo.findAllOauthAccessTokenByUserId("fooUser"));
+  assertThat(foosTokens.size(),is(2));
+  assertThat(foosTokens,hasItems(token1.getDTO(),token2.getDTO()));
+  Collection<GadgetDataSource.GadgetOauthAccessTokenDTO> barsTokens=repo.findAllOauthAccessTokenByUserId("barUser");
+  assertThat(barsTokens.size(),is(1));
+  assertThat(barsTokens,hasItem(token3.getDTO()));
+  assertThat(repo.findAllOauthAccessTokenByUserId("bazUser").size(),is(0));
+}

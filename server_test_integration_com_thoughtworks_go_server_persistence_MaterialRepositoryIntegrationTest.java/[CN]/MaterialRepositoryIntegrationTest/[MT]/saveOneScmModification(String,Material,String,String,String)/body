@@ -1,0 +1,12 @@
+{
+  return (MaterialRevision)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      Modification modification=new Modification(user,comment,"email",new Date(),revision);
+      modification.createModifiedFile(filename,"folder1",ModifiedAction.added);
+      MaterialRevision originalRevision=new MaterialRevision(original,modification);
+      repo.save(new MaterialRevisions(originalRevision));
+      return originalRevision;
+    }
+  }
+);
+}

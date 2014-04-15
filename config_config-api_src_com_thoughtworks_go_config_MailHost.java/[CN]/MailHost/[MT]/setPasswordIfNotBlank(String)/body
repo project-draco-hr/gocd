@@ -1,0 +1,12 @@
+{
+  if (StringUtil.isBlank(password)) {
+    return;
+  }
+  try {
+    this.encryptedPassword=this.goCipher.encrypt(password);
+  }
+ catch (  Exception e) {
+    bomb("Password encryption failed. Please verify your cipher key.",e);
+  }
+  this.password="";
+}

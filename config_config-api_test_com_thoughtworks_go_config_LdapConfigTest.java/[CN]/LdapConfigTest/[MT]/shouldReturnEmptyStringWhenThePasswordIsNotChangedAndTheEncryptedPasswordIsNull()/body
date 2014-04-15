@@ -1,0 +1,6 @@
+{
+  LdapConfig ldapConfig1=new LdapConfig("uri","managerDn","password-1","",false,new BasesConfig(new BaseConfig("blah")),"blah");
+  LdapConfig ldapConfig2=new LdapConfig("uri","managerDn","password-2",null,false,new BasesConfig(new BaseConfig("blah")),"blah");
+  assertThat(ldapConfig2.currentManagerPassword(),is(""));
+  assertThat(ldapConfig1.currentManagerPassword(),is(""));
+}

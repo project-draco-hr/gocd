@@ -1,0 +1,6 @@
+{
+  materialRevisions=new MaterialRevisions(new MaterialRevision(MaterialsMother.svnMaterial(),aCheckIn("100","xyz")));
+  user=new User("UserName",new String[]{"README"},"user@mail.com",true);
+  user.setNotificationFilters(Arrays.asList(new NotificationFilter("cruise","dev",StageEvent.Fixed,false)));
+  assertThat(user.matchNotification(new StageConfigIdentifier("cruise","dev"),StageEvent.Fixed,materialRevisions),is(true));
+}

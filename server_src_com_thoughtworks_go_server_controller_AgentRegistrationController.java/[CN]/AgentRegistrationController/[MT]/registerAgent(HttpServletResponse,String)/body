@@ -1,0 +1,14 @@
+{
+  try {
+    agentService.approve(uuid);
+    JsonMap result=JsonView.getSimpleAjaxResult("result","success");
+    return JsonAction.jsonCreated(result).respond(response);
+  }
+ catch (  Exception ex) {
+    String message=ex.getMessage();
+    LOG.error(String.format("Error approving agent [%s]",uuid),ex);
+    JsonMap result=JsonView.getSimpleAjaxResult("result","failed");
+    result.put(ERROR_FOR_JSON,message);
+    return JsonAction.jsonNotAcceptable(result).respond(response);
+  }
+}

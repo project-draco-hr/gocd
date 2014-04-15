@@ -1,0 +1,11 @@
+{
+  goLicenseService=mock(GoLicenseService.class);
+  securityService=mock(SecurityService.class);
+  userService=mock(UserService.class);
+  schedulingChecker=spy(new SchedulingCheckerService(mock(GoConfigService.class),mock(CurrentActivityService.class),goLicenseService,mock(SystemEnvironment.class),securityService,mock(PipelineLockService.class),mock(TriggerMonitor.class),mock(PipelineScheduleQueue.class),userService,mock(ServerHealthService.class),mock(PipelinePauseService.class)));
+  argumentCaptor=new ArgumentCaptor<List<SchedulingChecker>>();
+  compositeChecker=mock(CompositeChecker.class);
+  operationResult=mock(OperationResult.class);
+  doReturn(compositeChecker).when(schedulingChecker).buildScheduleCheckers(Matchers.<List<SchedulingChecker>>any());
+  when(operationResult.getServerHealthState()).thenReturn(ServerHealthState.success(HealthStateType.general(HealthStateScope.GLOBAL)));
+}

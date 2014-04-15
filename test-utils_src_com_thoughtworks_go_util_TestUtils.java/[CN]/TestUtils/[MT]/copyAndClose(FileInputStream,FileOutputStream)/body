@@ -1,0 +1,12 @@
+{
+  try {
+    IOUtils.copy(fileInputStream,fileOutputStream);
+  }
+ catch (  IOException e) {
+    bomb(e);
+  }
+ finally {
+    IOUtils.closeQuietly(fileInputStream);
+    IOUtils.closeQuietly(fileOutputStream);
+  }
+}

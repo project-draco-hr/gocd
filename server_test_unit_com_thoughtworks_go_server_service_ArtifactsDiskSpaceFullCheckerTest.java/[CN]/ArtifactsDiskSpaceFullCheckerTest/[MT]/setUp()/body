@@ -1,0 +1,7 @@
+{
+  goConfigService=mockGoConfigServiceToHaveSiteUrl();
+  when(goConfigService.artifactsDir()).thenReturn(new File("."));
+  emailSender=mock(EmailSender.class);
+  checker=new ArtifactsDiskSpaceFullChecker(new SystemEnvironment(),emailSender,goConfigService,new SystemDiskSpaceChecker());
+  full=new ArtifactsDiskIsFull();
+}

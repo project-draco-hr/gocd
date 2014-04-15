@@ -1,0 +1,11 @@
+{
+  User user=new User("UserName",new String[]{"A","b"},"user@mail.com",true);
+  assertThat(user.getMatchers(),is(Arrays.asList("A","b")));
+  user=new User("UserName",new String[]{"A,b"},"user@mail.com",true);
+  assertThat(user.getMatchers(),is(Arrays.asList("A","b")));
+  user=new User("UserName",new String[]{""},"user@mail.com",true);
+  List<String> matchers=Collections.emptyList();
+  assertThat(user.getMatchers(),is(matchers));
+  user=new User("UserName",new String[]{"b,A"},"user@mail.com",true);
+  assertThat(user.getMatchers(),is(Arrays.asList("A","b")));
+}

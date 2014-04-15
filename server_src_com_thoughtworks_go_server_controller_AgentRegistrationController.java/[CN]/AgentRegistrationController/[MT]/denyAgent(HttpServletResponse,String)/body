@@ -1,0 +1,13 @@
+{
+  try {
+    agentService.disableAgents(UserHelper.getUserName(),new HttpOperationResult(),Arrays.asList(uuid));
+    JsonMap result=JsonView.getSimpleAjaxResult("result","success");
+    return JsonAction.jsonCreated(result).respond(response);
+  }
+ catch (  Exception ex) {
+    String message=ex.getMessage();
+    JsonMap result=JsonView.getSimpleAjaxResult("result","failed");
+    result.put(ERROR_FOR_JSON,message);
+    return JsonAction.jsonNotAcceptable(result).respond(response);
+  }
+}

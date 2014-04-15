@@ -1,0 +1,12 @@
+{
+  User firstUser=user("first");
+  User secondUser=user("second");
+  User thirdUser=user("third");
+  userDao.saveOrUpdate(firstUser);
+  userDao.saveOrUpdate(secondUser);
+  userDao.saveOrUpdate(thirdUser);
+  userDao.disableUsers(Arrays.asList("first","second"));
+  assertThat(userDao.findUser(firstUser.getName()).isEnabled(),is(false));
+  assertThat(userDao.findUser(secondUser.getName()).isEnabled(),is(false));
+  assertThat(userDao.findUser(thirdUser.getName()).isEnabled(),is(true));
+}

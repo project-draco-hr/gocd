@@ -1,0 +1,8 @@
+{
+  EnvironmentVariablesConfig variables=new EnvironmentVariablesConfig();
+  variables.add("VARIABLE_NAME","variable value");
+  DefaultJobPlan plan=new DefaultJobPlan(new Resources(),new ArtifactPlans(),new ArtifactPropertiesGenerators(),-1,null,null,variables,new EnvironmentVariablesConfig());
+  EnvironmentVariableContext variableContext=new EnvironmentVariableContext();
+  plan.applyTo(variableContext);
+  assertThat(variableContext.getProperty("VARIABLE_NAME"),is("variable value"));
+}

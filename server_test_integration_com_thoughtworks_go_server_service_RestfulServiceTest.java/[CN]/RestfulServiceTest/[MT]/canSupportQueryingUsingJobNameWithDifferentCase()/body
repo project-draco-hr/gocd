@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  final JobIdentifier jobIdentifier1=new JobIdentifier(pipeline.getName(),JobIdentifier.LATEST,fixture.devStage,"",PipelineWithTwoStages.JOB_FOR_DEV_STAGE);
+  JobIdentifier jobIdentifier=restfulService.findJob(jobIdentifier1.getPipelineName(),jobIdentifier1.getPipelineLabel(),jobIdentifier1.getStageName(),jobIdentifier1.getStageCounter(),jobIdentifier1.getBuildName().toUpperCase());
+  assertThat(jobIdentifier.getBuildName(),Is.is(PipelineWithTwoStages.JOB_FOR_DEV_STAGE));
+}

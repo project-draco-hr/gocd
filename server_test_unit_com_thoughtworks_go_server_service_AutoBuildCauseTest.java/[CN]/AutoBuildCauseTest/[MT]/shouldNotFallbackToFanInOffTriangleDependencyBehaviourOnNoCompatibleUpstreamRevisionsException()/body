@@ -1,0 +1,18 @@
+{
+  PipelineConfigDependencyGraph dependencyGraph=dependencyGraphOfDepthOne(MaterialConfigsMother.hgMaterialConfig());
+  String targetPipeline=dependencyGraph.getCurrent().name().toLower();
+  MaterialRevisions revisions=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("2"));
+  MaterialRevision dependencyRevision=dependencyMaterialRevision("up1",1,"label","first",1,new Date());
+  dependencyRevision.markAsChanged();
+  revisions.addRevision(dependencyRevision);
+  NoCompatibleUpstreamRevisionsException expectedException=NoCompatibleUpstreamRevisionsException.failedToFindCompatibleRevision(new CaseInsensitiveString("downstream"),null);
+  when(goConfigService.upstreamDependencyGraphOf(targetPipeline,cruiseConfig)).thenReturn(dependencyGraph);
+  when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenThrow(expectedException);
+  try {
+    new AutoBuild(goConfigService,pipelineService,targetPipeline,new SystemEnvironment(),materialChecker,serverHealthService).onModifications(revisions,false,null);
+    fail("should have thrown exception");
+  }
+ catch (  NoCompatibleUpstreamRevisionsException e) {
+    assertThat(e,Is.is(expectedException));
+  }
+}

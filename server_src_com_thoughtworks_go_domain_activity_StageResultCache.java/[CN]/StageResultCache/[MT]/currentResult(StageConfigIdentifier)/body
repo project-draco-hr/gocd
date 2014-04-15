@@ -1,0 +1,11 @@
+{
+  StageResult stageResult=currentResults.get(identifier);
+  if (stageResult == null) {
+    Stage stage=stageDao.mostRecentCompleted(identifier);
+    if (stage != null) {
+      stageResult=stage.getResult();
+      currentResults.put(identifier,stageResult);
+    }
+  }
+  return stageResult == null ? StageResult.Unknown : stageResult;
+}

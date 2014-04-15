@@ -1,0 +1,10 @@
+{
+  User user=user(CaseInsensitiveString.str(Username.ANONYMOUS.getUsername()));
+  try {
+    userDao.saveOrUpdate(user);
+    fail("should not allow saving of anonymous user");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("User name 'anonymous' is not permitted."));
+  }
+}

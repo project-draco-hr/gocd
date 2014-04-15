@@ -1,0 +1,8 @@
+{
+  for (  EnvironmentPipelineMatcher matcher : this) {
+    if (matcher.match(pipelineName,uuid)) {
+      return true;
+    }
+  }
+  return !pipelineReferenced(pipelineName) && !agentReferenced(uuid);
+}

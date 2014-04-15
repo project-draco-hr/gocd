@@ -1,0 +1,11 @@
+{
+  TestFileUtil.createTestFile(TestFileUtil.createTestFolder(TestFileUtil.createTestFolder(testFolder,"primate"),"monkey"),"baboon.html");
+  DirectoryReader reader=new DirectoryReader(jobIdentifier);
+  List<DirectoryEntry> entries=reader.listEntries(testFolder,folderRoot);
+  FolderDirectoryEntry folder=(FolderDirectoryEntry)entries.get(0);
+  assertThat(folder.getFileName(),is("primate"));
+  FolderDirectoryEntry subFolder=(FolderDirectoryEntry)folder.getSubDirectory().get(0);
+  assertThat(subFolder.getFileName(),is("monkey"));
+  assertThat(subFolder.getSubDirectory().get(0).getFileName(),is("baboon.html"));
+  assertThat(subFolder.getSubDirectory().get(0).getUrl(),is("/files/pipelineName/LATEST/stageName/LATEST/buildName" + folderRoot + "/primate/monkey/baboon.html"));
+}

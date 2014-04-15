@@ -1,0 +1,6 @@
+{
+  User user=new User("old_user");
+  UsernamePasswordAuthenticationToken auth=new UsernamePasswordAuthenticationToken(getAuthUser("old_user"),"credentials",new GrantedAuthority[]{GoAuthority.ROLE_USER.asAuthority()});
+  userDao.saveOrUpdate(user);
+  userService.addUserIfDoesNotExist(UserHelper.getUserName(auth));
+}

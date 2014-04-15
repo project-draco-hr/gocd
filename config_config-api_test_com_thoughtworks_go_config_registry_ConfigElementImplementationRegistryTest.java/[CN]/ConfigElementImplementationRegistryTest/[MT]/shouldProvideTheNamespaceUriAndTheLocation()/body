@@ -1,0 +1,11 @@
+{
+  ConfigElementImplementationRegistry registry=new ConfigElementImplementationRegistry(pluginExtns);
+  URL resource=new File("file:///tmp/foo").toURL();
+  URL resource1=new File("file:///tmp/bar").toURL();
+  registry.xsdFor(PluginTestUtil.bundleCtxWithHeaders(m(PluginNamespace.XSD_NAMESPACE_PREFIX,"uri-1",PluginNamespace.XSD_NAMESPACE_URI,"uri1")),resource);
+  registry.xsdFor(PluginTestUtil.bundleCtxWithHeaders(m(PluginNamespace.XSD_NAMESPACE_PREFIX,"uri-2",PluginNamespace.XSD_NAMESPACE_URI,"uri2")),resource);
+  registry.xsdFor(PluginTestUtil.bundleCtxWithHeaders(m(PluginNamespace.XSD_NAMESPACE_PREFIX,"uri-3",PluginNamespace.XSD_NAMESPACE_URI,"uri3")),resource1);
+  assertThat(registry.xsds(),containsString(String.format("uri1 %s",resource.toString())));
+  assertThat(registry.xsds(),containsString(String.format("uri2 %s",resource.toString())));
+  assertThat(registry.xsds(),containsString(String.format("uri3 %s",resource1.toString())));
+}

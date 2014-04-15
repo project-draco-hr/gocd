@@ -1,0 +1,7 @@
+{
+  savedPipeline.getStages().first();
+  Stage newInstance=instanceFactory.createStageInstance(pipelineConfig.first(),new DefaultSchedulingContext("anonymous"),md5,new TimeProvider());
+  stageService.save(savedPipeline,newInstance);
+  boolean stageActive=stageService.isStageActive(CaseInsensitiveString.str(pipelineConfig.name()),CaseInsensitiveString.str(pipelineConfig.first().name()));
+  assertThat(stageActive,is(true));
+}

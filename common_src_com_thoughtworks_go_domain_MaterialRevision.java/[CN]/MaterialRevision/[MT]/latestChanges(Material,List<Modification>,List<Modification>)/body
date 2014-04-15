@@ -1,0 +1,16 @@
+{
+  if (newModifications.isEmpty()) {
+    List<Modification> result=new ArrayList<Modification>();
+    if (!oldModifications.isEmpty()) {
+      result.add(new Modification(oldModifications.get(0)));
+    }
+    MaterialRevision materialRevision=new MaterialRevision(newMaterial,result);
+    materialRevision.markAsNotChanged();
+    return materialRevision;
+  }
+ else {
+    MaterialRevision materialRevision=new MaterialRevision(newMaterial,newModifications);
+    materialRevision.markAsChanged();
+    return materialRevision;
+  }
+}

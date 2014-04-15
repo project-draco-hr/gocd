@@ -1,0 +1,31 @@
+{
+  final JobRunner jobRunner=new JobRunner();
+  ExecTask secondExec=new ExecTask("sleep","10",(String)null);
+  secondExec.setCancelTask(new ExecTask("sleep","15",(String)null));
+  buildWork=getWork(new JobConfig(new CaseInsensitiveString(JOB_PLAN_NAME),new Resources(),new ArtifactPlans(),new Tasks(new ExecTask("echo","should run me before cancellation",(String)null),secondExec,new ExecTask("echo","should not run after cancellation",(String)null))));
+  Thread worker=new Thread(new Runnable(){
+    public void run(){
+      jobRunner.run(buildWork,agentIdentifier,new BuildRepositoryRemoteStub(),stubPublisher(properties,consoleOut),AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+    }
+  }
+);
+  Thread cancel=new Thread(new Runnable(){
+    public void run(){
+      jobRunner.handleInstruction(new AgentInstruction(true),AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+    }
+  }
+);
+  worker.start();
+  try {
+    Thread.sleep(5000);
+  }
+ catch (  Exception ignore) {
+  }
+  cancel.start();
+  cancel.join();
+  worker.join();
+  System.out.println(consoleOut);
+  String output=consoleOut.toString();
+  assertThat(output.indexOf("Task is cancelled") < output.indexOf("Job completed"),is(true));
+  assertThat(statesAndResult.toString(),statesAndResult.contains(JobResult.Cancelled),is(true));
+}

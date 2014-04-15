@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=loadConfigFileWithContent(ConfigFileFixture.MINIMAL);
+  assertThat(cruiseConfig.schemaVersion(),is(GoConstants.CONFIG_SCHEMA_VERSION));
+  assertThat(configRepository.getRevision(ConfigRepository.CURRENT).getUsername(),is(not("Upgrade")));
+}

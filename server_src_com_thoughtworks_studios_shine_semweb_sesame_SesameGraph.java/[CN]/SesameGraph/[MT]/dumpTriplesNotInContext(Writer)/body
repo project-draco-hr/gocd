@@ -1,0 +1,33 @@
+{
+  try {
+    writer.append("Statements not in any context: \n");
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+  RDFXMLWriter xmlWriter=new RDFXMLWriter(writer);
+  xmlWriter.startRDF();
+  try {
+    RepositoryResult<Statement> result=conn.getStatements(null,null,null,false);
+    while (result.hasNext()) {
+      Statement statement=result.next();
+      if (statement.getContext() == null) {
+        xmlWriter.handleStatement(statement);
+      }
+    }
+  }
+ catch (  RepositoryException e) {
+    throw new RuntimeException(e);
+  }
+catch (  RDFHandlerException e) {
+    throw new RuntimeException(e);
+  }
+ finally {
+    try {
+      xmlWriter.endRDF();
+    }
+ catch (    RDFHandlerException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}

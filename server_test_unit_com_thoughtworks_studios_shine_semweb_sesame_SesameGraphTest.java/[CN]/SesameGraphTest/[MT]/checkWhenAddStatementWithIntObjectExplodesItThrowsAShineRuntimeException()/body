@@ -1,0 +1,13 @@
+{
+  RDFProperty property=new RDFProperty("http://www.example.com/ontology#foo");
+  RepositoryConnection badConnection=mock(RepositoryConnection.class);
+  doThrow(new RepositoryException("")).when(badConnection).add((org.openrdf.model.Resource)any(),(org.openrdf.model.URI)any(),(org.openrdf.model.Literal)any());
+  org.openrdf.model.ValueFactory stubValueFactory=mock(org.openrdf.model.ValueFactory.class);
+  when(badConnection.getValueFactory()).thenReturn(stubValueFactory);
+  SesameURIReference stubSubject=mock(SesameURIReference.class);
+  when(stubSubject.getSesameNativeResource()).thenReturn(null);
+  URIReference stubPredicate=mock(URIReference.class);
+  when(stubPredicate.getURIText()).thenReturn("");
+  SesameGraph badGraph=new SesameGraph(badConnection,null);
+  badGraph.addStatement(stubSubject,property,3);
+}

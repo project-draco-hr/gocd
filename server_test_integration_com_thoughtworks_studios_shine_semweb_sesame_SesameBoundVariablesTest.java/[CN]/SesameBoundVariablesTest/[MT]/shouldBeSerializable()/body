@@ -1,0 +1,15 @@
+{
+  String turtle="<http://s1> <http://p1> <http://o1> . ";
+  graph.addTriplesFromTurtle(turtle);
+  String sparqlSelect="SELECT ?s ?p ?o { ?s ?p ?o . }";
+  List<BoundVariables> bvs=graph.select(sparqlSelect);
+  ByteArrayOutputStream os=new ByteArrayOutputStream();
+  ObjectOutputStream objectOS=new ObjectOutputStream(os);
+  objectOS.writeObject(bvs);
+  ObjectInputStream objectIS=new ObjectInputStream(new ByteArrayInputStream(os.toByteArray()));
+  List<BoundVariables> bvsFromInputStream=(List<BoundVariables>)objectIS.readObject();
+  assertEquals(1,bvsFromInputStream.size());
+  assertEquals("http://s1",bvsFromInputStream.get(0).getAsString("s"));
+  assertEquals("http://p1",bvsFromInputStream.get(0).getAsString("p"));
+  assertEquals("http://o1",bvsFromInputStream.get(0).getAsString("o"));
+}

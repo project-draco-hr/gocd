@@ -1,0 +1,15 @@
+{
+  if (modelAndView == null) {
+    return;
+  }
+  String requestUri=request.getRequestURI();
+  TabConfiguration tabConfiguration=findCurrentTab(requestUri);
+  if (tabConfiguration != null) {
+    if (StringUtils.isEmpty(modelAndView.getViewName()) && modelAndView.getView() == null) {
+      modelAndView.setViewName(tabConfiguration.getViewName());
+    }
+    modelAndView.addObject("currentTab",tabConfiguration);
+    modelAndView.addObject("tabs",tabs);
+    modelAndView.addObject("cssFiles",tabConfiguration.getCssFiles());
+  }
+}

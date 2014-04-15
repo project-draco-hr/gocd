@@ -1,0 +1,9 @@
+{
+  String name=buildName(jobInstance);
+  String activity=jobInstance.getState().cctrayActivity();
+  String lastBuildStatus=jobInstance.getResult().toCctrayStatus();
+  String lastBuildLabel=pipeline.getLabel();
+  String lastBuildTime=datetimeForCctray(jobInstance.getStartedDateFor(JobState.Completed));
+  String webUrl=cruiseContextPath + "/tab/build/detail/" + jobInstance.getId();
+  createProjectElement(parent,name,activity,lastBuildStatus,lastBuildLabel,lastBuildTime,webUrl);
+}

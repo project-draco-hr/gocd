@@ -1,0 +1,17 @@
+{
+  Map hashMap=new HashMap();
+  hashMap.put(OnCancelConfig.ON_CANCEL_OPTIONS,"rake");
+  Map valueMap=new HashMap();
+  valueMap.put(BuildTask.BUILD_FILE,"rakefile");
+  valueMap.put(BuildTask.TARGET,"build");
+  valueMap.put(BuildTask.WORKING_DIRECTORY,"pwd");
+  hashMap.put(OnCancelConfig.RAKE_ON_CANCEL,valueMap);
+  hashMap.put(OnCancelConfig.EXEC_ON_CANCEL,new HashMap());
+  when(taskFactory.taskInstanceFor(new RakeTask().getTaskType())).thenReturn(new RakeTask());
+  OnCancelConfig cancelConfig=OnCancelConfig.create(hashMap,taskFactory);
+  RakeTask expectedRakeTask=new RakeTask();
+  expectedRakeTask.setBuildFile("rakefile");
+  expectedRakeTask.setTarget("build");
+  expectedRakeTask.setWorkingDirectory("pwd");
+  assertThat((RakeTask)cancelConfig.getTask(),is(expectedRakeTask));
+}

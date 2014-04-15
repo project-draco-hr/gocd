@@ -1,0 +1,7 @@
+{
+  fileHandler.handle(new ByteArrayInputStream("Hello world".getBytes()));
+  fileHandler.handleResult(200,goPublisher);
+  assertThat(goPublisher.getMessage(),containsString("Saved artifact to [foo] without verifying the integrity of its contents."));
+  assertThat(goPublisher.getMessage(),not(containsString("[WARN] The md5checksum value of the artifact [src/file/path] was not found on the server. Hence, Go could not verify the integrity of its contents.")));
+  assertThat(FileUtils.readFileToString(artifact),is("Hello world"));
+}

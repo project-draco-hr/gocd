@@ -1,0 +1,11 @@
+{
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      for (      JobInstance job : stage.getJobInstances()) {
+        jobInstanceService.cancelJob(job);
+      }
+      updateStageWithoutNotifications(stage);
+    }
+  }
+);
+}

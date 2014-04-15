@@ -1,0 +1,12 @@
+{
+  Renderer orig=mock(Renderer.class);
+  Renderer newRen=mock(Renderer.class);
+  viewRenderingService.registerRenderer(Renderer.ERB,orig);
+  try {
+    viewRenderingService.registerRenderer(Renderer.ERB,newRen);
+    fail("Should not be able to register a new erb renderer since there is already one registered");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is(String.format("Renderer '%s' for type '%s' is already registered. Cannot register '%s' as the renderer",orig,Renderer.ERB,newRen)));
+  }
+}

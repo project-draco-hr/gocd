@@ -1,0 +1,20 @@
+{
+  return new BaseMatcher<Object>(){
+    @Override public boolean matches(    Object o){
+      MaterialRevisions actualRevisions=(MaterialRevisions)o;
+      return actualRevisions.equals(expectedRevisions) && allMaterialRevisionChangedFlagsMatch(expectedRevisions,actualRevisions);
+    }
+    private boolean allMaterialRevisionChangedFlagsMatch(    MaterialRevisions expectedRevisions,    MaterialRevisions actualRevisions){
+      for (int i=0; i < expectedRevisions.numberOfRevisions(); i++) {
+        if (expectedRevisions.getMaterialRevision(i).isChanged() != actualRevisions.getMaterialRevision(i).isChanged()) {
+          return false;
+        }
+      }
+      return true;
+    }
+    @Override public void describeTo(    Description description){
+      description.appendValue(expectedRevisions);
+    }
+  }
+;
+}

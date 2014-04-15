@@ -1,0 +1,21 @@
+{
+  BufferedReader reader=new BufferedReader(new InputStreamReader(consoleError));
+  Appender consoleFileAppender=LoggingHelper.createConsoleFileAppender(ndc,consoleFileName);
+  Logger.getRootLogger().addAppender(consoleFileAppender);
+  NDC.push(ndc.toString());
+  while (true) {
+    if (!keepRunning && flushedAfterStop) {
+      break;
+    }
+    try {
+      logConsoleError(reader);
+      Thread.sleep(1000);
+    }
+ catch (    Exception e) {
+      LOG.error("Error occured while capturing console output from agent process: ",e);
+      break;
+    }
+  }
+  NDC.pop();
+  Logger.getRootLogger().removeAppender(consoleFileAppender);
+}

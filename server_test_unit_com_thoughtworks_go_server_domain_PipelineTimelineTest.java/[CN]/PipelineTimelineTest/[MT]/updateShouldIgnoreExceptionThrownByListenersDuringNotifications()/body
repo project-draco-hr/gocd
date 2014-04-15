@@ -1,0 +1,19 @@
+{
+  stubTransactionSynchronization();
+  setupTransactionTemplateStub(TransactionSynchronization.STATUS_COMMITTED,true);
+  TimelineUpdateListener anotherListener=mock(TimelineUpdateListener.class);
+  final PipelineTimeline timeline=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager,new TimelineUpdateListener(){
+    public void added(    PipelineTimelineEntry newlyAddedEntry,    TreeSet<PipelineTimelineEntry> timeline){
+      throw new RuntimeException();
+    }
+  }
+,anotherListener);
+  stubPipelineRepository(timeline,true,new PipelineTimelineEntry[]{first,second});
+  try {
+    timeline.update();
+  }
+ catch (  Exception e) {
+    fail("should not have failed because of exception thrown by listener");
+  }
+  verify(anotherListener).added(eq(first),any(TreeSet.class));
+}

@@ -1,0 +1,14 @@
+{
+  cachedGoConfig.onTimer();
+  Thread.sleep(1000);
+  goConfigService.updateConfig(new UpdateConfigCommand(){
+    public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.server().setArtifactsDir("foo");
+      return cruiseConfig;
+    }
+  }
+);
+  CruiseConfig cruiseConfig=cachedGoConfig.loadForEditing();
+  cachedGoConfig.onTimer();
+  assertThat(cruiseConfig,sameInstance(cachedGoConfig.loadForEditing()));
+}

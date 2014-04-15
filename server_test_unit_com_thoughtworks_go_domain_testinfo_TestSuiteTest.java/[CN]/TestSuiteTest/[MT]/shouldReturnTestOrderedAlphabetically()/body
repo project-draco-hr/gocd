@@ -1,0 +1,9 @@
+{
+  testSuite.addTest("testB",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  testSuite.addTest("testA",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  testSuite.addTest("testC",TestStatus.Failure,new JobIdentifier("",-1,"","","","job-1"));
+  List<TestInformation> tests=testSuite.tests();
+  assertThat(tests.get(0).getName(),is("testA"));
+  assertThat(tests.get(1).getName(),is("testB"));
+  assertThat(tests.get(2).getName(),is("testC"));
+}

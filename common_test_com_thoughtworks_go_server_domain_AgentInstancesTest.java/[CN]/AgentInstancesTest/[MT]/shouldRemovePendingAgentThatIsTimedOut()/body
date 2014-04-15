@@ -1,0 +1,6 @@
+{
+  new SystemEnvironment().setProperty("agent.connection.timeout","-1");
+  AgentInstances agentInstances=new AgentInstances(null,pending,building,disabled);
+  agentInstances.refresh();
+  assertThat(agentInstances.findAgentAndRefreshStatus("uuid4"),is(instanceOf(NullAgentInstance.class)));
+}

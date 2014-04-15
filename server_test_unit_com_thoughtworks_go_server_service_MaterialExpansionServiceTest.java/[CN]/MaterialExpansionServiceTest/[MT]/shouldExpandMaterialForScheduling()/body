@@ -1,0 +1,7 @@
+{
+  HgMaterialConfig hg=MaterialConfigsMother.hgMaterialConfig();
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  materialExpansionService.expandForScheduling(hg,materialConfigs);
+  assertThat(materialConfigs.size(),is(1));
+  assertThat((HgMaterialConfig)materialConfigs.get(0),is(hg));
+}

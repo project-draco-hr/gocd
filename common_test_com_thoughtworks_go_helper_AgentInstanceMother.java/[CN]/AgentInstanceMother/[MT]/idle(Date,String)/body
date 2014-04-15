@@ -1,0 +1,12 @@
+{
+  AgentConfig idleAgentConfig=new AgentConfig("uuid2",hostname,"10.18.5.1");
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(idleAgentConfig.getAgentIdentifier(),"cookie",null);
+  agentRuntimeInfo.setLocation("/var/lib/foo");
+  agentRuntimeInfo.idle();
+  agentRuntimeInfo.setUsableSpace(10 * 1024l);
+  AgentInstance agentInstance=AgentInstance.createFromLiveAgent(agentRuntimeInfo,new SystemEnvironment());
+  agentInstance.idle();
+  agentInstance.update(agentRuntimeInfo);
+  ReflectionUtil.setField(agentInstance,"lastHeardTime",lastHeardAt);
+  return agentInstance;
+}

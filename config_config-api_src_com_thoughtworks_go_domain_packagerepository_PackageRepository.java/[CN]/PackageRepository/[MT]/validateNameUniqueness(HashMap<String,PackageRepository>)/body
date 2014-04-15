@@ -1,0 +1,11 @@
+{
+  String errorMessageForDuplicateName=String.format("You have defined multiple repositories called '%s'. Repository names are case-insensitive and must be unique.",name);
+  PackageRepository repoWithSameFieldValue=nameMap.get(name.toLowerCase());
+  if (repoWithSameFieldValue == null) {
+    nameMap.put(name.toLowerCase(),this);
+  }
+ else {
+    repoWithSameFieldValue.addError(NAME,errorMessageForDuplicateName);
+    addError(NAME,errorMessageForDuplicateName);
+  }
+}

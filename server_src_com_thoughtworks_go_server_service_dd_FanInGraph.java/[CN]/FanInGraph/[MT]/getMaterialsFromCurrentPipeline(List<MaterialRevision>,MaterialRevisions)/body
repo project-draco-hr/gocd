@@ -1,0 +1,8 @@
+{
+  List<MaterialRevision> updatedRevisions=new ArrayList<MaterialRevision>();
+  for (  MaterialRevision revisionsForScmChild : finalRevisionsForScmChildren) {
+    MaterialRevision originalRevision=actualRevisions.findRevisionUsingMaterialFingerprintFor(revisionsForScmChild.getMaterial());
+    updatedRevisions.add(new MaterialRevision(originalRevision.getMaterial(),revisionsForScmChild.isChanged(),revisionsForScmChild.getModifications()));
+  }
+  return updatedRevisions;
+}

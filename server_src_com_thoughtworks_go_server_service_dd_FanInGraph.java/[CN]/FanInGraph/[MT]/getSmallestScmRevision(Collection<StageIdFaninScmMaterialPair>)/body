@@ -1,0 +1,12 @@
+{
+  ArrayList<StageIdFaninScmMaterialPair> materialPairList=new ArrayList<StageIdFaninScmMaterialPair>(scmWithDiffVersions);
+  Collections.sort(materialPairList,new Comparator<StageIdFaninScmMaterialPair>(){
+    @Override public int compare(    StageIdFaninScmMaterialPair pair1,    StageIdFaninScmMaterialPair pair2){
+      final PipelineTimelineEntry.Revision rev1=pair1.faninScmMaterial.revision;
+      final PipelineTimelineEntry.Revision rev2=pair2.faninScmMaterial.revision;
+      return rev1.date.compareTo(rev2.date);
+    }
+  }
+);
+  return materialPairList.get(0);
+}

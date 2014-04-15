@@ -1,0 +1,8 @@
+{
+  if (!(o instanceof ModifiedFile)) {
+    return false;
+  }
+  ModifiedFile mod=(ModifiedFile)o;
+  boolean folderNamesAreEqual=(folderName != null) ? folderName.equals(mod.folderName) : (mod.folderName == null);
+  return (action.equals(mod.action) && fileName.equals(mod.fileName) && folderNamesAreEqual);
+}

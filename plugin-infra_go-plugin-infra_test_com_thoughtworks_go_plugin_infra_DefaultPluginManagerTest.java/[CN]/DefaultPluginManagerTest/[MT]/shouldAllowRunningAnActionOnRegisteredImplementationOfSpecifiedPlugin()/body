@@ -1,0 +1,6 @@
+{
+  PluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,systemEnvironment);
+  ActionWithReturn action=mock(ActionWithReturn.class);
+  pluginManager.doOn(SomeInterface.class,"plugin-id",action);
+  verify(goPluginOSGiFramework).doOn(SomeInterface.class,"plugin-id",action);
+}

@@ -1,0 +1,30 @@
+{
+  final SqlMapClientDaoSupport daoSupport=new SqlMapClientDaoSupport(goCache,sqlMapClient,systemEnvironment,databaseStrategy);
+  goCache.put("foo","bar");
+  final String[] valueInCleanTxn=new String[1];
+  final String[] valueInDirtyTxn=new String[1];
+  final String[] valueInAfterCommit=new String[1];
+  final String[] valueInAfterCompletion=new String[1];
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      valueInCleanTxn[0]=(String)goCache.get("foo");
+      User user=new User("loser","Massive Loser","boozer@loser.com");
+      userSqlMapDao.saveOrUpdate(user);
+      valueInDirtyTxn[0]=(String)goCache.get("foo");
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCommit(){
+          valueInAfterCommit[0]=(String)goCache.get("foo");
+        }
+        @Override public void afterCompletion(        int status){
+          valueInAfterCompletion[0]=(String)goCache.get("foo");
+        }
+      }
+);
+    }
+  }
+);
+  assertThat(valueInCleanTxn[0],is("bar"));
+  assertThat(valueInDirtyTxn[0],is(nullValue()));
+  assertThat(valueInAfterCommit[0],is("bar"));
+  assertThat(valueInAfterCompletion[0],is("bar"));
+}

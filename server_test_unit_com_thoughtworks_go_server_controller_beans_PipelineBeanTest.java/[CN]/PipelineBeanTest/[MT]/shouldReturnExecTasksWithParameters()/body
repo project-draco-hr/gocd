@@ -1,0 +1,5 @@
+{
+  PipelineBean execBean=execBean("exec","java","-DDEBUG_MODE=true -Xms=1024 -jar agent.jar");
+  ExecTask execTask=new ExecTask("java","-DDEBUG_MODE=true -Xms=1024 -jar agent.jar",(String)null);
+  assertThat((ExecTask)execBean.getTasks().get(0),is(execTask));
+}

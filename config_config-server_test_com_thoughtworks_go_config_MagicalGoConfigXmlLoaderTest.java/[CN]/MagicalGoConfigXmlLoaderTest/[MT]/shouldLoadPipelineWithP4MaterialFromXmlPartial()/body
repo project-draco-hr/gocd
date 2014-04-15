@@ -1,0 +1,8 @@
+{
+  String pipelineWithP4MaterialXmlPartial="<pipeline name=\"pipeline\">\n" + "  <materials>\n" + "    <p4 port=\"10.18.3.241:9999\" username=\"cruise\" password=\"password\" "+ "        useTickets=\"true\">\n"+ "          <view><![CDATA[//depot/dev/... //lumberjack/...]]></view>\n"+ "    </p4>"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <artifacts>\n"+ "          <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "        </artifacts>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n";
+  PipelineConfig pipeline=xmlLoader.fromXmlPartial(toInputStream(pipelineWithP4MaterialXmlPartial),PipelineConfig.class);
+  assertThat(pipeline.name(),is(new CaseInsensitiveString("pipeline")));
+  MaterialConfig material=pipeline.materialConfigs().first();
+  assertThat(material,is(instanceOf(P4MaterialConfig.class)));
+  assertThat(((P4MaterialConfig)material).getUseTickets(),is(true));
+}

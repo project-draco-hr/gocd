@@ -1,0 +1,11 @@
+{
+  StageIdentifier stageId=new StageIdentifier("pipeline-foo",23,"stage-1","1");
+  DummyStageResourceImporter realLoader=new DummyStageResourceImporter(realGraph(),stageId,new Semaphore(2));
+  LazyStageGraphLoader loader=new LazyStageGraphLoader(realLoader,stageStorage,1);
+  loader.load(stageId);
+  XSLTTransformerRegistry transformerRegistryFromFirstLoad=realLoader.transformerRegistry;
+  stageStorage.clear();
+  loader.load(stageId);
+  XSLTTransformerRegistry transformerRegistryFromSecondLoad=realLoader.transformerRegistry;
+  assertThat(transformerRegistryFromFirstLoad,sameInstance(transformerRegistryFromSecondLoad));
+}

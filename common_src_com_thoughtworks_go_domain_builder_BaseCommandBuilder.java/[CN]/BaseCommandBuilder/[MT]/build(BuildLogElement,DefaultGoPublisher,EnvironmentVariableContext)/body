@@ -1,0 +1,33 @@
+{
+  final long startTime=System.currentTimeMillis();
+  if (!workingDir.isDirectory()) {
+    String message="Working directory \"" + workingDir.getAbsolutePath() + "\" is not a directory!";
+    publisher.consumeLine(message);
+    setBuildError(buildLogElement,message);
+    throw new CruiseControlException(message);
+  }
+  ExecScript execScript=new ExecScript(errorString);
+  CommandLine commandLine=buildCommandLine();
+  buildLogElement.setBuildLogHeader(command);
+  try {
+    CompositeConsumer consumer=new CompositeConsumer(publisher,execScript);
+    commandLine.runScript(execScript,consumer,environmentVariableContext,null);
+    setBuildDuration(startTime,buildLogElement);
+    if (execScript.foundError()) {
+      String message="Build failed. Command " + this.command + " reported ["+ errorString+ "].";
+      setBuildError(buildLogElement,message);
+      buildLogElement.setTaskError();
+      throw new CruiseControlException(message);
+    }
+ else     if (execScript.getExitCode() != 0) {
+      String message="return code is " + execScript.getExitCode();
+      setBuildError(buildLogElement,message);
+      throw new CruiseControlException(message);
+    }
+  }
+ catch (  CheckedCommandLineException ex) {
+    setBuildError(buildLogElement,"exec error");
+    setTaskError(buildLogElement,"Could not execute command: " + commandLine.toStringForDisplay());
+    throw ex;
+  }
+}

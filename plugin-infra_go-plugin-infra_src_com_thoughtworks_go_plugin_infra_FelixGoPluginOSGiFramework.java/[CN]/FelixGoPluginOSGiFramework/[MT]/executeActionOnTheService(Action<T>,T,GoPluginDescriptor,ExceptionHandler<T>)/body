@@ -1,0 +1,13 @@
+{
+  try {
+    action.execute(service,goPluginDescriptor);
+  }
+ catch (  Throwable t) {
+    if (handler != null) {
+      handler.handleException(service,t);
+    }
+ else {
+      throw new RuntimeException(t.getMessage(),t);
+    }
+  }
+}

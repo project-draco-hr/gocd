@@ -1,0 +1,11 @@
+{
+  File dir=tempFiles.createUniqueFolder("tfs-dir");
+  TestSubprocessExecutionContext execCtx=new TestSubprocessExecutionContext();
+  TfsMaterial spy=spy(tfsMaterialFirstCollectionFirstProject);
+  TfsCommand tfsCommand=mock(TfsCommand.class);
+  when(tfsCommand.modificationsSince(dir,new StringRevision("5"))).thenReturn(new ArrayList<Modification>());
+  doReturn(tfsCommand).when(spy).tfs(execCtx);
+  List<Modification> actual=spy.modificationsSince(dir,new StringRevision("5"),execCtx);
+  assertThat((ArrayList<Modification>)actual,is(new ArrayList<Modification>()));
+  verify(tfsCommand).modificationsSince(dir,new StringRevision("5"));
+}

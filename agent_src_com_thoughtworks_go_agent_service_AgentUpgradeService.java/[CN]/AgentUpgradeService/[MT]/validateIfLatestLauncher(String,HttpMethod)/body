@@ -1,0 +1,9 @@
+{
+  final Header newLauncherMd5=method.getResponseHeader(SystemEnvironment.AGENT_LAUNCHER_CONTENT_MD5_HEADER);
+  if (!"".equals(launcherMd5)) {
+    if (!launcherMd5.equals(newLauncherMd5.getValue())) {
+      LOGGER.fatal(String.format("[Agent Launcher Upgrade] Agent needs to upgrade its launcher. Currently launcher has md5 [%s] but server's latest launcher has md5 [%s]. Exiting.",launcherMd5,newLauncherMd5));
+      jvmExit();
+    }
+  }
+}

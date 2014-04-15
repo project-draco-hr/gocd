@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  SvnMaterialConfig svn=svnMaterialConfig(svnRepo.projectRepositoryUrl(),null);
+  svn.setConfigAttributes(Collections.singletonMap(SvnMaterialConfig.CHECK_EXTERNALS,String.valueOf(false)));
+  pipelineConfig.addMaterialConfig(svn);
+  String cacheKeyForSvn=MaterialExpansionService.class + "_cacheKeyForSvnMaterialCheckExternalCommand_" + svn.getFingerprint();
+  when(goCache.get(cacheKeyForSvn)).thenReturn(null);
+  MaterialConfigs materialConfigs=materialExpansionService.expandMaterialConfigsForScheduling(pipelineConfig.materialConfigs());
+  assertThat(materialConfigs.size(),is(1));
+  assertThat((SvnMaterialConfig)materialConfigs.get(0),is(svn));
+}

@@ -1,0 +1,7 @@
+{
+  pipelineWithTwoStages=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  pipelineWithTwoStages.usingDbHelper(dbHelper).usingConfigHelper(configHelper).onSetUp();
+  pipelineWithTwoStages.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  Pipeline pipeline=manualSchedule(pipelineWithTwoStages.pipelineName);
+  assertThat(pipeline.getFirstStage().isActive(),is(true));
+}

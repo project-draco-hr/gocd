@@ -1,0 +1,16 @@
+{
+  if (!OS_CHECKER.satisfy()) {
+    File staleAgentJar=null;
+    File agentLauncher=null;
+    try {
+      FileUtils.copyFile(new File("testdata/agent-launcher.jar"),agentLauncher=new File(Downloader.AGENT_LAUNCHER));
+      staleAgentJar=randomFile("agent.jar");
+      long original=staleAgentJar.length();
+      new AgentLauncherImpl().launch(launchDescriptor());
+      assertThat(staleAgentJar.length(),not(original));
+    }
+  finally {
+      delete(staleAgentJar,agentLauncher);
+    }
+  }
+}

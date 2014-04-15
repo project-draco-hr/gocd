@@ -1,0 +1,26 @@
+{
+  if (stageStorage.isStageStored(stageIdentifier)) {
+    return stageStorage.load(stageIdentifier);
+  }
+  Graph graph=null;
+  XSLTTransformerRegistry transformerRegistry=null;
+  try {
+    transformerRegistry=(XSLTTransformerRegistry)transformerRegistryPool.borrowObject();
+    graph=importer.load(stageIdentifier,new InMemoryTempGraphFactory(),transformerRegistry);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+ finally {
+    if (transformerRegistry != null) {
+      try {
+        transformerRegistryPool.returnObject(transformerRegistry);
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+  stageStorage.save(graph);
+  return graph;
+}

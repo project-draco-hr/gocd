@@ -1,0 +1,15 @@
+{
+  mingleConfig.get(0).updateApproval(Approval.manualApproval());
+  Pipeline cancelled=dbHelper.schedulePipeline(mingleConfig,ModificationsMother.modifySomeFiles(mingleConfig),"loser",new TimeProvider());
+  dbHelper.cancelStage(pipelineAndFirstStageOf(cancelled).stage);
+  mingleConfig.get(0).updateApproval(Approval.automaticApproval());
+  Pipeline passed=dbHelper.schedulePipeline(mingleConfig,ModificationsMother.modifySomeFiles(mingleConfig),"boozer",new TimeProvider());
+  dbHelper.passStage(pipelineAndFirstStageOf(passed).stage);
+  Pipeline failed=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.failStage(pipelineAndFirstStageOf(failed).stage);
+  List<StageFeedEntry> completedStages=stageDao.findCompletedStagesFor(mingleConfig.name().toString(),FeedModifier.Before,transitionId(pipelineAndFirstStageOf(failed).stage),2);
+  assertThat(completedStages.get(0).isManuallyTriggered(),is(false));
+  assertThat(completedStages.get(0).getApprovedBy(),is("boozer"));
+  assertThat(completedStages.get(1).isManuallyTriggered(),is(true));
+  assertThat(completedStages.get(1).getApprovedBy(),is("loser"));
+}

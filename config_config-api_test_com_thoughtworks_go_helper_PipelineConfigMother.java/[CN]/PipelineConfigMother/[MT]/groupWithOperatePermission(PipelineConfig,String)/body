@@ -1,0 +1,7 @@
+{
+  Authorization authorization=new Authorization();
+  for (  String user : users) {
+    authorization.getOperationConfig().add(new AdminUser(new CaseInsensitiveString(user)));
+  }
+  return new PipelineConfigs("defaultGroup",authorization,pipelineConfig);
+}

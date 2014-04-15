@@ -1,0 +1,9 @@
+{
+  FileInputStream fileInputStream=new FileInputStream(logFile);
+  if (isZippedLogFile()) {
+    return new GZIPInputStream(fileInputStream);
+  }
+ else {
+    return fileInputStream;
+  }
+}

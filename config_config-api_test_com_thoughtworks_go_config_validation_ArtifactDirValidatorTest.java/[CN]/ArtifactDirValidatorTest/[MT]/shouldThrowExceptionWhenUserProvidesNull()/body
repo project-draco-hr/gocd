@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.setServerConfig(new ServerConfig(null,SecurityConfigMother.securityConfigWithRole("role","user")));
+  ArtifactDirValidator dirValidator=new ArtifactDirValidator();
+  try {
+    dirValidator.validate(cruiseConfig);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+  }
+}

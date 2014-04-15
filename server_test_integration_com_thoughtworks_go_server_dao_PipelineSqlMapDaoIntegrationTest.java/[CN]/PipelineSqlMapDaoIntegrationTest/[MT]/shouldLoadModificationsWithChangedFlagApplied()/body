@@ -1,0 +1,8 @@
+{
+  MaterialRevisions materialRevisions=ModificationsMother.multipleModifications();
+  materialRevisions.getMaterialRevision(0).markAsChanged();
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createWithModifications(materialRevisions,""));
+  save(pipeline);
+  Pipeline loaded=pipelineDao.loadPipeline(pipeline.getId());
+  assertThat(loaded.getBuildCause().getMaterialRevisions().getMaterialRevision(0).isChanged(),is(true));
+}

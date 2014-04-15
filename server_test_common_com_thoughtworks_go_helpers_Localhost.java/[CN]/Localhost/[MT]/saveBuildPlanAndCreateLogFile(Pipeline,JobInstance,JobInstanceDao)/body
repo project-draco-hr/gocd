@@ -1,0 +1,6 @@
+{
+  jobInstanceDao.save(jobInstance.getStageId(),jobInstance);
+  JobIdentifier jobIdentifier=new JobIdentifier(pipeline.getName(),pipeline.getLabel(),jobInstance.getStageName(),"1",jobInstance.getName());
+  jobInstance.setIdentifier(jobIdentifier);
+  LogFileHelper.createInstanceForLocalhost().createLogFileForBuildInstance(jobInstance);
+}

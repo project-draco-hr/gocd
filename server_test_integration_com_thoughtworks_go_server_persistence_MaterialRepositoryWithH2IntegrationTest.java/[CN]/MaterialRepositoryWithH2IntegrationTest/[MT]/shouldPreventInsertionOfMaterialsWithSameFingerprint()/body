@@ -1,0 +1,11 @@
+{
+  try {
+    dbHelper.execute("INSERT into Materials(type, flyweightName, fingerprint) VALUES ('DependencyMaterial', 'bar', 'foo')");
+    dbHelper.execute("INSERT into Materials(type, flyweightName, fingerprint) VALUES ('SvnMaterial', 'baz', 'foo')");
+    fail("should have failed");
+  }
+ catch (  SQLException passed) {
+    assertThat(passed.getMessage(),containsString("Unique index or primary key violation"));
+    assertThat(passed.getMessage(),containsString("PUBLIC.MATERIALS(FINGERPRINT)"));
+  }
+}

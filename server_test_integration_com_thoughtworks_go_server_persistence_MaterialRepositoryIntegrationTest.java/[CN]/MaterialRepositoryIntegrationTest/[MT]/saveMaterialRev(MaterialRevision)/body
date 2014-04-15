@@ -1,0 +1,8 @@
+{
+  return (MaterialInstance)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      return repo.saveMaterialRevision(rev);
+    }
+  }
+);
+}

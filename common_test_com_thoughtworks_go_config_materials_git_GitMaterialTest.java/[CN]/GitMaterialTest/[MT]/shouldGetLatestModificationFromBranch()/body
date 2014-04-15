@@ -1,0 +1,7 @@
+{
+  GitTestRepo branchedTestRepo=GitTestRepo.testRepoAtBranch(GitTestRepo.GIT_FOO_BRANCH_BUNDLE,BRANCH);
+  GitMaterial branchedGit=new GitMaterial(branchedTestRepo.projectRepositoryUrl(),BRANCH);
+  List<Modification> modifications=branchedGit.latestModification(TestFileUtil.createTempFolder("workingDir-" + System.currentTimeMillis()),new TestSubprocessExecutionContext());
+  assertThat(modifications.size(),is(1));
+  assertThat(modifications.get(0).getComment(),Matchers.is("Started foo branch"));
+}

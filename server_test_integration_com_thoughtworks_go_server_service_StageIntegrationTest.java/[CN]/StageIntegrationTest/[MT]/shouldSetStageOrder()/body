@@ -1,0 +1,5 @@
+{
+  createPipelineWithFirstStageCompletedAndNextStageBuilding(StageState.Passed);
+  Stages stages=pipelineService.mostRecentFullPipelineByName(PIPELINE_NAME).getStages();
+  assertThat("ft stage should come after dev stage",stages.byName(FT_STAGE).getOrderId() > stages.byName(DEV_STAGE).getOrderId(),is(true));
+}

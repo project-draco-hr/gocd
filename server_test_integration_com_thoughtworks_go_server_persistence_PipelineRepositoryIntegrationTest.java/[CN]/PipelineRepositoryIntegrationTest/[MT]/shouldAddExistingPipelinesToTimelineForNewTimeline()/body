@@ -1,0 +1,14 @@
+{
+  HgMaterial hgmaterial=MaterialsMother.hgMaterial(UUID.randomUUID().toString());
+  PipelineConfig pipelineConfig=createPipelineConfig(PIPELINE_NAME,"stage","job");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(hgmaterial.config()));
+  DateTime date=new DateTime(1984,12,23,0,0,0,0);
+  long firstId=createPipeline(hgmaterial,pipelineConfig,1,oneModifiedFile("3",date.plusDays(2).toDate()),oneModifiedFile("2",date.plusDays(2).toDate()),oneModifiedFile("1",date.plusDays(3).toDate()));
+  long secondId=createPipeline(hgmaterial,pipelineConfig,2,oneModifiedFile("5",date.plusDays(1).toDate()),oneModifiedFile("4",date.toDate()));
+  PipelineTimeline mods=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  mods.update();
+  assertThat(pipelineSqlMapDao.pipelineByIdWithMods(firstId).getNaturalOrder(),is(1.0));
+  assertThat(pipelineSqlMapDao.pipelineByIdWithMods(secondId).getNaturalOrder(),is(0.5));
+  PipelineTimeline modsAfterReboot=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  modsAfterReboot.update();
+}

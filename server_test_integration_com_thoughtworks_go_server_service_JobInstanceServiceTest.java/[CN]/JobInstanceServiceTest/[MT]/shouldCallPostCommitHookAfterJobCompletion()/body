@@ -1,0 +1,23 @@
+{
+  JobInstance completedJob=completed("dev");
+  IJobPostCompletionHook jobPostCompletionHook=mock(IJobPostCompletionHook.class);
+  when(jobPostCompletionHook.call(any(JobContext.class))).thenReturn(new ResponseContext(ResponseContext.ResponseCode.SUCCESS,"success"));
+  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  jobService.updateStateAndResult(completedJob);
+  verify(pluginManager).doOnAll(eq(IJobPostCompletionHook.class),jobPostCompletionActionHandlerCaptor.capture(),jobPostCompletionExceptionHandlerCaptor.capture());
+  jobPostCompletionActionHandlerCaptor.getValue().execute(jobPostCompletionHook,null);
+  final ArgumentCaptor<JobContext> jobContextCaptor=ArgumentCaptor.forClass(JobContext.class);
+  verify(jobPostCompletionHook).call(jobContextCaptor.capture());
+  JobContext jobContext=jobContextCaptor.getValue();
+  assertThat(jobContext.getPipelineName(),Is.is(completedJob.getIdentifier().getPipelineName()));
+  assertThat(jobContext.getPipelineCounter(),Is.is(String.valueOf(completedJob.getIdentifier().getPipelineCounter())));
+  assertThat(jobContext.getPipelineLabel(),Is.is(completedJob.getIdentifier().getPipelineLabel()));
+  assertThat(jobContext.getStageName(),Is.is(completedJob.getIdentifier().getStageName()));
+  assertThat(jobContext.getStageCounter(),Is.is(completedJob.getIdentifier().getStageCounter()));
+  assertThat(jobContext.getJobName(),Is.is(completedJob.getName()));
+  assertThat(jobContext.getJobCounter(),Is.is(String.valueOf(completedJob.getId())));
+  assertThat(jobContext.getJobStatus(),Is.is(completedJob.getResult().getStatus()));
+  assertThat(jobContext.getAgentUuid(),Is.is(completedJob.getAgentUuid()));
+  verify(jobInstanceDao).updateStateAndResult(completedJob);
+  verify(buildPropertiesService).saveCruiseProperties(completedJob);
+}

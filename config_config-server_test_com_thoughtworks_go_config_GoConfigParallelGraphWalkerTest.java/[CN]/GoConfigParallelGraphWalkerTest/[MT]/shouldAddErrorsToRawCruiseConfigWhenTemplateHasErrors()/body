@@ -1,0 +1,13 @@
+{
+  CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("pipeline-1");
+  cruiseConfig.getTemplates().add(new PipelineTemplateConfig(new CaseInsensitiveString("invalid template name"),new StageConfig(new CaseInsensitiveString("stage-1"),new JobConfigs(new JobConfig("job-1")))));
+  PipelineConfig pipelineWithTemplate=new PipelineConfig(new CaseInsensitiveString("pipeline-with-template"),MaterialConfigsMother.defaultMaterialConfigs());
+  pipelineWithTemplate.setTemplateName(new CaseInsensitiveString("invalid template name"));
+  cruiseConfig.getGroups().get(0).add(pipelineWithTemplate);
+  CruiseConfig rawCruiseConfig=new Cloner().deepClone(cruiseConfig);
+  MagicalGoConfigXmlLoader.validate(cruiseConfig);
+  cruiseConfig.copyErrorsTo(rawCruiseConfig);
+  ConfigErrors templateErrors=rawCruiseConfig.getTemplateByName(new CaseInsensitiveString("invalid template name")).errors();
+  assertThat(templateErrors.getAll().size(),is(1));
+  assertThat(templateErrors.getAll().get(0),is("Invalid template name 'invalid template name'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
+}

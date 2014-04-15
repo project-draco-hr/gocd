@@ -1,0 +1,12 @@
+{
+  final File baseDir=TestFileUtil.createTempFolder("foo");
+  tmpFolders.add(baseDir);
+  ProcessOutputStreamConsumer consumer=inMemoryConsumer();
+  svnMaterial.updateTo(consumer,latestRevision(svnMaterial,baseDir,new TestSubprocessExecutionContext()),baseDir,new TestSubprocessExecutionContext());
+  File workingDir=new File(baseDir,svnMaterial.getFolder());
+  File newFileToAdd=new File(workingDir,fileName);
+  newFileToAdd.getParentFile().mkdirs();
+  FileUtil.writeContentToFile("",newFileToAdd);
+  svnMaterial.add(consumer,newFileToAdd);
+  svnMaterial.commit(consumer,workingDir,"adding file [" + svnMaterial.getFolder() + "/"+ fileName+ "]");
+}

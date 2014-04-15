@@ -1,0 +1,6 @@
+{
+  JobInstance jobInstance=scheduled(projectOne);
+  jobInstanceDao.save(stageId,jobInstance);
+  JobPlan job=findPlan(jobInstanceDao.orderedScheduledBuilds(),projectOne);
+  assertThat(job.getIdentifier(),is(jobIdentifier(jobInstance)));
+}

@@ -1,0 +1,6 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageRepository repository=PackageRepositoryMother.create("repo-id",null,"pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"repo-v1"),ConfigurationPropertyMother.create("k2",false,"repo-v2")));
+  material.setPackageDefinition(PackageDefinitionMother.create("p-id",null,new Configuration(ConfigurationPropertyMother.create("k3",false,"package-v1")),repository));
+  assertThat(material.getDisplayName(),is(material.getUriForDisplay()));
+}

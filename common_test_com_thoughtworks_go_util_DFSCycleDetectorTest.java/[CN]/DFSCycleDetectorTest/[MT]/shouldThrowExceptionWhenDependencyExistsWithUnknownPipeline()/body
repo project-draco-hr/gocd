@@ -1,0 +1,10 @@
+{
+  createNode(new CaseInsensitiveString("a"),new CaseInsensitiveString("b"));
+  createNode(new CaseInsensitiveString("b"),new CaseInsensitiveString("z"));
+  try {
+    project.topoSort(new CaseInsensitiveString("a"),hashtable);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Pipeline \"z\" does not exist. It is used from pipeline \"b\"."));
+  }
+}

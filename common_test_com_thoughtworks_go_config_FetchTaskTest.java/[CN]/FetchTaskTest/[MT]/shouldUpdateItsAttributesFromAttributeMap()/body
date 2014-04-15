@@ -1,0 +1,17 @@
+{
+  FetchTask fetchTask=new FetchTask();
+  fetchTask.setConfigAttributes(m(FetchTask.PIPELINE_NAME,"pipeline_foo",FetchTask.STAGE,"stage_bar",FetchTask.JOB,"job_baz",FetchTask.SRC,"src_file",FetchTask.DEST,"dest_dir",FetchTask.IS_SOURCE_A_FILE,"1"));
+  assertThat(fetchTask.getTargetPipelineName(),is(new CaseInsensitiveString("pipeline_foo")));
+  assertThat(fetchTask.getStage(),is(new CaseInsensitiveString("stage_bar")));
+  assertThat(fetchTask.getJob().toString(),is("job_baz"));
+  assertThat(fetchTask.getSrcfile(),is("src_file"));
+  assertThat(fetchTask.getSrcdir(),is(nullValue()));
+  assertThat(fetchTask.getDest(),is("dest_dir"));
+  fetchTask.setConfigAttributes(m(FetchTask.PIPELINE_NAME,"",FetchTask.STAGE,"",FetchTask.JOB,"",FetchTask.SRC,"",FetchTask.IS_SOURCE_A_FILE,"1",FetchTask.DEST,""));
+  assertThat(fetchTask.getTargetPipelineName(),is(new CaseInsensitiveString("")));
+  assertThat(fetchTask.getStage(),is(new CaseInsensitiveString("")));
+  assertThat(fetchTask.getJob().toString(),is(""));
+  assertThat(fetchTask.getSrcfile(),is(nullValue()));
+  assertThat(fetchTask.getSrcdir(),is(nullValue()));
+  assertThat(fetchTask.getDest(),is(""));
+}

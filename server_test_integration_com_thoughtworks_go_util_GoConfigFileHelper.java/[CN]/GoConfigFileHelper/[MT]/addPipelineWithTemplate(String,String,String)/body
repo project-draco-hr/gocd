@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=load();
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString(pipelineName),MaterialConfigsMother.mockMaterialConfigs("svn:///user:pass@tmp/foo"));
+  pipelineConfig.setTemplateName(new CaseInsensitiveString(templateName));
+  cruiseConfig.findGroup(groupName).add(pipelineConfig);
+  writeConfigFile(cruiseConfig);
+  return pipelineConfig;
+}

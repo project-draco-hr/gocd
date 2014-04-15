@@ -1,0 +1,10 @@
+{
+  String databaseProvider=systemEnvironment.getDatabaseProvider();
+  try {
+    Constructor<?> constructor=Class.forName(databaseProvider).getConstructor(SystemEnvironment.class);
+    return ((Database)constructor.newInstance(systemEnvironment));
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("could not locate database provider:" + databaseProvider);
+  }
+}

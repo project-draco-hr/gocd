@@ -1,0 +1,11 @@
+{
+  PipelineTemplateConfig template=template("template1");
+  TemplatesConfig templates=new TemplatesConfig(template);
+  PipelineTemplateConfig duplicateTemplate=template("template1");
+  templates.add(duplicateTemplate);
+  templates.validate(null);
+  assertThat(template.errors().isEmpty(),is(false));
+  assertThat(duplicateTemplate.errors().isEmpty(),is(false));
+  assertThat(template.errors().on(PipelineTemplateConfig.NAME),is(String.format("Template name '%s' is not unique",template.name())));
+  assertThat(duplicateTemplate.errors().on(PipelineTemplateConfig.NAME),is(String.format("Template name '%s' is not unique",template.name())));
+}

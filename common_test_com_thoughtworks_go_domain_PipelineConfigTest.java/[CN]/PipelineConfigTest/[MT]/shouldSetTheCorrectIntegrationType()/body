@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  assertThat(pipelineConfig.getIntegrationType(),is(PipelineConfig.INTEGRATION_TYPE_NONE));
+  pipelineConfig=new PipelineConfig();
+  pipelineConfig.setTrackingTool(new TrackingTool("link","regex"));
+  assertThat(pipelineConfig.getIntegrationType(),is(PipelineConfig.INTEGRATION_TYPE_TRACKING_TOOL));
+  pipelineConfig=new PipelineConfig();
+  pipelineConfig.setMingleConfig(new MingleConfig("baseUri","projId"));
+  assertThat(pipelineConfig.getIntegrationType(),is(PipelineConfig.INTEGRATION_TYPE_MINGLE));
+}

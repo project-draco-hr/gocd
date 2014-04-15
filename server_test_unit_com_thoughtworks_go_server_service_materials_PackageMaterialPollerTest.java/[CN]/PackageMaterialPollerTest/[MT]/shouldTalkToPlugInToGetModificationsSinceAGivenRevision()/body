@@ -1,0 +1,16 @@
+{
+  Date timestamp=new Date();
+  PackageMaterialRevision knownRevision=new PackageMaterialRevision("rev-122",timestamp);
+  ArgumentCaptor<PackageRevision> knownPackageRevision=new ArgumentCaptor<PackageRevision>();
+  PackageRevision latestRevision=new PackageRevision("rev-123",timestamp,"user");
+  when(packageMaterialPoller.latestModificationSince(packageConfiguration.capture(),repositoryConfiguration.capture(),knownPackageRevision.capture())).thenReturn(latestRevision);
+  List<Modification> modifications=poller.modificationsSince(material,null,knownRevision,null);
+  assertThat(modifications.get(0).getRevision(),is("rev-123"));
+  assertThat(modifications.get(0).getModifiedTime(),is(timestamp));
+  assertThat(modifications.get(0).getUserName(),is("user"));
+  assertThat(modifications.get(0).getComment(),is(notNullValue()));
+  assertConfiguration(packageConfiguration.getValue(),"name","go-agent");
+  assertConfiguration(repositoryConfiguration.getValue(),"url","http://some-url");
+  assertThat(knownPackageRevision.getValue().getRevision(),is("rev-122"));
+  assertThat(knownPackageRevision.getValue().getTimestamp(),is(timestamp));
+}

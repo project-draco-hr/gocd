@@ -1,0 +1,9 @@
+{
+  String path=new URI(request.getRequestURI()).getPath().toLowerCase();
+  for (  String ext : STATIC_FILE_EXT) {
+    if (path.endsWith(ext)) {
+      return true;
+    }
+  }
+  return false;
+}

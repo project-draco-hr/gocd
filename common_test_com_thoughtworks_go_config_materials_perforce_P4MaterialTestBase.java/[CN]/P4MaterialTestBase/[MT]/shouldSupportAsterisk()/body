@@ -1,0 +1,6 @@
+{
+  P4Material p4Material=p4Fixture.material("//depot/lib/*.jar //cws/*.war");
+  p4Material.updateTo(outputconsumer.inMemoryConsumer(),new StringRevision("2"),clientFolder,new TestSubprocessExecutionContext());
+  File file=new File(clientFolder,"junit.war");
+  assertThat(file.exists(),is(true));
+}

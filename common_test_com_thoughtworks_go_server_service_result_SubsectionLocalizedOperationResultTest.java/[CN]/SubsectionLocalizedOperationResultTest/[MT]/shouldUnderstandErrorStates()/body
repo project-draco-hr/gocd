@@ -1,0 +1,8 @@
+{
+  SubsectionLocalizedOperationResult result=new SubsectionLocalizedOperationResult();
+  result.connectionError(LocalizedMessage.string("foo"));
+  assertThat("not successful",result.isSuccessful(),is(false));
+  Localizer localizer=mock(Localizer.class);
+  when(localizer.localize(any(String.class),anyVararg())).thenReturn("could not connect");
+  assertThat(result.replacementContent(localizer),is("could not connect"));
+}

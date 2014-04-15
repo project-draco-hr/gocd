@@ -1,0 +1,9 @@
+{
+  Bundle bundle=installBundleWithClasses(DummyPluginAwareExtension.class,DummyPluginAwareExtensionWhichThrowsAnExceptionDuringConstruction.class);
+  assertThat(bundle.getState(),is(Bundle.UNINSTALLED));
+  GoPluginDescriptor descriptor=registry.getPlugin(GO_TEST_DUMMY_SYMBOLIC_NAME);
+  assertThat(descriptor.isInvalid(),is(true));
+  String error=descriptor.getStatus().getMessages().get(0);
+  assertThat(error.contains("DummyPluginAwareExtensionWhichThrowsAnExceptionDuringConstruction"),is(true));
+  assertThat(error.contains("java.lang.RuntimeException: Ouch! I failed!"),is(true));
+}

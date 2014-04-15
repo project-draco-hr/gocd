@@ -1,0 +1,6 @@
+{
+  createFile(artifactRootForJob,"foo/1.xml");
+  createFile(artifactRootForJob,"bar/2.xml");
+  ModelAndView mav=getFileAsHtml("/foo/../bar/2.xml");
+  assertStatus(mav,SC_FORBIDDEN);
+}

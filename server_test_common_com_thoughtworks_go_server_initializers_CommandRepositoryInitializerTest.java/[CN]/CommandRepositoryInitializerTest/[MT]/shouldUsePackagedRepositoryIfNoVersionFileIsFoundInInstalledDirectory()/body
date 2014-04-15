@@ -1,0 +1,9 @@
+{
+  File defaultDirectory=tempFiles.createUniqueFolder("default");
+  when(systemEnvironment.getDefaultCommandRepository()).thenReturn(defaultDirectory);
+  doReturn(zipInputStream).when(spy).getPackagedRepositoryZipStream();
+  doReturn("13.1=50").when(zipUtil).getFileContentInsideZip(zipInputStream,VERSION_FILE);
+  doNothing().when(spy).usePackagedCommandRepository(zipInputStream,defaultDirectory);
+  spy.initialize();
+  verify(spy).usePackagedCommandRepository(zipInputStream,defaultDirectory);
+}

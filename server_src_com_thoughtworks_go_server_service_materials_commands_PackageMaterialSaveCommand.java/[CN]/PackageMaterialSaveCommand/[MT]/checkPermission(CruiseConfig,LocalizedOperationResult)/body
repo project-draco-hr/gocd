@@ -1,0 +1,6 @@
+{
+  String groupName=cruiseConfig.getGroups().findGroupNameByPipeline(new CaseInsensitiveString(pipeline));
+  if (!securityService.isUserAdminOfGroup(username.getUsername(),groupName)) {
+    result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_ADMINISTER"),null);
+  }
+}

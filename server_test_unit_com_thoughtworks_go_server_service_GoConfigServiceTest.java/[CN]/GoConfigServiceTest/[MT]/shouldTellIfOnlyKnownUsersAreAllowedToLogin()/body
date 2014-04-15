@@ -1,0 +1,6 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  config.server().security().setAllowOnlyKnownUsersToLogin(true);
+  expectLoad(config);
+  assertThat(goConfigService.isOnlyKnownUserAllowedToLogin(),is(true));
+}

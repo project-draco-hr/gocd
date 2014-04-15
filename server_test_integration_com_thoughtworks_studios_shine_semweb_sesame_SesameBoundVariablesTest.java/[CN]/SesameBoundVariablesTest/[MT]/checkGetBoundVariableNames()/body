@@ -1,0 +1,8 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "<http://example.com/1> ex:is <http://hello> . ";
+  graph.addTriplesFromTurtle(turtle);
+  String sparqlSelect="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?one ?two WHERE { " + "<http://example.com/1> ex:is ?one . "+ "OPTIONAL { [] ex:nope ?two } "+ "}";
+  BoundVariables bv=graph.selectFirst(sparqlSelect);
+  assertEquals("one",bv.getBoundVariableNames().get(0));
+  assertEquals("two",bv.getBoundVariableNames().get(1));
+}

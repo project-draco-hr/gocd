@@ -1,0 +1,13 @@
+{
+  ArtifactsDiskIsFull full=new ArtifactsDiskIsFull();
+  full.onSetUp();
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(full.getLowLimit() - 1L);
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(systemEnvironment.getDbFolder())).thenReturn(1000 * MEGA_BYTE);
+  try {
+    goDiskSpaceMonitor.onTimer();
+    emailSender.assertHasMessageContaining("No artifacts disk space error message from Go Server");
+  }
+  finally {
+    full.onTearDown();
+  }
+}

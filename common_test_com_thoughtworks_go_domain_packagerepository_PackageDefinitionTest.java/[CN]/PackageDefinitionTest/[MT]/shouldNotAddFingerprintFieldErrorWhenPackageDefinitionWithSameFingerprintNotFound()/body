@@ -1,0 +1,8 @@
+{
+  PackageRepository repository=PackageRepositoryMother.create("repo1");
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("1","pkg1",new Configuration(new ConfigurationProperty(new ConfigurationKey("k1"),new ConfigurationValue("v1"))),repository);
+  HashMap<String,Packages> map=new HashMap<String,Packages>();
+  map.put(packageDefinition.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER),new Packages(packageDefinition));
+  packageDefinition.validateFingerprintUniqueness(map);
+  assertThat(packageDefinition.errors().getAllOn(PackageDefinition.ID),is(nullValue()));
+}

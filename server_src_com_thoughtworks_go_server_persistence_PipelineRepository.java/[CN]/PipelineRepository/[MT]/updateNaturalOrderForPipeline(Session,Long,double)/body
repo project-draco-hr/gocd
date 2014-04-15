@@ -1,0 +1,7 @@
+{
+  String sql="UPDATE pipelines SET naturalOrder = :naturalOrder WHERE id = :pipelineId";
+  SQLQuery query=session.createSQLQuery(sql);
+  query.setLong("pipelineId",pipelineId);
+  query.setDouble("naturalOrder",naturalOrder);
+  return query.executeUpdate();
+}

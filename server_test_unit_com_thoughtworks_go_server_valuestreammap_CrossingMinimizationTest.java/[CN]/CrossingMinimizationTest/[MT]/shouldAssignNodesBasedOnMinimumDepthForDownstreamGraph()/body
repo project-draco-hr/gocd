@@ -1,0 +1,16 @@
+{
+  ValueStreamMap graph=new ValueStreamMap("P",null);
+  Node g1=graph.addUpstreamNode(new SCMDependencyNode("g1","g1","git"),null,"P");
+  Node p1=graph.addDownstreamNode(new PipelineDependencyNode("p1","p1"),"P");
+  Node p2=graph.addDownstreamNode(new PipelineDependencyNode("P2","P2"),"P");
+  Node p3=graph.addDownstreamNode(new PipelineDependencyNode("P3","P3"),"P2");
+  NodeLevelMap levelToNodesMap=nodeLevelMap(graph);
+  crossingMinimization.apply(levelToNodesMap);
+  assertThat(levelToNodesMap.get(-1),is(Arrays.asList(g1)));
+  assertThat(levelToNodesMap.get(0),is(Arrays.asList(graph.getCurrentPipeline())));
+  assertThat(levelToNodesMap.get(1),is(Arrays.asList(p1,p2)));
+  assertThat(levelToNodesMap.get(2),is(Arrays.asList(p3)));
+  assertThat(p1.getDepth(),is(1));
+  assertThat(p2.getDepth(),is(2));
+  assertThat(p3.getDepth(),is(2));
+}

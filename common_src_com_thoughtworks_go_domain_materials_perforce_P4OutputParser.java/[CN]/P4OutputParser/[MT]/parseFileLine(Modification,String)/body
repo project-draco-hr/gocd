@@ -1,0 +1,7 @@
+{
+  Pattern pattern=Pattern.compile(FILE_LINE_PATTERN);
+  Matcher matcher=pattern.matcher(line);
+  if (matcher.find()) {
+    modification.createModifiedFile(matcher.group(1),"",ModifiedAction.parseP4Action(matcher.group(3)));
+  }
+}

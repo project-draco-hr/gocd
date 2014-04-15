@@ -1,0 +1,9 @@
+{
+  schedulePipelineWithFirstStage();
+  Pipeline pipeline=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  dbHelper.passStage(pipeline.getFirstStage());
+  Pipeline mostRecent=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  scheduleService.rerunStage(mostRecent,preCondition.devStage(),"anyone");
+  mostRecent=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  assertThat(mostRecent.getFirstStage().getOrderId(),is(1000));
+}

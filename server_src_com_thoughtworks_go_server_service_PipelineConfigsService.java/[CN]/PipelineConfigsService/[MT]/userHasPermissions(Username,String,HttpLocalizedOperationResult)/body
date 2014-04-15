@@ -1,0 +1,13 @@
+{
+  try {
+    if (!securityService.isUserAdminOfGroup(username.getUsername(),groupName)) {
+      result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT_GROUP",groupName),HealthStateType.unauthorisedForGroup(groupName));
+      return false;
+    }
+  }
+ catch (  Exception e) {
+    result.notFound(LocalizedMessage.string("PIPELINE_GROUP_NOT_FOUND",groupName),HealthStateType.general(HealthStateScope.forGroup(groupName)));
+    return false;
+  }
+  return true;
+}

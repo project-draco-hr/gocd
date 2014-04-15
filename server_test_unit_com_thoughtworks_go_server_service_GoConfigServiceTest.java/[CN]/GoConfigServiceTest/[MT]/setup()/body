@@ -1,0 +1,15 @@
+{
+  configRepo=mock(ConfigRepository.class);
+  goConfigFileDao=mock(GoConfigFileDao.class);
+  pipelineRepository=mock(PipelineRepository.class);
+  pipelinePauseService=mock(PipelinePauseService.class);
+  metricsProbeService=mock(MetricsProbeService.class);
+  cruiseConfig=unchangedConfig();
+  expectLoad(cruiseConfig);
+  this.clock=mock(Clock.class);
+  goCache=mock(GoCache.class);
+  instanceFactory=mock(InstanceFactory.class);
+  userDao=mock(UserDao.class);
+  ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
+  goConfigService=new GoConfigService(goConfigFileDao,pipelineRepository,this.clock,new GoConfigMigration(configRepo,new TimeProvider(),new ConfigCache(),registry,metricsProbeService),goCache,configRepo,userDao,registry,metricsProbeService,instanceFactory);
+}

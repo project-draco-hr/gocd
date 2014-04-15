@@ -1,0 +1,10 @@
+{
+synchronized (mutexForPipelineName(pipelineName)) {
+    BuildCause buildCause=mostRecentScheduled.get(pipelineName);
+    if (buildCause != null) {
+      return buildCause;
+    }
+    mostRecentScheduled.put(pipelineName,mostRecentScheduledBuildCause(pipelineName));
+    return mostRecentScheduled.get(pipelineName);
+  }
+}

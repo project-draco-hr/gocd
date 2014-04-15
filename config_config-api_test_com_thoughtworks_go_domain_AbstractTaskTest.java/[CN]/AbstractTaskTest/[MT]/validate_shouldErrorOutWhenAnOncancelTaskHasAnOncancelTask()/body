@@ -1,0 +1,9 @@
+{
+  AbstractTask task=new ExecTask();
+  ExecTask onCancelTask=new ExecTask();
+  onCancelTask.setCancelTask(new ExecTask());
+  task.setCancelTask(onCancelTask);
+  task.validate(null);
+  assertThat(task.errors().isEmpty(),is(false));
+  assertThat(task.errors().on(AbstractTask.ON_CANCEL_CONFIG),is("Cannot nest 'oncancel' within a cancel task"));
+}

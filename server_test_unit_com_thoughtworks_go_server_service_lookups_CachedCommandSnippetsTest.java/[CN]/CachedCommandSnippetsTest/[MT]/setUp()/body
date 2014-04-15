@@ -1,0 +1,8 @@
+{
+  initMocks(this);
+  setupAFakeCommandRepoLocation("default");
+  when(systemEnvironment.get(SystemEnvironment.COMMAND_REPOSITORY_CACHE_TIME_IN_SECONDS)).thenReturn(300);
+  expectedSnippets=new CommandSnippets(Arrays.asList(validSnippet("snippet1")));
+  when(walker.getAllCommandSnippets(EXPECTED_REPO_DIR)).thenReturn(expectedSnippets);
+  commandSnippetsCache=new CachedCommandSnippets(walker,goConfigService,systemEnvironment,goCache);
+}

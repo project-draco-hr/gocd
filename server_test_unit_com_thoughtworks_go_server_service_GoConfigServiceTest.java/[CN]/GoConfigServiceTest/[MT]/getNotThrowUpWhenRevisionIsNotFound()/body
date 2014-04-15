@@ -1,0 +1,9 @@
+{
+  when(configRepo.getRevision("md5-1")).thenThrow(new IllegalArgumentException("did not find the revision"));
+  try {
+    assertThat(goConfigService.getConfigAtVersion("md5-1"),is(nullValue()));
+  }
+ catch (  Exception e) {
+    fail("should not have thrown up");
+  }
+}

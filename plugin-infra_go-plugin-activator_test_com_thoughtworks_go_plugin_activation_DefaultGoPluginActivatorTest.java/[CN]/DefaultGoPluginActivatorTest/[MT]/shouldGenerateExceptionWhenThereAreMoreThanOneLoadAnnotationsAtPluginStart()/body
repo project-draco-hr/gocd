@@ -1,0 +1,11 @@
+{
+  String expectedErrorMessageWithMethodsWithIncreasingOrder="Class [GoExtensionWithMultipleLoadUnloadAnnotation] is annotated with @Extension will not be registered. " + "Reason: java.lang.RuntimeException: More than one method with @Load annotation not allowed. " + "Methods Found: [public void com.thoughtworks.go.plugin.activation.GoExtensionWithMultipleLoadUnloadAnnotation.setupData1(com.thoughtworks.go.plugin.api.info.PluginContext), "+ "public void com.thoughtworks.go.plugin.activation.GoExtensionWithMultipleLoadUnloadAnnotation.setupData2(com.thoughtworks.go.plugin.api.info.PluginContext)].";
+  String expectedErrorMessageWithMethodsWithDecreasingOrder="Class [GoExtensionWithMultipleLoadUnloadAnnotation] is annotated with @Extension will not be registered. " + "Reason: java.lang.RuntimeException: More than one method with @Load annotation not allowed. " + "Methods Found: [public void com.thoughtworks.go.plugin.activation.GoExtensionWithMultipleLoadUnloadAnnotation.setupData2(com.thoughtworks.go.plugin.api.info.PluginContext), "+ "public void com.thoughtworks.go.plugin.activation.GoExtensionWithMultipleLoadUnloadAnnotation.setupData1(com.thoughtworks.go.plugin.api.info.PluginContext)].";
+  setupClassesInBundle("GoExtensionWithMultipleLoadUnloadAnnotation.class");
+  when(bundle.loadClass(contains("GoExtensionWithMultipleLoadUnloadAnnotation"))).thenReturn((Class)GoExtensionWithMultipleLoadUnloadAnnotation.class);
+  activator.start(context);
+  assertThat(activator.hasErrors(),is(true));
+  verifyThatOneOfTheErrorMessagesIsPresent(expectedErrorMessageWithMethodsWithIncreasingOrder,expectedErrorMessageWithMethodsWithDecreasingOrder);
+  activator.stop(context);
+  verifyThatOneOfTheErrorMessagesIsPresent(expectedErrorMessageWithMethodsWithIncreasingOrder,expectedErrorMessageWithMethodsWithDecreasingOrder);
+}

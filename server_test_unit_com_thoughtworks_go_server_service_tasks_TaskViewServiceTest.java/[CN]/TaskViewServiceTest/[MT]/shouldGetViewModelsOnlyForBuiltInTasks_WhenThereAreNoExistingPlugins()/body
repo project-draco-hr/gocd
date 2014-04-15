@@ -1,0 +1,11 @@
+{
+  List<Class<? extends Task>> taskClasses=taskImplementations();
+  taskClasses.add(PluggableTask.class);
+  when(registry.implementersOf(Task.class)).thenReturn(taskClasses);
+  when(registry.getViewModelFor(new AntTask(),"new")).thenReturn(viewModel(new AntTask()));
+  when(registry.getViewModelFor(new ExecTask(),"new")).thenReturn(new TaskViewModel(new ExecTask(),"",Renderer.ERB));
+  List<PluggableViewModel> taskViewModels=taskViewService.getTaskViewModels();
+  assertThat(taskViewModels.size(),is(3));
+  assertThat(taskViewModels,hasItem((PluggableViewModel)viewModel(new AntTask())));
+  assertThat(taskViewModels,hasItem((PluggableViewModel)new TaskViewModel(new ExecTask(),"",Renderer.ERB)));
+}

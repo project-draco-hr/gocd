@@ -1,0 +1,9 @@
+{
+  List<String> agents=new ArrayList<String>();
+  for (  AgentInstance agent : knownAgents) {
+    if (agent.getStatus() != AgentStatus.LostContact) {
+      agents.add(agent.agentConfig().getUuid());
+    }
+  }
+  return agents;
+}

@@ -1,0 +1,8 @@
+{
+  if (StageResult.Passed == stage.getResult()) {
+    String key=cacheKeyForDependencyMaterial(stage);
+synchronized (key) {
+      removeCacheKey(key);
+    }
+  }
+}

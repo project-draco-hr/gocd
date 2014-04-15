@@ -1,0 +1,10 @@
+{
+  if (file1.isFile()) {
+    list.add(file1.getAbsolutePath().replace(absPath,""));
+  }
+ else   if (file1.isDirectory()) {
+    for (    File file : file1.listFiles()) {
+      flatten(list,absPath,file);
+    }
+  }
+}

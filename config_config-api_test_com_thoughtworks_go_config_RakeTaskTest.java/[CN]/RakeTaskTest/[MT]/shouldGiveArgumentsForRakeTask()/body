@@ -1,0 +1,6 @@
+{
+  RakeTask rakeTask=new RakeTask();
+  rakeTask.setBuildFile("myrakefile.rb");
+  rakeTask.setTarget("db:migrate VERSION=0");
+  assertThat(rakeTask.arguments(),is("-f \"myrakefile.rb\" db:migrate VERSION=0"));
+}

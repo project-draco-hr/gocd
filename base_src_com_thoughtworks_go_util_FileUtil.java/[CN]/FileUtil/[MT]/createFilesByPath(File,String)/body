@@ -1,0 +1,13 @@
+{
+  for (  String file : files) {
+    if (file.endsWith("/")) {
+      File file1=new File(baseDir,file);
+      file1.mkdirs();
+    }
+ else {
+      File file1=new File(baseDir,file);
+      file1.getParentFile().mkdirs();
+      file1.createNewFile();
+    }
+  }
+}

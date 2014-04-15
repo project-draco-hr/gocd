@@ -1,0 +1,13 @@
+{
+  ArrayList<GoConfigFieldWriter> fields=new ArrayList<GoConfigFieldWriter>();
+  for (  Field declaredField : configCache.getFieldCache().valuesFor(aClass)) {
+    try {
+      declaredField.setAccessible(true);
+      fields.add(new GoConfigFieldWriter(declaredField,declaredField.get(render),configCache,registry));
+    }
+ catch (    IllegalAccessException e) {
+      throw bomb(e);
+    }
+  }
+  return fields;
+}

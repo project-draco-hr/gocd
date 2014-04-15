@@ -1,0 +1,8 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  Stage passedStage=StageMother.passedStageInstance("stage-name","job-name","pipeline-name");
+  Modification modification=new Modification("Unknown","Unknown",null,passedStage.completedDate(),"pipeline-name/1[LABEL-1]/stage-name/0");
+  Mockito.when(materialRepository.findLatestModification(dependencyMaterial)).thenReturn(revisions(dependencyMaterial,modification));
+  materialChecker.findLatestRevisions(new MaterialRevisions(),new Materials(dependencyMaterial));
+  Mockito.verify(materialRepository).findLatestModification(dependencyMaterial);
+}

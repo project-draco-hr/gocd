@@ -1,0 +1,13 @@
+{
+  LOG.info("Using lock file: " + lockFile.getAbsolutePath());
+  do {
+    try {
+      touch();
+      Thread.sleep(touchFrequency);
+    }
+ catch (    Exception e) {
+      return;
+    }
+  }
+ while (keepRunning);
+}

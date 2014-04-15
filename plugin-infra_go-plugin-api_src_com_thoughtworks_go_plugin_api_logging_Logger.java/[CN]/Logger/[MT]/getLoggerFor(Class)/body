@@ -1,0 +1,12 @@
+{
+  String id=null;
+  try {
+    Class<?> defaultGoPluginActivator=loggerClass.getClassLoader().loadClass("com.thoughtworks.go.plugin.activation.DefaultGoPluginActivator");
+    id=(String)getStaticField(defaultGoPluginActivator,"pluginId");
+  }
+ catch (  Exception e) {
+    id="UNKNOWN";
+    System.err.println("Could not find pluginId for logger: " + loggerClass.toString());
+  }
+  return new Logger(loggerClass.getName(),id);
+}

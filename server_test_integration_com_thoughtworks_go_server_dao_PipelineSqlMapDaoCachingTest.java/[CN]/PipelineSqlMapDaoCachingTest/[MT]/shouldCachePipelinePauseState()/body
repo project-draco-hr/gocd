@@ -1,0 +1,9 @@
+{
+  String pipelineName="pipelineName";
+  PipelinePauseInfo pauseInfo=new PipelinePauseInfo(true,"pause cause","admin");
+  when(mockTemplate.queryForObject("getPipelinePauseState",pipelineName)).thenReturn(pauseInfo);
+  pipelineDao.pauseState(pipelineName);
+  PipelinePauseInfo actualPauseInfo=pipelineDao.pauseState(pipelineName);
+  assertThat(actualPauseInfo,is(pauseInfo));
+  verify(mockTemplate,times(1)).queryForObject("getPipelinePauseState",pipelineName);
+}

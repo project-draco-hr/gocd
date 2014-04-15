@@ -1,0 +1,7 @@
+{
+  preCondition=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  dbHelper.onSetUp();
+  preCondition.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+}

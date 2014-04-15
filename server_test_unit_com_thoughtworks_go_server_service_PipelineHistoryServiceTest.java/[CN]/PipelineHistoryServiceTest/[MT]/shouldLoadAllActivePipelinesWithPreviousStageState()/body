@@ -1,0 +1,26 @@
+{
+  Username foo=new Username(new CaseInsensitiveString("foo"));
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(ConfigFileFixture.CONFIG).config;
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  PipelineInstanceModels activePipelineInstances=createPipelineInstanceModels();
+  PipelineInstanceModel earlier=activePipeline("pipeline1",9,2.0,new StageInstanceModel("stage1","3",StageResult.Failed,new StageIdentifier()),new StageInstanceModel("stage2","4",JobHistory.withJob("plan1",JobState.Building,JobResult.Unknown,new Date())));
+  earlier.setId(1);
+  PipelineInstanceModel latest=activePipeline("pipeline1",10,1.0,new StageInstanceModel("stage1","4",JobHistory.withJob("plan1",JobState.Building,JobResult.Unknown,new Date())),new NullStageHistoryItem("stage2",true));
+  latest.setId(2);
+  activePipelineInstances.add(latest);
+  activePipelineInstances.add(earlier);
+  when(pipelineDao.loadActivePipelines()).thenReturn(activePipelineInstances);
+  when(pipelineDao.loadHistory(1)).thenReturn(earlier);
+  when(pipelineDao.loadHistory(2)).thenReturn(latest);
+  when(pipelineDao.loadHistory(3)).thenReturn(activePipeline("pipeline1",11,3.0,new StageInstanceModel("stage1","3",StageResult.Failed,new StageIdentifier()),new StageInstanceModel("stage2","2",StageResult.Passed,new StageIdentifier())));
+  when(pipelineTimeline.runBefore(2,new CaseInsensitiveString("pipeline1"))).thenReturn(new PipelineTimelineEntry("pipeline1",1,9,new HashMap<String,List<PipelineTimelineEntry.Revision>>()));
+  when(pipelineTimeline.runBefore(1,new CaseInsensitiveString("pipeline1"))).thenReturn(new PipelineTimelineEntry("pipeline1",3,11,new HashMap<String,List<PipelineTimelineEntry.Revision>>()));
+  stubPermisssionsForActivePipeline(foo,cruiseConfig,"pipeline1",true,true);
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString(any(String.class)))).thenReturn(true);
+  List<PipelineGroupModel> groups=pipelineHistoryService.allActivePipelineInstances(foo,PipelineSelections.ALL);
+  PipelineGroupModel group=groups.get(0);
+  PipelineModel pipelineModel=group.getPipelineModels().get(0);
+  PipelineInstanceModels activePipelines=pipelineModel.getActivePipelineInstances();
+  assertPipelineIs(activePipelines.get(0),"pipeline1","stage1",StageResult.Failed);
+  assertPipelineIs(activePipelines.get(1),"pipeline1","stage2",StageResult.Passed);
+}

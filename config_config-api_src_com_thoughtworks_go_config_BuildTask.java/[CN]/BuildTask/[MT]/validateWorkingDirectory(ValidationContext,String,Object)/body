@@ -1,0 +1,5 @@
+{
+  if (workingDirectory != null && !FileUtil.isFolderInsideSandbox(workingDirectory)) {
+    errors.add(WORKING_DIRECTORY,String.format("Task of job '%s' in stage '%s' of %s '%s' has path '%s' which is outside the working directory.",validationContext.getJob().name(),validationContext.getStage().name(),stageParentType,stageParentName,workingDirectory));
+  }
+}

@@ -1,0 +1,16 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  SvnMaterial svnMaterial=new SvnMaterial("svnUrl",null,null,false);
+  Stage passedStage=StageMother.passedStageInstance("stage-name","job-name","pipeline-name");
+  MaterialRevision previousDependantRevision=new MaterialRevision(dependencyMaterial,new Modification("Unknown","Unknown",null,passedStage.completedDate(),"pipeline-name/1[LABEL-1]/stage-name/0"));
+  Modification dependencyModification=new Modification("Unknown","Unknown",null,passedStage.completedDate(),"pipeline-name/2[LABEL-2]/stage-name/0");
+  MaterialRevision previousSvnRevision=new MaterialRevision(svnMaterial,mod(1L));
+  Modification svnModification=new Modification("user","commend","em@il",new Date(),"2");
+  Mockito.when(materialRepository.findModificationsSince(svnMaterial,previousSvnRevision)).thenReturn(modifications(svnModification));
+  MaterialRevisions alreadyFoundRevisions=new MaterialRevisions(new MaterialRevision(dependencyMaterial,dependencyModification));
+  MaterialRevisions latestRevisions=new MaterialRevisions();
+  MaterialRevisions revisionsSince=materialChecker.findRevisionsSince(alreadyFoundRevisions,new Materials(dependencyMaterial,svnMaterial),new MaterialRevisions(previousDependantRevision,previousSvnRevision),latestRevisions);
+  assertThat(revisionsSince,is(new MaterialRevisions(new MaterialRevision(dependencyMaterial,dependencyModification),new MaterialRevision(svnMaterial,svnModification))));
+  Mockito.verify(materialRepository,never()).findLatestModification(dependencyMaterial);
+  Mockito.verify(materialRepository).findModificationsSince(svnMaterial,previousSvnRevision);
+}

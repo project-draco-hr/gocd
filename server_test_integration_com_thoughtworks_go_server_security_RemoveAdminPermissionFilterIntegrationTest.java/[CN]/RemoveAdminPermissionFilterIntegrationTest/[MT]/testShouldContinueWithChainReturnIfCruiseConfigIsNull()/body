@@ -1,0 +1,6 @@
+{
+  RemoveAdminPermissionFilter filter=new RemoveAdminPermissionFilter(goConfigService,timeProvider);
+  filter.doFilterHttp(request,response,chain);
+  verify(chain).doFilter(request,response);
+  verifyNoMoreInteractions(chain);
+}

@@ -1,0 +1,8 @@
+{
+  Resource subject=contextAwareGraph.createURIReference(new RDFType("http://example.com/subject"),"http://example.com/1");
+  RDFProperty predicate=new RDFProperty("http://example.com/predicate");
+  Resource object=contextAwareGraph.createURIReference(new RDFType("http://example.com/object"),"http://example.com/2");
+  contextAwareGraph.addStatement(subject,predicate,object);
+  String sparqlWithContext="ASK " + "FROM NAMED <http://foo.com/context> " + "WHERE { "+ " GRAPH <" + CONTEXT + "> { "+ "  <http://example.com/1> <http://example.com/predicate> <http://example.com/2> . "+ "  <http://example.com/1> a <http://example.com/subject> . "+ "  <http://example.com/2> a <http://example.com/object> "+ " } "+ "}";
+  assertAskIsTrue(contextUnawareGraph,(sparqlWithContext));
+}

@@ -1,0 +1,22 @@
+{
+  AgentInstance idle=AgentInstanceMother.updateUuid(AgentInstanceMother.idle(new Date(),"CCeDev01"),UUID);
+  AgentInstance pending=AgentInstanceMother.pending();
+  AgentInstance building=AgentInstanceMother.building();
+  AgentInstance denied=AgentInstanceMother.disabled();
+  createEnvironment("uat");
+  EnvironmentConfig environment=environmentConfigService.named("uat");
+  environment.addAgent(UUID);
+  AgentInstances instances=new AgentInstances(null,idle,pending,building,denied);
+  AgentService agentService=getAgentService(instances);
+  AgentsViewModel agents=agentService.agents();
+  Collections.sort(agents,new Comparator<AgentViewModel>(){
+    public int compare(    AgentViewModel o1,    AgentViewModel o2){
+      return o1.getUuid().compareTo(o2.getUuid());
+    }
+  }
+);
+  assertThat(agents.size(),is(4));
+  AgentViewModel idleAgentModel=agents.get(0);
+  assertThat(idleAgentModel.getEnvironments().size(),is(1));
+  assertThat(idleAgentModel.getEnvironments(),hasItem("uat"));
+}

@@ -1,0 +1,8 @@
+{
+  int count=0;
+  while (!stop) {
+    AgentConfig agentConfig=new AgentConfig("uuid" + count,"CCeDev_" + count,"10.18.5." + count);
+    agentInstances.register(AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",Long.MAX_VALUE,"linux"));
+    count++;
+  }
+}

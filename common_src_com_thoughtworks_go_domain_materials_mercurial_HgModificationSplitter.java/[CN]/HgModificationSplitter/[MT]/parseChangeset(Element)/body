@@ -1,0 +1,17 @@
+{
+  Date modifiedTime=DateUtils.parseRFC822(changeset.getChildText("date"));
+  String author=org.apache.commons.lang.StringEscapeUtils.unescapeXml(changeset.getChildText("author"));
+  String comment=org.apache.commons.lang.StringEscapeUtils.unescapeXml(changeset.getChildText("desc"));
+  String revision=changeset.getChildText("node");
+  Modification modification=new Modification(author,comment,null,modifiedTime,revision);
+  Element files=changeset.getChild("files");
+  List<File> modifiedFiles=parseFiles(files,"modified");
+  List<File> addedFiles=parseFiles(files,"added");
+  List<File> deletedFiles=parseFiles(files,"deleted");
+  modifiedFiles.removeAll(addedFiles);
+  modifiedFiles.removeAll(deletedFiles);
+  addModificationFiles(modification,ModifiedAction.added,addedFiles);
+  addModificationFiles(modification,ModifiedAction.deleted,deletedFiles);
+  addModificationFiles(modification,ModifiedAction.modified,modifiedFiles);
+  return modification;
+}

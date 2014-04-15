@@ -1,0 +1,7 @@
+{
+  SvnMaterial original=MaterialsMother.svnMaterial();
+  MaterialRevision originalRevision=saveOneScmModification(original,"user1","file1");
+  MaterialRevision later=saveOneScmModification(original,"user2","file2");
+  List<Modification> modifications=repo.findModificationsSince(original,originalRevision);
+  assertEquals(later.getLatestModification(),modifications.get(0));
+}

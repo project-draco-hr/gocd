@@ -1,0 +1,9 @@
+{
+  EnvironmentConfig environmentConfig=environments.findEnvironmentForPipeline(new CaseInsensitiveString(pipelineName));
+  if (environmentConfig != null) {
+    if (environmentConfig.hasVariable(variableName)) {
+      return true;
+    }
+  }
+  return pipelineConfigByName(new CaseInsensitiveString(pipelineName)).hasVariableInScope(variableName);
+}

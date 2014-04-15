@@ -1,0 +1,6 @@
+{
+  MaterialInstance one=new HgMaterial("url",null).createMaterialInstance();
+  MaterialInstance two=new HgMaterial("otherurl",null).createMaterialInstance();
+  assertThat(one.getFingerprint(),not(nullValue()));
+  assertThat(one.getFingerprint(),not(is(two.getFingerprint())));
+}

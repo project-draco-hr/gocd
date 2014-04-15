@@ -1,0 +1,9 @@
+{
+  JobInstance instance=new JobInstance(jobConfigName);
+  instance.setIdentifier(defaultJobIdentifier(jobConfigName));
+  instance.schedule();
+  instance.getTransition(JobState.Scheduled).setStateChangeTime(scheduledDate);
+  instance.changeState(JobState.Preparing,addMillis(scheduledDate,2 * interval));
+  instance.changeState(JobState.Building,addMillis(scheduledDate,3 * interval));
+  return instance;
+}

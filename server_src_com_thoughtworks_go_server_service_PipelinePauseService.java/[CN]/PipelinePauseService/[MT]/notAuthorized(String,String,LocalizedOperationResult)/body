@@ -1,0 +1,9 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.getCurrentConfig();
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  if (securityService.hasOperatePermissionForGroup(new CaseInsensitiveString(pauseBy),cruiseConfig.findGroupOfPipeline(pipelineConfig).getGroup())) {
+    return false;
+  }
+  result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT_PIPELINE",pipelineName),HealthStateType.unauthorisedForPipeline(pipelineName));
+  return true;
+}

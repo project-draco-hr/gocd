@@ -1,0 +1,9 @@
+{
+  User user=getUser("loser",10L);
+  User newUser=getUser("new user",20L);
+  when(userDao.findUser("new user")).thenReturn(newUser);
+  mockConfigWithSecurity();
+  when(pipelineRepository.findPipelineSelectionsByUserId(user.getId())).thenReturn(null);
+  when(pipelineRepository.findPipelineSelectionsById("1")).thenReturn(null);
+  assertThat(goConfigService.getSelectedPipelines("1",newUser.getId()),is(PipelineSelections.ALL));
+}

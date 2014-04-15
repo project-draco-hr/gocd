@@ -1,0 +1,6 @@
+{
+  String xml=ConfigFileFixture.TWO_PIPELINES;
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(IOUtils.toInputStream(xml)).config;
+  xmlWriter.write(cruiseConfig,output,false);
+  assertXmlEquals(xml,output.toString());
+}

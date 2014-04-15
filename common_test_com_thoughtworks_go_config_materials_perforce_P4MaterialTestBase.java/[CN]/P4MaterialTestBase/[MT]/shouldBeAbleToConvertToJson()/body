@@ -1,0 +1,9 @@
+{
+  P4Material p4Material=p4Fixture.material(VIEW);
+  JsonMap json=new JsonMap();
+  p4Material.toJson(json,new StringRevision("123"));
+  JsonValue jsonValue=JsonUtils.from(json);
+  assertThat(jsonValue.getString("scmType"),is("Perforce"));
+  assertThat(jsonValue.getString("location"),is(p4Material.getServerAndPort()));
+  assertThat(jsonValue.getString("action"),is("Modified"));
+}

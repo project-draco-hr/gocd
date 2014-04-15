@@ -1,0 +1,13 @@
+{
+  MaterialRevisions expectedIfPegged=createHgMaterialWithMultipleRevisions(1L,first);
+  MaterialRevision up1Revision=dependencyMaterialRevision("up1",1,"label","stage",1,new Date());
+  up1Revision.markAsChanged();
+  expectedIfPegged.addRevision(up1Revision);
+  MaterialRevisions actual=createHgMaterialWithMultipleRevisions(1L,third);
+  actual.addRevision(up1Revision);
+  PipelineConfig current=createPipelineConfigWithMaterialConfig("current",actual.getMaterials().get(0).config(),new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("first")));
+  PipelineConfig up1=createPipelineConfigWithMaterialConfig("up1");
+  when(pipelineDao.findBuildCauseOfPipelineByNameAndCounter("up1",1)).thenReturn(BuildCause.createManualForced(expectedIfPegged,new Username(str("loser"))));
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1));
+  assertThat(service.getRevisionsBasedOnDependencies(dependencyGraph,actual),is(actual));
+}

@@ -1,0 +1,16 @@
+{
+  if (attributes == null) {
+    return;
+  }
+  Map attributeMap=(Map)attributes;
+  if (attributeMap.containsKey(BASE_URL)) {
+    baseUrl=(String)attributeMap.get(BASE_URL);
+  }
+  if (attributeMap.containsKey(PROJECT_IDENTIFIER)) {
+    projectIdentifier=(String)attributeMap.get(PROJECT_IDENTIFIER);
+  }
+  if (attributeMap.containsKey(MQL_GROUPING_CONDITIONS)) {
+    mqlCriteria=(mqlCriteria == null) ? new MqlCriteria() : mqlCriteria;
+    mqlCriteria.setConfigAttributes(attributeMap.get(MQL_GROUPING_CONDITIONS));
+  }
+}

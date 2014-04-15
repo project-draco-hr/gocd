@@ -1,0 +1,10 @@
+{
+  String content="<cruise schemaVersion='17'>\n" + "<server artifactsdir='artifacts' />" + "<pipelines>\n"+ "<pipeline name='pipeline1' template='abc'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "    <stage name='badstage'>"+ "      <jobs>"+ "        <job name='job1' />"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "<templates>\n"+ "  <pipeline name='abc'>\n"+ "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1' />"+ "      </jobs>"+ "    </stage>"+ "  </pipeline>\n"+ "</templates>\n"+ "</cruise>";
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("shouldn't have stages and template");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("Cannot add stage 'badstage' to pipeline 'pipeline1', which already references template 'abc'."));
+  }
+}

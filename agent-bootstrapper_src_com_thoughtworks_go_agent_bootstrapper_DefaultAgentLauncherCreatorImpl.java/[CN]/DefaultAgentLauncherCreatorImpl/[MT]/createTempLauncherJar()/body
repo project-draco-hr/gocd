@@ -1,0 +1,12 @@
+{
+  File inUseLauncher;
+  try {
+    inUseLauncher=new File(UUID.randomUUID() + Downloader.AGENT_LAUNCHER);
+    FileUtils.copyFile(new File(Downloader.AGENT_LAUNCHER),inUseLauncher);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+  LauncherTempFileHandler.startTempFileReaper();
+  return inUseLauncher;
+}

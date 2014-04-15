@@ -1,0 +1,9 @@
+{
+  final PipelineConfigs newPipeline=new PipelineConfigs();
+  PipelineConfig pipelineConfig=createPipelineConfig("pipeline","name","plan");
+  newPipeline.add(pipelineConfig);
+  newPipeline.setAuthorization(new Authorization(new AdminsConfig(new AdminUser(new CaseInsensitiveString("dawg")))));
+  expectLoad(new CruiseConfig(newPipeline));
+  final Username dawg=new Username(new CaseInsensitiveString("dawg"));
+  assertThat(goConfigService.isGroupAdministrator(dawg.getUsername()),is(true));
+}

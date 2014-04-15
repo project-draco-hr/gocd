@@ -1,0 +1,10 @@
+{
+  if (!isEmpty(pluginId) && hasPreferenceFor(pluginId)) {
+    PackageConfigurations configurations=preferenceFor(pluginId);
+    PackageConfiguration configurationForGivenKey=configurations.get(key);
+    if (configurationForGivenKey != null) {
+      return configurationForGivenKey.hasOption(option);
+    }
+  }
+  return option.getValue();
+}

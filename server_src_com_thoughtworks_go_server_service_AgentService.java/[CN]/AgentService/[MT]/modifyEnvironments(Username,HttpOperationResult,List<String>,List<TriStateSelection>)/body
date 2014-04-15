@@ -1,0 +1,16 @@
+{
+  if (!hasOperatePermission(username,operationResult)) {
+    return;
+  }
+  List<AgentInstance> agents=new ArrayList<AgentInstance>();
+  if (!populateAgentInstancesForUUIDs(operationResult,uuids,agents)) {
+    return;
+  }
+  try {
+    environmentConfigService.modifyEnvironments(agents,selections);
+    operationResult.ok(String.format("Environment(s) modified on %s agent(s)",uuids.size()));
+  }
+ catch (  Exception e) {
+    operationResult.notAcceptable("Could not modify environments:" + e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
+  }
+}

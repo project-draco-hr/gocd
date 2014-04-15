@@ -1,0 +1,7 @@
+{
+  LdapConfig ldapConfig=new LdapConfig("uri","managerDn","password-1","",false,new BasesConfig(new BaseConfig("old_base")),"blah");
+  LdapConfig newLdapConfig=new LdapConfig("uri","managerDn","password-2",null,false,new BasesConfig(new BaseConfig("new_base")),"blah");
+  ldapConfig.updateWithNew(newLdapConfig);
+  assertThat(ldapConfig.getBasesConfig().size(),is(1));
+  assertThat(ldapConfig.getBasesConfig().first().getValue(),is("new_base"));
+}

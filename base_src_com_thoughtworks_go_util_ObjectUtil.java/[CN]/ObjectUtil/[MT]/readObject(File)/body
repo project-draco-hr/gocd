@@ -1,0 +1,10 @@
+{
+  InputStream inputStream=null;
+  try {
+    inputStream=new FileInputStream(file);
+    return new ObjectInputStream(inputStream).readObject();
+  }
+  finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+}

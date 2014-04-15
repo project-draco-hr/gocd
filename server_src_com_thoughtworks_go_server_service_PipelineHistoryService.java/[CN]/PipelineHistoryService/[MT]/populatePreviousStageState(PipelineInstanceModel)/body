@@ -1,0 +1,20 @@
+{
+  if (activePipeline.isAnyStageActive()) {
+    StageInstanceModel activeStage=activePipeline.activeStage();
+    StageInstanceModel latestActive=null;
+    long id=activePipeline.getId();
+    do {
+      PipelineTimelineEntry timelineEntry=pipelineTimeline.runBefore(id,new CaseInsensitiveString(activePipeline.getName()));
+      if (timelineEntry == null) {
+        break;
+      }
+      id=timelineEntry.getId();
+      PipelineInstanceModel instanceModel=pipelineDao.loadHistory(id);
+      if (instanceModel != null && instanceModel.hasStageBeenRun(activeStage.getName())) {
+        latestActive=instanceModel.getStageHistory().byName(activeStage.getName());
+      }
+    }
+ while (latestActive == null);
+    activeStage.setPreviousStage(latestActive);
+  }
+}

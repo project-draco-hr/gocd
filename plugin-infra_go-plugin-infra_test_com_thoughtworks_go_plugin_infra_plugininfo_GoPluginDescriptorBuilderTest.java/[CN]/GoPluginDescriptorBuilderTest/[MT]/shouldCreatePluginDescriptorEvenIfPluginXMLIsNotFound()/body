@@ -1,0 +1,8 @@
+{
+  String pluginJarName="descriptor-aware-test-plugin-with-no-plugin-xml.jar";
+  copyPluginToThePluginDirectory(pluginDirectory,pluginJarName);
+  File pluginJarFile=new File(pluginDirectory,pluginJarName);
+  GoPluginDescriptor descriptor=goPluginDescriptorBuilder.build(pluginJarFile,false);
+  assertThat(descriptor.isInvalid(),is(false));
+  assertThat(descriptor.id(),is(pluginJarName));
+}

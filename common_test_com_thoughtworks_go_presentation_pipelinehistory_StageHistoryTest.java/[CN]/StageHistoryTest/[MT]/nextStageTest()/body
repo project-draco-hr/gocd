@@ -1,0 +1,8 @@
+{
+  assertThat(stageHistory.nextStageName(STAGE_UT),is(STAGE_FT));
+  assertThat(stageHistory.nextStageName(STAGE_FT),is(STAGE_RELEASE));
+  assertThat(stageHistory.nextStageName(STAGE_RELEASE),is(nullValue()));
+  assertThat(stageHistory.nextStageName("notExisting"),is(nullValue()));
+  assertThat(stageHistory.nextStageName(""),is(nullValue()));
+  assertThat(stageHistory.nextStageName(null),is(nullValue()));
+}

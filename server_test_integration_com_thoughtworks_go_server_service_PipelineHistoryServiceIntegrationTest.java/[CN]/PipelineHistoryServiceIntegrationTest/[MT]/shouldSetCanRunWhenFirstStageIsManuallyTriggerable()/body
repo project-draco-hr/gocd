@@ -1,0 +1,7 @@
+{
+  configHelper.setViewPermissionForGroup(pipelineOne.groupName,"jez");
+  pipelineOne.createPipelineWithFirstStageScheduled();
+  pipelineOne.moveStageToEnd(CaseInsensitiveString.str(pipelineOne.stageConfig(1).name()));
+  PipelineInstanceModels pipelineInstanceModels=pipelineHistoryService.findPipelineInstances(pipelineOne.pipelineName,"latest",1,"jez");
+  assertThat(pipelineInstanceModels.get(0).getCanRun(),is(true));
+}

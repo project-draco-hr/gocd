@@ -1,0 +1,15 @@
+{
+  Bundle bundle=pluginOSGiFramework.loadPlugin(new GoPluginDescriptor(null,null,null,null,descriptorBundleDir,true));
+  assertThat(bundle.getState(),is(Bundle.ACTIVE));
+  BundleContext context=bundle.getBundleContext();
+  ServiceReference<?>[] allServiceReferences=context.getServiceReferences(PluginDescriptorAware.class.getCanonicalName(),null);
+  assertThat(allServiceReferences.length,is(1));
+  try {
+    PluginDescriptorAware service=(PluginDescriptorAware)context.getService(allServiceReferences[0]);
+    service.setPluginDescriptor(getDescriptor());
+    assertThat("@Load should have been called",getIntField(service,"loadCalled"),is(1));
+  }
+ catch (  Exception e) {
+    fail(String.format("setPluginDescriptor should have been called. Exception: %s",e.getMessage()));
+  }
+}

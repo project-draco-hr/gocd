@@ -1,0 +1,6 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . " + "<http://example.com/1> rdf:type ex:Yadda . "+ "<http://example.com/2> rdf:type ex:Yadda . ";
+  contextUnawareGraph.addTriplesFromTurtle(turtle);
+  String selectFirst="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?s WHERE { " + "?s a ex:Yadda "+ "}";
+  contextUnawareGraph.selectFirst(selectFirst);
+}

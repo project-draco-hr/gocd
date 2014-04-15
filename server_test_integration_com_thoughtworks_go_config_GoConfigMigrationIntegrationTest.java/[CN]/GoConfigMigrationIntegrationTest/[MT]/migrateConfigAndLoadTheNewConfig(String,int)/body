@@ -1,0 +1,7 @@
+{
+  String migratedContent=migrateXmlString(content,fromVersion);
+  GoConfigService.XmlPartialSaver fileSaver=goConfigService.fileSaver(true);
+  GoConfigValidity configValidity=fileSaver.saveXml(migratedContent,goConfigService.configFileMd5());
+  assertThat(configValidity.isValid(),is(true));
+  return goConfigService.getCurrentConfig();
+}

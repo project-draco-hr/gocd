@@ -1,0 +1,18 @@
+{
+  if (FileUtil.isAbsolutePath(path)) {
+    if (base == null) {
+      String[] s=FileUtil.dissect(path);
+      base=new File(s[0]);
+      path=s[1];
+    }
+ else {
+      File f=FileUtil.normalize(path);
+      String s=FileUtil.removeLeadingPath(base,f);
+      if (s.equals(f.getAbsolutePath())) {
+        return null;
+      }
+      path=s;
+    }
+  }
+  return findFile(base,SelectorUtils.tokenizePath(path),cs);
+}

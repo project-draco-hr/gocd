@@ -1,0 +1,9 @@
+{
+  HashMap<String,Serializable> params=PackageDefinitionMother.paramsForPackageMaterialCreation(repoId,pkgName);
+  PackageDefinitionCreator packageDefinitionCreator=new PackageDefinitionCreator(packageDefinitionService,params);
+  PackageDefinition newPackageDefinition=packageDefinitionCreator.createNewPackageDefinition(cruiseConfig);
+  assertThat(newPackageDefinition.getName(),is(pkgName));
+  assertThat(newPackageDefinition.getRepository(),is(packageRepository));
+  verify(packageDefinitionService).performPluginValidationsFor(any(PackageDefinition.class));
+  verify(cruiseConfig).savePackageDefinition(any(PackageDefinition.class));
+}

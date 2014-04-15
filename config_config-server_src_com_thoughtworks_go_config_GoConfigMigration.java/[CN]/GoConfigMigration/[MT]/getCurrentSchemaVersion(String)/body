@@ -1,0 +1,12 @@
+{
+  try {
+    SAXBuilder builder=new SAXBuilder(false);
+    Document document=builder.build(new ByteArrayInputStream(content.getBytes()));
+    Element root=document.getRootElement();
+    String currentVersion=root.getAttributeValue(schemaVersion) == null ? "0" : root.getAttributeValue(schemaVersion);
+    return Integer.parseInt(currentVersion);
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}

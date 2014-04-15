@@ -1,0 +1,4 @@
+{
+  assertThat(Filter.fromDisplayString("/foo/**.*,/another/**.*,bar"),is(new Filter(new IgnoredFiles("/foo/**.*"),new IgnoredFiles("/another/**.*"),new IgnoredFiles("bar"))));
+  assertThat(Filter.fromDisplayString("/foo/**.* , /another/**.*,     bar     "),is(new Filter(new IgnoredFiles("/foo/**.*"),new IgnoredFiles("/another/**.*"),new IgnoredFiles("bar"))));
+}

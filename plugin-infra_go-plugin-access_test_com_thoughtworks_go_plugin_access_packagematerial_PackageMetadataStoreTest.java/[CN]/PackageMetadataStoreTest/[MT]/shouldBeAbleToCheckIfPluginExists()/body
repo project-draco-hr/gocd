@@ -1,0 +1,7 @@
+{
+  PackageMetadataStore metadataStore=PackageMetadataStore.getInstance();
+  PackageConfigurations packageConfigurations=new PackageConfigurations();
+  metadataStore.addMetadataFor("plugin-id",packageConfigurations);
+  assertThat(metadataStore.hasPlugin("plugin-id"),is(true));
+  assertThat(metadataStore.hasPlugin("some-plugin-which-does-not-exist"),is(false));
+}

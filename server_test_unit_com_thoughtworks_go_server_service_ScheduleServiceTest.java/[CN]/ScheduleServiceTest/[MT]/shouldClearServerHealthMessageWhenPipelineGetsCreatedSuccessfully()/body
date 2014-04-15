@@ -1,0 +1,15 @@
+{
+  final PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline-quux");
+  final MaterialConfig materialConfig=pipelineConfig.materialConfigs().get(0);
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("pipeline-quux"))).thenReturn(pipelineConfig);
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(cruiseConfig.getMd5()).thenReturn("md5-test");
+  when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
+  when(schedulingChecker.canAutoTriggerConsumer(pipelineConfig)).thenReturn(true);
+  when(pipelineScheduleQueue.createPipeline(any(BuildCause.class),eq(pipelineConfig),any(SchedulingContext.class),eq("md5-test"),eq(timeProvider))).thenReturn(PipelineMother.schedule(pipelineConfig,BuildCause.createManualForced(new MaterialRevisions(new MaterialRevision(MaterialsMother.createMaterialFromMaterialConfig(materialConfig),ModificationsMother.aCheckIn("123","foo.c"))),new Username(new CaseInsensitiveString("loser")))));
+  final HashMap<String,BuildCause> map=new HashMap<String,BuildCause>();
+  map.put("pipeline-quux",BuildCause.createManualForced());
+  when(pipelineScheduleQueue.toBeScheduled()).thenReturn(map);
+  service.autoSchedulePipelinesFromRequestBuffer();
+  verify(serverHealthService).update(ServerHealthState.success(HealthStateType.general(HealthStateScope.forStage("pipeline-quux","mingle"))));
+}

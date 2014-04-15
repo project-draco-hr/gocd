@@ -1,0 +1,4 @@
+{
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  return new SendEmailMessage("Server Backup Failed",String.format("Backup of the Go server at '%s' has failed. The reason is: %s",ipAddress,exceptionMessage),adminEmail);
+}

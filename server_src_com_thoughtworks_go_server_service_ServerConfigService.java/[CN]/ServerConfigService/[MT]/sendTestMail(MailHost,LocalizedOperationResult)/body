@@ -1,0 +1,11 @@
+{
+  validate(mailHost,result);
+  if (!result.isSuccessful()) {
+    return;
+  }
+  GoMailSender sender=provider.createSender(mailHost);
+  ValidationBean validationBean=sender.send(TEST_EMAIL_SUBJECT,GoSmtpMailSender.emailBody(),mailHost.getAdminMail());
+  if (!validationBean.isValid()) {
+    result.notAcceptable(LocalizedMessage.string("FAILED_TO_SEND_TEST_MAIL",validationBean.getError()));
+  }
+}

@@ -1,0 +1,13 @@
+{
+  com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration configuration=new com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration();
+  configuration.add(new PackageMaterialProperty("k1","v1").with(Property.SECURE,Boolean.TRUE));
+  PackageConfigurations packageConfigurations=new PackageConfigurations(configuration);
+  assertThat(packageConfigurations.list().size(),is(1));
+  assertThat(packageConfigurations.list().get(0).getKey(),is("k1"));
+  assertThat(packageConfigurations.list().get(0).getValue(),is("v1"));
+  assertThat(packageConfigurations.list().get(0).getOption(PackageConfiguration.REQUIRED),is(true));
+  assertThat(packageConfigurations.list().get(0).getOption(PackageConfiguration.PART_OF_IDENTITY),is(true));
+  assertThat(packageConfigurations.list().get(0).getOption(PackageConfiguration.SECURE),is(true));
+  assertThat(packageConfigurations.list().get(0).getOption(PackageConfiguration.DISPLAY_NAME),is(""));
+  assertThat(packageConfigurations.list().get(0).getOption(PackageConfiguration.DISPLAY_ORDER),is(0));
+}

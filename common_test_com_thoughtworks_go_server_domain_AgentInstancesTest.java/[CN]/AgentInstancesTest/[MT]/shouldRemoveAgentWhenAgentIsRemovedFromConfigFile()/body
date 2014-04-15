@@ -1,0 +1,8 @@
+{
+  AgentInstances agentInstances=new AgentInstances(null,idle,building);
+  Agents oneAgentIsRemoved=new Agents(new AgentConfig("uuid2","CCeDev01","10.18.5.1"));
+  agentInstances.sync(oneAgentIsRemoved);
+  assertThat(agentInstances.size(),is(1));
+  assertThat(agentInstances.findAgentAndRefreshStatus("uuid2"),is(idle));
+  assertThat(agentInstances.findAgentAndRefreshStatus("uuid1"),is((AgentInstance)new NullAgentInstance("uuid1")));
+}

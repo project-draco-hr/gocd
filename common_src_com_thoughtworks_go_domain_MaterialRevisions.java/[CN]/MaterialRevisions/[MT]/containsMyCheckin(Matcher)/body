@@ -1,0 +1,11 @@
+{
+  for (  MaterialRevision materialRevision : this) {
+    for (    Modification modification : materialRevision.getModifications()) {
+      String fullComment=String.format("%s %s",modification.getUserName(),modification.getComment());
+      if (matcher.matches(fullComment)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

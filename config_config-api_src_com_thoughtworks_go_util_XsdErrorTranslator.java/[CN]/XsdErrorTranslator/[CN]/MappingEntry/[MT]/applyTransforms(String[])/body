@@ -1,0 +1,15 @@
+{
+  for (int i=0, transformsLength=transforms.length; i < transformsLength; i++) {
+    int transform=transforms[i];
+    if ((transform & HUMANIZE) != 0) {
+      args[i]=StringUtil.humanize(args[i]);
+    }
+    if ((transform & CAPITALIZE) != 0) {
+      args[i]=StringUtils.capitalize(args[i]);
+    }
+    if ((transform & REMOVE_TYPE_SUFFIX) != 0) {
+      args[i]=StringUtils.replace(args[i]," type","");
+    }
+  }
+  return args;
+}

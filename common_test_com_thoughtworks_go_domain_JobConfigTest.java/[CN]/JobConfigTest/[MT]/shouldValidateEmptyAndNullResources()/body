@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.CreatePipelineConfigWithJobConfigs("pipeline1");
+  JobConfig jobConfig=JobConfigMother.createJobConfigWithJobNameAndEmptyResources();
+  ValidationContext validationContext=mock(ValidationContext.class);
+  when(validationContext.getPipeline()).thenReturn(pipelineConfig);
+  when(validationContext.getStage()).thenReturn(pipelineConfig.getFirstStageConfig());
+  jobConfig.validate(validationContext);
+  assertThat(jobConfig.errors().isEmpty(),is(false));
+  assertThat(jobConfig.errors().getAll().get(0),is("Empty resource name in job \"defaultJob\" of stage \"mingle\" of pipeline \"pipeline1\". If a template is used, please ensure that the resource parameters are defined for this pipeline."));
+}

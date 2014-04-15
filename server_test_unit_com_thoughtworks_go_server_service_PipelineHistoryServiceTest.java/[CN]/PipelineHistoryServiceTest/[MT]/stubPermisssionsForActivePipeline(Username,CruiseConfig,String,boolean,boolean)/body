@@ -1,0 +1,6 @@
+{
+  when(securityService.hasViewPermissionForPipeline(username,pipelineName)).thenReturn(true);
+  when(securityService.hasOperatePermissionForPipeline(username.getUsername(),pipelineName)).thenReturn(operatePermission);
+  stubConfigServiceToReturnPipeline(pipelineName,cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName)));
+  when(schedulingCheckerService.canManuallyTrigger(pipelineName,username)).thenReturn(canTrigger);
+}

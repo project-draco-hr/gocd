@@ -1,0 +1,5 @@
+{
+  pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig);
+  Stage stage=stageDao.mostRecentCompleted(new StageConfigIdentifier(PIPELINE_NAME,STAGE_DEV));
+  assertThat(stage.getResult(),is(StageResult.Passed));
+}

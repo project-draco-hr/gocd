@@ -1,0 +1,7 @@
+{
+  dbHelper.pass(dbHelper.schedulePipeline(mingleConfig,new TimeProvider()));
+  dbHelper.pass(dbHelper.schedulePipeline(mingleConfig,new TimeProvider()));
+  Pipeline running=pipelineWithFirstStageRunning(mingleConfig);
+  Stage completed=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(mingleConfig.name()),mingleConfig.get(0));
+  verifyBuildInstancesWithoutCaringAboutTransitions(STAGE_DEV,completed);
+}

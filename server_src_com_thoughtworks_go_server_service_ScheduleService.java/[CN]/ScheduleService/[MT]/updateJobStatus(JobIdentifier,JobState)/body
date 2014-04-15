@@ -1,0 +1,38 @@
+{
+  final String stageMutex=mutexForStageInstance(jobIdentifier);
+synchronized (stageMutex) {
+synchronized (mutexForJob(jobIdentifier)) {
+      final JobInstance job=jobInstanceService.buildByIdWithTransitions(jobIdentifier.getBuildId());
+      transactionTemplate.executeWithExceptionHandling(new com.thoughtworks.go.server.transaction.TransactionCallbackWithoutResult(){
+        public void doInTransactionWithoutResult(        TransactionStatus status) throws Exception {
+          if (job.isNull() || job.getState() == JobState.Rescheduled || job.getResult() == JobResult.Cancelled) {
+            return;
+          }
+          job.changeState(jobState);
+          job.setIdentifier(jobIdentifier);
+          jobInstanceService.updateStateAndResult(job);
+          synchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+            @Override public void afterCommit(){
+              stageDao.clearCachedAllStages(jobIdentifier.getPipelineName(),jobIdentifier.getPipelineCounter(),jobIdentifier.getStageName());
+            }
+          }
+);
+          if (job.isCompleted()) {
+            Stage stage=stageService.stageById(job.getStageId());
+            stageService.updateResult(stage);
+          }
+        }
+      }
+);
+      transactionTemplate.executeWithExceptionHandling(new com.thoughtworks.go.server.transaction.TransactionCallbackWithoutResult(){
+        @Override public void doInTransactionWithoutResult(        TransactionStatus status) throws Exception {
+          if (job.isCompleted()) {
+            Stage stage=stageService.stageById(job.getStageId());
+            automaticallyTriggerRelevantStagesFollowingCompletionOf(stage);
+          }
+        }
+      }
+);
+    }
+  }
+}

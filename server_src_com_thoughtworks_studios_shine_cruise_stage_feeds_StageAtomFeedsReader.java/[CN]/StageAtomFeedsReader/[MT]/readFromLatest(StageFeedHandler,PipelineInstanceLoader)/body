@@ -1,0 +1,13 @@
+{
+  List<FeedEntry> stageFeeds=lastPageOfFeeds();
+  while (!stageFeeds.isEmpty()) {
+    for (    FeedEntry feedEntry : stageFeeds) {
+      if (stageFeedHandler.shouldStopHandling((StageFeedEntry)feedEntry)) {
+        return;
+      }
+      ;
+      stageFeedHandler.handle((StageFeedEntry)feedEntry,pipelineInstanceLoader);
+    }
+    stageFeeds=pageBefore(lastFeed(stageFeeds).getId());
+  }
+}

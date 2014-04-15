@@ -1,0 +1,16 @@
+{
+  PresentationElement el=null;
+  for (  PresentationElement presentationElement : list) {
+    if (presentationElement.getName().equals(CaseInsensitiveString.str(admin.getName()))) {
+      el=presentationElement;
+    }
+  }
+  if (el == null) {
+    el=new PresentationElement(CaseInsensitiveString.str(admin.getName()),type);
+    if (!admin.errors().isEmpty()) {
+      el.addError(Admin.NAME,admin.errors().on(Admin.NAME));
+    }
+    list.add(el);
+  }
+  privilegeType.set(el);
+}

@@ -1,0 +1,7 @@
+{
+  FailingTestsInPipeline pipelineForThisTestCase=add(pipelineCounter,pipelineLabel);
+  FailingTestsInPipeline currentPipeline=failingTestsInPipelines.getFirst();
+  if ((pipelineForThisTestCase == currentPipeline) || currentPipeline.contains(suiteName,testName)) {
+    pipelineForThisTestCase.add(suiteName,testName,testStatus,jobIdentifier);
+  }
+}

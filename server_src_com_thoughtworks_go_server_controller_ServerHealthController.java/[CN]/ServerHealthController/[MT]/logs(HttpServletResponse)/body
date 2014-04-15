@@ -1,0 +1,8 @@
+{
+  List<ServerHealthState> logEntries=serverHealthService.getAllValidLogs(goConfigService.currentCruiseConfig());
+  JsonList logList=new JsonList();
+  for (  ServerHealthState serverHealthState : logEntries) {
+    logList.add(serverHealthState.asJson());
+  }
+  return jsonFound(logList).respond(response);
+}

@@ -1,0 +1,11 @@
+{
+  for (  TestCaseModel testCaseModel : testCaseModels) {
+    JobIdentifier jobIdentifier=testCaseModel.getJobIdentifier();
+    if (!StringUtils.isEmpty(testCaseModel.getTestName())) {
+      stageTestRuns.add(jobIdentifier.getPipelineCounter(),jobIdentifier.getPipelineLabel(),testCaseModel.getTestSuiteName(),testCaseModel.getTestName(),TestStatus.fromURLType(testCaseModel.isError()),jobIdentifier);
+    }
+ else {
+      stageTestRuns.add(jobIdentifier.getPipelineCounter(),jobIdentifier.getPipelineLabel());
+    }
+  }
+}

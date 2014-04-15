@@ -1,0 +1,9 @@
+{
+  try {
+    DependencyMaterialRevision.create("pipeline",null,"1.0.123","stage",1);
+    fail("creation without pipeline counter must not be allowed");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Dependency material revision can not be created without pipeline counter."));
+  }
+}

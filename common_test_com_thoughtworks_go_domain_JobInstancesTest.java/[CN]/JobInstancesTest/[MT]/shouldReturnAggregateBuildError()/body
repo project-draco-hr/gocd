@@ -1,0 +1,22 @@
+{
+  JobInstances builds=new JobInstances();
+  final JobInstance withError=context.mock(JobInstance.class,"withError");
+  final JobInstance withoutErrors=context.mock(JobInstance.class,"withoutErrors");
+  builds.add(withError);
+  builds.add(withoutErrors);
+  context.checking(new Expectations(){
+{
+      one(withError).getBuildError();
+      will(returnValue("errors"));
+      one(withError).getName();
+      will(returnValue("name"));
+      one(withoutErrors).getBuildError();
+      will(returnValue(""));
+      one(withoutErrors).getName();
+      will(returnValue("name1"));
+    }
+  }
+);
+  List<JobInstance> jobErrors=builds.withNonEmptyBuildErrors();
+  assertThat(jobErrors.size(),is(1));
+}

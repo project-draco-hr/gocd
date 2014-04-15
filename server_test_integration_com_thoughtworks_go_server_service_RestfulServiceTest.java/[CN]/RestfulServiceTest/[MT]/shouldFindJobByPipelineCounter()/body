@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  Stage stage=pipeline.getStages().byName(fixture.devStage);
+  JobInstance job=stage.getJobInstances().first();
+  JobIdentifier result=restfulService.findJob(pipeline.getName(),String.valueOf(pipeline.getCounter()),stage.getName(),String.valueOf(stage.getCounter()),job.getName(),job.getId());
+  JobIdentifier expect=new JobIdentifier(pipeline,stage,job);
+  assertThat(result,is(expect));
+}

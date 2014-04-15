@@ -1,0 +1,7 @@
+{
+  RepositoryConnection badConnection=mock(RepositoryConnection.class);
+  doThrow(new RepositoryException("")).when(badConnection).getStatements((org.openrdf.model.Resource)any(),(org.openrdf.model.URI)any(),(org.openrdf.model.Value)any(),anyBoolean());
+  SesameGraph otherGraph=new SesameGraph(badConnection,null);
+  SesameGraph badGraph=new SesameGraph(badConnection,null);
+  badGraph.addTriplesFromGraph(otherGraph);
+}

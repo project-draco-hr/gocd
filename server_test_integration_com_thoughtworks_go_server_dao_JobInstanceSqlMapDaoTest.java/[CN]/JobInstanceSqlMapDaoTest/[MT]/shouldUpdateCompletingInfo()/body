@@ -1,0 +1,11 @@
+{
+  JobInstance expected=scheduled(JOB_NAME);
+  jobInstanceDao.save(stageId,expected);
+  expected.changeState(JobState.Completing);
+  expected.setResult(JobResult.Failed);
+  jobInstanceDao.updateStateAndResult(expected);
+  JobInstance actual=jobInstanceDao.buildByIdWithTransitions(expected.getId());
+  assertThat(actual.getState(),is(JobState.Completing));
+  assertThat(actual.getTransitions().size(),is(2));
+  assertThat(actual.getResult(),is(JobResult.Failed));
+}

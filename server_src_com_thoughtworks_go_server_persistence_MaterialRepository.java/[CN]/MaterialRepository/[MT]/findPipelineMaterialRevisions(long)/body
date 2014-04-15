@@ -1,0 +1,12 @@
+{
+  String cacheKey=pipelinePmrsKey(pipelineId);
+synchronized (cacheKey) {
+    List results=(List)goCache.get(cacheKey);
+    if (results != null) {
+      return results;
+    }
+    results=findPMRByPipelineId(pipelineId);
+    goCache.put(cacheKey,results);
+    return results;
+  }
+}

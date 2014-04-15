@@ -1,0 +1,7 @@
+{
+  Role role1=new Role(new CaseInsensitiveString("role1"));
+  Role role2=new Role(new CaseInsensitiveString("role1"));
+  RolesConfig rolesConfig=new RolesConfig(role1,role2);
+  rolesConfig.validate(null);
+  assertEquals(1,rolesConfig.errors().getAll().size());
+}

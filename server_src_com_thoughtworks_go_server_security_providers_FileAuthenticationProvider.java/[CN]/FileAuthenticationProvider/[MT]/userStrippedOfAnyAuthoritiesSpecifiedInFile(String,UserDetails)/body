@@ -1,0 +1,8 @@
+{
+  com.thoughtworks.go.domain.User user=userService.findUserByName(details.getUsername());
+  String displayName=username;
+  if (user != null && !user.getDisplayName().isEmpty()) {
+    displayName=user.getDisplayName();
+  }
+  return new GoUserPrinciple(details.getUsername(),displayName,details.getPassword(),details.isEnabled(),details.isAccountNonExpired(),details.isCredentialsNonExpired(),details.isAccountNonLocked(),authorityGranter.authorities(username));
+}

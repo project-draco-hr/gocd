@@ -1,0 +1,13 @@
+{
+  PipelineConfig pipelineConfig=PipelineMother.withSingleStageWithMaterials("go","dev",withBuildPlans("unit"));
+  pipelineConfig.getFirstStageConfig().setCleanWorkingDir(true);
+  configHelper.addPipeline("go","dev");
+  configHelper.addEnvironments("newEnv");
+  configHelper.addPipelineToEnvironment("newEnv","go");
+  scheduleHelper.schedule(pipelineConfig,BuildCause.createWithModifications(modifyOneFile(pipelineConfig),""),GoConstants.DEFAULT_APPROVED_BY);
+  List<JobPlan> jobPlans=jobInstanceService.orderedScheduledBuilds();
+  List<WaitingJobPlan> waitingJobPlans=jobInstanceService.waitingJobPlans();
+  assertThat(waitingJobPlans.size(),is(1));
+  assertThat(waitingJobPlans.get(0).jobPlan(),is(jobPlans.get(0)));
+  assertThat(waitingJobPlans.get(0).envName(),is("newEnv"));
+}

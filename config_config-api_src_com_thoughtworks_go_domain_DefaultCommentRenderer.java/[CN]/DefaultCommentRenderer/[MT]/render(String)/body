@@ -1,0 +1,26 @@
+{
+  if (StringUtils.isBlank(text)) {
+    return "";
+  }
+  if (regex.isEmpty() || link.isEmpty()) {
+    Comment comment=new Comment();
+    comment.escapeAndAdd(text);
+    return comment.render();
+  }
+  try {
+    java.util.regex.Matcher matcher=Pattern.compile(regex).matcher(text);
+    int start=0;
+    Comment comment=new Comment();
+    while (hasMatch(matcher)) {
+      comment.escapeAndAdd(text.substring(start,matcher.start()));
+      comment.add(dynamicLink(matcher));
+      start=matcher.end();
+    }
+    comment.escapeAndAdd(text.substring(start));
+    return comment.render();
+  }
+ catch (  PatternSyntaxException e) {
+    LOGGER.warn(String.format("Illegal regular expression: %s - %s",regex,e.getMessage()));
+  }
+  return text;
+}

@@ -1,0 +1,6 @@
+{
+  PipelineConfig springConfig=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("spring","ut","www.spring.com");
+  goConfigFileDao.addPipeline(springConfig,null);
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  assertThat(cruiseConfig.numbersOfPipeline(DEFAULT_GROUP),is(1));
+}

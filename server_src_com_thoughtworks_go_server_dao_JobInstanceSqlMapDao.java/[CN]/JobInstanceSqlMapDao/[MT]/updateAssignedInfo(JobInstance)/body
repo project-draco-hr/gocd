@@ -1,0 +1,10 @@
+{
+  return (JobInstance)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      getSqlMapClientTemplate().update("updateAssignedInfo",jobInstance);
+      updateStateAndResult(jobInstance);
+      return jobInstance;
+    }
+  }
+);
+}

@@ -1,0 +1,11 @@
+{
+  Pipeline pipeline=pipelineFixture.createdPipelineWithAllStagesPassed();
+  ccTrayStatus.stageStatusChanged(pipeline.getFirstStage());
+  ccTrayStatusService.createCctrayXmlDocument("");
+  configHelper.removeStage(pipelineFixture.pipelineName,pipelineFixture.devStage);
+  Document document=ccTrayStatusService.createCctrayXmlDocument("");
+  String stageProject=format("%s :: %s",pipelineFixture.pipelineName,pipelineFixture.devStage);
+  assertNoProject(document,stageProject);
+  String jobProject=String.format("%s :: %s :: %s",pipelineFixture.pipelineName,pipelineFixture.devStage,PipelineWithTwoStages.JOB_FOR_DEV_STAGE);
+  assertNoProject(document,jobProject);
+}

@@ -1,0 +1,8 @@
+{
+  ServerSiteUrlConfig url=new ServerSiteUrlConfig("http://someurl.com");
+  assertThat(url.siteUrlFor("http://test.host/foo/bar?foo=bar"),is("http://someurl.com/foo/bar?foo=bar"));
+  assertThat(url.siteUrlFor("http://test.host/foo/bar?foo=bar&baz=quux"),is("http://someurl.com/foo/bar?foo=bar&baz=quux"));
+  url=new ServerSiteUrlConfig("http://someurl.com/");
+  assertThat(url.siteUrlFor("http://test.host/foo/bar?foo=bar"),is("http://someurl.com/foo/bar?foo=bar"));
+  assertThat(url.siteUrlFor("http://test.host/foo/bar?foo=bar&baz=quux"),is("http://someurl.com/foo/bar?foo=bar&baz=quux"));
+}

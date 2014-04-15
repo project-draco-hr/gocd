@@ -1,0 +1,9 @@
+{
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  context.setProperty(PROPERTY_NAME,PROPERTY_VALUE,false);
+  InMemoryStreamConsumer consumer=ProcessOutputStreamConsumer.inMemoryConsumer();
+  Map<String,String> map=new HashMap<String,String>();
+  context.setupRuntimeEnvironment(map,consumer);
+  assertThat(map.get(PROPERTY_NAME),is(PROPERTY_VALUE));
+  assertThat(consumer.getAllOutput(),containsString("[go] setting environment variable 'PROPERTY_NAME' to value 'property value'"));
+}

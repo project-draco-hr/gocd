@@ -1,0 +1,13 @@
+{
+  String username=CaseInsensitiveString.str(UserHelper.getUserName().getUsername());
+  JsonMap json=new JsonMap();
+  try {
+    json.put("pipelines",jsonCurrentActivityService.pipelinesActivityAsJson(username,pipelineName));
+    return jsonFound(json).respond(response);
+  }
+ catch (  PipelineNotFoundException e) {
+    JsonMap jsonLog=new JsonMap();
+    jsonLog.put(ERROR_FOR_JSON,e.getMessage());
+    return jsonNotFound(jsonLog).respond(response);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  double calculatedOrder=calculateNaturalOrder();
+  if (this.naturalOrder > 0.0 && this.naturalOrder != calculatedOrder) {
+    bomb(String.format("Calculated natural ordering %s is not the same as the existing naturalOrder %s, for pipeline %s, with id %s",calculatedOrder,this.naturalOrder,this.pipelineName,this.id));
+  }
+  if (this.naturalOrder == 0.0 && this.naturalOrder != calculatedOrder) {
+    this.naturalOrder=calculatedOrder;
+    this.hasBeenUpdated=true;
+  }
+}

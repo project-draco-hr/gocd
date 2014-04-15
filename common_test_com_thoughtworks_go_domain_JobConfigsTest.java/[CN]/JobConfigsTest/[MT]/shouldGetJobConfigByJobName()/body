@@ -1,0 +1,9 @@
+{
+  JobConfigs configs=new JobConfigs();
+  JobConfig expected=new JobConfig("job-1");
+  configs.add(expected);
+  configs.add(new JobConfig("job-2"));
+  JobConfig actual=configs.getJob(new CaseInsensitiveString("job-1"));
+  assertThat(actual,is(expected));
+  assertThat(configs.getJob(new CaseInsensitiveString("some-junk")),is(nullValue()));
+}

@@ -1,0 +1,17 @@
+{
+  CruiseConfig cruiseConfig=GoConfigMother.simpleDiamond();
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  String currentPipeline="p1";
+  String p3="p3";
+  GitMaterial git=new GitMaterial("git");
+  BuildCause p1buildCause=createBuildCause(new ArrayList<String>(),asList(git));
+  when(pipelineService.buildCauseFor(currentPipeline,1)).thenReturn(p1buildCause);
+  when(pipelineService.findPipelineByCounterOrLabel(currentPipeline,"1")).thenReturn(new Pipeline(currentPipeline,"p1-label",p1buildCause));
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap(currentPipeline,1,user,result);
+  List<List<Node>> nodesAtEachLevel=graph.getNodesAtEachLevel();
+  assertThat(graph.getCurrentPipeline().getName(),is(currentPipeline));
+  assertThat(nodesAtEachLevel.size(),is(3));
+  assertLayerHasNode(nodesAtEachLevel.get(0),git.getDisplayName(),git.getFingerprint(),currentPipeline);
+  assertLayerHasNode(nodesAtEachLevel.get(1),currentPipeline,currentPipeline,p3);
+  assertLayerHasNode(nodesAtEachLevel.get(2),p3,p3);
+}

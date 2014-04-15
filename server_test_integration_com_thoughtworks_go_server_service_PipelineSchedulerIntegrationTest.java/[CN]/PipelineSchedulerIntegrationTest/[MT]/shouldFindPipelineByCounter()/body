@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=createNewPipeline();
+  Pipeline actual=pipelineService.findPipelineByCounterOrLabel("Test",pipeline.getCounter().toString());
+  assertThat(actual.getId(),is(pipeline.getId()));
+  assertThat(actual.getLabel(),is(pipeline.getLabel()));
+  assertThat(actual.getCounter(),is(pipeline.getCounter()));
+}

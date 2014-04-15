@@ -1,0 +1,8 @@
+{
+  PackageMaterialConfig material=new PackageMaterialConfig("p-id");
+  PackageRepository repository=PackageRepositoryMother.create("repo-id",repoName,"pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"repo-v1"),ConfigurationPropertyMother.create("k2",false,"repo-v2")));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id",packageName,new Configuration(ConfigurationPropertyMother.create("k3",false,"package-v1")),repository);
+  material.setPackageDefinition(packageDefinition);
+  repository.getPackages().add(packageDefinition);
+  return material;
+}

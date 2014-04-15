@@ -1,0 +1,6 @@
+{
+  assertThat(pipeline.getId(),greaterThan(0L));
+  MaterialRevisions actual=repo.findMaterialRevisionsForPipeline(pipeline.getId());
+  assertEquals(materialRevision.getMaterial(),actual.getMaterialRevision(0).getMaterial());
+  assertEquals(materialRevision.getLatestModification(),actual.getMaterialRevision(0).getLatestModification());
+}

@@ -1,0 +1,13 @@
+{
+  Collection<String> actualRevFingerprints=CollectionUtils.collect(actualRevisions.iterator(),new Transformer(){
+    @Override public Object transform(    Object actualRevision){
+      return ((MaterialRevision)actualRevision).getMaterial().getFingerprint();
+    }
+  }
+);
+  for (  FanInNode child : root.children) {
+    if (!actualRevFingerprints.contains(child.materialConfig.getFingerprint())) {
+      throw NoCompatibleUpstreamRevisionsException.doesNotHaveValidRevisions(pipelineName,child.materialConfig);
+    }
+  }
+}

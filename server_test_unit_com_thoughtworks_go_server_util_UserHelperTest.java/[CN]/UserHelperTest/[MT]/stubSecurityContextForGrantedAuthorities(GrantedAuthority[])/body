@@ -1,0 +1,7 @@
+{
+  SecurityContext context=mock(SecurityContext.class);
+  Authentication authentication=mock(Authentication.class);
+  when(context.getAuthentication()).thenReturn(authentication);
+  when(authentication.getAuthorities()).thenReturn(grantedAuthorities);
+  SecurityContextHolder.setContext(context);
+}

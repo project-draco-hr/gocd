@@ -1,0 +1,5 @@
+{
+  buildWork=(BuildWork)getWork(WILL_PASS,PIPELINE_NAME);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertThat(artifactManipulator.consoleOut(),containsString("[" + SystemUtil.currentWorkingDirectory() + "]"));
+}

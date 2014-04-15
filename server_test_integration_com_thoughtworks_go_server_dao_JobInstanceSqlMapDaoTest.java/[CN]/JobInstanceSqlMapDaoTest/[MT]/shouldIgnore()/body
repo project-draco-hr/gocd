@@ -1,0 +1,7 @@
+{
+  JobInstance instance=scheduled(projectOne);
+  jobInstanceDao.save(stageId,instance);
+  jobInstanceDao.ignore(instance);
+  JobInstance reloaded=jobInstanceDao.buildByIdWithTransitions(instance.getId());
+  assertThat(reloaded.isIgnored(),is(true));
+}

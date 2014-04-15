@@ -1,0 +1,10 @@
+{
+  PipelineInstanceModel pipeline=new PipelineInstanceModel("pipeline",-2,"label",BuildCause.createManualForced(),new StageInstanceModels());
+  when(mockTemplate.queryForObject(eq("getPipelineHistoryById"),any())).thenReturn(pipeline);
+  PipelineInstanceModel loaded;
+  loaded=pipelineDao.loadHistory(99);
+  loaded=pipelineDao.loadHistory(99);
+  assertNotSame(pipeline,loaded);
+  assertTrue(ToStringBuilder.reflectionToString(loaded) + " not equal to\n" + ToStringBuilder.reflectionToString(pipeline),EqualsBuilder.reflectionEquals(loaded,pipeline));
+  verify(mockTemplate,times(1)).queryForObject(eq("getPipelineHistoryById"),any());
+}

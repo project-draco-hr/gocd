@@ -1,0 +1,15 @@
+{
+  try {
+    builders.waitForCancelTasks();
+    if (result == null) {
+      goPublisher.reportCurrentStatus(JobState.Completed);
+      goPublisher.reportCompletedAction();
+    }
+ else {
+      goPublisher.reportCompleted(result);
+    }
+  }
+ catch (  Exception ex) {
+    LOGGER.error("New error occured during error handling:\n" + "build will be rescheduled when agent starts asking for work again",ex);
+  }
+}

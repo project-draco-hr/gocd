@@ -1,0 +1,10 @@
+{
+  configHelper.addSecurityWithAdminConfig();
+  configHelper.setOperatePermissionForGroup("defaultGroup","jez");
+  Username jez=new Username(new CaseInsensitiveString("jez"));
+  HttpLocalizedOperationResult operationResult=new HttpLocalizedOperationResult();
+  Stage resultStage=scheduleService.cancelAndTriggerRelevantStages("invalid-pipeline","inavlid-stage",jez,operationResult);
+  assertThat(resultStage,is(nullValue()));
+  assertThat(operationResult.isSuccessful(),is(false));
+  assertThat(operationResult.httpCode(),is(HttpStatus.SC_NOT_FOUND));
+}

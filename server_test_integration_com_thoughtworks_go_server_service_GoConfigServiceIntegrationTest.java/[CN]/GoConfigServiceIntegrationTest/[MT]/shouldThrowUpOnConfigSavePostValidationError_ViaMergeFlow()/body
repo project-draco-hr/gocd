@@ -1,0 +1,18 @@
+{
+  configHelper.addPipelineWithGroup("defaultGroup","up_pipeline","up_stage","up_job");
+  configHelper.addPipelineWithGroup("anotherGroup","random_pipeline","random_stage","random_job");
+  CruiseConfig user1SeeingConfig=configHelper.load();
+  String user1SeeingMd5=user1SeeingConfig.getMd5();
+  configHelper.removePipeline("up_pipeline");
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  materialConfigs.add(MaterialConfigsMother.dependencyMaterialConfig("up_pipeline","up_stage"));
+  new GoConfigMother().addPipelineWithGroup(user1SeeingConfig,"anotherGroup","down_pipeline",materialConfigs,"down_stage","down_job");
+  ByteArrayOutputStream os=new ByteArrayOutputStream();
+  configHelper.getXml(user1SeeingConfig,os);
+  String xml=os.toString();
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(false);
+  GoConfigValidity validity=saver.saveXml(xml,user1SeeingMd5);
+  assertThat(validity.isValid(),is(false));
+  assertThat(validity.toString(),validity.isType(GoConfigValidity.VT_MERGE_POST_VALIDATION_ERROR),is(true));
+  assertThat(validity.errorMessage(),is("Pipeline \"up_pipeline\" does not exist. It is used from pipeline \"down_pipeline\"."));
+}

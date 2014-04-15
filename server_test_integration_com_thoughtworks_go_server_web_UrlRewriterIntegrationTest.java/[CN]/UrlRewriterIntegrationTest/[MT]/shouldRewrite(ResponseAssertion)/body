@@ -1,0 +1,41 @@
+{
+  when(wac.getBean("backupService")).thenReturn(new BackupStatusProvider(){
+    public boolean isBackingUp(){
+      return assertion.serverBackupRunningSince != null;
+    }
+    public String backupRunningSinceISO8601(){
+      return assertion.serverBackupRunningSince;
+    }
+    public String backupStartedBy(){
+      return "admin";
+    }
+  }
+);
+  useConfiguredUrls=assertion.useConfiguredUrls;
+  HttpClient httpClient=new HttpClient(new HttpClientParams());
+  HttpMethod httpMethod=null;
+  if (assertion.method == METHOD.GET) {
+    httpMethod=new GetMethod(assertion.requestedUrl);
+  }
+ else   if (assertion.method == METHOD.POST) {
+    httpMethod=new PostMethod(assertion.requestedUrl);
+  }
+ else   if (assertion.method == METHOD.PUT) {
+    httpMethod=new PutMethod(assertion.requestedUrl);
+  }
+  if (assertion.referrer != null) {
+    httpMethod.setRequestHeader(new Header("Referer",assertion.referrer));
+  }
+  int resp=httpClient.executeMethod(httpMethod);
+  assertThat("status code match failed",resp,is(assertion.responseCode));
+  assertThat("handler url match failed",httpMethod.getResponseBodyAsString(),is(assertion.servedUrl));
+  for (  Map.Entry<String,String> headerValPair : assertion.responseHeaders.entrySet()) {
+    Header responseHeader=httpMethod.getResponseHeader(headerValPair.getKey());
+    if (headerValPair.getValue() == null) {
+      assertThat("header match failed",responseHeader,is(nullValue()));
+    }
+ else {
+      assertThat("header match failed",responseHeader.getValue(),is(headerValPair.getValue()));
+    }
+  }
+}

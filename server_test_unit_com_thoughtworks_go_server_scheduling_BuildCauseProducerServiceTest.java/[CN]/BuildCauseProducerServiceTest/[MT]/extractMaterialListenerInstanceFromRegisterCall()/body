@@ -1,0 +1,13 @@
+{
+  final MaterialUpdateStatusListener[] listener=new MaterialUpdateStatusListener[1];
+  verify(mockMaterialUpdateStatusNotifier).registerListenerFor(any(PipelineConfig.class),argThat(new BaseMatcher<MaterialUpdateStatusListener>(){
+    public boolean matches(    Object o){
+      listener[0]=(MaterialUpdateStatusListener)o;
+      return true;
+    }
+    public void describeTo(    Description description){
+    }
+  }
+));
+  return listener[0];
+}

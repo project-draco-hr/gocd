@@ -1,0 +1,12 @@
+{
+  Pipeline pipeline=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  Stage stage=pipelineAndFirstStageOf(pipeline).stage;
+  Stage actualStage=stageDao.stageByIdWithBuilds(stage.getId());
+  assertThat(actualStage.getCreatedTime(),is(not(nullValue())));
+  JobInstances actualJobs=actualStage.getJobInstances();
+  assertThat(actualJobs.size(),is(2));
+  for (  JobInstance job : actualJobs) {
+    DatabaseAccessHelper.assertIsInserted(job.getId());
+    assertForeignKey(actualStage.getId(),job.getStageId());
+  }
+}

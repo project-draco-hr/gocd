@@ -1,0 +1,10 @@
+{
+  try {
+    Session session=connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
+    MessageConsumer consumer=session.createConsumer(session.createQueue(queueName));
+    JMSMessageListenerAdapter.startListening(consumer,listener);
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}

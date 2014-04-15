@@ -1,0 +1,8 @@
+{
+  StageIdentifier expected=new StageIdentifier("mingle",1,"foo","stage","1");
+  when(mockTemplate.queryForObject("lockedPipeline","mingle")).thenReturn(expected);
+  pipelineDao.lockedPipeline("mingle");
+  StageIdentifier actual=pipelineDao.lockedPipeline("mingle");
+  assertSame(expected,actual);
+  verify(mockTemplate,times(1)).queryForObject("lockedPipeline","mingle");
+}

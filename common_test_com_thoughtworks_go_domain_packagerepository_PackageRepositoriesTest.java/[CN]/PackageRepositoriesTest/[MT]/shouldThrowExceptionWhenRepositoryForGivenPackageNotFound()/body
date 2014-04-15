@@ -1,0 +1,10 @@
+{
+  PackageRepositories packageRepositories=new PackageRepositories();
+  try {
+    packageRepositories.findPackageRepositoryHaving("invalid");
+    fail("should have thrown exception for not finding package repository");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Could not find repository for given package id:[invalid]"));
+  }
+}

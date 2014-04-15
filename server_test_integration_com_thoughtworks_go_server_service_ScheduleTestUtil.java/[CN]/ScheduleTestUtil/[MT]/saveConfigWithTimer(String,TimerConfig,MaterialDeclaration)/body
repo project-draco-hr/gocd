@@ -1,0 +1,10 @@
+{
+  String stageName=AutoTriggerDependencyResolutionTest.STAGE_NAME;
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  for (  MaterialDeclaration mDecl : materialDeclaration) {
+    MaterialConfig materialConfig=AutoTriggerDependencyResolutionTest.CLONER.deepClone(mDecl.material.config());
+    materialConfigs.add(materialConfig);
+  }
+  PipelineConfig cfg=configHelper.addPipelineWithGroupAndTimer(DEFAULT_GROUP,pipelineName,materialConfigs,stageName,timer,"job1");
+  return new AddedPipeline(cfg,new DependencyMaterial(str(pipelineName),str(stageName)));
+}

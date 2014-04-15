@@ -1,0 +1,8 @@
+{
+  GoPluginDescriptor descriptorOfRemovedPlugin=registry.unloadPlugin(descriptor);
+  goPluginOSGiFramework.unloadPlugin(descriptorOfRemovedPlugin);
+  boolean bundleLocationHasBeenDeleted=FileUtils.deleteQuietly(descriptorOfRemovedPlugin.bundleLocation());
+  if (!bundleLocationHasBeenDeleted) {
+    throw new RuntimeException(String.format("Failed to remove bundle jar %s from bundle location %s",descriptorOfRemovedPlugin.fileName(),descriptorOfRemovedPlugin.bundleLocation()));
+  }
+}

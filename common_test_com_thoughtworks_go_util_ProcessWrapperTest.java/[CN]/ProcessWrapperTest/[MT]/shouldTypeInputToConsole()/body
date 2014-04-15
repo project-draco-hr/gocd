@@ -1,0 +1,13 @@
+{
+  OutputStream processInputStream=new ByteArrayOutputStream();
+  Process process=getMockedProcess(processInputStream);
+  ProcessWrapper processWrapper=new ProcessWrapper(process,"","",inMemoryConsumer(),null,null);
+  ArrayList<String> inputs=new ArrayList<String>();
+  inputs.add("input1");
+  inputs.add("input2");
+  processWrapper.typeInputToConsole(inputs);
+  String input=processInputStream.toString();
+  String[] parts=input.split("\\r?\\n");
+  assertThat(parts[0],is("input1"));
+  assertThat(parts[1],is("input2"));
+}

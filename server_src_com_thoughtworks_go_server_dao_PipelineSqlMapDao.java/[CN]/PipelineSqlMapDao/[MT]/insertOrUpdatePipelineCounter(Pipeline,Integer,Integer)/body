@@ -1,0 +1,10 @@
+{
+  Map<String,Object> args=arguments("pipelineName",pipeline.getName()).and("count",newCount).asMap();
+  Integer hasPipelineRow=(Integer)getSqlMapClientTemplate().queryForObject("hasPipelineInfoRow",pipeline.getName());
+  if (hasPipelineRow == 0) {
+    getSqlMapClientTemplate().insert("insertPipelineLabelCounter",args);
+  }
+ else   if (newCount > lastCount) {
+    getSqlMapClientTemplate().update("updatePipelineLabelCounter",args,1);
+  }
+}

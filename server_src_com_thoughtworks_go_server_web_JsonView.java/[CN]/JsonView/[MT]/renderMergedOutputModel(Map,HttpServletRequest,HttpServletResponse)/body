@@ -1,0 +1,15 @@
+{
+  if (requestContext == null) {
+    try {
+      requestContext=new GoRequestContext(httpServletRequest);
+    }
+ catch (    Exception e) {
+      throw e;
+    }
+  }
+  Json json=(Json)map.get("json");
+  PrintWriter writer=httpServletResponse.getWriter();
+  JsonRenderer renderer=new JsonStreamRenderer(requestContext,writer);
+  json.renderTo(renderer);
+  writer.close();
+}

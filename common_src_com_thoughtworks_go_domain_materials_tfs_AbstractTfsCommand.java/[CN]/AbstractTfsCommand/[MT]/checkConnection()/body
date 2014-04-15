@@ -1,0 +1,13 @@
+{
+  LOGGER.info(String.format(String.format("[TFS] Checking Connection: Server %s, Domain %s, User %s, Project Path %s",url,domain,userName,projectPath)));
+  try {
+    List<Modification> modifications=latestInHistory();
+    if (modifications.isEmpty()) {
+      throw new IllegalStateException("There might be no commits on the project path, project path might be invalid or user may have insufficient permissions.");
+    }
+  }
+ catch (  Exception e) {
+    String message=String.format("Failed while checking connection using Url: %s, Project Path: %s, Username: %s, Domain: %s, Root Cause: %s",url,projectPath,userName,domain,e.getMessage());
+    throw new RuntimeException(message,e);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  return new TypeSafeMatcher<List>(){
+    private List states;
+    public boolean matchesSafely(    List states){
+      this.states=states;
+      return states.contains(jobState);
+    }
+    public void describeTo(    Description description){
+      description.appendText("Expected console to contain [" + jobState + "] but was "+ states);
+    }
+  }
+;
+}

@@ -1,0 +1,13 @@
+{
+  final ValidationBean validationBean=ValidationBean.valid();
+  mockery.checking(new Expectations(){
+{
+      one(sender).send("Subject","body","to@someone");
+      will(returnValue(validationBean));
+    }
+  }
+);
+  BackgroundMailSender background=new BackgroundMailSender(sender,1000);
+  ValidationBean returned=background.send("Subject","body","to@someone");
+  assertThat(returned,same(validationBean));
+}

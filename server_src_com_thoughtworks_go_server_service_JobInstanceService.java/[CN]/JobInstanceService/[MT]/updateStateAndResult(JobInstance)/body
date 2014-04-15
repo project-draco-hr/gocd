@@ -1,0 +1,15 @@
+{
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      internalUpdateJobStateAndResult(job);
+      if (job.isCompleted()) {
+        runJobPostCompletionHooks(job);
+      }
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug(String.format("job status updated [%s]",job));
+      }
+      notifyJobStatusChangeListeners(job);
+    }
+  }
+);
+}

@@ -1,0 +1,9 @@
+{
+  Material material=material();
+  repo.saveOrUpdate(material.createMaterialInstance());
+  MaterialRevisions materialRevisions=repo.findLatestRevisions(new MaterialConfigs(material.config()));
+  assertThat(materialRevisions.numberOfRevisions(),is(1));
+  MaterialRevision materialRevision=materialRevisions.getMaterialRevision(0);
+  assertThat(materialRevision.getMaterial(),is(material));
+  assertThat(materialRevision.getModifications().size(),is(0));
+}

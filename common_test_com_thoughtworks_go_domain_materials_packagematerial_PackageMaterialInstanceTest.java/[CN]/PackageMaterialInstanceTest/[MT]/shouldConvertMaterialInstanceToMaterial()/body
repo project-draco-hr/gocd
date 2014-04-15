@@ -1,0 +1,11 @@
+{
+  PackageMaterial material=(PackageMaterial)MaterialsMother.packageMaterial();
+  PackageDefinition packageDefinition=material.getPackageDefinition();
+  PackageMaterialInstance materialInstance=new PackageMaterialInstance(JsonHelper.toJsonString(material),"flyweight");
+  materialInstance.setId(1L);
+  PackageMaterial constructedMaterial=(PackageMaterial)materialInstance.toOldMaterial(null,null,null);
+  assertThat(constructedMaterial.getPackageDefinition().getConfiguration(),Is.is(packageDefinition.getConfiguration()));
+  assertThat(constructedMaterial.getPackageDefinition().getRepository().getPluginConfiguration().getId(),Is.is(packageDefinition.getRepository().getPluginConfiguration().getId()));
+  assertThat(constructedMaterial.getPackageDefinition().getRepository().getConfiguration(),Is.is(packageDefinition.getRepository().getConfiguration()));
+  assertThat(constructedMaterial.getId(),Is.is(1L));
+}

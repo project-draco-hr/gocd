@@ -1,0 +1,11 @@
+{
+  if (validationContext.isWithinTemplates()) {
+    if (!name.matches(VALID_REGEX_WHEN_IN_TEMPLATES)) {
+      configErrors.add(JobConfig.RESOURCES,String.format("Resource name '%s' is not valid. Valid names can contain valid parameter syntax or valid alphanumeric with hyphens,dots or pipes",getName()));
+    }
+    return;
+  }
+  if (!name.matches(VALID_REGEX)) {
+    configErrors.add(JobConfig.RESOURCES,String.format("Resource name '%s' is not valid. Valid names much match '%s'",getName(),Resource.VALID_REGEX));
+  }
+}

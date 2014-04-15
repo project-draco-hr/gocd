@@ -1,0 +1,8 @@
+{
+  Date time=new Date();
+  repository.save(new ServerBackup("file_path",time,"user"));
+  Date latest=new Date(time.getTime() + 10000);
+  repository.save(new ServerBackup("file_path",latest,"user"));
+  ServerBackup serverBackup=repository.lastBackup();
+  assertEquals(new ServerBackup("file_path",latest,"user"),serverBackup);
+}

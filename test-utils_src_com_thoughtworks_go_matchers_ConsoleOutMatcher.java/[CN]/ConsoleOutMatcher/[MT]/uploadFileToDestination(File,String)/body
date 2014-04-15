@@ -1,0 +1,15 @@
+{
+  return new TypeSafeMatcher<List<UploadEntry>>(){
+    private List<UploadEntry> entries;
+    private UploadEntry uploadEntry;
+    public boolean matchesSafely(    List<UploadEntry> entries){
+      this.entries=entries;
+      uploadEntry=new UploadEntry(file,dest);
+      return entries.contains(uploadEntry);
+    }
+    public void describeTo(    Description description){
+      description.appendText("Expected console to contain [" + uploadEntry + "] but was "+ entries);
+    }
+  }
+;
+}

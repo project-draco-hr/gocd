@@ -1,0 +1,5 @@
+{
+  when(securityService.hasViewPermissionForPipeline(user,"cruise")).thenReturn(true);
+  when(stageService.feed("cruise",user)).thenReturn(expected);
+  assertSame(expected,pipelineStagesFeedResolver.feed(user,operationResult));
+}

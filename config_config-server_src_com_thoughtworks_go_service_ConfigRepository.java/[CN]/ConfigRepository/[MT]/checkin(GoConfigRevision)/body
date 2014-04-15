@@ -1,0 +1,21 @@
+{
+  try {
+    if (rev.equals(getCurrentRevision())) {
+      return;
+    }
+    final File file=new File(workingDir,CRUISE_CONFIG_XML);
+    FileUtil.writeContentToFile(rev.getContent(),file);
+    final AddCommand addCommand=git.add();
+    doLocked(new VoidThrowingFn<Exception>(){
+      public void run() throws Exception {
+        addCommand.addFilepattern(CRUISE_CONFIG_XML).call();
+        git.commit().setAuthor(rev.getUsername(),STUDIOS_PRODUCT).setMessage(rev.getComment()).call();
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+    LOGGER.error(format("[CONFIG SAVE] Check-in failed for %s",rev.toString()));
+    throw e;
+  }
+}

@@ -1,0 +1,12 @@
+{
+  final boolean[] transactionBodyIn=new boolean[]{true};
+  Thread thd=new Thread(new Runnable(){
+    public void run(){
+      transactionBodyIn[0]=goTransactionTemplate.isTransactionBodyExecuting();
+    }
+  }
+);
+  thd.start();
+  thd.join();
+  assertThat(transactionBodyIn[0],is(false));
+}

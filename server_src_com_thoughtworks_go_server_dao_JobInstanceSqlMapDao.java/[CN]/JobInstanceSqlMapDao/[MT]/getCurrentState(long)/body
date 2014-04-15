@@ -1,0 +1,7 @@
+{
+  String state=(String)getSqlMapClientTemplate().queryForObject("currentJobState",jobId);
+  if (state == null) {
+    return JobState.Unknown;
+  }
+  return JobState.valueOf(state);
+}

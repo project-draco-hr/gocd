@@ -1,0 +1,32 @@
+{
+  final PipelineConfigs newPipeline=new PipelineConfigs();
+  PipelineConfig otherPipeline=createPipelineConfig("pipeline_other","stage_other","plan_other");
+  otherPipeline.setVariables(GoConfigFileHelper.env("OTHER_PIPELINE_LEVEL","other pipeline"));
+  otherPipeline.first().setVariables(GoConfigFileHelper.env("OTHER_STAGE_LEVEL","other stage"));
+  otherPipeline.first().jobConfigByConfigName(new CaseInsensitiveString("plan_other")).setVariables(GoConfigFileHelper.env("OTHER_JOB_LEVEL","other job"));
+  PipelineConfig pipelineConfig=createPipelineConfig("pipeline","name","plan");
+  pipelineConfig.setVariables(GoConfigFileHelper.env("PIPELINE_LEVEL","pipeline value"));
+  StageConfig stageConfig=pipelineConfig.first();
+  stageConfig.setVariables(GoConfigFileHelper.env("STAGE_LEVEL","stage value"));
+  stageConfig.jobConfigByConfigName(new CaseInsensitiveString("plan")).setVariables(GoConfigFileHelper.env("JOB_LEVEL","job value"));
+  newPipeline.add(pipelineConfig);
+  newPipeline.add(otherPipeline);
+  CruiseConfig cruiseConfig=new CruiseConfig(newPipeline);
+  EnvironmentConfig environmentConfig=cruiseConfig.addEnvironment("uat");
+  environmentConfig.addPipeline(new CaseInsensitiveString("pipeline"));
+  environmentConfig.addEnvironmentVariable("ENV_LEVEL","env value");
+  expectLoad(cruiseConfig);
+  assertThat(goConfigService.hasVariableInScope("pipeline","NOT_IN_SCOPE"),is(false));
+  assertThat(goConfigService.hasVariableInScope("pipeline","ENV_LEVEL"),is(true));
+  assertThat(goConfigService.hasVariableInScope("pipeline","PIPELINE_LEVEL"),is(true));
+  assertThat(goConfigService.hasVariableInScope("pipeline","STAGE_LEVEL"),is(true));
+  assertThat(goConfigService.hasVariableInScope("pipeline","JOB_LEVEL"),is(true));
+  assertThat(goConfigService.hasVariableInScope("pipeline","OTHER_PIPELINE_LEVEL"),is(false));
+  assertThat(goConfigService.hasVariableInScope("pipeline","OTHER_STAGE_LEVEL"),is(false));
+  assertThat(goConfigService.hasVariableInScope("pipeline","OTHER_JOB_LEVEL"),is(false));
+  assertThat(goConfigService.hasVariableInScope("pipeline_other","ENV_LEVEL"),is(false));
+  assertThat(goConfigService.hasVariableInScope("pipeline_other","OTHER_PIPELINE_LEVEL"),is(true));
+  assertThat(goConfigService.hasVariableInScope("pipeline_other","OTHER_STAGE_LEVEL"),is(true));
+  assertThat(goConfigService.hasVariableInScope("pipeline_other","OTHER_JOB_LEVEL"),is(true));
+  assertThat(goConfigService.hasVariableInScope("pipeline_other","NOT_IN_SCOPE"),is(false));
+}

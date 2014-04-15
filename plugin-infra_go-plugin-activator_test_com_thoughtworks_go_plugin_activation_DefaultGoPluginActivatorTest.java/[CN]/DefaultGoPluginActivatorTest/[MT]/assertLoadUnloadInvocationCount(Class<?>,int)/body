@@ -1,0 +1,9 @@
+{
+  String simpleNameOfTestExtensionClass=testExtensionClass.getSimpleName();
+  setupClassesInBundle(simpleNameOfTestExtensionClass + ".class");
+  when(bundle.loadClass(contains(simpleNameOfTestExtensionClass))).thenReturn((Class)testExtensionClass);
+  activator.start(context);
+  assertThat(testExtensionClass.getField("loadInvoked").getInt(null),is(invocationCount));
+  activator.stop(context);
+  assertThat(testExtensionClass.getField("unLoadInvoked").getInt(null),is(invocationCount));
+}

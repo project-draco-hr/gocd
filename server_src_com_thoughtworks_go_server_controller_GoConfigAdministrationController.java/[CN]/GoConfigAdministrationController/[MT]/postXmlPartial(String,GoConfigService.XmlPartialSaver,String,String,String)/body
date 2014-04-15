@@ -1,0 +1,18 @@
+{
+  if (!isTemplate(groupName) && !isCurrentUserAdminOfGroup(groupName)) {
+    return JsonAction.jsonUnauthorized(errorMessageForGroup(groupName));
+  }
+  if (isTemplate(groupName) && !isCurrentUserAdmin()) {
+    return JsonAction.jsonUnauthorized();
+  }
+  GoConfigValidity configValidity=xmlPartialSaver.saveXml(xmlPartial,expectedMd5);
+  if (configValidity.isValid()) {
+    return JsonAction.jsonFound(JsonView.getSimpleAjaxResult("result",successMessage));
+  }
+ else {
+    JsonMap jsonMap=new JsonMap();
+    jsonMap.put("result",configValidity.errorMessage());
+    jsonMap.put("originalContent",xmlPartial);
+    return JsonAction.jsonByValidity(jsonMap,configValidity);
+  }
+}

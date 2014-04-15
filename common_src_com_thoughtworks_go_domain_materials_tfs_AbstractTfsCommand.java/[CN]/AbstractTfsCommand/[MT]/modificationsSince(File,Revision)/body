@@ -1,0 +1,12 @@
+{
+  try {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(String.format("[TFS] Modification check for Workspace: %s, Working Folder %s, Revision %s ",workspace,workDir,revision));
+    }
+    return modificationsSinceRevInHistory(revision);
+  }
+ catch (  Exception e) {
+    String message=String.format("Failed while checking for modifications since revision %s on Server: %s, Project Path: %s, Username: %s, Domain: %s," + " Root Cause: %s",revision.getRevision(),url,projectPath,userName,domain,e.getMessage());
+    throw new RuntimeException(message,e);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  String key="key";
+  String plainText="plainText";
+  EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig(goCipher,key,plainText,false);
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  environmentVariableConfig.addTo(context);
+  assertThat(context.getProperty(key),is(plainText));
+  assertThat(context.getPropertyForDisplay(key),is(plainText));
+}

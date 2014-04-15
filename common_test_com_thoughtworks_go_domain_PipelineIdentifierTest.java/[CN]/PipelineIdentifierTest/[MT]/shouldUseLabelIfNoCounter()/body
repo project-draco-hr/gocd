@@ -1,0 +1,9 @@
+{
+  try {
+    new PipelineIdentifier("cruise",null,"label-1");
+    fail("Allowed creation of pipeline identifier without counter");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Pipeline Identifier cannot be created without a counter"));
+  }
+}

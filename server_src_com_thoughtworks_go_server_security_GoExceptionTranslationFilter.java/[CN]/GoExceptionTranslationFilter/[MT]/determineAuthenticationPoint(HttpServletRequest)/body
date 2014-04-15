@@ -1,0 +1,7 @@
+{
+  AuthenticationEntryPoint point=getAuthenticationEntryPoint();
+  if (isJsonp(httpRequest)) {
+    return basicAuthenticationEntryPoint;
+  }
+  return point;
+}

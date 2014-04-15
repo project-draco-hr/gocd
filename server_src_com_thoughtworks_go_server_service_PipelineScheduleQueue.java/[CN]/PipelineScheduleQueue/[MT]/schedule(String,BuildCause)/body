@@ -1,0 +1,8 @@
+{
+synchronized (mutexForPipelineName(pipelineName)) {
+    BuildCause current=toBeScheduled.get(pipelineName);
+    if (current == null || buildCause.trumps(current)) {
+      toBeScheduled.put(pipelineName,buildCause);
+    }
+  }
+}

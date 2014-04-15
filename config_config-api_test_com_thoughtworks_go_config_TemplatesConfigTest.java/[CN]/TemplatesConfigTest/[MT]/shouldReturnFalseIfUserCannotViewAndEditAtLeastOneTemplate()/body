@@ -1,0 +1,11 @@
+{
+  ArrayList<PipelineTemplateConfig> templateList=new ArrayList<PipelineTemplateConfig>();
+  for (int i=0; i < 100; i++) {
+    templateList.add(PipelineTemplateConfigMother.createTemplate("template" + i));
+  }
+  CaseInsensitiveString templateAdmin=new CaseInsensitiveString("template-admin");
+  CaseInsensitiveString nonTemplateAdmin=new CaseInsensitiveString("some-random-user");
+  templateList.add(PipelineTemplateConfigMother.createTemplate("template100",new Authorization(new AdminsConfig(new AdminUser(templateAdmin))),StageConfigMother.manualStage("stage-name")));
+  TemplatesConfig templates=new TemplatesConfig(templateList.toArray(new PipelineTemplateConfig[0]));
+  assertThat(templates.canViewAndEditTemplate(nonTemplateAdmin),is(false));
+}

@@ -1,0 +1,20 @@
+{
+  StageStatusListener listener=mock(StageStatusListener.class);
+  JobInstanceService jobInstanceService=mock(JobInstanceService.class);
+  JobInstance job=JobInstanceMother.building("foo");
+  doThrow(new RuntimeException("test exception")).when(jobInstanceService).cancelJob(job);
+  JobIdentifier jobId=new JobIdentifier("pipeline",10,"label-10","stage","1","foo");
+  job.setIdentifier(jobId);
+  StageDao stageDao=mock(StageDao.class);
+  Stage stage=StageMother.custom("stage");
+  when(stageDao.findStageWithIdentifier(jobId.getStageIdentifier())).thenReturn(stage);
+  StageService service=new StageService(stageDao,jobInstanceService,null,null,null,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache,listener);
+  try {
+    service.cancelJob(job);
+    fail("should have thrown up when underlying service bombed");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("test exception"));
+  }
+  verify(listener,never()).stageStatusChanged(any(Stage.class));
+}

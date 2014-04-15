@@ -1,0 +1,9 @@
+{
+  if (excludeRootDir) {
+    addDirContents(path,source,zip);
+    return;
+  }
+  ZipPath newPath=path.with(source);
+  zip.putNextEntry(newPath.asZipEntryDirectory());
+  addDirContents(newPath,source,zip);
+}

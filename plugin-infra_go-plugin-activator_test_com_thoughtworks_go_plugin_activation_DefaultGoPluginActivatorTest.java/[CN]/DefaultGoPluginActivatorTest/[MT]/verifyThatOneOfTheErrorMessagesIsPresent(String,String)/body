@@ -1,0 +1,7 @@
+{
+  ArgumentCaptor<List> captor=ArgumentCaptor.forClass(List.class);
+  verify(pluginHealthService).reportErrorAndInvalidate(eq(PLUGIN_ID),captor.capture());
+  verifyNoMoreInteractions(pluginHealthService);
+  String actualErrorMessage=(String)captor.getValue().get(0);
+  assertTrue(expectedErrorMessage1.equals(actualErrorMessage) || expectedErrorMessage2.equals(actualErrorMessage));
+}

@@ -1,0 +1,14 @@
+{
+  request=new MockHttpServletRequest();
+  response=new MockHttpServletResponse();
+  filterChain=mock(FilterChain.class);
+  authenticationException=mock(AuthenticationException.class);
+  basicAuth=mock(BasicProcessingFilterEntryPoint.class);
+  cruiseLoginFormAuth=mock(AuthenticationEntryPoint.class);
+  securityService=mock(SecurityService.class);
+  filter=new GoExceptionTranslationFilter();
+  filter.setUrlPatternsThatShouldNotBeRedirectedToAfterLogin("(\\.json)|(/images/)");
+  filter.setAuthenticationEntryPoint(cruiseLoginFormAuth);
+  filter.setBasicAuthenticationEntryPoint(basicAuth);
+  filter.setSecurityService(securityService);
+}

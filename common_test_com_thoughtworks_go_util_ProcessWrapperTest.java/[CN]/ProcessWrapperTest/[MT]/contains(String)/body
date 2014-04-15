@@ -1,0 +1,16 @@
+{
+  return new TypeSafeMatcher<List<String>>(){
+    public boolean matchesSafely(    List<String> lines){
+      for (      String line : lines) {
+        if (line.contains(output)) {
+          return true;
+        }
+      }
+      return false;
+    }
+    public void describeTo(    Description description){
+      description.appendText("to contain " + output);
+    }
+  }
+;
+}

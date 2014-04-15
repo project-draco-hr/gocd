@@ -1,0 +1,7 @@
+{
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='pipeline1'>" + "    <materials>" + "      <svn url ='svnurl'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      <environmentvariables>"+ "         <variable name='JOB_VARIABLE'>job variable</variable>"+ "      </environmentvariables>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",16);
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  JobConfig jobConfig=new JobConfig("do-something");
+  jobConfig.addVariable("JOB_VARIABLE","job variable");
+  assertThat(cruiseConfig.findJob("pipeline1","mingle","do-something"),is(jobConfig));
+}

@@ -1,0 +1,7 @@
+{
+  String jezMail=prepareOneMatchedUser();
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  Stage ftStage=mockStageServiceWithStage(pipeline);
+  stageNotificationListener.onMessage(new StageResultMessage(ftStage.getIdentifier(),StageEvent.Passes,new Username(new CaseInsensitiveString("chris"))));
+  assertThat(inMemoryEmailNotificationTopic.getBody(jezMail),containsString("The stage was cancelled by chris."));
+}

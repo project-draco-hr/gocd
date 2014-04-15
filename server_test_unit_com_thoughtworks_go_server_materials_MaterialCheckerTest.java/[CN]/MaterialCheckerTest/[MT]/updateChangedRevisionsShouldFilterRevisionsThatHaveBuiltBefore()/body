@@ -1,0 +1,10 @@
+{
+  CaseInsensitiveString pipelineName=new CaseInsensitiveString("pipelineName");
+  GitMaterial gitMaterial=new GitMaterial("git://foo");
+  BuildCause buildCause=BuildCause.createWithModifications(new MaterialRevisions(new MaterialRevision(gitMaterial,mod(10L),mod(9L),mod(8L))),"user");
+  when(materialRepository.latestModificationRunByPipeline(pipelineName,gitMaterial)).thenReturn(9L);
+  materialChecker.updateChangedRevisions(pipelineName,buildCause);
+  MaterialRevisions actualRevisions=buildCause.getMaterialRevisions();
+  assertThat(actualRevisions.getModifications(gitMaterial),is(new Modifications(mod(10L))));
+  assertThat(actualRevisions.findRevisionFor(gitMaterial).isChanged(),is(true));
+}

@@ -1,0 +1,7 @@
+{
+  setupTransactionTemplateStub();
+  Exception exception=new Exception();
+  doThrow(exception).when(updater).updateMaterial(MATERIAL);
+  materialUpdateListener.onMessage(new MaterialUpdateMessage(MATERIAL,10));
+  verify(topic).post(new MaterialUpdateFailedMessage(MATERIAL,10,exception));
+}

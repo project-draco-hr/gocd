@@ -1,0 +1,17 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Pipeline pipeline=PipelineMother.pipeline("pipeline-name",StageMother.passedStageInstance("mingle","job-bar","pipeline-name"));
+  Stage spiedStage=spy(pipeline.getFirstStage());
+  long stageId=spiedStage.getId();
+  Username admin=new Username(new CaseInsensitiveString("admin"));
+  doReturn(true).when(spiedStage).isActive();
+  when(stageService.stageById(stageId)).thenReturn(spiedStage);
+  when(securityService.hasOperatePermissionForStage(pipeline.getName(),spiedStage.getName(),admin.getUsername().toString())).thenReturn(false);
+  Stage resultStage=service.cancelAndTriggerRelevantStages(stageId,admin,result);
+  assertThat(resultStage,is(nullValue()));
+  assertThat(result.httpCode(),is(HttpStatus.SC_UNAUTHORIZED));
+  assertThat(result.isSuccessful(),is(false));
+  verify(securityService).hasOperatePermissionForStage(pipeline.getName(),spiedStage.getName(),admin.getUsername().toString());
+  verify(stageService,never()).cancelStage(spiedStage);
+  verify(spiedStage).isActive();
+}

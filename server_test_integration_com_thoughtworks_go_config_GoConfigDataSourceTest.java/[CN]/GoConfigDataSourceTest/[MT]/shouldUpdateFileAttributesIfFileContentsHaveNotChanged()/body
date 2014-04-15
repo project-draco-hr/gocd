@@ -1,0 +1,10 @@
+{
+  dataSource.reloadIfModified();
+  assertThat(dataSource.load(),not(nullValue()));
+  GoConfigDataSource.ReloadIfModified reloadStrategy=(GoConfigDataSource.ReloadIfModified)ReflectionUtil.getField(dataSource,"reloadStrategy");
+  ReflectionUtil.setField(reloadStrategy,"lastModified",-1);
+  ReflectionUtil.setField(reloadStrategy,"prevSize",-1);
+  assertThat(dataSource.load(),is(nullValue()));
+  assertThat((Long)ReflectionUtil.getField(reloadStrategy,"lastModified"),is(dataSource.fileLocation().lastModified()));
+  assertThat((Long)ReflectionUtil.getField(reloadStrategy,"prevSize"),is(dataSource.fileLocation().length()));
+}

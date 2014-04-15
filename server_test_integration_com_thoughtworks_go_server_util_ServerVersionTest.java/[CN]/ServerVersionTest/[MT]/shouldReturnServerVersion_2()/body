@@ -1,0 +1,9 @@
+{
+  final GoVelocityView view=mock(GoVelocityView.class);
+  String goVersion="Some version of Go";
+  when(view.getContentAsString()).thenReturn(goVersion);
+  ViewResolver resolver=mock(ViewResolver.class);
+  when(resolver.resolveViewName("admin/admin_version.txt",Locale.getDefault())).thenReturn(view);
+  ServerVersion serverVersion=new ServerVersion(resolver);
+  assertThat(serverVersion.version(),is(goVersion));
+}

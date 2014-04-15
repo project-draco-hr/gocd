@@ -1,0 +1,11 @@
+{
+  String groupName=group.getGroup();
+  for (  PipelineConfig pipelineConfig : group) {
+    if (!groupModels.containsPipeline(groupName,CaseInsensitiveString.str(pipelineConfig.name()))) {
+      PipelineModel latestPipeline=latestPipelineModel(username,CaseInsensitiveString.str(pipelineConfig.name()));
+      if (latestPipeline != null) {
+        groupModels.addPipelineInstance(groupName,latestPipeline.getLatestPipelineInstance(),latestPipeline.canForce(),latestPipeline.canOperate(),latestPipeline.getPausedInfo());
+      }
+    }
+  }
+}

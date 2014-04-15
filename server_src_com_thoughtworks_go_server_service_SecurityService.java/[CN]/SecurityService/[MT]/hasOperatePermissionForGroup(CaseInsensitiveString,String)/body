@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.getCurrentConfig();
+  if (!cruiseConfig.isSecurityEnabled()) {
+    return true;
+  }
+  if (isUserAdmin(new Username(username))) {
+    return true;
+  }
+  PipelineConfigs group=cruiseConfig.getGroups().findGroup(groupName);
+  return isUserAdminOfGroup(username,group) || group.hasOperatePermission(username,new UserRoleMatcherImpl(cruiseConfig.server().security()));
+}

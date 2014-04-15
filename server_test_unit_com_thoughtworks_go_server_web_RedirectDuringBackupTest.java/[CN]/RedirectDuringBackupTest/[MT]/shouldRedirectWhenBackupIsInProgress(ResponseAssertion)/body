@@ -1,0 +1,9 @@
+{
+  when(provider.isBackingUp()).thenReturn(true);
+  when(provider.backupRunningSinceISO8601()).thenReturn(BACKUP_STARTED_AT);
+  when(provider.backupStartedBy()).thenReturn(BACKUP_STARTED_BY);
+  Request request=request(responseAssertion.method,responseAssertion.referer,responseAssertion.uri);
+  redirectDuringBackup.setServerBackupFlag(request);
+  assertThat((String)request.getAttribute("backupInProgress"),is("true"));
+  assertThat((String)request.getAttribute("redirected_from"),is(encode(responseAssertion.expectedRedirectedFrom,"UTF-8")));
+}

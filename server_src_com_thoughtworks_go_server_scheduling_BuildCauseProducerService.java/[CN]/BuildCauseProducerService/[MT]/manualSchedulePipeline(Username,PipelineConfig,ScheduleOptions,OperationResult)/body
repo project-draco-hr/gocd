@@ -1,0 +1,10 @@
+{
+  long trackingId=schedulingPerformanceLogger.manualSchedulePipelineStart(CaseInsensitiveString.str(pipelineConfig.name()));
+  try {
+    WaitForPipelineMaterialUpdate update=new WaitForPipelineMaterialUpdate(pipelineConfig,new ManualBuild(username),scheduleOptions);
+    update.start(result);
+  }
+  finally {
+    schedulingPerformanceLogger.manualSchedulePipelineFinish(trackingId,CaseInsensitiveString.str(pipelineConfig.name()));
+  }
+}

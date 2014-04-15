@@ -1,0 +1,25 @@
+{
+  BuildTask task=new BuildTask(){
+    @Override public String getTaskType(){
+      return "build";
+    }
+    public String getTypeForDisplay(){
+      return "test-task";
+    }
+    @Override public String command(){
+      return null;
+    }
+    @Override public String arguments(){
+      return null;
+    }
+  }
+;
+  task.setConfigAttributes(m(BuildTask.BUILD_FILE,"foo/build.xml",BuildTask.TARGET,"foo.target",BuildTask.WORKING_DIRECTORY,"work_dir"));
+  assertThat(task.getBuildFile(),Matchers.is("foo/build.xml"));
+  assertThat(task.getTarget(),Matchers.is("foo.target"));
+  assertThat(task.workingDirectory(),Matchers.is("work_dir"));
+  task.setConfigAttributes(m(BuildTask.BUILD_FILE,"",BuildTask.TARGET,"",BuildTask.WORKING_DIRECTORY,""));
+  assertThat(task.getBuildFile(),Matchers.is(nullValue()));
+  assertThat(task.getTarget(),Matchers.is(nullValue()));
+  assertThat(task.workingDirectory(),Matchers.is(nullValue()));
+}

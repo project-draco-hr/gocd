@@ -1,0 +1,10 @@
+{
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("test"),null,artifactPlans);
+  RunOnAllAgents.CounterBasedJobNameGenerator jobNameGenerator=new RunOnAllAgents.CounterBasedJobNameGenerator(CaseInsensitiveString.str(jobConfig.name()));
+  JobInstances jobs=instanceFactory.createJobInstance(new CaseInsensitiveString("stage_foo"),jobConfig,new DefaultSchedulingContext(),new TimeProvider(),jobNameGenerator);
+  JobInstance jobInstance=jobs.first();
+  assertThat(jobConfig.name(),is(new CaseInsensitiveString(jobInstance.getName())));
+  assertThat(jobInstance.getState(),is(JobState.Scheduled));
+  assertThat(jobInstance.getScheduledDate(),is(notNullValue()));
+}

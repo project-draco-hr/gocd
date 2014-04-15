@@ -1,0 +1,11 @@
+{
+  String idsCacheKey=cacheKeyForActiveJobIds();
+  List<Long> activeJobIds=(List<Long>)goCache.get(idsCacheKey);
+synchronized (idsCacheKey) {
+    if (activeJobIds == null) {
+      activeJobIds=getSqlMapClientTemplate().queryForList("getActiveJobIds");
+      goCache.put(idsCacheKey,activeJobIds);
+    }
+  }
+  return activeJobIds;
+}

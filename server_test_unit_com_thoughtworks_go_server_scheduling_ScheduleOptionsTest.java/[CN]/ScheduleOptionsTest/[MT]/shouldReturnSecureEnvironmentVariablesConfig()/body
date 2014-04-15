@@ -1,0 +1,10 @@
+{
+  String plainText="secure_value";
+  String cipherText="encrypted";
+  when(goCipher.encrypt(plainText)).thenReturn(cipherText);
+  HashMap<String,String> secureVariables=new HashMap<String,String>();
+  secureVariables.put("secure_name",plainText);
+  ScheduleOptions scheduleOptions=new ScheduleOptions(goCipher,new HashMap<String,String>(),new HashMap<String,String>(),secureVariables);
+  assertThat(scheduleOptions.getVariables().size(),is(1));
+  assertThat(scheduleOptions.getVariables(),hasItem(new EnvironmentVariableConfig(goCipher,"secure_name",plainText,true)));
+}

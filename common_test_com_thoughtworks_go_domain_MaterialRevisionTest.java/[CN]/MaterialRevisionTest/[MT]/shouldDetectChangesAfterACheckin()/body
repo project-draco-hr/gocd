@@ -1,0 +1,11 @@
+{
+  MaterialRevision original=new MaterialRevision(hgMaterial,hgMaterial.modificationsSince(workingFolder,REVISION_0,new TestSubprocessExecutionContext()));
+  checkInOneFile(hgMaterial);
+  checkInOneFile(hgMaterial);
+  checkInOneFile(hgMaterial);
+  final MaterialRevision after=findNewRevision(original,hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  assertThat(after,not(original));
+  assertThat(after.numberOfModifications(),is(3));
+  assertThat(after.getRevision(),is(not(original.getRevision())));
+  assertThat(after.hasChangedSince(original),is(true));
+}

@@ -1,0 +1,13 @@
+{
+  JobInstance hungJob=stage.getJobInstances().get(0);
+  dbHelper.getBuildInstanceDao().save(stage.getId(),hungJob);
+  scheduleService.rescheduleJob(hungJob);
+  JobInstance reloaded=dbHelper.getBuildInstanceDao().buildByIdWithTransitions(hungJob.getId());
+  assertThat(reloaded.isIgnored(),is(true));
+  assertThat(reloaded.getState(),is(JobState.Rescheduled));
+  JobPlan newPlan=dbHelper.getBuildInstanceDao().orderedScheduledBuilds().get(0);
+  assertThat(newPlan.getJobId(),is(not(hungJob.getId())));
+  assertThat(newPlan.getStageName(),is(hungJob.getStageName()));
+  JobInstance newJob=dbHelper.getBuildInstanceDao().buildByIdWithTransitions(newPlan.getJobId());
+  assertThat(newJob.getState(),is(JobState.Scheduled));
+}

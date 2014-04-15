@@ -1,0 +1,12 @@
+{
+  Configuration configuration=new Configuration();
+  configuration.add(ConfigurationPropertyMother.create("required-field",false,""));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("1","name",configuration,packageRepository);
+  ValidationResult expectedValidationResult=new ValidationResult();
+  expectedValidationResult.addError(new ValidationError("required-field","error-one"));
+  expectedValidationResult.addError(new ValidationError("required-field","error-two"));
+  when(packageMaterialConfiguration.isPackageConfigurationValid(any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class))).thenReturn(expectedValidationResult);
+  service.performPluginValidationsFor(packageDefinition);
+  assertThat(packageDefinition.getConfiguration().get(0).getConfigurationValue().errors().getAllOn("value").size(),is(2));
+  assertThat(packageDefinition.getConfiguration().get(0).getConfigurationValue().errors().getAllOn("value"),is(hasItems("error-one","error-two")));
+}

@@ -1,0 +1,15 @@
+{
+  config.setRunOnAllAgents(PIPELINE_NAME,FT_STAGE,"bar",true);
+  config.addResourcesFor(PIPELINE_NAME,FT_STAGE,"bar","non-existent");
+  Pipeline newPipeline=createPipelineWithFirstStageBuilding(mingle);
+  try {
+    completeStageAndTrigger(newPipeline.getFirstStage());
+    fail("should not have scheduled the stage");
+  }
+ catch (  CannotScheduleException e) {
+  }
+  Stage stage1=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(DEV_STAGE)));
+  assertThat(stage1.stageState(),is(StageState.Passed));
+  Stage stage2=stageService.findStageWithIdentifier(new StageIdentifier(newPipeline.getIdentifier(),FT_STAGE,"1"));
+  assertThat(stage2,is(instanceOf(NullStage.class)));
+}

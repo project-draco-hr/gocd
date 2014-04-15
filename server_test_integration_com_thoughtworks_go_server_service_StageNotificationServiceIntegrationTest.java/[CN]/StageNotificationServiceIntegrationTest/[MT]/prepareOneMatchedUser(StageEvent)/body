@@ -1,0 +1,7 @@
+{
+  String jezMail="jez@cruise.com";
+  User jez=new User("jez",new String[]{"lgao"},jezMail,true);
+  jez.addNotificationFilter(new NotificationFilter(pipelineFixture.pipelineName,pipelineFixture.ftStage,event,true));
+  userDao.saveOrUpdate(jez);
+  return jezMail;
+}

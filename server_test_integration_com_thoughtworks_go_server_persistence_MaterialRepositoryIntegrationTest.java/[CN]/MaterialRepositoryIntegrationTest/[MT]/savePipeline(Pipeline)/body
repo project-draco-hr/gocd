@@ -1,0 +1,6 @@
+{
+  Integer lastCount=pipelineSqlMapDao.getCounterForPipeline(pipeline.getName());
+  pipeline.updateCounter(lastCount);
+  pipelineSqlMapDao.insertOrUpdatePipelineCounter(pipeline,lastCount,pipeline.getCounter());
+  return pipelineSqlMapDao.save(pipeline);
+}

@@ -1,0 +1,16 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  ConfigurationExtension configTag=(ConfigurationExtension)o;
+  if (!Arrays.equals(implementations,configTag.implementations)) {
+    return false;
+  }
+  if (pluginNamespace != null ? !pluginNamespace.equals(configTag.pluginNamespace) : configTag.pluginNamespace != null) {
+    return false;
+  }
+  return true;
+}

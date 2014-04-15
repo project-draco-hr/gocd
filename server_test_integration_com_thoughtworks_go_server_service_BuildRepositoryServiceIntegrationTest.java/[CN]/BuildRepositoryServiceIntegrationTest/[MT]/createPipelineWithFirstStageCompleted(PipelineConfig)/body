@@ -1,0 +1,6 @@
+{
+  Stage firstStage=createPipelineWithFirstStageBuilding(pipeline).getFirstStage();
+  reportJobCompleting(firstStage.getJobInstances().first());
+  reportJobPassed(firstStage.getJobInstances().first());
+  return pipelineDao.mostRecentPipeline(CaseInsensitiveString.str(pipeline.name()));
+}

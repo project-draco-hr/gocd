@@ -1,0 +1,11 @@
+{
+  Pipeline expected=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  pass(expected);
+  setupRescheduledBuild(expected);
+  Pipeline second=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  fail(second);
+  Pipeline third=pipelineWithFirstStageRunning(mingleConfig);
+  Stage actual=stageDao.mostRecentPassed(CaseInsensitiveString.str(mingleConfig.name()),STAGE_DEV);
+  assertThat(actual.getId(),is(pipelineAndFirstStageOf(expected).stage.getId()));
+  assertThat(actual.getApprovedBy(),is(DEFAULT_APPROVED_BY));
+}

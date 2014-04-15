@@ -1,0 +1,11 @@
+{
+  System.err.println(Thread.currentThread() + "Slowing down latest modification check");
+  try {
+    Thread.sleep(5000);
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException(e);
+  }
+  System.err.println(Thread.currentThread() + "Done slowing down latest modification check");
+  return super.latestModification(material,baseDir,execCtx);
+}

@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipelineConfig=pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+  StageConfig stageConfig=pipelineConfig.findBy(new CaseInsensitiveString(stageName));
+  AdminsConfig adminsConfig=stageConfig.getApproval().getAuthConfig();
+  List<CaseInsensitiveString> users=getAuthorizedUsers(adminsConfig);
+  return new GoAcl(users);
+}

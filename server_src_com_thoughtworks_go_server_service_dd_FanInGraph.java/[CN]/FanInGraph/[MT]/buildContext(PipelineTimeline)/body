@@ -1,0 +1,11 @@
+{
+  FanInGraphContext context=new FanInGraphContext();
+  context.revBatchCount=REVISION_BUFFER_SIZE;
+  context.pipelineTimeline=pipelineTimeline;
+  context.fingerprintScmMaterialMap=fingerprintScmMaterialMap;
+  context.pipelineScmDepMap=getPipelineScmDepMap();
+  context.fingerprintDepMaterialMap=fingerprintDepMaterialMap;
+  context.pipelineDao=pipelineDao;
+  context.maxBackTrackLimit=systemEnvironment.get(SystemEnvironment.RESOLVE_FANIN_MAX_BACK_TRACK_LIMIT);
+  return context;
+}

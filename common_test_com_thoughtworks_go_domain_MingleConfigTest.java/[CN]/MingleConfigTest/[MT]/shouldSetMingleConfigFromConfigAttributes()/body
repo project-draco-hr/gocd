@@ -1,0 +1,11 @@
+{
+  MingleConfig mingleConfig=new MingleConfig();
+  Map configMap=new HashMap();
+  configMap.put(MingleConfig.BASE_URL,"http://mingle01.tw.com/mingle");
+  configMap.put(MingleConfig.PROJECT_IDENTIFIER,"go");
+  configMap.put(MingleConfig.MQL_GROUPING_CONDITIONS,new SingletonMap(MqlCriteria.MQL,"Some MQL"));
+  mingleConfig.setConfigAttributes(configMap);
+  assertThat(mingleConfig.getBaseUrl(),is("http://mingle01.tw.com/mingle"));
+  assertThat(mingleConfig.getProjectIdentifier(),is("go"));
+  assertThat(mingleConfig.getMqlCriteria().getMql(),is("Some MQL"));
+}

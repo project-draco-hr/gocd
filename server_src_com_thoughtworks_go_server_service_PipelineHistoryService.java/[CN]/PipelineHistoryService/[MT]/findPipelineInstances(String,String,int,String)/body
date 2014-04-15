@@ -1,0 +1,8 @@
+{
+  PipelineInstanceModels history=pipelineDao.loadHistory(pipelineName,count,pipelineLabel);
+  addPlaceholderStages(history);
+  addEmptyPipelineInstanceIfNeeded(pipelineName,history,new Username(new CaseInsensitiveString(username)),goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName)),false);
+  applySecurity(history,pipelineName,username);
+  applyCanRun(new Username(new CaseInsensitiveString(username)),history);
+  return history;
+}

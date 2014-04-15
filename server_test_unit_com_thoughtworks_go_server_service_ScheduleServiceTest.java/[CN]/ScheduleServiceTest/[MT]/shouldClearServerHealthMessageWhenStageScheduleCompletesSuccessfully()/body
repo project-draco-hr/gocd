@@ -1,0 +1,9 @@
+{
+  final PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline-quux");
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("pipeline-quux"))).thenReturn(pipelineConfig);
+  when(environmentConfigService.agentsForPipeline(new CaseInsensitiveString("pipeline-quux"))).thenReturn(new Agents());
+  when(goConfigService.scheduleStage("pipeline-quux","mingle",new DefaultSchedulingContext("loser",new Agents()))).thenReturn(new Stage());
+  Stage stageConfig=StageMother.passedStageInstance("mingle","job-bar","pipeline-name");
+  service.scheduleStage(PipelineMother.pipeline("pipeline-quux",stageConfig),"mingle","loser",new ScheduleService.NewStageInstanceCreator(goConfigService),new ScheduleService.ExceptioningErrorHandler());
+  verify(serverHealthService).update(ServerHealthState.success(HealthStateType.general(HealthStateScope.forStage("pipeline-quux","mingle"))));
+}

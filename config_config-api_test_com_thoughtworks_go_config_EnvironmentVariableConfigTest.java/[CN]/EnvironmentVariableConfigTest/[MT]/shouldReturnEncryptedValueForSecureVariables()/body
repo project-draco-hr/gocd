@@ -1,0 +1,8 @@
+{
+  when(goCipher.encrypt("bar")).thenReturn("encrypted");
+  when(goCipher.decrypt("encrypted")).thenReturn("bar");
+  EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig(goCipher,"foo","bar",true);
+  assertThat(environmentVariableConfig.getName(),is("foo"));
+  assertThat(environmentVariableConfig.getValue(),is("bar"));
+  assertThat(environmentVariableConfig.getValueForDisplay(),is(environmentVariableConfig.getEncryptedValue()));
+}

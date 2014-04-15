@@ -1,0 +1,7 @@
+{
+  Builder cancelTask=null;
+  if (task.cancelTask() != null) {
+    cancelTask=builderFor((ExecTask)task.cancelTask());
+  }
+  return new CommandBuilderWithArgList(task.command(),task.getArgList().toStringArray(),new File(task.workingDirectory()),task.getConditions(),cancelTask,task.describe());
+}

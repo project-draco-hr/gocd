@@ -1,0 +1,6 @@
+{
+  PipelineTimeline timeline=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  timeline.add(first);
+  assertThat(timeline.runBefore(2,new CaseInsensitiveString("not-present")),is(nullValue()));
+  assertThat(timeline.runAfter(2,new CaseInsensitiveString("not-present")),is(nullValue()));
+}

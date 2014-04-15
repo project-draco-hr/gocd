@@ -1,0 +1,6 @@
+{
+  setProperty("a","b");
+  assertValidJsonContentAndStatus(SC_CREATED,"Property 'a' created with value 'b'");
+  setProperty("a","c");
+  assertValidJsonContentAndStatus(SC_CONFLICT,"Property 'a' is already set.");
+}

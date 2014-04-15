@@ -1,0 +1,8 @@
+{
+  assertThat(currentActivityService.isStageActive(preCondition.pipelineName,preCondition.devStage),is(false));
+  Pipeline pipeline0=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  Pipeline pipeline1=tryToScheduleAPipeline();
+  assertThat("we should be able to schedule a pipeline when its first stage is inactive",pipeline0.getId(),is(not(pipeline1.getId())));
+  Pipeline pipeline2=tryToScheduleAPipeline();
+  assertThat("we should NOT schedule the pipeline again when its first stage is active",pipeline2.getId(),is(pipeline1.getId()));
+}

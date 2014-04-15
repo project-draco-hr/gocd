@@ -1,0 +1,12 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  OauthAuthorization authFoo=new OauthAuthorization("foo@bar.com",mingle09,"code",332333);
+  template.save(authFoo);
+  Map map=attrMap(authFoo.getDTO());
+  map.put("id",authFoo.getId());
+  map.put("code","hello_world");
+  repo.saveOauthAuthorization(map);
+  OauthDataSource.OauthAuthorizationDTO dto=((OauthAuthorization)template.load(OauthAuthorization.class,authFoo.getId())).getDTO();
+  assertThat(dto.getCode(),is("hello_world"));
+}

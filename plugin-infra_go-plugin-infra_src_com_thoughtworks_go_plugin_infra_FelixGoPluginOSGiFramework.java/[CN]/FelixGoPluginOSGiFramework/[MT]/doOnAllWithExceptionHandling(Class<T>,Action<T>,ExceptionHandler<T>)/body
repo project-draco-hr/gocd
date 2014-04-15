@@ -1,0 +1,24 @@
+{
+  if (framework == null) {
+    LOGGER.warn("[Plugin Framework] Plugins are not enabled, so cannot do an action on all implementations of " + serviceReferenceClass);
+    return;
+  }
+  BundleContext bundleContext=framework.getBundleContext();
+  Collection<ServiceReference<T>> matchingServiceReferences;
+  try {
+    matchingServiceReferences=bundleContext.getServiceReferences(serviceReferenceClass,null);
+  }
+ catch (  InvalidSyntaxException e) {
+    throw new RuntimeException(e);
+  }
+  for (  ServiceReference<T> currentServiceReference : matchingServiceReferences) {
+    T service=bundleContext.getService(currentServiceReference);
+    GoPluginDescriptor descriptor=getDescriptorFor(currentServiceReference);
+    try {
+      actionToDoOnEachRegisteredServiceWhichMatches.execute(service,descriptor);
+    }
+ catch (    Throwable t) {
+      handler.handleException(service,t);
+    }
+  }
+}

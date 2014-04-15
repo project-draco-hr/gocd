@@ -1,0 +1,19 @@
+{
+  if (modelAndView == null) {
+    return;
+  }
+  JsonMap messages=new JsonMap();
+  RequestContext requestContext=new RequestContext(httpServletRequest);
+  messages.put(JobState.Scheduled.toString().toLowerCase(),"Scheduled");
+  messages.put(CurrentStatus.BUILDING.getStatus().toLowerCase(),requestContext.getMessage(BUILDING));
+  messages.put(CurrentStatus.DISCONTINUED.getStatus().toLowerCase(),requestContext.getMessage(DISCONTINUED));
+  messages.put(CurrentStatus.PAUSED.getStatus().toLowerCase(),requestContext.getMessage(PAUSED));
+  messages.put(CurrentStatus.QUEUED.getStatus().toLowerCase(),requestContext.getMessage(QUEUED));
+  messages.put(CurrentStatus.WAITING.getStatus().toLowerCase(),requestContext.getMessage(WAITING));
+  messages.put(CurrentResult.PASSED.getStatus().toLowerCase(),requestContext.getMessage(PASSED).toLowerCase());
+  messages.put(CurrentResult.FAILED.getStatus().toLowerCase(),requestContext.getMessage(FAILED).toLowerCase());
+  messages.put(CurrentResult.UNKNOWN.getStatus().toLowerCase(),requestContext.getMessage(UNKNOWN).toLowerCase());
+  messages.put("last",requestContext.getMessage("label.last"));
+  String javascriptMessages=new JsonView().renderJson(messages);
+  modelAndView.addObject(JAVASCRIPT_MESSAGES_KEY,javascriptMessages);
+}

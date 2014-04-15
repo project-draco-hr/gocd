@@ -1,0 +1,12 @@
+{
+  String xml=ConfigFileFixture.CONFIG_WITH_NANT_AND_EXEC_BUILDER;
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(IOUtils.toInputStream(xml)).config;
+  cruiseConfig.addEnvironment(new EnvironmentConfig());
+  try {
+    xmlWriter.write(cruiseConfig,output,false);
+    fail("Should not be able to save config when the environment name is not set");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("\"Name\" is required for Environment"));
+  }
+}

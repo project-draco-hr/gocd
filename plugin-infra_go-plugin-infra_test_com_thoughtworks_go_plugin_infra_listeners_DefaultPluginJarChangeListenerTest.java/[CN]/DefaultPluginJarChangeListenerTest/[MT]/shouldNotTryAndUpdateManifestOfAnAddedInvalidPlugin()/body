@@ -1,0 +1,13 @@
+{
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  File expectedBundleDirectory=new File(TEST_BUNDLES_DIR,pluginJarFileName);
+  GoPluginDescriptor descriptorForInvalidPlugin=GoPluginDescriptor.usingId("testplugin.descriptorValidator",pluginJarFile.getAbsolutePath(),expectedBundleDirectory,true).markAsInvalid(asList("For a test"),null);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(descriptorForInvalidPlugin);
+  doNothing().when(registry).loadPlugin(descriptorForInvalidPlugin);
+  listener.pluginJarAdded(new PluginFileDetails(pluginJarFile,true));
+  assertThat(expectedBundleDirectory.exists(),is(true));
+  verify(registry).loadPlugin(descriptorForInvalidPlugin);
+  verifyNoMoreInteractions(osgiManifestGenerator);
+}

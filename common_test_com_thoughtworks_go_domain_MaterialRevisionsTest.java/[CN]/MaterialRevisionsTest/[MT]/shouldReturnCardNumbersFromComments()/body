@@ -1,0 +1,14 @@
+{
+  Modification first=new Modification(null,"Fixing only #11 #7865",null,null,null);
+  first.setId(1);
+  Modification second=new Modification(null,"Fixing #3455 - #1234",null,null,null);
+  second.setId(2);
+  Modification third=new Modification(null,"Fixing only #7865",null,null,null);
+  third.setId(3);
+  MaterialRevision revision1=new MaterialRevision(null,second);
+  MaterialRevision revision2=new MaterialRevision(null,first);
+  MaterialRevision revision3=new MaterialRevision(null,third);
+  MaterialRevisions materialRevisions=new MaterialRevisions(revision1,revision2,revision3);
+  assertThat(materialRevisions.getCardNumbersFromComments().size(),is(4));
+  assertThat(materialRevisions.getCardNumbersFromComments(),is(Arrays.asList("7865","1234","3455","11")));
+}

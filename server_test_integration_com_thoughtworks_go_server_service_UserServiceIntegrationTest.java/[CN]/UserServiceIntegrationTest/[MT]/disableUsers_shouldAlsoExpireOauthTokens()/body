@@ -1,0 +1,13 @@
+{
+  userDao.saveOrUpdate(new User("user_one"));
+  userDao.saveOrUpdate(new User("user_two"));
+  generateOauthTokenFor("user_one");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.disable(Arrays.asList("user_one"),result);
+  assertThat(result.isSuccessful(),is(true));
+  List<UserModel> models=userService.allUsersForDisplay(UserService.SortableColumn.USERNAME,UserService.SortDirection.ASC);
+  assertThat("user should be disabled",models.get(0).isEnabled(),is(false));
+  assertThat("user should be enabled",models.get(1).isEnabled(),is(true));
+  assertThat(template.find("from OauthAuthorization").size(),is(0));
+  assertThat(template.find("from OauthToken").size(),is(0));
+}

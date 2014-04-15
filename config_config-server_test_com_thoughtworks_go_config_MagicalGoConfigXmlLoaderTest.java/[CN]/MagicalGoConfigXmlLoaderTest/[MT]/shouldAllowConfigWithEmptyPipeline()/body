@@ -1,0 +1,9 @@
+{
+  String content=ConfigFileFixture.configWithEnvironments("<environments>" + "  <environment name='uat'>" + "    <pipelines/>"+ "  </environment>"+ "</environments>");
+  try {
+    ConfigMigrator.loadWithMigration(content);
+  }
+ catch (  Exception e) {
+    fail("should not allow empty pipelines block under an environment");
+  }
+}

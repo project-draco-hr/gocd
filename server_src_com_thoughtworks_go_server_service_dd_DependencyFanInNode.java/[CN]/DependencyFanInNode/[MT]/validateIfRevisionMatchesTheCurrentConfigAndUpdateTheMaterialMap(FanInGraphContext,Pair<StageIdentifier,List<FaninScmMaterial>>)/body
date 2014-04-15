@@ -1,0 +1,20 @@
+{
+  final Set<MaterialConfig> currentScmMaterials=context.pipelineScmDepMap.get(materialConfig);
+  final Set<FaninScmMaterial> scmMaterials=new HashSet<FaninScmMaterial>(stageIdentifierScmPair.last());
+  final Set<String> currentScmFingerprint=new HashSet<String>();
+  for (  MaterialConfig currentScmMaterial : currentScmMaterials) {
+    currentScmFingerprint.add(currentScmMaterial.getFingerprint());
+  }
+  final Set<String> scmMaterialsFingerprint=new HashSet<String>();
+  for (  FaninScmMaterial scmMaterial : scmMaterials) {
+    scmMaterialsFingerprint.add(scmMaterial.fingerprint);
+  }
+  final Collection commonMaterials=CollectionUtils.intersection(currentScmFingerprint,scmMaterialsFingerprint);
+  if (commonMaterials.size() == scmMaterials.size() && commonMaterials.size() == currentScmMaterials.size()) {
+    stageIdentifierScmMaterial.put(stageIdentifierScmPair.first(),scmMaterials);
+    ++currentCount;
+  }
+ else {
+    totalInstanceCount=currentCount;
+  }
+}

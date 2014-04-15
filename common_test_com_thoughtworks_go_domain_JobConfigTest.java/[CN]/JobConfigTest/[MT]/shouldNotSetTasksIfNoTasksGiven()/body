@@ -1,0 +1,12 @@
+{
+  config=new JobConfig();
+  AntTask task=new AntTask();
+  task.setTarget("hello");
+  config.addTask(task);
+  config.setConfigAttributes(m());
+  AntTask taskAfterUpdate=(AntTask)config.getTasks().get(0);
+  assertThat(taskAfterUpdate.getTarget(),is("hello"));
+  assertThat(config.getTasks().size(),is(1));
+  config.setConfigAttributes(m(JobConfig.TASKS,null));
+  assertThat(config.getTasks().size(),is(0));
+}

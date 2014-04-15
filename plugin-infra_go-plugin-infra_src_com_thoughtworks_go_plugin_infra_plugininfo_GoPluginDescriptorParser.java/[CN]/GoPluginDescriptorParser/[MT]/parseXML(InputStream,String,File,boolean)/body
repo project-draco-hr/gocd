@@ -1,0 +1,20 @@
+{
+  Digester digester=initDigester();
+  GoPluginDescriptorParser parserForThisXML=new GoPluginDescriptorParser(pluginJarFileLocation,pluginBundleLocation,isBundledPlugin);
+  digester.push(parserForThisXML);
+  digester.addCallMethod("go-plugin","createPlugin",2);
+  digester.addCallParam("go-plugin",0,"id");
+  digester.addCallParam("go-plugin",1,"version");
+  digester.addCallMethod("go-plugin/about","createAbout",4);
+  digester.addCallParam("go-plugin/about/name",0);
+  digester.addCallParam("go-plugin/about/version",1);
+  digester.addCallParam("go-plugin/about/target-go-version",2);
+  digester.addCallParam("go-plugin/about/description",3);
+  digester.addCallMethod("go-plugin/about/vendor","createVendor",2);
+  digester.addCallParam("go-plugin/about/vendor/name",0);
+  digester.addCallParam("go-plugin/about/vendor/url",1);
+  digester.addCallMethod("go-plugin/about/target-os/value","addTargetOS",1);
+  digester.addCallParam("go-plugin/about/target-os/value",0);
+  digester.parse(pluginXML);
+  return parserForThisXML.descriptor;
+}

@@ -1,0 +1,6 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  config.setServerConfig(new ServerConfig(null,new SecurityConfig(new LdapConfig("test","test","test",null,true,new BasesConfig(new BaseConfig("test")),"test"),null,true,null)));
+  expectLoad(config);
+  assertThat("Ldap is configured",goConfigService.isLdapConfigured(),is(true));
+}

@@ -1,0 +1,7 @@
+{
+  final Foo object=new Foo();
+  final GoConfigFieldWriter field=new GoConfigFieldWriter(Foo.class.getDeclaredField("number"),object,configCache,null);
+  final Element element=new Element("foo");
+  element.setAttribute("number","anything");
+  field.setValueIfNotNull(element,object);
+}

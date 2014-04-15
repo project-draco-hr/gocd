@@ -1,0 +1,10 @@
+{
+  StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,stage,null,new Agents());
+  JsonMap json=presenter.toJson();
+  JsonValue jsonValue=JsonUtils.from(json);
+  JsonValue revision=jsonValue.getObject("materialRevisions",0);
+  String expected=modifications.getMaterialRevisions().getMaterialRevision(0).getModifications().get(0).getRevision();
+  assertThat(revision.getString("revision"),is(expected));
+  assertThat(revision.getString("user"),is(ModificationsMother.MOD_USER_WITH_HTML_CHAR));
+  assertThat(revision.getString("date"),is(DateUtils.formatISO8601(ModificationsMother.TODAY_CHECKIN)));
+}

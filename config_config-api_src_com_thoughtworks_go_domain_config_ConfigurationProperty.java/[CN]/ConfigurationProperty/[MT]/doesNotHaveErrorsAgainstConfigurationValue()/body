@@ -1,0 +1,10 @@
+{
+  if (isSecure()) {
+    List<String> errorsOnValue=getEncryptedValue().errors().getAllOn("value");
+    return errorsOnValue == null || errorsOnValue.isEmpty();
+  }
+ else {
+    List<String> errorsOnValue=getConfigurationValue().errors().getAllOn("value");
+    return errorsOnValue == null || errorsOnValue.isEmpty();
+  }
+}

@@ -1,0 +1,13 @@
+{
+  X509V3CertificateGenerator gen=new X509V3CertificateGenerator();
+  gen.reset();
+  gen.setSignatureAlgorithm("SHA1WithRSAEncryption");
+  gen.setNotBefore(startDate);
+  DateTime now=new DateTime(new Date());
+  gen.setNotAfter(now.plusYears(YEARS).toDate());
+  gen.setIssuerDN(issuerDn);
+  gen.setSubjectDN(subjectDn);
+  gen.setPublicKey(publicKey);
+  gen.setSerialNumber(serialNumber);
+  this.v3CertGen=gen;
+}

@@ -1,0 +1,10 @@
+{
+  testSuite.addTest("testB",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  testSuite.addTest("testA",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  TestSuite testSuite1=new TestSuite("another-suite");
+  testSuite1.addTest("testA",TestStatus.Error,new JobIdentifier("",23,"","","","job-1"));
+  testSuite.removeDuplicateTestEntries(testSuite1);
+  List<TestInformation> list=testSuite.tests();
+  assertThat(list.size(),is(1));
+  assertThat(list.get(0).getName(),is("testB"));
+}

@@ -1,0 +1,7 @@
+{
+  HgMaterialConfig materialConfig=MaterialConfigsMother.hgMaterialConfig();
+  Filter filter=new Filter(Arrays.asList(new IgnoredFiles("*.doc"),new IgnoredFiles("*.pdf")));
+  materialConfig.setFilter(filter);
+  Modifications modifications=new Modifications(multipleCheckin(aCheckIn("100","a.doc","a.pdf"),aCheckIn("100","a.java")));
+  assertThat(modifications.shouldBeIgnoredByFilterIn(materialConfig),is(false));
+}

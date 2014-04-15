@@ -1,0 +1,13 @@
+{
+  final List<Exception> exs=new ArrayList<Exception>();
+  GoConfigMigration upgrader=new GoConfigMigration(new GoConfigMigration.UpgradeFailedHandler(){
+    public void handle(    Exception e){
+      e.printStackTrace();
+      exs.add(e);
+    }
+  }
+,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  Method upgrade=upgrader.getClass().getDeclaredMethod("upgrade",String.class,Integer.TYPE,Integer.TYPE);
+  upgrade.setAccessible(true);
+  return (String)upgrade.invoke(upgrader,content,fromVersion,toVersion);
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    if (val != null) {
+      Object convertedValue=typeConverter.convertIfNecessary(val,configField.getType());
+      field.set(instance,convertedValue);
+    }
+  }
+ catch (  IllegalAccessException e) {
+    throw bomb("Error setting configField: " + field.getName(),e);
+  }
+}

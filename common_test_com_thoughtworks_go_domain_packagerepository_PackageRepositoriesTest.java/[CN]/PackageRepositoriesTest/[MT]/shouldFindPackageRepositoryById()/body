@@ -1,0 +1,8 @@
+{
+  PackageRepositories packageRepositories=new PackageRepositories();
+  packageRepositories.add(PackageRepositoryMother.create("repo1"));
+  PackageRepository repo2=PackageRepositoryMother.create("repo2");
+  packageRepositories.add(repo2);
+  packageRepositories.removePackageRepository("repo1");
+  assertThat(packageRepositories,Matchers.contains(repo2));
+}

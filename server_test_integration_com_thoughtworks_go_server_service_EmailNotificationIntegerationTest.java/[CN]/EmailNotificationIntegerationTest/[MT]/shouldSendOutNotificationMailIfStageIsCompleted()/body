@@ -1,0 +1,9 @@
+{
+  configHelper.addSecurityWithAdminConfig();
+  agentReportJobIsCompleted(UNIT_LINUX);
+  agentReportJobIsCompleted(UNIT_WINDOWS);
+  final String expectedSubject=job.getIdentifier().getStageIdentifier().stageLocator();
+  assertWillHappen(pop3MailClient,emailSubjectContains(expectedSubject));
+  assertWillHappen(pop3MailClient,emailContentContains("Sent by Cruise on behalf of " + userName));
+  assertWillHappen(pop3MailClient,emailContentContains(MOD_FILE_BUILD_XML));
+}

@@ -1,0 +1,8 @@
+{
+  materialRepo=mock(MaterialRepository.class);
+  stageDao=mock(StageDao.class);
+  when(materialRepo.findMaterialRevisionsForPipeline(anyLong())).thenReturn(new MaterialRevisions());
+  Stage stage=new Stage();
+  stage.setPipelineId(10l);
+  when(stageDao.stageById(anyLong())).thenReturn(stage);
+}

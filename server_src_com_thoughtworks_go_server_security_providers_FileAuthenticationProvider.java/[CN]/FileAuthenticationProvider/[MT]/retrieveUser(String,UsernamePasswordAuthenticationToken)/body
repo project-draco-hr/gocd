@@ -1,0 +1,11 @@
+{
+  final String passwordFilePath=goConfigService.security().passwordFileConfig().path();
+  try {
+    UserMap userMap=UserMapEditor.addUsersFromProperties(new UserMap(),addDummyRoleToPropertiesIfRequired(stripShaFromPasswordsIfRequired(loadPasswordFile(passwordFilePath))));
+    final UserDetails details=userMap.getUser(username);
+    return userStrippedOfAnyAuthoritiesSpecifiedInFile(username,details);
+  }
+ catch (  IOException e) {
+    throw new UsernameNotFoundException("Trying to authenticate user " + username + " but could not open file: "+ passwordFilePath);
+  }
+}

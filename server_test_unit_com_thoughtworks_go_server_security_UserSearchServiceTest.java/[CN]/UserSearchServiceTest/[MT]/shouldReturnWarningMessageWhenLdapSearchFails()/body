@@ -1,0 +1,10 @@
+{
+  User foo=new User("foo",new ArrayList<String>(),"foo@cruise.com",false);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(goConfigService.isPasswordFileConfigured()).thenReturn(true);
+  when(ldapUserSearch.search("foo")).thenThrow(new RuntimeException("Ldap Error"));
+  when(passwordFileUserSearch.search("foo")).thenReturn(Arrays.asList(foo));
+  List<UserSearchModel> models=userSearchService.search("foo",result);
+  assertThat(models,is(Arrays.asList(new UserSearchModel(foo,UserSourceType.PASSWORD_FILE))));
+  assertThat(result.localizable(),is((Localizable)LocalizedMessage.string("LDAP_ERROR")));
+}

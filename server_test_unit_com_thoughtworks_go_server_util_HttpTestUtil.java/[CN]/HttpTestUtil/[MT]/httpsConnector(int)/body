@@ -1,0 +1,10 @@
+{
+  SslSocketConnector socketConnector=new SslSocketConnector();
+  socketConnector.setPort(port);
+  socketConnector.setMaxIdleTime(30000);
+  socketConnector.setKeystore(serverKeyStore.getAbsolutePath());
+  socketConnector.setPassword(STORE_PASSWORD);
+  socketConnector.setKeyPassword(STORE_PASSWORD);
+  socketConnector.setWantClientAuth(false);
+  server.addConnector(socketConnector);
+}

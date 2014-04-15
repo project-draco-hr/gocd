@@ -1,0 +1,11 @@
+{
+  try {
+    loadUsers();
+    importTables();
+  }
+  finally {
+    closeQuietly(mergedConn);
+    closeQuietly(fromConn);
+    if (progress != null)     progress.close();
+  }
+}

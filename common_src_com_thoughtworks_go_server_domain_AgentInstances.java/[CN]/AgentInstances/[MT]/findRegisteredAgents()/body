@@ -1,0 +1,10 @@
+{
+  this.refresh();
+  AgentInstances registered=new AgentInstances(changeListener);
+synchronized (agentInstances) {
+    for (    AgentInstance agentInstance : this) {
+      agentInstance.addToRegistered(registered);
+    }
+  }
+  return registered;
+}

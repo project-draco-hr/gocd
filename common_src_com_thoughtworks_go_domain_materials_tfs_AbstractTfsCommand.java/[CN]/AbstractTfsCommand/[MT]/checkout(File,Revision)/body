@@ -1,0 +1,19 @@
+{
+  try {
+    if (workDir.exists()) {
+      FileUtils.deleteQuietly(workDir);
+    }
+    setupWorkspace(workDir);
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(String.format("[TFS] Retrieving Files from Workspace %s, Working Folder %s, Revision %s ",workspace,workDir,revision));
+    }
+    retrieveFiles(workDir,revision);
+  }
+ catch (  Exception e) {
+    String exceptionMessage=String.format("Failed while checking out into Working Folder: %s, Project Path: %s, Workspace: %s, Username: %s, Domain: %s, Root Cause: %s",workDir,projectPath,workspace,userName,domain,e.getMessage());
+    throw new RuntimeException(exceptionMessage,e);
+  }
+ finally {
+    clearMapping();
+  }
+}

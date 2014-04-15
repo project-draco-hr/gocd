@@ -1,0 +1,8 @@
+{
+  final Username user=new Username(new CaseInsensitiveString("user"));
+  when(goConfigService.isGroupAdministrator(user.getUsername())).thenReturn(false);
+  when(goConfigService.isUserAdmin(user)).thenReturn(false);
+  SecurityService spy=spy(securityService);
+  doReturn(true).when(spy).isAuthorizedToViewAndEditTemplates(user);
+  assertThat(spy.canCreatePipelines(new Username(new CaseInsensitiveString("user"))),is(false));
+}

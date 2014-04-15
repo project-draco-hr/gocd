@@ -1,0 +1,14 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  String submoduleDirectoryName="local-submodule";
+  submoduleRepos.addSubmodule(SUBMODULE,submoduleDirectoryName);
+  File cloneDirectory=createTempWorkingDirectory();
+  GitCommand clonedCopy=new GitCommand(null,cloneDirectory,GitMaterialConfig.DEFAULT_BRANCH,false);
+  InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  clonedCopy.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
+  clonedCopy.fetchAndReset(outputStreamConsumer,new StringRevision("HEAD"));
+  File unversionedFile=new File(new File(cloneDirectory,submoduleDirectoryName),"unversioned_file.txt");
+  FileUtils.writeStringToFile(unversionedFile,"this is an unversioned file. lets see you deleting me.. come on.. I dare you!!!!");
+  clonedCopy.fetchAndReset(outputStreamConsumer,new StringRevision("HEAD"));
+  assertThat(unversionedFile.exists(),is(false));
+}

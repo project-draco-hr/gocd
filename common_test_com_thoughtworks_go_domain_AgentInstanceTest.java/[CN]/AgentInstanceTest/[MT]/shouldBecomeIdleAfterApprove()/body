@@ -1,0 +1,6 @@
+{
+  AgentInstance instance=AgentInstance.createFromLiveAgent(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null),systemEnvironment);
+  instance.enable();
+  instance.update(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null));
+  assertThat(instance.getStatus(),is(AgentStatus.Idle));
+}

@@ -1,0 +1,7 @@
+{
+  pipelineDao=mock(PipelineSqlMapDao.class);
+  goConfigFileDao=mock(GoConfigFileDao.class);
+  goConfigService=new GoConfigService(goConfigFileDao,null,(GoConfigMigration)null,null,null,null,null,null,null);
+  securityService=mock(SecurityService.class);
+  pipelinePauseService=new PipelinePauseService(pipelineDao,goConfigService,securityService);
+}

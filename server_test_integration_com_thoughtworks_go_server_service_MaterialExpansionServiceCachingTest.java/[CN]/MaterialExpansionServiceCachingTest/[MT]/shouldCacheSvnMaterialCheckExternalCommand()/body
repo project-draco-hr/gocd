@@ -1,0 +1,11 @@
+{
+  SvnMaterialConfig svnMaterialConfig=svnMaterialConfig(svnRepo.projectRepositoryUrl(),"mainRepo");
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  String cacheKey=(MaterialExpansionService.class + "_cacheKeyForSvnMaterialCheckExternalCommand_" + svnMaterialConfig.getFingerprint()).intern();
+  Subversion svn=(SvnCommand)goCache.get(cacheKey);
+  assertNull(svn);
+  materialExpansionService.expandForScheduling(svnMaterialConfig,materialConfigs);
+  svn=(SvnCommand)goCache.get(cacheKey);
+  assertNotNull(svn);
+  assertThat(svn.getUrl().forCommandline(),is(svnMaterialConfig.getUrl()));
+}

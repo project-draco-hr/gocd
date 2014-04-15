@@ -1,0 +1,5 @@
+{
+  StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,stage,null,new Agents());
+  JsonMap json=presenter.toJson();
+  new JsonTester(json).shouldContain("{ 'current_status' : 'failing' }");
+}

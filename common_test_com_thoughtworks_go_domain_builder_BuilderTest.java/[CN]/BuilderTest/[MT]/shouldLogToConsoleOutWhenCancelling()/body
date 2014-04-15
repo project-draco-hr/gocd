@@ -1,0 +1,7 @@
+{
+  StubBuilder stubBuilder=new StubBuilder();
+  CommandBuilder builder=new CommandBuilder("echo","",new File("."),new RunIfConfigs(FAILED),stubBuilder,"");
+  builder.cancel(goPublisher,environmentVariableContext);
+  assertThat(goPublisher.getMessage(),containsString("Start to execute cancel task"));
+  assertThat(goPublisher.getMessage(),containsString("Task is cancelled"));
+}

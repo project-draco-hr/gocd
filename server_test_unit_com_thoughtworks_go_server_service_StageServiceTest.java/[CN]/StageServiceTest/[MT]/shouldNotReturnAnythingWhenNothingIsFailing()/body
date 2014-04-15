@@ -1,0 +1,11 @@
+{
+  PipelineDao pipelineDao=mock(PipelineDao.class);
+  TransactionSynchronizationManager transactionSynchronizationManager=mock(TransactionSynchronizationManager.class);
+  StageRunFinder runFinder=new StageService(stageDao,jobInstanceService,mock(StageStatusTopic.class),mock(StageStatusCache.class),securityService,pipelineDao,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  Pipeline pipeline=pipeline(10.0);
+  Pipeline pipelineThatLastPassed=pipeline(5.0);
+  when(pipelineDao.findPipelineByNameAndCounter(PIPELINE_NAME,3)).thenReturn(pipeline);
+  when(pipelineDao.findEarlierPipelineThatPassedForStage(PIPELINE_NAME,STAGE_NAME,10.0)).thenReturn(pipelineThatLastPassed);
+  when(stageDao.findFailedStagesBetween(PIPELINE_NAME,STAGE_NAME,5.0,10.0)).thenReturn(new ArrayList<StageIdentifier>());
+  assertThat(runFinder.findRunForStage(new StageIdentifier(PIPELINE_NAME,3,STAGE_NAME,"1")).isEmpty(),is(true));
+}

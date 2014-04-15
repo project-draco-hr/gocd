@@ -1,0 +1,12 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline","stage","build");
+  try {
+    PipelineTemplateConfig template=new PipelineTemplateConfig();
+    template.add(StageConfigMother.stageConfig("first"));
+    pipelineConfig.setTemplateName(new CaseInsensitiveString("some-template"));
+    fail("Should throw exception because the pipeline has stages already");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),containsString("Cannot set template 'some-template' on pipeline 'pipeline' because it already has stages defined"));
+  }
+}

@@ -1,0 +1,14 @@
+{
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  GoPluginDescriptor descriptor=new GoPluginDescriptor("some.old.id","1.0",new GoPluginDescriptor.About(null,null,null,null,null,asList("Linux","Mac OS X")),null,new File(pluginJarFileName),false);
+  when(systemEnvironment.getCurrentOperatingSystem()).thenReturn(OperatingSystem.WINDOWS);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(descriptor);
+  listener=new DefaultPluginJarChangeListener(registry,osgiManifestGenerator,osgiFramework,goPluginDescriptorBuilder,systemEnvironment);
+  listener.pluginJarAdded(new PluginFileDetails(pluginJarFile,true));
+  verify(registry,times(1)).loadPlugin(descriptor);
+  verifyZeroInteractions(osgiFramework);
+  assertThat(descriptor.getStatus().getMessages().size(),is(1));
+  assertThat(descriptor.getStatus().getMessages().get(0),is("Plugin with ID (some.old.id) is not valid: Incompatible with current operating system 'Windows'. Valid operating systems are: [Linux, Mac OS X]."));
+}

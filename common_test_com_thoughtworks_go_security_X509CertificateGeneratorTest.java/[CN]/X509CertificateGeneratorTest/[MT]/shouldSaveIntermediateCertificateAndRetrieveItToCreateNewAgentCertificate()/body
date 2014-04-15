@@ -1,0 +1,6 @@
+{
+  X509CertificateGenerator generator=new X509CertificateGenerator();
+  generator.createAndStoreCACertificates(keystore);
+  Certificate agentCertificate=generator.createAgentCertificate(keystore,"hostname").getChain()[0];
+  assertTrue(generator.verifySigned(keystore,agentCertificate));
+}

@@ -1,0 +1,18 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.start();
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar");
+  waitAMoment();
+  PluginFileDetails orgFile=pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar",true);
+  verify(changeListener).pluginJarAdded(orgFile);
+  PluginFileDetails newFile=pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1-new.jar",true);
+  FileUtils.moveFile(orgFile.file(),newFile.file());
+  waitAMoment();
+  InOrder inOrder=inOrder(changeListener);
+  inOrder.verify(changeListener).pluginJarRemoved(orgFile);
+  inOrder.verify(changeListener).pluginJarAdded(newFile);
+  verifyNoMoreInteractions(changeListener);
+}

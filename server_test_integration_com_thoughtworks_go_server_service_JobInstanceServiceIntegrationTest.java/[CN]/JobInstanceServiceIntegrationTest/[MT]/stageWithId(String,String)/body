@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipelineConfig=PipelineMother.withSingleStageWithMaterials(pipelineName,stageName,BuildPlanMother.withBuildPlans("job-random"));
+  Pipeline savedPipeline=instanceFactory.createPipelineInstance(pipelineConfig,modifySomeFiles(pipelineConfig),new DefaultSchedulingContext("cruise"),"md5-test",new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(savedPipeline);
+  Stage savedStage=savedPipeline.getFirstStage();
+  return savedStage.getId();
+}

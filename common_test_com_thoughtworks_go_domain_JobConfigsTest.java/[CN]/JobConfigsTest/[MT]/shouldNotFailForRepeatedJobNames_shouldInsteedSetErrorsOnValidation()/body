@@ -1,0 +1,18 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline");
+  config.addPipeline("grp",pipelineConfig);
+  JobConfigs jobs=pipelineConfig.get(0).getJobs();
+  jobs.add(new JobConfig("quux"));
+  jobs.setConfigAttributes(a(m(JobConfig.NAME,"foo"),m(JobConfig.NAME,"foo")));
+  assertThat(jobs.size(),is(2));
+  JobConfig firstFoo=jobs.get(0);
+  JobConfig secondFoo=jobs.get(1);
+  assertThat(firstFoo.name(),is(new CaseInsensitiveString("foo")));
+  assertThat(secondFoo.name(),is(new CaseInsensitiveString("foo")));
+  assertThat(firstFoo.errors().isEmpty(),is(true));
+  assertThat(secondFoo.errors().isEmpty(),is(true));
+  jobs.validate(ValidationContext.forChain(config,config.getGroups(),config.getGroups().get(0),pipelineConfig,pipelineConfig.get(0),jobs));
+  assertThat(firstFoo.errors().on(JobConfig.NAME),is("You have defined multiple jobs called 'foo'. Job names are case-insensitive and must be unique."));
+  assertThat(secondFoo.errors().on(JobConfig.NAME),is("You have defined multiple jobs called 'foo'. Job names are case-insensitive and must be unique."));
+}

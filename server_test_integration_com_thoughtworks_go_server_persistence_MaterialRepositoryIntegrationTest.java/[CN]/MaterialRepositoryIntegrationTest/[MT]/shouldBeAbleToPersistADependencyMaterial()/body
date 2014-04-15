@@ -1,0 +1,6 @@
+{
+  MaterialInstance materialInstance=new DependencyMaterial(new CaseInsensitiveString("name"),new CaseInsensitiveString("pipeline"),new CaseInsensitiveString("stage"),"serverAlias").createMaterialInstance();
+  repo.saveOrUpdate(materialInstance);
+  MaterialInstance loaded=repo.find(materialInstance.getId());
+  assertThat(loaded,is(materialInstance));
+}

@@ -1,0 +1,18 @@
+{
+  configHelper.removePipeline(pipelineTwo.pipelineName);
+  Pipeline toRerun=pipelineOne.createdPipelineWithAllStagesPassed();
+  configHelper.addStageToPipeline(pipelineOne.pipelineName,"brand_new_stage",1,"unit");
+  pipelineOne.createdPipelineWithAllStagesPassed();
+  dbHelper.scheduleStage(toRerun,pipelineOne.devStage());
+  configHelper.setViewPermissionForGroup("group1","jez");
+  List<PipelineGroupModel> groupModels=pipelineHistoryService.allActivePipelineInstances(new Username(new CaseInsensitiveString("jez")),PipelineSelections.ALL);
+  assertThat(groupModels.size(),is(1));
+  List<PipelineModel> pipelineOneModels=groupModels.get(0).getPipelineModels();
+  assertThat(pipelineOneModels.size(),is(1));
+  PipelineInstanceModels pipelineTwoInstances=pipelineOneModels.get(0).getActivePipelineInstances();
+  assertThat(pipelineTwoInstances.size(),is(2));
+  assertThat(pipelineTwoInstances.get(0).getCounter(),is(2));
+  assertThat(pipelineTwoInstances.get(0).getStageHistory().size(),is(4));
+  assertThat(pipelineTwoInstances.get(1).getCounter(),is(1));
+  assertThat(pipelineTwoInstances.get(1).getStageHistory().size(),is(3));
+}

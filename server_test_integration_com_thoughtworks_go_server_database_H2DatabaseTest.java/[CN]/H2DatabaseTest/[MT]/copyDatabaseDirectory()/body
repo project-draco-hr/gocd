@@ -1,0 +1,10 @@
+{
+  System.setProperty("db.maxActive","20");
+  System.setProperty("db.maxIdle","10");
+  dbFixture=new DatabaseFixture();
+  dbFixture.copyH2Db();
+  SystemEnvironment env=dbFixture.env();
+  env.setDebugMode(false);
+  h2Database=new H2Database(env);
+  h2Database.startDatabase();
+}

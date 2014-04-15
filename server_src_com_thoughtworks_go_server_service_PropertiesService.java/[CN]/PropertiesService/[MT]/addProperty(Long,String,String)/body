@@ -1,0 +1,21 @@
+{
+  if (propertyName.length() > MAX_PROPERTY_SIZE) {
+    return propertyNameToLarge();
+  }
+  if (value.length() > MAX_PROPERTY_SIZE) {
+    return propertyValueToLarge();
+  }
+  if (invalidPropertyName(propertyName)) {
+    return propertyContainsInvalidChars();
+  }
+  try {
+    Property property=new Property(propertyName,value);
+    if (propertyDao.save(id,property)) {
+      return PropertyAction.created(property);
+    }
+    return PropertyAction.alreadySet(propertyName);
+  }
+ catch (  RuntimeException e) {
+    return PropertyAction.instanceNotFound(e.getMessage());
+  }
+}

@@ -1,0 +1,6 @@
+{
+  MaterialRevisions latest=new MaterialRevisions();
+  latest.addRevision(MaterialsMother.hgMaterial(),ModificationsMother.aCheckIn("21"));
+  assertThat(new Environment("blah",Arrays.asList(pipeline(),pipelineWithLatestRevision(latest))).hasNewRevisions(),is(true));
+  assertThat(new Environment("blah",Arrays.asList(pipeline(),pipelineWithLatestRevisionAndMaterialRevision(latest,latest))).hasNewRevisions(),is(false));
+}

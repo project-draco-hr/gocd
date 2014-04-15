@@ -1,0 +1,13 @@
+{
+  StageStatusListener listener=mock(StageStatusListener.class);
+  JobInstanceService jobInstanceService=mock(JobInstanceService.class);
+  JobInstance job=JobInstanceMother.building("foo");
+  JobIdentifier jobId=new JobIdentifier("pipeline",10,"label-10","stage","1","foo");
+  job.setIdentifier(jobId);
+  StageDao stageDao=mock(StageDao.class);
+  Stage stage=StageMother.custom("stage");
+  when(stageDao.findStageWithIdentifier(jobId.getStageIdentifier())).thenReturn(stage);
+  StageService service=new StageService(stageDao,jobInstanceService,null,null,null,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache,listener);
+  service.cancelJob(job);
+  verify(listener).stageStatusChanged(stage);
+}

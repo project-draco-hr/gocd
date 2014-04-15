@@ -1,0 +1,11 @@
+{
+  Hashtable<CaseInsensitiveString,CycleState> state=new Hashtable<CaseInsensitiveString,CycleState>();
+  Stack<CaseInsensitiveString> visiting=new Stack<CaseInsensitiveString>();
+  if (!state.containsKey(root)) {
+    tsort(root,targetTable,state,visiting);
+  }
+ else   if (state.get(root) == CycleState.VISITING) {
+    throw ExceptionUtils.bomb("Unexpected node in visiting state: " + root);
+  }
+  assertHasVisitedAllNodesInTree(state);
+}

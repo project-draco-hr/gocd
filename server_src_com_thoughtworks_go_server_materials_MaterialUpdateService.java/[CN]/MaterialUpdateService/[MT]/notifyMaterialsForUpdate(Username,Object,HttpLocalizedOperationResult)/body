@@ -1,0 +1,24 @@
+{
+  if (!goConfigService.isUserAdmin(username)) {
+    result.unauthorized(LocalizedMessage.string("API_ACCESS_UNAUTHORIZED"),HealthStateType.unauthorised());
+    return;
+  }
+  final Map attributes=(Map)params;
+  if (attributes.containsKey(MaterialUpdateService.TYPE)) {
+    PostCommitHookMaterialType materialType=postCommitHookMaterialType.toType((String)attributes.get(MaterialUpdateService.TYPE));
+    if (!materialType.isKnown()) {
+      result.badRequest(LocalizedMessage.string("API_BAD_REQUEST"));
+      return;
+    }
+    final PostCommitHookImplementer materialTypeImplementer=materialType.getImplementer();
+    final PipelineGroups allGroups=goConfigService.currentCruiseConfig().getGroups();
+    Set<Material> allUniquePostCommitSchedulableMaterials=materialConfigConverter.toMaterials(allGroups.getAllUniquePostCommitSchedulableMaterials());
+    final Set<Material> prunedMaterialList=materialTypeImplementer.prune(allUniquePostCommitSchedulableMaterials,attributes);
+    for (    Material material : prunedMaterialList) {
+      updateMaterial(material);
+    }
+  }
+ else {
+    result.badRequest(LocalizedMessage.string("API_BAD_REQUEST"));
+  }
+}

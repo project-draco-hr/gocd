@@ -1,0 +1,10 @@
+{
+  try {
+    KeyStore keyStore=loadOrEmpty(storeFile,passwd);
+    bombIfNull(keyStore,"Store not yet initialized");
+    return keyStore.getCertificateChain(friendlyName) != null;
+  }
+ catch (  Exception e) {
+    return false;
+  }
+}

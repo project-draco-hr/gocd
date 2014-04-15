@@ -1,0 +1,14 @@
+{
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  PipelineConfig otherConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("other","dev");
+  schedulePipelineWithStages(mingleConfig);
+  schedulePipelineWithStages(otherConfig);
+  schedulePipelineWithStages(mingleConfig);
+  schedulePipelineWithStages(otherConfig);
+  schedulePipelineWithStages(mingleConfig);
+  PipelineInstanceModels pipelineHistories=pipelineDao.loadHistory("mingle",10,0);
+  assertThat(pipelineHistories.get(0).getName(),is("mingle"));
+  assertThat(pipelineHistories.get(1).getName(),is("mingle"));
+  assertThat(pipelineHistories.get(2).getName(),is("mingle"));
+  assertThat(pipelineHistories.size(),is(3));
+}

@@ -1,0 +1,5 @@
+{
+  TestFailureSetup.SavedStage savedStage=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new DateTime().minusDays(8).toDate());
+  assertTrue(loader.shouldStopHandling(feedEntry(savedStage)));
+  assertFalse(stageStorage.isStageStored(savedStage.stageId));
+}

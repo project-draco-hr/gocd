@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.DEFAULT_XML_WITH_2_AGENTS);
+  xmlWriter.write(cruiseConfig,output,false);
+  assertThat(xmlWriter.toXmlPartial(cruiseConfig.server()),containsString("<server artifactsdir=\"artifactsDir\" "));
+}

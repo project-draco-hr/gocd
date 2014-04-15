@@ -1,0 +1,7 @@
+{
+  final File passwordFile=TestFileUtil.createTempFile("password.properties");
+  passwordFile.deleteOnExit();
+  FileUtils.writeStringToFile(passwordFile,userAndPasswordAndRoles);
+  final SecurityConfig securityConfig=new SecurityConfig(new LdapConfig(new GoCipher()),new PasswordFileConfig(passwordFile.getAbsolutePath()),true,null);
+  when(goConfigService.security()).thenReturn(securityConfig);
+}

@@ -1,0 +1,9 @@
+{
+  if (isEmpty(pipelineName)) {
+    response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+    return;
+  }
+  pipelinePauseService.unpause(pipelineName);
+  String userName=UserHelper.getUserName().getDisplayName();
+  LOGGER.info(String.format("[JSON API] Pipeline [%s] is unpaused by [%s]",pipelineName,userName));
+}

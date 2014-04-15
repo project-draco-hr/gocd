@@ -1,0 +1,13 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline-blah");
+  BuildTask task=new AntTask();
+  task.setWorkingDirectory("/blah");
+  StageConfig stageConfig=StageConfigMother.manualStage("manualStage");
+  stageConfig.getJobs().get(0).addTask(task);
+  PipelineTemplateConfig template=new PipelineTemplateConfig(new CaseInsensitiveString("some-template"),stageConfig);
+  config.addTemplate(template);
+  List<ConfigErrors> errors=config.validateAfterPreprocess();
+  assertThat(errors.size(),is(1));
+  String message="Task of job 'default' in stage 'manualStage' of template 'some-template' has path '/blah' which is outside the working directory.";
+  assertThat(task.errors().on(BuildTask.WORKING_DIRECTORY),is(message));
+}

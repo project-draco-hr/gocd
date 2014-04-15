@@ -1,0 +1,15 @@
+{
+  List<Class> candidateClasses=new ArrayList<Class>();
+  Enumeration<URL> entries=bundle.findEntries("/","*.class",true);
+  while (entries.hasMoreElements()) {
+    String entryPath=entries.nextElement().getFile();
+    if (isInvalidPath(entryPath)) {
+      continue;
+    }
+    Class<?> candidateClass=loadClass(bundle,entryPath);
+    if (candidateClass != null && isValidClass(candidateClass)) {
+      candidateClasses.add(candidateClass);
+    }
+  }
+  return candidateClasses;
+}

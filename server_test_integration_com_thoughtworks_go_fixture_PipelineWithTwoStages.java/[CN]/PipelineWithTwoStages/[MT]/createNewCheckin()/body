@@ -1,0 +1,13 @@
+{
+  ensureWorkingCopyExist();
+  String fileName="readme" + UUID.randomUUID() + ".txt";
+  File newFile=new File(workingFolder,fileName);
+  try {
+    newFile.createNewFile();
+    exec("svn","add",newFile.getAbsolutePath());
+    exec("svn","ci","-m \"test\"",newFile.getAbsolutePath());
+  }
+ catch (  IOException e) {
+    bomb(e);
+  }
+}

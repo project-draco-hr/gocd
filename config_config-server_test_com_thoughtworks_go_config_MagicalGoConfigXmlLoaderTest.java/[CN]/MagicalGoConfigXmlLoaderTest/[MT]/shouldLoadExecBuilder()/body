@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(toInputStream(CONFIG_WITH_NANT_AND_EXEC_BUILDER)).config;
+  JobConfig plan=cruiseConfig.jobConfigByName("pipeline1","mingle","cardlist",true);
+  ExecTask builder=(ExecTask)plan.tasks().findFirstByType(ExecTask.class);
+  assertThat(builder,is(new ExecTask("ls","-la","workdir")));
+  builder=(ExecTask)plan.tasks().get(2);
+  assertThat(builder,is(new ExecTask("ls","",(String)null)));
+}

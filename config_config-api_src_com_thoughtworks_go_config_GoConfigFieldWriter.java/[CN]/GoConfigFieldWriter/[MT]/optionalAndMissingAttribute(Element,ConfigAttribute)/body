@@ -1,0 +1,8 @@
+{
+  boolean optional=attribute.optional();
+  boolean isMissingAttribute=!configUtil.hasAttribute(e,attribute.value());
+  if (!optional && isMissingAttribute) {
+    throw bomb("Non optional attribute '" + attribute.value() + "' is not in element: "+ configUtil.elementOutput(e));
+  }
+  return optional && isMissingAttribute;
+}

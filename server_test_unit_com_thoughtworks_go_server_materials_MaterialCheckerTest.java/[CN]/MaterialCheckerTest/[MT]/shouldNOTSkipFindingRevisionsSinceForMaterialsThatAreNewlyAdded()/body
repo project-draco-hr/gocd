@@ -1,0 +1,12 @@
+{
+  SvnMaterial svnMaterial=new SvnMaterial("svnUrl",null,null,false);
+  SvnMaterial svnExternalMaterial=new SvnMaterial("svnExternalUrl",null,null,false);
+  Modification svnExternalModification=new Modification("user","external commit","em@il",new Date(),"3");
+  MaterialRevision previousSvnRevision=new MaterialRevision(svnMaterial,mod(1L));
+  Modification svnModification=new Modification("user","commend","em@il",new Date(),"2");
+  MaterialRevisions latestRevisions=new MaterialRevisions(new MaterialRevision(svnMaterial,svnModification),new MaterialRevision(svnExternalMaterial,svnExternalModification));
+  Mockito.when(materialRepository.findModificationsSince(svnMaterial,previousSvnRevision)).thenReturn(modifications(svnModification));
+  MaterialRevisions revisionsSince=materialChecker.findRevisionsSince(new MaterialRevisions(),new Materials(svnMaterial,svnExternalMaterial),new MaterialRevisions(previousSvnRevision),latestRevisions);
+  assertThat(revisionsSince,is(new MaterialRevisions(new MaterialRevision(svnMaterial,svnModification),new MaterialRevision(svnExternalMaterial,svnExternalModification))));
+  Mockito.verify(materialRepository).findModificationsSince(svnMaterial,previousSvnRevision);
+}

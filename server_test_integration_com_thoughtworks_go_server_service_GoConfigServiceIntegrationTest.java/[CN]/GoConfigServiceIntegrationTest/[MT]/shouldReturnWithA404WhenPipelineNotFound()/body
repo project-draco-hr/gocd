@@ -1,0 +1,9 @@
+{
+  CruiseConfig config=configHelper.currentConfig();
+  configHelper.writeConfigFile(config);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  assertThat(goConfigService.loadForEdit("my-invalid-pipeline",new Username(new CaseInsensitiveString("root")),result),is(nullValue()));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.message(localizer),is("Pipeline 'my-invalid-pipeline' not found."));
+}

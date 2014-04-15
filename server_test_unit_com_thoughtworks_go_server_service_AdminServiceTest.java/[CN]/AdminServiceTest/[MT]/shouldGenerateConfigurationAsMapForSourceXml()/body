@@ -1,0 +1,6 @@
+{
+  Map expected=mock(HashMap.class);
+  doNothing().when(goConfigService).populateAdminModel(anyMap());
+  Map actual=adminService.configurationMapForSourceXml();
+  assertThat(actual,is(expected));
+}

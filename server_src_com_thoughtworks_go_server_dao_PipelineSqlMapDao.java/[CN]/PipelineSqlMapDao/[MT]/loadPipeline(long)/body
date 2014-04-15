@@ -1,0 +1,4 @@
+{
+  Pipeline pipeline=(Pipeline)getSqlMapClientTemplate().queryForObject("pipelineById",pipelineId);
+  return loadAssociations(pipeline,pipeline == null ? "" : pipeline.getName());
+}

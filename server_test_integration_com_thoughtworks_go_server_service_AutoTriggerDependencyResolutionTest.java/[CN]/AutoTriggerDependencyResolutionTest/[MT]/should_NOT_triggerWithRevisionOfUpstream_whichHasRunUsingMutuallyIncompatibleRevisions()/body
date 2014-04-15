@@ -1,0 +1,29 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git"),"folder");
+  String[] git_revs={"g1","g2"};
+  int i=1;
+  u.checkinInOrder(git,u.d(i++),git_revs);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(p1));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(p2));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("P4",u.m(p3),u.m(p1));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  int extraHours5=i++;
+  String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(extraHours5),"g1");
+  int extraHours4=i++;
+  String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(extraHours4),p1_1);
+  int extraHours3=i++;
+  String p3_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p3,u.d(extraHours3),p1_1,p2_1);
+  int extraHours2=i++;
+  String p4_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p4,u.d(extraHours2),p3_1,p1_1);
+  int extraHours1=i++;
+  String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(extraHours1),"g1");
+  u.scheduleWith(p2,p1_2);
+  int extraHours=i++;
+  String p3_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p3,u.d(extraHours),p1_2,p2_1);
+  pipelineTimeline.update();
+  final MaterialRevisions given=new MaterialRevisions();
+  given.addRevision(u.mr(p3,true,p3_2));
+  given.addRevision(u.mr(p1,true,p1_2));
+  assertThat(getRevisionsBasedOnDependencies(p4,cruiseConfig,given),is(given));
+}

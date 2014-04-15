@@ -1,0 +1,27 @@
+{
+  return (JobInstance)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCommit(){
+synchronized (cacheKeyForJobPlan(jobInstance.getId())) {
+            removeCachedJobPlan(jobInstance);
+          }
+synchronized (cacheKeyForActiveJobIds()) {
+            goCache.remove(cacheKeyForActiveJobIds());
+          }
+          String activeJobKey=cacheKeyForActiveJob(jobInstance.getId());
+synchronized (activeJobKey) {
+            goCache.remove(activeJobKey);
+          }
+          removeCachedJobInstance(jobInstance);
+        }
+      }
+);
+      logIfJobIsCompleted(jobInstance);
+      updateStatus(jobInstance);
+      updateResult(jobInstance);
+      return jobInstance;
+    }
+  }
+);
+}

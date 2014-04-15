@@ -1,0 +1,13 @@
+{
+  try {
+    for (    Graph tempGraph : tempGraphs) {
+      tempGraph.close();
+    }
+    tempGraphs.clear();
+    conn.commit();
+    conn.close();
+  }
+ catch (  RepositoryException e) {
+    throw new ShineRuntimeException("Could not close graph!",e);
+  }
+}

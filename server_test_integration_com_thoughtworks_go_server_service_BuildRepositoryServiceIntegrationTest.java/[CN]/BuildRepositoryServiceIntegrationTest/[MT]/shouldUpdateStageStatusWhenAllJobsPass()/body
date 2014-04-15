@@ -1,0 +1,15 @@
+{
+  Stage stage1=createPipelineWithFirstStageCompletedAndNextStageBuilding(StageState.Passed);
+  assertThat(stage1.getResult(),is(StageResult.Unknown));
+  JobInstances jobs=stage1.getJobInstances();
+  for (  JobInstance job : jobs) {
+    buildRepositoryService.completing(job.getIdentifier(),JobResult.Passed,AGENT_UUID);
+    reportJobPassed(job);
+  }
+  Stage after=stageService.stageById(stage1.getId());
+  JobInstances instances=after.getJobInstances();
+  assertThat(instances.size(),is(1));
+  assertThat(instances.get(0).getResult(),is(JobResult.Passed));
+  assertThat(instances.get(0).getState(),is(JobState.Completed));
+  assertThat(after.getResult(),is(StageResult.Passed));
+}

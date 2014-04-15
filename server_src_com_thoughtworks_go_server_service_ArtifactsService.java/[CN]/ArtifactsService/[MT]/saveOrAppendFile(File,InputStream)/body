@@ -1,0 +1,17 @@
+{
+  String destPath=dest.getAbsolutePath();
+  try {
+    if (LOGGER.isTraceEnabled()) {
+      LOGGER.trace("Appending file [" + destPath + "]");
+    }
+    systemService.streamToFile(stream,dest);
+    if (LOGGER.isTraceEnabled()) {
+      LOGGER.trace("File [" + destPath + "] appended.");
+    }
+    return true;
+  }
+ catch (  IOException e) {
+    LOGGER.error("Failed to save the file to : [" + destPath + "]",e);
+    return false;
+  }
+}

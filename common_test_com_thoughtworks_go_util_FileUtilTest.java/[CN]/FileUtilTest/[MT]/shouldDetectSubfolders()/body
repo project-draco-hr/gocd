@@ -1,0 +1,8 @@
+{
+  assertThat(isSubdirectoryOf(new File("a"),new File("a")),is(true));
+  assertThat(isSubdirectoryOf(new File("a"),new File("a/b")),is(true));
+  assertThat(isSubdirectoryOf(new File("a"),new File("aaaa")),is(false));
+  assertThat(isSubdirectoryOf(new File("a/b/c/d"),new File("a/b/c/d/e")),is(true));
+  assertThat(isSubdirectoryOf(new File("a/b/c/d/e"),new File("a/b/c/d")),is(false));
+  assertThat(isSubdirectoryOf(new File("/a/b"),new File("c/d")),is(false));
+}

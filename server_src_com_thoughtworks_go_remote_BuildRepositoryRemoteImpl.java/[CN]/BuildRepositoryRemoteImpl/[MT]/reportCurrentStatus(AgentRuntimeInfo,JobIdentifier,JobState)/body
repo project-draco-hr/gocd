@@ -1,0 +1,10 @@
+{
+  handleFailuresDuringReporting(agentRuntimeInfo,jobIdentifier,"status",state.toString(),new ReportingAction(){
+    @Override public void call() throws Exception {
+      agentService.updateRuntimeInfo(agentRuntimeInfo);
+      buildRepositoryService.updateStatusFromAgent(jobIdentifier,state,agentRuntimeInfo.getUUId());
+      jobStatusTopic.post(new JobStatusMessage(jobIdentifier,state,agentRuntimeInfo.getUUId()));
+    }
+  }
+);
+}

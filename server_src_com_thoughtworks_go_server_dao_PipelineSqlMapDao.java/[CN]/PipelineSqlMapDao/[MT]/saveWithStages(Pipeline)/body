@@ -1,0 +1,8 @@
+{
+  updateCounter(pipeline);
+  Pipeline savedPipeline=save(pipeline);
+  for (  Stage stage : pipeline.getStages()) {
+    stageDao.saveWithJobs(savedPipeline,stage);
+  }
+  return savedPipeline;
+}

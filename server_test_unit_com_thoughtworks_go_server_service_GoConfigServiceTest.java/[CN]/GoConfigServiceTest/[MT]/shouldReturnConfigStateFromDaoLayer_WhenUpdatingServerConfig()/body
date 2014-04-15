@@ -1,0 +1,6 @@
+{
+  ConfigSaveState expectedSaveState=ConfigSaveState.MERGED;
+  when(goConfigFileDao.updateConfig(org.mockito.Matchers.<UpdateConfigCommand>any())).thenReturn(expectedSaveState);
+  ConfigSaveState configSaveState=goConfigService.updateServerConfig(new MailHost(new GoCipher()),null,null,true,"md5",null,null,null,null,"http://site","https://site","location");
+  assertThat(configSaveState,is(expectedSaveState));
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    quartzScheduler=quartzSchedulerFactory.getScheduler();
+    quartzScheduler.start();
+    scheduleAllJobs(goConfigService.getAllPipelineConfigs());
+    goConfigService.register(this);
+  }
+ catch (  SchedulerException e) {
+    showGlobalError("Failed to initialize timer",e);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  AgentConfig virtualAgentConfig=new AgentConfig("uuid1","ec2","10.18.8.10");
+  AgentInstance instance=AgentInstance.create(virtualAgentConfig,true,new SystemEnvironment());
+  instance.update(AgentRuntimeInfo.fromAgent(virtualAgentConfig.getAgentIdentifier(),"cookie",null));
+  return instance;
+}

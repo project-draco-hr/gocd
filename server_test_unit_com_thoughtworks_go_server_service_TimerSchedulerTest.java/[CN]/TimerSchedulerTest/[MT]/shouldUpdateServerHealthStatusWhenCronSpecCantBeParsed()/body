@@ -1,0 +1,11 @@
+{
+  when(schedulerFactory.getScheduler()).thenReturn(scheduler);
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  when(goConfigService.getAllPipelineConfigs()).thenReturn(asList(pipelineConfigWithTimer("uat","bad cron spec!!!")));
+  ServerHealthService serverHealthService=mock(ServerHealthService.class);
+  TimerScheduler timerScheduler=new TimerScheduler(schedulerFactory,goConfigService,null,serverHealthService);
+  timerScheduler.initialize();
+  verify(schedulerFactory).getScheduler();
+  verify(scheduler).start();
+  verify(serverHealthService).update(ServerHealthState.error("Bad timer specification for timer in Pipeline: uat","Cannot schedule pipeline using the timer",HealthStateType.general(HealthStateScope.forPipeline("uat"))));
+}

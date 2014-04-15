@@ -1,0 +1,8 @@
+{
+  fixture.createPipelineHistory();
+  fixture.checkInToFirstMaterial("a.doc");
+  int size=pipelineScheduleQueue.toBeScheduled().size();
+  buildCauseProducerService.autoSchedulePipeline(fixture.pipelineName,new ServerHealthStateOperationResult(),12345);
+  assertThat(pipelineScheduleQueue.toBeScheduled().size(),is(size));
+  assertThat(pipelineScheduleQueue.toBeScheduled().get(fixture.pipelineName),is(nullValue()));
+}

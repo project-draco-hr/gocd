@@ -1,0 +1,70 @@
+{
+  if (!scriptFile.exists()) {
+    return;
+  }
+  System.out.println("Migrating hsql file: " + scriptFile.getName());
+  Connection con=source.getConnection();
+  Statement stmt=con.createStatement();
+  stmt.executeUpdate("SET REFERENTIAL_INTEGRITY FALSE");
+  LineNumberReader reader=new LineNumberReader(new FileReader(scriptFile));
+  String line;
+  while ((line=reader.readLine()) != null) {
+    try {
+      String table=null;
+      Matcher matcher=createTable.matcher(line);
+      if (matcher.find()) {
+        table=matcher.group(2).trim();
+      }
+      if (line.equals("CREATE SCHEMA PUBLIC AUTHORIZATION DBA")) {
+        continue;
+      }
+      if (line.equals("CREATE SCHEMA CRUISE AUTHORIZATION DBA")) {
+        continue;
+      }
+      if (line.startsWith("CREATE USER SA PASSWORD")) {
+        continue;
+      }
+      if (line.contains("BUILDEVENT VARCHAR(255)")) {
+        line=line.replace("BUILDEVENT VARCHAR(255)","BUILDEVENT LONGVARCHAR");
+      }
+      if (line.contains("COMMENT VARCHAR(4000)")) {
+        line=line.replace("COMMENT VARCHAR(4000)","COMMENT LONGVARCHAR");
+      }
+      if (line.contains("CREATE MEMORY TABLE")) {
+        line=line.replace("CREATE MEMORY TABLE","CREATE CACHED TABLE");
+      }
+      if (table != null && table.equals("MATERIALPROPERTIES") && line.contains("VALUE VARCHAR(255),")) {
+        line=line.replace("VALUE VARCHAR(255),","VALUE LONGVARCHAR,");
+      }
+      if (line.startsWith("GRANT DBA TO SA")) {
+        continue;
+      }
+      if (line.startsWith("CONNECT USER")) {
+        continue;
+      }
+      if (line.contains("DISCONNECT")) {
+        continue;
+      }
+      if (line.contains("AUTOCOMMIT")) {
+        continue;
+      }
+      stmt.executeUpdate(line);
+      if (reader.getLineNumber() % LINES_PER_DOT == 0) {
+        System.out.print(".");
+        System.out.flush();
+      }
+      if (reader.getLineNumber() % (80 * LINES_PER_DOT) == 0) {
+        System.out.println();
+      }
+    }
+ catch (    SQLException e) {
+      bomb("Error executing : " + line,e);
+    }
+  }
+  stmt.executeUpdate("SET REFERENTIAL_INTEGRITY TRUE");
+  stmt.executeUpdate("CHECKPOINT SYNC");
+  System.out.println("\nDone.");
+  reader.close();
+  stmt.close();
+  con.close();
+}

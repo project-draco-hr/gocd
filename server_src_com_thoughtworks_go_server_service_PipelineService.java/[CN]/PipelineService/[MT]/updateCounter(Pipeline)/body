@@ -1,0 +1,5 @@
+{
+  Integer lastCount=pipelineDao.getCounterForPipeline(pipeline.getName());
+  pipeline.updateCounter(lastCount);
+  pipelineDao.insertOrUpdatePipelineCounter(pipeline,lastCount,pipeline.getCounter());
+}

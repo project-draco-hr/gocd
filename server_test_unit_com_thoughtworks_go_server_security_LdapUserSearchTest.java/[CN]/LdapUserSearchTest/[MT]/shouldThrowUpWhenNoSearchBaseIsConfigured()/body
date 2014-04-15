@@ -1,0 +1,10 @@
+{
+  setLdapConfig(new BasesConfig());
+  try {
+    spy.searchForUser("username");
+    fail("This should throw exception mandating search bases.");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("No LDAP Search Bases are configured."));
+  }
+}

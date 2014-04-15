@@ -1,0 +1,39 @@
+{
+  if (attributes == null) {
+    return;
+  }
+  Map attributeMap=(Map)attributes;
+  if (attributeMap.containsKey(NAME)) {
+    name=new CaseInsensitiveString((String)attributeMap.get(NAME));
+  }
+  if (attributeMap.containsKey(ARTIFACT_CLEANUP_PROHIBITED)) {
+    artifactCleanupProhibited=attributeMap.get(ARTIFACT_CLEANUP_PROHIBITED).equals("1") ? true : false;
+  }
+  if (attributeMap.containsKey(FETCH_MATERIALS)) {
+    fetchMaterials=attributeMap.get(FETCH_MATERIALS).equals("1") ? true : false;
+  }
+  if (attributeMap.containsKey(CLEAN_WORKING_DIR)) {
+    cleanWorkingDir=attributeMap.get(CLEAN_WORKING_DIR).equals("1") ? true : false;
+  }
+  if (attributeMap.containsKey(APPROVAL)) {
+    approval.setConfigAttributes(attributeMap.get(APPROVAL));
+  }
+  if (attributeMap.containsKey(JOBS)) {
+    if (jobConfigs == null) {
+      jobConfigs=new JobConfigs();
+    }
+    jobConfigs.setConfigAttributes(attributeMap.get(JOBS),taskFactory);
+  }
+  if (attributeMap.containsKey(ENVIRONMENT_VARIABLES)) {
+    variables.setConfigAttributes(attributeMap.get(ENVIRONMENT_VARIABLES));
+  }
+  if (attributeMap.containsKey(SECURITY_MODE)) {
+    String mode=(String)attributeMap.get(SECURITY_MODE);
+    if ("define".equals(mode)) {
+      approval.setOperatePermissions((List<Map<String,String>>)attributeMap.get(OPERATE_USERS),(List<Map<String,String>>)attributeMap.get(OPERATE_ROLES));
+    }
+    if ("inherit".equals(mode)) {
+      approval.removeOperatePermissions();
+    }
+  }
+}

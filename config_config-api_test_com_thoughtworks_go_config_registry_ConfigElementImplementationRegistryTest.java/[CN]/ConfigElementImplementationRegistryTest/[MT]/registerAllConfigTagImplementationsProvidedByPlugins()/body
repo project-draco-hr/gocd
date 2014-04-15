@@ -1,0 +1,20 @@
+{
+  BundleContext execCtx=PluginTestUtil.bundleCtxWithHeaders(DataStructureUtils.m(PluginNamespace.XSD_NAMESPACE_PREFIX,"exec",PluginNamespace.XSD_NAMESPACE_URI,"uri-exec"));
+  PluggableViewModelFactory<PluginExec> factory=mock(PluggableViewModelFactory.class);
+  ConfigTypeExtension exec=new TestTaskConfigTypeExtension<PluginExec>(PluginExec.class,factory);
+  ConfigurationExtension execTag=new ConfigurationExtension<Task>(new PluginNamespace(execCtx,new URL("file:///exec")),exec);
+  BundleContext antCtx=PluginTestUtil.bundleCtxWithHeaders(DataStructureUtils.m(PluginNamespace.XSD_NAMESPACE_PREFIX,"ant",PluginNamespace.XSD_NAMESPACE_URI,"uri-ant"));
+  ConfigTypeExtension ant=new TestTaskConfigTypeExtension<PluginAnt>(PluginAnt.class,mock(PluggableViewModelFactory.class));
+  ConfigurationExtension antTag=new ConfigurationExtension<Task>(new PluginNamespace(antCtx,new URL("file:///ant")),ant);
+  when(pluginExtns.configTagImplementations()).thenReturn(Arrays.asList(execTag,antTag));
+  ConfigElementImplementationRegistry registry=new ConfigElementImplementationRegistry(pluginExtns);
+  assertThat(registry.xsds(),containsString("uri-exec file:/exec"));
+  assertThat(registry.xsds(),containsString("uri-ant file:/ant"));
+  List<Class<? extends Task>> implementationTypes=registry.implementersOf(Task.class);
+  assertThat(implementationTypes.contains(PluginExec.class),is(true));
+  assertThat(implementationTypes.contains(PluginAnt.class),is(true));
+  Element mock=mock(Element.class);
+  registry.registerNamespacesInto(mock);
+  verify(mock).addNamespaceDeclaration(Namespace.getNamespace("exec","uri-exec"));
+  verify(mock).addNamespaceDeclaration(Namespace.getNamespace("ant","uri-ant"));
+}

@@ -1,0 +1,21 @@
+{
+  final List<String> cmd=new ArrayList<String>();
+  LogFixture logFixture=LogFixture.startListening();
+  try {
+    final OutputStream stdin=mock(OutputStream.class);
+    Process subProcess=mockProcess(new ByteArrayInputStream(new byte[0]),new ByteArrayInputStream(new byte[0]),stdin);
+    when(subProcess.waitFor()).thenAnswer(new Answer<Object>(){
+      public Object answer(      InvocationOnMock invocation) throws Throwable {
+        verify(stdin).close();
+        return 21;
+      }
+    }
+);
+    AgentProcessParentImpl bootstrapper=createBootstrapper(cmd,subProcess);
+    int returnCode=bootstrapper.run("bootstrapper_version","bar",getURLGenerator(),new HashMap<String,String>());
+    assertThat(returnCode,is(21));
+  }
+  finally {
+    logFixture.stopListening();
+  }
+}

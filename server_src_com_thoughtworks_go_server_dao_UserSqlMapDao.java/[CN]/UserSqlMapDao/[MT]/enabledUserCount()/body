@@ -1,0 +1,19 @@
+{
+  Integer value=(Integer)goCache.get(ENABLED_USER_COUNT_CACHE_KEY);
+  if (value != null) {
+    return value;
+  }
+synchronized (ENABLED_USER_COUNT_CACHE_KEY) {
+    value=(Integer)goCache.get(ENABLED_USER_COUNT_CACHE_KEY);
+    if (value == null) {
+      value=(Integer)hibernateTemplate().execute(new HibernateCallback<Object>(){
+        @Override public Object doInHibernate(        Session session) throws HibernateException, SQLException {
+          return session.createCriteria(User.class).add(Restrictions.eq("enabled",true)).setProjection(Projections.rowCount()).setCacheable(true).uniqueResult();
+        }
+      }
+);
+      goCache.put(ENABLED_USER_COUNT_CACHE_KEY,value);
+    }
+    return value;
+  }
+}

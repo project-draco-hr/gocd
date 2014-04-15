@@ -1,0 +1,14 @@
+{
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  DefaultJobPlan plan=new DefaultJobPlan(new Resources(),artifactPlans,new ArtifactPropertiesGenerators(),-1,null);
+  artifactPlans.add(new ArtifactPlan(ArtifactType.unit,"test1","test"));
+  artifactPlans.add(new ArtifactPlan(ArtifactType.unit,"test2","test"));
+  final File firstTestFolder=prepareTestFolder(workingFolder,"test1");
+  final File secondTestFolder=prepareTestFolder(workingFolder,"test2");
+  StubGoPublisher publisher=new StubGoPublisher();
+  plan.publishArtifacts(publisher,workingFolder);
+  publisher.assertPublished(firstTestFolder.getAbsolutePath(),"test");
+  publisher.assertPublished(secondTestFolder.getAbsolutePath(),"test");
+  publisher.assertPublished("result","testoutput");
+  publisher.assertPublished("result" + File.separator + "index.html","testoutput");
+}

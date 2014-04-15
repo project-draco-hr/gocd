@@ -1,0 +1,9 @@
+{
+  File tempDir=new File(tempFolderPath(),CRUISE_TMP_FOLDER);
+  File dir=new File(tempDir,UUID.randomUUID().toString());
+  boolean ret=dir.mkdirs();
+  if (!ret) {
+    throw new RuntimeException("FileUtil#createTempFolder - Could not create temp folder");
+  }
+  return dir;
+}

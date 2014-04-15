@@ -1,0 +1,6 @@
+{
+  pipeline.setLabelTemplate("pipeline-${COUNT}-${repo:name}");
+  pipeline.addMaterialConfig(new PackageMaterialConfig(new CaseInsensitiveString("repo:name"),"package-id",PackageDefinitionMother.create("package-id")));
+  pipeline.validate(validationContext);
+  assertThat(pipeline.errors().getAllOn("labelTemplate"),is(nullValue()));
+}

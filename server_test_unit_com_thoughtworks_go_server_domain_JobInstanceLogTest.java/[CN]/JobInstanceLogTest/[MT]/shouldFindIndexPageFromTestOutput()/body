@@ -1,0 +1,13 @@
+{
+  rootFolder=new File("root");
+  final File testOutput=new File(rootFolder,"testoutput");
+  testOutput.mkdirs();
+  File indexHtml=new File(testOutput,"index.html");
+  FileOutputStream fileOutputStream=new FileOutputStream(indexHtml);
+  IOUtils.write("Test",fileOutputStream);
+  IOUtils.closeQuietly(fileOutputStream);
+  HashMap map=new HashMap();
+  map.put("artifactfolder",rootFolder);
+  jobInstanceLog=new JobInstanceLog(null,map);
+  assertThat(jobInstanceLog.getTestIndexPage(),is(indexHtml));
+}

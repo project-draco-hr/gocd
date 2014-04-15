@@ -1,0 +1,13 @@
+{
+  StringBuilder s=new StringBuilder();
+  s.append("view_buildCausesForPipelineModel_");
+  s.append(model.getName());
+  for (  PipelineInstanceModel pim : model.getActivePipelineInstances()) {
+    TrackingTool trackingTool=pim.getTrackingTool();
+    MingleConfig mingleConfig=pim.getMingleConfig();
+    int trackingToolHash=trackingTool == null ? -1 : trackingTool.hashCode();
+    int mingleToolHash=mingleConfig == null ? -1 : mingleConfig.hashCode();
+    s.append("[").append(pim.getId()).append("|").append(trackingToolHash).append("|").append(mingleToolHash).append("]");
+  }
+  return s.toString();
+}

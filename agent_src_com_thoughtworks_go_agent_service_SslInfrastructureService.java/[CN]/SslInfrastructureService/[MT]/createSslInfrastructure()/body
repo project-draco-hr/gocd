@@ -1,0 +1,10 @@
+{
+  File parentFile=AGENT_TRUST_FILE.getParentFile();
+  if (parentFile.exists() || parentFile.mkdirs()) {
+    protocolSocketFactory=new AuthSSLProtocolSocketFactory(AGENT_TRUST_FILE,AGENT_CERTIFICATE_FILE,AGENT_STORE_PASSWORD);
+    protocolSocketFactory.registerAsHttpsProtocol();
+  }
+ else {
+    bomb("Unable to create folder " + parentFile.getAbsolutePath());
+  }
+}

@@ -1,0 +1,20 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.start();
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar");
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-2.jar");
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-3.jar");
+  waitAMoment();
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar",true));
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-2.jar",true));
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-3.jar",true));
+  FileUtils.deleteQuietly(new File(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar"));
+  FileUtils.deleteQuietly(new File(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-2.jar"));
+  waitAMoment();
+  verify(changeListener).pluginJarRemoved(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar",true));
+  verify(changeListener).pluginJarRemoved(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-2.jar",true));
+  verifyNoMoreInteractions(changeListener);
+}

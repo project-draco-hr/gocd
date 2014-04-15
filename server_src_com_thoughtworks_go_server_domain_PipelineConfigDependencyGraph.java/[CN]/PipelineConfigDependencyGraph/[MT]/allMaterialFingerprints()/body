@@ -1,0 +1,9 @@
+{
+  Set<String> materialFingerPrints=new HashSet<String>();
+  List<PipelineConfigQueueEntry> queue=new ArrayList<PipelineConfigQueueEntry>(buildQueue());
+  for (  PipelineConfigQueueEntry pipelineConfigQueueEntry : queue) {
+    addMaterialsForConfig(materialFingerPrints,Arrays.asList(pipelineConfigQueueEntry.node));
+    addMaterialsForConfig(materialFingerPrints,pipelineConfigQueueEntry.path);
+  }
+  return materialFingerPrints;
+}

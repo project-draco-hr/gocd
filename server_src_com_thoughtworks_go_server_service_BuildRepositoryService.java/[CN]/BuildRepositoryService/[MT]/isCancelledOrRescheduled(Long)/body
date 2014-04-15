@@ -1,0 +1,9 @@
+{
+  JobInstance instance=jobInstanceService.buildByIdWithTransitions(buildInstanceId);
+  if (instance.isNull()) {
+    return false;
+  }
+  boolean cancelled=instance.getResult() == JobResult.Cancelled;
+  boolean rescheduled=instance.getState() == JobState.Rescheduled;
+  return cancelled || rescheduled;
+}

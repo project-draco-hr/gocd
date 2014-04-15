@@ -1,0 +1,19 @@
+{
+  ZipInputStream zipIn=null;
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  try {
+    zipIn=new ZipInputStream(new FileInputStream(location));
+    while (zipIn.available() > 0) {
+      ZipEntry nextEntry=zipIn.getNextEntry();
+      if (nextEntry.getName().equals(filename)) {
+        IOUtils.copy(zipIn,out);
+      }
+    }
+  }
+  finally {
+    if (zipIn != null) {
+      zipIn.close();
+    }
+  }
+  return out.toString();
+}

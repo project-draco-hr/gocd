@@ -1,0 +1,6 @@
+{
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo","some-plugin-which-does-not-exist","version",new Configuration(create("rk1",false,"rv1"),create("rk2",true,"rv2")));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","name",new Configuration(create("pk1",false,"pv1"),create("pk2",true,"pv2"),create("pk3",false,"pv3")),repository);
+  packageDefinition.setRepository(repository);
+  assertThat(packageDefinition.getConfigForDisplay(),is("WARNING! Plugin missing for Repository: [rk1=rv1] - Package: [pk1=pv1, pk3=pv3]"));
+}

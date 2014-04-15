@@ -1,0 +1,12 @@
+{
+  List<String> tasks=ConfigUtil.allTasks(registry);
+  for (  String task : tasks) {
+    List taskNodes=XPath.selectNodes(element,"//" + task);
+    for (    Object taskNode : taskNodes) {
+      List list=XPath.selectNodes(taskNode,"oncancel");
+      if (list.size() > 1) {
+        throw new Exception("Task [" + task + "] should not contain more than 1 oncancel task");
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  String pluginId=packageDefinition.getRepository().getPluginConfiguration().getId();
+  defaultPluginManager.doOn(PackageMaterialProvider.class,pluginId,new ActionWithReturn<PackageMaterialProvider,Object>(){
+    @Override public Object execute(    PackageMaterialProvider packageMaterialProvider,    GoPluginDescriptor pluginDescriptor){
+      ValidationResult validationResult=packageMaterialProvider.getConfig().isPackageConfigurationValid(buildPackageConfigurations(packageDefinition),buildRepositoryConfigurations(packageDefinition.getRepository()));
+      for (      ValidationError error : validationResult.getErrors()) {
+        packageDefinition.addConfigurationErrorFor(error.getKey(),error.getMessage());
+      }
+      return null;
+    }
+  }
+);
+  for (  ConfigurationProperty configurationProperty : packageDefinition.getConfiguration()) {
+    String key=configurationProperty.getConfigurationKey().getName();
+    if (PackageMetadataStore.getInstance().hasOption(packageDefinition.getRepository().getPluginConfiguration().getId(),key,PackageConfiguration.REQUIRED)) {
+      if (configurationProperty.getValue().isEmpty() && configurationProperty.doesNotHaveErrorsAgainstConfigurationValue()) {
+        configurationProperty.addErrorAgainstConfigurationValue(localizer.localize("MANDATORY_CONFIGURATION_FIELD_WITH_NAME",configurationProperty.getConfigurationKey().getName()));
+      }
+    }
+  }
+}

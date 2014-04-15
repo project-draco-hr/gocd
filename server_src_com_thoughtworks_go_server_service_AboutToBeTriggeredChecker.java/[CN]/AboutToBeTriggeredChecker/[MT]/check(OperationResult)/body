@@ -1,0 +1,9 @@
+{
+  HealthStateType type=HealthStateType.general(HealthStateScope.forPipeline(pipelineName));
+  if (triggerMonitor.isAlreadyTriggered(pipelineName) || pipelineScheduleQueue.hasForcedBuildCause(pipelineName)) {
+    result.conflict("Failed to trigger pipeline: " + pipelineName,"Pipeline already triggered",HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+  }
+ else {
+    result.success(type);
+  }
+}

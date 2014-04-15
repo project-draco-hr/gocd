@@ -1,0 +1,13 @@
+{
+  String configTemplate="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>"+ "<repositories>"+ "	<repository id='2ef830d7-dd66-42d6-b393-64a84646e557' name='GoYumRepo'>"+ "		<pluginConfiguration id='yum' version='1' />"+ "       <configuration>"+ "           <property>"+ "               <key>REPO_URL</key>"+ "               <value>http://fake-yum-repo/go/yum/no-arch</value>"+ "               </property>"+ "       </configuration>"+ "	    <packages>"+ "           <package id='88a3beca-cbe2-4c4d-9744-aa0cda3f371c' name='1' autoUpdate='%s'>"+ "               <configuration>"+ "                   <property>"+ "                       <key>REPO_URL</key>"+ "                       <value>http://fake-yum-repo/go/yum/no-arch</value>"+ "                   </property>"+ "               </configuration>"+ "           </package>"+ "	     </packages>"+ "   </repository>"+ "</repositories>"+ "</cruise>";
+  String configContent=String.format(configTemplate,false);
+  GoConfigHolder holder=xmlLoader.loadConfigHolder(configContent);
+  PackageRepository packageRepository=holder.config.getPackageRepositories().find("2ef830d7-dd66-42d6-b393-64a84646e557");
+  PackageDefinition aPackage=packageRepository.findPackage("88a3beca-cbe2-4c4d-9744-aa0cda3f371c");
+  assertThat(aPackage.isAutoUpdate(),is(false));
+  configContent=String.format(configTemplate,true);
+  holder=xmlLoader.loadConfigHolder(configContent);
+  packageRepository=holder.config.getPackageRepositories().find("2ef830d7-dd66-42d6-b393-64a84646e557");
+  aPackage=packageRepository.findPackage("88a3beca-cbe2-4c4d-9744-aa0cda3f371c");
+  assertThat(aPackage.isAutoUpdate(),is(true));
+}

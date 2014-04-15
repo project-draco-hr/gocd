@@ -1,0 +1,12 @@
+{
+  ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("classpath*:WEB-INF/applicationContext-dataLocalAccess.xml");
+  this.stageDao=(StageSqlMapDao)context.getBean("stageDao");
+  this.jobInstanceDao=(JobInstanceDao)context.getBean("buildInstanceDao");
+  this.propertyDao=(PropertyDao)context.getBean("propertyDao");
+  this.pipelineDao=(PipelineSqlMapDao)context.getBean("pipelineDao");
+  this.materialRepository=(MaterialRepository)context.getBean("materialRepository");
+  this.goCache=(GoCache)context.getBean("goCache");
+  this.instanceFactory=(InstanceFactory)context.getBean("instanceFactory");
+  setSessionFactory((SessionFactory)context.getBean("sessionFactory"));
+  return context;
+}

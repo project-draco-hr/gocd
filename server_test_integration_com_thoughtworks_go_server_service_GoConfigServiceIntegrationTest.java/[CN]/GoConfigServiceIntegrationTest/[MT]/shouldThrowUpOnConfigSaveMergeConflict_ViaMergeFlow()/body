@@ -1,0 +1,14 @@
+{
+  CruiseConfig user1SeeingConfig=goConfigFileDao.loadForEditing();
+  String user1SeeingMd5=user1SeeingConfig.getMd5();
+  configHelper.addPipelineWithGroup("defaultGroup","user2_pipeline","user2_stage","user2_job");
+  CruiseConfig user2SeeingConfig=configHelper.load();
+  new GoConfigMother().addPipelineWithGroup(user1SeeingConfig,"defaultGroup","user1_pipeline","user1_stage","user1_job");
+  ByteArrayOutputStream os=new ByteArrayOutputStream();
+  configHelper.getXml(user1SeeingConfig,os);
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(false);
+  GoConfigValidity validity=saver.saveXml(os.toString(),user1SeeingMd5);
+  assertThat(validity.isValid(),is(false));
+  assertThat(validity.isType(GoConfigValidity.VT_MERGE_OPERATION_ERROR),is(true));
+  assertThat(validity.errorMessage(),is("Configuration file has been modified by someone else."));
+}

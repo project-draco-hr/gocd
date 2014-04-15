@@ -1,0 +1,11 @@
+{
+  List<String> unselectedPipelines=new ArrayList<String>();
+  List<PipelineConfig> pipelineConfigList=cruiseConfig().getAllPipelineConfigs();
+  for (  PipelineConfig pipelineConfig : pipelineConfigList) {
+    String pipelineName=CaseInsensitiveString.str(pipelineConfig.name());
+    if (!selectedPipelines.contains(pipelineName)) {
+      unselectedPipelines.add(pipelineName);
+    }
+  }
+  return unselectedPipelines;
+}

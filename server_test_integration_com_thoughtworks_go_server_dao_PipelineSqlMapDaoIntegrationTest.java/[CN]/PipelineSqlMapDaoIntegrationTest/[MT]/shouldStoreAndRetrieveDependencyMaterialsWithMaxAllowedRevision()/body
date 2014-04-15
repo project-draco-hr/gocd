@@ -1,0 +1,20 @@
+{
+  char[] name=new char[255];
+  for (int i=0; i < 255; i++) {
+    name[i]='a';
+  }
+  final String s=new String(name);
+  final String s1=new String(name);
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString(s),new CaseInsensitiveString(s1));
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(dependencyMaterial.config()));
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  DependencyMaterialRevision revision=DependencyMaterialRevision.create(new String(name),-10,new String(name),new String(name),Integer.MAX_VALUE);
+  materialRevisions.addRevision(revision.convert(dependencyMaterial,new Date()));
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  savePipeline(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  final Materials materials=pipelineFromDB.getMaterials();
+  assertThat((DependencyMaterial)materials.get(0),is(dependencyMaterial));
+}

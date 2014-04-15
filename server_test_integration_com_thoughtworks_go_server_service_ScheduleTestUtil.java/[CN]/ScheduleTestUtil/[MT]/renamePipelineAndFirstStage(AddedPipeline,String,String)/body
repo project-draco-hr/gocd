@@ -1,0 +1,8 @@
+{
+  PipelineConfig oldConfig=pipeline.config;
+  configHelper.removePipeline(CaseInsensitiveString.str(oldConfig.name()));
+  PipelineConfig newPipeline=PipelineConfigMother.renamePipeline(oldConfig,newPipelineName);
+  StageConfigMother.renameStage(newPipeline.get(0),stageName);
+  configHelper.addPipeline(newPipeline);
+  return new AddedPipeline(newPipeline,pipeline.material);
+}

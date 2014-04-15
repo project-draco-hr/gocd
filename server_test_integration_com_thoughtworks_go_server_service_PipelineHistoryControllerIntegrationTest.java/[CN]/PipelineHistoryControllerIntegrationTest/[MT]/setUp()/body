@@ -1,0 +1,10 @@
+{
+  fixture=new PipelineWithMultipleStages(3,materialRepository,transactionTemplate);
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  dbHelper.onSetUp();
+  fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  goConfigService.forceNotifyListeners();
+  request=new MockHttpServletRequest();
+  response=new MockHttpServletResponse();
+}

@@ -1,0 +1,10 @@
+{
+  JobInstances withNonEmptyArtifacts=stage.getJobInstances();
+  DirectoryEntries artifacts=new DirectoryEntries();
+  for (  JobInstance instance : withNonEmptyArtifacts) {
+    DirectoryReader directoryReader=new DirectoryReader(instance.getIdentifier());
+    DirectoryEntries subDirectories=directoryReader.listEntries(artifactsService.findArtifact(instance.getIdentifier(),""),"");
+    artifacts.add(new FolderDirectoryEntry(instance.getName(),"",subDirectories));
+  }
+  return artifacts;
+}

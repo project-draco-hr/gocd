@@ -1,0 +1,10 @@
+{
+  Stage stage=new Stage("dev",new JobInstances(new JobInstance("unit")),"anonymous","manual",new TimeProvider());
+  stage.building();
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createManualForced(),stage);
+  savePipeline(pipeline);
+  PipelineInstanceModel loaded=pipelineDao.loadHistory("Test").get(0);
+  assertThat(loaded.getStageHistory().get(0).getResult(),is(StageResult.Unknown));
+  PipelineInstanceModel loadedById=pipelineDao.loadHistory(pipeline.getId());
+  assertThat(loadedById.getStageHistory().get(0).getResult(),is(StageResult.Unknown));
+}

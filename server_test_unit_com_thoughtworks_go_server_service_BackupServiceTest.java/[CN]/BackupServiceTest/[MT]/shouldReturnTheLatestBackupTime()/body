@@ -1,0 +1,9 @@
+{
+  ServerBackupRepository repo=mock(ServerBackupRepository.class);
+  Date serverBackupTime=new Date();
+  when(repo.lastBackup()).thenReturn(new ServerBackup("file_path",serverBackupTime,"user"));
+  BackupService backupService=new BackupService(null,null,mock(GoConfigService.class),null,repo,systemEnvironment,serverVersion,configRepo,databaseStrategy);
+  backupService.initialize();
+  Date date=backupService.lastBackupTime();
+  assertThat(date,is(serverBackupTime));
+}

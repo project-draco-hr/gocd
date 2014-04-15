@@ -1,0 +1,11 @@
+{
+  String a="A";
+  String b="B";
+  String c="C";
+  ValueStreamMap graph=new ValueStreamMap(b,null);
+  graph.addUpstreamNode(new PipelineDependencyNode(a,a),null,b);
+  graph.addUpstreamNode(new SCMDependencyNode("g","g","git"),null,a);
+  graph.addDownstreamNode(new PipelineDependencyNode(a,a),b);
+  graph.addDownstreamNode(new PipelineDependencyNode(c,c),a);
+  assertThat(graph.hasCycle(),is(true));
+}

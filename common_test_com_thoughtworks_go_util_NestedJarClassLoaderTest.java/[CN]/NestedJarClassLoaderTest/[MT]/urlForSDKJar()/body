@@ -1,0 +1,10 @@
+{
+  URLClassLoader myLoader=(URLClassLoader)this.getClass().getClassLoader();
+  URL[] urls=myLoader.getURLs();
+  for (  URL urlOfJar : urls) {
+    if (urlOfJar.getFile().contains("com.microsoft.tfs.sdk-10.1.0.jar")) {
+      return urlOfJar;
+    }
+  }
+  throw new RuntimeException("Could not find ms tfs sdk in classpath");
+}

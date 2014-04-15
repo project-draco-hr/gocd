@@ -1,0 +1,11 @@
+{
+  Username user=new Username(new CaseInsensitiveString("user"));
+  when(securityService.isUserAdmin(user)).thenReturn(false);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<PipelineConfig> pipelineConfigs=service.allPipelinesNotUsingTemplates(user,result);
+  assertThat(result.isSuccessful(),is(false));
+  Localizer localizer=mock(Localizer.class);
+  when(localizer.localize("UNAUTHORIZED_TO_ADMINISTER",new Object[0])).thenReturn("foo");
+  assertThat(result.message(localizer),is("foo"));
+  assertThat(pipelineConfigs,is(nullValue()));
+}

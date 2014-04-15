@@ -1,0 +1,8 @@
+{
+  for (Iterator it=dependencies().iterator(); it.hasNext(); ) {
+    PipelineInstanceModel pipelineInstanceModel=(PipelineInstanceModel)it.next();
+    if (!filterer.filterPipeline(pipelineInstanceModel.getName())) {
+      it.remove();
+    }
+  }
+}

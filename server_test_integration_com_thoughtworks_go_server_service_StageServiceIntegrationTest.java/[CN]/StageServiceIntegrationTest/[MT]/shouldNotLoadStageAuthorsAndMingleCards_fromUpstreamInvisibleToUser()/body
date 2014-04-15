@@ -1,0 +1,13 @@
+{
+  MingleConfig upstreamMingle=new MingleConfig("https://mingle.gingle/when/single","jingle");
+  MingleConfig downstreamMingle=new MingleConfig("https://downstream-mingle","go");
+  PipelineConfig downstream=setup2DependentInstances(upstreamMingle,downstreamMingle);
+  configFileHelper.addSecurityWithPasswordFile();
+  configFileHelper.addAdmins("super-hero");
+  configFileHelper.addAuthorizedUserForPipelineGroup("loser","upstream-without-mingle");
+  configFileHelper.addAuthorizedUserForPipelineGroup("loser","downstream");
+  configFileHelper.addAuthorizedUserForPipelineGroup("boozer","upstream-with-mingle");
+  FeedEntries feed=stageService.feed(downstream.name().toString(),new Username(new CaseInsensitiveString("loser")));
+  assertAuthorsAndCardsOnEntry((StageFeedEntry)feed.get(0),Arrays.asList(new Author("svn 3 guy","svn.3@gmail.com"),new Author("p4 2 guy","p4.2@gmail.com")),Arrays.asList(new MingleCard(downstreamMingle,"103")));
+  assertAuthorsAndCardsOnEntry((StageFeedEntry)feed.get(1),Arrays.asList(new Author("svn 1 guy","svn.1@gmail.com"),new Author("svn 2 guy","svn.2@gmail.com"),new Author("p4 1 guy","p4.1@gmail.com")),Arrays.asList(new MingleCard(downstreamMingle,"101"),new MingleCard(downstreamMingle,"102")));
+}

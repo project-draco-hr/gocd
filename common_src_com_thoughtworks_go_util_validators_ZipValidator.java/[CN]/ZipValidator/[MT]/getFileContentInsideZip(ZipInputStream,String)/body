@@ -1,0 +1,7 @@
+{
+  ZipEntry zipEntry=zipInputStream.getNextEntry();
+  while (!new File(zipEntry.getName()).getName().equals(fileName)) {
+    zipEntry=zipInputStream.getNextEntry();
+  }
+  return IOUtils.toString(zipInputStream);
+}

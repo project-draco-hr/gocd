@@ -1,0 +1,29 @@
+{
+  return new Matcher<UpdateConfigCommand>(){
+    @Override public boolean matches(    Object item){
+      UpdateConfigCommand configCommand=(UpdateConfigCommand)item;
+      CruiseConfig updatedConfig=null;
+      try {
+        updatedConfig=configCommand.update(null);
+      }
+ catch (      Exception e) {
+        Assert.fail(String.format("Updating config through exception : %s",e));
+      }
+      PipelineConfigs group=updatedConfig.findGroup(groupName);
+      PipelineConfig pipeline=group.findBy(new CaseInsensitiveString(newPipelineName));
+      assertThat(pipeline.name(),is(new CaseInsensitiveString(newPipelineName)));
+      assertThat(pipeline.getLabelTemplate(),is(labelTemplate));
+      assertThat(pipeline.materialConfigs().first(),is(IsInstanceOf.instanceOf(SvnMaterialConfig.class)));
+      assertThat(pipeline.materialConfigs().first().getUriForDisplay(),is("file:///tmp/foo"));
+      return true;
+    }
+    @Override public void describeMismatch(    Object o,    Description description){
+      description.appendText("There was a mismatch!");
+    }
+    @Override public void _dont_implement_Matcher___instead_extend_BaseMatcher_(){
+    }
+    @Override public void describeTo(    Description description){
+    }
+  }
+;
+}

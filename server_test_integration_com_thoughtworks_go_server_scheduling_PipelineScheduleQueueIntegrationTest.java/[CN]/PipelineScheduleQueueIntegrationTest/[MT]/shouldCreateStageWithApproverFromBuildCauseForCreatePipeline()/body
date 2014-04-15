@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=fixture.pipelineConfig();
+  BuildCause cause=modifySomeFilesAndTriggerAs(pipelineConfig,"cruise-developer");
+  saveRev(cause);
+  queue.schedule(fixture.pipelineName,cause);
+  Pipeline pipeline=queue.createPipeline(cause,pipelineConfig,new DefaultSchedulingContext(cause.getApprover(),new Agents()),"md5-test",new TimeProvider());
+  Stage stage=pipeline.getStages().first();
+  assertThat(stage.getApprovedBy(),is("cruise-developer"));
+}

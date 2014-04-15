@@ -1,0 +1,8 @@
+{
+  when(configValidity.isType(GoConfigValidity.VT_CONFLICT)).thenReturn(true);
+  JsonAction action=JsonAction.jsonByValidity(jsonAware,configValidity);
+  MockHttpServletResponse response=new MockHttpServletResponse();
+  action.respond(response);
+  assertThat(response.getStatus(),is(SC_CONFLICT));
+  verify(configValidity).isType(GoConfigValidity.VT_CONFLICT);
+}

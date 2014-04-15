@@ -1,0 +1,8 @@
+{
+  for (  XmlFieldWithValue xmlFieldWithValue : allFields(o,configCache,registry)) {
+    if (xmlFieldWithValue.isDefault() && !xmlFieldWithValue.alwaysWrite()) {
+      continue;
+    }
+    xmlFieldWithValue.populate(element);
+  }
+}

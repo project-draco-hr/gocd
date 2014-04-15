@@ -1,0 +1,9 @@
+{
+  File cacheDir=new File(folder,"cache/artifacts/" + JOB_FOLDERS);
+  cacheDir.mkdirs();
+  TestFileUtil.createTestFile(cacheDir,"dir.zip.tmp");
+  waitForCacheCreated();
+  assertThat(new File(cacheDir,"dir.zip.tmp"),not(exists()));
+  new ZipUtil().unzip(new File(cacheDir,"dir.zip"),cacheDir);
+  assertThat(new File(cacheDir,"dir/file1"),exists());
+}

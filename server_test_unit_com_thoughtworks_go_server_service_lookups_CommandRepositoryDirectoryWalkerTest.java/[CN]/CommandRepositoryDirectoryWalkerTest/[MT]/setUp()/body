@@ -1,0 +1,10 @@
+{
+  hiddenFolder=tempFiles.mkdir(".hidden");
+  visibleReadableFolder=tempFiles.mkdir("visible");
+  folderWithNoReadAccess=tempFiles.mkdir("noReadAccess");
+  xmlFile=tempFiles.createFile("foo.xml");
+  docFile=tempFiles.createFile("foo.doc");
+  serverHealthService=mock(ServerHealthService.class);
+  walker=new CommandRepositoryDirectoryWalker(serverHealthService,mock(SystemEnvironment.class));
+  sampleDir=tempFiles.mkdir("sampleDir");
+}

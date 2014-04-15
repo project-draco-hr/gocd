@@ -1,0 +1,9 @@
+{
+  String jezMail=prepareOneMatchedUser(StageEvent.Fails);
+  Pipeline pipeline=pipelineFixture.createdPipelineWithAllStagesCompleted(JobResult.Failed);
+  Stage ftStage=mockStageServiceWithStage(pipeline);
+  stageNotificationListener.onMessage(new StageResultMessage(ftStage.getIdentifier(),StageEvent.Fails,Username.BLANK));
+  String subject="Stage [" + ftStage.getIdentifier().stageLocator() + "]"+ " failed";
+  assertThat(inMemoryEmailNotificationTopic.getSubject(jezMail),is(subject));
+  assertThat(inMemoryEmailNotificationTopic.getBody(jezMail),containsString("Sent by Go on behalf of jez"));
+}

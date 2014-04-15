@@ -1,0 +1,10 @@
+{
+  controller=new JobController(jobInstanceService,jobDetailService,goConfigService,pipelineService,restfulService,artifactService,propertiesService,stageService,localizer);
+  fixture.configLabelTemplateUsingMaterialRevision();
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  Stage devStage=pipeline.getStages().byName("dev");
+  JobInstance job=devStage.getFirstJob();
+  ModelAndView modelAndView=controller.jobDetail(pipeline.getName(),String.valueOf(pipeline.getCounter()),devStage.getName(),String.valueOf(devStage.getCounter()),job.getName());
+  assertThat(presenter(modelAndView).getStageLocator(),is(devStage.stageLocator()));
+  assertThat(presenter(modelAndView).getStage(),is(devStage));
+}

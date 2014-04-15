@@ -1,0 +1,6 @@
+{
+  MaterialRevisions materialRevisions=ModificationsMother.multipleModifications();
+  BuildCause buildCause=BuildCause.createWithModifications(materialRevisions,"");
+  Pipeline pipeline=new Pipeline("Test",buildCause);
+  assertThat(pipeline.getBuildCauseMessage(),not(Matchers.nullValue()));
+}

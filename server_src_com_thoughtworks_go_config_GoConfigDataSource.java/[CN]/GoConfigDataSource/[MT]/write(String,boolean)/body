@@ -1,0 +1,24 @@
+{
+  File configFile=fileLocation();
+  FileOutputStream output=null;
+  try {
+    if (shouldMigrate) {
+      configFileContent=upgrader.upgradeIfNecessary(configFileContent);
+    }
+    GoConfigHolder configHolder=internalLoad(configFileContent,new ConfigModifyingUser());
+    String toWrite=configAsXml(configHolder.configForEdit);
+    if (LOGGER.isTraceEnabled()) {
+      LOGGER.trace("Writing config file: " + configFile.getAbsolutePath());
+    }
+    output=new FileOutputStream(configFile);
+    IOUtils.write(toWrite,output);
+    return configHolder;
+  }
+ catch (  Exception e) {
+    LOGGER.error("Unable to write config file: " + configFile.getAbsolutePath() + "\n"+ e.getMessage(),e);
+    throw e;
+  }
+ finally {
+    IOUtils.closeQuietly(output);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  RakeTask task=new RakeTask();
+  task.setWorkingDirectory("folder1\\folder2");
+  CommandBuilder commandBuilder=(CommandBuilder)rakeTaskBuilder.createBuilder(builderFactory,task,TasksTest.pipelineStub("label","/var/cruise-agent/pipelines/cruise"),resolver);
+  assertThat(commandBuilder.getWorkingDir().getPath(),is("/var/cruise-agent/pipelines/cruise/folder1/folder2"));
+}

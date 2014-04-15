@@ -1,0 +1,10 @@
+{
+  String content="<cruise schemaVersion='22'>\n" + "<server artifactsdir='artifacts' />" + "<pipelines>\n"+ "<pipeline name='dev'>\n"+ "    <params>"+ "        <param name='command'>ls</param>"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "    <stage name='stage#{command}ab'>"+ "      <jobs>"+ "        <job name='job1'>"+ "            <tasks>"+ "                <exec command='/bin/#{command}##{b}' args='#{dir}'/>"+ "            </tasks>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("Should not allow params in stage name");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("\"stage#{command}ab\" should conform to the pattern - [a-zA-Z0-9_\\-]{1}[a-zA-Z0-9_\\-.]*"));
+  }
+}

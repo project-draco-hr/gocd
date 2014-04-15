@@ -1,0 +1,6 @@
+{
+  assertThat(userDao.findUser("first"),is((User)new NullUser()));
+  User first=user("first");
+  userDao.saveOrUpdate(first);
+  assertThat(userDao.findUser("first"),is(first));
+}

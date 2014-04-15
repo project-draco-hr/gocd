@@ -1,0 +1,15 @@
+{
+synchronized (disableUserMutex) {
+    if (willDisableAllAdmins(usersToBeDisabled)) {
+      result.badRequest(LocalizedMessage.string("CANNOT_DISABLE_LAST_ADMIN"));
+      return;
+    }
+    transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+      @Override protected void doInTransactionWithoutResult(      TransactionStatus status){
+        userDao.disableUsers(usersToBeDisabled);
+        oauthRepository.deleteUsersOauthGrants(usersToBeDisabled);
+      }
+    }
+);
+  }
+}

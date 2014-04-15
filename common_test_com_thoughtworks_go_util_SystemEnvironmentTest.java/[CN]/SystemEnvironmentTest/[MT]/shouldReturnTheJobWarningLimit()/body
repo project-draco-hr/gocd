@@ -1,0 +1,6 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  assertThat(systemEnvironment.getUnresponsiveJobWarningThreshold(),is(5 * 60 * 1000L));
+  System.setProperty(SystemEnvironment.UNRESPONSIVE_JOB_WARNING_THRESHOLD,"30");
+  assertThat(systemEnvironment.getUnresponsiveJobWarningThreshold(),is(30 * 60 * 1000L));
+}

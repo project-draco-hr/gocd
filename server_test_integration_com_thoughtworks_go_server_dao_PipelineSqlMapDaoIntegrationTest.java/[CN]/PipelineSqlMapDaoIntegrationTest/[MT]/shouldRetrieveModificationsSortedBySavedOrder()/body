@@ -1,0 +1,25 @@
+{
+  GitMaterial gitMaterial=new GitMaterial("url");
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(gitMaterial.config()));
+  Modification firstModification=new Modification(new Date(),"1","MOCK_LABEL-12",null);
+  Modification secondModification=new Modification(new Date(),"2","MOCK_LABEL-12",null);
+  ArrayList<ModifiedFile> modifiedFiles=new ArrayList<ModifiedFile>(){
+{
+      add(new ModifiedFile("filename","foldername",ModifiedAction.modified));
+    }
+  }
+;
+  secondModification.setModifiedFiles(modifiedFiles);
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  materialRevisions.addRevision(gitMaterial,firstModification,secondModification);
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  save(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.mostRecentPipeline(pipeline.getName());
+  List<MaterialRevision> revisionsFromDB=pipelineFromDB.getMaterialRevisions().getRevisions();
+  List<Modification> modificationsFromDB=revisionsFromDB.get(0).getModifications();
+  assertThat(modificationsFromDB.size(),is(2));
+  assertThat(modificationsFromDB.get(0).getRevision(),is("1"));
+  assertThat(modificationsFromDB.get(1).getRevision(),is("2"));
+}

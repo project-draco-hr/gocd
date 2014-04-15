@@ -1,0 +1,7 @@
+{
+  JobInstance job=jobInstanceService.buildByIdWithTransitions(jobIdentifier.getBuildId());
+  if (!StringUtils.equals(job.getAgentUuid(),agentUuid)) {
+    LOGGER.error("Build Instance is using agent [" + job.getAgentUuid() + "] but status updating from agent ["+ agentUuid+ "]");
+    throw new InvalidAgentException("AgentUUID has changed in the middle of a job. AgentUUID:" + agentUuid + ", Build: "+ job.toString());
+  }
+}

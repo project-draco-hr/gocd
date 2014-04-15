@@ -1,0 +1,21 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git"),"folder1");
+  String[] git_revs={"g1","g2"};
+  u.checkinInOrder(git,git_revs);
+  SvnMaterial svn=u.wf(new SvnMaterial("svn","username","password",false),"folder2");
+  String[] svn_revs={"s1","s2"};
+  u.checkinInOrder(svn,svn_revs);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(p1));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(p2),u.m(svn));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String p1_1=u.runAndPass(p1,"g1");
+  String p2_1=u.runAndPass(p2,p1_1);
+  String p1_2=u.runAndPass(p1,"g2");
+  u.scheduleWith(p2,p1_2);
+  String p3_1=u.runAndPass(p3,p1_1,p2_1,"s1");
+  MaterialRevisions given=u.mrs(u.mr(p2,true,p2_1),u.mr(u.mw(p1),false,p1_2),u.mr(svn,true,"s2"));
+  MaterialRevisions expected=u.mrs(u.mr(p2,true,p2_1),u.mr(u.mw(p1),false,p1_1),u.mr(svn,true,"s2"));
+  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(p3,cruiseConfig,given);
+  assertThat(finalRevisions,is(expected));
+}

@@ -1,0 +1,5 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  BuildCause actual=queue.mostRecentScheduled(fixture.pipelineName);
+  assertThat(actual,is(pipeline.getBuildCause()));
+}

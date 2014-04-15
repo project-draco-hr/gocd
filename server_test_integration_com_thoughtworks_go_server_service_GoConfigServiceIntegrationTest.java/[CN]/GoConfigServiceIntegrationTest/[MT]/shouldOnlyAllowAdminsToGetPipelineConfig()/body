@@ -1,0 +1,16 @@
+{
+  setupSecurity();
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit configForEdit=goConfigService.loadForEdit("my-pipeline",new Username(new CaseInsensitiveString("loser")),result);
+  assertThat(configForEdit,is(nullValue()));
+  assertThat(result.httpCode(),is(401));
+  assertThat(result.message(localizer),is("Unauthorized to edit my-pipeline pipeline."));
+  result=new HttpLocalizedOperationResult();
+  configForEdit=goConfigService.loadForEdit("my-pipeline",new Username(new CaseInsensitiveString("pipeline_admin")),result);
+  assertThat(configForEdit,not(nullValue()));
+  assertThat(result.isSuccessful(),is(true));
+  result=new HttpLocalizedOperationResult();
+  configForEdit=goConfigService.loadForEdit("my-pipeline",new Username(new CaseInsensitiveString("root")),result);
+  assertThat(configForEdit,not(nullValue()));
+  assertThat(result.isSuccessful(),is(true));
+}

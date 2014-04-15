@@ -1,0 +1,8 @@
+{
+  ValidationBean validation=hgMaterial.checkConnection(new TestSubprocessExecutionContext());
+  assertThat(validation.isValid(),is(true));
+  String notExistUrl="http://notExisthost/hg";
+  hgMaterial=MaterialsMother.hgMaterial(notExistUrl);
+  validation=hgMaterial.checkConnection(new TestSubprocessExecutionContext());
+  assertThat(validation.isValid(),is(false));
+}

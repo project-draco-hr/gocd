@@ -1,0 +1,42 @@
+{
+  Stage stageForId;
+  LocalizedOperationResult opResult=result == null ? new DefaultLocalizedOperationResult() : result;
+  try {
+    stageForId=stageService.stageById(stageId);
+  }
+ catch (  Exception e) {
+    LOGGER.error("[Stage Cancellation] Failed to retrieve stage identifier",e);
+    opResult.notFound(LocalizedMessage.string("STAGE_FOR_LOCATOR_NOT_FOUND",stageId),HealthStateType.general(HealthStateScope.GLOBAL));
+    return null;
+  }
+  if (!stageForId.isActive()) {
+    opResult.setMessage(LocalizedMessage.string("STAGE_IS_NOT_ACTIVE_FOR_CANCELLATION"));
+    return stageForId;
+  }
+  String stageMutex=mutexForStageInstance(stageForId.getIdentifier());
+synchronized (stageMutex) {
+    final Stage stage=stageService.stageById(stageId);
+    String pipelineName=stage.getIdentifier().getPipelineName();
+    String stageName=stage.getIdentifier().getStageName();
+    String user=username == null ? null : username.getUsername().toString();
+    if (!securityService.hasOperatePermissionForStage(pipelineName,stageName,user)) {
+      opResult.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_OPERATE_STAGE",new String[]{stageName}),HealthStateType.unauthorised());
+      return null;
+    }
+    LOGGER.info("[Stage Cancellation] Cancelling stage " + stage.getIdentifier());
+    transactionTemplate.executeWithExceptionHandling(new com.thoughtworks.go.server.transaction.TransactionCallbackWithoutResult(){
+      @Override public void doInTransactionWithoutResult(      TransactionStatus status) throws Exception {
+        stageService.cancelStage(stage);
+      }
+    }
+);
+    transactionTemplate.executeWithExceptionHandling(new com.thoughtworks.go.server.transaction.TransactionCallbackWithoutResult(){
+      @Override public void doInTransactionWithoutResult(      TransactionStatus status) throws Exception {
+        automaticallyTriggerRelevantStagesFollowingCompletionOf(stage);
+      }
+    }
+);
+    opResult.setMessage(LocalizedMessage.string("STAGE_CANCELLED_SUCCESSFULLY"));
+    return stage;
+  }
+}

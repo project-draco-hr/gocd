@@ -1,0 +1,5 @@
+{
+  String turtle="@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . " + "@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . "+ "<http://example.com/1> <http://example.com/predicate> <http://example.com/2> . "+ "<http://example.com/3> <http://example.com/predicate> \"boo\"^^xsd:string . ";
+  contextUnawareGraph.addTriplesFromTurtle(turtle);
+  assertTrue(contextUnawareGraph.containsResourceWithURI("http://example.com/3"));
+}

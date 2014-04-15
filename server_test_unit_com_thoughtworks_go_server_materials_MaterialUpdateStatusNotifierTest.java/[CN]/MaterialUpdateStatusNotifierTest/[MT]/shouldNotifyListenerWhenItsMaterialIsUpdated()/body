@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("config"),new MaterialConfigs());
+  Material material=new HgMaterial("url",null);
+  pipelineConfig.addMaterialConfig(material.config());
+  MaterialUpdateStatusListener mockStatusListener=Mockito.mock(MaterialUpdateStatusListener.class);
+  when(mockStatusListener.isListeningFor(material)).thenReturn(true);
+  materialUpdateStatusNotifier.registerListenerFor(pipelineConfig,mockStatusListener);
+  materialUpdateStatusNotifier.onMessage(new MaterialUpdateSuccessfulMessage(material,123));
+  Mockito.verify(mockStatusListener).onMaterialUpdate(new MaterialUpdateSuccessfulMessage(material,123));
+}

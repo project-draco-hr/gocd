@@ -1,0 +1,15 @@
+{
+  return new TypeSafeMatcher<String>(){
+    public String consoleOut;
+    public String message;
+    public boolean matchesSafely(    String consoleOut){
+      this.consoleOut=consoleOut;
+      message=format("Please make sure [%s] can be executed on this agent",app);
+      return StringUtils.contains(consoleOut,message);
+    }
+    public void describeTo(    Description description){
+      description.appendText("Expected console to contain [" + message + "] but was "+ consoleOut);
+    }
+  }
+;
+}

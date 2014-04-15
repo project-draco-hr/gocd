@@ -1,0 +1,10 @@
+{
+  try {
+    if (!attribute.allowNull()) {
+      bombIfNull(field.get(instance),"Field '" + field.getName() + "' is still set to null. "+ "Must give a default value.");
+    }
+  }
+ catch (  IllegalAccessException e) {
+    throw bomb("Error getting configField: " + field.getName(),e);
+  }
+}

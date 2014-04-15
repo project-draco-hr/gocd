@@ -1,0 +1,15 @@
+{
+  if (completedByTransitionId != null && lastTransitionedTime != null) {
+    return new Date(lastTransitionedTime.getTime());
+  }
+ else   if (lastTransitionedTime == null) {
+    Date mostRecent=null;
+    for (    JobStateTransition transition : jobInstances.stateTransitions()) {
+      if (transition.getCurrentState() == JobState.Completed && (mostRecent == null || transition.getStateChangeTime().after(mostRecent))) {
+        mostRecent=transition.getStateChangeTime();
+      }
+    }
+    return mostRecent;
+  }
+  return null;
+}

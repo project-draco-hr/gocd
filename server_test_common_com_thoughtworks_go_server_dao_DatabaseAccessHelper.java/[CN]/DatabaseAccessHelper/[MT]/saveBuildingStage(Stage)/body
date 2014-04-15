@@ -1,0 +1,8 @@
+{
+  for (  JobInstance jobInstance : stage.getJobInstances()) {
+    JobInstanceMother.setBuildingState(jobInstance);
+    jobInstance.setAgentUuid(AGENT_UUID);
+    jobInstanceDao.updateAssignedInfo(jobInstance);
+  }
+  return stage;
+}

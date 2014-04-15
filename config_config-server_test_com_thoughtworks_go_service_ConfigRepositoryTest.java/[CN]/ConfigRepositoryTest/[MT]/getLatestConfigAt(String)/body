@@ -1,0 +1,6 @@
+{
+  configRepo.git().checkout().setName(branchName).call();
+  String content=configRepo.getCurrentRevision().getContent();
+  configRepo.git().checkout().setName("master").call();
+  return content;
+}

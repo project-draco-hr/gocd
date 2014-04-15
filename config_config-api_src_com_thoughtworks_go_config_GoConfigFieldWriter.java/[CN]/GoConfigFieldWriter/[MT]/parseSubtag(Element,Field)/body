@@ -1,0 +1,9 @@
+{
+  Class<?> type=field.getType();
+  ConfigTag tag=configTag(type);
+  if (optionalAndMissingTag(e,field)) {
+    return null;
+  }
+  Element subElement=configUtil.getChild(e,tag);
+  return parseType(subElement,type);
+}

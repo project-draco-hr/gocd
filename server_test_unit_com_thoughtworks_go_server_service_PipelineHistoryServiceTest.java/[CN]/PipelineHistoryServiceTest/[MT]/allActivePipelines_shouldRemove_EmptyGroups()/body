@@ -1,0 +1,9 @@
+{
+  Username bar=new Username(new CaseInsensitiveString("non-existant"));
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(ConfigFileFixture.CONFIG).config;
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(pipelineDao.loadActivePipelines()).thenReturn(createPipelineInstanceModels());
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString(any(String.class)))).thenReturn(true);
+  List<PipelineGroupModel> groups=pipelineHistoryService.allActivePipelineInstances(bar,new PipelineSelections());
+  assertThat(groups.isEmpty(),is(true));
+}

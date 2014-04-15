@@ -1,0 +1,5 @@
+{
+  Authentication authentication=enforcementProvider.authenticate(auth);
+  assertThat(authentication,is(resultantAuthorization));
+  verify(userService).addUserIfDoesNotExist(UserHelper.getUserName(resultantAuthorization));
+}

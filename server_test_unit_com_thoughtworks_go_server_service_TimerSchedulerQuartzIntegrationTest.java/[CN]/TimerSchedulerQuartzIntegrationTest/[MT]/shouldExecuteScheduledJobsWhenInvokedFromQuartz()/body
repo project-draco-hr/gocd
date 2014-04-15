@@ -1,0 +1,13 @@
+{
+  PipelineConfig uat=pipelineConfigWithTimer("uat","* * * * * ?");
+  PipelineConfig dist=pipelineConfigWithTimer("dist","* * * * * ?");
+  List<PipelineConfig> pipelineConfigs=asList(uat,dist);
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  when(goConfigService.getAllPipelineConfigs()).thenReturn(pipelineConfigs);
+  BuildCauseProducerService buildCauseProducerService=mock(BuildCauseProducerService.class);
+  TimerScheduler timerScheduler=new TimerScheduler(quartzSchedulerFactory,goConfigService,buildCauseProducerService,null);
+  timerScheduler.initialize();
+  pauseForScheduling();
+  verify(buildCauseProducerService,atLeastOnce()).timerSchedulePipeline(eq(uat),any(ServerHealthStateOperationResult.class));
+  verify(buildCauseProducerService,atLeastOnce()).timerSchedulePipeline(eq(dist),any(ServerHealthStateOperationResult.class));
+}

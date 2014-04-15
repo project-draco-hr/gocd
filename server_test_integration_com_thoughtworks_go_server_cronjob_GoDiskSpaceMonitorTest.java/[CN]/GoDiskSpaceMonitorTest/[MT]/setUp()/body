@@ -1,0 +1,11 @@
+{
+  serverHealthService.removeAllLogs();
+  emailSender=new TestingEmailSender();
+  mockDiskSpaceChecker=Mockito.mock(SystemDiskSpaceChecker.class);
+  stageService=mock(StageService.class);
+  configDbStateRepository=mock(ConfigDbStateRepository.class);
+  goDiskSpaceMonitor=new GoDiskSpaceMonitor(goConfigService,systemEnvironment,serverHealthService,emailSender,mockDiskSpaceChecker,mock(ArtifactsService.class),stageService,configDbStateRepository);
+  goDiskSpaceMonitor.initialize();
+  diskSpaceCacheRefresherInterval=systemEnvironment.getDiskSpaceCacheRefresherInterval();
+  systemEnvironment.setDiskSpaceCacheRefresherInterval(-1);
+}

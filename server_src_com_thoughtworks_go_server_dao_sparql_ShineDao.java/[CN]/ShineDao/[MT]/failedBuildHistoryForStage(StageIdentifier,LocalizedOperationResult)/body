@@ -1,0 +1,15 @@
+{
+  try {
+    StageTestRuns stageTestRuns=getTestCount(stageId);
+    List<StageIdentifier> failedStageIds=stageService.findRunForStage(stageId);
+    populateFailingTests(stageTestRuns,getFailedTests(failedStageIds));
+    populateUsers(stageTestRuns,getCommitters(failedStageIds));
+    stageTestRuns.removeDuplicateTestEntries();
+    return stageTestRuns;
+  }
+ catch (  RuntimeException e) {
+    LOGGER.error("can not retrieve shine test history!",e);
+    result.connectionError(LocalizedMessage.unableToRetrieveFailureResults());
+    return new StageTestRuns(0,0,0);
+  }
+}

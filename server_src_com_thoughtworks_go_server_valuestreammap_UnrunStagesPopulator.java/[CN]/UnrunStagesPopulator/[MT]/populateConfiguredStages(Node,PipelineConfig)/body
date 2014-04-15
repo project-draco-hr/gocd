@@ -1,0 +1,7 @@
+{
+  UnrunPipelineRevision unrunPipelineRevision=new UnrunPipelineRevision(node.getName());
+  for (  StageConfig stageConfig : pipelineConfig) {
+    unrunPipelineRevision.addStage(new NullStage(stageConfig.name().toString()));
+  }
+  node.addRevision(unrunPipelineRevision);
+}

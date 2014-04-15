@@ -1,0 +1,14 @@
+{
+  HgMaterialConfig hgConfig=MaterialConfigsMother.hgMaterialConfig();
+  PipelineConfig current=GoConfigMother.createPipelineConfigWithMaterialConfig("current",hgConfig,new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("first")),new DependencyMaterialConfig(new CaseInsensitiveString("up2"),new CaseInsensitiveString("first")));
+  PipelineConfig up1=GoConfigMother.createPipelineConfigWithMaterialConfig("up1",hgConfig,new DependencyMaterialConfig(new CaseInsensitiveString("uppest"),new CaseInsensitiveString("first")));
+  PipelineConfig up2=GoConfigMother.createPipelineConfigWithMaterialConfig("up2",hgConfig,new DependencyMaterialConfig(new CaseInsensitiveString("uppest"),new CaseInsensitiveString("first")));
+  PipelineConfig uppest=GoConfigMother.createPipelineConfigWithMaterialConfig("uppest",hgConfig);
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1,new PipelineConfigDependencyGraph(uppest)),new PipelineConfigDependencyGraph(up2,new PipelineConfigDependencyGraph(uppest)));
+  Queue<PipelineConfigDependencyGraph.PipelineConfigQueueEntry> queue=new LinkedList<PipelineConfigDependencyGraph.PipelineConfigQueueEntry>();
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(up1,Arrays.asList(current,up1)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(up2,Arrays.asList(current,up2)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(uppest,Arrays.asList(current,up1,uppest)));
+  queue.add(new PipelineConfigDependencyGraph.PipelineConfigQueueEntry(uppest,Arrays.asList(current,up2,uppest)));
+  assertThat(dependencyGraph.buildQueue(),is(queue));
+}

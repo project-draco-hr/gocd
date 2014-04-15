@@ -1,0 +1,10 @@
+{
+  when(httpService.upload(any(String.class),eq(tempFile.length()),any(File.class),any(Properties.class))).thenReturn(HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE);
+  try {
+    goArtifactsManipulatorStub.publish(goPublisher,"dest",tempFile,jobIdentifier);
+    fail("should have thrown request entity too large error");
+  }
+ catch (  RuntimeException e) {
+    verify(httpService).upload(any(String.class),eq(tempFile.length()),any(File.class),any(Properties.class));
+  }
+}

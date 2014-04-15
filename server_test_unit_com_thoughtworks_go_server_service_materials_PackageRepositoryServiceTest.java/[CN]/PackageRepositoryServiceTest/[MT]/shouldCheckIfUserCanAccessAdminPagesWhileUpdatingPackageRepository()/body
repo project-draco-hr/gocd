@@ -1,0 +1,10 @@
+{
+  Username username=new Username(new CaseInsensitiveString("user"));
+  when(securityService.canViewAdminPage(username)).thenReturn(false);
+  UpdateConfigFromUI updateCommand=service.getPackageRepositoryUpdateCommand(new PackageRepository(),username);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  updateCommand.checkPermission(GoConfigMother.configWithPipelines("sample"),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(401));
+  verify(securityService).canViewAdminPage(username);
+}

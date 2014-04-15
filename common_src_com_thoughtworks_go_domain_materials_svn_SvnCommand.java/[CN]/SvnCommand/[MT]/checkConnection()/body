@@ -1,0 +1,17 @@
+{
+  CommandLine command=buildSvnLogCommandForLatestOne();
+  try {
+    executeCommand(command);
+    return ValidationBean.valid();
+  }
+ catch (  Exception e) {
+    try {
+      version();
+      LOG.error("failed to connect to " + getUrlForDisplay(),e);
+      return ValidationBean.notValid("svn: Malformed URL " + getUrlForDisplay() + " : \n"+ e.getMessage());
+    }
+ catch (    Exception exp) {
+      return ValidationBean.notValid(ERR_SVN_NOT_FOUND);
+    }
+  }
+}

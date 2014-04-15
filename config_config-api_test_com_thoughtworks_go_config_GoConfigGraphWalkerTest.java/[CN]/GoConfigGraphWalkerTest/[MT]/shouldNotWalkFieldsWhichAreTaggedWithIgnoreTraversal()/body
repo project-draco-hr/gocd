@@ -1,0 +1,12 @@
+{
+  PackageRepository repository=mock(PackageRepository.class);
+  PackageDefinition packageDefinition=new PackageDefinition();
+  packageDefinition.setRepository(repository);
+  new GoConfigGraphWalker(packageDefinition).walk(new GoConfigGraphWalker.Handler(){
+    @Override public void handle(    Validatable validatable,    ValidationContext ctx){
+      validatable.validate(ctx);
+    }
+  }
+);
+  verify(repository,never()).validate(any(ValidationContext.class));
+}

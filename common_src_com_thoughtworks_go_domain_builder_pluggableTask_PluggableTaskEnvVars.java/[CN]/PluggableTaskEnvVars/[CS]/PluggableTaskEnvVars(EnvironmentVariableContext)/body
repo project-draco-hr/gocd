@@ -1,0 +1,9 @@
+{
+  envVarMap=Collections.unmodifiableMap(variableContext.getProperties());
+  secureEnvVarSpecifier=new Console.SecureEnvVarSpecifier(){
+    @Override public boolean isSecure(    String variableName){
+      return variableContext.isPropertySecure(variableName);
+    }
+  }
+;
+}

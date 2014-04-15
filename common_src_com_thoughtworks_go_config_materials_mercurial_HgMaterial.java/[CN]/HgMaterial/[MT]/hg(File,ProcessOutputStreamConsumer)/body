@@ -1,0 +1,16 @@
+{
+  File workingFolder=workingdir(baseDir);
+  HgCommand hgCommand=new HgCommand(getFingerprint(),workingFolder,getBranch());
+  if (!isHgRepository(workingFolder) || isRepositoryChanged(hgCommand,workingFolder)) {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Invalid hg working copy or repository changed. Delete folder: " + workingFolder);
+    }
+    FileUtil.deleteFolder(workingFolder);
+  }
+  if (!workingFolder.exists()) {
+    createParentFolderIfNotExist(workingFolder);
+    int returnValue=hgCommand.clone(outputStreamConsumer,url);
+    bombIfFailedToRunCommandLine(returnValue,"Failed to run hg clone command");
+  }
+  return hgCommand;
+}

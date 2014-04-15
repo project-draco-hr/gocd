@@ -1,0 +1,5 @@
+{
+  when(localizer.localize("AUTHENTICATION_SERVICE_EXCEPTION")).thenReturn("some server error");
+  filter.onUnsuccessfulAuthentication(request,null,new AuthenticationServiceException("foobar"));
+  assertThat(((Exception)session.getAttribute(AuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY)).getMessage(),is("some server error"));
+}

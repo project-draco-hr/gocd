@@ -1,0 +1,11 @@
+{
+  if (startingLabel.equals("latest")) {
+    List<Long> ids=findPipelineIds(pipelineName,count,0);
+    return loadHistory(pipelineName,ids);
+  }
+ else {
+    Map<String,Object> toGet=arguments("pipelineName",pipelineName).and("pipelineLabel",startingLabel).and("limit",count).asMap();
+    List<Long> ids=getSqlMapClientTemplate().queryForList("getPipelineRangeForLabel",toGet);
+    return loadHistory(pipelineName,ids);
+  }
+}

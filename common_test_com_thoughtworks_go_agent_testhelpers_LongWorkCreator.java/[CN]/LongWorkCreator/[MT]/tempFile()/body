@@ -1,0 +1,10 @@
+{
+  try {
+    File tempFile=TestFileUtil.createTempFile("artifact.tmp");
+    tempFile.deleteOnExit();
+    return tempFile;
+  }
+ catch (  IOException e) {
+    throw bomb(e);
+  }
+}

@@ -1,0 +1,7 @@
+{
+  String stageName="dev";
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle",stageName);
+  Pipeline mingle=schedulePipelineWithStages(mingleConfig);
+  Stage stage=stageOf(mingle);
+  assertThat(pipelineDao.pipelineWithModsByStageId(mingle.getName(),stage.getId()),hasSameId(mingle));
+}

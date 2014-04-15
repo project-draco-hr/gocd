@@ -1,0 +1,9 @@
+{
+  Authentication authentication=new UsernamePasswordAuthenticationToken(userName,password);
+  try {
+    ldapAuthenticationProvider.authenticate(authentication);
+    fail("Expected authentication to fail for user: " + userName);
+  }
+ catch (  BadCredentialsException e) {
+  }
+}

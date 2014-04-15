@@ -1,0 +1,10 @@
+{
+  try {
+    FileAppender fileAppender=getGoServerLogFileAppender();
+    String fileName=fileAppender.getFile();
+    return new File(fileName).getAbsoluteFile().getParent();
+  }
+ catch (  Exception e) {
+    return ".";
+  }
+}

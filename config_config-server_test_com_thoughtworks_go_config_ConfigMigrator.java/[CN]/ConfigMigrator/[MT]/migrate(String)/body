@@ -1,0 +1,8 @@
+{
+  File tempFile=TestFileUtil.createTempFile("cruise-config.xml");
+  FileUtil.writeContentToFile(configXml,tempFile);
+  migrate(tempFile);
+  String newConfigXml=FileUtil.readContentFromFile(tempFile);
+  tempFile.delete();
+  return newConfigXml;
+}

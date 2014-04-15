@@ -1,0 +1,11 @@
+{
+  ClassLoader tccl=changeClassLoader();
+  try {
+    sdkCommandDelegate.init();
+    sdkCommandDelegate.checkout(workingDir,revision);
+  }
+  finally {
+    sdkCommandDelegate.destroy();
+    resetClassLoader(tccl);
+  }
+}

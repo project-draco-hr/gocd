@@ -1,0 +1,13 @@
+{
+  Map<Material,Modifications> grouped=new LinkedHashMap<Material,Modifications>();
+  for (  Modification modification : modifications) {
+    Material material=modification.getMaterialInstance().toOldMaterial(null,null,null);
+    Modifications mods=mapContainsMaterialWithFingerprint(grouped,material.getFingerprint());
+    if (mods == null) {
+      mods=new Modifications();
+      grouped.put(material,mods);
+    }
+    mods.add(modification);
+  }
+  return grouped;
+}

@@ -1,0 +1,11 @@
+{
+  if (cachedAncestorName == null) {
+    String stringPath=path();
+    if (stringPath == null) {
+      return null;
+    }
+    int index=stringPath.indexOf(DELIMITER);
+    cachedAncestorName=index == -1 ? path : new CaseInsensitiveString(stringPath.substring(0,index));
+  }
+  return cachedAncestorName;
+}

@@ -1,0 +1,13 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.TASKS_WITH_CONDITION);
+  xmlWriter.write(cruiseConfig,output,false);
+  final ByteArrayInputStream inputStream=new ByteArrayInputStream(output.toByteArray());
+  CruiseConfig config=xmlLoader.loadConfigHolder(FileUtil.readToEnd(inputStream)).config;
+  JobConfig job=config.jobConfigByName("pipeline1","mingle","cardlist",true);
+  assertThat(job.tasks().size(),Is.is(2));
+  assertThat(job.tasks().findFirstByType(AntTask.class).getConditions().get(0),Is.is(new RunIfConfig("failed")));
+  RunIfConfigs conditions=job.tasks().findFirstByType(NantTask.class).getConditions();
+  assertThat(conditions.get(0),Is.is(new RunIfConfig("failed")));
+  assertThat(conditions.get(1),Is.is(new RunIfConfig("any")));
+  assertThat(conditions.get(2),Is.is(new RunIfConfig("passed")));
+}

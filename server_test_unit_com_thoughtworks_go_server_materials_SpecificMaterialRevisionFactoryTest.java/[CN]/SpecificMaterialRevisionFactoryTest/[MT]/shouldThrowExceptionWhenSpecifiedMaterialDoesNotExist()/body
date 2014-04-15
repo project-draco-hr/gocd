@@ -1,0 +1,10 @@
+{
+  when(mockGoConfigService.findMaterial(new CaseInsensitiveString("blahPipeline"),"not-exist")).thenReturn(null);
+  try {
+    specificMaterialRevisionFactory.create("blahPipeline",Collections.singletonMap("not-exist","upstream/500/blah-stage/2"));
+    fail("Should not be able to find material");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),is("Material with fingerprint [not-exist] for pipeline [blahPipeline] does not exist"));
+  }
+}

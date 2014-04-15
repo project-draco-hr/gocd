@@ -1,0 +1,7 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  stubStageServiceGetHistory(null);
+  updater.updateMaterial(dependencyMaterial);
+  MaterialRevisions materialRevisions=materialRepository.findLatestModification(dependencyMaterial);
+  assertThat("materialRevisions.isEmpty()",materialRevisions.isEmpty(),is(true));
+}

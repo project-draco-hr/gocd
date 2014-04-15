@@ -1,0 +1,8 @@
+{
+  gojar=validateJarAndGetFile(goJarPath);
+  parent=gojar.getParentFile() == null ? new File(".") : gojar.getParentFile();
+  goJarBackUpFile=new File(parent,"go.backup.before.patch." + System.currentTimeMillis() + ".jar");
+  goJarExplodeDir=new File(parent,"go_explode_dir");
+  FileUtils.deleteDirectory(goJarExplodeDir);
+  zipUtil=new ZipUtil();
+}

@@ -1,0 +1,12 @@
+{
+  PackageDefinition packageDefinition=mock(PackageDefinition.class);
+  PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig("package-id");
+  setField(packageMaterialConfig,"packageDefinition",packageDefinition);
+  new GoConfigGraphWalker(packageMaterialConfig).walk(new GoConfigGraphWalker.Handler(){
+    @Override public void handle(    Validatable validatable,    ValidationContext ctx){
+      validatable.validate(ctx);
+    }
+  }
+);
+  verify(packageDefinition,never()).validate(any(ValidationContext.class));
+}

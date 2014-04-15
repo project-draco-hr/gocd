@@ -1,0 +1,10 @@
+{
+  SCMDependencyNode node=new SCMDependencyNode("finger-print","svn-material","svn");
+  Revision revision_Mar4th=scmRevision("rev",new Date(2013,3,4));
+  Revision revision_Mar3rd=scmRevision("rev",new Date(2013,3,3));
+  Revision revision_Mar2nd=scmRevision("rev",new Date(2013,3,2));
+  node.addRevision(revision_Mar3rd);
+  node.addRevision(revision_Mar4th);
+  node.addRevision(revision_Mar2nd);
+  assertThat(node.revisions(),is(Arrays.asList(revision_Mar4th,revision_Mar3rd,revision_Mar2nd)));
+}

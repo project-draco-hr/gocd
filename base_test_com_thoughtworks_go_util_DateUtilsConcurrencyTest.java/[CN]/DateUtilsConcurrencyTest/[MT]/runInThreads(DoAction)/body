@@ -1,0 +1,28 @@
+{
+  int threadCount=100;
+  Thread[] threads=new Thread[threadCount];
+  final List<Throwable> iHateMyLife=new ArrayList<Throwable>();
+  for (int i=0; i < threadCount; i++) {
+    threads[i]=new Thread(new Runnable(){
+      public void run(){
+        for (int j=0; j < 1000; j++) {
+          try {
+            action.doAction();
+          }
+ catch (          Throwable e) {
+            iHateMyLife.add(e);
+          }
+        }
+      }
+    }
+);
+  }
+  for (  Thread thread : threads) {
+    thread.setDaemon(true);
+    thread.start();
+  }
+  for (  Thread thread : threads) {
+    thread.join();
+  }
+  assertThat(iHateMyLife.toString(),iHateMyLife.size(),is(0));
+}

@@ -1,0 +1,8 @@
+{
+  for (  String matcher : matchers) {
+    ValidationBean validationBean=validator.validate(matcher);
+    if (!validationBean.isValid()) {
+      throw new ValidationException(validationBean.getError());
+    }
+  }
+}

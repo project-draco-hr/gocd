@@ -1,0 +1,20 @@
+{
+  boolean hasChanged=isFileChanged(file,sha);
+  if (!hasChanged) {
+    return new ModelAndView(new AbstractView(){
+      protected void renderMergedOutputModel(      Map model,      HttpServletRequest request,      HttpServletResponse response) throws Exception {
+        response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+        response.getWriter().close();
+      }
+    }
+);
+  }
+ else {
+    HashMap model=new HashMap();
+    if (file instanceof ZippedArtifact) {
+      model.put(FileView.NEED_TO_ZIP,true);
+    }
+    model.put("targetFile",file);
+    return new ModelAndView("fileView",model);
+  }
+}

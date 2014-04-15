@@ -1,0 +1,11 @@
+{
+  if (materials.size() != datetimes.size()) {
+    throw new RuntimeException("Setup the data properly you (if raghu) stupid stupid stupid (else) lame (end) developer");
+  }
+  Map<String,List<PipelineTimelineEntry.Revision>> materialToMod=new HashMap<String,List<PipelineTimelineEntry.Revision>>();
+  for (int i=0; i < materials.size(); i++) {
+    String fingerprint=materials.get(i);
+    materialToMod.put(fingerprint,a(new PipelineTimelineEntry.Revision(datetimes.get(i).toDate(),rev,fingerprint,PipelineMaterialModificationMother.id++)));
+  }
+  return new PipelineTimelineEntry(pipelineName,id,counter,materialToMod);
+}

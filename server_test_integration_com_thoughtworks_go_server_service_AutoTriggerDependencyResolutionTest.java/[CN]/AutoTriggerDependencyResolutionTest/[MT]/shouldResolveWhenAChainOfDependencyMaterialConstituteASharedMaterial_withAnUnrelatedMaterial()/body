@@ -1,0 +1,24 @@
+{
+  HgMaterial hg=u.wf(new HgMaterial("hg1",null),"folder1");
+  String[] hg_revs={"h11","h12"};
+  int i=1;
+  u.checkinInOrder(hg,u.d(i++),hg_revs);
+  GitMaterial git=u.wf(new GitMaterial("git1"),"folder2");
+  String[] git_revs1={"g11","g12"};
+  u.checkinInOrder(git,u.d(i++),git_revs1);
+  ScheduleTestUtil.AddedPipeline p0=u.saveConfigWith("p0",u.m(hg));
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(git),u.m(p0));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(p1));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(git),u.m(p2));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String p0_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p0,u.d(i++),"h11");
+  String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g11",p0_1);
+  String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),p1_1);
+  String p0_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p0,u.d(i++),"h12");
+  String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g12",p0_2);
+  String p2_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),p1_2);
+  MaterialRevisions given=u.mrs(u.mr(git,true,"g12"),u.mr(p2,false,p2_2));
+  MaterialRevisions expected=u.mrs(u.mr(git,false,"g12"),u.mr(p2,false,p2_2));
+  MaterialRevisions actual=getRevisionsBasedOnDependencies(p3,cruiseConfig,given);
+  assertThat(actual,is(expected));
+}

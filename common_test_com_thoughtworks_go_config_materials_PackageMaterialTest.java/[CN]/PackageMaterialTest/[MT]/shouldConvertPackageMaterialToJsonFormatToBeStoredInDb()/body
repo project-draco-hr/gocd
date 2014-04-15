@@ -1,0 +1,18 @@
+{
+  GoCipher cipher=new GoCipher();
+  ConfigurationProperty secureRepoProperty=new ConfigurationProperty(new ConfigurationKey("secure-key"),null,new EncryptedConfigurationValue("hnfcyX5dAvd82AWUyjfKCQ\u003d\u003d"),cipher);
+  ConfigurationProperty repoProperty=new ConfigurationProperty(new ConfigurationKey("non-secure-key"),new ConfigurationValue("value"),null,cipher);
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setPluginConfiguration(new PluginConfiguration("plugin-id","1.0"));
+  packageRepository.setConfiguration(new Configuration(secureRepoProperty,repoProperty));
+  ConfigurationProperty securePackageProperty=new ConfigurationProperty(new ConfigurationKey("secure-key"),null,new EncryptedConfigurationValue("hnfcyX5dAvd82AWUyjfKCQ\u003d\u003d"),cipher);
+  ConfigurationProperty packageProperty=new ConfigurationProperty(new ConfigurationKey("non-secure-key"),new ConfigurationValue("value"),null,cipher);
+  PackageDefinition packageDefinition=new PackageDefinition("id","name",new Configuration(securePackageProperty,packageProperty));
+  packageDefinition.setRepository(packageRepository);
+  PackageMaterial packageMaterial=new PackageMaterial("id");
+  packageMaterial.setPackageDefinition(packageDefinition);
+  String json=JsonHelper.toJsonString(packageMaterial);
+  String expected="{\"package\":{\"config\":[{\"configKey\":{\"name\":\"secure-key\"},\"encryptedConfigValue\":{\"value\":\"hnfcyX5dAvd82AWUyjfKCQ\\u003d\\u003d\"}},{\"configKey\":{\"name\":\"non-secure-key\"},\"configValue\":{\"value\":\"value\"}}],\"repository\":{\"plugin\":{\"id\":\"plugin-id\",\"version\":\"1.0\"},\"config\":[{\"configKey\":{\"name\":\"secure-key\"},\"encryptedConfigValue\":{\"value\":\"hnfcyX5dAvd82AWUyjfKCQ\\u003d\\u003d\"}},{\"configKey\":{\"name\":\"non-secure-key\"},\"configValue\":{\"value\":\"value\"}}]}}}";
+  assertThat(json,is(expected));
+  assertThat(JsonHelper.fromJson(expected,PackageMaterial.class),is(packageMaterial));
+}

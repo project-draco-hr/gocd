@@ -1,0 +1,6 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigElementForEdit<EnvironmentConfig> edit=service.forEdit("foo-env",result);
+  assertThat(result.message(localizer),is("Environment named 'foo-env' not found."));
+  assertThat(edit,is(nullValue()));
+}

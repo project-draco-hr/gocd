@@ -1,0 +1,9 @@
+{
+  when(securityService.hasViewPermissionForPipeline("pavan","pipeline")).thenReturn(true);
+  LocalizedOperationResult operationResult=mock(LocalizedOperationResult.class);
+  MaterialConfig materialConfig=mock(MaterialConfig.class);
+  when(goConfigService.materialForPipelineWithFingerprint("pipeline","sha")).thenReturn(materialConfig);
+  List<MatchedRevision> expected=Arrays.asList(new MatchedRevision("23","revision","revision","user",new DateTime(2009,10,10,12,0,0,0).toDate(),"comment"));
+  when(materialRepository.findRevisionsMatching(materialConfig,"23")).thenReturn(expected);
+  assertThat(materialService.searchRevisions("pipeline","sha","23",new Username(new CaseInsensitiveString("pavan")),operationResult),is(expected));
+}

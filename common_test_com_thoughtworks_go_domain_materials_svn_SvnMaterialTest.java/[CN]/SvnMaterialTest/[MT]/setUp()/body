@@ -1,0 +1,18 @@
+{
+  subversion=context.mock(Subversion.class);
+  context.checking(new Expectations(){
+{
+      allowing(subversion).getUrl();
+      will(returnValue(new UrlArgument(URL)));
+      allowing(subversion).getPassword();
+      will(returnValue(""));
+      allowing(subversion).getUserName();
+      will(returnValue(""));
+      allowing(subversion).isCheckExternals();
+      will(returnValue(false));
+    }
+  }
+);
+  svnMaterial=SvnMaterial.createSvnMaterialWithMock(subversion);
+  svnMaterial.setUrl(URL);
+}

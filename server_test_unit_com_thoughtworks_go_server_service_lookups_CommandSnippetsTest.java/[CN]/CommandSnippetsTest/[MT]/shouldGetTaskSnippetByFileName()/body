@@ -1,0 +1,8 @@
+{
+  CommandSnippet maven_clean=CommandSnippetMother.validSnippetWithFileName("maven","maven-clean");
+  CommandSnippet maven_package=CommandSnippetMother.validSnippetWithFileName("maven","maven-package");
+  CommandSnippets commandSnippets=new CommandSnippets(asList(maven_clean,maven_package));
+  assertThat(commandSnippets.findByRelativePath("/some/path/maven-clean.xml"),is(maven_clean));
+  assertThat(commandSnippets.findByRelativePath("/some/path/maven-package.xml"),is(maven_package));
+  assertThat(commandSnippets.findByRelativePath("/some/path/rake-package.xml"),is(nullValue()));
+}

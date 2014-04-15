@@ -1,0 +1,16 @@
+{
+  if (argument.indexOf("\"") > -1) {
+    if (argument.indexOf("\'") > -1) {
+      throw new CommandLineException("Can't handle single and double quotes in same argument: " + argument);
+    }
+ else {
+      return '\'' + argument + '\'';
+    }
+  }
+ else   if (argument.indexOf("\'") > -1 || argument.indexOf(" ") > -1) {
+    return '\"' + argument + '\"';
+  }
+ else {
+    return argument;
+  }
+}

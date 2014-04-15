@@ -1,0 +1,19 @@
+{
+  PipelineConfig upstreamPipeline=configHelper.addPipeline("upstream","stage",git.config(),"job");
+  DependencyMaterial dependencyMaterial=MaterialsMother.dependencyMaterial("upstream","stage");
+  pipelineConfigWithTwoMaterials.addMaterialConfig(dependencyMaterial.config());
+  pipelineConfigWithTwoMaterials.removeMaterialConfig(git.config());
+  Username username=new Username(new CaseInsensitiveString("user1"));
+  List<MaterialRevision> revisionsForUpstream1=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForUpstream1,git);
+  Pipeline upstreamOne=dbHelper.checkinRevisionsToBuild(new ManualBuild(username),upstreamPipeline,revisionsForUpstream1);
+  List<MaterialRevision> revisionsForPipeline1=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForPipeline1,hg);
+  dbHelper.addDependencyRevisionModification(revisionsForPipeline1,dependencyMaterial,upstreamOne);
+  Pipeline pipelineOne=dbHelper.checkinRevisionsToBuild(new ManualBuild(username),pipelineConfigWithTwoMaterials,revisionsForPipeline1);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<MaterialRevision> actual=changesetService.revisionsBetween(CaseInsensitiveString.str(pipelineConfigWithTwoMaterials.name()),pipelineOne.getCounter(),pipelineOne.getCounter(),username,result,true,false);
+  List<MaterialRevision> expectedRevisions=groupByMaterial(revisionsForUpstream1,revisionsForPipeline1);
+  assertMaterialRevisions(expectedRevisions,actual);
+  assertThat(result.isSuccessful(),is(true));
+}

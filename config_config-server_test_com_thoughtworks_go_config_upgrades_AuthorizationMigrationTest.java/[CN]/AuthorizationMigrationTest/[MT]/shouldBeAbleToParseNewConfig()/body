@@ -1,0 +1,4 @@
+{
+  CruiseConfig newConfig=ConfigMigrator.loadWithMigration(CONFIG_WITH_AUTH).config;
+  assertThat(newConfig.stageConfigByName(new CaseInsensitiveString("pipeline1"),new CaseInsensitiveString("stage1")).getApproval().getAuthConfig().size(),is(3));
+}

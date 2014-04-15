@@ -1,0 +1,9 @@
+{
+  Stage stage=StageMother.scheduledStage("foo-pipeline",1,"dev",1,"java");
+  stage.setConfigVersion("git-sha");
+  Pipeline pipeline=PipelineMother.pipeline("foo-pipeline",stage);
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline);
+  Stage reloaded=stageDao.stageById(stage.getId());
+  assertThat(reloaded.getName(),Is.is("dev"));
+  assertThat(reloaded.getConfigVersion(),Is.is("git-sha"));
+}

@@ -1,0 +1,27 @@
+{
+  return (Stage)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      String pipelineName=pipeline.getName();
+      PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+      StageConfig stageConfig=pipelineConfig.findBy(new CaseInsensitiveString(stageName));
+      if (stageConfig == null) {
+        throw new StageNotFoundException(pipelineName,stageName);
+      }
+      SchedulingContext context=schedulingContext(username,pipelineConfig,stageConfig);
+      pipelineLockService.lockIfNeeded(pipeline);
+      Stage instance=null;
+      try {
+        instance=creator.create(pipelineName,stageName,context);
+        LOGGER.info(String.format("[Stage Schedule] Scheduling stage %s for pipeline %s",stageName,pipeline.getName()));
+      }
+ catch (      CannotScheduleException e) {
+        serverHealthService.update(stageSchedulingFailedState(pipelineName,e));
+        errorHandler.cantSchedule(e,pipelineName);
+      }
+      serverHealthService.update(stageSchedulingSuccessfulState(pipelineName,stageName));
+      stageService.save(pipeline,instance);
+      return instance;
+    }
+  }
+);
+}

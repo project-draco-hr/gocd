@@ -1,0 +1,11 @@
+{
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setName("REPO");
+  HashMap<String,PackageRepository> nameMap=new HashMap<String,PackageRepository>();
+  PackageRepository original=new PackageRepository();
+  original.setName("repo");
+  nameMap.put("repo",original);
+  packageRepository.validateNameUniqueness(nameMap);
+  assertThat(packageRepository.errors().getAllOn(PackageRepository.NAME).contains("You have defined multiple repositories called 'REPO'. Repository names are case-insensitive and must be unique."),is(true));
+  assertThat(original.errors().getAllOn(PackageRepository.NAME).contains("You have defined multiple repositories called 'REPO'. Repository names are case-insensitive and must be unique."),is(true));
+}

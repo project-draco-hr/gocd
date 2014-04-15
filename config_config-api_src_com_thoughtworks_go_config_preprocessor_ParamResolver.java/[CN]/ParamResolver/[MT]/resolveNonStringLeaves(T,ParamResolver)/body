@@ -1,0 +1,25 @@
+{
+  for (  Field leaf : filterResolvables(resolvable,leafAttributeSelectorPredicate())) {
+    try {
+      Object nonStringLeaf=leaf.get(resolvable);
+      if (nonStringLeaf != null) {
+        Class type=leaf.getType();
+        Field field=type.getDeclaredField(configAttributeValue(leaf).fieldName());
+        field.setAccessible(true);
+        if (field.getType().equals(CaseInsensitiveString.class)) {
+          CaseInsensitiveString cis=(CaseInsensitiveString)field.get(nonStringLeaf);
+          String resolved=resolver.resolveString(resolvable,field,CaseInsensitiveString.str(cis));
+          CaseInsensitiveString value=new CaseInsensitiveString(resolved);
+          leaf.set(resolvable,type.getConstructor(CaseInsensitiveString.class).newInstance(value));
+        }
+ else {
+          String resolved=resolver.resolveString(resolvable,field,(String)field.get(nonStringLeaf));
+          leaf.set(resolvable,type.getConstructor(String.class).newInstance(resolved));
+        }
+      }
+    }
+ catch (    Exception e) {
+      bomb(e);
+    }
+  }
+}

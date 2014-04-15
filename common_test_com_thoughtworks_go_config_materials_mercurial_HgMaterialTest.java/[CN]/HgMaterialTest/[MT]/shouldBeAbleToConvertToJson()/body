@@ -1,0 +1,8 @@
+{
+  JsonMap json=new JsonMap();
+  hgMaterial.toJson(json,new StringRevision("123"));
+  JsonValue jsonValue=JsonUtils.from(json);
+  assertThat(jsonValue.getString("scmType"),is("Mercurial"));
+  assertThat(new File(jsonValue.getString("location")),is(new File(hgTestRepo.projectRepositoryUrl())));
+  assertThat(jsonValue.getString("action"),is("Modified"));
+}

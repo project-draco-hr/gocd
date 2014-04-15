@@ -1,0 +1,44 @@
+{
+  Pipeline pipelineWithOlderStage=PipelineMother.passedPipelineInstance("pipeline-name","stage","job");
+  Stage stage=pipelineWithOlderStage.findStage("stage");
+  stage.setIdentifier(new StageIdentifier("pipeline-name",1,"stage","1"));
+  stage.setPipelineId(1L);
+  when(mockTemplate.queryForObject(eq("getLastSuccessfulStageInPipeline"),any())).thenReturn(pipelineWithOlderStage);
+  goCache=new GoCache(goCache){
+    @Override public void put(    String key,    Object value){
+      TestUtils.sleepQuietly(1000);
+      super.put(key,value);
+    }
+  }
+;
+  pipelineDao=new PipelineSqlMapDao(null,null,goCache,null,null,null,transactionSynchronizationManager,systemEnvironment,configFileDao,databaseStrategy);
+  pipelineDao.setSqlMapClientTemplate(mockTemplate);
+  final Stage newerStage=StageMother.passedStageInstance("stage","job","pipeline-name");
+  newerStage.setPipelineId(1L);
+  final StageIdentifier newerIdentifer=new StageIdentifier("pipeline-name",1,"stage","999999");
+  newerStage.setIdentifier(newerIdentifer);
+  new Thread(new Runnable(){
+    public void run(){
+      pipelineDao.stageStatusChanged(newerStage);
+    }
+  }
+).start();
+  TestUtils.sleepQuietly(200);
+  List<Thread> threads=new ArrayList<Thread>();
+  for (int i=0; i < 10; i++) {
+    final Pipeline pipeline=PipelineMother.pipeline("mingle");
+    pipeline.setCounter(i + 1);
+    Thread thread=new Thread(new Runnable(){
+      public void run(){
+        assertEquals(newerIdentifer,pipelineDao.findLastSuccessfulStageIdentifier("pipeline-name","stage"));
+      }
+    }
+,"thread-" + i);
+    threads.add(thread);
+    thread.start();
+  }
+  for (  Thread thread : threads) {
+    thread.join();
+  }
+  verify(mockTemplate,never()).queryForObject(eq("getLastSuccessfulStageInPipeline"),any());
+}

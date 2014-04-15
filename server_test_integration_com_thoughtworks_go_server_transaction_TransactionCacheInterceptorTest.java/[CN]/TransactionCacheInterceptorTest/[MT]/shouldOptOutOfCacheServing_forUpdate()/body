@@ -1,0 +1,12 @@
+{
+  final MaterialInstance materialInstance=savedHg();
+  ReflectionUtil.setField(materialInstance,"url","loser-name");
+  assertionUtil.assertCacheBehaviourInTxn(new TransactionCacheAssertionUtil.DoInTxn(){
+    public void invoke(){
+      hibernateDaoSupport.getHibernateTemplate().update(materialInstance);
+      hibernateDaoSupport.getHibernateTemplate().flush();
+    }
+  }
+);
+  assertThat((String)ReflectionUtil.getField(hibernateDaoSupport.getHibernateTemplate().load(MaterialInstance.class,materialInstance.getId()),"url"),is("loser-name"));
+}

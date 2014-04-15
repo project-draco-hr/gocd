@@ -1,0 +1,18 @@
+{
+  InputStream xslt=null;
+  try {
+    xslt=upgradeScript.openStream();
+    ByteArrayOutputStream convertedConfig=new ByteArrayOutputStream();
+    transformer(upgradeScript.getPath(),xslt).transform(new StreamSource(new ByteArrayInputStream(originalContent.getBytes())),new StreamResult(convertedConfig));
+    return convertedConfig.toString();
+  }
+ catch (  TransformerException e) {
+    throw bomb("Couldn't transform configuration file using upgrade script " + upgradeScript.getPath(),e);
+  }
+catch (  IOException e) {
+    throw bomb("Couldn't write converted config file",e);
+  }
+ finally {
+    IOUtils.closeQuietly(xslt);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  AbstractTask task=new ExecTask();
+  task.getConditions().add(RunIfConfig.ANY);
+  task.getConditions().add(RunIfConfig.PASSED);
+  Map attributes=new HashMap();
+  attributes.put(AbstractTask.RUN_IF_CONFIGS_ANY,"0");
+  attributes.put(AbstractTask.RUN_IF_CONFIGS_FAILED,"1");
+  attributes.put(AbstractTask.RUN_IF_CONFIGS_PASSED,"0");
+  task.setConfigAttributes(attributes);
+  assertThat(task.getConditions().match(RunIfConfig.ANY),is(false));
+  assertThat(task.getConditions().match(RunIfConfig.FAILED),is(true));
+  assertThat(task.getConditions().match(RunIfConfig.PASSED),is(false));
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    createTimerConfigWithAttribute("onlyOnChanges=''");
+    fail("Didn't get the exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getCause().getCause().getMessage(),containsString("'' is not a valid value for 'boolean'"));
+  }
+}

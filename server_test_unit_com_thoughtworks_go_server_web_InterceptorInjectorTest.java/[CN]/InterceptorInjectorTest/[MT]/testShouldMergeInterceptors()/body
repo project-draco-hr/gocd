@@ -1,0 +1,14 @@
+{
+  HandlerInterceptor interceptorOfFramework=new HandlerInterceptorSub();
+  HandlerInterceptor interceptorOfTab=new HandlerInterceptorSub();
+  HandlerInterceptor[] interceptorsOfFramework=new HandlerInterceptor[]{interceptorOfFramework};
+  HandlerInterceptor[] interceptorsOfTab=new HandlerInterceptor[]{interceptorOfTab};
+  Mock proceedingJoinPoint=mock(ProceedingJoinPoint.class);
+  proceedingJoinPoint.expects(once()).method("proceed").will(returnValue(new HandlerExecutionChain(null,interceptorsOfTab)));
+  InterceptorInjector injector=new InterceptorInjector();
+  injector.setInterceptors(interceptorsOfFramework);
+  HandlerExecutionChain handlers=injector.mergeInterceptorsToTabs((ProceedingJoinPoint)proceedingJoinPoint.proxy());
+  assertEquals(2,handlers.getInterceptors().length);
+  assertSame(interceptorOfFramework,handlers.getInterceptors()[0]);
+  assertSame(interceptorOfTab,handlers.getInterceptors()[1]);
+}

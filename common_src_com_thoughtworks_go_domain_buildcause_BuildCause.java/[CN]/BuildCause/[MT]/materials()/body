@@ -1,0 +1,10 @@
+{
+  final List<Material> materials=new ArrayList<Material>();
+  materialRevisions.accept(new ModificationVisitorAdapter(){
+    public void visit(    Material material,    Revision revision){
+      materials.add(material);
+    }
+  }
+);
+  return new Materials(materials);
+}

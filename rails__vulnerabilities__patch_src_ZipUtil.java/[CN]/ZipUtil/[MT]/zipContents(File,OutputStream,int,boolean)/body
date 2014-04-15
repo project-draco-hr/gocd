@@ -1,0 +1,14 @@
+{
+  ZipOutputStream zip=null;
+  try {
+    zip=new ZipOutputStream(new BufferedOutputStream(output));
+    zip.setLevel(level);
+    addToZip(new ZipPath(),file,zip,excludeRootDir);
+    zip.flush();
+  }
+  finally {
+    if (zip != null) {
+      zip.close();
+    }
+  }
+}

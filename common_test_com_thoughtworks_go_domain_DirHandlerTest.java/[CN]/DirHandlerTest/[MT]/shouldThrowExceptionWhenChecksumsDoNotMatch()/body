@@ -1,0 +1,14 @@
+{
+  when(checksums.md5For("fetch_dest/first")).thenReturn("foo");
+  dirHandler.useArtifactMd5Checksums(checksums);
+  zip=createZip("under_dir");
+  try {
+    dirHandler.handle(new FileInputStream(zip));
+    dirHandler.handleResult(200,goPublisher);
+    fail("Should throw exception when check sums do not match.");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Artifact download failed for [fetch_dest/first]"));
+    assertThat(goPublisher.getMessage(),containsString("[ERROR] Verification of the integrity of the artifact [fetch_dest/first] failed. The artifact file on the server may have changed since its original upload."));
+  }
+}

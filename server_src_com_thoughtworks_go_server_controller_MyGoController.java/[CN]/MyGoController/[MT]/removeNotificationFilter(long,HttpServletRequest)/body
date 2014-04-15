@@ -1,0 +1,10 @@
+{
+  try {
+    Long userId=getUserId(request);
+    userService.removeNotificationFilter(userId,filterId);
+    return new Redirection("/mycruise/user").addParameter(MESSAGE_KEY,"Successfully deleted the notification filter.");
+  }
+ catch (  Exception e) {
+    return render(request,error(MESSAGE_KEY,"Failed to delete: " + e.getMessage()));
+  }
+}

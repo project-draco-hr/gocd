@@ -1,0 +1,10 @@
+{
+  pipelineFixture.createdPipelineWithAllStagesCompleted(JobResult.Failed);
+  Document document=ccTrayStatusService.createCctrayXmlDocument("http://localhost/go");
+  List projects=XPath.selectNodes(document,"/Projects/Project");
+  assertThat(projects.size(),is(4));
+  assertHasNoTags(document,format("/Projects/Project[@name='%s :: %s']/messages",pipelineFixture.pipelineName,pipelineFixture.devStage));
+  assertHasTag(document,format("/Projects/Project[@name='%s :: %s']/messages/message[@text='lgao'][@kind='Breakers']",pipelineFixture.pipelineName,pipelineFixture.ftStage));
+  assertHasNoTags(document,String.format("/Projects/Project[@name='%s :: %s :: %s']/messages",pipelineFixture.pipelineName,pipelineFixture.devStage,PipelineWithTwoStages.JOB_FOR_DEV_STAGE));
+  assertHasTag(document,String.format("/Projects/Project[@name='%s :: %s :: %s']/messages/message[@text='lgao'][@kind='Breakers']",pipelineFixture.pipelineName,pipelineFixture.ftStage,PipelineWithTwoStages.JOB_FOR_FT_STAGE));
+}

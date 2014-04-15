@@ -1,0 +1,9 @@
+{
+  DependencyMaterial material=new DependencyMaterial(new CaseInsensitiveString("pipeline-foo"),new CaseInsensitiveString("stage-bar"));
+  PipelineConfig pipelineConfig=mock(PipelineConfig.class);
+  ArrayList<FetchTask> fetchTasks=new ArrayList<FetchTask>();
+  fetchTasks.add(new FetchTask(new CaseInsensitiveString("something"),new CaseInsensitiveString("new"),"src","dest"));
+  fetchTasks.add(new FetchTask(new CaseInsensitiveString("pipeline-foo"),new CaseInsensitiveString("stage-bar"),new CaseInsensitiveString("job"),"src","dest"));
+  when(pipelineConfig.getFetchTasks()).thenReturn(fetchTasks);
+  assertThat(material.isUsedInFetchArtifact(pipelineConfig),is(true));
+}

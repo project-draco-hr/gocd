@@ -1,0 +1,9 @@
+{
+  Filter<PipelineJsonPresentationModel> securityFilter=new Filter<PipelineJsonPresentationModel>(){
+    public boolean matches(    PipelineJsonPresentationModel model){
+      return securityService.hasViewPermissionForGroup(username,model.getGroupName());
+    }
+  }
+;
+  return filterInto(new ArrayList<PipelineJsonPresentationModel>(),source,securityFilter);
+}

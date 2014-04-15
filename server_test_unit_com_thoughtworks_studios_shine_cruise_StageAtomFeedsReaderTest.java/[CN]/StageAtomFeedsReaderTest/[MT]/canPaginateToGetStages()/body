@@ -1,0 +1,11 @@
+{
+  when(stageDao.findAllCompletedStages(FeedModifier.Latest,-1,StageAtomFeedsReader.PAGE_SIZE)).thenReturn(Arrays.asList(feedEntry(4),feedEntry(3)));
+  when(stageDao.findAllCompletedStages(FeedModifier.Before,3,StageAtomFeedsReader.PAGE_SIZE)).thenReturn(Arrays.asList(feedEntry(2),feedEntry(1)));
+  new StageAtomFeedsReader(stageDao).readFromLatest(stageFeedHandler,pipelineInstanceLoader);
+  List<StageFeedEntry> list=stageFeedHandler.handledFeeds();
+  assertEquals(4,list.size());
+  assertEquals(4,list.get(0).getId());
+  assertEquals(3,list.get(1).getId());
+  assertEquals(2,list.get(2).getId());
+  assertEquals(1,list.get(3).getId());
+}

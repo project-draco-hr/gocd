@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.ONE_PIPELINE);
+  xmlWriter.write(cruiseConfig,output,false);
+  assertThat("should not write empty trackingtool to config when it is not defined",output.toString(),not(containsString("<trackingtool")));
+}

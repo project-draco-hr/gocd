@@ -1,0 +1,9 @@
+{
+  JobInstances jobInstances=stage.getJobInstances();
+  for (  JobInstance job : jobInstances) {
+    jobInstanceDao.save(stage.getId(),job);
+  }
+  for (  JobInstance jobInstance : jobInstances) {
+    jobInstance.setIdentifier(new JobIdentifier(pipeline,stage,jobInstance));
+  }
+}

@@ -1,0 +1,19 @@
+{
+  Pipeline expected=PipelineMother.pipeline("pipeline");
+  expected.setId(3);
+  MaterialRevisions originalMaterialRevisions=ModificationsMother.createHgMaterialRevisions();
+  when(repository.findMaterialRevisionsForPipeline(3)).thenReturn(originalMaterialRevisions);
+  when(mockTemplate.queryForObject("findPipelineByNameAndCounter",m("name","pipeline","counter",15))).thenReturn(expected);
+  BuildCause buildCause=(BuildCause)transactionTemplate.transactionSurrounding(new TransactionTemplate.TransactionSurrounding<RuntimeException>(){
+    public Object surrounding(){
+      return pipelineDao.findBuildCauseOfPipelineByNameAndCounter("pipeline",15);
+    }
+  }
+);
+  verify(mockTemplate).queryForObject("findPipelineByNameAndCounter",m("name","pipeline","counter",15));
+  verify(repository).findMaterialRevisionsForPipeline(3);
+  assertThat(buildCause.getMaterialRevisions(),is(originalMaterialRevisions));
+  buildCause=pipelineDao.findBuildCauseOfPipelineByNameAndCounter("pipeline",15);
+  assertThat(buildCause.getMaterialRevisions(),is(originalMaterialRevisions));
+  verifyNoMoreInteractions(mockTemplate,repository);
+}

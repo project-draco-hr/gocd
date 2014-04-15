@@ -1,0 +1,27 @@
+{
+  SvnMaterialConfig firstOrderSVNMaterial=MaterialConfigsMother.svnMaterialConfig();
+  GitMaterialConfig firstOrderGitMaterial=MaterialConfigsMother.gitMaterialConfig("url");
+  P4MaterialConfig firstOrderP4Material=MaterialConfigsMother.p4MaterialConfig();
+  firstOrderP4Material.setFilter(new Filter(new IgnoredFiles("foo")));
+  PipelineConfig current=GoConfigMother.createPipelineConfigWithMaterialConfig("current",MaterialConfigsMother.hgMaterialConfig(),new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("first")),new DependencyMaterialConfig(new CaseInsensitiveString("up2"),new CaseInsensitiveString("first")));
+  PipelineConfig up1=GoConfigMother.createPipelineConfigWithMaterialConfig("up1",filteredHgMaterialConfig("phigar"),firstOrderGitMaterial,new DependencyMaterialConfig(new CaseInsensitiveString("uppest"),new CaseInsensitiveString("first")));
+  PipelineConfig up2=GoConfigMother.createPipelineConfigWithMaterialConfig("up2",firstOrderSVNMaterial,firstOrderP4Material,filteredHgMaterialConfig("phigar"),new DependencyMaterialConfig(new CaseInsensitiveString("uppest"),new CaseInsensitiveString("first")));
+  PipelineConfig uppest=GoConfigMother.createPipelineConfigWithMaterialConfig("uppest",filteredHgMaterialConfig("phigar"),firstOrderP4Material);
+  PipelineConfigDependencyGraph uppestGraph=new PipelineConfigDependencyGraph(uppest);
+  PipelineConfigDependencyGraph up1Graph=new PipelineConfigDependencyGraph(up1,uppestGraph);
+  PipelineConfigDependencyGraph up2Graph=new PipelineConfigDependencyGraph(up2,uppestGraph);
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,up1Graph,up2Graph);
+  Modification modification=new Modification("user","comment","i@u.com",new Date(),"foo");
+  modification.createModifiedFile("phigar","",ModifiedAction.added);
+  boolean ignored=dependencyGraph.isRevisionsOfSharedMaterialsIgnored(ModificationsMother.createHgMaterialWithMultipleRevisions(1,modification));
+  assertThat(ignored,is(true));
+  ignored=dependencyGraph.isRevisionsOfSharedMaterialsIgnored(ModificationsMother.createHgMaterialWithMultipleRevisions(1,ModificationsMother.oneModifiedFile("Silly")));
+  assertThat(ignored,is(false));
+  MaterialRevisions materialRevisions=ModificationsMother.createSvnMaterialRevisions(modification);
+  materialRevisions.addAll(ModificationsMother.createP4MaterialRevisions(modification));
+  materialRevisions.addAll(ModificationsMother.createHgMaterialWithMultipleRevisions(1,modification));
+  ignored=up2Graph.isRevisionsOfSharedMaterialsIgnored(materialRevisions);
+  assertThat(ignored,is(true));
+  ignored=up2Graph.isRevisionsOfSharedMaterialsIgnored(ModificationsMother.createHgMaterialWithMultipleRevisions(1,ModificationsMother.oneModifiedFile("Silly")));
+  assertThat(ignored,is(false));
+}

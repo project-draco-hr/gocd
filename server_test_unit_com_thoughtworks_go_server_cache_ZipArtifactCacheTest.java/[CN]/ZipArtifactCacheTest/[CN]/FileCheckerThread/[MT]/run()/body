@@ -1,0 +1,12 @@
+{
+  try {
+    while (!zipArtifactCache.cacheCreated(artifactFolder)) {
+      Thread.sleep(1);
+    }
+    artifact=zipArtifactCache.cachedFile(artifactFolder).getAbsolutePath();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    throw new RuntimeException(e);
+  }
+}

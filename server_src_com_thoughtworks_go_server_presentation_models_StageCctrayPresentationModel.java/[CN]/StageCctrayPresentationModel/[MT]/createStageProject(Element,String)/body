@@ -1,0 +1,9 @@
+{
+  String name=stageName();
+  String activity=stageActivity();
+  String lastBuildStatus=stage.stageState().cctrayStatus();
+  String lastBuildLabel=pipeline.getLabel();
+  String lastBuildTime=datetimeForCctray(stage.completedDate());
+  String webUrl=cruiseContextPath + "/pipelines/" + stage.getId();
+  createProjectElement(parent,name,activity,lastBuildStatus,lastBuildLabel,lastBuildTime,webUrl);
+}

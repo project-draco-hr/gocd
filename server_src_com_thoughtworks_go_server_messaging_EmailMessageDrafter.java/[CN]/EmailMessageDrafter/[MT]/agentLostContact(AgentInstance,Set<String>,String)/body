@@ -1,0 +1,4 @@
+{
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  return new SendEmailMessage(String.format("[Lost Contact] Go agent host: %s",agentInstance.getHostname()),String.format("The email has been sent out automatically by the Go server at (%s) to Go administrators.\n" + "\n" + "The Go server has lost contact with agent:\n"+ "\n"+ "Agent name: %s\n"+ "Free Space: %s\n"+ "Sandbox: %s\n"+ "IP Address: %s\n"+ "OS: %s\n"+ "Resources: %s\n"+ "Environments: %s\n"+ "\n"+ "Lost contact at: %s",ipAddress,agentInstance.getHostname(),agentInstance.freeDiskSpace(),agentInstance.getLocation(),agentInstance.getIpAddress(),agentInstance.getOperatingSystem(),agentInstance.getResources(),StringUtil.joinForDisplay(environments),agentInstance.getLastHeardTime()),adminEmail);
+}

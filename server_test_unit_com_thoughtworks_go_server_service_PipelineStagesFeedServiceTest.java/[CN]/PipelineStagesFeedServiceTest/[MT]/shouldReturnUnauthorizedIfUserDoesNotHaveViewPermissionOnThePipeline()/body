@@ -1,0 +1,7 @@
+{
+  when(securityService.hasViewPermissionForPipeline(user,"cruise")).thenReturn(false);
+  FeedEntries feedEntries=pipelineStagesFeedResolver.feed(user,operationResult);
+  assertThat(feedEntries,is(nullValue()));
+  verifyThatUserIsUnauthorized();
+  verifyNoMoreInteractions(stageService);
+}

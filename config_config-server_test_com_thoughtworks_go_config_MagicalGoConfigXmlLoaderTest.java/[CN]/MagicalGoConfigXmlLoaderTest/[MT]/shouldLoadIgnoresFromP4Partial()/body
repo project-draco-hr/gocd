@@ -1,0 +1,8 @@
+{
+  String gitPartial="<p4 port=\"localhost:8080\">\n" + "            <filter>\n" + "                <ignore pattern=\"x\"/>\n"+ "            </filter>\n"+ " <view></view>\n"+ "</p4>";
+  MaterialConfig p4Material=xmlLoader.fromXmlPartial(toInputStream(gitPartial),P4MaterialConfig.class);
+  Filter parsedFilter=p4Material.filter();
+  Filter expectedFilter=new Filter();
+  expectedFilter.add(new IgnoredFiles("x"));
+  assertThat(parsedFilter,is(expectedFilter));
+}

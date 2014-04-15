@@ -1,0 +1,21 @@
+{
+  SvnMaterialConfig svnMaterial=new SvnMaterialConfig("","","notSoSecret",false);
+  Map<String,String> map=new HashMap<String,String>();
+  map.put(SvnMaterialConfig.PASSWORD,"secret");
+  map.put(SvnMaterialConfig.PASSWORD_CHANGED,"1");
+  svnMaterial.setConfigAttributes(map);
+  assertThat(ReflectionUtil.getField(svnMaterial,"password"),is(nullValue()));
+  assertThat(svnMaterial.getPassword(),is("secret"));
+  assertThat(svnMaterial.getEncryptedPassword(),Is.is(new GoCipher().encrypt("secret")));
+  map.put(SvnMaterialConfig.PASSWORD,"Hehehe");
+  map.put(SvnMaterialConfig.PASSWORD_CHANGED,"0");
+  svnMaterial.setConfigAttributes(map);
+  assertThat(ReflectionUtil.getField(svnMaterial,"password"),is(nullValue()));
+  assertThat(svnMaterial.getPassword(),is("secret"));
+  assertThat(svnMaterial.getEncryptedPassword(),is(new GoCipher().encrypt("secret")));
+  map.put(SvnMaterialConfig.PASSWORD,"");
+  map.put(SvnMaterialConfig.PASSWORD_CHANGED,"1");
+  svnMaterial.setConfigAttributes(map);
+  assertThat(svnMaterial.getPassword(),is(nullValue()));
+  assertThat(svnMaterial.getEncryptedPassword(),is(nullValue()));
+}

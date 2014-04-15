@@ -1,0 +1,19 @@
+{
+  TestArtifactPlan testArtifactPlan=null;
+  final ArtifactPlans mergedPlans=new ArtifactPlans();
+  for (  ArtifactPlan artifactPlan : plans) {
+    if (artifactPlan.getArtifactType().isTest()) {
+      if (testArtifactPlan == null) {
+        testArtifactPlan=new TestArtifactPlan(artifactPlan);
+        mergedPlans.add(testArtifactPlan);
+      }
+ else {
+        testArtifactPlan.add(artifactPlan);
+      }
+    }
+ else {
+      mergedPlans.add(artifactPlan);
+    }
+  }
+  return mergedPlans;
+}

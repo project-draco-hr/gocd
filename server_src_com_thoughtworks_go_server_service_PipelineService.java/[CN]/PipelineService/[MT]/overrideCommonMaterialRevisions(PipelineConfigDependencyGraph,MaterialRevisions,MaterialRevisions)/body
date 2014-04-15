@@ -1,0 +1,11 @@
+{
+  Queue<PipelineConfigDependencyGraph.PipelineConfigQueueEntry> configQueue=graph.buildQueue();
+  for (  MaterialRevision actualRevision : actualRevisions) {
+    if (actualRevision.getMaterial() instanceof DependencyMaterial && actualRevision.isChanged()) {
+      DependencyMaterialRevision revision=(DependencyMaterialRevision)actualRevision.getRevision();
+      for (      PipelineConfigDependencyGraph.PipelineConfigQueueEntry configQueueEntry : configQueue) {
+        populateRevisionsUsingUpstream(actualRevisions,computedRevisions,revision,configQueueEntry);
+      }
+    }
+  }
+}

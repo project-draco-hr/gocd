@@ -1,0 +1,9 @@
+{
+  File dir=TestFileUtil.createTempFolder("default");
+  File versionFile=TestFileUtil.createTestFile(dir,"version.txt");
+  FileUtils.writeStringToFile(versionFile,versionText);
+  TestFileUtil.createTestFile(dir,"snippet.xml");
+  File zipFile=TestFileUtil.createTempFile("defaultCommandSnippets.zip");
+  new ZipUtil().zipFolderContents(dir,zipFile);
+  return zipFile;
+}

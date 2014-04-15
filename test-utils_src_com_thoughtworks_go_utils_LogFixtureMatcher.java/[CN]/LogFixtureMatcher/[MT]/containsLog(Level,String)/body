@@ -1,0 +1,13 @@
+{
+  return new TypeSafeMatcher<LogFixture>(){
+    private LogFixture logFixture;
+    @Override public boolean matchesSafely(    LogFixture item){
+      logFixture=item;
+      return logFixture.contains(level,message);
+    }
+    public void describeTo(    Description description){
+      description.appendText(String.format("Expected to contains log [%s - %s], actual logs are: \n%s",level,message,logFixture.allLogs()));
+    }
+  }
+;
+}

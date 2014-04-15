@@ -1,0 +1,6 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("mingle"),new CaseInsensitiveString("dev"),new CaseInsensitiveString(""),"","");
+  Pipeline pipeline=pipelineWithDepencencyMaterial("cruise","mingle",1,"10","dev",2);
+  FetchArtifactBuilder builder=(FetchArtifactBuilder)fetchTaskBuilder.createBuilder(builderFactory,fetchTask,pipeline,resolver);
+  assertThat(builder.getJobIdentifier().getStageCounter(),is("2"));
+}

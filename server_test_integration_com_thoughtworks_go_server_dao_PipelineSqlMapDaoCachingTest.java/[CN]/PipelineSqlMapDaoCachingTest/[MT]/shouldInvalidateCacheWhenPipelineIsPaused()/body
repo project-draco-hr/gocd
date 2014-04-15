@@ -1,0 +1,16 @@
+{
+  String pipelineName="pipelineName";
+  String pauseBy="foo";
+  String pauseCause="waiting";
+  String cacheKey=(PipelineSqlMapDao.class + "_cacheKeyForPauseState_" + pipelineName).intern();
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("pauseCause",pauseCause).and("pauseBy",pauseBy).and("paused",true).asMap();
+  when(mockTemplate.update("updatePipelinePauseState",args)).thenReturn(0);
+  when(mockTemplate.queryForObject("getPipelinePauseState",pipelineName)).thenReturn(new PipelinePauseInfo(true,pauseCause,pauseBy));
+  pipelineDao.pauseState(pipelineName);
+  assertThat(goCache.get(cacheKey),is(notNullValue()));
+  pipelineDao.pause(pipelineName,pauseCause,pauseBy);
+  assertThat(goCache.get(cacheKey),is(nullValue()));
+  pipelineDao.pauseState(pipelineName);
+  assertThat(goCache.get(cacheKey),is(notNullValue()));
+  verify(mockTemplate,times(3)).queryForObject("getPipelinePauseState",pipelineName);
+}

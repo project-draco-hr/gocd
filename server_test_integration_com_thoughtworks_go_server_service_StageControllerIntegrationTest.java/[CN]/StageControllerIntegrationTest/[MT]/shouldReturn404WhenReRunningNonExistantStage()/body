@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=fixture.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  ModelAndView mav=controller.rerunStage(fixture.pipelineName,pipeline.getLabel(),"doesNotExist");
+  ResponseCodeView codeView=(ResponseCodeView)mav.getView();
+  assertThat(codeView.getStatusCode(),is(HttpServletResponse.SC_NOT_FOUND));
+  assertThat(codeView.getContent(),is("Stage 'doesNotExist' not found in pipeline '" + fixture.pipelineName + "'"));
+}

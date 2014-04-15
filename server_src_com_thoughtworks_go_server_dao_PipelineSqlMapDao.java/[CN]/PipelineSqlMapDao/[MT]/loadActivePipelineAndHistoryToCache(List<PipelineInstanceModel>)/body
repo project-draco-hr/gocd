@@ -1,0 +1,24 @@
+{
+  final Thread activePipelinesCacheLoader=new Thread(){
+    @Override public void run(){
+      LOGGER.info("Loading Active Pipelines to cache...Started");
+      Map<String,TreeSet<Long>> result=groupPipelineInstanceIdsByPipelineName(pipelines);
+      goCache.put(activePipelinesCacheKey(),result);
+      LOGGER.info("Loading Active Pipelines to cache...Done");
+    }
+  }
+;
+  final Thread historyCacheLoader=new Thread(){
+    @Override public void run(){
+      LOGGER.info("Loading pipeline history to cache...Started");
+      for (      PipelineInstanceModel pipeline : pipelines) {
+        goCache.put(pipelineHistoryCacheKey(pipeline.getId()),pipeline);
+      }
+      LOGGER.info("Loading pipeline history to cache...Done");
+    }
+  }
+;
+  historyCacheLoader.start();
+  activePipelinesCacheLoader.start();
+  return new Thread[]{activePipelinesCacheLoader,historyCacheLoader};
+}

@@ -1,0 +1,6 @@
+{
+  CruiseConfig config=ConfigMigrator.loadWithMigration(ConfigFileFixture.MATERIAL_WITH_NAME).config;
+  MaterialConfigs materialConfigs=config.pipelineConfigByName(new CaseInsensitiveString("pipeline")).materialConfigs();
+  assertThat(materialConfigs.get(0).getName(),is(new CaseInsensitiveString("svn")));
+  assertThat(materialConfigs.get(1).getName(),is(new CaseInsensitiveString("hg")));
+}

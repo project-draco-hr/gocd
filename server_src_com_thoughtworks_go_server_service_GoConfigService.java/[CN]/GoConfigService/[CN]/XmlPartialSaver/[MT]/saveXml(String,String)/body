@@ -1,0 +1,24 @@
+{
+  GoConfigValidity hasValidRequest=checkValidity();
+  if (!hasValidRequest.isValid()) {
+    return hasValidRequest;
+  }
+  try {
+    return GoConfigValidity.valid(updatePartial(xmlPartial,expectedMd5));
+  }
+ catch (  JDOMParseException jsonException) {
+    return GoConfigValidity.invalid(String.format("%s - %s",INVALID_CRUISE_CONFIG_XML,jsonException.getMessage())).fromConflict();
+  }
+catch (  ConfigMergePreValidationException e) {
+    return invalid(e).mergePreValidationError();
+  }
+catch (  Exception e) {
+    if (e.getCause() instanceof ConfigMergePostValidationException) {
+      return GoConfigValidity.invalid(e.getCause().getMessage()).mergePostValidationError();
+    }
+    if (e.getCause() instanceof ConfigMergeException) {
+      return GoConfigValidity.invalid(e.getCause().getMessage()).mergeConflict();
+    }
+    return GoConfigValidity.invalid(e).fromConflict();
+  }
+}

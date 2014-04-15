@@ -1,0 +1,8 @@
+{
+  GoPluginDescriptor descriptor1=GoPluginDescriptor.usingId("id1",null,null,true);
+  registry.loadPlugin(descriptor1);
+  GoPluginDescriptor descriptor2=GoPluginDescriptor.usingId("id2",null,null,true);
+  registry.loadPlugin(descriptor2);
+  assertThat(registry.plugins().size(),is(2));
+  assertThat(registry.plugins(),hasItems(descriptor1,descriptor2));
+}

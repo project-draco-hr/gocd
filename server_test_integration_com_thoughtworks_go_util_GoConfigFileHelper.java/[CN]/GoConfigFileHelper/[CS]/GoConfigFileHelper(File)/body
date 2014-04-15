@@ -1,0 +1,12 @@
+{
+  assignFileDao(createTestingDao());
+  this.configFile=configFile.getAbsoluteFile();
+  ConfigMigrator.migrate(this.configFile);
+  try {
+    this.originalXml=FileUtils.readFileToString(this.configFile,"UTF-8");
+  }
+ catch (  IOException e) {
+    throw bomb("Error reading config file",e);
+  }
+  new SystemEnvironment().setProperty(SystemEnvironment.CONFIG_FILE_PROPERTY,this.configFile.getAbsolutePath());
+}

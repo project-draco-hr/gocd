@@ -1,0 +1,9 @@
+{
+  try {
+    cleaner.allowed("/../..");
+    Assert.fail("Should not allow file outside the baseDirectory");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Folder " + new File(baseFolder,"/../..").getAbsolutePath() + " is outside the base folder"));
+  }
+}

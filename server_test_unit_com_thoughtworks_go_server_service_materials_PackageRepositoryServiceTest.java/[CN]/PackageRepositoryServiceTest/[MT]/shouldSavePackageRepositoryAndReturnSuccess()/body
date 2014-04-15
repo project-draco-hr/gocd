@@ -1,0 +1,23 @@
+{
+  service=spy(service);
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setId("repoid");
+  Username username=new Username(new CaseInsensitiveString("user"));
+  UpdateConfigFromUI updateConfigFromUI=mock(UpdateConfigFromUI.class);
+  doNothing().when(service).performPluginValidationsFor(packageRepository);
+  doReturn(updateConfigFromUI).when(service).getPackageRepositoryUpdateCommand(packageRepository,username);
+  when(goConfigService.updateConfigFromUI(eq(updateConfigFromUI),eq("md5"),eq(username),any(LocalizedOperationResult.class))).then(new Answer<ConfigUpdateResponse>(){
+    @Override public ConfigUpdateResponse answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      return new ConfigUpdateResponse(null,null,null,mock(ConfigAwareUpdate.class),ConfigSaveState.UPDATED);
+    }
+  }
+);
+  when(localizer.localize("SAVED_CONFIGURATION_SUCCESSFULLY")).thenReturn("SAVED_CONFIGURATION_SUCCESSFULLY");
+  ConfigUpdateAjaxResponse response=service.savePackageRepositoryToConfig(packageRepository,"md5",username);
+  assertThat(response.isSuccessful(),is(true));
+  assertThat(response.getMessage(),is("SAVED_CONFIGURATION_SUCCESSFULLY"));
+  assertThat(response.getSubjectIdentifier(),is("repoid"));
+  assertThat(response.getStatusCode(),is(HttpStatus.SC_OK));
+  verify(service).performPluginValidationsFor(packageRepository);
+  verify(service).getPackageRepositoryUpdateCommand(packageRepository,username);
+}

@@ -1,0 +1,5 @@
+{
+  git=new GitMaterial("http://0.0.0.0");
+  ValidationBean validationBean=git.checkConnection(new TestSubprocessExecutionContext());
+  assertThat("Repository should not exist",validationBean.isValid(),Matchers.is(false));
+}

@@ -1,0 +1,8 @@
+{
+  Map<String,Object> model=new HashMap<String,Object>();
+  model.put("targetFile",file);
+  mockServletContext.expects(once()).method("getMimeType").will(returnValue(RESPONSE_CHARSET));
+  view.render(model,mockRequest,mockResponse);
+  assertEquals(RESPONSE_CHARSET,mockResponse.getContentType());
+  assertEquals(5,getContentLength(mockResponse));
+}

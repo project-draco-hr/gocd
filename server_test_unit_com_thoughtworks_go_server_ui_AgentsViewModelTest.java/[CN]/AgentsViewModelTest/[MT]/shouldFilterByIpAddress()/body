@@ -1,0 +1,7 @@
+{
+  AgentsViewModel agents=agentsViewModel();
+  agents.filter("ip:10.");
+  assertThat(agents.size(),is(4));
+  agents.filter(String.format("ip:%s",AgentInstanceMother.disabled().getIpAddress()));
+  assertThat(agents.size(),is(1));
+}

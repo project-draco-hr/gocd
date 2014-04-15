@@ -1,0 +1,15 @@
+{
+  CruiseConfig configToSave=new CruiseConfig();
+  String packageId="does-not-exist";
+  PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig(packageId);
+  PackageRepository repository=com.thoughtworks.go.domain.packagerepository.PackageRepositoryMother.create("repo-id","repo-name","pluginid","version",new Configuration(com.thoughtworks.go.domain.packagerepository.ConfigurationPropertyMother.create("k1",false,"v1")));
+  packageMaterialConfig.setPackageDefinition(com.thoughtworks.go.domain.packagerepository.PackageDefinitionMother.create("does-not-exist","package-name",new Configuration(com.thoughtworks.go.domain.packagerepository.ConfigurationPropertyMother.create("k2",false,"v2")),repository));
+  configToSave.addPipeline("default",com.thoughtworks.go.helper.PipelineConfigMother.pipelineConfig("test",new MaterialConfigs(packageMaterialConfig),new JobConfigs(new JobConfig("ls"))));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not allow this");
+  }
+ catch (  XsdValidationException exception) {
+    assertThat(exception.getMessage(),is("Key 'packageIdReferredByMaterial' with value 'does-not-exist' not found for identity constraint of element 'cruise'."));
+  }
+}

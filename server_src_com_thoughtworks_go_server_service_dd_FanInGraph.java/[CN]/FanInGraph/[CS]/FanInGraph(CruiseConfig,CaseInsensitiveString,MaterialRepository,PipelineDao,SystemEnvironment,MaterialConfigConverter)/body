@@ -1,0 +1,11 @@
+{
+  this.cruiseConfig=cruiseConfig;
+  this.materialRepository=materialRepository;
+  this.pipelineDao=pipelineDao;
+  this.pipelineName=root;
+  this.systemEnvironment=systemEnvironment;
+  this.materialConfigConverter=materialConfigConverter;
+  PipelineConfig target=cruiseConfig.pipelineConfigByName(root);
+  this.root=(DependencyFanInNode)FanInNodeFactory.create(new DependencyMaterialConfig(target.name(),target.get(0).name()));
+  buildGraph(target);
+}

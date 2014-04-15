@@ -1,0 +1,11 @@
+{
+  ArtifactPropertiesGenerator artifactProperties=new ArtifactPropertiesGenerator("coverage","reports/emma.html","//coverage/class");
+  CruiseConfig cruiseConfig=cruiseConfigWithProperties(artifactProperties,artifactProperties);
+  try {
+    writer.write(cruiseConfig,new ByteArrayOutputStream(),false);
+    fail("should not write two job properties with same name");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Duplicate unique value"));
+  }
+}

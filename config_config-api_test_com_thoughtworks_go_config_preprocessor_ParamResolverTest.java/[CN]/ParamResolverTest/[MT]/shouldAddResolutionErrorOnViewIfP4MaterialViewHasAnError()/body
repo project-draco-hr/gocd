@@ -1,0 +1,5 @@
+{
+  P4MaterialViewConfig p4MaterialViewConfig=new P4MaterialViewConfig("#");
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(p4MaterialViewConfig);
+  assertThat(p4MaterialViewConfig.errors().on(P4MaterialConfig.VIEW),is("Error when processing params for '#' used in field 'view', # must be followed by a parameter pattern or escaped by another #"));
+}

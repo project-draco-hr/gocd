@@ -1,0 +1,16 @@
+{
+  CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("uppest","upper","downer","downest");
+  setDepedencyOn(cruiseConfig,"upper","uppest","stage");
+  setDepedencyOn(cruiseConfig,"downer","upper","stage");
+  setDepedencyOn(cruiseConfig,"downest","downer","stage");
+  PipelineConfig downest=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("downest"));
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("uppest/upper/downer"),new CaseInsensitiveString("stage"),new CaseInsensitiveString("job"),"src","dest");
+  downest.add(com.thoughtworks.go.helper.StageConfigMother.stageConfig("stage-2",new JobConfigs(new JobConfig(new CaseInsensitiveString("downloader"),new Resources(),new ArtifactPlans(),new Tasks(fetchTask)))));
+  try {
+    xmlWriter.write(cruiseConfig,output,false);
+  }
+ catch (  Exception e) {
+    fail("should not fail as workspace name is not mandatory anymore " + e);
+  }
+  assertThat(new String(output.toByteArray()),containsString("<fetchartifact pipeline=\"uppest/upper/downer\" stage=\"stage\" job=\"job\" srcfile=\"src\" dest=\"dest\" />"));
+}

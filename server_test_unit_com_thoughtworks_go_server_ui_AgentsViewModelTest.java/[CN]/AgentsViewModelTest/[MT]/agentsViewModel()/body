@@ -1,0 +1,14 @@
+{
+  AgentsViewModel agents=new AgentsViewModel();
+  AgentInstance idle=AgentInstanceMother.idle(new Date(),"CCeDev01");
+  AgentInstanceMother.updateOS(idle,"macos");
+  idle.getResources().add(new Resource("foo"));
+  idle.getResources().add(new Resource("bar"));
+  agents.add(new AgentViewModel(idle,"uat"));
+  AgentInstance building=AgentInstanceMother.building();
+  building.getResources().add(new Resource("goofooboo"));
+  agents.add(new AgentViewModel(building,"dev","uat"));
+  agents.add(new AgentViewModel(AgentInstanceMother.pending()));
+  agents.add(new AgentViewModel(AgentInstanceMother.disabled(),"prod"));
+  return agents;
+}

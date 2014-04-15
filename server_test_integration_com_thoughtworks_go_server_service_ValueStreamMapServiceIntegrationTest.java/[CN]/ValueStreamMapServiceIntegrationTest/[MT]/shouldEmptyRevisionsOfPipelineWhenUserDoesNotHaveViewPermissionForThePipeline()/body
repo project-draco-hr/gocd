@@ -1,0 +1,37 @@
+{
+  GitMaterial g1=u.wf(new GitMaterial("g1"),"f1");
+  u.checkinInOrder(g1,"g1-1");
+  GitMaterial g2=u.wf(new GitMaterial("g2"),"f2");
+  u.checkinInOrder(g2,"g2-1");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWithGroup("g1","p1",u.m(g1));
+  ScheduleTestUtil.AddedPipeline p=u.saveConfigWithGroup("g2","p",u.m(g2),u.m(p1));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWithGroup("g2","p2",u.m(p));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWithGroup("g2","p3",u.m(p));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWithGroup("g1","p4",u.m(p2));
+  String p1_1=u.runAndPass(p1,"g1-1");
+  String p_1=u.runAndPass(p,"g2-1",p1_1);
+  String p2_1=u.runAndPass(p2,p_1);
+  String p2_2=u.runAndPass(p2,p_1);
+  String p3_1=u.runAndPass(p3,p_1);
+  String p4_1=u.runAndPass(p4,p2_1);
+  Username groupAdmin=new Username(new CaseInsensitiveString("pg2-admin"));
+  configHelper.addAuthorizedUserForPipelineGroup("pg1-admin","g1");
+  configHelper.addAuthorizedUserForPipelineGroup("pg2-admin","g2");
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p",1,groupAdmin,result);
+  List<List<Node>> allLevels=graph.getNodesAtEachLevel();
+  int CURRENT_PIPELINE_LEVEL=2;
+  PipelineDependencyNode p1_node=(PipelineDependencyNode)allLevels.get(CURRENT_PIPELINE_LEVEL - 1).get(1);
+  assertThat(p1_node.revisions().toString(),p1_node.revisions().isEmpty(),is(true));
+  assertThat((String)ReflectionUtil.getField((p1_node.getMessage()),"key"),is("VSM_PIPELINE_UNAUTHORIZED"));
+  assertThat(p1_node.getViewType(),Is.is(VSMViewType.NO_PERMISSION));
+  PipelineDependencyNode currentNode=(PipelineDependencyNode)allLevels.get(CURRENT_PIPELINE_LEVEL).get(0);
+  assertThat(currentNode.revisions().toString(),currentNode.revisions().isEmpty(),is(false));
+  PipelineDependencyNode p2_node=(PipelineDependencyNode)allLevels.get(CURRENT_PIPELINE_LEVEL + 1).get(0);
+  assertThat(p2_node.revisions().toString(),p2_node.revisions().isEmpty(),is(false));
+  PipelineDependencyNode p3_node=(PipelineDependencyNode)allLevels.get(CURRENT_PIPELINE_LEVEL + 1).get(1);
+  assertThat(p3_node.revisions().toString(),p3_node.revisions().isEmpty(),is(false));
+  PipelineDependencyNode p4_node=(PipelineDependencyNode)allLevels.get(CURRENT_PIPELINE_LEVEL + 2).get(0);
+  assertThat(p4_node.revisions().toString(),p4_node.revisions().isEmpty(),is(true));
+  assertThat((String)ReflectionUtil.getField((p4_node.getMessage()),"key"),is("VSM_PIPELINE_UNAUTHORIZED"));
+  assertThat(p1_node.getViewType(),is(VSMViewType.NO_PERMISSION));
+}

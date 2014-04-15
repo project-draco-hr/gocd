@@ -1,0 +1,10 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  Stage passedStage=StageMother.passedStageInstance("stage-name","job-name","pipeline-name");
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  Modification previous=new Modification("Unknown","Unknown",null,passedStage.completedDate(),"pipeline-name/1/stage-name/0");
+  MaterialRevision previousRevision=revisions(dependencyMaterial,previous).getMaterialRevision(0);
+  when(materialRepository.findModificationsSince(dependencyMaterial,previousRevision)).thenReturn(Arrays.asList(new Modification(new Date(),"pipeline-name/2/stage-name/0","MOCK_LABEL-12",null)));
+  MaterialRevisions revisionsSince=materialChecker.findRevisionsSince(materialRevisions,new Materials(dependencyMaterial),new MaterialRevisions(previousRevision),new MaterialRevisions());
+  assertThat(revisionsSince.getMaterialRevision(0).getRevision().getRevision(),is("pipeline-name/2/stage-name/0"));
+}

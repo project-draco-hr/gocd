@@ -1,0 +1,27 @@
+{
+  PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfig("acceptance","stage-name","job");
+  goConfigService.addPipeline(mingleConfig,"pipeline-group");
+  Pipeline passed1=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.passStage(passed1.getStages().get(0));
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("acceptance"),new CaseInsensitiveString("stage-name"));
+  String revision1=String.format("acceptance/%s/stage-name/1",passed1.getCounter());
+  updater.updateMaterial(dependencyMaterial);
+  assertThat(materialRepository.findModificationWithRevision(dependencyMaterial,revision1),is(not(nullValue())));
+  Pipeline cancelledPipeline=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.cancelStage(cancelledPipeline.getStages().get(0));
+  Pipeline passed2=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.passStage(passed2.getStages().get(0));
+  updater.updateMaterial(dependencyMaterial);
+  assertThat(materialRepository.findModificationWithRevision(dependencyMaterial,String.format("acceptance/%s/stage-name/1",cancelledPipeline.getCounter())),is(nullValue()));
+  Modification modification1=materialRepository.findModificationWithRevision(dependencyMaterial,revision1);
+  assertThat(modification1,is(not(nullValue())));
+  assertThat(modification1.getRevision(),is(revision1));
+  assertThat(modification1.getPipelineLabel(),is(passed1.getCounter().toString()));
+  assertThat(modification1.getPipelineId(),is(passed1.getId()));
+  String revision2=String.format("acceptance/%s/stage-name/1",passed2.getCounter());
+  Modification modification2=materialRepository.findModificationWithRevision(dependencyMaterial,revision2);
+  assertThat(modification2,is(not(nullValue())));
+  assertThat(modification2.getRevision(),is(revision2));
+  assertThat(modification2.getPipelineLabel(),is(passed2.getCounter().toString()));
+  assertThat(modification2.getPipelineId(),is(passed2.getId()));
+}

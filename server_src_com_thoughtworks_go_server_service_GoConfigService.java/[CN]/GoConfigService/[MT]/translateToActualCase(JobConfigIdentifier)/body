@@ -1,0 +1,15 @@
+{
+  PipelineConfig pipelineConfig=getCurrentConfig().pipelineConfigByName(new CaseInsensitiveString(identifier.getPipelineName()));
+  String translatedPipelineName=CaseInsensitiveString.str(pipelineConfig.name());
+  StageConfig stageConfig=pipelineConfig.findBy(new CaseInsensitiveString(identifier.getStageName()));
+  if (stageConfig == null) {
+    throw new StageNotFoundException(new CaseInsensitiveString(identifier.getPipelineName()),new CaseInsensitiveString(identifier.getStageName()));
+  }
+  String translatedStageName=CaseInsensitiveString.str(stageConfig.name());
+  JobConfig plan=stageConfig.jobConfigByInstanceName(identifier.getJobName(),true);
+  if (plan == null) {
+    throw new JobNotFoundException(identifier.getPipelineName(),identifier.getStageName(),identifier.getJobName());
+  }
+  String translatedJobName=plan.translatedName(identifier.getJobName());
+  return new JobConfigIdentifier(translatedPipelineName,translatedStageName,translatedJobName);
+}

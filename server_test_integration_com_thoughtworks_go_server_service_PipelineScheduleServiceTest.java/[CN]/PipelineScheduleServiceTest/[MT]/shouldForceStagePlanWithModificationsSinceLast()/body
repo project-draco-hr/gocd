@@ -1,0 +1,13 @@
+{
+  Pipeline completedMingle=scheduleAndCompleteInitialPipelines();
+  pipelineDao.loadPipeline(completedMingle.getId());
+  TestingMaterial testingMaterial=new TestingMaterial();
+  mingleConfig.setMaterialConfigs(new MaterialConfigs(testingMaterial.config()));
+  MaterialRevisions revisions=new MaterialRevisions();
+  revisions.addRevision(testingMaterial,testingMaterial.modificationsSince(null,null,subprocessExecutionContext));
+  BuildCause buildCause=BuildCause.createManualForced(revisions,Username.ANONYMOUS);
+  dbHelper.saveMaterials(buildCause.getMaterialRevisions());
+  Pipeline forcedPipeline=instanceFactory.createPipelineInstance(mingleConfig,buildCause,new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  pipelineService.save(forcedPipeline);
+  verifyMingleScheduledWithModifications();
+}

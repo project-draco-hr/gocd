@@ -1,0 +1,19 @@
+{
+  Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+  if (authentication == null) {
+    chain.doFilter(request,response);
+    return;
+  }
+synchronized (request.getRequestedSessionId().intern()) {
+    long localCopyOfLastChangedTime=lastChangedTime;
+    Long previousLastChangedTime=(Long)request.getSession().getAttribute(SECURITY_CONFIG_LAST_CHANGE);
+    if (previousLastChangedTime == null) {
+      request.getSession().setAttribute(SECURITY_CONFIG_LAST_CHANGE,localCopyOfLastChangedTime);
+    }
+ else     if (previousLastChangedTime < localCopyOfLastChangedTime) {
+      request.getSession().setAttribute(SECURITY_CONFIG_LAST_CHANGE,localCopyOfLastChangedTime);
+      authentication.setAuthenticated(false);
+    }
+  }
+  chain.doFilter(request,response);
+}

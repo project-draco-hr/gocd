@@ -1,0 +1,10 @@
+{
+  queue=mock(ScheduleCheckQueue.class);
+  configService=mock(GoConfigService.class);
+  ServerHealthService serverHealthService=mock(ServerHealthService.class);
+  SchedulingCheckerService schedulingCheckerService=mock(SchedulingCheckerService.class);
+  buildCauseProducerService=mock(BuildCauseProducerService.class);
+  topic=mock(ScheduleCheckCompletedTopic.class);
+  schedulingPerformanceLogger=mock(SchedulingPerformanceLogger.class);
+  scheduler=new PipelineScheduler(configService,serverHealthService,schedulingCheckerService,buildCauseProducerService,queue,topic,schedulingPerformanceLogger);
+}

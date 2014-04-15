@@ -1,0 +1,8 @@
+{
+  configHelper=new GoConfigFileHelper();
+  configHelper.usingCruiseConfigDao(cruiseConfigDao);
+  configHelper.onSetUp();
+  fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  configHelper.addAgent(HOSTNAME,AGENT_UUID);
+}

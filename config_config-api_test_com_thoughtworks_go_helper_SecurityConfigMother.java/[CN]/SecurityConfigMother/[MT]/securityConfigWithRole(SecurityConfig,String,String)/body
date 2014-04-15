@@ -1,0 +1,8 @@
+{
+  Role role=new Role(new CaseInsensitiveString(roleName));
+  for (  String user : users) {
+    role.addUser(new RoleUser(new CaseInsensitiveString(user)));
+  }
+  securityConfig.addRole(role);
+  return securityConfig;
+}

@@ -1,0 +1,8 @@
+{
+  JobInstance jobInstance=JobInstanceMother.building("dev");
+  IJobPostCompletionHook jobPostCompletionHook=mock(IJobPostCompletionHook.class);
+  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  jobService.updateStateAndResult(jobInstance);
+  verify(jobPostCompletionHook,never()).call(any(JobContext.class));
+  verify(jobInstanceDao).updateStateAndResult(jobInstance);
+}

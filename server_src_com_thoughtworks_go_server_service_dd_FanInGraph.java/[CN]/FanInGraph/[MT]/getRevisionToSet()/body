@@ -1,0 +1,8 @@
+{
+  List<StageIdFaninScmMaterialPair> pIdScmMaterialList=buildPipelineIdScmMaterialMap();
+  Collection<StageIdFaninScmMaterialPair> scmRevisionsThatDiffer=findScmRevisionsThatDiffer(pIdScmMaterialList);
+  if (!scmRevisionsThatDiffer.isEmpty()) {
+    return getSmallestScmRevision(scmRevisionsThatDiffer);
+  }
+  return null;
+}

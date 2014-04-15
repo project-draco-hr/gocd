@@ -1,0 +1,8 @@
+{
+  if (!defaultDirectory.exists()) {
+    return true;
+  }
+  Version packagedVersion=getPackagedVersion();
+  Version existingVersion=getExistingVersion(defaultDirectory);
+  return packagedVersion.isAtHigherVersionComparedTo(existingVersion);
+}

@@ -1,0 +1,15 @@
+{
+  PropertiesService propertiesService=mock(PropertiesService.class);
+  when(propertiesService.getPropertiesForJob(anyLong())).thenThrow(new RuntimeException("something bad happened"));
+  xmlApiService=new XmlApiService(propertiesService,artifactsService,jobInstanceService,stageService);
+  StageResourceImporter importer=new StageResourceImporter("/artifacts",xmlApiService,stageFinder,pipelineInstanceLoader);
+  loader=new BackgroundStageLoader(null,importer,stageStorage,pipelineHistoryService,stageService,systemEnvironment);
+  TestFailureSetup.SavedStage stage=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new Date());
+  try {
+    loader.handle(feedEntry(stage),pipelineInstanceLoader);
+    fail("should have failed as properties api bombed");
+  }
+ catch (  Exception e) {
+  }
+  assertFalse(stageStorage.isStageStored(stage.stageId));
+}

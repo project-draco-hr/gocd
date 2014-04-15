@@ -1,0 +1,7 @@
+{
+  System.setProperty("GO_DEPENDENCY_LABEL_PIPELINE_NAME","999");
+  CommandLine line=CommandLine.createCommandLine("ruby").withArgs(script("dump-environment"));
+  ConsoleResult result=run(line);
+  assertThat("Errors: " + result.errorAsString(),result.returnValue(),is(0));
+  assertThat(result.output(),contains("GO_DEPENDENCY_LABEL_PIPELINE_NAME=999"));
+}

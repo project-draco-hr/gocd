@@ -1,0 +1,28 @@
+{
+  final boolean[] isListenerCalled={false};
+  JobStatusListener jobStatusListener=new JobStatusListener(){
+    @Override public void jobStatusChanged(    JobInstance job){
+      isListenerCalled[0]=true;
+    }
+  }
+;
+  jobInstanceService.registerJobStateChangeListener(jobStatusListener);
+  StageConfig ftStage=pipelineFixture.ftStage();
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  Stage stage=pipeline.getStages().byName(CaseInsensitiveString.str(ftStage.name()));
+  final JobInstance instance=stage.getJobInstances().get(0);
+  instance.changeState(JobState.Building,new Date());
+  try {
+    transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+      protected void doInTransactionWithoutResult(      TransactionStatus status){
+        jobInstanceService.updateStateAndResult(instance);
+        throw new RuntimeException("to rollback txn");
+      }
+    }
+);
+    fail("Should have thrown an exception and transaction rolled back. Listeners should not have be called on afterCommit");
+  }
+ catch (  RuntimeException e) {
+  }
+  assertThat(isListenerCalled[0],is(false));
+}

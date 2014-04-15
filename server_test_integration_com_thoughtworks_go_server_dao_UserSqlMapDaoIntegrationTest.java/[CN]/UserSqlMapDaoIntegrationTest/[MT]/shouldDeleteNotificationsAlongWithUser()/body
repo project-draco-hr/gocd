@@ -1,0 +1,12 @@
+{
+  User user=new User("user1");
+  user.addNotificationFilter(new NotificationFilter("pipelineName","stageName",StageEvent.All,true));
+  user.disable();
+  userDao.saveOrUpdate(user);
+  Users users=userDao.findNotificationSubscribingUsers();
+  assertThat(users,hasItem(user));
+  boolean result=userDao.deleteUser(user.getName());
+  assertThat(result,is(true));
+  users=userDao.findNotificationSubscribingUsers();
+  assertThat(users,is(empty()));
+}

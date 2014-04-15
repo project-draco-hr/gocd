@@ -1,0 +1,5 @@
+{
+  CommandSnippet commandSnippet=xmlParser.parse("<hello command='nuget' ><arg>pack</arg><arg>component.nuspec</arg></hello>","nuget","/some/path/filename.xml");
+  assertThat(commandSnippet.getErrorMessage(),is("Reason: Invalid XML tag \"hello\" found."));
+  assertThat(commandSnippet.isValid(),is(false));
+}

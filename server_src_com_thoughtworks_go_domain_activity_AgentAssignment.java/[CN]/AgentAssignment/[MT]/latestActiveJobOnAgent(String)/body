@@ -1,0 +1,10 @@
+{
+  if (!map.containsKey(agentUuid)) {
+    JobInstance job=jobInstanceDao.getLatestInProgressBuildByAgentUuid(agentUuid);
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(String.format("Getting AgentAssignment for agent with UUID [%s], got: %s",agentUuid,job));
+    }
+    map.put(agentUuid,job);
+  }
+  return map.get(agentUuid);
+}

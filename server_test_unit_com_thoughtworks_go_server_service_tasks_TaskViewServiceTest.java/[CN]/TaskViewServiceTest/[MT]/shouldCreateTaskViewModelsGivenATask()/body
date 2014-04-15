@@ -1,0 +1,14 @@
+{
+  when(registry.implementersOf(Task.class)).thenReturn(taskImplementations());
+  ExecTask given=new ExecTask("mkdir","foo","work");
+  AntTask ant=new AntTask();
+  FetchTask fetch=new FetchTask();
+  when(registry.getViewModelFor(ant,"new")).thenReturn(viewModel(ant));
+  when(registry.getViewModelFor(fetch,"new")).thenReturn(viewModel(fetch));
+  when(registry.getViewModelFor(given,"new")).thenReturn(viewModel(given));
+  List<PluggableViewModel> viewModels=taskViewService.getTaskViewModelsWith(given);
+  assertThat(viewModels.size(),is(3));
+  assertThat(viewModels.contains(viewModel(ant)),is(true));
+  assertThat(viewModels.contains(viewModel(fetch)),is(true));
+  assertThat(viewModels.contains(viewModel(given)),is(true));
+}

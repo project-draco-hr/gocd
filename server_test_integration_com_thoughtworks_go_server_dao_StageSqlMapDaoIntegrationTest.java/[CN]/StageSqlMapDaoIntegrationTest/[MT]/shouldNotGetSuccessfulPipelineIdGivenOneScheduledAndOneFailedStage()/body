@@ -1,0 +1,5 @@
+{
+  pipelineWithOneFailedAndOneCurrentlyRunning(mingleConfig);
+  StageIdentifier lastSuccessful=pipelineDao.findLastSuccessfulStageIdentifier(CaseInsensitiveString.str(mingleConfig.name()),STAGE_DEV);
+  assertThat(lastSuccessful,is(nullValue()));
+}

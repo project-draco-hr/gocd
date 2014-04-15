@@ -1,0 +1,7 @@
+{
+  setProperty(oldPipeline,"a/2","200");
+  setProperty(oldPipeline,"a/1","100");
+  response=new MockHttpServletResponse();
+  propertiesController.jobSearch("unknown",oldPipeline.getLabel(),"stage",String.valueOf(oldStage.getCounter()),"build","json",null,response);
+  assertThat(response.getStatus(),Is.is(SC_NOT_FOUND));
+}

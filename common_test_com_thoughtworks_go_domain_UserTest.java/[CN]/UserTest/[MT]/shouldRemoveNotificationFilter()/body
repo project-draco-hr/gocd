@@ -1,0 +1,12 @@
+{
+  User user=new User("u");
+  NotificationFilter filter1=new NotificationFilter("p1","s1",StageEvent.Fails,true);
+  filter1.setId(1);
+  NotificationFilter filter2=new NotificationFilter("p1","s2",StageEvent.Fails,true);
+  filter2.setId(2);
+  user.addNotificationFilter(filter1);
+  user.addNotificationFilter(filter2);
+  user.removeNotificationFilter(filter1.getId());
+  assertThat(user.getNotificationFilters().size(),is(1));
+  assertThat(user.getNotificationFilters().contains(filter2),is(true));
+}

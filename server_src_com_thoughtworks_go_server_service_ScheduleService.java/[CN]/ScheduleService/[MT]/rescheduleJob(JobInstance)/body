@@ -1,0 +1,26 @@
+{
+  final JobIdentifier jobIdentifier=toBeRescheduled.getIdentifier();
+synchronized (mutexForStageInstance(jobIdentifier)) {
+synchronized (mutexForJob(jobIdentifier)) {
+      transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+        @Override protected void doInTransactionWithoutResult(        TransactionStatus status){
+          LOGGER.warn(String.format("[Job Reschedule] Rescheduling and marking old job as ignored: %s",toBeRescheduled));
+          JobInstance oldJob=jobInstanceService.buildById(toBeRescheduled.getId());
+          if (oldJob.isCompleted()) {
+            return;
+          }
+          JobInstance newJob=oldJob.clone();
+          oldJob.changeState(JobState.Rescheduled);
+          jobInstanceService.updateStateAndResult(oldJob);
+          jobInstanceDao.ignore(oldJob);
+          newJob.reschedule();
+          jobInstanceService.save(oldJob.getIdentifier().getStageIdentifier(),oldJob.getStageId(),newJob);
+          JobPlan plan=jobInstanceDao.loadPlan(oldJob.getId());
+          jobInstanceDao.save(newJob.getId(),plan);
+          LOGGER.info(String.format("[Job Reschedule] Scheduled new job: %s. Replacing old job: %s",newJob.getIdentifier(),oldJob.getIdentifier()));
+        }
+      }
+);
+    }
+  }
+}

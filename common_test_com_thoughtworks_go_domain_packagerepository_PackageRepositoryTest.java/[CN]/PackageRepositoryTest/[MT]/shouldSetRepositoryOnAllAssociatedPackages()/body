@@ -1,0 +1,7 @@
+{
+  Configuration configuration=new Configuration();
+  PackageDefinition packageDefinition=new PackageDefinition();
+  PackageRepository packageRepository=createPackageRepository("plugin-id","version","id","name",configuration,new Packages(packageDefinition));
+  packageRepository.setRepositoryReferenceOnPackages();
+  assertThat(packageDefinition.getRepository(),is(packageRepository));
+}

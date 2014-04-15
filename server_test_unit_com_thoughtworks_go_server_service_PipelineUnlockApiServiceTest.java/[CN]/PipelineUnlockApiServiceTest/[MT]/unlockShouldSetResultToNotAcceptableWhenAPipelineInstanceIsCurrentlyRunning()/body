@@ -1,0 +1,12 @@
+{
+  Mockito.when(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString("username"),"pipeline-name")).thenReturn(true);
+  Mockito.when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("pipeline-name"))).thenReturn(true);
+  Mockito.when(goConfigService.isLockable("pipeline-name")).thenReturn(true);
+  StageIdentifier identifier=new StageIdentifier("pipeline-name",10,"10","stage","1");
+  Mockito.when(pipelineLockService.lockedPipeline("pipeline-name")).thenReturn(identifier);
+  Mockito.when(currentActivityService.isAnyStageActive(identifier.pipelineIdentifier())).thenReturn(true);
+  HttpOperationResult result=new HttpOperationResult();
+  pipelineUnlockApiService.unlock("pipeline-name",new Username(new CaseInsensitiveString("username")),result);
+  assertThat(result.httpCode(),is(406));
+  assertThat(result.message(),is("locked pipeline instance is currently running (one of the stages is in progress)"));
+}

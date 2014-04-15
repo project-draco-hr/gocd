@@ -1,0 +1,7 @@
+{
+  MaterialRevision original=new MaterialRevision(hgMaterial,hgMaterial.modificationsSince(workingFolder,REVISION_0,new TestSubprocessExecutionContext()));
+  HgMaterial newMaterial=MaterialsMother.hgMaterial(hgMaterial.getUrl());
+  newMaterial.setFilter(new Filter(new IgnoredFiles("**/*.txt")));
+  final MaterialRevision after=findNewRevision(original,newMaterial,workingFolder,new TestSubprocessExecutionContext());
+  assertThat(after.getMaterial(),is((Material)newMaterial));
+}

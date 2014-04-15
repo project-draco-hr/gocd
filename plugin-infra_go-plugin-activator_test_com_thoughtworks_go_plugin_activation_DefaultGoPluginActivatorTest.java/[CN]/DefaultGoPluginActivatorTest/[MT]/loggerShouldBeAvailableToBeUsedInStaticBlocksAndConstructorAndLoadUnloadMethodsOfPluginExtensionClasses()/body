@@ -1,0 +1,10 @@
+{
+  setupClassesInBundle("PublicGoExtensionClassWhichLogsInAStaticBlock.class");
+  when(bundle.loadClass(contains("PublicGoExtensionClassWhichLogsInAStaticBlock"))).thenReturn((Class)PublicGoExtensionClassWhichLogsInAStaticBlock.class);
+  activator.start(context);
+  activator.stop(context);
+  verify(loggingService).info(PLUGIN_ID,PublicGoExtensionClassWhichLogsInAStaticBlock.class.getName(),"HELLO from static block in PublicGoExtensionClassWhichLogsInAStaticBlock");
+  verify(loggingService).info(PLUGIN_ID,PublicGoExtensionClassWhichLogsInAStaticBlock.class.getName(),"HELLO from constructor in PublicGoExtensionClassWhichLogsInAStaticBlock");
+  verify(loggingService).info(PLUGIN_ID,PublicGoExtensionClassWhichLogsInAStaticBlock.class.getName(),"HELLO from load in PublicGoExtensionClassWhichLogsInAStaticBlock");
+  verify(loggingService).info(PLUGIN_ID,PublicGoExtensionClassWhichLogsInAStaticBlock.class.getName(),"HELLO from unload in PublicGoExtensionClassWhichLogsInAStaticBlock");
+}

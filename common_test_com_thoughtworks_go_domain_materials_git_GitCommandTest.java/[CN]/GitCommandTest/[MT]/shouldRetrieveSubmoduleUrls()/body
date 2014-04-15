@@ -1,0 +1,12 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  submoduleRepos.addSubmodule(SUBMODULE,"sub1");
+  GitCommand gitWithSubmodule=new GitCommand(null,createTempWorkingDirectory(),GitMaterialConfig.DEFAULT_BRANCH,false);
+  InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  gitWithSubmodule.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
+  gitWithSubmodule.updateSubmoduleWithInit(outputStreamConsumer);
+  Map<String,String> urls=gitWithSubmodule.submoduleUrls();
+  assertThat(urls.size(),is(1));
+  assertThat(urls.containsKey("sub1"),is(true));
+  assertThat(urls.get("sub1"),endsWith(SUBMODULE));
+}

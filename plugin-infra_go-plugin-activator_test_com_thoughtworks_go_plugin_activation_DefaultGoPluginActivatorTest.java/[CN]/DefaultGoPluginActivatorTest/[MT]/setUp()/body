@@ -1,0 +1,11 @@
+{
+  initMocks(this);
+  when(context.getServiceReference(PluginHealthService.class)).thenReturn(pluginHealthServiceReference);
+  when(context.getServiceReference(LoggingService.class)).thenReturn(loggingServiceReference);
+  when(context.getService(pluginHealthServiceReference)).thenReturn(pluginHealthService);
+  when(context.getService(loggingServiceReference)).thenReturn(loggingService);
+  when(context.getBundle()).thenReturn(bundle);
+  when(bundle.getSymbolicName()).thenReturn(PLUGIN_ID);
+  when(bundle.findEntries("/","*.class",true)).thenReturn(emptyListOfClassesInBundle);
+  activator=new DefaultGoPluginActivator();
+}

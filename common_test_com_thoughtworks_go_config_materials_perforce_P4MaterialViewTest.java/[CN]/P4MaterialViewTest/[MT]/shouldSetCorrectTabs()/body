@@ -1,0 +1,5 @@
+{
+  String from="\n" + "    //depot/dir1/... //cws/...\n" + "//depot/dir1/... //cws/...\n"+ "//foo/dir1/... //cws/...\n"+ "//foo/dir2/... //cws/foo2/...\n"+ "    //depot/dir1/... //cws/...\r\n"+ "    //depot/dir1/...    //cws/...\n"+ "\t\t//depot/rel1/... //cws/release1/...";
+  String to="\n" + "\t//depot/dir1/... //" + CLIENT_NAME + "/...\n"+ "\t//depot/dir1/... //"+ CLIENT_NAME+ "/...\n"+ "\t//foo/dir1/... //"+ CLIENT_NAME+ "/...\n"+ "\t//foo/dir2/... //"+ CLIENT_NAME+ "/foo2/...\n"+ "\t//depot/dir1/... //"+ CLIENT_NAME+ "/...\n"+ "\t//depot/dir1/... //"+ CLIENT_NAME+ "/...\n"+ "\t//depot/rel1/... //"+ CLIENT_NAME+ "/release1/...";
+  assertMapsTo(from,to);
+}

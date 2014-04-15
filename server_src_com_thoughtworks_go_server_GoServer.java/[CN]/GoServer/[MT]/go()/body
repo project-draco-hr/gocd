@@ -1,0 +1,10 @@
+{
+  Validation validation=validate();
+  if (validation.isSuccessful()) {
+    subprocessLogger.registerAsExitHook("Following processes were alive at shutdown: ");
+    startServer();
+  }
+ else {
+    validation.logErrors();
+  }
+}

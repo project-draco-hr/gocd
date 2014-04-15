@@ -1,0 +1,11 @@
+{
+  GadgetOauthClient saved1=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(saved1);
+  GadgetOauthClient saved2=new GadgetOauthClient("yahoo.com","yahoo","client_id","client_secret");
+  template.save(saved2);
+  GadgetOauthClient saved3=new GadgetOauthClient("thoughtworks.com","thoughtworks","client_id","client_secret");
+  template.save(saved3);
+  Collection<GadgetDataSource.GadgetOauthClientDTO> allDtos=repo.findAllGadgetsOauthClient();
+  assertThat(allDtos.size(),is(3));
+  assertThat(allDtos,hasItems(saved1.getDTO(),saved2.getDTO(),saved3.getDTO()));
+}

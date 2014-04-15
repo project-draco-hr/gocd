@@ -1,0 +1,11 @@
+{
+  String[] src=new String[]{"log/log.xml","logoutput/log.xml"};
+  String[] dest=new String[]{"test/test1",""};
+  String[] type=new String[]{"artifact","test"};
+  PipelineBean bean=new PipelineBean("",null,"ant","build.xml","clean",src,dest,type,null,null);
+  ArtifactPlans artifactPlans=bean.getArtifactPlans();
+  ArtifactPlan artifactPlan=artifactPlans.get(1);
+  assertThat(artifactPlan.getSrc(),is("logoutput/log.xml"));
+  assertThat(artifactPlan.getDest(),is(""));
+  assertThat(artifactPlan,is(instanceOf(TestArtifactPlan.class)));
+}

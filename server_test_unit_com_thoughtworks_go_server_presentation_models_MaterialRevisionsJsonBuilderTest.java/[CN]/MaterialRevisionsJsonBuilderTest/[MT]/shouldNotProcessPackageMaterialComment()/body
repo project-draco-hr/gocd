@@ -1,0 +1,12 @@
+{
+  HashMap<String,String> map=new HashMap<String,String>();
+  map.put("TYPE","PACKAGE_MATERIAL");
+  map.put("TRACKBACK_URL","google.com");
+  map.put("COMMENT","comment");
+  String packageMaterialComment=JsonHelper.toJsonString(map);
+  Modification modification=new Modification("user",packageMaterialComment,"some@com",new Date(),"1234");
+  materialRevisions=new MaterialRevisions(new MaterialRevision(MaterialsMother.packageMaterial(),modification));
+  JSONArray jsonArray=buildJson();
+  JSONObject modificationJson=(JSONObject)((JSONArray)((JSONObject)jsonArray.get(0)).get("modifications")).get(0);
+  assertThat(modificationJson.get("comment").render(false),is(JsonHelper.toJsonString(packageMaterialComment)));
+}

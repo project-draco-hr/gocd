@@ -1,0 +1,26 @@
+{
+  StringBuilder builder=new StringBuilder();
+  String str="This is one full line of text. With 2 sentences without newline separating them.\n";
+  int numberOfLines=ArtifactsService.DEFAULT_CONSOLE_LOG_LINE_BUFFER_SIZE / 10;
+  for (int i=0; i < numberOfLines; i++) {
+    builder.append(str);
+  }
+  for (int i=0; i < numberOfLines; i++) {
+    builder.append(str);
+  }
+  ModelAndView mav=putConsoleLogContent("cruise-output/console.log",builder.toString());
+  String consoleLogContent=FileUtils.readFileToString(file(artifactRootForJob,"cruise-output/console.log"));
+  String[] lines=consoleLogContent.split("\n");
+  assertThat(lines.length,is(2 * numberOfLines));
+  String hundredThLine=null;
+  for (int i=0; i < lines.length; i++) {
+    String line=lines[i];
+    if (i == numberOfLines) {
+      hundredThLine=line;
+    }
+ else {
+      assertThat("Line " + i + " doesn't have desired content.",line + "\n",is(str));
+    }
+  }
+  assertStatus(mav,SC_OK);
+}

@@ -1,0 +1,10 @@
+{
+  StringBuilder builder=new StringBuilder();
+  for (  QueryTuple queryTuple : queryTuples) {
+    if (builder.length() > 0) {
+      builder.append(QUERY_SEPERATOR);
+    }
+    builder.append(queryTuple.key).append(QUERY_KEY_VAL_SEPERATOR).append(encode(queryTuple.val));
+  }
+  return builder.toString();
+}

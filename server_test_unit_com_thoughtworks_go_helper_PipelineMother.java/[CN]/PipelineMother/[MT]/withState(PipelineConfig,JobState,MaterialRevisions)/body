@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=schedule(pipelineConfig,BuildCause.createWithModifications(revisions,""));
+  for (  JobInstance instance : pipeline.getStages().first().getJobInstances()) {
+    instance.changeState(state,new Date());
+    instance.setAgentUuid("uuid");
+  }
+  return pipeline;
+}

@@ -1,0 +1,6 @@
+{
+  dbFixture.oldDb().mkdir();
+  h2Database.startDatabase();
+  h2Database.upgrade();
+  assertThat(dbFixture.oldDb().exists(),is(false));
+}

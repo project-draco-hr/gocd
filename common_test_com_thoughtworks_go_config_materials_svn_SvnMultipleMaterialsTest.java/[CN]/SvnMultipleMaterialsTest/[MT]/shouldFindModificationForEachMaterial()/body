@@ -1,0 +1,11 @@
+{
+  SvnMaterial material1=repo.createMaterial("multiple-materials/trunk/part1","part1");
+  SvnMaterial material2=repo.createMaterial("multiple-materials/trunk/part2","part2");
+  Materials materials=new Materials(material1,material2);
+  repo.checkInOneFile("filename.txt",material1);
+  repo.checkInOneFile("filename2.txt",material2);
+  MaterialRevisions materialRevisions=materials.latestModification(pipelineDir,new TestSubprocessExecutionContext());
+  assertThat(materialRevisions.getRevisions().size(),is(2));
+  assertThat(materialRevisions,containsModifiedFile("/trunk/part1/filename.txt"));
+  assertThat(materialRevisions,containsModifiedFile("/trunk/part2/filename2.txt"));
+}

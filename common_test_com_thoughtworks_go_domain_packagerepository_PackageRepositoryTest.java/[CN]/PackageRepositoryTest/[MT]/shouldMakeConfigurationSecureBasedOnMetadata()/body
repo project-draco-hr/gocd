@@ -1,0 +1,28 @@
+{
+  GoCipher goCipher=new GoCipher();
+  ConfigurationProperty secureProperty=new ConfigurationProperty(new ConfigurationKey("key1"),new ConfigurationValue("value1"),null,goCipher);
+  ConfigurationProperty nonSecureProperty=new ConfigurationProperty(new ConfigurationKey("key2"),new ConfigurationValue("value2"),null,goCipher);
+  PackageDefinition packageDefinition=new PackageDefinition("go","name",new Configuration(secureProperty,nonSecureProperty));
+  PackageConfigurations packageConfigurations=new PackageConfigurations();
+  packageConfigurations.addConfiguration(new PackageConfiguration("key1").with(SECURE,true));
+  packageConfigurations.addConfiguration(new PackageConfiguration("key2").with(SECURE,false));
+  PackageMetadataStore.getInstance().addMetadataFor("plugin-id",packageConfigurations);
+  ConfigurationProperty secureRepoProperty=new ConfigurationProperty(new ConfigurationKey("key1"),new ConfigurationValue("value1"),null,goCipher);
+  ConfigurationProperty nonSecureRepoProperty=new ConfigurationProperty(new ConfigurationKey("key2"),new ConfigurationValue("value2"),null,goCipher);
+  PackageRepository packageRepository=createPackageRepository("plugin-id","version","id","name",new Configuration(secureRepoProperty,nonSecureRepoProperty),new Packages(packageDefinition));
+  PackageConfigurations repositoryConfiguration=new PackageConfigurations();
+  repositoryConfiguration.addConfiguration(new PackageConfiguration("key1").with(SECURE,true));
+  repositoryConfiguration.addConfiguration(new PackageConfiguration("key2").with(SECURE,false));
+  RepositoryMetadataStore.getInstance().addMetadataFor("plugin-id",repositoryConfiguration);
+  packageRepository.applyPackagePluginMetadata();
+  assertThat(secureProperty.isSecure(),is(true));
+  assertThat(secureProperty.getEncryptedValue(),is(notNullValue()));
+  assertThat(secureProperty.getEncryptedValue().getValue(),is(goCipher.encrypt("value1")));
+  assertThat(nonSecureProperty.isSecure(),is(false));
+  assertThat(nonSecureProperty.getValue(),is("value2"));
+  assertThat(secureRepoProperty.isSecure(),is(true));
+  assertThat(secureRepoProperty.getEncryptedValue(),is(notNullValue()));
+  assertThat(secureRepoProperty.getEncryptedValue().getValue(),is(goCipher.encrypt("value1")));
+  assertThat(nonSecureRepoProperty.isSecure(),is(false));
+  assertThat(nonSecureRepoProperty.getValue(),is("value2"));
+}

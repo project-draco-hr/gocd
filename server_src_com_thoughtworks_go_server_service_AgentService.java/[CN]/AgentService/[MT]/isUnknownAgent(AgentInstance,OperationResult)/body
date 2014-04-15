@@ -1,0 +1,8 @@
+{
+  if (agentInstance.isNullAgent()) {
+    String agentNotFoundMessage=String.format("Agent '%s' not found",agentInstance.getUuid());
+    operationResult.notFound("Agent not found.",agentNotFoundMessage,HealthStateType.general(HealthStateScope.GLOBAL));
+    return true;
+  }
+  return false;
+}

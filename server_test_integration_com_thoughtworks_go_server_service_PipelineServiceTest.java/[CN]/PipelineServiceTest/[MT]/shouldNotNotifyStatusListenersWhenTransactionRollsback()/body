@@ -1,0 +1,13 @@
+{
+  StageStatusListener stageStatusListener=mock(StageStatusListener.class);
+  JobStatusListener jobStatusListener=mock(JobStatusListener.class);
+  Pipeline pipeline=stubPipelineSaveForStatusListener(stageStatusListener,jobStatusListener);
+  Mockito.doThrow(new RuntimeException()).when(pipelineTimeline).update();
+  try {
+    service.save(pipeline);
+  }
+ catch (  RuntimeException e) {
+  }
+  verify(stageStatusListener,never()).stageStatusChanged(any(Stage.class));
+  verify(jobStatusListener,never()).jobStatusChanged(any(JobInstance.class));
+}

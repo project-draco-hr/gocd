@@ -1,0 +1,12 @@
+{
+  final StageDao stageDao=Mockito.mock(StageDao.class);
+  final StageConfigIdentifier identifier=new StageConfigIdentifier("cruise","dev");
+  final Stage instance=StageMother.failingStage("dev");
+  instance.setIdentifier(new StageIdentifier("cruise",1,"dev","1"));
+  when(stageDao.mostRecentStage(identifier)).thenReturn(null);
+  StageStatusCache cache=new StageStatusCache(stageDao);
+  assertThat(cache.currentStage(identifier),is(nullValue()));
+  cache.stageStatusChanged(instance);
+  assertThat(cache.currentStage(identifier),is(instance));
+  verify(stageDao,times(1)).mostRecentStage(identifier);
+}

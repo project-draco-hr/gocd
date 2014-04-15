@@ -1,0 +1,10 @@
+{
+  String comment="Changed file: " + fileName + " in submodule: "+ remoteSubmoduleRepoLocation;
+  changeFile(remoteSubmoduleRepoLocation,fileName,newContentOfFile);
+  checkInOneFile(remoteSubmoduleRepoLocation,new File(fileName),comment);
+  git(new File(remoteRepoDir,submoduleNameInRepo)).pull();
+  checkInOneFile(remoteRepoDir,new File(submoduleNameInRepo),comment);
+  List<Modification> list=new ArrayList<Modification>();
+  list.add(latestModification());
+  return list;
+}

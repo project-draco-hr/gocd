@@ -1,0 +1,14 @@
+{
+  Matcher iterableMatcher=hasItem(matcher);
+  long start=System.currentTimeMillis();
+  while (!iterableMatcher.matches(received)) {
+    if (System.currentTimeMillis() - start > TIMEOUT) {
+      bomb("Timeout waiting for message : " + received);
+    }
+    try {
+      Thread.sleep(10);
+    }
+ catch (    InterruptedException e) {
+    }
+  }
+}

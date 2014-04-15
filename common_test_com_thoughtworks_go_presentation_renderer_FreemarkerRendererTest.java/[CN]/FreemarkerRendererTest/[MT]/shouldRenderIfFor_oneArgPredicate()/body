@@ -1,0 +1,8 @@
+{
+  ExecTask task=new ExecTask();
+  task.errors().add(ExecTask.COMMAND,"bad command, it is!");
+  Map<String,Object> localContext=new HashMap<String,Object>();
+  localContext.put("task",task);
+  String view=new FreemarkerRenderer().render(new TaskViewModel(task,this.getClass().getResource("one_arg_pred.ftl").toString(),Renderer.FREEMARKER),localContext);
+  assertThat(view,is("ERROR: bad command, it is!"));
+}

@@ -1,0 +1,12 @@
+{
+  CruiseConfig user1SeeingConfig=goConfigFileDao.loadForEditing();
+  configHelper.addPipelineWithGroup("defaultGroup","user2_pipeline","user2_stage","user2_job");
+  CruiseConfig user2SeeingConfig=configHelper.load();
+  String user2SeeingMd5=user2SeeingConfig.getMd5();
+  new GoConfigMother().addPipelineWithGroup(user2SeeingConfig,"defaultGroup","user1_pipeline","user1_stage","user1_job");
+  ByteArrayOutputStream os=new ByteArrayOutputStream();
+  configHelper.getXml(user2SeeingConfig,os);
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(false);
+  GoConfigValidity validity=saver.saveXml(os.toString(),user2SeeingMd5);
+  assertThat(validity.isValid(),is(true));
+}

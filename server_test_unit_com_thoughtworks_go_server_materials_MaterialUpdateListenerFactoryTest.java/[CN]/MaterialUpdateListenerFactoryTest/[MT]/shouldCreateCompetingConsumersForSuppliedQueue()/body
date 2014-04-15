@@ -1,0 +1,6 @@
+{
+  when(systemEnvironment.getNumberOfMaterialCheckListener()).thenReturn(NUMBER_OF_CONSUMERS);
+  MaterialUpdateListenerFactory factory=new MaterialUpdateListenerFactory(topic,queue,materialRepository,systemEnvironment,healthService,diskSpaceMonitor,transactionTemplate,goCache,dependencyMaterialUpdater,scmMaterialUpdater,packageMaterialUpdater,materialExpansionService,mduPerformanceLogger);
+  factory.init();
+  verify(queue,new Times(NUMBER_OF_CONSUMERS)).addListener(any(GoMessageListener.class));
+}

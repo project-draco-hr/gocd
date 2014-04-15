@@ -1,0 +1,14 @@
+{
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.addError("name","name is mandatory field");
+  packageRepository.getConfiguration().add(new ConfigurationProperty(new ConfigurationKey("name"),new ConfigurationValue("value")));
+  packageRepository.getConfiguration().get(0).getConfigurationKey().addError("name","url is mandatory field");
+  HashMap<String,List<String>> errorsMap=new HashMap<String,List<String>>();
+  ErrorCollector.collectFieldErrors(errorsMap,"package_repository",packageRepository);
+  List<String> nameErrors=new ArrayList<String>();
+  nameErrors.add("name is mandatory field");
+  assertThat(errorsMap.get("package_repository[name]"),is(nameErrors));
+  List<String> urlErrors=new ArrayList<String>();
+  urlErrors.add("url is mandatory field");
+  assertThat(errorsMap.get("package_repository[configuration][0][configurationKey][name]"),is(urlErrors));
+}

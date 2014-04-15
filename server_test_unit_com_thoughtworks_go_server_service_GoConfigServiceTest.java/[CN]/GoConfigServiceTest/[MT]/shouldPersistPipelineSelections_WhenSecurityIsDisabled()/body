@@ -1,0 +1,9 @@
+{
+  Date date=new DateTime(2000,1,1,1,1,1,1).toDate();
+  when(clock.currentTime()).thenReturn(date);
+  mockConfig();
+  Matcher<PipelineSelections> pipelineSelectionsMatcher=hasValues(Arrays.asList("pipelineX","pipeline3"),Arrays.asList("pipeline1","pipeline2"),date,null);
+  when(pipelineRepository.saveSelectedPipelines(argThat(pipelineSelectionsMatcher))).thenReturn(2L);
+  assertThat(goConfigService.persistSelectedPipelines(null,null,Arrays.asList("pipelineX","pipeline3")),is(2l));
+  verify(pipelineRepository).saveSelectedPipelines(argThat(pipelineSelectionsMatcher));
+}

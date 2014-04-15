@@ -1,0 +1,26 @@
+{
+  serverConfig.setPurgeLimits(20.0,30.0);
+  final boolean[] artifactsDeletionTriggered={false};
+  final Thread[] artifactDeleterThread={null};
+  final Semaphore sem=new Semaphore(1);
+  sem.acquire();
+  artifactsDiskCleaner=new ArtifactsDiskCleaner(sysEnv,goConfigService,diskSpaceChecker,artifactService,stageService,configDbStateRepository){
+    @Override void deleteOldArtifacts(){
+      artifactDeleterThread[0]=Thread.currentThread();
+      artifactsDeletionTriggered[0]=true;
+      sem.release();
+    }
+  }
+;
+  Thread cleaner=(Thread)ReflectionUtil.getField(artifactsDiskCleaner,"cleaner");
+  while (true) {
+    if (cleaner.getState().equals(Thread.State.WAITING)) {
+      break;
+    }
+    Thread.sleep(5);
+  }
+  artifactsDiskCleaner.createFailure(new HttpOperationResult(),10,100);
+  sem.acquire();
+  assertThat(artifactsDeletionTriggered[0],is(true));
+  assertThat(artifactDeleterThread[0],not(sameInstance(Thread.currentThread())));
+}

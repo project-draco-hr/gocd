@@ -1,0 +1,12 @@
+{
+  PackageDefinition p1=PackageDefinitionMother.create("id1","pkg1",null,null);
+  PackageDefinition p2=PackageDefinitionMother.create("id2","pkg1",null,null);
+  PackageDefinition p3=PackageDefinitionMother.create("id3","pkg3",null,null);
+  Packages packages=new Packages(p1,p2,p3);
+  packages.validate(null);
+  assertThat(p1.errors().isEmpty(),is(true));
+  String nameError=String.format("You have defined multiple packages called '%s'. Package names are case-insensitive and must be unique within a repository.",p2.getName());
+  assertThat(p2.errors().isEmpty(),is(false));
+  assertThat(p2.errors().getAllOn(PackageRepository.NAME).contains(nameError),is(true));
+  assertThat(p3.errors().isEmpty(),is(true));
+}

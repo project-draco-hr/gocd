@@ -1,0 +1,11 @@
+{
+  MaterialRevisions revisions=new MaterialRevisions();
+  HgMaterial material=MaterialsMother.hgMaterial();
+  SvnMaterial svnMaterial=MaterialsMother.svnMaterial();
+  material.setName(new CaseInsensitiveString("hg_material"));
+  revisions.addRevision(svnMaterial,new Modification(new Date(),"1024","MOCK_LABEL-12",null));
+  revisions.addRevision(material,HG_MATERIAL_MODIFICATION);
+  BuildCause buildCause=BuildCause.createWithModifications(revisions,"");
+  PipelineInstanceModel model=PipelineInstanceModel.createPipeline("pipeline",-1,"label",buildCause,new StageInstanceModels());
+  assertThat(model.getCurrentRevision("hg_material").getRevision(),is("a087402bd2a7828a130c1bdf43f2d9ef8f48fd46"));
+}

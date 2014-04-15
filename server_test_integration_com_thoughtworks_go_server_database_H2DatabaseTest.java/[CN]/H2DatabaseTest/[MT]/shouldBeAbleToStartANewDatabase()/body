@@ -1,0 +1,6 @@
+{
+  h2Database.startDatabase();
+  Connection connection=h2Database.createDataSource().getConnection();
+  ResultSet set=connection.getMetaData().getTables(null,null,null,null);
+  assertThat(set.next(),is(true));
+}

@@ -1,0 +1,22 @@
+{
+  SystemEnvironment env=mock(SystemEnvironment.class);
+  when(env.enforceRevisionCompatibilityWithUpstream()).thenReturn(false);
+  int i=0;
+  GitMaterial git=new GitMaterial("git");
+  String[] git_revs={"g1"};
+  u.checkinInOrder(git,git_revs);
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",u.m(git));
+  ScheduleTestUtil.AddedPipeline p5=u.saveConfigWith("p5",u.m(p4));
+  ScheduleTestUtil.AddedPipeline p6=u.saveConfigWith("p6",u.m(p4),u.m(p5));
+  String p4_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p4,u.d(i++),"g1");
+  String p4_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p4,u.d(i++),"g1");
+  String p5_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p5,u.d(i++),p4_2);
+  String p4_3=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p4,u.d(i++),"g1");
+  String p4_4=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p4,u.d(i),"g1");
+  MaterialRevisions given=u.mrs(u.mr(p4,true,p4_4),u.mr(p5,true,p5_1));
+  MaterialRevisions expected=u.mrs(u.mr(p4,false,p4_2),u.mr(p5,false,p5_1));
+  AutoBuild autoBuild=new AutoBuild(goConfigService,pipelineService,p6.config.name().toString(),env,materialChecker,serverHealthService);
+  pipelineTimeline.update();
+  BuildCause buildCause=autoBuild.onModifications(given,false,null);
+  assertThat(buildCause.getMaterialRevisions(),is(expected));
+}

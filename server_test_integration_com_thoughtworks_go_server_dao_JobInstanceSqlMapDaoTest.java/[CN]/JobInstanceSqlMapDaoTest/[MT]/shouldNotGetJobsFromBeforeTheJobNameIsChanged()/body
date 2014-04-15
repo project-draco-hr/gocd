@@ -1,0 +1,10 @@
+{
+  String oldName="oldName";
+  createSomeJobs(oldName,15);
+  String newName="newName";
+  createSomeJobs(newName,10);
+  JobInstances myinstances=jobInstanceDao.latestCompletedJobs(PIPELINE_NAME,STAGE_NAME,newName,25);
+  assertThat(myinstances.size(),is(10));
+  assertThat(myinstances.get(0).getName(),is(not(oldName)));
+  assertThat(myinstances.get(0).getName(),is(newName));
+}

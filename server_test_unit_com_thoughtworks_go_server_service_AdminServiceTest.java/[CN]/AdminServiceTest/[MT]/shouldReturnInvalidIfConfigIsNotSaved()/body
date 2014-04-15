@@ -1,0 +1,18 @@
+{
+  HashMap attributes=new HashMap();
+  String content="invalid_config_xml";
+  attributes.put("content",content);
+  String md5="config_md5";
+  attributes.put("md5",md5);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  GoConfigService.XmlPartialSaver fileSaver=mock(GoConfigService.XmlPartialSaver.class);
+  GoConfigValidity validity=GoConfigValidity.invalid("Wrong config xml");
+  when(fileSaver.saveXml(content,md5)).thenReturn(validity);
+  when(goConfigService.fileSaver(false)).thenReturn(fileSaver);
+  GoConfigValidity actual=adminService.updateConfig(attributes,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(actual.isValid(),is(false));
+  assertThat(actual.errorMessage(),is("Wrong config xml"));
+  verify(fileSaver).saveXml(content,md5);
+  verify(goConfigService).fileSaver(false);
+}

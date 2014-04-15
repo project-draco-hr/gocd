@@ -1,0 +1,29 @@
+{
+  return (Boolean)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      int numberOfMaterials=revisions.getRevisions().size();
+      int match=0;
+      for (      MaterialRevision revision : revisions) {
+        long materialId=findOrCreateFrom(revision.getMaterial()).getId();
+        long modificationId=revision.getLatestModification().getId();
+        String key=cacheKeyForHasPipelineEverRunWithModification(pipelineName,materialId,modificationId);
+        if (goCache.get(key) != null) {
+          match++;
+          continue;
+        }
+        String sql="SELECT materials.id" + " FROM pipelineMaterialRevisions" + " INNER JOIN pipelines ON pipelineMaterialRevisions.pipelineId = pipelines.id"+ " INNER JOIN modifications on modifications.id  = pipelineMaterialRevisions.torevisionId"+ " INNER JOIN materials on modifications.materialId = materials.id"+ " WHERE materials.id = ? AND pipelineMaterialRevisions.toRevisionId >= ? AND pipelineMaterialRevisions.fromRevisionId <= ? AND pipelines.name = ?"+ " GROUP BY materials.id;";
+        SQLQuery query=session.createSQLQuery(sql);
+        query.setLong(0,materialId);
+        query.setLong(1,modificationId);
+        query.setLong(2,modificationId);
+        query.setString(3,pipelineName);
+        if (!query.list().isEmpty()) {
+          match++;
+          goCache.put(key,Boolean.TRUE);
+        }
+      }
+      return match == numberOfMaterials;
+    }
+  }
+);
+}

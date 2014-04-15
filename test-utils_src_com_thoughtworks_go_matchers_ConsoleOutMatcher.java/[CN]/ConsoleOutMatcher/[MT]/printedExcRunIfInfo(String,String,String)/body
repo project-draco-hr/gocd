@@ -1,0 +1,20 @@
+{
+  return new TypeSafeMatcher<String>(){
+    public String consoleOut;
+    public String message;
+    public boolean matchesSafely(    String consoleOut){
+      this.consoleOut=consoleOut;
+      if (StringUtils.isEmpty(args)) {
+        this.message=format("[%s] Current job status: %s.\n\n[%s] Start to execute task: <exec command=\"%s\" />.",GoConstants.PRODUCT_NAME,status,GoConstants.PRODUCT_NAME,command);
+      }
+ else {
+        this.message=format("[%s] Current job status: %s.\n\n[%s] Start to execute task: <exec command=\"%s\" args=\"%s\" />.",GoConstants.PRODUCT_NAME,status,GoConstants.PRODUCT_NAME,command,args);
+      }
+      return StringUtils.contains(consoleOut,message);
+    }
+    public void describeTo(    Description description){
+      description.appendText("Expected console to contain [" + message + "] but was "+ consoleOut);
+    }
+  }
+;
+}

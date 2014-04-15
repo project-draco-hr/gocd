@@ -1,0 +1,11 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<String> selectedAgents=new ArrayList<String>();
+  Username user=new Username(new CaseInsensitiveString("user"));
+  when(securityService.isUserAdmin(user)).thenReturn(true);
+  String environmentName="foo-environment";
+  when(mockGoConfigService.hasEnvironmentNamed(new CaseInsensitiveString(environmentName))).thenReturn(false);
+  environmentConfigService.createEnvironment(env(environmentName,new ArrayList<String>(),new ArrayList<Map<String,String>>(),selectedAgents),user,result);
+  assertThat(result.isSuccessful(),is(true));
+  verify(mockGoConfigService).addEnvironment(new EnvironmentConfig(new CaseInsensitiveString(environmentName)));
+}

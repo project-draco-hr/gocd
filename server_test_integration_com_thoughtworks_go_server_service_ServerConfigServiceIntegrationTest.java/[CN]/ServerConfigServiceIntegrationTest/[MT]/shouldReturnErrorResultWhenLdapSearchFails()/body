@@ -1,0 +1,26 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  LdapConfig invalidLdapConfig=new LdapConfig(new GoCipher());
+  serverConfigService.validateLdapSettings(invalidLdapConfig,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Cannot connect to ldap, please check the settings. Reason: An LDAP connection URL must be supplied."));
+  result=new HttpLocalizedOperationResult();
+  invalidLdapConfig=new LdapConfig("ldap://some_loser_url",MANAGER_DN,MANAGER_PASSWORD,null,true,new BasesConfig(new BaseConfig(SEARCH_BASE)),SEARCH_FILTER);
+  serverConfigService.validateLdapSettings(invalidLdapConfig,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Cannot connect to ldap, please check the settings. Reason: some_loser_url:389; nested exception is javax.naming.CommunicationException: some_loser_url:389 [Root exception is java.net.UnknownHostException: some_loser_url]"));
+  result=new HttpLocalizedOperationResult();
+  invalidLdapConfig=new LdapConfig(LDAP_URL,"invalidDN=1",MANAGER_PASSWORD,null,true,new BasesConfig(new BaseConfig(SEARCH_BASE)),SEARCH_FILTER);
+  serverConfigService.validateLdapSettings(invalidLdapConfig,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Cannot connect to ldap, please check the settings." + " Reason: [LDAP: error code 49 - Unable to bind as user 'invalidDN=1' because no such entry" + " exists in the server.]; nested exception is javax.naming.AuthenticationException:"+ " [LDAP: error code 49 - Unable to bind as user 'invalidDN=1' because no such entry exists in the server.]"));
+  result=new HttpLocalizedOperationResult();
+  invalidLdapConfig=new LdapConfig(LDAP_URL,MANAGER_DN,"wrong_password",null,true,new BasesConfig(new BaseConfig(SEARCH_BASE)),SEARCH_FILTER);
+  serverConfigService.validateLdapSettings(invalidLdapConfig,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Cannot connect to ldap, please check the settings." + " Reason: [LDAP: error code 49 - Unable to bind as user 'cn=Active Directory Ldap User," + "ou=SomeSystems,ou=Accounts,ou=Principal,dc=corp,dc=somecompany,dc=com' because the provided"+ " password was incorrect.]; nested exception is javax.naming.AuthenticationException:"+ " [LDAP: error code 49 - Unable to bind as user 'cn=Active Directory Ldap User,"+ "ou=SomeSystems,ou=Accounts,ou=Principal,dc=corp,dc=somecompany,dc=com' because the provided"+ " password was incorrect.]"));
+  result=new HttpLocalizedOperationResult();
+  LdapConfig validConfig=new LdapConfig(LDAP_URL,MANAGER_DN,MANAGER_PASSWORD,null,true,new BasesConfig(new BaseConfig(SEARCH_BASE)),SEARCH_FILTER);
+  serverConfigService.validateLdapSettings(validConfig,result);
+  assertThat("Expected no message. Got: " + result.message(localizer),result.isSuccessful(),is(true));
+}

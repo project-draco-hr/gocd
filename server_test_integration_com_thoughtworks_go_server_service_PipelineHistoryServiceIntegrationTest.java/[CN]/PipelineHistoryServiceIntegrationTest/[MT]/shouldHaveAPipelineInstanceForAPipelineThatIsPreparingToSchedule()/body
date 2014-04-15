@@ -1,0 +1,9 @@
+{
+  configHelper.addPipeline("pipeline-name","stage-1");
+  triggerMonitor.markPipelineAsAlreadyTriggered("pipeline-name");
+  PipelineInstanceModel instance=pipelineHistoryService.latest("pipeline-name",new Username(new CaseInsensitiveString("admin")));
+  assertThat(instance.getName(),is("pipeline-name"));
+  assertThat(instance.getStageHistory().size(),is(1));
+  assertThat(instance.getStageHistory().get(0).isScheduled(),is(false));
+  assertThat(instance.isPreparingToSchedule(),is(true));
+}

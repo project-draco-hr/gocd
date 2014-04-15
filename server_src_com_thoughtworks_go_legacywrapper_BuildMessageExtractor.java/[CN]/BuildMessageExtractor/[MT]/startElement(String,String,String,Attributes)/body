@@ -1,0 +1,14 @@
+{
+  if (isBuildTag(qName)) {
+    readingBuild=true;
+    buildError=attributes.getValue("error");
+    return;
+  }
+  if (isMessageTag(qName)) {
+    readingMessage=true;
+    if (readingBuild) {
+      messageExtractor=new MessageExtractor();
+      messageExtractor.startElement(uri,localName,qName,attributes);
+    }
+  }
+}

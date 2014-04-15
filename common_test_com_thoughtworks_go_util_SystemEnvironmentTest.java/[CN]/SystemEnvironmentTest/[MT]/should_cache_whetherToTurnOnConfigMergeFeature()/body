@@ -1,0 +1,6 @@
+{
+  assertThat(System.getProperty(SystemEnvironment.ENABLE_CONFIG_MERGE_PROPERTY),nullValue());
+  assertThat(new SystemEnvironment().get(SystemEnvironment.ENABLE_CONFIG_MERGE_FEATURE),is(true));
+  System.setProperty(SystemEnvironment.ENABLE_CONFIG_MERGE_PROPERTY,SystemEnvironment.CONFIGURATION_NO);
+  assertThat(new SystemEnvironment().get(SystemEnvironment.ENABLE_CONFIG_MERGE_FEATURE),is(true));
+}

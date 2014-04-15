@@ -1,0 +1,10 @@
+{
+  try {
+    String logDirectory=getCurrentLogDirectory();
+    File pluginLogFileLocation=new File(logDirectory,pluginLogFileName(pluginId));
+    return new RollingFileAppender(new PatternLayout("%d{ISO8601} %5p [%t] %c{1}:%L - %m%n"),pluginLogFileLocation.getPath(),true);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+}

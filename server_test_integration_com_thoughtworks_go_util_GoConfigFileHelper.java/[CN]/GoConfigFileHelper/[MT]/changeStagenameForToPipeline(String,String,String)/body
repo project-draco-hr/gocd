@@ -1,0 +1,10 @@
+{
+  CruiseConfig config=load();
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  StageConfig stage=pipelineConfig.getStage(new CaseInsensitiveString(oldStageName));
+  int index=pipelineConfig.indexOf(stage);
+  stage=StageConfigMother.custom(newStageName,stage.isFetchMaterials(),stage.isCleanWorkingDir(),stage.getJobs(),stage.getApproval());
+  pipelineConfig.set(index,stage);
+  writeConfigFile(config);
+  return pipelineConfig;
+}

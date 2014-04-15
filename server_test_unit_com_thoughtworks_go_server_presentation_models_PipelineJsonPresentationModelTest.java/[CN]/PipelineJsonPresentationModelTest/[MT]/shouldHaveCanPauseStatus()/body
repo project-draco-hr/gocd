@@ -1,0 +1,8 @@
+{
+  pipeline.setCanPause(true);
+  Json json=pipeline.toJson();
+  new JsonTester(json).shouldContain("{ 'canPause' : 'true'}");
+  pipeline.setCanPause(false);
+  json=pipeline.toJson();
+  new JsonTester(json).shouldContain("{ 'canPause' : 'false'}");
+}

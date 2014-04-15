@@ -1,0 +1,8 @@
+{
+  List<String> list=new ArrayList<String>();
+  list.add(format("%s=%s","plugin-id",pluginId()));
+  handlePackageDefinitionProperties(list);
+  handlePackageRepositoryProperties(list);
+  String fingerprint=join(list,fingerprintDelimiter);
+  return CachedDigestUtils.sha256Hex(fingerprint);
+}

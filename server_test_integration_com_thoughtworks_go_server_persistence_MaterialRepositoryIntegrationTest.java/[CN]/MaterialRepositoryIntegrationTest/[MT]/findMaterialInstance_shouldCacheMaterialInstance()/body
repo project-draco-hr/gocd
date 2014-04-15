@@ -1,0 +1,10 @@
+{
+  Material svn1=MaterialsMother.svnMaterial("url",null,"username","password",false,null);
+  repo.saveOrUpdate(svn1.createMaterialInstance());
+  MaterialInstance instance=repo.findMaterialInstance(svn1);
+  HibernateTemplate mockTemplate=mock(HibernateTemplate.class);
+  repo.setHibernateTemplate(mockTemplate);
+  MaterialInstance cachedInstance=repo.findMaterialInstance(svn1);
+  assertSame(instance,cachedInstance);
+  verifyNoMoreInteractions(mockTemplate);
+}

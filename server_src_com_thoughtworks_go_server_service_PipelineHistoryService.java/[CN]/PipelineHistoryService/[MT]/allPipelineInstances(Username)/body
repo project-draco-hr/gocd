@@ -1,0 +1,27 @@
+{
+  CruiseConfig currentConfig=goConfigService.currentCruiseConfig();
+  PipelineGroups groups=currentConfig.getGroups();
+  PipelineInstanceModels activePipelines=filterPermissions(pipelineDao.loadActivePipelines(),username);
+  PipelineGroupModels groupModels=new PipelineGroupModels();
+  for (  PipelineConfig pipelineConfig : currentConfig.getAllPipelineConfigs()) {
+    CaseInsensitiveString pipelineName=pipelineConfig.name();
+    for (    PipelineInstanceModel activePipeline : activePipelines.findAll(CaseInsensitiveString.str(pipelineName))) {
+      activePipeline.setTrackingTool(pipelineConfig.getTrackingTool());
+      activePipeline.setMingleConfig(pipelineConfig.getMingleConfig());
+      populatePlaceHolderStages(activePipeline);
+      String groupName=groups.findGroupNameByPipeline(pipelineName);
+      if (groupName == null) {
+        throw new RuntimeException("Unable to find group find pipeline " + pipelineName);
+      }
+      populatePreviousStageState(activePipeline);
+      populateLockStatus(activePipeline.getName(),username,activePipeline);
+      boolean canForce=schedulingCheckerService.canManuallyTrigger(CaseInsensitiveString.str(pipelineName),username);
+      PipelinePauseInfo pauseInfo=pipelinePauseService.pipelinePauseInfo(CaseInsensitiveString.str(pipelineName));
+      groupModels.addPipelineInstance(groupName,activePipeline,canForce,securityService.hasOperatePermissionForPipeline(username.getUsername(),CaseInsensitiveString.str(pipelineName)),pauseInfo);
+    }
+  }
+  for (  PipelineConfigs group : groups) {
+    populateMissingPipelines(username,groupModels,group);
+  }
+  return groupModels;
+}

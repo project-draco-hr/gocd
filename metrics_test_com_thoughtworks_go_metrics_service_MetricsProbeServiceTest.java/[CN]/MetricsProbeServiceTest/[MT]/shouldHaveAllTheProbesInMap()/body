@@ -1,0 +1,14 @@
+{
+  metricsProbeService=new MetricsProbeService(systemEnvironment);
+  assertThat(metricsProbeService.getProbe(ProbeType.SAVE_CONFIG_XML_THROUGH_API) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.SAVE_CONFIG_XML_THROUGH_XML_TAB) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.PREPROCESS_AND_VALIDATE) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.CONVERTING_CONFIG_XML_TO_OBJECT) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.VALIDATING_CONFIG) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.WRITE_CONFIG_TO_FILE_SYSTEM) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.SAVE_CONFIG_XML_THROUGH_CLICKY_ADMIN) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.SAVE_CONFIG_XML_THROUGH_SERVER_CONFIGURATION_TAB) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.UPDATE_CONFIG) instanceof TimerProbe,Is.is(true));
+  assertThat(metricsProbeService.getProbe(ProbeType.MATERIAL_UPDATE_QUEUE_COUNTER) instanceof MessageQueueCounterProbe,Is.is(true));
+  assertThat(((java.util.concurrent.ConcurrentMap)ReflectionUtil.getField(ReflectionUtil.getField(Metrics.defaultRegistry(),"threadPools"),"threadPools")).size() > 0,is(true));
+}

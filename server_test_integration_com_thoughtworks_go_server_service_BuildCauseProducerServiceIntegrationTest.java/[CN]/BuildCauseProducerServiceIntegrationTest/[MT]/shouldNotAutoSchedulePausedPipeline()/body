@@ -1,0 +1,15 @@
+{
+  ScheduleTestUtil u=new ScheduleTestUtil(transactionTemplate,materialRepository,dbHelper,configHelper);
+  HgMaterial hg=new HgMaterial("url",null);
+  String[] hg_revs={"h1","h2"};
+  u.checkinInOrder(hg,hg_revs);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(hg));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(hg));
+  pipelinePauseService.pause(p1.config.name().toString(),"pausing p1",Username.ANONYMOUS);
+  ServerHealthStateOperationResult p1Result=new ServerHealthStateOperationResult();
+  service.autoSchedulePipeline(p1.config.name().toString(),p1Result,1234);
+  assertThat(p1Result.canContinue(),is(false));
+  ServerHealthStateOperationResult p2Result=new ServerHealthStateOperationResult();
+  service.autoSchedulePipeline(p2.config.name().toString(),p2Result,1234);
+  assertThat(p2Result.canContinue(),is(true));
+}

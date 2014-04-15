@@ -1,0 +1,8 @@
+{
+  new SystemEnvironment().setProperty("os.name","minix");
+  String url="http://cruise.com/go";
+  HttpClient httpClient=Mockito.mock(HttpClient.class);
+  final DefaultAgentRegistry defaultAgentRegistry=new DefaultAgentRegistry();
+  remoteRegistryRequester(url,httpClient,defaultAgentRegistry).requestRegistration("cruise.com",new AgentRegistrationPropertiesReader(new Properties()));
+  verify(httpClient).executeMethod(argThat(hasAllParams(defaultAgentRegistry.uuid())));
+}

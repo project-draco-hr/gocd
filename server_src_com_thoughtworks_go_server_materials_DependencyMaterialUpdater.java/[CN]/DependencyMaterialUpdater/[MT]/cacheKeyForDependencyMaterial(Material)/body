@@ -1,0 +1,9 @@
+{
+  if (material instanceof DependencyMaterial) {
+    DependencyMaterial dep=((DependencyMaterial)material);
+    return String.format(DEPENDENCY_MATERIAL_CACHE_KEY_FORMAT,dep.getPipelineName().toLower(),dep.getStageName().toLower()).intern();
+  }
+ else {
+    return String.format(DEPENDENCY_MATERIAL_CACHE_KEY_FORMAT,material.getFingerprint(),"-this-lock-should-not-be-acquired-by-anyone-else-inadvertently").intern();
+  }
+}

@@ -1,0 +1,6 @@
+{
+  Stage ft=new InstanceFactory().createStageInstance(ftStage(),new DefaultSchedulingContext("anyone"),"md5-test",new TimeProvider());
+  ft.setOrderId(pipeline.getFirstStage().getOrderId() + 1);
+  dbHelper.getStageDao().saveWithJobs(pipeline,ft);
+  dbHelper.completeStage(ft,result);
+}

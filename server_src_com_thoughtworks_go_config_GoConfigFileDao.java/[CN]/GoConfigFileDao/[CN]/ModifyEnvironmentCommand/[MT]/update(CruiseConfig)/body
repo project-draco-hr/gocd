@@ -1,0 +1,17 @@
+{
+  AgentConfig agentConfig=cruiseConfig.agents().getAgentByUuid(uuid);
+  bombIfNull(agentConfig,"Unable to set agent resources; Agent [" + uuid + "] not found.");
+  EnvironmentConfig environmentConfig=cruiseConfig.getEnvironments().named(new CaseInsensitiveString(environmentName));
+  if (action.equals(TriStateSelection.Action.add)) {
+    environmentConfig.addAgentIfNew(uuid);
+  }
+ else   if (action.equals(TriStateSelection.Action.remove)) {
+    environmentConfig.removeAgent(uuid);
+  }
+ else   if (action.equals(TriStateSelection.Action.nochange)) {
+  }
+ else {
+    bomb(String.format("unsupported action '%s'",action));
+  }
+  return cruiseConfig;
+}

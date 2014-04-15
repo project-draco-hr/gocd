@@ -1,0 +1,16 @@
+{
+  File cipherFile=new SystemEnvironment().getCipherFile();
+  FileUtils.deleteQuietly(cipherFile);
+  FileUtils.writeStringToFile(cipherFile,"269298bc31c44620");
+  GoCipher goCipher=new GoCipher();
+  MailHost mailHost=new MailHost("abc",12,"admin","p",null,true,true,"anc@mail.com","anc@mail.com",goCipher);
+  ServerConfig serverConfig=new ServerConfig(null,mailHost,null,null);
+  assertThat(serverConfig.mailHost().getPassword(),Is.is("p"));
+  String encryptedPassword=serverConfig.mailHost().getEncryptedPassword();
+  serverConfig.updateMailHost(new MailHost("abc",12,"admin","p",encryptedPassword,false,true,"anc@mail.com","anc@mail.com",goCipher));
+  assertThat(serverConfig.mailHost().getPassword(),Is.is("p"));
+  assertThat(serverConfig.mailHost().getEncryptedPassword(),Is.is(encryptedPassword));
+  serverConfig.updateMailHost(new MailHost("abc",12,"admin",null,"",true,true,"anc@mail.com","anc@mail.com"));
+  assertThat(serverConfig.mailHost().getPassword(),Is.is(""));
+  assertThat(serverConfig.mailHost().getEncryptedPassword(),Is.is(nullValue()));
+}

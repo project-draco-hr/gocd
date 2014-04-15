@@ -1,0 +1,6 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1"),ConfigurationPropertyMother.create("secure-key",true,"secure-value")));
+  material.setPackageDefinition(PackageDefinitionMother.create("p-id","name",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2")),repository));
+  assertThat(material.getFingerprint(),is(CachedDigestUtils.sha256Hex("plugin-id=pluginid<|>k2=v2<|>k1=v1<|>secure-key=secure-value")));
+}

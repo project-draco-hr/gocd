@@ -1,0 +1,10 @@
+{
+  try {
+    Method method=klass.getDeclaredMethod(name,args);
+    method.setAccessible(true);
+    return method;
+  }
+ catch (  NoSuchMethodException e) {
+    return findNonPublicMethod(name,klass.getSuperclass(),args);
+  }
+}

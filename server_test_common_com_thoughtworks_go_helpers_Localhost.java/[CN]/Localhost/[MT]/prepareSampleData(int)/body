@@ -1,0 +1,26 @@
+{
+  ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("classpath*:WEB-INF/applicationContext-dataLocalAccess.xml");
+  DataSource dataSource=(DataSource)context.getBean("dataSource");
+  PipelineSqlMapDao pipelineDao=(PipelineSqlMapDao)context.getBean("pipelineDao");
+  StageSqlMapDao stageDao=(StageSqlMapDao)context.getBean("stageDao");
+  JobInstanceDao jobInstanceDao=(JobInstanceDao)context.getBean("buildInstanceDao");
+  final DatabaseAccessHelper dbHelper=new DatabaseAccessHelper(dataSource);
+  dbHelper.onTearDown();
+  dbHelper.onSetUp();
+  Runtime.getRuntime().addShutdownHook(new Thread(new Runnable(){
+    public void run(){
+      try {
+        dbHelper.onTearDown();
+      }
+ catch (      Exception e) {
+      }
+    }
+  }
+));
+  for (int i=0; i < numberOfPipelines; i++) {
+    for (    String pipelineName : pipelineNames) {
+      createCompletedData(pipelineDao,pipelineName);
+    }
+  }
+  createLatestPipelines(dbHelper,jobInstanceDao);
+}

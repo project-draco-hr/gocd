@@ -1,0 +1,10 @@
+{
+  when(userService.isLicenseUserLimitExceeded()).thenReturn(true);
+  when(goLicenseService.maximumUsersAllowed()).thenReturn(10);
+  when(userService.enabledUserCount()).thenReturn(12);
+  checker.check(operationResult);
+  assertThat(operationResult.canContinue(),is(false));
+  String desc=String.format("Current Go licence allows only %s users. There are currently %s users enabled. Go pipeline scheduling will be stopped until %s users are disabled. " + "Please disable users to comply with the license limit, or " + "<a href='http://www.thoughtworks.com/products/go-continuous-delivery/compare'>contact our sales team</a> to upgrade your license.",10,12,2,GoConstants.THOUGHTWORKS_LICENSE_URL);
+  assertThat(operationResult.getServerHealthState(),is(ServerHealthState.error("License Violation",desc,EnabledUsersLicenseLimitChecker.USER_LIMIT_EXCEEDED)));
+  verifyNoMoreInteractions(serverHealthService);
+}

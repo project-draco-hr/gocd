@@ -1,0 +1,18 @@
+{
+  String path=new File("../server/webapp/WEB-INF/vm").getCanonicalPath();
+  Properties properties=new Properties();
+  properties.setProperty(Velocity.RESOURCE_LOADER,"file");
+  properties.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH,path);
+  properties.setProperty(Velocity.FILE_RESOURCE_LOADER_CACHE,"false");
+  VelocityEngine engine=new VelocityEngine();
+  engine.init(properties);
+  Template t=engine.getTemplate(template + ".vm");
+  VelocityContext ctx=new VelocityContext();
+  for (  Object key : model.keySet()) {
+    ctx.put((String)key,model.get(key));
+  }
+  ctx.put("req",new FakeRequest());
+  Writer writer=new StringWriter();
+  t.merge(ctx,writer);
+  return writer.toString();
+}

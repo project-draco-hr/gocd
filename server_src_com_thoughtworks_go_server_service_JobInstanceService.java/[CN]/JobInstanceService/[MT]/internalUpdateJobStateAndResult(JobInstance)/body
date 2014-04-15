@@ -1,0 +1,11 @@
+{
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    protected void doInTransactionWithoutResult(    TransactionStatus status){
+      jobInstanceDao.updateStateAndResult(job);
+      if (job.isCompleted()) {
+        buildPropertiesService.saveCruiseProperties(job);
+      }
+    }
+  }
+);
+}

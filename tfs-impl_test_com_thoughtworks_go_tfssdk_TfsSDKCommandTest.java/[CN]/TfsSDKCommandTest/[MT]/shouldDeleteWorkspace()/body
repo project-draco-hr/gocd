@@ -1,0 +1,8 @@
+{
+  GoTfsWorkspace workspace=mock(GoTfsWorkspace.class);
+  when(client.queryWorkspace(TFS_WORKSPACE,USERNAME)).thenReturn(workspace);
+  doNothing().when(client).deleteWorkspace(workspace);
+  tfsCommand.deleteWorkspace();
+  verify(client).queryWorkspace(TFS_WORKSPACE,USERNAME);
+  verify(client).deleteWorkspace(workspace);
+}

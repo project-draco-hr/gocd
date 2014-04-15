@@ -1,0 +1,10 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  FileUtils.writeStringToFile(new File(bundleLocation,"lib/go-plugin-activator.jar"),"Some data");
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("pluginId","some-plugin.jar",bundleLocation,true);
+  goPluginOSGiManifestGenerator.updateManifestOf(descriptor);
+  String classpathEntry=valueFor(BUNDLE_CLASSPATH);
+  assertThat(classpathEntry,is("lib/go-plugin-activator.jar,.,lib/dependency.jar"));
+}

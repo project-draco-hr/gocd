@@ -1,0 +1,20 @@
+{
+  try {
+    pluginManager.doOn(PackageMaterialProvider.class,packageRepository.getPluginConfiguration().getId(),new ActionWithReturn<PackageMaterialProvider,Boolean>(){
+      @Override public Boolean execute(      PackageMaterialProvider packageMaterialProvider,      GoPluginDescriptor pluginDescriptor){
+        Result checkConnectionResult=packageMaterialProvider.getPoller().checkConnectionToRepository(populateConfiguration(packageRepository.getConfiguration()));
+        String messages=checkConnectionResult.getMessagesForDisplay();
+        if (!checkConnectionResult.isSuccessful()) {
+          result.connectionError(LocalizedMessage.string("PACKAGE_REPOSITORY_CHECK_CONNECTION_FAILED",messages));
+          return false;
+        }
+        result.setMessage(LocalizedMessage.string("CONNECTION_OK",messages));
+        return true;
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+    result.internalServerError(LocalizedMessage.string("PACKAGE_REPOSITORY_CHECK_CONNECTION_FAILED",e.getMessage()));
+  }
+}

@@ -1,0 +1,10 @@
+{
+  List<Long> expectedIds=new ArrayList<Long>();
+  expectedIds.add(1L);
+  when(mockTemplate.queryForList(eq("getPipelineRange"),any())).thenReturn(expectedIds);
+  pipelineDao.findPipelineIds("pipelineName",1,0);
+  List<Long> actual=pipelineDao.findPipelineIds("pipelineName",1,0);
+  assertThat(actual.size(),is(1));
+  assertEquals(expectedIds.get(0),actual.get(0));
+  verify(mockTemplate,times(1)).queryForList(eq("getPipelineRange"),any());
+}

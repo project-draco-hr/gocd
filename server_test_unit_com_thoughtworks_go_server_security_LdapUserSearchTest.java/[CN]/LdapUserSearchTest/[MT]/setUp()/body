@@ -1,0 +1,10 @@
+{
+  goConfigService=mock(GoConfigService.class);
+  contextFactory=mock(SpringSecurityContextSource.class);
+  securityConfig=mock(SecurityConfig.class);
+  ldapTemplate=mock(LdapTemplate.class);
+  logger=mock(Logger.class);
+  ldapUserSearch=new LdapUserSearch(goConfigService,contextFactory,ldapTemplate,logger);
+  when(goConfigService.security()).thenReturn(securityConfig);
+  spy=spy(ldapUserSearch);
+}

@@ -1,0 +1,9 @@
+{
+  PackageConfiguration packageConfiguration=null;
+  if (metadata != null) {
+    packageConfiguration=metadata.get(configurationProperty.getConfigurationKey().getName());
+  }
+  if (packageConfiguration == null || packageConfiguration.getOption(PackageConfiguration.PART_OF_IDENTITY)) {
+    list.add(configurationProperty.forFingerprint());
+  }
+}

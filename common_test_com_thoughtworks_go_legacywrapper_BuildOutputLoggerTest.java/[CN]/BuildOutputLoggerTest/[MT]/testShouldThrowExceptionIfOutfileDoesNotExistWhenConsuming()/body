@@ -1,0 +1,10 @@
+{
+  BuildOutputLogger logger=new BuildOutputLogger(null);
+  try {
+    logger.consumeLine("should fail");
+    fail("Should not be able to consume a line when no log file specified");
+  }
+ catch (  Exception expected) {
+    assertEquals("No log file specified",expected.getMessage());
+  }
+}

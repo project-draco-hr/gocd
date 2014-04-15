@@ -1,0 +1,9 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . " + "<http://example.com/1> rdf:type ex:Yadda . "+ "<http://example.com/2> rdf:type ex:Yadda . ";
+  contextUnawareGraph.addTriplesFromTurtle(turtle);
+  String select="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?s WHERE { " + "?s a ex:Yadda "+ "} ORDER BY ?s";
+  List<BoundVariables> boundVariables=contextUnawareGraph.select(select);
+  assertEquals(2,boundVariables.size());
+  assertEquals("http://example.com/1",boundVariables.get(0).getURIReference("s").getURIText());
+  assertEquals("http://example.com/2",boundVariables.get(1).getURIReference("s").getURIText());
+}

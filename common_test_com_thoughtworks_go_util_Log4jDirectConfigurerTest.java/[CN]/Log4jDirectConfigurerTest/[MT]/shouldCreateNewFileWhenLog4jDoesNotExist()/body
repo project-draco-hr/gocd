@@ -1,0 +1,6 @@
+{
+  assertThat(file.exists(),is(false));
+  Log4jDirectConfigurer log4jDirectConfigurer=new Log4jDirectConfigurer(file.getName());
+  log4jDirectConfigurer.afterPropertiesSet();
+  assertThat(file.exists(),is(true));
+}

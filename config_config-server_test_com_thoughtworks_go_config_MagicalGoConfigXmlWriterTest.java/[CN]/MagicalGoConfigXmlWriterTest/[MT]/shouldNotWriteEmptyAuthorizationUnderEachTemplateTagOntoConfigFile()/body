@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  PipelineTemplateConfig template=com.thoughtworks.go.helper.PipelineTemplateConfigMother.createTemplate("template-name",new Authorization(new AdminsConfig()),com.thoughtworks.go.helper.StageConfigMother.manualStage("stage-name"));
+  cruiseConfig.addTemplate(template);
+  xmlWriter.write(cruiseConfig,output,false);
+  String writtenConfigXml=this.output.toString();
+  assertThat(writtenConfigXml,not(containsString("<authorization>")));
+}

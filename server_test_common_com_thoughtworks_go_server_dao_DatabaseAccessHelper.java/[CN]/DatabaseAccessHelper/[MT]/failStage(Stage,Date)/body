@@ -1,0 +1,9 @@
+{
+  for (  JobInstance job : stage.getJobInstances()) {
+    job.completing(Failed,completionDate);
+    job.completed(completionDate);
+    jobInstanceDao.updateStateAndResult(job);
+  }
+  stage.calculateResult();
+  updateResultInTransaction(stage,StageResult.Failed);
+}

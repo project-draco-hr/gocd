@@ -1,0 +1,9 @@
+{
+  goLicenseService=context.mock(GoLicenseService.class);
+  ignoreResolver=context.mock(IgnoreResolver.class);
+  paymentResolver=context.mock(PaymentResolver.class);
+  licenseInterceptor=new LicenseInterceptor(goLicenseService,ignoreResolver,paymentResolver);
+  mockHttpServletRequest=new MockHttpServletRequest();
+  mockHttpServletRequest.setContextPath("/go");
+  mockHttpServletResponse=new MockHttpServletResponse();
+}

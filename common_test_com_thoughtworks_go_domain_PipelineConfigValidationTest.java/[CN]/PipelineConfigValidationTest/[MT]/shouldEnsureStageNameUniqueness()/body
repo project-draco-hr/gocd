@@ -1,0 +1,12 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  PipelineConfig pipelineConfig=goConfigMother.addPipeline(cruiseConfig,"pipeline1","stage","build");
+  JobConfig jobConfig=new JobConfig("my-build");
+  jobConfig.addTask(new ExecTask("ls","-la","tmp"));
+  StageConfig stageConfig=new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(jobConfig));
+  pipelineConfig.addStageWithoutValidityAssertion(stageConfig);
+  pipelineConfig.validate(validationContext);
+  assertThat(stageConfig.errors().getAllOn("name"),is(Arrays.asList("You have defined multiple stages called 'stage'. Stage names are case-insensitive and must be unique.")));
+  assertThat(pipelineConfig.get(0).errors().getAllOn("name"),is(Arrays.asList("You have defined multiple stages called 'stage'. Stage names are case-insensitive and must be unique.")));
+  assertThat(cruiseConfig.validateAfterPreprocess().get(0).getAllOn("name"),is(Arrays.asList("You have defined multiple stages called 'stage'. Stage names are case-insensitive and must be unique.")));
+}

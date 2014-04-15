@@ -1,0 +1,5 @@
+{
+  configHelper.addPipeline("pipeline","dev","linux","windows");
+  controller.getStageAsXmlPartial("pipeline",0,null,response);
+  assertValidContentAndStatus(SC_OK,"text/xml","<stage name=\"dev\">\n" + "  <jobs>\n" + "    <job name=\"linux\" />\n"+ "    <job name=\"windows\" />\n"+ "  </jobs>\n"+ "</stage>");
+}

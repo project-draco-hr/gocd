@@ -1,0 +1,16 @@
+{
+  String agentId="uuid";
+  final Pipeline pipeline=instanceFactory.createPipelineInstance(evolveConfig,modifySomeFiles(evolveConfig),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),"md5-test",new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline);
+  buildAssignmentService.assignWorkToAgent(agent(new AgentConfig(agentId)));
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      stageService.cancelStage(stageOf(pipeline));
+    }
+  }
+);
+  scheduleService.rescheduleHungJobs();
+  JobInstance reloaded=jobInstanceDao.buildByIdWithTransitions(buildOf(pipeline).getId());
+  assertThat(reloaded.getState(),is(JobState.Completed));
+  assertThat(reloaded.getResult(),is(JobResult.Cancelled));
+}

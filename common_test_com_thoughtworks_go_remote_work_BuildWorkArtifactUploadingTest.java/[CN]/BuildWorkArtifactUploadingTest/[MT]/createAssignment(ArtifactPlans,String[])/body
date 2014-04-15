@@ -1,0 +1,8 @@
+{
+  MaterialRevisions materialRevisions=materialRevisions();
+  BuildCause buildCause=BuildCause.createWithModifications(materialRevisions,"");
+  List<Builder> builders=new ArrayList<Builder>();
+  builders.add(new CreateFileBuilder(fileToCreate));
+  DefaultJobPlan plan=new DefaultJobPlan(new Resources(),artifactPlans,new ArtifactPropertiesGenerators(),-1,new JobIdentifier(PIPELINE_NAME,-2,"1",STAGE_NAME,"1",JOB_NAME));
+  return BuildAssignment.create(plan,buildCause,builders,buildWorkingDirectory);
+}

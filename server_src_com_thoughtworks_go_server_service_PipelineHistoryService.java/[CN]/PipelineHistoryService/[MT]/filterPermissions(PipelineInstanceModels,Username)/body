@@ -1,0 +1,9 @@
+{
+  PipelineInstanceModels newModels=PipelineInstanceModels.createPipelineInstanceModels();
+  for (  PipelineInstanceModel pipelineInstanceModel : pipelineInstanceModels) {
+    if (securityService.hasViewPermissionForPipeline(username,pipelineInstanceModel.getName())) {
+      newModels.add(pipelineInstanceModel);
+    }
+  }
+  return newModels;
+}

@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant","nant");
+  FetchTask task=new FetchTask(new CaseInsensitiveString("cruise"),new CaseInsensitiveString("dev"),new CaseInsensitiveString("ant"),"#a","dest");
+  pipelineConfig.get(0).getJobs().getJob(new CaseInsensitiveString("nant")).addTask(task);
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(pipelineConfig);
+  assertThat(task.errors().isEmpty(),is(false));
+  assertThat(task.errors().on(FetchTask.SRC),is("Error when processing params for '#a' used in field 'src', # must be followed by a parameter pattern or escaped by another #"));
+}

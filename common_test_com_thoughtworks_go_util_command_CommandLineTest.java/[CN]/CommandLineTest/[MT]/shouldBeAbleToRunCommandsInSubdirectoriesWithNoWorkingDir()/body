@@ -1,0 +1,8 @@
+{
+  File shellScript=createScript("hello-world.sh","echo 'Hello World!'");
+  assertThat(shellScript.setExecutable(true),is(true));
+  CommandLine line=CommandLine.createCommandLine("subFolder/hello-world.sh").withWorkingDir(tempFolder);
+  InMemoryStreamConsumer out=new InMemoryStreamConsumer();
+  line.execute(out,new EnvironmentVariableContext(),null).waitForExit();
+  assertThat(out.getAllOutput(),containsString("Hello World!"));
+}

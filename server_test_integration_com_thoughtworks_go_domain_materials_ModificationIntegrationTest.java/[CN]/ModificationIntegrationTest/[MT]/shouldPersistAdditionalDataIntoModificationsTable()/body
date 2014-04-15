@@ -1,0 +1,20 @@
+{
+  String revision="revision";
+  HashMap<String,String> additionalDataMap=new HashMap<String,String>();
+  additionalDataMap.put("key","value");
+  String additionalData=JsonHelper.toJsonString(additionalDataMap);
+  final Modification modification=new Modification("user","comment","foo@bar.fooadsf",new Date(),revision,additionalData);
+  final GitMaterial git=new GitMaterial("url","branch");
+  transactionTemplate.executeWithExceptionHandling(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus status) throws Exception {
+      MaterialInstance gitInstance=materialRepository.findOrCreateFrom(git);
+      materialRepository.saveModification(gitInstance,modification);
+      return null;
+    }
+  }
+);
+  Modification actual=materialRepository.findModificationWithRevision(git,revision);
+  assertThat(actual.getModifiedTime().getTime(),is(modification.getModifiedTime().getTime()));
+  assertThat(actual.getAdditionalData(),is(additionalData));
+  assertThat(actual.getAdditionalDataMap(),is(additionalDataMap));
+}

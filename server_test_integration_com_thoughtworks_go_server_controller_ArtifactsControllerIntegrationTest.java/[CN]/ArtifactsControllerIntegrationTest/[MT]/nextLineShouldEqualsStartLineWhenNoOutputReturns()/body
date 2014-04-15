@@ -1,0 +1,9 @@
+{
+  prepareConsoleOut("");
+  Stage firstStage=pipeline.getFirstStage();
+  int startLineNumber=0;
+  ModelAndView view=artifactsController.consoleout(pipeline.getName(),pipeline.getLabel(),firstStage.getName(),"build",String.valueOf(firstStage.getCounter()),startLineNumber);
+  assertThat(view.getView(),is(instanceOf(ConsoleOutView.class)));
+  assertThat(((ConsoleOutView)view.getView()).getOffset(),is(0));
+  assertThat(((ConsoleOutView)view.getView()).getContent(),is(""));
+}

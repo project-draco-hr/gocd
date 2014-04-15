@@ -1,0 +1,8 @@
+{
+  when(req.getHeader(OauthAuthenticationFilter.AUTHORIZATION)).thenReturn("Token token=\"valid-token\"");
+  OauthAuthenticationToken authenticatedToken=new OauthAuthenticationToken(new User("user-name","valid-token",true,true,true,true,new GrantedAuthority[]{GoAuthority.ROLE_SUPERVISOR.asAuthority()}));
+  when(authenticationManager.authenticate(new OauthAuthenticationToken("valid-token"))).thenReturn(authenticatedToken);
+  filter.doFilterHttp(req,res,chain);
+  verify(securityContext).setAuthentication(authenticatedToken);
+  verify(chain).doFilter(req,res);
+}

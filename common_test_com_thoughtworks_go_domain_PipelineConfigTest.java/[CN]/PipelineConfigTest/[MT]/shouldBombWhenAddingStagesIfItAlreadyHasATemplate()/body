@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("mingle"),(MaterialConfigs)null);
+  try {
+    pipelineConfig.setTemplateName(new CaseInsensitiveString("some-template"));
+    pipelineConfig.add(StageConfigMother.stageConfig("second"));
+    fail("Should throw exception because pipeline already has a template");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),containsString("Cannot add stage 'second' to pipeline 'mingle', which already references template 'some-template'."));
+  }
+}

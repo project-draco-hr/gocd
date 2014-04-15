@@ -1,0 +1,8 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  AgentBuildingInfo buildingInfo=new AgentBuildingInfo("running pipeline/stage/build","buildLocator");
+  agentRuntimeInfo.busy(buildingInfo);
+  agentInstance.update(agentRuntimeInfo);
+  assertThat(agentInstance.getBuildingInfo(),is(buildingInfo));
+}

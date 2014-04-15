@@ -1,0 +1,11 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  stubStageServiceGetHistory(null,stages(1),stages(2));
+  updater.updateMaterial(dependencyMaterial);
+  stubStageServiceGetHistory(null);
+  updater.updateMaterial(dependencyMaterial);
+  assertThat(materialRepository.findModificationWithRevision(dependencyMaterial,"pipeline-name/2/stage-name/0"),not(nullValue()));
+  updater.updateMaterial(dependencyMaterial);
+  Mockito.verify(dependencyMaterialSourceDao,times(3)).getPassedStagesByName(any(DependencyMaterial.class),(Pagination)any());
+  Mockito.verify(dependencyMaterialSourceDao,times(1)).getPassedStagesAfter(any(String.class),any(DependencyMaterial.class),(Pagination)any());
+}

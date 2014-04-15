@@ -1,0 +1,13 @@
+{
+  mockery.checking(new Expectations(){
+{
+      one(service).isAnyStageActive(pipelineIdentifier);
+      will(returnValue(true));
+    }
+  }
+);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  checker.check(result);
+  assertThat(result.getServerHealthState().isSuccess(),is(false));
+  assertThat(result.getServerHealthState().getDescription(),is("Pipeline[name='cruise', counter='1', label='label-1'] is still in progress"));
+}

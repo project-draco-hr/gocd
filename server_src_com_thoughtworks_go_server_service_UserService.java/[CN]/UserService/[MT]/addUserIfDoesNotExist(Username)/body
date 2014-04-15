@@ -1,0 +1,10 @@
+{
+synchronized (enableUserMutex) {
+    User user=new User(CaseInsensitiveString.str(userName.getUsername()));
+    if (!(user.isAnonymous() || userExists(user))) {
+      assertUnknownUsersAreAllowedToLogin();
+      assertLicenseLimitNotExceeded();
+      userDao.saveOrUpdate(user);
+    }
+  }
+}

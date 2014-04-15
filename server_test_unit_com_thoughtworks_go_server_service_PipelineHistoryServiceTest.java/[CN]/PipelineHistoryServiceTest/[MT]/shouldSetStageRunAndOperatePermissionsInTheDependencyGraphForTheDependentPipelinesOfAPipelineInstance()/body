@@ -1,0 +1,23 @@
+{
+  PipelineInstanceModel down1Pim=pim("down1");
+  down1Pim.getStageHistory().add(new StageInstanceModel("stage","1",new JobHistory()));
+  PipelineInstanceModel actualPim=pim("blahPipeline");
+  actualPim.setId(23);
+  PipelineDependencyGraphOld returned=new PipelineDependencyGraphOld(actualPim,createPipelineInstanceModels(down1Pim));
+  when(pipelineDao.pipelineGraphByNameAndCounter("blahPipeline",12)).thenReturn(returned);
+  ensureConfigHasPipeline("blahPipeline");
+  ensureHasPermission(USERNAME,"blahPipeline");
+  ensureConfigHasPipeline("down1");
+  ensureHasPermission(USERNAME,"down1");
+  when(goConfigService.downstreamPipelinesOf("blahPipeline")).thenReturn(Arrays.asList(PipelineConfigMother.pipelineConfig("down1")));
+  stubConfigServiceToReturnPipeline("blahPipeline",PipelineConfigMother.pipelineConfig("blahPipeline"));
+  stubConfigServiceToReturnPipeline("down1",PipelineConfigMother.pipelineConfig("down1"));
+  when(scheduleService.canRun(down1Pim.getPipelineIdentifier(),down1Pim.getStageHistory().first().getName(),CaseInsensitiveString.str(USERNAME.getUsername()),true)).thenReturn(true);
+  when(securityService.hasOperatePermissionForStage("down1","stage",CaseInsensitiveString.str(USERNAME.getUsername()))).thenReturn(true);
+  when(pipelineTimeline.pipelineBefore(23)).thenReturn(-1L);
+  PipelineDependencyGraphOld actual=pipelineHistoryService.pipelineDependencyGraph("blahPipeline",12,USERNAME,new HttpOperationResult());
+  StageInstanceModel firstStageOfDown1=actual.dependencies().get(0).getStageHistory().get(0);
+  assertThat(actual.dependencies().size(),is(1));
+  assertThat(firstStageOfDown1.hasOperatePermission(),is(true));
+  assertThat(firstStageOfDown1.getCanRun(),is(true));
+}

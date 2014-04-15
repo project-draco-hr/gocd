@@ -1,0 +1,11 @@
+{
+  String baseFile=url.replaceFirst("http://localhost:3000/go","");
+  File file=new File(baseDir,baseFile);
+  file.getParentFile().mkdirs();
+  try {
+    FileUtils.writeStringToFile(file,content);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Could not write to file",e);
+  }
+}

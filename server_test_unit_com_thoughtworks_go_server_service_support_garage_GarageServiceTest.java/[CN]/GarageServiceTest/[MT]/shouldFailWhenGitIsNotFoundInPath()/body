@@ -1,0 +1,13 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  CommandLine commandLine=mock(CommandLine.class);
+  GarageService spy=spy(garageService);
+  doReturn(commandLine).when(spy).getGit();
+  doReturn(commandLine).when(commandLine).withArg(anyString());
+  doReturn(commandLine).when(commandLine).withWorkingDir(any(File.class));
+  when(commandLine.run(any(InMemoryStreamConsumer.class),eq(GarageService.PROCESS_TAG))).thenThrow(new CommandLineException("failed to execute git"));
+  spy.gc(result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.hasMessage(),is(true));
+  verify(spy,times(1)).getGit();
+}

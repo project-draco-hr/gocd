@@ -1,0 +1,10 @@
+{
+  MaterialRevisions newRevs=checkinFile(svn,checkinFile,svnRepository);
+  if (revsAfterFoo != null) {
+    for (    MaterialRevision newRev : newRevs) {
+      newRev.addModifications(revsAfterFoo.getModifications(newRev.getMaterial()));
+    }
+  }
+  runAndPass(newRevs);
+  return newRevs;
+}

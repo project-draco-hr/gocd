@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  pipelineConfig.setLabelTemplate("2.1-${COUNT}-#{foo}-bar-#{bar}");
+  StageConfig stageConfig=pipelineConfig.get(0);
+  stageConfig.updateApproval(new Approval(new AuthConfig(new AdminUser(new CaseInsensitiveString("#{foo}")),new AdminUser(new CaseInsensitiveString("#{bar}")))));
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.getLabelTemplate(),is("2.1-${COUNT}-pavan-bar-jj"));
+  assertThat(stageConfig.getApproval().getAuthConfig(),is(new AuthConfig(new AdminUser(new CaseInsensitiveString("pavan")),new AdminUser(new CaseInsensitiveString("jj")))));
+}

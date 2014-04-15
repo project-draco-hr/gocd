@@ -1,0 +1,6 @@
+{
+  InputStream xunitXMLStream=new ByteArrayInputStream(minimalXUnitXML.getBytes());
+  XSLTTransformerRegistry XSLTTransformerRegistry=new XSLTTransformerRegistry();
+  transformer=new GRDDLTransformer(XSLTTransformerRegistry.getTransformer("xunit/ant-junit-grddl.xsl"));
+  minimalDataGraph=transformer.transform(xunitXMLStream,new InMemoryTempGraphFactory());
+}

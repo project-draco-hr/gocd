@@ -1,0 +1,32 @@
+{
+  PipelineConfig random=PipelineConfigMother.pipelineConfig("random_pipeline");
+  JobConfigs randomJobs=random.getStage(new CaseInsensitiveString("mingle")).getJobs();
+  randomJobs.add(new JobConfig("mingle_job"));
+  PipelineConfig uppest=PipelineConfigMother.createPipelineConfig("uppest","uppest_stage_1","uppest_job_1","uppest_job_1a");
+  uppest.add(StageConfigMother.custom("uppest_stage_2","uppest_job_2"));
+  uppest.add(StageConfigMother.custom("uppest_stage_3","uppest_job_3"));
+  PipelineConfig upper=PipelineConfigMother.createPipelineConfig("upper","upper_stage_1","upper_job_1","upper_job_1a");
+  upper.add(StageConfigMother.custom("upper_stage_2","upper_job_2"));
+  upper.add(StageConfigMother.custom("upper_stage_3","upper_job_3"));
+  upper.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("uppest"),new CaseInsensitiveString("uppest_stage_2")));
+  PipelineConfig downer=PipelineConfigMother.createPipelineConfig("downer","downer_stage_1","downer_job_1","downer_job_1a");
+  downer.add(StageConfigMother.custom("downer_stage_2","downer_job_2"));
+  downer.add(StageConfigMother.custom("downer_stage_3","downer_job_3"));
+  downer.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("upper"),new CaseInsensitiveString("upper_stage_2")));
+  PipelineConfig downest=PipelineConfigMother.createPipelineConfig("downest","downest_stage_1","downest_job_1","downest_job_1a");
+  downest.add(StageConfigMother.custom("downest_stage_2","downest_job_2"));
+  downest.add(StageConfigMother.custom("downest_stage_3","downest_job_3"));
+  downest.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("downer"),new CaseInsensitiveString("downer_stage_2")));
+  PipelineConfig downestWithMultiplePaths=PipelineConfigMother.createPipelineConfig("downest_wmp","downest_wmp_stage_1","downest_wmp_job_1","downest_wmp_job_1a");
+  downestWithMultiplePaths.add(StageConfigMother.custom("downest_wmp_stage_2","downest_wmp_job_2"));
+  downestWithMultiplePaths.add(StageConfigMother.custom("downest_wmp_stage_3","downest_wmp_job_3"));
+  downestWithMultiplePaths.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("downer"),new CaseInsensitiveString("downer_stage_2")));
+  downestWithMultiplePaths.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("upper"),new CaseInsensitiveString("upper_stage_2")));
+  downestWithMultiplePaths.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("random_pipeline"),new CaseInsensitiveString("mingle")));
+  PipelineConfig randomOther=PipelineConfigMother.pipelineConfig("randomOther_pipeline");
+  JobConfigs randomOtherJobs=randomOther.getStage(new CaseInsensitiveString("mingle")).getJobs();
+  randomOtherJobs.add(new JobConfig("mingle_job_from_other_pipeline"));
+  TemplatesConfig templates=new TemplatesConfig(new PipelineTemplateConfig(new CaseInsensitiveString("template-1"),StageConfigMother.custom("t1-stage-1","t1-job-1","t1-job-1a"),StageConfigMother.custom("t1-stage-2","t1-job-2"),StageConfigMother.custom("t1-stage-3","t1-job-3")),new PipelineTemplateConfig(new CaseInsensitiveString("template-2"),StageConfigMother.custom("t2-stage-1","t2-job-1","t2-job-1a"),StageConfigMother.custom("t2-stage-2","t2-job-2")));
+  cruiseConfig=configWith(uppest,upper,downer,downest,downestWithMultiplePaths,random,randomOther);
+  cruiseConfig.setTemplates(templates);
+}

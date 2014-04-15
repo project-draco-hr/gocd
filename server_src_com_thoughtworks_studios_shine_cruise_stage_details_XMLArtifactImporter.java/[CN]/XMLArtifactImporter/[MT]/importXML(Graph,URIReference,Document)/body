@@ -1,0 +1,15 @@
+{
+  for (  XMLRDFizer handler : handlers) {
+    if (handler.canHandle(doc)) {
+      try {
+        Graph artifactGraph=handler.importFile(parentJob.getURIText(),doc);
+        LOGGER.debug("Imported a total of " + artifactGraph.size() + " triples in artifact.");
+        graph.addTriplesFromGraph(artifactGraph);
+        return;
+      }
+ catch (      Exception e) {
+        LOGGER.warn(handler.getClass().getName() + " was unable to handle document it said it could.  Exception happened while importing artifacts for job: " + parentJob+ "...",e);
+      }
+    }
+  }
+}

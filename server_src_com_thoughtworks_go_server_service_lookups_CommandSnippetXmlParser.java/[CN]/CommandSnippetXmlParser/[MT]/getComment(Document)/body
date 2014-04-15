@@ -1,0 +1,8 @@
+{
+  for (  Object content : document.getContent()) {
+    if (content instanceof Comment) {
+      return new CommandSnippetTextComment(((Comment)content).getText());
+    }
+  }
+  return new EmptySnippetComment();
+}

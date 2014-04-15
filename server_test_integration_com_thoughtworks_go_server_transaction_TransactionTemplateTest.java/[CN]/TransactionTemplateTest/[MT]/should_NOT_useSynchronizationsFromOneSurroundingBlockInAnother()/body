@@ -1,0 +1,31 @@
+{
+  final TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  final boolean[] afterCommitHappened=new boolean[1];
+  String returnVal=(String)template.transactionSurrounding(new TransactionTemplate.TransactionSurrounding<RuntimeException>(){
+    public Object surrounding(){
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCommit(){
+          afterCommitHappened[0]=true;
+        }
+      }
+);
+      return "foo";
+    }
+  }
+);
+  assertThat(returnVal,is("foo"));
+  assertThat(afterCommitHappened[0],is(false));
+  returnVal=(String)template.transactionSurrounding(new TransactionTemplate.TransactionSurrounding<RuntimeException>(){
+    public Object surrounding(){
+      return template.execute(new org.springframework.transaction.support.TransactionCallback(){
+        public Object doInTransaction(        TransactionStatus status){
+          return "bar";
+        }
+      }
+);
+    }
+  }
+);
+  assertThat(returnVal,is("bar"));
+  assertThat(afterCommitHappened[0],is(false));
+}

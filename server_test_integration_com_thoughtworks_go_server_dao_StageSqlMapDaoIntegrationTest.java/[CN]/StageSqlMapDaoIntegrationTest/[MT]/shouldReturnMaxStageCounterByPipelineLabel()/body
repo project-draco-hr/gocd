@@ -1,0 +1,4 @@
+{
+  Pipeline pipeline=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  assertThat(stageDao.findLatestStageCounter(new PipelineIdentifier(pipeline.getName(),pipeline.getCounter(),pipeline.getLabel()),CaseInsensitiveString.str(mingleConfig.first().name())),is(1));
+}

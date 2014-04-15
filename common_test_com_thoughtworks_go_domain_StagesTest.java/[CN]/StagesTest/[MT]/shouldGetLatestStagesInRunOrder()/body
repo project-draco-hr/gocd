@@ -1,0 +1,12 @@
+{
+  Stage s1_1=StageMother.createPassedStage("p",1,"s1",1,"b",new Date());
+  s1_1.setOrderId(1);
+  s1_1.setLatestRun(false);
+  Stage s2_1=StageMother.createPassedStage("p",1,"s2",1,"b",new Date());
+  s2_1.setOrderId(2);
+  Stage s1_2=StageMother.createPassedStage("p",1,"s1",2,"b",new Date());
+  s1_2.setOrderId(1);
+  Stages stages=new Stages(s2_1,s1_2,s1_1);
+  Stages latestStagesInRunOrder=stages.latestStagesInRunOrder();
+  assertThat(latestStagesInRunOrder,is(new Stages(s1_2,s2_1)));
+}

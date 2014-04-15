@@ -1,0 +1,16 @@
+{
+  server=new Server(serverPort);
+  File keystore=TestFileUtil.createUniqueTempFile("keystore");
+  File truststore=TestFileUtil.createUniqueTempFile("truststore");
+  File agentKeystore=TestFileUtil.createUniqueTempFile("agentstore");
+  createX509Certificate(keystore,truststore,agentKeystore);
+  server.addConnector(sslConnector(keystore,truststore,sslPort));
+  WebAppContext wac=new WebAppContext("testdata/goserverstub","/go");
+  wac.setConfigurationClasses(new String[]{"org.mortbay.jetty.webapp.WebInfConfiguration","org.mortbay.jetty.webapp.WebXmlConfiguration","org.mortbay.jetty.webapp.JettyWebXmlConfiguration"});
+  addStopServlet(server,wac);
+  addFakeArtifactiPublisherServlet(wac);
+  addFakeAgentCertificateServlet(wac);
+  server.addHandler(wac);
+  server.setStopAtShutdown(true);
+  server.start();
+}

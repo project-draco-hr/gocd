@@ -1,0 +1,15 @@
+{
+  dbHelper.onSetUp();
+  configHelper=new GoConfigFileHelper(goConfigFileDao);
+  configHelper.onSetUp();
+  configHelper.addPipeline("bar","stage",MaterialConfigsMother.defaultMaterialConfigs(),"build");
+  pipelineConfig=configHelper.addPipeline("foo","stage",MaterialConfigsMother.defaultMaterialConfigs(),"build");
+  configHelper.addMingleConfigToPipeline("foo",new MingleConfig("https://some-tracking-tool:8443","project-super-secret","hello=world"));
+  CruiseConfig cruiseConfig=configHelper.load();
+  PipelineConfigs group=cruiseConfig.findGroup("defaultGroup");
+  group.setAuthorization(new Authorization(new ViewConfig(new AdminUser(new CaseInsensitiveString("authorized_user")))));
+  configHelper.writeConfigFile(cruiseConfig);
+  SecurityConfig securityConfig=new SecurityConfig(new LdapConfig(new GoCipher()),new PasswordFileConfig("/tmp/foo.passwd"),true);
+  securityConfig.adminsConfig().add(new AdminUser(new CaseInsensitiveString("admin")));
+  configHelper.addSecurity(securityConfig);
+}

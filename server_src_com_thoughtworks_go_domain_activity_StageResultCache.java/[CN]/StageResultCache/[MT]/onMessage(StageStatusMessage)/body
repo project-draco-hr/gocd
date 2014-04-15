@@ -1,0 +1,6 @@
+{
+  StageConfigIdentifier identifier=message.getStageIdentifier().stageConfigIdentifier();
+  updateCache(identifier,message.getStageResult());
+  StageEvent event=message.getStageResult().describeChangeEvent(previousResult(identifier));
+  stageResultTopic.post(new StageResultMessage(message.getStageIdentifier(),event,message.username()));
+}

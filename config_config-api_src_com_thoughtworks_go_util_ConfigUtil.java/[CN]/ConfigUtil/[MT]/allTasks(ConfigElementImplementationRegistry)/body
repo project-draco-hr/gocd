@@ -1,0 +1,8 @@
+{
+  List<String> allTasks=new ArrayList<String>();
+  for (  Class<? extends Task> task : registry.implementersOf(Task.class)) {
+    ConfigTag tag=task.getAnnotation(ConfigTag.class);
+    allTasks.add(tag.value());
+  }
+  return allTasks;
+}

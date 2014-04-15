@@ -1,0 +1,11 @@
+{
+  String configFileContent="test";
+  GoConfigService.XmlPartialSaver partialSaver=mock(GoConfigService.XmlPartialSaver.class);
+  when(mockGoConfigService.fileSaver(false)).thenReturn(partialSaver);
+  GoConfigValidity valid=GoConfigValidity.valid(ConfigSaveState.UPDATED);
+  when(partialSaver.saveXml(configFileContent,"md5")).thenReturn(valid);
+  when(localizer.localize("SAVED_CONFIGURATION_SUCCESSFULLY",new Object[]{})).thenReturn("Saved configuration successfully.");
+  ModelAndView modelAndView=controller.handleEditConfiguration(configFileContent,"md5",false,request);
+  verify(partialSaver).saveXml(configFileContent,"md5");
+  assertThat((String)modelAndView.getModelMap().get(GoConstants.SUCCESS_MESSAGE),is("Saved configuration successfully."));
+}

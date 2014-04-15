@@ -1,0 +1,12 @@
+{
+  SvnMaterial originalMaterial=MaterialsMother.svnMaterial();
+  MaterialInstance materialInstance=originalMaterial.createMaterialInstance();
+  repo.saveOrUpdate(materialInstance);
+  assertThat(repo.find(materialInstance.getId()),is(materialInstance));
+  SvnMaterial changedMaterial=MaterialsMother.svnMaterial();
+  changedMaterial.setPassword("SomethingElse");
+  MaterialInstance changedInstance=changedMaterial.createMaterialInstance();
+  changedInstance.setId(materialInstance.getId());
+  repo.saveOrUpdate(changedInstance);
+  assertThat(repo.find(materialInstance.getId()),is(changedInstance));
+}

@@ -1,0 +1,13 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  try {
+    monitor.start();
+    monitor.start();
+    fail("Expected an IllegalStateException.");
+  }
+ catch (  IllegalStateException e) {
+    assertEquals("Cannot start the monitor multiple times.",e.getMessage());
+  }
+}

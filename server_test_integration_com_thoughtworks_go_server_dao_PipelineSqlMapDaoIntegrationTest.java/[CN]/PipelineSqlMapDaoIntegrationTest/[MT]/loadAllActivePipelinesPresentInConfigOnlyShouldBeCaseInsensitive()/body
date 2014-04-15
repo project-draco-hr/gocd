@@ -1,0 +1,13 @@
+{
+  PipelineConfig twistConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("twist","dev","ft");
+  Pipeline twistPipeline=dbHelper.newPipelineWithAllStagesPassed(twistConfig);
+  List<CaseInsensitiveString> allPipelineNames=goConfigFileDao.load().getAllPipelineNames();
+  if (!allPipelineNames.contains(new CaseInsensitiveString("twist"))) {
+    PipelineConfig pipelineConfigWithDifferentCase=PipelineMother.createPipelineConfig("TWIST",twistConfig.materialConfigs(),"dev","ft");
+    goConfigFileDao.addPipeline(pipelineConfigWithDifferentCase,"pipelinesqlmapdaotest");
+  }
+  PipelineInstanceModels pipelineHistories=pipelineDao.loadActivePipelines();
+  assertThat(pipelineHistories.size(),is(1));
+  assertThat(pipelineHistories.get(0).getId(),is(twistPipeline.getId()));
+  assertThat(pipelineHistories.get(0).getBuildCause().getMaterialRevisions().isEmpty(),is(false));
+}

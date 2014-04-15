@@ -1,0 +1,13 @@
+{
+  Material hg=revs.getMaterialRevision(0).getMaterial();
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      for (      MaterialRevision revision : revs) {
+        repo.saveMaterialRevision(revision);
+      }
+      return null;
+    }
+  }
+);
+  return hg;
+}

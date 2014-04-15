@@ -1,0 +1,14 @@
+{
+  PipelineInstanceModel instanceModel=latest(pipelineName,username);
+  if (instanceModel != null) {
+    boolean canForce=schedulingCheckerService.canManuallyTrigger(pipelineName,username);
+    PipelinePauseInfo pauseInfo=pipelinePauseService.pipelinePauseInfo(pipelineName);
+    PipelineModel pipelineModel=new PipelineModel(pipelineName,canForce,securityService.hasOperatePermissionForPipeline(username.getUsername(),pipelineName),pauseInfo);
+    populateLockStatus(instanceModel.getName(),username,instanceModel);
+    pipelineModel.addPipelineInstance(instanceModel);
+    String groupName=goConfigService.findGroupNameByPipeline(new CaseInsensitiveString(pipelineName));
+    pipelineModel.updateAdministrability(goConfigService.isUserAdminOfGroup(username.getUsername(),groupName));
+    return pipelineModel;
+  }
+  return null;
+}

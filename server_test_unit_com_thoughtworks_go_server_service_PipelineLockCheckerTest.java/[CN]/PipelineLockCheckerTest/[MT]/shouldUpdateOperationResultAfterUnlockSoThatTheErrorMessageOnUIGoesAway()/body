@@ -1,0 +1,10 @@
+{
+  PipelineLockChecker pipelineLockChecker=new PipelineLockChecker("blahPipeline",pipelineLockService);
+  HealthStateType healthStateType=HealthStateType.general(HealthStateScope.forPipeline("blahPipeline"));
+  when(pipelineLockService.isLocked("blahPipeline")).thenReturn(true);
+  pipelineLockChecker.check(operationResult);
+  Mockito.verify(operationResult).conflict("Pipeline blahPipeline cannot be scheduled","Pipeline blahPipeline is locked as another instance of this pipeline is running.",healthStateType);
+  when(pipelineLockService.isLocked("blahPipeline")).thenReturn(false);
+  pipelineLockChecker.check(operationResult);
+  Mockito.verify(operationResult).success(healthStateType);
+}

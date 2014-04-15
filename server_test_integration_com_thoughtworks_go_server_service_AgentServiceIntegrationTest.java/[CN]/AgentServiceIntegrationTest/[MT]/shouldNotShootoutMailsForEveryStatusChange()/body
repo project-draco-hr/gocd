@@ -1,0 +1,15 @@
+{
+  CONFIG_HELPER.addMailHost(new MailHost("ghost.name",25,"loser","boozer",true,false,"go@foo.mail.com","admin@foo.mail.com"));
+  AgentInstance instance=AgentInstanceMother.idle(new Date(),"CCeDev01");
+  EmailSender mailSender=mock(EmailSender.class);
+  agentDao.associateCookie(instance.getAgentIdentifier(),"rotten-cookie");
+  AgentService agentService=new AgentService(agentConfigService,new SystemEnvironment(),environmentConfigService,goConfigService,securityService,agentDao,new UuidGenerator(),serverHealthService,mailSender);
+  AgentInstances agentInstances=(AgentInstances)ReflectionUtil.getField(agentService,"agentInstances");
+  agentInstances.add(instance);
+  ReflectionUtil.setField(instance,"lastHeardTime",null);
+  AgentRuntimeInfo runtimeInfo=(AgentRuntimeInfo)ReflectionUtil.getField(instance,"agentRuntimeInfo");
+  runtimeInfo.setCookie("rotten-cookie");
+  runtimeInfo.setStatus(AgentStatus.Building);
+  agentService.updateRuntimeInfo(runtimeInfo);
+  verify(mailSender,never()).sendEmail(any(SendEmailMessage.class));
+}

@@ -1,0 +1,20 @@
+{
+  GadgetOauthClient google=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(google);
+  GadgetOauthAuthorizationCode authCode1=new GadgetOauthAuthorizationCode("fooUser",google,"code",1000l);
+  template.save(authCode1);
+  GadgetOauthClient yahoo=new GadgetOauthClient("yahoo.com","yahoo","client_id","client_secret");
+  template.save(yahoo);
+  GadgetOauthAuthorizationCode authCode2=new GadgetOauthAuthorizationCode("fooUser",yahoo,"code",1000l);
+  template.save(authCode2);
+  GadgetOauthAuthorizationCode authCode3=new GadgetOauthAuthorizationCode("barUser",yahoo,"code",1000l);
+  template.save(authCode3);
+  GadgetDataSource.GadgetOauthAuthorizationCodeDTO fooGoogleAuthCode=repo.findAuthorizationCodesForClientAndUserId(google.getId(),"fooUser");
+  assertThat(fooGoogleAuthCode,is(authCode1.getDTO()));
+  GadgetDataSource.GadgetOauthAuthorizationCodeDTO fooYahooAuthCode=repo.findAuthorizationCodesForClientAndUserId(yahoo.getId(),"fooUser");
+  assertThat(fooYahooAuthCode,is(authCode2.getDTO()));
+  GadgetDataSource.GadgetOauthAuthorizationCodeDTO barYahooAuthCode=repo.findAuthorizationCodesForClientAndUserId(yahoo.getId(),"barUser");
+  assertThat(barYahooAuthCode,is(authCode3.getDTO()));
+  GadgetDataSource.GadgetOauthAuthorizationCodeDTO noAuthCode=repo.findAuthorizationCodesForClientAndUserId(google.getId(),"nonExistantUser");
+  assertThat(noAuthCode,is(nullValue()));
+}

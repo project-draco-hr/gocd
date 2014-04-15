@@ -1,0 +1,7 @@
+{
+  Resource resource=resource("#?{45}");
+  ValidationContext context=ValidationContext.forChain(new CruiseConfig(),new TemplatesConfig());
+  resource.validate(context);
+  assertThat(resource.errors().isEmpty(),is(false));
+  assertThat(resource.errors().on(JobConfig.RESOURCES),is(String.format("Resource name '#?{45}' is not valid. Valid names can contain valid parameter syntax or valid alphanumeric with hyphens,dots or pipes")));
+}

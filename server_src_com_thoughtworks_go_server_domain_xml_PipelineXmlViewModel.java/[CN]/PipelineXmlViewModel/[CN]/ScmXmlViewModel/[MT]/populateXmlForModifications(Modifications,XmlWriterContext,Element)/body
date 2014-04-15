@@ -1,0 +1,14 @@
+{
+  for (  Modification modification : modifications) {
+    Element changeset=modificationsTag.addElement("changeset");
+    changeset.addAttribute("changesetUri",ScmMaterial.changesetUrl(modification,writerContext.getBaseUrl(),material.getId()));
+    changeset.addElement("user").addCDATA(modification.getUserDisplayName());
+    changeset.addElement("checkinTime").addText(DateUtils.formatISO8601(modification.getModifiedTime()));
+    changeset.addElement("revision").addCDATA(modification.getRevision());
+    changeset.addElement("message").addCDATA(modification.getComment());
+    List<ModifiedFile> modifiedFiles=modification.getModifiedFiles();
+    for (    ModifiedFile modifiedFile : modifiedFiles) {
+      changeset.addElement("file").addAttribute("name",modifiedFile.getFileName()).addAttribute("action",modifiedFile.getAction().toString());
+    }
+  }
+}

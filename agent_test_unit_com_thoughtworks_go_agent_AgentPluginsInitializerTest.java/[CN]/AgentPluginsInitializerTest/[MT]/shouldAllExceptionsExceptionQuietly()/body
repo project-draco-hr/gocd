@@ -1,0 +1,10 @@
+{
+  doThrow(new IOException()).when(zipUtil).unzip(new File(DownloadableFile.AGENT_PLUGINS.getLocalFileName()),new File(SystemEnvironment.PLUGINS_PATH));
+  try {
+    doThrow(new RuntimeException("message")).when(pluginJarLocationMonitor).initialize();
+    agentPluginsInitializer.onApplicationEvent(null);
+  }
+ catch (  Exception e) {
+    fail("should have handled IOException");
+  }
+}

@@ -1,0 +1,11 @@
+{
+  _server=new Server(port);
+  ContextHandler context=new ContextHandler();
+  context.setContextPath("/buildr");
+  Handler handler=new BuildrHandler();
+  context.setHandler(handler);
+  _handlerColl=new ContextHandlerCollection();
+  _handlerColl.setHandlers(new Handler[]{context});
+  _server.addHandler(_handlerColl);
+  _server.start();
+}

@@ -1,0 +1,12 @@
+{
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='up_pipeline'>" + "  <materials>" + "    <git url=\"/tmp/git\"/>"+ "  </materials>"+ "  <stage name='up_stage'>"+ "    <jobs>"+ "      <job name='up_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "  <stage name='up_stage_2'>"+ "    <jobs>"+ "      <job name='up_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "  <stage name='up_stage_3'>"+ "    <jobs>"+ "      <job name='up_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>"+ "<pipeline name='down_pipeline'>"+ "    <materials>"+ "      <pipeline pipelineName=\"up_pipeline\" stageName=\"up_stage\"/>"+ "    </materials>"+ "  <stage name='down_stage'>"+ "    <jobs>"+ "      <job name='down_job'>"+ "        <tasks>"+ "          <fetchartifact pipeline=\"up_pipeline\" stage=\"up_stage_2\" job=\"up_job\" srcfile=\"src\" dest=\"dest\"/>"+ "        </tasks>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",53);
+  GoConfigHolder holder=null;
+  try {
+    holder=ConfigMigrator.loadWithMigration(content);
+    fail("should not have permitted fetch from parent pipeline's stage after the one downstream depends on");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Pipeline \"down_pipeline\" tries to fetch artifact from stage \"up_pipeline :: up_stage_2\" which does not complete before \"down_pipeline\" pipeline's dependencies."));
+  }
+  assertThat(holder,nullValue());
+}

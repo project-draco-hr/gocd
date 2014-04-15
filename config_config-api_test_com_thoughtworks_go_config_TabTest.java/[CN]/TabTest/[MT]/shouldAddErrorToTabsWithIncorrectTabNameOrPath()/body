@@ -1,0 +1,8 @@
+{
+  Tab tab1=new Tab("tab&*","path1");
+  tab1.validate(null);
+  assertThat(tab1.errors().on(Tab.NAME),is("Tab name 'tab&*' is invalid. This must be alphanumeric and can contain underscores and periods."));
+  Tab tab2=new Tab("tab1","path 2");
+  tab2.validate(null);
+  assertThat(tab2.errors().on(Tab.PATH),is("Tab path 'path 2' is invalid. This must be a valid file path."));
+}

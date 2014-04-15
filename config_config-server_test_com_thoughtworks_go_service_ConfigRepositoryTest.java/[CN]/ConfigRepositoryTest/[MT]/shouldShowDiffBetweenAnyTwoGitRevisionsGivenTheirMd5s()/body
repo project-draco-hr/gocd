@@ -1,0 +1,10 @@
+{
+  configRepo.checkin(goConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,33),"md5-1"));
+  configRepo.checkin(new GoConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,60),"md5-2","user-2","13.2",Edition.Free,new TimeProvider()));
+  configRepo.checkin(new GoConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,55),"md5-3","user-1","13.2",Edition.Free,new TimeProvider()));
+  String configChangesLine1="-<cruise schemaVersion='33'>";
+  String configChangesLine2="+<cruise schemaVersion='55'>";
+  String actual=configRepo.findDiffBetweenTwoRevisions(configRepo.getRevCommitForMd5("md5-3"),configRepo.getRevCommitForMd5("md5-1"));
+  assertThat(actual,containsString(configChangesLine1));
+  assertThat(actual,containsString(configChangesLine2));
+}

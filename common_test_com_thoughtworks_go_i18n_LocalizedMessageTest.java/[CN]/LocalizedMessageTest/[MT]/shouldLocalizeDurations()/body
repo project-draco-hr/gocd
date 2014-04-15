@@ -1,0 +1,6 @@
+{
+  Duration theDuration=new Duration(1000);
+  String expected="it took a long time";
+  when(localizer.localize(theDuration)).thenReturn(expected);
+  assertThat(LocalizedMessage.localizeDuration(theDuration).localize(localizer),is(expected));
+}

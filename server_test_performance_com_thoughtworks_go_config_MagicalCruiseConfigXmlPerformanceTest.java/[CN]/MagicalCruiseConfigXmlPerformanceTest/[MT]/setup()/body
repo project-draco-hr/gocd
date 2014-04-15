@@ -1,0 +1,11 @@
+{
+  xmlLoader=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  xmlWriter=new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  FileInputStream inputStream=new FileInputStream(CONFIG_FILE);
+  try {
+    cruiseConfig=xmlLoader.loadConfigHolder(FileUtil.readToEnd(inputStream)).config;
+  }
+  finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  String workingDir=task.workingDirectory();
+  String command=task.command();
+  File newWorkingDir=workingDir == null ? pipeline.defaultWorkingFolder() : new File(applyBaseDirIfRelativeAndNormalize(pipeline.defaultWorkingFolder(),new File(workingDir)));
+  Builder builder=builderFactory.builderFor(task.cancelTask(),pipeline,pipelineResolver);
+  String description=task.describe();
+  if (!task.getArgList().isEmpty()) {
+    return new CommandBuilderWithArgList(command,task.getArgList().toStringArray(),newWorkingDir,task.getConditions(),builder,description);
+  }
+ else {
+    return new CommandBuilder(command,task.getArgs(),newWorkingDir,task.getConditions(),builder,description);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  Date occuredFirst=new Date(2008,12,13);
+  Date occuredSecond=new Date(2008,12,14);
+  StageInstanceModels stageInstanceModels=stagePerJob("stage",job(JobResult.Failed,occuredSecond),job(JobResult.Passed,occuredFirst));
+  PipelineInstanceModel instanceModel=PipelineInstanceModel.createPipeline("pipeline",-1,"label",createWithEmptyModifications(),stageInstanceModels);
+  assertThat(instanceModel.isLatestStageUnsuccessful(),is(true));
+  assertThat(instanceModel.isLatestStageSuccessful(),is(false));
+  assertThat(instanceModel.isRunning(),is(false));
+}

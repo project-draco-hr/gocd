@@ -1,0 +1,24 @@
+{
+  JobConfigs jobConfigs=new JobConfigs();
+  Resources resources=new Resources(new Resource("resource1"));
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  ArtifactPropertiesGenerators generators=new ArtifactPropertiesGenerators();
+  generators.add(new ArtifactPropertiesGenerator("property-name","artifact-path","artifact-xpath"));
+  JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("test-job"),resources,artifactPlans,generators);
+  jobConfigs.add(jobConfig);
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("test-stage"),jobConfigs);
+  MaterialConfigs materialConfigs=new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig());
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("test-pipeline"),materialConfigs,stage);
+  configFileEditor.addPipeline(CaseInsensitiveString.str(pipelineConfig.name()),CaseInsensitiveString.str(stage.name()));
+  BuildCause cause=modifySomeFiles(pipelineConfig,ModificationsMother.nextRevision());
+  saveRev(cause);
+  queue.createPipeline(cause,pipelineConfig,new DefaultSchedulingContext(cause.getApprover(),new Agents()),"md5-test",new TimeProvider());
+  JobInstances instances=jobService.currentJobsOfStage("test-pipeline",stage);
+  assertThat(instances.size(),is(1));
+  List<JobPlan> plans=jobService.orderedScheduledBuilds();
+  JobPlan plan=plans.get(0);
+  assertThat(plan.getName(),is("test-job"));
+  assertThat(plan.getArtifactPlans(),is((List<ArtifactPlan>)artifactPlans));
+  assertThat(plan.getPropertyGenerators(),is((List<ArtifactPropertiesGenerator>)generators));
+  assertThat(plan.getResources(),is((List<Resource>)resources));
+}

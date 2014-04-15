@@ -1,0 +1,16 @@
+{
+  String activeJobKey=cacheKeyForActiveJob(activeJobId);
+  ActiveJob activeJob=(ActiveJob)goCache.get(activeJobKey);
+  if (activeJob == null) {
+synchronized (activeJobKey) {
+      activeJob=(ActiveJob)goCache.get(activeJobKey);
+      if (activeJob == null) {
+        activeJob=_getActiveJob(activeJobId);
+        if (activeJob != null) {
+          cacheActiveJob(activeJob);
+        }
+      }
+    }
+  }
+  return activeJob;
+}

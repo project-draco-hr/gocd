@@ -1,0 +1,13 @@
+{
+  return (Stage)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      Pipeline forcedPipeline=instanceFactory.createPipelineInstance(mingle,modifySomeFiles(mingle),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+      materialRepository.save(forcedPipeline.getBuildCause().getMaterialRevisions());
+      pipelineService.save(forcedPipeline);
+      Stage stage=forcedPipeline.getFirstStage();
+      dbHelper.failStage(stage);
+      return stage;
+    }
+  }
+);
+}

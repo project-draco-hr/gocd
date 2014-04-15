@@ -1,0 +1,6 @@
+{
+  fixture.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  JsonMap jsonMap=requestPipelineHistoryPage();
+  JsonList groups=jsonMap.getJsonList("groups");
+  assertThat(groups.size(),is(1));
+}

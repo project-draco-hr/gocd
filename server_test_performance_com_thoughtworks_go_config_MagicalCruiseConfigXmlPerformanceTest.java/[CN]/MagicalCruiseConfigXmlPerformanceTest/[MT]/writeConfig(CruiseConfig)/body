@@ -1,0 +1,12 @@
+{
+  FileOutputStream outputStream=new FileOutputStream(tempCruiseConfig());
+  try {
+    long startTry=System.currentTimeMillis();
+    xmlWriter.write(cruiseConfig,outputStream,false);
+    long endTry=System.currentTimeMillis();
+    return endTry - startTry;
+  }
+  finally {
+    IOUtils.closeQuietly(outputStream);
+  }
+}

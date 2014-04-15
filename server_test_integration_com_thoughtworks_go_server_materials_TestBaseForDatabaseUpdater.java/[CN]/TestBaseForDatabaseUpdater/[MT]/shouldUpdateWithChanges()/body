@@ -1,0 +1,6 @@
+{
+  List<Modification> modifications=testRepo.checkInOneFile("test.txt","This is a new checkin");
+  updater.updateMaterial(material);
+  Modification modification=materialRepository.findLatestModification(material).getMaterialRevision(0).getModification(0);
+  assertEquals(modifications.get(0),modification);
+}

@@ -1,0 +1,18 @@
+{
+  DefaultLocalizedResult result=(DefaultLocalizedResult)validateHostName(mailHost.getHostName());
+  if (!result.isSuccessful()) {
+    operationResult.notAcceptable(result.localizable());
+  }
+  result=(DefaultLocalizedResult)validatePort(mailHost.getPort());
+  if (!result.isSuccessful()) {
+    operationResult.notAcceptable(result.localizable());
+  }
+  result=(DefaultLocalizedResult)validateEmail(mailHost.getFrom());
+  if (!result.isSuccessful()) {
+    operationResult.notAcceptable(LocalizedMessage.string("INVALID_FROM_ADDRESS",mailHost.getFrom()));
+  }
+  result=(DefaultLocalizedResult)validateEmail(mailHost.getAdminMail());
+  if (!result.isSuccessful()) {
+    operationResult.notAcceptable(LocalizedMessage.string("INVALID_ADMIN_ADDRESS",mailHost.getAdminMail()));
+  }
+}

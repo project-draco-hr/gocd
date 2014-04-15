@@ -1,0 +1,16 @@
+{
+  if (!isTransactionBodyExecuting()) {
+    if (isInTransactionSurrounding() && txnFinished) {
+      throw new RuntimeException(TOO_MANY_TXNS_IN_SURROUNDING);
+    }
+    txnFinished=false;
+  }
+  ensureCanPush(txnActive);
+  txnActive--;
+  if (!futureSynchronizations.isEmpty()) {
+    for (    TransactionSynchronization futureSynchronization : futureSynchronizations) {
+      doRegisterSynchronization(futureSynchronization);
+    }
+    clearFutureSynchronizations();
+  }
+}

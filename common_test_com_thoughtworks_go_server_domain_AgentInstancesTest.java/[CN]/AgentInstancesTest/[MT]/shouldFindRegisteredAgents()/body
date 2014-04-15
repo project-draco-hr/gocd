@@ -1,0 +1,8 @@
+{
+  AgentInstances agentInstances=sample();
+  AgentInstances agents=agentInstances.findRegisteredAgents();
+  assertThat(agents.size(),is(3));
+  assertThat(agents.findAgentAndRefreshStatus("uuid2"),is(idle));
+  assertThat(agents.findAgentAndRefreshStatus("uuid3"),is(building));
+  assertThat(agents.findAgentAndRefreshStatus("uuid5"),is(disabled));
+}

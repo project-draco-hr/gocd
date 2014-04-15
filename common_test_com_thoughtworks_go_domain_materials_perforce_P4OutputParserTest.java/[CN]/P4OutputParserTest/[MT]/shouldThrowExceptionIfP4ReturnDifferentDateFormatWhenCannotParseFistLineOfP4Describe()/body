@@ -1,0 +1,10 @@
+{
+  String output="Change 2 on 08/08/19 by cceuser@connect4 'some modification message'";
+  Modification modification=new Modification();
+  try {
+    parser.parseFistline(modification,output,new ConsoleResult(0,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<CommandArgument>(),new ArrayList<SecretString>()));
+  }
+ catch (  P4OutputParseException e) {
+    assertThat(e.getMessage(),containsString("Could not parse P4 describe:"));
+  }
+}

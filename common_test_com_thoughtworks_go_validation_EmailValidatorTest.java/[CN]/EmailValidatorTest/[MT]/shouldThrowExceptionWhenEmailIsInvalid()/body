@@ -1,0 +1,9 @@
+{
+  try {
+    Validator.EMAIL.assertValid("dklaf;jds;l");
+    fail("Expected to throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString(EmailValidator.EMAIL_ERROR_MESSAGE));
+  }
+}

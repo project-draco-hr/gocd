@@ -1,0 +1,10 @@
+{
+  final JobResult result=JobResult.Passed;
+  context.checking(new Expectations(){
+{
+      one(scheduleService).jobCompleting(jobIdendifier,result,uuid);
+    }
+  }
+);
+  buildRepositoryService.completing(jobIdendifier,result,uuid);
+}

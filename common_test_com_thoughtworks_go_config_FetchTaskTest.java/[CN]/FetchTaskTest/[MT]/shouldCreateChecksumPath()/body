@@ -1,0 +1,5 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("up-pipeline"),new CaseInsensitiveString("bar-stage"),new CaseInsensitiveString("baz-job"),"quux.c","bang-file");
+  String checksumPath=fetchTask.checksumPath();
+  assertThat(checksumPath,is("up-pipeline_bar-stage_baz-job_md5.checksum"));
+}

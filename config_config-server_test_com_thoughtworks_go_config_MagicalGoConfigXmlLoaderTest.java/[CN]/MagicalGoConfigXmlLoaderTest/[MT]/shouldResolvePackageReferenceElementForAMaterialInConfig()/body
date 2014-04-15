@@ -1,0 +1,8 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<repositories>\n"+ "    <repository id='repo-id' name='name'>\n"+ "		<pluginConfiguration id='plugin-id' version='1.0'/>\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>url</key>\n"+ "          <value>http://go</value>\n"+ "        </property>\n"+ "      </configuration>\n"+ "      <packages>\n"+ "        <package id='package-id' name='name'>\n"+ "          <configuration>\n"+ "            <property>\n"+ "              <key>name</key>\n"+ "              <value>go-agent</value>\n"+ "            </property>\n"+ "          </configuration>\n"+ "        </package>\n"+ "      </packages>\n"+ "    </repository>\n"+ "  </repositories>"+ "<pipelines group=\"group_name\">\n"+ "  <pipeline name=\"new_name\">\n"+ "    <materials>\n"+ "      <package ref='package-id' />\n"+ "    </materials>\n"+ "    <stage name=\"stage_name\">\n"+ "      <jobs>\n"+ "        <job name=\"job_name\" />\n"+ "      </jobs>\n"+ "    </stage>\n"+ "  </pipeline>\n"+ "</pipelines></cruise>";
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(xml);
+  PackageDefinition packageDefinition=goConfigHolder.config.getPackageRepositories().first().getPackages().first();
+  PipelineConfig pipelineConfig=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("new_name"));
+  PackageMaterialConfig packageMaterialConfig=(PackageMaterialConfig)pipelineConfig.materialConfigs().get(0);
+  assertThat(packageMaterialConfig.getPackageDefinition(),is(packageDefinition));
+}

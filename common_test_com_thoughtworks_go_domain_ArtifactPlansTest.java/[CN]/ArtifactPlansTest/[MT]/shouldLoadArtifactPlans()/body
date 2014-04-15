@@ -1,0 +1,21 @@
+{
+  HashMap<String,String> artifactPlan1=new HashMap<String,String>();
+  artifactPlan1.put(SRC,"blah");
+  artifactPlan1.put(DEST,"something");
+  artifactPlan1.put("artifactTypeValue",TestArtifactPlan.TEST_PLAN_DISPLAY_NAME);
+  HashMap<String,String> artifactPlan2=new HashMap<String,String>();
+  artifactPlan2.put(SRC,"blah2");
+  artifactPlan2.put(DEST,"something2");
+  artifactPlan2.put("artifactTypeValue",ArtifactPlan.ARTIFACT_PLAN_DISPLAY_NAME);
+  List<HashMap> artifactPlansList=new ArrayList<HashMap>();
+  artifactPlansList.add(artifactPlan1);
+  artifactPlansList.add(artifactPlan2);
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  artifactPlans.setConfigAttributes(artifactPlansList);
+  assertThat(artifactPlans.size(),is(2));
+  TestArtifactPlan plan=new TestArtifactPlan();
+  plan.setSrc("blah");
+  plan.setDest("something");
+  assertThat((TestArtifactPlan)artifactPlans.get(0),is(plan));
+  assertThat(artifactPlans.get(1),is(new ArtifactPlan(ArtifactType.file,"blah2","something2")));
+}

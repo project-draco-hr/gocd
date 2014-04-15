@@ -1,0 +1,9 @@
+{
+  if (matchingServiceReferences.isEmpty()) {
+    throw new GoPluginFrameworkException(String.format("No reference found for the given Service Reference: %s and Plugin Id %s. It is likely that the plugin is missing.",serviceReference.getCanonicalName(),pluginId));
+  }
+  if (matchingServiceReferences.size() > 1) {
+    throw new GoPluginFrameworkException(String.format("More than one reference found for the given " + "Service Reference: %s and Plugin Id %s; References: %s",serviceReference.getCanonicalName(),pluginId,matchingServiceReferences));
+  }
+  return matchingServiceReferences.iterator().next();
+}

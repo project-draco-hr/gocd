@@ -1,0 +1,12 @@
+{
+  Property c1=new PackageMaterialProperty("k1").with(Property.DISPLAY_ORDER,2);
+  Property c2=new PackageMaterialProperty("k2").with(Property.DISPLAY_ORDER,0);
+  Property c3=new PackageMaterialProperty("k3").with(Property.DISPLAY_ORDER,1);
+  PackageConfiguration packageConfiguration=new PackageConfiguration();
+  packageConfiguration.add(c1);
+  packageConfiguration.add(c2);
+  packageConfiguration.add(c3);
+  assertThat(packageConfiguration.list().get(0),is(c2));
+  assertThat(packageConfiguration.list().get(1),is(c3));
+  assertThat(packageConfiguration.list().get(2),is(c1));
+}

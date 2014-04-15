@@ -1,0 +1,6 @@
+{
+  systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.getDatabaseProvider()).thenReturn(DummyDbProvider.class.getCanonicalName());
+  databaseStrategy=new DatabaseStrategy(systemEnvironment);
+  database=((DummyDbProvider)databaseStrategy.getDatabase());
+}

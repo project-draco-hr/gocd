@@ -1,0 +1,12 @@
+{
+  Mockito.when(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString("username"),"pipeline-name")).thenReturn(false);
+  Mockito.when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("pipeline-name"))).thenReturn(true);
+  Mockito.when(goConfigService.isLockable("pipeline-name")).thenReturn(true);
+  StageIdentifier identifier=new StageIdentifier("pipeline-name",10,"10","stage","1");
+  Mockito.when(pipelineDao.lockedPipeline("pipeline-name")).thenReturn(identifier);
+  Mockito.when(currentActivityService.isAnyStageActive(new PipelineIdentifier("pipeline-name",10,"10"))).thenReturn(false);
+  HttpOperationResult result=new HttpOperationResult();
+  pipelineUnlockApiService.unlock("pipeline-name",new Username(new CaseInsensitiveString("username")),result);
+  assertThat(result.httpCode(),is(401));
+  assertThat(result.message(),is("user does not have operate permission on the pipeline"));
+}

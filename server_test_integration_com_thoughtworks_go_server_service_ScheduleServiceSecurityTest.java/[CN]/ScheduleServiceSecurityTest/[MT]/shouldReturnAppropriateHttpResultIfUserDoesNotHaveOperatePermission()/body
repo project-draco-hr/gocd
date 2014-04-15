@@ -1,0 +1,11 @@
+{
+  configHelper.addSecurityWithAdminConfig();
+  configHelper.setOperatePermissionForGroup("defaultGroup","jez");
+  Pipeline pipeline=fixture.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  Username anonymous=new Username(new CaseInsensitiveString("anonymous"));
+  HttpLocalizedOperationResult operationResult=new HttpLocalizedOperationResult();
+  Stage resultStage=scheduleService.cancelAndTriggerRelevantStages(pipeline.getStages().byName(fixture.ftStage).getId(),anonymous,operationResult);
+  assertThat(resultStage,is(nullValue()));
+  assertThat(operationResult.isSuccessful(),is(false));
+  assertThat(operationResult.httpCode(),is(HttpStatus.SC_UNAUTHORIZED));
+}

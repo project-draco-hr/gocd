@@ -1,0 +1,14 @@
+{
+  String uuid="uuid";
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.agents().add(new AgentConfig(uuid,"localhost","8153"));
+  UpdateResourceCommand command=new UpdateResourceCommand(uuid,"foo, foo, bar, zoo,   moo   ,    blah");
+  command.update(cruiseConfig);
+  Resources actualResources=cruiseConfig.agents().getAgentByUuid(uuid).getResources();
+  assertThat(actualResources.size(),is(5));
+  assertThat(actualResources,hasItem(new Resource("foo")));
+  assertThat(actualResources,hasItem(new Resource("bar")));
+  assertThat(actualResources,hasItem(new Resource("zoo")));
+  assertThat(actualResources,hasItem(new Resource("moo")));
+  assertThat(actualResources,hasItem(new Resource("blah")));
+}

@@ -1,0 +1,8 @@
+{
+  when(fetchHandler.handleResult(200,publisher)).thenReturn(true);
+  MockCachingFetchZipHttpService httpService=new MockCachingFetchZipHttpService(3);
+  DownloadAction downloadAction=new DownloadAction(httpService,publisher,clock);
+  downloadAction.perform("foo",fetchHandler);
+  assertThat(httpService.timesCalled,is(3));
+  assertThat(clock.getSleeps(),hasItems(5000L));
+}

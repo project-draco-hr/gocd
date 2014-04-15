@@ -1,0 +1,21 @@
+{
+  String pipelineName="some_pipeline_name";
+  String stageName="some_stage_name";
+  FuncVarArg function=mock(FuncVarArg.class);
+  Pagination pagination=mock(Pagination.class);
+  when(pagination.getCurrentPage()).thenReturn(3);
+  when(pagination.getPageSize()).thenReturn(10);
+  when(function.call()).thenReturn(pagination);
+  StageSqlMapDao spy=spy(stageSqlMapDao);
+  List<StageHistoryEntry> expectedStageHistoryEntriesList=mock(ArrayList.class);
+  StageHistoryEntry topOfThisPage=mock(StageHistoryEntry.class);
+  when(expectedStageHistoryEntriesList.get(0)).thenReturn(topOfThisPage);
+  StageHistoryEntry bottomOfLastPage=mock(StageHistoryEntry.class);
+  doReturn(expectedStageHistoryEntriesList).when(spy).findStages(pagination,pipelineName,stageName);
+  doReturn(bottomOfLastPage).when(spy).findImmediateChronologicallyForwardStageHistoryEntry(topOfThisPage);
+  StageHistoryPage stageHistoryPage=spy.findStageHistoryPage(pipelineName,stageName,function);
+  assertThat(stageHistoryPage.getStages(),is(expectedStageHistoryEntriesList));
+  assertThat(stageHistoryPage.getImmediateChronologicallyForwardStageHistoryEntry(),is(bottomOfLastPage));
+  verify(spy,times(1)).findStages(pagination,pipelineName,stageName);
+  verify(spy,times(1)).findImmediateChronologicallyForwardStageHistoryEntry(expectedStageHistoryEntriesList.get(0));
+}

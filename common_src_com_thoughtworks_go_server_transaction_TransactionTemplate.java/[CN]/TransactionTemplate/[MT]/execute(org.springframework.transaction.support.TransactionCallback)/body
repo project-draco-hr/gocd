@@ -1,0 +1,14 @@
+{
+  return transactionTemplate.execute(new org.springframework.transaction.support.TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      txnCtx().transactionPushed();
+      try {
+        return action.doInTransaction(status);
+      }
+  finally {
+        txnCtx().transactionPopped();
+      }
+    }
+  }
+);
+}

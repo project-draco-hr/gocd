@@ -1,0 +1,27 @@
+{
+  try {
+    HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+    createConfigFile("foo","foo_foo");
+    createConfigFile("bar","bar_bar");
+    createConfigFile("baz","hazar_bar");
+    createConfigFile("hello/world/file","hello world!");
+    createConfigFile("some_dir/cruise-config.xml","some-other-cruise-config");
+    createConfigFile("some_dir/cipher","some-cipher");
+    backupService.startBackup(admin,result);
+    assertThat(result.isSuccessful(),is(true));
+    assertThat(result.message(localizer),is("Backup completed successfully."));
+    File configZip=backedUpFile("config-dir.zip");
+    assertThat(fileContents(configZip,"foo"),is("foo_foo"));
+    assertThat(fileContents(configZip,"bar"),is("bar_bar"));
+    assertThat(fileContents(configZip,"baz"),is("hazar_bar"));
+    assertThat(fileContents(configZip,FilenameUtils.separatorsToSystem("hello/world/file")),is("hello world!"));
+    assertThat(fileContents(configZip,FilenameUtils.separatorsToSystem("some_dir/cruise-config.xml")),is("some-other-cruise-config"));
+    assertThat(fileContents(configZip,FilenameUtils.separatorsToSystem("some_dir/cipher")),is("some-cipher"));
+    assertThat(fileContents(configZip,"cruise-config.xml"),is(goConfigService.xml()));
+    byte[] realCipher=(byte[])ReflectionUtil.invoke(new CipherProvider(systemEnvironment),"getKey");
+    assertThat(fileContents(configZip,"cipher").getBytes(),is(realCipher));
+  }
+  finally {
+    deleteConfigFileIfExists("foo","bar","baz","hello","some_dir");
+  }
+}

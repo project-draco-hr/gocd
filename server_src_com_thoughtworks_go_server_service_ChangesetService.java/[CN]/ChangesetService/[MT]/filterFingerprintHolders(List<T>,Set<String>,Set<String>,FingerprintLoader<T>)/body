@@ -1,0 +1,15 @@
+{
+  List<T> results=new ArrayList<T>();
+  for (  T fingerprintHolder : fingerprintHolders) {
+    String fingerprint=fingerprintLoader.getFingerprint(fingerprintHolder);
+    if (reachableFingerprints.contains(fingerprint)) {
+      results.add(fingerprintHolder);
+    }
+ else {
+      if (!allMaterialFingerprints.contains(fingerprint)) {
+        results.add(fingerprintHolder);
+      }
+    }
+  }
+  return results;
+}

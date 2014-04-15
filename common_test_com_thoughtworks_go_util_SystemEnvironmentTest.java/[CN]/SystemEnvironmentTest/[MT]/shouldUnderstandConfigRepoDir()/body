@@ -1,0 +1,7 @@
+{
+  Properties properties=new Properties();
+  SystemEnvironment systemEnvironment=new SystemEnvironment(properties);
+  assertThat(systemEnvironment.getConfigRepoDir(),is(new File("db/config.git")));
+  properties.setProperty(SystemEnvironment.CRUISE_CONFIG_REPO_DIR,"foo/bar.git");
+  assertThat(systemEnvironment.getConfigRepoDir(),is(new File("foo/bar.git")));
+}

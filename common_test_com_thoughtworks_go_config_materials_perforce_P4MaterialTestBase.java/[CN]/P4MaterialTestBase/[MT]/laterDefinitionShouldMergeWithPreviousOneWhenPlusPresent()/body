@@ -1,0 +1,8 @@
+{
+  P4Material p4Material=p4Fixture.material("//depot/src/... //cws/build/... \n +//depot/lib/... //cws/build/...");
+  File file=new File(clientFolder,"build/junit.jar");
+  File folderNet=new File(clientFolder,"build/net");
+  p4Material.updateTo(outputconsumer.inMemoryConsumer(),new StringRevision("2"),clientFolder,new TestSubprocessExecutionContext());
+  assertThat(folderNet.exists(),is(true));
+  assertThat(file.exists(),is(true));
+}

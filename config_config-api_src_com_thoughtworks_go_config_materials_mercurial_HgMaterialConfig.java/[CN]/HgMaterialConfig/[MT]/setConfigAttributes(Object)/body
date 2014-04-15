@@ -1,0 +1,10 @@
+{
+  if (attributes == null) {
+    return;
+  }
+  super.setConfigAttributes(attributes);
+  Map map=(Map)attributes;
+  if (map.containsKey(URL)) {
+    this.url=new HgUrlArgument((String)map.get(URL));
+  }
+}

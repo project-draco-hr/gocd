@@ -1,0 +1,8 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  materialRevisions.addRevision(svnMaterial,svnMaterial.latestModification(workingFolder,subprocessExecutionContext));
+  BuildCause buildCause=BuildCause.createWithModifications(materialRevisions,"");
+  latestPipeline=PipelineMother.schedule(mingleConfig,buildCause);
+  latestPipeline=dbHelper.savePipelineWithStagesAndMaterials(latestPipeline);
+  dbHelper.passStage(latestPipeline.getStages().first());
+}

@@ -1,0 +1,12 @@
+{
+  HashMap<String,JobConfig> visitedConfigs=new HashMap<String,JobConfig>();
+  visitedConfigs.put("defaultJob".toLowerCase(),new JobConfig("defaultJob"));
+  JobConfig defaultJob=new JobConfig("defaultJob");
+  defaultJob.validateNameUniqueness(visitedConfigs);
+  assertThat(defaultJob.errors().isEmpty(),is(false));
+  assertThat(defaultJob.errors().on(JobConfig.NAME),is("You have defined multiple jobs called 'defaultJob'. Job names are case-insensitive and must be unique."));
+  JobConfig defaultJobAllLowerCase=new JobConfig("defaultjob");
+  defaultJobAllLowerCase.validateNameUniqueness(visitedConfigs);
+  assertThat(defaultJobAllLowerCase.errors().isEmpty(),is(false));
+  assertThat(defaultJobAllLowerCase.errors().on(JobConfig.NAME),is("You have defined multiple jobs called 'defaultjob'. Job names are case-insensitive and must be unique."));
+}

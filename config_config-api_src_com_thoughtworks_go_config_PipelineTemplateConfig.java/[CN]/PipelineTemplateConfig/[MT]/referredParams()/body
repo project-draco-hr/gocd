@@ -1,0 +1,9 @@
+{
+  ParamReferenceCollectorFactory paramHandlerFactory=new ParamReferenceCollectorFactory();
+  new ParamResolver(paramHandlerFactory,FIELD_CACHE).resolve(CLONER.deepClone(this));
+  ParamsConfig paramsConfig=new ParamsConfig();
+  for (  String param : paramHandlerFactory.referredParams()) {
+    paramsConfig.add(new ParamConfig(param,null));
+  }
+  return paramsConfig;
+}

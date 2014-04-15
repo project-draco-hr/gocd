@@ -1,0 +1,11 @@
+{
+  if (!hasMoreInstances()) {
+    return;
+  }
+  final Pair<StageIdentifier,List<ReportingFaninScmMaterial>> sIdScmPair=getRevisionNthFor(1,context);
+  validateIfRevisionMatchesTheCurrentConfig(context,sIdScmPair);
+  if (!validateAllScmRevisionsAreSameWithinAFingerprint(sIdScmPair)) {
+    context.out.println("Latest Revision Is Inconsistent ");
+  }
+  context.out.println();
+}

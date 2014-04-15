@@ -1,0 +1,11 @@
+{
+  List<Class<? extends MaterialConfig>> materials=new ArrayList<Class<? extends MaterialConfig>>();
+  materials.add(SvnMaterialConfig.class);
+  materials.add(HgMaterialConfig.class);
+  materials.add(GitMaterialConfig.class);
+  materials.add(DependencyMaterialConfig.class);
+  materials.add(P4MaterialConfig.class);
+  materials.add(TfsMaterialConfig.class);
+  materials.add(PackageMaterialConfig.class);
+  assertThat(registry.implementersOf(MaterialConfig.class),is(materials));
+}

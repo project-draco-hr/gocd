@@ -1,0 +1,8 @@
+{
+  for (  Stage stage : pipeline.getStages()) {
+    stageStatusCache.stageStatusChanged(stage);
+    for (    JobInstance job : stage.getJobInstances()) {
+      jobStatusCache.jobStatusChanged(job);
+    }
+  }
+}

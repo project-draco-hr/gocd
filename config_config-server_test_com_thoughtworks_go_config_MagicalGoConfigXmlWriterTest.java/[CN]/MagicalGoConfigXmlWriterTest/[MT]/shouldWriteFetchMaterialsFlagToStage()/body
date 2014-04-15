@@ -1,0 +1,10 @@
+{
+  String content="<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<cruise xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + "     xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\" schemaVersion=\"20\">\n"+ "<server artifactsdir='artifactsDir' />"+ "<pipelines>\n"+ "<pipeline name='framework'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "  <stage name='dist' fetchMaterials='true'>\n"+ "    <jobs>\n"+ "      <job name='package' />\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  StageConfig stageConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("framework")).get(0);
+  assertThat(stageConfig.isFetchMaterials(),is(true));
+  stageConfig.setFetchMaterials(false);
+  xmlWriter.write(cruiseConfig,out,false);
+  assertThat(out.toString(),containsString("fetchMaterials=\"false\""));
+}

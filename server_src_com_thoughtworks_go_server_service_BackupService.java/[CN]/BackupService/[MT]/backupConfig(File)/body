@@ -1,0 +1,19 @@
+{
+  String configDirectory=systemEnvironment.getConfigDir();
+  ZipOutputStream configZip=null;
+  try {
+    configZip=new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(new File(backupDir,CONFIG_BACKUP_ZIP))));
+    File cruiseConfigFile=new File(systemEnvironment.getCruiseConfigFile());
+    File cipherFile=systemEnvironment.getCipherFile();
+    new DirectoryStructureWalker(configDirectory,configZip,cruiseConfigFile,cipherFile).walk();
+    configZip.putNextEntry(new ZipEntry(cruiseConfigFile.getName()));
+    IOUtils.write(goConfigService.xml(),configZip);
+    configZip.putNextEntry(new ZipEntry(cipherFile.getName()));
+    IOUtils.write(new CipherProvider(systemEnvironment).getKey(),configZip);
+  }
+  finally {
+    if (configZip != null) {
+      configZip.close();
+    }
+  }
+}

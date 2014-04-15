@@ -1,0 +1,19 @@
+{
+  cleanupOldPluginDirectories();
+  if (!systemEnvironment.get(SystemEnvironment.PLUGIN_FRAMEWORK_ENABLED)) {
+    return;
+  }
+  try {
+    File bundledPluginsDirectory=new File(systemEnvironment.get(PLUGIN_GO_PROVIDED_PATH));
+    String currentVersion=serverVersion.version();
+    File versionFile=new File(bundledPluginsDirectory,"version.txt");
+    if (shouldReplaceBundledPlugins(versionFile,currentVersion)) {
+      FileUtils.cleanDirectory(bundledPluginsDirectory);
+      zipUtil.unzip(getPluginsZipStream(),bundledPluginsDirectory);
+    }
+    pluginManager.startPluginInfrastructure();
+  }
+ catch (  Exception e) {
+    LOG.error("Could not extract bundled plugins to default bundled directory",e);
+  }
+}

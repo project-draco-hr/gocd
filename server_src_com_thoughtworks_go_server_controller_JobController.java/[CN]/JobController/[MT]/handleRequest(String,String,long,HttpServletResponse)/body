@@ -1,0 +1,13 @@
+{
+  Json json;
+  try {
+    JobInstance instance=jobInstanceService.buildByIdWithTransitions(jobId);
+    JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(instance,goConfigService.agentByUuid(instance.getAgentUuid()),stageService.getBuildDuration(pipelineName,stageName,instance));
+    json=createBuildInfo(presenter);
+  }
+ catch (  Exception e) {
+    LOGGER.warn(e);
+    json=errorJsonMap(e);
+  }
+  return jsonFound(json).respond(response);
+}

@@ -1,0 +1,7 @@
+{
+  String passingTestXML="<?xml version='1.0' encoding='UTF-8' ?>" + "<testsuite name='com.example.TheTest'>" + "<testcase classname='com.example.TheTest' name='testSomething' />"+ "</testsuite>";
+  AntJUnitReportRDFizer junitRDFizer=new AntJUnitReportRDFizer(new InMemoryTempGraphFactory(),XSLTTransformerRegistry);
+  Graph graph=junitRDFizer.importFile("http://job",document(passingTestXML));
+  String ask="prefix cruise: <" + GoOntology.URI + "> "+ "prefix xunit: <"+ XUnitOntology.URI+ "> "+ "prefix xsd: <http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE { "+ "<http://job> xunit:hasTestCase _:testCase . "+ "_:testCase a xunit:TestCase . "+ "_:testCase xunit:testSuiteName 'com.example.TheTest'^^xsd:string . "+ "_:testCase xunit:testCaseName 'testSomething'^^xsd:string . "+ "OPTIONAL { ?testCase xunit:hasFailure ?failure } . "+ "FILTER (!bound(?failure)) "+ "}";
+  assertAskIsTrue(graph,ask);
+}

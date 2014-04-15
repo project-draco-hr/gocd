@@ -1,0 +1,13 @@
+{
+  createEnabledAgent(UUID);
+  createEnabledAgent(UUID2);
+  createEnabledAgent(UUID3);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.modifyResources(USERNAME,operationResult,Arrays.asList(UUID,UUID2),Arrays.asList(new TriStateSelection("all",TriStateSelection.Action.add)));
+  agentService.modifyResources(USERNAME,operationResult,Arrays.asList(UUID2),Arrays.asList(new TriStateSelection("few",TriStateSelection.Action.add)));
+  agentService.modifyResources(USERNAME,operationResult,Arrays.asList(UUID3),Arrays.asList(new TriStateSelection("none",TriStateSelection.Action.add)));
+  List<TriStateSelection> selections=agentService.getResourceSelections(Arrays.asList(UUID,UUID2));
+  assertThat(selections.get(0),is(new TriStateSelection("all",TriStateSelection.Action.add)));
+  assertThat(selections.get(1),is(new TriStateSelection("few",TriStateSelection.Action.nochange)));
+  assertThat(selections.get(2),is(new TriStateSelection("none",TriStateSelection.Action.remove)));
+}

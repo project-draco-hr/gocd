@@ -1,0 +1,15 @@
+{
+  final ActiveJob first=new ActiveJob(1L,"pipeline",1,"label","stage","job1");
+  final ActiveJob second=new ActiveJob(2L,"another",2,"label","stage","job1");
+  List<ActiveJob> expectedJobs=Arrays.asList(first,second);
+  when(mockTemplate.queryForList("getActiveJobIds")).thenReturn(Arrays.asList(1L,2L));
+  when(mockTemplate.queryForObject("getActiveJobById",arguments("id",1L).asMap())).thenReturn(first);
+  when(mockTemplate.queryForObject("getActiveJobById",arguments("id",2L).asMap())).thenReturn(second);
+  jobInstanceDao.setSqlMapClientTemplate(mockTemplate);
+  jobInstanceDao.activeJobs();
+  List<ActiveJob> activeJobs=jobInstanceDao.activeJobs();
+  assertThat(expectedJobs,is(activeJobs));
+  verify(mockTemplate,times(1)).queryForList("getActiveJobIds");
+  verify(mockTemplate,times(1)).queryForObject("getActiveJobById",arguments("id",1L).asMap());
+  verify(mockTemplate,times(1)).queryForObject("getActiveJobById",arguments("id",2L).asMap());
+}

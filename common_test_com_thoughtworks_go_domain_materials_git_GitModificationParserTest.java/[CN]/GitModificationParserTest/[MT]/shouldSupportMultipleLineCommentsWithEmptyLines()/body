@@ -1,0 +1,9 @@
+{
+  simulateOneComment();
+  parser.processLine("");
+  parser.processLine("    My Comment");
+  parser.processLine("    ");
+  parser.processLine("    line 2");
+  parser.processLine("");
+  assertThat(parser.getModifications().get(0).getComment(),is("My Comment\n\nline 2"));
+}

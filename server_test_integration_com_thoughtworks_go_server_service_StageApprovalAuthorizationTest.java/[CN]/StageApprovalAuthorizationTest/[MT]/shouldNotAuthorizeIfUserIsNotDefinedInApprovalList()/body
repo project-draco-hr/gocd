@@ -1,0 +1,6 @@
+{
+  CONFIG_HELPER.addSecurityWithAdminConfig();
+  StageConfig stage=StageConfigMother.custom("ft",authConfigWithUserJez);
+  PipelineConfig pipeline=CONFIG_HELPER.addStageToPipeline(PIPELINE_NAME,stage);
+  assertThat("User hacker should not have permission on ft stage",securityService.hasOperatePermissionForStage(CaseInsensitiveString.str(pipeline.name()),CaseInsensitiveString.str(stage.name()),"hacker"),is(false));
+}

@@ -1,0 +1,11 @@
+{
+  if (goLicenseService.isLicenseEmpty()) {
+    result.error("License Violation","There is no license configured. Scheduling will resume once a valid license is used.",USER_LIMIT_EXCEEDED);
+    return;
+  }
+  if (userService.isLicenseUserLimitExceeded()) {
+    result.error("License Violation",String.format("Current Go licence allows only %s users. There are currently %s users enabled." + " Go pipeline scheduling will be stopped until %s users are disabled." + " Please disable users to comply with the license limit, or "+ "<a href='%s'>contact our sales team</a> to upgrade your license.",goLicenseService.maximumUsersAllowed(),userService.enabledUserCount(),(userService.enabledUserCount() - goLicenseService.maximumUsersAllowed()),GoConstants.THOUGHTWORKS_LICENSE_URL),USER_LIMIT_EXCEEDED);
+    return;
+  }
+  serverHealthService.update(ServerHealthState.success(EnabledUsersLicenseLimitChecker.USER_LIMIT_EXCEEDED));
+}

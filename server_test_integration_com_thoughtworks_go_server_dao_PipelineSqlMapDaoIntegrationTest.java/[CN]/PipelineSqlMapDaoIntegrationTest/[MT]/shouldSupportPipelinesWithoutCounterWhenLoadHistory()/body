@@ -1,0 +1,6 @@
+{
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  schedulePipelineWithoutCounter(mingleConfig);
+  PipelineInstanceModels models=pipelineDao.loadHistory(CaseInsensitiveString.str(mingleConfig.name()),10,0);
+  assertThat(models.size(),is(1));
+}

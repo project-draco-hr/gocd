@@ -1,0 +1,16 @@
+{
+  String pluginId=packageRepository.getPluginConfiguration().getId();
+  if (isEmpty(pluginId)) {
+    packageRepository.getPluginConfiguration().errors().add(PluginConfiguration.ID,localizer.localize("PLUGIN_ID_REQUIRED"));
+    return false;
+  }
+  for (  String currentPluginId : repositoryMetadataStore.getPlugins()) {
+    if (currentPluginId.equals(pluginId)) {
+      GoPluginDescriptor pluginDescriptor=pluginManager.getPluginDescriptorFor(pluginId);
+      packageRepository.getPluginConfiguration().setVersion(pluginDescriptor.version());
+      return true;
+    }
+  }
+  packageRepository.getPluginConfiguration().errors().add(PluginConfiguration.ID,localizer.localize("PLUGIN_ID_INVALID"));
+  return false;
+}

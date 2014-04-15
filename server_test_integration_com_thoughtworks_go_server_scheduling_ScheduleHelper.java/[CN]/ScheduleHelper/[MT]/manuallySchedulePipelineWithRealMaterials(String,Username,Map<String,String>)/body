@@ -1,0 +1,11 @@
+{
+  updateMaterials(pipeline);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  HashMap<String,String> secureEnvironmentVariables=new HashMap<String,String>();
+  pipelineScheduler.manualProduceBuildCauseAndSave(pipeline,username,new ScheduleOptions(pegging,environmentVariables,secureEnvironmentVariables),result);
+  if (result.canContinue()) {
+    waitForAnyScheduled(30);
+  }
+  return result.getServerHealthState();
+}

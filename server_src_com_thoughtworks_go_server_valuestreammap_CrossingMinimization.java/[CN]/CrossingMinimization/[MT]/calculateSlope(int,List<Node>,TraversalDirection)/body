@@ -1,0 +1,9 @@
+{
+  int totalSlope=0;
+  for (  Node node : nodes) {
+    for (    Node relatedNode : traversalDirection.getRelatedNodesAtPreviousLevel(node)) {
+      totalSlope+=abs(node.getDepth() + depthOffset - relatedNode.getDepth());
+    }
+  }
+  return totalSlope;
+}

@@ -1,0 +1,8 @@
+{
+  KeyStore keyStore=keyStoreManager.tryLoad(authorityKeystore,PASSWORD);
+  if (keyStore == null) {
+    createAndStoreCACertificates(authorityKeystore);
+    keyStore=keyStoreManager.load(authorityKeystore,PASSWORD);
+  }
+  return keyStore;
+}

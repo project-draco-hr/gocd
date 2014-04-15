@@ -1,0 +1,86 @@
+{
+  buildType.canProduce(pipelineConfig,schedulingChecker,serverHealthService,result);
+  if (!result.canContinue()) {
+    return result.getServerHealthState();
+  }
+  String pipelineName=CaseInsensitiveString.str(pipelineConfig.name());
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("start producing build cause:" + pipelineName);
+  }
+  try {
+    MaterialRevisions peggedRevisions=specificMaterialRevisionFactory.create(pipelineName,scheduleOptions.getSpecifiedRevisions());
+    BuildCause previousBuild=pipelineScheduleQueue.mostRecentScheduled(pipelineName);
+    Materials materials=materialConfigConverter.toMaterials(pipelineConfig.materialConfigs());
+    MaterialConfigs expandedMaterialConfigs=materialExpansionService.expandMaterialConfigsForScheduling(pipelineConfig.materialConfigs());
+    Materials expandedMaterials=materialConfigConverter.toMaterials(expandedMaterialConfigs);
+    BuildCause buildCause=null;
+    boolean materialConfigurationChanged=hasConfigChanged(previousBuild,expandedMaterials);
+    if (previousBuild.hasNeverRun() || materialConfigurationChanged) {
+      LOGGER.debug("Using latest modifications from respository for " + pipelineConfig.name());
+      MaterialRevisions revisions=materialChecker.findLatestRevisions(peggedRevisions,materials);
+      if (!revisions.isMissingModifications()) {
+        buildCause=buildType.onModifications(revisions,materialConfigurationChanged,null);
+        if (buildCause != null) {
+          if (!buildCause.materialsMatch(expandedMaterialConfigs)) {
+            LOGGER.warn("Error while scheduling pipeline: " + pipelineName + ". Possible Reasons: (1) Upstream pipelines have not been built yet."+ " (2) Materials do not match between configuration and build-cause.");
+            return ServerHealthState.success(HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+          }
+        }
+      }
+    }
+ else {
+      LOGGER.debug("Checking if materials are different for " + pipelineConfig.name());
+      MaterialRevisions latestRevisions=materialChecker.findLatestRevisions(peggedRevisions,materials);
+      if (!latestRevisions.isMissingModifications()) {
+        MaterialRevisions original=previousBuild.getMaterialRevisions();
+        MaterialRevisions revisions=materialChecker.findRevisionsSince(peggedRevisions,expandedMaterials,original,latestRevisions);
+        if (!revisions.hasChangedSince(original) || (buildType.shouldCheckWhetherOlderRunsHaveRunWithLatestMaterials() && materialChecker.hasPipelineEverRunWith(pipelineName,latestRevisions))) {
+          LOGGER.debug("Repository for [" + pipelineName + "] not modified");
+          buildCause=buildType.onEmptyModifications(pipelineConfig,latestRevisions);
+        }
+ else {
+          LOGGER.debug("Repository for [" + pipelineName + "] modified; scheduling...");
+          buildCause=buildType.onModifications(revisions,materialConfigurationChanged,original);
+        }
+      }
+    }
+    if (buildCause != null) {
+      buildCause.addOverriddenVariables(scheduleOptions.getVariables());
+      updateChangedRevisions(pipelineConfig.name(),buildCause);
+      if (materialConfigurationChanged || buildType.isValidBuildCause(pipelineConfig,buildCause)) {
+        pipelineScheduleQueue.schedule(pipelineName,buildCause);
+        schedulingPerformanceLogger.sendingPipelineToTheToBeScheduledQueue(trackingId,pipelineName);
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug(format("scheduling pipeline %s with build-cause %s",pipelineName,buildCause));
+        }
+      }
+ else {
+        buildType.notifyPipelineNotScheduled(pipelineConfig);
+      }
+    }
+ else {
+      buildType.notifyPipelineNotScheduled(pipelineConfig);
+    }
+    serverHealthService.removeByScope(HealthStateScope.forPipeline(pipelineName));
+    LOGGER.debug("finished producing buildcause for " + pipelineName);
+    return ServerHealthState.success(HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+  }
+ catch (  NoCompatibleUpstreamRevisionsException ncure) {
+    String message="Error while scheduling pipeline: " + pipelineName + " as no compatible revisions was identified.";
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(message,ncure);
+    }
+    return showError(pipelineName,message,ncure.getMessage());
+  }
+catch (  NoModificationsPresentForDependentMaterialException e) {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.error(e.getMessage(),e);
+    }
+    return ServerHealthState.success(HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+  }
+catch (  Exception e) {
+    String message="Error while scheduling pipeline: " + pipelineName;
+    LOGGER.error(message,e);
+    return showError(pipelineName,message,e.getMessage());
+  }
+}

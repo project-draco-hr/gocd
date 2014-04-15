@@ -1,0 +1,22 @@
+{
+  if (env.inDbDebugMode()) {
+    LOG.info("Shutting down database server.");
+    if (tcpServer == null) {
+      return;
+    }
+    if (dataSource != null) {
+      dataSource.close();
+    }
+    dataSource=null;
+    tcpServer.stop();
+    tcpServer=null;
+  }
+ else {
+    Connection connection=createDataSource().getConnection();
+    Statement statement=connection.createStatement();
+    statement.execute("SHUTDOWN");
+    statement.close();
+    dataSource.close();
+    dataSource=null;
+  }
+}

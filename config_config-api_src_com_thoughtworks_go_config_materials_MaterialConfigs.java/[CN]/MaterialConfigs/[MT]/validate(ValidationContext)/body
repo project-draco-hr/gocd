@@ -1,0 +1,9 @@
+{
+  validateNameUniqueness();
+  validateAutoUpdateState(validationContext);
+  validateScmMaterials();
+  Set<CaseInsensitiveString> dependencies=new HashSet<CaseInsensitiveString>();
+  for (  DependencyMaterialConfig material : filterDependencyMaterials()) {
+    material.validateUniqueness(dependencies);
+  }
+}

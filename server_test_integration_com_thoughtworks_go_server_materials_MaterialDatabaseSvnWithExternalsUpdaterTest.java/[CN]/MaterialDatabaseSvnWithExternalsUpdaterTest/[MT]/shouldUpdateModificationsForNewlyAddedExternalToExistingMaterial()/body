@@ -1,0 +1,8 @@
+{
+  updater.updateMaterial(material);
+  testRepoWithExternal.checkInOneFile("another_dir/some_file");
+  testRepoWithExternal.setupExternals("another_repo",new File(testRepoWithExternal.workingFolder(),"another_dir"));
+  updater.updateMaterial(material);
+  MaterialRevisions materialRevisions=materialRepository.findLatestModification(material);
+  assertThat(materialRevisions.numberOfRevisions(),is(3));
+}

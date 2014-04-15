@@ -1,0 +1,10 @@
+{
+  String inputXML="<foo>bar</foo>";
+  String xsl="" + "<?xml version='1.0' encoding='UTF-8'?>" + "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' "+ "xmlns:ex='http://www.example.com/ontology.owl#' "+ "xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' version='1.0'>"+ "<xsl:template match='/'>"+ "<rdf:RDF>"+ "<xsl:apply-templates />"+ "</rdf:RDF>"+ "</xsl:template>"+ "<xsl:template match='foo'>"+ "<ex:Foo>"+ "<ex:hasBar rdf:datatype='http://www.w3.org/2001/XMLSchema#string'><xsl:value-of select='.'/></ex:hasBar>"+ "</ex:Foo>"+ "</xsl:template>"+ "</xsl:stylesheet>";
+  String ask="prefix ex: <http://www.example.com/ontology.owl#> " + "prefix xsd: <http://www.w3.org/2001/XMLSchema#> " + "ASK WHERE { "+ "?foo a ex:Foo ; "+ "ex:hasBar 'bar'^^xsd:string . "+ "}"+ "";
+  InputStream xslAsStream=new ByteArrayInputStream(xsl.getBytes());
+  InputStream xmlAsStream=new ByteArrayInputStream(inputXML.getBytes());
+  GRDDLTransformer transformer=new GRDDLTransformer(transformerForXSLStream(xslAsStream));
+  Graph graph=transformer.transform(xmlAsStream,new InMemoryTempGraphFactory());
+  assertAskIsTrue(graph,(ask));
+}

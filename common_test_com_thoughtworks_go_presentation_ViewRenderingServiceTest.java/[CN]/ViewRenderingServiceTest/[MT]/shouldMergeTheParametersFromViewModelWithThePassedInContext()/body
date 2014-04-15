@@ -1,0 +1,18 @@
+{
+  Renderer renderer=mock(Renderer.class);
+  viewRenderingService.registerRenderer(Renderer.ERB,renderer);
+  PluggableViewModel viewModel=mock(PluggableViewModel.class);
+  when(viewModel.getRenderingFramework()).thenReturn(Renderer.ERB);
+  Map factoryCtx=m("clashing_name","inside_value","task","my-task");
+  when(viewModel.getParameters()).thenReturn(factoryCtx);
+  Map<String,Object> localCtx=new HashMap<String,Object>();
+  localCtx.put("clashing_name","outside_value");
+  localCtx.put("param","one");
+  viewRenderingService.render(viewModel,localCtx);
+  Map<String,Object> expected=new HashMap<String,Object>();
+  expected.putAll(localCtx);
+  expected.put("task","my-task");
+  expected.put(PluggableViewModel.FACTORY_CONTEXT_KEY,factoryCtx);
+  expected.put(PluggableViewModel.LOCAL_CONTEXT_KEY,localCtx);
+  verify(renderer).render(viewModel,expected);
+}

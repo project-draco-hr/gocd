@@ -1,0 +1,6 @@
+{
+  PipelineTemplateConfig config=new PipelineTemplateConfig(new CaseInsensitiveString(".Abc"));
+  config.validate(null);
+  assertThat(config.errors().isEmpty(),is(false));
+  assertThat(config.errors().on(PipelineTemplateConfig.NAME),is("Invalid template name '.Abc'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
+}

@@ -1,0 +1,10 @@
+{
+  AgentConfig agentConfig1=createDisabledAgent(UUID);
+  AgentConfig agentConfig2=createDisabledAgent(UUID2);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.enableAgents(USERNAME,operationResult,Arrays.asList(UUID,UUID2));
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(isDisabled(agentConfig1),is(false));
+  assertThat(isDisabled(agentConfig2),is(false));
+  assertThat(operationResult.message(),containsString("Enabled 2 agent(s)"));
+}

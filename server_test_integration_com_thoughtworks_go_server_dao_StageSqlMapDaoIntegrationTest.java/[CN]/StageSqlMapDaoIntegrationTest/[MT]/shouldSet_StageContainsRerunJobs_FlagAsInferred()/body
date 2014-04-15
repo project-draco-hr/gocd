@@ -1,0 +1,15 @@
+{
+  Pipeline pipeline=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.pass(pipeline);
+  Stage stage=instanceFactory.createStageInstance(mingleConfig.getFirstStageConfig(),new DefaultSchedulingContext("anyone"),md5,new TimeProvider());
+  stage.building();
+  Stage savedStage=stageDao.save(pipeline,stage);
+  saveJobsFor(savedStage,pipeline);
+  assertThat(savedStage.hasRerunJobs(),is(false));
+  assertThat(stageDao.stageById(savedStage.getId()).hasRerunJobs(),is(false));
+  Stage rerunStage=instanceFactory.createStageForRerunOfJobs(stage,a(stage.getJobInstances().get(0).getName()),new DefaultSchedulingContext("foo"),mingleConfig.getFirstStageConfig(),new TimeProvider(),"md5");
+  savedStage=stageDao.save(pipeline,rerunStage);
+  saveJobsFor(savedStage,pipeline);
+  assertThat(rerunStage.hasRerunJobs(),is(true));
+  assertThat(stageDao.findStageWithIdentifier(savedStage.getIdentifier()).hasRerunJobs(),is(true));
+}

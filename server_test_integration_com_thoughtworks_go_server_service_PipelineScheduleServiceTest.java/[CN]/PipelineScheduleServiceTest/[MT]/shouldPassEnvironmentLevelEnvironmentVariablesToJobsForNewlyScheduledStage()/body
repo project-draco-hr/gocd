@@ -1,0 +1,10 @@
+{
+  scheduleAndCompleteInitialPipelines();
+  Pipeline pipeline=pipelineDao.mostRecentPipeline("go");
+  Stage stage=scheduleService.scheduleStage(pipeline,"ft","anonymous",new ScheduleService.NewStageInstanceCreator(goConfigService),new ScheduleService.ExceptioningErrorHandler());
+  EnvironmentVariablesConfig jobVariables=stage.getJobInstances().first().getPlan().getVariables();
+  assertThat(jobVariables.size(),is(3));
+  assertThat(jobVariables,hasItem(new EnvironmentVariableConfig("PIPELINE_LVL","pipeline value")));
+  assertThat(jobVariables,hasItem(new EnvironmentVariableConfig("STAGE_LVL","stage value")));
+  assertThat(jobVariables,hasItem(new EnvironmentVariableConfig("JOB_LVL","job value")));
+}

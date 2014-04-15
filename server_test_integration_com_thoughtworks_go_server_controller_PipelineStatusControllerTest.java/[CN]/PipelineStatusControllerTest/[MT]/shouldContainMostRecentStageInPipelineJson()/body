@@ -1,0 +1,19 @@
+{
+  configHelper.onSetUp();
+  configHelper.addPipeline(pipelineName1,STAGE1,buildName);
+  configHelper.addPipeline(pipelineName2,STAGE2,buildName);
+  Stage stage1InPipeline1=StageMother.passedStageInstance(STAGE1,buildName,"pipeline-name");
+  final Pipeline pipeline1=PipelineMother.pipeline(pipelineName1,stage1InPipeline1);
+  savePipelineWithStages(pipeline1);
+  Stage stage2InPipeline1=StageMother.passedStageInstance(STAGE2,buildName,"pipeline-name");
+  Pipeline pipeline2=PipelineMother.pipeline(pipelineName2,stage2InPipeline1);
+  savePipelineWithStages(pipeline2);
+  ModelAndView modelAndView=pipelineStatusController.list(null,false,new MockHttpServletResponse(),new MockHttpServletRequest());
+  JsonList pipelinesJsonList=getPipelinesJsonFromModel(modelAndView);
+  assertThat(pipelinesJsonList,containsPipeline(pipeline1));
+  assertThat(pipelinesJsonList,containsPipeline(pipeline2));
+  final JsonList stagesJson1=((JsonMap)pipelinesJsonList.get(1)).getJsonList("stages");
+  assertThat(stagesJson1,containsStage(pipeline1.getStages().byName(STAGE1)));
+  final JsonList stagesJson2=((JsonMap)pipelinesJsonList.get(0)).getJsonList("stages");
+  assertThat(stagesJson2,containsStage(pipeline2.getStages().byName(STAGE2)));
+}

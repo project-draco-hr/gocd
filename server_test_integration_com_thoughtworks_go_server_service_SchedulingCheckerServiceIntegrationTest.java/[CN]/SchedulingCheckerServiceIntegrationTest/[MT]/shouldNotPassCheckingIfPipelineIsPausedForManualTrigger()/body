@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=pipelineFixture.createdPipelineWithAllStagesPassed();
+  Username userName=new Username(new CaseInsensitiveString("A humble developer"));
+  pipelinePauseService.pause(pipeline.getName(),"Upgrade scheduled",userName);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  assertThat(schedulingChecker.canManuallyTrigger(pipelineFixture.pipelineConfig(),APPROVED_USER,result),is(false));
+  assertThat(result.getServerHealthState().getDescription(),containsString(pipeline.getName() + " is paused"));
+}

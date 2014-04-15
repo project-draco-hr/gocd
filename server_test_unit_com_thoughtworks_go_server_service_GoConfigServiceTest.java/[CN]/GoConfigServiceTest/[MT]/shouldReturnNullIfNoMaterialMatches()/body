@@ -1,0 +1,6 @@
+{
+  DependencyMaterialConfig dependencyMaterialConfig=new DependencyMaterialConfig(new CaseInsensitiveString("upstream-pipeline"),new CaseInsensitiveString("upstream-stage"));
+  cruiseConfig=configWith(GoConfigMother.createPipelineConfigWithMaterialConfig(dependencyMaterialConfig));
+  when(goConfigFileDao.load()).thenReturn(cruiseConfig);
+  assertThat(goConfigService.findMaterial(new CaseInsensitiveString("pipeline"),"missing"),is(nullValue()));
+}

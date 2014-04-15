@@ -1,0 +1,7 @@
+{
+  TemplatesConfig templates=new TemplatesConfig();
+  JobConfigs jobConfigs=new JobConfigs();
+  jobConfigs.add(new JobConfig(new CaseInsensitiveString("tempJob"),new Resources(),new ArtifactPlans()));
+  templates.add(new PipelineTemplateConfig(new CaseInsensitiveString("tempPipeline"),new StageConfig(new CaseInsensitiveString("tempStage"),jobConfigs)));
+  cruiseConfig.setTemplates(templates);
+}

@@ -1,0 +1,7 @@
+{
+  Stage nullStage=NullStage.createNullStage(twoPlanStageConfig);
+  Stage realStage=StageMother.completedStageInstanceWithTwoPlans("real");
+  assertThat(realStage.mostRecent(nullStage),is(realStage));
+  assertThat(nullStage.mostRecent(realStage),is(realStage));
+  assertThat(realStage.mostRecent(realStage),is(realStage));
+}

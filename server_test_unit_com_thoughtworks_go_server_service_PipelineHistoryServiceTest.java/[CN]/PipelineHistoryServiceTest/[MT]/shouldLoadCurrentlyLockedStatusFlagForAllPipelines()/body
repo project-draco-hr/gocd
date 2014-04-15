@@ -1,0 +1,34 @@
+{
+  Username foo=new Username(new CaseInsensitiveString("foo"));
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(ConfigFileFixture.CONFIG).config;
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  PipelineInstanceModels activePipelineInstances=createPipelineInstanceModels();
+  PipelineInstanceModel pipeline1=activePipeline("pipeline1",9,2.0,new StageInstanceModel("stage1","3",StageResult.Failed,new StageIdentifier()),new StageInstanceModel("stage2","4",JobHistory.withJob("plan1",JobState.Building,JobResult.Unknown,new Date())));
+  PipelineInstanceModel pipeline2=activePipeline("pipeline2",5,2.5,new StageInstanceModel("plan1","2",JobHistory.withJob("plan1",JobState.Building,JobResult.Unknown,new Date())));
+  PipelineInstanceModel pipeline3=activePipeline("pipeline3",5,2.5,new StageInstanceModel("plan1","2",JobHistory.withJob("plan1",JobState.Building,JobResult.Unknown,new Date())));
+  activePipelineInstances.add(pipeline1);
+  activePipelineInstances.add(pipeline2);
+  activePipelineInstances.add(pipeline3);
+  when(pipelineDao.loadActivePipelines()).thenReturn(activePipelineInstances);
+  stubPermisssionsForActivePipeline(foo,cruiseConfig,"pipeline1",true,true);
+  stubPermisssionsForActivePipeline(foo,cruiseConfig,"pipeline2",true,true);
+  stubPermisssionsForActivePipeline(foo,cruiseConfig,"pipeline3",true,true);
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString(any(String.class)))).thenReturn(true);
+  when(goConfigService.isLockable("pipeline1")).thenReturn(true);
+  when(goConfigService.isLockable("pipeline2")).thenReturn(true);
+  when(pipelineLockService.lockedPipeline("pipeline1")).thenReturn(new StageIdentifier("pipeline1",9,"stage1","3"));
+  List<PipelineGroupModel> groups=pipelineHistoryService.allActivePipelineInstances(foo,PipelineSelections.ALL);
+  PipelineGroupModel group=groups.get(0);
+  PipelineModel pipelineModel1=group.getPipelineModels().get(0);
+  PipelineInstanceModel firstPipelinePIM=pipelineModel1.getActivePipelineInstances().get(0);
+  assertThat(firstPipelinePIM.isLockable(),is(true));
+  assertThat(firstPipelinePIM.isCurrentlyLocked(),is(true));
+  PipelineModel pipelineModel2=group.getPipelineModels().get(1);
+  PipelineInstanceModel secondPipeline=pipelineModel2.getActivePipelineInstances().get(0);
+  assertThat(secondPipeline.isLockable(),is(true));
+  assertThat(secondPipeline.isCurrentlyLocked(),is(false));
+  PipelineModel pipelineModel3=group.getPipelineModels().get(2);
+  PipelineInstanceModel thirdPipeline=pipelineModel3.getActivePipelineInstances().get(0);
+  assertThat(thirdPipeline.isLockable(),is(false));
+  assertThat(thirdPipeline.isCurrentlyLocked(),is(false));
+}

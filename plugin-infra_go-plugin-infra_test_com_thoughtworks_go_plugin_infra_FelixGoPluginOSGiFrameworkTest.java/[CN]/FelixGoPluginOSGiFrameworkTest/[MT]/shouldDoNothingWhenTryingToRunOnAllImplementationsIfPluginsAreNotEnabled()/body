@@ -1,0 +1,20 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  registerServices(firstService);
+  spy.doOnAll(SomeInterface.class,new Action<SomeInterface>(){
+    public void execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      obj.someMethod();
+      assertThat(pluginDescriptor,is(descriptor));
+    }
+  }
+);
+  verifyZeroInteractions(firstService);
+  ExceptionHandler exceptionHandler=mock(ExceptionHandler.class);
+  spy.doOnAllWithExceptionHandling(SomeInterface.class,new Action<SomeInterface>(){
+    public void execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      obj.someMethod();
+    }
+  }
+,exceptionHandler);
+  verifyZeroInteractions(firstService,exceptionHandler);
+}

@@ -1,0 +1,26 @@
+{
+  Map attributesMap=(Map)attributes;
+  if (attributesMap.containsKey(CONFIGURATION_KEY)) {
+    configurationKey=new ConfigurationKey();
+    configurationKey.setConfigAttributes(attributesMap.get(CONFIGURATION_KEY));
+  }
+  if (attributesMap.containsKey(CONFIGURATION_VALUE)) {
+    configurationValue=new ConfigurationValue("");
+    configurationValue.setConfigAttributes(attributesMap.get(CONFIGURATION_VALUE));
+  }
+  if (attributesMap.containsKey(ENCRYPTED_VALUE)) {
+    encryptedValue=new EncryptedConfigurationValue();
+    encryptedValue.setConfigAttributes(attributesMap.get(ENCRYPTED_VALUE));
+  }
+  if (secureKeyInfoProvider == null) {
+    return;
+  }
+  if (secureKeyInfoProvider.isSecure(configurationKey.getName())) {
+    if (!attributesMap.containsKey(IS_CHANGED)) {
+      setConfigurationValue(null);
+    }
+ else {
+      handleSecureValueConfiguration(true);
+    }
+  }
+}

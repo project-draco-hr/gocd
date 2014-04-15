@@ -1,0 +1,7 @@
+{
+  Pipeline completed=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.onefailAndOnePassedBuildInstances(pipelineAndFirstStageOf(completed).stage);
+  Pipeline running=pipelineWithFirstStageRunning(mingleConfig);
+  StageIdentifier lastSuccessful=pipelineDao.findLastSuccessfulStageIdentifier(CaseInsensitiveString.str(mingleConfig.name()),STAGE_DEV);
+  assertThat(lastSuccessful,is(nullValue()));
+}

@@ -1,0 +1,8 @@
+{
+  String link="http://mingle05/projects/cce/cards/${ID}";
+  String regex="evo-(\\d+)";
+  trackingTool=new DefaultCommentRenderer(link,regex);
+  String result=trackingTool.render("Replace evo-1994.  Don't replace 1994");
+  assertThat(result,containsString("<a href=\"http://mingle05/projects/cce/cards/1994\" " + "target=\"story_tracker\">evo-1994</a>"));
+  assertThat(result,containsString("Don't replace 1994"));
+}

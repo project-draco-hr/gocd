@@ -1,0 +1,9 @@
+{
+  DOMElement root=new DOMElement("scheduledJobs");
+  for (  WaitingJobPlan jobPlan : jobPlans) {
+    DOMElement jobElement=getXmlForJobPlan(writerContext,jobPlan);
+    root.add(jobElement);
+  }
+  DOMDocument domDocument=new DOMDocument(root);
+  return domDocument;
+}

@@ -1,0 +1,7 @@
+{
+  userDao.saveOrUpdate(new User("some-random-user"));
+  User user=userDao.findUser("some-random-user");
+  makeSureThatCacheIsInitialized();
+  userDao.load(user.getId());
+  assertThatEnabledUserCacheExists();
+}

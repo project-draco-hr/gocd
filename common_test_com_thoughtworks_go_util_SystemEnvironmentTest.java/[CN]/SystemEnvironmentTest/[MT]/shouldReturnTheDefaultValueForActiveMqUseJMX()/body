@@ -1,0 +1,6 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  assertThat(systemEnvironment.getActivemqUseJmx(),is(false));
+  System.setProperty(SystemEnvironment.ACTIVEMQ_USE_JMX,"true");
+  assertThat(systemEnvironment.getActivemqUseJmx(),is(true));
+}

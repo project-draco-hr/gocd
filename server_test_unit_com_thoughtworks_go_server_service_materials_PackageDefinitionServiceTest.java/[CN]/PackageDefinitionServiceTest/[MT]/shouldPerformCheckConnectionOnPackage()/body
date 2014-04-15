@@ -1,0 +1,25 @@
+{
+  Configuration configuration=new Configuration();
+  configuration.add(ConfigurationPropertyMother.create("required",false,""));
+  configuration.add(ConfigurationPropertyMother.create("required_secure",true,""));
+  configuration.add(ConfigurationPropertyMother.create("secure",true,""));
+  configuration.add(ConfigurationPropertyMother.create("not_required_not_secure",false,""));
+  configuration.add(ConfigurationPropertyMother.create("spec",false,"xyz?"));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("1","name",configuration,packageRepository);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  PackageMaterialProvider packageMaterialProvider=mock(PackageMaterialProvider.class);
+  PluginManager pluginManager=dummyPluginManager(packageMaterialProvider);
+  PackageDefinitionService service=new PackageDefinitionService(pluginManager,localizer);
+  PackageMaterialPoller poller=mock(PackageMaterialPoller.class);
+  when(packageMaterialProvider.getPoller()).thenReturn(poller);
+  ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration> packageConfigurationsCaptor=new ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>();
+  ArgumentCaptor<RepositoryConfiguration> packageRepositoryConfigurationsCaptor=new ArgumentCaptor<RepositoryConfiguration>();
+  when(poller.checkConnectionToPackage(packageConfigurationsCaptor.capture(),packageRepositoryConfigurationsCaptor.capture())).thenReturn(new Result().withSuccessMessages("Got Package!!!"));
+  service.checkConnection(packageDefinition,result);
+  assertPackageConfiguration(packageConfigurationsCaptor.getValue().list(),packageDefinition.getConfiguration());
+  assertPackageConfiguration(packageRepositoryConfigurationsCaptor.getValue().list(),packageRepository.getConfiguration());
+  assertThat(result.isSuccessful(),Is.is(true));
+  when(localizer.localize("PACKAGE_CHECK_OK","Got Package!!!")).thenReturn("success_msg");
+  assertThat(result.message(localizer),Is.is("success_msg"));
+  verify(poller).checkConnectionToPackage(any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class));
+}

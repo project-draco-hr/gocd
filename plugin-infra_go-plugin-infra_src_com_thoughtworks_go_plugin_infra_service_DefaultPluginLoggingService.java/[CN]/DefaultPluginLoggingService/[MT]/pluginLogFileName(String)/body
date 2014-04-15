@@ -1,0 +1,6 @@
+{
+  String untrimmedLogFileName=PLUGIN_LOGGER_PREFIX + "-" + pluginId+ ".log";
+  int lengthOfNameExcludingPluginId=untrimmedLogFileName.length() - pluginId.length();
+  int lengthThatThatPluginIdShouldBeTrimmedTo=Math.min(pluginId.length(),MAX_LENGTH_OF_PLUGIN_FILENAME - lengthOfNameExcludingPluginId);
+  return String.format("%s-%s.log",PLUGIN_LOGGER_PREFIX,pluginId.substring(0,lengthThatThatPluginIdShouldBeTrimmedTo));
+}

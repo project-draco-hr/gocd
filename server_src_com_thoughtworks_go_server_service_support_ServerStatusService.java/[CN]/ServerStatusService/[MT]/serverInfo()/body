@@ -1,0 +1,15 @@
+{
+  InformationStringBuilder infoCollector=new InformationStringBuilder(new StringBuilder());
+  infoCollector.append("\n\nTimestamp:\n==========\n");
+  infoCollector.append(new Date().toString()).append("\n");
+  for (  ServerInfoProvider provider : providers) {
+    try {
+      provider.appendInformation(infoCollector);
+    }
+ catch (    Exception e) {
+      infoCollector.append(String.format("Provider %s threw an exception: %s",provider.getClass(),e.getMessage()));
+      LOGGER.warn("An API support page provider failed.",e);
+    }
+  }
+  return infoCollector.value();
+}

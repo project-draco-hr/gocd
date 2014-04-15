@@ -1,0 +1,9 @@
+{
+  File mockfile=mock(File.class);
+  Lockfile lockfile=spy(new Lockfile(mockfile));
+  when(mockfile.exists()).thenReturn(false);
+  when(mockfile.getAbsolutePath()).thenReturn("/abcd/dummyFile");
+  doThrow(new IOException("dummy")).when(lockfile).setHooks();
+  assertThat(lockfile.tryLock(),is(false));
+  verify(mockfile).exists();
+}

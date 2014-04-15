@@ -1,0 +1,9 @@
+{
+  String pipelineName=stage.getIdentifier().getPipelineName();
+  String stageName=stage.getName();
+  removeFromCache(cacheKeyForMostRecentId(pipelineName,stageName));
+  removeFromCache(cacheKeyForPipelineAndStage(pipelineName,stageName));
+  removeFromCache(cacheKeyForPipelineAndCounter(pipelineName,stage.getIdentifier().getPipelineCounter()));
+  removeFromCache(cacheKeyForStageById(stage.getId()));
+  removeFromCache(cacheKeyForLatestStageInstances());
+}

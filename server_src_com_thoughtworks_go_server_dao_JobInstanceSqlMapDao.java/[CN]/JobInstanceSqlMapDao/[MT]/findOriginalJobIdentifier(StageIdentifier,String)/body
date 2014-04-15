@@ -1,0 +1,15 @@
+{
+  String key=cacheKeyForOriginalJobIdentifier(stageIdentifier,jobName);
+  JobIdentifier jobIdentifier=(JobIdentifier)goCache.get(key);
+  if (jobIdentifier == null) {
+synchronized (key) {
+      jobIdentifier=(JobIdentifier)goCache.get(key);
+      if (jobIdentifier == null) {
+        Map params=arguments("pipelineName",stageIdentifier.getPipelineName()).and("pipelineCounter",stageIdentifier.getPipelineCounter()).and("pipelineLabel",stageIdentifier.getPipelineLabel()).and("stageName",stageIdentifier.getStageName()).and("stageCounter",Integer.parseInt(stageIdentifier.getStageCounter())).and("jobName",jobName).asMap();
+        jobIdentifier=(JobIdentifier)getSqlMapClientTemplate().queryForObject("findJobId",params);
+        goCache.put(key,jobIdentifier);
+      }
+    }
+  }
+  return cloner.deepClone(jobIdentifier);
+}

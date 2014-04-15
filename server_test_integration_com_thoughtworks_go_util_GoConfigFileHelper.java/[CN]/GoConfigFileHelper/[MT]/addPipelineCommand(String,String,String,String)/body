@@ -1,0 +1,12 @@
+{
+  return new NoOverwriteUpdateConfigCommand(){
+    @Override public String unmodifiedMd5(){
+      return oldMd5;
+    }
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.addPipeline("g1",PipelineConfigMother.pipelineConfig(pipelineName,StageConfigMother.custom(stageName,jobName)));
+      return cruiseConfig;
+    }
+  }
+;
+}

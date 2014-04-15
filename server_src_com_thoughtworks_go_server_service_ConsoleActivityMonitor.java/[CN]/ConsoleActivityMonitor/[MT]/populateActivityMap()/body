@@ -1,0 +1,7 @@
+{
+  long now=timeProvider.currentTimeMillis();
+  for (  JobIdentifier jobIdentifier : jobInstanceService.allBuildingJobs()) {
+    jobLastActivityMap.put(jobIdentifier,now);
+  }
+  LOGGER.info(String.format("Found '%s' building jobs. Added them with '%s' as the last heard time",jobLastActivityMap.size(),new DateTime(now)));
+}

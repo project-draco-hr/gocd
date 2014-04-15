@@ -1,0 +1,7 @@
+{
+  JobInstance instance=JobInstanceMother.scheduled("jobConfig1");
+  final Date completionDate=new Date();
+  instance.completing(JobResult.Passed,completionDate);
+  assertThat(instance.getResult(),is(JobResult.Passed));
+  assertThat(instance.getState(),is(JobState.Completing));
+}

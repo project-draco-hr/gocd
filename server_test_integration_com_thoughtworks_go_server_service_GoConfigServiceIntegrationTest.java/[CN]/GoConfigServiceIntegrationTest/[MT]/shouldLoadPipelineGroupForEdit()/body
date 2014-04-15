@@ -1,0 +1,15 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("my-pipeline","my-stage","my-build");
+  pipelineConfig.addParam(new ParamConfig("label-param","param-value"));
+  pipelineConfig.setLabelTemplate("${COUNT}-#{label-param}");
+  CruiseConfig config=configHelper.currentConfig();
+  config.addPipeline("group_one",pipelineConfig);
+  configHelper.writeConfigFile(config);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit<PipelineConfigs> configForEdit=goConfigService.loadGroupForEditing("group_one",new Username(new CaseInsensitiveString("root")),result);
+  assertThat(configForEdit.getConfig().findBy(new CaseInsensitiveString("my-pipeline")).getLabelTemplate(),is("${COUNT}-#{label-param}"));
+  assertThat(configForEdit.getCruiseConfig().getMd5(),is(goConfigService.configFileMd5()));
+  configHelper.addPipeline("pipeline-foo","stage-foo");
+  assertThat(configForEdit.getCruiseConfig().getMd5(),not(goConfigService.configFileMd5()));
+  assertThat(result.isSuccessful(),is(true));
+}

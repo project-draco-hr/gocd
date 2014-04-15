@@ -1,0 +1,9 @@
+{
+  AgentViewModel agentBuilding=new AgentViewModel(building());
+  AgentViewModel agentCancelled=new AgentViewModel(cancelled());
+  AgentViewModel agentIdle=new AgentViewModel(idle(new Date(),"CCeDev01"));
+  List<AgentViewModel> sorted=sort(AgentViewModel.STATUS_COMPARATOR,agentCancelled,agentIdle,agentBuilding);
+  assertThat(sorted.get(0),is(agentBuilding));
+  assertThat(sorted.get(1),is(agentCancelled));
+  assertThat(sorted.get(2),is(agentIdle));
+}

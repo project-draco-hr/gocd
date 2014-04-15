@@ -1,0 +1,19 @@
+{
+  config=GoConfigMother.configWithPipelines("random_pipeline","uppest_lookalike","uppest_stream","upstreams_peer","upstream","downstream","dummy");
+  randomPipeline=config.pipelineConfigByName(new CaseInsensitiveString("random_pipeline"));
+  randomPipeline.add(StageConfigMother.stageConfig("random-stage1",new JobConfigs(new JobConfig("random-job1"))));
+  uppestLookalike=config.pipelineConfigByName(new CaseInsensitiveString("uppest_lookalike"));
+  uppestLookalike.add(StageConfigMother.stageConfig("uppest-stage1",new JobConfigs(new JobConfig("uppest-job1"))));
+  uppestStream=config.pipelineConfigByName(new CaseInsensitiveString("uppest_stream"));
+  uppestStream.add(StageConfigMother.stageConfig("uppest-stage1",new JobConfigs(new JobConfig("uppest-job1"))));
+  uppestStream.add(StageConfigMother.stageConfig("uppest-stage2",new JobConfigs(new JobConfig("uppest-job2"))));
+  uppestStream.add(StageConfigMother.stageConfig("uppest-stage3",new JobConfigs(new JobConfig("uppest-job3"))));
+  upstream=config.pipelineConfigByName(new CaseInsensitiveString("upstream"));
+  upstream.setMaterialConfigs(new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig("uppest_stream","uppest-stage2")));
+  upstream.add(StageConfigMother.stageConfig("up-stage1",new JobConfigs(new JobConfig("up-job1"))));
+  upstream.add(StageConfigMother.stageConfig("up-stage2",new JobConfigs(new JobConfig("up-job2"))));
+  downstream=config.pipelineConfigByName(new CaseInsensitiveString("downstream"));
+  downstream.setMaterialConfigs(new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig("upstream","up-stage1")));
+  downstream.get(0).getJobs().get(0).addTask(new FetchTask(new CaseInsensitiveString("foo"),new CaseInsensitiveString("bar"),new CaseInsensitiveString("baz"),"abcd","efg"));
+  resolver=mock(UpstreamPipelineResolver.class);
+}

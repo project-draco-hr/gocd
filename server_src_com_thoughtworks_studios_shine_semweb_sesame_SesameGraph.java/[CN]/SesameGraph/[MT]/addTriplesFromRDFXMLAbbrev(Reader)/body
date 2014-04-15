@@ -1,0 +1,11 @@
+{
+  try {
+    conn.add(reader,"",RDFFormat.RDFXML,contextResource);
+  }
+ catch (  Exception e) {
+    throw new ShineRuntimeException("Could not create graph from XML RDF!",e);
+  }
+ finally {
+    closeStream(reader);
+  }
+}

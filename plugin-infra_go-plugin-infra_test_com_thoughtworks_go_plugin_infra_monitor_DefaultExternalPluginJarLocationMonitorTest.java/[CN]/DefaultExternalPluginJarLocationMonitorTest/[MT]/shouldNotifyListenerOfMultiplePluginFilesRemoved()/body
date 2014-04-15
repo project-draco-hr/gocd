@@ -1,0 +1,20 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.start();
+  copyPluginToThePluginDirectory(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar");
+  copyPluginToThePluginDirectory(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-2.jar");
+  copyPluginToThePluginDirectory(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-3.jar");
+  waitAMoment();
+  verify(changeListener).pluginJarAdded(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar",false));
+  verify(changeListener).pluginJarAdded(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-2.jar",false));
+  verify(changeListener).pluginJarAdded(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-3.jar",false));
+  FileUtils.deleteQuietly(new File(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar"));
+  FileUtils.deleteQuietly(new File(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-2.jar"));
+  waitAMoment();
+  verify(changeListener).pluginJarRemoved(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar",false));
+  verify(changeListener).pluginJarRemoved(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-2.jar",false));
+  verifyNoMoreInteractions(changeListener);
+}

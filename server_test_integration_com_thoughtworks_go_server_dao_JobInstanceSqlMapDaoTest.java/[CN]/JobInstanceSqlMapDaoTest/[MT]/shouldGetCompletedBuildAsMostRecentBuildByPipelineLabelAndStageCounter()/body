@@ -1,0 +1,7 @@
+{
+  JobInstance expected=JobInstanceMother.completed(JOB_NAME,JobResult.Unknown);
+  expected.setScheduledDate(MOST_RECENT_DATE);
+  expected=jobInstanceDao.save(stageId,expected);
+  JobInstance actual=jobInstanceDao.mostRecentJobWithTransitions(new JobIdentifier(PIPELINE_NAME,savedPipeline.getLabel(),STAGE_NAME,String.valueOf(counter),JOB_NAME));
+  assertThat("JobInstance should match",actual.getId(),is(expected.getId()));
+}

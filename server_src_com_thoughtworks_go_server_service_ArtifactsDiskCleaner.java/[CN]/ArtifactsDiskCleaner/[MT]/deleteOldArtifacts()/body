@@ -1,0 +1,26 @@
+{
+  ServerConfig serverConfig=goConfigService.serverConfig();
+  Double requiredSpaceInGb=serverConfig.getPurgeUpto();
+  if (serverConfig.isArtifactPurgingAllowed()) {
+    double requiredSpace=requiredSpaceInGb * GoConstants.GIGA_BYTE;
+    LOGGER.info(String.format("Clearing old artifacts as the disk space is low. Current space: '%s'. Need to clear till we hit: '%s'.",availableSpace(),requiredSpace));
+    List<Stage> stages;
+    int numberOfStagesPurged=0;
+    do {
+      configDbStateRepository.flushConfigState();
+      stages=stageService.oldestStagesWithDeletableArtifacts();
+      for (      Stage stage : stages) {
+        if (availableSpace() > requiredSpace) {
+          break;
+        }
+        numberOfStagesPurged++;
+        artifactService.purgeArtifactsForStage(stage);
+      }
+    }
+ while ((availableSpace() < requiredSpace) && !stages.isEmpty());
+    if (availableSpace() < requiredSpace) {
+      LOGGER.warn("Ran out of stages to clear artifacts from but the disk space is still low");
+    }
+    LOGGER.info(String.format("Finished clearing old artifacts. Deleted artifacts for '%s' stages. Current space: '%s'",numberOfStagesPurged,availableSpace()));
+  }
+}

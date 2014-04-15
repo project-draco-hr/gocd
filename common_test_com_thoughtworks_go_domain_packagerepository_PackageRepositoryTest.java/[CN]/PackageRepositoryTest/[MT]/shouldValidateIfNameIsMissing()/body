@@ -1,0 +1,5 @@
+{
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.validate(new ValidationContext(new CruiseConfig(),null));
+  assertThat(packageRepository.errors().getAllOn("name"),is(asList("Please provide name")));
+}

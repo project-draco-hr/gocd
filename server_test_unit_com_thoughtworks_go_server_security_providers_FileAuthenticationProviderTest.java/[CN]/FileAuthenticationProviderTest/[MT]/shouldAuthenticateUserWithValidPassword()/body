@@ -1,0 +1,6 @@
+{
+  AuthorityGranter authorityGranter=new AuthorityGranter(securityService);
+  FileAuthenticationProvider provider=new FileAuthenticationProvider(goConfigService,authorityGranter,userService,securityService);
+  UserDetails user=new User("jez",SHA1_BADGER,true,true,true,true,new GrantedAuthority[0]);
+  provider.additionalAuthenticationChecks(user,new UsernamePasswordAuthenticationToken("jez","badger"));
+}

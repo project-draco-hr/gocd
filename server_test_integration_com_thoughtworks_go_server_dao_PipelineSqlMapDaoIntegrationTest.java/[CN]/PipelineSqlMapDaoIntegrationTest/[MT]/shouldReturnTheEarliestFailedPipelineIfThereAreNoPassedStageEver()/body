@@ -1,0 +1,21 @@
+{
+  PipelineConfig config=PipelineMother.createPipelineConfig("pipeline",new MaterialConfigs(MaterialConfigsMother.hgMaterialConfig()),"firstStage","secondStage");
+  Pipeline pipeline2=dbHelper.newPipelineWithFirstStagePassed(config);
+  Stage stage=dbHelper.scheduleStage(pipeline2,config.get(1));
+  dbHelper.failStage(stage);
+  dbHelper.updateNaturalOrder(pipeline2.getId(),6.0);
+  Pipeline pipeline3=dbHelper.newPipelineWithFirstStagePassed(config);
+  dbHelper.updateNaturalOrder(pipeline3.getId(),7.0);
+  Pipeline pipeline4=dbHelper.newPipelineWithFirstStagePassed(config);
+  stage=dbHelper.scheduleStage(pipeline4,config.get(1));
+  dbHelper.cancelStage(stage);
+  dbHelper.updateNaturalOrder(pipeline4.getId(),8.0);
+  Pipeline pipeline5=dbHelper.newPipelineWithFirstStagePassed(config);
+  dbHelper.scheduleStage(pipeline5,config.get(1));
+  dbHelper.updateNaturalOrder(pipeline5.getId(),9.0);
+  Pipeline pipeline6=dbHelper.newPipelineWithFirstStagePassed(config);
+  stage=dbHelper.scheduleStage(pipeline6,config.get(1));
+  dbHelper.failStage(stage);
+  dbHelper.updateNaturalOrder(pipeline6.getId(),10.0);
+  assertThat(pipelineDao.findEarlierPipelineThatPassedForStage("pipeline","secondStage",10.0),is(nullValue()));
+}

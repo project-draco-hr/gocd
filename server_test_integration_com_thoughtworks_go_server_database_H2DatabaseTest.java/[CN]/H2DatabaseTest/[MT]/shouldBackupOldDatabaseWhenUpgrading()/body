@@ -1,0 +1,9 @@
+{
+  dbFixture.copyOldDb();
+  h2Database.startDatabase();
+  h2Database.upgrade();
+  assertThat(dbFixture.oldDb().exists(),is(false));
+  File backup=dbFixture.backupFile();
+  assertThat(backup.exists(),is(true));
+  assertThat(backup.getName(),matches(".+\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d\\.zip"));
+}

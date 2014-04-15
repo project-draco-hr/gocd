@@ -1,0 +1,13 @@
+{
+  pattern=escapeWildCardsAndTrim(pattern.trim());
+  if (!securityService.hasViewPermissionForPipeline(userName,pipelineName)) {
+    result.unauthorized(LocalizedMessage.cannotViewPipeline(pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return PipelineInstanceModels.createPipelineInstanceModels();
+  }
+  PipelineInstanceModels models=pipelineDao.findMatchingPipelineInstances(pipelineName,pattern,limitForPipeline(pipelineName,limit));
+  for (  PipelineInstanceModel model : models) {
+    populatePlaceHolderStages(model);
+    populateMaterialRevisionsOnBuildCause(model);
+  }
+  return models;
+}

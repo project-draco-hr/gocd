@@ -1,0 +1,12 @@
+{
+  PipelineInstanceModel pipelineHistoryItem1=PipelineHistoryItemMother.custom("stage1","stage2");
+  PipelineInstanceModel pipelineHistoryItem2=PipelineHistoryItemMother.custom("stage1","stage2");
+  PipelineInstanceModel pipelineHistoryItem3=PipelineHistoryItemMother.custom("stage2","stage1");
+  PipelineInstanceModel pipelineHistoryItem4=PipelineHistoryItemMother.custom("stage1","stage3");
+  PipelineInstanceModels history=PipelineInstanceModels.createPipelineInstanceModels(pipelineHistoryItem1,pipelineHistoryItem2,pipelineHistoryItem3,pipelineHistoryItem4);
+  PipelineHistoryGroups historyGroups=groupingUtil.createGroups(history);
+  assertThat(historyGroups.size(),is(3));
+  assertThat(historyGroups.first().hasSameStagesAs(pipelineHistoryItem1),is(true));
+  assertThat(historyGroups.get(1).hasSameStagesAs(pipelineHistoryItem3),is(true));
+  assertThat(historyGroups.get(2).hasSameStagesAs(pipelineHistoryItem4),is(true));
+}

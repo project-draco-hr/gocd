@@ -1,0 +1,8 @@
+{
+  GoCache cache=mock(GoCache.class);
+  BaseUrlChangeListener listener=new BaseUrlChangeListener(serverConfigWith("",""),cache);
+  CruiseConfig newCruiseConfig=new CruiseConfig();
+  newCruiseConfig.setServerConfig(serverConfigWith("",""));
+  listener.onConfigChange(newCruiseConfig);
+  verifyZeroInteractions(cache);
+}

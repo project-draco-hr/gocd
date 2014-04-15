@@ -1,0 +1,10 @@
+{
+  try {
+    HttpServletRequest req=(HttpServletRequest)servletRequest;
+    FlashMessageService.useFlash(loadFlash(req));
+    filterChain.doFilter(req,servletResponse);
+  }
+  finally {
+    FlashMessageService.useFlash(null);
+  }
+}

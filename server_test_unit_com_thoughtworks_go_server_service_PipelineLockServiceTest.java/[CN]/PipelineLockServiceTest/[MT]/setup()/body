@@ -1,0 +1,6 @@
+{
+  pipelineDao=mock(PipelineSqlMapDao.class);
+  goConfigService=mock(GoConfigService.class);
+  pipelineLockService=new PipelineLockService(goConfigService,pipelineDao);
+  pipelineLockService.initialize();
+}

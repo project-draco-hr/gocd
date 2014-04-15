@@ -1,0 +1,6 @@
+{
+  MaterialRevision revision=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("rev2"),oneModifiedFile("rev1")).getMaterialRevision(0);
+  MaterialRevision passedIn=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("rev1")).getMaterialRevision(0);
+  MaterialRevision expected=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("rev2")).getMaterialRevision(0);
+  assertThat(revision.subtract(passedIn),is(expected));
+}

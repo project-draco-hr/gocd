@@ -1,0 +1,10 @@
+{
+  this.name=name;
+  this.users=users;
+  checkForDuplicateUsers(new DuplicateHandler(){
+    public void invoke(    RoleUser roleUser){
+      throw new RuntimeException(userExistsError(roleUser));
+    }
+  }
+);
+}

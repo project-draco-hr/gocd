@@ -1,0 +1,7 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  config.agents().add(new AgentConfig("uuid"));
+  expectLoad(config);
+  assertThat(goConfigService.hasAgent("uuid"),is(true));
+  assertThat(goConfigService.hasAgent("doesnt-exist"),is(false));
+}

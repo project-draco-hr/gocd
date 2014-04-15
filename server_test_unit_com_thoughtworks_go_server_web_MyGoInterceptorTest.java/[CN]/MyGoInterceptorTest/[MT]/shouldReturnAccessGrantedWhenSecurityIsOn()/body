@@ -1,0 +1,6 @@
+{
+  securityIs(true);
+  boolean result=myGoInterceptor.preHandle(request,response,null);
+  assertThat(response.getStatus(),is(HttpServletResponse.SC_OK));
+  assertThat(result,is(true));
+}

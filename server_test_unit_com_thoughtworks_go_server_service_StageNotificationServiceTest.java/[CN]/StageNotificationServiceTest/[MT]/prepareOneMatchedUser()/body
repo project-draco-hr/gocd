@@ -1,0 +1,7 @@
+{
+  String jezMail="jez@cruise.com";
+  User jez=new User("jez",new String[]{"lgao"},jezMail,true);
+  jez.setNotificationFilters(Arrays.asList(new NotificationFilter("go","dev",StageEvent.All,true)));
+  when(userService.findValidSubscribers(new StageConfigIdentifier("go","dev"))).thenReturn(new Users(Arrays.asList(jez)));
+  return jezMail;
+}

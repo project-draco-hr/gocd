@@ -1,0 +1,11 @@
+{
+  if (authentication instanceof OauthAuthenticationToken) {
+    if (!config.contains(new SecurityConfig(ROLE_OAUTH_USER.name()))) {
+      return ACCESS_DENIED;
+    }
+ else {
+      return ACCESS_GRANTED;
+    }
+  }
+  return ACCESS_ABSTAIN;
+}

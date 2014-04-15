@@ -1,0 +1,15 @@
+{
+  Configuration packageConfiguration=new Configuration(getConfigurationProperty("name",false,"go-agent"));
+  Configuration repositoryConfiguration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig configToSave=new CruiseConfig();
+  PackageRepository packageRepository=createPackageRepository("plugin-id-1","version","id1","name1",repositoryConfiguration,new Packages(new PackageDefinition("id","name",packageConfiguration)));
+  PackageRepository anotherPackageRepository=createPackageRepository("plugin-id-2","version","id2","name2",repositoryConfiguration,new Packages(new PackageDefinition("id","name",packageConfiguration)));
+  configToSave.setPackageRepositories(new PackageRepositories(packageRepository,anotherPackageRepository));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not have allowed two package repositories with same id");
+  }
+ catch (  XsdValidationException e) {
+    assertThat(e.getMessage(),is("Duplicate unique value [id] declared for identity constraint \"uniquePackageId\" of element \"cruise\"."));
+  }
+}

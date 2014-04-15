@@ -1,0 +1,11 @@
+{
+  trackingTool=new TrackingTool();
+  HashMap attributeMap=new HashMap();
+  String expectedLink="http://blah.com";
+  attributeMap.put(TrackingTool.LINK,expectedLink);
+  String expectedRegex="[a-z]*";
+  attributeMap.put(TrackingTool.REGEX,expectedRegex);
+  trackingTool.setConfigAttributes(attributeMap);
+  assertThat(trackingTool.getLink(),is(expectedLink));
+  assertThat(trackingTool.getRegex(),is(expectedRegex));
+}

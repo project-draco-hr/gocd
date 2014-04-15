@@ -1,0 +1,16 @@
+{
+  evolveConfig=configHelper.addPipeline("evolve",STAGE_NAME,repository,JOB_NAME);
+  autoSchedulePipelines("mingle","evolve");
+  PipelineConfig cruisePlan=configHelper.addPipeline("cruise","test",repository);
+  assertThat(goConfigService.stageConfigNamed("mingle","dev"),is(notNullValue()));
+  String dir=goConfigFileDao.load().server().artifactsDir();
+  new File(dir).mkdirs();
+  goConfigService.forceNotifyListeners();
+  Stage cruise=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(cruisePlan.name()),cruisePlan.findBy(new CaseInsensitiveString("test")));
+  assertEquals(NullStage.class,cruise.getClass());
+  autoSchedulePipelines("cruise");
+  cruise=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(cruisePlan.name()),cruisePlan.findBy(new CaseInsensitiveString("test")));
+  for (  JobInstance instance : cruise.getJobInstances()) {
+    assertThat(instance.getState(),is(JobState.Scheduled));
+  }
+}

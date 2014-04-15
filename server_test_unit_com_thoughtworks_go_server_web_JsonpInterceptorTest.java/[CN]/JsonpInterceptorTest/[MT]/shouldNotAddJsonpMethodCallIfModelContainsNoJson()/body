@@ -1,0 +1,8 @@
+{
+  HashMap model=new HashMap();
+  model.put("key","value");
+  ModelAndView modelAndView=new ModelAndView("view",model);
+  request.addParameter("callback","foo");
+  jsonpInterceptor.postHandle(request,response,null,modelAndView);
+  assertThat((HashMap)modelAndView.getModel(),Is.is(model));
+}

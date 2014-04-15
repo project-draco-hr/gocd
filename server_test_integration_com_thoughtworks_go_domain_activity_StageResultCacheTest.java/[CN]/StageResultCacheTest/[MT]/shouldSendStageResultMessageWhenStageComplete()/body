@@ -1,0 +1,10 @@
+{
+  Pipeline pipeline=pipelineFixture.createdPipelineWithAllStagesPassed();
+  StageResultTopicStub stub=new StageResultTopicStub(messagingService);
+  StageResultCache cache=new StageResultCache(stageDao,stub,stageStatusTopic);
+  StageIdentifier identifier=pipeline.getFirstStage().getIdentifier();
+  cache.onMessage(new StageStatusMessage(identifier,StageState.Passed,StageResult.Passed));
+  assertThat(stub.message,is(new StageResultMessage(identifier,StageEvent.Passes,Username.BLANK)));
+  cache.onMessage(new StageStatusMessage(identifier,StageState.Failed,StageResult.Failed));
+  assertThat(stub.message,is(new StageResultMessage(identifier,StageEvent.Breaks,Username.BLANK)));
+}

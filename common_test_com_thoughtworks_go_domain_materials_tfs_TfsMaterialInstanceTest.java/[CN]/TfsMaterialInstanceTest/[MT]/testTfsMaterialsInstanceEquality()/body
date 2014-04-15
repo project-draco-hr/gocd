@@ -1,0 +1,8 @@
+{
+  TfsMaterialInstance instance1=new TfsMaterialInstance("http://foo.com","username","CORPORATE","some_project_path","blah");
+  TfsMaterialInstance instance2=new TfsMaterialInstance("http://foo.com","username","CORPORATE","some_other_project_path","some_other_blah");
+  assertThat(instance1,is(not(instance2)));
+  TfsMaterialInstance instance=new TfsMaterialInstance("http://foo.com","username","CORPORATE","some_project_path","blah");
+  TfsMaterialInstance similarInstance=new TfsMaterialInstance("http://foo.com","username","CORPORATE","some_project_path","blah");
+  assertThat(instance,is(similarInstance));
+}

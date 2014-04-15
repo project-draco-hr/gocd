@@ -1,0 +1,11 @@
+{
+  List<Modification> modificationsWithDuplicates=new ArrayList<Modification>();
+  for (  MaterialRevision revision : materialRevisions) {
+    for (    Modification modification : revision.getModifications()) {
+      if (!modificationsWithDuplicates.contains(modification)) {
+        modificationsWithDuplicates.add(modification);
+      }
+    }
+  }
+  return deduplicateRevisionsForMaterial(modificationsWithDuplicates);
+}

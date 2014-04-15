@@ -1,0 +1,12 @@
+{
+  FileInputStream inputStream=null;
+  try {
+    KeyStore store=KeyStore.getInstance(KEYSTORE_TYPE);
+    inputStream=maybeInputStream(keystoreFile);
+    store.load(inputStream,maybePassword(password));
+    return store;
+  }
+  finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+}

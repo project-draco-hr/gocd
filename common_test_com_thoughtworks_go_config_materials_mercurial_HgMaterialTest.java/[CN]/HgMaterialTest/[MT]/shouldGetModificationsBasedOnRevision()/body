@@ -1,0 +1,6 @@
+{
+  List<Modification> modificationsSince=hgMaterial.modificationsSince(workingFolder,new StringRevision(REVISION_0),new TestSubprocessExecutionContext());
+  assertThat(modificationsSince.get(0).getRevision(),is(REVISION_2));
+  assertThat(modificationsSince.get(1).getRevision(),is(REVISION_1));
+  assertThat(modificationsSince.size(),is(2));
+}

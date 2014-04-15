@@ -1,0 +1,17 @@
+{
+  String cacheKey=pipelineHistoryCacheKey(id);
+  PipelineInstanceModel result=(PipelineInstanceModel)goCache.get(cacheKey);
+  if (result == null) {
+synchronized (cacheKey) {
+      result=(PipelineInstanceModel)goCache.get(cacheKey);
+      if (result == null) {
+        result=(PipelineInstanceModel)getSqlMapClientTemplate().queryForObject("getPipelineHistoryById",arguments("id",id).asMap());
+        if (result == null) {
+          return null;
+        }
+        goCache.put(cacheKey,result);
+      }
+    }
+  }
+  return cloner.deepClone(result);
+}

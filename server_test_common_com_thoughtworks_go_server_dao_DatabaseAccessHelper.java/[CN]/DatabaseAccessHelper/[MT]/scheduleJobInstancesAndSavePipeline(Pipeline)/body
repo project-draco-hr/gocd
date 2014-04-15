@@ -1,0 +1,12 @@
+{
+  assertNotInserted(pipeline.getId());
+  for (  Stage stage : pipeline.getStages()) {
+    for (    JobInstance jobInstance : stage.getJobInstances()) {
+      jobInstance.schedule();
+    }
+  }
+  this.savePipelineWithStagesAndMaterials(pipeline);
+  long pipelineId=pipeline.getId();
+  assertIsInserted(pipelineId);
+  return pipeline;
+}

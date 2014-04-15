@@ -1,0 +1,9 @@
+{
+  for (  ProcessWrapper processWrapper : processMap.values()) {
+    String tag=processWrapper.getProcessTag();
+    if (!isEmpty(tag) && tag.equalsIgnoreCase(processTag)) {
+      return processWrapper.getIdleTime();
+    }
+  }
+  return 0;
+}

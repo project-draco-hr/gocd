@@ -1,0 +1,15 @@
+{
+  Mock handler1=mock(SAXBasedExtractor.class);
+  Mock handler2=mock(SAXBasedExtractor.class);
+  handler1.expects(once()).method("characters").with(eq(null),eq(0),eq(2));
+  handler2.expects(once()).method("characters").with(eq(null),eq(0),eq(2));
+  handler1.expects(once()).method("canStop").will(returnValue(true));
+  handler2.expects(once()).method("canStop").will(returnValue(true));
+  com.thoughtworks.go.legacywrapper.CompositeExtractor handler=new com.thoughtworks.go.legacywrapper.CompositeExtractor(extractors(handler1,handler2));
+  try {
+    handler.characters(null,0,2);
+    fail();
+  }
+ catch (  ShouldStopParsingException e) {
+  }
+}

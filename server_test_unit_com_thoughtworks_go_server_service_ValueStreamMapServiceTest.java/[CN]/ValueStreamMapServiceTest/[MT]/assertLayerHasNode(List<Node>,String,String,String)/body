@@ -1,0 +1,11 @@
+{
+  for (  Node currentNode : nodesOfLevel) {
+    if (currentNode.getId().equals(expectedNodeId)) {
+      assertThat(currentNode.getName(),is(expectedNodeName));
+      assertThat(currentNode.getId(),is(expectedNodeId));
+      VSMTestHelper.assertNodeHasChildren(currentNode,dependents);
+      return;
+    }
+  }
+  fail("was expecting to see node " + expectedNodeId);
+}

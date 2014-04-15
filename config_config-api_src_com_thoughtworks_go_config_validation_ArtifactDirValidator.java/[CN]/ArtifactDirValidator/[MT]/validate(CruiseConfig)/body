@@ -1,0 +1,10 @@
+{
+  ServerConfig serverConfig=cruiseConfig.server();
+  String artifactDir=serverConfig.artifactsDir();
+  if (isEmpty(artifactDir)) {
+    throw new Exception("Please provide a not empty value for artifactsdir");
+  }
+  if (StringUtils.equals(".",artifactDir) || new File("").getAbsolutePath().equals(new File(artifactDir).getAbsolutePath())) {
+    throw new Exception("artifactsdir should not point to the root of sand box [" + new File(artifactDir).getAbsolutePath() + "]");
+  }
+}

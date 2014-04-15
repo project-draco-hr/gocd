@@ -1,0 +1,9 @@
+{
+  try {
+    xmlLoader.loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(ConfigFileFixture.STAGE_WITH_EMPTY_AUTH)));
+    fail("Should not allow approval with empty authorization");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("The content of element 'authorization' is not complete"));
+  }
+}

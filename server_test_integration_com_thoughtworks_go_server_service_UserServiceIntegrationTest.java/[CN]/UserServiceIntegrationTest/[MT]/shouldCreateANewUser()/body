@@ -1,0 +1,7 @@
+{
+  UserSearchModel foo=new UserSearchModel(new User("fooUser","Mr Foo","foo@cruise.com"),UserSourceType.LDAP);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.create(Arrays.asList(foo),result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(result.message(localizer),is("User 'fooUser' successfully added."));
+}

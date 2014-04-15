@@ -1,0 +1,11 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  for (  String materialFingerprint : revisionInfo.keySet()) {
+    MaterialConfig materialConfig=goConfigService.findMaterial(new CaseInsensitiveString(pipelineName),materialFingerprint);
+    if (materialConfig == null) {
+      throw new RuntimeException(String.format("Material with fingerprint [%s] for pipeline [%s] does not exist",materialFingerprint,pipelineName));
+    }
+    materialRevisions.addRevision(materialChecker.findSpecificRevision(materialConfigConverter.toMaterial(materialConfig),revisionInfo.get(materialFingerprint)));
+  }
+  return materialRevisions;
+}

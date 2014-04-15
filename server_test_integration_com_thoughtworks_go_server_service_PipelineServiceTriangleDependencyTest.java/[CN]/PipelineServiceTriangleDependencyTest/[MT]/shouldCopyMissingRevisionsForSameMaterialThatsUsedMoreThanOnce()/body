@@ -1,0 +1,14 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("last");
+  pipelineConfig.materialConfigs().clear();
+  HgMaterialConfig onDirOne=MaterialConfigsMother.hgMaterialConfig("google.com","dirOne");
+  HgMaterialConfig onDirTwo=MaterialConfigsMother.hgMaterialConfig("google.com","dirTwo");
+  pipelineConfig.addMaterialConfig(onDirOne);
+  pipelineConfig.addMaterialConfig(onDirTwo);
+  HashMap<Material,String> materialToCommit=new HashMap<Material,String>();
+  materialToCommit.put(MaterialsMother.createMaterialFromMaterialConfig(onDirOne),"abc");
+  materialToCommit.put(MaterialsMother.createMaterialFromMaterialConfig(onDirTwo),"abc");
+  MaterialRevisions revs=ModificationsMother.getMaterialRevisions(materialToCommit);
+  MaterialRevisions finalRevisions=service.getRevisionsBasedOnDependencies(new PipelineConfigDependencyGraph(pipelineConfig),revs);
+  assertThat(finalRevisions.getRevisions(),is(revs.getRevisions()));
+}

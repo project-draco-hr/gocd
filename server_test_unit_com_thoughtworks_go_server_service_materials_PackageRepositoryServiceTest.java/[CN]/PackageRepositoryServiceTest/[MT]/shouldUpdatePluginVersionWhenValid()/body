@@ -1,0 +1,9 @@
+{
+  String pluginId="valid";
+  RepositoryMetadataStore.getInstance().addMetadataFor(pluginId,new PackageConfigurations());
+  when(pluginManager.getPluginDescriptorFor(pluginId)).thenReturn(new GoPluginDescriptor(pluginId,"1.0",null,null,null,true));
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setPluginConfiguration(new PluginConfiguration(pluginId,""));
+  service.performPluginValidationsFor(packageRepository);
+  assertThat(packageRepository.getPluginConfiguration().getVersion(),is("1.0"));
+}

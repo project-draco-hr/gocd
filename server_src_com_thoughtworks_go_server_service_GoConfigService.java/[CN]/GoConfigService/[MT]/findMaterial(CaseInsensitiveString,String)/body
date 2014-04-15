@@ -1,0 +1,10 @@
+{
+  MaterialConfigs materialConfigs=materialConfigsFor(pipeline);
+  for (  MaterialConfig materialConfig : materialConfigs) {
+    if (pipelineUniqueFingerprint.equals(materialConfig.getPipelineUniqueFingerprint())) {
+      return materialConfig;
+    }
+  }
+  LOGGER.error("material with fingerprint [" + pipelineUniqueFingerprint + "] not found in pipeline ["+ pipeline+ "]");
+  return null;
+}

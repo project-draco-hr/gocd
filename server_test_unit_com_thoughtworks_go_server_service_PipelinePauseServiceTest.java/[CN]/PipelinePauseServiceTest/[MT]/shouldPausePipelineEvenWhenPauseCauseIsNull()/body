@@ -1,0 +1,8 @@
+{
+  setUpValidPipelineWithAuth();
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  pipelinePauseService.pause(VALID_PIPELINE,null,VALID_USER,result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(result.httpCode(),is(HttpStatus.SC_OK));
+  verify(pipelineDao).pause(VALID_PIPELINE,"",VALID_USER.getUsername().toString());
+}

@@ -1,0 +1,12 @@
+{
+  List<PluggableViewModel> viewModels=new ArrayList<PluggableViewModel>();
+  for (  Task task : allTasks()) {
+    if (task.hasSameTypeAs(given)) {
+      viewModels.add(getViewModel(given,"new"));
+    }
+ else {
+      viewModels.add(getViewModel(task,"new"));
+    }
+  }
+  return viewModels;
+}

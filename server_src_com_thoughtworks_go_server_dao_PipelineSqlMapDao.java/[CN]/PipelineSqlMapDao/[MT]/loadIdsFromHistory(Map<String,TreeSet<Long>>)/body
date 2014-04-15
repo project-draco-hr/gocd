@@ -1,0 +1,13 @@
+{
+  List<Long> idsForHistory=new ArrayList<Long>();
+  try {
+    activePipelineReadLock.lock();
+    for (    Map.Entry<String,TreeSet<Long>> pipelineToIds : result.entrySet()) {
+      idsForHistory.addAll(pipelineToIds.getValue().descendingSet());
+    }
+  }
+  finally {
+    activePipelineReadLock.unlock();
+  }
+  return idsForHistory;
+}

@@ -1,0 +1,10 @@
+{
+  FileInputStream stream=null;
+  try {
+    stream=new FileInputStream(file);
+    return md5DigestOfStream(stream);
+  }
+  finally {
+    IOUtils.closeQuietly(stream);
+  }
+}

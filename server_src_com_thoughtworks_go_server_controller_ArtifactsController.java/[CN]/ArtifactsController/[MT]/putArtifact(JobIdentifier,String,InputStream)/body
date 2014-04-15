@@ -1,0 +1,9 @@
+{
+  File artifact=artifactsService.findArtifact(jobIdentifier,filePath);
+  if (artifactsService.saveOrAppendFile(artifact,inputStream)) {
+    return FileModelAndView.fileAppended(filePath);
+  }
+ else {
+    return FileModelAndView.errorSavingFile(filePath);
+  }
+}

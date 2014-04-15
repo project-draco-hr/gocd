@@ -1,0 +1,14 @@
+{
+  queue=mock(MaterialUpdateQueue.class);
+  completed=mock(MaterialUpdateCompletedTopic.class);
+  goConfigService=mock(GoConfigService.class);
+  postCommitHookMaterialType=mock(PostCommitHookMaterialTypeResolver.class);
+  serverHealthService=mock(ServerHealthService.class);
+  systemEnvironment=new SystemEnvironment();
+  materialConfigConverter=mock(MaterialConfigConverter.class);
+  mduPerformanceLogger=mock(MDUPerformanceLogger.class);
+  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  Set<MaterialConfig> schedulableMaterialConfigs=new HashSet<MaterialConfig>(Collections.singleton(material().config()));
+  when(goConfigService.getSchedulableMaterials()).thenReturn(schedulableMaterialConfigs);
+  when(materialConfigConverter.toMaterials(schedulableMaterialConfigs)).thenReturn(new HashSet<Material>(Collections.singleton(material())));
+}

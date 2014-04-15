@@ -1,0 +1,16 @@
+{
+  processManager=new ProcessManager();
+  ProcessWrapper processWrapperOne=mock(ProcessWrapper.class);
+  Process processOne=mock(Process.class);
+  ProcessWrapper processWrapperTwo=mock(ProcessWrapper.class);
+  Process processTwo=mock(Process.class);
+  ConcurrentHashMap<Process,ProcessWrapper> processMap=processManager.getProcessMap();
+  processMap.put(processOne,processWrapperOne);
+  processMap.put(processTwo,processWrapperTwo);
+  when(processWrapperOne.getProcessTag()).thenReturn("tag1");
+  when(processWrapperOne.getIdleTime()).thenReturn(200L);
+  when(processWrapperTwo.getProcessTag()).thenReturn("tag2");
+  when(processWrapperTwo.getIdleTime()).thenReturn(100L);
+  long timeout=processManager.getIdleTimeFor("tag2");
+  assertThat(timeout,is(100L));
+}

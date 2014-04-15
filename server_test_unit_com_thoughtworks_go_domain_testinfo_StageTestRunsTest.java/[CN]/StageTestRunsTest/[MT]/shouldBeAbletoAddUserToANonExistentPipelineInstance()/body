@@ -1,0 +1,8 @@
+{
+  StageTestRuns stageTestRuns=new StageTestRuns(999,0,0);
+  stageTestRuns.addUser(3,"3","jj");
+  List<FailingTestsInPipeline> pipelines=stageTestRuns.failingTestsInPipelines();
+  assertThat(pipelines.size(),is(1));
+  assertThat(pipelines.get(0).getLabel(),is("3"));
+  assertThat(pipelines.get(0).users().get(0),is("jj"));
+}

@@ -1,0 +1,6 @@
+{
+  if (StringUtils.isBlank(group) || !new NameTypeValidator().isNameValid(group)) {
+    this.configErrors.add(GROUP,NameTypeValidator.errorMessage("group",group));
+  }
+  verifyPipelineNameUniqueness();
+}

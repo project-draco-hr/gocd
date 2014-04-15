@@ -1,0 +1,14 @@
+{
+  FileOutputStream fileOutputStream=null;
+  try {
+    truststore.setCertificateEntry(alias,chain);
+    fileOutputStream=new FileOutputStream(truststorePath);
+    truststore.store(fileOutputStream,truststorePassword.toCharArray());
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("Coudn't update keystore with certificate with alias " + alias,e);
+  }
+ finally {
+    IOUtils.closeQuietly(fileOutputStream);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  String output="Change 2 by cce123user@connect4_10.18.2.31 on 2008/08/19 15:04:43\n" + "\n" + "\tAdded config file\n"+ "\n"+ "Affected files ...\n"+ "\n"+ "... //depot/cruise-config.xml#1 add\n"+ "... //depot/README.txt#2 edit\n"+ "... //depot/cruise-output/log.xml#1 delete\n"+ "";
+  Modification mod=parser.modificationFromDescription(output,new ConsoleResult(0,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<CommandArgument>(),new ArrayList<SecretString>()));
+  assertThat(mod.getRevision(),is("2"));
+  assertThat(mod.getUserName(),is("cce123user@connect4_10.18.2.31"));
+  assertThat(mod.getModifiedTime(),is(DESCRIPTION_FORMAT.parse("2008/08/19 15:04:43")));
+  assertThat(mod.getComment(),is("Added config file"));
+  List<ModifiedFile> files=mod.getModifiedFiles();
+  assertThat(files.size(),is(3));
+  assertThat(files.get(0).getAction(),is(ModifiedAction.added));
+  assertThat(files.get(0).getFileName(),is("cruise-config.xml"));
+  assertThat(files.get(1).getAction(),is(ModifiedAction.modified));
+  assertThat(files.get(2).getAction(),is(ModifiedAction.deleted));
+  assertThat(files.get(2).getFileName(),is("cruise-output/log.xml"));
+}

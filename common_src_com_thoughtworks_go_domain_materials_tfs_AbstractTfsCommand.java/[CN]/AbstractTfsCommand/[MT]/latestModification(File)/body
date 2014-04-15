@@ -1,0 +1,12 @@
+{
+  try {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(String.format("[TFS] History for Workspace: %s, Working Folder: %s, Latest Revision: null, RevToLoad: 1",workspace,workDir));
+    }
+    return latestInHistory();
+  }
+ catch (  Exception e) {
+    String message=String.format("[TFS] Failed while checking for latest modifications on Server: %s, Project Path: %s, Username: %s, Domain: %s",url,projectPath,userName,domain);
+    throw new RuntimeException(message,e);
+  }
+}

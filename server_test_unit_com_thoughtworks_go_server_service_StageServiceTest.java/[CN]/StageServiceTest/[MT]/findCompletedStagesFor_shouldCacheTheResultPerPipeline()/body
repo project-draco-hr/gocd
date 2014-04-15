@@ -1,0 +1,23 @@
+{
+  Date updateDate=new Date();
+  when(stageDao.findCompletedStagesFor("cruise",FeedModifier.Latest,-1,25)).thenReturn(asList(stageFeedEntry("cruise",updateDate))).thenReturn(asList(stageFeedEntry("cruise",updateDate)));
+  MingleConfig mingleConfig=new MingleConfig("http://foo.bar:7019/baz/","go-project");
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfigWithMingle("cruise",mingleConfig));
+  Map<Long,List<ModificationForPipeline>> expectedMap=new HashMap<Long,List<ModificationForPipeline>>();
+  expectedMap.put(1L,asList(new ModificationForPipeline(new PipelineId("cruise",1L),ModificationsMother.checkinWithComment("revision","#123 hello wolrd",updateDate),"Svn","fooBarBaaz")));
+  when(changesetService.modificationsOfPipelines(asList(1L),"cruise",Username.ANONYMOUS)).thenReturn(expectedMap);
+  StageService service=new StageService(stageDao,null,null,null,null,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,new StubGoCache(transactionSynchronizationManager));
+  FeedEntry expected=stageFeedEntry("cruise",updateDate);
+  FeedEntries feedEntries=service.feed("cruise",Username.ANONYMOUS);
+  assertThat(feedEntries,is(new FeedEntries(asList(expected))));
+  assertThat(feedEntries.get(0).getAuthors(),is(asList(new Author(ModificationsMother.MOD_USER_COMMITTER,ModificationsMother.EMAIL_ADDRESS))));
+  assertThat(feedEntries.get(0).getMingleCards(),is(asList(new MingleCard(mingleConfig,"123"))));
+  feedEntries=service.feed("cruise",Username.ANONYMOUS);
+  assertThat(feedEntries,is(new FeedEntries(asList(expected))));
+  assertThat(feedEntries.get(0).getAuthors(),is(asList(new Author(ModificationsMother.MOD_USER_COMMITTER,ModificationsMother.EMAIL_ADDRESS))));
+  assertThat(feedEntries.get(0).getMingleCards(),is(asList(new MingleCard(mingleConfig,"123"))));
+  verify(stageDao).findCompletedStagesFor("cruise",FeedModifier.Latest,-1,25);
+  verify(changesetService).modificationsOfPipelines(asList(1L),"cruise",Username.ANONYMOUS);
+  verifyNoMoreInteractions(stageDao);
+  verifyNoMoreInteractions(changesetService);
+}

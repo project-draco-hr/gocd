@@ -1,0 +1,14 @@
+{
+  Username user=new Username(new CaseInsensitiveString("user"));
+  when(securityService.isUserAdmin(user)).thenReturn(true);
+  PipelineTemplateConfig template=template("first_template");
+  PipelineTemplateConfig emptyTemplate=template("empty_template");
+  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(createPipelineWithTemplate("first",template),createPipelineWithTemplate("second",template)));
+  cruiseConfig.addTemplate(template);
+  cruiseConfig.addTemplate(emptyTemplate);
+  when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
+  Map<CaseInsensitiveString,List<CaseInsensitiveString>> templateWithPipelines=service.templatesWithPipelinesForUser("user");
+  assertThat(templateWithPipelines.size(),is(2));
+  assertThat(templateWithPipelines.get(new CaseInsensitiveString("first_template")),is(Arrays.asList(new CaseInsensitiveString("first"),new CaseInsensitiveString("second"))));
+  assertThat(templateWithPipelines.get(new CaseInsensitiveString("empty_template")),is((List<CaseInsensitiveString>)new ArrayList<CaseInsensitiveString>()));
+}

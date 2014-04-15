@@ -1,0 +1,8 @@
+{
+  configHelper.addPipeline("pipeline","stage");
+  CruiseConfig config=configHelper.currentConfig();
+  config.findJob("pipeline","stage","unit").setTimeout("10");
+  configHelper.writeConfigFile(config);
+  setJobTimeoutTo("30");
+  assertThat(goConfigService.getUnresponsiveJobTerminationThreshold(new JobIdentifier("pipeline",-1,"label","stage","-1","unit")),is(10 * 60 * 1000L));
+}

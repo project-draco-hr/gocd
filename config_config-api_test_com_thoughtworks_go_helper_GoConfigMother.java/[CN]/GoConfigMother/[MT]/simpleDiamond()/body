@@ -1,0 +1,10 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  PipelineConfig pipeline1=PipelineConfigMother.pipelineConfig("p1",new MaterialConfigs(MaterialConfigsMother.gitMaterialConfig("g1")));
+  PipelineConfig pipeline2=PipelineConfigMother.pipelineConfig("p2",new MaterialConfigs(MaterialConfigsMother.gitMaterialConfig("g1")));
+  PipelineConfig pipeline3=PipelineConfigMother.pipelineConfig("p3",new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig("p1","stage-1-1"),MaterialConfigsMother.dependencyMaterialConfig("p2","stage-1-1")));
+  cruiseConfig.addPipeline("group-1",pipeline1);
+  cruiseConfig.addPipeline("group-1",pipeline2);
+  cruiseConfig.addPipeline("group-1",pipeline3);
+  return cruiseConfig;
+}

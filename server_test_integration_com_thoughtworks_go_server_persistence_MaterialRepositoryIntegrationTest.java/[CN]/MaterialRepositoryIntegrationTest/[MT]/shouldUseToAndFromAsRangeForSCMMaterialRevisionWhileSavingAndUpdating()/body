@@ -1,0 +1,27 @@
+{
+  HgMaterial material=new HgMaterial("sdg",null);
+  final MaterialRevision firstRevision=new MaterialRevision(material,new Modifications(modification("10"),modification("9"),modification("8")));
+  saveMaterialRev(firstRevision);
+  final Pipeline firstPipeline=createPipeline();
+  savePMR(firstRevision,firstPipeline);
+  MaterialRevisions revisionsFor11=repo.findMaterialRevisionsForPipeline(firstPipeline.getId());
+  assertThat(revisionsFor11.getModifications(material).size(),is(3));
+  assertThat(revisionsFor11.getModifications(material).get(0).getRevision(),is("10"));
+  assertThat(revisionsFor11.getModifications(material).get(1).getRevision(),is("9"));
+  assertThat(revisionsFor11.getModifications(material).get(2).getRevision(),is("8"));
+  MaterialRevision secondRevision=new MaterialRevision(material,new Modifications(modification("11"),modification("10.5")));
+  saveMaterialRev(secondRevision);
+  Pipeline secondPipeline=createPipeline();
+  savePMR(secondRevision,secondPipeline);
+  MaterialRevisions revisionsFor12=repo.findMaterialRevisionsForPipeline(secondPipeline.getId());
+  assertThat(revisionsFor12.getModifications(material).size(),is(2));
+  assertThat(revisionsFor12.getModifications(material).get(0).getRevision(),is("11"));
+  assertThat(revisionsFor12.getModifications(material).get(1).getRevision(),is("10.5"));
+  MaterialRevision thirdRevision=new MaterialRevision(material,new Modifications(modification("12")));
+  saveMaterialRev(thirdRevision);
+  Pipeline thirdPipeline=createPipeline();
+  savePMR(thirdRevision,thirdPipeline);
+  MaterialRevisions revisionsFor13=repo.findMaterialRevisionsForPipeline(thirdPipeline.getId());
+  assertThat(revisionsFor13.getModifications(material).size(),is(1));
+  assertThat(revisionsFor13.getModifications(material).get(0).getRevision(),is("12"));
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    goConfigFileDao.forceReload();
+    return new Cloner().deepClone(goConfigFileDao.load());
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

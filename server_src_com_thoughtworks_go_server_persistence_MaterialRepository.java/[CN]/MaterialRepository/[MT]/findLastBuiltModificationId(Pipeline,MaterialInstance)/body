@@ -1,0 +1,14 @@
+{
+  BigInteger result=(BigInteger)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      String sql="SELECT fromRevisionId " + " FROM pipelineMaterialRevisions pmr " + "     INNER JOIN pipelines p on p.id = pmr.pipelineId "+ " WHERE materialId = ? "+ "     AND p.name = ? "+ "     AND pipelineId < ? "+ " ORDER BY pmr.id DESC"+ " LIMIT 1";
+      SQLQuery query=session.createSQLQuery(sql);
+      query.setLong(0,materialInstance.getId());
+      query.setString(1,pipeline.getName());
+      query.setLong(2,pipeline.getId());
+      return query.uniqueResult();
+    }
+  }
+);
+  return result == null ? null : result.longValue();
+}

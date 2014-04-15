@@ -1,0 +1,24 @@
+{
+  queue=mock(MaterialUpdateQueue.class);
+  completed=mock(MaterialUpdateCompletedTopic.class);
+  goConfigService=mock(GoConfigService.class);
+  postCommitHookMaterialType=mock(PostCommitHookMaterialTypeResolver.class);
+  serverHealthService=mock(ServerHealthService.class);
+  systemEnvironment=new SystemEnvironment();
+  metricsProbeService=mock(MetricsProbeService.class);
+  materialConfigConverter=mock(MaterialConfigConverter.class);
+  MDUPerformanceLogger mduPerformanceLogger=mock(MDUPerformanceLogger.class);
+  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  HashSet<MaterialConfig> materialConfigs=new HashSet(Collections.singleton(MATERIAL_CONFIG));
+  HashSet<Material> materials=new HashSet(Collections.singleton(MATERIAL));
+  when(goConfigService.getSchedulableMaterials()).thenReturn(materialConfigs);
+  when(materialConfigConverter.toMaterials(materialConfigs)).thenReturn(materials);
+  username=new Username(new CaseInsensitiveString("loser"));
+  result=new HttpLocalizedOperationResult();
+  validMaterialType=mock(PostCommitHookMaterialType.class);
+  when(validMaterialType.isKnown()).thenReturn(true);
+  when(validMaterialType.isValid(anyString())).thenReturn(true);
+  invalidMaterialType=mock(PostCommitHookMaterialType.class);
+  when(invalidMaterialType.isKnown()).thenReturn(false);
+  when(invalidMaterialType.isValid(anyString())).thenReturn(false);
+}

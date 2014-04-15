@@ -1,0 +1,7 @@
+{
+  SecurityContext securityContext=SecurityContextHolder.getContext();
+  if (securityContext != null && securityContext.getAuthentication() != null) {
+    return matchesRole(securityContext.getAuthentication(),role);
+  }
+  return false;
+}

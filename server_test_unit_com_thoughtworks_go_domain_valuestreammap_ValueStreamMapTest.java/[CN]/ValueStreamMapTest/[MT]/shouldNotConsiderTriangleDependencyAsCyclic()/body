@@ -1,0 +1,13 @@
+{
+  String a="A";
+  String b="B";
+  String c="C";
+  String d="D";
+  ValueStreamMap valueStreamMap=new ValueStreamMap(c,null);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(a,a),null,c);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(b,b),null,c);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(d,d),null,b);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(a,a),null,d);
+  valueStreamMap.addUpstreamNode(new SCMDependencyNode("g","g","git"),null,a);
+  assertThat(valueStreamMap.hasCycle(),is(false));
+}

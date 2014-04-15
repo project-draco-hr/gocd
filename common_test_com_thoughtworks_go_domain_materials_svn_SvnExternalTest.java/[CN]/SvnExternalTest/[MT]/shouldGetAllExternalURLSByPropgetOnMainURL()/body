@@ -1,0 +1,6 @@
+{
+  String url=svnRepo.projectRepositoryUrl();
+  SvnCommand svn=new SvnCommand(null,url,"user","pass",false);
+  List<SvnExternal> urls=svn.getAllExternalURLs();
+  assertThat(urls.size(),is(1));
+}

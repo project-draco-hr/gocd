@@ -1,0 +1,13 @@
+{
+  configField.setAccessible(true);
+  if (isSubtag()) {
+    setFieldIfNotNull(configField,o,parseSubtag(e,configField));
+  }
+ else   if (isAttribute()) {
+    setValueFromElementIfAppropriate(e,o);
+    bombIfNullAndNotAllowed(configField,o,configField.getAnnotation(ConfigAttribute.class));
+  }
+ else   if (isConfigValue()) {
+    setFieldIfNotNull(configField,o,e.getText());
+  }
+}

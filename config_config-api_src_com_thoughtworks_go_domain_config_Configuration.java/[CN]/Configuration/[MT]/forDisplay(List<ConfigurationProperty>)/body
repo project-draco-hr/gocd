@@ -1,0 +1,9 @@
+{
+  ArrayList<String> list=new ArrayList<String>();
+  for (  ConfigurationProperty property : propertiesToDisplay) {
+    if (!property.isSecure()) {
+      list.add(format("%s=%s",property.getConfigurationKey().getName().toLowerCase(),property.getConfigurationValue().getValue()));
+    }
+  }
+  return format("[%s]",ListUtil.join(list,", "));
+}

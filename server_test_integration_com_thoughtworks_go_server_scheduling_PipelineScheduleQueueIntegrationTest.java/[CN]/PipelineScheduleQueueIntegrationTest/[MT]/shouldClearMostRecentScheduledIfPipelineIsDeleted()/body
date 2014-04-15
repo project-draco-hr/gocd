@@ -1,0 +1,7 @@
+{
+  BuildCause buildCause=BuildCause.createWithEmptyModifications();
+  queue.schedule("cruise",buildCause);
+  queue.finishSchedule("cruise",buildCause,newCause);
+  queue.clearPipeline("cruise");
+  assertThat(queue.mostRecentScheduled("cruise").hasNeverRun(),is(true));
+}

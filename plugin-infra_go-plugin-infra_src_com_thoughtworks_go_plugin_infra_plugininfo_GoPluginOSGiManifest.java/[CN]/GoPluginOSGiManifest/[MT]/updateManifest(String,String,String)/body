@@ -1,0 +1,27 @@
+{
+  FileOutputStream manifestOutputStream=null;
+  FileInputStream manifestInputStream=null;
+  try {
+    manifestInputStream=new FileInputStream(manifestLocation);
+    Manifest manifest=new Manifest(manifestInputStream);
+    Attributes mainAttributes=manifest.getMainAttributes();
+    if (mainAttributes.containsKey(new Attributes.Name(BUNDLE_SYMBOLICNAME))) {
+      descriptor.markAsInvalid(Arrays.asList("Plugin JAR is invalid. MANIFEST.MF already contains header: " + BUNDLE_SYMBOLICNAME),null);
+      return;
+    }
+    mainAttributes.put(new Attributes.Name(BUNDLE_SYMBOLICNAME),symbolicName);
+    mainAttributes.put(new Attributes.Name(BUNDLE_CLASSPATH),classPath);
+    mainAttributes.put(new Attributes.Name(BUNDLE_ACTIVATOR),bundleActivator);
+    descriptor.updateBundleInformation(symbolicName,classPath,bundleActivator);
+    manifestOutputStream=new FileOutputStream(manifestLocation);
+    manifest.write(manifestOutputStream);
+  }
+  finally {
+    if (manifestInputStream != null) {
+      manifestInputStream.close();
+    }
+    if (manifestOutputStream != null) {
+      manifestOutputStream.close();
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  String pipelineName="p1";
+  String stageName="s1";
+  String jobName="j1";
+  PipelineConfig pipelineConfig=configHelper.addPipeline(pipelineName,stageName,jobName);
+  configHelper.addEnvironmentVariableToPipeline(pipelineName,new EnvironmentVariablesConfig(Arrays.asList(new EnvironmentVariableConfig("K1","V1"))));
+  configHelper.addEnvironmentVariableToStage(pipelineName,stageName,new EnvironmentVariablesConfig(Arrays.asList(new EnvironmentVariableConfig("K2","V2"))));
+  configHelper.addEnvironmentVariableToJob(pipelineName,stageName,jobName,new EnvironmentVariablesConfig(Arrays.asList(new EnvironmentVariableConfig("K3","V3"))));
+  Pipeline pipeline=runAndPass(pipelineConfig,1);
+  long jobId=pipeline.getFirstStage().getFirstJob().getId();
+  JobPlan jobPlan=jobInstanceDao.loadPlan(jobId);
+  EnvironmentVariablesConfig variables=jobPlan.getVariables();
+  assertThat(variables,hasItems(new EnvironmentVariableConfig("K1","V1"),new EnvironmentVariableConfig("K2","V2"),new EnvironmentVariableConfig("K3","V3")));
+  configHelper.addEnvironmentVariableToPipeline(pipelineName,new EnvironmentVariablesConfig(Arrays.asList(new EnvironmentVariableConfig("K1_updated","V1_updated"))));
+  Stage rerunStage=scheduleService.rerunStage(pipelineConfig.name().toString(),"1",stageName);
+  assertThat(rerunStage.getFirstJob().getPlan().getVariables().size(),is(3));
+  assertThat(rerunStage.getFirstJob().getPlan().getVariables(),hasItems(new EnvironmentVariableConfig("K1_updated","V1_updated"),new EnvironmentVariableConfig("K2","V2"),new EnvironmentVariableConfig("K3","V3")));
+}

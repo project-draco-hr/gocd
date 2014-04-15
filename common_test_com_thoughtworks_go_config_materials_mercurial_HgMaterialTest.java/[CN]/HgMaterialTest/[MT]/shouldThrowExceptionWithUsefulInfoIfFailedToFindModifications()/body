@@ -1,0 +1,11 @@
+{
+  final String url="/tmp/notExistDir";
+  hgMaterial=MaterialsMother.hgMaterial(url);
+  try {
+    hgMaterial.latestModification(workingFolder,new TestSubprocessExecutionContext());
+    fail("Should have thrown an exception when failed to clone from an invalid url");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),StringContains.containsString("abort: repository " + url + " not found!"));
+  }
+}

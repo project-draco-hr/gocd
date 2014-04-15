@@ -1,0 +1,8 @@
+{
+  PipelineBean execBean=execBean("exec","ls",null);
+  ExecTask execTask=new ExecTask("ls","",(String)null);
+  assertThat((ExecTask)execBean.getTasks().get(0),is(execTask));
+  execBean=execBean("exec"," ls ",null);
+  execTask=new ExecTask("ls","",(String)null);
+  assertThat((ExecTask)execBean.getTasks().get(0),is(execTask));
+}

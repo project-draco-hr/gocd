@@ -1,0 +1,11 @@
+{
+  LogFixture log=LogFixture.startListening();
+  dataSource.reloadIfModified();
+  GoConfigHolder loadedConfig=dataSource.load();
+  assertThat(log.getLog(),containsString("Config file changed at"));
+  assertThat(loadedConfig,not(nullValue()));
+  log.clear();
+  loadedConfig=dataSource.load();
+  assertThat(log.getLog(),not(containsString("Config file changed at")));
+  assertThat(loadedConfig,is(nullValue()));
+}

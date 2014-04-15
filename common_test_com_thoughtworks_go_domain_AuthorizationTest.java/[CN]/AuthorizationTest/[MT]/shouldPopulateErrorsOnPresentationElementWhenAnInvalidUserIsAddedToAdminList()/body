@@ -1,0 +1,12 @@
+{
+  Authorization authorization=new Authorization();
+  AdminUser invalidUser=new AdminUser(new CaseInsensitiveString("boo_user"));
+  invalidUser.addError(AdminUser.NAME,"some error");
+  AdminUser validUser=new AdminUser(new CaseInsensitiveString("valid_user"));
+  authorization.getAdminsConfig().add(invalidUser);
+  authorization.getAdminsConfig().add(validUser);
+  List<Authorization.PresentationElement> userAuthorizations=authorization.getUserAuthorizations();
+  assertThat(userAuthorizations.get(0).errors().isEmpty(),is(false));
+  assertThat(userAuthorizations.get(0).errors().on(Admin.NAME),is("some error"));
+  assertThat(userAuthorizations.get(1).errors().isEmpty(),is(true));
+}

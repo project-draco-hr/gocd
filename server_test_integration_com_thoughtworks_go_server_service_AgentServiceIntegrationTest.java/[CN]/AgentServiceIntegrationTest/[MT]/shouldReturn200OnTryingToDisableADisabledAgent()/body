@@ -1,0 +1,11 @@
+{
+  String agentName="agentName";
+  String agentId=DatabaseAccessHelper.AGENT_UUID;
+  AgentConfig agentConfig=new AgentConfig(agentId,agentName,"127.0.0.9");
+  addAgent(agentConfig);
+  disable(agentConfig);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.disableAgents(USERNAME,operationResult,Arrays.asList(agentId));
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(operationResult.message(),is("Disabled 1 agent(s)"));
+}

@@ -1,0 +1,12 @@
+{
+  PipelineTemplateConfig emptyTemplate=template("empty_template");
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.addTemplate(emptyTemplate);
+  when(securityService.isAuthorizedToEditTemplate(anyString(),any(Username.class))).thenReturn(true);
+  when(goConfigService.getConfigHolder()).thenReturn(new GoConfigHolder(cruiseConfig,cruiseConfig));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit<PipelineTemplateConfig> configForEdit=service.loadForEdit("blah",new Username(new CaseInsensitiveString("someuser")),result);
+  assertThat(configForEdit,is(nullValue()));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(404));
+}

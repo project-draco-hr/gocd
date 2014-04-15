@@ -1,0 +1,10 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(ConfigFileFixture.CONFIG).config;
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  PipelineInstanceModels activePipelineInstances=createPipelineInstanceModels();
+  when(pipelineDao.loadActivePipelines()).thenReturn(activePipelineInstances);
+  stubForNonActivePipeline(jez,cruiseConfig,"pipeline1",true,true,activePipeline("pipeline1",10,2.0,new StageInstanceModel("stage1","10",JobHistory.withJob("plan1",JobState.Completed,JobResult.Failed,new Date()))));
+  stubForNonActivePipeline(jez,cruiseConfig,"pipeline2",true,false,activePipeline("pipeline2",10,2.0,new StageInstanceModel("stage1","8",JobHistory.withJob("plan1",JobState.Completed,JobResult.Passed,new Date()))));
+  stubForNonActivePipeline(jez,cruiseConfig,"non-operatable-pipeline",false,false,activePipeline("non-operatable-pipeline",10,2.0,new StageInstanceModel("one","10",JobHistory.withJob("defaultJob",JobState.Completed,JobResult.Failed,new Date()))));
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString(any(String.class)))).thenReturn(true);
+}

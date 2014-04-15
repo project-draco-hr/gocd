@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline");
+  assertThat(pipelineConfig.hasTemplate(),is(false));
+  Map map=new HashMap();
+  map.put(PipelineConfig.CONFIGURATION_TYPE,PipelineConfig.CONFIGURATION_TYPE_TEMPLATE);
+  map.put(PipelineConfig.TEMPLATE_NAME,"foo-template");
+  pipelineConfig.setConfigAttributes(map);
+  assertThat(pipelineConfig.getConfigurationType(),is(PipelineConfig.CONFIGURATION_TYPE_TEMPLATE));
+  assertThat(pipelineConfig.getTemplateName(),is(new CaseInsensitiveString("foo-template")));
+}

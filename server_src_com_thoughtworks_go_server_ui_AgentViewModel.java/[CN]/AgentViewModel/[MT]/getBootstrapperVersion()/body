@@ -1,0 +1,9 @@
+{
+  if (agentInstance.isMissing()) {
+    return MISSING_AGENT_BOOTSTRAPPER_VERSION;
+  }
+  if (agentInstance.getAgentLauncherVersion() == null && !agentInstance.isMissing()) {
+    return OLDER_AGENT_BOOTSTRAPPER_VERSION;
+  }
+  return agentInstance.getAgentLauncherVersion();
+}

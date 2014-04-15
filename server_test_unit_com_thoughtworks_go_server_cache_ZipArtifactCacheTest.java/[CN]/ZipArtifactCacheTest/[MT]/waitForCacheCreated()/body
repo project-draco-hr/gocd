@@ -1,0 +1,10 @@
+{
+  int timesTried=10;
+  while (timesTried > 0 && !zipArtifactCache.cacheCreated(artifactFolder)) {
+    Thread.sleep(100);
+    timesTried--;
+  }
+  if (timesTried <= 0) {
+    fail("Timeout creating cache");
+  }
+}

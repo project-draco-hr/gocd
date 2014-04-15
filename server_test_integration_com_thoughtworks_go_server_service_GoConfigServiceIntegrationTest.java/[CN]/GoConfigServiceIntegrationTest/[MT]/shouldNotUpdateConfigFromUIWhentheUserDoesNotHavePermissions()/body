@@ -1,0 +1,22 @@
+{
+  final PipelineConfig pipelineConfig=configHelper.addPipeline("pipeline","stage");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  String md5=goConfigService.getConfigForEditing().getMd5();
+  final CruiseConfig[] configObtainedInCheckPermissions=new CruiseConfig[1];
+  ConfigUpdateResponse response=goConfigService.updateConfigFromUI(new AddStageToPipelineCommand("secondStage"){
+    public void checkPermission(    CruiseConfig cruiseConfig,    LocalizedOperationResult result){
+      result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT_GROUP","groupName"),null);
+      configObtainedInCheckPermissions[0]=cruiseConfig;
+    }
+  }
+,md5,Username.ANONYMOUS,result);
+  assertThat(configObtainedInCheckPermissions[0],is(goConfigService.getCurrentConfig()));
+  PipelineConfig config=goConfigService.getConfigForEditing().pipelineConfigByName(new CaseInsensitiveString("pipeline"));
+  assertThat(config.size(),is(1));
+  assertThat(config.get(0).name(),is(new CaseInsensitiveString("stage")));
+  assertThat(response.getCruiseConfig(),is(goConfigService.getConfigForEditing()));
+  assertThat((PipelineConfig)response.getNode(),is(pipelineConfig));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(401));
+  assertThat(result.message(localizer),is("Unauthorized to edit 'groupName' group."));
+}

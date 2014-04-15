@@ -1,0 +1,16 @@
+{
+  PackageRepository repo1=PackageRepositoryMother.create("repo1");
+  PackageRepository duplicate=PackageRepositoryMother.create("REPO1");
+  PackageRepository unique=PackageRepositoryMother.create("unique");
+  PackageRepositories packageRepositories=new PackageRepositories();
+  packageRepositories.add(repo1);
+  packageRepositories.add(duplicate);
+  packageRepositories.add(unique);
+  packageRepositories.validate(null);
+  assertThat(repo1.errors().isEmpty(),is(false));
+  String nameError=String.format("You have defined multiple repositories called '%s'. Repository names are case-insensitive and must be unique.",duplicate.getName());
+  assertThat(repo1.errors().getAllOn(PackageRepository.NAME).contains(nameError),is(true));
+  assertThat(duplicate.errors().isEmpty(),is(false));
+  assertThat(duplicate.errors().getAllOn(PackageRepository.NAME).contains(nameError),is(true));
+  assertThat(unique.errors().isEmpty(),is(true));
+}

@@ -1,0 +1,12 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline1","pipeline2","pipeline3","go");
+  DependencyMaterialConfig one=new DependencyMaterialConfig(new CaseInsensitiveString("sameName"),new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage"));
+  DependencyMaterialConfig another=new DependencyMaterialConfig(new CaseInsensitiveString("sameName"),new CaseInsensitiveString("pipeline3"),new CaseInsensitiveString("stage"));
+  MaterialConfigs materialConfigs=new MaterialConfigs(one,another);
+  ValidationContext validationContext=ValidationContext.forChain(config);
+  materialConfigs.validate(validationContext);
+  assertThat(one.errors().isEmpty(),is(false));
+  assertThat(one.errors().on("materialName"),containsString("You have defined multiple materials called 'sameName'. Material names are case-insensitive and must be unique."));
+  assertThat(another.errors().isEmpty(),is(false));
+  assertThat(another.errors().on("materialName"),containsString("You have defined multiple materials called 'sameName'. Material names are case-insensitive and must be unique."));
+}

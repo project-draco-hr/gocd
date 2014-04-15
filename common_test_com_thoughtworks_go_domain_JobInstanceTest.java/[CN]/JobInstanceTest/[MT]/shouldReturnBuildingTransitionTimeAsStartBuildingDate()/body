@@ -1,0 +1,7 @@
+{
+  final Date date=new Date();
+  JobInstance instance=JobInstanceMother.scheduled("jobConfig1");
+  JobStateTransitions transitions=new JobStateTransitions(new JobStateTransition(JobState.Building,date));
+  instance.setTransitions(transitions);
+  assertThat(instance.getStartedDateFor(JobState.Building),is(date));
+}

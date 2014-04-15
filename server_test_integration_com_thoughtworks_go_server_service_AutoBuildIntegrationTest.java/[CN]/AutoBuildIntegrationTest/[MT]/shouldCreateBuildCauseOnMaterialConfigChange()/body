@@ -1,0 +1,20 @@
+{
+  SvnMaterial svn=scheduleUtil.wf(new SvnMaterial("svn","username","password",false),"folder1");
+  String[] svn_revs={"s1"};
+  scheduleUtil.checkinInOrder(svn,svn_revs);
+  ScheduleTestUtil.AddedPipeline up_pipe=scheduleUtil.saveConfigWith("up_pipe",scheduleUtil.m(svn));
+  ScheduleTestUtil.AddedPipeline down_pipe=scheduleUtil.saveConfigWith("down_pipe",scheduleUtil.m(svn),scheduleUtil.m(up_pipe));
+  String up_pipe_1=scheduleUtil.runAndPass(up_pipe,"s1");
+  pipelineTimeline.update();
+  String down_pipe_1=scheduleUtil.runAndPass(down_pipe,"s1",up_pipe_1);
+  pipelineTimeline.update();
+  down_pipe.config.removeMaterialConfig(svn.config());
+  CruiseConfig currentConfig=goConfigService.getCurrentConfig();
+  currentConfig.pipelineConfigByName(new CaseInsensitiveString("down_pipe")).removeMaterialConfig(svn.config());
+  configHelper.writeConfigFile(currentConfig);
+  goConfigFileDao.load();
+  MaterialRevisions given=scheduleUtil.mrs(scheduleUtil.mr(up_pipe,true,up_pipe_1));
+  MaterialRevisions expected=scheduleUtil.mrs(scheduleUtil.mr(up_pipe,true,up_pipe_1));
+  AutoBuild autoBuildType=new AutoBuild(goConfigService,pipelineService,"down_pipe",systemEnvironment,materialChecker,serverHealthService);
+  assertThat(autoBuildType.onModifications(given,true,null).getMaterialRevisions(),is(expected));
+}

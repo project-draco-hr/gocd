@@ -1,0 +1,9 @@
+{
+  doAnswer(new Answer(){
+    public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      transactionSynchronization=(TransactionSynchronization)invocationOnMock.getArguments()[0];
+      return null;
+    }
+  }
+).when(transactionSynchronizationManager).registerSynchronization(any(TransactionSynchronization.class));
+}

@@ -1,0 +1,15 @@
+{
+  String key=cacheKeyForPipelineAndCounter(pipelineName,counter);
+  List<Stage> stages=(List<Stage>)goCache.get(key);
+  if (stages == null) {
+synchronized (key) {
+      stages=(List<Stage>)goCache.get(key);
+      if (stages == null) {
+        Map<String,Object> params=arguments("pipelineName",pipelineName).and("pipelineCounter",counter).asMap();
+        stages=getSqlMapClientTemplate().queryForList("getStagesByPipelineNameAndCounter",params);
+        goCache.put(key,stages);
+      }
+    }
+  }
+  return new Stages(stages);
+}

@@ -1,0 +1,8 @@
+{
+  Modification modification=ModificationsMother.withModifiedFileWhoseNameLengthIsMoreThanOneK();
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createWithModifications(ModificationsMother.createSvnMaterialRevisions(modification),""));
+  savePipeline(pipeline);
+  Pipeline loaded=pipelineDao.loadPipeline(pipeline.getId());
+  Modification loadedModification=loaded.getBuildCause().getMaterialRevisions().getMaterialRevision(0).getModification(0);
+  assertThat(loadedModification.getModifiedFiles().get(0).getFileName().length(),is(ModifiedFile.MAX_NAME_LENGTH));
+}

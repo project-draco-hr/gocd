@@ -1,0 +1,11 @@
+{
+  TempFiles tempFiles=new TempFiles();
+  File p4_working_dir=tempFiles.mkdir("p4_working_dir");
+  P4Material p4=new P4Material("host:10","beautiful","user");
+  p4.setPassword("loser");
+  EnvironmentVariableContext envVarCtx;
+  envVarCtx=new EnvironmentVariableContext();
+  p4.populateEnvironmentContext(envVarCtx,new MaterialRevision(p4,new Modification("loser","loserish commit","loser@boozer.com",new Date(),"123")),p4_working_dir);
+  assertThat(envVarCtx.getProperty("GO_P4_CLIENT"),is(p4.clientName(p4_working_dir)));
+  assertThat(envVarCtx.getProperty("GO_REVISION"),is("123"));
+}

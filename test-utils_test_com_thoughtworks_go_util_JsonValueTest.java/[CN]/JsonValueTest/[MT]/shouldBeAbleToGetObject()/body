@@ -1,0 +1,6 @@
+{
+  String json="{\"key\": {\"innerKey\" : \"value\"}}";
+  JsonValue jsonValue=new JsonValue(json);
+  JsonValue inner=jsonValue.getObject("key");
+  assertThat(inner.getString("innerKey"),is("value"));
+}

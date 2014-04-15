@@ -1,0 +1,9 @@
+{
+  try {
+    createTimerConfigWithAttribute("onlyOnChanges='junk-non-boolean'");
+    fail("Didn't get the exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getCause().getCause().getMessage(),containsString("'junk-non-boolean' is not a valid value for 'boolean'"));
+  }
+}

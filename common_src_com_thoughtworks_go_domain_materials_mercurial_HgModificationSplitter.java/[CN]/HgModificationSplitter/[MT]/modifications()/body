@@ -1,0 +1,10 @@
+{
+  try {
+    SAXBuilder builder=new SAXBuilder(false);
+    Document document=builder.build(new StringReader(output));
+    return parseDOMTree(document);
+  }
+ catch (  Exception e) {
+    throw ExceptionUtils.bomb("Unable to parse hg log output: " + result.replaceSecretInfo(output),result.smudgedException(e));
+  }
+}

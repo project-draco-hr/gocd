@@ -1,0 +1,5 @@
+{
+  String selectArtifactRoot=GoOntology.URI_PREFIX + "prefix xsd: <http://www.w3.org/2001/XMLSchema#> " + "SELECT DISTINCT ?pathFromArtifactRoot WHERE { "+ "<"+ jobResource.getURIText()+ "> cruise:hasArtifacts ?artifacts . "+ "  ?artifacts a cruise:Artifacts . "+ "  ?artifacts cruise:pathFromArtifactRoot ?pathFromArtifactRoot ."+ "}";
+  BoundVariables bv=jobsGraph.selectFirst(selectArtifactRoot);
+  return (bv == null) ? null : bv.getString("pathFromArtifactRoot");
+}

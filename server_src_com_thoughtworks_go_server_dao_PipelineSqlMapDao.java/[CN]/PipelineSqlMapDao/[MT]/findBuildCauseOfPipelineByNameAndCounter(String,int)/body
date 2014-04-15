@@ -1,0 +1,19 @@
+{
+  String cacheKey=cacheKeyForBuildCauseByNameAndCounter(name,counter);
+  BuildCause buildCause=(BuildCause)goCache.get(cacheKey);
+  if (buildCause == null) {
+synchronized (cacheKey) {
+      buildCause=(BuildCause)goCache.get(cacheKey);
+      if (buildCause == null) {
+        Pipeline pipeline=findPipelineByNameAndCounter(name,counter);
+        if (pipeline == null) {
+          throw new PipelineNotFoundException(String.format("Pipeline %s with counter %d was not found",name,counter));
+        }
+        loadMaterialRevisions(pipeline);
+        buildCause=pipeline.getBuildCause();
+        goCache.put(cacheKey,buildCause);
+      }
+    }
+  }
+  return buildCause;
+}

@@ -1,0 +1,36 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  Stage stage=scheduleService.rerunStage(pipeline.getName(),String.valueOf(pipeline.getCounter()),fixture.devStage);
+  assertThat(stage.hasRerunJobs(),is(false));
+  dbHelper.passStage(stage);
+  Stage oldStage=stageDao.stageByIdWithBuilds(pipeline.getStages().byName(fixture.devStage).getId());
+  assertThat(oldStage.hasRerunJobs(),is(false));
+  HttpOperationResult result=new HttpOperationResult();
+  Stage newStage=scheduleService.rerunJobs(oldStage,a("foo","foo3"),result);
+  Stage loadedLatestStage=dbHelper.getStageDao().findStageWithIdentifier(newStage.getIdentifier());
+  assertThat(loadedLatestStage.hasRerunJobs(),is(true));
+  dbHelper.passStage(loadedLatestStage);
+  JobInstances jobsBeforeLatestRerunJobs=loadedLatestStage.getJobInstances();
+  newStage=scheduleService.rerunJobs(loadedLatestStage,a("foo2"),result);
+  loadedLatestStage=dbHelper.getStageDao().findStageWithIdentifier(newStage.getIdentifier());
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo").getResult(),is(JobResult.Passed));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo").getState(),is(JobState.Completed));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo").getOriginalJobId(),is(jobsBeforeLatestRerunJobs.getByName("foo").getId()));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo").isRerun(),is(false));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo").isCopy(),is(true));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo2").getResult(),is(JobResult.Unknown));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo2").getState(),is(JobState.Scheduled));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo2").getOriginalJobId(),is(nullValue()));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo2").isRerun(),is(true));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo2").isCopy(),is(false));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo3").getResult(),is(JobResult.Passed));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo3").getState(),is(JobState.Completed));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo3").getOriginalJobId(),is(jobsBeforeLatestRerunJobs.getByName("foo3").getId()));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo3").isRerun(),is(false));
+  assertThat(loadedLatestStage.getJobInstances().getByName("foo3").isCopy(),is(true));
+  assertThat(loadedLatestStage,is(newStage));
+  assertThat(loadedLatestStage.hasRerunJobs(),is(true));
+  assertThat(loadedLatestStage.getCounter(),is(oldStage.getCounter() + 3));
+  assertThat(loadedLatestStage.getIdentifier().getPipelineCounter(),is(oldStage.getIdentifier().getPipelineCounter()));
+  assertThat(result.canContinue(),is(true));
+}

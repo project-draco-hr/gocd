@@ -1,0 +1,10 @@
+{
+  ArrayList<String> allowed=new ArrayList<String>();
+  for (  MaterialConfig material : this) {
+    if (!StringUtils.isBlank(material.getFolder())) {
+      allowed.add(material.getFolder());
+    }
+  }
+  allowed.add(ArtifactLogUtil.CRUISE_OUTPUT_FOLDER);
+  return allowed;
+}

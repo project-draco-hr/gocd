@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.setServerConfig(new ServerConfig(".",null));
+  ArtifactDirValidator dirValidator=new ArtifactDirValidator();
+  try {
+    dirValidator.validate(cruiseConfig);
+    fail("should throw exception, see dot will make server check out the repository in the wrong place.");
+  }
+ catch (  Exception e) {
+  }
+}

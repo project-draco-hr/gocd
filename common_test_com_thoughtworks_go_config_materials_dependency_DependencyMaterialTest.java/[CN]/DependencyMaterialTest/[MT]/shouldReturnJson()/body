@@ -1,0 +1,8 @@
+{
+  JsonMap json=new JsonMap();
+  dependencyMaterial.toJson(json,DependencyMaterialRevision.create("pipeline",10,"1.0.123","stage",1));
+  assertThat(json.getJsonString("location"),is(new JsonString("pipeline/stage")));
+  assertThat(json.getJsonString("scmType"),is(new JsonString("Dependency")));
+  assertThat(json.getJsonString("folder"),is(new JsonString("")));
+  assertThat(json.getJsonString("action"),is(new JsonString("Completed")));
+}

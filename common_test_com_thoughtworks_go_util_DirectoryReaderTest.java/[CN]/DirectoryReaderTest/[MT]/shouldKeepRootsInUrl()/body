@@ -1,0 +1,8 @@
+{
+  File b=TestFileUtil.createTestFolder(testFolder,"b");
+  TestFileUtil.createTestFile(b,"c.xml");
+  List<DirectoryEntry> entries=new DirectoryReader(jobIdentifier).listEntries(b,folderRoot + "/b");
+  assertThat(entries.size(),is(1));
+  String expectedUrl="/files/pipelineName/LATEST/stageName/LATEST/buildName/" + testFolder.getName() + "/b/c.xml";
+  assertThat(entries.get(0).getUrl(),is(expectedUrl));
+}

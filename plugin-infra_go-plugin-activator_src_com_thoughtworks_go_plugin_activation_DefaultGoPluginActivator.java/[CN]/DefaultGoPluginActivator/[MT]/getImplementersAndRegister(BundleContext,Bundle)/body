@@ -1,0 +1,11 @@
+{
+  List<HashMap<Class,List<Object>>> toRegister=new ArrayList<HashMap<Class,List<Object>>>();
+  for (  Class candidateGoExtensionClass : getCandidateGoExtensionClasses(bundle)) {
+    HashMap<Class,List<Object>> interfaceToImplementations=getAllInterfaceToImplementationsMap(candidateGoExtensionClass);
+    if (!interfaceToImplementations.isEmpty()) {
+      toRegister.add(interfaceToImplementations);
+    }
+  }
+  informIfNoExtensionFound(toRegister);
+  registerAllServicesImplementedBy(bundleContext,toRegister);
+}

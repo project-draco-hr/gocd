@@ -1,0 +1,15 @@
+{
+  LOGGER.debug("[Config Save] In preprocessAndValidate: Cloning.");
+  Context context=metricsProbeService.begin(ProbeType.PREPROCESS_AND_VALIDATE);
+  CruiseConfig cloned;
+  try {
+    cloned=CLONER.deepClone(config);
+    LOGGER.debug("[Config Save] In preprocessAndValidate: Validating.");
+    validateCruiseConfig(cloned);
+    LOGGER.debug("[Config Save] In preprocessAndValidate: Done.");
+  }
+  finally {
+    metricsProbeService.end(ProbeType.PREPROCESS_AND_VALIDATE,context);
+  }
+  return cloned;
+}

@@ -1,0 +1,8 @@
+{
+  ArrayList<GoTfsWorkspace> goTfsWorkspaces=new ArrayList<GoTfsWorkspace>();
+  Workspace[] workspaces=client.queryWorkspaces(workspaceName,userName,null);
+  for (  Workspace workspace : workspaces) {
+    goTfsWorkspaces.add(new GoTfsWorkspace(workspace));
+  }
+  return goTfsWorkspaces.toArray(new GoTfsWorkspace[]{});
+}

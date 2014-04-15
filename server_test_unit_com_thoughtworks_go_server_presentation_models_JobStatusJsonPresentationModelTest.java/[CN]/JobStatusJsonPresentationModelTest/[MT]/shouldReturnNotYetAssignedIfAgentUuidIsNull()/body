@@ -1,0 +1,7 @@
+{
+  JobInstance instance=JobInstanceMother.building("Plan1");
+  instance.setAgentUuid(null);
+  JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(instance,null);
+  JsonTester tester=new JsonTester(presenter.toJsonHash());
+  tester.shouldContain(" { 'agent' : 'Not yet assigned' } ");
+}

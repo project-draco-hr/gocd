@@ -1,0 +1,8 @@
+{
+  stageId=failureSetup.setupPipelineInstance(false,null,goURLRepository).stageId;
+  FailureDetails details=shineDao.failureDetailsForTest(new JobIdentifier(stageId,"job1"),"testSuite1","test1",result);
+  assertThat(details.getMessage(),is("NOT_YET_AVAILABLE"));
+  assertThat(details.getStackTrace(),is("NOT_YET_AVAILABLE"));
+  assertThat("not successful",result.isSuccessful(),is(false));
+  assertThat(result.replacementContent(localizer),is("Unable to retrieve failure results."));
+}

@@ -1,0 +1,5 @@
+{
+  AgentInstance agentInstance=new AgentInstance(agentConfig("linux, mercurial"),LOCAL,systemEnvironment);
+  JobPlan matchingJob=agentInstance.firstMatching(new ArrayList<JobPlan>());
+  assertThat(matchingJob,is(nullValue()));
+}

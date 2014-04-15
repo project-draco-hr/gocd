@@ -1,0 +1,5 @@
+{
+  Pipeline firstFailure=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.failStage(pipelineAndFirstStageOf(firstFailure).stage);
+  return firstFailure;
+}

@@ -1,0 +1,11 @@
+{
+  User user=anUser();
+  userDao.saveOrUpdate(user);
+  user=userDao.findUser(user.getName());
+  user.setEmail("user2@mail.com");
+  user.setMatcher("abc");
+  user.setEmailMe(false);
+  userDao.saveOrUpdate(user);
+  assertThat(userDao.findUser("user"),is(user));
+  assertThat(user.getNotificationFilters().size(),is(0));
+}

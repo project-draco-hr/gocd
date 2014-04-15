@@ -1,0 +1,8 @@
+{
+  initMocks(this);
+  FelixGoPluginOSGiFramework goPluginOSGiFramwork=new FelixGoPluginOSGiFramework(registry,systemEnvironment);
+  spy=spy(goPluginOSGiFramwork);
+  when(framework.getBundleContext()).thenReturn(bundleContext);
+  when(registry.getPlugin(TEST_SYMBOLIC_NAME)).thenReturn(descriptor);
+  doReturn(framework).when(spy).getFelixFramework(Matchers.<List<FrameworkFactory>>anyObject());
+}

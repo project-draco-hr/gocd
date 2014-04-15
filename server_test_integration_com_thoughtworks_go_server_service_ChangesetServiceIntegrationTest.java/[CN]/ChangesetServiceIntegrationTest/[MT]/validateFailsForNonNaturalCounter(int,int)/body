@@ -1,0 +1,8 @@
+{
+  HttpLocalizedOperationResult result;
+  result=new HttpLocalizedOperationResult();
+  changesetService.revisionsBetween("foo",fromCounter,toCounter,new Username(new CaseInsensitiveString("loser")),result,true,false);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Pipeline counters should be positive."));
+  assertThat(result.httpCode(),is(400));
+}

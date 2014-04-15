@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=load();
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  StageConfig stageConfig=pipelineConfig.findBy(new CaseInsensitiveString(stageName));
+  JobConfig jobConfig=stageConfig.jobConfigByConfigName(new CaseInsensitiveString(jobName));
+  jobConfig.setVariables(envVars);
+  writeConfigFile(cruiseConfig);
+}

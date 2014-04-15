@@ -1,0 +1,14 @@
+{
+  final Material material=message.getMaterial();
+  try {
+    mduPerformanceLogger.pickedUpMaterialForMDU(message.trackingId(),material);
+    bombIf(diskSpaceMonitor.isLowOnDisk(),"Cruise server is too low on disk to continue with material update");
+    updater.updateMaterial(material);
+    mduPerformanceLogger.postingMessageAboutMDUCompletion(message.trackingId(),material);
+    topic.post(new MaterialUpdateSuccessfulMessage(material,message.trackingId()));
+  }
+ catch (  Exception e) {
+    topic.post(new MaterialUpdateFailedMessage(material,message.trackingId(),e));
+    mduPerformanceLogger.postingMessageAboutMDUFailure(message.trackingId(),material);
+  }
+}

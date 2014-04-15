@@ -1,0 +1,10 @@
+{
+  StageIdentifier identifier=new StageIdentifier("cruise",null,"label","dev","");
+  try {
+    identifier.ccTrayLastBuildLabel();
+    Assert.fail("should throw exception if stage counter is not number");
+  }
+ catch (  Exception e) {
+    assertThat(e,instanceOf(NumberFormatException.class));
+  }
+}

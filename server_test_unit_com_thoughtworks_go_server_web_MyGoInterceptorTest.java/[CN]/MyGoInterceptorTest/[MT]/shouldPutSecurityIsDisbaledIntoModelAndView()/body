@@ -1,0 +1,8 @@
+{
+  securityIs(false);
+  smtpIs(false);
+  myGoInterceptor.postHandle(request,response,null,modelAndView);
+  ModelMap modelMap=modelAndView.getModelMap();
+  assertThat((Boolean)modelMap.get(SECURITY_IS_ENABLED),is(false));
+  assertThat((Boolean)modelMap.get(SMTP_IS_ENABLED),is(false));
+}

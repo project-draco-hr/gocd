@@ -1,0 +1,11 @@
+{
+  context.checking(new Expectations(){
+{
+      allowing(stubJobInstance).getServerFailurePage();
+      will(returnValue((File)null));
+    }
+  }
+);
+  String path=jobDetailPresenter.getServerFailurePageURL();
+  assertThat(path,is(""));
+}

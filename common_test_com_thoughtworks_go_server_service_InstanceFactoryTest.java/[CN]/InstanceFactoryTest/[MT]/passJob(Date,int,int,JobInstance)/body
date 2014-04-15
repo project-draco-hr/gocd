@@ -1,0 +1,9 @@
+{
+  jobInstance.setId(id);
+  jobInstance.changeState(JobState.Completed,date);
+  for (  JobStateTransition jobStateTransition : jobInstance.getTransitions()) {
+    jobStateTransition.setId(++transitionIdStart);
+  }
+  jobInstance.setResult(JobResult.Passed);
+  return jobInstance;
+}

@@ -1,0 +1,12 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ServerVersion serverVersion=mock(ServerVersion.class);
+  when(serverVersion.version()).thenReturn("some-test-version-007");
+  BackupService backupService=new BackupService(dataSource,artifactsDirHolder,goConfigService,timeProvider,backupInfoRepository,systemEnvironment,serverVersion,configRepository,databaseStrategy);
+  backupService.initialize();
+  backupService.startBackup(admin,result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(result.message(localizer),is("Backup completed successfully."));
+  File version=backedUpFile("version.txt");
+  assertThat(FileUtil.readContentFromFile(version),is("some-test-version-007"));
+}

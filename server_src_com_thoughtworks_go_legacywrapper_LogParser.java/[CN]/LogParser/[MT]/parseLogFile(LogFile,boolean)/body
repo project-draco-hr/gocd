@@ -1,0 +1,7 @@
+{
+  Map properties=new HashMap();
+  com.thoughtworks.go.legacywrapper.CompositeExtractor compositeExtractor=compositeExtractor(buildWasPassed);
+  parse(buildLogFile.getInputStream(),compositeExtractor);
+  compositeExtractor.report(properties);
+  return properties;
+}

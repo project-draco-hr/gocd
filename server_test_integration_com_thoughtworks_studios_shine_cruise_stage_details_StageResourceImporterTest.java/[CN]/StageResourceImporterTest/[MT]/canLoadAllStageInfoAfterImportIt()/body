@@ -1,0 +1,11 @@
+{
+  TestFailureSetup.SavedStage savedStage=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new Date());
+  Pipeline pipeline=savedStage.pipeline;
+  Graph graph=importer.load(savedStage.stageId,graphFactory,new XSLTTransformerRegistry());
+  String pipelineUrl=PipelineXmlViewModel.httpUrlForPipeline(baseUrl,pipeline.getId(),pipeline.getName());
+  Stage stage=savedStage.stage;
+  String stageUrl=new StageXmlViewModel(stage).httpUrl(baseUrl);
+  String jobUrl=new JobXmlViewModel(stage.getJobInstances().get(0)).httpUrl(baseUrl);
+  String ask="" + "PREFIX cruise: <" + GoOntology.URI + "> "+ "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE {"+ "  <"+ pipelineUrl+ "> a cruise:Pipeline ."+ "  <"+ pipelineUrl+ "> cruise:hasStage <"+ stageUrl+ "> ."+ "  <"+ stageUrl+ "> a cruise:Stage ."+ "  <"+ stageUrl+ "> cruise:hasJob <"+ jobUrl+ "> ."+ "  <"+ jobUrl+ "> a cruise:Job . "+ "}";
+  assertAskIsTrue(graph,ask);
+}

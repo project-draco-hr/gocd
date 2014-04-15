@@ -1,0 +1,8 @@
+{
+  final String[] defaultBuildPlanNames={"functional","unit"};
+  jobConfigNames=jobConfigNames.length == 0 ? defaultBuildPlanNames : jobConfigNames;
+  StageConfig stageConfig=StageConfigMother.stageConfig(stageName,BuildPlanMother.withBuildPlans(jobConfigNames));
+  MaterialConfigs materialConfigs=MaterialConfigsMother.multipleMaterialConfigs();
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString(pipelineName),materialConfigs,stageConfig);
+  return pipelineConfig;
+}

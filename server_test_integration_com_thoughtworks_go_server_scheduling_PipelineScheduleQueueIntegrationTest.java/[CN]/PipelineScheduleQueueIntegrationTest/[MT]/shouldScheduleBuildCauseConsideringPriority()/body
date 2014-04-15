@@ -1,0 +1,6 @@
+{
+  BuildCause buildCause=BuildCause.createWithModifications(multipleModifications(),"");
+  queue.schedule("cruise",buildCause);
+  queue.schedule("cruise",BuildCause.createManualForced());
+  assertThat(queue.toBeScheduled().get("cruise").isForced(),is(true));
+}

@@ -1,0 +1,13 @@
+{
+  EnvironmentConfig config=new EnvironmentConfig(new CaseInsensitiveString(name));
+  for (  String selectedPipeline : selectedPipelines) {
+    config.addPipeline(new CaseInsensitiveString(selectedPipeline));
+  }
+  for (  String selectedAgent : selectedAgents) {
+    config.addAgent(selectedAgent);
+  }
+  for (  Map<String,String> environmentVariable : environmentVariables) {
+    config.getVariables().add(environmentVariable.get("name"),environmentVariable.get("value"));
+  }
+  return config;
+}

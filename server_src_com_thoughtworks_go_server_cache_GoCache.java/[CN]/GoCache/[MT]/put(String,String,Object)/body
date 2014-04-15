@@ -1,0 +1,12 @@
+{
+  KeyList subKeys;
+synchronized (key.intern()) {
+    subKeys=subKeyFamily(key);
+    if (subKeys == null) {
+      subKeys=new KeyList();
+      put(key,subKeys);
+    }
+    subKeys.add(subKey);
+  }
+  put(compositeKey(key,subKey),value);
+}

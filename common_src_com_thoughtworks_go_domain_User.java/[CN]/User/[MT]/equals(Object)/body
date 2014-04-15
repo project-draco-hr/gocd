@@ -1,0 +1,28 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  User user=(User)o;
+  if (emailMe != user.emailMe) {
+    return false;
+  }
+  if (enabled != user.enabled) {
+    return false;
+  }
+  if (email != null ? !email.equals(user.email) : user.email != null) {
+    return false;
+  }
+  if (matcher != null ? !matcher.equals(user.matcher) : user.matcher != null) {
+    return false;
+  }
+  if (name != null ? !name.equals(user.name) : user.name != null) {
+    return false;
+  }
+  if (displayName != null ? !displayName.equals(user.displayName) : user.displayName != null) {
+    return false;
+  }
+  return true;
+}

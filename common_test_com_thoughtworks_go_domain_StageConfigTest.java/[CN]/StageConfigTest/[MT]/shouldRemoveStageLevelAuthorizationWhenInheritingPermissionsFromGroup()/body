@@ -1,0 +1,15 @@
+{
+  StageConfig config=new StageConfig();
+  StageConfigMother.addApprovalWithRoles(config,"role1");
+  StageConfigMother.addApprovalWithUsers(config,"user1");
+  HashMap map=new HashMap();
+  List operateUsers=new ArrayList();
+  operateUsers.add(nameMap("user1"));
+  map.put(StageConfig.OPERATE_USERS,operateUsers);
+  List operateRoles=new ArrayList();
+  operateRoles.add(nameMap("role1"));
+  map.put(StageConfig.OPERATE_ROLES,operateRoles);
+  map.put(StageConfig.SECURITY_MODE,"inherit");
+  config.setConfigAttributes(map);
+  assertThat(config.getApproval().getAuthConfig().isEmpty(),is(true));
+}

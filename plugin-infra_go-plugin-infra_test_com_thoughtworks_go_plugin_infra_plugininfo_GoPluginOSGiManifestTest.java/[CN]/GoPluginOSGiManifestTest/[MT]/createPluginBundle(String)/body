@@ -1,0 +1,7 @@
+{
+  File destinationPluginBundleLocation=new File(TMP_DIR,bundleName);
+  destinationPluginBundleLocation.mkdirs();
+  URL resource=getClass().getClassLoader().getResource("defaultFiles/descriptor-aware-test-plugin.jar");
+  new ZipUtil().unzip(new File(resource.toURI()),destinationPluginBundleLocation);
+  return destinationPluginBundleLocation;
+}

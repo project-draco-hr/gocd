@@ -1,0 +1,36 @@
+{
+  Username jez=new Username(new CaseInsensitiveString("jez"));
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(ConfigFileFixture.CONFIG).config;
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  pipelineConfig.setTrackingTool(new TrackingTool("http://link","#"));
+  pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline2"));
+  pipelineConfig.setMingleConfig(new MingleConfig("baseUrl","id"));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  PipelineInstanceModels activePipelineInstances=createPipelineInstanceModels();
+  StageInstanceModel stage1=new StageInstanceModel("stage1","2",JobHistory.withJob("plan1",JobState.Building,JobResult.Unknown,new Date()));
+  activePipelineInstances.add(activePipeline("pipeline1",10,1.0,stage1,new NullStageHistoryItem("stage2",true)));
+  activePipelineInstances.add(activePipeline("pipeline2",5,2.5,new StageInstanceModel("plan1","2",JobHistory.withJob("plan1",JobState.Building,JobResult.Unknown,new Date()))));
+  activePipelineInstances.add(activePipeline("non-operatable-pipeline",5,2.0,new StageInstanceModel("one","2",JobHistory.withJob("plan1",JobState.Completed,JobResult.Failed,new Date()))));
+  when(goConfigService.isLockable("pipeline1")).thenReturn(true);
+  when(pipelineDao.loadActivePipelines()).thenReturn(activePipelineInstances);
+  stubPermisssionsForActivePipeline(jez,cruiseConfig,"pipeline1",true,true);
+  stubPermisssionsForActivePipeline(jez,cruiseConfig,"pipeline2",true,false);
+  stubPermisssionsForActivePipeline(jez,cruiseConfig,"non-operatable-pipeline",false,false);
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString(any(String.class)))).thenReturn(true);
+  when(securityService.hasOperatePermissionForStage("pipeline1","stage1",CaseInsensitiveString.str(jez.getUsername()))).thenReturn(true);
+  List<PipelineGroupModel> groups=pipelineHistoryService.allActivePipelineInstances(jez,PipelineSelections.ALL);
+  PipelineModel secondPipelineModel=groups.get(0).getPipelineModels().get(1);
+  assertPipelineIs(secondPipelineModel,"pipeline2",true,false);
+  PipelineInstanceModel secondPim=secondPipelineModel.getLatestPipelineInstance();
+  assertThat(secondPim.getTrackingTool(),is(nullValue()));
+  assertThat(secondPim.getMingleConfig(),is(new MingleConfig("baseUrl","id")));
+  assertThat(secondPim.isLockable(),is(false));
+  PipelineModel firstPipelineModel=groups.get(0).getPipelineModels().get(0);
+  assertPipelineIs(firstPipelineModel,"pipeline1",true,true);
+  PipelineInstanceModel pim=firstPipelineModel.getLatestPipelineInstance();
+  assertThat(pim.isLockable(),is(true));
+  assertThat(pim.getTrackingTool(),is(new TrackingTool("http://link","#")));
+  assertThat(pim.getMingleConfig(),is(new MingleConfig()));
+  PipelineModel nonOperatablePipelineModel=groups.get(1).getPipelineModels().get(0);
+  assertPipelineIs(nonOperatablePipelineModel,"non-operatable-pipeline",false,false);
+}

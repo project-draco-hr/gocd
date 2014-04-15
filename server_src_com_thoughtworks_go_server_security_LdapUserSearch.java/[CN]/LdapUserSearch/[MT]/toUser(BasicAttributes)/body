@@ -1,0 +1,13 @@
+{
+  String fullName=attributes.get(COMMON_NAME).get().toString();
+  Attribute samAccName=attributes.get(SAM_ACCOUNT_NAME);
+  String loginName;
+  loginName=samAccName != null ? samAccName.get().toString() : attributes.get(UID).get().toString();
+  Attribute emailAttr=attributes.get(USER_PRINCIPLE_NAME);
+  String emailAddress=emailAttr != null ? emailAttr.get().toString() : "";
+  if (emailAddress.equals("")) {
+    emailAttr=attributes.get(MAIL_ID);
+    emailAddress=emailAttr != null ? emailAttr.get().toString() : "";
+  }
+  return new User(loginName,fullName,emailAddress);
+}

@@ -1,0 +1,14 @@
+{
+  Map hashMap=new HashMap();
+  hashMap.put(OnCancelConfig.ON_CANCEL_OPTIONS,"exec");
+  Map valueMap=new HashMap();
+  valueMap.put(ExecTask.COMMAND,"ls");
+  valueMap.put(ExecTask.ARGS,"blah");
+  valueMap.put(ExecTask.WORKING_DIR,"pwd");
+  hashMap.put(OnCancelConfig.EXEC_ON_CANCEL,valueMap);
+  hashMap.put(OnCancelConfig.ANT_ON_CANCEL,new HashMap());
+  ExecTask execTask=new ExecTask();
+  when(taskFactory.taskInstanceFor(execTask.getTaskType())).thenReturn(execTask);
+  OnCancelConfig cancelConfig=OnCancelConfig.create(hashMap,taskFactory);
+  assertThat((ExecTask)cancelConfig.getTask(),is(new ExecTask("ls","blah","pwd")));
+}

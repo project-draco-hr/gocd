@@ -1,0 +1,6 @@
+{
+  PackageRepository packageRepository=new PackageRepository();
+  when(localizer.localize("PLUGIN_ID_REQUIRED")).thenReturn("Please provide plugin id");
+  service.performPluginValidationsFor(packageRepository);
+  assertThat(packageRepository.getPluginConfiguration().errors().getAllOn(PluginConfiguration.ID),is(Arrays.asList("Please provide plugin id")));
+}

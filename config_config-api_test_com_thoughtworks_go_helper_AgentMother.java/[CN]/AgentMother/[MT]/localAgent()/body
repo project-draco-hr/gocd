@@ -1,0 +1,9 @@
+{
+  try {
+    InetAddress localHost=InetAddress.getLocalHost();
+    return new AgentConfig("uuid-local" + UUID.randomUUID(),localHost.getHostName(),localHost.getHostAddress());
+  }
+ catch (  UnknownHostException e) {
+    throw bomb(e);
+  }
+}

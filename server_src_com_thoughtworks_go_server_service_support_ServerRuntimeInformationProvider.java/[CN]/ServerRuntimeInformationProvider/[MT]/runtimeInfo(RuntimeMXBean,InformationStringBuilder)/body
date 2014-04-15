@@ -1,0 +1,17 @@
+{
+  builder.addSection("Runtime information");
+  builder.append(String.format("Name - %s\n",runtimeMXBean.getName()));
+  long uptime=runtimeMXBean.getUptime();
+  long uptimeInSeconds=uptime / 1000;
+  long numberOfHours=uptimeInSeconds / (60 * 60);
+  long numberOfMinutes=(uptimeInSeconds / 60) - (numberOfHours * 60);
+  long numberOfSeconds=uptimeInSeconds % 60;
+  builder.append(String.format("Uptime - %s [About %s hours, %s minutes, %s seconds]\n",uptime,numberOfHours,numberOfMinutes,numberOfSeconds));
+  builder.append(String.format("Spec Name - %s\n",runtimeMXBean.getSpecName()));
+  builder.append(String.format("Spec Vendor - %s\n",runtimeMXBean.getSpecVendor()));
+  builder.append(String.format("Spec Version - %s\n",runtimeMXBean.getSpecVersion()));
+  builder.addSubSection("Input Arguments").append(asIndentedMultilineValues(runtimeMXBean.getInputArguments()));
+  builder.addSubSection("System Properties").append(asIndentedMultilineValues(runtimeMXBean.getSystemProperties()));
+  builder.addSubSection("Classpath").append(prettyClassPath(runtimeMXBean.getClassPath()));
+  builder.addSubSection("Boot Classpath").append(prettyClassPath(runtimeMXBean.getBootClassPath()));
+}

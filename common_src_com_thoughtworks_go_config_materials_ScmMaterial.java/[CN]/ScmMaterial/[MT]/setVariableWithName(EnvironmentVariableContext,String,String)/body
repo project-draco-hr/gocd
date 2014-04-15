@@ -1,0 +1,13 @@
+{
+  if (!CaseInsensitiveString.isBlank(this.name)) {
+    environmentVariableContext.setProperty(propertyName + "_" + escapeEnvironmentVariable(this.name.toUpper()),value,false);
+    return;
+  }
+  String scrubbedFolder=escapeEnvironmentVariable(folder);
+  if (!StringUtils.isEmpty(scrubbedFolder)) {
+    environmentVariableContext.setProperty(propertyName + "_" + scrubbedFolder,value,false);
+  }
+ else {
+    environmentVariableContext.setProperty(propertyName,value,false);
+  }
+}

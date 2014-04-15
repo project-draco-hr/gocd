@@ -1,0 +1,7 @@
+{
+  PipelineHistoryGroups historyGroups=preparePipelineHistoryGroups(pipelineConfig);
+  PipelineConfig newConfig=PipelineConfigMother.createPipelineConfigWithStages("mingle","stage1","stage2");
+  presenter=new PipelineHistoryJsonPresentationModel(pipelinePauseInfo,historyGroups,newConfig,pagination(),CAN_FORCE,hasForceBuildCause,hasModification,true);
+  JsonTester jsonTester=new JsonTester(presenter.toJson());
+  jsonTester.shouldContain("{    'groups' : [ {" + "     'config' : {" + "         'stages' : [ "+ "             {'name' : 'stage1', isAutoApproved : 'true'},"+ "             {'name' : 'stage2', isAutoApproved : 'true'}"+ "          ]"+ "      }"+ "    }, {"+ "     'config' : {"+ "         'stages' : [ "+ "             {'name' : 'dev', isAutoApproved : 'true'},"+ "             {'name' : 'ft', isAutoApproved : 'false'}"+ "          ]"+ "      }"+ "    } ]"+ "}");
+}

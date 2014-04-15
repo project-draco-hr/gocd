@@ -1,0 +1,15 @@
+{
+  PipelineConfig shine=PipelineMother.twoBuildPlansWithResourcesAndMaterials("shine","1stStage","2ndStage");
+  PipelineConfig cruise13=pipelineConfigFor("cruise1.3","shine","1stStage");
+  PipelineConfig cruise20=pipelineConfigFor("cruise2.0","shine","2ndStage");
+  Pipeline shineInstance=dbHelper.newPipelineWithAllStagesPassed(shine);
+  Pipeline cruise13Instance=dbHelper.newPipelineWithAllStagesPassed(cruise13);
+  Pipeline cruise20Instance=dbHelper.newPipelineWithAllStagesPassed(cruise20);
+  PipelineDependencyGraphOld dependencyGraph=pipelineDao.pipelineGraphByNameAndCounter("shine",1);
+  assertPipelineEquals(shineInstance,dependencyGraph.pipeline());
+  ensureBuildCauseIsLoadedFor(dependencyGraph.pipeline());
+  PipelineInstanceModels dependencies=dependencyGraph.dependencies();
+  assertThat(dependencies.size(),is(2));
+  assertPipelineEquals(cruise13Instance,dependencies.find("cruise1.3"));
+  assertPipelineEquals(cruise20Instance,dependencies.find("cruise2.0"));
+}

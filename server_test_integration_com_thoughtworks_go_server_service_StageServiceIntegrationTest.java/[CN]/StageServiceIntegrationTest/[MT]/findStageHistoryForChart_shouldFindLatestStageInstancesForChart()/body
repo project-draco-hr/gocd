@@ -1,0 +1,18 @@
+{
+  PipelineConfig pipelineConfig=configFileHelper.addPipeline("pipeline-1","stage-1");
+  configFileHelper.turnOffSecurity();
+  List<Pipeline> completedPipelines=new ArrayList<Pipeline>();
+  Pipeline pipeline;
+  for (int i=0; i < 16; i++) {
+    pipeline=dbHelper.schedulePipelineWithAllStages(pipelineConfig,ModificationsMother.modifySomeFiles(pipelineConfig));
+    dbHelper.pass(pipeline);
+    completedPipelines.add(pipeline);
+  }
+  StageSummaryModels stages=stageService.findStageHistoryForChart(pipelineConfig.name().toString(),pipelineConfig.first().name().toString(),1,4,new Username(new CaseInsensitiveString("loser")));
+  assertThat(stages.size(),is(4));
+  assertThat(stages.get(0).getIdentifier().getPipelineCounter(),is(16));
+  stages=stageService.findStageHistoryForChart(pipelineConfig.name().toString(),pipelineConfig.first().name().toString(),3,4,new Username(new CaseInsensitiveString("loser")));
+  assertThat(stages.size(),is(4));
+  assertThat(stages.get(0).getIdentifier().getPipelineCounter(),is(8));
+  assertThat(stages.getPagination().getTotalPages(),is(4));
+}

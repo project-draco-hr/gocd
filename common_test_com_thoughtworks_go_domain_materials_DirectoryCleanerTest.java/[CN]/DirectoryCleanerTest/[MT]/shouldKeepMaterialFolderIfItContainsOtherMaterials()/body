@@ -1,0 +1,12 @@
+{
+  File material1=mkdirDir(baseFolder,"material1");
+  File dirOfMaterial1=mkdirDir(material1,"dirOfMaterial1");
+  File material2=mkdirDir(material1,"material2");
+  File oldMaterial3=mkdirDir(baseFolder,"oldMaterial3");
+  cleaner.allowed("material1","material1/material2");
+  cleaner.clean();
+  assertThat(material1.exists(),is(true));
+  assertThat(dirOfMaterial1.exists(),is(true));
+  assertThat(material2.exists(),is(true));
+  assertThat(oldMaterial3.exists(),is(false));
+}

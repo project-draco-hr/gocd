@@ -1,0 +1,9 @@
+{
+  EnvironmentVariablesConfig variablesConfig=new EnvironmentVariablesConfig();
+  variablesConfig.addAll(this);
+  for (  EnvironmentVariableConfig environmentVariableConfig : environmentVariablesConfig) {
+    variablesConfig.removeIfExists(environmentVariableConfig.getName());
+    variablesConfig.add(environmentVariableConfig);
+  }
+  return variablesConfig;
+}

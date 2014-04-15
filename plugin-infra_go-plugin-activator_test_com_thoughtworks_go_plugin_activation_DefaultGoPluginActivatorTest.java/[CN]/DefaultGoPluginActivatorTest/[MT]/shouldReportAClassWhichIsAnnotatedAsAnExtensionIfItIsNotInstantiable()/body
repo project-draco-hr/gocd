@@ -1,0 +1,6 @@
+{
+  setupClassesInBundle("PublicGoExtensionClassWhichDoesNotHaveADefaultConstructor.class");
+  when(bundle.loadClass(contains("PublicGoExtensionClassWhichDoesNotHaveADefaultConstructor"))).thenReturn((Class)PublicGoExtensionClassWhichDoesNotHaveADefaultConstructor.class);
+  activator.start(context);
+  verifyErrorsReported("Class [PublicGoExtensionClassWhichDoesNotHaveADefaultConstructor] is annotated with @Extension but cannot be constructed. " + "Make sure it and all of its parent classes have a default constructor.",NO_EXT_ERR_MSG);
+}

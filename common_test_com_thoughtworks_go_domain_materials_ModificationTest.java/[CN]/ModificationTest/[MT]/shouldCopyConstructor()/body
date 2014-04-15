@@ -1,0 +1,8 @@
+{
+  Modification modification=new Modification("user","comment","foo@bar.com",new Date(),"pipe/1/stage/2");
+  MaterialInstance original=new SvnMaterialInstance("url","username",UUID.randomUUID().toString(),true);
+  modification.setMaterialInstance(original);
+  assertThat(new Modification(modification),is(modification));
+  modification=new Modification(new Date(),"rev","label",121L);
+  assertThat(new Modification(modification),is(modification));
+}

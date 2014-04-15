@@ -1,0 +1,7 @@
+{
+  final JobInstance instance=new JobInstance(jobConfigName);
+  instance.changeState(JobState.Building,startBuildingDate);
+  instance.setScheduledDate(new DateTime().minusMinutes(5).toDate());
+  instance.setIdentifier(defaultJobIdentifier(jobConfigName));
+  return instance;
+}

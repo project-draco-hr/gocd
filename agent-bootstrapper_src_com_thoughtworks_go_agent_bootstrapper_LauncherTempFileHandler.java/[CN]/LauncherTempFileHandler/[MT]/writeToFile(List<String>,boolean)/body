@@ -1,0 +1,13 @@
+{
+  FileWriter tmpFileListWriter=null;
+  try {
+    tmpFileListWriter=new FileWriter(LAUNCHER_TMP_FILE_LIST,append);
+    IOUtils.writeLines(rows,IOUtils.LINE_SEPARATOR,tmpFileListWriter);
+  }
+ catch (  IOException e) {
+    LOG.error("Could not update temp files list",e);
+  }
+ finally {
+    IOUtils.closeQuietly(tmpFileListWriter);
+  }
+}

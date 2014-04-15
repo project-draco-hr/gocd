@@ -1,0 +1,8 @@
+{
+  User user=anUser();
+  userDao.saveOrUpdate(user);
+  User settingFromDb=userDao.findUser("user");
+  assertThat(settingFromDb.getName(),is(user.getName()));
+  assertThat(settingFromDb.getMatcher(),is(user.getMatcher()));
+  assertThat(settingFromDb.getEmail(),is(user.getEmail()));
+}

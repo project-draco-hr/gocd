@@ -1,0 +1,10 @@
+{
+  GoConfigRevision configRevision=new GoConfigRevision("config-xml",String.format("user:los||er|||timestamp:%s|schema_version:20|go_edition:Enterprise|go_version:100.3.||9.71|||||md5:my-||md5||||",date.getTime()));
+  assertThat(configRevision.getContent(),is("config-xml"));
+  assertThat(configRevision.getMd5(),is("my-|md5||"));
+  assertThat(configRevision.getGoVersion(),is("100.3.|9.71||"));
+  assertThat(configRevision.getGoEdition(),is(Edition.Enterprise));
+  assertThat(configRevision.getUsername(),is("los|er|"));
+  assertThat(configRevision.getTime(),is(date));
+  assertThat(configRevision.getSchemaVersion(),is(20));
+}

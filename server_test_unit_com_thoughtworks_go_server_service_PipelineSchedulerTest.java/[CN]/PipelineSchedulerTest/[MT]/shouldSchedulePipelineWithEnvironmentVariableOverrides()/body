@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipelineConfig=configWithPipelines("blahPipeline").pipelineConfigByName(new CaseInsensitiveString("blahPipeline"));
+  when(configService.pipelineConfigNamed(new CaseInsensitiveString("blahPipeline"))).thenReturn(pipelineConfig);
+  when(configService.hasPipelineNamed(new CaseInsensitiveString("blahPipeline"))).thenReturn(true);
+  when(configService.hasVariableInScope("blahPipeline","blahVariable")).thenReturn(true);
+  OperationResult operationResult=mock(OperationResult.class);
+  Map<String,String> variables=Collections.singletonMap("blahVariable","blahValue");
+  final HashMap<String,String> revisions=new HashMap<String,String>();
+  scheduler.manualProduceBuildCauseAndSave("blahPipeline",Username.ANONYMOUS,new ScheduleOptions(revisions,variables,new HashMap<String,String>()),operationResult);
+  verify(buildCauseProducerService).manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig,new ScheduleOptions(new HashMap<String,String>(),variables,new HashMap<String,String>()),operationResult);
+}

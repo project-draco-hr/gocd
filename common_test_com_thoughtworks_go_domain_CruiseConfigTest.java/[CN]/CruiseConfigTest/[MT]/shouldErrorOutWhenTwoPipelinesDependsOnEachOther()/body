@@ -1,0 +1,10 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  PipelineConfig pipeline1=goConfigMother.addPipeline(cruiseConfig,"pipeline1","stage","build");
+  PipelineConfig pipeline2=goConfigMother.addPipeline(cruiseConfig,"pipeline2","stage","build");
+  goConfigMother.setDependencyOn(cruiseConfig,pipeline2,"pipeline1","stage");
+  goConfigMother.setDependencyOn(cruiseConfig,pipeline1,"pipeline2","stage");
+  cruiseConfig.validate(null);
+  assertThat(pipeline1.materialConfigs().errors().isEmpty(),is(false));
+  assertThat(pipeline2.materialConfigs().errors().isEmpty(),is(false));
+}

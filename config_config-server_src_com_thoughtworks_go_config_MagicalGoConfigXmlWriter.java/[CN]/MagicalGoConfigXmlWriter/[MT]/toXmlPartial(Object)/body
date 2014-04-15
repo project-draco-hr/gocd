@@ -1,0 +1,24 @@
+{
+  bombIf(!isAnnotationPresent(domainObject.getClass(),ConfigTag.class),"Object " + domainObject + " does not have a ConfigTag");
+  Element element=elementFor(domainObject.getClass(),configCache);
+  write(domainObject,element,configCache,registry);
+  if (isAnnotationPresent(domainObject.getClass(),ConfigCollection.class) && domainObject instanceof Collection) {
+    for (    Object item : (Collection)domainObject) {
+      if (isAnnotationPresent(item.getClass(),ConfigCollection.class) && item instanceof Collection) {
+        new ExplicitCollectionXmlFieldWithValue(domainObject.getClass(),null,(Collection)item,configCache,registry).populate(element);
+        continue;
+      }
+      Element childElement=elementFor(item.getClass(),configCache);
+      element.addContent(childElement);
+      write(item,childElement,configCache,registry);
+    }
+  }
+  try {
+    ByteArrayOutputStream output=new ByteArrayOutputStream();
+    XmlUtils.writeXml(element,output);
+    return output.toString();
+  }
+ catch (  IOException e) {
+    throw bomb("Unable to write xml to String");
+  }
+}

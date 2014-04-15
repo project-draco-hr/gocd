@@ -1,0 +1,11 @@
+{
+  CommandLine command=CommandLine.createCommandLine("notexist").withArg("My password is ").withArg(new PasswordArgument("secret"));
+  InMemoryConsumer output=new InMemoryConsumer();
+  try {
+    command.runScript(new ExecScript("FOO"),output,new EnvironmentVariableContext(),null);
+    fail("Exception expected");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),not(containsString("secret")));
+  }
+}

@@ -1,0 +1,5 @@
+{
+  JobIdentifier secondId=createPassedPipeline();
+  assertThat(propertyDao.save(buildId,property("name","value1")),is(true));
+  assertThat(propertyDao.save(secondId.getBuildId(),property("name","value2")),is(true));
+}

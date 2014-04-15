@@ -1,0 +1,6 @@
+{
+  pipelineFixture.createdPipelineWithAllStagesPassed();
+  JobConfigIdentifier jobConfigIdentifier=new JobConfigIdentifier(pipelineFixture.pipelineName,pipelineFixture.devStage,"wrong-job");
+  JobInstance currentJob=jobStatusCache.currentJob(jobConfigIdentifier);
+  assertThat(currentJob,is(nullValue()));
+}

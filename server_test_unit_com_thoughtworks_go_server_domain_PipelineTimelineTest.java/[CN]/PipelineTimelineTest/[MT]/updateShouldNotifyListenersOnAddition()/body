@@ -1,0 +1,18 @@
+{
+  stubTransactionSynchronization();
+  setupTransactionTemplateStub(TransactionSynchronization.STATUS_COMMITTED,true);
+  final List<PipelineTimelineEntry>[] entries=new List[1];
+  entries[0]=new ArrayList<PipelineTimelineEntry>();
+  final PipelineTimeline timeline=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager,new TimelineUpdateListener(){
+    public void added(    PipelineTimelineEntry newlyAddedEntry,    TreeSet<PipelineTimelineEntry> timeline){
+      assertThat(timeline.contains(newlyAddedEntry),is(true));
+      assertThat(timeline.containsAll(entries[0]),is(true));
+      entries[0].add(newlyAddedEntry);
+    }
+  }
+);
+  stubPipelineRepository(timeline,true,new PipelineTimelineEntry[]{first,second});
+  timeline.update();
+  assertThat(entries[0].size(),is(1));
+  assertThat(entries[0].contains(first),is(true));
+}

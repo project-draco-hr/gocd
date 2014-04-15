@@ -1,0 +1,11 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  OauthAuthorization authFoo=new OauthAuthorization("foo@bar.com",mingle09,"code",332333);
+  template.save(authFoo);
+  OauthToken fooTokenFor09=new OauthToken("foo@bar.com",mingle09,"access-token","refresh-token",23324324);
+  template.save(fooTokenFor09);
+  repo.deleteAllOauthGrants();
+  assertThat(template.find("from OauthAuthorization").size(),is(0));
+  assertThat(template.find("from OauthToken").size(),is(0));
+}

@@ -1,0 +1,10 @@
+{
+  failingTests.add("suiteA","testA",TestStatus.Error,new JobIdentifier("",3,"","","","job-1"));
+  failingTests.add("suiteB","testB",TestStatus.Error,new JobIdentifier("",3,"","","","job-1"));
+  FailingTestsInPipeline failingTests1=new FailingTestsInPipeline("1.3",3);
+  failingTests1.add("suiteA","testA",TestStatus.Error,new JobIdentifier("",4,"","","","job-1"));
+  failingTests.removeDuplicateTestEntries(failingTests1);
+  List<TestSuite> failingSuites=failingTests.failingSuites();
+  assertThat(failingSuites.size(),is(1));
+  assertThat(failingSuites.get(0).fullName(),is("suiteB"));
+}

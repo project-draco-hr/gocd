@@ -1,0 +1,8 @@
+{
+  String cronSpec=timer == null ? null : timer.getTimerSpec();
+  boolean shouldTriggerOnlyOnMaterialChanges=timer != null && timer.shouldTriggerOnlyOnChanges();
+  StageConfig stageConfig=StageConfigMother.custom(stageName,defaultBuildPlans(buildNames));
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString(pipelineName),PipelineLabel.COUNT_TEMPLATE,cronSpec,shouldTriggerOnlyOnMaterialChanges,materialConfigs,asList(stageConfig));
+  cruiseConfig.addPipeline(groupName,pipelineConfig);
+  return pipelineConfig;
+}

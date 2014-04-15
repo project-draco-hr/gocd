@@ -1,0 +1,8 @@
+{
+  info.setStatus(AgentStatus.Cancelled);
+  when(agentService.findAgentAndRefreshStatus(info.getUUId())).thenReturn(AgentInstance.createFromLiveAgent(info,new SystemEnvironment()));
+  AgentInstruction instruction=buildRepository.ping(info);
+  assertThat(instruction.isShouldCancelJob(),is(true));
+  verify(agentService).updateRuntimeInfo(info);
+  assertThat(log(),hasItem(info + " ping received."));
+}

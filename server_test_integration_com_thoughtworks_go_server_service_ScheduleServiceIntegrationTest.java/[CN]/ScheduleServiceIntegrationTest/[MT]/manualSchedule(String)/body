@@ -1,0 +1,8 @@
+{
+  final HashMap<String,String> revisions=new HashMap<String,String>();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  final HashMap<String,String> secureEnvironmentVariables=new HashMap<String,String>();
+  buildCauseProducer.manualProduceBuildCauseAndSave(pipelineName,new Username(new CaseInsensitiveString("some user name")),new ScheduleOptions(revisions,environmentVariables,secureEnvironmentVariables),new ServerHealthStateOperationResult());
+  scheduleService.autoSchedulePipelinesFromRequestBuffer();
+  return pipelineService.mostRecentFullPipelineByName(pipelineName);
+}

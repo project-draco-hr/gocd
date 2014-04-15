@@ -1,0 +1,9 @@
+{
+  try {
+    controller.jobDetail(fixture.pipelineName,"1",fixture.devStage,"1","invalid-job");
+  }
+ catch (  Exception e) {
+    ModelAndView modelAndView=controller.handle(request,response,e);
+    assertThat((String)modelAndView.getModel().get(GoConstants.ERROR_FOR_PAGE),containsString("invalid-job not found"));
+  }
+}

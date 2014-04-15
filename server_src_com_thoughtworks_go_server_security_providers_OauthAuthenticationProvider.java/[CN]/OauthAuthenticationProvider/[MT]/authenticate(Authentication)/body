@@ -1,0 +1,11 @@
+{
+  OauthAuthenticationToken authenticationToken=(OauthAuthenticationToken)authentication;
+  String token=authenticationToken.getCredentials();
+  OauthDataSource.OauthTokenDTO oauthToken=oauthDataSource.findOauthTokenByAccessToken(token);
+  if (oauthToken == null) {
+    throw new BadCredentialsException("No match for OAuth token: " + token);
+  }
+  String username=oauthToken.getUserId();
+  UserDetails user=new User(username,token,true,true,true,true,oauthAuthority());
+  return new OauthAuthenticationToken(user);
+}

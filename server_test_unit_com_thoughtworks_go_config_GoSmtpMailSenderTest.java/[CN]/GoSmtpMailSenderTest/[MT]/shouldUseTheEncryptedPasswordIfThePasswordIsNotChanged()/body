@@ -1,0 +1,7 @@
+{
+  String hostName="smtp.company.com";
+  String encryptedPassword=new GoCipher().encrypt("encrypted_password");
+  MailHost mailHost=new MailHost(hostName,25,"smtpuser","password",encryptedPassword,false,true,"cruise@me.com","jez@me.com");
+  GoMailSender sender=GoSmtpMailSender.createSender(mailHost);
+  assertThat((BackgroundMailSender)sender,is(new BackgroundMailSender(new GoSmtpMailSender(hostName,25,"smtpuser","encrypted_password",true,"cruise@me.com","jez@me.com"))));
+}

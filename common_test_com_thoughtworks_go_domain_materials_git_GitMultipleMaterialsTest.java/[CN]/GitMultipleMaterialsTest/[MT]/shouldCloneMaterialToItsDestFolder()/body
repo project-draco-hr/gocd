@@ -1,0 +1,7 @@
+{
+  GitMaterial material1=repo.createMaterial("dest1");
+  MaterialRevision materialRevision=new MaterialRevision(material1,material1.latestModification(pipelineDir,new TestSubprocessExecutionContext()));
+  materialRevision.updateTo(pipelineDir,ProcessOutputStreamConsumer.inMemoryConsumer(),new TestSubprocessExecutionContext());
+  assertThat(new File(pipelineDir,"dest1").exists(),is(true));
+  assertThat(new File(pipelineDir,"dest1/.git").exists(),is(true));
+}

@@ -1,0 +1,16 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  Task task1=new ExecTask("ls","-a","");
+  Task task2=new AntTask();
+  setupJobWithTasks(config,task1,task2);
+  final List<Task> tasksVisited=new ArrayList<Task>();
+  config.accept(new TaskConfigVisitor(){
+    public void visit(    PipelineConfig pipelineConfig,    StageConfig stageConfig,    JobConfig jobConfig,    Task task){
+      tasksVisited.add(task);
+    }
+  }
+);
+  assertThat(tasksVisited.size(),is(2));
+  assertThat(tasksVisited.get(0),is(task1));
+  assertThat(tasksVisited.get(1),is(task2));
+}

@@ -1,0 +1,15 @@
+{
+  setupFile("cread:{SHA}OPhRtj5TCERacn3mvwItERz8uCk=");
+  when(securityService.isUserAdmin(new Username(new CaseInsensitiveString("cread")))).thenReturn(true);
+  when(userService.findUserByName("cread")).thenReturn(new com.thoughtworks.go.domain.User("cread","Chriss Readds","cread@humble.com"));
+  AuthorityGranter authorityGranter=new AuthorityGranter(securityService);
+  FileAuthenticationProvider provider=new FileAuthenticationProvider(goConfigService,authorityGranter,userService,securityService);
+  final UserDetails details=provider.retrieveUser("cread",null);
+  assertThat(details.getAuthorities()[0].getAuthority(),is("ROLE_SUPERVISOR"));
+  assertThat(details.isAccountNonExpired(),is(true));
+  assertThat(details.isAccountNonLocked(),is(true));
+  assertThat(details.isCredentialsNonExpired(),is(true));
+  assertThat(details.isEnabled(),is(true));
+  assertThat(details.getUsername(),is("cread"));
+  assertThat(details.getPassword(),is("OPhRtj5TCERacn3mvwItERz8uCk="));
+}

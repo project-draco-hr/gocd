@@ -1,0 +1,12 @@
+{
+  ConfigElementImplementationRegistry registry=mock(ConfigElementImplementationRegistry.class);
+  when(registry.implementersOf(Task.class)).thenReturn(tasks(ExecTask.class,PluggableTask.class));
+  String content="<cruise>" + "  <pipeline>" + "    <stage>"+ "      <jobs>"+ "        <job>"+ "          <tasks>"+ "              <task name=\"\">\n"+ "                <pluginConfiguration id=\"curl.task.plugin\" version=\"1\" />\n"+ "                <configuration>\n"+ "                  <property>\n"+ "                    <key>Url</key>\n"+ "                    <value>With_On_Cancel</value>\n"+ "                  </property>\n"+ "                </configuration>\n"+ "                <runif status=\"passed\" />\n"+ "                <oncancel>\n"+ "                  <ant buildfile=\"blah\" target=\"blah1\" />\n"+ "                </oncancel>\n"+ "                <oncancel>\n"+ "                  <ant buildfile=\"blah\" target=\"blah2\" />\n"+ "                </oncancel>\n"+ "              </task>"+ "          </tasks>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "  </pipeline>"+ "</cruise>";
+  try {
+    UniqueOnCancelValidator validator=new UniqueOnCancelValidator();
+    validator.validate(elementFor(content),registry);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Task [task] should not contain more than 1 oncancel task"));
+  }
+}

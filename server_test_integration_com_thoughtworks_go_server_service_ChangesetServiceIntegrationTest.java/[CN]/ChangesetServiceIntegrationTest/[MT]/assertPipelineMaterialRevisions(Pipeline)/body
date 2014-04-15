@@ -1,0 +1,5 @@
+{
+  List<PipelineMaterialRevision> pmrs=materialRepository.findPipelineMaterialRevisions(upstreamOne.getId());
+  assertThat(pmrs.size(),is(1));
+  assertThat(pmrs.get(0).getActualFromRevisionId(),is(pmrs.get(0).getFromModification().getId()));
+}

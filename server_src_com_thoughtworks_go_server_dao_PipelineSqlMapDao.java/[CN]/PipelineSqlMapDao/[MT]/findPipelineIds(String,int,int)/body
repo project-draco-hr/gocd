@@ -1,0 +1,17 @@
+{
+  if (wantLatestIdOnly(limit,offset)) {
+    String cacheKey=cacheKeyForLatestPipelineIdByPipelineName(pipelineName);
+    List<Long> ids=(List<Long>)goCache.get(cacheKey);
+    if (ids == null) {
+synchronized (cacheKey) {
+        ids=(List<Long>)goCache.get(cacheKey);
+        if (ids == null) {
+          ids=fetchPipelineIds(pipelineName,limit,offset);
+          goCache.put(cacheKey,ids);
+        }
+      }
+    }
+    return ids;
+  }
+  return fetchPipelineIds(pipelineName,limit,offset);
+}

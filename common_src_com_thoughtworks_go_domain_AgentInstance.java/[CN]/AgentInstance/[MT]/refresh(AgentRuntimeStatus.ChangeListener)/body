@@ -1,0 +1,11 @@
+{
+  if (agentConfigStatus == AgentConfigStatus.Pending || agentConfigStatus == AgentConfigStatus.Disabled) {
+    return;
+  }
+  if (lastHeardTime == null) {
+    agentRuntimeInfo.setRuntimeStatus(AgentRuntimeStatus.Missing,changeListener);
+  }
+ else   if (isTimeout(lastHeardTime)) {
+    agentRuntimeInfo.setRuntimeStatus(AgentRuntimeStatus.LostContact,changeListener);
+  }
+}

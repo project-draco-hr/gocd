@@ -1,0 +1,9 @@
+{
+  for (  PipelineGroupModel groupModel : groupModels.asList()) {
+    for (    PipelineModel pipelineModel : groupModel.getPipelineModels()) {
+      if (!pipelineSelections.includesPipeline(pipelineModel.getName())) {
+        groupModels.removePipeline(groupModel,pipelineModel);
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  try {
+    scheduleService.cancelAndTriggerRelevantStages(firstStage.getId(),null,null);
+    JobInstance loaded=dbHelper.getBuildInstanceDao().buildByIdWithTransitions(instance.getId());
+    if (loaded.getState() != JobState.Completed) {
+      failures.add("Expected: Completed, got: " + loaded.getState() + "\n");
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

@@ -1,0 +1,19 @@
+{
+  HttpMethod method=null;
+  String url=baseUrl + path;
+switch (methodRequired) {
+case PUT:
+    method=new PutMethod(url);
+  break;
+case POST:
+method=new PostMethod(url);
+break;
+case GET:
+method=new GetMethod(url);
+break;
+}
+method.setQueryString(params);
+HttpClient client=new HttpClient();
+client.executeMethod(method);
+return method;
+}

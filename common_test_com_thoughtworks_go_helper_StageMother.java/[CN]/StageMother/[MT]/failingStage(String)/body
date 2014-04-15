@@ -1,0 +1,8 @@
+{
+  StageConfig stageConfig=StageConfigMother.twoBuildPlansWithResourcesAndMaterials(stageName);
+  Stage stage=scheduleInstance(stageConfig);
+  stage.setId(fakeId());
+  stage.getJobInstances().get(0).fail();
+  stage.getJobInstances().get(1).completing(JobResult.Passed);
+  return stage;
+}

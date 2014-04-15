@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=PipelineMother.passedPipelineInstance(pipelineName,STAGE1,PLAN1);
+  assertThat(pipeline.getStages().get(0).getJobInstances().size(),is(1));
+  pipeline.getStages().get(0).getJobInstances().get(0).setScheduledDate(new Date());
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline);
+  return pipeline;
+}

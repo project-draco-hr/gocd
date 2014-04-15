@@ -1,0 +1,14 @@
+{
+  try {
+    KeyPair seed=KeyPairGenerator.getInstance("RSA","BC").generateKeyPair();
+    RSAPrivateKey privateSeed=(RSAPrivateKey)seed.getPrivate();
+    RSAPublicKey publicSeed=(RSAPublicKey)seed.getPublic();
+    KeyFactory fact=KeyFactory.getInstance("RSA","BC");
+    RSAPrivateKeySpec privateKeySpec=new RSAPrivateKeySpec(privateSeed.getModulus(),privateSeed.getPrivateExponent());
+    RSAPublicKeySpec publicKeySpec=new RSAPublicKeySpec(publicSeed.getModulus(),publicSeed.getPublicExponent());
+    return new KeyPair(fact.generatePublic(publicKeySpec),fact.generatePrivate(privateKeySpec));
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

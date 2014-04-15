@@ -1,0 +1,5 @@
+{
+  ServerSiteUrlConfig url=new ServerSiteUrlConfig("http://someurl.com");
+  assertThat(url.siteUrlFor("http://admin:badger@test.host/foo"),is("http://admin:badger@someurl.com/foo"));
+  assertThat(url.siteUrlFor("http://admin@test.host/foo"),is("http://admin@someurl.com/foo"));
+}

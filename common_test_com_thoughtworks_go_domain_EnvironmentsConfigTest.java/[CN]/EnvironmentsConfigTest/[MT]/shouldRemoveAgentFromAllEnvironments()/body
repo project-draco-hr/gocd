@@ -1,0 +1,22 @@
+{
+  EnvironmentConfig env2=new EnvironmentConfig(new CaseInsensitiveString("prod"));
+  env2.addPipeline(new CaseInsensitiveString("test"));
+  env2.addAgent("agent-one");
+  env2.addAgent("agent-two");
+  configs.add(env2);
+  EnvironmentConfig env3=new EnvironmentConfig(new CaseInsensitiveString("dev"));
+  env3.addPipeline(new CaseInsensitiveString("build"));
+  env3.addAgent("agent-two");
+  env3.addAgent("agent-three");
+  configs.add(env3);
+  assertThat(configs.get(0).getAgents().size(),is(1));
+  assertThat(configs.get(1).getAgents().size(),is(2));
+  assertThat(configs.environmentsForAgent("agent-one").size(),is(2));
+  configs.removeAgentFromAllEnvironments("agent-one");
+  assertThat(configs.get(0).getAgents().size(),is(0));
+  assertThat(configs.get(1).getAgents().size(),is(1));
+  assertThat(configs.get(2).getAgents().size(),is(2));
+  assertThat(configs.environmentsForAgent("agent-one").size(),is(0));
+  assertThat(configs.environmentsForAgent("agent-two").size(),is(2));
+  assertThat(configs.environmentsForAgent("agent-three").size(),is(1));
+}

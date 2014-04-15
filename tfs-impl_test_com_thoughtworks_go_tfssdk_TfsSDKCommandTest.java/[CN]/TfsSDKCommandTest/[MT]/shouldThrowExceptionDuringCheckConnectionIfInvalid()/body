@@ -1,0 +1,11 @@
+{
+  when(client.queryHistory(TFS_PROJECT,null,1)).thenThrow(new RuntimeException("could not connect"));
+  try {
+    tfsCommand.checkConnection();
+    fail("should have thrown an exception");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Failed while checking connection using Url: http://some.repo.local:8000/, Project Path: $/project_path, Username: username, Domain: domain, Root Cause: could not connect"));
+  }
+  verify(client).queryHistory(TFS_PROJECT,null,1);
+}

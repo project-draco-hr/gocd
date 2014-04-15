@@ -1,0 +1,8 @@
+{
+  when(securityService.isUserAdminOfGroup(admin.getUsername(),pipelineGroup)).thenReturn(true);
+  PackageMaterialSaveCommand command=getCommand(admin);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  command.checkPermission(cruiseConfig,result);
+  assertThat(result.isSuccessful(),is(true));
+  verify(securityService,times(1)).isUserAdminOfGroup(admin.getUsername(),pipelineGroup);
+}

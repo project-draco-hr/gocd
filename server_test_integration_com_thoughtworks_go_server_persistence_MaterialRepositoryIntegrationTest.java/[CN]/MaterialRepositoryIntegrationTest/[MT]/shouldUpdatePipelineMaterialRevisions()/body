@@ -1,0 +1,15 @@
+{
+  HgMaterial material=new HgMaterial("sdg",null);
+  Modification first=modification("6");
+  Modification second=modification("7");
+  MaterialRevision firstRevision=new MaterialRevision(material,new Modifications(second,first));
+  saveMaterialRev(firstRevision);
+  material.setId(repo.findMaterialInstance(material).getId());
+  MaterialRevision secondRevision=new MaterialRevision(material,new Modifications(first));
+  Pipeline secondPipeline=createPipeline();
+  savePMR(secondRevision,secondPipeline);
+  MaterialRevisions materialRevisions=repo.findMaterialRevisionsForPipeline(secondPipeline.getId());
+  assertEquals(secondRevision,materialRevisions.getMaterialRevision(0));
+  List<PipelineMaterialRevision> pipelineMaterialRevisions=repo.findPipelineMaterialRevisions(secondPipeline.getId());
+  assertThat(pipelineMaterialRevisions.get(0).getMaterialId(),is(material.getId()));
+}

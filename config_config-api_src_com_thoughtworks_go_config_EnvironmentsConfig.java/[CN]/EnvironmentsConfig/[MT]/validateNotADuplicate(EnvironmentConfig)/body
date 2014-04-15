@@ -1,0 +1,10 @@
+{
+  if (hasEnvironmentNamed(environmentConfig.name())) {
+    throw new RuntimeException(String.format("Environment with name '%s' already exists.",environmentConfig.name()));
+  }
+  for (  EnvironmentConfig config : this) {
+    if (config.hasSamePipelinesAs(environmentConfig)) {
+      throw new RuntimeException("One of the environments contains duplicate pipelines");
+    }
+  }
+}

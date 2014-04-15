@@ -1,0 +1,26 @@
+{
+  StageIdentifier identifier=extractStageIdentifier(graph);
+  if (isStageStored(identifier)) {
+    return;
+  }
+synchronized (stageKey(identifier)) {
+    if (isStageStored(identifier)) {
+      return;
+    }
+    File file=new File(tmpStagePath(identifier));
+    file.getParentFile().mkdirs();
+    try {
+      OutputStream os=new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
+      graph.persistToTurtle(os);
+      os.flush();
+      os.close();
+      file.renameTo(new File(stagePath(identifier)));
+    }
+ catch (    IOException e) {
+      throw new ShineRuntimeException(e);
+    }
+ finally {
+      file.delete();
+    }
+  }
+}

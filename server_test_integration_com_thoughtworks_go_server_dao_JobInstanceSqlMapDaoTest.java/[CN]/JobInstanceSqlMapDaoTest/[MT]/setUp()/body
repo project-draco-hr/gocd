@@ -1,0 +1,17 @@
+{
+  dbHelper.onSetUp();
+  goCache.clear();
+  pipelineConfig=PipelineMother.withSingleStageWithMaterials(PIPELINE_NAME,STAGE_NAME,BuildPlanMother.withBuildPlans(JOB_NAME,OTHER_JOB_NAME));
+  schedulingContext=new DefaultSchedulingContext(DEFAULT_APPROVED_BY);
+  savedPipeline=instanceFactory.createPipelineInstance(pipelineConfig,modifySomeFiles(pipelineConfig),schedulingContext,"md5-test",new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(savedPipeline);
+  actualSqlClientTemplate=jobInstanceDao.getSqlMapClientTemplate();
+  savedStage=savedPipeline.getFirstStage();
+  stageId=savedStage.getId();
+  counter=savedPipeline.getFirstStage().getCounter();
+  JobInstance job=savedPipeline.getStages().first().getJobInstances().first();
+  job.setIgnored(true);
+  goCache.clear();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+}

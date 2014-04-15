@@ -1,0 +1,6 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  assertThat(systemEnvironment.configDir(),is(new File("config")));
+  System.setProperty(SystemEnvironment.CONFIG_FILE_PROPERTY,"foo");
+  assertThat(systemEnvironment.getConfigDir(),is("config"));
+}

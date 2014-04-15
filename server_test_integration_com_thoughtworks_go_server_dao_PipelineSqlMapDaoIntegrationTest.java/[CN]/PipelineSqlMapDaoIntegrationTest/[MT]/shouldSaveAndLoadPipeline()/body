@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createWithModifications(revisions(false),""));
+  pipeline.updateCounter(0);
+  save(pipeline);
+  Pipeline loaded=pipelineDao.loadPipeline(pipeline.getId());
+  assertThat(loaded.getCounter(),is(1));
+}

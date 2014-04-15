@@ -1,0 +1,15 @@
+{
+  Thread thread=new Thread(action);
+  thread.start();
+  try {
+    thread.join(timeout);
+    if (thread.isAlive()) {
+      thread.interrupt();
+      return ValidationBean.notValid(ERROR_MESSAGE);
+    }
+    return validation;
+  }
+ catch (  InterruptedException e) {
+    return ValidationBean.notValid(ERROR_MESSAGE);
+  }
+}

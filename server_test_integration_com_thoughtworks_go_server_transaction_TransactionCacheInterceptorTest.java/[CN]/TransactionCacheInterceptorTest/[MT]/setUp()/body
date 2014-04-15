@@ -1,0 +1,11 @@
+{
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  dbHelper.onSetUp();
+  goCache.clear();
+  hibernateDaoSupport=new HibernateDaoSupport(){
+  }
+;
+  hibernateDaoSupport.setSessionFactory(sessionFactory);
+  assertionUtil=new TransactionCacheAssertionUtil(goCache,transactionTemplate);
+}

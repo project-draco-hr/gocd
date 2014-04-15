@@ -1,0 +1,18 @@
+{
+  when(req.getLocale()).thenReturn(new Locale("ja"));
+  CurrentLocale.setLocaleString("en");
+  final RuntimeException exception=new RuntimeException("Oh no!");
+  try {
+    localeResolver.doFilter(req,res,new FilterChain(){
+      public void doFilter(      ServletRequest servletRequest,      ServletResponse servletResponse) throws IOException, ServletException {
+        throw exception;
+      }
+    }
+);
+    fail("exception should have been bubbled up");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e,sameInstance(exception));
+  }
+  assertThat(CurrentLocale.getLocaleString(),is("en"));
+}

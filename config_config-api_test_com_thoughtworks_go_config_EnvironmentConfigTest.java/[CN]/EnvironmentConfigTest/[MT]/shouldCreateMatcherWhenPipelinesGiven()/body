@@ -1,0 +1,6 @@
+{
+  environmentConfig.addPipeline(new CaseInsensitiveString("pipeline"));
+  environmentConfig.addAgent(AGENT_UUID);
+  EnvironmentPipelineMatcher pipelineMatcher=environmentConfig.createMatcher();
+  assertThat(pipelineMatcher.match("pipeline",AGENT_UUID),is(true));
+}

@@ -1,0 +1,13 @@
+{
+  BUNDLE_DIR=new File(TEST_BUNDLES_DIR);
+  PLUGIN_DIR=new File(TEST_PLUGINS_DIR);
+  registry=mock(DefaultPluginRegistry.class);
+  osgiManifestGenerator=mock(GoPluginOSGiManifest.DefaultGoPluginOSGiManifestCreator.class);
+  osgiFramework=mock(GoPluginOSGiFramework.class);
+  goPluginDescriptorBuilder=mock(GoPluginDescriptorBuilder.class);
+  systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.get(PLUGIN_ACTIVATOR_JAR_PATH)).thenReturn("defaultFiles/go-plugin-activator.jar");
+  when(systemEnvironment.get(PLUGIN_BUNDLE_PATH)).thenReturn(TEST_BUNDLES_DIR);
+  when(systemEnvironment.getCurrentOperatingSystem()).thenReturn(OperatingSystem.LINUX);
+  listener=new DefaultPluginJarChangeListener(registry,osgiManifestGenerator,osgiFramework,goPluginDescriptorBuilder,systemEnvironment);
+}

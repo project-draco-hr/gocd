@@ -1,0 +1,12 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.ONE_PIPELINE);
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  pipelineConfig.setTrackingTool(new TrackingTool("","regex"));
+  try {
+    xmlWriter.write(cruiseConfig,output,false);
+    fail("should not save a trackingtool without a link");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Link should be populated"));
+  }
+}

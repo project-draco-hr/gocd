@@ -1,0 +1,7 @@
+{
+  AntTask task=new AntTask();
+  Map<String,Object> localContext=new HashMap<String,Object>();
+  localContext.put("task",task);
+  String view=viewRenderingService.render(new TaskViewModel(task,this.getClass().getResource("test.ftl").toString(),Renderer.FREEMARKER),localContext);
+  assertThat(view,is("hello world mates. This is my ant"));
+}

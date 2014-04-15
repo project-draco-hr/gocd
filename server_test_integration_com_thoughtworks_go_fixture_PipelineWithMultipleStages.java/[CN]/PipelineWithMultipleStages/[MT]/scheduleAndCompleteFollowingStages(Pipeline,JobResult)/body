@@ -1,0 +1,9 @@
+{
+  for (int index=2; index <= stagesSize; index++) {
+    StageConfig stageConfig=stageConfig(index);
+    Stage instance=new InstanceFactory().createStageInstance(stageConfig,new DefaultSchedulingContext("anyone"),"md5-test",new TimeProvider());
+    instance.setOrderId(index);
+    dbHelper.getStageDao().saveWithJobs(pipeline,instance);
+    dbHelper.completeStage(instance,result);
+  }
+}

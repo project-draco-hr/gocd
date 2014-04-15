@@ -1,0 +1,12 @@
+{
+  configHelper.addSecurityWithAdminConfig();
+  Username user=UserHelper.getUserName();
+  configHelper.setOperatePermissionForGroup("defaultGroup",user.getUsername().toString());
+  Pipeline pipeline=fixture.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  HttpLocalizedOperationResult operationResult=new HttpLocalizedOperationResult();
+  Stage stageForCancellation=pipeline.getStages().byName(fixture.ftStage);
+  Stage resultStage=scheduleService.cancelAndTriggerRelevantStages(stageForCancellation.getId(),user,operationResult);
+  assertThat(resultStage,is(not(nullValue())));
+  assertThat(operationResult.isSuccessful(),is(true));
+  assertThat(operationResult.httpCode(),is(HttpStatus.SC_OK));
+}

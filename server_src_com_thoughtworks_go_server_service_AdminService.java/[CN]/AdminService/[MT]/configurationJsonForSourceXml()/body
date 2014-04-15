@@ -1,0 +1,10 @@
+{
+  JsonMap json=new JsonMap();
+  JsonMap configJson=new JsonMap();
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(false);
+  configJson.put("location",goConfigService.fileLocation());
+  configJson.put("content",saver.asXml());
+  configJson.put("md5",saver.getMd5());
+  json.put("config",configJson);
+  return json;
+}

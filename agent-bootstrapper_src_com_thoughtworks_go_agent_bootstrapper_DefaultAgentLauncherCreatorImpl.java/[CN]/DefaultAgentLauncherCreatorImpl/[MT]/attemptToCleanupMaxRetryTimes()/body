@@ -1,0 +1,15 @@
+{
+  boolean shouldRetry;
+  int retryCount=0;
+  do {
+    forceGCToReleaseAnyReferences();
+    int oneSec=1000;
+    sleepForAMoment();
+    LOG.info("Attempt No: " + (retryCount + 1) + " to cleanup launcher temp files");
+    FileUtils.deleteQuietly(inUseLauncher);
+    JarUtil.cleanup(inUseLauncher.getName());
+    ++retryCount;
+    shouldRetry=tempFilesExist() && retryCount < maxRetryAttempts;
+  }
+ while (shouldRetry);
+}

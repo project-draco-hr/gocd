@@ -1,0 +1,5 @@
+{
+  String rdf="<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\">" + ""+ "<rdf:Description rdf:about=\"http://example.com/1\">"+ "<rdf:type rdf:resource=\"http://example.com/ontology#Yadda\"/>"+ "</rdf:Description>"+ ""+ "</rdf:RDF>";
+  contextUnawareGraph.addTriplesFromRDFXMLAbbrev(new StringReader(rdf));
+  assertAskIsTrue(contextUnawareGraph,"PREFIX ex: <http://example.com/ontology#> ASK WHERE { <http://example.com/1> a ex:Yadda }");
+}

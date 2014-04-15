@@ -1,0 +1,13 @@
+{
+  try {
+    InetAddress[] allAddresses=InetAddress.getAllByName(ipAddress);
+    boolean isLocal=false;
+    for (    InetAddress address : allAddresses) {
+      isLocal=isLocal || address.isLoopbackAddress();
+    }
+    return isLocal || isLocalhostWithNonLoopbackIpAddress(ipAddress);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

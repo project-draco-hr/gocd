@@ -1,0 +1,10 @@
+{
+  Date date=new Date();
+  List<String> unSelected=Arrays.asList("pipeline1","pipeline2");
+  long id=pipelineRepository.saveSelectedPipelines(new PipelineSelections(unSelected,date,null));
+  PipelineSelections found=pipelineRepository.findPipelineSelectionsById(id);
+  assertHasPipelines(found,new String[]{"pipeline3","pipeline4"});
+  assertHasPipelines(found,new String[]{"pipeline1","pipeline2"},false);
+  assertThat(found.userId(),is(nullValue()));
+  assertEquals(date,found.lastUpdated());
+}

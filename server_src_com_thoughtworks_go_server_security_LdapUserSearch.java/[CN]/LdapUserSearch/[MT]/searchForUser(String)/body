@@ -1,0 +1,28 @@
+{
+  SecurityConfig securityConfig=goConfigService.security();
+  if (!securityConfig.isSecurityEnabled()) {
+    return null;
+  }
+  LdapConfig ldapConfig=securityConfig.ldapConfig();
+  RuntimeException lastFoundException=null;
+  BaseConfig failedBaseConfig=null;
+  for (  BaseConfig baseConfig : ldapConfig.getBasesConfig()) {
+    if (lastFoundException != null && !(lastFoundException instanceof UsernameNotFoundException)) {
+      logger.warn(String.format("The ldap configuration for search base '%s' is invalid",failedBaseConfig.getValue()),lastFoundException);
+    }
+    FilterBasedLdapUserSearch search=getFilterBasedLdapUserSearch(baseConfig.getValue(),ldapConfig.searchFilter());
+    search.setSearchSubtree(true);
+    search.setSearchTimeLimit(5000);
+    try {
+      return search.searchForUser(username);
+    }
+ catch (    RuntimeException e) {
+      failedBaseConfig=baseConfig;
+      lastFoundException=e;
+    }
+  }
+  if (lastFoundException != null) {
+    throw lastFoundException;
+  }
+  throw new RuntimeException("No LDAP Search Bases are configured.");
+}

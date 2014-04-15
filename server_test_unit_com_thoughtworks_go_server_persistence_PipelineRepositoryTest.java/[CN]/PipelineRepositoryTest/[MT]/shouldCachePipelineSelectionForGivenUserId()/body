@@ -1,0 +1,11 @@
+{
+  String queryString="FROM PipelineSelections WHERE userId = ?";
+  PipelineSelections pipelineSelections=new PipelineSelections();
+  long userId=1L;
+  when(hibernateTemplate.find(queryString,new Object[]{userId})).thenReturn(Arrays.asList(pipelineSelections));
+  when(goCache.isKeyInCache(pipelineRepository.pipelineSelectionForUserIdKey(userId))).thenReturn(false).thenReturn(false).thenReturn(true);
+  pipelineRepository.findPipelineSelectionsByUserId(userId);
+  pipelineRepository.findPipelineSelectionsByUserId(userId);
+  verify(hibernateTemplate).find(queryString,new Object[]{userId});
+  verify(goCache).put(pipelineRepository.pipelineSelectionForUserIdKey(userId),pipelineSelections);
+}

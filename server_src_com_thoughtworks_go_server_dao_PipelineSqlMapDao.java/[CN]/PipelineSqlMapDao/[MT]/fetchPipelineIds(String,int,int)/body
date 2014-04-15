@@ -1,0 +1,6 @@
+{
+  List<Long> ids;
+  Map<String,Object> toGet=arguments("pipelineName",pipelineName).and("limit",limit).and("offset",offset).asMap();
+  ids=getSqlMapClientTemplate().queryForList("getPipelineRange",toGet);
+  return ids;
+}

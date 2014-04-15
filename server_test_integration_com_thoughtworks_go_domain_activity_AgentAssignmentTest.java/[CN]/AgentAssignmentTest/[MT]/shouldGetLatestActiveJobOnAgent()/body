@@ -1,0 +1,5 @@
+{
+  JobInstance assigned=JobInstanceMother.assignedWithAgentId("dev","uuid");
+  agentAssignment.jobStatusChanged(assigned);
+  assertThat(agentAssignment.latestActiveJobOnAgent("uuid"),Is.is(assigned));
+}

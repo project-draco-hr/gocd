@@ -1,0 +1,17 @@
+{
+  if (this.dataSource == null) {
+    BasicDataSource source=new BasicDataSource();
+    if (env.inDbDebugMode()) {
+      String url="jdbc:h2:tcp://localhost:" + dbPortAsString() + "/cruise";
+      configureDataSource(source,url);
+      LOG.info("Creating debug datasource on port=" + dbPortAsString());
+    }
+ else {
+      String url=dburl(mvccEnabled);
+      configureDataSource(source,url);
+      LOG.info("Creating datasource with url=" + url);
+    }
+    this.dataSource=source;
+  }
+  return dataSource;
+}

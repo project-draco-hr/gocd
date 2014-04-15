@@ -1,0 +1,19 @@
+{
+  Bundle bundle=null;
+  try {
+    bundle=framework.getBundleContext().installBundle("reference:" + bundleLocation.toURI());
+    pluginDescriptor.setBundle(bundle);
+    bundle.start();
+    if (pluginDescriptor.isInvalid()) {
+      handlePluginInvalidation(pluginDescriptor,bundleLocation,bundle);
+      return bundle;
+    }
+    forAllDo(pluginChangeListeners,notifyPluginLoadedEvent(pluginDescriptor));
+    return bundle;
+  }
+ catch (  Exception e) {
+    LOGGER.error("Failed to load plugin: " + bundleLocation,e);
+    stopAndUninstallBundle(bundle,bundleLocation);
+    throw new RuntimeException("Failed to load plugin: " + bundleLocation,e);
+  }
+}

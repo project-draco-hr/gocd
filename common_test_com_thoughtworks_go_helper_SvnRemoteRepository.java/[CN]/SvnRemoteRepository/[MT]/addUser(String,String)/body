@@ -1,0 +1,10 @@
+{
+  enableAuthentication();
+  File passwdFile=new File(repo.projectRepositoryRoot(),"conf/passwd");
+  String passwd=FileUtil.readToEnd(passwdFile);
+  if (!(passwd.contains("\n[users]\n"))) {
+    passwd=passwd + "\n[users]\n";
+  }
+  passwd=passwd + String.format("\n%s = %s\n",username,password);
+  FileUtil.writeContentToFile(passwd,passwdFile);
+}

@@ -1,0 +1,28 @@
+{
+  ThreadSafetyChecker threadSafetyChecker=new ThreadSafetyChecker(5000);
+  threadSafetyChecker.addOperation(new ThreadSafetyChecker.Operation(){
+    @Override public void execute(    int runIndex){
+      userDao.enabledUserCount();
+    }
+  }
+);
+  threadSafetyChecker.addOperation(new ThreadSafetyChecker.Operation(){
+    @Override public void execute(    int runIndex){
+      userDao.deleteAll();
+    }
+  }
+);
+  threadSafetyChecker.addOperation(new ThreadSafetyChecker.Operation(){
+    @Override public void execute(    int runIndex){
+      userDao.saveOrUpdate(new User("some-random-user " + runIndex));
+    }
+  }
+);
+  threadSafetyChecker.addOperation(new ThreadSafetyChecker.Operation(){
+    @Override public void execute(    int runIndex){
+      userDao.enableUsers(Arrays.asList("some-random-user " + runIndex));
+    }
+  }
+);
+  threadSafetyChecker.run(250);
+}

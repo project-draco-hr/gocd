@@ -1,0 +1,6 @@
+{
+  ExecTask execTask=new ExecTask();
+  execTask.validateTask(null);
+  assertThat(execTask.errors().isEmpty(),is(false));
+  assertThat(execTask.errors().on(ExecTask.COMMAND),is("Command cannot be empty"));
+}

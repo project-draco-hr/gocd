@@ -1,0 +1,20 @@
+{
+  String pipelineName="myPipeline";
+  int counter=1;
+  BuildCause buildCause=PipelineMother.pipeline(pipelineName,new Stage()).getBuildCause();
+  MaterialConfig materialConfig=buildCause.getMaterialRevisions().getMaterialRevision(0).getMaterial().config();
+  PipelineConfig p1Config=PipelineConfigMother.pipelineConfig(pipelineName,new MaterialConfigs(materialConfig));
+  when(pipelineService.buildCauseFor(pipelineName,counter)).thenReturn(buildCause);
+  when(goConfigService.currentCruiseConfig()).thenReturn(new CruiseConfig(new PipelineConfigs(p1Config)));
+  when(pipelineService.findPipelineByCounterOrLabel(pipelineName,"1")).thenReturn(new Pipeline("MYPIPELINE","p1-label",buildCause));
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("MYPIPELINE",counter,user,result);
+  assertThat(graph.getCurrentPipeline().getName(),is(pipelineName));
+  List<List<Node>> nodesAtEachLevel=graph.getNodesAtEachLevel();
+  assertThat(nodesAtEachLevel.size(),is(2));
+  List<Node> firstLevel=nodesAtEachLevel.get(0);
+  assertThat(firstLevel.size(),is(1));
+  assertNode(-1,firstLevel.get(0),materialConfig.getDisplayName(),materialConfig.getFingerprint(),0,pipelineName);
+  List<Node> secondLevel=nodesAtEachLevel.get(1);
+  assertThat(secondLevel.size(),is(1));
+  assertNode(0,secondLevel.get(0),pipelineName,pipelineName,0);
+}

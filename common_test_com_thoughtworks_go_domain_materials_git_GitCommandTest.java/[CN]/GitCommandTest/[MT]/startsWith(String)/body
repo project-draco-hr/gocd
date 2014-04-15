@@ -1,0 +1,11 @@
+{
+  return new TypeSafeMatcher<String>(){
+    public boolean matchesSafely(    String item){
+      return item.startsWith(repoUrl);
+    }
+    public void describeTo(    Description description){
+      description.appendText("to start with \"" + repoUrl + "\"");
+    }
+  }
+;
+}

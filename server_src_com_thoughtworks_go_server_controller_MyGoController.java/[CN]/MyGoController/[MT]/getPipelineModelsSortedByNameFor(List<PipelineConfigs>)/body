@@ -1,0 +1,10 @@
+{
+  List<PipelineViewModel> pipelineModels=new ArrayList<PipelineViewModel>();
+  for (  PipelineConfigs group : groups) {
+    for (    PipelineConfig pipelineConfig : group) {
+      pipelineModels.add(new PipelineViewModel(CaseInsensitiveString.str(pipelineConfig.name()),getStagesModelsFor(pipelineConfig)));
+    }
+  }
+  Collections.sort(pipelineModels);
+  return pipelineModels;
+}

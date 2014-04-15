@@ -1,0 +1,10 @@
+{
+  SvnExternalRoot svnExternalRoot=new SvnExternalRoot();
+  for (  String external : externalSection.split("\n")) {
+    for (    SvnExternalMatcher matcher : matchers) {
+      if (matcher.match(external,repoUrl,results,svnExternalRoot)) {
+        break;
+      }
+    }
+  }
+}

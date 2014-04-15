@@ -1,0 +1,5 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  agentInstance.update(AgentRuntimeInfo.fromAgent(new AgentIdentifier("ccedev01","10.18.7.52","uuid"),"cookie",null));
+  assertThat(agentInstance.agentConfig().getIpAddress(),is("10.18.7.52"));
+}

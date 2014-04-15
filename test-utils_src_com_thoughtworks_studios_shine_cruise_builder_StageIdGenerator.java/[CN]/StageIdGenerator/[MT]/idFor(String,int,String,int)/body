@@ -1,0 +1,11 @@
+{
+  List<String> key=new ArrayList<String>();
+  key.add(pipelineName);
+  key.add(String.valueOf(pipelineCounter));
+  key.add(stageName);
+  key.add(String.valueOf(stageCounter));
+  if (!stageIds.containsKey(key)) {
+    stageIds.put(key,++lastId);
+  }
+  return stageIds.get(key);
+}

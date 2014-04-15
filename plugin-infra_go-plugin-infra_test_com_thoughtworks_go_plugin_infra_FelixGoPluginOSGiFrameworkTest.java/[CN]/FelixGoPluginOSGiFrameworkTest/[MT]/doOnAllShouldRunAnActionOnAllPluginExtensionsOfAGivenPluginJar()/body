@@ -1,0 +1,17 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  String symbolicName="same_symbolic_name";
+  registerServicesWithSameSymbolicName(symbolicName,firstService,secondService);
+  spy.start();
+  spy.doOnAllForPlugin(SomeInterface.class,symbolicName,new Action<SomeInterface>(){
+    @Override public void execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      assertThat(pluginDescriptor,is(descriptor));
+      obj.someMethod();
+    }
+  }
+);
+  verify(secondService).someMethod();
+  verify(firstService).someMethod();
+  verifyNoMoreInteractions(firstService,secondService);
+}

@@ -1,0 +1,31 @@
+{
+  Date modifiedTime=new Date();
+  MaterialRevisions expected=new MaterialRevisions();
+  expected.addRevision(dependencyMaterialRevision("up1",1,"label","stage",1,modifiedTime));
+  expected.addRevision(dependencyMaterialRevision("common",3,"label","first",1,modifiedTime));
+  MaterialRevisions actual=new MaterialRevisions();
+  actual.addRevision(changedDependencyMaterialRevision("up1",1,"label","stage",1,modifiedTime));
+  actual.addRevision(changedDependencyMaterialRevision("common",4,"label","first",1,modifiedTime));
+  PipelineConfig current=createPipelineConfigWithMaterialConfig("current",new DependencyMaterialConfig(new CaseInsensitiveString("common"),new CaseInsensitiveString("first")),new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("first")));
+  PipelineConfig up1=createPipelineConfigWithMaterialConfig("up1",new DependencyMaterialConfig(new CaseInsensitiveString("common"),new CaseInsensitiveString("first")));
+  PipelineConfig common=createPipelineConfigWithMaterialConfig("common",new DependencyMaterialConfig(new CaseInsensitiveString("commonsParent"),new CaseInsensitiveString("first")));
+  PipelineConfig commonsParent=createPipelineConfigWithMaterialConfig("commonsParent",MaterialConfigsMother.hgMaterialConfig());
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("up1","stage","job");
+  pipeline.setId(10);
+  when(pipelineDao.findPipelineByNameAndCounter("up1",1)).thenReturn(pipeline);
+  MaterialRevisions upStreamPipelinesRevisions=new MaterialRevisions();
+  upStreamPipelinesRevisions.addRevision(dependencyMaterialRevision("common",3,"label","first",1,modifiedTime));
+  when(materialRepository.findMaterialRevisionsForPipeline(10)).thenReturn(upStreamPipelinesRevisions);
+  Pipeline commonPipeline=PipelineMother.passedPipelineInstance("common","first","job");
+  commonPipeline.setId(5);
+  when(pipelineDao.findPipelineByNameAndCounter("common",3)).thenReturn(commonPipeline);
+  MaterialRevisions commonPipelinesRevisions=new MaterialRevisions();
+  upStreamPipelinesRevisions.addRevision(dependencyMaterialRevision("commonsParent",2,"label-2","first",1,modifiedTime));
+  when(materialRepository.findMaterialRevisionsForPipeline(5)).thenReturn(commonPipelinesRevisions);
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1,new PipelineConfigDependencyGraph(common,new PipelineConfigDependencyGraph(commonsParent))),new PipelineConfigDependencyGraph(common,new PipelineConfigDependencyGraph(commonsParent)));
+  MaterialRevisions finalRevisions=service.getRevisionsBasedOnDependencies(dependencyGraph,actual);
+  assertThat(finalRevisions,is(expected));
+  for (int i=0; i < expected.numberOfRevisions(); i++) {
+    assertTrue(finalRevisions.getMaterialRevision(i) == actual.getMaterialRevision(i));
+  }
+}

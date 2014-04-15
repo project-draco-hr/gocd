@@ -1,0 +1,19 @@
+{
+  GitMaterial g1=u.wf(new GitMaterial("g1"),"f1");
+  u.checkinInOrder(g1,"g1-1");
+  GitMaterial g2=u.wf(new GitMaterial("g2"),"f2");
+  u.checkinInOrder(g2,"g2-1");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWithGroup("g1","p1",u.m(g1),u.m(g2));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWithGroup("g1","p2",u.m(p1));
+  String p1_1=u.runAndPass(p1,"g1-1","g2-1");
+  String p2_1=u.runAndPass(p2,p1_1);
+  p2=u.addMaterialToPipeline(p2,u.m(g1));
+  p2=u.removeMaterialFromPipeline(p2,u.m(p1));
+  p1=u.addMaterialToPipeline(p1,u.m(p2));
+  p1=u.removeMaterialFromPipeline(p1,u.m(g1));
+  String p1_2=u.runAndPass(p1,"g2-1",p2_1);
+  valueStreamMapService.getValueStreamMap("p1",2,username,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpStatus.SC_NOT_IMPLEMENTED));
+  assertThat(result.message(localizer),is(String.format("Value Stream Map of Pipeline 'p1' with counter '2' can not be rendered. Changes to the configuration have introduced complex dependencies for this instance which are not supported currently.","p1",2)));
+}

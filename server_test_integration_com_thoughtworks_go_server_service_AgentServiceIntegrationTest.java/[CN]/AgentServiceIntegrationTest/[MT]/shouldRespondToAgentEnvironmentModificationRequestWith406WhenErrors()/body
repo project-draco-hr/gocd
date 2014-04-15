@@ -1,0 +1,7 @@
+{
+  createEnabledAgent(UUID);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.modifyEnvironments(USERNAME,operationResult,Arrays.asList(UUID),Arrays.asList(new TriStateSelection("unknown_env",TriStateSelection.Action.add)));
+  assertThat(operationResult.httpCode(),is(406));
+  assertThat(operationResult.message(),containsString("Could not modify environments:"));
+}

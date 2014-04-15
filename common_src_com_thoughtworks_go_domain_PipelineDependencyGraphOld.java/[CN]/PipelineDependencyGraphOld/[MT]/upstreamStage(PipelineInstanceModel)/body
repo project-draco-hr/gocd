@@ -1,0 +1,7 @@
+{
+  DependencyMaterialConfig downstreamMaterial=dependencyMaterialFor(downStream);
+  if (downstreamMaterial == null) {
+    return null;
+  }
+  return pipeline().stage(CaseInsensitiveString.str(downstreamMaterial.getStageName()));
+}

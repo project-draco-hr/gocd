@@ -1,0 +1,8 @@
+{
+  Resource subject=contextUnawareGraph.createURIReference(new RDFType("http://example.com/subject"),"http://example.com/1");
+  RDFProperty predicate=new RDFProperty("http://example.com/predicate");
+  Resource object=contextUnawareGraph.createURIReference(new RDFType("http://example.com/object"),"http://example.com/2");
+  contextUnawareGraph.addStatement(subject,predicate,object);
+  String sparql="ASK WHERE { " + "<http://example.com/1> <http://example.com/predicate> <http://example.com/2> . " + "<http://example.com/1> a <http://example.com/subject> . "+ "<http://example.com/2> a <http://example.com/object> "+ "}";
+  assertAskIsTrue(contextUnawareGraph,sparql);
+}

@@ -1,0 +1,11 @@
+{
+  File svnDest=new File(baseFolder,"test1");
+  File shouldExist=new File(svnDest,"shouldExist");
+  shouldExist.mkdirs();
+  File svnExternal=new File(baseFolder,"test1/external");
+  svnExternal.mkdirs();
+  cleaner.allowed("test1","test1/subdir");
+  cleaner.clean();
+  assertThat(svnDest.exists(),is(true));
+  assertThat(shouldExist.exists(),is(true));
+}

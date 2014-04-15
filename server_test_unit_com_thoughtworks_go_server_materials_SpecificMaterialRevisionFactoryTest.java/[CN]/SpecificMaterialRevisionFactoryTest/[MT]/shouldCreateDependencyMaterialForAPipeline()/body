@@ -1,0 +1,11 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("upstream"),new CaseInsensitiveString("blah-stage"));
+  MaterialConfig dependencyMaterialConfig=dependencyMaterial.config();
+  MaterialRevision expected=new MaterialRevision(dependencyMaterial,new Modification(new Date(),"upstream/4/blah-stage/2","MOCK_LABEL-12",null));
+  String upstreamFingerprint="234fa4";
+  when(mockGoConfigService.findMaterial(new CaseInsensitiveString("blahPipeline"),upstreamFingerprint)).thenReturn(dependencyMaterialConfig);
+  when(materialConfigConverter.toMaterial(dependencyMaterialConfig)).thenReturn(dependencyMaterial);
+  when(mockMaterialChecker.findSpecificRevision(dependencyMaterial,"upstream/4/blah-stage/2")).thenReturn(expected);
+  MaterialRevisions materialRevisions=specificMaterialRevisionFactory.create("blahPipeline",Collections.singletonMap(upstreamFingerprint,"upstream/4/blah-stage/2"));
+  assertThat(materialRevisions,is(new MaterialRevisions(expected)));
+}

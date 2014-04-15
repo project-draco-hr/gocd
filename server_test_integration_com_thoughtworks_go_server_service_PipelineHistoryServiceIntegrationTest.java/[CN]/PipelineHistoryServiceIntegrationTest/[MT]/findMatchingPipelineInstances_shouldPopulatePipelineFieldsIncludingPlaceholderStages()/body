@@ -1,0 +1,11 @@
+{
+  configHelper.setViewPermissionForGroup("group1","jez");
+  Pipeline pipeline=pipelineOne.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  PipelineInstanceModels actual=pipelineHistoryService.findMatchingPipelineInstances(pipeline.getName(),pipeline.getBuildCause().getMaterialRevisions().getMaterialRevision(0).getLatestComment(),2,new Username(new CaseInsensitiveString("jez")),new HttpLocalizedOperationResult());
+  assertThat(actual.size(),is(1));
+  PipelineInstanceModel actualPipeline=actual.get(0);
+  assertThat(actualPipeline.getCounter(),is(1));
+  assertThat(actualPipeline.getStageHistory().size(),is(3));
+  assertThat(actualPipeline.getStageHistory().get(1).getState(),is(StageState.Unknown));
+  assertThat(actualPipeline.getStageHistory().get(2).getState(),is(StageState.Unknown));
+}

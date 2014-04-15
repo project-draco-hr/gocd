@@ -1,0 +1,6 @@
+{
+  MaterialRevision revision1=dependencyMaterialRevision("cruise",365,"1.3-365","dist-zip",1,new Date());
+  MaterialRevision revision2=dependencyMaterialRevision("mingle",370,"2.3-370","dist-zip",1,new Date());
+  MaterialRevisions materialRevisions=new MaterialRevisions(revision1,revision2);
+  assertThat(materialRevisions.findDependencyMaterialRevision("cruise"),is(revision1.getRevision()));
+}

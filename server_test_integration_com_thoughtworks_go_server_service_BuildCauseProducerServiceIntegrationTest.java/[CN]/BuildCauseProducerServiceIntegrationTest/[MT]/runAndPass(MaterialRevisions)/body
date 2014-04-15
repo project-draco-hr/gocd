@@ -1,0 +1,6 @@
+{
+  BuildCause buildCause=BuildCause.createWithModifications(mingleRev,"boozer");
+  latestPipeline=PipelineMother.schedule(mingleConfig,buildCause);
+  latestPipeline=pipelineDao.saveWithStages(latestPipeline);
+  dbHelper.passStage(latestPipeline.getStages().first());
+}

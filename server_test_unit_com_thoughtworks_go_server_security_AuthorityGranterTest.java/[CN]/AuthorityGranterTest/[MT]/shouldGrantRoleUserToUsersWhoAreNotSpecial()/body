@@ -1,0 +1,8 @@
+{
+  when(securityService.isUserAdmin(new Username(new CaseInsensitiveString("admin")))).thenReturn(false);
+  when(securityService.isUserGroupAdmin(new Username(new CaseInsensitiveString("admin")))).thenReturn(false);
+  GrantedAuthority[] authorities=authorityGranter.authorities("admin");
+  assertThat("Should not have " + GoAuthority.ROLE_SUPERVISOR + " authority",authorities,not(hasItemInArray(GoAuthority.ROLE_SUPERVISOR.asAuthority())));
+  assertThat("Should not have " + GoAuthority.ROLE_GROUP_SUPERVISOR + " authority",authorities,not(hasItemInArray(GoAuthority.ROLE_GROUP_SUPERVISOR.asAuthority())));
+  assertThat("Should have " + GoAuthority.ROLE_USER + " authority",authorities,hasItemInArray(GoAuthority.ROLE_USER.asAuthority()));
+}

@@ -1,0 +1,6 @@
+{
+  ModelAndView modelAndView=JsonAction.jsonFound(new JsonString("json")).respond(response);
+  Map original=modelAndView.getModel();
+  jsonpInterceptor.postHandle(request,response,null,modelAndView);
+  assertThat(modelAndView.getModel(),Is.is(original));
+}

@@ -1,0 +1,5 @@
+{
+  GoConfigMigration configMigration=new GoConfigMigration(configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  String newContent=configMigration.upgradeIfNecessary(ConfigFileFixture.VERSION_0);
+  assertThat(newContent,is(configMigration.upgradeIfNecessary(newContent)));
+}

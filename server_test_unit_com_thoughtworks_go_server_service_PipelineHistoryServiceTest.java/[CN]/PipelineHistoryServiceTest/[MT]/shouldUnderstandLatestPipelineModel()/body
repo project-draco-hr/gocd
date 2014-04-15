@@ -1,0 +1,22 @@
+{
+  Username username=new Username(new CaseInsensitiveString("loser"));
+  String pipelineName="junk";
+  String groupName="some-pipeline-group";
+  PipelineInstanceModel pipeline=PipelineInstanceModel.createPipeline(pipelineName,-1,"1.0",BuildCause.createManualForced(),new StageInstanceModels());
+  when(pipelineDao.loadHistory(pipelineName,1,0)).thenReturn(createPipelineInstanceModels(pipeline));
+  when(schedulingCheckerService.canManuallyTrigger(pipelineName,username)).thenReturn(false);
+  when(securityService.hasViewPermissionForPipeline(username,pipelineName)).thenReturn(true);
+  when(securityService.hasOperatePermissionForPipeline(username.getUsername(),pipelineName)).thenReturn(true);
+  when(goConfigService.isLockable(pipelineName)).thenReturn(true);
+  when(goConfigService.findGroupNameByPipeline(new CaseInsensitiveString(pipelineName))).thenReturn(groupName);
+  when(goConfigService.isUserAdminOfGroup(username.getUsername(),groupName)).thenReturn(true);
+  when(pipelineLockService.lockedPipeline(pipelineName)).thenReturn(new StageIdentifier(pipelineName,9,"stage1","3"));
+  stubConfigServiceToReturnPipeline(pipelineName,PipelineConfigMother.createPipelineConfig(pipelineName,"dev","foo","bar"));
+  PipelineModel loadedPipeline=pipelineHistoryService.latestPipelineModel(username,pipelineName);
+  assertThat(loadedPipeline.canForce(),is(false));
+  assertThat(loadedPipeline.canOperate(),is(true));
+  assertThat(loadedPipeline.getLatestPipelineInstance().isLockable(),is(true));
+  assertThat(loadedPipeline.getLatestPipelineInstance().isCurrentlyLocked(),is(true));
+  assertThat(loadedPipeline.getLatestPipelineInstance(),is(pipeline));
+  assertThat(loadedPipeline.canAdminister(),is(true));
+}

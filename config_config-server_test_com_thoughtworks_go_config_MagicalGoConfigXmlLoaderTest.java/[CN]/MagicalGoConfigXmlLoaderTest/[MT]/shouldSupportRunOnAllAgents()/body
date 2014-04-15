@@ -1,0 +1,7 @@
+{
+  CruiseConfig cruiseConfig=loadJobWithRunOnAllAgents("true");
+  JobConfig job=cruiseConfig.findJob("pipeline1","mingle","do-something");
+  JobConfig jobConfig=new JobConfig("do-something");
+  jobConfig.setRunOnAllAgents(true);
+  assertThat(job,is(jobConfig));
+}

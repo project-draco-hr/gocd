@@ -1,0 +1,9 @@
+{
+  DependencyMaterialConfig dependencyMaterialConfig=new DependencyMaterialConfig();
+  Map<String,String> configMap=new HashMap<String,String>();
+  configMap.put(DependencyMaterialConfig.PIPELINE_STAGE_NAME,"invalid pipeline stage");
+  dependencyMaterialConfig.setConfigAttributes(configMap);
+  assertThat(dependencyMaterialConfig.getPipelineStageName(),is("invalid pipeline stage"));
+  assertThat(dependencyMaterialConfig.errors().isEmpty(),is(false));
+  assertThat(dependencyMaterialConfig.errors().on(DependencyMaterialConfig.PIPELINE_STAGE_NAME),is("'invalid pipeline stage' should conform to the pattern 'pipeline [stage]'"));
+}

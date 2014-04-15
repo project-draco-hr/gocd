@@ -1,0 +1,15 @@
+{
+  PipelineConfigDependencyGraph dependencyGraph=dependencyGraphOfDepthOne(MaterialConfigsMother.hgMaterialConfig());
+  String targetPipeline=dependencyGraph.getCurrent().name().toLower();
+  MaterialRevisions revisions=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("2"));
+  MaterialRevision dependencyRevision=dependencyMaterialRevision("up1",1,"label","first",1,new Date());
+  dependencyRevision.markAsChanged();
+  revisions.addRevision(dependencyRevision);
+  MaterialRevisions expectedRevisions=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("1"));
+  expectedRevisions.addRevision(dependencyRevision);
+  when(goConfigService.upstreamDependencyGraphOf(targetPipeline,cruiseConfig)).thenReturn(dependencyGraph);
+  when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenReturn(expectedRevisions);
+  BuildCause buildCause=new AutoBuild(goConfigService,pipelineService,targetPipeline,new SystemEnvironment(),materialChecker,serverHealthService).onModifications(revisions,false,null);
+  MaterialRevision expected=expectedRevisions.getMaterialRevision(0);
+  assertThat(buildCause.getMaterialRevisions().getMaterialRevision(0),is(expected));
+}

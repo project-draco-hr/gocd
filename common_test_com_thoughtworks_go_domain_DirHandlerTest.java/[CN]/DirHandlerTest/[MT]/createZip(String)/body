@@ -1,0 +1,8 @@
+{
+  File first=new File(artifactDest,"first");
+  FileUtils.writeStringToFile(first,"First File");
+  File second=new File(artifactDest,subDirectoryName + "/second");
+  FileUtils.writeStringToFile(second,"Second File");
+  new ZipUtil().zip(artifactDest,zip,0);
+  return zip;
+}

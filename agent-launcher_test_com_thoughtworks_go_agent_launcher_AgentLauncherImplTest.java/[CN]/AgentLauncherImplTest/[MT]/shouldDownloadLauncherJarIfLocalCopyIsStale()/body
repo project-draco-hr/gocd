@@ -1,0 +1,13 @@
+{
+  File agentFile=null;
+  File launcher=null;
+  try {
+    launcher=randomFile("agent-launcher.jar");
+    long original=launcher.length();
+    new AgentLauncherImpl().launch(launchDescriptor());
+    assertThat(launcher.length(),not(original));
+  }
+  finally {
+    delete(agentFile,launcher);
+  }
+}

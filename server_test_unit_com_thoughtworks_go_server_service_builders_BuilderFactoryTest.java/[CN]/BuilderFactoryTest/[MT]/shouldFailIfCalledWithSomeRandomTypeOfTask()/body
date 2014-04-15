@@ -1,0 +1,10 @@
+{
+  Task task=someRandomNonStandardTask();
+  try {
+    Pipeline pipeline=PipelineMother.pipeline("pipeline1",StageMother.custom("stage1"));
+    builderFactory.builderFor(task,pipeline,pipelineResolver);
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Unexpected type of task: " + task.getClass()));
+  }
+}

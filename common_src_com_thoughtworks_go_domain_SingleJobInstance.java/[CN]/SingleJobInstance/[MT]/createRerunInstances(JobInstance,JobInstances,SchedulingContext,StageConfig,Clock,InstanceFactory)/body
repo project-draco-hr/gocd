@@ -1,0 +1,13 @@
+{
+  String jobName=oldJob.getName();
+  JobConfig jobConfig=stageConfig.jobConfigByInstanceName(jobName,true);
+  if (jobConfig == null) {
+    throw new CannotRerunJobException(jobName);
+  }
+  RunOnAllAgents.CounterBasedJobNameGenerator nameGenerator=new RunOnAllAgents.CounterBasedJobNameGenerator(CaseInsensitiveString.str(jobConfig.name()));
+  JobInstances instances=instanceFactory.createJobInstance(stageConfig.name(),jobConfig,context,clock,nameGenerator);
+  for (  JobInstance instance : instances) {
+    instance.setRerun(true);
+  }
+  jobInstances.addAll(instances);
+}

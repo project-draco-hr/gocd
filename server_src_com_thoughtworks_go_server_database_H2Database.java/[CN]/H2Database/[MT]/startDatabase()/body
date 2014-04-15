@@ -1,0 +1,35 @@
+{
+  try {
+    new Migrate().execute(env.getDbPath(),true,Migrate.USER,Migrate.PASSWORD,false);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+  if (env.inDbDebugMode()) {
+    if (tcpServer != null) {
+      return;
+    }
+    try {
+      DataSource ds=createDataSource();
+      Connection con=ds.getConnection();
+      ResultSet set=con.getMetaData().getTables(null,null,null,null);
+      set.next();
+      set.close();
+      con.close();
+      LOG.info("Database is already running.");
+      return;
+    }
+ catch (    Exception e) {
+      LOG.info("Database is not running - starting a new one.");
+    }
+    try {
+      LOG.info("Starting h2 server in debug mode : " + "port=" + dbPortAsString() + " baseDir="+ env.getDbPath().getCanonicalPath());
+      String[] args={"-tcp","-tcpAllowOthers","-tcpPort",dbPortAsString(),"-baseDir",env.getDbPath().getCanonicalPath()};
+      tcpServer=Server.createTcpServer(args);
+      tcpServer.start();
+    }
+ catch (    Exception e) {
+      bomb("Could not create database server.",e);
+    }
+  }
+}

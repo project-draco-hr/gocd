@@ -1,0 +1,9 @@
+{
+  Material material=revision.getMaterial();
+  for (  MaterialConfig materialConfig : node.materialConfigs()) {
+    if (material.hasSameFingerprint(materialConfig)) {
+      return revision.getModifications().shouldBeIgnoredByFilterIn(materialConfig);
+    }
+  }
+  throw new RuntimeException("Material not found: " + material);
+}

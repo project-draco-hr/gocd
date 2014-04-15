@@ -1,0 +1,43 @@
+{
+  Context context=metricsProbeService.begin(ProbeType.SAVE_CONFIG_XML_THROUGH_CLICKY_ADMIN);
+  UiBasedConfigUpdateCommand updateCommand=new UiBasedConfigUpdateCommand(md5,command,result);
+  UpdatedNodeSubjectResolver updatedConfigResolver=new UpdatedNodeSubjectResolver();
+  try {
+    ConfigSaveState configSaveState=updateConfig(updateCommand);
+    return latestUpdateResponse(command,updateCommand,updatedConfigResolver,clonedConfigForEdit(),configSaveState);
+  }
+ catch (  ConfigFileHasChangedException e) {
+    CruiseConfig updatedConfig=handleMergeException(md5,updateCommand);
+    result.conflict(LocalizedMessage.string("SAVE_FAILED_WITH_REASON",e.getMessage()));
+    return latestUpdateResponse(command,updateCommand,new OldNodeSubjectResolver(),updatedConfig,null);
+  }
+catch (  ConfigUpdateCheckFailedException e) {
+  }
+catch (  Exception e) {
+    ConfigMergeException mergeException=ExceptionUtils.getCause(e,ConfigMergeException.class);
+    ConfigMergePostValidationException mergePostValidationException=ExceptionUtils.getCause(e,ConfigMergePostValidationException.class);
+    if (mergeException != null || mergePostValidationException != null) {
+      CruiseConfig updatedConfig=handleMergeException(md5,updateCommand);
+      result.conflict(LocalizedMessage.string("SAVE_FAILED_WITH_REASON",e.getMessage()));
+      return latestUpdateResponse(command,updateCommand,new OldNodeSubjectResolver(),updatedConfig,null);
+    }
+    GoConfigInvalidException ex=ExceptionUtils.getCause(e,GoConfigInvalidException.class);
+    if (ex != null) {
+      CruiseConfig badConfig=ex.getCruiseConfig();
+      setMD5(md5,badConfig);
+      Validatable node=updatedConfigResolver.getNode(command,updateCommand.cruiseConfig());
+      CruiseConfig.copyErrors(command.updatedNode(badConfig),node);
+      result.badRequest(LocalizedMessage.string("SAVE_FAILED"));
+      return new ConfigUpdateResponse(badConfig,node,subjectFromNode(command,updatedConfigResolver,node),updateCommand,null);
+    }
+ else {
+      result.badRequest(LocalizedMessage.string("SAVE_FAILED_WITH_REASON",e.getMessage()));
+    }
+  }
+ finally {
+    metricsProbeService.end(ProbeType.SAVE_CONFIG_XML_THROUGH_CLICKY_ADMIN,context);
+  }
+  CruiseConfig newConfigSinceNoOtherConfigExists=clonedConfigForEdit();
+  setMD5(md5,newConfigSinceNoOtherConfigExists);
+  return latestUpdateResponse(command,updateCommand,new OldNodeSubjectResolver(),newConfigSinceNoOtherConfigExists,null);
+}

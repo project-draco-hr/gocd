@@ -1,0 +1,7 @@
+{
+  ArtifactSizeEnforcementFilter artifactSizeEnforcementFilter=new ArtifactSizeEnforcementFilter(mockArtifactsDirHolder,mockSysEnv);
+  request.addHeader(HttpService.GO_ARTIFACT_PAYLOAD_SIZE,"713");
+  artifactSizeEnforcementFilter.doFilter(request,response,filterChain);
+  assertThat(response.getStatus(),is(HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE));
+  verify(filterChain,never()).doFilter(request,response);
+}

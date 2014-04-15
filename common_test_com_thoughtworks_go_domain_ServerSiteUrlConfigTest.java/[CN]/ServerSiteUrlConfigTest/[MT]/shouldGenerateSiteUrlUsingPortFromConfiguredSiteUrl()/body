@@ -1,0 +1,8 @@
+{
+  ServerSiteUrlConfig url=new ServerSiteUrlConfig("http://someurl.com:8153");
+  assertThat(url.siteUrlFor("http://test.host/foo/bar"),is("http://someurl.com:8153/foo/bar"));
+  assertThat(url.siteUrlFor("http://test.host:3000/foo/bar"),is("http://someurl.com:8153/foo/bar"));
+  url=new ServerSiteUrlConfig("http://someurl.com:8153/");
+  assertThat(url.siteUrlFor("http://test.host/foo/bar"),is("http://someurl.com:8153/foo/bar"));
+  assertThat(url.siteUrlFor("http://test.host:4000/foo/bar"),is("http://someurl.com:8153/foo/bar"));
+}

@@ -1,0 +1,9 @@
+{
+  X509Certificate agentCertificate=new X509CertificateGenerator().createCertificateWithDn("CN=hostname").getFirstCertificate();
+  try {
+    populator.getUserDetails(agentCertificate);
+    Assert.fail("Oh dear. You should have thrown an exception, silly!");
+  }
+ catch (  BadCredentialsException bce) {
+  }
+}

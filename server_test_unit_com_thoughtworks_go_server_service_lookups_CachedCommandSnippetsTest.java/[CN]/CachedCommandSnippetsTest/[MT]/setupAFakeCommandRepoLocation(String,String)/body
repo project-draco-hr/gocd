@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  ServerConfig serverConfig=mock(ServerConfig.class);
+  when(systemEnvironment.get(COMMAND_REPOSITORY_DIRECTORY)).thenReturn("some-directory");
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(cruiseConfig.server()).thenReturn(serverConfig);
+  when(serverConfig.getCommandRepositoryLocation()).thenReturn(location,otherLocations);
+}

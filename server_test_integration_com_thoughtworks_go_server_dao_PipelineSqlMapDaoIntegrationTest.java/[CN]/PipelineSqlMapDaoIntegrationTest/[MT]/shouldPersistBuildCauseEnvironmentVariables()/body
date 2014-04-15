@@ -1,0 +1,16 @@
+{
+  MaterialRevisions materialRevisions=ModificationsMother.multipleModifications();
+  BuildCause buildCause=BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS);
+  EnvironmentVariablesConfig environmentVariablesConfig=new EnvironmentVariablesConfig();
+  environmentVariablesConfig.add(new EnvironmentVariableConfig("VAR1","value one"));
+  environmentVariablesConfig.add(new EnvironmentVariableConfig("VAR2","value two"));
+  buildCause.addOverriddenVariables(environmentVariablesConfig);
+  Pipeline pipeline=new Pipeline("Test",buildCause);
+  save(pipeline);
+  Pipeline loaded=pipelineDao.mostRecentPipeline("Test");
+  EnvironmentVariablesConfig variables=new EnvironmentVariablesConfig();
+  variables.add("VAR1","value one");
+  variables.add("VAR2","value two");
+  assertThat(loaded.getBuildCause().getVariables(),is(variables));
+  assertThat(loaded.scheduleTimeVariables(),is(variables));
+}

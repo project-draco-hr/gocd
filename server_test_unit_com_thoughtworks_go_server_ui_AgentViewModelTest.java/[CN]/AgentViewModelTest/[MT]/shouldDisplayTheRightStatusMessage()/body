@@ -1,0 +1,6 @@
+{
+  AgentInstance building=AgentInstanceMother.building();
+  assertThat(new AgentViewModel(updateRuntimeStatus(building,AgentRuntimeStatus.Idle)).getStatusForDisplay(),is("Idle"));
+  assertThat(new AgentViewModel(updateRuntimeStatus(building,AgentRuntimeStatus.Building)).getStatusForDisplay(),is("Building"));
+  assertThat(new AgentViewModel(updateRuntimeStatus(building,AgentRuntimeStatus.Cancelled)).getStatusForDisplay(),is("Building (Cancelled)"));
+}

@@ -1,0 +1,13 @@
+{
+  long start=System.currentTimeMillis();
+  final HttpServletRequest httpServletRequest=(HttpServletRequest)servletRequest;
+  try {
+    final HttpServletResponse httpServletResponse=(HttpServletResponse)servletResponse;
+    if (licenseValid(httpServletRequest,httpServletResponse)) {
+      filterChain.doFilter(servletRequest,servletResponse);
+    }
+  }
+  finally {
+    if (logRequestTimings)     LOGGER.warn(httpServletRequest.getRequestURI() + " took: " + (System.currentTimeMillis() - start)+ " ms");
+  }
+}

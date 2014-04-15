@@ -1,0 +1,10 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'><repositories>\n"+ withPackages(REPO,"")+ withPackages(REPO,"")+ " </repositories></cruise>";
+  try {
+    xmlLoader.loadConfigHolder(xml);
+    fail("should have thrown XsdValidationException");
+  }
+ catch (  XsdValidationException e) {
+    assertThat(e.getMessage(),is("Duplicate unique value [repo-id] declared for identity constraint \"uniqueRepositoryId\" of element \"repositories\"."));
+  }
+}

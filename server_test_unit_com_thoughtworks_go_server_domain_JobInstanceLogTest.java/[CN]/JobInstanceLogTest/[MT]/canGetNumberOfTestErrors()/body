@@ -1,0 +1,16 @@
+{
+  BuildTestSuite suiteWithTwoErrors=new BuildTestSuite("",0.0f);
+  suiteWithTwoErrors.addTestCase(new BuildTestCase(null,null,null,null,null,BuildTestCaseResult.ERROR));
+  suiteWithTwoErrors.addTestCase(new BuildTestCase(null,null,null,null,null,BuildTestCaseResult.ERROR));
+  BuildTestSuite suiteWithThreeErrors=new BuildTestSuite("",0.0f);
+  suiteWithThreeErrors.addTestCase(new BuildTestCase(null,null,null,null,null,BuildTestCaseResult.ERROR));
+  suiteWithThreeErrors.addTestCase(new BuildTestCase(null,null,null,null,null,BuildTestCaseResult.ERROR));
+  suiteWithThreeErrors.addTestCase(new BuildTestCase(null,null,null,null,null,BuildTestCaseResult.ERROR));
+  List fiveErrors=new ArrayList();
+  fiveErrors.add(suiteWithTwoErrors);
+  fiveErrors.add(suiteWithThreeErrors);
+  Map props=new HashMap();
+  props.put("testsuites",fiveErrors);
+  JobInstanceLog laterJob=new JobInstanceLog(defaultLogFile,props);
+  assertEquals(5,laterJob.getNumberOfErrors());
+}

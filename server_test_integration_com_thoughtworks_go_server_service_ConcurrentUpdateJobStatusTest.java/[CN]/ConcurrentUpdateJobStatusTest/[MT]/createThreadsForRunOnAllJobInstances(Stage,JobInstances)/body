@@ -1,0 +1,10 @@
+{
+  ArrayList<Thread> threads=new ArrayList<Thread>();
+  final ArrayList failures=new ArrayList();
+  for (  JobInstance jobInstance : jobInstances) {
+    Runnable agentWork=new AgentUpdateWork(jobInstance);
+    Runnable cancelWork=new UserCancelWork(stage,jobInstance,failures);
+    threads.add(new Thread(agentWork));
+  }
+  return threads;
+}

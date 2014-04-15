@@ -1,0 +1,8 @@
+{
+  File firstFile=new File(agentDest,"fetch_dest/first");
+  assertThat(firstFile.exists(),is(true));
+  assertThat(FileUtils.readFileToString(firstFile),is("First File"));
+  File secondFile=new File(agentDest,"fetch_dest/" + subDirectoryName + "/second");
+  assertThat(secondFile.exists(),is(true));
+  assertThat(FileUtils.readFileToString(secondFile),is("Second File"));
+}

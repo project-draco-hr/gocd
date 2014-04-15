@@ -1,0 +1,7 @@
+{
+  List<PipelineConfig> pipelinesForFetchArtifact=new ArrayList<PipelineConfig>();
+  for (  DependencyMaterialConfig dependencyMaterial : dependencyMaterialConfigs()) {
+    pipelinesForFetchArtifact.add(cruiseConfig.pipelineConfigByName(dependencyMaterial.getPipelineName()));
+  }
+  return pipelinesForFetchArtifact;
+}

@@ -1,0 +1,12 @@
+{
+  CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("tfs_pipeline");
+  PipelineConfig tfs_pipeline=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("tfs_pipeline"));
+  tfs_pipeline.materialConfigs().clear();
+  tfs_pipeline.addMaterialConfig(new TfsMaterialConfig(new GoCipher(),new UrlArgument("http://tfs.com"),"username","CORPORATE","password","$/project_path"));
+  try {
+    xmlWriter.write(cruiseConfig,output,false);
+  }
+ catch (  Exception e) {
+    fail("should not fail as workspace name is not mandatory anymore " + e);
+  }
+}

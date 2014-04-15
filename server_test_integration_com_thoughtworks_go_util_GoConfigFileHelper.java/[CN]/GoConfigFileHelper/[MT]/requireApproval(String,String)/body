@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=load();
+  cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName)).findBy(new CaseInsensitiveString(stageName)).updateApproval(Approval.manualApproval());
+  writeConfigFile(cruiseConfig);
+}

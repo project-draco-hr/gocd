@@ -1,0 +1,14 @@
+{
+  Authorization authorization=new Authorization();
+  authorization.getAdminsConfig().add(new AdminRole(new CaseInsensitiveString("group_of_losers")));
+  authorization.getOperationConfig().addAll(a(new AdminUser(new CaseInsensitiveString("loser")),new AdminRole(new CaseInsensitiveString("group_of_losers")),new AdminRole(new CaseInsensitiveString("gang_of_boozers"))));
+  authorization.getViewConfig().addAll(a(new AdminUser(new CaseInsensitiveString("boozer")),new AdminUser(new CaseInsensitiveString("loser"))));
+  List<Authorization.PresentationElement> userAuthMap=authorization.getUserAuthorizations();
+  assertThat(userAuthMap.size(),is(2));
+  assetEntry(userAuthMap.get(0),"boozer",Authorization.PrivilegeState.OFF,Authorization.PrivilegeState.ON,Authorization.PrivilegeState.OFF,Authorization.UserType.USER);
+  assetEntry(userAuthMap.get(1),"loser",Authorization.PrivilegeState.OFF,Authorization.PrivilegeState.ON,Authorization.PrivilegeState.ON,Authorization.UserType.USER);
+  List<Authorization.PresentationElement> roleAuthMap=authorization.getRoleAuthorizations();
+  assertThat(roleAuthMap.size(),is(2));
+  assetEntry(roleAuthMap.get(0),"gang_of_boozers",Authorization.PrivilegeState.OFF,Authorization.PrivilegeState.OFF,Authorization.PrivilegeState.ON,Authorization.UserType.ROLE);
+  assetEntry(roleAuthMap.get(1),"group_of_losers",Authorization.PrivilegeState.ON,Authorization.PrivilegeState.DISABLED,Authorization.PrivilegeState.DISABLED,Authorization.UserType.ROLE);
+}

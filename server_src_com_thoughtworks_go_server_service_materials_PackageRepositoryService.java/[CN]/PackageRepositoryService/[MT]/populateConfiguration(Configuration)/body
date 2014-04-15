@@ -1,0 +1,8 @@
+{
+  RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
+  for (  ConfigurationProperty configurationProperty : configuration) {
+    String value=configurationProperty.getValue();
+    repositoryConfiguration.add(new PackageMaterialProperty(configurationProperty.getConfigurationKey().getName(),value));
+  }
+  return repositoryConfiguration;
+}

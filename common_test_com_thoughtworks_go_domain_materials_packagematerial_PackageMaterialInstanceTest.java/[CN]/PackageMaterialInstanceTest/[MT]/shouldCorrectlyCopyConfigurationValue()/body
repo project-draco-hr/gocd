@@ -1,0 +1,9 @@
+{
+  PackageMaterialInstance packageMaterialInstance=(PackageMaterialInstance)MaterialsMother.packageMaterial().createMaterialInstance();
+  packageMaterialInstance.setId(10L);
+  PackageMaterial latestMaterial=MaterialsMother.packageMaterial("repo-id","name","pkId","name",ConfigurationPropertyMother.create("key1",false,"value1"));
+  PackageMaterialInstance newPackageMaterialInstance=(PackageMaterialInstance)latestMaterial.createMaterialInstance();
+  packageMaterialInstance.upgradeTo(newPackageMaterialInstance);
+  assertThat(packageMaterialInstance.getId(),is(10L));
+  assertThat(packageMaterialInstance.getConfiguration(),is(newPackageMaterialInstance.getConfiguration()));
+}

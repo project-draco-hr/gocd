@@ -1,0 +1,9 @@
+{
+  List<StageIdFaninScmMaterialPair> stageIdScmPairs=new ArrayList<StageIdFaninScmMaterialPair>();
+  for (  FanInNode child : root.children) {
+    if (child instanceof DependencyFanInNode) {
+      stageIdScmPairs.addAll(((DependencyFanInNode)child).getCurrentFaninScmMaterials());
+    }
+  }
+  return stageIdScmPairs;
+}

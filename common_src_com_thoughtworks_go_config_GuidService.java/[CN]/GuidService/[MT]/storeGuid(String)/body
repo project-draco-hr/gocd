@@ -1,0 +1,9 @@
+{
+  try {
+    AGENT_GUID_FILE.delete();
+    FileUtils.writeStringToFile(AGENT_GUID_FILE,guid);
+  }
+ catch (  IOException ioe) {
+    throw bomb("Couldn't save GUID to filesystem",ioe);
+  }
+}

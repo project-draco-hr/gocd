@@ -1,0 +1,9 @@
+{
+  long trackingId=schedulingPerformanceLogger.timerSchedulePipelineStart(CaseInsensitiveString.str(pipelineConfig.name()));
+  try {
+    newProduceBuildCause(pipelineConfig,new TimedBuild(),result,trackingId);
+  }
+  finally {
+    schedulingPerformanceLogger.timerSchedulePipelineFinish(trackingId,CaseInsensitiveString.str(pipelineConfig.name()));
+  }
+}

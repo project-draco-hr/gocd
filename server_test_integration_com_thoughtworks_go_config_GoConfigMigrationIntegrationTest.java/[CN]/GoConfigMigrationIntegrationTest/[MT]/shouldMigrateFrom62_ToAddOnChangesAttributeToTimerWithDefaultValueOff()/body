@@ -1,0 +1,10 @@
+{
+  final String oldContent=ConfigFileFixture.configWithPipeline("<pipeline name='old-timer'>" + "  <timer>0 0 1 * * ?</timer>" + "  <materials>"+ "    <git url='/tmp/git' />"+ "  </materials>"+ "  <stage name='dist'>"+ "    <jobs>"+ "      <job name='test' />"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",62);
+  CruiseConfig configAfterMigration=migrateConfigAndLoadTheNewConfig(oldContent,62);
+  String currentContent=FileUtils.readFileToString(new File(goConfigService.fileLocation()));
+  PipelineConfig pipelineConfig=configAfterMigration.pipelineConfigByName(new CaseInsensitiveString("old-timer"));
+  TimerConfig timer=pipelineConfig.getTimer();
+  assertThat(configAfterMigration.schemaVersion(),is(greaterThan(62)));
+  assertThat(timer.shouldTriggerOnlyOnChanges(),is(false));
+  assertThat("Should not have added onChanges since its default value is false.",currentContent,not(containsString("onChanges")));
+}

@@ -1,0 +1,7 @@
+{
+  Stage stage=pipeline.getStages().first();
+  for (  JobInstance jobInstance : stage.getJobInstances()) {
+    jobInstance.setIdentifier(new JobIdentifier(pipeline.getName(),-1,pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter()),jobInstance.getName()));
+  }
+  return stage;
+}

@@ -1,0 +1,5 @@
+{
+  String content=ConfigFileFixture.configWithEnvironmentsAndAgents("<environments>" + "  <environment name='uat'>" + "    <agents>"+ "      <physical uuid='1' />"+ "    </agents>"+ "  </environment>"+ "</environments>","<agents>" + "  <agent uuid='1' hostname='test1.com' ipaddress='192.168.0.1' isDenied='true' />" + "</agents>");
+  CruiseConfig config=ConfigMigrator.loadWithMigration(content).config;
+  assertThat(config.getEnvironments().matchers().size(),is(1));
+}

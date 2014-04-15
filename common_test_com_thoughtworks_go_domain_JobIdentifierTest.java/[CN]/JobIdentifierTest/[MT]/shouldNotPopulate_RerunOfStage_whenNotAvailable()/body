@@ -1,0 +1,10 @@
+{
+  JobIdentifier id=new JobIdentifier("pipeline-name",10,"label-10","stage-name","2","build-name");
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  id.populateEnvironmentVariables(context);
+  assertThat(context.hasProperty("GO_RERUN_OF_STAGE_COUNTER"),is(false));
+  id.setRerunOfCounter(1);
+  context=new EnvironmentVariableContext();
+  id.populateEnvironmentVariables(context);
+  assertThat(context.hasProperty("GO_RERUN_OF_STAGE_COUNTER"),is(true));
+}

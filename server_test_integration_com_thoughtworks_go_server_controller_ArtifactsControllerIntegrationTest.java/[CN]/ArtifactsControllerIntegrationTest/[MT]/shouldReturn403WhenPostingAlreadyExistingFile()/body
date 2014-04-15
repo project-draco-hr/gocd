@@ -1,0 +1,5 @@
+{
+  createFile(artifactRootForJob,"dir/foo.txt");
+  ModelAndView view=postFile("/dir/foo.txt");
+  assertValidContentAndStatus(view,SC_FORBIDDEN,"File /dir/foo.txt already directoryExists.");
+}

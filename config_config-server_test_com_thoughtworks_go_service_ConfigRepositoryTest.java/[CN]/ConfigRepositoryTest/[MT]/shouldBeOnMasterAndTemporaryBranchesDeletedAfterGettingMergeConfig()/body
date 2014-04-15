@@ -1,0 +1,14 @@
+{
+  String original="first\nsecond\n";
+  String nextUpdate="1st\nsecond\n";
+  String latestUpdate="first\nsecond\nthird\n";
+  configRepo.checkin(goConfigRevision(original,"md5-1"));
+  configRepo.checkin(goConfigRevision(nextUpdate,"md5-2"));
+  RevCommit currentRevCommitOnMaster=configRepo.getCurrentRevCommit();
+  String mergedConfig=configRepo.getConfigMergedWithLatestRevision(goConfigRevision(latestUpdate,"md5-3"),"md5-1");
+  assertThat(mergedConfig,is("1st\nsecond\nthird\n"));
+  List<Ref> branches=getAllBranches();
+  assertThat(branches.size(),is(1));
+  assertThat(branches.get(0).getName().endsWith("master"),is(true));
+  assertThat(configRepo.getCurrentRevCommit(),is(currentRevCommitOnMaster));
+}

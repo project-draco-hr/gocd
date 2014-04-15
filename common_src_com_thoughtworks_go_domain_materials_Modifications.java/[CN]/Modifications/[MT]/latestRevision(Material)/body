@@ -1,0 +1,16 @@
+{
+  if (material instanceof SvnMaterial) {
+    String revision=Modification.latestRevision(this).getRevision();
+    return new SubversionRevision(revision);
+  }
+  if (material instanceof DependencyMaterial) {
+    Modification latestModification=this.get(0);
+    String revision=latestModification.getRevision();
+    return DependencyMaterialRevision.create(revision,latestModification.getPipelineLabel());
+  }
+  if (material instanceof PackageMaterial) {
+    Modification latestModification=this.get(0);
+    return new PackageMaterialRevision(latestModification.getRevision(),latestModification.getModifiedTime(),latestModification.getAdditionalDataMap());
+  }
+  return Modification.latestRevision(this);
+}

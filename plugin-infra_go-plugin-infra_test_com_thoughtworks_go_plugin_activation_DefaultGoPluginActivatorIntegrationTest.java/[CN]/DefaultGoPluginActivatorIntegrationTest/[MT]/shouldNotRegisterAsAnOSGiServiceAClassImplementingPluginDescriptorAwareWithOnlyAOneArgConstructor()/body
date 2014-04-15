@@ -1,0 +1,9 @@
+{
+  Bundle bundle=installBundleWithClasses(DummyPluginAwareExtensionWithOneArgConstructorOnly.class);
+  assertThat(bundle.getState(),is(Bundle.UNINSTALLED));
+  GoPluginDescriptor descriptor=registry.getPlugin(GO_TEST_DUMMY_SYMBOLIC_NAME);
+  assertThat(descriptor.isInvalid(),is(true));
+  String error=descriptor.getStatus().getMessages().get(0);
+  assertThat(error.contains("DummyPluginAwareExtensionWithOneArgConstructorOnly"),is(true));
+  assertThat(error.contains("Make sure it and all of its parent classes have a default constructor."),is(true));
+}

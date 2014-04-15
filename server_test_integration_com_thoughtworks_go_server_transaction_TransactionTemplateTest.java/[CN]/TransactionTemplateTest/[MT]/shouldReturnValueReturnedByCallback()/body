@@ -1,0 +1,13 @@
+{
+  TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  String returnVal=(String)template.executeWithExceptionHandling(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus status) throws Exception {
+      registerSynchronization();
+      return "foo";
+    }
+  }
+);
+  assertThat(txnCommited,is(true));
+  assertThat(txnCompleted,is(true));
+  assertThat(returnVal,is("foo"));
+}

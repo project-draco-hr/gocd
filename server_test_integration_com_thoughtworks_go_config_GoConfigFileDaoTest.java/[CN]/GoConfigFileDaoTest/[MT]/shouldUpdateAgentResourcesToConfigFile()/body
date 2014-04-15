@@ -1,0 +1,8 @@
+{
+  AgentConfig agentConfig=new AgentConfig("uuid","test","127.0.0.1",new Resources("java"));
+  goConfigFileDao.addAgent(agentConfig);
+  Resources newResources=new Resources("firefox");
+  goConfigFileDao.updateAgentResources(agentConfig.getUuid(),newResources);
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  assertThat(cruiseConfig.agents().get(0).getResources(),is(newResources));
+}

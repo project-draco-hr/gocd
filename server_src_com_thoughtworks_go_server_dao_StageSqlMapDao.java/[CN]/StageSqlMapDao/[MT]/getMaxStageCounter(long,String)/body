@@ -1,0 +1,5 @@
+{
+  Map<String,Object> toGet=arguments("pipelineId",pipelineId).and("name",stageName).asMap();
+  Integer maxCounter=(Integer)getSqlMapClientTemplate().queryForObject("getMaxStageCounter",toGet);
+  return maxCounter == null ? 0 : maxCounter;
+}

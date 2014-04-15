@@ -1,0 +1,14 @@
+{
+  final JobInstance completedJob=completed("dev");
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      jobService.cancelJob(completedJob);
+    }
+  }
+);
+  jobService.cancelJob(completedJob);
+  verify(jobInstanceDao,never()).updateStateAndResult(completedJob);
+  verify(buildPropertiesService,never()).saveCruiseProperties(completedJob);
+  verify(topic,never()).post(Matchers.<JobResultMessage>any());
+}

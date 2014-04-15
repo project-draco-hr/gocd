@@ -1,0 +1,6 @@
+{
+  Username username=new Username(new CaseInsensitiveString("user"));
+  when(goConfigService.isUserAdmin(username)).thenReturn(Boolean.TRUE);
+  assertThat(securityService.canViewAdminPage(username),is(true));
+  verify(goConfigService).isUserAdmin(username);
+}

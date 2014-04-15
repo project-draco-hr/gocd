@@ -1,0 +1,21 @@
+{
+  File agentLauncher=null;
+  final String version="12.3";
+  final List<String> actualVersion=new ArrayList<String>();
+  final AgentLauncher launcher=new AgentLauncherImpl(new AgentLauncherImpl.AgentProcessParentRunner(){
+    public int run(    String launcherVersion,    String launcherMd5,    ServerUrlGenerator urlConstructor,    Map<String,String> environmentVariables){
+      actualVersion.add(launcherVersion);
+      return 0;
+    }
+  }
+);
+  try {
+    FileUtils.copyFile(new File("testdata/agent-launcher.jar"),agentLauncher=new File(Downloader.AGENT_LAUNCHER));
+    launcher.launch(launchDescriptor());
+  }
+  finally {
+    delete(agentLauncher);
+  }
+  assertThat(actualVersion.size(),is(1));
+  assertThat(actualVersion.get(0),is(version));
+}

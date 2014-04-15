@@ -1,0 +1,23 @@
+{
+  String configString="<cruise schemaVersion='70'> <pipelines>" + "<pipeline name='pipeline1'>" + "    <materials>"+ "      <svn url='svnurl' username='admin' password='%s'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'><tasks>"+ "        <task name='run-curl'>"+ "          <pluginConfiguration id='plugin-id-1' version='1.0'/>"+ "          <configuration>"+ "            <property><key>url</key><value>http://fake-go-server</value></property>"+ "            <property><key>username</key><value>godev</value></property>"+ "            <property><key>password</key><value>password</value></property>"+ "          </configuration>"+ "        </task> </tasks>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline></pipelines>"+ "</cruise>";
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(configString).configForEdit;
+  PipelineConfig pipelineConfig=cruiseConfig.getAllPipelineConfigs().get(0);
+  JobConfig jobConfig=pipelineConfig.getFirstStageConfig().getJobs().get(0);
+  Tasks tasks=jobConfig.getTasks();
+  assertThat(tasks.size(),is(1));
+  assertThat(tasks.get(0) instanceof PluggableTask,is(true));
+  PluggableTask task=(PluggableTask)tasks.get(0);
+  assertThat(task.getTaskType(),is("pluggable_task_plugin_id_1"));
+  assertThat(task.getTypeForDisplay(),is("Pluggable Task"));
+  final Configuration configuration=task.getConfiguration();
+  assertThat(configuration.listOfConfigKeys().size(),is(3));
+  assertThat(configuration.listOfConfigKeys(),is(Arrays.asList("url","username","password")));
+  Collection values=CollectionUtils.collect(configuration.listOfConfigKeys(),new Transformer(){
+    @Override public Object transform(    Object o){
+      ConfigurationProperty property=configuration.getProperty((String)o);
+      return property.getConfigurationValue().getValue();
+    }
+  }
+);
+  assertThat(new ArrayList<String>(values),is(Arrays.asList("http://fake-go-server","godev","password")));
+}

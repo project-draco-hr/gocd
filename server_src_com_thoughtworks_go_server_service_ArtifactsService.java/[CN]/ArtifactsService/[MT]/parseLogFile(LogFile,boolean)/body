@@ -1,0 +1,22 @@
+{
+  try {
+    Map properties;
+    File cacheFile=serializedPropertiesFile(logFile.getFile());
+    if (cacheFile.exists()) {
+      properties=(Map)ObjectUtil.readObject(cacheFile);
+    }
+ else     if (logFile.getFile().exists()) {
+      properties=logParser.parseLogFile(logFile,buildPassed);
+      ObjectUtil.writeObject(properties,cacheFile);
+    }
+ else {
+      properties=new HashMap();
+    }
+    return properties;
+  }
+ catch (  Exception e) {
+    LOGGER.error("Error parsing log file: ",e);
+    String filePath=logFile == null ? "null log file" : logFile.getFile().getPath();
+    throw new ArtifactsParseException("Error parsing log file: " + filePath,e);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  Date now=new Date();
+  buildLog.addContent(new Element("info"));
+  JobResult result=builders.build(environmentVariableContext);
+  goPublisher.reportCompleting(result);
+  try {
+    buildLog.writeLogFile(now);
+  }
+ catch (  IOException e) {
+    throw bomb("Failed to write log file",e);
+  }
+  buildLog.reset();
+  return result;
+}

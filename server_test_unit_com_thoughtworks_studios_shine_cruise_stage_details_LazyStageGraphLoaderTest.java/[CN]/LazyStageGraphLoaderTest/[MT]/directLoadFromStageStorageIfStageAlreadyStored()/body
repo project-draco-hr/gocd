@@ -1,0 +1,8 @@
+{
+  Graph stageGraph=graphFactory.createTempGraph();
+  stageGraph.addTriplesFromTurtle("" + "@prefix cruise: <" + GoOntology.URI + "> . "+ "@prefix xunit: <"+ XUnitOntology.URI+ "> . "+ "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . "+ "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . "+ ""+ " <http://pipeline/1> a cruise:Pipeline . "+ " <http://pipeline/1> cruise:pipelineName \"pipeline-foo\"^^xsd:string ."+ " <http://pipeline/1> cruise:pipelineCounter \"23\"^^xsd:integer . "+ " <http://pipeline/1> cruise:hasStage <http://stage/1> . "+ " <http://stage/1> a cruise:Stage . "+ " <http://stage/1> cruise:stageName \"stage-1\"^^xsd:string . "+ " <http://stage/1> cruise:stageCounter \"1\"^^xsd:integer . "+ "");
+  stageStorage.save(stageGraph);
+  LazyStageGraphLoader loader=new LazyStageGraphLoader(null,stageStorage,new SystemEnvironment());
+  Graph loadedStageGraph=loader.load(new StageIdentifier("pipeline-foo",23,"stage-1","1"));
+  assertTrue(loadedStageGraph.containsResourceWithURI("http://stage/1"));
+}

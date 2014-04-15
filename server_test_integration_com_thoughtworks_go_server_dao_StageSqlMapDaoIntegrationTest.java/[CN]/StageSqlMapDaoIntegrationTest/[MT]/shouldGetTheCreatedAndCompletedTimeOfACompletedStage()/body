@@ -1,0 +1,15 @@
+{
+  Clock clock=mock(Clock.class);
+  Date date=new Date();
+  when(clock.currentTimeMillis()).thenReturn(date.getTime());
+  when(clock.currentTime()).thenReturn(date);
+  Pipeline pipeline=dbHelper.schedulePipeline(custom("pipeline","stage",new JobConfigs(new JobConfig("job")),new MaterialConfigs(MaterialConfigsMother.hgMaterialConfig())),clock);
+  Stage actualStage=stageDao.stageByIdWithBuilds(pipelineAndFirstStageOf(pipeline).stage.getId());
+  assertThat(actualStage.completedDate(),is(nullValue()));
+  assertEquals(actualStage.getJobInstances().first().getTransition(JobState.Scheduled).getStateChangeTime(),actualStage.getLastTransitionedTime());
+  dbHelper.pass(pipeline);
+  actualStage=stageDao.stageByIdWithBuilds(pipelineAndFirstStageOf(pipeline).stage.getId());
+  assertEquals(date,actualStage.scheduledDate());
+  assertThat(actualStage.getJobInstances().first().getTransition(JobState.Scheduled).getStateChangeTime(),is(date));
+  assertEquals(actualStage.getJobInstances().last().getTransition(JobState.Completed).getStateChangeTime(),actualStage.completedDate());
+}

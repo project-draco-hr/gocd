@@ -1,0 +1,27 @@
+{
+  MockHttpServletRequest req=new MockHttpServletRequest();
+  MockHttpServletResponse res=new MockHttpServletResponse();
+  FilterChain filterChain=new MockFilterChain(){
+    @Override public void doFilter(    ServletRequest request,    ServletResponse response){
+      messageKey=service.add(new FlashMessageModel("my message","error"));
+      flash=service.get(messageKey);
+      throw new RuntimeException("exception here");
+    }
+  }
+;
+  try {
+    filter.doFilter(req,res,filterChain);
+    fail("exception gobbled");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("exception here"));
+  }
+  assertThat(flash.toString(),is("my message"));
+  try {
+    service.get(messageKey);
+    fail("attempt to load flash message should fail, as no thread local is cleared out");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("No flash context found, this call should only be made within a request."));
+  }
+}

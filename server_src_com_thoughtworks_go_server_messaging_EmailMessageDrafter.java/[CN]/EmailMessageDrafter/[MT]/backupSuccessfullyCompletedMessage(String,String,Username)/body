@@ -1,0 +1,5 @@
+{
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  String body=String.format("Backup of the Go server at '%s' was successfully completed. The backup is stored at location: %s. This backup was triggered by '%s'.",ipAddress,backupDir,username.getUsername().toString());
+  return new SendEmailMessage("Server Backup Completed Successfully",body,adminEmail);
+}

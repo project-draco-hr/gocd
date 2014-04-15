@@ -1,0 +1,17 @@
+{
+  Context context=metricsProbeService.begin(ProbeType.SAVE_CONFIG_XML_THROUGH_XML_TAB);
+  GoConfigValidity validity;
+  try {
+    String configXml=(String)attributes.get("content");
+    String configMd5=(String)attributes.get("md5");
+    GoConfigService.XmlPartialSaver fileSaver=goConfigService.fileSaver(false);
+    validity=fileSaver.saveXml(configXml,configMd5);
+    if (!validity.isValid()) {
+      result.badRequest(LocalizedMessage.string("SAVE_FAILED"));
+    }
+  }
+  finally {
+    metricsProbeService.end(ProbeType.SAVE_CONFIG_XML_THROUGH_XML_TAB,context);
+  }
+  return validity;
+}

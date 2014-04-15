@@ -1,0 +1,15 @@
+{
+  SvnLogXmlParser parser=new SvnLogXmlParser();
+  List<Modification> materialRevisions=parser.parse(XML,"",new SAXBuilder(false));
+  assertThat(materialRevisions.size(),is(1));
+  Modification mod=materialRevisions.get(0);
+  assertThat(mod.getRevision(),is("3"));
+  assertThat(mod.getUserName(),is("cceuser"));
+  assertThat(mod.getModifiedTime(),is(convertDate("2008-03-11T07:52:41.162075Z")));
+  assertThat(mod.getComment(),is("[Liyanhui & Gabbar] Checked in new file for test"));
+  List<ModifiedFile> files=mod.getModifiedFiles();
+  assertThat(files.size(),is(1));
+  ModifiedFile file=files.get(0);
+  assertThat(file.getFileName(),is("/trunk/revision3.txt"));
+  assertThat(file.getAction(),is(ModifiedAction.added));
+}

@@ -1,0 +1,14 @@
+{
+  Bundle bundle=pluginDescriptor.bundle();
+  if (bundle == null) {
+    return;
+  }
+  try {
+    bundle.stop();
+    bundle.uninstall();
+    forAllDo(pluginChangeListeners,notifyPluginUnLoadedEvent(pluginDescriptor));
+  }
+ catch (  BundleException e) {
+    throw new RuntimeException("Failed to unload plugin: " + bundle,e);
+  }
+}

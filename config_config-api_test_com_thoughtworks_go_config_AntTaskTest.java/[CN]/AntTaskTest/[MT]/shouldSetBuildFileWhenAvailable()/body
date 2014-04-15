@@ -1,0 +1,10 @@
+{
+  String target="target";
+  String buildXml="build.xml";
+  antTask.setBuildFile(buildXml);
+  antTask.setTarget(target);
+  assertThat(antTask.arguments(),is("-f \"" + buildXml + "\" "+ target));
+  String distBuildXml="build/dist.xml";
+  antTask.setBuildFile(distBuildXml);
+  assertThat(antTask.arguments(),is("-f \"" + distBuildXml + "\" "+ target));
+}

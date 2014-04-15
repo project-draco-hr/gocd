@@ -1,0 +1,12 @@
+{
+  populatePlaceHolderStages(instance);
+  populateCanRunStatus(username,instance);
+  populateStageOperatePermission(instance,username);
+  populateLockStatus(instance.getName(),username,instance);
+  long id=pipelineTimeline.pipelineBefore(instance.getId());
+  if (id != -1) {
+    PipelineInstanceModel prevPipeline=pipelineDao.loadHistory(id);
+    instance.setPreviousPipelineLabel(prevPipeline.getLabel());
+    instance.setPreviousPipelineCounter(prevPipeline.getCounter());
+  }
+}

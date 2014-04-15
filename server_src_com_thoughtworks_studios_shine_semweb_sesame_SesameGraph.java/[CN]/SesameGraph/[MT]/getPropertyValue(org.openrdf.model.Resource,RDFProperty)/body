@@ -1,0 +1,11 @@
+{
+  try {
+    return conn.getStatements(resource,getSesameNativeProperty(rdfProperty),null,false).next().getObject();
+  }
+ catch (  RepositoryException e) {
+    throw new ShineRuntimeException(e);
+  }
+catch (  NoSuchElementException e) {
+    return null;
+  }
+}

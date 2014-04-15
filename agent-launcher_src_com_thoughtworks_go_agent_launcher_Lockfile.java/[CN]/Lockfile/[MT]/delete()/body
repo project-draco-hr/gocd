@@ -1,0 +1,10 @@
+{
+  requestTouchLoopToStop();
+  waitForTouchLoopThread();
+  try {
+    deleteLockFile();
+  }
+ catch (  Exception e) {
+    LOG.error("Error deleting lock file at " + lockFile.getAbsolutePath(),e);
+  }
+}

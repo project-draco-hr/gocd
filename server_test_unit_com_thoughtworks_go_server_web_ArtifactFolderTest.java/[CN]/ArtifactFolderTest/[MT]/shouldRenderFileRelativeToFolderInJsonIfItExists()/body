@@ -1,0 +1,6 @@
+{
+  File file=new File(folder,"foo.xml");
+  file.getParentFile().mkdirs();
+  FileUtils.writeStringToFile(file,"FOO");
+  assertThat(artifactFolder.toJson().toString(),containsString("{ \"name\" : \"foo.xml\", \"url\" : \"/files/pipeline-name/label-111/stage-name" + "/1/job-name/pathRelativeToBaseURL/foo.xml\", \"type\" : \"file\" }"));
+}

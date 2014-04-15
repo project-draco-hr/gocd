@@ -1,0 +1,5 @@
+{
+  mingleConfig=configHelper.addPipeline(PIPELINE_NAME,STAGE_NAME,svnMaterialConfig,"unit","functional");
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(PIPELINE_NAME);
+  verifyBuildCauseHasModificationsWith(pipelineScheduleQueue.toBeScheduled(),true);
+}

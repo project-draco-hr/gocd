@@ -1,0 +1,5 @@
+{
+  JobInstance rescheduled=JobInstanceMother.rescheduled("dev","uuid");
+  agentAssignment.jobStatusChanged(rescheduled);
+  assertThat(agentAssignment.latestActiveJobOnAgent("uuid"),is(nullValue()));
+}

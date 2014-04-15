@@ -1,0 +1,14 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  HashMap stageMap=new HashMap();
+  List jobList=a(m(JobConfig.NAME,"JobName"));
+  stageMap.put(StageConfig.NAME,"someStage");
+  stageMap.put(StageConfig.JOBS,jobList);
+  HashMap attributeMap=new HashMap();
+  attributeMap.put(PipelineConfig.NAME,"startup");
+  attributeMap.put(PipelineConfig.STAGE,stageMap);
+  pipelineConfig.setConfigAttributes(attributeMap);
+  assertThat(pipelineConfig.name(),is(new CaseInsensitiveString("startup")));
+  assertThat(pipelineConfig.get(0).name(),is(new CaseInsensitiveString("someStage")));
+  assertThat(pipelineConfig.get(0).getJobs().first().name(),is(new CaseInsensitiveString("JobName")));
+}

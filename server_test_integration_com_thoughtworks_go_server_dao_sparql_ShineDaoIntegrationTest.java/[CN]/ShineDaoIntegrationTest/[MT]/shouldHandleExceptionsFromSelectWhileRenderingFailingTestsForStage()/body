@@ -1,0 +1,6 @@
+{
+  stageId=failureSetup.setupPipelineInstance(false,null,goURLRepository).stageId;
+  shineDao.failedBuildHistoryForStage(stageId,result);
+  assertThat("not successful",result.isSuccessful(),is(false));
+  assertThat(result.replacementContent(localizer),is("Unable to retrieve failure results."));
+}

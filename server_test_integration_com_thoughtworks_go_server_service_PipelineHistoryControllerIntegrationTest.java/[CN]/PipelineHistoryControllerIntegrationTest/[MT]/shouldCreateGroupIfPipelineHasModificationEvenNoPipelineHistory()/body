@@ -1,0 +1,7 @@
+{
+  fixture.createNewCheckin();
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(fixture.pipelineName);
+  JsonMap jsonMap=requestPipelineHistoryPage();
+  JsonList groups=jsonMap.getJsonList("groups");
+  assertThat("Should create group for the coming pipeline",groups.size(),is(1));
+}

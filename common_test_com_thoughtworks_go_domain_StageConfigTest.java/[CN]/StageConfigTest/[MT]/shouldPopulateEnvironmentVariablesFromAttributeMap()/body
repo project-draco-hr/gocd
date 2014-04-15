@@ -1,0 +1,12 @@
+{
+  StageConfig stageConfig=new StageConfig();
+  HashMap map=new HashMap();
+  HashMap valueHashMap=new HashMap();
+  valueHashMap.put("name","FOO");
+  valueHashMap.put("value","BAR");
+  map.put(StageConfig.ENVIRONMENT_VARIABLES,valueHashMap);
+  EnvironmentVariablesConfig mockEnvironmentVariablesConfig=mock(EnvironmentVariablesConfig.class);
+  stageConfig.setVariables(mockEnvironmentVariablesConfig);
+  stageConfig.setConfigAttributes(map);
+  verify(mockEnvironmentVariablesConfig).setConfigAttributes(valueHashMap);
+}

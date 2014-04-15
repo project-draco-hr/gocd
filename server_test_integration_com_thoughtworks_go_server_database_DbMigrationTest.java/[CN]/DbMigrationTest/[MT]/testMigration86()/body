@@ -1,0 +1,12 @@
+{
+  dbFixture.copyDeltas();
+  dbFixture.copyH2Db("migration86_test_db.zip");
+  h2Database=new H2Database(dbFixture.env());
+  h2Database.startDatabase();
+  h2Database.upgrade();
+  assertPmrFromIdAndActualFromId("down",2,7,7);
+  assertPmrFromIdAndActualFromId("down",3,10,8);
+  assertPmrFromIdAndActualFromId("other",1,11,11);
+  assertPmrFromIdAndActualFromId("up",1,6,6);
+  assertPmrFromIdAndActualFromId("up",5,6,6);
+}

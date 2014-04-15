@@ -1,0 +1,8 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  OauthAuthorization authFoo=new OauthAuthorization("foo@bar.com",mingle09,"code",332333);
+  template.save(authFoo);
+  OauthDataSource.OauthAuthorizationDTO dto=repo.findOauthAuthorizationById(authFoo.getId());
+  assertThat(dto,is(authFoo.getDTO()));
+}

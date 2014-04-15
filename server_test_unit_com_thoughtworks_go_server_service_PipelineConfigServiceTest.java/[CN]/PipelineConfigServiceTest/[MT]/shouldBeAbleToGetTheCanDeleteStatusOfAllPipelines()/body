@@ -1,0 +1,14 @@
+{
+  PipelineConfigs configs=createGroup("group","pipeline","in_env");
+  downstream(configs);
+  CruiseConfig cruiseConfig=new CruiseConfig(configs);
+  cruiseConfig.addEnvironment(environment("foo","in_env"));
+  GoConfigService service=mock(GoConfigService.class);
+  when(service.getCurrentConfig()).thenReturn(cruiseConfig);
+  PipelineConfigService pipelineConfigService=new PipelineConfigService(service);
+  Map<CaseInsensitiveString,CanDeleteResult> pipelineToCanDeleteIt=pipelineConfigService.canDeletePipelines();
+  assertThat(pipelineToCanDeleteIt.size(),is(3));
+  assertThat(pipelineToCanDeleteIt.get(new CaseInsensitiveString("down")),is(new CanDeleteResult(true,LocalizedMessage.string("CAN_DELETE_PIPELINE"))));
+  assertThat(pipelineToCanDeleteIt.get(new CaseInsensitiveString("in_env")),is(new CanDeleteResult(false,LocalizedMessage.string("CANNOT_DELETE_PIPELINE_IN_ENVIRONMENT",new CaseInsensitiveString("in_env"),new CaseInsensitiveString("foo")))));
+  assertThat(pipelineToCanDeleteIt.get(new CaseInsensitiveString("pipeline")),is(new CanDeleteResult(false,LocalizedMessage.string("CANNOT_DELETE_PIPELINE_USED_AS_MATERIALS",new CaseInsensitiveString("pipeline"),new CaseInsensitiveString("down")))));
+}

@@ -1,0 +1,12 @@
+{
+  if (relatedNodes.isEmpty()) {
+    return new NodeBaryCentre(node,Float.valueOf(node.getDepth()));
+  }
+  float sum=0f;
+  for (  Node relatedNode : relatedNodes) {
+    int depth=relatedNode.getDepth();
+    sum+=depth;
+  }
+  float averageDepth=sum / relatedNodes.size();
+  return new NodeBaryCentre(node,averageDepth);
+}

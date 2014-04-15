@@ -1,0 +1,15 @@
+{
+  SvnMaterial svnMaterial1=svnMaterial("svnUrl1","folder1");
+  SvnMaterial svnMaterial2=svnMaterial("svnUrl2","folder2");
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(svnMaterial1.config(),svnMaterial2.config()));
+  MaterialRevisions revisions=new MaterialRevisions();
+  revisions.addRevision(svnMaterial1,new Modification("user1","comment1",null,new Date(),"1"));
+  revisions.addRevision(svnMaterial2,new Modification("user2","comment2",null,new Date(),"2"));
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(revisions,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  save(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  BuildCause buildCause=pipelineFromDB.getBuildCause();
+  assertEquals(revisions,buildCause.getMaterialRevisions());
+}

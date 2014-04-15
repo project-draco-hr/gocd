@@ -1,0 +1,9 @@
+{
+  systemEnvironment=mock(SystemEnvironment.class);
+  tempFiles=new TempFiles();
+  when(systemEnvironment.getConfigDir()).thenReturn(tempFiles.createUniqueFile("config_dir").getAbsolutePath());
+  serverVersion=mock(ServerVersion.class);
+  configRepo=mock(ConfigRepository.class);
+  databaseStrategy=mock(Database.class);
+  when(configRepo.doLocked(Matchers.<ThrowingFn<Object,Exception>>any())).thenCallRealMethod();
+}

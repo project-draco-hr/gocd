@@ -1,0 +1,8 @@
+{
+  for (  AgentInstance instance : currentInstances()) {
+    instance.refresh(this.changeListener);
+  }
+  for (  AgentInstance agentInstance : agentsToRemove()) {
+    removeAgent(agentInstance.agentConfig().getUuid());
+  }
+}

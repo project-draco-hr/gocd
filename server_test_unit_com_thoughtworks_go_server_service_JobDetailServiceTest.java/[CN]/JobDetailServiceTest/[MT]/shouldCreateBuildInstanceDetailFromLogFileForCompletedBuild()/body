@@ -1,0 +1,24 @@
+{
+  final String jobConfigName="jobConfig1";
+  final int id=1;
+  final JobInstance completed=JobInstanceMother.completed(jobConfigName,JobResult.Failed);
+  completed.setId(id);
+  completed.setIdentifier(new JobIdentifier("pipeline","1","stage","1",jobConfigName));
+  final HashMap properties=new HashMap();
+  final File artifactsRoot=new File("artifacts");
+  context.checking(new Expectations(){
+{
+      one(artifactsService).getInstanceLogFile(completed.getIdentifier());
+      LogFile buildLogFile=new LogFile(DataUtils.getFailedBuildLbuildAsFile().getFile());
+      will(returnValue(buildLogFile));
+      one(artifactsService).parseLogFile(buildLogFile,completed.isPassed());
+      will(returnValue(properties));
+      one(artifactsService).findArtifact(completed.getIdentifier(),"");
+      will(returnValue(artifactsRoot));
+    }
+  }
+);
+  jobDetailService.loadBuildInstanceLog(completed);
+  assertThat(completed.getName(),is(jobConfigName));
+  assertThat((File)properties.get("artifactfolder"),is(artifactsRoot));
+}

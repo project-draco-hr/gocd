@@ -1,0 +1,7 @@
+{
+  final PostCommitHookMaterialType materialType=resolver.toType("SVN");
+  assertThat(materialType instanceof PostCommitHookMaterialTypeResolver.SvnPostCommitHookMaterialType,is(true));
+  assertThat(materialType.isKnown(),is(true));
+  assertThat(materialType.isValid("SVN"),is(true));
+  assertThat(materialType.getImplementer() instanceof SvnPostCommitHookImplementer,is(true));
+}

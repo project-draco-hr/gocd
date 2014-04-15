@@ -1,0 +1,6 @@
+{
+  StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,stage,null,new Agents());
+  presenter.setCanRun(true);
+  JsonMap json=presenter.toJson();
+  new JsonTester(json).shouldContain("{ 'getCanRun' : 'true' }");
+}

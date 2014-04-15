@@ -1,0 +1,12 @@
+{
+  CommandSnippet copy=CommandSnippetMother.validSnippetWithKeywords("COPY","someotherthing");
+  CommandSnippet robocopy=CommandSnippetMother.validSnippetWithKeywords("robocopy","cOpY","windows");
+  CommandSnippet scp=CommandSnippetMother.validSnippetWithKeywords("scp","copy","ssh");
+  CommandSnippets snippets=new CommandSnippets(Arrays.asList(copy,robocopy,scp));
+  assertThat(snippets.filterBy("scp"),is(Arrays.asList(scp)));
+  assertThat(snippets.filterBy("copy"),is(Arrays.asList(copy,robocopy,scp)));
+  assertThat(snippets.filterBy("Copy"),is(Arrays.asList(copy,robocopy,scp)));
+  assertThat(snippets.filterBy("windows"),is(Arrays.asList(robocopy)));
+  assertThat(snippets.filterBy("wind"),is(Collections.<CommandSnippet>emptyList()));
+  assertThat(snippets.filterBy("obo"),is(Collections.<CommandSnippet>emptyList()));
+}

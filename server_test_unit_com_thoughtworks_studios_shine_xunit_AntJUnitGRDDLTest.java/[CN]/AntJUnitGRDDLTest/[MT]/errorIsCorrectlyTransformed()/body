@@ -1,0 +1,4 @@
+{
+  String askIfErrorIsCorrectlyTransformed="PREFIX xunit: <" + XUnitOntology.URI + "> "+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE { "+ "?testCase a xunit:TestCase ; "+ "xunit:testCaseName \"anError\"^^xsd:string ; "+ "xunit:hasFailure ?failure . "+ "?failure a xunit:Failure ; "+ "xunit:failureMessage \"A message for an error\"^^xsd:string ; "+ "xunit:isError \"true\"^^xsd:boolean "+ "}";
+  assertAskIsTrue(minimalDataGraph,askIfErrorIsCorrectlyTransformed);
+}

@@ -1,0 +1,9 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  FileUtils.deleteDirectory(bundleDependencyDir);
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("pluginId","some-plugin.jar",bundleLocation,true);
+  goPluginOSGiManifestGenerator.updateManifestOf(descriptor);
+  assertThat(valueFor(BUNDLE_CLASSPATH),is("lib/go-plugin-activator.jar,."));
+}

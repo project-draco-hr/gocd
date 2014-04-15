@@ -1,0 +1,9 @@
+{
+  ThreadLocal<MessageDigest> messageDigestThreadLocal=get(algorithm);
+  MessageDigest digest=messageDigestThreadLocal.get();
+  if (digest == null) {
+    digest=createDigest.create(algorithm);
+    messageDigestThreadLocal.set(digest);
+  }
+  return digest;
+}

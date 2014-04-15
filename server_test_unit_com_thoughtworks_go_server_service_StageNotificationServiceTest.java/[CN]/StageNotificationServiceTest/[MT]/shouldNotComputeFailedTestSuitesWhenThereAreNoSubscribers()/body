@@ -1,0 +1,7 @@
+{
+  when(userService.findValidSubscribers(stageIdentifier.stageConfigIdentifier())).thenReturn(new Users(new ArrayList<User>()));
+  stageNotificationService.sendNotifications(stageIdentifier,StageEvent.Fails,new Username(new CaseInsensitiveString("loser")));
+  verifyZeroInteractions(shineDao);
+  verifyZeroInteractions(stageService);
+  verifyZeroInteractions(pipelineService);
+}

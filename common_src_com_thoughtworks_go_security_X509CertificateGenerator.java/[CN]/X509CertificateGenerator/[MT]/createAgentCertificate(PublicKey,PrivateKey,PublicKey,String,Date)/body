@@ -1,0 +1,13 @@
+{
+  X509Principal issuerDn=createX509Principal(withOU(INTERMEDIATE_CERT_OU),withEmailAddress(CERT_EMAIL));
+  X509Principal subjectDn=createX509Principal(withOU(AGENT_CERT_OU),withCN(hostname),withEmailAddress(CERT_EMAIL));
+  X509CertificateGenerator.V3X509CertificateGenerator v3CertGen=new V3X509CertificateGenerator(startDate,issuerDn,subjectDn,publicKey,BigInteger.valueOf(3));
+  v3CertGen.addSubjectKeyIdExtension(publicKey);
+  v3CertGen.addAuthorityKeyIdExtension(intermediatePublicKey);
+  X509Certificate cert=v3CertGen.generate(intermediatePrivateKey);
+  Date now=new Date();
+  cert.checkValidity(now);
+  cert.verify(intermediatePublicKey);
+  PKCS12BagAttributeSetter.usingBagAttributeCarrier(cert).setFriendlyName("cruise-agent").setLocalKeyId(publicKey);
+  return cert;
+}

@@ -1,0 +1,7 @@
+{
+  StageTestRuns stageTestRuns=getTestCount(stageId);
+  final List<StageIdentifier> stageIdentifierList=Arrays.asList(stageId);
+  populateFailingTests(stageTestRuns,getFailedTests(stageIdentifierList));
+  populateUsers(stageTestRuns,getCommitters(stageIdentifierList));
+  return stageTestRuns.failingTestSuitesForNthPipelineRun(0);
+}

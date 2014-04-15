@@ -1,0 +1,23 @@
+{
+  final HgMaterial mingleHg=MaterialsMother.hgMaterial();
+  PipelineConfig mingle=PipelineConfigMother.pipelineConfig("mingle",mingleHg.config(),new JobConfigs(new JobConfig("run-tests")));
+  PipelineConfig shine=PipelineMother.twoBuildPlansWithResourcesAndMaterials("shine","compile");
+  Pipeline shineInstance=dbHelper.newPipelineWithAllStagesPassed(shine);
+  PipelineConfig cruise=pipelineConfigFor("cruise","shine","compile");
+  final DependencyMaterial cruiseUpstream=new DependencyMaterial(new CaseInsensitiveString("shine"),new CaseInsensitiveString("compile"));
+  final Modification cruiseMod=new Modification(new Date(),String.format("shine/%s/compile/%s",shineInstance.getCounter(),shineInstance.getStages().get(0).getCounter()),"shine-1",null);
+  final Modification mingleFrom=ModificationsMother.oneModifiedFile("1234");
+  saveRev(mingleHg,mingleFrom);
+  saveRev(cruiseUpstream,cruiseMod);
+  final Modification mingleTo=ModificationsMother.oneModifiedFile("abcd");
+  saveRev(mingleHg,mingleTo);
+  dbHelper.saveMaterialsWIthPassedStages(instanceFactory.createPipelineInstance(mingle,BuildCause.createManualForced(new MaterialRevisions(new MaterialRevision(mingleHg,mingleTo,mingleFrom)),Username.ANONYMOUS),new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY),md5,new TimeProvider()));
+  final Pipeline cruiseInstance=instanceFactory.createPipelineInstance(cruise,BuildCause.createManualForced(new MaterialRevisions(new MaterialRevision(cruiseUpstream,cruiseMod)),Username.ANONYMOUS),new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  dbHelper.saveMaterialsWIthPassedStages(cruiseInstance);
+  PipelineDependencyGraphOld dependencyGraph=pipelineDao.pipelineGraphByNameAndCounter("shine",shineInstance.getCounter());
+  assertPipelineEquals(shineInstance,dependencyGraph.pipeline());
+  ensureBuildCauseIsLoadedFor(dependencyGraph.pipeline());
+  PipelineInstanceModels dependencies=dependencyGraph.dependencies();
+  assertThat(dependencies.size(),is(1));
+  assertPipelineEquals(cruiseInstance,dependencies.find("cruise"));
+}

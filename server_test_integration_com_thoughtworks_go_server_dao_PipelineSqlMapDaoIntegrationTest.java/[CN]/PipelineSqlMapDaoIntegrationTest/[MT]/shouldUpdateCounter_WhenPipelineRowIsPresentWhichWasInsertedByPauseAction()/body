@@ -1,0 +1,9 @@
+{
+  String pipelineName="some-pipeline";
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(pipelineName);
+  Username userNameAdmin=new Username(new CaseInsensitiveString("admin"));
+  pipelinePauseService.pause(pipelineName,"some-cause",userNameAdmin);
+  pipelinePauseService.unpause(pipelineName);
+  Pipeline pipeline=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  assertThat(pipelineDao.getCounterForPipeline(pipeline.getName()),is(1));
+}

@@ -1,0 +1,25 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  SecurityConfig securityConfig=new SecurityConfig(null,new PasswordFileConfig("path"),true,null);
+  securityConfig.addRole(new Role(new CaseInsensitiveString("role1"),new RoleUser(new CaseInsensitiveString("user1")),new RoleUser(new CaseInsensitiveString("user2")),new RoleUser(new CaseInsensitiveString("user3"))));
+  securityConfig.addRole(new Role(new CaseInsensitiveString("role2"),new RoleUser(new CaseInsensitiveString("user4")),new RoleUser(new CaseInsensitiveString("user5")),new RoleUser(new CaseInsensitiveString("user3"))));
+  securityConfig.addRole(new Role(new CaseInsensitiveString("role3"),new RoleUser(new CaseInsensitiveString("user4")),new RoleUser(new CaseInsensitiveString("user5")),new RoleUser(new CaseInsensitiveString("user2"))));
+  config.setServerConfig(new ServerConfig(null,securityConfig));
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job")));
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfig("pipeline",stage);
+  config.addPipeline("defaultGroup",pipeline);
+  PipelineConfigs group=config.findGroup("defaultGroup");
+  group.getAuthorization().getOperationConfig().add(new AdminRole(new CaseInsensitiveString("role1")));
+  group.getAuthorization().getOperationConfig().add(new AdminRole(new CaseInsensitiveString("role3")));
+  group.getAuthorization().getOperationConfig().add(new AdminUser(new CaseInsensitiveString("pavan")));
+  group.getAuthorization().getOperationConfig().add(new AdminUser(new CaseInsensitiveString("admin")));
+  Set<String> allUsers=userService.usersThatCanOperateOnStage(config,pipeline);
+  assertThat(allUsers.size(),is(7));
+  assertThat(allUsers,hasItem("user1"));
+  assertThat(allUsers,hasItem("user2"));
+  assertThat(allUsers,hasItem("user3"));
+  assertThat(allUsers,hasItem("user4"));
+  assertThat(allUsers,hasItem("user5"));
+  assertThat(allUsers,hasItem("pavan"));
+  assertThat(allUsers,hasItem("admin"));
+}

@@ -1,0 +1,8 @@
+{
+  AgentInstance pending=AgentInstanceMother.pending();
+  agentService.requestRegistration(AgentRuntimeInfo.fromServer(pending.agentConfig(),false,"var/lib",0L,"linux"));
+  agentService.approve(pending.getUuid());
+  agentService.requestRegistration(AgentRuntimeInfo.fromServer(pending.agentConfig(),true,"var/lib",0L,"linux"));
+  agentService.requestRegistration(AgentRuntimeInfo.fromServer(pending.agentConfig(),true,"var/lib",0L,"linux"));
+  assertThat(agentService.findRegisteredAgents().size(),is(1));
+}

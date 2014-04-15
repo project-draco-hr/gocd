@@ -1,0 +1,11 @@
+{
+  PackageDefinition packageDefinition=new PackageDefinition();
+  packageDefinition.setName("PKG");
+  HashMap<String,PackageDefinition> nameMap=new HashMap<String,PackageDefinition>();
+  PackageDefinition original=new PackageDefinition();
+  original.setName("pkg");
+  nameMap.put("pkg",original);
+  packageDefinition.validateNameUniqueness(nameMap);
+  assertThat(packageDefinition.errors().isEmpty(),is(false));
+  assertThat(packageDefinition.errors().getAllOn(PackageDefinition.NAME).contains("You have defined multiple packages called 'PKG'. Package names are case-insensitive and must be unique within a repository."),is(true));
+}

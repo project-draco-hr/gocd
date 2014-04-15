@@ -1,0 +1,6 @@
+{
+  ControllerFake controllerFake=new ControllerFake();
+  ModelAndView modelAndView=new AnnotatedExceptionResolver().resolveException(request,response,controllerFake,null);
+  assertTrue("the method should be invoked",controllerFake.isInvoked());
+  assertEquals(mov,modelAndView);
+}

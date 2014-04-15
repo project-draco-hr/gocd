@@ -1,0 +1,9 @@
+{
+  if (attributes != null) {
+    List<Map> pipelineAttributes=(List)attributes;
+    this.clear();
+    for (    Map attributeMap : pipelineAttributes) {
+      this.add(new EnvironmentPipelineConfig(new CaseInsensitiveString((String)attributeMap.get("name"))));
+    }
+  }
+}

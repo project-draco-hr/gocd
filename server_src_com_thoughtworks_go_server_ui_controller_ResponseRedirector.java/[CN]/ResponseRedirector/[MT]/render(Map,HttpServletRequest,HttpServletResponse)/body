@@ -1,0 +1,18 @@
+{
+  String contextpath=request.getContextPath();
+  String params="";
+  Map queryString=(Map)model.get("params");
+  if (queryString != null) {
+    for (    Object key : queryString.keySet()) {
+      String value=(String)queryString.get(key);
+      if (value != null) {
+        if (params.length() > 0) {
+          params+="&";
+        }
+        params+=key + "=" + URLEncoder.encode(value,"UTF-8");
+      }
+    }
+  }
+  String paramString=params.isEmpty() ? "" : "?" + params;
+  response.sendRedirect(contextpath + "/tab" + target+ paramString);
+}

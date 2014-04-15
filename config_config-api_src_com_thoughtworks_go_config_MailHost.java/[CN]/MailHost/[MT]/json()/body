@@ -1,0 +1,11 @@
+{
+  JsonMap model=new JsonMap();
+  model.put("hostName",defaultString(hostName));
+  model.put("port",port == 0 ? "" : String.valueOf(port));
+  model.put("username",defaultString(username));
+  model.put("password",defaultString(getPassword()));
+  model.put("tls",tls == null ? "false" : tls.toString());
+  model.put("from",defaultString(getFrom()));
+  model.put("adminMail",defaultString(getAdminMail()));
+  return model;
+}

@@ -1,0 +1,12 @@
+{
+  for (  BuildCause buildCause : load.values()) {
+    for (    MaterialRevision revision : buildCause.getMaterialRevisions()) {
+      if (revision.getMaterial() instanceof HgMaterial) {
+        assertThat(revision.isChanged(),is(false));
+      }
+ else {
+        assertThat(revision.isChanged(),is(true));
+      }
+    }
+  }
+}

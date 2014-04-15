@@ -1,0 +1,11 @@
+{
+  Pipeline oldPipeline=createPipelineWithJobProperty(PIPELINE1,property("key1","value1"));
+  Pipeline newPipeline=createPipelineWithJobProperty(PIPELINE1,property("key2","value2"));
+  List<Properties> history=propertyDao.loadHistory(PIPELINE1,STAGE1,PLAN1,newPipeline.getId(),1);
+  assertThat(history.size(),is(1));
+  assertThat(history.get(0).toString(),history.get(0).getValue("key2"),is("value2"));
+  history=propertyDao.loadHistory(PIPELINE1,STAGE1,PLAN1,newPipeline.getId(),Integer.MAX_VALUE);
+  assertThat(history.size(),is(2));
+  assertThat(history.get(0).toString(),history.get(0).getValue("key1"),is("value1"));
+  assertThat(history.get(1).toString(),history.get(1).getValue("key2"),is("value2"));
+}

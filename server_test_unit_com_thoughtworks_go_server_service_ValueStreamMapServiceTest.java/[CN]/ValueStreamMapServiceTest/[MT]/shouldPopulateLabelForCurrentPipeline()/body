@@ -1,0 +1,12 @@
+{
+  GitMaterial git=new GitMaterial("git");
+  String pipelineName="p1";
+  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(PipelineConfigMother.pipelineConfig("p1",new MaterialConfigs(git.config()))));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  BuildCause p1buildCause=createBuildCause(new ArrayList<String>(),asList(git));
+  when(pipelineService.buildCauseFor("p1",1)).thenReturn(p1buildCause);
+  when(pipelineService.findPipelineByCounterOrLabel(pipelineName,"1")).thenReturn(new Pipeline("p1","label-1",p1buildCause));
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap(pipelineName,1,user,result);
+  PipelineRevision revision=(PipelineRevision)graph.getCurrentPipeline().revisions().get(0);
+  assertThat(revision.getLabel(),is("label-1"));
+}

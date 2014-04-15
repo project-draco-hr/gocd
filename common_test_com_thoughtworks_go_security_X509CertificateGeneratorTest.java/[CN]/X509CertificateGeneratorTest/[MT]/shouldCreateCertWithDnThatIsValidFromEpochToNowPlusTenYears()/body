@@ -1,0 +1,8 @@
+{
+  X509CertificateGenerator generator=new X509CertificateGenerator();
+  Registration certChain=generator.createCertificateWithDn("CN=hostname");
+  Date epoch=new Date(0);
+  X509Certificate cert=certChain.getFirstCertificate();
+  cert.checkValidity(epoch);
+  cert.checkValidity(DateUtils.addYears(new Date(),9));
+}

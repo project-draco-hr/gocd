@@ -1,0 +1,17 @@
+{
+  ClassLoader nestedJarClassLoader=new NestedJarClassLoader(urlForSDKJar());
+  Object objInst=Class.forName("hsqlServlet",true,nestedJarClassLoader).newInstance();
+  assertThat(objInst.getClass().getClassLoader() instanceof URLClassLoader,is(true));
+  Class<?> clazz=Class.forName("javax.xml.parsers.SAXParserFactory",true,nestedJarClassLoader);
+  assertThat(clazz.getClassLoader() instanceof URLClassLoader,is(true));
+  try {
+    SAXParserFactory saxParserFactory=(SAXParserFactory)clazz.getMethod("newInstance").invoke(clazz);
+    fail("Should throw class cast exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getCause() instanceof ClassCastException,is(true));
+  }
+  clazz=Class.forName("javax.xml.parsers.SAXParserFactory");
+  SAXParserFactory saxParserFactory=(SAXParserFactory)clazz.getMethod("newInstance").invoke(clazz);
+  assertThat(saxParserFactory.getClass().getClassLoader(),is(this.getClass().getClassLoader()));
+}

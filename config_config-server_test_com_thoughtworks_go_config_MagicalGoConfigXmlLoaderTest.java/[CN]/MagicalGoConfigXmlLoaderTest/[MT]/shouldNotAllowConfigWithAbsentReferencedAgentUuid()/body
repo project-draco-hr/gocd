@@ -1,0 +1,10 @@
+{
+  String content=ConfigFileFixture.configWithEnvironmentsAndAgents("<environments>" + "  <environment name='uat'>" + "    <agents>"+ "      <physical uuid='missing' />"+ "    </agents>"+ "  </environment>"+ "</environments>","<agents>" + "  <agent uuid='1' hostname='test1.com' ipaddress='192.168.0.1' />" + "</agents>");
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("XSD should not allow reference to absent agent");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Environment 'uat' has an invalid agent uuid 'missing'"));
+  }
+}

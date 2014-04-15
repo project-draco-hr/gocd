@@ -1,0 +1,12 @@
+{
+  String filterBySymbolicName=String.format("(%s=%s)",Constants.BUNDLE_SYMBOLICNAME,pluginId);
+  Collection<ServiceReference<T>> matchingServiceReferences;
+  try {
+    matchingServiceReferences=bundleContext.getServiceReferences(serviceReferenceClass,filterBySymbolicName);
+  }
+ catch (  InvalidSyntaxException e) {
+    String message=String.format("Failed To find reference for Service Reference %s and Filter %s",serviceReferenceClass,filterBySymbolicName);
+    throw new GoPluginFrameworkException(message,e);
+  }
+  return matchingServiceReferences;
+}

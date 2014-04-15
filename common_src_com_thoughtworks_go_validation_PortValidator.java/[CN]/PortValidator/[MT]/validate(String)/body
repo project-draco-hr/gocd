@@ -1,0 +1,11 @@
+{
+  try {
+    if (Integer.valueOf(port) <= 0 || Integer.valueOf(port) > 65535) {
+      return ValidationBean.notValid(ERROR_MESSAGE);
+    }
+  }
+ catch (  NumberFormatException e) {
+    return ValidationBean.notValid(ERROR_MESSAGE);
+  }
+  return ValidationBean.valid();
+}

@@ -1,0 +1,6 @@
+{
+  CruiseConfig newCruiseConfig=configWithoutSecurity();
+  SecurityConfig securityConfig=new SecurityConfig(ldapConfig,passwordFileConfig,false,null);
+  newCruiseConfig.setServerConfig(new ServerConfig("artifacts",securityConfig));
+  return newCruiseConfig;
+}

@@ -1,0 +1,11 @@
+{
+  groupName=PipelineConfigs.DEFAULT_GROUP;
+  configHelper.addPipeline("pipeline","stage","build1","build2");
+  String badXml="<;askldjfa;dsklfja;sdjas;lkdf";
+  String md5=goConfigFileDao.md5OfConfigFile();
+  ModelAndView mav=controller.postPipelineAsXmlPartial(0,groupName,badXml,md5,response);
+  assertThat(response.getStatus(),is(SC_CONFLICT));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  Json json=(Json)mav.getModel().get("json");
+  new JsonTester(json).shouldContain("{ 'result' : 'Error on line 1 of document  : The markup in the document preceding the root element must be well-formed. Nested exception: The markup in the document preceding the root element must be well-formed.'," + "  'originalContent' : '" + badXml + "' }");
+}

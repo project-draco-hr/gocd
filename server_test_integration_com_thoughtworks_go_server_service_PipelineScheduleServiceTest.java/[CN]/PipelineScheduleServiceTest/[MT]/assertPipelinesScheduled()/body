@@ -1,0 +1,10 @@
+{
+  Pipeline minglePipeline=pipelineDao.mostRecentPipeline(CaseInsensitiveString.str(mingleConfig.name()));
+  Stage mingleStage=minglePipeline.getFirstStage();
+  assertThat(mingleStage.getName(),is(STAGE_NAME));
+  assertThat(mingleStage.getJobInstances().size(),is(2));
+  JobInstance mingleJob=mingleStage.getJobInstances().first();
+  assertThat(mingleJob.getState(),is(JobState.Scheduled));
+  assertPipelineScheduled(evolveConfig);
+  assertPipelineScheduled(goConfig);
+}

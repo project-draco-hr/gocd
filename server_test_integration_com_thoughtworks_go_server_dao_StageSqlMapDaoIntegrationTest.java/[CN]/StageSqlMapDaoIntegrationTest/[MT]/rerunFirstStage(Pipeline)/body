@@ -1,0 +1,5 @@
+{
+  Stage firstStage=pipeline.getFirstStage();
+  Stage newInstance=instanceFactory.createStageInstance(mingleConfig.findBy(new CaseInsensitiveString(firstStage.getName())),new DefaultSchedulingContext("anyone"),md5,new TimeProvider());
+  return stageDao.saveWithJobs(pipeline,newInstance);
+}

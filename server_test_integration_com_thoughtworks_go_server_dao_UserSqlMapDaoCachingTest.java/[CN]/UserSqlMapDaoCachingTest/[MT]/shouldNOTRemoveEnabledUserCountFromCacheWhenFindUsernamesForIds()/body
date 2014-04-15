@@ -1,0 +1,9 @@
+{
+  userDao.saveOrUpdate(new User("some-random-user"));
+  User user=userDao.findUser("some-random-user");
+  HashSet<Long> userIds=new HashSet<Long>();
+  userIds.add(user.getId());
+  makeSureThatCacheIsInitialized();
+  userDao.findUsernamesForIds(userIds);
+  assertThatEnabledUserCacheExists();
+}

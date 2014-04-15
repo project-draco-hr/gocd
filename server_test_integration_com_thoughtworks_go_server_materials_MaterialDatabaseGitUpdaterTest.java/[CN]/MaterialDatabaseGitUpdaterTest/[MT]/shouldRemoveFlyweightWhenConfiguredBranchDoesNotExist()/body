@@ -1,0 +1,14 @@
+{
+  File flyweightDir=new File("pipelines","flyweight");
+  FileUtils.deleteQuietly(flyweightDir);
+  material=new GitMaterial(testRepo.projectRepositoryUrl(),"bad-bad-branch");
+  try {
+    updater.updateMaterial(material);
+    fail("material update should have failed as given branch does not exist in repository");
+  }
+ catch (  Exception e) {
+  }
+  MaterialInstance materialInstance=materialRepository.findMaterialInstance(material);
+  assertThat(materialInstance,is(nullValue()));
+  assertThat(FileUtil.listFiles(flyweightDir).length,is(0));
+}

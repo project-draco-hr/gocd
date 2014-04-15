@@ -1,0 +1,14 @@
+{
+  return (JobInstance)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      JobInstance jobInstance=scheduled(JOB_NAME + "-" + uuid,new DateTime().plusMinutes(1).toDate());
+      jobInstance.setRunOnAllAgents(true);
+      jobInstanceService.save(savedStage.getIdentifier(),stageId,jobInstance);
+      jobInstance.changeState(JobState.Building);
+      jobInstance.setAgentUuid(uuid);
+      jobInstanceDao.updateStateAndResult(jobInstance);
+      return jobInstance;
+    }
+  }
+);
+}

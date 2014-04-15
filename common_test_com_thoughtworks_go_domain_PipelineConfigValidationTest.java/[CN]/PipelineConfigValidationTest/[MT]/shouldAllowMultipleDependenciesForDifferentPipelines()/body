@@ -1,0 +1,6 @@
+{
+  pipeline.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage")));
+  pipeline.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("pipeline3"),new CaseInsensitiveString("stage")));
+  pipeline.validate(validationContext);
+  assertThat(pipeline.errors().isEmpty(),is(true));
+}

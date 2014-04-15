@@ -1,0 +1,8 @@
+{
+  User foo=user("foo");
+  userDao.saveOrUpdate(foo);
+  foo.disableLicenseExpiryWarning();
+  userDao.saveOrUpdate(foo);
+  User fetchedUser=userDao.findUser(foo.getName());
+  assertThat(fetchedUser.hasDisabledLicenseExpiryWarning(),is(true));
+}

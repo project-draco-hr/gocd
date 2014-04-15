@@ -1,0 +1,8 @@
+{
+  File srcFile=createSrcFile();
+  String noNodeCanMatch="//HTML";
+  generator=new ArtifactPropertiesGenerator(TEST_PROPERTY,srcFile.getName(),noNodeCanMatch);
+  generator.generate(goPublisherImple,workspace);
+  assertThat(sentContents.get(0),containsString("Failed to create property"));
+  assertThat(sentContents.get(0),containsString(srcFile.getAbsolutePath()));
+}

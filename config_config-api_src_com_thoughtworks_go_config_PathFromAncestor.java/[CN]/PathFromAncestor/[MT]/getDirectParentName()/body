@@ -1,0 +1,8 @@
+{
+  String stringPath=path();
+  if (stringPath == null) {
+    return null;
+  }
+  int index=stringPath.lastIndexOf(DELIMITER);
+  return index == -1 ? path : new CaseInsensitiveString(stringPath.substring(index + 1,stringPath.length()));
+}

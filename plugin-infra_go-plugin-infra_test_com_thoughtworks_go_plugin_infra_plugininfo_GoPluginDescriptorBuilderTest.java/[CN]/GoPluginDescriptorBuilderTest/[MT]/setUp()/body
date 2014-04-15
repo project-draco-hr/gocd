@@ -1,0 +1,8 @@
+{
+  pluginDirectory=new File(TMP_DIR + "-plugins-" + UUID.randomUUID().toString());
+  FileUtil.recreateDirectory(pluginDirectory);
+  bundleDirectory=new File(TMP_DIR + "-bundles-" + UUID.randomUUID().toString());
+  FileUtil.recreateDirectory(bundleDirectory);
+  goPluginDescriptorBuilder=spy(new GoPluginDescriptorBuilder());
+  doReturn(bundleDirectory).when(goPluginDescriptorBuilder).bundlePath();
+}

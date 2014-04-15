@@ -1,0 +1,23 @@
+{
+  JobConfig plan=evolveConfig.findBy(new CaseInsensitiveString(STAGE_NAME)).jobConfigByInstanceName("unit",true);
+  plan.addResource("some-resource");
+  scheduleHelper.schedule(evolveConfig,modifySomeFiles(evolveConfig),DEFAULT_APPROVED_BY);
+  buildAssignmentService.onTimer();
+  AgentConfig agentConfig=AgentMother.localAgent();
+  agentConfig.addResource(new Resource("some-resource"));
+  Work work=buildAssignmentService.assignWorkToAgent(agent(agentConfig));
+  assertThat(work,is(not((Work)BuildAssignmentService.NO_WORK)));
+  Pipeline pipeline=pipelineDao.mostRecentPipeline(CaseInsensitiveString.str(evolveConfig.name()));
+  JobInstance job=pipeline.findStage(STAGE_NAME).findJob("unit");
+  JobInstance runningJob=jobInstanceDao.buildByIdWithTransitions(job.getId());
+  scheduleService.rescheduleJob(runningJob);
+  pipeline=pipelineDao.mostRecentPipeline(CaseInsensitiveString.str(evolveConfig.name()));
+  JobInstance rescheduledJob=pipeline.findStage(STAGE_NAME).findJob("unit");
+  assertThat(rescheduledJob.getId(),not(runningJob.getId()));
+  buildAssignmentService.onTimer();
+  Work noResourcesWork=buildAssignmentService.assignWorkToAgent(agent(new AgentConfig("WITHOUT_RESOURCES")));
+  assertThat(noResourcesWork,is((Work)BuildAssignmentService.NO_WORK));
+  buildAssignmentService.onTimer();
+  Work correctAgentWork=buildAssignmentService.assignWorkToAgent(agent(agentConfig));
+  assertThat(correctAgentWork,is(not((Work)BuildAssignmentService.NO_WORK)));
+}

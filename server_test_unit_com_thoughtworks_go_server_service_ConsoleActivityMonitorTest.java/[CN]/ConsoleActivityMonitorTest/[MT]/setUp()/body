@@ -1,0 +1,22 @@
+{
+  timeProvider=mock(TimeProvider.class);
+  systemEnvironment=mock(SystemEnvironment.class);
+  serverHealthService=mock(ServerHealthService.class);
+  jobInstanceService=mock(JobInstanceService.class);
+  scheduleService=mock(ScheduleService.class);
+  goConfigService=mock(GoConfigService.class);
+  artifactService=mock(ArtifactsService.class);
+  when(goConfigService.getUnresponsiveJobTerminationThreshold(any(JobIdentifier.class))).thenReturn(UNRESPONSIVE_JOB_KILL_THRESHOLD);
+  when(systemEnvironment.getUnresponsiveJobWarningThreshold()).thenReturn(UNRESPONSIVE_JOB_WARNING_THRESHOLD);
+  when(goConfigService.canCancelJobIfHung(any(JobIdentifier.class))).thenReturn(true);
+  doAnswer(new Answer<Object>(){
+    public Object answer(    InvocationOnMock invocation) throws Throwable {
+      listener=(ConsoleActivityMonitor.ActiveJobListener)invocation.getArguments()[0];
+      return null;
+    }
+  }
+).when(jobInstanceService).registerJobStateChangeListener(Mockito.any(JobStatusListener.class));
+  consoleActivityMonitor=new ConsoleActivityMonitor(timeProvider,systemEnvironment,jobInstanceService,serverHealthService,goConfigService,artifactService);
+  consoleActivityMonitor.populateActivityMap();
+  stubInitializerCallsForActivityMonitor(jobInstanceService);
+}

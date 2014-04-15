@@ -1,0 +1,15 @@
+{
+  return new TypeSafeMatcher<String>(){
+    public String consoleOut;
+    public String message;
+    public boolean matchesSafely(    String consoleOut){
+      this.consoleOut=consoleOut;
+      this.message="The rule [" + rule + "] cannot match any resource under ["+ root+ "]";
+      return StringUtils.contains(consoleOut,message);
+    }
+    public void describeTo(    Description description){
+      description.appendText("Expected console to contain [" + message + "] but was "+ consoleOut);
+    }
+  }
+;
+}

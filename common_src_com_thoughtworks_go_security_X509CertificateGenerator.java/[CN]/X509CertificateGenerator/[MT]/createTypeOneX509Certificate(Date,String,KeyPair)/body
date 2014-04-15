@@ -1,0 +1,18 @@
+{
+  X509V1CertificateGenerator certGen=new X509V1CertificateGenerator();
+  X500Principal principal=new X500Principal(principalDn);
+  certGen.setSerialNumber(serialNumber());
+  certGen.setIssuerDN(principal);
+  certGen.setNotBefore(startDate);
+  DateTime now=new DateTime(new Date());
+  certGen.setNotAfter(now.plusYears(YEARS).toDate());
+  certGen.setSubjectDN(principal);
+  certGen.setPublicKey(keyPair.getPublic());
+  certGen.setSignatureAlgorithm(SIGNATURE_ALGORITHM);
+  try {
+    return certGen.generate(keyPair.getPrivate(),"BC");
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}

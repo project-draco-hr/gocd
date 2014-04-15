@@ -1,0 +1,18 @@
+{
+  configHelper.addPipeline("pipeline","stage");
+  String md5=goConfigService.getConfigForEditing().getMd5();
+  goConfigService.updateConfigFromUI(new AddStageToPipelineCommand("secondStage"),md5,Username.ANONYMOUS,new HttpLocalizedOperationResult());
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigUpdateResponse response=goConfigService.updateConfigFromUI(new AddStageToPipelineCommand("thirdStage"),md5,Username.ANONYMOUS,result);
+  assertFailedResult(result,"Save failed. Configuration file has been modified by someone else.");
+  CruiseConfig expectedConfig=goConfigService.getConfigForEditing();
+  CruiseConfig modifiedConfig=new Cloner().deepClone(expectedConfig);
+  ReflectionUtil.setField(modifiedConfig,"md5",expectedConfig.getMd5());
+  PipelineConfig expected=modifiedConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline"));
+  expected.addStageWithoutValidityAssertion(StageConfigMother.custom("thirdStage","job"));
+  PipelineConfig actual=(PipelineConfig)response.getNode();
+  assertThat(response.configAfterUpdate(),is(expectedConfig));
+  assertThat(response.getCruiseConfig(),is(modifiedConfig));
+  assertThat(actual,is(expected));
+  assertFailedResult(result,"Save failed. Configuration file has been modified by someone else.");
+}

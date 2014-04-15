@@ -1,0 +1,21 @@
+{
+  configHelper=new GoConfigFileHelper();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  testRepo=new SvnTestRepo("testSvnRepo");
+  dbHelper.onSetUp();
+  repository=new SvnCommand(null,testRepo.projectRepositoryUrl());
+  mingleConfig=configHelper.addPipeline("mingle",STAGE_NAME,repository,"unit","functional");
+  goConfig=configHelper.addPipeline("go",STAGE_NAME,repository,"unit");
+  StageConfig ftStageConfig=StageConfigMother.custom("ft","twist");
+  ftStageConfig.jobConfigByConfigName(new CaseInsensitiveString("twist")).addVariable("JOB_LVL","job value");
+  ftStageConfig.setVariables(env("STAGE_LVL","stage value"));
+  configHelper.addStageToPipeline("go",ftStageConfig);
+  configHelper.addEnvironmentVariableToPipeline("go",env("PIPELINE_LVL","pipeline value"));
+  configHelper.addEnvironments("uat");
+  EnvironmentConfig uatEnv=configHelper.currentConfig().getEnvironments().named(new CaseInsensitiveString("uat"));
+  uatEnv.addPipeline(new CaseInsensitiveString("go"));
+  uatEnv.addEnvironmentVariable("ENV_LVL","env value");
+  evolveConfig=configHelper.addPipeline("evolve",STAGE_NAME,repository,"unit");
+  goCache.clear();
+}

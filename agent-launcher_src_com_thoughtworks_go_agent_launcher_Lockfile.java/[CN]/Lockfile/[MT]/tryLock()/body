@@ -1,0 +1,18 @@
+{
+  if (exists()) {
+    String alreadyRunningMsg="Already running agent launcher in this folder.";
+    System.out.println(alreadyRunningMsg);
+    LOG.error(alreadyRunningMsg);
+    return false;
+  }
+  try {
+    setHooks();
+    return true;
+  }
+ catch (  IOException e) {
+    String lockFileFailMsg="Unable to lock file (" + lockFile.getAbsolutePath() + ")";
+    System.err.println(lockFileFailMsg);
+    LOG.error(lockFileFailMsg,e);
+    return false;
+  }
+}

@@ -1,0 +1,31 @@
+{
+  LOG.info("Running command: " + toStringForDisplay());
+  CompositeConsumer errorStreamConsumer=new CompositeConsumer(StreamLogger.getWarnLogger(LOG),buildOutputConsumer);
+  CompositeConsumer outputStreamConsumer=new CompositeConsumer(StreamLogger.getInfoLogger(LOG),buildOutputConsumer);
+  ProcessWrapper process;
+  int exitCode=-1;
+  SafeOutputStreamConsumer streamConsumer=null;
+  try {
+    streamConsumer=new SafeOutputStreamConsumer(new ProcessOutputStreamConsumer(outputStreamConsumer,errorStreamConsumer));
+    streamConsumer.addArguments(getArguments());
+    for (    EnvironmentVariableContext.EnvironmentVariable secureEnvironmentVariable : environmentVariableContext.getSecureEnvironmentVariables()) {
+      streamConsumer.addSecret(new PasswordArgument(secureEnvironmentVariable.value()));
+    }
+    process=startProcess(environmentVariableContext,streamConsumer,processTag);
+  }
+ catch (  CommandLineException e) {
+    String message=String.format("Error happened while attempting to execute '%s'. \nPlease make sure [%s] can be executed on this agent.\n",toStringForDisplay(),getExecutable());
+    String path=System.getenv("PATH");
+    streamConsumer.errOutput(message);
+    streamConsumer.errOutput(String.format("[Debug Information] Environment variable PATH: %s",path));
+    LOG.error(String.format("[Command Line] %s. Path: %s",message,path));
+    throw new CheckedCommandLineException(message,e);
+  }
+catch (  IOException e) {
+    String msg=String.format("Encountered an IO exception while attempting to execute '%s'. Go cannot continue.\n",toStringForDisplay());
+    streamConsumer.errOutput(msg);
+    throw new CheckedCommandLineException(msg,e);
+  }
+  exitCode=process.waitForExit();
+  script.setExitCode(exitCode);
+}

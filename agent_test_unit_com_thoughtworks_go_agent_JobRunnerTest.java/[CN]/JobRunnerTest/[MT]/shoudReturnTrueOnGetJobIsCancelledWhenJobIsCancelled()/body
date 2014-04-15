@@ -1,0 +1,5 @@
+{
+  assertThat(runner.isJobCancelled(),is(false));
+  runner.handleInstruction(new AgentInstruction(true),AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertThat(runner.isJobCancelled(),is(true));
+}

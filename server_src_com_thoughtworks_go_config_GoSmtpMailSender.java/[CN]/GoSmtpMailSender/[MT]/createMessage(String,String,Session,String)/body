@@ -1,0 +1,12 @@
+{
+  MimeMessage msg=new MimeMessage(session);
+  msg.setFrom(new InternetAddress(from));
+  msg.setRecipients(TO,to);
+  msg.setSubject(subject);
+  msg.setContent(msg,"text/plain");
+  msg.setSentDate(new Date());
+  msg.setText(body);
+  msg.setSender(new InternetAddress(from));
+  msg.setReplyTo(new InternetAddress[]{new InternetAddress(from)});
+  return msg;
+}

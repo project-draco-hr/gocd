@@ -1,0 +1,7 @@
+{
+  LogDirectory logDirectory=new LogDirectory(existingLogFolder.getAbsolutePath());
+  logDirectory.update(log4jPropertiesFile,new Validation());
+  String upgradedFile=readFileToString(log4jPropertiesFile);
+  assertThat(upgradedFile,containsString("log4j.logger.com.thoughtworks.go.server.Rails=WARN"));
+  assertThat(upgradedFile,not(containsString("#upgrade_check")));
+}

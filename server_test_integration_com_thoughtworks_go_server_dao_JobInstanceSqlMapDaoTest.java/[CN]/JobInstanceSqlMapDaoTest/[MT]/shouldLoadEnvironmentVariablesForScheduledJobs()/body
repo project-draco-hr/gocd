@@ -1,0 +1,19 @@
+{
+  JobInstance newInstance=new JobInstance(JOB_NAME);
+  newInstance.schedule();
+  JobInstance instance=jobInstanceDao.save(stageId,newInstance);
+  instance.setIdentifier(new JobIdentifier(savedPipeline,savedStage,instance));
+  EnvironmentVariablesConfig variables=new EnvironmentVariablesConfig();
+  variables.add("VARIABLE_NAME","variable value");
+  variables.add("TRIGGER_VAR","junk val");
+  JobPlan plan=new DefaultJobPlan(new Resources(),new ArtifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier(),null,variables,new EnvironmentVariablesConfig());
+  jobInstanceDao.save(instance.getId(),plan);
+  environmentVariableDao.save(savedPipeline.getId(),EnvironmentVariableDao.EnvironmentVariableType.Trigger,GoConfigFileHelper.env("TRIGGER_VAR","trigger val"));
+  List<JobPlan> retrieved=jobInstanceDao.orderedScheduledBuilds();
+  JobPlan reloadedPlan=planForJob(retrieved,plan.getJobId());
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  reloadedPlan.applyTo(context);
+  assertThat(reloadedPlan.getVariables(),is(plan.getVariables()));
+  assertThat(context.getProperty("VARIABLE_NAME"),is("variable value"));
+  assertThat(context.getProperty("TRIGGER_VAR"),is("trigger val"));
+}

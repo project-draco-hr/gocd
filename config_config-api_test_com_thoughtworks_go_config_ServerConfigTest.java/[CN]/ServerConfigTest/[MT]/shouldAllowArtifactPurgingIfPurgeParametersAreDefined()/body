@@ -1,0 +1,10 @@
+{
+  another=new ServerConfig("artifacts",new SecurityConfig(),10.0,20.0);
+  assertThat(another.isArtifactPurgingAllowed(),is(true));
+  another=new ServerConfig("artifacts",new SecurityConfig(),null,20.0);
+  assertThat(another.isArtifactPurgingAllowed(),is(false));
+  another=new ServerConfig("artifacts",new SecurityConfig(),10.0,null);
+  assertThat(another.isArtifactPurgingAllowed(),is(false));
+  another=new ServerConfig("artifacts",new SecurityConfig(),null,null);
+  assertThat(another.isArtifactPurgingAllowed(),is(false));
+}

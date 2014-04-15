@@ -1,0 +1,15 @@
+{
+  int returnValue=-1;
+  try {
+    returnValue=process.waitFor();
+    processOutputStream.readToEnd();
+    processErrorStream.readToEnd();
+  }
+ catch (  InterruptedException ignored) {
+    LOGGER.warn(ignored.getMessage(),ignored);
+  }
+ finally {
+    close();
+  }
+  return returnValue;
+}

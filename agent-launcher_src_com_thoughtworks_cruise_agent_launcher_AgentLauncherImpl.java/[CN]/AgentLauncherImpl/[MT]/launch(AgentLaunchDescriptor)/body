@@ -1,0 +1,35 @@
+{
+  Thread shutdownHook=null;
+  try {
+    LoggingHelper.configureLoggerIfNoneExists("go-agent-launcher.log","go-agent-launcher-log4j.properties");
+    int returnValue;
+    if (!lockFile.tryLock()) {
+      return IRRECOVERABLE_ERROR;
+    }
+    shutdownHook=registerShutdownHook();
+    ServerUrlGenerator urlGenerator=getUrlGenerator(descriptor);
+    ServerBinaryDownloader launcherDownloader=new ServerBinaryDownloader(urlGenerator,DownloadableFile.LAUNCHER);
+    ServerBinaryDownloader.DownloadResult downloadResult=launcherDownloader.downloadIfNecessary();
+    if (downloadResult.performedDownload) {
+      return LAUNCHER_NOT_UP_TO_DATE;
+    }
+    ServerBinaryDownloader agentDownloader=new ServerBinaryDownloader(urlGenerator,DownloadableFile.AGENT);
+    agentDownloader.downloadIfNecessary();
+    returnValue=agentProcessParentRunner.run(getLauncherVersion(),launcherDownloader.md5(),urlGenerator,System.getenv());
+    try {
+      Thread.sleep(1000);
+    }
+ catch (    InterruptedException e) {
+      return returnValue;
+    }
+    return returnValue;
+  }
+ catch (  Exception e) {
+    LOG.error("Launch encountered an unknown exception",e);
+    return UNKNOWN_EXCEPTION_OCCURRED;
+  }
+ finally {
+    removeShutDownHook(shutdownHook);
+    lockFile.delete();
+  }
+}

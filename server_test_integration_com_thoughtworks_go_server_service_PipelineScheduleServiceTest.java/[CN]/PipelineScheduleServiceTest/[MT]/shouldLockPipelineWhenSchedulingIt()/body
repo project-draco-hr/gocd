@@ -1,0 +1,14 @@
+{
+  scheduleAndCompleteInitialPipelines();
+  configHelper.lockPipeline("mingle");
+  Material stubMaterial=new TestingMaterial();
+  mingleConfig.setMaterialConfigs(new MaterialConfigs(stubMaterial.config()));
+  assertThat(pipelineLockService.isLocked("mingle"),is(false));
+  MaterialRevisions revisions=new MaterialRevisions();
+  revisions.addRevision(stubMaterial,((TestingMaterial)stubMaterial).modificationsSince(null,null,subprocessExecutionContext));
+  BuildCause buildCause=BuildCause.createWithModifications(revisions,"");
+  dbHelper.saveMaterials(buildCause.getMaterialRevisions());
+  Pipeline pipeline=instanceFactory.createPipelineInstance(mingleConfig,buildCause,new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  pipelineService.save(pipeline);
+  assertThat(pipelineLockService.isLocked("mingle"),is(true));
+}

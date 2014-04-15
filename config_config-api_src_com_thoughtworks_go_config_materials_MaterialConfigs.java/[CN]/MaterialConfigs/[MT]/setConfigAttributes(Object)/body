@@ -1,0 +1,29 @@
+{
+  clear();
+  if (attributes == null) {
+    return;
+  }
+  Map attributeMap=(Map)attributes;
+  String materialType=(String)attributeMap.get(AbstractMaterialConfig.MATERIAL_TYPE);
+  if (SvnMaterialConfig.TYPE.equals(materialType)) {
+    addMaterialConfig(getSvnMaterial(),(Map)attributeMap.get(SvnMaterialConfig.TYPE));
+  }
+ else   if (HgMaterialConfig.TYPE.equals(materialType)) {
+    addMaterialConfig(getHgMaterial(),(Map)attributeMap.get(HgMaterialConfig.TYPE));
+  }
+ else   if (GitMaterialConfig.TYPE.equals(materialType)) {
+    addMaterialConfig(getGitMaterial(),(Map)attributeMap.get(GitMaterialConfig.TYPE));
+  }
+ else   if (P4MaterialConfig.TYPE.equals(materialType)) {
+    addMaterialConfig(getP4Material(),(Map)attributeMap.get(P4MaterialConfig.TYPE));
+  }
+ else   if (DependencyMaterialConfig.TYPE.equals(materialType)) {
+    addMaterialConfig(getDependencyMaterial(),(Map)attributeMap.get(DependencyMaterialConfig.TYPE));
+  }
+ else   if (TfsMaterialConfig.TYPE.equals(materialType)) {
+    addMaterialConfig(getTfsMaterial(),(Map)attributeMap.get(TfsMaterialConfig.TYPE));
+  }
+ else   if (PackageMaterialConfig.TYPE.equals(materialType)) {
+    addMaterialConfig(getPackageMaterial(),(Map)attributeMap.get(PackageMaterialConfig.TYPE));
+  }
+}

@@ -1,0 +1,12 @@
+{
+  if (!goConfigService.hasPipelineNamed(new CaseInsensitiveString(pipelineName))) {
+    String pipelineNotKnown=String.format("Pipeline named [%s] is not known.",pipelineName);
+    result.notFound(pipelineNotKnown,pipelineNotKnown,HealthStateType.general(HealthStateScope.GLOBAL));
+    return false;
+  }
+  if (!securityService.hasViewPermissionForPipeline(username,pipelineName)) {
+    result.unauthorized(NOT_AUTHORIZED_TO_VIEW_PIPELINE,NOT_AUTHORIZED_TO_VIEW_PIPELINE,HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return false;
+  }
+  return true;
+}

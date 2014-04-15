@@ -1,0 +1,40 @@
+{
+  ArrayList<PageNumber> pages=new ArrayList<PageNumber>();
+  if (getCurrentPage() > getFirstPage()) {
+    pages.add(new PageNumber(getCurrentPage() - 1,"prev"));
+  }
+  if (getLastPage() < showAllPagesThreshold()) {
+    for (int i=1; i <= getLastPage(); i++) {
+      addPage(pages,i);
+    }
+  }
+ else {
+    if (getCurrentPage() <= endLength()) {
+      for (int i=1; i <= getCurrentPage() + NUMBER_OF_NEIGHBOURS; i++) {
+        addPage(pages,i);
+      }
+      pages.add(PageNumber.DOTS);
+      addPage(pages,getLastPage());
+    }
+ else     if (getCurrentPage() > getLastPage() - endLength()) {
+      addPage(pages,getFirstPage());
+      pages.add(PageNumber.DOTS);
+      for (int i=getCurrentPage() - NUMBER_OF_NEIGHBOURS; i <= getLastPage(); i++) {
+        addPage(pages,i);
+      }
+    }
+ else {
+      addPage(pages,getFirstPage());
+      pages.add(PageNumber.DOTS);
+      for (int i=getCurrentPage() - NUMBER_OF_NEIGHBOURS; i <= getCurrentPage() + NUMBER_OF_NEIGHBOURS; i++) {
+        addPage(pages,i);
+      }
+      pages.add(PageNumber.DOTS);
+      addPage(pages,getLastPage());
+    }
+  }
+  if (getLastPage() > getCurrentPage()) {
+    pages.add(new PageNumber(getCurrentPage() + 1,"next"));
+  }
+  return pages;
+}

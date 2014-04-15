@@ -1,0 +1,10 @@
+{
+  TfsCommand expectedTfsCommand=mock(TfsCommand.class);
+  TfsCommandFactory spyCommandFactory=spy(tfsCommandFactory);
+  TfsSDKCommandBuilder commandBuilder=mock(TfsSDKCommandBuilder.class);
+  doReturn(commandBuilder).when(spyCommandFactory).getSDKBuilder();
+  when(commandBuilder.buildTFSSDKCommand("fingerprint",URL,DOMAIN,USERNAME,PASSWORD,computedWorkspaceName,PROJECT_PATH)).thenReturn(expectedTfsCommand);
+  TfsCommand actualTfsCommand=spyCommandFactory.create(executionContext,URL,DOMAIN,USERNAME,PASSWORD,"fingerprint",PROJECT_PATH);
+  assertThat(actualTfsCommand,is(expectedTfsCommand));
+  verify(commandBuilder).buildTFSSDKCommand("fingerprint",URL,DOMAIN,USERNAME,PASSWORD,computedWorkspaceName,PROJECT_PATH);
+}

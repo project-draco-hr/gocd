@@ -1,0 +1,10 @@
+{
+  try {
+    String p4XML=this.getClass().getResource("/data/p4-cruise-config-empty-view.xml").getFile();
+    loadWithMigration(p4XML);
+    fail("Should not accept p4 section with empty view.");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("P4 view cannot be empty."));
+  }
+}

@@ -1,0 +1,9 @@
+{
+  if ("Array".equals(o.getPrototype().getClassName())) {
+    return parseList(o);
+  }
+ else   if ("Object".equals(o.getPrototype().getClassName())) {
+    return parseMap(o);
+  }
+  throw bomb("Unknown type: " + o.getPrototype().getClassName());
+}

@@ -1,0 +1,22 @@
+{
+  JobInstances builds=new JobInstances();
+  final JobInstance withStackTrace=context.mock(JobInstance.class,"withStackTrace");
+  final JobInstance withoutStackTrace=context.mock(JobInstance.class,"withoutStackTrace");
+  builds.add(withStackTrace);
+  builds.add(withoutStackTrace);
+  context.checking(new Expectations(){
+{
+      one(withStackTrace).getStacktrace();
+      will(returnValue("stacktrace"));
+      one(withStackTrace).getName();
+      will(returnValue("name"));
+      one(withoutStackTrace).getStacktrace();
+      will(returnValue(""));
+      one(withoutStackTrace).getName();
+      will(returnValue("name1"));
+    }
+  }
+);
+  List<JobInstance> stacktraces=builds.withNonEmptyStacktrace();
+  assertThat(stacktraces.size(),is(1));
+}

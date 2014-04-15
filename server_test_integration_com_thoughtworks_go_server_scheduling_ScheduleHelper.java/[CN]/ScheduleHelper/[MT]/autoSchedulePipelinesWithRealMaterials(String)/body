@@ -1,0 +1,14 @@
+{
+  updateMaterials(pipelines);
+  long startTime=System.currentTimeMillis();
+  pipelineScheduler.onTimer();
+  if (pipelines.length == 0) {
+    assertAlwaysHappens(pipelines,ScheduleCheckMatcher.scheduleCheckCompleted(scheduleCompleteListener),waitTime());
+  }
+ else {
+    assertWillHappen(pipelines,ScheduleCheckMatcher.scheduleCheckCompleted(scheduleCompleteListener),Timeout.TWENTY_SECONDS);
+    long endTime=System.currentTimeMillis();
+    setWaitTime(endTime - startTime);
+  }
+  scheduleCompleteListener.reset();
+}

@@ -1,0 +1,12 @@
+{
+  this.systemEnvironment=systemEnvironment;
+  this.stageIdentifier=stageIdentifier;
+  this.failedTestSuites=failedTestSuites;
+  emailBody=new StringBuilder();
+  if (!Username.BLANK.equals(cancelledBy)) {
+    emailBody.append("The stage was cancelled by ").append(CaseInsensitiveString.str(cancelledBy.getUsername())).append(".\n");
+  }
+  addStageLink();
+  addFailedTests();
+  addMaterialRevisions(materialRevisions);
+}

@@ -1,0 +1,15 @@
+{
+  String version=null;
+  try {
+    JarFile jarFile=new JarFile(jar);
+    Manifest manifest=jarFile.getManifest();
+    if (manifest != null) {
+      Attributes attributes=manifest.getMainAttributes();
+      version=attributes.getValue(key);
+    }
+  }
+ catch (  IOException e) {
+    LOG.error("Exception while trying to read Go-Version from " + jar + ":"+ e.toString());
+  }
+  return version;
+}

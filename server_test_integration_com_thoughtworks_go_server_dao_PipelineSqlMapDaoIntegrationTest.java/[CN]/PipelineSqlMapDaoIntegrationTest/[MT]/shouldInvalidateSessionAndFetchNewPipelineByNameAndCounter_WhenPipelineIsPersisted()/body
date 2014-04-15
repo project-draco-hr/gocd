@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createWithEmptyModifications());
+  assertThat(pipelineDao.findPipelineByNameAndCounter("Test",1),is(nullValue()));
+  savePipeline(pipeline);
+  Pipeline loadedPipeline=pipelineDao.findPipelineByNameAndCounter("Test",pipeline.getCounter());
+  assertThat(pipelineDao.findPipelineByNameAndCounter("Test",1),is(not(nullValue())));
+  assertThat(loadedPipeline.getId(),is(pipeline.getId()));
+}

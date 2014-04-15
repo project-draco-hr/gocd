@@ -1,0 +1,8 @@
+{
+  WebApplicationContext appContext=WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
+  if (this.licenseInterceptor == null) {
+    GoLicenseService licenseService=(GoLicenseService)appContext.getBean("goLicenseService");
+    licenseInterceptor=new LicenseInterceptor(licenseService);
+  }
+  logRequestTimings=new SystemEnvironment().getEnableRequestTimeLogging();
+}

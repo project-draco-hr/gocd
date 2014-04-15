@@ -1,0 +1,16 @@
+{
+  final GoConfigService service=mock.mock(GoConfigService.class);
+  mock.checking(new Expectations(){
+{
+      one(service).isPipelineEmpty();
+      will(returnValue(true));
+      one(service).isAdministrator(CaseInsensitiveString.str(Username.ANONYMOUS.getUsername()));
+      will(returnValue(true));
+    }
+  }
+);
+  TabController controller=new TabController(service,localizer);
+  StubResponse response=new StubResponse();
+  assertThat(controller.handleOldPipelineTab(new MockHttpServletRequest(),response),is(nullValue()));
+  assertThat(response.url,is(String.format("admin/pipeline/new?group=%s",PipelineConfigs.DEFAULT_GROUP)));
+}

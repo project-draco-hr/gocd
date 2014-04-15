@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=PipelineMother.pipeline("pipeline1",StageMother.custom("stage1"));
+  Builder expectedBuilder=myFakeBuilder();
+  when(expectedBuilderToBeUsed.createBuilder(builderFactory,task,pipeline,pipelineResolver)).thenReturn(expectedBuilder);
+  Builder builder=builderFactory.builderFor(task,pipeline,pipelineResolver);
+  assertThat(builder,is(expectedBuilder));
+}

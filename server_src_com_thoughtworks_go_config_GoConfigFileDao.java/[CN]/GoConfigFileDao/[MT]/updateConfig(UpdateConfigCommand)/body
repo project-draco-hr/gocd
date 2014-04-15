@@ -1,0 +1,24 @@
+{
+  Context context=metricsProbeService.begin(ProbeType.UPDATE_CONFIG);
+  try {
+synchronized (writeLock) {
+      try {
+        if (command instanceof CheckedUpdateCommand) {
+          CheckedUpdateCommand checkedCommand=(CheckedUpdateCommand)command;
+          if (!checkedCommand.canContinue(cachedConfigService.currentConfig())) {
+            throw new ConfigUpdateCheckFailedException();
+          }
+        }
+        return cachedConfigService.writeWithLock(command);
+      }
+  finally {
+        if (command instanceof ConfigAwareUpdate) {
+          ((ConfigAwareUpdate)command).afterUpdate(clonedConfig());
+        }
+      }
+    }
+  }
+  finally {
+    metricsProbeService.end(ProbeType.UPDATE_CONFIG,context);
+  }
+}

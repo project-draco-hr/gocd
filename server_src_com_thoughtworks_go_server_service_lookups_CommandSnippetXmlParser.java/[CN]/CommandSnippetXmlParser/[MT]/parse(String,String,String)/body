@@ -1,0 +1,20 @@
+{
+  try {
+    XmlUtils.validate(xmlContent,CommandSnippet.class.getResource("command-snippet.xsd"),new XsdErrorTranslator(),new SAXBuilder());
+    Document document=XmlUtils.buildXmlDocument(xmlContent);
+    CommandSnippetComment comment=getComment(document);
+    Element execTag=document.getRootElement();
+    String commandName=execTag.getAttributeValue("command");
+    List<String> arguments=new ArrayList<String>();
+    for (    Object child : execTag.getChildren()) {
+      Element element=(Element)child;
+      arguments.add(element.getValue());
+    }
+    return new CommandSnippet(commandName,arguments,comment,fileName,relativeFilePath);
+  }
+ catch (  Exception e) {
+    String errorMessage=String.format("Reason: %s",e.getMessage());
+    LOGGER.info(String.format("Could not load command '%s'. %s",fileName,errorMessage));
+    return CommandSnippet.invalid(fileName,errorMessage,new EmptySnippetComment());
+  }
+}

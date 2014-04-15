@@ -1,0 +1,24 @@
+{
+  Date old=new DateTime().minusDays(2).toDate();
+  JobInstance rails=jobInstance(old,"rails",7,10);
+  JobInstance java=jobInstance(old,"java",12,22);
+  Stage stage=stage(9,rails,java);
+  stage.setCounter(2);
+  Stage newStage=instanceFactory.createStageForRerunOfJobs(stage,a("rails"),new DefaultSchedulingContext("loser",new Agents()),StageConfigMother.custom("dev","rails","java"),new TimeProvider(),"md5");
+  newStage.setCounter(3);
+  assertThat(newStage.getId(),CoreMatchers.is(-1l));
+  assertThat(newStage.getJobInstances().size(),CoreMatchers.is(2));
+  assertThat(newStage.isLatestRun(),CoreMatchers.is(true));
+  assertThat(newStage.getRerunOfCounter(),CoreMatchers.is(2));
+  JobInstance newJava=newStage.getJobInstances().getByName("java");
+  assertCopiedJob(newJava,12l);
+  newJava.setId(18l);
+  newStage=instanceFactory.createStageForRerunOfJobs(newStage,a("rails"),new DefaultSchedulingContext("loser",new Agents()),StageConfigMother.custom("dev","rails","java"),new TimeProvider(),"md5");
+  newStage.setCounter(4);
+  assertThat(newStage.getId(),CoreMatchers.is(-1l));
+  assertThat(newStage.getJobInstances().size(),CoreMatchers.is(2));
+  assertThat(newStage.isLatestRun(),CoreMatchers.is(true));
+  assertThat(newStage.getRerunOfCounter(),CoreMatchers.is(2));
+  newJava=newStage.getJobInstances().getByName("java");
+  assertCopiedJob(newJava,12l);
+}

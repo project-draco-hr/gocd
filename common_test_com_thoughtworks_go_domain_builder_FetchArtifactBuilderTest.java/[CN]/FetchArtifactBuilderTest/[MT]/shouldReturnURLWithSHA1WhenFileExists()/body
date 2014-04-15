@@ -1,0 +1,17 @@
+{
+  String src="cruise-output/console.log";
+  File destOnAgent=new File("pipelines" + '/' + "cruise"+ '/'+ dest);
+  File consolelog=new File(destOnAgent,"console.log");
+  consolelog.getParentFile().mkdirs();
+  consolelog.createNewFile();
+  toClean.add(destOnAgent);
+  FetchArtifactBuilder builder=getBuilder(new JobIdentifier("foo",-1,"label-1","dev","1","linux",1L),src,"lib/a.jar",new FileHandler(consolelog,getSrc()),checksumFileHandler);
+  when(urlService.baseRemoteURL()).thenReturn("http://foo.bar:8153/go");
+  when(checksumFileHandler.url("http://foo.bar:8153/go","foo/label-1/dev/1/linux")).thenReturn("http://foo.bar:8153/go/files/foo/label-1/dev/1/linux/cruise-output/md5.checksum");
+  java.util.Properties properties=new java.util.Properties();
+  when(checksumFileHandler.getArtifactMd5Checksums()).thenReturn(new ArtifactMd5Checksums(properties));
+  builder.fetch(downloadAction,urlService);
+  verify(downloadAction).perform(Mockito.eq("http://foo.bar:8153/go/files/foo/label-1/dev/1/linux/cruise-output/md5.checksum"),any(FetchHandler.class));
+  verify(downloadAction).perform(Mockito.eq("http://foo.bar:8153/go/remoting/files/foo/label-1/dev/1/linux/cruise-output/console.log?sha1=2jmj7l5rSw0yVb%2FvlWAYkK%2FYBwk%3D"),any(ChecksumFileHandler.class));
+  verifyNoMoreInteractions(downloadAction);
+}

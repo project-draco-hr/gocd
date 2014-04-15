@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=createPipelineWithStagesAndMods();
+  JobInstance job=pipeline.getFirstStage().getJobInstances().first();
+  Pipeline slimPipeline=pipelineService.wrapBuildDetails(job);
+  assertThat(slimPipeline.getBuildCause().getMaterialRevisions().totalNumberOfModifications(),is(1));
+  assertThat(slimPipeline.getName(),is(pipeline.getName()));
+  assertThat(slimPipeline.getFirstStage().getJobInstances().size(),is(1));
+}

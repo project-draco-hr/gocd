@@ -1,0 +1,5 @@
+{
+  checkinFile(SvnMaterial.createSvnMaterialWithMock(repository),"a.java",svnRepository);
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(MINGLE_PIPELINE_NAME);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),hasItem(MINGLE_PIPELINE_NAME));
+}

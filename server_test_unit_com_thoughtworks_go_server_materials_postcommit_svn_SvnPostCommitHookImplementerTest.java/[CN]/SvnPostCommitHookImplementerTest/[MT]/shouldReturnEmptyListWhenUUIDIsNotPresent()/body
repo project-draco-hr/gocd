@@ -1,0 +1,9 @@
+{
+  final SvnMaterial svnMaterial1=mock(SvnMaterial.class);
+  final HashSet<Material> allMaterials=new HashSet<Material>();
+  allMaterials.add(svnMaterial1);
+  final SvnPostCommitHookImplementer spy=spy(implementer);
+  final Set<Material> prunedList=spy.prune(allMaterials,new HashMap());
+  assertThat(prunedList.size(),is(0));
+  verify(spy,never()).isQualified(anyString(),any(SvnMaterial.class),any(HashMap.class));
+}

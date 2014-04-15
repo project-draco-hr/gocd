@@ -1,0 +1,7 @@
+{
+  user=new User("UserName",new String[]{"Jez,Pavan"},"user@mail.com",true);
+  HashMap<String,Object> data=new HashMap<String,Object>();
+  user.populateModel(data);
+  Object value=data.get("matchers");
+  assertThat((Matcher)value,is(new Matcher("Jez,Pavan")));
+}

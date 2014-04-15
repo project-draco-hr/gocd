@@ -1,0 +1,9 @@
+{
+  BuildCause buildCause=BuildCause.createWithEmptyModifications();
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  DependencyMaterialRevision materialRevision=DependencyMaterialRevision.create(upstreamPipelineName,upstreamPipelineCounter,upstreamPipelineLabel,upstreamStageName,upstreamStageCounter);
+  MaterialRevision withRevision=materialRevision.convert(new DependencyMaterial(new CaseInsensitiveString(upstreamPipelineName),new CaseInsensitiveString(upstreamStageName)),new Date());
+  materialRevisions.addRevision(withRevision);
+  buildCause.setMaterialRevisions(materialRevisions);
+  return buildCause;
+}

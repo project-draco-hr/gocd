@@ -1,0 +1,31 @@
+{
+  SvnMaterial svn1=SvnMaterial.createSvnMaterialWithMock(repository);
+  svn1.setFolder("another_repo");
+  mingleConfig=configHelper.replaceMaterialForPipeline(MINGLE_PIPELINE_NAME,svn1.config());
+  runAndPassWith(svn1,"foo.c",svnRepository);
+  SvnTestRepo svn2Repository=new SvnTestRepo("testSvnRepo2");
+  Subversion repository2=new SvnCommand(null,svn2Repository.projectRepositoryUrl());
+  SvnMaterial svn2=SvnMaterial.createSvnMaterialWithMock(repository2);
+  svn2.setFolder("boulder");
+  checkinFile(svn2,"bar.c",svn2Repository);
+  mingleConfig=configHelper.addMaterialToPipeline(MINGLE_PIPELINE_NAME,svn2.config());
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(MINGLE_PIPELINE_NAME);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),hasItem(MINGLE_PIPELINE_NAME));
+  BuildCause mingleBuildCause=pipelineScheduleQueue.toBeScheduled().get(MINGLE_PIPELINE_NAME);
+  verifyChanged(svn2,mingleBuildCause,true);
+  verifyChanged(svn1,mingleBuildCause,false);
+  runAndPass(mingleBuildCause.getMaterialRevisions());
+  mingleConfig=configHelper.replaceMaterialForPipeline(MINGLE_PIPELINE_NAME,svn1.config());
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(MINGLE_PIPELINE_NAME);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),hasItem(MINGLE_PIPELINE_NAME));
+  mingleBuildCause=pipelineScheduleQueue.toBeScheduled().get(MINGLE_PIPELINE_NAME);
+  verifyChanged(svn1,mingleBuildCause,false);
+  runAndPassWith(svn1,"baz.c",svnRepository);
+  mingleConfig=configHelper.addMaterialToPipeline(MINGLE_PIPELINE_NAME,svn2.config());
+  checkinFile(svn1,"quux.c",svnRepository);
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(MINGLE_PIPELINE_NAME);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),hasItem(MINGLE_PIPELINE_NAME));
+  mingleBuildCause=pipelineScheduleQueue.toBeScheduled().get(MINGLE_PIPELINE_NAME);
+  verifyChanged(svn2,mingleBuildCause,false);
+  verifyChanged(svn1,mingleBuildCause,true);
+}

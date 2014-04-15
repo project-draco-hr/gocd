@@ -1,0 +1,11 @@
+{
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("pattern","%" + pattern.toLowerCase() + "%").and("rawPattern",pattern.toLowerCase()).and("limit",limit).asMap();
+  long begin=System.currentTimeMillis();
+  List<PipelineInstanceModel> matchingPIMs=(List<PipelineInstanceModel>)getSqlMapClientTemplate().queryForList("findMatchingPipelineInstances",args);
+  List<PipelineInstanceModel> exactMatchingPims=(List<PipelineInstanceModel>)getSqlMapClientTemplate().queryForList("findExactMatchingPipelineInstances",args);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("[Compare Pipelines] Query initiated for pipeline %s with pattern %s. Query execution took %s milliseconds",pipelineName,pattern,System.currentTimeMillis() - begin));
+  }
+  exactMatchingPims.addAll(matchingPIMs);
+  return PipelineInstanceModels.createPipelineInstanceModels(exactMatchingPims);
+}

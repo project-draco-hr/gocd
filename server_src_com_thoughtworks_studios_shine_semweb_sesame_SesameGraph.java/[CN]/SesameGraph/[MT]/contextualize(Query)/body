@@ -1,0 +1,15 @@
+{
+  if (contextVar == null) {
+    return;
+  }
+  TupleExpr tupleExpr=((SailQuery)query).getParsedQuery().getTupleExpr();
+  tupleExpr.visit(new QueryModelVisitorBase(){
+    public void meet(    StatementPattern node) throws Exception {
+      if (node.getContextVar() != null) {
+        throw new UnsupportedSPARQLStatementException("Attempted to execute a SPARQL statement with a GRAPH clause against a context aware graph.");
+      }
+      node.setContextVar(contextVar);
+    }
+  }
+);
+}

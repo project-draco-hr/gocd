@@ -1,0 +1,12 @@
+{
+  Username username=new Username(new CaseInsensitiveString("user"));
+  Validatable packageRepository=new PackageRepository();
+  ((PackageRepository)packageRepository).setId("id");
+  Validatable cruiseConfig=GoConfigMother.configWithPipelines("sample");
+  ((CruiseConfig)cruiseConfig).getPackageRepositories().add((PackageRepository)packageRepository);
+  UpdateConfigFromUI updateCommand=service.getPackageRepositoryUpdateCommand((PackageRepository)packageRepository,username);
+  assertThat(updateCommand.node((CruiseConfig)cruiseConfig),is(cruiseConfig));
+  assertThat(updateCommand.updatedNode((CruiseConfig)cruiseConfig),is(cruiseConfig));
+  assertThat(updateCommand.subject(cruiseConfig),is(packageRepository));
+  assertThat(updateCommand.updatedSubject(cruiseConfig),is(packageRepository));
+}

@@ -1,0 +1,31 @@
+{
+  FileUtils.copyDirectoryToDirectory(new File("target/webapp/stylesheets/css_sass"),new File("webapp/stylesheets"));
+  File path=new File("target/classes");
+  File webapp=new File("webapp");
+  if (!webapp.exists()) {
+    throw new RuntimeException("No webapp found in " + webapp.getAbsolutePath());
+  }
+  if (!path.exists()) {
+    throw new Exception("run b clean cruise:prepare");
+  }
+  copyActivatorJarToClassPath();
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  systemEnvironment.setProperty(SystemEnvironment.PARENT_LOADER_PRIORITY,"true");
+  systemEnvironment.setProperty(SystemEnvironment.CRUISE_SERVER_WAR_PROPERTY,webapp.getAbsolutePath());
+  systemEnvironment.set(SystemEnvironment.DEFAULT_PLUGINS_ZIP,"/plugins.zip");
+  systemEnvironment.set(SystemEnvironment.PLUGIN_ACTIVATOR_JAR_PATH,"go-plugin-activator.jar");
+  systemEnvironment.setProperty(GoConstants.I18N_CACHE_LIFE,"0");
+  File pluginsDist=new File("../tw-go-plugins/dist/");
+  if (pluginsDist.exists()) {
+    new ZipUtil().zipFolderContents(pluginsDist,new File(path,"plugins.zip"));
+  }
+  GoServer server=new GoServer();
+  systemEnvironment.setProperty(GoConstants.USE_COMPRESSED_JAVASCRIPT,Boolean.toString(false));
+  try {
+    server.startServer();
+  }
+ catch (  Exception e) {
+    System.err.println("Failed to start Go server. Exception:");
+    e.printStackTrace();
+  }
+}

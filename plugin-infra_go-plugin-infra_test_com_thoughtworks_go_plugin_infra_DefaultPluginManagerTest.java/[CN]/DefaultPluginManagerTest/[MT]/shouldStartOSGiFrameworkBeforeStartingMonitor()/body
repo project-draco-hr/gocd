@@ -1,0 +1,6 @@
+{
+  new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,systemEnvironment).startPluginInfrastructure();
+  InOrder inOrder=inOrder(goPluginOSGiFramework,monitor);
+  inOrder.verify(goPluginOSGiFramework).start();
+  inOrder.verify(monitor).start();
+}

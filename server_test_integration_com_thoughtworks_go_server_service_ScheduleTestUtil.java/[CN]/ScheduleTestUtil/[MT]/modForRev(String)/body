@@ -1,0 +1,14 @@
+{
+  return (Modification)materialRepository.getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      Query q=session.createQuery("from Modification where revision = ?");
+      q.setParameter(0,revision);
+      List list=q.list();
+      if (list.isEmpty()) {
+        throw new RuntimeException("you are trying to load revision " + revision + " which doesn't exist");
+      }
+      return list.get(0);
+    }
+  }
+);
+}

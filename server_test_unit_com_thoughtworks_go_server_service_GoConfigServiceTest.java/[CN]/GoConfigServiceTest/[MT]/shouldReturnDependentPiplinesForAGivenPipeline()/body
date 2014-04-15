@@ -1,0 +1,8 @@
+{
+  PipelineConfig up=createPipelineConfig("blahPipeline","blahStage");
+  up.addMaterialConfig(MaterialConfigsMother.hgMaterialConfig());
+  PipelineConfig down1=GoConfigMother.createPipelineConfigWithMaterialConfig("down1",new DependencyMaterialConfig(new CaseInsensitiveString("blahPipeline"),new CaseInsensitiveString("blahStage")));
+  PipelineConfig down2=GoConfigMother.createPipelineConfigWithMaterialConfig("down2",new DependencyMaterialConfig(new CaseInsensitiveString("blahPipeline"),new CaseInsensitiveString("blahStage")));
+  when(goConfigFileDao.load()).thenReturn(configWith(up,down1,down2,GoConfigMother.createPipelineConfigWithMaterialConfig("otherPipeline",new DependencyMaterialConfig(new CaseInsensitiveString("someotherpipeline"),new CaseInsensitiveString("blahStage")))));
+  assertThat(goConfigService.downstreamPipelinesOf("blahPipeline"),is(Arrays.asList(down1,down2)));
+}

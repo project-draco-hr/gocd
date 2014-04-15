@@ -1,0 +1,18 @@
+{
+  serverHealthService.update(ServerHealthState.success(HealthStateType.commandRepositoryAccessibilityIssue()));
+  try {
+    File commandRepositoryDirectory=new File(repositoryDirectory);
+    if (commandRepositoryDirectory.isDirectory() && commandRepositoryDirectory.canRead() && commandRepositoryDirectory.canExecute()) {
+      return new CommandSnippets(walk(commandRepositoryDirectory));
+    }
+ else {
+      throw new IOException("Failed to access command repository located in Go Server Directory at " + repositoryDirectory + ". The directory does not exist or Go does not have sufficient permissions to access it.");
+    }
+  }
+ catch (  IOException e) {
+    ServerHealthState serverHealthState=ServerHealthState.warning("Command Repository",e.getMessage(),HealthStateType.commandRepositoryAccessibilityIssue(),systemEnvironment.getCommandRepoWarningTimeout());
+    serverHealthService.update(serverHealthState);
+    LOGGER.warn(e.getMessage());
+  }
+  return new CommandSnippets(new ArrayList<CommandSnippet>());
+}

@@ -1,0 +1,6 @@
+{
+  StageConfigIdentifier stage=new StageConfigIdentifier("cruise","dev");
+  stageResultCache.updateCache(stage,StageResult.Failed);
+  stageResultCache.updateCache(stage,StageResult.Passed);
+  assertThat(stageResultCache.previousResult(stage),is(StageResult.Failed));
+}

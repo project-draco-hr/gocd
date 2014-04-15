@@ -1,0 +1,6 @@
+{
+  configHelper=new GoConfigFileHelper().usingCruiseConfigDao(dao);
+  fixture=new PipelineWithMultipleStages(3,materialRepository,transactionTemplate);
+  fixture.usingThreeJobs();
+  fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+}

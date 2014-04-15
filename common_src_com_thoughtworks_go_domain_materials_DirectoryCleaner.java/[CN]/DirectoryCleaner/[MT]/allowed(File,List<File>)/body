@@ -1,0 +1,11 @@
+{
+  try {
+    if (!FileUtil.isSubdirectoryOf(baseFolder,allowedDir)) {
+      throw new RuntimeException("Cannot clean directory." + " Folder " + allowedDir.getAbsolutePath() + " is outside the base folder "+ baseFolder);
+    }
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Cannot clean directory." + " Folder " + allowedDir.getAbsolutePath() + " is outside the base folder "+ baseFolder);
+  }
+  allow(allowedDir,allowedDirs);
+}

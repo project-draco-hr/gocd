@@ -1,0 +1,16 @@
+{
+  context=new ClassMockery();
+  buildAssignmentService=context.mock(BuildAssignmentService.class);
+  agentService=context.mock(AgentService.class);
+  BuildAssignmentServiceAssigner assigner=new BuildAssignmentServiceAssigner(agentService,buildAssignmentService);
+  context.checking(new Expectations(){
+{
+      one(agentService).findAgentAndRefreshStatus("uuid");
+      will(returnValue(AN_AGENT));
+      one(buildAssignmentService).assignWorkToAgent(AN_AGENT);
+      will(returnValue(SOME_WORK));
+    }
+  }
+);
+  assigner.assignWorkToAgent(new AgentIdentifier("localhost","127.0.0.1","uuid"));
+}

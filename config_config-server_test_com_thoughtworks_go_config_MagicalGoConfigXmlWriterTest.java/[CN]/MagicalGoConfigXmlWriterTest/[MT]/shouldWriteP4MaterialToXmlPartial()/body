@@ -1,0 +1,7 @@
+{
+  String encryptedPassword=new GoCipher().encrypt("password");
+  P4MaterialConfig p4MaterialConfig=com.thoughtworks.go.helper.MaterialConfigsMother.p4MaterialConfig();
+  p4MaterialConfig.setPassword("password");
+  p4MaterialConfig.setConfigAttributes(m(P4MaterialConfig.SERVER_AND_PORT,"localhost:1666",P4MaterialConfig.USERNAME,"cruise",P4MaterialConfig.VIEW,"//depot/dir1/... //lumberjack/...",P4MaterialConfig.AUTO_UPDATE,"true"));
+  assertThat(xmlWriter.toXmlPartial(p4MaterialConfig),is("<p4 port=\"localhost:1666\" username=\"cruise\" encryptedPassword=\"" + encryptedPassword + "\">\n"+ "  <view><![CDATA["+ "//depot/dir1/... //lumberjack/..."+ "]]></view>\n"+ "</p4>"));
+}

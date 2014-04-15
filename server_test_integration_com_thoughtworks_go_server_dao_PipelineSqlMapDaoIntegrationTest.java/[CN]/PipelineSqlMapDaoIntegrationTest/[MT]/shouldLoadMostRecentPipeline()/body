@@ -1,0 +1,8 @@
+{
+  String stageName="dev";
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle",stageName);
+  Pipeline mingle=schedulePipelineWithStages(mingleConfig);
+  Pipeline mostRecentPipeline=pipelineDao.mostRecentPipeline(mingle.getName());
+  assertThat(mostRecentPipeline,hasSameId(mingle));
+  assertThat(mostRecentPipeline.getBuildCause().getMaterialRevisions().totalNumberOfModifications(),is(1));
+}

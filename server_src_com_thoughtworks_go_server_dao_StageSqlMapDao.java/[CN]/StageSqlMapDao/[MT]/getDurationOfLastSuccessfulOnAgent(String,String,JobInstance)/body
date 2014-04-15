@@ -1,0 +1,22 @@
+{
+  String key=job.getBuildDurationKey(pipelineName,stageName);
+  Long duration;
+  try {
+    duration=(Long)cache.getFromCache(key,CacheEntry.INDEFINITE_EXPIRY);
+  }
+ catch (  NeedsRefreshException nre) {
+    boolean updated=false;
+    try {
+      duration=recalculateBuildDuration(pipelineName,stageName,job);
+      cache.putInCache(key,duration);
+      updated=true;
+    }
+  finally {
+      if (!updated) {
+        cache.cancelUpdate(key);
+        LOGGER.warn("refresh cancelled for " + key);
+      }
+    }
+  }
+  return duration;
+}

@@ -1,0 +1,9 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  List<Modification> modifications=this.hgMaterial.latestModification(workingFolder,subprocessExecutionContext);
+  materialRevisions.addRevision(this.hgMaterial,modifications);
+  BuildCause buildCause=BuildCause.createWithModifications(materialRevisions,"");
+  latestPipeline=PipelineMother.schedule(mingleConfig,buildCause);
+  latestPipeline=dbHelper.savePipelineWithStagesAndMaterials(latestPipeline);
+  dbHelper.passStage(latestPipeline.getStages().first());
+}

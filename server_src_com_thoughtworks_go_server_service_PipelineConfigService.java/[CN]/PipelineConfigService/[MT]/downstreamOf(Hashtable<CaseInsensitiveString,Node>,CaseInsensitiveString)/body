@@ -1,0 +1,8 @@
+{
+  for (  Map.Entry<CaseInsensitiveString,Node> entry : pipelineToUpstream.entrySet()) {
+    if (entry.getValue().hasDependency(pipelineName)) {
+      return entry.getKey();
+    }
+  }
+  return null;
+}

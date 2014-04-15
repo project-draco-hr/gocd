@@ -1,0 +1,9 @@
+{
+  SvnMaterial material=MaterialsMother.svnMaterial("url");
+  JsonMap json=new JsonMap();
+  material.toJson(json,revision);
+  JsonValue jsonValue=JsonUtils.from(json);
+  assertThat(jsonValue.getString("scmType"),is("Subversion"));
+  assertThat(new File(jsonValue.getString("location")),is(new File(material.getUrl())));
+  assertThat(jsonValue.getString("action"),is("Modified"));
+}

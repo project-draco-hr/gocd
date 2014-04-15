@@ -1,0 +1,18 @@
+{
+  MaterialInstance materialInstance=findMaterialInstance(material);
+  if (materialInstance == null) {
+    return new MaterialRevisions();
+  }
+  File folder=new File(new File("pipelines","flyweight"),materialInstance.getFlyweightName());
+  Materials materials=new Materials();
+  materialExpansionService.expandForHistory(material,materials);
+  MaterialRevisions allModifications=new MaterialRevisions();
+  for (  Material expanded : materials) {
+    final MaterialInstance expandedInstance=findOrCreateFrom(expanded);
+    Modification modification=findLatestModification(expandedInstance);
+    if (modification != null) {
+      allModifications.addRevision(expanded,modification);
+    }
+  }
+  return allModifications;
+}

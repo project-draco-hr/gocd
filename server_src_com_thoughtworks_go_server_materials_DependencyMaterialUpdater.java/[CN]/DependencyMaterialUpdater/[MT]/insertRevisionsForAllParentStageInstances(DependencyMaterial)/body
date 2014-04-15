@@ -1,0 +1,13 @@
+{
+  Pagination pagination=Pagination.pageStartingAt(0,null,MaterialDatabaseUpdater.STAGES_PER_PAGE);
+  List<Modification> modifications;
+  do {
+    modifications=dependencyMaterialSourceDao.getPassedStagesByName(dependencyMaterial,pagination);
+    for (    Modification modification : modifications) {
+      MaterialRevision revision=new MaterialRevision(dependencyMaterial,modification);
+      materialRepository.saveMaterialRevision(revision);
+    }
+    pagination=Pagination.pageStartingAt(pagination.getOffset() + pagination.getPageSize(),null,pagination.getPageSize());
+  }
+ while (!modifications.isEmpty());
+}

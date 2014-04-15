@@ -1,0 +1,9 @@
+{
+  AgentConfig agentConfig=agent.agentConfig();
+  if (this.agents().hasAgentIdentifiedWith(agentConfig.getUuid())) {
+    this.updateAgentApprovalStatus(agentConfig.getUuid(),agentConfig.isDisabled());
+  }
+ else {
+    this.addAgent(agentConfig);
+  }
+}

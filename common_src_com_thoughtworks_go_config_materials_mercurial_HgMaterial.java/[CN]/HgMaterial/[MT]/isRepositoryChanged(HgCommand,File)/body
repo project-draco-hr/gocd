@@ -1,0 +1,8 @@
+{
+  ConsoleResult result=hgCommand.workingRepositoryUrl();
+  if (LOG.isTraceEnabled()) {
+    LOG.trace("Current repository url of [" + workingDirectory + "]: "+ result.outputForDisplayAsString());
+    LOG.trace("Target repository url: " + url);
+  }
+  return !MaterialUrl.sameUrl(url.forCommandline(),result.outputAsString());
+}

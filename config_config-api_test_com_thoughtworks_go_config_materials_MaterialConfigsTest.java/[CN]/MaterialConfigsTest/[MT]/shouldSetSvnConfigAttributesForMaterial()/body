@@ -1,0 +1,13 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  Map<String,Object> svnAttrMap=new HashMap<String,Object>();
+  svnAttrMap.put(SvnMaterialConfig.URL,"foo");
+  svnAttrMap.put(SvnMaterialConfig.USERNAME,"bar");
+  svnAttrMap.put(SvnMaterialConfig.PASSWORD,"baz");
+  svnAttrMap.put(SvnMaterialConfig.CHECK_EXTERNALS,false);
+  Map<String,Object> attributeMap=new HashMap<String,Object>();
+  attributeMap.put(AbstractMaterialConfig.MATERIAL_TYPE,SvnMaterialConfig.TYPE);
+  attributeMap.put(SvnMaterialConfig.TYPE,svnAttrMap);
+  materialConfigs.setConfigAttributes(attributeMap);
+  assertThat((SvnMaterialConfig)materialConfigs.first(),is(new SvnMaterialConfig("foo","bar","baz",false)));
+}

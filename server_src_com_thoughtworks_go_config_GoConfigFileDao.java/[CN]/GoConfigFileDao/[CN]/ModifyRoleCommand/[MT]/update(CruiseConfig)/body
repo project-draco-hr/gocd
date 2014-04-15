@@ -1,0 +1,26 @@
+{
+  RolesConfig rolesConfig=cruiseConfig.server().security().getRoles();
+  String roleName=roleSelection.getValue();
+  Role role=rolesConfig.findByName(new CaseInsensitiveString(roleName));
+switch (roleSelection.getAction()) {
+case add:
+    if (role == null) {
+      role=new Role(new CaseInsensitiveString(roleName),new Users());
+      rolesConfig.add(role);
+    }
+  if (!role.hasMember(new CaseInsensitiveString(user))) {
+    role.addUser(new RoleUser(new CaseInsensitiveString(user)));
+  }
+break;
+case remove:
+if (role != null) {
+role.removeUser(new RoleUser(new CaseInsensitiveString(user)));
+}
+break;
+case nochange:
+break;
+default :
+throw ExceptionUtils.bomb("unrecognized Action: " + roleSelection.getAction());
+}
+return cruiseConfig;
+}

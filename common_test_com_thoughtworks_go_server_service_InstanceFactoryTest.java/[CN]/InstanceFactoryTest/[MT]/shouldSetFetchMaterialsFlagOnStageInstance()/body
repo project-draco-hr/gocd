@@ -1,0 +1,6 @@
+{
+  StageConfig stageConfig=StageConfigMother.custom("test",Approval.automaticApproval());
+  stageConfig.setFetchMaterials(false);
+  Stage instance=instanceFactory.createStageInstance(stageConfig,new DefaultSchedulingContext("anyone"),"md5",new TimeProvider());
+  assertThat(instance.shouldFetchMaterials(),is(false));
+}

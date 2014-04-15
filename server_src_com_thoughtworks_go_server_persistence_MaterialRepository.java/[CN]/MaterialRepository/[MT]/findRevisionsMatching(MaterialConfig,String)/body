@@ -1,0 +1,18 @@
+{
+  return (List<MatchedRevision>)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      String sql="SELECT m.*" + " FROM modifications AS m" + " INNER JOIN materials mat ON mat.id = m.materialId"+ " WHERE mat.fingerprint = :finger_print"+ " AND (m.revision || ' ' || COALESCE(m.username, '') || ' ' || COALESCE(m.comment, '') LIKE :search_string OR m.pipelineLabel LIKE :search_string)"+ " ORDER BY m.id DESC"+ " LIMIT 5";
+      SQLQuery query=session.createSQLQuery(sql);
+      query.addEntity("m",Modification.class);
+      Material material=materialConfigConverter.toMaterial(materialConfig);
+      query.setString("finger_print",material.getFingerprint());
+      query.setString("search_string","%" + searchString + "%");
+      final List<MatchedRevision> list=new ArrayList<MatchedRevision>();
+      for (      Modification mod : (List<Modification>)query.list()) {
+        list.add(material.createMatchedRevision(mod,searchString));
+      }
+      return list;
+    }
+  }
+);
+}

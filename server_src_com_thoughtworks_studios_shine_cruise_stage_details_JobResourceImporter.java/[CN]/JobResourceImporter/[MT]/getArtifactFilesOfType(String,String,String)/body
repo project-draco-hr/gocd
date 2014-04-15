@@ -1,0 +1,17 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("getArtifactFilesOfType(" + artifactsPathFromRoot + ", "+ jobArtifactPath+ ", "+ fileExtension+ ")");
+  }
+  File jobArtifactFile=new File(artifactBaseDir,artifactsPathFromRoot + File.separator + jobArtifactPath);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Artifact directory calculated to be " + jobArtifactFile.getAbsolutePath());
+  }
+  if (!jobArtifactFile.exists() || !jobArtifactFile.isDirectory()) {
+    return new File[0];
+  }
+  Collection collection=FileUtils.listFiles(jobArtifactFile,new SuffixFileFilter(fileExtension,IOCase.INSENSITIVE),TrueFileFilter.INSTANCE);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("" + collection.size() + " artifact files found.");
+  }
+  return (File[])collection.toArray(new File[0]);
+}

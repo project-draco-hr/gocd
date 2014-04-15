@@ -1,0 +1,10 @@
+{
+  final Role role=setupSecurityWithRole();
+  goConfigMother.addPipelineWithGroup(cruiseConfig,"group1","p1","s1","b1");
+  goConfigMother.addPipelineWithGroup(cruiseConfig,"group2","p2","s2","b2");
+  goConfigMother.addAuthorizedRoleForPipelineGroup(cruiseConfig,"ldap-users","group1");
+  goConfigMother.addAuthorizedRoleForPipelineGroup(cruiseConfig,"ldap-users","group2");
+  assertEquals(new HashSet<String>(Arrays.asList("group1","group2")),cruiseConfig.groupsAffectedByDeletionOfRole("ldap-users").keySet());
+  cruiseConfig.removeRole(role);
+  assertEquals(new HashSet<String>(),cruiseConfig.groupsAffectedByDeletionOfRole("ldap-users").keySet());
+}

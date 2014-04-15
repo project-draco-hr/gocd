@@ -1,0 +1,14 @@
+{
+  CruiseConfig user1SeeingConfig=goConfigFileDao.loadForEditing();
+  String user1SeeingMd5=user1SeeingConfig.getMd5();
+  new GoConfigMother().addPipelineWithGroup(user1SeeingConfig,"defaultGroup","user1_pipeline","user1_stage","user1_job");
+  ByteArrayOutputStream os=new ByteArrayOutputStream();
+  configHelper.getXml(user1SeeingConfig,os);
+  String xml=os.toString();
+  xml=xml.replace("user1_pipeline","user1 pipeline");
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(false);
+  GoConfigValidity validity=saver.saveXml(xml,user1SeeingMd5);
+  assertThat(validity.isValid(),is(false));
+  assertThat(validity.isType(GoConfigValidity.VT_CONFLICT),is(true));
+  assertThat(validity.errorMessage(),containsString("Name is invalid. \"user1 pipeline\""));
+}

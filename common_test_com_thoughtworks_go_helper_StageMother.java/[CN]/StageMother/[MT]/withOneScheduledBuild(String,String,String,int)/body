@@ -1,0 +1,9 @@
+{
+  JobInstance instance1=JobInstanceMother.completed(failedBuildplanName,JobResult.Failed);
+  JobInstance instance2=JobInstanceMother.completed(successfulBuildplanName,JobResult.Passed);
+  JobInstance instance3=JobInstanceMother.scheduled("scheduledBuild");
+  JobInstances instances=new JobInstances(instance1,instance2,instance3);
+  Stage stage=new Stage(stageName,instances,DEFAULT_APPROVED_BY,null,new TimeProvider());
+  stage.setId(stageId);
+  return stage;
+}

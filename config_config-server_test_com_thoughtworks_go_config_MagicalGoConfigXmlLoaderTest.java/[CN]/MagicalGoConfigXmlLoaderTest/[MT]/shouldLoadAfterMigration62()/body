@@ -1,0 +1,6 @@
+{
+  final String content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<cruise schemaVersion=\"62\">\n" + "    <server artifactsdir=\"artifacts\">\n"+ "      <security>"+ "        <ldap uri='some_url' managerDn='some_manager_dn' managerPassword='foo' searchFilter='(sAMAccountName={0})'>"+ "             <bases>"+ "                 <base value='ou=Enterprise,ou=Principal,dc=corporate,dc=thoughtworks,dc=com'/>"+ "             </bases>"+ "        </ldap>"+ "      </security>"+ "    </server>"+ " </cruise>";
+  GoConfigHolder goConfigHolder=ConfigMigrator.loadWithMigration(content);
+  BaseConfig firstBase=goConfigHolder.config.server().security().ldapConfig().getBasesConfig().first();
+  assertThat(firstBase.getValue(),is("ou=Enterprise,ou=Principal,dc=corporate,dc=thoughtworks,dc=com"));
+}

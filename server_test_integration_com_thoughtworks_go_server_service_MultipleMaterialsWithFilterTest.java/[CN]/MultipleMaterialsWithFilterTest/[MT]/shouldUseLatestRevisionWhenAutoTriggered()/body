@@ -1,0 +1,11 @@
+{
+  fixture.createPipelineHistory();
+  fixture.checkInToFirstMaterial("a.doc");
+  fixture.checkInToSecondMaterial("b.java");
+  buildCauseProducerService.autoSchedulePipeline(fixture.pipelineName,new ServerHealthStateOperationResult(),12345);
+  BuildCause buildCause=pipelineScheduleQueue.toBeScheduled().get(fixture.pipelineName);
+  assertThat(buildCause,instanceOf(BuildCause.class));
+  MaterialRevisions actual=buildCause.getMaterialRevisions();
+  assertThat(actual.getMaterialRevision(fixture.getSecondMaterialFolder()).getRevision(),is(fixture.latestRevisionOfSecondMaterial().getRevision()));
+  assertThat(actual.getMaterialRevision(fixture.getFirstMaterialFolder()).getRevision(),is(fixture.latestRevisionOfFirstMaterial().getRevision()));
+}

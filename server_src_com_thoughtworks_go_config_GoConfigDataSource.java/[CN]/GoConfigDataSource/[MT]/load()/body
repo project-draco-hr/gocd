@@ -1,0 +1,21 @@
+{
+  File configFile=fileLocation();
+  ReloadStrategy.ReloadTestResult result=reloadStrategy.requiresReload(configFile);
+  if (!result.requiresReload) {
+    reloadStrategy.hasLatest(result);
+    return null;
+  }
+synchronized (this) {
+    result=reloadStrategy.requiresReload(configFile);
+    if (!result.requiresReload) {
+      reloadStrategy.hasLatest(result);
+      return null;
+    }
+    reloadStrategy.performingReload(result);
+    LOGGER.info("Config file changed at " + result.modifiedTime);
+    LOGGER.info("Reloading config file: " + configFile);
+    encryptPasswords(configFile);
+    LOGGER.debug("Detected change in config file.");
+    return forceLoad(configFile);
+  }
+}

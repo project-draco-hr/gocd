@@ -1,0 +1,16 @@
+{
+  Pipeline pipeline=fixture.createPipelineWithFirstStageAssigned();
+  final Stage firstStage=pipeline.getFirstStage();
+  final JobInstance instance=firstStage.getJobInstances().first();
+  final ArrayList failures=new ArrayList();
+  Runnable agentWork=new AgentUpdateWork(instance);
+  Runnable cancelWork=new UserCancelWork(firstStage,instance,failures);
+  ArrayList<Thread> threads=mixAgentWorkAndCancelWork(agentWork,cancelWork);
+  for (  Thread thread : threads) {
+    thread.start();
+  }
+  for (  Thread thread : threads) {
+    thread.join();
+  }
+  assertThat(failures.toString(),failures.size(),is(0));
+}

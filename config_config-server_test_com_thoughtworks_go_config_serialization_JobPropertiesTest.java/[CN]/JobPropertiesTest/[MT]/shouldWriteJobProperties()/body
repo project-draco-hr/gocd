@@ -1,0 +1,6 @@
+{
+  String jobXml="<job name=\"dev\">\n" + "  <properties>\n" + "    <property name=\"coverage\" src=\"reports/emma.html\" xpath=\"//coverage/class\" />\n"+ "    <property name=\"prop2\" src=\"test.xml\" xpath=\"//value\" />\n"+ "  </properties>\n"+ "</job>";
+  CruiseConfig config=loader.loadConfigHolder(ConfigFileFixture.withJob(jobXml)).configForEdit;
+  JobConfig jobConfig=config.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).get(1).allBuildPlans().first();
+  assertThat(writer.toXmlPartial(jobConfig),is(jobXml));
+}

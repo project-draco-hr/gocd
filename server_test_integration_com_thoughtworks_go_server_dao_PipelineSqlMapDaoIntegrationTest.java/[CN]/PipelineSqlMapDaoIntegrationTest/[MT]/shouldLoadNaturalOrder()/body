@@ -1,0 +1,10 @@
+{
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createManualForced(),new Stage("dev",new JobInstances(new JobInstance("unit")),"anonymous","manual",new TimeProvider()));
+  savePipeline(pipeline);
+  dbHelper.updateNaturalOrder(pipeline.getId(),2.5);
+  PipelineInstanceModel loaded=pipelineDao.loadHistory("Test").get(0);
+  PipelineInstanceModel loadedById=pipelineDao.loadHistory(pipeline.getId());
+  assertThat(loadedById.getNaturalOrder(),is(2.5));
+  assertThat(loaded.getNaturalOrder(),is(2.5));
+  assertThat(loaded.isBisect(),is(true));
+}

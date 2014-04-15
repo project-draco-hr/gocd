@@ -1,0 +1,8 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  OauthToken token=new OauthToken("foo@bar.com",mingle09,"access-token","refresh-token",23324324);
+  template.save(token);
+  OauthDataSource.OauthTokenDTO tokenDto=repo.findOauthTokenById(token.getId());
+  assertThat(tokenDto,is(token.getDTO()));
+}

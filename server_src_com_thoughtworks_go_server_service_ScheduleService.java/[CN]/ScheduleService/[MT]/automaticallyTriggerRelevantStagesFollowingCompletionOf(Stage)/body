@@ -1,0 +1,23 @@
+{
+  if (!stage.isCompleted()) {
+    return;
+  }
+  try {
+    Pipeline pipeline=pipelineDao.loadPipeline(stage.getPipelineId());
+    unlockIfLastStage(pipeline,stage);
+    if (pipelinePauseService.isPaused(pipeline.getName())) {
+      return;
+    }
+    if (shouldTriggerThisStageInNewerPipeline(pipeline,stage)) {
+      triggerCurrentStageInNewerPipeline(pipeline.getName(),stage);
+    }
+    if (stage.isCompletedAndPassed()) {
+      triggerNextStageInPipeline(pipeline,stage.getName(),DEFAULT_APPROVED_BY);
+    }
+  }
+ catch (  Exception ex) {
+    String message=String.format("Failed to trigger next stage for %s.",stage.getName());
+    LOGGER.error(message,ex);
+    throw ex;
+  }
+}

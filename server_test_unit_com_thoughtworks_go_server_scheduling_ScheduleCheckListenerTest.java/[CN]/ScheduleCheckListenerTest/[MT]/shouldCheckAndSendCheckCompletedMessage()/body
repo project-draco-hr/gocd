@@ -1,0 +1,9 @@
+{
+  ScheduleCheckListener listener=new ScheduleCheckListener(checkCompletedTopic,producer,schedulingPerformanceLogger);
+  listener.onMessage(new ScheduleCheckMessage("cruise",123L));
+  InOrder inOrder=inOrder(schedulingPerformanceLogger,producer,checkCompletedTopic);
+  inOrder.verify(schedulingPerformanceLogger).pickedUpPipelineForScheduleCheck(123L,"cruise");
+  inOrder.verify(producer).autoSchedulePipeline(eq("cruise"),any(ServerHealthStateOperationResult.class),eq(123L));
+  inOrder.verify(checkCompletedTopic).post(new ScheduleCheckCompletedMessage("cruise",123L));
+  inOrder.verify(schedulingPerformanceLogger).postingMessageAboutScheduleCheckCompletion(123L,"cruise");
+}

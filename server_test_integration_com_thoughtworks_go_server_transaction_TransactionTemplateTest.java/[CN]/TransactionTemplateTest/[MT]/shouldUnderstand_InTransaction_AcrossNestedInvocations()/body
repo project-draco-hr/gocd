@@ -1,0 +1,42 @@
+{
+  final TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  final boolean[] inTransactionInBody=new boolean[]{false,false,false,false};
+  final boolean[] inTransactionInAfterCommit=new boolean[]{true,true,true,true};
+  final boolean[] inTransactionInAfterComplete=new boolean[]{true,true,true,true};
+  String returnVal=(String)template.execute(new org.springframework.transaction.support.TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      setTxnBodyActiveFlag(inTransactionInBody,inTransactionInAfterCommit,inTransactionInAfterComplete,0);
+      return template.execute(new org.springframework.transaction.support.TransactionCallback(){
+        public Object doInTransaction(        TransactionStatus status){
+          setTxnBodyActiveFlag(inTransactionInBody,inTransactionInAfterCommit,inTransactionInAfterComplete,1);
+          try {
+            return template.executeWithExceptionHandling(new TransactionCallback(){
+              @Override public Object doInTransaction(              TransactionStatus status) throws Exception {
+                setTxnBodyActiveFlag(inTransactionInBody,inTransactionInAfterCommit,inTransactionInAfterComplete,2);
+                return template.execute(new org.springframework.transaction.support.TransactionCallback(){
+                  public Object doInTransaction(                  TransactionStatus status){
+                    setTxnBodyActiveFlag(inTransactionInBody,inTransactionInAfterCommit,inTransactionInAfterComplete,3);
+                    return "baz";
+                  }
+                }
+);
+              }
+            }
+);
+          }
+ catch (          Exception e) {
+            throw new RuntimeException(e);
+          }
+        }
+      }
+);
+    }
+  }
+);
+  for (int i=0; i < 4; i++) {
+    assertThat(inTransactionInBody[i],is(true));
+    assertThat(inTransactionInAfterCommit[i],is(false));
+    assertThat(inTransactionInAfterComplete[i],is(false));
+  }
+  assertThat(returnVal,is("baz"));
+}

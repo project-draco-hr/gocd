@@ -1,0 +1,12 @@
+{
+  this.conn=conn;
+  if (contextURI != null) {
+    org.openrdf.model.Resource contextResource=((SesameURIReference)getURIReference(contextURI)).getSesameNativeResource();
+    this.contextResource=new org.openrdf.model.Resource[]{contextResource};
+    contextVar=new Var("magic-context",conn.getValueFactory().createURI(contextResource.stringValue()));
+    contextVar.setAnonymous(true);
+  }
+ else {
+    this.contextResource=new org.openrdf.model.Resource[0];
+  }
+}

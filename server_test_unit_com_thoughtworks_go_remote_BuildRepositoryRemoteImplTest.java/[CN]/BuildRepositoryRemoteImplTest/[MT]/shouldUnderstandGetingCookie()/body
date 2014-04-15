@@ -1,0 +1,5 @@
+{
+  when(agentService.assignCookie(info.getIdentifier())).thenReturn("cookie");
+  assertThat(buildRepository.getCookie(info.getIdentifier(),"/foo/bar"),is("cookie"));
+  assertThat(log(),hasItem("[Agent Cookie] Agent [Agent [host, 192.168.1.1, uuid]] at location [/foo/bar] asked for a new cookie, assigned [cookie]"));
+}

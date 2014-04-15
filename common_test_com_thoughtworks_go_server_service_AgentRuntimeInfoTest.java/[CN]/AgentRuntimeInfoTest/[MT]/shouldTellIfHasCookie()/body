@@ -1,0 +1,6 @@
+{
+  assertThat(AgentRuntimeInfo.fromAgent(new AgentIdentifier("localhost","127.0.0.1","uuid"),"cookie",null).hasDuplicateCookie("cookie"),is(false));
+  assertThat(AgentRuntimeInfo.fromAgent(new AgentIdentifier("localhost","127.0.0.1","uuid"),"cookie",null).hasDuplicateCookie("different"),is(true));
+  assertThat(AgentRuntimeInfo.fromAgent(new AgentIdentifier("localhost","127.0.0.1","uuid"),null,null).hasDuplicateCookie("cookie"),is(false));
+  assertThat(AgentRuntimeInfo.fromAgent(new AgentIdentifier("localhost","127.0.0.1","uuid"),"cookie",null).hasDuplicateCookie(null),is(false));
+}

@@ -1,0 +1,25 @@
+{
+  MaterialRevisions uppestRevision=createHgMaterialWithMultipleRevisions(1L,first);
+  MaterialRevisions secondHgRevision=createHgMaterialWithMultipleRevisions(1L,second);
+  ((HgMaterial)secondHgRevision.getMaterialRevision(0).getMaterial()).setFolder("mother");
+  MaterialRevisions upRevision=new MaterialRevisions(secondHgRevision.getMaterialRevision(0),dependencyMaterialRevision("up0",2,"label","stage",1,new Date()));
+  MaterialRevisions actual=createHgMaterialWithMultipleRevisions(1L,third);
+  ((HgMaterial)actual.getMaterials().get(0)).setFolder("mother");
+  MaterialRevision up1Modification=dependencyMaterialRevision("up1",1,"label","stage",1,new Date());
+  up1Modification.markAsChanged();
+  actual.addRevision(up1Modification);
+  PipelineConfig current=createPipelineConfigWithMaterialConfig("current",actual.getMaterials().get(0).config(),new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("stage")));
+  PipelineConfig up1=createPipelineConfigWithMaterialConfig("up1",upRevision.getMaterials().get(0).config(),upRevision.getMaterials().get(1).config());
+  PipelineConfig up0=createPipelineConfigWithMaterialConfig("up0",MaterialConfigsMother.hgMaterialConfig());
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("up1","stage","job");
+  pipeline.setId(10);
+  Pipeline uppestPipeline=PipelineMother.passedPipelineInstance("up0","stage","job");
+  uppestPipeline.setId(5);
+  when(pipelineDao.findPipelineByNameAndCounter("up1",1)).thenReturn(pipeline);
+  when(materialRepository.findMaterialRevisionsForPipeline(10)).thenReturn(upRevision);
+  when(pipelineDao.findPipelineByNameAndCounter("up0",2)).thenReturn(uppestPipeline);
+  when(materialRepository.findMaterialRevisionsForPipeline(5)).thenReturn(uppestRevision);
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1,new PipelineConfigDependencyGraph(up0)));
+  secondHgRevision.addRevision(up1Modification);
+  assertThat(service.getRevisionsBasedOnDependencies(dependencyGraph,actual),is(secondHgRevision));
+}

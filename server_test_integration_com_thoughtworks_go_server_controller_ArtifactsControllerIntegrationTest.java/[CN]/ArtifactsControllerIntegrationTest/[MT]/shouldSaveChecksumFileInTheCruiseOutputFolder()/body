@@ -1,0 +1,14 @@
+{
+  File fooFile=createFile(artifactRootForJob,"/tmp/foobar.html");
+  FileUtils.writeStringToFile(fooFile,"FooBarBaz...");
+  File checksumFile=createFile(artifactRootForJob,"/tmp/foobar.html.checksum");
+  FileUtils.writeStringToFile(checksumFile,"baz/foobar.html:FooMD5\n");
+  MockMultipartFile artifactMultipart=new MockMultipartFile("file",new FileInputStream(fooFile));
+  MockMultipartFile checksumMultipart=new MockMultipartFile("file_checksum",new FileInputStream(checksumFile));
+  StubMultipartHttpServletRequest multipartRequest=new StubMultipartHttpServletRequest(request,artifactMultipart,checksumMultipart);
+  postFileWithChecksum("baz/foobar.html",multipartRequest);
+  assertThat(file(artifactRootForJob,"baz/foobar.html"),exists());
+  File uploadedChecksumFile=file(artifactRootForJob,"cruise-output/md5.checksum");
+  assertThat(uploadedChecksumFile,exists());
+  assertThat(FileUtils.readLines(uploadedChecksumFile).get(0).toString(),is("baz/foobar.html:FooMD5"));
+}

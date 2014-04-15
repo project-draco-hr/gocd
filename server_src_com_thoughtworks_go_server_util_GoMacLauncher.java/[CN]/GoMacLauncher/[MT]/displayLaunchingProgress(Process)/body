@@ -1,0 +1,45 @@
+{
+  final JFrame frame=new JFrame("Go Server");
+  frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+  final LaunchProgress progressPane=new LaunchProgress();
+  progressPane.setOpaque(true);
+  frame.setContentPane(progressPane);
+  frame.pack();
+  frame.setSize(frame.getPreferredSize());
+  frame.setVisible(true);
+  int slept=0;
+  progressPane.progressBar.setIndeterminate(true);
+  boolean startedOK=false;
+  URL url=new URL(CRUISE_SERVER_URL);
+  while ((slept * SLEEP_MILLIS / 1000) <= MAX_SLEEP_SECONDS) {
+    Thread.sleep(SLEEP_MILLIS);
+    progressPane.progressBar.setValue(slept);
+    slept++;
+    try {
+      HttpURLConnection urlConnection=new HttpURLConnection(url,null);
+      urlConnection.connect();
+      if (urlConnection.getResponseCode() == 200) {
+        LOG.info("Server up, let's go");
+        startedOK=true;
+        break;
+      }
+    }
+ catch (    Exception e) {
+      LOG.info("Server not up yet, sleeping...");
+    }
+  }
+  if (!startedOK) {
+    String errormsg="Server not up within " + MAX_SLEEP_SECONDS + " seconds.";
+    LOG.severe(errormsg);
+    server.destroy();
+    progressPane.progressBar.setVisible(false);
+    progressPane.label.setText(errormsg + " Please see /var/log/system.log for more info.");
+    frame.pack();
+    frame.setSize(frame.getPreferredSize());
+    Thread.sleep(15000);
+    System.exit(1);
+  }
+  frame.setVisible(false);
+  frame.dispose();
+  Runtime.getRuntime().exec("open " + CRUISE_SERVER_URL);
+}

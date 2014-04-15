@@ -1,0 +1,8 @@
+{
+  return (Integer)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      return PipelineRepository.updateNaturalOrderForPipeline(session,pipelineId,naturalOrder);
+    }
+  }
+);
+}

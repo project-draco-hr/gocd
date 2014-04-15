@@ -1,0 +1,6 @@
+{
+  if (cancelResult.httpCode() == HttpServletResponse.SC_UNAUTHORIZED) {
+    return ResponseCodeView.create(HttpServletResponse.SC_UNAUTHORIZED,cancelResult.message(localizer));
+  }
+  return jsonOK().respond(response);
+}

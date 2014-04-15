@@ -1,0 +1,16 @@
+{
+  String configString="<cruise schemaVersion='66'>" + "<repositories>" + "<repository id='go-repo' name='go-repo'>"+ "		<pluginConfiguration id='plugin-id' version='1.0'/>"+ "		<configuration>"+ "			<property><key>url</key><value>http://fake-yum-repo</value></property>"+ "			<property><key>username</key><value>godev</value></property>"+ "			<property><key>password</key><value>password</value></property>"+ "		</configuration>"+ "		<packages>"+ "			<package id='go-server' name='go-server'>"+ "				<configuration>"+ "					<property><key>name</key><value>go-server-13.2.0-1-i386</value></property>"+ "				</configuration>"+ "			</package>"+ "		</packages>"+ "</repository>"+ "</repositories>"+ "</cruise>";
+  CruiseConfig cruiseConfig=migrateConfigAndLoadTheNewConfig(configString,66);
+  PackageRepositories packageRepositories=cruiseConfig.getPackageRepositories();
+  assertThat(packageRepositories.size(),is(1));
+  assertThat(packageRepositories.get(0).getId(),is("go-repo"));
+  assertThat(packageRepositories.get(0).getName(),is("go-repo"));
+  assertThat(packageRepositories.get(0).getPluginConfiguration().getId(),is("plugin-id"));
+  assertThat(packageRepositories.get(0).getPluginConfiguration().getVersion(),is("1.0"));
+  assertThat(packageRepositories.get(0).getConfiguration(),is(notNullValue()));
+  assertThat(packageRepositories.get(0).getPackages().size(),is(1));
+  assertConfiguration(packageRepositories.get(0).getConfiguration(),asList(new List[]{asList("url",Boolean.FALSE,"http://fake-yum-repo"),asList("username",Boolean.FALSE,"godev"),asList("password",Boolean.FALSE,"password")}));
+  assertThat(packageRepositories.get(0).getPackages().get(0).getId(),is("go-server"));
+  assertThat(packageRepositories.get(0).getPackages().get(0).getName(),is("go-server"));
+  assertConfiguration(packageRepositories.get(0).getPackages().get(0).getConfiguration(),asList(new List[]{asList("name",Boolean.FALSE,"go-server-13.2.0-1-i386")}));
+}

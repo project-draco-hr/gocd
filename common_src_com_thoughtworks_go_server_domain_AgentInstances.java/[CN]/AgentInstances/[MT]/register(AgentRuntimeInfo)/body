@@ -1,0 +1,9 @@
+{
+  AgentInstance agentInstance=findAgentAndRefreshStatus(info.getUUId());
+  if (!agentInstance.isRegistered()) {
+    agentInstance=AgentInstance.createFromLiveAgent(info,new SystemEnvironment());
+    this.add(agentInstance);
+  }
+  agentInstance.update(info);
+  return agentInstance;
+}

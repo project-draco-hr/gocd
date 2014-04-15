@@ -1,0 +1,11 @@
+{
+  when(goConfigService.isUserAdmin(username)).thenReturn(true);
+  when(postCommitHookMaterialType.toType("some_invalid_type")).thenReturn(invalidMaterialType);
+  final HashMap params=new HashMap();
+  params.put(MaterialUpdateService.TYPE,"some_invalid_type");
+  service.notifyMaterialsForUpdate(username,params,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpStatus.SC_BAD_REQUEST));
+  assertThat(result.hasMessage(),is(true));
+  verify(goConfigService).isUserAdmin(username);
+}

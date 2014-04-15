@@ -1,0 +1,7 @@
+{
+  CruiseConfig config=configForEditing();
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString(pipeline));
+  bombIf(pipelineConfig.hasTemplate(),String.format("Pipeline '%s' references template '%s'. Cannot edit stage.",pipeline,pipelineConfig.getTemplateName()));
+  bombIf(pipelineConfig.size() <= stageIndex,"Stage does not exist.");
+  return pipelineConfig.get(stageIndex);
+}

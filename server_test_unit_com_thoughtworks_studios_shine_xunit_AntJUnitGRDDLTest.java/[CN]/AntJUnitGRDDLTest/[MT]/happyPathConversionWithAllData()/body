@@ -1,0 +1,7 @@
+{
+  String kitchenSinkXUnitXML="<?xml version='1.0' encoding='UTF-8' ?>" + "<testsuite errors='0' failures='0' hostname='phydeaux3.corporate.thoughtworks.com' name='com.thoughtworks.studios.shine.cruise.GoOntologyTest' tests='2' time='0.601' timestamp='2009-12-18T20:26:42'>" + "<properties>"+ "<property name='java.runtime.name' value='Java SE Runtime Environment' />"+ "<property name='sun.boot.library.path' value='/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Libraries' />"+ "</properties>"+ "<testcase classname='com.thoughtworks.studios.shine.cruise.GoOntologyTest' name='canCreateGraph' time='0.57' />"+ "<system-out><![CDATA[]]></system-out>"+ "<system-err><![CDATA[]]></system-err>"+ "</testsuite>";
+  InputStream xunitXMLStream=new ByteArrayInputStream(kitchenSinkXUnitXML.getBytes());
+  Graph graph=transformer.transform(xunitXMLStream,new InMemoryTempGraphFactory());
+  String sparql="PREFIX xunit: <" + XUnitOntology.URI + "> "+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE { "+ "?testCase a xunit:TestCase ; "+ "xunit:testCaseName \"canCreateGraph\"^^xsd:string ; "+ "xunit:testCaseClassName \"com.thoughtworks.studios.shine.cruise.GoOntologyTest\"^^xsd:string ; "+ "xunit:testSuiteName \"com.thoughtworks.studios.shine.cruise.GoOntologyTest\"^^xsd:string . "+ "}";
+  assertAskIsTrue(graph,sparql);
+}

@@ -1,0 +1,7 @@
+{
+  Material svn1=MaterialsMother.svnMaterial("url",null,"username","password",false,null);
+  MaterialInstance material1=repo.findOrCreateFrom(svn1);
+  Material svn2=MaterialsMother.svnMaterial("url",null,null,null,false,null);
+  MaterialInstance material2=repo.findOrCreateFrom(svn2);
+  assertThat(material1.getId(),not(is(material2.getId())));
+}

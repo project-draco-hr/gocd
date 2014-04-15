@@ -1,0 +1,7 @@
+{
+  Pipeline completed=pipelineWithFirstStagePassed(pipelineConfig);
+  Pipeline running=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  assertThat(dbHelper.updateNaturalOrder(running.getId(),2.0),is(1));
+  scheduleBuildInstances(pipelineAndFirstStageOf(running).stage);
+  return new Pipeline[]{completed,running};
+}

@@ -1,0 +1,16 @@
+{
+  goCache.clear();
+  pipelineOne=new PipelineWithMultipleStages(3,materialRepository,transactionTemplate);
+  pipelineOne.setGroupName("group1");
+  pipelineTwo=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  pipelineTwo.setGroupName("group2");
+  diskIsFull=new ArtifactsDiskIsFull();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  dbHelper.onSetUp();
+  pipelineOne.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  pipelineTwo.usingConfigHelper(configHelper).usingDbHelper(dbHelper).addToSetup();
+  pipelineOne.configStageAsManualApprovalWithApprovedUsers(pipelineOne.stageName(2),"jez");
+  configHelper.addSecurityWithAdminConfig();
+  configHelper.setOperatePermissionForGroup("group1","jez");
+}

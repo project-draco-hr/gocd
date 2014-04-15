@@ -1,0 +1,14 @@
+{
+  dbHelper.pass(instance);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      for (      Stage stage : instance.getStages()) {
+        final String dmrRevStr=new StageIdentifier(new PipelineIdentifier(instance.getName(),instance.getCounter(),instance.getName() + instance.getCounter()),stage.getName(),"1").getStageLocator();
+        Modification modification=new Modification(mduAt,dmrRevStr,instance.getLabel(),instance.getId());
+        materialRepository.saveMaterialRevision(new MaterialRevision(pipeline.material,modification));
+      }
+    }
+  }
+);
+  return new StageIdentifier(new PipelineIdentifier(instance.getName(),instance.getCounter(),instance.getName() + instance.getCounter()),pipeline.material.getStageName().toString(),"1").getStageLocator();
+}

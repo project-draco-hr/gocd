@@ -1,0 +1,5 @@
+{
+  Query query=session.createQuery(String.format("DELETE FROM %s WHERE userId IN (:userIds)",type.getSimpleName()));
+  query.setParameterList("userIds",userIds);
+  query.executeUpdate();
+}

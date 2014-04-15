@@ -1,0 +1,14 @@
+{
+  Iterator<NetworkInterface> iterator=localInterfaces.iterator();
+  while (iterator.hasNext()) {
+    NetworkInterface networkInterface=iterator.next();
+    Enumeration<InetAddress> inetAddressEnumeration=networkInterface.getInetAddresses();
+    while (inetAddressEnumeration.hasMoreElements()) {
+      InetAddress address=inetAddressEnumeration.nextElement();
+      if (!address.isLoopbackAddress() && ipAddress.equalsIgnoreCase(address.getHostAddress())) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

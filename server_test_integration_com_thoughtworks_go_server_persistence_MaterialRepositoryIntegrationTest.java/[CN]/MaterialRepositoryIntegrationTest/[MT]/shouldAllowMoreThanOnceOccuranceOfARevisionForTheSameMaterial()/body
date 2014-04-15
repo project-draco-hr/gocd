@@ -1,0 +1,16 @@
+{
+  final GitMaterial gitFoo=new GitMaterial("foo");
+  final Modification modOne=new Modification("user","comment","email@gmail.com",new Date(),"123");
+  final Modification modTwo=new Modification("user","comment","email@gmail.com",new Date(),"456");
+  final Modification modOneRepeat=new Modification("user","comment","email@gmail.com",new Date(),"123");
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      MaterialInstance foo=repo.findOrCreateFrom(gitFoo);
+      repo.saveModifications(foo,Arrays.asList(modOne));
+      repo.saveModifications(foo,Arrays.asList(modTwo));
+      repo.saveModifications(foo,Arrays.asList(modOneRepeat));
+    }
+  }
+);
+  assertEquals(Arrays.asList(modOneRepeat,modTwo),repo.findModificationsSince(gitFoo,new MaterialRevision(gitFoo,modOne)));
+}

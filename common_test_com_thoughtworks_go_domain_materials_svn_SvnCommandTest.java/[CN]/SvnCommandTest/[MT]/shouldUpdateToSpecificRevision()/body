@@ -1,0 +1,8 @@
+{
+  subversion.checkoutTo(outputStreamConsumer,checkoutFolder,SubversionRevision.HEAD);
+  assertAtRevision(4,"TestReport-Unit.xml");
+  subversion.updateTo(outputStreamConsumer,checkoutFolder,revision(2));
+  assertAtRevision(2,"TestReport-Unit.xml");
+  subversion.updateTo(outputStreamConsumer,checkoutFolder,revision(3));
+  assertAtRevision(3,"revision3.txt");
+}

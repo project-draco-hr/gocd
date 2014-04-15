@@ -1,0 +1,20 @@
+{
+  testingClock.setTime(new DateTime(2002,10,10,10,10,10,10));
+  ServerHealthState expiresInNintySecs=warning("hg-message1","description",HealthStateType.databaseDiskFull(),Timeout.NINETY_SECONDS);
+  ServerHealthState expiresInThreeMins=warning("hg-message2","description",HealthStateType.artifactsDirChanged(),Timeout.THREE_MINUTES);
+  ServerHealthState expiresNever=warning("hg-message3","description",HealthStateType.artifactsDiskFull(),Timeout.NEVER);
+  serverHealthService.update(expiresInThreeMins);
+  serverHealthService.update(expiresInNintySecs);
+  serverHealthService.update(expiresNever);
+  ServerHealthStates logs=serverHealthService.getAllValidLogs(new CruiseConfig());
+  assertThat(logs.size(),is(3));
+  assertThat(logs,hasItems(expiresInThreeMins,expiresInNintySecs,expiresNever));
+  testingClock.addSeconds(100);
+  logs=serverHealthService.getAllValidLogs(new CruiseConfig());
+  assertThat(logs.size(),is(2));
+  assertThat(logs,hasItems(expiresInThreeMins,expiresNever));
+  testingClock.addMillis((int)Timeout.TWO_MINUTES.inMillis());
+  logs=serverHealthService.getAllValidLogs(new CruiseConfig());
+  assertThat(logs.size(),is(1));
+  assertThat(logs,hasItem(expiresNever));
+}

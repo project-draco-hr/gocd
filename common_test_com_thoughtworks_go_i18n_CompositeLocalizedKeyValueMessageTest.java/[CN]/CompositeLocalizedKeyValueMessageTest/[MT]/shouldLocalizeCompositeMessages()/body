@@ -1,0 +1,8 @@
+{
+  Localizer localizer=mock(Localizer.class);
+  Localizable localizable=LocalizedMessage.composite(LocalizedMessage.string("UPDATE_ENVIRONMENT_SUCCESS","staging"),LocalizedMessage.string("CONFIG_MERGED"));
+  when(localizer.localize("UPDATE_ENVIRONMENT_SUCCESS","staging")).thenReturn("Updated staging successfully.");
+  when(localizer.localize("CONFIG_MERGED",new Object[]{})).thenReturn("Config Merged Successfully.");
+  String message=localizable.localize(localizer);
+  assertThat(message,is("Updated staging successfully. Config Merged Successfully."));
+}

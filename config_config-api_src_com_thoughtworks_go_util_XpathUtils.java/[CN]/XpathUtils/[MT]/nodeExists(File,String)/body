@@ -1,0 +1,9 @@
+{
+  FileInputStream stream=new FileInputStream(file);
+  try {
+    return nodeExists(new InputSource(stream),xpath);
+  }
+  finally {
+    IOUtils.closeQuietly(stream);
+  }
+}

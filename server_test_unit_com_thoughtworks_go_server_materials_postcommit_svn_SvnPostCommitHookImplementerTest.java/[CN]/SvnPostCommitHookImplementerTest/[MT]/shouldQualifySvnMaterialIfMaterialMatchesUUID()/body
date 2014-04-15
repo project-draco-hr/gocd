@@ -1,0 +1,14 @@
+{
+  final SvnMaterial svnMaterial1=mock(SvnMaterial.class);
+  when(svnMaterial1.getUrl()).thenReturn("url1");
+  final SvnMaterial svnMaterial2=mock(SvnMaterial.class);
+  when(svnMaterial2.getUrl()).thenReturn("url2");
+  final SvnMaterial svnMaterial3=mock(SvnMaterial.class);
+  when(svnMaterial3.getUrl()).thenReturn("url not present in map");
+  final HashMap<String,String> map=new HashMap<String,String>();
+  map.put("url1","12345");
+  map.put("url2","54321");
+  assertThat(implementer.isQualified("12345",svnMaterial1,map),is(true));
+  assertThat(implementer.isQualified("12345",svnMaterial2,map),is(false));
+  assertThat(implementer.isQualified("12345",svnMaterial3,map),is(false));
+}

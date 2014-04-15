@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createWithModifications(modifyOneFile(pipelineConfig),""),new DefaultSchedulingContext("anyone"),"md5-test",new TimeProvider());
+  save(pipeline);
+  for (  Stage stage : pipeline.getStages()) {
+    stageDao.saveWithJobs(pipeline,stage);
+  }
+}

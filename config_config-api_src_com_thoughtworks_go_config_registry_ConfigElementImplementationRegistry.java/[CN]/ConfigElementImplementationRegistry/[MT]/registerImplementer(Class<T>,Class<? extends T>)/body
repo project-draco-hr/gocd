@@ -1,0 +1,14 @@
+{
+  List<Class> set;
+  if (registry.containsKey(configInterface)) {
+    set=registry.get(configInterface);
+  }
+ else {
+    List<Class> newSet=Collections.synchronizedList(new ArrayList<Class>());
+    set=registry.putIfAbsent(configInterface,newSet);
+    if (set == null) {
+      set=newSet;
+    }
+  }
+  set.addAll(Arrays.asList(implementation));
+}

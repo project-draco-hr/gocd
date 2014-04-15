@@ -1,0 +1,8 @@
+{
+  String pluginId="plugin-id";
+  String message="plugin is broken beyond repair";
+  List<String> reasons=Arrays.asList(message);
+  doNothing().when(pluginRegistry).markPluginInvalid(pluginId,reasons);
+  serviceDefault.reportErrorAndInvalidate(pluginId,reasons);
+  verify(pluginRegistry).markPluginInvalid(pluginId,reasons);
+}

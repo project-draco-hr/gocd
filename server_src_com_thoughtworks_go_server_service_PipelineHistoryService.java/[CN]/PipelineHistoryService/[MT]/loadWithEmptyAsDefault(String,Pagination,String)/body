@@ -1,0 +1,17 @@
+{
+  if (!securityService.hasViewPermissionForPipeline(new Username(new CaseInsensitiveString(userName)),pipelineName)) {
+    return PipelineInstanceModels.createPipelineInstanceModels();
+  }
+  PipelineInstanceModels pipelineInstanceModels=null;
+  if (triggerMonitor.isAlreadyTriggered(pipelineName)) {
+    StageInstanceModels stageHistory=new StageInstanceModels();
+    appendFollowingStagesFromConfig(pipelineName,stageHistory);
+    PipelineInstanceModel model=PipelineInstanceModel.createPreparingToSchedule(pipelineName,stageHistory);
+    model.setCanRun(false);
+    pipelineInstanceModels=PipelineInstanceModels.createPipelineInstanceModels(model);
+  }
+ else {
+    pipelineInstanceModels=load(pipelineName,pagination,userName,true);
+  }
+  return pipelineInstanceModels;
+}

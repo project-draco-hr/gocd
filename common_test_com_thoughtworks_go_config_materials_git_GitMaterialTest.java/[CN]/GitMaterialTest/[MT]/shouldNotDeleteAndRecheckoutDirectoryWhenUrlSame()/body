@@ -1,0 +1,9 @@
+{
+  git.latestModification(workingDir,new TestSubprocessExecutionContext());
+  File shouldNotBeRemoved=new File(new File(workingDir,".git"),"shouldNotBeRemoved");
+  FileUtils.writeStringToFile(shouldNotBeRemoved,"gundi");
+  assertThat(shouldNotBeRemoved.exists(),is(true));
+  git=new GitMaterial(repositoryUrl);
+  git.latestModification(workingDir,new TestSubprocessExecutionContext());
+  assertThat("Should not have deleted whole folder",shouldNotBeRemoved.exists(),is(true));
+}

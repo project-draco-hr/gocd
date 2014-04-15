@@ -1,0 +1,27 @@
+{
+  SvnMaterial svn=MaterialsMother.svnMaterial("http://svn");
+  PipelineConfig grandFatherPipeline=configHelper.addPipeline("granpa","stage",svn.config(),"job");
+  DependencyMaterial parentDependencyMaterial=MaterialsMother.dependencyMaterial("granpa","stage");
+  PipelineConfig upstreamPipeline=configHelper.addPipeline("upstream","stage",git.config(),"job");
+  upstreamPipeline.addMaterialConfig(parentDependencyMaterial.config());
+  DependencyMaterial dependencyMaterial=MaterialsMother.dependencyMaterial("upstream","stage");
+  pipelineConfigWithTwoMaterials.addMaterialConfig(dependencyMaterial.config());
+  pipelineConfigWithTwoMaterials.removeMaterialConfig(git.config());
+  Username username=new Username(new CaseInsensitiveString("user1"));
+  List<MaterialRevision> revisionsForGrandfather1=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForGrandfather1,svn);
+  Pipeline grandFatherOne=dbHelper.checkinRevisionsToBuild(new ManualBuild(username),grandFatherPipeline,revisionsForGrandfather1);
+  List<MaterialRevision> revisionsForUpstream1=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForUpstream1,git);
+  dbHelper.addDependencyRevisionModification(revisionsForUpstream1,parentDependencyMaterial,grandFatherOne);
+  Pipeline upstreamOne=dbHelper.checkinRevisionsToBuild(new ManualBuild(username),upstreamPipeline,revisionsForUpstream1);
+  List<MaterialRevision> revisionsForPipeline1=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForPipeline1,hg);
+  dbHelper.addDependencyRevisionModification(revisionsForPipeline1,dependencyMaterial,upstreamOne);
+  Pipeline pipelineOne=dbHelper.checkinRevisionsToBuild(new ManualBuild(username),pipelineConfigWithTwoMaterials,revisionsForPipeline1);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<MaterialRevision> actual=changesetService.revisionsBetween(CaseInsensitiveString.str(pipelineConfigWithTwoMaterials.name()),pipelineOne.getCounter(),pipelineOne.getCounter(),username,result,true,false);
+  List<MaterialRevision> expectedRevisions=groupByMaterial(revisionsForGrandfather1,revisionsForUpstream1,revisionsForPipeline1);
+  assertMaterialRevisions(expectedRevisions,actual);
+  assertThat(result.isSuccessful(),is(true));
+}

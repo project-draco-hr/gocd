@@ -1,0 +1,7 @@
+{
+  MaterialRevisions someRevisions=new MaterialRevisions(new MaterialRevision(MaterialsMother.gitMaterial("git://url"),ModificationsMother.aCheckIn("1","file1.txt")));
+  BuildType timedBuild=new TimedBuild();
+  PipelineConfig timerConfig=PipelineConfigMother.pipelineConfigWithTimer("Timer","* * * * * ?",true);
+  BuildCause buildCause=timedBuild.onEmptyModifications(timerConfig,someRevisions);
+  assertThat(buildCause,is(nullValue()));
+}

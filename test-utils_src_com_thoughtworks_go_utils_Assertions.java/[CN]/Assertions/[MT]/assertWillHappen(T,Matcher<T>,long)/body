@@ -1,0 +1,15 @@
+{
+  long start=System.currentTimeMillis();
+  while (System.currentTimeMillis() - start < timeInMillis) {
+    try {
+      if (matcher.matches(obj)) {
+        return;
+      }
+    }
+ catch (    RuntimeException e) {
+      System.err.println("Caught " + e + " while waiting for matcher "+ matcher.getClass().getSimpleName()+ " to complete, will continue waiting till timeout");
+    }
+    sleepOneSec();
+  }
+  assertThat(String.format("Expected the following would happen in %s milliseconds ",timeInMillis),obj,matcher);
+}

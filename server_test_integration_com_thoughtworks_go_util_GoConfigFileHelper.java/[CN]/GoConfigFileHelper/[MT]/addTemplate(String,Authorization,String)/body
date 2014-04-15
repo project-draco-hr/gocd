@@ -1,0 +1,7 @@
+{
+  CruiseConfig cruiseConfig=load();
+  PipelineTemplateConfig templateConfig=PipelineTemplateConfigMother.createTemplate(pipelineName,authorization,StageConfigMother.manualStage(stageName));
+  cruiseConfig.getTemplates().add(templateConfig);
+  writeConfigFile(cruiseConfig);
+  return templateConfig;
+}

@@ -1,0 +1,14 @@
+{
+  final JobInstance scheduledJob=scheduled("dev");
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      jobService.cancelJob(scheduledJob);
+    }
+  }
+);
+  jobService.cancelJob(scheduledJob);
+  verify(jobInstanceDao).updateStateAndResult(scheduledJob);
+  verify(buildPropertiesService).saveCruiseProperties(scheduledJob);
+  verify(topic,never()).post(Matchers.<JobResultMessage>any());
+}

@@ -1,0 +1,5 @@
+{
+  LdapConfig ldapConfig=new LdapConfig(LDAP_URL,MANAGER_DN,"changed_password","encrypted_password",true,new BasesConfig(new BaseConfig(SEARCH_BASE)),SEARCH_FILTER);
+  DefaultSpringSecurityContextSource source=serverConfigService.ldapContextSource(ldapConfig);
+  assertThat(source.getAuthenticationSource().getCredentials(),is("changed_password"));
+}

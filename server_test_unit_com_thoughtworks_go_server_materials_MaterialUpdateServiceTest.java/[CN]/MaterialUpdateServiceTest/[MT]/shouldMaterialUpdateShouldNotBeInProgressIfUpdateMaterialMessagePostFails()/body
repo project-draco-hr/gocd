@@ -1,0 +1,11 @@
+{
+  doThrow(new RuntimeException("failed")).when(queue).post(matchMaterialUpdateMessage(MATERIAL));
+  try {
+    service.updateMaterial(MATERIAL);
+    fail("Should have failed");
+  }
+ catch (  RuntimeException e) {
+  }
+  Map<Material,Date> inProgress=(Map<Material,Date>)ReflectionUtil.getField(service,"inProgress");
+  assertThat(inProgress.containsKey(MATERIAL),is(false));
+}

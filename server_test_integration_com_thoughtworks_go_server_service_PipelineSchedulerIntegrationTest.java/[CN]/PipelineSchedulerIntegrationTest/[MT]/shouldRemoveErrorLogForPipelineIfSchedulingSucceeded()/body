@@ -1,0 +1,6 @@
+{
+  serverHealthService.update(ServerHealthState.error("failed to connect to scm","failed to connect to scm",HealthStateType.general(HealthStateScope.forPipeline(PIPELINE_MINGLE))));
+  ServerHealthState serverHealthState=scheduleHelper.manuallySchedulePipelineWithRealMaterials(PIPELINE_MINGLE,cruise);
+  assertThat(serverHealthState.isSuccess(),is(true));
+  assertCurrentErrorLogNumberIs(PIPELINE_MINGLE,0);
+}

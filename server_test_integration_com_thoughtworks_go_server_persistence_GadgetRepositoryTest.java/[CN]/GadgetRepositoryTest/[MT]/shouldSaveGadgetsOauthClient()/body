@@ -1,0 +1,11 @@
+{
+  GadgetOauthClient client=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  repo.saveGadgetsOauthClient(OauthRepositoryTest.attrMap(client.getDTO()));
+  List allClients=template.find("from GadgetOauthClient");
+  assertThat(allClients.size(),is(1));
+  GadgetOauthClient latestClient=(GadgetOauthClient)allClients.get(0);
+  assertThat(latestClient,not(nullValue()));
+  assertThat(latestClient.getId(),greaterThan(0l));
+  client.setId(latestClient.getId());
+  assertThat(latestClient.getDTO(),is(client.getDTO()));
+}

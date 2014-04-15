@@ -1,0 +1,5 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("pipeline"),(MaterialConfigs)null,completedStage(),buildingStage());
+  assertThat(pipelineConfig.getStage(new CaseInsensitiveString("COMpleTEd stage")).name(),is(new CaseInsensitiveString("completed stage")));
+  assertThat(pipelineConfig.getStage(new CaseInsensitiveString("Does-not-exist")),is(nullValue()));
+}

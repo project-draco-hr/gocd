@@ -1,0 +1,10 @@
+{
+  File folder=TestFileUtil.createTempFolder("testSvnWorkingCopy");
+  if (withDotSvnFolder) {
+    File dotSvnFolder=new File(folder,".svn");
+    dotSvnFolder.mkdir();
+    tempFiles.add(dotSvnFolder);
+  }
+  tempFiles.add(folder);
+  return folder;
+}

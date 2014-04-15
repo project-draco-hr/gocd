@@ -1,0 +1,13 @@
+{
+  Method[] methods=o.getClass().getMethods();
+  for (  Method method : methods) {
+    if (isAnnotationPresent(method,PostConstruct.class)) {
+      try {
+        method.invoke(o);
+      }
+ catch (      Exception e) {
+        throw bomb(e);
+      }
+    }
+  }
+}

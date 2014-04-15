@@ -1,0 +1,6 @@
+{
+  JsonMap jsonMap=presenter.toJson();
+  JsonValue jsonValue=JsonUtils.from(jsonMap);
+  JsonValue pipeline=jsonValue.getObject("groups",0,"history",0);
+  assertThat(pipeline.getString("counterOrLabel"),is("1"));
+}

@@ -1,0 +1,14 @@
+{
+  File jesDir=new File("../tools/jes-2.0-beta2");
+  FileUtils.deleteDirectory(new File(jesDir,"conf.run"));
+  File runDir=new File(jesDir,"conf.run");
+  runDir.mkdir();
+  FileUtils.copyDirectory(new File(jesDir,"conf.noauth"),new File(runDir,"conf"));
+  FileUtils.copyDirectory(new File(jesDir,"security"),new File(runDir,"security"));
+  SysOutStreamConsumer output=new SysOutStreamConsumer();
+  CommandLine command=CommandLine.createCommandLine("/bin/bash").withWorkingDir(jesDir).withArg("start-server.sh");
+  System.out.println("command.toString() = " + command.toString());
+  processWrapper=command.execute(output,new EnvironmentVariableContext(),null);
+  RandomPort.waitForPort(2525,20000L);
+  RandomPort.waitForPort(1101,20000L);
+}

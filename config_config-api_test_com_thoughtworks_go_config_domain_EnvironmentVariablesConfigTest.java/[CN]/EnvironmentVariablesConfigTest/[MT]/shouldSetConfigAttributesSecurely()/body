@@ -1,0 +1,19 @@
+{
+  environmentVariablesConfig=new EnvironmentVariablesConfig();
+  ArrayList<Map<String,String>> attribs=new ArrayList<Map<String,String>>();
+  Map<String,String> var1=new HashMap<String,String>();
+  var1.put(EnvironmentVariableConfig.NAME,"name-var1");
+  var1.put(EnvironmentVariableConfig.VALUE,"val-var1");
+  attribs.add(var1);
+  Map<String,String> var2=new HashMap<String,String>();
+  var2.put(EnvironmentVariableConfig.NAME,"name-var2");
+  var2.put(EnvironmentVariableConfig.VALUE,"val-var2");
+  var2.put(EnvironmentVariableConfig.SECURE,"true");
+  var2.put(EnvironmentVariableConfig.ISCHANGED,"true");
+  attribs.add(var2);
+  assertThat(environmentVariablesConfig.size(),is(0));
+  environmentVariablesConfig.setConfigAttributes(attribs);
+  assertThat(environmentVariablesConfig.size(),is(2));
+  assertThat(environmentVariablesConfig,hasItem(new EnvironmentVariableConfig(null,"name-var1","val-var1",false)));
+  assertThat(environmentVariablesConfig,hasItem(new EnvironmentVariableConfig(new GoCipher(),"name-var2","val-var2",true)));
+}

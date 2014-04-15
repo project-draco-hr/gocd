@@ -1,0 +1,7 @@
+{
+  AbstractMaterialConfig testMaterialConfig=new TestMaterialConfig("foo");
+  Map<String,Object> sqlCriteria=testMaterialConfig.getSqlCriteria();
+  testMaterialConfig.setConfigAttributes(m("bar","baz"));
+  assertThat(testMaterialConfig.getSqlCriteria(),not(sameInstance(sqlCriteria)));
+  assertThat(testMaterialConfig.getSqlCriteria().get("foo"),is((Object)"baz"));
+}

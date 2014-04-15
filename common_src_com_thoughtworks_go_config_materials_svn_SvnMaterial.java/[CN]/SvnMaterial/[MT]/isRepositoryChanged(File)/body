@@ -1,0 +1,15 @@
+{
+  try {
+    File file=new File(workingFolder,".svn");
+    if (workingFolder.isDirectory() && file.exists() && file.isDirectory()) {
+      String workingUrl=svn().workingRepositoryUrl(workingFolder);
+      return !MaterialUrl.sameUrl(url.toString(),workingUrl);
+    }
+ else {
+      return true;
+    }
+  }
+ catch (  IOException e) {
+    return true;
+  }
+}

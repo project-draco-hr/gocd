@@ -1,0 +1,29 @@
+{
+  CachedGoConfig cachedGoConfig=configHelper.getCachedGoConfig();
+  CruiseConfig configForEdit=cachedGoConfig.loadForEditing();
+  GoConfigHolder configHolder=new GoConfigHolder(cachedGoConfig.currentConfig(),configForEdit);
+  Date loserChangedAt=new DateTime().plusDays(2).toDate();
+  when(timeProvider.currentTime()).thenReturn(loserChangedAt);
+  GoConfigHolder afterFirstSave=dataSource.writeWithLock(new UserAwarePipelineAddingCommand("foo-pipeline","loser"),configHolder).getConfigHolder();
+  Date biggerLoserChangedAt=new DateTime().plusDays(4).toDate();
+  when(timeProvider.currentTime()).thenReturn(biggerLoserChangedAt);
+  GoConfigHolder afterSecondSave=dataSource.writeWithLock(new UserAwarePipelineAddingCommand("bar-pipeline","bigger_loser"),afterFirstSave).getConfigHolder();
+  String expectedMd5=afterFirstSave.config.getMd5();
+  GoConfigRevision firstRev=configRepository.getRevision(expectedMd5);
+  assertThat(firstRev.getUsername(),is("loser"));
+  assertThat(firstRev.getGoVersion(),is("N/A"));
+  assertThat(firstRev.getMd5(),is(expectedMd5));
+  assertThat(firstRev.getTime(),is(loserChangedAt));
+  assertThat(firstRev.getSchemaVersion(),is(GoConstants.CONFIG_SCHEMA_VERSION));
+  assertThat(com.thoughtworks.go.config.ConfigMigrator.load(firstRev.getContent()),is(afterFirstSave.configForEdit));
+  CruiseConfig config=afterSecondSave.config;
+  assertThat(config.hasPipelineNamed(new CaseInsensitiveString("bar-pipeline")),is(true));
+  expectedMd5=config.getMd5();
+  GoConfigRevision secondRev=configRepository.getRevision(expectedMd5);
+  assertThat(secondRev.getUsername(),is("bigger_loser"));
+  assertThat(secondRev.getGoVersion(),is("N/A"));
+  assertThat(secondRev.getMd5(),is(expectedMd5));
+  assertThat(secondRev.getTime(),is(biggerLoserChangedAt));
+  assertThat(secondRev.getSchemaVersion(),is(GoConstants.CONFIG_SCHEMA_VERSION));
+  assertThat(com.thoughtworks.go.config.ConfigMigrator.load(secondRev.getContent()),is(afterSecondSave.configForEdit));
+}

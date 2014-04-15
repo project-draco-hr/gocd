@@ -1,0 +1,10 @@
+{
+  String msg="BuildStateTransitions should match";
+  nullsafeAssert(msg,actual,expect);
+  assertThat(actual.size(),is(expect.size()));
+  for (  JobStateTransition expectTransition : expect) {
+    JobStateTransition actualTransition=actual.byState(expectTransition.getCurrentState());
+    assertThat(msg,actualTransition,is(not(nullValue())));
+    assertThat(msg,actualTransition.getStateChangeTime(),is(expectTransition.getStateChangeTime()));
+  }
+}

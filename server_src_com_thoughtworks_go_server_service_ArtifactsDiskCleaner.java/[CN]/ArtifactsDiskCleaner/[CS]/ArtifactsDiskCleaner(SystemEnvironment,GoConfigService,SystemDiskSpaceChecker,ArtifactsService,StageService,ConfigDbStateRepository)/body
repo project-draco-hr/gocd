@@ -1,0 +1,24 @@
+{
+  super(null,systemEnvironment,goConfigService.artifactsDir(),goConfigService,ArtifactsDiskSpaceFullChecker.ARTIFACTS_DISK_FULL_ID,diskSpaceChecker);
+  this.artifactService=artifactService;
+  this.stageService=stageService;
+  this.configDbStateRepository=configDbStateRepository;
+  cleaner=new Thread(new Runnable(){
+    public void run(){
+      try {
+        while (true) {
+synchronized (triggerCleanup) {
+            triggerCleanup.wait();
+          }
+          deleteOldArtifacts();
+        }
+      }
+ catch (      Exception e) {
+        LOGGER.error(String.format("Artifact disk cleanup task aborted. Error encountered: '%s'",e.getMessage()));
+        throw new RuntimeException(e);
+      }
+    }
+  }
+);
+  cleaner.start();
+}

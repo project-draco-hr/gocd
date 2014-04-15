@@ -1,0 +1,12 @@
+{
+  Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
+    @Override public void uncaughtException(    Thread thread,    Throwable throwable){
+      exceptions.put(thread,throwable);
+    }
+  }
+);
+  List<Thread> threads=createThreads(numberOfTimesToRunTheStuffInsideTheOperations);
+  startThreads(threads);
+  waitForThreadsToFinish(threads);
+  assertThat(exceptions.toString(),exceptions.size(),is(0));
+}

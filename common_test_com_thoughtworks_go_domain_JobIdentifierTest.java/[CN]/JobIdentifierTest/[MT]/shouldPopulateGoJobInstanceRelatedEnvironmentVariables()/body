@@ -1,0 +1,15 @@
+{
+  JobIdentifier id=new JobIdentifier("pipeline-name",10,"label-10","stage-name","2","build-name");
+  id.setRerunOfCounter(1);
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  id.populateEnvironmentVariables(context);
+  EnvironmentVariableContext expected=new EnvironmentVariableContext();
+  expected.setProperty("GO_PIPELINE_NAME","pipeline-name",false);
+  expected.setProperty("GO_PIPELINE_COUNTER","10",false);
+  expected.setProperty("GO_PIPELINE_LABEL","label-10",false);
+  expected.setProperty("GO_STAGE_NAME","stage-name",false);
+  expected.setProperty("GO_STAGE_COUNTER","2",false);
+  expected.setProperty("GO_RERUN_OF_STAGE_COUNTER","1",false);
+  expected.setProperty("GO_JOB_NAME","build-name",false);
+  assertThat(context,is(expected));
+}

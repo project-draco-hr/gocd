@@ -1,0 +1,10 @@
+{
+  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  Stage stage=StageMother.createPassedStage("pipeline",10,"stage",20,"job",new Date());
+  ArtifactDirectoryChooser chooser=mock(ArtifactDirectoryChooser.class);
+  ReflectionUtil.setField(artifactsService,"chooser",chooser);
+  when(chooser.findArtifact(any(LocatableEntity.class),eq(""))).thenThrow(new IllegalArtifactLocationException("holy cow!"));
+  artifactsService.purgeArtifactsForStage(stage);
+  assertThat(logFixture.contains(Level.ERROR,"Error occurred while clearing artifacts for 'pipeline/10/stage/20'. Error: 'holy cow!'"),is(true));
+  verify(stageService).markArtifactsDeletedFor(stage);
+}

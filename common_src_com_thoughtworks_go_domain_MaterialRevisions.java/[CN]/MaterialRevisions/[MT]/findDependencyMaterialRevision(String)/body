@@ -1,0 +1,12 @@
+{
+  for (  MaterialRevision materialRevision : this) {
+    Revision revision=materialRevision.getRevision();
+    if (revision instanceof DependencyMaterialRevision) {
+      DependencyMaterialRevision dependencyMaterialRevision=(DependencyMaterialRevision)revision;
+      if (dependencyMaterialRevision.getPipelineName().equalsIgnoreCase(pipelineName)) {
+        return dependencyMaterialRevision;
+      }
+    }
+  }
+  return null;
+}

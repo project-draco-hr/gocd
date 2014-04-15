@@ -1,0 +1,13 @@
+{
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("some-pipeline","dev");
+  Pipeline pipeline1=schedulePipelineWithStages(mingleConfig);
+  Pipeline pipeline2=schedulePipelineWithStages(mingleConfig);
+  Pipeline pipeline3=schedulePipelineWithStages(mingleConfig);
+  Pipeline pipeline4=schedulePipelineWithStages(mingleConfig);
+  Pipeline pipeline5=schedulePipelineWithStages(mingleConfig);
+  assertThat(pipelineDao.getPageNumberForCounter("some-pipeline",pipeline4.getCounter(),1),is(2));
+  assertThat(pipelineDao.getPageNumberForCounter("some-pipeline",pipeline5.getCounter(),1),is(1));
+  assertThat(pipelineDao.getPageNumberForCounter("some-pipeline",pipeline1.getCounter(),2),is(3));
+  assertThat(pipelineDao.getPageNumberForCounter("some-pipeline",pipeline2.getCounter(),3),is(2));
+  assertThat(pipelineDao.getPageNumberForCounter("some-pipeline",pipeline3.getCounter(),10),is(1));
+}

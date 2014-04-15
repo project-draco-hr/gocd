@@ -1,0 +1,22 @@
+{
+  final int limit=10;
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline_name","stage","job");
+  goConfigService.addPipeline(pipelineConfig,"pipeline-group");
+  pipelineConfig.setLabelTemplate("${COUNT}-blah-1");
+  Pipeline instance1=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  dbHelper.cancelStage(instance1.getStages().get(0));
+  pipelineConfig.setLabelTemplate("${COUNT}-blah-2");
+  Pipeline instance2=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  dbHelper.passStage(instance2.getStages().get(0));
+  pipelineConfig.setLabelTemplate("${COUNT}-blah-1-1");
+  Pipeline instance3=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  dbHelper.passStage(instance3.getStages().get(0));
+  pipelineConfig.setLabelTemplate("${COUNT}-blaH-1-2");
+  Pipeline instance4=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  dbHelper.passStage(instance4.getStages().get(0));
+  PipelineInstanceModels actual=pipelineHistoryService.findMatchingPipelineInstances("pipeline_name"," h-1   ",limit,new Username(new CaseInsensitiveString("user")),new HttpLocalizedOperationResult());
+  assertThat(actual.size(),is(3));
+  assertThat(actual.get(0).getCounter(),is(4));
+  assertThat(actual.get(1).getCounter(),is(3));
+  assertThat(actual.get(2).getCounter(),is(1));
+}

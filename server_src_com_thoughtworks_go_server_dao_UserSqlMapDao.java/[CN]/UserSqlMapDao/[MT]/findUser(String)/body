@@ -1,0 +1,9 @@
+{
+  return (User)transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus transactionStatus){
+      User user=(User)sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("name",userName)).setCacheable(true).uniqueResult();
+      return user == null ? new NullUser() : user;
+    }
+  }
+);
+}

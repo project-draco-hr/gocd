@@ -1,0 +1,9 @@
+{
+  dataSource.reloadEveryTime();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  response=new MockHttpServletResponse();
+  configHelper.addSecurityWithPasswordFile();
+  configHelper.addAdmins("admin");
+  setCurrentUser("admin");
+}

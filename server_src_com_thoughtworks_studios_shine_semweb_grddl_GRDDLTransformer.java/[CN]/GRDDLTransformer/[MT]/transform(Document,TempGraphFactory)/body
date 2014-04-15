@@ -1,0 +1,18 @@
+{
+  DocumentResult result=new DocumentResult();
+  try {
+    DocumentSource source=new DocumentSource(inputDoc);
+    transformer.transform(source,result);
+    Graph graph=graphFactory.createTempGraph();
+    graph.addTriplesFromRDFXMLAbbrev(new StringReader(result.getDocument().asXML()));
+    return graph;
+  }
+ catch (  ShineRuntimeException e) {
+    LOGGER.error("Could not convert to a graph. The document was: \n" + result.getDocument().asXML(),e);
+    throw e;
+  }
+catch (  TransformerException e) {
+    LOGGER.warn("Could not perform grddl transform. The document was: \n" + result.getDocument().asXML(),e);
+    throw new GrddlTransformException(e);
+  }
+}

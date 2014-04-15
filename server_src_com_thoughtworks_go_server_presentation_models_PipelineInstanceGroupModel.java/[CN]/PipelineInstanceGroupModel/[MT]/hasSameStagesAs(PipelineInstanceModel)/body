@@ -1,0 +1,12 @@
+{
+  StageInstanceModels stageHistory=pipelineInstanceModel.getStageHistory();
+  if (config.size() != stageHistory.size()) {
+    return false;
+  }
+  for (int i=0; i < config.size(); i++) {
+    if (!equals(config.get(i),stageHistory.get(i))) {
+      return false;
+    }
+  }
+  return true;
+}

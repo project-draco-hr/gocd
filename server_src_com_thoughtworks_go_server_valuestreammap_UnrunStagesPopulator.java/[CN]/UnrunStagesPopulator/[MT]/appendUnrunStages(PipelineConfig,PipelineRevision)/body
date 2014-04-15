@@ -1,0 +1,8 @@
+{
+  Stages stages=pipelineRevision.getStages();
+  StageConfig nextStage=pipelineConfig.nextStage(new CaseInsensitiveString(stages.last().getName()));
+  while (nextStage != null && !stages.hasStage(nextStage.name().toString())) {
+    pipelineRevision.addStage(new NullStage(nextStage.name().toString()));
+    nextStage=pipelineConfig.nextStage(nextStage.name());
+  }
+}

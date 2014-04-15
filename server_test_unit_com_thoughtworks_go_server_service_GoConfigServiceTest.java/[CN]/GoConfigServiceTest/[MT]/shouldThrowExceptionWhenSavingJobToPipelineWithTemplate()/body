@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipeline=pipelineWithTemplate();
+  when(goConfigFileDao.loadForEditing()).thenReturn(configWith(pipeline));
+  try {
+    goConfigService.buildSaver("pipeline","stage",0).asXml();
+    fail("shouldThrowExceptionWhenSavingJobToPipelineWithTemplate");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Pipeline 'pipeline' references template 'foo'. Cannot edit job."));
+  }
+}

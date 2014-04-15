@@ -1,0 +1,10 @@
+{
+  AgentsViewModel agents=agentsViewModel();
+  agents.filter("status:building");
+  assertThat(agents.size(),is(1));
+  assertThat(agents.get(0).isBuilding(),is(true));
+  agents=agentsViewModel();
+  agents.filter("status:Building");
+  assertThat(agents.size(),is(1));
+  assertThat(agents.get(0).isBuilding(),is(true));
+}

@@ -1,0 +1,8 @@
+{
+  PipelineTemplateConfig pipelineTemplateConfig=new PipelineTemplateConfig(new CaseInsensitiveString("template"),StageConfigMother.manualStage("stage1"),StageConfigMother.manualStage("stage1"));
+  pipelineTemplateConfig.validate(null);
+  assertThat(pipelineTemplateConfig.get(0).errors().isEmpty(),is(false));
+  assertThat(pipelineTemplateConfig.get(1).errors().isEmpty(),is(false));
+  assertThat(pipelineTemplateConfig.get(0).errors().on(StageConfig.NAME),is("You have defined multiple stages called 'stage1'. Stage names are case-insensitive and must be unique."));
+  assertThat(pipelineTemplateConfig.get(1).errors().on(StageConfig.NAME),is("You have defined multiple stages called 'stage1'. Stage names are case-insensitive and must be unique."));
+}

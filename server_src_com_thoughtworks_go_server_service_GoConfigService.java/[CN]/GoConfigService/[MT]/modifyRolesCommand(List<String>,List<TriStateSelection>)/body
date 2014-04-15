@@ -1,0 +1,9 @@
+{
+  GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand();
+  for (  String user : users) {
+    for (    TriStateSelection roleSelection : roleSelections) {
+      command.addCommand(new GoConfigFileDao.ModifyRoleCommand(user,roleSelection));
+    }
+  }
+  return command;
+}

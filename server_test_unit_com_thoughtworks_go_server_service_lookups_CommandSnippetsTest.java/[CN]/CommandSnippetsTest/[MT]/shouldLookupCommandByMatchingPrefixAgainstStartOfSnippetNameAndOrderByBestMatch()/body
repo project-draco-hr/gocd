@@ -1,0 +1,7 @@
+{
+  CommandSnippet scp=CommandSnippetMother.validSnippet("scp");
+  CommandSnippet scp_copy=CommandSnippetMother.validSnippet("scp-copy");
+  CommandSnippet copy_scp=CommandSnippetMother.validSnippet("copy-scp");
+  CommandSnippets snippets=new CommandSnippets(Arrays.asList(scp_copy,scp,copy_scp));
+  assertThat(snippets.filterBy("scp"),is(Arrays.asList(scp,scp_copy)));
+}

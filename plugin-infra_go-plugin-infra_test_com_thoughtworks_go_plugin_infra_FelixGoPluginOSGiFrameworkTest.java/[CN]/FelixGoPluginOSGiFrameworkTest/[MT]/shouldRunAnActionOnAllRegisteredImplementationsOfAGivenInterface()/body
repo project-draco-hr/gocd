@@ -1,0 +1,16 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  registerServices(firstService,secondService);
+  spy.start();
+  spy.doOnAll(SomeInterface.class,new Action<SomeInterface>(){
+    public void execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      obj.someMethod();
+      assertThat(pluginDescriptor,is(descriptor));
+    }
+  }
+);
+  verify(firstService).someMethod();
+  verify(secondService).someMethod();
+  verifyNoMoreInteractions(firstService,secondService);
+}

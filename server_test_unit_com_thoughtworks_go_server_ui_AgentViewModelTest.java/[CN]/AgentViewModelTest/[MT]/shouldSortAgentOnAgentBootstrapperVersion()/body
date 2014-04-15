@@ -1,0 +1,15 @@
+{
+  AgentViewModel v12dot3=new AgentViewModel(updateAgentLauncherVersion(AgentInstanceMother.building(),"12.3"));
+  AgentViewModel v12dot3Another=new AgentViewModel(updateAgentLauncherVersion(AgentInstanceMother.building(),"12.3"));
+  AgentViewModel v2dot4=new AgentViewModel(updateAgentLauncherVersion(AgentInstanceMother.building(),"2.4"));
+  AgentViewModel v12dot2=new AgentViewModel(updateAgentLauncherVersion(AgentInstanceMother.building(),"12.2"));
+  AgentViewModel v12dot5=new AgentViewModel(updateAgentLauncherVersion(AgentInstanceMother.building(),"12.5"));
+  AgentViewModel unknown=new AgentViewModel(updateAgentLauncherVersion(AgentInstanceMother.building(),"unknown"));
+  List<AgentViewModel> sorted=sort(AgentViewModel.BOOTSTRAPPER_VERSION_COMPARATOR,v12dot3,v12dot3Another,v2dot4,v12dot2,v12dot5,unknown);
+  assertThat(sorted.get(0),is(v2dot4));
+  assertThat(sorted.get(1),is(v12dot2));
+  assertThat(sorted.get(2),is(v12dot3));
+  assertThat(sorted.get(3),is(v12dot3Another));
+  assertThat(sorted.get(4),is(v12dot5));
+  assertThat(sorted.get(5),is(unknown));
+}

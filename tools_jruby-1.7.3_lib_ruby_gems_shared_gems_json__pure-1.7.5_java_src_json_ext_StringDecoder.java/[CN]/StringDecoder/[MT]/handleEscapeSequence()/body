@@ -1,0 +1,35 @@
+{
+  ensureMin(1);
+switch (readUtf8Char()) {
+case 'b':
+    append('\b');
+  break;
+case 'f':
+append('\f');
+break;
+case 'n':
+append('\n');
+break;
+case 'r':
+append('\r');
+break;
+case 't':
+append('\t');
+break;
+case 'u':
+ensureMin(4);
+int cp=readHex();
+if (Character.isHighSurrogate((char)cp)) {
+handleLowSurrogate((char)cp);
+}
+ else if (Character.isLowSurrogate((char)cp)) {
+throw invalidUtf8();
+}
+ else {
+writeUtf8Char(cp);
+}
+break;
+default :
+quoteStart();
+}
+}

@@ -1,0 +1,11 @@
+{
+  CurrentLocale locale=new CurrentLocale();
+  ReloadableResourceBundleMessageSource source=new ReloadableResourceBundleMessageSource();
+  source.setBasename("test_message");
+  MessageSourceAccessor accessor=new MessageSourceAccessor(source);
+  Localizer localizer=new Localizer(accessor,locale);
+  assertThat(localizer.localize(new Duration(1000)),is("1 second"));
+  assertThat(localizer.localize(new Duration(0)),is(""));
+  locale.setLocaleString(Localizer.LOCALE_KANNADA);
+  assertThat(localizer.localize(new Duration(1000)),is("1 second"));
+}

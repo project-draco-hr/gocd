@@ -1,0 +1,16 @@
+{
+  if (!hasOperatePermission(username,operationResult)) {
+    return;
+  }
+  List<AgentInstance> agents=new ArrayList<AgentInstance>();
+  if (!populateAgentInstancesForUUIDs(operationResult,uuids,agents)) {
+    return;
+  }
+  try {
+    agentConfigService.enableAgents(agents.toArray((new AgentInstance[0])));
+    operationResult.ok(String.format("Enabled %s agent(s)",uuids.size()));
+  }
+ catch (  Exception e) {
+    operationResult.internalServerError("Enabling agents failed:" + e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
+  }
+}

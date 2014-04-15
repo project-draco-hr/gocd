@@ -1,0 +1,8 @@
+{
+  environmentConfig.addAgent("uuid");
+  environmentConfig.addAgentIfNew("uuid");
+  environmentConfig.addAgentIfNew("uuid1");
+  assertThat(environmentConfig.getAgents().size(),is(2));
+  assertThat(environmentConfig.hasAgent("uuid"),is(true));
+  assertThat(environmentConfig.hasAgent("uuid1"),is(true));
+}

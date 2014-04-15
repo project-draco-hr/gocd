@@ -1,0 +1,20 @@
+{
+  GadgetOauthClient google=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(google);
+  GadgetOauthAuthorizationCode authCode1=new GadgetOauthAuthorizationCode("fooUser",google,"code",1000l);
+  template.save(authCode1);
+  GadgetOauthClient yahoo=new GadgetOauthClient("yahoo.com","yahoo","client_id","client_secret");
+  template.save(yahoo);
+  GadgetOauthAuthorizationCode authCode2=new GadgetOauthAuthorizationCode("fooUser",yahoo,"code",1000l);
+  template.save(authCode2);
+  GadgetOauthAuthorizationCode authCode3=new GadgetOauthAuthorizationCode("barUser",yahoo,"code",1000l);
+  template.save(authCode3);
+  Collection<GadgetDataSource.GadgetOauthAuthorizationCodeDTO> googleAuthCodes=repo.findAllOauthAuthorizationCodeByGadgetsOauthClientId(google.getId());
+  assertThat(googleAuthCodes.size(),is(1));
+  assertThat(new ArrayList(googleAuthCodes).get(0),not(nullValue()));
+  assertThat(googleAuthCodes,hasItem(authCode1.getDTO()));
+  Collection<GadgetDataSource.GadgetOauthAuthorizationCodeDTO> yahooAuthCodes=repo.findAllOauthAuthorizationCodeByGadgetsOauthClientId(yahoo.getId());
+  assertThat(new ArrayList(yahooAuthCodes).get(0),not(nullValue()));
+  assertThat(new ArrayList(yahooAuthCodes).get(1),not(nullValue()));
+  assertThat(yahooAuthCodes,hasItems(authCode2.getDTO(),authCode3.getDTO()));
+}

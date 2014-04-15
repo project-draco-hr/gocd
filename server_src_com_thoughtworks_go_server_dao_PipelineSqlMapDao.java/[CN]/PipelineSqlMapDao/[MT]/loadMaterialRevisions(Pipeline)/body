@@ -1,0 +1,9 @@
+{
+  if (pipeline == null) {
+    return pipeline;
+  }
+  long pipelineId=pipeline.getId();
+  MaterialRevisions revisions=materialRepository.findMaterialRevisionsForPipeline(pipelineId);
+  pipeline.setModificationsOnBuildCause(revisions);
+  return pipeline;
+}

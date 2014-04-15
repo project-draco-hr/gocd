@@ -1,0 +1,17 @@
+{
+  DirectoryScanner scanner=new DirectoryScanner();
+  scanner.setBasedir(rootPath).setIncludes(new String[]{pattern}).scan();
+  String[] allPaths=scanner.getIncludedFiles();
+  List<File> allFiles=new ArrayList<File>();
+  String[] directories=scanner.getIncludedDirectories();
+  for (  String directory : directories) {
+    allFiles.add(new File(rootPath,directory));
+  }
+  for (int i=0; i < allPaths.length; i++) {
+    File file=new File(rootPath,allPaths[i]);
+    if (!allFiles.contains(file.getParentFile())) {
+      allFiles.add(file);
+    }
+  }
+  return allFiles.toArray(new File[]{});
+}

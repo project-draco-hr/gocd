@@ -1,0 +1,12 @@
+{
+  String groupName="non-existent-group_name";
+  Localizer localizer=mock(Localizer.class);
+  when(localizer.localize("PIPELINE_GROUP_NOT_FOUND",groupName)).thenReturn("Not found");
+  when(securityService.isUserAdminOfGroup(validUser.getUsername(),groupName)).thenThrow(new PipelineGroupNotFoundException());
+  service.getXml(groupName,validUser,result);
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Not found"));
+  verify(securityService,times(1)).isUserAdminOfGroup(validUser.getUsername(),groupName);
+  verify(goConfigService,never()).getConfigForEditing();
+}

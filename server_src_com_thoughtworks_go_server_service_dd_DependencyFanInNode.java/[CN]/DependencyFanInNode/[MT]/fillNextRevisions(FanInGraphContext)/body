@@ -1,0 +1,20 @@
+{
+  if (!hasMoreInstances()) {
+    return;
+  }
+  int batchOffset=currentCount;
+  for (int i=1; i <= context.revBatchCount; ++i) {
+    final Pair<StageIdentifier,List<FaninScmMaterial>> sIdScmPair=getRevisionNthFor(i + batchOffset,context);
+    if (!validateAllScmRevisionsAreSameWithinAFingerprint(sIdScmPair)) {
+      ++currentCount;
+      if (!hasMoreInstances()) {
+        break;
+      }
+      continue;
+    }
+    validateIfRevisionMatchesTheCurrentConfigAndUpdateTheMaterialMap(context,sIdScmPair);
+    if (!hasMoreInstances()) {
+      break;
+    }
+  }
+}

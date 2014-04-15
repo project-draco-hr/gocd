@@ -1,0 +1,5 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline","stage","build");
+  pipelineConfig.getFirstStageConfig().updateApproval(Approval.manualApproval());
+  assertThat("First stage should be manual approved",pipelineConfig.isFirstStageManualApproval(),is(true));
+}

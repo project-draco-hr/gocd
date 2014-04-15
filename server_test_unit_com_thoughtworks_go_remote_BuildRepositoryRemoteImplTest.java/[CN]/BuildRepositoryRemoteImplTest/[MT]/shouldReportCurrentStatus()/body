@@ -1,0 +1,8 @@
+{
+  JobIdentifier jobId=new JobIdentifier(new StageIdentifier("pipelineName",1,"stageName","1"),"job");
+  buildRepository.reportCurrentStatus(info,jobId,JobState.Building);
+  verify(agentService).updateRuntimeInfo(info);
+  verify(repositoryService).updateStatusFromAgent(jobId,JobState.Building,info.getUUId());
+  verify(jobStatusTopic).post(new JobStatusMessage(jobId,JobState.Building,info.getUUId()));
+  assertThat(log(),hasItem(String.format("[%s] is reporting status [%s] for [%s]",info.agentInfoDebugString(),JobState.Building,jobId.toFullString())));
+}

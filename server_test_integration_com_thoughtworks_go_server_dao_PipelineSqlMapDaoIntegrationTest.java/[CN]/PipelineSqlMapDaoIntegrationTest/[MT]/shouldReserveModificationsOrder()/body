@@ -1,0 +1,9 @@
+{
+  MaterialRevisions materialRevisions=ModificationsMother.multipleModifications();
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createWithModifications(materialRevisions,""));
+  save(pipeline);
+  Pipeline loaded=pipelineDao.loadPipeline(pipeline.getId());
+  ModificationsCollector mods=new ModificationsCollector();
+  loaded.getBuildCause().getMaterialRevisions().accept(mods);
+  assertEquals(ModificationsMother.TODAY_CHECKIN,mods.first().getModifiedTime());
+}

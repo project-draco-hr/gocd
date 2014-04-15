@@ -1,0 +1,10 @@
+{
+  List<Class<? extends Task>> allTaskClasses=registry.implementersOf(Task.class);
+  List<Class<? extends Task>> builtinTaskClasses=new ArrayList<Class<? extends Task>>();
+  for (  Class<? extends Task> taskClass : allTaskClasses) {
+    if (taskClass != PluggableTask.class) {
+      builtinTaskClasses.add(taskClass);
+    }
+  }
+  return builtinTaskClasses;
+}

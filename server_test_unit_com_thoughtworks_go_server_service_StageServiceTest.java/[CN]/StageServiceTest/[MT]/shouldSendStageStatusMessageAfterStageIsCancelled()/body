@@ -1,0 +1,14 @@
+{
+  StageStatusTopic topic=mock(StageStatusTopic.class);
+  final Stage cancelledStage=StageMother.cancelledStage("stage","job");
+  cancelledStage.setIdentifier(new StageIdentifier("pipeline/1/stage/1"));
+  final StageService service=new StageService(stageDao,jobInstanceService,topic,new StageStatusCache(stageDao),null,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,mock(GoCache.class));
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      service.cancelStage(cancelledStage);
+    }
+  }
+);
+  verify(topic).post(new StageStatusMessage(cancelledStage.getIdentifier(),StageState.Cancelled,StageResult.Cancelled,Username.ANONYMOUS));
+  verifyNoMoreInteractions(topic);
+}

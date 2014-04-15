@@ -1,0 +1,7 @@
+{
+  for (  EnvironmentPipelineConfig pipelineConfig : this) {
+    if (!pipelineConfig.isReferenceOf(pipelineNames)) {
+      throw new RuntimeException(String.format("Environment '%s' refers to an unknown pipeline '%s'.",name,pipelineConfig.getName()));
+    }
+  }
+}

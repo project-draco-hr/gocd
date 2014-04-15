@@ -1,0 +1,9 @@
+{
+  if (parent == null) {
+    File f=new File(name);
+    parent=f.getParentFile();
+    name=f.getName();
+  }
+  File toTest=new File(parent.getCanonicalPath(),name);
+  return !toTest.getAbsolutePath().equals(toTest.getCanonicalPath());
+}

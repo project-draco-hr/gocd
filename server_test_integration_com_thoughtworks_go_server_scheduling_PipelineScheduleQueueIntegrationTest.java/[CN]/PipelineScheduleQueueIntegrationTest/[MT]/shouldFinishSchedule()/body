@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=fixture.pipelineConfig();
+  BuildCause cause=modifySomeFiles(pipelineConfig,ModificationsMother.currentRevision());
+  queue.schedule(fixture.pipelineName,cause);
+  BuildCause newCause=modifySomeFiles(pipelineConfig,"somethingElse");
+  queue.finishSchedule(fixture.pipelineName,cause,newCause);
+  assertThat(queue.hasBuildCause(fixture.pipelineName),is(false));
+  assertThat(queue.mostRecentScheduled(fixture.pipelineName),is(newCause));
+}

@@ -1,0 +1,36 @@
+{
+  if (!securityService.hasViewPermissionForPipeline(username,pipelineName)) {
+    result.unauthorized(LocalizedMessage.cannotViewPipeline(pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return new ArrayList<MaterialRevision>();
+  }
+  if (!goConfigService.hasPipelineNamed(new CaseInsensitiveString(pipelineName))) {
+    result.notFound(LocalizedMessage.string("PIPELINE_NOT_FOUND",pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return new ArrayList<MaterialRevision>();
+  }
+  if (fromCounter.equals(toCounter)) {
+    fromCounter-=1;
+  }
+  if (fromCounter < 0 || toCounter <= 0) {
+    result.badRequest(LocalizedMessage.string("NEGATIVE_PIPELINE_COUNTER"));
+    return new ArrayList<MaterialRevision>();
+  }
+  if (fromCounter > toCounter) {
+    return revisionsBetween(pipelineName,toCounter,fromCounter,username,result,skipCheckForMingle,showBisect);
+  }
+  if (!showBisect) {
+    if (fromCounter != 0) {
+      Pipeline toPipeline=pipelineDao.findPipelineByNameAndCounter(pipelineName,toCounter);
+      Pipeline fromPipeline=pipelineDao.findPipelineByNameAndCounter(pipelineName,fromCounter);
+      if (toPipeline.isBisect() || fromPipeline.isBisect()) {
+        return new ArrayList<MaterialRevision>();
+      }
+    }
+  }
+  List<MaterialRevision> allMaterialRevisions=modificationsPerMaterialBetween(pipelineName,fromCounter,toCounter);
+  return filterReachableFingerprintHolders(allMaterialRevisions,new FingerprintLoader<MaterialRevision>(){
+    public String getFingerprint(    MaterialRevision materialRevision){
+      return materialRevision.getMaterial().getFingerprint();
+    }
+  }
+,pipelineName,username,skipCheckForMingle,false);
+}

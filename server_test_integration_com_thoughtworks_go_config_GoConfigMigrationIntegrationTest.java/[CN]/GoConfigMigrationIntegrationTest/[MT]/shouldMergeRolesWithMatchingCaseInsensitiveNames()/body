@@ -1,0 +1,10 @@
+{
+  final String configContent="<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<cruise schemaVersion=\"39\">\n" + "    <server artifactsdir=\"artifacts\">\n"+ "        <security>\n"+ "             <roles>\n"+ "                 <role name=\"bAr\">\n"+ "                     <user>quux</user>\n"+ "                     <user>bang</user>\n"+ "                     <user>LoSeR</user>\n"+ "                 </role>\n"+ "                 <role name=\"Foo\">\n"+ "                     <user>foo</user>\n"+ "                     <user>LoSeR</user>\n"+ "                     <user>bar</user>\n"+ "                     <user>LOsER</user>\n"+ "                 </role>\n"+ "                 <role name=\"BaR\">\n"+ "                     <user>baz</user>\n"+ "                     <user>bang</user>\n"+ "                     <user>lOsEr</user>\n"+ "                 </role>\n"+ "             </roles>\n"+ "        </security>"+ "    </server>"+ " </cruise>";
+  File configFile=new File(systemEnvironment.getCruiseConfigFile());
+  FileUtils.writeStringToFile(configFile,configContent);
+  CruiseConfig cruiseConfig=loadWithMigration(configFile).config;
+  RolesConfig roles=cruiseConfig.server().security().getRoles();
+  assertThat(roles.size(),is(2));
+  assertThat(roles.get(0),is(new Role(new CaseInsensitiveString("bAr"),new RoleUser(new CaseInsensitiveString("quux")),new RoleUser(new CaseInsensitiveString("bang")),new RoleUser(new CaseInsensitiveString("LoSeR")),new RoleUser(new CaseInsensitiveString("baz")))));
+  assertThat(roles.get(1),is(new Role(new CaseInsensitiveString("Foo"),new RoleUser(new CaseInsensitiveString("foo")),new RoleUser(new CaseInsensitiveString("LoSeR")),new RoleUser(new CaseInsensitiveString("bar")))));
+}

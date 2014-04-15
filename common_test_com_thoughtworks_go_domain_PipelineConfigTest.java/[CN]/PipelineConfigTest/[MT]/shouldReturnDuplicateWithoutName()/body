@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("somePipeline");
+  PipelineConfig clonedPipelineConfig=pipelineConfig.duplicate();
+  assertThat(clonedPipelineConfig.name(),is(new CaseInsensitiveString("")));
+  assertThat(clonedPipelineConfig.materialConfigs(),is(pipelineConfig.materialConfigs()));
+  assertThat(clonedPipelineConfig.getFirstStageConfig(),is(pipelineConfig.getFirstStageConfig()));
+}

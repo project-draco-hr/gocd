@@ -1,0 +1,19 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  HashMap mingleConfigMap=new HashMap();
+  mingleConfigMap.put("mingleconfig","mingleconfig");
+  HashMap trackingToolMap=new HashMap();
+  trackingToolMap.put("trackingtool","trackingtool");
+  HashMap timerConfigMap=new HashMap();
+  String cronSpec="0 0 11 * * ?";
+  timerConfigMap.put(TimerConfig.TIMER_SPEC,cronSpec);
+  Map configMap=new HashMap();
+  configMap.put(PipelineConfig.LABEL_TEMPLATE,"LABEL123-${COUNT}");
+  configMap.put(PipelineConfig.MINGLE_CONFIG,mingleConfigMap);
+  configMap.put(PipelineConfig.TRACKING_TOOL,trackingToolMap);
+  configMap.put(PipelineConfig.TIMER_CONFIG,timerConfigMap);
+  pipelineConfig.setConfigAttributes(configMap);
+  assertThat(pipelineConfig.getLabelTemplate(),is("LABEL123-${COUNT}"));
+  assertThat(pipelineConfig.getTimer().getTimerSpec(),is(cronSpec));
+  assertThat(pipelineConfig.getTimer().shouldTriggerOnlyOnChanges(),is(false));
+}

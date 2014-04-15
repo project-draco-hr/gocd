@@ -1,0 +1,30 @@
+{
+  command.checkoutTo(outputStreamConsumer,workingDir,new SubversionRevision(2));
+  File newFile=new File(workingDir.getAbsolutePath() + "/foo");
+  FileUtils.writeStringToFile(newFile,"content");
+  command.add(outputStreamConsumer,newFile);
+  try {
+    badUserNameCommand().commit(outputStreamConsumer,workingDir,"message");
+    fail("should have failed");
+  }
+ catch (  Exception e) {
+    assertThat("Plain text password detected!",outputStreamConsumer.getAllOutput().contains(HARRYS_PASSWORD),Is.is(false));
+    assertThat("Plain text password detected!",e.getMessage().contains(HARRYS_PASSWORD),Is.is(false));
+  }
+  try {
+    badPasswordCommand().commit(outputStreamConsumer,workingDir,"message");
+    fail("should have failed");
+  }
+ catch (  Exception e) {
+    assertThat("Plain text password detected!",outputStreamConsumer.getAllOutput().contains("some_bad_password"),Is.is(false));
+    assertThat("Plain text password detected!",e.getMessage().contains("some_bad_password"),Is.is(false));
+  }
+  try {
+    badUrlCommand().commit(outputStreamConsumer,workingDir,"message");
+    fail("should have failed");
+  }
+ catch (  Exception e) {
+    assertThat("Plain text password detected!",outputStreamConsumer.getAllOutput().contains(HARRYS_PASSWORD),Is.is(false));
+    assertThat("Plain text password detected!",e.getMessage().contains(HARRYS_PASSWORD),Is.is(false));
+  }
+}

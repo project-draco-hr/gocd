@@ -1,0 +1,10 @@
+{
+  Modification from=materialRevision.getOldestModification();
+  Modification to=materialRevision.getLatestModification();
+  Long actualFromModificationId=getLastBuiltModificationId(pipeline,to.getMaterialInstance(),from);
+  if (!from.hasId() || !to.hasId()) {
+    throw bomb("You cannot save a PipelineMaterialRevision unless the modifications have already been saved.");
+  }
+  PipelineMaterialRevision revision=new PipelineMaterialRevision(pipelineId,materialRevision,actualFromModificationId);
+  save(revision,pipeline.getName());
+}

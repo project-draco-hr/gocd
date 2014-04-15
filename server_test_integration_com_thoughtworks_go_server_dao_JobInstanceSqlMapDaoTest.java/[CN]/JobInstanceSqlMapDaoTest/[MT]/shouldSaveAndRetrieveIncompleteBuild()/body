@@ -1,0 +1,7 @@
+{
+  JobInstance expected=scheduled(JOB_NAME,new Date());
+  expected=jobInstanceDao.save(stageId,expected);
+  assertThat(expected.getId(),is(not(0L)));
+  JobInstance actual=jobInstanceDao.buildByIdWithTransitions(expected.getId());
+  assertThat(actual,hasSameId(expected));
+}

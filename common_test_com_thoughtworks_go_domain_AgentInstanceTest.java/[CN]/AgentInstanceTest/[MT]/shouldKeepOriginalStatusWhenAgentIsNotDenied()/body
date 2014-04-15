@@ -1,0 +1,6 @@
+{
+  AgentInstance original=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  original.update(buildingRuntimeInfo(agentConfig));
+  original.syncConfig(agentConfig);
+  assertThat(original.getStatus(),is(AgentStatus.Building));
+}

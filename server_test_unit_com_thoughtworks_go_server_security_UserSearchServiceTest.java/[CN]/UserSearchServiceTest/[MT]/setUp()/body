@@ -1,0 +1,7 @@
+{
+  ldapUserSearch=mock(LdapUserSearch.class);
+  passwordFileUserSearch=mock(PasswordFileUserSearch.class);
+  goConfigService=mock(GoConfigService.class);
+  when(goConfigService.isLdapConfigured()).thenReturn(true);
+  userSearchService=new UserSearchService(ldapUserSearch,passwordFileUserSearch,goConfigService);
+}

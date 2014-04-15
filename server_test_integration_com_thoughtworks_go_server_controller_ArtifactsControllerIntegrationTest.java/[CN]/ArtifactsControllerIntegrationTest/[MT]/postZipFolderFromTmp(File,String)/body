@@ -1,0 +1,6 @@
+{
+  File source=file(root,"/tmp" + folder);
+  File zippedFile=zipUtil.zip(source,TestFileUtil.createUniqueTempFile(source.getName()),Deflater.NO_COMPRESSION);
+  zippedFile.deleteOnExit();
+  return postFile("","zipfile",new FileInputStream(zippedFile),response);
+}

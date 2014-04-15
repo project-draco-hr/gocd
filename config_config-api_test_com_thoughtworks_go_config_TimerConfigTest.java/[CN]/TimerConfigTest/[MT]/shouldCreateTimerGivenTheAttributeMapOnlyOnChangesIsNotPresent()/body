@@ -1,0 +1,7 @@
+{
+  HashMap<String,String> mapOfTimerValues=new HashMap<String,String>();
+  mapOfTimerValues.put(TimerConfig.TIMER_SPEC,"0 0 * * * ?");
+  TimerConfig timer=TimerConfig.createTimer(mapOfTimerValues);
+  assertThat(timer.getTimerSpec(),is("0 0 * * * ?"));
+  assertThat(timer.shouldTriggerOnlyOnChanges(),is(false));
+}

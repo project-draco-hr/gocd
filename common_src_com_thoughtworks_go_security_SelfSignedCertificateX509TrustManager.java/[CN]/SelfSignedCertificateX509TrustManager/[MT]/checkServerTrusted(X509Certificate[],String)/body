@@ -1,0 +1,25 @@
+{
+  if (LOG.isDebugEnabled() && certificates != null) {
+    for (int c=0; c < certificates.length; c++) {
+      X509Certificate cert=certificates[c];
+      LOG.info(" Server certificate " + (c + 1) + ":");
+      LOG.info("  Subject DN: " + cert.getSubjectDN());
+      LOG.info("  Signature Algorithm: " + cert.getSigAlgName());
+      LOG.info("  Valid from: " + cert.getNotBefore());
+      LOG.info("  Valid until: " + cert.getNotAfter());
+      LOG.info("  Issuer: " + cert.getIssuerDN());
+    }
+  }
+  try {
+    if ((certificates != null) && (certificates.length == 1) && !truststore.containsAlias(CRUISE_SERVER)) {
+      certificates[0].checkValidity();
+      updateKeystore(CRUISE_SERVER,certificates[0]);
+    }
+ else {
+      defaultTrustManager.checkServerTrusted(certificates,authType);
+    }
+  }
+ catch (  KeyStoreException ke) {
+    throw new RuntimeException("Couldn't access keystore while checking server's certificate",ke);
+  }
+}

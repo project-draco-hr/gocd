@@ -1,0 +1,15 @@
+{
+  StageConfig stageConfig=StageConfigMother.custom("dev","build");
+  JobConfig jobConfig=stageConfig.jobConfigByInstanceName("build",true);
+  jobConfig.setRunOnAllAgents(true);
+  jobConfig.addResource("non-existent");
+  String uuid1=UUID.randomUUID().toString();
+  String uuid2=UUID.randomUUID().toString();
+  DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("anyone",new Agents(new AgentConfig(uuid1),new AgentConfig(uuid2)));
+  try {
+    instanceFactory.createStageInstance(stageConfig,schedulingContext,"md5-test",new TimeProvider());
+    fail("Expected a CannotScheduleException to be thrown");
+  }
+ catch (  CannotScheduleException e) {
+  }
+}

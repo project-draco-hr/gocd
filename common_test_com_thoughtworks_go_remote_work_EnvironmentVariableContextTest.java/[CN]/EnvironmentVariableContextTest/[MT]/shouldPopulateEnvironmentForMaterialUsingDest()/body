@@ -1,0 +1,11 @@
+{
+  SvnMaterial svn=MaterialsMother.svnMaterial();
+  svn.setFolder("svn-dir");
+  MaterialRevision revision=new MaterialRevision(svn,ModificationsMother.oneModifiedFile("revision1"));
+  MaterialRevisions materialRevisions=new MaterialRevisions(revision);
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  context.setProperty("GO_SERVER_URL",SystemEnvironment.getProperty("serviceUrl"),false);
+  jobIdentifier().populateEnvironmentVariables(context);
+  materialRevisions.populateEnvironmentVariables(context,WORKING_DIR);
+  assertThat(context.getProperty("GO_REVISION_SVN_DIR"),is("revision1"));
+}

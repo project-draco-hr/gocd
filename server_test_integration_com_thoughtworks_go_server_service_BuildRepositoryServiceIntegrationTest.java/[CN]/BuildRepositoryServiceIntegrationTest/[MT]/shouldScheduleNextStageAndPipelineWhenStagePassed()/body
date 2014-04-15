@@ -1,0 +1,10 @@
+{
+  createPipelineWithFirstStageCompletedAndNextStageBuilding(StageState.Passed);
+  Stage stage1=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(DEV_STAGE)));
+  assertThat("Should be approved",stage1.isApproved(),is(true));
+  assertThat(stage1.getApprovedBy(),is(DEFAULT_APPROVED_BY));
+  Stage stage2=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(FT_STAGE)));
+  assertThat(stage2.stageState(),is(StageState.Building));
+  assertThat(stage2.getApprovedBy(),is(DEFAULT_APPROVED_BY));
+  assertThat("In same pipeline",stage1.getPipelineId(),is(stage2.getPipelineId()));
+}

@@ -1,0 +1,16 @@
+{
+  AgentInstance idle=AgentInstanceMother.updateUuid(AgentInstanceMother.idle(new Date(),"CCeDev01"),UUID);
+  AgentInstance pending=AgentInstanceMother.pending();
+  AgentInstance building=AgentInstanceMother.building();
+  AgentInstance denied=AgentInstanceMother.disabled();
+  createEnvironment("uat");
+  EnvironmentConfig environment=environmentConfigService.named("uat");
+  environment.addAgent(UUID);
+  AgentInstances instances=new AgentInstances(null,idle,pending,building,denied);
+  AgentService agentService=getAgentService(instances);
+  AgentsViewModel agents=agentService.registeredAgents();
+  assertThat(agents.size(),is(3));
+  for (  AgentViewModel agent : agents) {
+    assertThat(agent.getStatus().getConfigStatus(),not(is(AgentConfigStatus.Pending)));
+  }
+}

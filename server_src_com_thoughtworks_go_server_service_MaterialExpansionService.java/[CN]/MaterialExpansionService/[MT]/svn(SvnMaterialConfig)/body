@@ -1,0 +1,14 @@
+{
+  String cacheKey=cacheKeyForSubversionMaterialCommand(svnMaterialConfig.getFingerprint());
+  Subversion svnLazyLoaded=(SvnCommand)goCache.get(cacheKey);
+  if (svnLazyLoaded == null || !svnLazyLoaded.getUrl().forCommandline().equals(svnMaterialConfig.getUrl())) {
+synchronized (cacheKey) {
+      svnLazyLoaded=(SvnCommand)goCache.get(cacheKey);
+      if (svnLazyLoaded == null || !svnLazyLoaded.getUrl().forCommandline().equals(svnMaterialConfig.getUrl())) {
+        svnLazyLoaded=new SvnCommand(svnMaterialConfig.getFingerprint(),svnMaterialConfig.getUrl(),svnMaterialConfig.getUserName(),svnMaterialConfig.getPassword(),svnMaterialConfig.isCheckExternals());
+        goCache.put(cacheKeyForSubversionMaterialCommand(svnMaterialConfig.getFingerprint()),svnLazyLoaded);
+      }
+    }
+  }
+  return svnLazyLoaded;
+}

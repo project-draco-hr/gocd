@@ -1,0 +1,9 @@
+{
+  File folderToCreate=tempFiles.createUniqueFolder(directoryName);
+  File fileToCreate=new File(folderToCreate,fileName);
+  folderToCreate.mkdirs();
+  FileUtils.writeStringToFile(fileToCreate,contents);
+  fileToCreate.deleteOnExit();
+  folderToCreate.deleteOnExit();
+  return fileToCreate;
+}

@@ -1,0 +1,9 @@
+{
+  cruiseConfig.replaceMaterialWithHgRepoForPipeline(PIPELINE_NAME,hgTestRepo.projectRepositoryUrl());
+  scheduleHelper.manuallySchedulePipelineWithRealMaterials(PIPELINE_NAME,username);
+  scheduleService.autoSchedulePipelinesFromRequestBuffer();
+  Pipeline mostRecent=pipelineService.mostRecentFullPipelineByName(PIPELINE_NAME);
+  assertThat("Should schedule new instance after changed material",mostRecent.getId(),is(not(pipeline.getId())));
+  MaterialRevisions materialRevisions=mostRecent.getBuildCause().getMaterialRevisions();
+  assertEquals(hgTestRepo.latestModifications().get(0).getModifiedTime(),materialRevisions.getDateOfLatestModification());
+}

@@ -1,0 +1,23 @@
+{
+  try {
+    boolean doesNotHaveExtensionAnnotation=candidateClass.getAnnotation(Extension.class) == null;
+    if (doesNotHaveExtensionAnnotation) {
+      return false;
+    }
+    boolean isAbstract=Modifier.isAbstract(candidateClass.getModifiers());
+    if (isAbstract) {
+      errors.add(String.format("Class [%s] is annotated with @Extension but is abstract.",candidateClass.getSimpleName()));
+      return false;
+    }
+    boolean isNotPublic=!Modifier.isPublic(candidateClass.getModifiers());
+    if (isNotPublic) {
+      errors.add(String.format("Class [%s] is annotated with @Extension but is not public.",candidateClass.getSimpleName()));
+      return false;
+    }
+    return isInstantiable(candidateClass);
+  }
+ catch (  NoSuchMethodException e) {
+    errors.add(String.format("Class [%s] is annotated with @Extension but cannot be constructed. Make sure it and all of its parent classes have a default constructor.",candidateClass.getSimpleName()));
+    return false;
+  }
+}

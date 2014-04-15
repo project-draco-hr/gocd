@@ -1,0 +1,8 @@
+{
+  Localizable message=mock(Localizable.class);
+  Localizer localizer=mock(Localizer.class);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(message.localize(localizer)).thenReturn("Seriously, whateva");
+  result.notImplemented(message);
+  assertThat(result.httpCode(),is(501));
+}

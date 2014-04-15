@@ -1,0 +1,19 @@
+{
+  configHelper.addPipeline("pipeline","dev","linux","windows");
+  configHelper.addTemplate("new-template","dev");
+  controller.getPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,null,response);
+  String xml=response.getContentAsString();
+  assertThat(xml,containsString("new-template"));
+  MockHttpServletResponse postResponse=new MockHttpServletResponse();
+  String modifiedXml=xml.replace("new-template","new-name-for-template");
+  controller.postPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,modifiedXml,goConfigFileDao.md5OfConfigFile(),postResponse);
+  MockHttpServletResponse getResponse=new MockHttpServletResponse();
+  controller.getPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,null,getResponse);
+  assertThat(getResponse.getContentAsString(),containsString("new-name-for-template"));
+  assertThat(getResponse.getContentAsString(),is(modifiedXml));
+  setCurrentUser("user");
+  MockHttpServletResponse nonAdminResponse=new MockHttpServletResponse();
+  controller.getPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,null,nonAdminResponse);
+  assertThat(nonAdminResponse.getStatus(),is(SC_UNAUTHORIZED));
+  assertThat(nonAdminResponse.getContentAsString(),is("User 'user' does not have permission to administer pipeline templates"));
+}

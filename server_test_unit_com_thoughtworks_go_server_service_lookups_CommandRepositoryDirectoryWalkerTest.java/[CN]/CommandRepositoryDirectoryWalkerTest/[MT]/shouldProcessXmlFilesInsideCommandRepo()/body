@@ -1,0 +1,8 @@
+{
+  File command_repo=tempFiles.createUniqueFolder("command-repo");
+  File windows=TestFileUtil.createTestFolder(command_repo,"windows");
+  FileUtil.writeContentToFile(CommandSnippetMother.validXMLSnippetContentForCommand("MsBuild"),new File(windows,"msbuild.xml"));
+  CommandSnippets results=walker.getAllCommandSnippets(command_repo.getPath());
+  String expectedRelativePath="/windows/msbuild.xml".replace('/',File.separatorChar);
+  assertThat(results,is(new CommandSnippets(Arrays.asList(new CommandSnippet("MsBuild",Arrays.asList("pack","component.nuspec"),new EmptySnippetComment(),"msbuild",expectedRelativePath)))));
+}

@@ -1,0 +1,9 @@
+{
+  fixture.configLabelTemplateUsingMaterialRevision();
+  Pipeline oldPipeline=fixture.createdPipelineWithAllStagesPassed();
+  Pipeline newPipeline=fixture.createdPipelineWithAllStagesPassed();
+  Stage stage=oldPipeline.getFirstStage();
+  JobInstance job=stage.getFirstJob();
+  ModelAndView modelAndView=controller.jobDetail(oldPipeline.getName(),String.valueOf(oldPipeline.getCounter()),stage.getName(),String.valueOf(stage.getCounter()),job.getName());
+  assertThat(presenter(modelAndView).getBuildLocator(),is(job.getIdentifier().buildLocator()));
+}

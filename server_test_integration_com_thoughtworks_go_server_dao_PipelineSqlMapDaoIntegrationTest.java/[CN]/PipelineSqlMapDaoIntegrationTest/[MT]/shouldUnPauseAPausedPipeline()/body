@@ -1,0 +1,9 @@
+{
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("some-pipeline","dev");
+  schedulePipelineWithStages(mingleConfig);
+  pipelineDao.pause(mingleConfig.name().toString(),"cause","by");
+  pipelineDao.unpause(mingleConfig.name().toString());
+  PipelinePauseInfo actual=pipelineDao.pauseState(mingleConfig.name().toString());
+  PipelinePauseInfo expected=new PipelinePauseInfo(false,null,null);
+  assertThat(actual,is(expected));
+}

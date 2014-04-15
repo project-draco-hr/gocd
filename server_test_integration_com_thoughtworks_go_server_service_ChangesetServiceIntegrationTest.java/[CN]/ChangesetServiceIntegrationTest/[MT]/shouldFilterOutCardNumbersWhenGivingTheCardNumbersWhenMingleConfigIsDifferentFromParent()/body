@@ -1,0 +1,24 @@
+{
+  Username loser=new Username(new CaseInsensitiveString("loser"));
+  ManualBuild build=new ManualBuild(loser);
+  Date checkinTime=new Date();
+  PipelineConfig upstream=configHelper.addPipeline("upstream","up-stage",git.config(),new MingleConfig("https://upstream-mingle","go"),"job");
+  DependencyMaterial dependencyMaterial=MaterialsMother.dependencyMaterial("upstream","up-stage");
+  PipelineConfig downstream=configHelper.addPipeline("downstream","down-stage",dependencyMaterial.config(),new MingleConfig("https://downstream-mingle","go"),"job");
+  Modification gitCommit1=checkinWithComment("1234","#3750, #3123 - agent index",checkinTime);
+  MaterialRevision materialRevision=dbHelper.addRevisionsWithModifications(git,gitCommit1);
+  Pipeline upInstance1=dbHelper.checkinRevisionsToBuild(build,upstream,materialRevision);
+  Modification gitCommit2=checkinWithComment("1239","#4150, #786 - agent index",checkinTime);
+  materialRevision=dbHelper.addRevisionsWithModifications(git,gitCommit2);
+  Pipeline upInstance2=dbHelper.checkinRevisionsToBuild(build,upstream,materialRevision);
+  ArrayList<MaterialRevision> materialRevisions=new ArrayList<MaterialRevision>();
+  dbHelper.addDependencyRevisionModification(materialRevisions,dependencyMaterial,upInstance1);
+  Pipeline downInstance1=dbHelper.checkinRevisionsToBuild(build,downstream,materialRevisions);
+  materialRevisions.clear();
+  dbHelper.addDependencyRevisionModification(materialRevisions,dependencyMaterial,upInstance2);
+  Pipeline downInstance2=dbHelper.checkinRevisionsToBuild(build,downstream,materialRevisions);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<String> cardsInBetween=changesetService.getCardNumbersBetween("downstream",downInstance1.getCounter(),downInstance2.getCounter(),loser,result,false);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(cardsInBetween.size(),is(0));
+}

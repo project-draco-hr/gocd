@@ -1,0 +1,12 @@
+{
+  GrantedAuthority[] authorities=authentication.getAuthorities();
+  if (authorities == null) {
+    return false;
+  }
+  for (  GrantedAuthority authority : authorities) {
+    if (authority.getAuthority().equals(roleAgent)) {
+      return true;
+    }
+  }
+  return false;
+}

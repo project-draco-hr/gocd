@@ -1,0 +1,11 @@
+{
+  InMemoryStreamConsumer outputConsumer=inMemoryConsumer();
+  P4Client p4=null;
+  try {
+    p4=p4(baseDir,outputConsumer);
+  }
+ catch (  Exception e) {
+    bomb(e.getMessage() + " " + outputConsumer.getStdError(),e);
+  }
+  return p4;
+}

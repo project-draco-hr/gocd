@@ -1,0 +1,12 @@
+{
+  failingTests.add("suiteB","testA",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  failingTests.add("suiteA","testA",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  failingTests.add("suiteZ","testA",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  failingTests.add("suiteD","testA",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  List<TestSuite> suites=failingTests.failingSuites();
+  assertThat(suites.size(),is(4));
+  assertThat(suites.get(0).fullName(),is("suiteA"));
+  assertThat(suites.get(1).fullName(),is("suiteB"));
+  assertThat(suites.get(2).fullName(),is("suiteD"));
+  assertThat(suites.get(3).fullName(),is("suiteZ"));
+}

@@ -1,0 +1,6 @@
+{
+  JobInstance completed=JobInstanceMother.passed("dev");
+  completed.setAgentUuid("uuid");
+  agentAssignment.jobStatusChanged(completed);
+  assertThat(agentAssignment.latestActiveJobOnAgent("uuid"),is(nullValue()));
+}

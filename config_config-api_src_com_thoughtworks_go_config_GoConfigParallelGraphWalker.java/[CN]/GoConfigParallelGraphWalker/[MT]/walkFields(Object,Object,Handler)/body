@@ -1,0 +1,16 @@
+{
+  for (  Field field : getAllFields(raw.getClass())) {
+    field.setAccessible(true);
+    try {
+      Object rawObject=field.get(raw);
+      Object withErrorsObject=field.get(withErrors);
+      if (rawObject == null || withErrorsObject == null || isAConstantField(field) || field.isAnnotationPresent(IgnoreTraversal.class)) {
+        continue;
+      }
+      walkSubtree(rawObject,withErrorsObject,handler);
+    }
+ catch (    IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}

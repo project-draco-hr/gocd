@@ -1,0 +1,13 @@
+{
+  List<Task> result=new ArrayList<Task>();
+  for (  Class<? extends Task> aClass : builtinTaskClasses()) {
+    try {
+      result.add(aClass.getConstructor().newInstance());
+    }
+ catch (    Exception e) {
+      throw new RuntimeException(String.format("Could not instantiate class %s of type Task",aClass.getName()),e);
+    }
+  }
+  result.addAll(allPluginTasks());
+  return result;
+}

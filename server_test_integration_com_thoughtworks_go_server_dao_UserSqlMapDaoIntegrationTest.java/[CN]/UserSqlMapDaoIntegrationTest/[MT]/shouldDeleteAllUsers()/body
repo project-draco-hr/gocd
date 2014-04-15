@@ -1,0 +1,8 @@
+{
+  User firstUser=user("first");
+  User secondUser=user("second");
+  userDao.saveOrUpdate(firstUser);
+  userDao.saveOrUpdate(secondUser);
+  userDao.deleteAll();
+  assertThat(userDao.allUsers().size(),is(0));
+}

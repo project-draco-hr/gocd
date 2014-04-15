@@ -1,0 +1,6 @@
+{
+  PipelineTemplateConfigViewModel viewModel=new PipelineTemplateConfigViewModel(new PipelineTemplateConfig(),"",Arrays.asList(PipelineConfigMother.pipelineConfig("pipeline_1"),PipelineConfigMother.pipelineConfig(".pipeline.2")));
+  assertThat(viewModel.pipelineNames(),is(Arrays.asList("pipeline_1",".pipeline.2")));
+  viewModel=new PipelineTemplateConfigViewModel();
+  assertThat((ArrayList<String>)viewModel.pipelineNames(),is(new ArrayList<String>()));
+}

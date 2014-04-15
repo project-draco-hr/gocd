@@ -1,0 +1,13 @@
+{
+  return new TypeSafeMatcher<MaterialRevisions>(){
+    public boolean matchesSafely(    MaterialRevisions revisions){
+      ModifiedBy modifiedBy=new ModifiedBy(user,filename);
+      revisions.accept(modifiedBy);
+      return modifiedBy.contains;
+    }
+    public void describeTo(    Description description){
+      description.appendText("Does not contains file [" + filename + "] modified by user ["+ user+ "]");
+    }
+  }
+;
+}

@@ -1,0 +1,7 @@
+{
+  createdPipelineWithAllStagesPassed();
+  createPipelineWithFirstStageScheduled();
+  PipelineJsonPresentationModel pipelineActivity=pipelineActivity();
+  assertThat(pipelineActivity.getLatestStage(0).currentStatus(),is("building"));
+  assertThat(pipelineActivity.getLatestStage(1).currentStatus(),is("passed"));
+}

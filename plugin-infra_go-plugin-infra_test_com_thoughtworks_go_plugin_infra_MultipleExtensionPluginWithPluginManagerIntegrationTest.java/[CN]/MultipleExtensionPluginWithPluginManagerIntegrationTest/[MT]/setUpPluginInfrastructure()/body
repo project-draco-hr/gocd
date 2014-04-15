@@ -1,0 +1,11 @@
+{
+  PLUGIN_DIR.mkdirs();
+  BUNDLE_DIR.mkdirs();
+  try {
+    pluginManager.startPluginInfrastructure();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  jarChangeListener.pluginJarAdded(new PluginFileDetails(pathOfFileInDefaultFiles("plugin-with-multiple-extensions.jar"),false));
+}

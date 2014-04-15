@@ -1,0 +1,10 @@
+{
+  ConfigElementImplementationRegistry registry=new ConfigElementImplementationRegistry(new NoPluginsInstalled());
+  registry.registerImplementer(Task.class,AntTask.class,ExecTask.class,NantTask.class,RakeTask.class,FetchTask.class);
+  List<String> tasks=ConfigUtil.allTasks(registry);
+  assertThat(tasks,hasItem("ant"));
+  assertThat(tasks,hasItem("exec"));
+  assertThat(tasks,hasItem("nant"));
+  assertThat(tasks,hasItem("rake"));
+  assertThat(tasks,hasItem("fetchartifact"));
+}

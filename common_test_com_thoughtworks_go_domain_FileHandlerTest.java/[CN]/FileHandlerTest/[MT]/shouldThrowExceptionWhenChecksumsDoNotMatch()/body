@@ -1,0 +1,13 @@
+{
+  when(checksums.md5For("src/file/path")).thenReturn("wrong_md5");
+  fileHandler.useArtifactMd5Checksums(checksums);
+  try {
+    fileHandler.handle(new ByteArrayInputStream("Hello world".getBytes()));
+    fileHandler.handleResult(200,goPublisher);
+    fail("Should throw exception when checksums do not match.");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Artifact download failed for [src/file/path]"));
+    assertThat(goPublisher.getMessage(),containsString("[ERROR] Verification of the integrity of the artifact [src/file/path] failed. The artifact file on the server may have changed since its original upload."));
+  }
+}

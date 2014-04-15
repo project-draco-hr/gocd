@@ -1,0 +1,7 @@
+{
+  AgentInstances agentInstances=new AgentInstances(null,AgentInstanceMother.building());
+  agentInstances.add(idle);
+  agentInstances.add(building);
+  AgentInstance byHostname=agentInstances.findFirstByHostname("not-exist");
+  assertThat(byHostname,is(instanceOf(NullAgentInstance.class)));
+}

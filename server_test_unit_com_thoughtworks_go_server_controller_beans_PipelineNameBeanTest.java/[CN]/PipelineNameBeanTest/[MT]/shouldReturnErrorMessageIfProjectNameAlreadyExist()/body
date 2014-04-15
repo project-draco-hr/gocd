@@ -1,0 +1,6 @@
+{
+  PipelineNameBean bean=new PipelineNameBean("abc",true);
+  JsonMap json=(JsonMap)bean.validate().toJson();
+  assertThat(json.getJsonString("isValid").withoutQuote(),is("false"));
+  assertThat(json.getJsonString(ERROR_FOR_JSON).withoutQuote(),is("Pipeline name already exists, please choose another one."));
+}

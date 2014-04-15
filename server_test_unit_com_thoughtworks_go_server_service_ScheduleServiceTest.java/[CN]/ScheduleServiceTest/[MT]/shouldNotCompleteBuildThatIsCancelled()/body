@@ -1,0 +1,10 @@
+{
+  String agentUuid="uuid";
+  JobIdentifier jobIdendifier=new JobIdentifier("pipeline",1,"label","stage","LATEST","build",1L);
+  final JobInstance job=new JobInstance("test");
+  job.setResult(JobResult.Cancelled);
+  when(jobInstanceService.buildByIdWithTransitions(jobIdendifier.getBuildId())).thenReturn(job);
+  service.jobCompleting(jobIdendifier,JobResult.Passed,agentUuid);
+  verify(jobInstanceService).buildByIdWithTransitions(jobIdendifier.getBuildId());
+  verifyNoMoreInteractions(jobInstanceService);
+}

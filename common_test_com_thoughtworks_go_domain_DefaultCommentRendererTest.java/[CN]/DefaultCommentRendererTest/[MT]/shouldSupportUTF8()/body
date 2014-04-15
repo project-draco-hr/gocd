@@ -1,0 +1,7 @@
+{
+  String link="http://mingle05/projects/cce/cards/${ID}";
+  String regex="#(\\d+)";
+  trackingTool=new DefaultCommentRenderer(link,regex);
+  String result=trackingTool.render("The story #111 is fixed by ?????????. #122 is also related to this");
+  assertThat(result,is("The story " + dynamicLink("111") + " is fixed by "+ StringEscapeUtils.escapeHtml("?????????")+ ". "+ dynamicLink("122")+ " is also related to this"));
+}

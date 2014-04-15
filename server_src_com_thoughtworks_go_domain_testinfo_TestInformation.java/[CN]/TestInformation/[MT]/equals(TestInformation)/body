@@ -1,0 +1,13 @@
+{
+  if (testName != null ? !testName.equals(that.testName) : that.testName != null) {
+    return false;
+  }
+  if (testStatus != that.testStatus) {
+    return false;
+  }
+  if (this.jobIdentifiers.size() != that.jobIdentifiers.size())   return false;
+  for (  JobIdentifier jobIdentifier : jobIdentifiers) {
+    if (!that.containsJobWithName(jobIdentifier.getBuildName()))     return false;
+  }
+  return true;
+}

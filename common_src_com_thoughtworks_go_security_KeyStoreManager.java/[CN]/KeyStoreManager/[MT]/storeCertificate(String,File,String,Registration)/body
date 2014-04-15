@@ -1,0 +1,6 @@
+{
+  KeyStore storeToSave=loadOrEmpty(storeFile,passwd);
+  bombIfNull(storeToSave,"Store not yet initialized");
+  storeToSave.setKeyEntry(friendlyName,entry.getPrivateKey(),passwd.toCharArray(),entry.getChain());
+  writeStore(storeToSave,storeFile,passwd);
+}

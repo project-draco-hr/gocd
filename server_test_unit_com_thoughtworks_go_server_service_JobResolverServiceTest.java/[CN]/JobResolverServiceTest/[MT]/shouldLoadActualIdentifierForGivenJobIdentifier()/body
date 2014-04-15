@@ -1,0 +1,7 @@
+{
+  JobIdentifier oldId=new JobIdentifier("pipeline-name",10,"label-10","stage-name","2","build-name",17l);
+  JobIdentifier idFoundByDao=new JobIdentifier("pipeline-name",5,"label-5","stage-name","1","build-name",12l);
+  when(jobDao.findOriginalJobIdentifier(oldId.getStageIdentifier(),"build-name")).thenReturn(idFoundByDao);
+  JobIdentifier actualId=jobResolverService.actualJobIdentifier(oldId);
+  assertThat(actualId,is(idFoundByDao));
+}

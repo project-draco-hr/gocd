@@ -1,0 +1,11 @@
+{
+  Map<String,Object> map=arguments("pipelineName",pipelineName).and("stageName",stageName).asMap();
+  Pipeline lastSuccessful=(Pipeline)getSqlMapClientTemplate().queryForObject("getLastSuccessfulStageInPipeline",map);
+  if (lastSuccessful == null) {
+    return null;
+  }
+ else {
+    Stage laststage=lastSuccessful.findStage(stageName);
+    return new StageIdentifier(pipelineName,lastSuccessful.getCounter(),lastSuccessful.getLabel(),laststage.getName(),Integer.toString(laststage.getCounter()));
+  }
+}

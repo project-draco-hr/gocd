@@ -1,0 +1,17 @@
+{
+  final int LOOKED_UP_PIPELINE_ID=2;
+  final int RELEVANT_PIPELINE_ID=0;
+  final int RELEVANT_PIPELINE_NAME=1;
+  String pipelineIdsSql=queryExtensions.queryRelevantToLookedUpDependencyMap(pipelineIds);
+  SQLQuery pipelineIdsQuery=session.createSQLQuery(pipelineIdsSql);
+  pipelineIdsQuery.addScalar("id",new LongType());
+  pipelineIdsQuery.addScalar("name",new StringType());
+  pipelineIdsQuery.addScalar("lookedUpId",new LongType());
+  final List<Object[]> ids=pipelineIdsQuery.list();
+  Map<Long,List<PipelineId>> lookedUpToParentMap=new HashMap<Long,List<PipelineId>>();
+  CollectionUtil.CollectionValueMap<Long,PipelineId> lookedUpToRelevantMap=CollectionUtil.collectionValMap(lookedUpToParentMap,new CollectionUtil.ArrayList<PipelineId>());
+  for (  Object[] relevantAndLookedUpId : ids) {
+    lookedUpToRelevantMap.put((Long)relevantAndLookedUpId[LOOKED_UP_PIPELINE_ID],new PipelineId((String)relevantAndLookedUpId[RELEVANT_PIPELINE_NAME],(Long)relevantAndLookedUpId[RELEVANT_PIPELINE_ID]));
+  }
+  return CollectionUtil.reverse(lookedUpToParentMap);
+}

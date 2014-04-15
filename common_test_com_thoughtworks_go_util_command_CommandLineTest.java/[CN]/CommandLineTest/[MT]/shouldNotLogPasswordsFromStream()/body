@@ -1,0 +1,9 @@
+{
+  LogFixture logFixture=LogFixture.startListening();
+  LogFixture.enableDebug();
+  CommandLine line=CommandLine.createCommandLine("echo").withArg("=>").withArg(new PasswordArgument("secret"));
+  line.runOrBomb(null);
+  assertThat(ArrayUtil.join(logFixture.getMessages()),not(containsString("secret")));
+  assertThat(ArrayUtil.join(logFixture.getMessages()),containsString("=> ******"));
+  logFixture.stopListening();
+}

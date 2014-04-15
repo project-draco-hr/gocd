@@ -1,0 +1,9 @@
+{
+  Date dateTime=new Date();
+  Modification modification=new Modification("user","comment","email",dateTime,"r1");
+  SCMRevision scmRevision=new SCMRevision(modification);
+  Assert.assertThat(scmRevision.getComment(),is("comment"));
+  Assert.assertThat(scmRevision.getUser(),is("user"));
+  Assert.assertThat(scmRevision.getRevisionString(),is("r1"));
+  Assert.assertThat(scmRevision.getModifiedTime(),is(dateTime));
+}

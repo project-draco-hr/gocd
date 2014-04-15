@@ -1,0 +1,9 @@
+{
+  PackageRepository packageRepository=new PackageRepository();
+  try {
+    packageRepository.removePackage("invalid");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Could not find package with id:[invalid]"));
+  }
+}

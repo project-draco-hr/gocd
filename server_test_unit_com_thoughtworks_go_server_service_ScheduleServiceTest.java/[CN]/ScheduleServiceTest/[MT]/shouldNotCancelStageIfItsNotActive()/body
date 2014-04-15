@@ -1,0 +1,20 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Pipeline pipeline=PipelineMother.pipeline("pipeline-name",StageMother.passedStageInstance("mingle","job-bar","pipeline-name"));
+  Stage firstStage=pipeline.getFirstStage();
+  long stageId=firstStage.getId();
+  Username admin=new Username(new CaseInsensitiveString("admin"));
+  when(stageService.stageById(stageId)).thenReturn(firstStage);
+  Stage resultStage=service.cancelAndTriggerRelevantStages(stageId,admin,result);
+  assertThat(resultStage,is(firstStage));
+  assertThat(result.httpCode(),is(HttpStatus.SC_OK));
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(result.hasMessage(),is(true));
+  Localizer localizer=mock(Localizer.class);
+  String respMsg="Stage is not active. Cancellation Ignored";
+  String stageNotActiveKey="STAGE_IS_NOT_ACTIVE_FOR_CANCELLATION";
+  when(localizer.localize(eq(stageNotActiveKey),anyVararg())).thenReturn(respMsg);
+  assertThat(result.message(localizer),is(respMsg));
+  verify(stageService).stageById(stageId);
+  verify(localizer).localize(eq(stageNotActiveKey),anyVararg());
+}

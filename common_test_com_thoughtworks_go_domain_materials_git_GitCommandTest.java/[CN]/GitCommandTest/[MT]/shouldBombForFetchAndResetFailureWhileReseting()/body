@@ -1,0 +1,9 @@
+{
+  try {
+    git.fetchAndReset(new SysOutStreamConsumer(),new StringRevision("abcdef"));
+    fail("should have failed for non 0 return code");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is(String.format("git reset failed for [%s]",gitLocalRepoDir)));
+  }
+}

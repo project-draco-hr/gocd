@@ -1,0 +1,11 @@
+{
+  goCache.clear();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  configHelper.turnOnSecurity();
+  configHelper.addAdmins("admin");
+  dbHelper.onSetUp();
+  u=new ScheduleTestUtil(transactionTemplate,materialRepository,dbHelper,configHelper);
+  result=new HttpLocalizedOperationResult();
+  username=new Username(new CaseInsensitiveString("admin"));
+}

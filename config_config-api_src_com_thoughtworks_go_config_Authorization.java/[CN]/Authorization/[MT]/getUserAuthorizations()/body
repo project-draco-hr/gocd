@@ -1,0 +1,9 @@
+{
+  ArrayList<PresentationElement> list=new ArrayList<PresentationElement>();
+  Class<AdminUser> allowOnly=AdminUser.class;
+  addPrivilegesForView(list,operationConfig,PrivilegeType.OPERATE,allowOnly,UserType.USER);
+  addPrivilegesForView(list,viewConfig,PrivilegeType.VIEW,allowOnly,UserType.USER);
+  addPrivilegesForView(list,adminsConfig,PrivilegeType.ADMIN,allowOnly,UserType.USER);
+  sort(list);
+  return list;
+}

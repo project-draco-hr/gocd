@@ -1,0 +1,31 @@
+{
+  ensureConfigHasPipeline("blahPipeline");
+  ensureConfigHasPipeline("down1");
+  ensureConfigHasPipeline("noPermission");
+  PipelineConfig other=GoConfigMother.createPipelineConfigWithMaterialConfig("other");
+  other.add(new StageConfig(new CaseInsensitiveString("badChildhood"),new JobConfigs()));
+  when(pipelineUnlockService.canUnlock(eq("blahPipeline"),eq(USERNAME),any(HttpOperationResult.class))).thenReturn(true);
+  when(goConfigService.isLockable("blahPipeline")).thenReturn(true);
+  when(goConfigService.downstreamPipelinesOf("blahPipeline")).thenReturn(Arrays.asList(other));
+  stubConfigServiceToReturnPipeline("blahPipeline",PipelineConfigMother.pipelineConfig("blahPipeline",new StageConfig(new CaseInsensitiveString("first"),new JobConfigs())));
+  ensureHasPermission(USERNAME,"blahPipeline");
+  stubConfigServiceToReturnMaterialAndPipeline("down1",new MaterialConfigs(MaterialConfigsMother.svnMaterialConfig()),PipelineConfigMother.pipelineConfig("down1",new StageConfig(new CaseInsensitiveString("first"),new JobConfigs())));
+  ensureHasPermission(USERNAME,"down1");
+  stubConfigServiceToReturnMaterialAndPipeline("other",new MaterialConfigs(),other);
+  when(pipelineTimeline.pipelineBefore(23)).thenReturn(-1L);
+  PipelineInstanceModel actualPim=pim("down1");
+  PipelineInstanceModel noPermission=pim("noPermission");
+  PipelineInstanceModel returned=pim("blahPipeline");
+  returned.setId(23);
+  PipelineDependencyGraphOld graph=new PipelineDependencyGraphOld(returned,createPipelineInstanceModels(actualPim,noPermission));
+  when(pipelineDao.pipelineGraphByNameAndCounter("blahPipeline",12)).thenReturn(graph);
+  PipelineDependencyGraphOld actual=pipelineHistoryService.pipelineDependencyGraph("blahPipeline",12,USERNAME,new HttpOperationResult());
+  assertThat(actual.pipeline().isLockable(),is(true));
+  assertThat(actual.pipeline().canUnlock(),is(true));
+  assertThat(actual.dependencies().size(),is(2));
+  assertThat(actual.dependencies().get(0),is(actualPim));
+  assertHasMaterial(actualPim,MaterialsMother.svnMaterial().config());
+  PipelineInstanceModel otherInstance=actual.dependencies().get(1);
+  assertThat(otherInstance.getName(),is("other"));
+  assertThat(otherInstance.getMaterials().size(),is(0));
+}

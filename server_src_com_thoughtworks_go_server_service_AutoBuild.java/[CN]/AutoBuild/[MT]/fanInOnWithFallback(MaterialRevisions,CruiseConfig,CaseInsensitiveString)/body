@@ -1,0 +1,18 @@
+{
+  try {
+    MaterialRevisions materialRevisions=fanInOn(originalMaterialRevisions,cruiseConfig,targetPipelineName);
+    serverHealthService.removeByScope(HealthStateScope.forFanin(pipelineName));
+    return materialRevisions;
+  }
+ catch (  NoCompatibleUpstreamRevisionsException e) {
+    throw e;
+  }
+catch (  NoModificationsPresentForDependentMaterialException e) {
+    throw e;
+  }
+catch (  RuntimeException e) {
+    serverHealthService.update(ServerHealthState.warning("Turning off Fan-In for pipeline: '" + pipelineName + "'","Error occurred during Fan-In resolution for the pipeline.",HealthStateType.general(HealthStateScope.forFanin(pipelineName))));
+    LOGGER.info("[Revision Resolution] Error occurred during Fan-In resolution for the pipeline: '" + pipelineName + "'. Switching to Triangle Resolution");
+    return fanInOffTriangleDependency(originalMaterialRevisions,cruiseConfig);
+  }
+}

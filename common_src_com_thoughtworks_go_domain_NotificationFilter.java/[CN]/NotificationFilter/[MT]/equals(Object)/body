@@ -1,0 +1,22 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  NotificationFilter filter=(NotificationFilter)o;
+  if (myCheckin != filter.myCheckin) {
+    return false;
+  }
+  if (event != filter.event) {
+    return false;
+  }
+  if (pipelineName != null ? !pipelineName.equals(filter.pipelineName) : filter.pipelineName != null) {
+    return false;
+  }
+  if (stageName != null ? !stageName.equals(filter.stageName) : filter.stageName != null) {
+    return false;
+  }
+  return true;
+}

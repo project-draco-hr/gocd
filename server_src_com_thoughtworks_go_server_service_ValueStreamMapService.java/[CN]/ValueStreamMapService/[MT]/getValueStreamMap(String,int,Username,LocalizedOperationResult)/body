@@ -1,0 +1,18 @@
+{
+  try {
+    if (!securityService.hasViewPermissionForPipeline(username,pipelineName)) {
+      result.unauthorized(LocalizedMessage.cannotViewPipeline(pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+      return null;
+    }
+    ValueStreamMap valueStreamMap=buildValueStreamMap(pipelineName,counter,username,result);
+    if (valueStreamMap == null) {
+      return null;
+    }
+    return valueStreamMap.presentationModel();
+  }
+ catch (  Exception e) {
+    result.internalServerError(LocalizedMessage.string("VSM_INTERNAL_SERVER_ERROR",pipelineName,counter));
+    LOGGER.error(String.format("[Value Stream Map] Pipeline %s with counter %s could not be rendered.",pipelineName,counter),e);
+    return null;
+  }
+}

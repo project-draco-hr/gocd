@@ -1,0 +1,23 @@
+{
+  Map attributeMap=(Map)attributes;
+  if (attributes == null || attributeMap.isEmpty()) {
+    return;
+  }
+  runIfConfigs.clear();
+  if (attributeMap.containsKey(RUN_IF_CONFIGS_ANY) && "1".equals(attributeMap.get(RUN_IF_CONFIGS_ANY))) {
+    runIfConfigs.add(RunIfConfig.ANY);
+  }
+  if (attributeMap.containsKey(RUN_IF_CONFIGS_FAILED) && "1".equals(attributeMap.get(RUN_IF_CONFIGS_FAILED))) {
+    runIfConfigs.add(RunIfConfig.FAILED);
+  }
+  if (attributeMap.containsKey(RUN_IF_CONFIGS_PASSED) && "1".equals(attributeMap.get(RUN_IF_CONFIGS_PASSED))) {
+    runIfConfigs.add(RunIfConfig.PASSED);
+  }
+  if ("1".equals(attributeMap.get(HAS_CANCEL_TASK))) {
+    onCancelConfig=OnCancelConfig.create((Map)attributeMap.get(ON_CANCEL_CONFIG),taskFactory);
+  }
+ else   if ("0".equals(attributeMap.get(HAS_CANCEL_TASK))) {
+    onCancelConfig=OnCancelConfig.killAllChildProcess();
+  }
+  setTaskConfigAttributes(attributeMap);
+}

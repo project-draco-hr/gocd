@@ -1,0 +1,10 @@
+{
+  LOGGER.info("Agent started.");
+  Work work=server.getWork(AgentRuntimeInfo.fromAgent(new AgentIdentifier("","","1234"),"cookie",null));
+  try {
+    LOGGER.info(work.description());
+  }
+ catch (  UnregisteredAgentException e) {
+    LOGGER.warn("Unregistered Agent: " + e.getMessage());
+  }
+}

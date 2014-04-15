@@ -1,0 +1,10 @@
+{
+  X500Principal principal=clientCert.getSubjectX500Principal();
+  Matcher cnMatcher=CN_PATTERN.matcher(principal.getName());
+  Matcher ouMatcher=OU_PATTERN.matcher(principal.getName());
+  if (cnMatcher.find() && ouMatcher.find()) {
+    GrantedAuthorityImpl agentAuthority=new GrantedAuthorityImpl(role);
+    return new User(cnMatcher.group(1),"",true,true,true,true,new GrantedAuthority[]{agentAuthority});
+  }
+  throw new BadCredentialsException("Couldn't find CN and/or OU for the certificate");
+}

@@ -1,0 +1,6 @@
+{
+  AdminsConfig adminsConfig=new AdminsConfig(new AdminUser(new CaseInsensitiveString("loser")),new AdminRole(new CaseInsensitiveString("Role1")));
+  assertThat(adminsConfig.isAdminRole(Arrays.asList(new Role(new CaseInsensitiveString("first")),new Role(new CaseInsensitiveString("role1")))),is(true));
+  assertThat(adminsConfig.isAdminRole(Arrays.asList(new Role(new CaseInsensitiveString("role2")))),is(false));
+  assertThat(adminsConfig.isAdminRole(Arrays.asList(new Role(new CaseInsensitiveString("loser")))),is(false));
+}

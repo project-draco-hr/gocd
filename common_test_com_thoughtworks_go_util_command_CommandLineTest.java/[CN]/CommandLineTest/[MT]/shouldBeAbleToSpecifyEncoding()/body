@@ -1,0 +1,8 @@
+{
+  String chrisWasHere="?????";
+  CommandLine line=CommandLine.createCommandLine("echo").withArg(chrisWasHere).withEncoding("UTF-8");
+  InMemoryStreamConsumer output=new InMemoryStreamConsumer();
+  ProcessWrapper processWrapper=line.execute(output,new EnvironmentVariableContext(),null);
+  processWrapper.waitForExit();
+  assertThat(output.getAllOutput(),containsString(chrisWasHere));
+}

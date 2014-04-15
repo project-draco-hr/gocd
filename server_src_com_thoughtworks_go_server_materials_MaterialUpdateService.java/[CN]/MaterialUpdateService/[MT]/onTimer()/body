@@ -1,0 +1,11 @@
+{
+  updateSchedulableMaterials(false);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(format("[Material Update] [On Timer] materials IN-PROGRESS: %s, ALL-MATERIALS: %s",inProgress,schedulableMaterials));
+  }
+  for (  Material material : schedulableMaterials) {
+    if (hasUpdateIntervalElapsedForScmMaterial(material)) {
+      updateMaterial(material);
+    }
+  }
+}

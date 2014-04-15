@@ -1,0 +1,23 @@
+{
+  final String svnInfoOutput="<?xml version=\"1.0\"?>\n" + "<info>\n" + "<entry\n"+ "   kind=\"dir\"\n"+ "   path=\"project1\"\n"+ "   revision=\"27\">\n"+ "<url>http://localhost/svn/project1</url>\n"+ "<repository>\n"+ "<root>http://localhost/svn/project1</root>\n"+ "<uuid>b51fe673-20c0-4205-a07b-5deb54bb09f3</uuid>\n"+ "</repository>\n"+ "<commit\n"+ "   revision=\"27\">\n"+ "<author>anthill</author>\n"+ "<date>2012-10-18T07:54:06.487895Z</date>\n"+ "</commit>\n"+ "</entry>\n"+ "</info>";
+  final SvnMaterial svnMaterial=mock(SvnMaterial.class);
+  when(svnMaterial.getUrl()).thenReturn("http://localhost/svn/project1");
+  when(svnMaterial.getUserName()).thenReturn("user");
+  when(svnMaterial.getPassword()).thenReturn("password");
+  final ConsoleResult consoleResult=mock(ConsoleResult.class);
+  when(consoleResult.outputAsString()).thenReturn(svnInfoOutput);
+  final HashSet<SvnMaterial> svnMaterials=new HashSet<SvnMaterial>();
+  svnMaterials.add(svnMaterial);
+  final SvnCommand spy=spy(subversion);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocation) throws Throwable {
+      final CommandLine commandLine=(CommandLine)invocation.getArguments()[0];
+      assertThat(commandLine.toString(),containsString("svn info --xml --username user --password ****** http://localhost/svn/project1"));
+      return consoleResult;
+    }
+  }
+).when(spy).executeCommand(any(CommandLine.class));
+  final HashMap<String,String> urlToRemoteUUIDMap=spy.createUrlToRemoteUUIDMap(svnMaterials);
+  assertThat(urlToRemoteUUIDMap.size(),is(1));
+  assertThat(urlToRemoteUUIDMap.get("http://localhost/svn/project1"),is("b51fe673-20c0-4205-a07b-5deb54bb09f3"));
+}

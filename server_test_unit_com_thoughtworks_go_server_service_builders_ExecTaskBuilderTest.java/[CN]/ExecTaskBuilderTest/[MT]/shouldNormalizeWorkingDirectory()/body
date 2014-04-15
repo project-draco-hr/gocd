@@ -1,0 +1,5 @@
+{
+  ExecTask execTask=new ExecTask("ant","","folder\\child");
+  CommandBuilder builder=(CommandBuilder)execTaskBuilder.createBuilder(builderFactory,execTask,TasksTest.pipelineStub("label","."),resolver);
+  assertThat(builder.getWorkingDir().getPath(),is("./folder/child"));
+}

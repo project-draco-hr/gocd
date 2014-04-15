@@ -1,0 +1,14 @@
+{
+  PackageMaterialSaveCommand command=getCommand(admin);
+  Cloner c=new Cloner();
+  CruiseConfig configWithErrors=c.deepClone(cruiseConfig);
+  MaterialConfig materialConfig=configWithErrors.getPipelineConfigByName(new CaseInsensitiveString(pipelineName)).materialConfigs().get(0);
+  materialConfig.addError("field1","msg");
+  command.update(cruiseConfig);
+  PackageMaterialConfig subject=(PackageMaterialConfig)command.subject(null);
+  subject.validate(null);
+  Validatable validatable=command.updatedNode(configWithErrors);
+  assertThat(validatable.errors().isEmpty(),is(false));
+  assertThat(validatable.errors().getAllOn("field1").size(),is(1));
+  assertThat(validatable.errors().getAllOn("field1").get(0),is("msg"));
+}

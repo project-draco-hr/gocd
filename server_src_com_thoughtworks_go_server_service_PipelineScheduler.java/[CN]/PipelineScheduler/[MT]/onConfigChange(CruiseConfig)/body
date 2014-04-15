@@ -1,0 +1,24 @@
+{
+synchronized (pipelines) {
+    newCruiseConfig.accept(new PiplineConfigVisitor(){
+      public void visit(      PipelineConfig pipelineConfig){
+        if (!pipelines.containsKey(CaseInsensitiveString.str(pipelineConfig.name()))) {
+          pipelines.put(CaseInsensitiveString.str(pipelineConfig.name()),ScheduleCheckState.IDLE);
+          if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(String.format("[Configuration Changed] Marking new pipeline %s as IDLE",pipelineConfig.name()));
+          }
+        }
+      }
+    }
+);
+    List<String> deletedPipeline=new ArrayList<String>();
+    for (    String pipelineName : pipelines.keySet()) {
+      if (!newCruiseConfig.hasPipelineNamed(new CaseInsensitiveString(pipelineName))) {
+        deletedPipeline.add(pipelineName);
+      }
+    }
+    for (    String pipelineName : deletedPipeline) {
+      pipelines.remove(pipelineName);
+    }
+  }
+}

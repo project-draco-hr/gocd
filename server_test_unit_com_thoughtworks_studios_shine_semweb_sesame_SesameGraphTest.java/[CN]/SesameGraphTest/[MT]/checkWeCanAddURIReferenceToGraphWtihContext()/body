@@ -1,0 +1,10 @@
+{
+  String turtle1="@prefix ex: <http://example.com/ontology#> . " + "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . " + "<http://example.com/1> ex:foo \"Yadda\"^^xsd:string . ";
+  contextAwareGraph.addTriplesFromTurtle(turtle1);
+  String select="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?s " + "WHERE { "+ "  ?s ex:foo _:o "+ "}";
+  URIReference uriReference=contextAwareGraph.createURIReference(new RDFType("http://example.com/ontology#Boo"),"http://example.com/Foo");
+  URIReference foo=contextAwareGraph.selectFirst(select).getURIReference("s");
+  contextAwareGraph.addStatement(foo,new RDFProperty("http://example.com/ontology#ugh"),uriReference);
+  String ask="PREFIX ex: <http://example.com/ontology#> " + "ASK WHERE { " + "  ?s ex:ugh <http://example.com/Foo>"+ "}";
+  assertAskIsTrue(contextAwareGraph,ask);
+}

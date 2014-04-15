@@ -1,0 +1,8 @@
+{
+  ArrayList<CommandArgument> commands=new ArrayList<CommandArgument>();
+  commands.add(new PasswordArgument("foo"));
+  ArrayList<SecretString> secretStrings=new ArrayList<SecretString>();
+  secretStrings.add(new PasswordArgument("foo"));
+  ConsoleResult result=new ConsoleResult(10,new ArrayList<String>(),new ArrayList<String>(),commands,secretStrings);
+  assertThat(result.replaceSecretInfo(null),is(nullValue()));
+}

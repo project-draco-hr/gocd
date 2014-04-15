@@ -1,0 +1,6 @@
+{
+  JsonMap map=new JsonMap();
+  map.put("pipelines","blah");
+  JsonpString jsonpString=new JsonpString(map,"callback");
+  assertThat(JsonStringRenderer.render(jsonpString),Is.is("callback({ \"pipelines\": \"blah\" })"));
+}

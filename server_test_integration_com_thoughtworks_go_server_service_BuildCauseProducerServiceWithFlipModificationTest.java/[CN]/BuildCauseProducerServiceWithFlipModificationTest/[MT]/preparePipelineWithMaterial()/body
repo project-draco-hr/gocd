@@ -1,0 +1,10 @@
+{
+  SvnMaterial svnMaterial=SvnMaterial.createSvnMaterialWithMock(repository);
+  ReflectionUtil.setField(svnMaterial,ScmMaterialConfig.FOLDER,"asc");
+  ReflectionUtil.invoke(svnMaterial,"resetCachedIdentityAttributes");
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  materialConfigs.add(svnMaterial.config());
+  configHelper.addPipeline("cruise",STAGE_NAME,materialConfigs,"unit","functional");
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  materialRevisions.addRevision(svnMaterial,svnMaterial.latestModification(null,subprocessExecutionContext));
+}

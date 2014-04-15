@@ -1,0 +1,8 @@
+{
+  CommandSnippet invalidSnippet1=CommandSnippetMother.invalidSnippetWithEmptyCommand("file1");
+  CommandSnippet validSnippet1=CommandSnippetMother.validSnippet("file2");
+  CommandSnippet invalidSnippet2=CommandSnippetMother.invalidSnippetWithEmptyCommand("file3");
+  CommandSnippet validSnippet2=CommandSnippetMother.validSnippet("file4");
+  CommandSnippets snippets=new CommandSnippets(Arrays.asList(invalidSnippet1,validSnippet1,invalidSnippet2,validSnippet2));
+  assertThat(snippets.invalidSnippets(),is(Arrays.asList(invalidSnippet1,invalidSnippet2)));
+}

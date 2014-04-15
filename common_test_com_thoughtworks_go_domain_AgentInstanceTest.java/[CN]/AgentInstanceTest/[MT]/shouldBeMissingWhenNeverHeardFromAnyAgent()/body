@@ -1,0 +1,6 @@
+{
+  AgentInstance instance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  assertThat(instance.getStatus(),is(AgentStatus.Missing));
+  instance.refresh(null);
+  assertThat(instance.getStatus(),is(AgentStatus.Missing));
+}

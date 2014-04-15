@@ -1,0 +1,13 @@
+{
+  if (state.isCompleted()) {
+    return durationOfCompletedBuildInSeconds();
+  }
+  Date buildingDate=getStartedDateFor(JobState.Building);
+  if (buildingDate != null) {
+    long elapsed=timeProvider.currentTime().getTime() - buildingDate.getTime();
+    return (long)Math.round(elapsed / 1000);
+  }
+ else {
+    return 0L;
+  }
+}

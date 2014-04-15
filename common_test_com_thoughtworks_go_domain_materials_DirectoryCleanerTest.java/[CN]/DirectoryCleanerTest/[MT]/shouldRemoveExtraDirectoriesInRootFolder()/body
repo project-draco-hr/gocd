@@ -1,0 +1,8 @@
+{
+  File notAllowed=new File(baseFolder,"notAllowed");
+  notAllowed.mkdirs();
+  cleaner.allowed("allowed");
+  cleaner.clean();
+  assertThat(baseFolder.exists(),is(true));
+  assertThat(notAllowed.exists(),is(false));
+}

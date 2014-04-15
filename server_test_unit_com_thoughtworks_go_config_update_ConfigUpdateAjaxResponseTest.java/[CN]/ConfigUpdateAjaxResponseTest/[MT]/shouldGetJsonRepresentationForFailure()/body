@@ -1,0 +1,9 @@
+{
+  HashMap<String,List<String>> fieldErrors=new HashMap<String,List<String>>();
+  fieldErrors.put("field1",Arrays.asList("error 1"));
+  fieldErrors.put("field2",Arrays.asList("error 2"));
+  ConfigUpdateAjaxResponse response=ConfigUpdateAjaxResponse.failure("id",HttpStatus.SC_BAD_REQUEST,"Save failed",fieldErrors,Arrays.asList("global1","global2"));
+  String jsonString=response.toJson();
+  assertThat(response.getStatusCode(),is(HttpStatus.SC_BAD_REQUEST));
+  assertThat(jsonString,is("{\"fieldErrors\":{\"field2\":[\"error 2\"],\"field1\":[\"error 1\"]},\"globalErrors\":[\"global1\",\"global2\"],\"message\":\"Save failed\",\"isSuccessful\":false,\"subjectIdentifier\":\"id\"}"));
+}

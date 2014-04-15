@@ -1,0 +1,16 @@
+{
+  Pipeline oldest=preCondition.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  long cancelledStageId=oldest.getStages().byName(preCondition.ftStage).getId();
+  preCondition.setRunOnAllAgentsForSecondStage();
+  try {
+    scheduleService.cancelAndTriggerRelevantStages(cancelledStageId,null,null);
+    fail("Must have failed scheduling the next stage as it has run on all agents");
+  }
+ catch (  CannotScheduleException expected) {
+  }
+  Pipeline mostRecent=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  Stage cancelledStage=stageService.stageById(cancelledStageId);
+  assertThat(cancelledStage.stageState(),is(StageState.Cancelled));
+  assertThat(mostRecent.getStages().size(),is(1));
+}

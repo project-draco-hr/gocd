@@ -1,0 +1,8 @@
+{
+  pipelineService.save(pipeline);
+  Stage stage=pipeline.getFirstStage();
+  stage.building();
+  stageService.updateResult(stage);
+  dbHelper.completeAllJobs(stage,JobResult.Passed);
+  stageService.updateResult(stage);
+}

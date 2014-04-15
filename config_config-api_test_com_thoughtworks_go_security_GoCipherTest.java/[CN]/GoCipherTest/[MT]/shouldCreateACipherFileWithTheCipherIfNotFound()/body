@@ -1,0 +1,10 @@
+{
+  FileUtils.deleteQuietly(cipherFile);
+  assertThat(cipherFile.exists(),is(false));
+  ReflectionUtil.setField(new CipherProvider(new SystemEnvironment()),"cachedKey",null);
+  goCipher=new GoCipher();
+  assertThat(cipherFile.exists(),is(true));
+  String plainText=goCipher.decrypt(goCipher.encrypt("user-password!"));
+  assertThat(plainText,is("user-password!"));
+  assertThat(cipherFile.exists(),is(true));
+}

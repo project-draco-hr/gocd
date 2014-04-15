@@ -1,0 +1,16 @@
+{
+  File jesDir=new File("../tools/jes-2.0-beta2");
+  SysOutStreamConsumer output=new SysOutStreamConsumer();
+  CommandLine command=CommandLine.createCommandLine("/bin/bash").withWorkingDir(jesDir).withArg("stop-server.sh");
+  processWrapper=command.execute(output,new EnvironmentVariableContext(),null);
+  System.out.println("Waiting for server to stop.");
+  try {
+    RandomPort.waitForPortToBeFree(2525,10000L);
+    RandomPort.waitForPortToBeFree(1101,10000L);
+  }
+ catch (  Exception ex) {
+    System.out.println("Killing server.");
+    command=CommandLine.createCommandLine("/bin/bash").withWorkingDir(jesDir).withArg("kill-server.sh");
+    processWrapper=command.execute(output,new EnvironmentVariableContext(),null);
+  }
+}

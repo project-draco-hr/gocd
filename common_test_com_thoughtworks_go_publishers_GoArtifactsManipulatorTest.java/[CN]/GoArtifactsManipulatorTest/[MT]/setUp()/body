@@ -1,0 +1,9 @@
+{
+  httpService=mock(HttpService.class);
+  artifactFolder=TestFileUtil.createTempFolder("artifact_folder");
+  tempFile=TestFileUtil.createTestFile(artifactFolder,"file.txt");
+  goArtifactsManipulatorStub=new GoArtifactsManipulatorStub(httpService);
+  jobIdentifier=new JobIdentifier("pipeline1",1,"label-1","stage1","1","job1");
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(new AgentIdentifier("h","1","u"));
+  goPublisher=new DefaultGoPublisher(goArtifactsManipulatorStub,jobIdentifier,new BuildRepositoryRemoteStub(),agentRuntimeInfo);
+}

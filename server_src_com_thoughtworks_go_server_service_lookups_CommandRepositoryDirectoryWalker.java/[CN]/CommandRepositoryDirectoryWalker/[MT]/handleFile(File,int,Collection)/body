@@ -1,0 +1,22 @@
+{
+  String fileName=file.getName();
+  if (!FilenameUtils.getExtension(fileName).equalsIgnoreCase(XML_EXTENSION)) {
+    return;
+  }
+  String xmlContentOfFie=safeReadFileToString(file);
+  if (xmlContentOfFie == null || !file.canRead()) {
+    serverHealthService.update(ServerHealthState.warning("Command Repository","Failed to access command snippet XML file located in Go Server Directory at " + file.getPath() + ". Go does not have sufficient permissions to access it.",HealthStateType.commandRepositoryAccessibilityIssue(),systemEnvironment.getCommandRepoWarningTimeout()));
+    LOGGER.warn("[Command Repository] Failed to access command snippet XML file located in Go Server Directory at " + file.getAbsolutePath() + ". Go does not have sufficient permissions to access it.");
+    return;
+  }
+  try {
+    String relativeFilePath=FileUtil.removeLeadingPath(commandRepositoryBaseDirectory.get(),file.getAbsolutePath());
+    results.add(commandSnippetXmlParser.parse(xmlContentOfFie,FilenameUtils.getBaseName(fileName),relativeFilePath));
+  }
+ catch (  Exception e) {
+    LOGGER.warn("Failed loading command snippet from " + file.getAbsolutePath());
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(e);
+    }
+  }
+}

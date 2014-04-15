@@ -1,0 +1,11 @@
+{
+  PipelineConfig current;
+  if (firstOrderMaterial != null) {
+    current=GoConfigMother.createPipelineConfigWithMaterialConfig("current",sharedMaterial,firstOrderMaterial,new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("first")));
+  }
+ else {
+    current=GoConfigMother.createPipelineConfigWithMaterialConfig("current",sharedMaterial,new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("first")));
+  }
+  PipelineConfig upStream=GoConfigMother.createPipelineConfigWithMaterialConfig("up1",sharedMaterial);
+  return new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(upStream));
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    new GoConfigRevision("config-xml","foo");
+    fail("should have failed for invalid comment");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("failed to parse comment [foo]"));
+  }
+}

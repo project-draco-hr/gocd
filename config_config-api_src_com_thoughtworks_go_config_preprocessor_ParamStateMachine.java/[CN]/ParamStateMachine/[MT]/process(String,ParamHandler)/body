@@ -1,0 +1,8 @@
+{
+  ReaderState state=ReaderState.NOT_IN_PATTERN;
+  for (int i=0; i < preResolved.length(); i++) {
+    state=state.interpret(preResolved.charAt(i),paramsHandler);
+  }
+  paramsHandler.handleAfterResolution(state);
+  return paramsHandler.getResult();
+}

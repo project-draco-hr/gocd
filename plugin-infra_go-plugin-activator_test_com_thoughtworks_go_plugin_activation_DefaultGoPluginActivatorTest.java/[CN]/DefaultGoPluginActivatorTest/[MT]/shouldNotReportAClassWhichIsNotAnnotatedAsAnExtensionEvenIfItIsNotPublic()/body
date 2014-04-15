@@ -1,0 +1,6 @@
+{
+  setupClassesInBundle("NonPublicClassWhichIsNotAGoExtension.class");
+  when(bundle.loadClass(contains("NonPublicClassWhichIsNotAGoExtension"))).thenReturn((Class)NonPublicClassWhichIsNotAGoExtension.class);
+  activator.start(context);
+  verifyErrorsReported(NO_EXT_ERR_MSG);
+}

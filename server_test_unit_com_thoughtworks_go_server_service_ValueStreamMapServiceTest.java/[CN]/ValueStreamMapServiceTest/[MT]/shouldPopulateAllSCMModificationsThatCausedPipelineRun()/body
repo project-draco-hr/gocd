@@ -1,0 +1,19 @@
+{
+  GitMaterial git=new GitMaterial("git");
+  MaterialConfig gitConfig=git.config();
+  BuildCause p2buildCause=createBuildCauseForRevisions(asList(dependencyMaterial("p1",1)),asList(git),ModificationsMother.multipleModificationList(0));
+  BuildCause p1buildCause=createBuildCause(new ArrayList<String>(),asList(git));
+  Modifications gitModifications=p1buildCause.getMaterialRevisions().getMaterialRevision(0).getModifications();
+  when(pipelineService.buildCauseFor("p2",1)).thenReturn(p2buildCause);
+  when(pipelineService.buildCauseFor("p1",1)).thenReturn(p1buildCause);
+  PipelineConfig p1Config=PipelineConfigMother.pipelineConfig("p1",new MaterialConfigs(gitConfig));
+  PipelineConfig p2Config=PipelineConfigMother.pipelineConfig("p2",new MaterialConfigs(gitConfig));
+  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(p1Config,p2Config));
+  when(pipelineService.findPipelineByCounterOrLabel("p2","1")).thenReturn(new Pipeline("p2","LABEL-P2",p2buildCause));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p2",1,user,result);
+  VSMTestHelper.assertNodeHasRevisions(graph,"p1",new PipelineRevision("p1",1,"LABEL-p1-1"));
+  VSMTestHelper.assertNodeHasRevisions(graph,"p2",new PipelineRevision("p2",1,"LABEL-P2"));
+  VSMTestHelper.assertNodeHasRevisions(graph,git.getFingerprint(),new SCMRevision(gitModifications.get(2)),new SCMRevision(gitModifications.get(1)),new SCMRevision(gitModifications.get(0)));
+  verify(runStagesPopulator).apply(any(ValueStreamMap.class));
+}

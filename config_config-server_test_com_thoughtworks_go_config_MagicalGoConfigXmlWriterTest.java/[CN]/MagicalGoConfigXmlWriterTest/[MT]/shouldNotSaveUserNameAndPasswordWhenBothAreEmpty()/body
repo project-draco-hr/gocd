@@ -1,0 +1,6 @@
+{
+  MailHost mailHost=new MailHost("hostname",24,"","",null,true,false,"from@te.com","to@te.com",new GoCipher());
+  mailHost.ensureEncrypted();
+  String s=xmlWriter.toXmlPartial(mailHost);
+  assertThat(s,is("<mailhost hostname=\"hostname\" port=\"24\" tls=\"false\" " + "from=\"from@te.com\" admin=\"to@te.com\" />"));
+}

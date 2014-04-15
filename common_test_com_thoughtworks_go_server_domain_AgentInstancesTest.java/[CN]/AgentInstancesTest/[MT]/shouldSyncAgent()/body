@@ -1,0 +1,8 @@
+{
+  AgentInstances agentInstances=new AgentInstances(null,AgentInstanceMother.building(),idle);
+  AgentConfig agentConfig=new AgentConfig("uuid2","CCeDev01","10.18.5.1");
+  agentConfig.setDisabled(true);
+  Agents oneAgentIsRemoved=new Agents(agentConfig);
+  agentInstances.sync(oneAgentIsRemoved);
+  assertThat(agentInstances.findAgentAndRefreshStatus("uuid2").getStatus(),is(AgentStatus.Disabled));
+}

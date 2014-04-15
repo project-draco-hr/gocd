@@ -1,0 +1,12 @@
+{
+  StringBuffer sb=new StringBuffer("Circular dependency: ");
+  sb.append(end);
+  CaseInsensitiveString c;
+  do {
+    c=stk.pop();
+    sb.append(" <- ");
+    sb.append(c);
+  }
+ while (!c.equals(end));
+  throw new Exception(new String(sb));
+}

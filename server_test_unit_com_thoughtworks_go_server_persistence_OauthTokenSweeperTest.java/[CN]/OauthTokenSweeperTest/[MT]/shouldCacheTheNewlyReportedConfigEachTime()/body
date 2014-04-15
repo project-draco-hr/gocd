@@ -1,0 +1,11 @@
+{
+  CruiseConfig oldConfig=configWithPasswordFile();
+  oauthTokenSweeper.onConfigChange(oldConfig);
+  CruiseConfig newConfig=configWithPasswordFile();
+  SecurityConfig securityConfig=new SecurityConfig(null,new PasswordFileConfig(oldConfig.server().security().passwordFileConfig().path() + ".new"),false,null);
+  newConfig.setServerConfig(new ServerConfig("artifacts",securityConfig));
+  oauthTokenSweeper.onConfigChange(newConfig);
+  verify(mockRepo).deleteAllOauthGrants();
+  oauthTokenSweeper.onConfigChange(newConfig);
+  verifyNoMoreInteractions(mockRepo);
+}

@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  AgentConfig agentConfig=new AgentConfig();
+  agentConfig.setIpAddress(ipAddress);
+  cruiseConfig.agents().add(agentConfig);
+  agentConfig.validate(ValidationContext.forChain(cruiseConfig));
+  assertThat(agentConfig.errors().isEmpty(),is(true));
+}

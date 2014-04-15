@@ -1,0 +1,22 @@
+{
+  String g1="g1";
+  String g2="g2";
+  String p1="p1";
+  String p2="p2";
+  String p3="p3";
+  String p4="p4";
+  String p5="p5";
+  String p6="p6";
+  String current="current";
+  ValueStreamMap valueStreamMap=new ValueStreamMap(current,null);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(p4,p4),null,current);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(p3,p3),null,p4);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(p2,p2),null,p3);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(p1,p1),null,p2);
+  valueStreamMap.addUpstreamNode(new SCMDependencyNode(g1,g1,"git"),null,p1);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(p5,p5),new PipelineRevision(p5,2,"2"),current);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(p6,p6),new PipelineRevision(p6,1,"1"),p5);
+  valueStreamMap.addUpstreamNode(new PipelineDependencyNode(p5,p5),new PipelineRevision(p5,1,"1"),p6);
+  valueStreamMap.addUpstreamNode(new SCMDependencyNode(g2,g2,"git"),null,p5);
+  assertThat(valueStreamMap.hasCycle(),is(true));
+}

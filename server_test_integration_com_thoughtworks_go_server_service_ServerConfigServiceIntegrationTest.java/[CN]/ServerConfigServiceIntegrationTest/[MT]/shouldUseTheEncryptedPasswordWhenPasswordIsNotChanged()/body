@@ -1,0 +1,6 @@
+{
+  String encryptedPassword=new GoCipher().encrypt("encrypted_password");
+  LdapConfig ldapConfig=new LdapConfig(LDAP_URL,MANAGER_DN,MANAGER_PASSWORD,encryptedPassword,false,new BasesConfig(new BaseConfig(SEARCH_BASE)),SEARCH_FILTER);
+  DefaultSpringSecurityContextSource source=serverConfigService.ldapContextSource(ldapConfig);
+  assertThat(source.getAuthenticationSource().getCredentials(),is("encrypted_password"));
+}

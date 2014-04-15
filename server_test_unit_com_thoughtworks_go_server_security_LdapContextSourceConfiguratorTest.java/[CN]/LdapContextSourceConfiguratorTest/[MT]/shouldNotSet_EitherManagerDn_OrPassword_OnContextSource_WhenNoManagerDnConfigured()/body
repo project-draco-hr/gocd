@@ -1,0 +1,8 @@
+{
+  GoCipher goCipher=new GoCipher();
+  LdapContextSourceConfigurator configurator=new LdapContextSourceConfigurator(new LdapConfig(goCipher));
+  AbstractContextSource ctxSrc=mock(AbstractContextSource.class);
+  configurator.configure(ctxSrc);
+  verify(ctxSrc,never()).setPassword(any(String.class));
+  verify(ctxSrc,never()).setUserDn(any(String.class));
+}

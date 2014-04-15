@@ -1,0 +1,13 @@
+{
+  HgMaterial m=MaterialsMother.hgMaterial("url");
+  MaterialInstance materialInstance=m.createMaterialInstance();
+  materialInstance.setId(10);
+  ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+  ObjectOutputStream objectOutputStream=new ObjectOutputStream(byteArrayOutputStream);
+  objectOutputStream.writeObject(materialInstance);
+  ObjectInputStream inputStream1=new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+  MaterialInstance unserializedMaterial=(MaterialInstance)inputStream1.readObject();
+  assertThat(unserializedMaterial,Matchers.is(materialInstance));
+  assertThat(unserializedMaterial.getId(),is(10L));
+  assertThat(unserializedMaterial,is(materialInstance));
+}

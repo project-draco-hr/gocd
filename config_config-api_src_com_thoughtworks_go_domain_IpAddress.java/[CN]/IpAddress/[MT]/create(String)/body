@@ -1,0 +1,11 @@
+{
+  try {
+    if (StringUtils.isEmpty(address)) {
+      return new NullIpAddress();
+    }
+    return new IpAddress(InetAddress.getByName(address));
+  }
+ catch (  UnknownHostException e) {
+    throw new RuntimeException("IpAddress '" + address + "' is not a valid IP address");
+  }
+}

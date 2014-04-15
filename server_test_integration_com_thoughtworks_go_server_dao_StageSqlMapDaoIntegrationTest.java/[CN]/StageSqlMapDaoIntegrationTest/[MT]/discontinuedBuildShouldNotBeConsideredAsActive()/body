@@ -1,0 +1,6 @@
+{
+  Pipeline passed=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.pass(passed);
+  setupDiscontinuedBuild(passed);
+  assertThat(stageDao.isStageActive(CaseInsensitiveString.str(mingleConfig.name()),CaseInsensitiveString.str(mingleConfig.getFirstStageConfig().name())),is(false));
+}

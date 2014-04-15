@@ -1,0 +1,8 @@
+{
+  TestingClock clock=new TestingClock();
+  files.setClock(clock);
+  File file1=files.createUniqueFolder("foo");
+  clock.addSeconds(1);
+  File file2=files.createUniqueFolder("foo");
+  assertThat(file2,not(file1));
+}

@@ -1,0 +1,14 @@
+{
+  goCache=new StubGoCache(new TestTransactionSynchronizationManager());
+  sqlMapClientTemplate=mock(SqlMapClientTemplate.class);
+  stageSqlMapDao=new StageSqlMapDao(mock(JobInstanceSqlMapDao.class),new Cache(true,false,false),mock(TransactionTemplate.class),mock(SqlMapClient.class),goCache,mock(TransactionSynchronizationManager.class),mock(SystemEnvironment.class),null);
+  stageSqlMapDao.setSqlMapClientTemplate(sqlMapClientTemplate);
+  cloner=mock(Cloner.class);
+  ReflectionUtil.setField(stageSqlMapDao,"cloner",cloner);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      return invocationOnMock.getArguments()[0];
+    }
+  }
+).when(cloner).deepClone(anyObject());
+}

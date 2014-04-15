@@ -1,0 +1,19 @@
+{
+  final String groupName="group_name";
+  when(securityService.isUserAdminOfGroup(validUser.getUsername(),groupName)).thenReturn(true);
+  String md5="md5";
+  when(goConfigService.configFileMd5()).thenReturn(md5);
+  GoConfigService.XmlPartialSaver groupSaver=mock(GoConfigService.XmlPartialSaver.class);
+  when(goConfigService.groupSaver(groupName)).thenReturn(groupSaver);
+  String updatedPartial=groupXml();
+  when(groupSaver.saveXml(updatedPartial,md5)).thenReturn(GoConfigValidity.valid());
+  GoConfigOperationalResponse<PipelineConfigs> actual=service.updateXml(groupName,updatedPartial,md5,validUser,result);
+  PipelineConfigs configs=actual.getConfigElement();
+  GoConfigValidity validity=actual.getValidity();
+  assertThat(configs,is(not(nullValue())));
+  assertThat(configs.getGroup(),is("renamed_group_name"));
+  assertThat(result.httpCode(),is(200));
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(validity.isValid(),is(true));
+  verify(groupSaver).saveXml(updatedPartial,md5);
+}

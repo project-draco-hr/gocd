@@ -1,0 +1,6 @@
+{
+  NantTask task=new NantTask();
+  task.setBuildFile("pavan\\build.xml");
+  CommandBuilder builder=(CommandBuilder)nantTaskBuilder.createBuilder(builderFactory,task,pipeline,resolver);
+  assertThat(builder.getArgs(),Is.is("-buildfile:\"pavan/build.xml\""));
+}

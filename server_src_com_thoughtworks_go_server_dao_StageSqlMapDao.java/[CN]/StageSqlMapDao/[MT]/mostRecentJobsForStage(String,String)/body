@@ -1,0 +1,7 @@
+{
+  Long mostRecentId=mostRecentId(pipelineName,stageName);
+  Stage stage=stageByIdWithBuildsWithNoAssociations(mostRecentId);
+  List<JobInstance> jobInstances=new ArrayList<JobInstance>();
+  jobInstances.addAll(stage.getJobInstances());
+  return jobInstances;
+}

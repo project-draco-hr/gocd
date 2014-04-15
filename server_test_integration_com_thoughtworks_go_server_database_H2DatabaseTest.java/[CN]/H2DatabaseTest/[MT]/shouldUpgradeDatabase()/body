@@ -1,0 +1,11 @@
+{
+  h2Database.shutdown();
+  h2Database.startDatabase();
+  BasicDataSource dataSource=h2Database.createDataSource();
+  h2Database.upgrade();
+  h2Database.startDatabase();
+  dataSource=h2Database.createDataSource();
+  Connection connection=dataSource.getConnection();
+  ResultSet set=connection.getMetaData().getTables(null,null,null,null);
+  assertThat(set.next(),is(true));
+}

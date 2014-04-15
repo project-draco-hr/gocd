@@ -1,0 +1,15 @@
+{
+  SvnMaterialConfig mockMaterialConfig=mock(SvnMaterialConfig.class);
+  String view=SimplePipelineWizardController.DUMMY_VIEW;
+  pipelineName="AnnaBond";
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString(pipelineName))).thenReturn(false);
+  SecurityContextHelper.setCurrentUser("barrow");
+  Username barrow=new Username(new CaseInsensitiveString("barrow"));
+  when(securityService.isUserAdmin(barrow)).thenReturn(false);
+  when(securityService.isUserAdminOfGroup(barrow.getUsername(),"newGroup")).thenReturn(true);
+  when(materialFactory.getMaterial("svn","http://test/","username","password",false,view,null,null,null)).thenReturn(mockMaterialConfig);
+  ModelAndView modelAndView=controller.createPipeline(pipelineName,"newGroup","svn","http://test/","username","password","","","",null,null,null,"","",false,view,null,null,null,response);
+  assertCreatedPipelineSuccessfully(modelAndView);
+  Username userNameBarrow=new Username(new CaseInsensitiveString("barrow"));
+  verify(pipelinePauseService).pause(pipelineName,"Under construction",userNameBarrow);
+}

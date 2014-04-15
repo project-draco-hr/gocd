@@ -1,0 +1,12 @@
+{
+  String msg="ArtifactPlans should match";
+  nullsafeAssert(msg,actual,expect);
+  assertThat(actual.size(),is(expect.size()));
+  for (int i=0; i < expect.size(); i++) {
+    ArtifactPlan expectPlan=expect.get(i);
+    ArtifactPlan actualPlan=actual.get(i);
+    assertThat(msg,actualPlan.getArtifactType(),is(expectPlan.getArtifactType()));
+    assertThat(msg,actualPlan.getSrc(),is(expectPlan.getSrc()));
+    assertThat(msg,actualPlan.getDest(),is(expectPlan.getDest()));
+  }
+}

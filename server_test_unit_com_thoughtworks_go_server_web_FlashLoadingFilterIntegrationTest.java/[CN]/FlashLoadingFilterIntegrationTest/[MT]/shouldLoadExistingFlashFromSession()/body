@@ -1,0 +1,18 @@
+{
+  MockHttpServletRequest req=new MockHttpServletRequest();
+  MockHttpSession session=new MockHttpSession();
+  FlashMessageService.Flash oldFlash=new FlashMessageService.Flash();
+  oldFlash.put("my_key",new FlashMessageModel("my other message","warning"));
+  session.putValue(FlashLoadingFilter.FLASH_SESSION_KEY,oldFlash);
+  req.setSession(session);
+  MockHttpServletResponse res=new MockHttpServletResponse();
+  FilterChain filterChain=new MockFilterChain(){
+    @Override public void doFilter(    ServletRequest request,    ServletResponse response){
+      flash=service.get("my_key");
+    }
+  }
+;
+  filter.doFilter(req,res,filterChain);
+  assertThat(flash.toString(),is("my other message"));
+  assertThat(flash.getFlashClass(),is("warning"));
+}

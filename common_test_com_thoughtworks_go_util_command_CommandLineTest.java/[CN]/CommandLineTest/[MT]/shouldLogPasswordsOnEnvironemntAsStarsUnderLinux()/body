@@ -1,0 +1,11 @@
+{
+  CommandLine line=CommandLine.createCommandLine("echo").withArg("My Password is:").withArg("secret").withArg(new PasswordArgument("secret"));
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  environmentVariableContext.setProperty("ENV_PASSWORD","secret",false);
+  InMemoryStreamConsumer output=new InMemoryStreamConsumer();
+  InMemoryStreamConsumer forDisplay=InMemoryStreamConsumer.inMemoryConsumer();
+  ProcessWrapper processWrapper=line.execute(output,environmentVariableContext,null);
+  processWrapper.waitForExit();
+  assertThat(forDisplay.getAllOutput(),not(containsString("secret")));
+  assertThat(output.getAllOutput(),containsString("secret"));
+}

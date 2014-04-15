@@ -1,0 +1,15 @@
+{
+  String[] args=new String[]{"config","--get-regexp","^submodule\\..+\\.url"};
+  CommandLine gitCmd=git().withArgs(args).withWorkingDir(workingDir);
+  ConsoleResult result=runOrBomb(gitCmd,false);
+  List<String> submoduleList=result.output();
+  HashMap<String,String> submoduleUrls=new HashMap<String,String>();
+  for (  String submoduleLine : submoduleList) {
+    Matcher m=GIT_SUBMODULE_URL_PATTERN.matcher(submoduleLine);
+    if (!m.find()) {
+      bomb("Unable to parse git-config output line: " + result.replaceSecretInfo(submoduleLine) + "\n"+ "From output:\n"+ result.replaceSecretInfo(join(submoduleList,"\n")));
+    }
+    submoduleUrls.put(m.group(1),m.group(2));
+  }
+  return submoduleUrls;
+}

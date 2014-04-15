@@ -1,0 +1,12 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  EnvironmentVariableConfig username=new EnvironmentVariableConfig("username","ram");
+  pipelineConfig.addEnvironmentVariable(username);
+  GoCipher goCipher=mock(GoCipher.class);
+  when(goCipher.encrypt("=%HG*^&*&^")).thenReturn("encrypted");
+  EnvironmentVariableConfig password=new EnvironmentVariableConfig(goCipher,"password","=%HG*^&*&^",true);
+  pipelineConfig.addEnvironmentVariable(password);
+  EnvironmentVariablesConfig plainTextVariables=pipelineConfig.getPlainTextVariables();
+  assertThat(plainTextVariables,not(hasItem(password)));
+  assertThat(plainTextVariables,hasItem(username));
+}

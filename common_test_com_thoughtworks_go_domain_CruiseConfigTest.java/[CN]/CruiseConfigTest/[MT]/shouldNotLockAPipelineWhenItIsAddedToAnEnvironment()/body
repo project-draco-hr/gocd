@@ -1,0 +1,6 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline-1");
+  EnvironmentConfig env=config.addEnvironment("environment");
+  env.addPipeline(new CaseInsensitiveString("pipeline-1"));
+  assertThat(config.isPipelineLocked("pipeline-1"),is(false));
+}

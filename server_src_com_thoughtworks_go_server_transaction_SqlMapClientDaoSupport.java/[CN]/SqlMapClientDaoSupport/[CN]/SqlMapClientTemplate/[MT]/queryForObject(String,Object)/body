@@ -1,0 +1,8 @@
+{
+  return executeInternal(new Operation<Object>(){
+    public Object execute(){
+      return SqlMapClientTemplate.super.queryForObject(translateStatementName(statementName),parameterObject);
+    }
+  }
+);
+}

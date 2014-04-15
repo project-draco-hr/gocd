@@ -1,0 +1,8 @@
+{
+  SecurityConfig security=security(null,pwordFile(),admins(role("role2")));
+  assertThat(security.isAdmin(new AdminUser(new CaseInsensitiveString("chris"))),is(true));
+  assertThat(security.isAdmin(new AdminUser(new CaseInsensitiveString("jez"))),is(false));
+  security=security(null,pwordFile(),admins(role("role2"),user("jez")));
+  assertThat(security.isAdmin(new AdminUser(new CaseInsensitiveString("chris"))),is(true));
+  assertThat(security.isAdmin(new AdminUser(new CaseInsensitiveString("jez"))),is(true));
+}

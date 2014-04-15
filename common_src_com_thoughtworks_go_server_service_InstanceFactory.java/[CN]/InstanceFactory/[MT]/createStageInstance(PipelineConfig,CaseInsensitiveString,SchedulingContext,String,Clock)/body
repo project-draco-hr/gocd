@@ -1,0 +1,7 @@
+{
+  StageConfig stageConfig=pipelineConfig.findBy(stageName);
+  if (stageConfig == null) {
+    throw new StageNotFoundException(pipelineConfig.name(),stageName);
+  }
+  return createStageInstance(stageConfig,context,md5,clock);
+}

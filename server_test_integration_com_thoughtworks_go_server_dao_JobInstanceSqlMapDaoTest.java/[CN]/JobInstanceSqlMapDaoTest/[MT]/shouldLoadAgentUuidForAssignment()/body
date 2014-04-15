@@ -1,0 +1,7 @@
+{
+  JobInstance jobInstance=scheduled(projectOne);
+  jobInstance.setAgentUuid("uuid1");
+  jobInstanceDao.save(stageId,jobInstance);
+  JobPlan job=findPlan(jobInstanceDao.orderedScheduledBuilds(),projectOne);
+  assertThat(job.getAgentUuid(),is("uuid1"));
+}

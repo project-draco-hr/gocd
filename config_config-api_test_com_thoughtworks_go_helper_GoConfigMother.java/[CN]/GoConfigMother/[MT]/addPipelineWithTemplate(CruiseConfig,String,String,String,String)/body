@@ -1,0 +1,8 @@
+{
+  PipelineTemplateConfig templateConfig=new PipelineTemplateConfig(new CaseInsensitiveString(templateName),StageConfigMother.custom(stageName,defaultBuildPlans(buildNames)));
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString(pipelineName),MaterialConfigsMother.mockMaterialConfigs("file:///tmp/foo"));
+  pipelineConfig.setTemplateName(new CaseInsensitiveString(templateName));
+  cruiseConfig.addTemplate(templateConfig);
+  cruiseConfig.addPipeline(DEFAULT_GROUP,pipelineConfig);
+  return pipelineConfig;
+}

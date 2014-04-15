@@ -1,0 +1,9 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  DefaultPluginLoggingService loggingService=new DefaultPluginLoggingService(systemEnvironment);
+  loggingService.debug(pluginId,"some-logger-name","message");
+  List<Appender> appenders=Collections.list(Logger.getLogger("plugin." + pluginId).getAllAppenders());
+  String loggingDirectory=loggingService.getCurrentLogDirectory();
+  assertThat(appenders.size(),is(1));
+  assertThat(new File(((FileAppender)appenders.get(0)).getFile()),is(new File(loggingDirectory,expectedPluginLogFileName)));
+}

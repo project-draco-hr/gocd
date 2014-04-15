@@ -1,0 +1,10 @@
+{
+  try {
+    new LdapUserSearch(goConfigService,ldapContextSource(ldapConfig)).search(ANY_USER,ldapConfig);
+  }
+ catch (  LdapUserSearch.NotAllResultsShownException ex) {
+  }
+catch (  RuntimeException e) {
+    result.connectionError(LocalizedMessage.string("CANNOT_CONNECT_TO_LDAP",e.getMessage()));
+  }
+}

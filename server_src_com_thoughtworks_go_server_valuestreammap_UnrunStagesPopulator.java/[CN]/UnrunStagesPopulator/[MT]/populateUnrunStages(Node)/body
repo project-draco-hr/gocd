@@ -1,0 +1,10 @@
+{
+  List<Revision> revisions=node.revisions();
+  PipelineConfig pipelineConfig=goConfigService.getCurrentConfig().pipelineConfigByName(new CaseInsensitiveString(node.getName()));
+  if (revisions.isEmpty()) {
+    populateConfiguredStages(node,pipelineConfig);
+  }
+  for (  Revision revision : revisions) {
+    appendUnrunStages(pipelineConfig,(PipelineRevision)revision);
+  }
+}

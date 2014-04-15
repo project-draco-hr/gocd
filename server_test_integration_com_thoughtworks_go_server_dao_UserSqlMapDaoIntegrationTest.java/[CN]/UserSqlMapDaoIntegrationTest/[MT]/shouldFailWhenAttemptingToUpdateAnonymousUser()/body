@@ -1,0 +1,12 @@
+{
+  User user=user("foo");
+  userDao.saveOrUpdate(user);
+  user.setName("anonymous");
+  try {
+    userDao.saveOrUpdate(user);
+    fail("should not allow updating anonymous user");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("User name 'anonymous' is not permitted."));
+  }
+}

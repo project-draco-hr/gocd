@@ -1,0 +1,17 @@
+{
+  final JobInstance scheduledJob=scheduled("dev");
+  scheduledJob.setId(10);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  when(jobInstanceDao.buildByIdWithTransitions(scheduledJob.getId())).thenReturn(scheduledJob);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      JobInstance jobInstance=jobService.buildByIdWithTransitions(scheduledJob.getId());
+      jobService.failJob(jobInstance);
+    }
+  }
+);
+  verify(jobInstanceDao).buildByIdWithTransitions(scheduledJob.getId());
+  verify(jobInstanceDao).updateStateAndResult(scheduledJob);
+  verify(buildPropertiesService).saveCruiseProperties(scheduledJob);
+  assertThat(scheduledJob.isFailed(),is(true));
+}

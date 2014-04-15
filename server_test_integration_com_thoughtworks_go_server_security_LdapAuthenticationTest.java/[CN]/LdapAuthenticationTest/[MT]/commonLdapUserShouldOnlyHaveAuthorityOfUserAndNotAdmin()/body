@@ -1,0 +1,11 @@
+{
+  ldapServer.addUser(employeesOrgUnit,"foleys","some-password","Shilpa Foley","foleys@somecompany.com");
+  CONFIG_HELPER.initializeConfigFile();
+  CONFIG_HELPER.addLdapSecurityWithAdmin(LDAP_URL,MANAGER_DN,MANAGER_PASSWORD,SEARCH_BASE,SEARCH_FILTER,"another_admin");
+  Authentication authentication=new UsernamePasswordAuthenticationToken("foleys","some-password");
+  Authentication result=ldapAuthenticationProvider.authenticate(authentication);
+  assertThat(result.isAuthenticated(),is(true));
+  GrantedAuthority[] authorities=result.getAuthorities();
+  assertThat("foleys should have only user authority. Found: " + ArrayUtils.toString(authorities),authorities.length,is(1));
+  assertThat(authorities[0].getAuthority(),is("ROLE_USER"));
+}

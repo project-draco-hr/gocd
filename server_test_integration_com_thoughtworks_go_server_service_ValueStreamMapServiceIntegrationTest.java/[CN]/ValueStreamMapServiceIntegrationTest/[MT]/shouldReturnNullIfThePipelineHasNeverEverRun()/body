@@ -1,0 +1,9 @@
+{
+  GitMaterial git=new GitMaterial("git");
+  String pipeline="NewlyCreated";
+  u.saveConfigWith("P1",u.m(git));
+  assertThat(valueStreamMapService.getValueStreamMap(pipeline,1,username,result),is(IsNull.nullValue()));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpStatus.SC_NOT_FOUND));
+  assertThat(result.message(localizer),is("Pipeline 'NewlyCreated' with counter '1' not found."));
+}

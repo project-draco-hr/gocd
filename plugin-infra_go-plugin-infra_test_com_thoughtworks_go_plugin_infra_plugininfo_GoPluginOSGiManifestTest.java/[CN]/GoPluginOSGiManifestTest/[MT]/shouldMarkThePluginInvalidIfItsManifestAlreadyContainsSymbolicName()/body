@@ -1,0 +1,12 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  addHeaderToManifest(BUNDLE_SYMBOLICNAME,"Dummy Value");
+  assertThat(valueFor(BUNDLE_SYMBOLICNAME),is(not(nullValue())));
+  assertThat(valueFor(BUNDLE_CLASSPATH),is(nullValue()));
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("pluginId","some-plugin.jar",bundleLocation,true);
+  goPluginOSGiManifestGenerator.updateManifestOf(descriptor);
+  assertThat(valueFor(BUNDLE_SYMBOLICNAME),is("Dummy Value"));
+  assertThat(descriptor.isInvalid(),is(true));
+}

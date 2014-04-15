@@ -1,0 +1,17 @@
+{
+  final ScheduleOptions scheduleOptions=new ScheduleOptions(new HashMap<String,String>(),Collections.singletonMap("KEY","value"),new HashMap<String,String>());
+  HttpOperationResult operationResult=new HttpOperationResult();
+  goConfigService.pipelineConfigNamed(new CaseInsensitiveString(PIPELINE_MINGLE)).setVariables(env("KEY","somejunk"));
+  serverHealthService.update(ServerHealthState.failToScheduling(HealthStateType.general(HealthStateScope.forPipeline(PIPELINE_MINGLE)),PIPELINE_MINGLE,"should wait till cleared"));
+  pipelineScheduler.manualProduceBuildCauseAndSave(PIPELINE_MINGLE,Username.ANONYMOUS,scheduleOptions,operationResult);
+  assertThat(operationResult.message(),operationResult.canContinue(),is(true));
+  Assertions.waitUntil(Timeout.ONE_MINUTE,new Assertions.Predicate(){
+    public boolean call() throws Exception {
+      return serverHealthService.filterByScope(HealthStateScope.forPipeline(PIPELINE_MINGLE)).size() == 0;
+    }
+  }
+);
+  BuildCause buildCause=pipelineScheduleQueue.toBeScheduled().get(PIPELINE_MINGLE);
+  EnvironmentVariablesConfig overriddenVariables=buildCause.getVariables();
+  assertThat(overriddenVariables,is(env("KEY","value")));
+}

@@ -1,0 +1,16 @@
+{
+  if (!OS_CHECKER.satisfy()) {
+    File stalePluginZip=null;
+    File agentLauncher=null;
+    try {
+      stalePluginZip=randomFile("agent-plugins.zip");
+      long original=stalePluginZip.length();
+      AgentProcessParentImpl bootstrapper=createBootstrapper(new ArrayList<String>());
+      bootstrapper.run("launcher_version","bar",getURLGenerator(),m(AgentProcessParentImpl.AGENT_STARTUP_ARGS,"foo bar  baz with%20some%20space"));
+      assertThat(stalePluginZip.length(),not(original));
+    }
+  finally {
+      delete(stalePluginZip,agentLauncher);
+    }
+  }
+}

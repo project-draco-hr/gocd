@@ -1,0 +1,28 @@
+{
+  Pipeline oldest=preCondition.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  Stage stage=oldest.getStages().byName(preCondition.ftStage);
+  StageStatusTopic stageStatusTopic=mock(StageStatusTopic.class);
+  JobResultTopic jobResultTopic=mock(JobResultTopic.class);
+  StageStatusListener stageStatusListener=mock(StageStatusListener.class);
+  StageService stageService=mock(StageService.class);
+  when(stageService.stageById(stage.getId())).thenReturn(stage);
+  Mockito.doAnswer(new Answer(){
+    public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      throw new RuntimeException();
+    }
+  }
+).when(stageService).cancelStage(stage);
+  StageOrderService stageOrderService=mock(StageOrderService.class);
+  SchedulingPerformanceLogger schedulingPerformanceLogger=mock(SchedulingPerformanceLogger.class);
+  scheduleService=new ScheduleService(goConfigService,pipelineService,stageService,schedulingCheckerService,pipelineScheduledTopic,pipelineDao,stageDao,stageOrderService,securityService,pipelineScheduleQueue,this.jobInstanceService,jobInstanceDao,agentAssignment,environmentConfigService,pipelineLockService,serverHealthService,transactionTemplate,null,transactionSynchronizationManager,null,null,null,null,schedulingPerformanceLogger);
+  try {
+    scheduleService.cancelAndTriggerRelevantStages(stage.getId(),null,null);
+  }
+ catch (  RuntimeException e) {
+  }
+  verify(stageStatusTopic,never()).post(any(StageStatusMessage.class));
+  verify(jobResultTopic,never()).post(any(JobResultMessage.class));
+  verify(stageStatusListener,never()).stageStatusChanged(any(Stage.class));
+}

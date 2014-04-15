@@ -1,0 +1,14 @@
+{
+  String selectTestCase="PREFIX xunit: <" + XUnitOntology.URI + "> "+ "\n"+ "SELECT ?testCase ?failure ?error {\n"+ "  ?testCase a xunit:TestCase .\n"+ "  OPTIONAL {\n"+ "     ?testCase xunit:hasFailure ?failure .\n"+ "     ?failure xunit:isError ?error .\n"+ "  }"+ "}";
+  List<TestCaseResultModel> testCounts=stagesQuery.select(selectTestCase,Arrays.asList(stageId),new RdfResultMapper<TestCaseResultModel>(){
+    public TestCaseResultModel map(    BoundVariables aRow){
+      boolean error=Boolean.TRUE.equals(aRow.getBoolean("error"));
+      return new TestCaseResultModel(aRow.getAsString("failure") != null,error);
+    }
+  }
+);
+  int totalCount=testCounts.size();
+  int failuresCount=computeFailureCounts(testCounts);
+  int errorsCount=computeErrorCounts(testCounts);
+  return new StageTestRuns(totalCount,failuresCount,errorsCount);
+}

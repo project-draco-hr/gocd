@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(toInputStream(CONFIG_WITH_NANT_AND_EXEC_BUILDER)).config;
+  JobConfig plan=cruiseConfig.jobConfigByName("pipeline1","mingle","cardlist",true);
+  RakeTask builder=(RakeTask)plan.tasks().findFirstByType(RakeTask.class);
+  assertThat(builder,notNullValue());
+}

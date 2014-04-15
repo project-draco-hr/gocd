@@ -1,0 +1,18 @@
+{
+  String projectName="projectName";
+  String activity="Building";
+  String lastBuildStatus="Success";
+  String lastBuildLabel="LastBuildLabel";
+  Date lastBuildTime=new Date();
+  String webUrl="weburl";
+  String contextPath="http://localhost/go";
+  ProjectStatus projectStatus=new ProjectStatus(projectName,activity,lastBuildStatus,lastBuildLabel,lastBuildTime,webUrl);
+  Element element=projectStatus.ccTrayXmlElement(contextPath);
+  assertThat(element.getName(),is("Project"));
+  assertThat(element.getAttributeValue("name"),is(projectName));
+  assertThat(element.getAttributeValue("activity"),is(activity));
+  assertThat(element.getAttributeValue("lastBuildStatus"),is(lastBuildStatus));
+  assertThat(element.getAttributeValue("lastBuildLabel"),is(lastBuildLabel));
+  assertThat(element.getAttributeValue("lastBuildTime"),is(DateUtils.formatIso8601ForCCTray(lastBuildTime)));
+  assertThat(element.getAttributeValue("webUrl"),is(contextPath + "/" + webUrl));
+}

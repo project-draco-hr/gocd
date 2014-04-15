@@ -1,0 +1,27 @@
+{
+  if (buffer.isEmpty()) {
+    return;
+  }
+  List sent=new ArrayList();
+  try {
+synchronized (buffer) {
+      while (!buffer.isEmpty()) {
+        sent.add(buffer.remove());
+      }
+    }
+    StringBuilder result=new StringBuilder();
+    for (    Object string : sent) {
+      result.append(string);
+      result.append("\n");
+    }
+    consoleAppender.append(result.toString());
+  }
+ catch (  IOException e) {
+    LOGGER.warn("Could not send console output to server",e);
+synchronized (buffer) {
+      sent.addAll(buffer);
+      buffer=new CircularFifoBuffer(10 * 1024);
+      buffer.addAll(sent);
+    }
+  }
+}

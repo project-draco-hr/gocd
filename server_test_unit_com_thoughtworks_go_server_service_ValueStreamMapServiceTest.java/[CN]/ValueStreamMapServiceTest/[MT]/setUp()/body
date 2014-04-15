@@ -1,0 +1,25 @@
+{
+  pipelineService=mock(PipelineService.class);
+  goConfigService=mock(GoConfigService.class);
+  runStagesPopulator=mock(RunStagesPopulator.class);
+  downstreaminstancepopulator=mock(DownstreamInstancePopulator.class);
+  unrunStagesPopulator=mock(UnrunStagesPopulator.class);
+  securityService=mock(SecurityService.class);
+  user=new Username(new CaseInsensitiveString("poovan"));
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("p1"))).thenReturn(true);
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("p2"))).thenReturn(true);
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("p3"))).thenReturn(true);
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("MYPIPELINE"))).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"C")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"A")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"B")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"P1")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"P2")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"P3")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"p1")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"p2")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"p3")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(user,"MYPIPELINE")).thenReturn(true);
+  valueStreamMapService=new ValueStreamMapService(pipelineService,goConfigService,downstreaminstancepopulator,runStagesPopulator,unrunStagesPopulator,securityService);
+  result=new HttpLocalizedOperationResult();
+}

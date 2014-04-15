@@ -1,0 +1,7 @@
+{
+  AgentInstance agentA=new AgentInstance(new AgentConfig("UUID","A","127.0.0.1"),LOCAL,systemEnvironment);
+  AgentInstance agentB=new AgentInstance(new AgentConfig("UUID","B","127.0.0.2"),LOCAL,systemEnvironment);
+  assertThat(agentA.compareTo(agentA),is(0));
+  assertThat(agentA.compareTo(agentB),lessThan(0));
+  assertThat(agentB.compareTo(agentA),greaterThan(0));
+}

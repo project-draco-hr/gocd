@@ -1,0 +1,10 @@
+{
+  String port=getDatabasePort();
+  try {
+    return Integer.parseInt(port);
+  }
+ catch (  NumberFormatException e) {
+    LOG.info("Could not parse port=" + port);
+  }
+  return Integer.parseInt(defaultDbPort);
+}

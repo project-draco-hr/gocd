@@ -1,0 +1,12 @@
+{
+  JobConfig allAgentsJob=new JobConfig("job-for-all-agents");
+  JobConfig ambiguousJob=new JobConfig("job-for-all");
+  allAgentsJob.setRunOnAllAgents(true);
+  ambiguousJob.setRunOnAllAgents(true);
+  JobConfigs jobs=new JobConfigs();
+  jobs.add(ambiguousJob);
+  jobs.add(allAgentsJob);
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("stage-name"),jobs);
+  JobConfig found=stage.jobConfigByInstanceName(RunOnAllAgents.CounterBasedJobNameGenerator.appendMarker("job-for-all-agents",1),true);
+  assertThat(found,is(allAgentsJob));
+}

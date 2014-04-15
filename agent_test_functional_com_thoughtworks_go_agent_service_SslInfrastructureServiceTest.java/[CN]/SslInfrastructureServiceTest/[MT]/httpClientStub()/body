@@ -1,0 +1,12 @@
+{
+  final HttpClient client=context.mock(HttpClient.class);
+  context.checking(new Expectations(){
+{
+      allowing(client).setHttpConnectionManager(with(any(MultiThreadedHttpConnectionManager.class)));
+      allowing(client).getHttpConnectionManager();
+      will(returnValue(new MultiThreadedHttpConnectionManager()));
+    }
+  }
+);
+  return client;
+}

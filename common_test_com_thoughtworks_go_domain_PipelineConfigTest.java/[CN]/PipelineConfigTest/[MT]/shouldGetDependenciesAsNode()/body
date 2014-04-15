@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  pipelineConfig.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("framework"),new CaseInsensitiveString("dev")));
+  pipelineConfig.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("middleware"),new CaseInsensitiveString("dev")));
+  assertThat(pipelineConfig.getDependenciesAsNode(),is(new Node(new CaseInsensitiveString("framework"),new CaseInsensitiveString("middleware"))));
+}

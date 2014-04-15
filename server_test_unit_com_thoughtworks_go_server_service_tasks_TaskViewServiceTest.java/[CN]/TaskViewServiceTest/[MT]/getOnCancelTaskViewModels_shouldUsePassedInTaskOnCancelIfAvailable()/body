@@ -1,0 +1,13 @@
+{
+  when(registry.implementersOf(Task.class)).thenReturn(taskImplementations());
+  AntTask ant=new AntTask();
+  FetchTask fetch=new FetchTask();
+  AntTask given=new AntTask();
+  ExecTask cancelExec=new ExecTask("ls","-la",".");
+  given.setCancelTask(cancelExec);
+  when(registry.getViewModelFor(ant,"new")).thenReturn(viewModel(ant));
+  when(registry.getViewModelFor(fetch,"new")).thenReturn(viewModel(fetch));
+  when(registry.getViewModelFor(cancelExec,"edit")).thenReturn(viewModel(cancelExec));
+  List<PluggableViewModel<Task>> onCancelTaskViewModels=new TaskViewService(registry,mock(PluginManager.class)).getOnCancelTaskViewModels(given);
+  assertThat(onCancelTaskViewModels,is(asList(viewModel(ant),viewModel(cancelExec),viewModel(fetch))));
+}

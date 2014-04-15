@@ -1,0 +1,11 @@
+{
+synchronized (key.intern()) {
+    Object value=getWithoutTransactionCheck(key);
+    if (value instanceof KeyList) {
+      for (      String subKey : (KeyList)value) {
+        ehCache.remove(compositeKey(key,subKey));
+      }
+    }
+    return ehCache.remove(key);
+  }
+}

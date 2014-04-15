@@ -1,0 +1,11 @@
+{
+  GoConfigHolder configForEdit=cloner.deepClone(getConfigHolder());
+  if (!isValidGroup(groupName,configForEdit.configForEdit,result)) {
+    return null;
+  }
+  if (!isAdminOfGroup(groupName,username,result)) {
+    return null;
+  }
+  PipelineConfigs config=cloner.deepClone(configForEdit.configForEdit.findGroup(groupName));
+  return new ConfigForEdit<PipelineConfigs>(config,configForEdit);
+}

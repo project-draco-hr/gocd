@@ -1,0 +1,7 @@
+{
+  MingleConfig upstreamMingle=new MingleConfig("https://mingle.gingle/when/single","jingle");
+  MingleConfig downstreamMingle=new MingleConfig("https://downstream-mingle","go");
+  PipelineConfig downstream=setup2DependentInstances(upstreamMingle,downstreamMingle);
+  FeedEntries feed=stageService.feedBefore(Integer.MAX_VALUE,downstream.name().toString(),new Username(new CaseInsensitiveString("loser")));
+  assertStageEntryAuthorAndMingleCards(upstreamMingle,downstreamMingle,feed);
+}

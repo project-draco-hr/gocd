@@ -1,0 +1,35 @@
+{
+  Field[] fields=subject.getClass().getDeclaredFields();
+  for (  Field field : fields) {
+    String fieldName=field.getName();
+    Object fieldValue=null;
+    try {
+      field.setAccessible(true);
+      fieldValue=field.get(subject);
+    }
+ catch (    IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+    if (isAConstantField(field) || field.isAnnotationPresent(IgnoreTraversal.class)) {
+      continue;
+    }
+    if (fieldValue != null && fieldValue instanceof Collection && isConfigObject(fieldValue)) {
+      Collection collection=(Collection)fieldValue;
+      int index=0;
+      for (      Object collectionItem : collection) {
+        collectFieldErrors(errorBucket,prefix + "[" + fieldName+ "]["+ (index++)+ "]",collectionItem);
+      }
+    }
+ else     if (isConfigObject(fieldValue)) {
+      collectFieldErrors(errorBucket,prefix + "[" + fieldName+ "]",fieldValue);
+    }
+ else {
+      if (subject instanceof Validatable) {
+        ConfigErrors configErrors=((Validatable)subject).errors();
+        if (configErrors != null && configErrors.getAllOn(fieldName) != null) {
+          errorBucket.put(prefix + "[" + fieldName+ "]",configErrors.getAllOn(fieldName));
+        }
+      }
+    }
+  }
+}

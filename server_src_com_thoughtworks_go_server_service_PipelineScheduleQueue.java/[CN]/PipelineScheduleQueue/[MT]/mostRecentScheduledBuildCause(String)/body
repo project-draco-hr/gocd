@@ -1,0 +1,4 @@
+{
+  Pipeline pipeline=pipelineService.mostRecentFullPipelineByName(pipelineName);
+  return pipeline instanceof NullPipeline ? BuildCause.createNeverRun() : pipeline.getBuildCause();
+}

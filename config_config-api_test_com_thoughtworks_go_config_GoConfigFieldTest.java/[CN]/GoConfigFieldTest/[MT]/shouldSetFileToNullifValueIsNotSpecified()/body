@@ -1,0 +1,7 @@
+{
+  final Foo object=new Foo();
+  final GoConfigFieldWriter field=new GoConfigFieldWriter(Foo.class.getDeclaredField("directory"),object,configCache,null);
+  final Element element=new Element("foo");
+  field.setValueIfNotNull(element,object);
+  assertThat(object.directory,is(nullValue()));
+}

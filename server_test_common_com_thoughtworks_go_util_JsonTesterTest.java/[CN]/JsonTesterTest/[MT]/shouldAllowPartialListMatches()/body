@@ -1,0 +1,9 @@
+{
+  JsonList json=new JsonList();
+  json.add(map("one","1"));
+  json.add(map("two","2"));
+  json.add(map("six","6"));
+  JsonTester tester=new JsonTester(json);
+  tester.shouldContain("[ { 'one' : '1' },  " + "  { 'two' : '2' } ] ");
+  tester.shouldContain("[ { 'two' : '2' }, " + "  { 'six' : '6' } ]");
+}

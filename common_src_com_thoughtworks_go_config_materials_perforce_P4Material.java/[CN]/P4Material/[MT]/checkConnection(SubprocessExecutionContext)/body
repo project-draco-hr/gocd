@@ -1,0 +1,13 @@
+{
+  File baseDir=new TempFiles().createUniqueFolder("for-p4");
+  try {
+    getP4(baseDir).checkConnection();
+    return ValidationBean.valid();
+  }
+ catch (  Exception e) {
+    return ValidationBean.notValid("Unable to connect to server " + serverAndPort + " : \n"+ e.getMessage());
+  }
+ finally {
+    FileUtil.deleteFolder(baseDir);
+  }
+}

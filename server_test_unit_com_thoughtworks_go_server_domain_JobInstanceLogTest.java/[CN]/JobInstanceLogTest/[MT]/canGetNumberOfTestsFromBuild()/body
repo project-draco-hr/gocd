@@ -1,0 +1,20 @@
+{
+  BuildTestSuite suiteWithFiveTests=new BuildTestSuite("",0.0f);
+  suiteWithFiveTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  suiteWithFiveTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  suiteWithFiveTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  suiteWithFiveTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  suiteWithFiveTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  BuildTestSuite suiteWithFourTests=new BuildTestSuite("",0.0f);
+  suiteWithFourTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  suiteWithFourTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  suiteWithFourTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  suiteWithFourTests.addTestCase(new BuildTestCase(null,null,null,null,null,null));
+  List nineTests=new ArrayList();
+  nineTests.add(suiteWithFiveTests);
+  nineTests.add(suiteWithFourTests);
+  Map props=new HashMap();
+  props.put("testsuites",nineTests);
+  JobInstanceLog laterJob=new JobInstanceLog(defaultLogFile,props);
+  assertEquals(9,laterJob.getNumberOfTests());
+}

@@ -1,0 +1,20 @@
+{
+  String repoId="repo-id";
+  PackageRepository packageRepository=PackageRepositoryMother.create(repoId,"repo-name","plugin-id","1.0",new Configuration());
+  PackageDefinition existing=PackageDefinitionMother.create("pkg-1","pkg1-name",new Configuration(),packageRepository);
+  packageRepository.setPackages(new Packages(existing));
+  cruiseConfig.setPackageRepositories(new PackageRepositories(packageRepository));
+  Configuration configuration=new Configuration();
+  configuration.add(new ConfigurationProperty(new ConfigurationKey("key"),new ConfigurationValue("value")));
+  configuration.add(new ConfigurationProperty(new ConfigurationKey("key-with-no-value"),new ConfigurationValue("")));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create(null,"pkg2-name",configuration,packageRepository);
+  cruiseConfig.savePackageDefinition(packageDefinition);
+  assertThat(cruiseConfig.getPackageRepositories().size(),is(1));
+  assertThat(cruiseConfig.getPackageRepositories().get(0).getId(),is(repoId));
+  assertThat(cruiseConfig.getPackageRepositories().get(0).getPackages().size(),is(2));
+  assertThat(cruiseConfig.getPackageRepositories().get(0).getPackages().get(0).getId(),is(existing.getId()));
+  PackageDefinition createdPkgDef=cruiseConfig.getPackageRepositories().get(0).getPackages().get(1);
+  assertThat(createdPkgDef.getId(),is(notNullValue()));
+  assertThat(createdPkgDef.getConfiguration().getProperty("key"),is(Matchers.notNullValue()));
+  assertThat(createdPkgDef.getConfiguration().getProperty("key-with-no-value"),is(nullValue()));
+}

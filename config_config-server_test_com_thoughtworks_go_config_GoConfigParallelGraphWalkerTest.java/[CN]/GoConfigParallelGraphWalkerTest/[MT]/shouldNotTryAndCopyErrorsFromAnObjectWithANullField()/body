@@ -1,0 +1,8 @@
+{
+  AValidatableObjectWithAField badObjectWithNullField=new AValidatableObjectWithAField(null);
+  badObjectWithNullField.addError("blah","Bad");
+  AValidatableObjectWithAField goodObjectWithNonNullField=new AValidatableObjectWithAField(new SomeOtherObject("1"));
+  CruiseConfig.copyErrors(badObjectWithNullField,goodObjectWithNonNullField);
+  assertThat(goodObjectWithNonNullField.errors().getAll().size(),is(1));
+  assertThat(goodObjectWithNonNullField.errors().firstError(),is("Bad"));
+}

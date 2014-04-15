@@ -1,0 +1,14 @@
+{
+  return convert(allRoles,users,new Assigner<Role,String>(){
+    public boolean shouldAssociate(    String user,    Role role){
+      return role.hasMember(new CaseInsensitiveString(user));
+    }
+    public String identifier(    Role role){
+      return CaseInsensitiveString.str(role.getName());
+    }
+    public boolean shouldEnable(    String user,    Role role){
+      return true;
+    }
+  }
+);
+}

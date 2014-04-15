@@ -1,0 +1,15 @@
+{
+  Pair<List<RootFanInNode>,List<DependencyFanInNode>> scmAndDepMaterialsChildren=getScmAndDepMaterialsChildren();
+  List<RootFanInNode> scmChildren=scmAndDepMaterialsChildren.first();
+  List<DependencyFanInNode> depChildren=scmAndDepMaterialsChildren.last();
+  if (depChildren.isEmpty()) {
+    return null;
+  }
+  FanInGraphContext context=buildContext(pipelineTimeline);
+  root.initialize(context);
+  initChildren(depChildren,pipelineName,context);
+  iterateAndMakeAllUniqueScmRevisionsForChildrenSame(depChildren,pipelineName,context);
+  List<MaterialRevision> finalRevisionsForScmChildren=createFinalRevisionsForScmChildren(root.latestPipelineTimelineEntry(context),scmChildren,depChildren);
+  List<MaterialRevision> finalRevisionsForDepChildren=createFinalRevisionsForDepChildren(depChildren);
+  return CollectionUtils.union(finalRevisionsForScmChildren,finalRevisionsForDepChildren);
+}

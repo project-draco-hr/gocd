@@ -1,0 +1,13 @@
+{
+  try {
+    Throwable cause=rawException.getCause();
+    if (cause != null) {
+      smudgeException(cause);
+    }
+    smudgeException(rawException);
+  }
+ catch (  Exception e) {
+    ExceptionUtils.bomb(e);
+  }
+  return rawException;
+}

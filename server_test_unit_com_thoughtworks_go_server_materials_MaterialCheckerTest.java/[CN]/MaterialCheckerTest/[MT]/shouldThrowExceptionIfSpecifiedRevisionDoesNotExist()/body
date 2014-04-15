@@ -1,0 +1,11 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  Mockito.when(materialRepository.findModificationWithRevision(dependencyMaterial,"pipeline-name/500/stage-name/0")).thenReturn(null);
+  try {
+    materialChecker.findSpecificRevision(dependencyMaterial,"pipeline-name/500/stage-name/0");
+    fail("Should not be able to find revision");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),is(format("Unable to find revision [pipeline-name/500/stage-name/0] for material [%s]",dependencyMaterial)));
+  }
+}

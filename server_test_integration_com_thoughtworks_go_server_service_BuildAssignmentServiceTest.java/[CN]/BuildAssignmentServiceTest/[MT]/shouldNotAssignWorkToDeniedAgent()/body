@@ -1,0 +1,6 @@
+{
+  AgentConfig deniedAgentConfig=AgentMother.localAgent();
+  deniedAgentConfig.disable();
+  Work assignedWork=buildAssignmentService.assignWorkToAgent(agent(deniedAgentConfig));
+  assertThat(assignedWork,instanceOf(DeniedAgentWork.class));
+}

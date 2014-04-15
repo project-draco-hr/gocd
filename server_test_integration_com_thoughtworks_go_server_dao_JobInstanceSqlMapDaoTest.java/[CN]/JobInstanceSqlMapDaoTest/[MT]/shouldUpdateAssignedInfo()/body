@@ -1,0 +1,11 @@
+{
+  JobInstance expected=scheduled(JOB_NAME);
+  jobInstanceDao.save(stageId,expected);
+  expected.changeState(JobState.Building);
+  expected.setAgentUuid("uuid");
+  jobInstanceDao.updateAssignedInfo(expected);
+  JobInstance actual=jobInstanceDao.buildByIdWithTransitions(expected.getId());
+  assertThat(actual.getState(),is(JobState.Building));
+  assertThat(actual.getTransitions().size(),is(2));
+  assertThat(actual.getAgentUuid(),is("uuid"));
+}

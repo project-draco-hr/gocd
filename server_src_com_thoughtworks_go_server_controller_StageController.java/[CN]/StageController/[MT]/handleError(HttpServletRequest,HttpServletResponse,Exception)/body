@@ -1,0 +1,10 @@
+{
+  JsonMap json=new JsonMap();
+  String message=e.getMessage();
+  if (e instanceof StageNotFoundException) {
+    StageNotFoundException stageNotFoundException=(StageNotFoundException)e;
+    message=String.format("Stage '%s' of pipeline '%s' does not exist in current configuration. You can not rerun it.",stageNotFoundException.getStageName(),stageNotFoundException.getPipelineName());
+  }
+  addFriendlyErrorMessage(json,message);
+  return jsonNotAcceptable(json).respond(response);
+}

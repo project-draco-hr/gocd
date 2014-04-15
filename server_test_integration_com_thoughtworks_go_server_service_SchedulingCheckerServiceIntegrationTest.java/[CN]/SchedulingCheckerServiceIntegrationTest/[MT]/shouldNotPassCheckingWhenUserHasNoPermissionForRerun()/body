@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=pipelineFixture.createdPipelineWithAllStagesPassed();
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  assertThat(schedulingChecker.canScheduleStage(pipeline.getIdentifier(),pipelineFixture.ftStage,"gli",result),is(false));
+  assertThat(result.getServerHealthState().getDescription(),containsString("does not have permission"));
+}

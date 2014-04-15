@@ -1,0 +1,21 @@
+{
+  Connection connection=null;
+  try {
+    connection=createDataSource().getConnection();
+    Statement statement=connection.createStatement();
+    File dbBackupFile=new File(file,"db.zip");
+    statement.execute(String.format("BACKUP TO '%s'",dbBackupFile));
+  }
+ catch (  SQLException e) {
+    bomb(e);
+  }
+ finally {
+    if (connection != null) {
+      try {
+        connection.close();
+      }
+ catch (      SQLException e) {
+      }
+    }
+  }
+}

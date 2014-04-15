@@ -1,0 +1,8 @@
+{
+  CommandSnippet commandSnippet=new CommandSnippet("ls",Arrays.asList("-la"),new EmptySnippetComment(),"filename","/windows/msbuild.xml");
+  assertThat(commandSnippet.getName(),is("filename"));
+  CommandSnippetComment snippetComment=mock(CommandSnippetComment.class);
+  when(snippetComment.getName()).thenReturn("");
+  commandSnippet=new CommandSnippet("ls",Arrays.asList("-la"),snippetComment,"filename","/windows/msbuild.xml");
+  assertThat(commandSnippet.getName(),is("filename"));
+}

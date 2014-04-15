@@ -1,0 +1,31 @@
+{
+  try {
+    ConfigAttributeValue configAttributeValue=field.getType().getAnnotation(ConfigAttributeValue.class);
+    if (configAttributeValue != null) {
+      if (val != null || configAttributeValue.createForNull()) {
+        Constructor<?> constructor=field.getType().getConstructor(String.class);
+        field.set(instance,constructor.newInstance(new Object[]{val}));
+      }
+    }
+ else     if (val != null) {
+      Object convertedValue=typeConverter.convertIfNecessary(val,field.getType());
+      field.set(instance,convertedValue);
+    }
+  }
+ catch (  IllegalAccessException e) {
+    throw bomb("Error setting configField: " + field.getName(),e);
+  }
+catch (  TypeMismatchException e) {
+    final String message=format("Could not set value [{0}] on Field [{1}] of type [{2}] ",val,field.getName(),field.getType());
+    throw bomb(message,e);
+  }
+catch (  NoSuchMethodException e) {
+    throw bomb("Error setting configField: " + field.getName() + " as "+ field.getType(),e);
+  }
+catch (  InstantiationException e) {
+    throw bomb("Error creating configAttribute: " + field.getName() + " as "+ field.getType(),e);
+  }
+catch (  InvocationTargetException e) {
+    throw bomb("Error creating configAttribute: " + field.getName() + " as "+ field.getType(),e);
+  }
+}

@@ -1,0 +1,31 @@
+{
+  PipelineConfig twistConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("twist","dev","ft");
+  goConfigFileDao.addPipeline(twistConfig,"pipelinesqlmapdaotest");
+  Pipeline twistPipeline=dbHelper.newPipelineWithAllStagesPassed(twistConfig);
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev","ft");
+  goConfigFileDao.addPipeline(mingleConfig,"pipelinesqlmapdaotest");
+  final Pipeline firstPipeline=dbHelper.newPipelineWithAllStagesPassed(mingleConfig);
+  final Pipeline secondPipeline=dbHelper.newPipelineWithFirstStagePassed(mingleConfig);
+  dbHelper.scheduleStage(secondPipeline,mingleConfig.get(1));
+  Pipeline thirdPipeline=dbHelper.newPipelineWithFirstStageScheduled(mingleConfig);
+  Thread stageStatusChanger=new Thread(){
+    @Override public void run(){
+      for (; ; ) {
+        pipelineDao.stageStatusChanged(secondPipeline.findStage("dev"));
+        if (super.isInterrupted()) {
+          break;
+        }
+      }
+    }
+  }
+;
+  stageStatusChanger.setDaemon(true);
+  stageStatusChanger.start();
+  PipelineInstanceModels pipelineHistories=pipelineDao.loadActivePipelines();
+  assertThat(pipelineHistories.size(),is(3));
+  assertThat(pipelineHistories.get(0).getId(),is(thirdPipeline.getId()));
+  assertThat(pipelineHistories.get(1).getId(),is(secondPipeline.getId()));
+  assertThat(pipelineHistories.get(2).getId(),is(twistPipeline.getId()));
+  assertThat(pipelineHistories.get(0).getBuildCause().getMaterialRevisions().isEmpty(),is(false));
+  stageStatusChanger.interrupt();
+}

@@ -1,0 +1,8 @@
+{
+  configHelper=new GoConfigFileHelper();
+  dbHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configHelper.onSetUp();
+  goConfigService.forceNotifyListeners();
+  u=new ScheduleTestUtil(transactionTemplate,materialRepository,dbHelper,configHelper);
+}

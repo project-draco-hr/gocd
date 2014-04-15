@@ -1,0 +1,16 @@
+{
+  AbstractTask task=new ExecTask();
+  task.setCancelTask(new ExecTask());
+  Map cancelTaskAttributes=new HashMap();
+  cancelTaskAttributes.put(ExecTask.COMMAND,"ls");
+  cancelTaskAttributes.put(ExecTask.ARG_LIST_STRING,"-la");
+  Map onCancelConfigAttributes=new HashMap();
+  onCancelConfigAttributes.put(OnCancelConfig.EXEC_ON_CANCEL,cancelTaskAttributes);
+  Map cancelConfigAttributes=new HashMap();
+  cancelConfigAttributes.put(OnCancelConfig.ON_CANCEL_OPTIONS,"exec");
+  Map actualTaskAttributes=new HashMap();
+  actualTaskAttributes.put(AbstractTask.HAS_CANCEL_TASK,"0");
+  actualTaskAttributes.put(AbstractTask.ON_CANCEL_CONFIG,cancelConfigAttributes);
+  task.setConfigAttributes(actualTaskAttributes);
+  assertThat(task.hasCancelTask(),is(false));
+}

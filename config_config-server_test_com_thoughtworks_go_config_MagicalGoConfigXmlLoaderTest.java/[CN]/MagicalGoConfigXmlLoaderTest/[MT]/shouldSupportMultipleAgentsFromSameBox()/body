@@ -1,0 +1,7 @@
+{
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(ConfigMigrator.migrate(ConfigFileFixture.WITH_MULTIPLE_LOCAL_AGENT_CONFIG)).config;
+  assertThat(cruiseConfig.agents().size(),is(2));
+  assertThat(cruiseConfig.agents().get(0).getHostname(),is(cruiseConfig.agents().get(1).getHostname()));
+  assertThat(cruiseConfig.agents().get(0).getIpAddress(),is(cruiseConfig.agents().get(1).getIpAddress()));
+  assertThat(cruiseConfig.agents().get(0).getUuid(),is(not(cruiseConfig.agents().get(1).getUuid())));
+}

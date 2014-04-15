@@ -1,0 +1,6 @@
+{
+  if (!userHasPermissions(username,groupName,result)) {
+    return null;
+  }
+  return new MagicalGoConfigXmlWriter(configCache,registry,metricsProbeService).toXmlPartial(getConfig(groupName));
+}

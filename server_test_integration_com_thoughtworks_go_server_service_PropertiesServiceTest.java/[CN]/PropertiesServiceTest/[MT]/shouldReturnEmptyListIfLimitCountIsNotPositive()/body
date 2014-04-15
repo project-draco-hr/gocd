@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline1=createNewPipeline();
+  Pipeline pipeline2=createNewPipeline();
+  List<Properties> propertiesList=propertiesService.loadHistory(fixture.pipelineName,fixture.devStage,PipelineWithTwoStages.JOB_FOR_DEV_STAGE,pipeline2.getId(),-1);
+  assertThat(propertiesList.size(),is(0));
+  propertiesList=propertiesService.loadHistory(fixture.pipelineName,fixture.devStage,PipelineWithTwoStages.JOB_FOR_DEV_STAGE,pipeline2.getId(),0);
+  assertThat(propertiesList.size(),is(0));
+}

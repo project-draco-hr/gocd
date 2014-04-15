@@ -1,0 +1,32 @@
+{
+  final DateTime time0=new DateTime(2008,2,22,10,21,23,0);
+  timeProvider=new TimeProvider(){
+    @Override public Date currentTime(){
+      return time0.toDate();
+    }
+    public DateTime currentDateTime(){
+      throw new UnsupportedOperationException("Not implemented");
+    }
+    public DateTime timeoutTime(    Timeout timeout){
+      throw new UnsupportedOperationException("Not implemented");
+    }
+  }
+;
+  firstJob=new JobInstance("first-job",timeProvider);
+  secondJob=new JobInstance("second-job",timeProvider);
+  jobInstances=new JobInstances(firstJob,secondJob);
+  stage=StageMother.custom("test",jobInstances);
+  firstJob.assign("AGENT-1",time1.toDate());
+  firstJob.completing(JobResult.Passed,time2.toDate());
+  firstJob.completed(time2.toDate());
+  secondJob.assign("AGENT-2",time3.toDate());
+  secondJob.completing(JobResult.Passed,time4.toDate());
+  secondJob.completed(time4.toDate());
+  stage.calculateResult();
+  stage.setCreatedTime(new Timestamp(time0.toDate().getTime()));
+  stage.setLastTransitionedTime(new Timestamp(time4.toDate().getTime()));
+  RunDuration.ActualDuration expectedDuration=new RunDuration.ActualDuration(new Duration(time0,time4));
+  RunDuration.ActualDuration duration=(RunDuration.ActualDuration)stage.getDuration();
+  assertThat(duration,is(expectedDuration));
+  assertThat(duration.getTotalSeconds(),is(7263L));
+}

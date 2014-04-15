@@ -1,0 +1,9 @@
+{
+  serverHealthService.update(ServerHealthState.warning("Invalid Configuration","something",HealthStateType.general(HealthStateScope.forInvalidConfig())));
+  InvalidConfigMessageRemover remover=new InvalidConfigMessageRemover(goConfigService,serverHealthService);
+  remover.initialize();
+  assertThat(serverHealthService.getAllLogs().isEmpty(),is(false));
+  configHelper.addAgent("hostname","uuid");
+  cachedGoConfig.onTimer();
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forInvalidConfig()).isEmpty(),is(true));
+}

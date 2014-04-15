@@ -1,0 +1,16 @@
+{
+  when(systemEnvironment.getAgentMd5()).thenReturn("latest-md5");
+  when(systemEnvironment.getGivenAgentLauncherMd5()).thenReturn("latest-md5");
+  when(systemEnvironment.getAgentPluginsMd5()).thenReturn("old-md5");
+  expectHeaderValue(httpMethod,SystemEnvironment.AGENT_CONTENT_MD5_HEADER,"latest-md5");
+  expectHeaderValue(httpMethod,SystemEnvironment.AGENT_LAUNCHER_CONTENT_MD5_HEADER,"latest-md5");
+  expectHeaderValue(httpMethod,SystemEnvironment.AGENT_PLUGINS_ZIP_MD5_HEADER,"latest-md5");
+  doThrow(new RuntimeException("Agent Plugins md5 mismatch")).when(agentUpgradeService).jvmExit();
+  try {
+    agentUpgradeService.checkForUpgrade();
+    fail("should have done jvm exit");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),Is.is("Agent Plugins md5 mismatch"));
+  }
+}

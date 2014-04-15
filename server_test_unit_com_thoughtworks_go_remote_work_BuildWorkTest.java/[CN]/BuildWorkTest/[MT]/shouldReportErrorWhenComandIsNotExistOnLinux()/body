@@ -1,0 +1,6 @@
+{
+  buildWork=(BuildWork)getWork(CMD_NOT_EXIST,PIPELINE_NAME);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertThat(artifactManipulator.consoleOut(),printedAppsMissingInfoOnUnix(SOMETHING_NOT_EXIST));
+  assertThat(buildRepository.results,containsResult(Failed));
+}

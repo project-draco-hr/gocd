@@ -1,0 +1,27 @@
+{
+  return new ModelAndView(new View(){
+    public String getContentType(){
+      return "application/octet-stream";
+    }
+    public void render(    Map model,    HttpServletRequest request,    HttpServletResponse response) throws IOException {
+      InputStream rawIS=null;
+      BufferedInputStream is=null;
+      BufferedOutputStream os=null;
+      try {
+        rawIS=inStreamSrc.invoke();
+        is=new BufferedInputStream(rawIS);
+        os=new BufferedOutputStream(response.getOutputStream());
+        String md5=copyAndDigest(is,os);
+        response.setHeader("Content-MD5",md5);
+        setOtherHeaders(response);
+        os.flush();
+      }
+  finally {
+        IOUtils.closeQuietly(is);
+        IOUtils.closeQuietly(os);
+        IOUtils.closeQuietly(rawIS);
+      }
+    }
+  }
+);
+}

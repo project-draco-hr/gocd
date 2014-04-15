@@ -1,0 +1,20 @@
+{
+  Username loser=new Username(new CaseInsensitiveString("loser"));
+  ManualBuild build=new ManualBuild(loser);
+  DateTime now=new DateTime();
+  Pipeline firstPipeline=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("1","#3518 - hg - foo",now.toDate())));
+  Modification bisectModification=checkinWithComment("3","#4750 - Rev 3",now.plusDays(3).toDate());
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("2","#3750 - Rev 2",now.plusDays(2).toDate()),bisectModification,checkinWithComment("4","#4750 - Rev 4",now.plus(4).toDate())));
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("5","#5750 - Rev 5",now.plusDays(5).toDate())));
+  Pipeline bisectPipeline=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,bisectModification));
+  Pipeline nextPipeline=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("6","#4150 - Rev 6",now.plusDays(7).toDate())));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<MaterialRevision> revisionList=changesetService.revisionsBetween("foo-bar",firstPipeline.getCounter(),bisectPipeline.getCounter(),new Username(new CaseInsensitiveString("loser")),result,true,false);
+  assertThat(revisionList.isEmpty(),is(true));
+  List<String> cardList=changesetService.getCardNumbersBetween("foo-bar",firstPipeline.getCounter(),bisectPipeline.getCounter(),new Username(new CaseInsensitiveString("loser")),result,false);
+  assertThat(cardList.isEmpty(),is(true));
+  revisionList=changesetService.revisionsBetween("foo-bar",bisectPipeline.getCounter(),nextPipeline.getCounter(),new Username(new CaseInsensitiveString("loser")),result,true,false);
+  assertThat(revisionList.isEmpty(),is(true));
+  cardList=changesetService.getCardNumbersBetween("foo-bar",bisectPipeline.getCounter(),nextPipeline.getCounter(),new Username(new CaseInsensitiveString("loser")),result,false);
+  assertThat(cardList.isEmpty(),is(true));
+}

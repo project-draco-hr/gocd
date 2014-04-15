@@ -1,0 +1,10 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  User foo=new User("fooUser","Foo User","foo@user.com");
+  User bar=new User("barUser","boo User","boo@user.com");
+  when(ldapUserSearch.search("foo")).thenThrow(new LdapUserSearch.NotAllResultsShownException(Arrays.asList(foo,bar)));
+  when(passwordFileUserSearch.search("foo")).thenReturn(new ArrayList<User>());
+  List<UserSearchModel> models=userSearchService.search("foo",result);
+  assertThat(models.size(),is(2));
+  assertThat(result.localizable(),is((Localizable)LocalizedMessage.string("NOT_ALL_RESULTS_SHOWN")));
+}

@@ -1,0 +1,7 @@
+{
+  buildWork=(BuildWork)getWork(WILL_PASS,"pipeline1");
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertThat(buildRepository.results,containsResult(JobResult.Passed));
+  assertThat(buildRepository.states,containsResult(JobState.Completed));
+  assertThat(artifactManipulator.consoleOut(),printedJobCompletedInfo(JOB_IDENTIFIER.buildLocator()));
+}

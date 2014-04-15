@@ -1,0 +1,27 @@
+{
+  if (SvnMaterial.TYPE.equals(materialConfig.getType())) {
+    return new SvnMaterial((SvnMaterialConfig)materialConfig);
+  }
+ else   if (HgMaterial.TYPE.equals(materialConfig.getType())) {
+    return new HgMaterial((HgMaterialConfig)materialConfig);
+  }
+ else   if (GitMaterial.TYPE.equals(materialConfig.getType())) {
+    return new GitMaterial((GitMaterialConfig)materialConfig);
+  }
+ else   if (P4Material.TYPE.equals(materialConfig.getType())) {
+    return new P4Material((P4MaterialConfig)materialConfig);
+  }
+ else   if (DependencyMaterial.TYPE.equals(materialConfig.getType())) {
+    return new DependencyMaterial((DependencyMaterialConfig)materialConfig);
+  }
+ else   if (TfsMaterial.TYPE.equals(materialConfig.getType())) {
+    return new TfsMaterial((TfsMaterialConfig)materialConfig);
+  }
+ else   if (PackageMaterial.TYPE.equals(materialConfig.getType())) {
+    return new PackageMaterial((PackageMaterialConfig)materialConfig);
+  }
+ else   if (TestingMaterial.TYPE.equals(materialConfig.getType())) {
+    return new TestingMaterial((TestingMaterialConfig)materialConfig);
+  }
+  throw new RuntimeException("Unexpected material type: " + materialConfig.getClass() + ": "+ materialConfig);
+}

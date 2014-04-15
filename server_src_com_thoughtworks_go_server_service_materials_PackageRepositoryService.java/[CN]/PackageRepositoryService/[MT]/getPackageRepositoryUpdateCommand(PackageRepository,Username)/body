@@ -1,0 +1,25 @@
+{
+  return new UpdateConfigFromUI(){
+    @Override public void checkPermission(    CruiseConfig cruiseConfig,    LocalizedOperationResult result){
+      if (!securityService.canViewAdminPage(username)) {
+        result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_ADMINISTER"),null);
+      }
+    }
+    @Override public Validatable node(    CruiseConfig cruiseConfig){
+      return cruiseConfig;
+    }
+    @Override public Validatable updatedNode(    CruiseConfig cruiseConfig){
+      return cruiseConfig;
+    }
+    @Override public void update(    Validatable node){
+      ((CruiseConfig)node).savePackageRepository(packageRepository);
+    }
+    @Override public Validatable subject(    Validatable node){
+      return ((CruiseConfig)node).getPackageRepositories().find(packageRepository.getRepoId());
+    }
+    @Override public Validatable updatedSubject(    Validatable updatedNode){
+      return ((CruiseConfig)updatedNode).getPackageRepositories().find(packageRepository.getRepoId());
+    }
+  }
+;
+}

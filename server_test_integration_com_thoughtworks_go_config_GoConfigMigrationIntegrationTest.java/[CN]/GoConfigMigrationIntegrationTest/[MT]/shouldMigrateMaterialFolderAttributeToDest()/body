@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=loadConfigFileWithContent(ConfigFileFixture.VERSION_2);
+  MaterialConfig actual=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("multiple")).materialConfigs().first();
+  assertThat(actual.getFolder(),is("part1"));
+}

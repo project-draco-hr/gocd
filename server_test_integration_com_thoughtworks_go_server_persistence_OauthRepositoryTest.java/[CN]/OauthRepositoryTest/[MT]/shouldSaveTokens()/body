@@ -1,0 +1,8 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  OauthToken fooTokenFor09=new OauthToken("foo@bar.com",mingle09,"access-token","refresh-token",23324324);
+  repo.saveOauthToken(attrMap(fooTokenFor09.getDTO()));
+  OauthDataSource.OauthTokenDTO dto=((OauthToken)template.find("from OauthToken where accessToken = ? ","access-token").get(0)).getDTO();
+  assertHasIdAndMatches(dto,fooTokenFor09.getDTO());
+}

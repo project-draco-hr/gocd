@@ -1,0 +1,10 @@
+{
+  XMLArtifactImporter artifactImporter=new XMLArtifactImporter();
+  artifactImporter.registerHandler(new ExplodingHandler());
+  artifactImporter.registerHandler(new StubHandler(true,"http://A-OK/"));
+  Graph graph=new InMemoryTempGraphFactory().createTempGraph();
+  URIReference parent=graph.createURIReference(BAR_CLASS,"http://parent/");
+  artifactImporter.importFile(graph,parent,new ByteArrayInputStream("<foo />".getBytes()));
+  String askForSecondHandler="PREFIX ex: <http://example.com/example.owl#> " + "ASK WHERE { " + "<http://parent/> ex:foo <http://A-OK/> "+ "}";
+  assertAskIsTrue(graph,askForSecondHandler);
+}

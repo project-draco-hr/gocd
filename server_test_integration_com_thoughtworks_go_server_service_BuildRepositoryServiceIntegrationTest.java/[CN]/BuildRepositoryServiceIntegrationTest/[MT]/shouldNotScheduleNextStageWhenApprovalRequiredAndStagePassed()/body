@@ -1,0 +1,13 @@
+{
+  config.requireApproval(PIPELINE_NAME,FT_STAGE);
+  Pipeline newPipeline=createPipelineWithFirstStageBuilding(mingle);
+  completeStageAndTrigger(newPipeline.getFirstStage());
+  Stage stage1=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(DEV_STAGE)));
+  assertThat("Should be approved",stage1.isApproved(),is(true));
+  assertThat("1st stage should be approved by Cruise",stage1.getApprovedBy(),is(GoConstants.DEFAULT_APPROVED_BY));
+  assertThat("Should be passed",stage1.getJobInstances().first().getResult(),is(JobResult.Passed));
+  Stage stage2=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(FT_STAGE)));
+  assertThat(stage2.getPipelineId(),is(pipeline.getId()));
+  assertThat(stage2.stageState(),is(StageState.Passed));
+  assertThat("In different pipelines",stage1.getPipelineId(),is(not(stage2.getPipelineId())));
+}

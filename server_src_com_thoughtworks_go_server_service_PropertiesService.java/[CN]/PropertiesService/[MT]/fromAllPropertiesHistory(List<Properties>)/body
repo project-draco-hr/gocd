@@ -1,0 +1,10 @@
+{
+  Csv csv=new Csv();
+  for (  Properties properties : jobPropertiesHistory) {
+    CsvRow row=csv.newRow();
+    for (    Property property : properties) {
+      row.put(property.getKey(),property.getValue());
+    }
+  }
+  return csv;
+}

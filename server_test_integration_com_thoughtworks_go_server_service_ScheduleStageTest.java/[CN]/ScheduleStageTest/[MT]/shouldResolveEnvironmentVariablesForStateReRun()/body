@@ -1,0 +1,23 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  EnvironmentVariablesConfig pipelineVariables=new EnvironmentVariablesConfig();
+  pipelineVariables.add("pipelineEnv","pipelineFoo");
+  pipelineVariables.add("stageEnv","pipelineBar");
+  pipelineVariables.add("jobEnv","pipelineBaz");
+  configHelper.addEnvironmentVariableToPipeline(fixture.pipelineName,pipelineVariables);
+  EnvironmentVariablesConfig stageVariables=new EnvironmentVariablesConfig();
+  stageVariables.add("stageEnv","stageBar");
+  stageVariables.add("jobEnv","stageBaz");
+  configHelper.addEnvironmentVariableToStage(fixture.pipelineName,fixture.devStage,stageVariables);
+  EnvironmentVariablesConfig jobVariables=new EnvironmentVariablesConfig();
+  jobVariables.add("jobEnv","jobBaz");
+  configHelper.addEnvironmentVariableToJob(fixture.pipelineName,fixture.devStage,fixture.JOB_FOR_DEV_STAGE,jobVariables);
+  Stage stage=scheduleService.rerunStage(pipeline.getName(),String.valueOf(pipeline.getCounter()),fixture.devStage);
+  dbHelper.passStage(stage);
+  EnvironmentVariablesConfig expectedVariableOrder=new EnvironmentVariablesConfig();
+  expectedVariableOrder.add("pipelineEnv","pipelineFoo");
+  expectedVariableOrder.add("stageEnv","stageBar");
+  expectedVariableOrder.add("jobEnv","jobBaz");
+  JobInstances jobInstances=stage.getJobInstances();
+  assertThat(jobInstances.getByName(fixture.JOB_FOR_DEV_STAGE).getPlan().getVariables(),is(expectedVariableOrder));
+}

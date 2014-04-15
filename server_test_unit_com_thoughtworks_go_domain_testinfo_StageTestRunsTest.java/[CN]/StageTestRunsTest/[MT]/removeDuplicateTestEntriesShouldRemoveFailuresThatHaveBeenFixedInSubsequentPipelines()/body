@@ -1,0 +1,15 @@
+{
+  StageTestRuns stageTestRuns=new StageTestRuns(999,0,0);
+  JobIdentifier jobIdentifier=new JobIdentifier(null,1,null,null,null,"job1");
+  stageTestRuns.add(18,"1.8","testSuite1","testName0",TestStatus.Failure,jobIdentifier);
+  stageTestRuns.add(17,"1.7","testSuite1","testName0",TestStatus.Failure,jobIdentifier);
+  stageTestRuns.add(17,"1.7","testSuite1","testName1",TestStatus.Failure,jobIdentifier);
+  stageTestRuns.removeDuplicateTestEntries();
+  assertThat(stageTestRuns.failingTestsInPipelines().size(),is(2));
+  FailingTestsInPipeline pipeline8=stageTestRuns.failingTestsInPipelines().get(0);
+  FailingTestsInPipeline pipeline7=stageTestRuns.failingTestsInPipelines().get(1);
+  assertThat(pipeline8.failingSuites().size(),is(0));
+  assertThat(pipeline7.failingSuites().size(),is(1));
+  assertThat(pipeline7.failingSuites().get(0).tests().size(),is(1));
+  assertThat(pipeline7.failingSuites().get(0).tests().get(0).getName(),is("testName0"));
+}

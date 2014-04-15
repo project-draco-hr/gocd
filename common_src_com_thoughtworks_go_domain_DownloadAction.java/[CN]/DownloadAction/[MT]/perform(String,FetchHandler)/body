@@ -1,0 +1,25 @@
+{
+  int retryCount=0;
+  while (true) {
+    retryCount++;
+    String message="";
+    try {
+      int rc=download(httpService,url,handler);
+      if (handler.handleResult(rc,goPublisher)) {
+        return;
+      }
+      message=String.format("Unsuccessful response '%s' from the server",rc);
+    }
+ catch (    Exception e) {
+      message=String.format("Caught an exception '%s'",e.getMessage());
+    }
+    if (retryCount > 3) {
+      message=String.format("Giving up fetching resource '%s'. Tried 4 times and failed.",url);
+      LOG.error(message);
+      throw new RuntimeException(message);
+    }
+    long backout=Math.round(backout(retryCount));
+    publishDownloadError(url,message,backout);
+    clock.sleepForSeconds(backout);
+  }
+}

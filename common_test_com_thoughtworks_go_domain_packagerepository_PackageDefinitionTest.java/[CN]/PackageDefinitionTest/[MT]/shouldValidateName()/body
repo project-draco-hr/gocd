@@ -1,0 +1,7 @@
+{
+  PackageDefinition packageDefinition=new PackageDefinition();
+  packageDefinition.setName("some name");
+  packageDefinition.validate(new ValidationContext(null));
+  assertThat(packageDefinition.errors().isEmpty(),is(false));
+  assertThat(packageDefinition.errors().getAllOn(PackageDefinition.NAME).get(0),is("Invalid Package name 'some name'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
+}

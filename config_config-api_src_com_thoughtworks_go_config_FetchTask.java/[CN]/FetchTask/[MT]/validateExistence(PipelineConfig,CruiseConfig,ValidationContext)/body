@@ -1,0 +1,11 @@
+{
+  if (!cruiseConfig.hasStageConfigNamed(pipelineName.getAncestorName(),stage,true)) {
+    addError(STAGE,String.format("Pipeline \"%s\" tries to fetch artifact from stage \"%s :: %s\" which does not exist. It is used in stage \"%s\" inside job \"%s\".",currentPipeline.name(),pipelineName.getAncestorName(),stage,validationContext.getStage().name(),validationContext.getJob().name()));
+    return true;
+  }
+  if (!cruiseConfig.hasBuildPlan(pipelineName.getAncestorName(),stage,CaseInsensitiveString.str(job),true)) {
+    addError(JOB,String.format("Pipeline \"%s\" tries to fetch artifact from job \"%s :: %s :: %s\" which does not exist.",currentPipeline.name(),pipelineName.getAncestorName(),stage,job));
+    return true;
+  }
+  return false;
+}

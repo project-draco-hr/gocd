@@ -1,0 +1,28 @@
+{
+  return new PluginManager(){
+    @Override public List<GoPluginDescriptor> plugins(){
+      return Arrays.asList(new GoPluginDescriptor("yum","1.0",null,null,null,true));
+    }
+    @Override public GoPluginDescriptor getPluginDescriptorFor(    String pluginId){
+      return new GoPluginDescriptor("yum","1.0",null,null,null,true);
+    }
+    @Override public <T>void doOnAll(    Class<T> serviceReferenceClass,    Action<T> actionToDoOnEachRegisteredServiceWhichMatches){
+    }
+    @Override public <T>void doOnAll(    Class<T> serviceReferenceClass,    Action<T> actionToDoOnEachRegisteredServiceWhichMatches,    ExceptionHandler<T> exceptionHandler){
+    }
+    @Override public <T,R>R doOn(    Class<T> serviceReferenceClass,    String pluginId,    ActionWithReturn<T,R> actionToDoOnTheRegisteredServiceWhichMatches){
+      return actionToDoOnTheRegisteredServiceWhichMatches.execute((T)mock,null);
+    }
+    @Override public <T>void doOn(    Class<T> serviceReferenceClass,    String pluginId,    Action<T> action){
+    }
+    @Override public <T>void doOnIfHasReference(    Class<T> serviceReferenceClass,    String pluginId,    Action<T> action){
+    }
+    @Override public void startPluginInfrastructure(){
+    }
+    @Override public void stopPluginInfrastructure(){
+    }
+    @Override public void addPluginChangeListener(    PluginChangeListener pluginChangeListener,    Class<?>... serviceReferenceClass){
+    }
+  }
+;
+}

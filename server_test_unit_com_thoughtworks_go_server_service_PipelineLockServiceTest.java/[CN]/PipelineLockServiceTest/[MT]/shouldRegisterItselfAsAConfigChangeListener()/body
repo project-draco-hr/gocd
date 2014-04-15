@@ -1,0 +1,6 @@
+{
+  GoConfigService mockGoConfigService=mock(GoConfigService.class);
+  PipelineLockService service=new PipelineLockService(mockGoConfigService,pipelineDao);
+  service.initialize();
+  verify(mockGoConfigService).register(service);
+}

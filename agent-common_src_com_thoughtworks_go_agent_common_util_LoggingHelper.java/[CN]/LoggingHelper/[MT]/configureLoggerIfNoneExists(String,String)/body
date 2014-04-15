@@ -1,0 +1,13 @@
+{
+  if (log4jConfigFileInWorkingDir(log4jConfigFilename)) {
+    System.out.println("Logging based on config in " + log4jConfigFilename);
+    PropertyConfigurator.configure(log4jConfigFilename);
+    return;
+  }
+  if (noLog4jFileInClasspath()) {
+    BasicConfigurator.configure();
+    Logger.getRootLogger().setLevel(Level.INFO);
+    Appender fileAppender=createFileAppender(logOutputFilename);
+    Logger.getRootLogger().addAppender(fileAppender);
+  }
+}

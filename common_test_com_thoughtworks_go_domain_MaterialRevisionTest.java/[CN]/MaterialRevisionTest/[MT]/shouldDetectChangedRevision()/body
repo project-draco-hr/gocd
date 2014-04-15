@@ -1,0 +1,8 @@
+{
+  Modification modification1=oneModifiedFile("revision1");
+  Modification modification2=oneModifiedFile("revision2");
+  SvnMaterial material=MaterialsMother.svnMaterial();
+  MaterialRevision materialRevision1=new MaterialRevision(material,modification1);
+  MaterialRevision materialRevision2=new MaterialRevision(material,modification2);
+  assertThat(materialRevision1.hasChangedSince(materialRevision2),is(true));
+}

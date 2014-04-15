@@ -1,0 +1,10 @@
+{
+  PaddedBufferedBlockCipher cipher=new PaddedBufferedBlockCipher(new CBCBlockCipher(new DESEngine()));
+  KeyParameter keyParameter=new KeyParameter(Hex.decode(key));
+  cipher.init(true,keyParameter);
+  byte[] plainTextBytes=plainText.getBytes();
+  byte[] cipherTextBytes=new byte[cipher.getOutputSize(plainTextBytes.length)];
+  int outputLength=cipher.processBytes(plainTextBytes,0,plainTextBytes.length,cipherTextBytes,0);
+  cipher.doFinal(cipherTextBytes,outputLength);
+  return Base64.encodeBase64String(cipherTextBytes).trim();
+}

@@ -1,0 +1,11 @@
+{
+  LOG.info("Upgrading config file from version " + currentVersion + " to version "+ targetVersion);
+  List<URL> upgradeScripts=upgradeScripts(currentVersion,targetVersion);
+  for (  URL upgradeScript : upgradeScripts) {
+    validate(content);
+    content=upgrade(content,upgradeScript);
+  }
+  validate(content);
+  LOG.info("Finished upgrading config file");
+  return content;
+}

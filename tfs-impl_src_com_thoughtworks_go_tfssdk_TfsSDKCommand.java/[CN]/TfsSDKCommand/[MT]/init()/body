@@ -1,0 +1,13 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("[TFS SDK] Init TFS Collection & Client for URL: %s, Username: %s, Domain: %s",getUrl(),getUserName(),domain));
+  }
+  try {
+    collection=new TFSTeamProjectCollection(getUrl().toString(),getUserName(),domain,getPassword());
+    collection.getHTTPClient().getParams().setSoTimeout(systemEnvironment.getTfsSocketTimeout());
+    client=new GoTfsVersionControlClient(collection.getVersionControlClient());
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(String.format("Unable to connect to TFS Collection %s " + e,getUrl().toString()),e);
+  }
+}

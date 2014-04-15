@@ -1,0 +1,8 @@
+{
+  environmentConfigService.sync(environments("uat","prod"));
+  Mockito.when(mockBuildAssignment.getPlan()).thenReturn(jobForPipeline("uat-pipeline"));
+  environmentConfigService.enhanceEnvironmentVariables(mockBuildAssignment);
+  EnvironmentVariableContext expectedContext=new EnvironmentVariableContext();
+  expectedContext.setProperty(EnvironmentVariableContext.GO_ENVIRONMENT_NAME,"uat",false);
+  Mockito.verify(mockBuildAssignment).enhanceEnvironmentVariables(expectedContext);
+}

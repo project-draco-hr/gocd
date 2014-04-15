@@ -1,0 +1,11 @@
+{
+  ServerConfig server=cruiseConfig.server();
+  String newServerId=server.getServerId();
+  if (serverId == null) {
+    serverId=newServerId;
+  }
+  if (serverId == null || serverId.equals(newServerId) || !env.enforceServerIdImmutability()) {
+    return;
+  }
+  throw new RuntimeException("The value of 'serverId' uniquely identifies a Go server instance. This field cannot be modified.");
+}

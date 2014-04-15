@@ -1,0 +1,14 @@
+{
+  this.port=port;
+  this.user=user;
+  this.password=password;
+  this.clientName=clientName;
+  this.useTickets=useTickets;
+  tempRepo=TestFileUtil.createTempFolder("testP4Repo-" + System.currentTimeMillis());
+  try {
+    copyDirectory(new File(repoPrototype),tempRepo);
+  }
+ catch (  IOException e) {
+    bomb(e);
+  }
+}

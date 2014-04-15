@@ -1,0 +1,10 @@
+{
+  User user=new User("jez",new String[]{"jez"},"user@mail.com",true);
+  userService.saveOrUpdate(user);
+  user=userDao.findUser(user.getName());
+  NotificationFilter filter=new NotificationFilter("cruise","dev",StageEvent.Fixed,false);
+  userService.addNotificationFilter(user.getId(),filter);
+  user=userService.findUserByName("jez");
+  assertThat(user.getNotificationFilters().size(),is(1));
+  assertThat(user.getNotificationFilters(),hasItem(filter));
+}

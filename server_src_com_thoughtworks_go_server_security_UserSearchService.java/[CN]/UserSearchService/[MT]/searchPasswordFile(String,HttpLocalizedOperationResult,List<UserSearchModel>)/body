@@ -1,0 +1,17 @@
+{
+  boolean passwordSearchFailed=false;
+  if (!goConfigService.isPasswordFileConfigured()) {
+    return false;
+  }
+  try {
+    List<User> passwordFileUsers=passwordFileUserSearch.search(searchText);
+    List<UserSearchModel> models=convertUsersToUserSearchModel(passwordFileUsers,UserSourceType.PASSWORD_FILE);
+    userSearchModels.addAll(models);
+  }
+ catch (  Exception e) {
+    passwordSearchFailed=true;
+    result.setMessage(LocalizedMessage.string("PASSWORD_SEARCH_FAILED"));
+    LOGGER.error(String.format("User search for %s on password failed with IOException.",searchText),e);
+  }
+  return passwordSearchFailed;
+}

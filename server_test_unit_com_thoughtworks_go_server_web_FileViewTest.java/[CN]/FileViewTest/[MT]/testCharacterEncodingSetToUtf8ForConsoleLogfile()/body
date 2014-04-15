@@ -1,0 +1,8 @@
+{
+  file=TestFileUtil.createTempFile("console.log");
+  Map<String,Object> model=new HashMap<String,Object>();
+  model.put("targetFile",file);
+  view.render(model,mockRequest,mockResponse);
+  assertEquals("text/plain; charset=utf-8",mockResponse.getContentType());
+  assertEquals("utf-8",mockResponse.getCharacterEncoding());
+}

@@ -1,0 +1,12 @@
+{
+  environmentVariablesConfig=new EnvironmentVariablesConfig();
+  EnvironmentVariableConfig one=new EnvironmentVariableConfig("FOO","BAR");
+  EnvironmentVariableConfig two=new EnvironmentVariableConfig("FOO","bAZ");
+  environmentVariablesConfig.add(one);
+  environmentVariablesConfig.add(two);
+  environmentVariablesConfig.validate(context);
+  assertThat(one.errors().isEmpty(),is(false));
+  assertThat(one.errors().firstError(),contains("Environment Variable name 'FOO' is not unique for pipeline 'some-pipeline'"));
+  assertThat(two.errors().isEmpty(),is(false));
+  assertThat(two.errors().firstError(),contains("Environment Variable name 'FOO' is not unique for pipeline 'some-pipeline'"));
+}

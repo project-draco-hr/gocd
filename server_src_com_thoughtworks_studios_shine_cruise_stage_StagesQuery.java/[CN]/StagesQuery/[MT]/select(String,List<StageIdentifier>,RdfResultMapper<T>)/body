@@ -1,0 +1,12 @@
+{
+  long queryStartTime=System.currentTimeMillis();
+  List<T> result=new ArrayList<T>();
+  for (  StageIdentifier failedStageIdentifier : identifiers) {
+    List<T> resultForAStage=selectForSingleStage(sparql,failedStageIdentifier,mapper);
+    result.addAll(resultForAStage);
+  }
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("For stages: %s\n Running SPARQL: %s\n Get %d results using %dms.",identifiers,sparql,result.size(),(System.currentTimeMillis() - queryStartTime)));
+  }
+  return result;
+}

@@ -1,0 +1,10 @@
+{
+  String mutexPipelineName=mutexForPausePipeline(pipelineName);
+synchronized (mutexPipelineName) {
+    String sanitizedPauseCause=pauseCause.substring(0,Math.min(255,pauseCause.length()));
+    String pauseByDisplayName=pauseBy.getDisplayName();
+    String sanitizedPauseBy=pauseByDisplayName.substring(0,Math.min(255,pauseByDisplayName.length()));
+    pipelineSqlMapDao.pause(pipelineName,sanitizedPauseCause,sanitizedPauseBy);
+    LOGGER.info(String.format("[Pipeline Pause] Pipeline [%s] is paused by [%s] because [%s]",pipelineName,pauseBy,pauseCause));
+  }
+}

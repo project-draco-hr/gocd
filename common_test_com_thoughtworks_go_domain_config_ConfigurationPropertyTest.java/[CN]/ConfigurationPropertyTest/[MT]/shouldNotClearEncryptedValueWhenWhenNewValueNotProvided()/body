@@ -1,0 +1,10 @@
+{
+  GoCipher goCipher=mock(GoCipher.class);
+  ConfigurationProperty property=new ConfigurationProperty(new ConfigurationKey("secureKey"),null,new EncryptedConfigurationValue("secureValue"),goCipher);
+  property.handleSecureValueConfiguration(true);
+  assertThat(property.isSecure(),is(true));
+  assertThat(property.getConfigurationKey().getName(),is("secureKey"));
+  assertThat(property.getConfigurationValue(),is(nullValue()));
+  assertThat(property.getEncryptedValue(),is(notNullValue()));
+  assertThat(property.getEncryptedValue().getValue(),is("secureValue"));
+}

@@ -1,0 +1,15 @@
+{
+  HgMaterialConfig hgMaterialConfig=new HgMaterialConfig("",null);
+  Map<String,String> map=new HashMap<String,String>();
+  map.put(HgMaterialConfig.URL,"url");
+  map.put(ScmMaterialConfig.FOLDER,"folder");
+  map.put(ScmMaterialConfig.AUTO_UPDATE,"0");
+  map.put(ScmMaterialConfig.FILTER,"/root,/**/*.help");
+  map.put(AbstractMaterialConfig.MATERIAL_NAME,"material-name");
+  hgMaterialConfig.setConfigAttributes(map);
+  assertThat(hgMaterialConfig.getUrl(),is("url"));
+  assertThat(hgMaterialConfig.getFolder(),is("folder"));
+  assertThat(hgMaterialConfig.getName(),is(new CaseInsensitiveString("material-name")));
+  assertThat(hgMaterialConfig.isAutoUpdate(),is(false));
+  assertThat(hgMaterialConfig.filter(),is(new Filter(new IgnoredFiles("/root"),new IgnoredFiles("/**/*.help"))));
+}

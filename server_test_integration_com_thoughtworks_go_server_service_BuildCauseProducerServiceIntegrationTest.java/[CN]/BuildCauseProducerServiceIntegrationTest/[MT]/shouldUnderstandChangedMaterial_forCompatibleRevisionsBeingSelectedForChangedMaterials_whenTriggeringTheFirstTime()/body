@@ -1,0 +1,17 @@
+{
+  DependencyMaterialConfig mingleMaterialConfig=new DependencyMaterialConfig(new CaseInsensitiveString(MINGLE_PIPELINE_NAME),new CaseInsensitiveString(STAGE_NAME));
+  String mingleDownstreamPipelineName="down_of_mingle";
+  SvnMaterial svn=SvnMaterial.createSvnMaterialWithMock(repository);
+  runAndPassWith(svn,"foo.c",svnRepository);
+  svnRepository.checkInOneFile("bar.c");
+  materialDatabaseUpdater.updateMaterial(svn);
+  configHelper.addPipeline(mingleDownstreamPipelineName,STAGE_NAME,new MaterialConfigs(svn.config(),mingleMaterialConfig),"unit");
+  pipelineTimeline.update();
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(mingleDownstreamPipelineName);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),hasItem(mingleDownstreamPipelineName));
+  BuildCause downstreamBuildCause=pipelineScheduleQueue.toBeScheduled().get(mingleDownstreamPipelineName);
+  for (  MaterialRevision materialRevision : downstreamBuildCause.getMaterialRevisions()) {
+    assertThat("material revision " + materialRevision + " was marked as not changed",materialRevision.isChanged(),is(true));
+  }
+  assertThat(downstreamBuildCause.getMaterialRevisions().getRevisions().size(),is(2));
+}

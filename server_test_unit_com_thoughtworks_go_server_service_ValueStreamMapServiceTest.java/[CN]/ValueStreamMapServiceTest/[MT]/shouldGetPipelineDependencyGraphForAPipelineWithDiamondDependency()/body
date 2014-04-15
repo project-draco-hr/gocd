@@ -1,0 +1,29 @@
+{
+  GitMaterial git=new GitMaterial("git");
+  BuildCause p3buildCause=createBuildCause(asList("p1","p2"),new ArrayList<GitMaterial>());
+  BuildCause p2buildCause=createBuildCause(new ArrayList<String>(),asList(git));
+  BuildCause p1buildCause=createBuildCause(new ArrayList<String>(),asList(git));
+  when(pipelineService.buildCauseFor("p3",1)).thenReturn(p3buildCause);
+  when(pipelineService.buildCauseFor("p2",1)).thenReturn(p2buildCause);
+  when(pipelineService.buildCauseFor("p1",1)).thenReturn(p1buildCause);
+  PipelineConfig p1Config=PipelineConfigMother.pipelineConfig("p1",new MaterialConfigs(git.config()));
+  PipelineConfig p2Config=PipelineConfigMother.pipelineConfig("p2",new MaterialConfigs(git.config()));
+  PipelineConfig p3Config=PipelineConfigMother.pipelineConfig("p3",new MaterialConfigs(new DependencyMaterialConfig(p1Config.name(),p1Config.getFirstStageConfig().name()),new DependencyMaterialConfig(p2Config.name(),p2Config.getFirstStageConfig().name())));
+  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(p1Config,p2Config,p3Config));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(pipelineService.findPipelineByCounterOrLabel("p3","1")).thenReturn(new Pipeline("p3","p3-label",p3buildCause));
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p3",1,user,result);
+  List<List<Node>> nodesAtEachLevel=graph.getNodesAtEachLevel();
+  assertThat(graph.getCurrentPipeline().getName(),is("p3"));
+  assertThat(nodesAtEachLevel.size(),is(3));
+  List<Node> firstLevel=nodesAtEachLevel.get(0);
+  assertThat(firstLevel.size(),is(1));
+  assertNode(-2,firstLevel.get(0),git.getDisplayName(),git.getFingerprint(),0,"p1","p2");
+  List<Node> secondLevel=nodesAtEachLevel.get(1);
+  assertThat(secondLevel.size(),is(2));
+  assertNode(-1,secondLevel.get(0),"p1","p1",0,"p3");
+  assertNode(-1,secondLevel.get(1),"p2","p2",0,"p3");
+  List<Node> thirdLevel=nodesAtEachLevel.get(2);
+  assertThat(thirdLevel.size(),is(1));
+  assertNode(0,thirdLevel.get(0),"p3","p3",0);
+}

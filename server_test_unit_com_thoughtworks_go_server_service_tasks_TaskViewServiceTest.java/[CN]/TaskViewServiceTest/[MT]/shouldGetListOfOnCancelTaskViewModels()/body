@@ -1,0 +1,13 @@
+{
+  ConfigElementImplementationRegistry registry=this.registry;
+  when(registry.implementersOf(Task.class)).thenReturn(taskImplementations());
+  AntTask ant=new AntTask();
+  FetchTask fetch=new FetchTask();
+  ExecTask exec=new ExecTask();
+  when(registry.getViewModelFor(ant,"new")).thenReturn(viewModel(ant));
+  when(registry.getViewModelFor(fetch,"new")).thenReturn(viewModel(fetch));
+  when(registry.getViewModelFor(exec,"new")).thenReturn(viewModel(exec));
+  TaskViewService taskViewService=new TaskViewService(registry,mock(PluginManager.class));
+  List<PluggableViewModel<Task>> onCancelTaskViewModels=taskViewService.getOnCancelTaskViewModels(new AntTask());
+  assertThat(onCancelTaskViewModels,is(asList(viewModel(ant),viewModel(exec),viewModel(fetch))));
+}

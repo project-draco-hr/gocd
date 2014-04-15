@@ -1,0 +1,19 @@
+{
+  Digester digester=new Digester();
+  digester.setValidating(true);
+  digester.setErrorHandler(new ErrorHandler(){
+    @Override public void warning(    SAXParseException exception) throws SAXException {
+      throw new SAXException("XML Schema validation of Plugin Descriptor(plugin.xml) failed",exception);
+    }
+    @Override public void error(    SAXParseException exception) throws SAXException {
+      throw new SAXException("XML Schema validation of Plugin Descriptor(plugin.xml) failed",exception);
+    }
+    @Override public void fatalError(    SAXParseException exception) throws SAXException {
+      throw new SAXException("XML Schema validation of Plugin Descriptor(plugin.xml) failed",exception);
+    }
+  }
+);
+  digester.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage",XMLConstants.W3C_XML_SCHEMA_NS_URI);
+  digester.setProperty("http://java.sun.com/xml/jaxp/properties/schemaSource",GoPluginDescriptorParser.class.getResourceAsStream("/plugin-descriptor.xsd"));
+  return digester;
+}

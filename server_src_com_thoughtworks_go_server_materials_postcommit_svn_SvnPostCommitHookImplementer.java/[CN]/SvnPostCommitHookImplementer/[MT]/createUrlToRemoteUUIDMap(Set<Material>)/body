@@ -1,0 +1,9 @@
+{
+  final HashSet<SvnMaterial> setOfSvnMaterials=new HashSet<SvnMaterial>();
+  for (  Material material : materials) {
+    if (material instanceof SvnMaterial) {
+      setOfSvnMaterials.add((SvnMaterial)material);
+    }
+  }
+  return getEmptySvnCommand().createUrlToRemoteUUIDMap(setOfSvnMaterials);
+}

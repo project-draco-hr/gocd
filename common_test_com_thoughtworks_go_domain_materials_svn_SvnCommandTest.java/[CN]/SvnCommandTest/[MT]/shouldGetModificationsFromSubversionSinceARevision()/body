@@ -1,0 +1,7 @@
+{
+  final List list=subversion.modificationsSince(new SubversionRevision("1"));
+  assertThat(list.size(),is(3));
+  assertThat(((Modification)list.get(0)).getRevision(),is("4"));
+  assertThat(((Modification)list.get(1)).getRevision(),is("3"));
+  assertThat(((Modification)list.get(2)).getRevision(),is("2"));
+}

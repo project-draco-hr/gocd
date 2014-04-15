@@ -1,0 +1,11 @@
+{
+  GitMaterial gitMaterial=new GitMaterial("http://username:password@0.0.0.0");
+  try {
+    gitMaterial.latestModification(workingDir,new TestSubprocessExecutionContext());
+    fail("should throw exception because url is not reachable");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("******"));
+    assertThat(e.getMessage(),not(containsString("password")));
+  }
+}

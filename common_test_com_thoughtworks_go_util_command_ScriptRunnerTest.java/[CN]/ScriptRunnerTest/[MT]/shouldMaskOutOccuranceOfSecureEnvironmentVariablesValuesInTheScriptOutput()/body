@@ -1,0 +1,10 @@
+{
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  environmentVariableContext.setProperty("secret","the_secret_password",true);
+  CommandLine command=CommandLine.createCommandLine("echo").withArg("the_secret_password");
+  InMemoryConsumer output=new InMemoryConsumer();
+  ExecScript script=new ExecScript("ERROR_STRING");
+  command.runScript(script,output,environmentVariableContext,null);
+  assertThat(script.getExitCode(),is(0));
+  assertThat(output.toString(),output.contains("the_secret_password"),is(false));
+}

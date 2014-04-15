@@ -1,0 +1,9 @@
+{
+  try {
+    filter.doFilter(mock(ServletRequest.class),mock(ServletResponse.class),new MockFilterChain());
+    fail("should not process non HTTP requests");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("cannot be cast to javax.servlet.http.HttpServletRequest"));
+  }
+}

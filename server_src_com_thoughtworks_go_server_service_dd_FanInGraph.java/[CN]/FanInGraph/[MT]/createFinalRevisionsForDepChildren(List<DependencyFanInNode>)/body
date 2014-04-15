@@ -1,0 +1,11 @@
+{
+  List<MaterialRevision> finalRevisions=new ArrayList<MaterialRevision>();
+  for (  DependencyFanInNode child : depChildren) {
+    final List<Modification> modifications=materialRepository.modificationFor(child.currentRevision);
+    if (modifications.isEmpty()) {
+      throw new NoModificationsPresentForDependentMaterialException(child.currentRevision.stageLocator());
+    }
+    finalRevisions.add(new MaterialRevision(materialConfigConverter.toMaterial(child.materialConfig),modifications));
+  }
+  return finalRevisions;
+}

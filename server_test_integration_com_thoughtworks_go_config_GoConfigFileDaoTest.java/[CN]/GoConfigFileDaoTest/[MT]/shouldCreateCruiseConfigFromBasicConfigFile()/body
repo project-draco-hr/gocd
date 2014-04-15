@@ -1,0 +1,14 @@
+{
+  CruiseConfig cruiseConfig=GoConfigFileHelper.load(WITH_3_AGENT_CONFIG);
+  assertThat(cruiseConfig,is(notNullValue()));
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  assertThat(pipelineConfig.size(),is(1));
+  StageConfig stageConfig=pipelineConfig.get(0);
+  assertThat(stageConfig.name(),is(new CaseInsensitiveString("mingle")));
+  assertThat(pipelineConfig.materialConfigs(),is(notNullValue()));
+  final JobConfig cardList=stageConfig.jobConfigByInstanceName("cardlist",true);
+  assertThat(cardList.name(),is(new CaseInsensitiveString("cardlist")));
+  assertThat(stageConfig.jobConfigByInstanceName("bluemonkeybutt",true).name(),is(new CaseInsensitiveString("bluemonkeybutt")));
+  assertThat(cardList.tasks(),sizeIs(1));
+  assertThat(cardList.tasks().first(),instanceOf(NullTask.class));
+}

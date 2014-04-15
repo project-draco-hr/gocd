@@ -1,0 +1,10 @@
+{
+  try {
+    wipePluginBundleDirectory(location);
+    ZipUtil zipUtil=new ZipUtil();
+    zipUtil.unzip(file,location);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(String.format("Failed to copy plugin jar %s to bundle location %s",file,location),e);
+  }
+}

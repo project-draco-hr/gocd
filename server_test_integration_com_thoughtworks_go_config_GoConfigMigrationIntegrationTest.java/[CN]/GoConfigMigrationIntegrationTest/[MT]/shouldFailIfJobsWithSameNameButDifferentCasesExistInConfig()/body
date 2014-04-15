@@ -1,0 +1,13 @@
+{
+  final List<Exception> exs=new ArrayList<Exception>();
+  GoConfigMigration upgrader=new GoConfigMigration(new GoConfigMigration.UpgradeFailedHandler(){
+    public void handle(    Exception e){
+      exs.add(e);
+    }
+  }
+,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  FileUtils.writeStringToFile(configFile,ConfigFileFixture.JOBS_WITH_DIFFERNT_CASE);
+  upgrader.upgradeIfNecessary(configFile,currentGoServerVersion);
+  assertThat(exs.size(),is(1));
+  assertThat(exs.get(0).getMessage(),containsString("You have defined multiple Jobs called 'Test'"));
+}

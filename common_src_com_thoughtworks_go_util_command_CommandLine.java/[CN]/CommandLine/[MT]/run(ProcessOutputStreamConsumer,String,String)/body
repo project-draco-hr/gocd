@@ -1,0 +1,11 @@
+{
+  if (LOG.isDebugEnabled()) {
+    LOG.debug("Running " + this);
+  }
+  addInput(input);
+  SafeOutputStreamConsumer safeStreamConsumer=new SafeOutputStreamConsumer(outputStreamConsumer);
+  safeStreamConsumer.addArguments(arguments);
+  safeStreamConsumer.addSecrets(secrets);
+  ProcessWrapper process=execute(safeStreamConsumer,new EnvironmentVariableContext(),processTag);
+  return process.waitForExit();
+}

@@ -1,0 +1,7 @@
+{
+  PipelineConfig newlyAddedPipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("newly-added-pipeline-config","dev");
+  pipelineDao.pause(newlyAddedPipelineConfig.name().toString(),"cause","by");
+  PipelinePauseInfo actual=pipelineDao.pauseState(newlyAddedPipelineConfig.name().toString());
+  PipelinePauseInfo expected=new PipelinePauseInfo(true,"cause","by");
+  assertThat(actual,is(expected));
+}

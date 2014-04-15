@@ -1,0 +1,14 @@
+{
+  if (!securityService.hasViewPermissionForPipeline(CaseInsensitiveString.str(username.getUsername()),pipelineName)) {
+    result.unauthorized(LocalizedMessage.cannotViewPipeline(pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return new ArrayList<MatchedRevision>();
+  }
+  try {
+    MaterialConfig materialConfig=goConfigService.materialForPipelineWithFingerprint(pipelineName,fingerprint);
+    return materialRepository.findRevisionsMatching(materialConfig,searchString);
+  }
+ catch (  RuntimeException e) {
+    result.notFound(LocalizedMessage.materialWithFingerPrintNotFound(pipelineName,fingerprint),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return new ArrayList<MatchedRevision>();
+  }
+}

@@ -1,0 +1,6 @@
+{
+  configHelper.configureStageAsManualApproval(MINGLE_PIPELINE_NAME,STAGE_NAME);
+  svnRepository.checkInOneFile("a.java");
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(MINGLE_PIPELINE_NAME);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),not(hasItem(MINGLE_PIPELINE_NAME)));
+}

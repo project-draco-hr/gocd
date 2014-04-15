@@ -1,0 +1,5 @@
+{
+  userService.addUserIfDoesNotExist(Username.ANONYMOUS);
+  assertThat(userDao.findUser(CaseInsensitiveString.str(Username.ANONYMOUS.getUsername())),isANullUser());
+  assertThat(userDao.findUser(Username.ANONYMOUS.getDisplayName()),isANullUser());
+}

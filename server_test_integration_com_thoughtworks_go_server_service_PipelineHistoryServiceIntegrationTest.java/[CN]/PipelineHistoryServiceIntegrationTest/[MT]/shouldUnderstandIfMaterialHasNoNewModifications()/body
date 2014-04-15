@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=pipelineOne.createPipelineWithFirstStageScheduled();
+  Material material=pipeline.getMaterialRevisions().getMaterialRevision(0).getMaterial();
+  configHelper.setViewPermissionForGroup("group1","username");
+  PipelineInstanceModels latest=pipelineHistoryService.loadWithEmptyAsDefault(pipelineOne.pipelineName,Pagination.ONE_ITEM,"username");
+  PipelineInstanceModel model=latest.get(0);
+  assertThat(model.hasNewRevisions(material.config()),is(false));
+}

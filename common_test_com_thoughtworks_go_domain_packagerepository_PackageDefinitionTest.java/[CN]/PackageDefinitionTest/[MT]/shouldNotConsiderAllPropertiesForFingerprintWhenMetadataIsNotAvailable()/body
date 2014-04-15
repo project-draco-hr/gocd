@@ -1,0 +1,7 @@
+{
+  String pluginId="plugin-id";
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo",pluginId,"version",new Configuration(create("rk1",false,"rv1"),create("rk2",false,"rv2")));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","name",new Configuration(create("pk1",false,"pv1"),create("pk2",false,"pv2")),repository);
+  String fingerprint=packageDefinition.getFingerprint(AbstractMaterial.FINGERPRINT_DELIMITER);
+  assertThat(fingerprint,is(CachedDigestUtils.sha256Hex("plugin-id=plugin-id<|>pk1=pv1<|>pk2=pv2<|>rk1=rv1<|>rk2=rv2")));
+}

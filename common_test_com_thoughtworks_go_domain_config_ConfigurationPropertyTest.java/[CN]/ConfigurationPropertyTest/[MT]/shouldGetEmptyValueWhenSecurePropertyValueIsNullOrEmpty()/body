@@ -1,0 +1,5 @@
+{
+  assertThat(new ConfigurationProperty(new ConfigurationKey("key"),null,new EncryptedConfigurationValue(""),cipher).getValue(),is(""));
+  assertThat(new ConfigurationProperty(new ConfigurationKey("key"),null,new EncryptedConfigurationValue(null),cipher).getValue(),is(""));
+  verify(cipher,never()).decrypt(anyString());
+}

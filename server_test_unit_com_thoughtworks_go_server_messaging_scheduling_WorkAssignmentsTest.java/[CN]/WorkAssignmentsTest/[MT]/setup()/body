@@ -1,0 +1,14 @@
+{
+  context=new ClassMockery();
+  idleAgentsTopic=context.mock(IdleAgentTopic.class,"idle_topic");
+  assignedWorkTopic=context.mock(WorkAssignedTopic.class,"assigned_work_topic");
+  context.checking(new Expectations(){
+{
+      one(assignedWorkTopic).addListener(with(any(WorkAssignments.class)));
+    }
+  }
+);
+  assignments=new WorkAssignments(idleAgentsTopic,assignedWorkTopic);
+  agentIdentifier=new AgentIdentifier("localhost","127.0.0.1","uuid");
+  agent=AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null);
+}

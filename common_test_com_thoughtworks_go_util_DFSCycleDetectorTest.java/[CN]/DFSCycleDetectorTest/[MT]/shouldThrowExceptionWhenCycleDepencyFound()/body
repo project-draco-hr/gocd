@@ -1,0 +1,11 @@
+{
+  createNode(new CaseInsensitiveString("a"),new CaseInsensitiveString("b"));
+  createNode(new CaseInsensitiveString("b"),new CaseInsensitiveString("c"));
+  createNode(new CaseInsensitiveString("c"),new CaseInsensitiveString("a"));
+  try {
+    project.topoSort(new CaseInsensitiveString("a"),hashtable);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Circular dependency: a <- c <- b <- a"));
+  }
+}

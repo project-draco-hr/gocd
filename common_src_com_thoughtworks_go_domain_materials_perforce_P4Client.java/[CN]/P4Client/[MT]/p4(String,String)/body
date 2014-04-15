@@ -1,0 +1,16 @@
+{
+  Map<String,String> env=new HashMap<String,String>();
+  env.put("P4PORT",p4Port);
+  env.put("P4CLIENT",p4ClientName);
+  if (hasUser()) {
+    env.put("P4USER",p4user);
+  }
+  if (usingPassword()) {
+    env.put("P4PASSWD",p4passwd);
+  }
+  CommandLine line=createCommandLine("p4").withArgs(command).withArgs(params).withEnv(env);
+  if (hasPassword()) {
+    line=line.withNonArgSecret(new PasswordArgument(p4passwd));
+  }
+  return line;
+}

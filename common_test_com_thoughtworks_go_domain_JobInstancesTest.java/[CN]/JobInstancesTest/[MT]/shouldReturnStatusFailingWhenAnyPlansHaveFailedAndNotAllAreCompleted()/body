@@ -1,0 +1,7 @@
+{
+  JobInstances builds=new JobInstances();
+  builds.add(completed("passports",JobResult.Failed));
+  builds.add(completed("visas",JobResult.Passed));
+  builds.add(scheduled("flights"));
+  assertThat(builds.stageState(),Is.is(StageState.Failing));
+}

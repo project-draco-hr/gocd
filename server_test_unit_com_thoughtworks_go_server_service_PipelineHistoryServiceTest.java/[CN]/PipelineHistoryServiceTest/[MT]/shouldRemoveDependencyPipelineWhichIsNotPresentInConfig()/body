@@ -1,0 +1,26 @@
+{
+  ensureConfigHasPipeline("blahPipeline");
+  ensureConfigHasPipeline("down1");
+  ensureConfigContainsPipelineIs("down2",false);
+  when(goConfigService.downstreamPipelinesOf("blahPipeline")).thenReturn(Arrays.asList(PipelineConfigMother.pipelineConfig("down1")));
+  stubConfigServiceToReturnPipeline("blahPipeline",PipelineConfigMother.pipelineConfig("blahPipeline"));
+  PipelineConfig downOneConfig=PipelineConfigMother.pipelineConfig("down1");
+  stubConfigServiceToReturnPipeline("down1",downOneConfig);
+  when(goConfigService.isLockable("blahPipeline")).thenReturn(true);
+  when(pipelineUnlockService.canUnlock("blahPipeline",USERNAME,new HttpOperationResult())).thenReturn(true);
+  when(pipelineTimeline.pipelineBefore(23)).thenReturn(-1L);
+  ensureHasPermission(USERNAME,"blahPipeline");
+  ensureHasPermission(USERNAME,"down1");
+  PipelineInstanceModel actualPim=pim("down1");
+  actualPim.setCanRun(false);
+  actualPim.setStageHistory(PipelineHistoryMother.stagePerJob("stage",PipelineHistoryMother.job(JobResult.Failed)));
+  PipelineInstanceModel returned=pim("blahPipeline");
+  returned.setId(23);
+  PipelineDependencyGraphOld graph=new PipelineDependencyGraphOld(returned,createPipelineInstanceModels(actualPim,pim("down2")));
+  when(pipelineDao.pipelineGraphByNameAndCounter("blahPipeline",12)).thenReturn(graph);
+  when(schedulingCheckerService.canManuallyTrigger(actualPim.getName(),USERNAME)).thenReturn(true);
+  PipelineDependencyGraphOld actual=pipelineHistoryService.pipelineDependencyGraph("blahPipeline",12,USERNAME,new HttpOperationResult());
+  assertThat(actual.dependencies().size(),is(1));
+  assertThat(actual.dependencies().get(0),is(actualPim));
+  assertThat(actual.dependencies().get(0).getCanRun(),is(true));
+}

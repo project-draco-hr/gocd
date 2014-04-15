@@ -1,0 +1,43 @@
+{
+  Pipeline oldInstance=triggeredPipelines.get(pipeline.config.name());
+  Map<Material,List<Modification>> modMap=new HashMap<Material,List<Modification>>();
+  Map<Modification,Modification> identityMap=new HashMap<Modification,Modification>();
+  MaterialRevisions buildCause=new MaterialRevisions();
+  int i=0;
+  for (  Material material : MaterialsMother.createMaterialsFromMaterialConfigs(pipeline.config.materialConfigs())) {
+    List<Modification> modifications=new ArrayList<Modification>();
+    for (    Modification modification : modForRev(revisions[i++])) {
+      if (!identityMap.containsKey(modification)) {
+        identityMap.put(modification,modification);
+      }
+      modifications.add(identityMap.get(modification));
+    }
+    MaterialInstance modificationsMaterialInstance=modifications.get(0).getMaterialInstance();
+    if (modMap.containsKey(material)) {
+      modifications=modMap.get(material);
+    }
+ else {
+      modMap.put(material,modifications);
+    }
+    MaterialInstance configuredMaterialInstance=materialRepository.findOrCreateFrom(material);
+    if (!configuredMaterialInstance.equals(modificationsMaterialInstance)) {
+      throw new RuntimeException("Please fix the revision order to match material configuration order. Revision given for: " + modificationsMaterialInstance + " against configured material: "+ configuredMaterialInstance);
+    }
+    if (oldInstance == null) {
+      buildCause.addRevision(new MaterialRevision(material,modifications));
+    }
+ else {
+      MaterialRevision oldRev=oldInstance.getBuildCause().getMaterialRevisions().findRevisionFor(material);
+      List<Modification> modificationsSince=materialRepository.findModificationsSince(material,oldRev);
+      List<Modification> newRange=new ArrayList<Modification>();
+      for (      Modification newMod : modificationsSince) {
+        newRange.add(0,newMod);
+        if (newMod.equals(modifications)) {
+          break;
+        }
+      }
+      buildCause.addRevision(new MaterialRevision(material,newRange));
+    }
+  }
+  return dbHelper.schedulePipelineWithAllStages(pipeline.config,BuildCause.createWithModifications(buildCause,"loser"));
+}

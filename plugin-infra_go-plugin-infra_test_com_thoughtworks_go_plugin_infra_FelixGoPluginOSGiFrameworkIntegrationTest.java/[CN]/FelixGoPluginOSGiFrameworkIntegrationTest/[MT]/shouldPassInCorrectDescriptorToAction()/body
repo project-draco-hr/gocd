@@ -1,0 +1,15 @@
+{
+  final GoPluginDescriptor descriptor=new GoPluginDescriptor("testplugin.descriptorValidator",null,null,null,descriptorBundleDir,true);
+  Bundle bundle=pluginOSGiFramework.loadPlugin(descriptor);
+  registry.loadPlugin(descriptor);
+  assertThat(bundle.getState(),is(Bundle.ACTIVE));
+  ActionWithReturn<PluginDescriptorAware,Object> action=new ActionWithReturn<PluginDescriptorAware,Object>(){
+    @Override public Object execute(    PluginDescriptorAware descriptorAware,    GoPluginDescriptor pluginDescriptor){
+      assertThat(pluginDescriptor,is(descriptor));
+      descriptorAware.setPluginDescriptor(pluginDescriptor);
+      return null;
+    }
+  }
+;
+  pluginOSGiFramework.doOn(PluginDescriptorAware.class,"testplugin.descriptorValidator",action);
+}

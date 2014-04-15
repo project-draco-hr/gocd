@@ -1,0 +1,11 @@
+{
+  BufferedReader output=new BufferedReader(new InputStreamReader(process.getInputStream()));
+  BufferedReader error=new BufferedReader(new InputStreamReader(process.getErrorStream()));
+  StringBuilder result=new StringBuilder();
+  result.append("output:\n");
+  dump(output,result);
+  result.append("error:\n");
+  dump(error,result);
+  process.waitFor();
+  return result;
+}

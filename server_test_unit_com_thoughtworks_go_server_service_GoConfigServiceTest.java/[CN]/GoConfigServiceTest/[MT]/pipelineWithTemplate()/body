@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfig("pipeline");
+  pipeline.clear();
+  pipeline.setTemplateName(new CaseInsensitiveString("foo"));
+  PipelineTemplateConfig template=new PipelineTemplateConfig(new CaseInsensitiveString("foo"),StageConfigMother.custom("stage","job"));
+  pipeline.usingTemplate(template);
+  return pipeline;
+}

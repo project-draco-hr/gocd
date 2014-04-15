@@ -1,0 +1,8 @@
+{
+  setProperty("foo","bar");
+  ModelAndView modelAndView=getProperty("foo","json");
+  Map map=modelAndView.getModel();
+  String content=map.get("json").toString();
+  assertThat(content,containsString("bar"));
+  assertThat(response.getStatus(),is(SC_OK));
+}

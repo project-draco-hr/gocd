@@ -1,0 +1,10 @@
+{
+  PackageMaterial material=MaterialsMother.packageMaterial("repo-id","repo-name","pkg-id","pkg-name",ConfigurationPropertyMother.create("key1",false,"value1"));
+  PackageMaterialInstance materialInstance=(PackageMaterialInstance)material.createMaterialInstance();
+  materialInstance.setId(10L);
+  PackageMaterialInstance materialInstanceCopy=(PackageMaterialInstance)material.createMaterialInstance();
+  material.getPackageDefinition().getConfiguration().add(ConfigurationPropertyMother.create("key2",false,"value2"));
+  PackageMaterialInstance newMaterialInstance=(PackageMaterialInstance)material.createMaterialInstance();
+  assertThat(materialInstance.shouldUpgradeTo(materialInstanceCopy),is(false));
+  assertThat(materialInstance.shouldUpgradeTo(newMaterialInstance),is(true));
+}

@@ -1,0 +1,8 @@
+{
+  when(goConfigService.isUserAdmin(username)).thenReturn(false);
+  service.notifyMaterialsForUpdate(username,new HashMap(),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpStatus.SC_UNAUTHORIZED));
+  assertThat(result.hasMessage(),is(true));
+  verify(goConfigService).isUserAdmin(username);
+}

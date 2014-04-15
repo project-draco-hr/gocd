@@ -1,0 +1,28 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git1"),"folder1");
+  int i=0;
+  String[] git_revs1={"g11","g12"};
+  u.checkinInOrder(git,u.d(i++),git_revs1);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(git));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p1));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",u.m(p2));
+  ScheduleTestUtil.AddedPipeline p5=u.saveConfigWith("p5",u.m(p3));
+  ScheduleTestUtil.AddedPipeline p6=u.saveConfigWith("p6",u.m(p4));
+  ScheduleTestUtil.AddedPipeline p7=u.saveConfigWith("p7",u.m(p5),u.m(p6));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g11");
+  String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),"g11");
+  String p3_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p3,u.d(i++),p1_1);
+  String p4_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p4,u.d(i++),p2_1);
+  String p5_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p5,u.d(i++),p3_1);
+  String p6_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p6,u.d(i++),p4_1);
+  MaterialRevisions given=u.mrs(u.mr(p5,true,p5_1),u.mr(p6,true,p6_1));
+  MaterialRevisions expected=u.mrs(u.mr(p5,true,p5_1),u.mr(p6,true,p6_1));
+  assertThat(getRevisionsBasedOnDependencies(p7,cruiseConfig,given),is(expected));
+  String p1_2=u.runAndPass(p1,"g12");
+  String p3_2=u.runAndPass(p3,p1_2);
+  String p5_2=u.runAndPass(p5,p3_2);
+  given=u.mrs(u.mr(p5,true,p5_2),u.mr(p6,true,p6_1));
+  assertThat(getRevisionsBasedOnDependencies(p7,cruiseConfig,given),is(expected));
+}

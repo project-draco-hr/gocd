@@ -1,0 +1,14 @@
+{
+  GoPluginDescriptor existingDescriptor=registry.getPluginByIdOrFileName(null,pluginFileDetails.file().getName());
+  if (existingDescriptor == null) {
+    return;
+  }
+  boolean externalPlugin=!pluginFileDetails.isBundledPlugin();
+  boolean bundledPlugin=existingDescriptor.isBundledPlugin();
+  boolean externalPluginWithSameIdAsBundledPlugin=bundledPlugin && externalPlugin;
+  if (externalPluginWithSameIdAsBundledPlugin) {
+    LOGGER.info(String.format("External Plugin file '%s' having same name as bundled plugin file has been removed. " + "Refusing to unload bundled plugin with id: '%s'",pluginFileDetails.file(),existingDescriptor.id()));
+    return;
+  }
+  removePlugin(existingDescriptor);
+}

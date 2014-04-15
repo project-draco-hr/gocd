@@ -1,0 +1,10 @@
+{
+  int result;
+  result=(hostName != null ? hostName.hashCode() : 0);
+  result=31 * result + port;
+  result=31 * result + (username != null ? username.hashCode() : 0);
+  result=31 * result + (Boolean.TRUE.equals(tls) ? 1 : 0);
+  result=31 * result + (getFrom() != null ? getFrom().hashCode() : 0);
+  result=31 * result + (getAdminMail() != null ? getAdminMail().hashCode() : 0);
+  return result;
+}

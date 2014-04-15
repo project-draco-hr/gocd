@@ -1,0 +1,7 @@
+{
+  JobInstance instance=JobInstanceMother.scheduled("jobConfig1");
+  instance.setClock(timeProvider);
+  when(timeProvider.currentTime()).thenReturn(new DateTime().plusDays(1).toDate());
+  instance.completing(JobResult.Passed);
+  assertThat(instance.latestTransitionDate(),is(greaterThan(instance.getScheduledDate())));
+}

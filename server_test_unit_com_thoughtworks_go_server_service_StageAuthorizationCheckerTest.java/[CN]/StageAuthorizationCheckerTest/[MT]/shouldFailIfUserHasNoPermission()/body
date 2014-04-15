@@ -1,0 +1,13 @@
+{
+  mockery.checking(new Expectations(){
+{
+      one(securityService).hasOperatePermissionForStage(pipelineName,stageName,username);
+      will(returnValue(false));
+    }
+  }
+);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  checker.check(result);
+  assertThat(result.getServerHealthState().isSuccess(),is(false));
+  assertThat(result.getServerHealthState().getDescription(),is("User gli does not have permission to schedule cruise/dev"));
+}

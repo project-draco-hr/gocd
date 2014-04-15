@@ -1,0 +1,12 @@
+{
+  PackageConfiguration c1=new PackageConfiguration("k1").with(PackageConfiguration.DISPLAY_ORDER,2);
+  PackageConfiguration c2=new PackageConfiguration("k2").with(PackageConfiguration.DISPLAY_ORDER,0);
+  PackageConfiguration c3=new PackageConfiguration("k3").with(PackageConfiguration.DISPLAY_ORDER,1);
+  PackageConfigurations packageConfigurations=new PackageConfigurations();
+  packageConfigurations.add(c1);
+  packageConfigurations.add(c2);
+  packageConfigurations.add(c3);
+  assertThat(packageConfigurations.list().get(0),is(c2));
+  assertThat(packageConfigurations.list().get(1),is(c3));
+  assertThat(packageConfigurations.list().get(2),is(c1));
+}

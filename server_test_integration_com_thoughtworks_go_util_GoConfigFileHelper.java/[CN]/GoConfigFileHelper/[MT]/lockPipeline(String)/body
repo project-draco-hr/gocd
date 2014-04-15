@@ -1,0 +1,6 @@
+{
+  CruiseConfig config=load();
+  PipelineConfig pipeline=config.pipelineConfigByName(new CaseInsensitiveString(name));
+  pipeline.lockExplicitly();
+  writeConfigFile(config);
+}

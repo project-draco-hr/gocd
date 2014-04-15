@@ -1,0 +1,4 @@
+{
+  Map<CaseInsensitiveString,Map<CaseInsensitiveString,List<CaseInsensitiveString>>> jobForFetchHierarchy=new FetchArtifactViewHelper(cruiseConfig,new CaseInsensitiveString("downest"),new CaseInsensitiveString("downest_stage_3"),false).autosuggestMap();
+  assertThat(jobForFetchHierarchy,is(m(str("uppest/upper/downer"),m(str("uppest_stage_1"),a(str("uppest_job_1"),str("uppest_job_1a")),str("uppest_stage_2"),a(str("uppest_job_2"))),str("upper/downer"),m(str("upper_stage_1"),a(str("upper_job_1"),str("upper_job_1a")),str("upper_stage_2"),a(str("upper_job_2"))),str("downer"),m(str("downer_stage_1"),a(str("downer_job_1"),str("downer_job_1a")),str("downer_stage_2"),a(str("downer_job_2"))),str("downest"),m(str("downest_stage_1"),a(str("downest_job_1"),str("downest_job_1a")),str("downest_stage_2"),a(str("downest_job_2"))),str(""),m(str("downest_stage_1"),a(str("downest_job_1"),str("downest_job_1a")),str("downest_stage_2"),a(str("downest_job_2"))))));
+}

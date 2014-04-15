@@ -1,0 +1,7 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(ldapUserSearch.search("foo")).thenReturn(new ArrayList());
+  when(passwordFileUserSearch.search("foo")).thenReturn(new ArrayList());
+  userSearchService.search("foo",result);
+  assertThat(result.localizable(),is((Localizable)LocalizedMessage.string("NO_SEARCH_RESULTS_ERROR")));
+}

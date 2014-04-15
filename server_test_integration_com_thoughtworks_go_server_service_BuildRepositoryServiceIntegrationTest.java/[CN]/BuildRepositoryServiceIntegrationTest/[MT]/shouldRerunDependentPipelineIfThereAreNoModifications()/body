@@ -1,0 +1,11 @@
+{
+  PipelineConfig dependentPipeline=config.addPipeline("product","dev",svnRepo,"build");
+  config.setDependencyOn(dependentPipeline,PIPELINE_NAME,DEV_STAGE);
+  createPipelineWithFirstStageCompleted(dependentPipeline);
+  Pipeline beforeRerun=pipelineService.mostRecentFullPipelineByName(CaseInsensitiveString.str(dependentPipeline.name()));
+  Stage firstStage=beforeRerun.getFirstStage();
+  createPipelineWithFirstStageCompleted(mingle);
+  Pipeline afterRerun=pipelineService.mostRecentFullPipelineByName(CaseInsensitiveString.str(dependentPipeline.name()));
+  assertThat("A new stage instance should have been generated",afterRerun.getFirstStage().getId() > firstStage.getId(),is(true));
+  assertThat("Should share the same pipeline id",afterRerun.getId(),is(beforeRerun.getId()));
+}

@@ -1,0 +1,13 @@
+{
+  if (needToZip) {
+    return "application/zip";
+  }
+  if ("console.log".equals(filename)) {
+    return "text/plain; charset=utf-8";
+  }
+  String mimeType=this.getServletContext().getMimeType(filename);
+  if (StringUtils.isEmpty(mimeType)) {
+    mimeType="application/octet-stream";
+  }
+  return mimeType;
+}

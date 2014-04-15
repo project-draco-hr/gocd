@@ -1,0 +1,17 @@
+{
+  try {
+    LOGGER.debug("[Config Save] Starting git merge of config");
+    createBranch(BRANCH_AT_REVISION,getRevCommitForMd5(oldMD5));
+    createBranch(BRANCH_AT_HEAD,getCurrentRevCommit());
+    RevCommit newCommit=checkinToBranch(BRANCH_AT_REVISION,configRevision);
+    return getMergedConfig(BRANCH_AT_HEAD,newCommit);
+  }
+ catch (  Exception e) {
+    LOGGER.info("[CONFIG_MERGE] Could not merge");
+    throw new ConfigMergeException(e.getMessage(),e);
+  }
+ finally {
+    cleanAndResetToMaster();
+    LOGGER.debug("[Config Save] Ending git merge of config");
+  }
+}

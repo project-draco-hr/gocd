@@ -1,0 +1,10 @@
+{
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs());
+  BuildAssignment buildAssigment=createAssignment();
+  buildAssigment.enhanceEnvironmentVariables(new EnvironmentVariableContext("foo","bar"));
+  BuildWork work=new BuildWork(buildAssigment);
+  EnvironmentVariableContext environmentContext=new EnvironmentVariableContext();
+  AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
+  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),new GoArtifactsManipulatorStub(),environmentContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertEnvironmentContext(environmentContext,"foo",is("bar"));
+}

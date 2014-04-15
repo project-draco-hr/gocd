@@ -1,0 +1,10 @@
+{
+  if (zipArtifactCache.cacheCreated(artifactFolder)) {
+    Map<String,Object> data=new HashMap<String,Object>();
+    data.put("targetFile",zipArtifactCache.cachedFile(artifactFolder));
+    return new ModelAndView("fileView",data);
+  }
+ else {
+    return new ModelAndView(new PreparingArtifactFile());
+  }
+}

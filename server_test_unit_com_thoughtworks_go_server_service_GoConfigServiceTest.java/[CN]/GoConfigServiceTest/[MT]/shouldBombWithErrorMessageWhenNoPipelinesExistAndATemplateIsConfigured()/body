@@ -1,0 +1,8 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  config.server().setArtifactsDir("/var/logs");
+  when(goConfigFileDao.loadForEditing()).thenReturn(config);
+  String templateContent="<templates>" + "<pipeline name='pipeline'>\n" + "  <stage name='firstStage'>"+ "     <jobs>"+ "         <job name='jobName'/>"+ "      </jobs>"+ "  </stage>"+ "</pipeline>"+ "</templates>";
+  GoConfigValidity validity=goConfigService.templatesSaver().saveXml(templateContent,"md5");
+  assertThat(validity.errorMessage(),is("There are no pipelines configured. Please add at least one pipeline in order to use templates."));
+}

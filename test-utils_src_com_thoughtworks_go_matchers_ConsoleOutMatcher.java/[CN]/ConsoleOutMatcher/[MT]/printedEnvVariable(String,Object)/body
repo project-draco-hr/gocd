@@ -1,0 +1,17 @@
+{
+  return new TypeSafeMatcher<String>(){
+    private String consoleOut;
+    public String set;
+    public String override;
+    public boolean matchesSafely(    String consoleOut){
+      this.consoleOut=consoleOut;
+      set=format("environment variable '%s' to value '%s'",key,value);
+      override=format("environment variable '%s' with value '%s'",key,value);
+      return StringUtils.contains(consoleOut,set) || StringUtils.contains(consoleOut,override);
+    }
+    public void describeTo(    Description description){
+      description.appendText("expected console to contain [" + set + "] or ["+ override+ "]"+ " but was "+ consoleOut);
+    }
+  }
+;
+}

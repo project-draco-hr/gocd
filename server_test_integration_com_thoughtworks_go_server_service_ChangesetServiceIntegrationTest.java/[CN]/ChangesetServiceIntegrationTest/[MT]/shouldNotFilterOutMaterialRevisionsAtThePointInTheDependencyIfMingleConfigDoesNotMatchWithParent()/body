@@ -1,0 +1,25 @@
+{
+  Username user=new Username(new CaseInsensitiveString("user"));
+  SvnMaterial svn=MaterialsMother.svnMaterial("http://svn");
+  PipelineConfig grandFatherPipeline=configHelper.addPipelineWithGroup("unauthorizedGroup","granpa",new MaterialConfigs(svn.config()),new MingleConfig("https://granpa-mingle","go"),"stage","job");
+  configHelper.setViewPermissionForGroup("unauthorizedGroup",CaseInsensitiveString.str(user.getUsername()));
+  DependencyMaterial parentDependencyMaterial=MaterialsMother.dependencyMaterial("granpa","stage");
+  PipelineConfig upstreamPipeline=configHelper.addPipeline("upstream","stage",new MaterialConfigs(git.config(),parentDependencyMaterial.config()),"job");
+  DependencyMaterial dependencyMaterial=MaterialsMother.dependencyMaterial("upstream","stage");
+  PipelineConfig downstream=configHelper.addPipeline("downstream","stage",dependencyMaterial.config(),new MingleConfig("https://downstream-mingle","go"),"job");
+  List<MaterialRevision> revisionsForGrandfather1=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForGrandfather1,svn);
+  Pipeline grandFatherOne=dbHelper.checkinRevisionsToBuild(new ManualBuild(user),grandFatherPipeline,revisionsForGrandfather1);
+  List<MaterialRevision> revisionsForUpstream1=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForUpstream1,git);
+  dbHelper.addDependencyRevisionModification(revisionsForUpstream1,parentDependencyMaterial,grandFatherOne);
+  Pipeline upstreamOne=dbHelper.checkinRevisionsToBuild(new ManualBuild(user),upstreamPipeline,revisionsForUpstream1);
+  List<MaterialRevision> revisionsForDownstream=new ArrayList<MaterialRevision>();
+  dbHelper.addDependencyRevisionModification(revisionsForDownstream,dependencyMaterial,upstreamOne);
+  Pipeline pipelineDownstream=dbHelper.checkinRevisionsToBuild(new ManualBuild(user),downstream,revisionsForDownstream);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<MaterialRevision> actual=changesetService.revisionsBetween(pipelineDownstream.getName(),pipelineDownstream.getCounter(),pipelineDownstream.getCounter(),user,result,true,false);
+  List<MaterialRevision> expectedRevisions=groupByMaterial(revisionsForGrandfather1,revisionsForUpstream1,revisionsForDownstream);
+  assertMaterialRevisions(expectedRevisions,actual);
+  assertThat(result.isSuccessful(),is(true));
+}

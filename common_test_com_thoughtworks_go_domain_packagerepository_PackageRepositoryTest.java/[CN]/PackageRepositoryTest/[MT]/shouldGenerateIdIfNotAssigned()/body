@@ -1,0 +1,9 @@
+{
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.ensureIdExists();
+  assertThat(packageRepository.getId(),is(notNullValue()));
+  packageRepository=new PackageRepository();
+  packageRepository.setId("id");
+  packageRepository.ensureIdExists();
+  assertThat(packageRepository.getId(),is("id"));
+}

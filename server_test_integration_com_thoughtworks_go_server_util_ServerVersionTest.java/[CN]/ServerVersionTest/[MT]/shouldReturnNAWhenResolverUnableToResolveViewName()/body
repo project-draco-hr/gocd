@@ -1,0 +1,6 @@
+{
+  ViewResolver resolver=mock(ViewResolver.class);
+  when(resolver.resolveViewName("admin/admin_version.txt",Locale.getDefault())).thenThrow(new RuntimeException("Not found..."));
+  ServerVersion serverVersion=new ServerVersion(resolver);
+  assertThat(serverVersion.version(),is("N/A"));
+}

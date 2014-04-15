@@ -1,0 +1,10 @@
+{
+  try {
+    useConfigString("invalid config file");
+    goConfigFileDao.load();
+    fail("Should have thrown a parse exception");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("Content is not allowed in prolog."));
+  }
+}

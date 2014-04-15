@@ -1,0 +1,12 @@
+{
+  String testTags=System.getProperty("test.tags");
+  if (StringUtil.isBlank(testTags)) {
+    return false;
+  }
+  for (  String tag : tags) {
+    if (!testTags.contains(tag)) {
+      return false;
+    }
+  }
+  return true;
+}

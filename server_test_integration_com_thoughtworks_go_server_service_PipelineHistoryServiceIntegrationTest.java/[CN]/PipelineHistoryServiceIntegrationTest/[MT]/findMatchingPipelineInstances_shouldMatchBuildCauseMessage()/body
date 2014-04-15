@@ -1,0 +1,13 @@
+{
+  final int limit=3;
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline_name","stage","job");
+  goConfigService.addPipeline(pipelineConfig,"pipeline-group");
+  pipelineConfig.setLabelTemplate("${COUNT}-ABC");
+  BuildCause buildCause=ModificationsMother.buildCauseForOneModifiedFile(pipelineConfig,"revision","comment","committer");
+  buildCause.setMessage("Triggered by USER some million years ago.. when dinosaurs ruled the world");
+  Pipeline shouldMatch1=dbHelper.schedulePipeline(pipelineConfig,buildCause,new TimeProvider());
+  dbHelper.cancelStage(shouldMatch1.getStages().get(0));
+  PipelineInstanceModels actual=pipelineHistoryService.findMatchingPipelineInstances("pipeline_name","user",limit,new Username(new CaseInsensitiveString("user")),new HttpLocalizedOperationResult());
+  assertThat("size",actual.size(),is(1));
+  assertThat("first counter",actual.get(0).getCounter(),is(shouldMatch1.getCounter()));
+}

@@ -1,0 +1,5 @@
+{
+  expectLoad(unchangedConfig());
+  JobConfigIdentifier translated=goConfigService.translateToActualCase(new JobConfigIdentifier(PIPELINE.toUpperCase(),STAGE.toUpperCase(),JOB.toUpperCase()));
+  assertThat(translated,is(new JobConfigIdentifier(PIPELINE,STAGE,JOB)));
+}

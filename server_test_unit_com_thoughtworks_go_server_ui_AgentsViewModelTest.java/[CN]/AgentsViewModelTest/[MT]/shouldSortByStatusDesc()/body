@@ -1,0 +1,7 @@
+{
+  AgentsViewModel instances=agentsViewModel();
+  instances.sortBy(AgentViewModel.STATUS_COMPARATOR,SortOrder.DESC);
+  for (int i=1; i < instances.size(); i++) {
+    assertThat(instances.get(i - 1).getStatus().compareTo(instances.get(i).getStatus()),is(greaterThan(0)));
+  }
+}

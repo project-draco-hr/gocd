@@ -1,0 +1,8 @@
+{
+  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.fromServer(new AgentConfig("uuid4","CCeDev03","10.18.5.3",new Resources(new Resource("db"),new Resource("web"))),false,"/var/lib",0L,"linux");
+  AgentInstance pending=AgentInstance.createFromLiveAgent(runtimeInfo,new SystemEnvironment());
+  pending.pending();
+  pending.update(runtimeInfo);
+  pending.pending();
+  return pending;
+}

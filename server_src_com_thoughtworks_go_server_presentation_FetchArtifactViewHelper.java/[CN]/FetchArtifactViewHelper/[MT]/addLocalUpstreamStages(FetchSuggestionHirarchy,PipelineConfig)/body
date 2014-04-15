@@ -1,0 +1,9 @@
+{
+  List<StageConfig> currentPipelineStages=pipelineConfig.allStagesBefore(stageName);
+  if (!currentPipelineStages.isEmpty()) {
+    if (!template) {
+      hirarchy.addStagesToHirarchy(pipelineName,currentPipelineStages);
+    }
+    hirarchy.addStagesToHirarchy(new CaseInsensitiveString(NULL_STR),currentPipelineStages);
+  }
+}

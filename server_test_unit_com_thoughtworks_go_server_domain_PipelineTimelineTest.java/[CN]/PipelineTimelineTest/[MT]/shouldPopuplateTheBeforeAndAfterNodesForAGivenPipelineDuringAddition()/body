@@ -1,0 +1,23 @@
+{
+  PipelineTimelineEntry anotherPipeline1=PipelineMaterialModificationMother.modification("another",4,materials,Arrays.asList(now,now.plusMinutes(1),now.plusMinutes(2),now.plusMinutes(3)),1,"123");
+  PipelineTimelineEntry anotherPipeline2=PipelineMaterialModificationMother.modification("another",5,materials,Arrays.asList(now,now.plusMinutes(2),now.plusMinutes(1),now.plusMinutes(3)),2,"123");
+  PipelineTimelineEntry anotherPipeline3=PipelineMaterialModificationMother.modification("another",6,materials,Arrays.asList(now,now.plusMinutes(2),now.plusMinutes(3),now.plusMinutes(2)),3,"123");
+  PipelineTimeline mods=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  mods.add(first);
+  mods.add(fourth);
+  mods.add(anotherPipeline1);
+  mods.add(third);
+  mods.add(anotherPipeline3);
+  mods.add(second);
+  mods.add(anotherPipeline2);
+  assertThat(third.insertedBefore(),is(fourth));
+  assertThat(third.insertedAfter(),is(first));
+  assertThat(second.insertedBefore(),is(third));
+  assertThat(second.insertedAfter(),is(first));
+  assertThat(anotherPipeline2.insertedBefore(),is(anotherPipeline3));
+  assertThat(anotherPipeline2.insertedAfter(),is(anotherPipeline1));
+  assertThat(mods.runAfter(anotherPipeline2.getId(),new CaseInsensitiveString("another")),is(anotherPipeline3));
+  assertThat(mods.runBefore(anotherPipeline2.getId(),new CaseInsensitiveString("another")),is(anotherPipeline1));
+  assertThat(mods.runAfter(first.getId(),new CaseInsensitiveString(first.getPipelineName())),is(nullValue()));
+  assertThat(mods.runAfter(second.getId(),new CaseInsensitiveString(second.getPipelineName())),is(third));
+}

@@ -1,0 +1,6 @@
+{
+  Node pipeline=nodeLevelMap.get(LEVEL_OF_CURRENT_PIPELINE).get(0);
+  HashMap<Integer,Integer> levelToDepthMap=new HashMap<Integer,Integer>();
+  initializeDepthsFor(pipeline,levelToDepthMap,new RightToLeft(nodeLevelMap,LEVEL_OF_CURRENT_PIPELINE),new HashSet<Node>());
+  initializeDepthsFor(pipeline,levelToDepthMap,new LeftToRight(nodeLevelMap,LEVEL_OF_CURRENT_PIPELINE),new HashSet<Node>());
+}

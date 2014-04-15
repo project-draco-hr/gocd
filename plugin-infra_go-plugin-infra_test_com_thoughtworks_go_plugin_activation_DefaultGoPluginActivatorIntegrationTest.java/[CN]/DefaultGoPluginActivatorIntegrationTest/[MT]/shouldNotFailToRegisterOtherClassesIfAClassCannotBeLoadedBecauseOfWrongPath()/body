@@ -1,0 +1,8 @@
+{
+  File bundleWithActivator=createBundleWithActivator(BUNDLE_DIR_WHICH_HAS_PROPER_ACTIVATOR,DummyPluginAwareExtension.class);
+  File sourceClassFile=new File(bundleWithActivator,"com/thoughtworks/go/plugin/activation/test/DummyPluginAwareExtension.class");
+  File destinationFile=new File(bundleWithActivator,"ABC-DEF/com/thoughtworks/go/plugin/activation/test/");
+  FileUtils.copyFileToDirectory(sourceClassFile,destinationFile,true);
+  Bundle bundle=installBundleFoundInDirectory(bundleWithActivator);
+  assertThat(bundle.getState(),is(Bundle.UNINSTALLED));
+}

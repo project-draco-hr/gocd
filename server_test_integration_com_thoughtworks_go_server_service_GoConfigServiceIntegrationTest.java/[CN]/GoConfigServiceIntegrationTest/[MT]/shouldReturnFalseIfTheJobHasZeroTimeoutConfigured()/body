@@ -1,0 +1,7 @@
+{
+  configHelper.addPipeline("pipeline","stage");
+  CruiseConfig config=configHelper.currentConfig();
+  config.findJob("pipeline","stage","unit").setTimeout("0");
+  configHelper.writeConfigFile(config);
+  assertThat(goConfigService.canCancelJobIfHung(new JobIdentifier("pipeline",-1,"label","stage","-1","unit")),is(false));
+}

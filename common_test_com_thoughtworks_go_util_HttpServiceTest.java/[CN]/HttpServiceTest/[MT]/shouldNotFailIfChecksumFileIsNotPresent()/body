@@ -1,0 +1,11 @@
+{
+  HttpService.HttpClientFactory factory=new HttpService.HttpClientFactory(null);
+  File artifact=new File(folderToSaveDowloadFiles,"artifact");
+  artifact.createNewFile();
+  try {
+    factory.createMultipartRequestEntity(artifact,null,new HttpMethodParams());
+  }
+ catch (  FileNotFoundException e) {
+    fail("Nulitpart should be created even in the absence of checksum file");
+  }
+}

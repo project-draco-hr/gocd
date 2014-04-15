@@ -1,0 +1,6 @@
+{
+  String limit=diskSpaceSimulator.simulateDiskFull();
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  assertThat(schedulingChecker.canSchedule(result),is(false));
+  assertThat(result.getServerHealthState().getDescription(),containsString(String.format("Go has less than %sb of disk space",limit)));
+}

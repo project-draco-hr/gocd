@@ -1,0 +1,8 @@
+{
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(cruiseConfigDao);
+  fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).usingThreeJobs().onSetUp();
+  systemEnvironment=new SystemEnvironment();
+  environmentPipelineMatchers=new HashSet<EnvironmentPipelineMatcher>();
+}

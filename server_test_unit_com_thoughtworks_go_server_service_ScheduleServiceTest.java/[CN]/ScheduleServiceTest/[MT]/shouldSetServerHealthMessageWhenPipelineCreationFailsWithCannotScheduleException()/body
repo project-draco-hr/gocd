@@ -1,0 +1,14 @@
+{
+  final PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline-quux");
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("pipeline-quux"))).thenReturn(pipelineConfig);
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(cruiseConfig.getMd5()).thenReturn("md5-test");
+  when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
+  when(schedulingChecker.canAutoTriggerConsumer(pipelineConfig)).thenReturn(true);
+  when(pipelineScheduleQueue.createPipeline(any(BuildCause.class),eq(pipelineConfig),any(SchedulingContext.class),eq("md5-test"),eq(timeProvider))).thenThrow(new CannotScheduleException("foo","stage-baz"));
+  final HashMap<String,BuildCause> map=new HashMap<String,BuildCause>();
+  map.put("pipeline-quux",BuildCause.createManualForced());
+  when(pipelineScheduleQueue.toBeScheduled()).thenReturn(map);
+  service.autoSchedulePipelinesFromRequestBuffer();
+  verify(serverHealthService).update(new ServerHealthState(HealthStateLevel.ERROR,HealthStateType.general(HealthStateScope.forStage("pipeline-quux","stage-baz")),"Failed to trigger stage [stage-baz] pipeline [pipeline-quux]","foo",Timeout.TWO_MINUTES));
+}

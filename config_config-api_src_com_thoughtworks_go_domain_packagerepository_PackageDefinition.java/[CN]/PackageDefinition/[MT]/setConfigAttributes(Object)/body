@@ -1,0 +1,10 @@
+{
+  if (attributes == null) {
+    return;
+  }
+  Map map=(Map)attributes;
+  name=(String)map.get("name");
+  if (map.containsKey(Configuration.CONFIGURATION) && packageRepository != null) {
+    configuration.setConfigAttributes(map.get(Configuration.CONFIGURATION),getSecureKeyInfoProvider());
+  }
+}

@@ -1,0 +1,7 @@
+{
+  for (  StageInstanceModel stageHistoryItem : pipelineInstanceModel.getStageHistory()) {
+    boolean canRun=scheduleService.canRun(pipelineInstanceModel.getPipelineIdentifier(),stageHistoryItem.getName(),CaseInsensitiveString.str(username.getUsername()),pipelineInstanceModel.hasPreviousStageBeenScheduled(stageHistoryItem.getName()));
+    stageHistoryItem.setCanRun(canRun);
+  }
+  populatePipelineCanRunStatus(username,pipelineInstanceModel);
+}

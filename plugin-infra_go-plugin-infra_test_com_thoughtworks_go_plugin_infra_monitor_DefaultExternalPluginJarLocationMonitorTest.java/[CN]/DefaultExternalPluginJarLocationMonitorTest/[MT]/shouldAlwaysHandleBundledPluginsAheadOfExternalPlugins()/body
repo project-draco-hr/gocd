@@ -1,0 +1,26 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.start();
+  copyPluginToThePluginDirectory(PLUGIN_BUNDLED_DIR,"descriptor-aware-test-bundled-plugin-1.jar");
+  copyPluginToThePluginDirectory(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar");
+  waitAMoment();
+  InOrder jarAddedOrder=inOrder(changeListener);
+  jarAddedOrder.verify(changeListener).pluginJarAdded(pluginFileDetails(PLUGIN_BUNDLED_DIR,"descriptor-aware-test-bundled-plugin-1.jar",true));
+  jarAddedOrder.verify(changeListener).pluginJarAdded(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar",false));
+  updateFileContents(new File(PLUGIN_BUNDLED_DIR,"descriptor-aware-test-bundled-plugin-1.jar"));
+  updateFileContents(new File(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar"));
+  waitAMoment();
+  InOrder jarUpdatedOrder=inOrder(changeListener);
+  jarUpdatedOrder.verify(changeListener).pluginJarUpdated(pluginFileDetails(PLUGIN_BUNDLED_DIR,"descriptor-aware-test-bundled-plugin-1.jar",true));
+  jarUpdatedOrder.verify(changeListener).pluginJarUpdated(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar",false));
+  FileUtils.deleteQuietly(new File(PLUGIN_BUNDLED_DIR,"descriptor-aware-test-bundled-plugin-1.jar"));
+  FileUtils.deleteQuietly(new File(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar"));
+  waitAMoment();
+  InOrder jarRemovedOrder=inOrder(changeListener);
+  jarRemovedOrder.verify(changeListener).pluginJarRemoved(pluginFileDetails(PLUGIN_BUNDLED_DIR,"descriptor-aware-test-bundled-plugin-1.jar",true));
+  jarRemovedOrder.verify(changeListener).pluginJarRemoved(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-external-plugin-1.jar",false));
+  verifyNoMoreInteractions(changeListener);
+}

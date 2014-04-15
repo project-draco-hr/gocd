@@ -1,0 +1,15 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  OauthAuthorization authFoo=new OauthAuthorization("foo@bar.com",mingle09,"code",332333);
+  template.save(authFoo);
+  OauthAuthorization authBar=new OauthAuthorization("bar@bar.com",mingle09,"code112",334337);
+  template.save(authBar);
+  OauthClient mingle05=new OauthClient("mingle05","client_id_2","client_secret_2","http://something-else");
+  template.save(mingle05);
+  OauthAuthorization authBaz=new OauthAuthorization("baz@bar.com",mingle05,"code115",334337);
+  template.save(authBaz);
+  Collection<OauthDataSource.OauthAuthorizationDTO> authorizations=repo.findAllOauthAuthorizationByOauthClientId("client_id");
+  assertThat(authorizations.size(),is(2));
+  assertThat(authorizations,hasItems(authFoo.getDTO(),authBar.getDTO()));
+}

@@ -1,0 +1,9 @@
+{
+  Map<String,TreeSet<Long>> result;
+  result=new HashMap<String,TreeSet<Long>>();
+  for (  PipelineInstanceModel pipeline : pipelines) {
+    TreeSet<Long> ids=initializePipelineInstances(result,pipeline.getName());
+    ids.add(pipeline.getId());
+  }
+  return result;
+}

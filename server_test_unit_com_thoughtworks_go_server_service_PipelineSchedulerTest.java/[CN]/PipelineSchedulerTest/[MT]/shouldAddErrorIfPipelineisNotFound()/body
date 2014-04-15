@@ -1,0 +1,8 @@
+{
+  when(configService.hasPipelineNamed(new CaseInsensitiveString("invalid"))).thenReturn(false);
+  OperationResult operationResult=mock(OperationResult.class);
+  final HashMap<String,String> revisions=new HashMap<String,String>();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  scheduler.manualProduceBuildCauseAndSave("invalid",Username.ANONYMOUS,new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),operationResult);
+  verify(operationResult).notFound("Pipeline 'invalid' not found","Pipeline 'invalid' not found",HealthStateType.general(HealthStateScope.forPipeline("invalid")));
+}

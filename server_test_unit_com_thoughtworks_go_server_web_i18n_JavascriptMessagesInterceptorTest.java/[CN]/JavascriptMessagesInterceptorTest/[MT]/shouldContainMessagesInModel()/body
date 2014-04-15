@@ -1,0 +1,18 @@
+{
+  ModelAndView modelAndView=new ModelAndView();
+  JavascriptMessagesInterceptor interceptor=new JavascriptMessagesInterceptor();
+  interceptor.postHandle(request,null,null,modelAndView);
+  Map<String,Object> real=modelAndView.getModel();
+  assertThat(real,hasKey(JavascriptMessagesInterceptor.JAVASCRIPT_MESSAGES_KEY));
+  String messages=(String)modelAndView.getModel().get(JavascriptMessagesInterceptor.JAVASCRIPT_MESSAGES_KEY);
+  assertThat(messages,containsString(CurrentStatus.BUILDING.getStatus().toLowerCase()));
+  assertThat(messages,containsString(CurrentStatus.DISCONTINUED.getStatus().toLowerCase()));
+  assertThat(messages,containsString(CurrentStatus.QUEUED.getStatus().toLowerCase()));
+  assertThat(messages,containsString(CurrentStatus.WAITING.getStatus().toLowerCase()));
+  assertThat(messages,containsString(CurrentStatus.PAUSED.getStatus().toLowerCase()));
+  assertThat(messages,containsString(CurrentResult.PASSED.getStatus().toLowerCase()));
+  assertThat(messages,containsString(CurrentResult.FAILED.getStatus().toLowerCase()));
+  assertThat(messages,containsString(CurrentResult.UNKNOWN.getStatus().toLowerCase()));
+  assertThat(messages,containsString("last"));
+  mockContext.assertIsSatisfied();
+}

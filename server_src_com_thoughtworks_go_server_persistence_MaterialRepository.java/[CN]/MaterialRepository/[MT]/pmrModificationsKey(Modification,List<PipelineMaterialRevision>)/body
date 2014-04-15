@@ -1,0 +1,19 @@
+{
+  final long id=modification.getId();
+  final MaterialInstance materialInstance=modification.getMaterialInstance();
+  Collection<PipelineMaterialRevision> matchedPmrs=(Collection<PipelineMaterialRevision>)CollectionUtils.select(pmrs,new Predicate(){
+    @Override public boolean evaluate(    Object o){
+      PipelineMaterialRevision pmr=(PipelineMaterialRevision)o;
+      long from=pmr.getFromModification().getId();
+      long to=pmr.getToModification().getId();
+      MaterialInstance pmi=findMaterialInstance(pmr.getMaterial());
+      return from <= id && id <= to && materialInstance.equals(pmi);
+    }
+  }
+);
+  List<String> keys=new ArrayList<String>(matchedPmrs.size());
+  for (  PipelineMaterialRevision matchedPmr : matchedPmrs) {
+    keys.add(pmrModificationsKey(matchedPmr));
+  }
+  return keys;
+}

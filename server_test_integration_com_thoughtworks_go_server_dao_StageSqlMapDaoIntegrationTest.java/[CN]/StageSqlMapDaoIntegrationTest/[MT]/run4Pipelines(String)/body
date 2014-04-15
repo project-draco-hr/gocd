@@ -1,0 +1,11 @@
+{
+  PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfig(pipelineName,"stage","job");
+  dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  Pipeline completed=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.cancelStage(pipelineAndFirstStageOf(completed).stage);
+  Pipeline passed=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.pass(passed);
+  Pipeline firstFailure=pipelineWithFirstStageFailed(mingleConfig);
+  Pipeline secondFailure=pipelineWithFirstStageFailed(mingleConfig);
+  return new PipelineAndStage[]{pipelineAndFirstStageOf(completed),pipelineAndFirstStageOf(passed),pipelineAndFirstStageOf(firstFailure),pipelineAndFirstStageOf(secondFailure)};
+}

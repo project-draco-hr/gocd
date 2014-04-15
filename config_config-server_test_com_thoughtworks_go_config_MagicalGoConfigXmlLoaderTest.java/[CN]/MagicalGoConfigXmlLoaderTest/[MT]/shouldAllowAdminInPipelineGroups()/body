@@ -1,0 +1,6 @@
+{
+  String content="<cruise schemaVersion='18'>\n" + "<server artifactsdir='artifacts' >" + "</server>"+ "<pipelines group=\"first\">\n"+ "<authorization>"+ "     <admins>\n"+ "         <user>foo</user>\n"+ "      </admins>"+ "</authorization>"+ "<pipeline name='pipeline1' template='abc'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "<templates>\n"+ "  <pipeline name='abc'>\n"+ "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1' />"+ "      </jobs>"+ "    </stage>"+ "  </pipeline>\n"+ "</templates>\n"+ "</cruise>";
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  assertThat(cruiseConfig.schemaVersion(),is(GoConstants.CONFIG_SCHEMA_VERSION));
+  assertThat(cruiseConfig.findGroup("first").isUserAnAdmin(new CaseInsensitiveString("foo"),new ArrayList<Role>()),is(true));
+}

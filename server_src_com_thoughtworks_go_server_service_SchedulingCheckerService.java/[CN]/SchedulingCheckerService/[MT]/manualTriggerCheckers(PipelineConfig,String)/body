@@ -1,0 +1,5 @@
+{
+  String pipelineName=CaseInsensitiveString.str(pipelineConfig.name());
+  String stageName=CaseInsensitiveString.str(pipelineConfig.getFirstStageConfig().name());
+  return new CompositeChecker(timerTriggerCheckers(pipelineConfig),new StageAuthorizationChecker(pipelineName,stageName,username,securityService));
+}

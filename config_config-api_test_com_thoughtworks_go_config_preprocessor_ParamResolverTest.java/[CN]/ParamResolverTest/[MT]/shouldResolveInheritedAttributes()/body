@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  HgMaterialConfig materialConfig=MaterialConfigsMother.hgMaterialConfig();
+  materialConfig.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"work/#{foo}/#{bar}/baz"));
+  pipelineConfig.addMaterialConfig(materialConfig);
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.materialConfigs().get(1).getFolder(),is("work/pavan/jj/baz"));
+}

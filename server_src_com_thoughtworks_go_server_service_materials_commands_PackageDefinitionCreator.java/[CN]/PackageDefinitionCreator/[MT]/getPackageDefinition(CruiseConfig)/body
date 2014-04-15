@@ -1,0 +1,10 @@
+{
+  Map packageDefinitionMap=(Map)params.get(PACKAGE_DEFINITION);
+  String repositoryId=(String)packageDefinitionMap.get(REPOSITORY_ID);
+  PackageRepository packageRepository=cruiseConfig.getPackageRepositories().find(repositoryId);
+  PackageDefinition packageDefinition=null;
+  if (packageRepository != null) {
+    packageDefinition=packageRepository.findPackage((String)params.get(PACKAGE_ID));
+  }
+  return packageDefinition;
+}

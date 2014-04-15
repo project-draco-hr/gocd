@@ -1,0 +1,20 @@
+{
+  long now=System.currentTimeMillis();
+  when(timeProvider.currentTimeMillis()).thenReturn(now);
+  JobIdentifier firstJob=new JobIdentifier("pipeline-foo",10,"foo-10","stage-bar","12","build");
+  JobIdentifier secondJob=new JobIdentifier("pipeline-bar",12,"bar-12","stage-baz","15","quux");
+  JobInstanceService jobInstanceService=mock(JobInstanceService.class);
+  when(jobInstanceService.allBuildingJobs()).thenReturn(Arrays.asList(firstJob,secondJob));
+  consoleActivityMonitor=new ConsoleActivityMonitor(timeProvider,systemEnvironment,jobInstanceService,serverHealthService,goConfigService,artifactService);
+  consoleActivityMonitor.populateActivityMap();
+  stubInitializerCallsForActivityMonitor(jobInstanceService);
+  consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);
+  verifyZeroInteractions(jobInstanceService);
+  when(timeProvider.currentTimeMillis()).thenReturn(now + UNRESPONSIVE_JOB_KILL_THRESHOLD - 1);
+  consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);
+  verifyZeroInteractions(jobInstanceService);
+  when(timeProvider.currentTimeMillis()).thenReturn(now + UNRESPONSIVE_JOB_KILL_THRESHOLD + 1);
+  consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);
+  verify(scheduleService).cancelJob(firstJob);
+  verify(scheduleService).cancelJob(secondJob);
+}

@@ -1,0 +1,27 @@
+{
+  final long materialId=findMaterialInstance(material).getId();
+  String key=cacheKeyForLatestPmrForPipelineKey(materialId,pipelineName.toLower());
+  Long modificationId=(Long)goCache.get(key);
+  if (modificationId == null) {
+synchronized (key) {
+      modificationId=(Long)goCache.get(key);
+      if (modificationId == null) {
+        modificationId=(Long)getHibernateTemplate().execute(new HibernateCallback(){
+          public Object doInHibernate(          Session session) throws HibernateException, SQLException {
+            SQLQuery sqlQuery=session.createSQLQuery("SELECT  MAX(pmr.toRevisionId) toRevisionId " + "FROM (SELECT torevisionid, pipelineid FROM pipelineMaterialRevisions WHERE materialid = :material_id)  AS pmr\n" + "INNER JOIN pipelines p ON ( p.name = :pipeline_name AND p.id = pmr.pipelineId)");
+            sqlQuery.setParameter("material_id",materialId);
+            sqlQuery.setParameter("pipeline_name",pipelineName.toString());
+            sqlQuery.addScalar("toRevisionId",new LongType());
+            return sqlQuery.uniqueResult();
+          }
+        }
+);
+        if (modificationId == null) {
+          modificationId=-1l;
+        }
+        goCache.put(key,modificationId);
+      }
+    }
+  }
+  return modificationId;
+}

@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(pipelineDao.lockedPipelines()).thenReturn(asList("mingle","twist"));
+  when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("mingle"))).thenReturn(false);
+  when(cruiseConfig.isPipelineLocked("mingle")).thenThrow(new PipelineNotFoundException("mingle not there"));
+  when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("twist"))).thenReturn(true);
+  when(cruiseConfig.isPipelineLocked("twist")).thenReturn(false);
+  pipelineLockService.onConfigChange(cruiseConfig);
+  verify(pipelineDao).unlockPipeline("mingle");
+  verify(pipelineDao).unlockPipeline("twist");
+}

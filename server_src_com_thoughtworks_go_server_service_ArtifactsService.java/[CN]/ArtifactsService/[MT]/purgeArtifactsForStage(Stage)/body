@@ -1,0 +1,19 @@
+{
+  StageIdentifier stageIdentifier=stage.getIdentifier();
+  try {
+    File stageRoot=chooser.findArtifact(stageIdentifier,"");
+    File cachedStageRoot=chooser.findCachedArtifact(stageIdentifier);
+    deleteFile(cachedStageRoot);
+    boolean didDelete=deleteArtifactsExceptCruiseOutput(stageRoot);
+    if (!didDelete) {
+      LOGGER.error(String.format("Artifacts for stage '%s' at path '%s' was not deleted",stageIdentifier.entityLocator(),stageRoot.getAbsolutePath()));
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.error(String.format("Error occurred while clearing artifacts for '%s'. Error: '%s'",stageIdentifier.entityLocator(),e.getMessage()),e);
+  }
+  stageService.markArtifactsDeletedFor(stage);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("Marked stage '%s' as artifacts deleted.",stageIdentifier.entityLocator()));
+  }
+}

@@ -1,0 +1,6 @@
+{
+  Modification modificationForRevisionTip=new Modification(new Date(),REVISION_2.getRevision(),"MOCK_LABEL-12",null);
+  MaterialRevision revision=new MaterialRevision(hgMaterial,modificationForRevisionTip);
+  MaterialRevision unchangedRevision=findNewRevision(revision,hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  assertThat(unchangedRevision.isChanged(),is(false));
+}

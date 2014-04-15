@@ -1,0 +1,24 @@
+{
+  if (userId == null) {
+    return null;
+  }
+  PipelineSelections pipelineSelections;
+  String key=pipelineSelectionForUserIdKey(userId);
+  if (goCache.isKeyInCache(key)) {
+    return (PipelineSelections)goCache.get(key);
+  }
+synchronized (key) {
+    if (goCache.isKeyInCache(key)) {
+      return (PipelineSelections)goCache.get(key);
+    }
+    List list=getHibernateTemplate().find("FROM PipelineSelections WHERE userId = ?",new Object[]{userId});
+    if (list.isEmpty()) {
+      pipelineSelections=null;
+    }
+ else {
+      pipelineSelections=(PipelineSelections)list.get(0);
+    }
+    goCache.put(key,pipelineSelections);
+    return pipelineSelections;
+  }
+}

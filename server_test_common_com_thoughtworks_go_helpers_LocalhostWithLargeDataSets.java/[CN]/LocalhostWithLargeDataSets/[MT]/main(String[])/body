@@ -1,0 +1,9 @@
+{
+  DataUtils.cloneCCHome();
+  int port=PORT;
+  String sourceConfigFilePath="test/data/4stages5builds-cruise-config.xml";
+  int numberOfPipelines=5000;
+  LocalhostWithLargeDataSets localhostWithLargeDataSets=new LocalhostWithLargeDataSets(port,sourceConfigFilePath,Arrays.asList(PIPELINE_NAME),Arrays.asList("stage1","stage2","stage3","stage4"),Arrays.asList("build1","build2","build3","build4","build5"));
+  prepareSampleDataFromZipFile();
+  mainAction(localhostWithLargeDataSets,numberOfPipelines);
+}

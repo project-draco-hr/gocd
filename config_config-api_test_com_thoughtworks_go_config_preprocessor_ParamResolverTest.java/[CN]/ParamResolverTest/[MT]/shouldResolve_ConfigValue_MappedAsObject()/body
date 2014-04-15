@@ -1,0 +1,9 @@
+{
+  SecurityConfig securityConfig=new SecurityConfig();
+  securityConfig.adminsConfig().add(new AdminUser(new CaseInsensitiveString("lo#{foo}")));
+  securityConfig.addRole(new Role(new CaseInsensitiveString("boo#{bar}"),new RoleUser(new CaseInsensitiveString("choo#{foo}"))));
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","ser"),param("bar","zer"))),fieldCache).resolve(securityConfig);
+  assertThat(CaseInsensitiveString.str(securityConfig.adminsConfig().get(0).getName()),is("loser"));
+  assertThat(CaseInsensitiveString.str(securityConfig.getRoles().get(0).getName()),is("boozer"));
+  assertThat(CaseInsensitiveString.str(securityConfig.getRoles().get(0).getUsers().get(0).getName()),is("chooser"));
+}

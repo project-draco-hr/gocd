@@ -1,0 +1,6 @@
+{
+  JobDataMap jobDataMap=context.getJobDetail().getJobDataMap();
+  BuildCauseProducerService buildCauseProducerService=(BuildCauseProducerService)jobDataMap.get("BuildCauseProducerService");
+  PipelineConfig pipelineConfig=(PipelineConfig)jobDataMap.get("PipelineConfig");
+  buildCauseProducerService.timerSchedulePipeline(pipelineConfig,new ServerHealthStateOperationResult());
+}

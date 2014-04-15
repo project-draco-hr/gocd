@@ -1,0 +1,13 @@
+{
+  for (  File allowedDir : allowedDirs) {
+    try {
+      if (FileUtil.isSubdirectoryOf(allowedDir,dir)) {
+        return true;
+      }
+    }
+ catch (    IOException e) {
+      throw bomb(String.format("Failed to check directory %s and %s for sandbox cleanup",allowedDir,dir),e);
+    }
+  }
+  return false;
+}

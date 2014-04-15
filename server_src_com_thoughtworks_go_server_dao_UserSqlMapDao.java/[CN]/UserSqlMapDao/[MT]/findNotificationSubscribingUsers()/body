@@ -1,0 +1,11 @@
+{
+  return (Users)transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus transactionStatus){
+      Criteria criteria=sessionFactory.getCurrentSession().createCriteria(User.class);
+      criteria.setCacheable(true);
+      criteria.add(Restrictions.isNotEmpty("notificationFilters"));
+      return new Users(criteria.list());
+    }
+  }
+);
+}

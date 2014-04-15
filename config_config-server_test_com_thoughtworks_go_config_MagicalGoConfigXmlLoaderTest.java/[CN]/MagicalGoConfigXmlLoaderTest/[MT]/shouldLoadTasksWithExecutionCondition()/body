@@ -1,0 +1,10 @@
+{
+  CruiseConfig config=ConfigMigrator.loadWithMigration(ConfigFileFixture.TASKS_WITH_CONDITION).config;
+  JobConfig job=config.jobConfigByName("pipeline1","mingle","cardlist",true);
+  assertThat(job.tasks().size(),is(2));
+  assertThat(job.tasks().findFirstByType(AntTask.class).getConditions().get(0),is(new RunIfConfig("failed")));
+  RunIfConfigs conditions=job.tasks().findFirstByType(NantTask.class).getConditions();
+  assertThat(conditions.get(0),is(new RunIfConfig("failed")));
+  assertThat(conditions.get(1),is(new RunIfConfig("any")));
+  assertThat(conditions.get(2),is(new RunIfConfig("passed")));
+}

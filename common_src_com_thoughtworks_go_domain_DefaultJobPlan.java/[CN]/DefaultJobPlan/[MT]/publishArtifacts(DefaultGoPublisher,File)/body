@@ -1,0 +1,19 @@
+{
+  ArtifactPlans mergedPlans=mergePlansForTest();
+  List<ArtifactPlan> failedArtifact=new ArrayList<ArtifactPlan>();
+  for (  ArtifactPlan artifactPlan : mergedPlans) {
+    try {
+      artifactPlan.publish(goPublisher,workingDirectory);
+    }
+ catch (    Exception e) {
+      failedArtifact.add(artifactPlan);
+    }
+  }
+  if (!failedArtifact.isEmpty()) {
+    StringBuilder builder=new StringBuilder();
+    for (    ArtifactPlan artifactPlan : failedArtifact) {
+      artifactPlan.printSrc(builder);
+    }
+    throw new RuntimeException(String.format("\n[%s] Uploading finished. Failed to upload %s",GoConstants.PRODUCT_NAME,builder));
+  }
+}

@@ -1,0 +1,7 @@
+{
+  P4Material material=new P4Material("blah.com","view");
+  material.setPassword("password");
+  P4MaterialConfig config=(P4MaterialConfig)material.config();
+  assertThat(config.getPassword(),is("password"));
+  assertThat(config.getEncryptedPassword(),is(Matchers.not(Matchers.nullValue())));
+}

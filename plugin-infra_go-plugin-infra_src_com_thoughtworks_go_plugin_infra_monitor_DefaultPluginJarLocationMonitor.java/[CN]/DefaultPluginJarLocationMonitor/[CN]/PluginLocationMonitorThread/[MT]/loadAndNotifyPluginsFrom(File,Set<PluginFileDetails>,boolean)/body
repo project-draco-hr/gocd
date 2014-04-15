@@ -1,0 +1,7 @@
+{
+  Set<PluginFileDetails> currentPluginFiles=getDetailsOfCurrentPluginFilesFrom(pluginDirectory,isBundledPluginsLocation);
+  notifyListenersOfRemovedPlugins(currentPluginFiles,knownPluginFiles);
+  notifyListenersOfUpdatedPlugins(currentPluginFiles,knownPluginFiles);
+  notifyListenersOfAddedPlugins(currentPluginFiles,knownPluginFiles);
+  return currentPluginFiles;
+}

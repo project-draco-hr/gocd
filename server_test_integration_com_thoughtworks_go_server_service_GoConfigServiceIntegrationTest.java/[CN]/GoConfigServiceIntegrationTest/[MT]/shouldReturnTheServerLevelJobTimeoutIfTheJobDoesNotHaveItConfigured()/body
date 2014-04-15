@@ -1,0 +1,5 @@
+{
+  configHelper.addPipeline("pipeline","stage");
+  setJobTimeoutTo("30");
+  assertThat(goConfigService.getUnresponsiveJobTerminationThreshold(new JobIdentifier("pipeline",-1,"label","stage","-1","unit")),is(30 * 60 * 1000L));
+}

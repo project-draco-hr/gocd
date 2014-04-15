@@ -1,0 +1,8 @@
+{
+  ExecTask exec=new ExecTask();
+  exec.setConfigAttributes(m(ExecTask.COMMAND,"ls",ExecTask.ARGS,"",ExecTask.WORKING_DIR,"my_dir"));
+  exec.setConfigAttributes(m());
+  assertThat(exec.command(),is("ls"));
+  assertThat(exec.getArgList().size(),is(0));
+  assertThat(exec.workingDirectory(),is("my_dir"));
+}

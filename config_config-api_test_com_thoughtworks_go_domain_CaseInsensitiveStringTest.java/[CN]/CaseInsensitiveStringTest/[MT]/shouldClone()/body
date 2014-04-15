@@ -1,0 +1,6 @@
+{
+  CaseInsensitiveString foo=new CaseInsensitiveString("foo");
+  CaseInsensitiveString fooClone=(CaseInsensitiveString)ReflectionUtil.invoke(foo,"clone");
+  assertThat(foo,is(fooClone));
+  assertThat(foo,not(sameInstance(fooClone)));
+}

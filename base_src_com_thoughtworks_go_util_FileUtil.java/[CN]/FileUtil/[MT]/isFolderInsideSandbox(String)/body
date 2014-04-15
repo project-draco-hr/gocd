@@ -1,0 +1,15 @@
+{
+  File fileAtPath=new File(path);
+  if (fileAtPath.isAbsolute()) {
+    return false;
+  }
+  try {
+    if (!FileUtil.isSubdirectoryOf(new File("."),fileAtPath)) {
+      return false;
+    }
+  }
+ catch (  IOException e) {
+    ExceptionUtils.bomb("Dest folder specification is not valid. " + e.getMessage());
+  }
+  return true;
+}

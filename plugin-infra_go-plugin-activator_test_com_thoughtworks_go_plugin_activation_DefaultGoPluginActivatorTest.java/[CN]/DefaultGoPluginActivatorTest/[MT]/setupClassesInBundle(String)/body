@@ -1,0 +1,7 @@
+{
+  Hashtable<URL,String> classFileEntries=new Hashtable<URL,String>();
+  for (  String aClass : classes) {
+    classFileEntries.put(new URL("file:///" + aClass),"");
+  }
+  when(bundle.findEntries("/","*.class",true)).thenReturn(classFileEntries.keys());
+}

@@ -1,0 +1,14 @@
+{
+  JobIdentifier jobId=new JobIdentifier("foo-pipeline",10,"foo-10","bar-stage","20","baz-build");
+  JobInstance job=buildingInstance(jobId);
+  listener.jobStatusChanged(job);
+  Date jobStartAndCompleteTime=new Date();
+  when(timeProvider.currentTimeMillis()).thenReturn(jobStartAndCompleteTime.getTime());
+  consoleActivityMonitor.consoleUpdatedFor(jobId);
+  job.completing(JobResult.Passed);
+  job.completed(new Date());
+  listener.jobStatusChanged(job);
+  when(timeProvider.currentTimeMillis()).thenReturn(new DateTime().plusDays(10).getMillis());
+  consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);
+  verifyNoMoreInteractions(jobInstanceService);
+}

@@ -1,0 +1,7 @@
+{
+  FileUtils.deleteQuietly(cipherFile);
+  assertThat(cipherFile.exists(),is(false));
+  String plainText=goCipher.decrypt(goCipher.encrypt("user-password!"));
+  assertThat(plainText,is("user-password!"));
+  assertThat(cipherFile.exists(),is(false));
+}

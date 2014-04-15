@@ -1,0 +1,11 @@
+{
+  String cacheKey=cacheKeyforJobInstanceWithTransitions(buildInstanceId);
+synchronized (cacheKey) {
+    JobInstance instance=(JobInstance)goCache.get(cacheKey);
+    if (instance == null) {
+      instance=job(buildInstanceId,"buildByIdWithTransitions");
+      goCache.put(cacheKey,instance);
+    }
+    return cloner.deepClone(instance);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  when(pluginManager.plugins()).thenReturn(Arrays.asList(new GoPluginDescriptor("valid","1.0",null,null,null,true)));
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setPluginConfiguration(new PluginConfiguration("missing-plugin","1.0"));
+  when(localizer.localize("PLUGIN_ID_INVALID")).thenReturn("Invalid plugin id");
+  service.performPluginValidationsFor(packageRepository);
+  assertThat(packageRepository.getPluginConfiguration().errors().getAllOn(PluginConfiguration.ID),is(Arrays.asList("Invalid plugin id")));
+}

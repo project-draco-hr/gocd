@@ -1,0 +1,12 @@
+{
+  Stage firstOldStage=savedPipeline.getStages().get(0);
+  Stage newStage=instanceFactory.createStageForRerunOfJobs(firstOldStage,a(JOB_NAME),new DefaultSchedulingContext("loser",new Agents()),pipelineConfig.get(0),new TimeProvider(),"md5");
+  stageDao.saveWithJobs(savedPipeline,newStage);
+  dbHelper.passStage(newStage);
+  JobIdentifier oldJobIdentifierThroughOldJob=jobInstanceDao.findOriginalJobIdentifier(new StageIdentifier(PIPELINE_NAME,null,savedPipeline.getLabel(),STAGE_NAME,String.valueOf(counter)),OTHER_JOB_NAME);
+  JobIdentifier oldJobIdentifierThroughCopiedNewJob=jobInstanceDao.findOriginalJobIdentifier(new StageIdentifier(PIPELINE_NAME,null,savedPipeline.getLabel(),STAGE_NAME,String.valueOf(newStage.getCounter())),OTHER_JOB_NAME);
+  JobIdentifier newJobIdentifierThroughRerunJob=jobInstanceDao.findOriginalJobIdentifier(new StageIdentifier(PIPELINE_NAME,null,savedPipeline.getLabel(),STAGE_NAME,String.valueOf(newStage.getCounter())),JOB_NAME);
+  assertThat(oldJobIdentifierThroughOldJob,is(firstOldStage.getJobInstances().getByName(OTHER_JOB_NAME).getIdentifier()));
+  assertThat(oldJobIdentifierThroughCopiedNewJob,is(firstOldStage.getJobInstances().getByName(OTHER_JOB_NAME).getIdentifier()));
+  assertThat(newJobIdentifierThroughRerunJob,is(newStage.getJobInstances().getByName(JOB_NAME).getIdentifier()));
+}

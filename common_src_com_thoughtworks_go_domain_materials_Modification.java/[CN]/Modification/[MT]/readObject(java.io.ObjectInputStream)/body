@@ -1,0 +1,18 @@
+{
+  userName=(String)in.readObject();
+  comment=(String)in.readObject();
+  emailAddress=(String)in.readObject();
+  revision=(String)in.readObject();
+  additionalData=(String)in.readObject();
+  additionalDataMap=(HashMap)in.readObject();
+  modifiedTime=(Date)in.readObject();
+  pipelineLabel=(String)in.readObject();
+  materialInstance=(MaterialInstance)in.readObject();
+  Set files=(Set)in.readObject();
+  if (files == null) {
+    this.files=new LinkedHashSet<ModifiedFile>();
+  }
+ else {
+    this.files=new LinkedHashSet<ModifiedFile>(files);
+  }
+}

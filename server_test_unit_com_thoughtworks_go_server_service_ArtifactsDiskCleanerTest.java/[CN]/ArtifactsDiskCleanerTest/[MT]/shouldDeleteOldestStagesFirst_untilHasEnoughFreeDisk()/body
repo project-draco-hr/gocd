@@ -1,0 +1,27 @@
+{
+  serverConfig.setPurgeLimits(5.0,9.0);
+  Stage stageOne=StageMother.passedStageInstance("stage","build","pipeline");
+  Stage stageTwo=StageMother.passedStageInstance("another","job","with-pipeline");
+  Stage stageThree=StageMother.passedStageInstance("yet-another","job1","foo-pipeline");
+  when(stageService.oldestStagesWithDeletableArtifacts()).thenReturn(Arrays.asList(stageOne,stageTwo,stageThree));
+  when(diskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(4 * GoConstants.GIGA_BYTE);
+  doAnswer(new Answer<Object>(){
+    public Object answer(    InvocationOnMock invocation) throws Throwable {
+      when(diskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(6 * GoConstants.GIGA_BYTE);
+      return null;
+    }
+  }
+).when(artifactService).purgeArtifactsForStage(stageOne);
+  doAnswer(new Answer<Object>(){
+    public Object answer(    InvocationOnMock invocation) throws Throwable {
+      when(diskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(10 * GoConstants.GIGA_BYTE);
+      return null;
+    }
+  }
+).when(artifactService).purgeArtifactsForStage(stageTwo);
+  artifactsDiskCleaner.deleteOldArtifacts();
+  verify(artifactService).purgeArtifactsForStage(stageOne);
+  verify(artifactService).purgeArtifactsForStage(stageTwo);
+  verify(configDbStateRepository).flushConfigState();
+  verifyNoMoreInteractions(artifactService);
+}

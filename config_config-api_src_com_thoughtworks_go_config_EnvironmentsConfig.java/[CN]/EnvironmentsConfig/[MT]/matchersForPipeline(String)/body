@@ -1,0 +1,8 @@
+{
+  for (  EnvironmentConfig config : this) {
+    if (config.containsPipeline(new CaseInsensitiveString(pipelineName))) {
+      return config.createMatcher();
+    }
+  }
+  return null;
+}

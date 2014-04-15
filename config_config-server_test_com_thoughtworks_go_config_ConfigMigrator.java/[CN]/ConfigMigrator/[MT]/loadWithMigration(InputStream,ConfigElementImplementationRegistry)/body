@@ -1,0 +1,8 @@
+{
+  MagicalGoConfigXmlLoader xmlLoader=new MagicalGoConfigXmlLoader(new ConfigCache(),registry,metricsProbeService);
+  File tempFile=TestFileUtil.createTempFile("cruise-config.xml");
+  FileUtil.writeContentToFile(FileUtil.readToEnd(input),tempFile);
+  migrate(tempFile);
+  final FileInputStream inputStream=new FileInputStream(tempFile);
+  return xmlLoader.loadConfigHolder(FileUtil.readToEnd(inputStream));
+}

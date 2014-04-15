@@ -1,0 +1,8 @@
+{
+  Tabs tabs=new Tabs();
+  tabs.add(new Tab("tab1","path1"));
+  tabs.add(new Tab("tab1","path2"));
+  tabs.validate(null);
+  assertThat(tabs.get(0).errors().on(Tab.NAME),is("Tab name 'tab1' is not unique."));
+  assertThat(tabs.get(1).errors().on(Tab.NAME),is("Tab name 'tab1' is not unique."));
+}

@@ -1,0 +1,9 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("[TFS SDK] Mapping Folder: %s, Workspace: %s, Username: %s",workDir,getWorkspace(),getUserName()));
+  }
+  if (!workspace.isLocalPathMapped(FileUtil.getCanonicalPath(workDir))) {
+    com.microsoft.tfs.core.clients.versioncontrol.soapextensions.WorkingFolder workingFolder=new com.microsoft.tfs.core.clients.versioncontrol.soapextensions.WorkingFolder(getProjectPath(),FileUtil.getCanonicalPath(workDir));
+    workspace.createWorkingFolder(workingFolder);
+  }
+}

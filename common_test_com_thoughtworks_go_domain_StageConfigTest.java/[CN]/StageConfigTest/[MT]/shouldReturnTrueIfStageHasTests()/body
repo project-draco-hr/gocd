@@ -1,0 +1,6 @@
+{
+  StageConfig stageWithTests=StageConfigMother.stageConfigWithArtifact("stage1","job1",ArtifactType.unit);
+  StageConfig stageWithoutTests=StageConfigMother.stageConfigWithArtifact("stage2","job2",ArtifactType.file);
+  assertThat(stageWithTests.hasTests(),is(true));
+  assertThat(stageWithoutTests.hasTests(),is(false));
+}

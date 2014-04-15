@@ -1,0 +1,8 @@
+{
+  List<Modification> modifications=hgMaterial.latestModification(workingFolder,new TestSubprocessExecutionContext());
+  MaterialRevision original=new MaterialRevision(hgMaterial,modifications);
+  checkInFiles(hgMaterial,"user.doc");
+  original=findNewRevision(original,hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  MaterialRevision newRev=findNewRevision(original,hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  assertThat(newRev.isChanged(),is(false));
+}

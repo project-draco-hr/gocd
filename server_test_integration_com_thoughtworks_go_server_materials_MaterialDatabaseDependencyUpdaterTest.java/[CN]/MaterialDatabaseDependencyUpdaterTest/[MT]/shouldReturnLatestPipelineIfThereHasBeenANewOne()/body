@@ -1,0 +1,12 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  stubStageServiceGetHistory(null,stages(9));
+  updater.updateMaterial(dependencyMaterial);
+  List<Modification> modification=materialRepository.findLatestModification(dependencyMaterial).getMaterialRevision(0).getModifications();
+  stubStageServiceGetHistoryAfter(null,9,stages(10));
+  updater.updateMaterial(dependencyMaterial);
+  List<Modification> newModifications=materialRepository.findModificationsSince(dependencyMaterial,new MaterialRevision(dependencyMaterial,modification));
+  assertThat(newModifications.size(),is(1));
+  assertThat(newModifications.get(0).getRevision(),is("pipeline-name/10/stage-name/0"));
+  assertThat(newModifications.get(0).getPipelineLabel(),is("LABEL-10"));
+}

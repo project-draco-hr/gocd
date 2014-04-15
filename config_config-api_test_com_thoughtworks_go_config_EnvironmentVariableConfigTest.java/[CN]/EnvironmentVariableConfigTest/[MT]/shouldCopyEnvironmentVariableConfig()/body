@@ -1,0 +1,8 @@
+{
+  EnvironmentVariableConfig secureEnvironmentVariable=new EnvironmentVariableConfig(goCipher,"plain_key","plain_value",true);
+  EnvironmentVariableConfig copy=new EnvironmentVariableConfig(secureEnvironmentVariable);
+  assertThat(copy.getName(),is(secureEnvironmentVariable.getName()));
+  assertThat(copy.getValue(),is(secureEnvironmentVariable.getValue()));
+  assertThat(copy.getEncryptedValue(),is(secureEnvironmentVariable.getEncryptedValue()));
+  assertThat(copy.isSecure(),is(secureEnvironmentVariable.isSecure()));
+}

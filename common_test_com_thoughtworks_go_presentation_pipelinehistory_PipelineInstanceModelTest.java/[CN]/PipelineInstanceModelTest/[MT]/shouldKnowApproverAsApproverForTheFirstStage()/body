@@ -1,0 +1,10 @@
+{
+  MaterialRevisions revisions=new MaterialRevisions();
+  StageInstanceModels models=new StageInstanceModels();
+  StageInstanceModel firstStage=new StageInstanceModel("dev","1",new JobHistory());
+  firstStage.setApprovedBy("some_user");
+  models.add(firstStage);
+  PipelineInstanceModel model=PipelineInstanceModel.createPipeline("pipeline",-1,"label",BuildCause.createWithModifications(revisions,""),models);
+  assertThat(model.getApprovedBy(),is("some_user"));
+  assertThat(model.getApprovedByForDisplay(),is("Triggered by some_user"));
+}

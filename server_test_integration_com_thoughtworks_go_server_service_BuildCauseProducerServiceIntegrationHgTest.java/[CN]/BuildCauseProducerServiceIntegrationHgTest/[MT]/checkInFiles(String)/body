@@ -1,0 +1,9 @@
+{
+  for (  String fileName : files) {
+    File file=new File(workingFolder,fileName);
+    FileUtils.writeStringToFile(file,"bla");
+    hgMaterial.add(workingFolder,outputStreamConsumer,file);
+  }
+  hgMaterial.commit(workingFolder,outputStreamConsumer,"comment ","user");
+  hgMaterial.push(workingFolder,outputStreamConsumer);
+}

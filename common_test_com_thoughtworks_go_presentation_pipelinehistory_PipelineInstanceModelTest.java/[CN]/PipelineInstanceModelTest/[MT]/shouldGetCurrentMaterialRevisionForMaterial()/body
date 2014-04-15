@@ -1,0 +1,7 @@
+{
+  MaterialRevisions revisions=new MaterialRevisions();
+  HgMaterial material=MaterialsMother.hgMaterial();
+  revisions.addRevision(material,HG_MATERIAL_MODIFICATION);
+  PipelineInstanceModel model=PipelineInstanceModel.createPipeline("pipeline",-1,"label",BuildCause.createWithModifications(revisions,""),new StageInstanceModels());
+  assertThat(model.findCurrentMaterialRevisionForUI(material.config()),is(revisions.getMaterialRevision(0)));
+}

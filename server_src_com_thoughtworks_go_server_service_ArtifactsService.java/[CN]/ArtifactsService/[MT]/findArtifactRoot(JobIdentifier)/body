@@ -1,0 +1,15 @@
+{
+  JobIdentifier id=jobResolverService.actualJobIdentifier(identifier);
+  try {
+    String fullArtifactPath=chooser.findArtifact(id,"").getCanonicalPath();
+    String artifactRoot=artifactsDirHolder.getArtifactsDir().getCanonicalPath();
+    String relativePath=fullArtifactPath.replace(artifactRoot,"");
+    if (relativePath.startsWith(File.separator)) {
+      relativePath=relativePath.replaceFirst("\\" + File.separator,"");
+    }
+    return relativePath;
+  }
+ catch (  IOException e) {
+    throw new IllegalArtifactLocationException("No artifact found.",e);
+  }
+}

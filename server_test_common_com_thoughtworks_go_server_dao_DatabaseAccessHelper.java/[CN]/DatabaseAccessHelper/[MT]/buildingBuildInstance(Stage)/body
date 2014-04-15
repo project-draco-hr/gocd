@@ -1,0 +1,8 @@
+{
+  if (!stage.getJobInstances().isEmpty()) {
+    JobInstance jobInstance=stage.getJobInstances().get(0);
+    jobInstance.setAgentUuid(AGENT_UUID);
+    jobInstance.changeState(JobState.Building);
+    jobInstanceDao.updateAssignedInfo(jobInstance);
+  }
+}

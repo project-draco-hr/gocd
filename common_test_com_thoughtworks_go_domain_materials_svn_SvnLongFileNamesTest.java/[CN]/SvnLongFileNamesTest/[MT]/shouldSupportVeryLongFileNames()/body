@@ -1,0 +1,23 @@
+{
+  InMemoryStreamConsumer output=null;
+  try {
+    SvnCommand svn=new SvnCommand(null,repo.projectRepositoryUrl());
+    output=inMemoryConsumer();
+    svn.checkoutTo(output,workingDir,SubversionRevision.HEAD);
+    File root=new File(workingDir,"root");
+    root.mkdir();
+    File deeplyNestedFile=createDeeplyNestedFile(root);
+    assertThat(deeplyNestedFile.exists(),is(true));
+    assertThat(deeplyNestedFile.getAbsolutePath().length(),is(greaterThan(260)));
+    svn.add(output,root);
+    svn.commit(output,workingDir,"Checking in deeply nested file.");
+    svn.checkoutTo(output,workingDir2,SubversionRevision.HEAD);
+    String deepPath=deeplyNestedFile.getAbsolutePath().substring(workingDir.getAbsolutePath().length());
+    File checkedOut=new File(workingDir2,deepPath);
+    assertThat(checkedOut.exists(),is(true));
+    assertThat(checkedOut.getAbsolutePath().length(),is(greaterThan(260)));
+  }
+ catch (  RuntimeException e) {
+    fail(e.getMessage());
+  }
+}

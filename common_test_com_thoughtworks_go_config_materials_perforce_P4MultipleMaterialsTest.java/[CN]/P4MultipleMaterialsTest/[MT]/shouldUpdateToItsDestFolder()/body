@@ -1,0 +1,6 @@
+{
+  P4Material p4Material=p4Fixture.material(VIEW_SRC,"dest1");
+  MaterialRevision revision=new MaterialRevision(p4Material,p4Material.latestModification(clientFolder,new TestSubprocessExecutionContext()));
+  revision.updateTo(clientFolder,inMemoryConsumer(),new TestSubprocessExecutionContext());
+  assertThat(new File(clientFolder,"dest1/net").exists(),is(true));
+}

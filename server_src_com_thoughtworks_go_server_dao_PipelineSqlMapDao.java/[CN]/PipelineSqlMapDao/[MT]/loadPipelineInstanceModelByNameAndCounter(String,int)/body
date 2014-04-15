@@ -1,0 +1,15 @@
+{
+  String cacheKey=cacheKeyForPipelineHistoryByNameAndCounter(pipelineName,pipelineCounter);
+  PipelineInstanceModel instanceModel=(PipelineInstanceModel)goCache.get(cacheKey);
+  ;
+  if (instanceModel == null) {
+synchronized (cacheKey) {
+      instanceModel=(PipelineInstanceModel)goCache.get(cacheKey);
+      if (instanceModel == null) {
+        instanceModel=(PipelineInstanceModel)getSqlMapClientTemplate().queryForObject("getPipelineHistoryByNameAndCounter",arguments("pipelineName",pipelineName).and("pipelineCounter",pipelineCounter).asMap());
+        goCache.put(cacheKey,instanceModel);
+      }
+    }
+  }
+  return instanceModel;
+}

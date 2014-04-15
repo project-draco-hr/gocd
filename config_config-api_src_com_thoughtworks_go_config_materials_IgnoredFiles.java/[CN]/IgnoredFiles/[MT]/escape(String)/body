@@ -1,0 +1,12 @@
+{
+  StringBuilder result=new StringBuilder();
+  for (  char c : pattern.toCharArray()) {
+    if (c != '*' && punctuationRegex.matcher(String.valueOf(c)).matches()) {
+      result.append("\\").append(c);
+    }
+ else {
+      result.append(String.valueOf(c));
+    }
+  }
+  return result.toString();
+}

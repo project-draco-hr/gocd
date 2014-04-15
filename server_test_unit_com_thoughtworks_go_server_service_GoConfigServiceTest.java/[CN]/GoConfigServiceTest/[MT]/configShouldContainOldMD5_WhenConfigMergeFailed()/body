@@ -1,0 +1,7 @@
+{
+  when(goConfigFileDao.loadForEditing()).thenReturn(new CruiseConfig());
+  when(goConfigFileDao.updateConfig(org.mockito.Matchers.<UpdateConfigCommand>any())).thenThrow(new ConfigFileHasChangedException());
+  ConfigUpdateResponse configUpdateResponse=goConfigService.updateConfigFromUI(mock(UpdateConfigFromUI.class),"old-md5",new Username(new CaseInsensitiveString("user")),new HttpLocalizedOperationResult());
+  assertThat(configUpdateResponse.wasMerged(),is(false));
+  assertThat(configUpdateResponse.getCruiseConfig().getMd5(),is("old-md5"));
+}

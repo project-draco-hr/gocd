@@ -1,0 +1,9 @@
+{
+  Pipeline pipeline=pipelineOne.createdPipelineWithAllStagesPassed();
+  configHelper.setViewPermissionForGroup("group1","foo");
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.load(pipeline.getId(),new Username(new CaseInsensitiveString("foo")),new HttpOperationResult());
+  assertThat(pipelineInstance,is(not(nullValue())));
+  assertThat(pipelineInstance.getMaterials().size(),is(greaterThan(0)));
+  assertThat(pipelineInstance.getLatestRevisions().numberOfRevisions(),is(greaterThan(0)));
+  assertThat(pipelineInstance.getBuildCause().getMaterialRevisions().numberOfRevisions(),is(greaterThan(0)));
+}

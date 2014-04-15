@@ -1,0 +1,6 @@
+{
+  AgentConfig agentConfig=cruiseConfig.agents().getAgentByUuid(uuid);
+  bombIfNull(agentConfig,"Unable to set agent resources; Agent [" + uuid + "] not found.");
+  agentConfig.setResources(resources);
+  return cruiseConfig;
+}

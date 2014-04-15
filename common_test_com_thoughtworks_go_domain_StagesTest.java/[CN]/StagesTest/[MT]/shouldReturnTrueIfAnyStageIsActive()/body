@@ -1,0 +1,6 @@
+{
+  Stage notActiveFt=StageMother.completedFailedStageInstance("pipeline-name","dev","ft");
+  Stage activeStage=StageMother.scheduledStage("pipeline-name",1,"dev",1,"ut");
+  Stages stages=new Stages(notActiveFt,activeStage);
+  assertThat(stages.isAnyStageActive(),is(true));
+}

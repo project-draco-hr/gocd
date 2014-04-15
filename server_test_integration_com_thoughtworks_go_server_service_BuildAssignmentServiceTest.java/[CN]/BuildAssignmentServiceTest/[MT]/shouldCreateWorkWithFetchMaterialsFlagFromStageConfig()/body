@@ -1,0 +1,8 @@
+{
+  evolveConfig.getFirstStageConfig().setFetchMaterials(true);
+  Pipeline pipeline1=instanceFactory.createPipelineInstance(evolveConfig,modifySomeFiles(evolveConfig),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline1);
+  buildAssignmentService.onTimer();
+  BuildWork work=(BuildWork)buildAssignmentService.assignWorkToAgent(agent(AgentMother.localAgent()));
+  assertThat("should have set fetchMaterials on assignment",work.getAssignment().getPlan().shouldFetchMaterials(),is(true));
+}

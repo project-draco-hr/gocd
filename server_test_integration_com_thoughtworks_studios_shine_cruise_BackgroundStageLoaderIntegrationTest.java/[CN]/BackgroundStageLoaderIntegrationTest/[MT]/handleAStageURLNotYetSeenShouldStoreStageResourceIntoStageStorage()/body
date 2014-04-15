@@ -1,0 +1,15 @@
+{
+  TestFailureSetup.SavedStage savedStage=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new Date());
+  loader.handle(feedEntry(savedStage),pipelineInstanceLoader);
+  assertTrue(stageStorage.isStageStored(savedStage.stageId));
+  Graph storedGraph=stageStorage.load(savedStage.stageId);
+  Stage stage=savedStage.stage;
+  String baseUrl="https://localhost:8154/go";
+  String jobUrl=new JobXmlViewModel(stage.getJobInstances().first()).httpUrl(baseUrl);
+  assertTrue(storedGraph.containsResourceWithURI(jobUrl));
+  assertTrue(storedGraph.containsResourceWithURI(new StageXmlViewModel(stage).httpUrl(baseUrl)));
+  Pipeline pipeline=savedStage.pipeline;
+  assertTrue(storedGraph.containsResourceWithURI(PipelineXmlViewModel.httpUrlForPipeline(baseUrl,pipeline.getId(),pipeline.getName())));
+  Modification latestModification=pipeline.getMaterialRevisions().getRevisions().get(0).getLatestModification();
+  assertTrue(storedGraph.containsResourceWithURI(ScmMaterial.changesetUrl(latestModification,baseUrl,latestModification.getMaterialInstance().getId())));
+}

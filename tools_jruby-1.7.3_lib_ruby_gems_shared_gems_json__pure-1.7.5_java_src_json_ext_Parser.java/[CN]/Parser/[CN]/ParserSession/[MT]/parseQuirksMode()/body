@@ -1,0 +1,120 @@
+{
+  int cs=EVIL;
+  int p, pe;
+  IRubyObject result=null;
+  ParserResult res=new ParserResult();
+{
+    cs=JSON_quirks_mode_start;
+  }
+  p=byteList.begin();
+  pe=p + byteList.length();
+{
+    int _klen;
+    int _trans=0;
+    int _acts;
+    int _nacts;
+    int _keys;
+    int _goto_targ=0;
+    _goto:     while (true) {
+switch (_goto_targ) {
+case 0:
+        if (p == pe) {
+          _goto_targ=4;
+          continue _goto;
+        }
+      if (cs == 0) {
+        _goto_targ=5;
+        continue _goto;
+      }
+case 1:
+    _match:     do {
+      _keys=_JSON_quirks_mode_key_offsets[cs];
+      _trans=_JSON_quirks_mode_index_offsets[cs];
+      _klen=_JSON_quirks_mode_single_lengths[cs];
+      if (_klen > 0) {
+        int _lower=_keys;
+        int _mid;
+        int _upper=_keys + _klen - 1;
+        while (true) {
+          if (_upper < _lower)           break;
+          _mid=_lower + ((_upper - _lower) >> 1);
+          if (data[p] < _JSON_quirks_mode_trans_keys[_mid])           _upper=_mid - 1;
+ else           if (data[p] > _JSON_quirks_mode_trans_keys[_mid])           _lower=_mid + 1;
+ else {
+            _trans+=(_mid - _keys);
+            break _match;
+          }
+        }
+        _keys+=_klen;
+        _trans+=_klen;
+      }
+      _klen=_JSON_quirks_mode_range_lengths[cs];
+      if (_klen > 0) {
+        int _lower=_keys;
+        int _mid;
+        int _upper=_keys + (_klen << 1) - 2;
+        while (true) {
+          if (_upper < _lower)           break;
+          _mid=_lower + (((_upper - _lower) >> 1) & ~1);
+          if (data[p] < _JSON_quirks_mode_trans_keys[_mid])           _upper=_mid - 2;
+ else           if (data[p] > _JSON_quirks_mode_trans_keys[_mid + 1])           _lower=_mid + 2;
+ else {
+            _trans+=((_mid - _keys) >> 1);
+            break _match;
+          }
+        }
+        _trans+=_klen;
+      }
+    }
+ while (false);
+  _trans=_JSON_quirks_mode_indicies[_trans];
+cs=_JSON_quirks_mode_trans_targs[_trans];
+if (_JSON_quirks_mode_trans_actions[_trans] != 0) {
+_acts=_JSON_quirks_mode_trans_actions[_trans];
+_nacts=(int)_JSON_quirks_mode_actions[_acts++];
+while (_nacts-- > 0) {
+switch (_JSON_quirks_mode_actions[_acts++]) {
+case 0:
+{
+      parseValue(res,p,pe);
+      if (res.result == null) {
+        p--;
+{
+          p+=1;
+          _goto_targ=5;
+          if (true)           continue _goto;
+        }
+      }
+ else {
+        result=res.result;
+{
+          p=((res.p)) - 1;
+        }
+      }
+    }
+  break;
+}
+}
+}
+case 2:
+if (cs == 0) {
+_goto_targ=5;
+continue _goto;
+}
+if (++p != pe) {
+_goto_targ=1;
+continue _goto;
+}
+case 4:
+case 5:
+}
+break;
+}
+}
+if (cs >= JSON_quirks_mode_first_final && p == pe) {
+return result;
+}
+ else {
+throw unexpectedToken(p,pe);
+}
+}

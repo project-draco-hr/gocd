@@ -1,0 +1,15 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "<http://example.com/1> ex:is <http://hello> . ";
+  graph.addTriplesFromTurtle(turtle);
+  String sparqlSelect="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?one ?two WHERE { " + "<http://example.com/1> ex:is ?one . "+ "OPTIONAL { [] ex:nope ?two } "+ "}";
+  BoundVariables bv=graph.selectFirst(sparqlSelect);
+  assertEquals("http://hello",bv.getURIReference("one").getURIText());
+  assertNull(bv.getURIReference("two"));
+  try {
+    bv.getURIReference("baz");
+    fail("Illegal argument exception expected.");
+  }
+ catch (  IllegalArgumentException e) {
+    assertEquals("boundName 'baz' is not in the list of possible values ('one', 'two')",e.getMessage());
+  }
+}

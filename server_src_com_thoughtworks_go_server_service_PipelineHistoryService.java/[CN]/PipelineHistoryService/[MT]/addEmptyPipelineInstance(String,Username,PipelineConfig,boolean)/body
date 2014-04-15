@@ -1,0 +1,8 @@
+{
+  StageInstanceModels stageHistory=new StageInstanceModels();
+  appendFollowingStagesFromConfig(pipelineName,stageHistory);
+  PipelineInstanceModel model=PipelineInstanceModel.createEmptyPipelineInstanceModel(pipelineName,BuildCause.createWithEmptyModifications(),stageHistory);
+  populatePipelineInstanceModel(username,populateCanRun,pipelineConfig,model);
+  model.setCanRun(true);
+  return model;
+}

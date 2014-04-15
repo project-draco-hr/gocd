@@ -1,0 +1,6 @@
+{
+  PipelineConfig anotherConfig=PipelineMother.withSingleStageWithMaterials("hatred","hatedChild",BuildPlanMother.withBuildPlans(JOB_NAME,OTHER_JOB_NAME));
+  Pipeline anotherPipeline=instanceFactory.createPipelineInstance(anotherConfig,modifySomeFiles(anotherConfig),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),"md5-test",new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(anotherPipeline);
+  return anotherPipeline.getFirstStage().getId();
+}

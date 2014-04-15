@@ -1,0 +1,12 @@
+{
+  CommandSnippets expectedSnippetsFromCustomRepo=new CommandSnippets(Arrays.asList(validSnippet("snippet2")));
+  when(goCache.get(CachedCommandSnippets.CACHE_KEY)).thenReturn(null,expectedSnippets);
+  when(walker.getAllCommandSnippets(CUSTOM_REPO_DIR)).thenReturn(expectedSnippetsFromCustomRepo);
+  setupAFakeCommandRepoLocation("default","custom");
+  CommandSnippets snippetsFromDefaultRepo=commandSnippetsCache.snippets();
+  CommandSnippets snippetsFromCustomRepo=commandSnippetsCache.snippets();
+  verify(walker).getAllCommandSnippets(EXPECTED_REPO_DIR);
+  verify(walker).getAllCommandSnippets(CUSTOM_REPO_DIR);
+  assertThat(snippetsFromDefaultRepo,is(expectedSnippets));
+  assertThat(snippetsFromCustomRepo,is(expectedSnippetsFromCustomRepo));
+}

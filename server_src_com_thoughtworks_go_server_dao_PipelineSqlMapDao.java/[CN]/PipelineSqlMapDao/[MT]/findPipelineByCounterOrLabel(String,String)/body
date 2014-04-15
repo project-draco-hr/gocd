@@ -1,0 +1,14 @@
+{
+  Pipeline pipeline=null;
+  try {
+    int pipelineCounter=Integer.parseInt(counterOrLabel);
+    pipeline=findPipelineByNameAndCounter(pipelineName,pipelineCounter);
+  }
+ catch (  NumberFormatException e) {
+  }
+  if (pipeline == null) {
+    String pipelineLabel=translatePipelineLabel(pipelineName,counterOrLabel);
+    pipeline=findPipelineByNameAndLabel(pipelineName,pipelineLabel);
+  }
+  return pipeline;
+}

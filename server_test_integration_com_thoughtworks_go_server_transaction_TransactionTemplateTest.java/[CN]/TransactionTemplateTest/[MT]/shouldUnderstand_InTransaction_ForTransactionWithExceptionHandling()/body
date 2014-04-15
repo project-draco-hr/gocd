@@ -1,0 +1,17 @@
+{
+  TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  final boolean[] inTransactionInBody=new boolean[]{false};
+  final boolean[] inTransactionInAfterCommit=new boolean[]{true};
+  final boolean[] inTransactionInAfterComplete=new boolean[]{true};
+  String returnVal=(String)template.executeWithExceptionHandling(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus status) throws Exception {
+      setTxnBodyActiveFlag(inTransactionInBody,inTransactionInAfterCommit,inTransactionInAfterComplete,0);
+      return "foo";
+    }
+  }
+);
+  assertThat(inTransactionInBody[0],is(true));
+  assertThat(inTransactionInAfterCommit[0],is(false));
+  assertThat(inTransactionInAfterComplete[0],is(false));
+  assertThat(returnVal,is("foo"));
+}

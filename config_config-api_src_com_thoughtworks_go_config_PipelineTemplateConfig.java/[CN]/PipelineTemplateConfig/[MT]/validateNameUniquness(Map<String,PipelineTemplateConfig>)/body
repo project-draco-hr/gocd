@@ -1,0 +1,11 @@
+{
+  String currentName=name.toLower();
+  PipelineTemplateConfig templateWithSameName=templateMap.get(currentName);
+  if (templateWithSameName == null) {
+    templateMap.put(currentName,this);
+  }
+ else {
+    templateWithSameName.addError(NAME,String.format("Template name '%s' is not unique",templateWithSameName.name()));
+    this.addError(NAME,String.format("Template name '%s' is not unique",name));
+  }
+}

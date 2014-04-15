@@ -1,0 +1,8 @@
+{
+  for (  PipelineConfigs pipelines : this) {
+    if (pipelines.isNamed(groupName)) {
+      return pipelines;
+    }
+  }
+  throw new PipelineGroupNotFoundException("Failed to find the group [" + groupName + "]");
+}

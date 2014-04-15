@@ -1,0 +1,9 @@
+{
+  setProperty("a","b");
+  assertValidJsonContentAndStatus(SC_CREATED,"Property 'a' created with value 'b'");
+  ModelAndView modelAndView=getProperty("a","json");
+  Map map=modelAndView.getModel();
+  String content=map.get("json").toString();
+  assertThat(content,containsString("b"));
+  assertThat(response.getStatus(),is(SC_OK));
+}

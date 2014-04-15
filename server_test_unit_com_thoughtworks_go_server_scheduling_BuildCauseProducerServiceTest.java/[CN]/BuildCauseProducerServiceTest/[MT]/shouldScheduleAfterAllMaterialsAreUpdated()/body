@@ -1,0 +1,23 @@
+{
+  HgMaterial hgMaterial=new HgMaterial("url",null);
+  HgMaterialConfig hgMaterialConfig=new HgMaterialConfig("url",null);
+  SvnMaterial svnMaterial=new SvnMaterial("url",null,null,false);
+  SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig("url",null,null,false);
+  pipelineConfig.addMaterialConfig(hgMaterialConfig);
+  pipelineConfig.addMaterialConfig(svnMaterialConfig);
+  GoConfigService service=mock(GoConfigService.class);
+  when(service.pipelineConfigNamed(pipelineConfig.name())).thenReturn(pipelineConfig);
+  when(materialConfigConverter.toMaterial(hgMaterialConfig)).thenReturn(hgMaterial);
+  when(materialConfigConverter.toMaterial(svnMaterialConfig)).thenReturn(svnMaterial);
+  MaterialUpdateStatusNotifier notifier=new MaterialUpdateStatusNotifier(mock(MaterialUpdateCompletedTopic.class));
+  buildCauseProducerService=spy(createBuildCauseProducerService(notifier));
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig,new ScheduleOptions(),new ServerHealthStateOperationResult());
+  final HashMap<String,String> stringStringHashMap=new HashMap<String,String>();
+  doReturn(ServerHealthState.success(healthStateType)).when(buildCauseProducerService).newProduceBuildCause(eq(pipelineConfig),any(ManualBuild.class),new ScheduleOptions(eq(EMPTY_REVISIONS),stringStringHashMap,new HashMap<String,String>()),any(ServerHealthStateOperationResult.class),eq(12345L));
+  assertThat(notifier.hasListenerFor(pipelineConfig),is(true));
+  notifier.onMessage(new MaterialUpdateSuccessfulMessage(hgMaterial,1111L));
+  assertThat(notifier.hasListenerFor(pipelineConfig),is(true));
+  notifier.onMessage(new MaterialUpdateSuccessfulMessage(svnMaterial,2222L));
+  assertThat(notifier.hasListenerFor(pipelineConfig),is(false));
+  verify(buildCauseProducerService).newProduceBuildCause(eq(pipelineConfig),any(ManualBuild.class),eq(new ScheduleOptions()),any(ServerHealthStateOperationResult.class),eq(2222L));
+}

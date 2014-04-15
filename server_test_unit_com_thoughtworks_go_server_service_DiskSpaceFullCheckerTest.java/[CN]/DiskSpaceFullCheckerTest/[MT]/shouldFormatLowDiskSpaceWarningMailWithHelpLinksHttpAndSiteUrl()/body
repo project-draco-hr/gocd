@@ -1,0 +1,18 @@
+{
+  String expectedHelpUrl="http://test.host/go/help/installing_go_server.html";
+  ServerConfig serverConfig=new ServerConfig(null,null,new ServerSiteUrlConfig("http://test.host"),new ServerSiteUrlConfig("https://test.host"));
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.setServerConfig(serverConfig);
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  when(goConfigService.artifactsDir()).thenReturn(null);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(goConfigService.adminEmail()).thenReturn("admin@email.com");
+  ArtifactsDiskSpaceFullChecker diskSpaceFullChecker=new ArtifactsDiskSpaceFullChecker(new SystemEnvironment(),null,goConfigService,null){
+    @Override protected String targetFolderCanonicalPath(){
+      return "";
+    }
+  }
+;
+  SendEmailMessage actual=diskSpaceFullChecker.createEmail();
+  assertThat(actual.getBody(),Matchers.containsString(expectedHelpUrl));
+}

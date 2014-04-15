@@ -1,0 +1,13 @@
+{
+  destDir.mkdirs();
+  try {
+    ZipEntry zipEntry=zipInputStream.getNextEntry();
+    while (zipEntry != null) {
+      extractTo(zipEntry,zipInputStream,destDir);
+      zipEntry=zipInputStream.getNextEntry();
+    }
+  }
+  finally {
+    IOUtils.closeQuietly(zipInputStream);
+  }
+}

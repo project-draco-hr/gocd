@@ -1,0 +1,10 @@
+{
+  String originalLocale=CurrentLocale.getLocaleString();
+  CurrentLocale.setLocaleString(servletRequest.getLocale().getLanguage());
+  try {
+    filterChain.doFilter(servletRequest,servletResponse);
+  }
+  finally {
+    CurrentLocale.setLocaleString(originalLocale);
+  }
+}

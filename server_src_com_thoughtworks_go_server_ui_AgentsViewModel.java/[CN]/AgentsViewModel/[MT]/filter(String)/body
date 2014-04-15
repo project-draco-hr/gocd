@@ -1,0 +1,21 @@
+{
+  if (StringUtil.isBlank(filterCriteria)) {
+    return;
+  }
+  final Map<String,String> filters=filters(filterCriteria);
+  if (filters.isEmpty()) {
+    return;
+  }
+  CollectionUtils.filter(this,new Predicate(){
+    public boolean evaluate(    Object o){
+      boolean finalResult=false;
+      AgentViewModel agent=(AgentViewModel)o;
+      for (      Map.Entry<String,String> entry : filters.entrySet()) {
+        AgentFilters filter=AgentFilters.valueOf(entry.getKey().toUpperCase());
+        finalResult=finalResult || filter.matches(agent,entry.getValue());
+      }
+      return finalResult;
+    }
+  }
+);
+}

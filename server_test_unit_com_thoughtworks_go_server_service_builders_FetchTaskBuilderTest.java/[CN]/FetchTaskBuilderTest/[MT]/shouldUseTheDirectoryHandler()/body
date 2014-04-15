@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=pipelineWithStage("mingle",1,LABEL,"dev",1);
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString(pipeline.getName()),new CaseInsensitiveString(pipeline.getFirstStage().getName()),new CaseInsensitiveString("windows-3"),"","dest\\subfolder");
+  fetchTask.setSrcdir("log");
+  FetchHandler actual=fetchTaskBuilder.getHandler(fetchTask,pipeline.getName());
+  File folderOnAgent=new File("pipelines/mingle/dest/subfolder");
+  assertThat((DirHandler)actual,is(new DirHandler("log",folderOnAgent)));
+}

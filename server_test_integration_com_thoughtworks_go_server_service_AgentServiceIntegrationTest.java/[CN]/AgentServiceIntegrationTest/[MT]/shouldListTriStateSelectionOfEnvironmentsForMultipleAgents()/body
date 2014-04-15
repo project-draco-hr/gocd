@@ -1,0 +1,16 @@
+{
+  String uatAgentUuid="uat-agent";
+  String prodAgentUuid="prod-agent";
+  createEnabledAgent(uatAgentUuid);
+  createEnabledAgent(prodAgentUuid);
+  createEnvironment("uat","prod");
+  addAgentToEnv("uat",uatAgentUuid);
+  addAgentToEnv("prod",prodAgentUuid);
+  List<TriStateSelection> selections=agentService.getEnvironmentSelections(Arrays.asList(uatAgentUuid));
+  assertThat(selections.size(),is(2));
+  assertThat(selections.get(0),is(new TriStateSelection("prod",TriStateSelection.Action.remove)));
+  assertThat(selections.get(1),is(new TriStateSelection("uat",TriStateSelection.Action.add)));
+  selections=agentService.getEnvironmentSelections(Arrays.asList(uatAgentUuid,prodAgentUuid));
+  assertThat(selections.get(0),is(new TriStateSelection("prod",TriStateSelection.Action.nochange)));
+  assertThat(selections.get(1),is(new TriStateSelection("uat",TriStateSelection.Action.nochange)));
+}

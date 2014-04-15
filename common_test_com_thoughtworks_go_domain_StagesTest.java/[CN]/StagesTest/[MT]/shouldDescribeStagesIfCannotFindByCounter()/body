@@ -1,0 +1,16 @@
+{
+  Stage run1=StageMother.createPassedStage("pipeline",1,"stage",1,"job",new Date());
+  Stage run2=StageMother.createPassedStage("pipeline",1,"stage",2,"job",new Date());
+  Stage run3=StageMother.createPassedStage("pipeline",1,"stage",3,"job",new Date());
+  Stages stages=new Stages(run1,run2,run3);
+  assertThat(stages.byCounter(2),is(run2));
+  try {
+    assertThat(stages.byCounter(4),is(run2));
+    fail("Should throw exception if the stage does not exist");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString(run1.toString()));
+    assertThat(e.getMessage(),containsString(run2.toString()));
+    assertThat(e.getMessage(),containsString(run3.toString()));
+  }
+}

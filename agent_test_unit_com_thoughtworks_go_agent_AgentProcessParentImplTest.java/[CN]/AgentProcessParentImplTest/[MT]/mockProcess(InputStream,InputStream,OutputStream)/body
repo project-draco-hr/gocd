@@ -1,0 +1,8 @@
+{
+  final Process subProcess=mock(Process.class);
+  when(subProcess.waitFor()).thenReturn(42);
+  when(subProcess.getInputStream()).thenReturn(outputStream);
+  when(subProcess.getErrorStream()).thenReturn(errorStream);
+  when(subProcess.getOutputStream()).thenReturn(inputStream);
+  return subProcess;
+}

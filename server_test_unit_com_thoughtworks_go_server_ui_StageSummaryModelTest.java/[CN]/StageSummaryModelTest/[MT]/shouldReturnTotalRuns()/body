@@ -1,0 +1,10 @@
+{
+  Stage failed=completedFailedStageInstance("pipeline-name","stage","job");
+  failed.setCounter(1);
+  Stage passed=custom("stage");
+  passed.setCounter(2);
+  StageSummaryModel stageSummaryModel=new StageSummaryModel(failed,new Stages(failed,passed),JOB_DURATION_STRATEGY,null);
+  assertThat(stageSummaryModel.getTotalRuns(),is(2));
+  assertThat(stageSummaryModel.getStateForRun(1),is(StageState.Failed));
+  assertThat(stageSummaryModel.getStateForRun(2),is(StageState.Passed));
+}

@@ -1,0 +1,9 @@
+{
+  if (SystemUtil.isLocalhostReachable(port)) {
+    String message=format("Port {0} could not be opened. Please Check if it is available",String.valueOf(port));
+    return validation.addError(new RuntimeException(message));
+  }
+ else {
+    return Validation.SUCCESS;
+  }
+}

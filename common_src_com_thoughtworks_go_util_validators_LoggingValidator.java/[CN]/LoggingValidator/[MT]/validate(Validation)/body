@@ -1,0 +1,12 @@
+{
+  Validation propFileValidation=log4jPropertiesValidator.validate(validation);
+  if (!propFileValidation.isSuccessful()) {
+    return propFileValidation;
+  }
+  Validation logDirectoryUpdateValidation=logDirectory.update(log4jFile,validation);
+  if (!logDirectoryUpdateValidation.isSuccessful()) {
+    return logDirectoryUpdateValidation;
+  }
+  log4jConfigReloader.reload(log4jFile);
+  return Validation.SUCCESS;
+}

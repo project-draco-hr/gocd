@@ -1,0 +1,8 @@
+{
+  T value=valueCache.get(key);
+  if (value == null) {
+    value=loadValues(key);
+    valueCache.putIfAbsent(key,value);
+  }
+  return value;
+}

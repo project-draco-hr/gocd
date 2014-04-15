@@ -1,0 +1,12 @@
+{
+  Vector testCases=new Vector();
+  for (int i=names.length; i-- > 0; ) {
+    Class cls=_loader.loadClass(names[i]);
+    if (isTest(cls)) {
+      testCases.add(names[i]);
+    }
+  }
+  String[] result=new String[testCases.size()];
+  testCases.toArray(result);
+  return result;
+}

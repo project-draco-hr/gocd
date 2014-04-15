@@ -1,0 +1,14 @@
+{
+  if (systemEnvironment.isDefaultDbProvider()) {
+    return statementName;
+  }
+  String forExternalDb=String.format("%s-%s",statementName,database.getType());
+  MappedStatement statement;
+  try {
+    statement=((SqlMapClientImpl)super.getSqlMapClient()).getMappedStatement(forExternalDb);
+  }
+ catch (  Exception e) {
+    statement=null;
+  }
+  return statement != null ? forExternalDb : statementName;
+}

@@ -1,0 +1,10 @@
+{
+  String url=downloadableFile.url(urlGenerator);
+  try {
+    new URL(url);
+  }
+ catch (  MalformedURLException mue) {
+    throw new RuntimeException("URL you provided to access Go Server: " + downloadableFile.url(urlGenerator) + " is not valid");
+  }
+  return url;
+}

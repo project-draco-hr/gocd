@@ -1,0 +1,5 @@
+{
+  String sqlValue=SqlUtil.joinWithQuotesForSql(liveAgentIdList.toArray());
+  List<JobInstance> list=getSqlMapClientTemplate().queryForList("getHungJobs",arguments("liveAgentIdList",sqlValue).asMap());
+  return new JobInstances(list);
+}

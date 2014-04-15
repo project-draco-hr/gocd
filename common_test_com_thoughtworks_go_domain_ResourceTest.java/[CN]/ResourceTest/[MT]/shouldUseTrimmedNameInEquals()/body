@@ -1,0 +1,7 @@
+{
+  Resource resource=new Resource();
+  Field field=resource.getClass().getDeclaredField("name");
+  field.setAccessible(true);
+  field.set(resource,"resource1   ");
+  assertThat(new Resource("resource1"),is(resource));
+}

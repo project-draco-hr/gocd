@@ -1,0 +1,7 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  agentInstance.update(buildingRuntimeInfo());
+  agentInstance.update(cancelRuntimeInfo());
+  assertThat(agentInstance.getBuildingInfo(),is(defaultBuildingInfo));
+  assertThat(agentInstance.getStatus(),is(AgentStatus.Cancelled));
+}

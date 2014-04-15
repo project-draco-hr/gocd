@@ -1,0 +1,9 @@
+{
+  String agentId="agent-id";
+  CONFIG_HELPER.addSecurityWithPasswordFile();
+  HttpOperationResult operationResult=new HttpOperationResult();
+  CONFIG_HELPER.addAdmins("admin1");
+  agentService.modifyResources(new Username(new CaseInsensitiveString("not-admin")),operationResult,Arrays.asList(agentId),Arrays.asList(new TriStateSelection("dont-care",TriStateSelection.Action.add)));
+  assertThat(operationResult.httpCode(),is(401));
+  assertThat(operationResult.message(),is("Unauthorized to operate on agent"));
+}

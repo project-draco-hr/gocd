@@ -1,0 +1,13 @@
+{
+  SvnMaterial svnMaterial1=svnMaterial("svnUrl1","folder1");
+  SvnMaterial svnMaterial2=svnMaterial("svnUrl2","folder2");
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(svnMaterial1.config(),svnMaterial2.config()));
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(modifyOneFile(pipelineConfig),Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  savePipeline(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  Materials materials=pipelineFromDB.getMaterials();
+  assertThat(materials,hasItem((Material)svnMaterial1));
+  assertThat(materials,hasItem((Material)svnMaterial2));
+}

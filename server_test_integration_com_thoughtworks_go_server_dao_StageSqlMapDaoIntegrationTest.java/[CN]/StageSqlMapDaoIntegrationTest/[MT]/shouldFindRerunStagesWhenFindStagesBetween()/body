@@ -1,0 +1,9 @@
+{
+  Pipeline pipeline=dbHelper.newPipelineWithFirstStageFailed(mingleConfig);
+  dbHelper.updateNaturalOrder(pipeline.getId(),5.0);
+  Stage rerunedStage=rerunFirstStage(pipeline);
+  dbHelper.failStage(rerunedStage);
+  List<StageIdentifier> list=stageDao.findFailedStagesBetween(PIPELINE_NAME,STAGE_DEV,3.0,5.0);
+  assertThat(list.size(),is(1));
+  assertThat(list.get(0),is(rerunedStage.getIdentifier()));
+}

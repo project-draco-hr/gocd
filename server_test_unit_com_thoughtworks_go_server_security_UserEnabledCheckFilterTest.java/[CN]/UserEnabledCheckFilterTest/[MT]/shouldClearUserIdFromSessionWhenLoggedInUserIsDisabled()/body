@@ -1,0 +1,13 @@
+{
+  String userName="winner";
+  SecurityContextHelper.setCurrentUser(userName);
+  Long userId=1L;
+  User user=getUser(userName,userId);
+  user.disable();
+  when(session.getAttribute(USERID_ATTR)).thenReturn(null);
+  when(userService.findUserByName(userName)).thenReturn(user);
+  filter.doFilterHttp(req,res,chain);
+  assertThat(SecurityContextHolder.getContext().getAuthentication(),is(nullValue()));
+  verify(session).setAttribute(USERID_ATTR,null);
+  verify(chain).doFilter(req,res);
+}

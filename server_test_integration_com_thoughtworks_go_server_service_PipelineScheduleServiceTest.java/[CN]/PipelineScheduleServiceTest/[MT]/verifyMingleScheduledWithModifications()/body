@@ -1,0 +1,7 @@
+{
+  Pipeline scheduledPipeline=pipelineDao.mostRecentPipeline(CaseInsensitiveString.str(mingleConfig.name()));
+  BuildCause buildCause=scheduledPipeline.getBuildCause();
+  assertThat(buildCause.getMaterialRevisions().totalNumberOfModifications(),is(3));
+  JobInstance instance=scheduledPipeline.getFirstStage().getJobInstances().first();
+  assertThat(instance.getState(),is(JobState.Scheduled));
+}

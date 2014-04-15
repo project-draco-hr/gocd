@@ -1,0 +1,9 @@
+{
+  StageConfig config=new StageConfig();
+  config.setConfigAttributes(new SingletonMap(StageConfig.NAME,"foo_bar"));
+  config.setConfigAttributes(new SingletonMap(StageConfig.FETCH_MATERIALS,"0"));
+  config.setConfigAttributes(new SingletonMap(StageConfig.CLEAN_WORKING_DIR,"1"));
+  assertThat(config.name(),is(new CaseInsensitiveString("foo_bar")));
+  assertThat(config.isFetchMaterials(),is(false));
+  assertThat(config.isCleanWorkingDir(),is(true));
+}

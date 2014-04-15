@@ -1,0 +1,20 @@
+{
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(cruiseConfig.getMd5()).thenReturn("md5-test");
+  when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
+  StubPipelineScheduleTopic stubTopic=new StubPipelineScheduleTopic();
+  service=new ScheduleService(goConfigService,null,null,schedulingChecker,stubTopic,null,null,null,null,pipelineScheduleQueue,jobInstanceService,null,null,environmentConfigService,null,serverHealthService,null,null,null,timeProvider,null,null,null,schedulingPerformanceLogger);
+  PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfig("mingle","build","unit","functional");
+  PipelineConfig evolveConfig=PipelineConfigMother.createPipelineConfig("evolve","build","unit");
+  BuildCause mingleBuildCause=modifySomeFiles(mingleConfig);
+  BuildCause evolveBuildCause=modifySomeFiles(evolveConfig);
+  when(pipelineScheduleQueue.toBeScheduled()).thenReturn(m("mingle",mingleBuildCause,"evolve",evolveBuildCause));
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("mingle"))).thenReturn(mingleConfig);
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("evolve"))).thenReturn(evolveConfig);
+  when(schedulingChecker.canAutoTriggerConsumer(mingleConfig)).thenReturn(true);
+  when(schedulingChecker.canAutoTriggerConsumer(evolveConfig)).thenReturn(true);
+  when(pipelineScheduleQueue.createPipeline(mingleBuildCause,mingleConfig,new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY,new Agents()),"md5-test",timeProvider)).thenReturn(PipelineMother.schedule(mingleConfig,mingleBuildCause));
+  when(pipelineScheduleQueue.createPipeline(evolveBuildCause,evolveConfig,new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY,new Agents()),"md5-test",timeProvider)).thenReturn(PipelineMother.schedule(evolveConfig,evolveBuildCause));
+  service.autoSchedulePipelinesFromRequestBuffer();
+  assertThat(stubTopic.callCount,Matchers.is(2));
+}

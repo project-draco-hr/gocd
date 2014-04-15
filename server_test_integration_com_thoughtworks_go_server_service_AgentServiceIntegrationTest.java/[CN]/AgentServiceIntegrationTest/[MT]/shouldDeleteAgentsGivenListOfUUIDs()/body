@@ -1,0 +1,11 @@
+{
+  AgentConfig disabledAgent1=createDisabledAndIdleAgent(UUID);
+  AgentConfig disabledAgent2=createDisabledAndIdleAgent(UUID2);
+  goConfigFileDao.load();
+  assertThat(agentService.agents().size(),is(2));
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.deleteAgents(USERNAME,operationResult,Arrays.asList(disabledAgent1.getUuid(),disabledAgent2.getUuid()));
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(operationResult.message(),is("Deleted 2 agent(s)."));
+  assertThat(agentService.agents().size(),is(0));
+}

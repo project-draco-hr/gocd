@@ -1,0 +1,8 @@
+{
+  DependencyMaterial material1=new DependencyMaterial(new CaseInsensitiveString("pipeline1"),new CaseInsensitiveString("stage1"));
+  Map<String,Object> map=new HashMap<String,Object>();
+  material1.appendCriteria(map);
+  assertThat(map,hasEntry("pipelineName",(Object)"pipeline1"));
+  assertThat(map,hasEntry("stageName",(Object)"stage1"));
+  assertThat(map.size(),is(2));
+}

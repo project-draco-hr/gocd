@@ -1,0 +1,6 @@
+{
+  if (isInternalCall()) {
+    return super.execute(action);
+  }
+  throw new UnsupportedOperationException("Please call one of the supported methods. Refer " + SqlMapClientDaoSupport.SqlMapClientTemplate.class.getCanonicalName() + " for details. This is to ensure read consistency during transactions.");
+}

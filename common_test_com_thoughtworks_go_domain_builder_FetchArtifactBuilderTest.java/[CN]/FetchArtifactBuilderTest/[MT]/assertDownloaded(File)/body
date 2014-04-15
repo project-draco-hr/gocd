@@ -1,0 +1,7 @@
+{
+  File logFolder=new File(destOnAgent,"log");
+  assertThat(logFolder.exists(),is(true));
+  assertThat(logFolder.isDirectory(),is(true));
+  assertThat(new File(logFolder,"console.log").exists(),is(true));
+  assertThat(destOnAgent.listFiles(),is(new File[]{logFolder}));
+}

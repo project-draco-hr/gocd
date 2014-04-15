@@ -1,0 +1,15 @@
+{
+  if (!stageTable.containsKey(root)) {
+    StringBuffer sb=new StringBuffer("Pipeline \"");
+    sb.append(root);
+    sb.append("\" does not exist.");
+    visiting.pop();
+    if (!visiting.empty()) {
+      CaseInsensitiveString parent=visiting.peek();
+      sb.append(" It is used from pipeline \"");
+      sb.append(parent);
+      sb.append("\".");
+    }
+    throw new Exception(sb.toString());
+  }
+}

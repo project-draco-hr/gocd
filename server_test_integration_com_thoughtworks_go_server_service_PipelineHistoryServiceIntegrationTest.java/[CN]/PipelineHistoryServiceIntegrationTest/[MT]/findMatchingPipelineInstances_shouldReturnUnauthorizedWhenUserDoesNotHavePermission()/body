@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline_name","stage","job");
+  goConfigService.addPipeline(pipelineConfig,"pipeline-group");
+  configHelper.addAuthorizedUserForPipelineGroup("valid-user");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  PipelineInstanceModels pipelineInstances=pipelineHistoryService.findMatchingPipelineInstances("pipeline_name","ABCD",1000,new Username(new CaseInsensitiveString("fraud-user")),result);
+  assertThat(pipelineInstances.size(),is(0));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(401));
+}

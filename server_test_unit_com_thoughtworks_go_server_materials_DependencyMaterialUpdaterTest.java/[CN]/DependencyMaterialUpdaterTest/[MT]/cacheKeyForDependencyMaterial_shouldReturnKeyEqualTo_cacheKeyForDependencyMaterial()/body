@@ -1,0 +1,6 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  String cacheKeyFromMaterial=DependencyMaterialUpdater.cacheKeyForDependencyMaterial(dependencyMaterial);
+  String cacheKeyFromStage=DependencyMaterialUpdater.cacheKeyForDependencyMaterial(StageMother.completedFailedStageInstance("pipeline-name","stage-name","does-not-matter"));
+  assertSame(cacheKeyFromStage,cacheKeyFromMaterial);
+}

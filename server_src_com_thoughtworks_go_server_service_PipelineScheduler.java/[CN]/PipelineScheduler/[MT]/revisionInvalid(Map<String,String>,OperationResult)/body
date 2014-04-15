@@ -1,0 +1,10 @@
+{
+  for (  Map.Entry<String,String> entry : revisions.entrySet()) {
+    if (StringUtils.isEmpty(entry.getValue())) {
+      String message=String.format("material with fingerprint [%s] has empty revision",entry.getKey());
+      result.notAcceptable(message,HealthStateType.general(HealthStateScope.GLOBAL));
+      return true;
+    }
+  }
+  return false;
+}

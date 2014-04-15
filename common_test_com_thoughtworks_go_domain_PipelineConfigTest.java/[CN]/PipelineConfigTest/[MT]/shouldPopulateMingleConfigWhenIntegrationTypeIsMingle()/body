@@ -1,0 +1,16 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  pipelineConfig.setTrackingTool(new TrackingTool("link","regex"));
+  Map map=new HashMap();
+  HashMap valueHashMap=new HashMap();
+  valueHashMap.put(MingleConfig.BASE_URL,"url");
+  valueHashMap.put(MingleConfig.PROJECT_IDENTIFIER,"identifier");
+  valueHashMap.put(MqlCriteria.MQL,"criteria");
+  valueHashMap.put(MingleConfig.MQL_GROUPING_CONDITIONS,valueHashMap);
+  map.put(PipelineConfig.MINGLE_CONFIG,valueHashMap);
+  map.put(PipelineConfig.INTEGRATION_TYPE,PipelineConfig.INTEGRATION_TYPE_MINGLE);
+  pipelineConfig.setConfigAttributes(map);
+  assertThat(pipelineConfig.getMingleConfig(),is(new MingleConfig("url","identifier","criteria")));
+  assertThat(pipelineConfig.getTrackingTool(),is(nullValue()));
+  assertThat(pipelineConfig.getIntegrationType(),is(PipelineConfig.INTEGRATION_TYPE_MINGLE));
+}

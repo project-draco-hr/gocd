@@ -1,0 +1,5 @@
+{
+  pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig);
+  Stage completed=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(mingleConfig.name()),mingleConfig.get(0));
+  verifyBuildInstancesWithoutCaringAboutTransitions(STAGE_DEV,completed);
+}

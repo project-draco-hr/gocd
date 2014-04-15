@@ -1,0 +1,10 @@
+{
+  String agentName="agentName";
+  String agentId=DatabaseAccessHelper.AGENT_UUID;
+  AgentConfig agentConfig=new AgentConfig(agentId,agentName,"127.0.0.9");
+  addAgent(agentConfig);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.enableAgents(USERNAME,operationResult,Arrays.asList(agentId));
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(operationResult.message(),is("Enabled 1 agent(s)"));
+}

@@ -1,0 +1,15 @@
+{
+  MaterialRevisions scheduleTime=createHgMaterialWithMultipleRevisions(1L,first);
+  scheduleTime.addAll(createSvnMaterialWithMultipleRevisions(2,first));
+  MaterialRevisions next=createHgMaterialWithMultipleRevisions(1L,third,second,first);
+  next.addAll(createSvnMaterialWithMultipleRevisions(2,third,second,first));
+  MaterialRevisions expected=createHgMaterialWithMultipleRevisions(1L,third,second);
+  expected.addAll(createSvnMaterialWithMultipleRevisions(2L,third,second));
+  Pipeline pipeline=pipeline(scheduleTime,jobs());
+  Pipeline savedPipeline=pipeline(scheduleTime,jobs());
+  when(pipelineTimeline.pipelineAfter(pipeline.getId())).thenReturn(11L);
+  when(pipelineTimeline.pipelineBefore(pipeline.getId())).thenReturn(-1L);
+  when(materialRepository.findMaterialRevisionsForPipeline(11L)).thenReturn(next);
+  when(pipelineDao.save(pipeline)).thenReturn(savedPipeline);
+  service.save(pipeline);
+}

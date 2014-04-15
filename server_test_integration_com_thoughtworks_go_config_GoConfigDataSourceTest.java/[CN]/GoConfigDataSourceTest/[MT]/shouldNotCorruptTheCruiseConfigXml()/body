@@ -1,0 +1,12 @@
+{
+  File file=dataSource.fileLocation();
+  String originalCopy=FileUtils.readFileToString(file);
+  try {
+    dataSource.write("abc",false);
+    fail("Should not allow us to write an invalid config");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Content is not allowed in prolog"));
+  }
+  assertThat(FileUtils.readFileToString(file),Is.is(originalCopy));
+}

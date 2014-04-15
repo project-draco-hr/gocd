@@ -1,0 +1,8 @@
+{
+  P4Material p4Material=p4Fixture.material(VIEW);
+  p4Material.setPassword("secret");
+  p4Material.setUseTickets(false);
+  ValidationBean validation=p4Material.checkConnection(new TestSubprocessExecutionContext());
+  assertThat(validation.isValid(),is(true));
+  assertThat(StringUtil.isBlank(validation.getError()),is(true));
+}

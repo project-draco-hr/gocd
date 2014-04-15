@@ -1,0 +1,10 @@
+{
+  ArrayList<NotificationFilter> toBeDeleted=new ArrayList<NotificationFilter>();
+  ListUtil.filterInto(toBeDeleted,notificationFilters,new Filter<NotificationFilter>(){
+    @Override public boolean matches(    NotificationFilter filter){
+      return filter.getId() == filterId;
+    }
+  }
+);
+  notificationFilters.removeAll(toBeDeleted);
+}

@@ -1,0 +1,5 @@
+{
+  when(agentService.findRegisteredAgents()).thenReturn(activities());
+  when(jobInstanceService.findHungJobs(Arrays.asList("uuid1","uuid2"))).thenReturn(new JobInstances());
+  scheduleService.rescheduleHungJobs();
+}

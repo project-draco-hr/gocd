@@ -1,0 +1,12 @@
+{
+  dbFixture.copyDeltas();
+  dbFixture.copyH2Db("with-usernames-in-different-cases.zip");
+  h2Database=new H2Database(dbFixture.env());
+  h2Database.startDatabase();
+  h2Database.upgrade();
+  matchUserAttributesForUsername("foo","foo@foo.com",true,"foo");
+  matchUserAttributesForUsername("bar","baz@bar.com",true,"BAR");
+  matchUserAttributesForUsername("baz","baz@baz.com",false,"baz");
+  matchUserAttributesForUsername("quux","quux@quux.com",true,"quux");
+  assertThat(DatabaseFixture.query("select count(*) from users",h2Database),is(new Object[][]{{5l}}));
+}

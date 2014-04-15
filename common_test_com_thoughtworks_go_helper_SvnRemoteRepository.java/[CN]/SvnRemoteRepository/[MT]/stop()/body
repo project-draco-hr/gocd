@@ -1,0 +1,8 @@
+{
+  if (processWrapper != null) {
+    Process process=(Process)ReflectionUtil.getField(processWrapper,"process");
+    process.destroy();
+    processWrapper.waitForExit();
+    processWrapper=null;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  String svnExternals="http://10.18.3.171:8080/svn/connect4/trunk/lib - -r 2 http://10.18.3.171:8080/svn/CSharpProject/trunk/  externals-2 \n" + "-r3 svn://10.18.3.171:8080/svn/CSharpProject/trunk/ externals-6\n";
+  List<SvnExternal> externals=new SvnExternalParser().parse(svnExternals,"http://10.18.3.171:8080/svn/connect4/trunk");
+  assertThat(externals.get(0),is(new SvnExternal("lib/externals-2","http://10.18.3.171:8080/svn/CSharpProject/trunk/")));
+  assertThat(externals.get(1),is(new SvnExternal("lib/externals-6","svn://10.18.3.171:8080/svn/CSharpProject/trunk/")));
+}

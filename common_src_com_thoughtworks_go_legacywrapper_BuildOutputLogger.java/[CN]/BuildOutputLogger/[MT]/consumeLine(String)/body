@@ -1,0 +1,18 @@
+{
+  if (data == null) {
+    throw new RuntimeException("No log file specified");
+  }
+  PrintStream out=null;
+  try {
+    out=new PrintStream(new FileOutputStream(data,true));
+    out.println(line);
+  }
+ catch (  FileNotFoundException e) {
+    e.printStackTrace();
+  }
+ finally {
+    if (out != null) {
+      out.close();
+    }
+  }
+}

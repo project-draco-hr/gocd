@@ -1,0 +1,11 @@
+{
+  try {
+    checkout(branchName);
+    checkin(rev);
+    return getCurrentRevCommit();
+  }
+ catch (  Exception e) {
+    LOGGER.error(String.format("[CONFIG_MERGE] Check-in to branch %s failed",branchName));
+    throw e;
+  }
+}

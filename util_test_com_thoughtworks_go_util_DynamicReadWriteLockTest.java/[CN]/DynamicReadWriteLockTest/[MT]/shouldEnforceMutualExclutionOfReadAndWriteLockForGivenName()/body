@@ -1,0 +1,12 @@
+{
+  readWriteLock.acquireReadLock("foo");
+  new Thread(new Runnable(){
+    public void run(){
+      readWriteLock.acquireWriteLock("foo");
+      numberOfLocks++;
+    }
+  }
+).start();
+  Thread.sleep(1000);
+  assertThat(numberOfLocks,is(0));
+}

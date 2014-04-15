@@ -1,0 +1,7 @@
+{
+  P4Material anotherMaterial=p4Fixture.material(EMPTY_VIEW);
+  List<Modification> materialRevisions=anotherMaterial.latestModification(clientFolder,new TestSubprocessExecutionContext());
+  assertThat(materialRevisions.size(),is(0));
+  List<Modification> mods=anotherMaterial.modificationsSince(clientFolder,new StringRevision("1"),new TestSubprocessExecutionContext());
+  assertThat(mods.size(),is(0));
+}

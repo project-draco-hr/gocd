@@ -1,0 +1,10 @@
+{
+  String content=ConfigFileFixture.configWithTemplates("<templates>" + "</templates>");
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("Should not allow empty templates block");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("The content of element 'templates' is not complete. One of '{pipeline}' is expected."));
+  }
+}

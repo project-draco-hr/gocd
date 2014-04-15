@@ -1,0 +1,13 @@
+{
+  Stage instance=stages.get(identifier);
+  if (instance == null) {
+    instance=stageDao.mostRecentStage(identifier);
+    if (instance != null) {
+      stages.put(identifier,instance);
+    }
+ else {
+      stages.put(identifier,NEVER_BUILT);
+    }
+  }
+  return instance == NEVER_BUILT ? null : instance;
+}

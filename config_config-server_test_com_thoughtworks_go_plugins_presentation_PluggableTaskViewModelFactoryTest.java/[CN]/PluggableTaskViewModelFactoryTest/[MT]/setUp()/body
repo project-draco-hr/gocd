@@ -1,0 +1,9 @@
+{
+  cleanupTaskPreferences();
+  TaskPreference taskPreference=mock(TaskPreference.class);
+  PluggableTaskConfigStore.store().setPreferenceFor("plugin-1",taskPreference);
+  TaskView view=mock(TaskView.class);
+  when(taskPreference.getView()).thenReturn(view);
+  when(view.template()).thenReturn("<input type='text' ng-model='abc'></input>");
+  when(view.displayValue()).thenReturn("First plugin");
+}

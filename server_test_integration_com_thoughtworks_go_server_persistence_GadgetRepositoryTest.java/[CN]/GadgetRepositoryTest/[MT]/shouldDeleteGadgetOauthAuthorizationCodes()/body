@@ -1,0 +1,12 @@
+{
+  GadgetOauthClient google=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(google);
+  GadgetOauthAuthorizationCode authCode1=new GadgetOauthAuthorizationCode("fooUser",google,"code",1000l);
+  template.save(authCode1);
+  GadgetOauthAuthorizationCode authCode2=new GadgetOauthAuthorizationCode("barUser",google,"code",1000l);
+  template.save(authCode2);
+  repo.deleteOauthAuthorizationCode(authCode1.getId());
+  Collection<GadgetDataSource.GadgetOauthAuthorizationCodeDTO> authorizationCodes=repo.findAllOauthAuthorizationCodeByGadgetsOauthClientId(google.getId());
+  assertThat(authorizationCodes.size(),is(1));
+  assertThat(authorizationCodes,hasItem(authCode2.getDTO()));
+}

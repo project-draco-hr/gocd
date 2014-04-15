@@ -1,0 +1,18 @@
+{
+  SvnMaterial svnMaterial1=repo.createMaterial("multiple-materials/trunk/part1","part1");
+  SvnMaterial svnMaterial2=repo.createMaterial("multiple-materials/trunk/part2","part2");
+  Materials materials=new Materials(svnMaterial1,svnMaterial2);
+  Revision revision=latestRevision(svnMaterial1,pipelineDir,new TestSubprocessExecutionContext());
+  materials.updateTo(revision,pipelineDir,inMemoryConsumer(),new TestSubprocessExecutionContext());
+  assertThat(new File(pipelineDir,"part1").exists(),is(true));
+  assertThat(new File(pipelineDir,"part2").exists(),is(true));
+  File testFile=new File(pipelineDir,"part1/test-file");
+  testFile.createNewFile();
+  assertThat(testFile.exists(),is(true));
+  TestFileUtil.createTestFolder(pipelineDir,ArtifactLogUtil.CRUISE_OUTPUT_FOLDER);
+  assertThat(pipelineDir.listFiles().length,is(3));
+  materials.updateTo(revision,pipelineDir,inMemoryConsumer(),new TestSubprocessExecutionContext());
+  assertThat(new File(pipelineDir,"part1").exists(),is(true));
+  assertThat(new File(pipelineDir,"part2").exists(),is(true));
+  assertThat("Should not delete the part1 directory",testFile.exists(),is(true));
+}

@@ -1,0 +1,11 @@
+{
+  if ("testsuite".equals(qName)) {
+    readingTestSuite=true;
+    singleTestSuite=createSingleTestSuite(attributes);
+    testcasesForSingleTestSuite=new ArrayList();
+    return;
+  }
+  if (readingTestSuite) {
+    testcaseExtractor.startElement(uri,localName,qName,attributes);
+  }
+}

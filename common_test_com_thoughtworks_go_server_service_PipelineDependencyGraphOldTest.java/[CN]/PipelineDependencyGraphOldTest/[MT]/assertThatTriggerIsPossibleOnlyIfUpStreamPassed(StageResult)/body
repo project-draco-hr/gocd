@@ -1,0 +1,9 @@
+{
+  StageInstanceModels stages=new StageInstanceModels();
+  stages.add(new StageInstanceModel("stage-0","21",upstreamResult,new StageIdentifier("blahUpStream",23,"stage-0","21")));
+  PipelineInstanceModel upStream=PipelineHistoryMother.singlePipeline("blahUpStream",stages);
+  PipelineInstanceModel down1=pim("blahDown1");
+  down1.setMaterialConfigs(new MaterialConfigs(dependencyMaterialConfig("blahUpStream","stage-0")));
+  PipelineDependencyGraphOld graph=new PipelineDependencyGraphOld(upStream,PipelineInstanceModels.createPipelineInstanceModels(down1));
+  assertThat(graph.hasUpStreamRevisionFor(graph.dependencies().find("blahDown1")),is(upstreamResult == StageResult.Passed));
+}

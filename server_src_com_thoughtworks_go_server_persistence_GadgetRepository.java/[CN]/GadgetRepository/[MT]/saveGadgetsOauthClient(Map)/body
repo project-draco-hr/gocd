@@ -1,0 +1,9 @@
+{
+  Long id=(Long)attributes.get("id");
+  GadgetOauthClient client=new GadgetOauthClient();
+  if (id != null && id > 0) {
+    client=persistenceHelper.loadDomainEntity(GadgetOauthClient.class,id);
+  }
+  client.setAttributes(attributes);
+  return persistenceHelper.saveOrUpdateEntity(client);
+}

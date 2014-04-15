@@ -1,0 +1,7 @@
+{
+  List<Modification> mods=hgMaterial.modificationsSince(workingFolder,new StringRevision(REVISION_0),new TestSubprocessExecutionContext());
+  assertThat(mods.size(),is(2));
+  Modification modification=mods.get(0);
+  assertThat(modification.getRevision(),is(REVISION_2));
+  assertThat(modification.getModifiedFiles().size(),is(1));
+}

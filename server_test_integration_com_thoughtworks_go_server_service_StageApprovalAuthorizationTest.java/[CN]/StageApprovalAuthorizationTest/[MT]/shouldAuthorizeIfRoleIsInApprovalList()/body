@@ -1,0 +1,7 @@
+{
+  CONFIG_HELPER.addSecurityWithAdminConfig();
+  CONFIG_HELPER.addRole(new Role(new CaseInsensitiveString("adminRole"),new RoleUser(new CaseInsensitiveString("tester"))));
+  StageConfig stage=StageConfigMother.custom("test",authConfigWithAdminRole);
+  PipelineConfig pipeline=CONFIG_HELPER.addStageToPipeline(PIPELINE_NAME,stage);
+  assertThat("User tester should have permission on test stage",securityService.hasOperatePermissionForStage(CaseInsensitiveString.str(pipeline.name()),CaseInsensitiveString.str(stage.name()),"tester"),is(true));
+}

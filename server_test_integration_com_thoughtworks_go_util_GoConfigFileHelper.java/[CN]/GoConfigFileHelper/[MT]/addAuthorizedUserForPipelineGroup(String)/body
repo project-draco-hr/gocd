@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=load();
+  PipelineConfigs group=cruiseConfig.getGroups().first();
+  group.getAuthorization().getViewConfig().add(new AdminUser(new CaseInsensitiveString(user)));
+  writeConfigFile(cruiseConfig);
+}

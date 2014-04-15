@@ -1,0 +1,8 @@
+{
+  Stage stage=dbHelper.saveBuildingStage("studios","dev");
+  JobInstance job=stage.getJobInstances().get(0);
+  scheduleService.rescheduleJob(job);
+  reportJobPassed(job);
+  JobInstance reloaded=jobInstanceDao.buildByIdWithTransitions(job.getId());
+  assertThat(reloaded.getState(),is(JobState.Rescheduled));
+}

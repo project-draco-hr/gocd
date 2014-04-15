@@ -1,0 +1,10 @@
+{
+  Pipeline pipeline=fixture.createPipelineWithFirstStageScheduled();
+  Stage oldStage=pipeline.getStages().byName(fixture.devStage);
+  HttpOperationResult result=new HttpOperationResult();
+  Stage newStage=scheduleService.rerunJobs(oldStage,a("foo","foo3"),result);
+  assertThat(result.canContinue(),is(false));
+  assertThat(result.message(),containsString("Pipeline[name='" + pipeline.getName() + "', counter='"+ pipeline.getCounter()+ "', label='"+ pipeline.getLabel()+ "'] is still in progress"));
+  assertThat(result.message(),containsString("Cannot schedule"));
+  assertThat(newStage,is(nullValue()));
+}

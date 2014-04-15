@@ -1,0 +1,41 @@
+{
+  Transport transport=null;
+  try {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(String.format("Sending email [%s] to [%s]",subject,to));
+    }
+    Properties props=mailProperties();
+    Session session=createSession(props);
+    transport=session.getTransport();
+    transport.connect(host,port,nullIfEmpty(username),nullIfEmpty(password));
+    MimeMessage msg=createMessage(subject,body,session,to);
+    transport.sendMessage(msg,msg.getRecipients(TO));
+    return ValidationBean.valid();
+  }
+ catch (  AuthenticationFailedException e) {
+    LOGGER.error(String.format("Sending failed for email [%s] to [%s]",subject,to),e);
+    return ValidationBean.notValid("Failed to send the email. Caused by: Authentication failed");
+  }
+catch (  NoSuchProviderException e) {
+    LOGGER.error(String.format("Sending failed for email [%s] to [%s]",subject,to),e);
+    return ValidationBean.notValid("Failed to send the email. Caused by: " + e.getMessage());
+  }
+catch (  MessagingException e) {
+    LOGGER.error(String.format("Sending failed for email [%s] to [%s]",subject,to),e);
+    return ValidationBean.notValid("Failed to send the email. Caused by: " + e.getMessage());
+  }
+catch (  Exception e) {
+    LOGGER.error(String.format("Sending failed for email [%s] to [%s]",subject,to),e);
+    return ValidationBean.notValid("Failed to send the email. Caused by: " + e.getMessage());
+  }
+ finally {
+    if (transport != null) {
+      try {
+        transport.close();
+      }
+ catch (      MessagingException e) {
+        LOGGER.error("Failed to close transport",e);
+      }
+    }
+  }
+}

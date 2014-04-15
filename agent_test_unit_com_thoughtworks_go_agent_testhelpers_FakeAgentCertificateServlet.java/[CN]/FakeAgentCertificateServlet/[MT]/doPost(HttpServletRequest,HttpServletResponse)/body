@@ -1,0 +1,10 @@
+{
+  ObjectOutputStream outputStream=null;
+  try {
+    outputStream=new ObjectOutputStream(response.getOutputStream());
+    outputStream.writeObject(AgentCertificateMother.agentCertificate());
+  }
+  finally {
+    IOUtils.closeQuietly(outputStream);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  AbstractSesameResource sesameSubject=(AbstractSesameResource)subject;
+  URI sesameNativePredicate=getSesameNativeProperty(predicate);
+  try {
+    conn.add(sesameSubject.getSesameNativeResource(),sesameNativePredicate,conn.getValueFactory().createLiteral(String.valueOf(object),XMLSchema.STRING),contextResource);
+  }
+ catch (  RepositoryException e) {
+    throw new ShineRuntimeException("Could not add statement << [" + subject + "] ["+ predicate+ "] ["+ object+ "] >>",e);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  if (variables.hasVariable(variableName)) {
+    return true;
+  }
+  for (  StageConfig stageConfig : this) {
+    if (stageConfig.hasVariableInScope(variableName)) {
+      return true;
+    }
+  }
+  return false;
+}

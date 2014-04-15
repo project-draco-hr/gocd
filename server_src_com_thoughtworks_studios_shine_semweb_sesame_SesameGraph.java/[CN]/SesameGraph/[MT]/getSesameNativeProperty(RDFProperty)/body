@@ -1,0 +1,8 @@
+{
+  if (!sesameNativeTypeByRDFProperty.containsKey(predicate)) {
+    String predicateURIText=predicate.getURIText();
+    URI predicateURI=conn.getValueFactory().createURI(predicateURIText);
+    sesameNativeTypeByRDFProperty.put(predicate,predicateURI);
+  }
+  return sesameNativeTypeByRDFProperty.get(predicate);
+}

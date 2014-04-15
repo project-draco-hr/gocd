@@ -1,0 +1,8 @@
+{
+  AgentInstance agentInstance=AgentInstanceMother.updateAgentLauncherVersion(AgentInstanceMother.building(),null);
+  AgentViewModel modelWithNullLauncherVersion=new AgentViewModel(agentInstance);
+  assertThat(modelWithNullLauncherVersion.needsUpgrade(),is(true));
+  AgentInstanceMother.updateAgentLauncherVersion(agentInstance,"");
+  AgentViewModel modelWithEmptyLauncherVersion=new AgentViewModel(agentInstance);
+  assertThat(modelWithEmptyLauncherVersion.needsUpgrade(),is(true));
+}

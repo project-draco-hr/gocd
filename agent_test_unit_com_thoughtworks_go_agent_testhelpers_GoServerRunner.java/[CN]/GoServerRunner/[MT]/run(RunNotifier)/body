@@ -1,0 +1,19 @@
+{
+  try {
+    fakeGoServer.start();
+  }
+ catch (  Exception e) {
+    runNotifier.fireTestFailure(new Failure(getDescription(),e));
+  }
+  try {
+    super.run(runNotifier);
+  }
+  finally {
+    try {
+      fakeGoServer.stop();
+    }
+ catch (    Exception e) {
+      runNotifier.fireTestFailure(new Failure(getDescription(),e));
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  System.setProperty(SystemEnvironment.ARTIFACT_FULL_SIZE_LIMIT,"100");
+  assertThat(systemEnvironment.getArtifactReposiotryFullLimit(),is(100L));
+  systemEnvironment.setProperty(SystemEnvironment.ARTIFACT_FULL_SIZE_LIMIT,"50");
+  assertThat(systemEnvironment.getArtifactReposiotryFullLimit(),is(50L));
+}

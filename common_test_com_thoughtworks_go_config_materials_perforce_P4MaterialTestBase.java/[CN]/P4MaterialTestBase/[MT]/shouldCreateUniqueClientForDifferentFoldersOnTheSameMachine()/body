@@ -1,0 +1,8 @@
+{
+  P4Material p4Material=p4Fixture.material(VIEW);
+  String name1=p4Material.clientName(new File("/one-directory/foo/with_underlines"));
+  String name2=p4Material.clientName(new File("/another-directory/foo/with_underlines"));
+  assertThat(name1,is(not(name2)));
+  assertThat("Client name should be a legal filename: " + name1,name1.matches("[0-9a-zA-Z_\\.\\-]*"),is(true));
+  assertThat("Client name should be a legal filename: " + name2,name2.matches("[0-9a-zA-Z_\\.\\-]*"),is(true));
+}

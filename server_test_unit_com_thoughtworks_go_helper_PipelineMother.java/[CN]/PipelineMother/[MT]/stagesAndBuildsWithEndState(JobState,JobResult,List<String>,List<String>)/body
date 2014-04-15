@@ -1,0 +1,8 @@
+{
+  Stages stages=new Stages();
+  for (  String baseStageName : baseStageNames) {
+    String stageName=baseStageName;
+    stages.add(com.thoughtworks.go.helper.StageMother.stageWithNBuildsHavingEndState(endState,result,stageName,baseBuildNames));
+  }
+  return stages;
+}

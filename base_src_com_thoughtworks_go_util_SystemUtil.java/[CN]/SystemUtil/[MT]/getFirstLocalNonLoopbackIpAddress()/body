@@ -1,0 +1,18 @@
+{
+  SortedSet<String> addresses=new TreeSet<String>();
+  Iterator<NetworkInterface> iterator=localInterfaces.iterator();
+  while (iterator.hasNext()) {
+    NetworkInterface networkInterface=iterator.next();
+    Enumeration<InetAddress> inetAddressEnumeration=networkInterface.getInetAddresses();
+    while (inetAddressEnumeration.hasMoreElements()) {
+      InetAddress address=inetAddressEnumeration.nextElement();
+      if (!address.isLoopbackAddress() && !address.getHostAddress().contains(":")) {
+        addresses.add(address.getHostAddress());
+      }
+    }
+  }
+  if (addresses.isEmpty()) {
+    throw new RuntimeException("Failed to get non-loopback local ip address!");
+  }
+  return addresses.first();
+}

@@ -1,0 +1,22 @@
+{
+  JobInstance dev=assignedWithAgentId("dev","agent1");
+  JobInstance DEv=assignedWithAgentId("DEv","agent1");
+  JobInstance bev=assignedWithAgentId("bev","agent2");
+  JobInstance tev=scheduled("tev");
+  JobInstance lev=assignAgent(passed("lev"),"agent3");
+  JobInstance kev=assignAgent(failed("kev"),"agent3");
+  AgentInstance agent=building();
+  when(agentService.findAgentAndRefreshStatus(any(String.class))).thenReturn(agent);
+  List<JobInstanceModel> models=new JobPresentationService(jobDurationStrategy,agentService).jobInstanceModelFor(new JobInstances(dev,bev,tev,lev,kev,DEv));
+  assertThat(models.size(),is(6));
+  assertThat(models.get(0),is(new JobInstanceModel(kev,jobDurationStrategy,agent)));
+  assertThat(models.get(1),is(new JobInstanceModel(bev,jobDurationStrategy,agent)));
+  assertThat(models.get(2),is(new JobInstanceModel(dev,jobDurationStrategy,agent)));
+  assertThat(models.get(3),is(new JobInstanceModel(DEv,jobDurationStrategy,agent)));
+  assertThat(models.get(4),is(new JobInstanceModel(tev,jobDurationStrategy)));
+  assertThat(models.get(5),is(new JobInstanceModel(lev,jobDurationStrategy,agent)));
+  verify(agentService,times(2)).findAgentAndRefreshStatus("agent1");
+  verify(agentService).findAgentAndRefreshStatus("agent2");
+  verify(agentService,times(2)).findAgentAndRefreshStatus("agent3");
+  verifyNoMoreInteractions(agentService);
+}

@@ -1,0 +1,10 @@
+{
+  for (  PipelineConfigQueueEntry pipelineConfigQueueEntry : queue) {
+    if (pipelineConfigQueueEntry.hasMaterial(materialConfig)) {
+      if (!pipelineConfigQueueEntry.shouldIgnore(revision)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}

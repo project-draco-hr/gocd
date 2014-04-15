@@ -1,0 +1,30 @@
+{
+  final SvnMaterial svnMaterial=svnMaterial("http://svnurl");
+  final HgMaterial hgMaterial=hgMaterial("http://hgurl","hgdir");
+  MaterialRevisions currentRevisions=ModificationsMother.getMaterialRevisions(new HashMap<Material,String>(){
+{
+      put(svnMaterial,"1");
+      put(hgMaterial,"a");
+    }
+  }
+);
+  MaterialRevisions latestRevisions=ModificationsMother.getMaterialRevisions(new HashMap<Material,String>(){
+{
+      put(svnMaterial,"1");
+      put(hgMaterial,"b");
+    }
+  }
+);
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  materialConfigs.add(svnMaterial.config());
+  materialConfigs.add(hgMaterial.config());
+  StageInstanceModels stages=new StageInstanceModels();
+  stages.addStage("unit1",JobHistory.withJob("test",JobState.Completed,JobResult.Passed,new Date()));
+  stages.addFutureStage("unit2",false);
+  PipelineInstanceModel model=PipelineInstanceModel.createPipeline("pipeline",-1,"label",BuildCause.createWithModifications(currentRevisions,""),stages);
+  model.setLatestRevisions(latestRevisions);
+  model.setMaterialConfigs(materialConfigs);
+  assertThat("svnMaterial hasNewRevisions",model.hasNewRevisions(svnMaterial.config()),is(false));
+  assertThat("hgMaterial hasNewRevisions",model.hasNewRevisions(hgMaterial.config()),is(true));
+  assertThat("all materials hasNewRevisions",model.hasNewRevisions(),is(true));
+}

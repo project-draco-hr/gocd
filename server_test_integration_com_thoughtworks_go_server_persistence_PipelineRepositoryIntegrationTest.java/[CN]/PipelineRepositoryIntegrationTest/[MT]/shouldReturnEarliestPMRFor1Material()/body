@@ -1,0 +1,27 @@
+{
+  HgMaterial hgmaterial=MaterialsMother.hgMaterial("first");
+  PipelineConfig pipelineConfig=createPipelineConfig(PIPELINE_NAME,"stage","job");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(hgmaterial.config()));
+  DateTime date=new DateTime(1984,12,23,0,0,0,0);
+  long firstId=createPipeline(hgmaterial,pipelineConfig,1,oneModifiedFile("3",date.plusDays(2).toDate()),oneModifiedFile("2",date.plusDays(2).toDate()),oneModifiedFile("1",date.plusDays(3).toDate()));
+  long secondId=createPipeline(hgmaterial,pipelineConfig,2,oneModifiedFile("5",date.plusDays(1).toDate()),oneModifiedFile("4",date.toDate()));
+  PipelineTimeline pipelineTimeline=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  List<PipelineTimelineEntry> entries=pipelineRepository.updatePipelineTimeline(pipelineTimeline);
+  assertThat(pipelineTimeline.getEntriesFor(PIPELINE_NAME).size(),is(2));
+  assertThat(entries.size(),is(2));
+  assertThat(entries,hasItem(expected(firstId,Collections.singletonMap(hgmaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(2).toDate(),"123",hgmaterial.getFingerprint(),10))),1)));
+  assertThat(entries,hasItem(expected(secondId,Collections.singletonMap(hgmaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(1).toDate(),"12",hgmaterial.getFingerprint(),8))),2)));
+  assertThat(pipelineTimeline.getEntriesFor(PIPELINE_NAME),hasItem(expected(firstId,Collections.singletonMap(hgmaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(2).toDate(),"123",hgmaterial.getFingerprint(),10))),1)));
+  assertThat(pipelineTimeline.getEntriesFor(PIPELINE_NAME),hasItem(expected(secondId,Collections.singletonMap(hgmaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(1).toDate(),"12",hgmaterial.getFingerprint(),8))),2)));
+  assertThat(pipelineTimeline.maximumId(),is(secondId));
+  long thirdId=createPipeline(hgmaterial,pipelineConfig,3,oneModifiedFile("30",date.plusDays(10).toDate()));
+  pipelineRepository.updatePipelineTimeline(pipelineTimeline);
+  assertThat(pipelineTimeline.getEntriesFor(PIPELINE_NAME).size(),is(3));
+  assertThat(pipelineTimeline.getEntriesFor(PIPELINE_NAME),hasItem(expected(thirdId,Collections.singletonMap(hgmaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(10).toDate(),"1234",hgmaterial.getFingerprint(),12))),3)));
+  assertThat(pipelineTimeline.maximumId(),is(thirdId));
+  assertThat(pipelineSqlMapDao.pipelineByIdWithMods(firstId).getNaturalOrder(),is(1.0));
+  assertThat(pipelineSqlMapDao.pipelineByIdWithMods(secondId).getNaturalOrder(),is(0.5));
+  assertThat(pipelineSqlMapDao.pipelineByIdWithMods(thirdId).getNaturalOrder(),is(2.0));
+  PipelineTimeline pipelineTimeline2=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  pipelineRepository.updatePipelineTimeline(pipelineTimeline2);
+}

@@ -1,0 +1,8 @@
+{
+  MaterialConfig config=dataPoints.material.config();
+  MaterialConnectivityService spy=spy(service);
+  doReturn(dataPoints.klass).when(spy).getMaterialClass(dataPoints.material);
+  doReturn(dataPoints.material).when(materialConfigConverter).toMaterial(config);
+  ValidationBean actual=spy.checkConnection(config,executionContext);
+  assertThat(actual,is(dataPoints.expectedResult));
+}

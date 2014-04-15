@@ -1,0 +1,10 @@
+{
+  Stage stageLoadedBeforeCancellation=stageService.stageById(stage.getId());
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      stageService.cancelStage(stage);
+    }
+  }
+);
+  assertThat(stageService.stageById(stage.getId()),is(not(stageLoadedBeforeCancellation)));
+}

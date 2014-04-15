@@ -1,0 +1,13 @@
+{
+  ExecTask task=new ExecTask("ls","-l","../../../assertTaskInvalid");
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline");
+  PipelineConfig pipeline=config.pipelineConfigByName(new CaseInsensitiveString("pipeline"));
+  StageConfig stage=pipeline.get(0);
+  JobConfig job=stage.getJobs().get(0);
+  job.addTask(task);
+  List<ConfigErrors> errors=config.validateAfterPreprocess();
+  assertThat(errors.size(),is(1));
+  String message="The path of the working directory for the custom command in job 'job' in stage 'stage' of pipeline 'pipeline' is outside the agent sandbox.";
+  assertThat(errors.get(0).firstError(),is(message));
+  assertThat(task.errors().on(ExecTask.WORKING_DIR),is(message));
+}

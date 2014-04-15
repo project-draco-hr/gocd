@@ -1,0 +1,12 @@
+{
+  material=new PackageMaterial();
+  PackageRepository packageRepository=PackageRepositoryMother.create("id","name","plugin-id","plugin-version",new Configuration(ConfigurationPropertyMother.create("url",false,"http://some-url")));
+  PackageDefinition packageDefinition=create("id","package",new Configuration(ConfigurationPropertyMother.create("name",false,"go-agent"),ConfigurationPropertyMother.create("secure",true,"value")),packageRepository);
+  material.setPackageDefinition(packageDefinition);
+  packageMaterialProvider=mock(PackageMaterialProvider.class);
+  packageMaterialPoller=mock(PackageMaterialPoller.class);
+  when(packageMaterialProvider.getPoller()).thenReturn(packageMaterialPoller);
+  poller=new com.thoughtworks.go.server.service.materials.PackageMaterialPoller(dummyPluginManager(packageMaterialProvider));
+  packageConfiguration=new ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>();
+  repositoryConfiguration=new ArgumentCaptor<RepositoryConfiguration>();
+}

@@ -1,0 +1,12 @@
+{
+  Configuration configuration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  Packages packages=new Packages();
+  PackageDefinition aPackage=new PackageDefinition("package-id","package-name",configuration);
+  aPackage.setAutoUpdate(false);
+  packages.add(aPackage);
+  PackageRepository repository=createPackageRepository("plugin-id","version","id","name",configuration,packages);
+  cruiseConfig.setPackageRepositories(new PackageRepositories(repository));
+  xmlWriter.write(cruiseConfig,output,false);
+  assertThat(output.toString().contains("autoUpdate=\"false\""),is(true));
+}

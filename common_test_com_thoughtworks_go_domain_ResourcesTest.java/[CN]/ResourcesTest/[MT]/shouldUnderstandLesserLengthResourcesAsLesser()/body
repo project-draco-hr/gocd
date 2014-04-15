@@ -1,0 +1,9 @@
+{
+  Resources resourcesA=new Resources();
+  Resources resourcesB=new Resources();
+  resourcesA.add(new Resource("xyz"));
+  resourcesB.add(new Resource("xyz"));
+  resourcesB.add(new Resource("zzz"));
+  assertThat(resourcesA.compareTo(resourcesB),is(lessThan(0)));
+  assertThat(resourcesB.compareTo(resourcesA),is(greaterThan(0)));
+}

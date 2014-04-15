@@ -1,0 +1,9 @@
+{
+  Pipeline byNameAndCounter=pipelineDao.findPipelineByNameAndCounter(initialRevision.getPipelineName(),initialRevision.getPipelineCounter());
+  MaterialRevisions revisions=materialRepository.findMaterialRevisionsForPipeline(byNameAndCounter.getId());
+  path.remove(0);
+  if (path.isEmpty()) {
+    return revisions.findRevisionForFingerPrint(matchedMaterial.getFingerprint());
+  }
+  return getRevisionFor(path,revisions.findDependencyMaterialRevision(CaseInsensitiveString.str(path.get(0).name())),matchedMaterial);
+}

@@ -1,0 +1,8 @@
+{
+  User user=getUser("loser",10L);
+  mockConfigWithSecurity();
+  PipelineSelections pipelineSelections=new PipelineSelections(Arrays.asList("pip1"));
+  when(pipelineRepository.findPipelineSelectionsByUserId(user.getId())).thenReturn(null);
+  when(pipelineRepository.findPipelineSelectionsById("1")).thenReturn(pipelineSelections);
+  assertThat(goConfigService.getSelectedPipelines("1",user.getId()),is(pipelineSelections));
+}

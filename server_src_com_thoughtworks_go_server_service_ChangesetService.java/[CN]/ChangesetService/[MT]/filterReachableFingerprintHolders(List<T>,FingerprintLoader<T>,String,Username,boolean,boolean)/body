@@ -1,0 +1,6 @@
+{
+  PipelineConfigDependencyGraph graph=goConfigService.upstreamDependencyGraphOf(pipelineName);
+  Set<String> allMaterialFingerprints=graph.allMaterialFingerprints();
+  Set<String> reachableMaterialfingerprints=populateReachableFingerprints(graph,username,skipCheckForMingle,skipTrackingToolMatch);
+  return filterFingerprintHolders(allFingerprintHolders,reachableMaterialfingerprints,allMaterialFingerprints,fingerprintLoader);
+}

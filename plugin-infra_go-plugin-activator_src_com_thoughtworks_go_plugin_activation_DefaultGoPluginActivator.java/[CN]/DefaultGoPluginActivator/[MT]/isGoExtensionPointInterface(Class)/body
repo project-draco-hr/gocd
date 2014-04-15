@@ -1,0 +1,5 @@
+{
+  boolean hasGoPluginApiMarkerAnnotation=anInterface.getAnnotation(GoPluginApiMarker.class) != null;
+  boolean isAnInterfaceWhichHasBeenLeakedFromGoSystemBundle=GoPluginApiMarker.class.getClassLoader() == anInterface.getClassLoader();
+  return isAnInterfaceWhichHasBeenLeakedFromGoSystemBundle && hasGoPluginApiMarkerAnnotation;
+}

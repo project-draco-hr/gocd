@@ -1,0 +1,9 @@
+{
+  int total=ids.size(), remaining=total;
+  while (!ids.isEmpty()) {
+    LOGGER.info(String.format("Loading PMRs,Remaining %s Pipelines (Total: %s)...",remaining,total));
+    final List<Long> idsBatch=batchIds(ids,batchSize);
+    loadPMRByPipelineIds(idsBatch);
+    remaining-=batchSize;
+  }
+}

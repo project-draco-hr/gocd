@@ -1,0 +1,25 @@
+{
+  final boolean[] destroyCalled=new boolean[1];
+  final AgentBootstrapper bootstrapper=new AgentBootstrapper(new AgentLauncherCreator(){
+    public AgentLauncher createLauncher(){
+      return new AgentLauncher(){
+        public int launch(        AgentLaunchDescriptor descriptor){
+          return AgentLauncher.IRRECOVERABLE_ERROR;
+        }
+      }
+;
+    }
+    @Override public void destroy(){
+      destroyCalled[0]=true;
+    }
+  }
+);
+  final AgentBootstrapper spyBootstrapper=stubJVMExit(bootstrapper);
+  try {
+    spyBootstrapper.go(true,"ghost-name",3518);
+  }
+ catch (  Exception e) {
+    fail("should not have propagated exception thrown while invoking the launcher");
+  }
+  assertThat(destroyCalled[0],is(true));
+}

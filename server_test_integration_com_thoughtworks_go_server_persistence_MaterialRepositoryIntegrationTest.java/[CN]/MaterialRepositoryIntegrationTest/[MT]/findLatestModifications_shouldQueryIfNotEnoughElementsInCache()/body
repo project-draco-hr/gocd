@@ -1,0 +1,11 @@
+{
+  SvnMaterial material=MaterialsMother.svnMaterial();
+  MaterialRevision mod=saveOneScmModification(material,"user2","file3");
+  goCache.remove(repo.latestMaterialModificationsKey(repo.findMaterialInstance(material)));
+  HibernateTemplate mockTemplate=mock(HibernateTemplate.class);
+  repo.setHibernateTemplate(mockTemplate);
+  when(mockTemplate.execute(any(HibernateCallback.class))).thenReturn(mod.getModification(0));
+  Modification modification=repo.findLatestModification(repo.findMaterialInstance(material));
+  assertThat(modification,is(mod.getLatestModification()));
+  verify(mockTemplate).execute(any(HibernateCallback.class));
+}

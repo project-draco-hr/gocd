@@ -1,0 +1,6 @@
+{
+  environmentConfigService.sync(environments("uat","prod"));
+  assertThat(environmentConfigService.pipelinesFor(new CaseInsensitiveString("uat")).size(),is(1));
+  assertThat(environmentConfigService.pipelinesFor(new CaseInsensitiveString("uat")),hasItem(new CaseInsensitiveString("uat-pipeline")));
+  assertThat(environmentConfigService.pipelinesFor(new CaseInsensitiveString("prod")),hasItem(new CaseInsensitiveString("prod-pipeline")));
+}

@@ -1,0 +1,14 @@
+{
+  configHelper.addPipeline("pipeline-one","stage-zero");
+  configHelper.addStageToPipeline("pipeline-one",StageConfigMother.custom("stage-one","job-foo"));
+  configDbStateRepository.flushConfigState();
+  CruiseConfig cruiseConfig=configHelper.currentConfig();
+  StageConfig stageConfig=cruiseConfig.stageConfigByName(new CaseInsensitiveString("pipeline-one"),new CaseInsensitiveString("stage-one"));
+  ReflectionUtil.setField(stageConfig,"artifactCleanupProhibited",true);
+  configHelper.writeConfigFile(cruiseConfig);
+  configDbStateRepository.flushConfigState();
+  List<StageArtifactCleanupProhibited> list=configDbStateRepository.getHibernateTemplate().find("from StageArtifactCleanupProhibited");
+  assertThat(list.size(),is(2));
+  assertThat(list,hasItem(new StageArtifactCleanupProhibited("pipeline-one","stage-zero",false)));
+  assertThat(list,hasItem(new StageArtifactCleanupProhibited("pipeline-one","stage-one",true)));
+}

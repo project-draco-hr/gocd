@@ -1,0 +1,18 @@
+{
+  SvnMaterial svn=u.wf(new SvnMaterial("url","username","password",false),"folder1");
+  u.checkinInOrder(svn,"s1","s2");
+  GitMaterial git=u.wf(new GitMaterial("git"),"folder2");
+  git.setFilter(new Filter(new IgnoredFiles("ignored.txt")));
+  u.checkinInOrder(git,"g1");
+  u.checkinFile(git,"g2",new File("ignored.txt"),ModifiedAction.modified);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(svn));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(p1),u.m(svn),u.m(git));
+  String p1_1=u.runAndPass(p1,"s1");
+  String p2_1=u.runAndPass(p2,p1_1,"s1","g1");
+  MaterialRevisions given=u.mrs(new MaterialRevision[]{u.mr(p1,false,p1_1),u.mr(svn,true,"s2"),u.mr(git,true,"g2")});
+  MaterialRevisions previousRevisions=u.mrs(new MaterialRevision[]{u.mr(p1,false,p1_1),u.mr(svn,true,"s1"),u.mr(git,true,"g1")});
+  AutoBuild autoBuild=new AutoBuild(goConfigService,pipelineService,p2.config.name().toString(),systemEnvironment,materialChecker,serverHealthService);
+  pipelineTimeline.update();
+  BuildCause buildCause=autoBuild.onModifications(given,false,previousRevisions);
+  assertThat(buildCause,is(nullValue()));
+}

@@ -1,0 +1,9 @@
+{
+  git.latestModification(workingDir,new TestSubprocessExecutionContext());
+  File shouldBeRemoved=new File(workingDir,"shouldBeRemoved");
+  shouldBeRemoved.createNewFile();
+  assertThat(shouldBeRemoved.exists(),is(true));
+  git=new GitMaterial(new GitTestRepo().projectRepositoryUrl());
+  git.latestModification(workingDir,new TestSubprocessExecutionContext());
+  assertThat("Should have deleted whole folder",shouldBeRemoved.exists(),is(false));
+}

@@ -1,0 +1,6 @@
+{
+  when(checksums.md5For("path")).thenReturn(CachedDigestUtils.md5Hex("foo"));
+  final ByteArrayInputStream stream=new ByteArrayInputStream("foo".getBytes());
+  new ChecksumValidator(checksums).validate("path",CachedDigestUtils.md5Hex(stream),checksumValidationPublisher);
+  verify(checksumValidationPublisher).md5Match("path");
+}

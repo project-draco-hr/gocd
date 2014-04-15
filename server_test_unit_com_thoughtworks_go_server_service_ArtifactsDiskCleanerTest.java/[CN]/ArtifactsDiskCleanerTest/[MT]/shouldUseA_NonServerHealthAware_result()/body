@@ -1,0 +1,5 @@
+{
+  serverHealthService=mock(ServerHealthService.class);
+  OperationResult operationResult=artifactsDiskCleaner.resultFor(new DiskSpaceOperationResult(serverHealthService));
+  assertThat(operationResult,is(instanceOf(ServerHealthStateOperationResult.class)));
+}

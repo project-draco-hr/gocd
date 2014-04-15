@@ -1,0 +1,8 @@
+{
+  MaterialRevisions revisions=ModificationsMother.modifyOneFile(MaterialsMother.hgMaterials("url"),"revision");
+  StageInstanceModels stages=new StageInstanceModels();
+  stages.addStage("unit1",JobHistory.withJob("test",JobState.Completed,JobResult.Passed,new Date()));
+  stages.addFutureStage("unit2",false);
+  PipelineInstanceModel model=PipelineInstanceModel.createPipeline("pipeline",-1,"label",BuildCause.createWithModifications(revisions,""),stages);
+  assertThat(model.getPipelineStatusMessage(),is("Passed: unit1"));
+}

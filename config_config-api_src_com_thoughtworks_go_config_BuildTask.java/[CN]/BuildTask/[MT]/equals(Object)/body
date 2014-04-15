@@ -1,0 +1,22 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  if (!super.equals(o)) {
+    return false;
+  }
+  BuildTask buildTask=(BuildTask)o;
+  if (buildFile != null ? !buildFile.equals(buildTask.buildFile) : buildTask.buildFile != null) {
+    return false;
+  }
+  if (target != null ? !target.equals(buildTask.target) : buildTask.target != null) {
+    return false;
+  }
+  if (workingDirectory != null ? !workingDirectory.equals(buildTask.workingDirectory) : buildTask.workingDirectory != null) {
+    return false;
+  }
+  return true;
+}

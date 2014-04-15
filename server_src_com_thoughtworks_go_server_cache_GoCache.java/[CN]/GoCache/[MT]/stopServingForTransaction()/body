@@ -1,0 +1,11 @@
+{
+  if (transactionSynchronizationManager.isTransactionBodyExecuting() && !doNotServeForTransaction()) {
+    doNotServeForTransaction.set(true);
+    transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+      @Override public void beforeCompletion(){
+        doNotServeForTransaction.set(false);
+      }
+    }
+);
+  }
+}

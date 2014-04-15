@@ -1,0 +1,10 @@
+{
+synchronized (key.intern()) {
+    if (locks.containsKey(key)) {
+      return locks.get(key);
+    }
+    ReentrantReadWriteLock lock=new ReentrantReadWriteLock();
+    locks.put(key,lock);
+    return lock;
+  }
+}

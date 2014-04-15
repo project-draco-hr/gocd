@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=load();
+  AdminsConfig adminsConfig=cruiseConfig.server().security().adminsConfig();
+  for (  String adminName : adminNames) {
+    adminsConfig.add(new AdminUser(new CaseInsensitiveString(adminName)));
+  }
+  writeConfigFile(cruiseConfig);
+}

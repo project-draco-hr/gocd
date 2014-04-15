@@ -1,0 +1,19 @@
+{
+  String expectedHelpUrl="http://test.host/go/help/installing_go_server.html";
+  GoConfigService goConfigService=mockGoConfigServiceToHaveSiteUrl();
+  SystemDiskSpaceChecker checker=mock(SystemDiskSpaceChecker.class);
+  when(checker.getUsableSpace(any(File.class))).thenReturn(1000000L);
+  ArtifactsDiskSpaceWarningChecker diskSpaceWarningChecker=new ArtifactsDiskSpaceWarningChecker(new SystemEnvironment(),null,goConfigService,checker,serverHealthService){
+    @Override protected String targetFolderCanonicalPath(){
+      return ".";
+    }
+  }
+;
+  SendEmailMessage actual=diskSpaceWarningChecker.createEmail();
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  diskSpaceWarningChecker.check(result);
+  assertThat(actual.getBody(),Matchers.containsString(expectedHelpUrl));
+  assertThat(result.getServerHealthState().isSuccess(),is(true));
+  assertThat(result.getServerHealthState().getMessage(),is("Go Server's artifact repository is running low on disk space"));
+  assertThat(result.getServerHealthState().getType(),is(HealthStateType.artifactsDiskFull()));
+}

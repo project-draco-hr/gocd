@@ -1,0 +1,17 @@
+{
+  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier);
+  runtimeInfo.setCookie("invalid_cookie");
+  AgentInstance original=AgentInstance.createFromLiveAgent(AgentRuntimeInfo.fromAgent(agentIdentifier),new SystemEnvironment());
+  try {
+    when(agentService.findAgentAndRefreshStatus(runtimeInfo.getUUId())).thenReturn(original);
+    agentService.updateRuntimeInfo(runtimeInfo);
+    fail("should throw exception when cookie mismatched");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is(format("Agent [%s] has invalid cookie",runtimeInfo.agentInfoDebugString())));
+    assertThat(Arrays.asList(logFixture.getMessages()),hasItem(format("Found agent [%s] with duplicate uuid. Please check the agent installation.",runtimeInfo.agentInfoDebugString())));
+    verify(serverHealthService).update(ServerHealthState.warning(format("[%s] has duplicate unique identifier which conflicts with [%s]",runtimeInfo.agentInfoForDisplay(),original.agentInfoForDisplay()),"Please check the agent installation. Click <a href='/go/help/agent_guid_issue.html' target='_blank'>here</a> for more info.",HealthStateType.duplicateAgent(HealthStateScope.forAgent(runtimeInfo.getCookie())),Timeout.THIRTY_SECONDS));
+  }
+  verify(agentInstances).findAgentAndRefreshStatus(runtimeInfo.getUUId());
+  verifyNoMoreInteractions(agentInstances);
+}

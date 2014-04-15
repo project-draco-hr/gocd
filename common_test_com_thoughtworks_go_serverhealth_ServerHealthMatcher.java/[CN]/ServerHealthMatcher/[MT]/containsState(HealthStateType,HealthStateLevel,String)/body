@@ -1,0 +1,38 @@
+{
+  return new TypeSafeMatcher<ServerHealthService>(){
+    private List<ServerHealthState> allLogs;
+    private ServerHealthState entry;
+    private boolean levelMatches;
+    private boolean messageMatches;
+    public boolean matchesSafely(    ServerHealthService item){
+      allLogs=item.getAllLogs();
+      for (      ServerHealthState serverHealthState : allLogs) {
+        if (serverHealthState.getType().equals(healthStateType)) {
+          entry=serverHealthState;
+        }
+      }
+      if (!(entry != null)) {
+        return false;
+      }
+ else {
+        levelMatches=healthStateLevel == null || healthStateLevel.equals(entry.getLogLevel());
+        messageMatches=message == null || message.equals(entry.getMessage());
+        return levelMatches && messageMatches;
+      }
+    }
+    public void describeTo(    Description description){
+      if (entry == null) {
+        description.appendText("Can not find result with " + healthStateType + " in all logs: "+ allLogs);
+      }
+ else {
+        if (!levelMatches) {
+          description.appendText("Level was " + entry.getLogLevel() + " instead of "+ healthStateLevel);
+        }
+        if (!messageMatches) {
+          description.appendText("Message was: \n" + entry.getMessage() + "\n instead of:\n"+ message);
+        }
+      }
+    }
+  }
+;
+}

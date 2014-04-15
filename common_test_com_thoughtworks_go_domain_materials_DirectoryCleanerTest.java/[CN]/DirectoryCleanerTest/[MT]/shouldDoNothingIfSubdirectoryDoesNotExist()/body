@@ -1,0 +1,7 @@
+{
+  File allowedFolder=new File(baseFolder,"subfolder/allowed");
+  cleaner.allowed("subfolder/allowed");
+  cleaner.clean();
+  assertThat(baseFolder.exists(),is(true));
+  assertThat(allowedFolder.exists(),is(false));
+}

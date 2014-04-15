@@ -1,0 +1,7 @@
+{
+  String pipelineXmlPartial="<pipeline name=\"pipeline\">\n" + "  <materials>\n" + "    <svn url=\"/hgrepo1\" dest=\"folder1\" />\n"+ "    <svn url=\"/hgrepo2\" dest=\"folder2\" />\n"+ "    <svn url=\"/hgrepo3\" dest=\"folder3\" />\n"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <artifacts>\n"+ "          <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "        </artifacts>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n";
+  PipelineConfig pipeline=xmlLoader.fromXmlPartial(toInputStream(pipelineXmlPartial),PipelineConfig.class);
+  assertThat(pipeline.materialConfigs().size(),is(3));
+  ScmMaterialConfig material=(ScmMaterialConfig)pipeline.materialConfigs().get(0);
+  assertThat(material.getFolder(),is("folder1"));
+}

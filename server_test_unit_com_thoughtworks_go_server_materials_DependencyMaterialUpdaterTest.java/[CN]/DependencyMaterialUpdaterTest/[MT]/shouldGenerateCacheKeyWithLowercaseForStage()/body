@@ -1,0 +1,6 @@
+{
+  Stage stage=new Stage();
+  stage.setIdentifier(new StageIdentifier("PIPEline_123",3,"3","STAge_123","1"));
+  String key=DependencyMaterialUpdater.cacheKeyForDependencyMaterial(stage);
+  assertThat(key,is(String.format(DependencyMaterialUpdater.DEPENDENCY_MATERIAL_CACHE_KEY_FORMAT,"pipeline_123","stage_123")));
+}

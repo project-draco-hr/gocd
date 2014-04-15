@@ -1,0 +1,9 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  agentInstance.update(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null));
+  Date time=agentInstance.getLastHeardTime();
+  Thread.sleep(1000);
+  agentInstance.update(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null));
+  Date newtime=agentInstance.getLastHeardTime();
+  assertThat(newtime.after(time),is(true));
+}

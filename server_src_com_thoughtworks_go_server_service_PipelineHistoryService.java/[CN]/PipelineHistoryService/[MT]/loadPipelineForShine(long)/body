@@ -1,0 +1,6 @@
+{
+  PipelineInstanceModel pipeline=pipelineDao.loadHistory(id);
+  PipelineConfig pipelineConfig=goConfigService.currentCruiseConfig().pipelineConfigByName(new CaseInsensitiveString(pipeline.getName()));
+  populatePipelineInstanceModel(pipelineConfig,pipeline);
+  return pipeline;
+}

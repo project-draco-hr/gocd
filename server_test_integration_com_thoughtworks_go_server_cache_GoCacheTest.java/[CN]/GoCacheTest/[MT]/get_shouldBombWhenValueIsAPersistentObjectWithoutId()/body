@@ -1,0 +1,13 @@
+{
+  HgMaterial material=MaterialsMother.hgMaterial();
+  MaterialInstance materialInstance=material.createMaterialInstance();
+  materialInstance.setId(10);
+  goCache.put("foo",materialInstance);
+  materialInstance.setId(-1);
+  try {
+    goCache.get("foo");
+    fail("should not allow getting a persistent object without id: " + materialInstance);
+  }
+ catch (  Exception e) {
+  }
+}

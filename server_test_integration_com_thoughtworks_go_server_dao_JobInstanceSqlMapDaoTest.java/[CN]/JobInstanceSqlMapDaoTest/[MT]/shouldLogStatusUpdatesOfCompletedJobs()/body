@@ -1,0 +1,9 @@
+{
+  LogFixture logFixture=LogFixture.startListening(Level.WARN);
+  JobInstance instance=runningJob("1");
+  completeJobs(instance);
+  instance.schedule();
+  jobInstanceDao.updateStateAndResult(instance);
+  assertThat(logFixture.getLog(),logFixture.contains(Level.WARN,"State change for a completed Job is not allowed."),is(true));
+  logFixture.stopListening();
+}

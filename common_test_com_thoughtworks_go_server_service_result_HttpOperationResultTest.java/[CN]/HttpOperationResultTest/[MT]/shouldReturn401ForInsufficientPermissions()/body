@@ -1,0 +1,6 @@
+{
+  httpOperationResult.unauthorized("permission denied","blah blah",HealthStateType.general(HealthStateScope.forPipeline("baboon")));
+  assertThat(httpOperationResult.httpCode(),is(401));
+  assertThat(httpOperationResult.canContinue(),is(false));
+  assertThat(httpOperationResult.message(),is("permission denied"));
+}

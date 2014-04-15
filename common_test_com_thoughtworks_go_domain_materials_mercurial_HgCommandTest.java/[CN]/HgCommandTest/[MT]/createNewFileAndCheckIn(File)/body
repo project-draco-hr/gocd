@@ -1,0 +1,11 @@
+{
+  try {
+    new FileOutputStream(new File(directory,"test.txt")).close();
+    addremove(directory);
+    commit("created test.txt",directory);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+  return latestRevisionOf();
+}

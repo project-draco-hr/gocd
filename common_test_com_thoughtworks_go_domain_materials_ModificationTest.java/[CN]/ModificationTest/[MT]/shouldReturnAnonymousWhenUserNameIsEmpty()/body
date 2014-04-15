@@ -1,0 +1,8 @@
+{
+  Modification modification=new Modification("","comment",null,null,null);
+  assertThat(modification.getUserDisplayName(),Is.is(Modification.ANONYMOUS));
+  modification.setUserName("");
+  assertThat(modification.getUserDisplayName(),Is.is(Modification.ANONYMOUS));
+  modification.setUserName("   ");
+  assertThat(modification.getUserDisplayName(),Is.is(Modification.ANONYMOUS));
+}

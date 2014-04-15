@@ -1,0 +1,52 @@
+{
+  int exitValue=0;
+  String java=System.getProperty("java.home") + System.getProperty("file.separator") + "bin"+ System.getProperty("file.separator")+ "java";
+  String startMem=System.getProperty("cruise.server.mem","512");
+  String maxMem=System.getProperty("cruise.server.maxmem","1024");
+  String perm=System.getProperty("cruise.server.permgen","128");
+  String maxPerm=System.getProperty("cruise.server.maxpermgen","256");
+  String lang=System.getProperty("cruise.server.lang","en");
+  String country=System.getProperty("cruise.server.country","US");
+  boolean dbDebugMode=System.getProperty("cruise.server.db_debug_mode") != null;
+  final String[] args=new String[]{java,"-Xms" + startMem + "m","-Xmx" + maxMem + "m","-XX:PermSize=" + perm + "m","-XX:MaxPermSize=" + maxPerm + "m",dbDebugMode ? "-DDB_DEBUG_MODE=true" : "-Dignored=true","-Duser.language=" + lang,"-Duser.country=" + country,"-Dcruise.config.file=" + GO_CONFIG_DIRECTORY_PATH + "cruise-config.xml","-Dcruise.config.dir=" + GO_CONFIG_DIRECTORY_PATH,"-Dcruise.server.port=8153","-Dcruise.server.ssl.port=8154","-jar",new File("go.jar").getAbsolutePath()};
+  LOG.info("Running server as: " + asList(args));
+  try {
+    setUpApplicationSupport();
+    final Process server=Runtime.getRuntime().exec(args,null,new File(APPLICATION_SUPPORT_PATHNAME));
+    server.getErrorStream().close();
+    server.getInputStream().close();
+    server.getOutputStream().close();
+    Thread shutdownHook=new Thread(new Shutdown(server));
+    Runtime.getRuntime().addShutdownHook(shutdownHook);
+    Thread progressThread=new Thread(new Runnable(){
+      public void run(){
+        try {
+          displayLaunchingProgress(server);
+        }
+ catch (        InterruptedException e) {
+        }
+catch (        IOException e) {
+          LOG.severe("Exception while executing command: " + asList(args) + " - "+ e.toString());
+        }
+      }
+    }
+);
+    progressThread.start();
+    try {
+      exitValue=server.waitFor();
+      if (exitValue != 0) {
+        LOG.severe(String.format("Server was terminated with exit code %d.  Please see %sgo-server.log for more details.",exitValue,APPLICATION_SUPPORT_PATHNAME));
+        System.exit(1);
+      }
+    }
+ catch (    InterruptedException ie) {
+      LOG.severe("Server was interrupted. Terminating. " + ie.toString());
+      server.destroy();
+    }
+    Runtime.getRuntime().removeShutdownHook(shutdownHook);
+  }
+ catch (  IOException e) {
+    LOG.severe("Exception while executing command: " + asList(args) + " - "+ e.toString());
+  }
+  return exitValue;
+}

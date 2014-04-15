@@ -1,0 +1,19 @@
+{
+  final String md5=goConfigFileDao.md5OfConfigFile();
+  try {
+    ConfigSaveState configSaveState=goConfigFileDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
+      public String unmodifiedMd5(){
+        return md5;
+      }
+      public CruiseConfig update(      CruiseConfig cruiseConfig) throws Exception {
+        cruiseConfig.getEnvironments().add(new EnvironmentConfig(new CaseInsensitiveString("foo")));
+        return cruiseConfig;
+      }
+    }
+);
+    assertThat(configSaveState,is(ConfigSaveState.UPDATED));
+  }
+ catch (  RuntimeException e) {
+    fail("should not have failed for edit on unmodified config.");
+  }
+}

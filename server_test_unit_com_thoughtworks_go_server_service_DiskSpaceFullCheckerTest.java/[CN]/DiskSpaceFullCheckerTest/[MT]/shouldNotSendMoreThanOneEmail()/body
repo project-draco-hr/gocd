@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=simulateFullDisk();
+  ArtifactsDiskSpaceFullChecker fullChecker=createChecker(cruiseConfig);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  fullChecker.check(result);
+  assertThat(result.canContinue(),is(false));
+  verify(sender).sendEmail(any(SendEmailMessage.class));
+}

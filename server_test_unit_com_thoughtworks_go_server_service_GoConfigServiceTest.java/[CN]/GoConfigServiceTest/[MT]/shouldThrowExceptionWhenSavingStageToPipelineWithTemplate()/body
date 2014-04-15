@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipeline=pipelineWithTemplate();
+  expectLoadForEditing(configWith(pipeline));
+  try {
+    goConfigService.stageSaver("pipeline",0).asXml();
+    fail("shouldThrowExceptionWhenSavingStageToPipelineWithTemplate");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Pipeline 'pipeline' references template 'foo'. Cannot edit stage."));
+  }
+}

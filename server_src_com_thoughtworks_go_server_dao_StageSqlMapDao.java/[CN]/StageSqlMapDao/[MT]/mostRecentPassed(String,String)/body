@@ -1,0 +1,5 @@
+{
+  Map<String,Object> toGet=arguments("pipelineName",pipelineName).and("stageName",stageName).asMap();
+  Long mostRecentId=(Long)getSqlMapClientTemplate().queryForObject("getMostRecentPassedStageId",toGet);
+  return mostRecentId == null ? null : stageByIdWithBuilds(mostRecentId);
+}

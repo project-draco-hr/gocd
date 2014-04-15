@@ -1,0 +1,15 @@
+{
+  for (  MaterialConfig materialConfig : dependencyGraph.unsharedMaterialConfigs()) {
+    MaterialRevision revision=originalMaterialRevisions.findRevisionFor(materialConfig);
+    if (revision == null) {
+      String message=String.format("Couldn't find material-revision for material '%s' while auto-scheduling pipeline named '%s'",materialConfig,pipelineName);
+      RuntimeException exception=new NullPointerException(message);
+      LOGGER.error(message,exception);
+      throw exception;
+    }
+    if (revision.isChanged()) {
+      return true;
+    }
+  }
+  return false;
+}

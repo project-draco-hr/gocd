@@ -1,0 +1,7 @@
+{
+  if (stage.getState().isActive()) {
+    TreeSet<Long> ids=initializePipelineInstances(activePipelinesToIds,pipelineName);
+    removeCurrentLatestIfNoLongerActive(stage,ids);
+    ids.add(stage.getPipelineId());
+  }
+}

@@ -1,0 +1,9 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin.jar");
+  monitor.start();
+  waitAMoment();
+  verifyNoMoreInteractions(changeListener);
+}

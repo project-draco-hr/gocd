@@ -1,0 +1,11 @@
+{
+  ScmMaterial material=material();
+  repo.saveOrUpdate(material.createMaterialInstance());
+  MaterialRevision first=saveOneScmModification("40c95a3c41f54b5fb3107982cf2acd08783f102a",material,"pavan","meet_you_in_hell.txt","comment");
+  MaterialRevision second=saveOneScmModification("c30c471137f31a4bf735f653f888e799f6deec04",material,"turn_her","of_course_he_will_be_there_first.txt","comment");
+  Pipeline pipeline=createPipeline();
+  savePMR(first,pipeline);
+  savePMR(second,pipeline);
+  Long latestModId=repo.latestModificationRunByPipeline(new CaseInsensitiveString(pipeline.getName()),material);
+  assertThat(latestModId,is(second.getLatestModification().getId()));
+}

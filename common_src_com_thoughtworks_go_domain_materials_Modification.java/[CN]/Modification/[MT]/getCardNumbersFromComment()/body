@@ -1,0 +1,11 @@
+{
+  Set<String> cardNumbers=new TreeSet<String>();
+  Pattern pattern=Pattern.compile("#(\\d+)");
+  String comment=this.comment == null ? "" : this.comment;
+  Matcher matcher=pattern.matcher(comment);
+  while (hasMatch(matcher)) {
+    cardNumbers.add(id(matcher));
+    matcher.end();
+  }
+  return cardNumbers;
+}

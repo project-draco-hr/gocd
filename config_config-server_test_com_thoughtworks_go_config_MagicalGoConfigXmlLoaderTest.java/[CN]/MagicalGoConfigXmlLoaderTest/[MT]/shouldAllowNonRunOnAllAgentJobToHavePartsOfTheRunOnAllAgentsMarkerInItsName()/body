@@ -1,0 +1,4 @@
+{
+  String content=ConfigFileFixture.configWithPipeline("    <pipeline name=\"dev\">\n" + "      <materials>\n" + "        <svn url=\"file:///tmp/svn/repos/fifth\" />\n"+ "      </materials>\n"+ "      <stage name=\"AutoStage\">\n"+ "        <jobs>\n"+ "          <job name=\"valid-name-runOnAll\" >\n"+ "            <tasks>\n"+ "              <exec command=\"ls\" args=\"-lah\" />\n"+ "            </tasks>\n"+ "          </job>\n"+ "        </jobs>\n"+ "      </stage>\n"+ "    </pipeline>");
+  ConfigMigrator.loadWithMigration(content);
+}

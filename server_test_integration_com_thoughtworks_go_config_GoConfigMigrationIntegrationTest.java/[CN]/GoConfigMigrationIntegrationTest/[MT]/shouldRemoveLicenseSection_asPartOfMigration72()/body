@@ -1,0 +1,7 @@
+{
+  String licenseUser="Go UAT ThoughtWorks";
+  String configWithLicenseSection="<cruise schemaVersion='71'>" + "<server artifactsdir=\"logs\" commandRepositoryLocation=\"default\" serverId=\"dev-id\">" + "    <license user=\"" + licenseUser + "\">kTr+1ZBEr/5EiWlADIM6gUMtedtaLKPh6WRGp/2qISy1QczZpqJP5vmfydvx\n"+ "            Hq6o5X+nrb69sGOaBAvmjJ4cZBaIq+/4Yb+ufQCUM2DkacG/BjdEDpIoPHRA\n"+ "            fUnmjddxMnVKh2CW7gn7ZnmZUyasS9621UH2uNsfms3gfIK/1PRfbdrFuu5d\n"+ "            6xQEiEhjRVhKGFH4Uq2Cb0BVYCnQ+9eJ7WNwcV4pZCt1AoaMAxo4dox4NLpS\n"+ "            pKtgCp1Is/7ui+MGzKEyLCuO/LLMt0ChxWSN62vXiwdW3jl2HCEsLpb70FYR\n"+ "            Gj8eif3vuIB2rkOSvLkiAXqDFdEBEmb+GNV3nA4qOw=="+ "</license>\n"+ "  </server>"+ "</cruise>";
+  String migratedContent=migrateXmlString(configWithLicenseSection,71);
+  assertThat(migratedContent,not(containsString("license")));
+  assertThat(migratedContent,not(containsString(licenseUser)));
+}

@@ -1,0 +1,11 @@
+{
+  GoRequestContext goRequestContext=new GoRequestContext(request);
+  response.addHeader("Cache-Control",GoConstants.CACHE_CONTROL);
+  response.setStatus(status);
+  response.setContentType(RESPONSE_CHARSET);
+  Json json=jsonAware.toJson();
+  PrintWriter writer=response.getWriter();
+  JsonRenderer renderer=new JsonStreamRenderer(goRequestContext,writer);
+  json.renderTo(renderer);
+  writer.close();
+}

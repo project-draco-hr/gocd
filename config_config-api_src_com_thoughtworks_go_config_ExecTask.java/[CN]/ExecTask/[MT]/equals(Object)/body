@@ -1,0 +1,25 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  ExecTask execTask=(ExecTask)o;
+  if (timeout != execTask.timeout) {
+    return false;
+  }
+  if (args != null ? !args.equals(execTask.args) : execTask.args != null) {
+    return false;
+  }
+  if (argList != null ? !argList.equals(execTask.argList) : execTask.argList != null) {
+    return false;
+  }
+  if (!command.equals(execTask.command)) {
+    return false;
+  }
+  if (workingDirectory != null ? !workingDirectory.equals(execTask.workingDirectory) : execTask.workingDirectory != null) {
+    return false;
+  }
+  return true;
+}

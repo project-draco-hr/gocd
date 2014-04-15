@@ -1,0 +1,9 @@
+{
+  for (  File file : uploadedFiles.keySet()) {
+    if (file.getAbsolutePath().endsWith(endOfFileName)) {
+      org.junit.Assert.assertThat(uploadedFiles.get(file),org.hamcrest.core.Is.is(destination));
+      return;
+    }
+  }
+  junit.framework.Assert.fail(endOfFileName + " was not published to " + destination+ ".\n"+ uploadedFiles);
+}

@@ -1,0 +1,10 @@
+{
+  final GrantedAuthority[] authorities=authentication.getAuthorities();
+  if (authorities == null) {
+    return;
+  }
+  removeAdminFromContextIfNecessary(velocityContext,authorities);
+  removeGroupAdminFromContextIfNecessary(velocityContext,authorities);
+  removeTemplateAdminFromContextIfNecessary(velocityContext,authorities);
+  removeViewAdminRightsFromContextIfNecessary(velocityContext);
+}

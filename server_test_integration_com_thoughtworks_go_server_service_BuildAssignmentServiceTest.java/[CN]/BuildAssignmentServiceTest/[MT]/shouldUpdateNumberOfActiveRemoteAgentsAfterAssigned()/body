@@ -1,0 +1,10 @@
+{
+  AgentConfig agentConfig=AgentMother.remoteAgent();
+  configHelper.addAgent(agentConfig);
+  fixture.createPipelineWithFirstStageScheduled();
+  buildAssignmentService.onTimer();
+  int before=agentService.numberOfActiveRemoteAgents();
+  Work work=buildAssignmentService.assignWorkToAgent(agent(agentConfig));
+  assertThat(work,instanceOf(BuildWork.class));
+  assertThat(agentService.numberOfActiveRemoteAgents(),is(before + 1));
+}

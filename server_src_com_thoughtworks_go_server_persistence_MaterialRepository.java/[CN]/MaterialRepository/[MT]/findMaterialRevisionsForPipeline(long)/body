@@ -1,0 +1,9 @@
+{
+  List<PipelineMaterialRevision> revisions=findPipelineMaterialRevisions(pipelineId);
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  for (  PipelineMaterialRevision revision : revisions) {
+    List<Modification> modifications=findModificationsFor(revision);
+    materialRevisions.addRevision(new MaterialRevision(revision.getMaterial(),revision.getChanged(),modifications.toArray(new Modification[modifications.size()])));
+  }
+  return materialRevisions;
+}

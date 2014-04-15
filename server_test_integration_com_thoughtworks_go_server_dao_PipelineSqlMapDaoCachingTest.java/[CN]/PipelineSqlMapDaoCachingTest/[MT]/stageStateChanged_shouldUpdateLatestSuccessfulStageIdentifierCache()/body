@@ -1,0 +1,8 @@
+{
+  Stage passed=StageMother.passedStageInstance("dev","job","pipeline-name");
+  passed.setPipelineId(1L);
+  pipelineDao.stageStatusChanged(passed);
+  StageIdentifier actual=pipelineDao.findLastSuccessfulStageIdentifier("pipeline-name","dev");
+  assertEquals(passed.getIdentifier(),actual);
+  verify(mockTemplate,never()).queryForObject(eq("getLastSuccessfulStageInPipeline"),any());
+}

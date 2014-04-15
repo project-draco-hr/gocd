@@ -1,0 +1,10 @@
+{
+  Method loadAnnotatedMethod=getAnnotatedMethod(implementation,Load.class);
+  Method unloadAnnotatedMethod=getAnnotatedMethod(implementation,UnLoad.class);
+  if (loadAnnotatedMethod != null) {
+    loadAnnotatedMethod.invoke(implementation,DUMMY_PLUGIN_CONTEXT);
+  }
+  if (unloadAnnotatedMethod != null) {
+    this.unloadMethodInvokers.add(new UnloadMethodInvoker(implementation,unloadAnnotatedMethod));
+  }
+}

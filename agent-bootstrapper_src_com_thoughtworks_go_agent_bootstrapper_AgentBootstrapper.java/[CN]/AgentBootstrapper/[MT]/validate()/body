@@ -1,0 +1,8 @@
+{
+  Validation validation=new Validation();
+  FileValidator.defaultFile(Downloader.AGENT_LAUNCHER,false).validate(validation);
+  if (!validation.isSuccessful()) {
+    validation.logErrors(LOG);
+    throw new RuntimeException("Agent Bootstrapper initialization failed. Could not validate file: " + Downloader.AGENT_LAUNCHER);
+  }
+}

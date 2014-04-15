@@ -1,0 +1,12 @@
+{
+  if (state == listenerLastState) {
+    if (System.currentTimeMillis() - startTime > 10000) {
+      logState(state,name,progress,max);
+      startTime=System.currentTimeMillis();
+    }
+  }
+ else {
+    listenerLastState=state;
+    logState(state,name,progress,max);
+  }
+}

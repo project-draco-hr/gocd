@@ -1,0 +1,14 @@
+{
+  GitMaterial git1=u.wf(new GitMaterial("git1-url"),"git-folder1");
+  GitMaterial git2=u.wf(new GitMaterial("git2-url"),"git-folder2");
+  GitMaterial git3=u.wf(new GitMaterial("git3-url"),"git-folder3");
+  GitMaterial git4=u.wf(new GitMaterial("git4-url"),"git-folder4");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git1));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(p1),u.m(git1));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(git2));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("P4",u.m(p3),u.m(p2),u.m(git3));
+  ScheduleTestUtil.AddedPipeline p5=u.saveConfigWith("P5",u.m(p2),u.m(git3),u.m(git4));
+  ScheduleTestUtil.AddedPipeline p6=u.saveConfigWith("P6",u.m(p3),u.m(git3),u.m(git4));
+  ScheduleTestUtil.AddedPipeline p7=u.saveConfigWith("P7",u.m(p4),u.m(p5),u.m(p6));
+  ScheduleTestUtil.AddedPipeline p8=u.saveConfigWith("P8",u.m(p7));
+}

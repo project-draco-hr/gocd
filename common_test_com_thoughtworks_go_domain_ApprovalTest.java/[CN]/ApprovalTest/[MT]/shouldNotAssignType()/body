@@ -1,0 +1,11 @@
+{
+  Approval approval=new Approval();
+  approval.setConfigAttributes(new SingletonMap(Approval.TYPE,Approval.SUCCESS));
+  assertThat(approval.getType(),is(Approval.SUCCESS));
+  approval.setConfigAttributes(new HashMap());
+  assertThat(approval.getType(),is(Approval.SUCCESS));
+  approval.setConfigAttributes(new SingletonMap(Approval.TYPE,Approval.MANUAL));
+  assertThat(approval.getType(),is(Approval.MANUAL));
+  approval.setConfigAttributes(new HashMap());
+  assertThat(approval.getType(),is(Approval.MANUAL));
+}

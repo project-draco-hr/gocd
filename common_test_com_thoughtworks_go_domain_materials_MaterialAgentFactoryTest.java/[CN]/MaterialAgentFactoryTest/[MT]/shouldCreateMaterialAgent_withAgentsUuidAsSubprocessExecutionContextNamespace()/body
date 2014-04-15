@@ -1,0 +1,10 @@
+{
+  String agentUuid="uuid-01783738";
+  File workingDirectory=tempFiles.createUniqueFolder("");
+  MaterialAgentFactory factory=new MaterialAgentFactory(new ProcessOutputStreamConsumer(new DevNull(),new DevNull()),workingDirectory,new AgentIdentifier("host","1.1.1.1",agentUuid));
+  GitMaterial gitMaterial=new GitMaterial("http://foo","master","dest_folder");
+  MaterialAgent agent=factory.createAgent(new MaterialRevision(gitMaterial));
+  assertThat(agent,is(instanceOf(AbstractMaterialAgent.class)));
+  SubprocessExecutionContext execCtx=(SubprocessExecutionContext)ReflectionUtil.getField(agent,"execCtx");
+  assertThat(execCtx.getProcessNamespace("fingerprint"),is(CachedDigestUtils.sha256Hex(String.format("%s%s%s","fingerprint",agentUuid,gitMaterial.workingdir(workingDirectory)))));
+}

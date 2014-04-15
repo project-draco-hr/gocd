@@ -1,0 +1,13 @@
+{
+  List<FetchTask> fetchTasks=new ArrayList<FetchTask>();
+  for (  StageConfig stage : this) {
+    for (    JobConfig job : stage.getJobs()) {
+      for (      Task task : job.tasks()) {
+        if (task instanceof FetchTask) {
+          fetchTasks.add((FetchTask)task);
+        }
+      }
+    }
+  }
+  return fetchTasks;
+}

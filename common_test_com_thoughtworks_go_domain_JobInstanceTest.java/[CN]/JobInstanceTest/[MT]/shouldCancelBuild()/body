@@ -1,0 +1,6 @@
+{
+  final JobInstance instance=JobInstanceMother.scheduled("plan1");
+  instance.cancel();
+  assertThat(instance.getState(),is(JobState.Completed));
+  assertThat(instance.getResult(),is(JobResult.Cancelled));
+}

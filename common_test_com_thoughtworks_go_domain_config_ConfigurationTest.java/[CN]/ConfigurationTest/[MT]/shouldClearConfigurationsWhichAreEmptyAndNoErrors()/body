@@ -1,0 +1,12 @@
+{
+  Configuration configuration=new Configuration();
+  configuration.add(new ConfigurationProperty(new ConfigurationKey("name-one"),new ConfigurationValue()));
+  configuration.add(new ConfigurationProperty(new ConfigurationKey("name-two"),new EncryptedConfigurationValue()));
+  configuration.add(new ConfigurationProperty(new ConfigurationKey("name-three"),null,new EncryptedConfigurationValue(),null));
+  ConfigurationProperty configurationProperty=new ConfigurationProperty(new ConfigurationKey("name-four"),null,new EncryptedConfigurationValue(),null);
+  configurationProperty.addErrorAgainstConfigurationValue("error");
+  configuration.add(configurationProperty);
+  configuration.clearEmptyConfigurations();
+  assertThat(configuration.size(),is(1));
+  assertThat(configuration.get(0).getConfigurationKey().getName(),is("name-four"));
+}

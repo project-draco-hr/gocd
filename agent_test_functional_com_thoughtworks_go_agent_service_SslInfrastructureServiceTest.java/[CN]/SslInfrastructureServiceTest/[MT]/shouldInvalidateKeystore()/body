@@ -1,0 +1,11 @@
+{
+  shouldCreateSslInfrastucture();
+  sslInfrastructureService.registerIfNecessary();
+  assertThat(SslInfrastructureService.AGENT_CERTIFICATE_FILE,exists());
+  assertRemoteCalled();
+  sslInfrastructureService.registerIfNecessary();
+  assertRemoteNotCalled();
+  sslInfrastructureService.invalidateAgentCertificate();
+  sslInfrastructureService.registerIfNecessary();
+  assertRemoteCalled();
+}

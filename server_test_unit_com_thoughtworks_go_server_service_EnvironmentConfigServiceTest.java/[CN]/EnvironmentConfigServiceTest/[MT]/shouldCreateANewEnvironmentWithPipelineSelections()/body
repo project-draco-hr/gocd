@@ -1,0 +1,14 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Username user=new Username(new CaseInsensitiveString("user"));
+  when(securityService.isUserAdmin(user)).thenReturn(true);
+  String environmentName="foo-environment";
+  when(mockGoConfigService.hasEnvironmentNamed(new CaseInsensitiveString(environmentName))).thenReturn(false);
+  List<String> selectedPipelines=asList("first","second");
+  environmentConfigService.createEnvironment(env(environmentName,selectedPipelines,new ArrayList<Map<String,String>>(),new ArrayList<String>()),user,result);
+  assertThat(result.isSuccessful(),is(true));
+  EnvironmentConfig config=new EnvironmentConfig(new CaseInsensitiveString(environmentName));
+  config.addPipeline(new CaseInsensitiveString("first"));
+  config.addPipeline(new CaseInsensitiveString("second"));
+  verify(mockGoConfigService).addEnvironment(config);
+}

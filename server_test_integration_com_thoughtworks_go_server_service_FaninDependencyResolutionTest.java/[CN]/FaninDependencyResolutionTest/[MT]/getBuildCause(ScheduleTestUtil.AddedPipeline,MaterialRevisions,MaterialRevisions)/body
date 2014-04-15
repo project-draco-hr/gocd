@@ -1,0 +1,5 @@
+{
+  AutoBuild autoBuild=new AutoBuild(goConfigService,pipelineService,staging.config.name().toString(),systemEnvironment,materialChecker,serverHealthService);
+  pipelineTimeline.update();
+  return autoBuild.onModifications(given,false,previous);
+}

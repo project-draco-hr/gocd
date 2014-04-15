@@ -1,0 +1,11 @@
+{
+  File bundleLocation=mock(File.class);
+  when(bundleLocation.getName()).thenReturn("plugin-id");
+  GoPluginDescriptor descriptor1=GoPluginDescriptor.usingId("id","some-plugin.jar",bundleLocation,true);
+  registry.loadPlugin(descriptor1);
+  assertThat(descriptor1.id(),is("id"));
+  GoPluginDescriptor descriptorOfPluginToBeUnloaded=GoPluginDescriptor.usingId("plugin-id","some-plugin.jar",bundleLocation,true);
+  GoPluginDescriptor descriptorOfUnloadedPlugin=registry.unloadPlugin(descriptorOfPluginToBeUnloaded);
+  assertThat(descriptorOfUnloadedPlugin.id(),is("id"));
+  assertThat(registry.plugins().size(),is(0));
+}

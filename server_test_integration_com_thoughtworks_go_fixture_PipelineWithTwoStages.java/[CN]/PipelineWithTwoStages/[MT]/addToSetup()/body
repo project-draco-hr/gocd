@@ -1,0 +1,12 @@
+{
+  TestRepo svnTestRepo=new SvnTestRepo("testsvnrepo");
+  svnClient=new SvnCommand(null,svnTestRepo.projectRepositoryUrl());
+  MaterialConfigs materialConfigs=MaterialConfigsMother.mockMaterialConfigs(svnTestRepo.projectRepositoryUrl());
+  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)materialConfigs.first();
+  svnMaterialConfig.setName(new CaseInsensitiveString(DEFAULT_MATERIAL));
+  svnMaterialConfig.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"default-folder"));
+  configHelper.addPipelineWithGroup(groupName,pipelineName,materialConfigs,devStage,jobsOfDevStage);
+  configHelper.addStageToPipeline(pipelineName,ftStage,JOB_FOR_FT_STAGE);
+  configHelper.setPipelineLabelTemplate(pipelineName,"label-${COUNT}");
+  dbHelper.onSetUp();
+}

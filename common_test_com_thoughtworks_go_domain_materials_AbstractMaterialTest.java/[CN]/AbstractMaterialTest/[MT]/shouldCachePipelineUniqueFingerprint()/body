@@ -1,0 +1,7 @@
+{
+  TestMaterial testMaterial=new TestMaterial("foo");
+  String pipelineUniqueFingerprint=testMaterial.getPipelineUniqueFingerprint();
+  int appendPipelineUniqueAttrsCallCount=TestMaterial.PIPELINE_UNIQUE_ATTRIBUTE_ADDED;
+  assertThat(testMaterial.getPipelineUniqueFingerprint(),sameInstance(pipelineUniqueFingerprint));
+  assertThat(appendPipelineUniqueAttrsCallCount,is(TestMaterial.PIPELINE_UNIQUE_ATTRIBUTE_ADDED));
+}

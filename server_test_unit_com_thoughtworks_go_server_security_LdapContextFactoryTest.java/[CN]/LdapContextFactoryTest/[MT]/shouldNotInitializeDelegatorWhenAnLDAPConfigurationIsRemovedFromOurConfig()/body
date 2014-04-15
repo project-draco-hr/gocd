@@ -1,0 +1,12 @@
+{
+  LdapContextFactory factory=new LdapContextFactory(goConfigService);
+  when(goConfigService.security()).thenReturn(new SecurityConfig(new LdapConfig(goCipher),new PasswordFileConfig(),true));
+  try {
+    factory.initializeDelegator();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    fail("should not have thrown an execption");
+  }
+  verify(goConfigService).security();
+}

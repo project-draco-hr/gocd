@@ -1,0 +1,17 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  SecurityConfig securityConfig=securityConfigWithRole("role1","user1","user2");
+  securityConfigWithRole(securityConfig,"role2","user1","user2","user3");
+  securityConfigWithRole(securityConfig,"role3","user4","user5","user3");
+  securityConfigWithRole(securityConfig,"role3","user4","user5","user2");
+  config.setServerConfig(new ServerConfig(null,securityConfig));
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job")));
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfig("pipeline",stage);
+  config.addPipeline("defaultGroup",pipeline);
+  when(userDao.allUsers()).thenReturn(new Users(Arrays.asList(new User("user_one"),new User("user_two"))));
+  Set<String> users=userService.usersThatCanOperateOnStage(config,pipeline);
+  assertThat(config.findGroup("defaultGroup").hasAuthorizationDefined(),is(false));
+  assertThat(users.size(),is(2));
+  assertThat(users,hasItem("user_one"));
+  assertThat(users,hasItem("user_two"));
+}

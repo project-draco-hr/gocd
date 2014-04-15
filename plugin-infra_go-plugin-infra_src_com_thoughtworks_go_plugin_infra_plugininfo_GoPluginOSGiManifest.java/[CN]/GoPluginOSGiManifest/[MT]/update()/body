@@ -1,0 +1,9 @@
+{
+  String symbolicName=descriptor.id();
+  String classPath=buildClassPath();
+  String bundleActivator=DefaultGoPluginActivator.class.getCanonicalName();
+  if (!manifestLocation.exists()) {
+    manifestLocation.createNewFile();
+  }
+  updateManifest(symbolicName,classPath,bundleActivator);
+}

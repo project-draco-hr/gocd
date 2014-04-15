@@ -1,0 +1,7 @@
+{
+  PipelineConfig product=config.addPipeline("product","dev",svnRepo,"build");
+  config.setDependencyOn(product,PIPELINE_NAME,DEV_STAGE);
+  int oldSize=pipelineScheduleQueue.toBeScheduled().size();
+  createPipelineWithFirstStageCompletedAndNextStageBuilding(StageState.Failed);
+  assertThat(pipelineScheduleQueue.toBeScheduled().size(),is(oldSize));
+}

@@ -1,0 +1,22 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git1-url"),"git-folder1");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(git));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(p2));
+  u.checkinInOrder(git,"g1","g2");
+  String p1_1=u.runAndPass(p1,"g1");
+  String p2_1=u.runAndPass(p2,"g1");
+  String p3_1=u.runAndPass(p3,p1_1,p2_1);
+  String p1_2=u.runAndPass(p1,"g2");
+  Pipeline p2_2instance=u.scheduleWith(p2,"g2");
+  dbHelper.pass(p2_2instance);
+  MaterialRevisions given=u.mrs(u.mr(p1,true,p1_2),u.mr(p2,false,p2_1));
+  MaterialRevisions previous=u.mrs(u.mr(p1,true,p1_1),u.mr(p2,true,p2_1));
+  try {
+    getBuildCause(p3,given,previous);
+    fail();
+  }
+ catch (  NoModificationsPresentForDependentMaterialException exception) {
+    assertThat(exception.getMessage(),Matchers.containsString(p2_2instance.getFirstStage().getIdentifier().getStageLocator()));
+  }
+}

@@ -1,0 +1,11 @@
+{
+  configHelper.addPipelineWithGroup("some-group","some-pipeline","some-dev","some-linux","some-windows");
+  configHelper.addAgent("some-home","UUID");
+  String newXml=NEW_TEMPLATES;
+  String md5=goConfigFileDao.md5OfConfigFile();
+  ModelAndView mav=controller.postGroupAsXmlPartial("Pipeline Templates",newXml,md5,response);
+  assertResponseMessage(mav,"Template changed successfully.");
+  assertThat(response.getStatus(),is(SC_OK));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  assertThat(configHelper.currentConfig().getTemplates().size(),is(1));
+}

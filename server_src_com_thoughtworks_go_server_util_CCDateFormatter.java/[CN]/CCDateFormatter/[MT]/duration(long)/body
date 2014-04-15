@@ -1,0 +1,8 @@
+{
+  String when=timeSpan > 0 ? "ago" : "later";
+  long days=timeSpan / CCDateFormatter.MILLONS_OF_DAY;
+  String daysString=days == 0 ? "" : days + " days ";
+  String remaining=DateUtils.formatTime(timeSpan - days * CCDateFormatter.MILLONS_OF_DAY);
+  String space=remaining.endsWith(" ") ? "" : " ";
+  return daysString + remaining + space+ when;
+}

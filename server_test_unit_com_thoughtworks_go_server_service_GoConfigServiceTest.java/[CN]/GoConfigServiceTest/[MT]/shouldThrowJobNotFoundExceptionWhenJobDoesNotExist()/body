@@ -1,0 +1,11 @@
+{
+  expectLoad(unchangedConfig());
+  try {
+    goConfigService.translateToActualCase(new JobConfigIdentifier(PIPELINE,STAGE,"invalid-job"));
+    fail("should throw exception if job does not exist");
+  }
+ catch (  Exception e) {
+    assertThat(e,instanceOf(JobNotFoundException.class));
+    assertThat(e.getMessage(),containsString("invalid-job"));
+  }
+}

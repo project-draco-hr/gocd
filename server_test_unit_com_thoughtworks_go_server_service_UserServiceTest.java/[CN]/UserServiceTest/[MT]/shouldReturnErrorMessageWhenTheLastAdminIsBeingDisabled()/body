@@ -1,0 +1,10 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(userDao.enabledUsers()).thenReturn(Arrays.asList(new User("Jake"),new User("Pavan"),new User("Shilpa")));
+  configureAdmin("Jake",true);
+  configureAdmin("Pavan",true);
+  configureAdmin("Shilpa",false);
+  userService.disable(Arrays.asList("Pavan","Jake"),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpServletResponse.SC_BAD_REQUEST));
+}

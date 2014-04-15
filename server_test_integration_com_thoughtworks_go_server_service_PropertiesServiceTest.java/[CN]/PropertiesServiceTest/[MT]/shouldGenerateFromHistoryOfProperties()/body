@@ -1,0 +1,7 @@
+{
+  List<Properties> history=new ArrayList<Properties>();
+  history.add(new Properties(new Property("a","100"),new Property("b","200")));
+  history.add(new Properties(new Property("a","300"),new Property("b","400")));
+  Csv csv=PropertiesService.fromAllPropertiesHistory(history);
+  assertThat(csv.toString(),is("a,b\n" + "100,200\n" + "300,400\n"));
+}

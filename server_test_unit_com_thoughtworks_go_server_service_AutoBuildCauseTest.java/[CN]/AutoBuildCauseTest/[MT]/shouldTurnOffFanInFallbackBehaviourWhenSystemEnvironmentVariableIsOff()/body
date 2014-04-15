@@ -1,0 +1,21 @@
+{
+  PipelineConfigDependencyGraph dependencyGraph=dependencyGraphOfDepthOne(MaterialConfigsMother.hgMaterialConfig());
+  String targetPipeline=dependencyGraph.getCurrent().name().toLower();
+  MaterialRevisions revisions=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("2"));
+  MaterialRevision dependencyRevision=dependencyMaterialRevision("up1",1,"label","first",1,new Date());
+  dependencyRevision.markAsChanged();
+  revisions.addRevision(dependencyRevision);
+  RuntimeException expectedException=new RuntimeException("failed");
+  when(goConfigService.upstreamDependencyGraphOf(targetPipeline,cruiseConfig)).thenReturn(dependencyGraph);
+  when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenThrow(expectedException);
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.enforceRevisionCompatibilityWithUpstream()).thenReturn(true);
+  when(systemEnvironment.enforceFanInFallbackBehaviour()).thenReturn(false);
+  try {
+    new AutoBuild(goConfigService,pipelineService,targetPipeline,systemEnvironment,materialChecker,serverHealthService).onModifications(revisions,false,null);
+    fail("should have thrown exception");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e,Is.is(expectedException));
+  }
+}

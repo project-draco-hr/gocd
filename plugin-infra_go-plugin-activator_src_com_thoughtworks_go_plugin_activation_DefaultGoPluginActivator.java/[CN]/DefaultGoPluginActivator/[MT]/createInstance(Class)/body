@@ -1,0 +1,9 @@
+{
+  if (isANonStaticInnerClass(candidateGoExtensionClass)) {
+    Class declaringClass=candidateGoExtensionClass.getDeclaringClass();
+    Object declaringClassInstance=createInstance(candidateGoExtensionClass.getDeclaringClass());
+    return candidateGoExtensionClass.getConstructor(declaringClass).newInstance(declaringClassInstance);
+  }
+  Constructor constructor=candidateGoExtensionClass.getConstructor();
+  return constructor.newInstance();
+}

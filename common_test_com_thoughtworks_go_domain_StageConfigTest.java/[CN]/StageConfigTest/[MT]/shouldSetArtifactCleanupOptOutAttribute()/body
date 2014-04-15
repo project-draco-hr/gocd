@@ -1,0 +1,10 @@
+{
+  StageConfig config=new StageConfig();
+  assertThat(config.isArtifactCleanupProhibited(),is(false));
+  config.setConfigAttributes(new SingletonMap(StageConfig.ARTIFACT_CLEANUP_PROHIBITED,"1"));
+  assertThat(config.isArtifactCleanupProhibited(),is(true));
+  config.setConfigAttributes(new HashMap());
+  assertThat(config.isArtifactCleanupProhibited(),is(true));
+  config.setConfigAttributes(new SingletonMap(StageConfig.ARTIFACT_CLEANUP_PROHIBITED,"0"));
+  assertThat(config.isArtifactCleanupProhibited(),is(false));
+}

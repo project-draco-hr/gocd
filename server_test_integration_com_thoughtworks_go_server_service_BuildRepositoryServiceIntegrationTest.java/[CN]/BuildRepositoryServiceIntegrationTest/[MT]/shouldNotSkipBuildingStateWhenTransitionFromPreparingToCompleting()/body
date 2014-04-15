@@ -1,0 +1,13 @@
+{
+  PipelineConfig pipelineConfig=config.addPipeline("product","dev",svnRepo,"build");
+  Pipeline pipelineInPreparingState=PipelineMother.preparing(pipelineConfig);
+  dbHelper.savePipelineWithStagesAndMaterials(pipelineInPreparingState);
+  Pipeline reloadedPipeline=pipelineDao.mostRecentPipeline("product");
+  Stage stage=reloadedPipeline.getFirstStage();
+  JobInstance job=stage.getJobInstances().first();
+  String agentUuid=job.getAgentUuid();
+  long buildId=job.getId();
+  buildRepositoryService.completing(new JobIdentifier(reloadedPipeline,stage,job),JobResult.Failed,agentUuid);
+  JobInstance reloadedJob=jobInstanceDao.buildByIdWithTransitions(buildId);
+  assertThat(reloadedJob.getTransitions().byState(JobState.Building),is(not(nullValue())));
+}

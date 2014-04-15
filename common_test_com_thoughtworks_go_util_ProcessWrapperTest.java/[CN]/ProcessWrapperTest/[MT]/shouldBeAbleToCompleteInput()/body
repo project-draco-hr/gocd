@@ -1,0 +1,10 @@
+{
+  String input1="SYSIN: Line 1!";
+  String input2="SYSIN: Line 2!";
+  CommandLine line=CommandLine.createCommandLine("ruby").withArgs(script("echo-all-input"));
+  ConsoleResult result=run(line,input1,input2);
+  assertThat(result.returnValue(),is(0));
+  assertThat(result.output(),contains("You said: " + input1));
+  assertThat(result.output(),contains("You said: " + input2));
+  assertThat(result.error().size(),is(0));
+}

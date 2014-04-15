@@ -1,0 +1,19 @@
+{
+  GitMaterial ga=u.wf(new GitMaterial("scm"),"app");
+  ga.setFilter(new Filter(new IgnoredFiles("web/*.*"),new IgnoredFiles("bus/*.*")));
+  GitMaterial gb=u.wf(new GitMaterial("scm"),"bus");
+  gb.setFilter(new Filter(new IgnoredFiles("app/*.*"),new IgnoredFiles("web/*.*")));
+  GitMaterial gw=u.wf(new GitMaterial("scm"),"web");
+  gw.setFilter(new Filter(new IgnoredFiles("app/*.*"),new IgnoredFiles("bus/*.*")));
+  ScheduleTestUtil.AddedPipeline app=u.saveConfigWith("app",u.m(ga));
+  ScheduleTestUtil.AddedPipeline bus=u.saveConfigWith("bus",u.m(gb));
+  ScheduleTestUtil.AddedPipeline web=u.saveConfigWith("web",u.m(app),u.m(bus),u.m(gw));
+  ScheduleTestUtil.AddedPipeline pkg=u.saveConfigWith("pkg",u.m(web));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  u.checkinFile(ga,"ga1",new File("app/hi.txt"),ModifiedAction.added);
+  u.checkinFile(gb,"gb1",new File("bus/hi.txt"),ModifiedAction.added);
+  String a_1=u.runAndPass(app,"ga1");
+  String b_1=u.runAndPass(bus,"gb1");
+  MaterialRevisions given=u.mrs(u.mr(app,true,a_1),u.mr(bus,true,b_1),u.mr(gw,true,"gb1"));
+  assertThat(getRevisionsBasedOnDependencies(web,cruiseConfig,given),is(given));
+}

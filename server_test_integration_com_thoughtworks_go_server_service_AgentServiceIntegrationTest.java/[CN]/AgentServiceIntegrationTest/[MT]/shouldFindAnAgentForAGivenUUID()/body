@@ -1,0 +1,11 @@
+{
+  createEnabledAgent(UUID);
+  createEnabledAgent(UUID2);
+  EnvironmentConfig foo=new EnvironmentConfig(new CaseInsensitiveString("foo"));
+  foo.addAgent(UUID);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  environmentConfigService.createEnvironment(foo,Username.ANONYMOUS,result);
+  assertThat(result.isSuccessful(),is(true));
+  AgentViewModel actual=agentService.findAgentViewModel(UUID);
+  assertThat(actual,is(new AgentViewModel(agentService.findAgentAndRefreshStatus(UUID),"foo")));
+}

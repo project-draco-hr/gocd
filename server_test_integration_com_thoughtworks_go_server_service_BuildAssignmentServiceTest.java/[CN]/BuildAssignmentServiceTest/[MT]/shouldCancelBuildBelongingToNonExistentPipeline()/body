@@ -1,0 +1,15 @@
+{
+  fixture.createPipelineWithFirstStageScheduled();
+  buildAssignmentService.onTimer();
+  configHelper.removePipeline(fixture.pipelineName);
+  AgentConfig agentConfig=new AgentConfig("uuid");
+  agentConfig.addResource(new Resource("some-other-resource"));
+  assertThat((NoWork)buildAssignmentService.assignWorkToAgent(agent(agentConfig)),Matchers.is(BuildAssignmentService.NO_WORK));
+  Pipeline pipeline=pipelineDao.mostRecentPipeline(fixture.pipelineName);
+  JobInstance job=pipeline.getFirstStage().getJobInstances().first();
+  assertThat(job.getState(),is(JobState.Completed));
+  assertThat(job.getResult(),is(JobResult.Cancelled));
+  Stage stage=stageDao.findStageWithIdentifier(job.getIdentifier().getStageIdentifier());
+  assertThat(stage.getState(),is(StageState.Cancelled));
+  assertThat(stage.getResult(),is(StageResult.Cancelled));
+}

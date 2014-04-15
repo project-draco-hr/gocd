@@ -1,0 +1,13 @@
+{
+  FileWriter fw=null;
+  try {
+    fw=new FileWriter(f);
+    fw.write(contents);
+  }
+ catch (  IOException ioe) {
+    throw new CruiseControlException("Error writing file: " + f.getAbsolutePath(),ioe);
+  }
+ finally {
+    close(fw);
+  }
+}

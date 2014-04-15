@@ -1,0 +1,20 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  for (  Material material : newMaterials) {
+    MaterialRevision previousRevision=previous.findRevisionFor(material);
+    if (previousRevision == null) {
+      materialRevisions.addRevision(latestRevisions.findRevisionFor(material));
+    }
+ else {
+      Material previousMaterial=previousRevision.getMaterial();
+      if (ensureHasRevisionForMaterial(peggedRevisions,materialRevisions,previousMaterial)) {
+        continue;
+      }
+      previousMaterial=previousMaterial instanceof ScmMaterial ? newMaterials.byFolder(previousMaterial.getFolder()) : previousMaterial;
+      List<Modification> newModifications=materialRepository.findModificationsSince(previousMaterial,previousRevision);
+      MaterialRevision newMaterialRevision=previousRevision.latestChanges(material,previousRevision.getModifications(),newModifications);
+      materialRevisions.addRevision(newMaterialRevision);
+    }
+  }
+  return materialRevisions;
+}

@@ -1,0 +1,9 @@
+{
+  assumeArtifactsRoot(fakeRoot);
+  artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  artifactsService.initialize();
+  JobIdentifier oldId=new JobIdentifier("cruise",1,"1.1","dev","2","linux-firefox",null);
+  when(resolverService.actualJobIdentifier(oldId)).thenReturn(new JobIdentifier("cruise",2,"2.2","functional","3","mac-safari"));
+  String artifactRoot=artifactsService.findArtifactRoot(oldId);
+  assertThat(artifactRoot,is("pipelines/cruise/2/functional/3/mac-safari"));
+}

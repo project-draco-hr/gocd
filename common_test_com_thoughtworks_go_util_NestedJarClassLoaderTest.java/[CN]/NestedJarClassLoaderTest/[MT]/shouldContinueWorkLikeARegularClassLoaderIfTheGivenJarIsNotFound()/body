@@ -1,0 +1,11 @@
+{
+  ClassLoader nestedJarClassLoader=new NestedJarClassLoader(new URL("file://does_not_exist.jar"));
+  Class<?> clazz=Class.forName("javax.xml.parsers.SAXParserFactory",true,nestedJarClassLoader);
+  assertThat(clazz.getClassLoader() == null,is(true));
+  try {
+    SAXParserFactory saxParserFactory=(SAXParserFactory)clazz.getMethod("newInstance").invoke(clazz);
+  }
+ catch (  Exception e) {
+    fail("should cast successfully");
+  }
+}

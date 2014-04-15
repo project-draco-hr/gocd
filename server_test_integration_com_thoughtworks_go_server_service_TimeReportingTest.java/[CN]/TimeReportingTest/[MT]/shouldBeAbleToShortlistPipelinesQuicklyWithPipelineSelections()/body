@@ -1,0 +1,17 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  final CruiseConfig afterUpdate=getConfigWith(cruiseConfig,60,40);
+  List<String> allNames=new ArrayList<String>();
+  for (  CaseInsensitiveString name : afterUpdate.getAllPipelineNames()) {
+    allNames.add(name.toString());
+  }
+  final PipelineSelections oneIgnored=new PipelineSelections(allNames.subList(0,allNames.size() / 2));
+  TimeReportingUtil.print(new TimeReportingUtil.TestAction(){
+    @Override public void perform() throws Exception {
+      for (      PipelineConfigs group : afterUpdate.getGroups()) {
+        oneIgnored.includesGroup(group);
+      }
+    }
+  }
+);
+}

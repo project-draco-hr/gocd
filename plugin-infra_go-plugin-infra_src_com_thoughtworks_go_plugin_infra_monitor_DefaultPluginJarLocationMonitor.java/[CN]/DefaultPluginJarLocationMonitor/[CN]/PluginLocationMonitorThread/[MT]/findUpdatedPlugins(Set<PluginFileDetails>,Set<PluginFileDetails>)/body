@@ -1,0 +1,17 @@
+{
+  final ArrayList<PluginFileDetails> currentPlugins=new ArrayList<PluginFileDetails>(currentPluginFiles);
+  final ArrayList<PluginFileDetails> knownPlugins=new ArrayList<PluginFileDetails>(knownPluginFileDetails);
+  CollectionUtils.filter(knownPlugins,new Predicate(){
+    @Override public boolean evaluate(    Object object){
+      PluginFileDetails knownPlugin=(PluginFileDetails)object;
+      int i=currentPlugins.indexOf(knownPlugin);
+      if (i == -1) {
+        return false;
+      }
+      PluginFileDetails plugin=currentPlugins.get(i);
+      return plugin.doesTimeStampDiffer(knownPlugin);
+    }
+  }
+);
+  return knownPlugins;
+}

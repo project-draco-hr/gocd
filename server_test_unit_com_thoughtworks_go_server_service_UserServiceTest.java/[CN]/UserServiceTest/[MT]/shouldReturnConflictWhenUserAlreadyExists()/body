@@ -1,0 +1,9 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  User existsingUser=new User("existingUser","Existing User","existing@user.com");
+  UserSearchModel searchModel=new UserSearchModel(existsingUser,UserSourceType.LDAP);
+  when(userDao.findUser("existingUser")).thenReturn(existsingUser);
+  userService.create(Arrays.asList(searchModel),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpServletResponse.SC_CONFLICT));
+}

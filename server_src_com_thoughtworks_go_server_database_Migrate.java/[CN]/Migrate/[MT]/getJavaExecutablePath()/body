@@ -1,0 +1,13 @@
+{
+  String pathToJava;
+  if (File.separator.equals("\\")) {
+    pathToJava=System.getProperty("java.home") + File.separator + "bin"+ File.separator+ "java.exe";
+  }
+ else {
+    pathToJava=System.getProperty("java.home") + File.separator + "bin"+ File.separator+ "java";
+  }
+  if (!new File(pathToJava).exists()) {
+    pathToJava="java";
+  }
+  return pathToJava;
+}

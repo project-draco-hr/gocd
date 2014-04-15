@@ -1,0 +1,6 @@
+{
+  SvnMaterial material=new SvnMaterial("abc","def","ghi",false);
+  SvnMaterialConfig config=(SvnMaterialConfig)material.config();
+  assertThat(config.getEncryptedPassword(),is(not(Matchers.nullValue())));
+  assertThat(config.getPassword(),is("ghi"));
+}

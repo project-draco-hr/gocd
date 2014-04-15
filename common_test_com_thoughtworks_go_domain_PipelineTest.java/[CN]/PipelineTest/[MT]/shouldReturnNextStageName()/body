@@ -1,0 +1,18 @@
+{
+  Pipeline pipeline=new Pipeline();
+  Stage stage1=StageMother.custom("stage1");
+  stage1.setId(1);
+  stage1.setOrderId(1);
+  Stage stage2=StageMother.custom("stage2");
+  stage2.setId(2);
+  stage2.setOrderId(2);
+  Stage stage3=StageMother.custom("stage3");
+  stage3.setId(3);
+  stage3.setOrderId(3);
+  pipeline.getStages().add(stage2);
+  pipeline.getStages().add(stage1);
+  pipeline.getStages().add(stage3);
+  assertThat(pipeline.nextStageName("stage1"),is("stage2"));
+  shouldReturnNullIfNoneNext(pipeline);
+  shouldReturnNullIfStageNotExist(pipeline);
+}

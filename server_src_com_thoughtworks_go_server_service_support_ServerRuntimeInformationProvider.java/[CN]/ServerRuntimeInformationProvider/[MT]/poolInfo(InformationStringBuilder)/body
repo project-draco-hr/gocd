@@ -1,0 +1,7 @@
+{
+  builder.addSection("Memory pool information");
+  List<MemoryPoolMXBean> memoryPoolMXBeans=ManagementFactory.getMemoryPoolMXBeans();
+  for (  MemoryPoolMXBean memoryPoolMXBean : memoryPoolMXBeans) {
+    builder.append(String.format("Name: %s, Type: %s\n%s\n",memoryPoolMXBean.getName(),memoryPoolMXBean.getType(),format(memoryPoolMXBean.getUsage())));
+  }
+}

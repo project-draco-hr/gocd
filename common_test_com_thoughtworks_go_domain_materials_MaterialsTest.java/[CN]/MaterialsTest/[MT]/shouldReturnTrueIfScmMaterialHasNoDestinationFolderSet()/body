@@ -1,0 +1,10 @@
+{
+  Materials materials=new Materials();
+  SvnMaterial material1=new SvnMaterial("url","user","pass",false);
+  DependencyMaterial material2=new DependencyMaterial(new CaseInsensitiveString("pipelineName"),new CaseInsensitiveString("stageName"));
+  SvnMaterial material3=new SvnMaterial("url","user","pass",false);
+  material3.setFolder("foo");
+  materials.add(material1);
+  materials.add(material2);
+  assertThat(materials.scmMaterialsHaveDestination(),is(false));
+}

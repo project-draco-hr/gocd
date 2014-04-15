@@ -1,0 +1,32 @@
+{
+  service=spy(service);
+  Username username=new Username(new CaseInsensitiveString("user"));
+  final PackageRepository packageRepository=new PackageRepository();
+  packageRepository.errors().add("name","Name is invalid");
+  final CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("sample");
+  cruiseConfig.errors().add("global","error");
+  final UpdateConfigFromUI updateConfigFromUI=mock(UpdateConfigFromUI.class);
+  final ConfigAwareUpdate configAwareUpdate=mock(ConfigAwareUpdate.class);
+  doNothing().when(service).performPluginValidationsFor(packageRepository);
+  doReturn(updateConfigFromUI).when(service).getPackageRepositoryUpdateCommand(packageRepository,username);
+  when(configAwareUpdate.configAfter()).thenReturn(cruiseConfig);
+  when(goConfigService.updateConfigFromUI(eq(updateConfigFromUI),eq("md5"),eq(username),any(LocalizedOperationResult.class))).then(new Answer<ConfigUpdateResponse>(){
+    @Override public ConfigUpdateResponse answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      LocalizedOperationResult result=(LocalizedOperationResult)invocationOnMock.getArguments()[3];
+      result.badRequest(LocalizedMessage.string("BAD_REQUEST"));
+      return new ConfigUpdateResponse(cruiseConfig,cruiseConfig,packageRepository,configAwareUpdate,ConfigSaveState.UPDATED);
+    }
+  }
+);
+  when(localizer.localize("BAD_REQUEST",new Object[]{})).thenReturn("Save Failed");
+  ConfigUpdateAjaxResponse response=service.savePackageRepositoryToConfig(packageRepository,"md5",username);
+  assertThat(response.isSuccessful(),is(false));
+  assertThat(response.getMessage(),is("Save Failed"));
+  assertThat(response.getFieldErrors().size(),is(1));
+  assertThat(response.getFieldErrors().get("package_repository[name]"),is(asList("Name is invalid")));
+  assertThat(response.getGlobalErrors().size(),is(1));
+  assertThat(response.getGlobalErrors().contains("error"),is(true));
+  assertThat(response.getStatusCode(),is(HttpStatus.SC_BAD_REQUEST));
+  verify(service).performPluginValidationsFor(packageRepository);
+  verify(service).getPackageRepositoryUpdateCommand(packageRepository,username);
+}

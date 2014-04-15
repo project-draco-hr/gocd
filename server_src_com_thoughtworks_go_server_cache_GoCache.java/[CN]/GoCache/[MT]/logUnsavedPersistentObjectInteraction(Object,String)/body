@@ -1,0 +1,16 @@
+{
+  if (value instanceof PersistentObject) {
+    for (    Class<? extends PersistentObject> nullObjectClass : nullObjectClasses) {
+      if (value.getClass().equals(nullObjectClass)) {
+        return;
+      }
+    }
+    PersistentObject persistentObject=(PersistentObject)value;
+    if (!persistentObject.hasId()) {
+      String msg=String.format(message,persistentObject);
+      IllegalStateException exception=new IllegalStateException();
+      LOGGER.error(msg,exception);
+      throw bomb(msg,exception);
+    }
+  }
+}

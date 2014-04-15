@@ -1,0 +1,9 @@
+{
+  if (this.sslContextWithKeyStore == null || isEmptyKeyStore()) {
+    this.sslContextWithKeyStore=createSSLContext(true);
+  }
+  if (this.sslContext == null || isEmptyKeyStore()) {
+    this.sslContext=createSSLContext(false);
+  }
+  return DoCertAuth.shouldCertAuth() ? this.sslContextWithKeyStore : this.sslContext;
+}

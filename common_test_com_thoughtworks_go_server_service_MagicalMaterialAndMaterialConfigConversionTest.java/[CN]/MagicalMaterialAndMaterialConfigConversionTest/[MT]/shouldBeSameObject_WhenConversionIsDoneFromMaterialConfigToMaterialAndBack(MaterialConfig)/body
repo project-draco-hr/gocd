@@ -1,0 +1,13 @@
+{
+  System.out.println("Checking Material <-> MaterialConfig conversion for: " + materialConfig.getTypeForDisplay());
+  Material materialFromConfig=materialConfigConverter.toMaterial(materialConfig);
+  MaterialConfig materialConfigConvertedBackFromMaterial=materialFromConfig.config();
+  assertThat(materialConfigConvertedBackFromMaterial,is(materialConfig));
+  assertTrue(message("Material <-> MaterialConfig conversion failed.",materialConfigConvertedBackFromMaterial,materialConfig),reflectionEquals(materialConfigConvertedBackFromMaterial,materialConfig));
+  assertThat(materialFromConfig.getFingerprint(),is(materialConfig.getFingerprint()));
+  assertThat(materialFromConfig.isAutoUpdate(),is(materialConfig.isAutoUpdate()));
+  assertThat(materialConfigConvertedBackFromMaterial.getFingerprint(),is(materialConfig.getFingerprint()));
+  assertPasswordIsCorrect(materialConfig);
+  assertPasswordIsCorrect(materialFromConfig);
+  assertPasswordIsCorrect(materialConfigConvertedBackFromMaterial);
+}

@@ -1,0 +1,10 @@
+{
+  configureStageAsManualApproval(pipelineName,stageName);
+  CruiseConfig cruiseConfig=load();
+  StageConfig stageConfig=cruiseConfig.stageConfigByName(new CaseInsensitiveString(pipelineName),new CaseInsensitiveString(stageName));
+  Approval approval=stageConfig.getApproval();
+  for (  String user : users) {
+    approval.getAuthConfig().add(new AdminUser(new CaseInsensitiveString(user)));
+  }
+  writeConfigFile(cruiseConfig);
+}

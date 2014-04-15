@@ -1,0 +1,7 @@
+{
+  HashSet<PluginFileDetails> currentPlugins=new HashSet<PluginFileDetails>(currentPluginFiles);
+  currentPlugins.removeAll(previouslyKnownPluginFiles);
+  for (  PluginFileDetails newlyAddedPluginFile : currentPlugins) {
+    doOnAllListeners().pluginJarAdded(newlyAddedPluginFile);
+  }
+}

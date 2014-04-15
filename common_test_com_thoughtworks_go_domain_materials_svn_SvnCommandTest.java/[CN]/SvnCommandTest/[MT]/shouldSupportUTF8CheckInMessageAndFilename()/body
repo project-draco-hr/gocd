@@ -1,0 +1,8 @@
+{
+  String message="???????????????";
+  String filename="???????????????.scn";
+  testRepo.checkInOneFile(filename,message);
+  Modification modification=subversion.latestModification().get(0);
+  assertThat(modification.getComment(),is(message));
+  assertThat(modification.getModifiedFiles().get(0).getFileName(),containsString(filename));
+}

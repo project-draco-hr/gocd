@@ -1,0 +1,16 @@
+{
+  final CruiseConfig oldConfig=goConfigFileDao.load();
+  final int numberOfNewPipelines=2000;
+  TimeReportingUtil.report(TimeReportingUtil.Key.CONFIG_WRITE_2000,new TimeReportingUtil.TestAction(){
+    @Override public void perform() throws Exception {
+      write(numberOfNewPipelines,oldConfig.getMd5());
+    }
+  }
+);
+  TimeReportingUtil.report(TimeReportingUtil.Key.CONFIG_READ_2000,new TimeReportingUtil.TestAction(){
+    @Override public void perform() throws Exception {
+      read(numberOfNewPipelines);
+    }
+  }
+);
+}

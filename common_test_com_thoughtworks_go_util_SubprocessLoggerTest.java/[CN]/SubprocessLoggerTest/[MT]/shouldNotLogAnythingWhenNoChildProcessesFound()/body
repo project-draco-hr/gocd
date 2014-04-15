@@ -1,0 +1,7 @@
+{
+  JavaSysMon sysMon=mock(JavaSysMon.class);
+  logger=new SubprocessLogger(sysMon);
+  LogFixture log=LogFixture.startListening();
+  logger.run();
+  assertThat(log.allLogs(),is(""));
+}

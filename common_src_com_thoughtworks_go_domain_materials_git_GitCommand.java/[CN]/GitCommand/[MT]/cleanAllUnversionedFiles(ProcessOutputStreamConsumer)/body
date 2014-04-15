@@ -1,0 +1,7 @@
+{
+  outputStreamConsumer.stdOutput("[GIT] Cleaning all unversioned files in working copy");
+  for (  Map.Entry<String,String> submoduleFolder : submoduleUrls().entrySet()) {
+    cleanUnversionedFiles(new File(workingDir,submoduleFolder.getKey()));
+  }
+  cleanUnversionedFiles(workingDir);
+}

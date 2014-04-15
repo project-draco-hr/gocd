@@ -1,0 +1,7 @@
+{
+  Approval approval=Approval.automaticApproval();
+  approval.getAuthConfig().add(new AdminUser(new CaseInsensitiveString("sachin")));
+  approval.getAuthConfig().add(new AdminRole(new CaseInsensitiveString("admin")));
+  approval.removeOperatePermissions();
+  assertThat(approval.getAuthConfig().isEmpty(),is(true));
+}

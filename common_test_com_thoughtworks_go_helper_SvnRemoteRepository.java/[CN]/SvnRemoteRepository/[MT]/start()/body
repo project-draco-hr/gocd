@@ -1,0 +1,14 @@
+{
+  if (processWrapper != null) {
+    throw new RuntimeException("Cannot start repository twice!");
+  }
+  port=RandomPort.find(toString());
+  CommandLine svnserve=CommandLine.createCommandLine("svnserve").withArgs("-d","--foreground","--listen-port",Integer.toString(port),"-r",repo.projectRepositoryRoot().getCanonicalPath());
+  consumer=inMemoryConsumer();
+  processWrapper=svnserve.execute(consumer,new EnvironmentVariableContext(),null);
+  RandomPort.waitForPort(port);
+  if (!processWrapper.isRunning()) {
+    System.out.println(consumer.getAllOutput());
+    throw new RuntimeException("Could not run command " + svnserve);
+  }
+}

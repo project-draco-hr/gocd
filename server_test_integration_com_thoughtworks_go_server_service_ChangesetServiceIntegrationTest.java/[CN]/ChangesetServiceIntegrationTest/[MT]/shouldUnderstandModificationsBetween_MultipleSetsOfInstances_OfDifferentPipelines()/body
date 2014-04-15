@@ -1,0 +1,26 @@
+{
+  Username loser=new Username(new CaseInsensitiveString("loser"));
+  ManualBuild build=new ManualBuild(loser);
+  Date checkinTime=new Date();
+  Modification hgCommit1=checkinWithComment("abcd","#4518 - foo",checkinTime);
+  Modification gitCommit1=checkinWithComment("1234","#3750 - agent index",checkinTime);
+  Pipeline pipelineOne=dbHelper.checkinRevisionsToBuild(build,pipelineConfigWithTwoMaterials,dbHelper.addRevisionsWithModifications(hg,hgCommit1),dbHelper.addRevisionsWithModifications(git,gitCommit1));
+  Modification hgCommit2=checkinWithComment("bcde","#4520 - foo",checkinTime);
+  Modification gitCommit2=checkinWithComment("2355","#3750 - agent index",checkinTime);
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfigWithTwoMaterials,dbHelper.addRevisionsWithModifications(hg,hgCommit2),dbHelper.addRevisionsWithModifications(git,gitCommit2));
+  Modification hgCommit3=checkinWithComment("cdef","#4521 - get gadget working",checkinTime);
+  Modification gitCommit3=checkinWithComment("2345","#4200 - whatever",checkinTime);
+  Pipeline pipelineThree=dbHelper.checkinRevisionsToBuild(build,pipelineConfigWithTwoMaterials,dbHelper.addRevisionsWithModifications(hg,hgCommit3),dbHelper.addRevisionsWithModifications(git,gitCommit3));
+  Modification svnCommit1=checkinWithComment("9876","svn ci",checkinTime);
+  Pipeline pipelineSvnOne=dbHelper.checkinRevisionsToBuild(build,pipelineConfigWithSvn,dbHelper.addRevisionsWithModifications(svn,svnCommit1));
+  Modification svnCommit2=checkinWithComment("5432","another svn ci",checkinTime);
+  Pipeline pipelineSvnTwo=dbHelper.checkinRevisionsToBuild(build,pipelineConfigWithSvn,dbHelper.addRevisionsWithModifications(svn,svnCommit2));
+  Modification svnCommit3=checkinWithComment("666","svn ci 3",checkinTime);
+  Modification svnCommit4=checkinWithComment("121212","svn ci 4",checkinTime);
+  Pipeline pipelineSvnThree=dbHelper.checkinRevisionsToBuild(build,pipelineConfigWithSvn,dbHelper.addRevisionsWithModifications(svn,svnCommit4,svnCommit3));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<MaterialRevision> revisions=changesetService.revisionsBetween(Arrays.asList(pipelineRevRange(pipelineOne,pipelineThree),pipelineRevRange(pipelineSvnOne,pipelineSvnThree)),loser,result);
+  List<MaterialRevision> expectedRevisions=Arrays.asList(new MaterialRevision(hg,hgCommit3,hgCommit2),new MaterialRevision(git,gitCommit3,gitCommit2),new MaterialRevision(svn,svnCommit4,svnCommit3,svnCommit2));
+  assertMaterialRevisions(expectedRevisions,revisions);
+  assertThat(result.isSuccessful(),is(true));
+}

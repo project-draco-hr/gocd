@@ -1,0 +1,6 @@
+{
+  String ignoredFile="a.doc";
+  svnRepository.checkInOneFile(ignoredFile);
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(MINGLE_PIPELINE_NAME);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),not(hasItem(MINGLE_PIPELINE_NAME)));
+}

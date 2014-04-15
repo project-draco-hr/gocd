@@ -1,0 +1,30 @@
+{
+  Set<FaninScmMaterial> scmMaterialsFromDepChildren=scmMaterialsOfDepChildren(depChildren);
+  List<MaterialRevision> finalRevisions=new ArrayList<MaterialRevision>();
+  for (  RootFanInNode child : scmChildren) {
+    child.setScmRevision(scmMaterialsFromDepChildren);
+    MaterialConfig materialConfig=child.materialConfig;
+    Material material=materialConfigConverter.toMaterial(materialConfig);
+    MaterialRevision revision=new MaterialRevision(material);
+    if (latestRootNodeInstance != null) {
+      PipelineInstanceModel pipeline=pipelineDao.findPipelineHistoryByNameAndCounter(latestRootNodeInstance.getPipelineName(),latestRootNodeInstance.getCounter());
+      for (      MaterialRevision materialRevision : pipeline.getCurrentRevisions()) {
+        if (materialRevision.getMaterial().getFingerprint().equals(child.materialConfig.getFingerprint())) {
+          List<Modification> modificationsSince=materialRepository.findModificationsSinceAndUptil(material,materialRevision,child.scmRevision);
+          revision.addModifications(modificationsSince);
+          break;
+        }
+      }
+    }
+    if (revision.getModifications().isEmpty() && child.scmRevision == null) {
+      MaterialRevisions latestRevisions=materialRepository.findLatestRevisions(new MaterialConfigs(materialConfig));
+      finalRevisions.addAll(latestRevisions.getRevisions());
+      continue;
+    }
+    if (revision.getModifications().isEmpty()) {
+      revision=new MaterialRevision(material,materialRepository.findModificationWithRevision(material,child.scmRevision.revision));
+    }
+    finalRevisions.add(revision);
+  }
+  return finalRevisions;
+}

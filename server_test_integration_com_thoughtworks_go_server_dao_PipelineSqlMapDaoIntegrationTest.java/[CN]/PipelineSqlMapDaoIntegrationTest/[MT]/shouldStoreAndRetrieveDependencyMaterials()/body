@@ -1,0 +1,13 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(dependencyMaterial.config()));
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  materialRevisions.addRevision(DependencyMaterialRevision.create("pipeline-name",-12,"1234","stage-name",1).convert(dependencyMaterial,new Date()));
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  savePipeline(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  final Materials materials=pipelineFromDB.getMaterials();
+  assertThat((DependencyMaterial)materials.get(0),is(dependencyMaterial));
+}

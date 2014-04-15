@@ -1,0 +1,18 @@
+{
+  context.out.println();
+  context.out.println("----");
+  context.out.println("SCM Materials in config:");
+  context.out.println(currentScmMaterials);
+  final Set<MaterialConfig> scmMaterialsInRev=new HashSet<MaterialConfig>();
+  for (  ReportingFaninScmMaterial scmMaterial : scmMaterials) {
+    final MaterialConfig scm=context.fingerprintScmMaterialMap.get(scmMaterial.fingerprint);
+    scmMaterialsInRev.add(scm);
+  }
+  context.out.println("----");
+  context.out.println("SCM Materials in Latest Revision:");
+  context.out.println(scmMaterialsInRev);
+  context.out.println("----");
+  context.out.println("Latest Revision of Material:");
+  context.out.println(stageIdentifierScmPair.first());
+  context.out.println("----");
+}

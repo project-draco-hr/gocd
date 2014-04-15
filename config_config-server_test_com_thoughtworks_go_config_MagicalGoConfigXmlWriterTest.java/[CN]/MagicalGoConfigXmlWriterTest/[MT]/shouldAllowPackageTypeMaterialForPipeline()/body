@@ -1,0 +1,23 @@
+{
+  CruiseConfig configToSave=new CruiseConfig();
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setId("id");
+  packageRepository.setName("name");
+  packageRepository.setPluginConfiguration(new PluginConfiguration("plugin-id","version"));
+  packageRepository.setConfiguration(new Configuration(getConfigurationProperty("url",false,"http://go")));
+  String packageId="id";
+  PackageDefinition expectedPackageDefinition=new PackageDefinition(packageId,"name",new Configuration(getConfigurationProperty("name",false,"go-agent")));
+  expectedPackageDefinition.setRepository(packageRepository);
+  packageRepository.getPackages().add(expectedPackageDefinition);
+  configToSave.getPackageRepositories().add(packageRepository);
+  PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig(packageId);
+  packageMaterialConfig.setPackageDefinition(expectedPackageDefinition);
+  configToSave.addPipeline("default",com.thoughtworks.go.helper.PipelineConfigMother.pipelineConfig("test",new MaterialConfigs(packageMaterialConfig),new JobConfigs(new JobConfig("ls"))));
+  xmlWriter.write(configToSave,output,false);
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(output.toString());
+  PipelineConfig pipelineConfig=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("test"));
+  assertThat(pipelineConfig.materialConfigs().get(0) instanceof PackageMaterialConfig,is(true));
+  assertThat(((PackageMaterialConfig)pipelineConfig.materialConfigs().get(0)).getPackageId(),is(packageId));
+  PackageDefinition packageDefinition=goConfigHolder.config.getPackageRepositories().first().getPackages().first();
+  assertThat(((PackageMaterialConfig)pipelineConfig.materialConfigs().get(0)).getPackageDefinition(),is(packageDefinition));
+}

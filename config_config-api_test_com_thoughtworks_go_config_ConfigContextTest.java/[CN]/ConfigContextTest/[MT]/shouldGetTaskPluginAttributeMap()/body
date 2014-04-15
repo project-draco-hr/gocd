@@ -1,0 +1,11 @@
+{
+  Map pluginAttributeMap=new HashMap();
+  Map taskMap=new HashMap();
+  taskMap.put("message","hi");
+  pluginAttributeMap.put("task",taskMap);
+  pluginAttributeMap.put("nontask","other");
+  ConfigContext ctx=new ConfigContext(null,pluginAttributeMap);
+  Map returnedTaskMap=ctx.getTaskPluginAttributeMap();
+  assertFalse(returnedTaskMap.containsKey("nontask"));
+  assertEquals(taskMap.get("message"),returnedTaskMap.get("message"));
+}

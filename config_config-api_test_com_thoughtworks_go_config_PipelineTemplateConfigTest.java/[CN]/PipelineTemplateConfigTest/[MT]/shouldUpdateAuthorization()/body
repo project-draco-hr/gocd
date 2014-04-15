@@ -1,0 +1,11 @@
+{
+  PipelineTemplateConfig templateConfig=PipelineTemplateConfigMother.createTemplate("template-1");
+  templateConfig.setConfigAttributes(m(PipelineConfigs.AUTHORIZATION,a(DataStructureUtils.m(Authorization.NAME,"loser",Authorization.TYPE,Authorization.UserType.USER.toString(),Authorization.PRIVILEGES,a(DataStructureUtils.m(Authorization.PrivilegeType.ADMIN.toString(),Authorization.PrivilegeState.ON.toString()))),DataStructureUtils.m(Authorization.NAME,"boozer",Authorization.TYPE,Authorization.UserType.USER.toString(),Authorization.PRIVILEGES,a(DataStructureUtils.m(Authorization.PrivilegeType.ADMIN.toString(),Authorization.PrivilegeState.ON.toString()))),DataStructureUtils.m(Authorization.NAME,"geezer",Authorization.TYPE,Authorization.UserType.USER.toString(),Authorization.PRIVILEGES,a(DataStructureUtils.m(Authorization.PrivilegeType.ADMIN.toString(),Authorization.PrivilegeState.ON.toString()))))));
+  Authorization authorization=templateConfig.getAuthorization();
+  assertThat(authorization.getAdminsConfig().size(),Matchers.is(3));
+  assertThat(authorization.getAdminsConfig(),hasItem(new AdminUser(new CaseInsensitiveString("loser"))));
+  assertThat(authorization.getAdminsConfig(),hasItem(new AdminUser(new CaseInsensitiveString("boozer"))));
+  assertThat(authorization.getAdminsConfig(),hasItem(new AdminUser(new CaseInsensitiveString("geezer"))));
+  assertThat(authorization.getOperationConfig().size(),Matchers.is(0));
+  assertThat(authorization.getViewConfig().size(),Matchers.is(0));
+}

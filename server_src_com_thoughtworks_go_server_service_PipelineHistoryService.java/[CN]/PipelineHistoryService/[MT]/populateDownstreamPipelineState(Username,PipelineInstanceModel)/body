@@ -1,0 +1,7 @@
+{
+  populatePlaceHolderStages(pipelineInstanceModel);
+  populatePipelineCanRunStatus(username,pipelineInstanceModel);
+  populateCanRunStatus(username,pipelineInstanceModel);
+  populateStageOperatePermission(pipelineInstanceModel,username);
+  pipelineInstanceModel.setMaterialConfigs(goConfigService.materialConfigsFor(new CaseInsensitiveString(pipelineInstanceModel.getName())));
+}

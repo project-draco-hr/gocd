@@ -1,0 +1,7 @@
+{
+  configHelper.addAdmins("admin");
+  configHelper.addPipelineWithGroup("newGroup","newPipeline","newStage","newJob");
+  configHelper.setAdminPermissionForGroup("newGroup","groupAdmin");
+  List<String> groups=securityService.modifiableGroupsForUser(new Username(new CaseInsensitiveString("loser")));
+  assertThat(groups.isEmpty(),is(true));
+}

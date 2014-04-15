@@ -1,0 +1,10 @@
+{
+  if (workingFolder.isDirectory()) {
+    FileUtil.deleteFolder(workingFolder);
+  }
+  if (LOGGER.isTraceEnabled()) {
+    LOGGER.trace("Checking out to revision " + revision + " in "+ workingFolder);
+  }
+  createParentFolderIfNotExist(workingFolder);
+  svn().checkoutTo(outputStreamConsumer,workingFolder,revision);
+}

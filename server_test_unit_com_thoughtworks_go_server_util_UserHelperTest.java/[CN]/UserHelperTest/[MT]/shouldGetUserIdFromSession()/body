@@ -1,0 +1,7 @@
+{
+  HttpServletRequest request=mock(HttpServletRequest.class);
+  HttpSession session=mock(HttpSession.class);
+  when(request.getSession()).thenReturn(session);
+  when(session.getAttribute("USERID")).thenReturn(123L);
+  assertThat(UserHelper.getUserId(request),is(123L));
+}

@@ -1,0 +1,13 @@
+{
+  Socket s=null;
+  try {
+    s=new Socket(InetAddress.getByName(name),port);
+    return true;
+  }
+ catch (  Exception e) {
+    return false;
+  }
+ finally {
+    closeQuietly(s);
+  }
+}

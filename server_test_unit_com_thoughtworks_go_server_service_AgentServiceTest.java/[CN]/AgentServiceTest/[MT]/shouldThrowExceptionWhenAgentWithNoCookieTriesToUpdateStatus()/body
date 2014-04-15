@@ -1,0 +1,12 @@
+{
+  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier);
+  try {
+    agentService.updateRuntimeInfo(runtimeInfo);
+    fail("should throw exception when no cookie is set");
+  }
+ catch (  Exception e) {
+    assertThat(e,instanceOf(AgentNoCookieSetException.class));
+    assertThat(e.getMessage(),is(format("Agent [%s] has no cookie set",runtimeInfo.agentInfoDebugString())));
+    assertThat(Arrays.asList(logFixture.getMessages()),hasItem(format("Agent [%s] has no cookie set",runtimeInfo.agentInfoDebugString())));
+  }
+}

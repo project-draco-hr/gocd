@@ -1,0 +1,10 @@
+{
+  if (visitedNodes.contains(node)) {
+    return;
+  }
+  visitedNodes.add(node);
+  populateUnrunStages(node);
+  for (  Node child : node.getChildren()) {
+    getUnrunStagesForDownstreamGraphStartingFrom(child,visitedNodes);
+  }
+}

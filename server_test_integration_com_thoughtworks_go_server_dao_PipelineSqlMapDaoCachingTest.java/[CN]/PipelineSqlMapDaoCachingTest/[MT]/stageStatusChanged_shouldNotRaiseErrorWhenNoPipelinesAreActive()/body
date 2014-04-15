@@ -1,0 +1,10 @@
+{
+  PipelineInstanceModel first=model(1,JobState.Building,JobResult.Unknown);
+  PipelineInstanceModels pims=PipelineInstanceModels.createPipelineInstanceModels();
+  when(mockTemplate.queryForList("allActivePipelines")).thenReturn(pims);
+  when(mockTemplate.queryForObject("getPipelineHistoryById",arguments("id",1L).asMap())).thenReturn(first);
+  pipelineDao.loadActivePipelines();
+  changeStageStatus(1);
+  pipelineDao.loadActivePipelines();
+  verify(mockTemplate,times(1)).queryForObject("getPipelineHistoryById",arguments("id",1L).asMap());
+}

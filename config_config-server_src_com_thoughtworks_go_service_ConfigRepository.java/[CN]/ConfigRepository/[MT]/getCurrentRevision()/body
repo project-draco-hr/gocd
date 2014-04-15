@@ -1,0 +1,16 @@
+{
+  return doLocked(new ThrowingFn<GoConfigRevision,RuntimeException>(){
+    public GoConfigRevision call(){
+      RevCommit revision;
+      try {
+        revision=getCurrentRevCommit();
+      }
+ catch (      GitAPIException e) {
+        LOGGER.info("[CONFIG REPOSITORY] Unable retrieve current cruise config revision",e);
+        return null;
+      }
+      return getGoConfigRevision(revision);
+    }
+  }
+);
+}

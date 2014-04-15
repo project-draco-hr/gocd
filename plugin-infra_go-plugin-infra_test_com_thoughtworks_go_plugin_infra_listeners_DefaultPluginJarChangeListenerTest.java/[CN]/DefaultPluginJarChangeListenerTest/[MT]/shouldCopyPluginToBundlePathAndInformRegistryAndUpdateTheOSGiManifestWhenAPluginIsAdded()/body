@@ -1,0 +1,20 @@
+{
+  String pluginId="testplugin.descriptorValidator";
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  File expectedBundleDirectory=new File(TEST_BUNDLES_DIR,pluginJarFileName);
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId(pluginId,pluginJarFile.getAbsolutePath(),expectedBundleDirectory,true);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(descriptor);
+  when(registry.getPluginByIdOrFileName(pluginId,pluginJarFileName)).thenReturn(null);
+  doNothing().when(registry).loadPlugin(descriptor);
+  listener.pluginJarAdded(new PluginFileDetails(pluginJarFile,true));
+  assertThat(expectedBundleDirectory.exists(),is(true));
+  verify(registry).getPluginByIdOrFileName(pluginId,pluginJarFileName);
+  verify(registry).loadPlugin(descriptor);
+  verify(osgiManifestGenerator).updateManifestOf(descriptor);
+  verify(osgiFramework).loadPlugin(descriptor);
+  verifyNoMoreInteractions(osgiManifestGenerator);
+  verifyNoMoreInteractions(registry);
+  assertThat(new File(expectedBundleDirectory,"lib/go-plugin-activator.jar").exists(),is(true));
+}

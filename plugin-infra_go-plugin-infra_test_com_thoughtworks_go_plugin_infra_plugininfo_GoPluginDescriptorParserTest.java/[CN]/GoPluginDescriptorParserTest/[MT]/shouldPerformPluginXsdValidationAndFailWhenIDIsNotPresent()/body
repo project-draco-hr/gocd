@@ -1,0 +1,10 @@
+{
+  InputStream pluginXml=IOUtils.toInputStream("<go-plugin version=\"1\"></go-plugin>");
+  try {
+    GoPluginDescriptorParser.parseXML(pluginXml,"/tmp/",new File("/tmp/"),true);
+    fail("xsd validation should have failed");
+  }
+ catch (  SAXException e) {
+    assertThat(e.getMessage(),is("XML Schema validation of Plugin Descriptor(plugin.xml) failed"));
+  }
+}

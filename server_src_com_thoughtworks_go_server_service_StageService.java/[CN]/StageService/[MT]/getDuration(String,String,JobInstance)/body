@@ -1,0 +1,7 @@
+{
+  if (job.isCompleted()) {
+    return new DurationBean(job.getId(),0L);
+  }
+  Long duration=stageDao.getDurationOfLastSuccessfulOnAgent(pipelineName,stageName,job);
+  return new DurationBean(job.getId(),duration == null ? 0L : duration);
+}

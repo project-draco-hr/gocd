@@ -1,0 +1,19 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("upstream-pipeline"),new CaseInsensitiveString("stage"));
+  SvnMaterial svnMaterial=new SvnMaterial("url",null,null,false);
+  pipelineConfig.addMaterialConfig(dependencyMaterial.config());
+  pipelineConfig.addMaterialConfig(svnMaterial.config());
+  List<Modification> svnModifications=ModificationsMother.multipleModificationList();
+  MaterialConfigs knownMaterialConfigs=new MaterialConfigs(pipelineConfig.materialConfigs());
+  MaterialRevision specificMaterialRevision=new MaterialRevision(dependencyMaterial,new Modification(new Date(),"upstream-pipeline/2/stage/1","MOCK_LABEL-12",null));
+  when(specificMaterialRevisionFactory.create(eq("pipeline"),eq(Collections.singletonMap(dependencyMaterial.getPipelineUniqueFingerprint(),"upstream-pipeline/2/stage/1")))).thenReturn(new MaterialRevisions(specificMaterialRevision));
+  when(pipelineScheduleQueue.mostRecentScheduled("pipeline")).thenReturn(BuildCause.createNeverRun());
+  when(materialRepository.findLatestModification(svnMaterial)).thenReturn(new MaterialRevisions(new MaterialRevision(svnMaterial,svnModifications)));
+  when(materialConfigConverter.toMaterials(pipelineConfig.materialConfigs())).thenReturn(new Materials(dependencyMaterial,svnMaterial));
+  when(materialExpansionService.expandMaterialConfigsForScheduling(pipelineConfig.materialConfigs())).thenReturn(knownMaterialConfigs);
+  when(materialConfigConverter.toMaterials(knownMaterialConfigs)).thenReturn(new Materials(dependencyMaterial,svnMaterial));
+  ManualBuild buildType=new ManualBuild(Username.ANONYMOUS);
+  final HashMap<String,String> stringStringHashMap=new HashMap<String,String>();
+  buildCauseProducerService.newProduceBuildCause(pipelineConfig,buildType,new ScheduleOptions(Collections.singletonMap(dependencyMaterial.getPipelineUniqueFingerprint(),"upstream-pipeline/2/stage/1"),stringStringHashMap,new HashMap<String,String>()),new ServerHealthStateOperationResult(),12345);
+  verify(pipelineScheduleQueue).schedule(eq("pipeline"),argThat(containsRevisions(new MaterialRevision(svnMaterial,svnModifications),specificMaterialRevision)));
+}

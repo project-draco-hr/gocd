@@ -1,0 +1,11 @@
+{
+  StageConfig config=new StageConfig();
+  config.setConfigAttributes(new SingletonMap(StageConfig.APPROVAL,new SingletonMap(Approval.TYPE,Approval.MANUAL)));
+  assertThat(config.getApproval().getType(),is(Approval.MANUAL));
+  config.setConfigAttributes(new HashMap());
+  assertThat(config.getApproval().getType(),is(Approval.MANUAL));
+  config.setConfigAttributes(new SingletonMap(StageConfig.APPROVAL,new SingletonMap(Approval.TYPE,Approval.SUCCESS)));
+  assertThat(config.getApproval().getType(),is(Approval.SUCCESS));
+  config.setConfigAttributes(new HashMap());
+  assertThat(config.getApproval().getType(),is(Approval.SUCCESS));
+}

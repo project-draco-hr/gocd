@@ -1,0 +1,11 @@
+{
+  String agentUuid="uuid";
+  UpdateEnvironmentsCommand command=new UpdateEnvironmentsCommand(agentUuid,"foo, bar, monkey");
+  CruiseConfig cruiseConfig=new GoConfigMother().defaultCruiseConfig();
+  cruiseConfig.addEnvironment("foo");
+  cruiseConfig.addEnvironment("bar");
+  command.update(cruiseConfig);
+  EnvironmentsConfig environments=cruiseConfig.getEnvironments();
+  assertThat(environments.named(new CaseInsensitiveString("foo")).getAgents().getUuids().contains(agentUuid),is(true));
+  assertThat(environments.named(new CaseInsensitiveString("bar")).getAgents().getUuids().contains(agentUuid),is(true));
+}

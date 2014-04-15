@@ -1,0 +1,5 @@
+{
+  SvnInfo svnInfo=new SvnInfo();
+  svnInfo.parse(executeCommand(svn(false).withArgs("info","--xml","--non-interactive").withArg(workingDir.getCanonicalPath())).outputForDisplayAsString(),getBuilder());
+  return svnInfo;
+}

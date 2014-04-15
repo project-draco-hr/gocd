@@ -1,0 +1,9 @@
+{
+  ChecksumFileHandler checksumFileHandler=mock(ChecksumFileHandler.class);
+  when(checksumFileHandler.handleResult(SC_OK,publisher)).thenReturn(true);
+  File artifactOnAgent=new File("pipelines/cruise/a.jar");
+  toClean.add(artifactOnAgent);
+  FetchArtifactBuilder builder=getBuilder(new JobIdentifier("cruise",-1,"1","dev","1","windows",1L),"log","some where do download",new FileHandler(artifactOnAgent,getSrc()),checksumFileHandler);
+  builder.fetch(new DownloadAction(new StubFetchZipHttpService(),publisher,clock),new StubURLService());
+  assertThat(artifactOnAgent.isFile(),is(true));
+}

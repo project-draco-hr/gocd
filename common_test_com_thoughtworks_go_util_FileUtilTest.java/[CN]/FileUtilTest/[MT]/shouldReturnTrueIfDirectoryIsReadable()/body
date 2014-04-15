@@ -1,0 +1,16 @@
+{
+  File readableDirectory=mock(File.class);
+  when(readableDirectory.canRead()).thenReturn(true);
+  when(readableDirectory.canExecute()).thenReturn(true);
+  when(readableDirectory.listFiles()).thenReturn(new File[]{});
+  assertThat(FileUtil.isDirectoryReadable(readableDirectory),is(true));
+  File unreadableDirectory=mock(File.class);
+  when(readableDirectory.canRead()).thenReturn(false);
+  when(readableDirectory.canExecute()).thenReturn(false);
+  assertThat(FileUtil.isDirectoryReadable(unreadableDirectory),is(false));
+  verify(readableDirectory).canRead();
+  verify(readableDirectory).canExecute();
+  verify(readableDirectory).listFiles();
+  verify(unreadableDirectory).canRead();
+  verify(unreadableDirectory,never()).canExecute();
+}

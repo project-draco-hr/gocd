@@ -1,0 +1,9 @@
+{
+  for (  StageConfig config : pipelineConfig) {
+    StageInfoAdapter adapter=new StageInfoAdapter(config);
+    if (mostRecent != null) {
+      adapter.setMostRecent(mostRecent.get(CaseInsensitiveString.str(config.name())));
+    }
+    this.add(adapter);
+  }
+}

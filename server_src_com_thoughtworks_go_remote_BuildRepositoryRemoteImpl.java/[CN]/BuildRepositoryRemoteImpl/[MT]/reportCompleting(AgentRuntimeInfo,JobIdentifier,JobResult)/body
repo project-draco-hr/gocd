@@ -1,0 +1,9 @@
+{
+  handleFailuresDuringReporting(agentRuntimeInfo,jobIdentifier,"result",result.toString(),new ReportingAction(){
+    @Override public void call() throws Exception {
+      agentService.updateRuntimeInfo(agentRuntimeInfo);
+      buildRepositoryService.completing(jobIdentifier,result,agentRuntimeInfo.getUUId());
+    }
+  }
+);
+}

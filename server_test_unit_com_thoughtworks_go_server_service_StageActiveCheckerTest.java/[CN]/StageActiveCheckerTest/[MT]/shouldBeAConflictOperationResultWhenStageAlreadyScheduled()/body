@@ -1,0 +1,5 @@
+{
+  when(service.isStageActive(pipelineName,stageName)).thenReturn(true);
+  checker.check(result);
+  verify(result).conflict(eq("Failed to trigger pipeline [cruise]"),eq("Stage [dev] in pipeline [cruise] is still in progress"),any(HealthStateType.class));
+}

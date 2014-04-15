@@ -1,0 +1,6 @@
+{
+  String groupName=cruiseConfig.getGroups().findGroupNameByPipeline(new CaseInsensitiveString(pipelineName));
+  PipelineConfigs groups=cruiseConfig.getGroups().findGroup(groupName);
+  groups.remove(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName)));
+  return groups;
+}

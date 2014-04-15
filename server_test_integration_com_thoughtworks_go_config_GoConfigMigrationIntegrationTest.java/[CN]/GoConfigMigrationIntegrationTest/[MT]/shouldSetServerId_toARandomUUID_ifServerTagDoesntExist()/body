@@ -1,0 +1,8 @@
+{
+  GoConfigService.XmlPartialSaver fileSaver=goConfigService.fileSaver(true);
+  GoConfigValidity configValidity=fileSaver.saveXml("<cruise schemaVersion='" + 53 + "'>\n"+ "</cruise>",goConfigService.configFileMd5());
+  assertThat("Has error: " + configValidity.errorMessage(),configValidity.isValid(),is(true));
+  CruiseConfig config=goConfigService.getCurrentConfig();
+  ServerConfig server=config.server();
+  assertThat(server.getServerId().matches("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"),is(true));
+}

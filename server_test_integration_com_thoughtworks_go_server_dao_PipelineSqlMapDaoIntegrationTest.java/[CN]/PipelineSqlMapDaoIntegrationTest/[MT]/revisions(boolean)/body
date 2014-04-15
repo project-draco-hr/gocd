@@ -1,0 +1,10 @@
+{
+  MaterialRevisions revisions=new MaterialRevisions();
+  List<Modification> modifications=new ArrayList<Modification>();
+  modifications.add(ModificationsMother.oneModifiedFile(ModificationsMother.currentRevision()));
+  SvnMaterial svnMaterial=MaterialsMother.svnMaterial("http://mingle.com");
+  svnMaterial.setName(new CaseInsensitiveString("mingle"));
+  MaterialRevision materialRevision=new MaterialRevision(svnMaterial,changed,modifications.toArray(new Modification[modifications.size()]));
+  revisions.addRevision(materialRevision);
+  return revisions;
+}

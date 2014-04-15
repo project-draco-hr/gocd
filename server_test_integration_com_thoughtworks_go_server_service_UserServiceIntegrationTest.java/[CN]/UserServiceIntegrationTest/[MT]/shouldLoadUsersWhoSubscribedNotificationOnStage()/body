@@ -1,0 +1,10 @@
+{
+  User tom=new User("tom",new String[]{"tom"},"tom@mail.com",true);
+  addUserWithNotificationFilter(tom,new NotificationFilter("p1","s1",StageEvent.Breaks,true));
+  User jez=new User("jez",new String[]{"jez"},"user@mail.com",true);
+  addUserWithNotificationFilter(jez,new NotificationFilter("cruise","dev",StageEvent.All,false),new NotificationFilter("mingle","dev",StageEvent.All,false));
+  Users users=userService.findValidSubscribers(new StageConfigIdentifier("cruise","dev"));
+  assertThat(users.size(),is(1));
+  assertThat(users.get(0),is(jez));
+  assertThat(users.get(0).getNotificationFilters().size(),is(2));
+}

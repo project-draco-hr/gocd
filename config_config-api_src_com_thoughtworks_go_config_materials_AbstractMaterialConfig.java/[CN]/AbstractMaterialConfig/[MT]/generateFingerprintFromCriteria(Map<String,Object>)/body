@@ -1,0 +1,8 @@
+{
+  List<String> list=new ArrayList<String>();
+  for (  Map.Entry<String,Object> criteria : sqlCriteria.entrySet()) {
+    list.add(new StringBuilder().append(criteria.getKey()).append("=").append(criteria.getValue()).toString());
+  }
+  String fingerprint=ListUtil.join(list,FINGERPRINT_DELIMITER);
+  return CachedDigestUtils.sha256Hex(fingerprint);
+}

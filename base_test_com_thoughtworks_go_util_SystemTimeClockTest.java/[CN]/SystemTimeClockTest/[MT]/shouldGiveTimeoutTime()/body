@@ -1,0 +1,5 @@
+{
+  DateTime expected=new DateTime().plusMillis((int)Timeout.NINETY_SECONDS.inMillis());
+  DateTime actual=new SystemTimeClock().timeoutTime(Timeout.NINETY_SECONDS);
+  assertThat(actual.equals(expected) || actual.isAfter(expected),is(true));
+}

@@ -1,0 +1,23 @@
+{
+  if (allFiles.size() > 0) {
+    File tempFolder=null;
+    try {
+      tempFolder=FileUtil.createTempFolder();
+      File testResultSource=new File(tempFolder,MERGED_RESULT_FOLDER);
+      testResultSource.mkdirs();
+      UnitTestReportGenerator generator=new UnitTestReportGenerator(publisher,testResultSource);
+      generator.generate(allFiles.toArray(new File[allFiles.size()]));
+      publisher.upload(testResultSource,"testoutput");
+    }
+  finally {
+      if (tempFolder != null) {
+        FileUtil.deleteFolder(tempFolder);
+      }
+    }
+  }
+ else {
+    String message="No files were found in the Test Results folders";
+    publisher.consumeLineWithPrefix(message);
+    LOG.warn(message);
+  }
+}

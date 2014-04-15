@@ -1,0 +1,13 @@
+{
+  if (bundleContext == null) {
+    throw new IllegalArgumentException(String.format("context for xsd-resource %s is null",xsdResource));
+  }
+  Bundle bundle=bundleContext.getBundle();
+  if (bundle == null) {
+    throw new IllegalArgumentException(String.format("bundle for xsd-resource %s is null",xsdResource));
+  }
+  GoPluginManifest manifest=new GoPluginManifest(bundle);
+  this.prefix=manifest.getPluginNamespacePrefix();
+  this.uri=manifest.getPluginNamespaceUri();
+  this.xsdResource=xsdResource;
+}

@@ -1,0 +1,9 @@
+{
+  Stage stage=StageMother.completedFailedStageInstance("pipeline-name",stageName,jobName);
+  stage.setIdentifier(new StageIdentifier(pipelineName,-1,pipelineLabel,stageName,stageCounter));
+  for (  JobInstance jobInstance : stage.getJobInstances()) {
+    jobInstance.setIdentifier(new JobIdentifier(pipelineName,-1,pipelineLabel,stageName,stageCounter,jobName));
+  }
+  stage.setPipelineId(10l);
+  return stage;
+}

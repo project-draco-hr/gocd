@@ -1,0 +1,13 @@
+{
+  return new Callable<Object>(){
+    @Override public Object call() throws Exception {
+      System.err.println("START " + index + " "+ Thread.currentThread()+ " "+ System.currentTimeMillis());
+      ConfigurationProperty repoUrl=ConfigurationPropertyMother.create("REPO_URL",false,"http://10.4.7.3:9090/yum/yum-repo-" + (index + 1));
+      ConfigurationProperty packageSpec=ConfigurationPropertyMother.create("PACKAGE_SPEC",false,"perf*");
+      materialService.latestModification(MaterialsMother.packageMaterial("repo-id","repo-name","pkg-id","pkg-name","yum","1.0",Arrays.asList(repoUrl),Arrays.asList(packageSpec)),new File("/tmp"),null);
+      System.err.println("END " + index + " "+ Thread.currentThread()+ " "+ System.currentTimeMillis());
+      return null;
+    }
+  }
+;
+}

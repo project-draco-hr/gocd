@@ -1,0 +1,12 @@
+{
+  RuntimeException runtimeException=new RuntimeException("holy smoke");
+  doThrow(runtimeException).when(agentService).updateRuntimeInfo(info);
+  try {
+    buildRepository.ping(info);
+    fail("should have bombed because agentService could not be updated");
+  }
+ catch (  Exception e) {
+    assertRemoteException(e,runtimeException);
+  }
+  assertThat(log(),hasItem("Error occurred in " + info + " ping."));
+}

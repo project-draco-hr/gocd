@@ -1,0 +1,11 @@
+{
+  createEnvironment("uat");
+  createEnabledAgent(UUID);
+  createEnabledAgent(UUID2);
+  CONFIG_HELPER.addAgentToEnvironment("uat",UUID);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.modifyEnvironments(USERNAME,operationResult,Arrays.asList(UUID,UUID2),Arrays.asList(new TriStateSelection("uat",TriStateSelection.Action.add)));
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(environmentConfigService.environmentsFor(UUID),containsSet("uat"));
+  assertThat(environmentConfigService.environmentsFor(UUID2),containsSet("uat"));
+}

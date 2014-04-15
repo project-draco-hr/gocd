@@ -1,0 +1,22 @@
+{
+  P4MaterialConfig p4MaterialConfig=new P4MaterialConfig("","");
+  Map<String,String> map=new HashMap<String,String>();
+  map.put(P4MaterialConfig.SERVER_AND_PORT,"serverAndPort");
+  map.put(P4MaterialConfig.USERNAME,"username");
+  map.put(P4MaterialConfig.PASSWORD,"password");
+  map.put(P4MaterialConfig.USE_TICKETS,"true");
+  map.put(P4MaterialConfig.VIEW,"some-view");
+  map.put(ScmMaterialConfig.FOLDER,"folder");
+  map.put(ScmMaterialConfig.AUTO_UPDATE,"false");
+  map.put(ScmMaterialConfig.FILTER,"/root,/**/*.help");
+  map.put(AbstractMaterialConfig.MATERIAL_NAME,"material-name");
+  p4MaterialConfig.setConfigAttributes(map);
+  assertThat(p4MaterialConfig.getServerAndPort(),is("serverAndPort"));
+  assertThat(p4MaterialConfig.getUserName(),is("username"));
+  assertThat(p4MaterialConfig.getView(),is("some-view"));
+  assertThat(p4MaterialConfig.getUseTickets(),is(true));
+  assertThat(p4MaterialConfig.getFolder(),is("folder"));
+  assertThat(p4MaterialConfig.getName(),is(new CaseInsensitiveString("material-name")));
+  assertThat(p4MaterialConfig.isAutoUpdate(),is(false));
+  assertThat(p4MaterialConfig.filter(),is(new Filter(new IgnoredFiles("/root"),new IgnoredFiles("/**/*.help"))));
+}

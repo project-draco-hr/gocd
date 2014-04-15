@@ -1,0 +1,8 @@
+{
+  DependencyMaterial one=new DependencyMaterial(new CaseInsensitiveString("pipelineName"),new CaseInsensitiveString("stage"));
+  DependencyMaterial two=new DependencyMaterial(new CaseInsensitiveString("pipelineName"),new CaseInsensitiveString("stage"));
+  two.setName(new CaseInsensitiveString("other-name-that-should-be-ignored-in-hashcode-generation"));
+  assertEquals(two.hashCode(),one.hashCode());
+  DependencyMaterial three=new DependencyMaterial(new CaseInsensitiveString("otherPipelineName"),new CaseInsensitiveString("stage"));
+  assertNotEquals(one.hashCode(),three.hashCode());
+}

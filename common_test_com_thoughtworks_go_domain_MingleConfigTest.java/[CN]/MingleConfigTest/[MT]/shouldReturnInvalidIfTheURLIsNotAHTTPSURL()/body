@@ -1,0 +1,7 @@
+{
+  MingleConfig mingleConfig=new MingleConfig("http://some-mingle-instance","go");
+  mingleConfig.validate(new ValidationContext(null));
+  assertThat(mingleConfig.errors().isEmpty(),is(false));
+  assertThat(mingleConfig.errors().on(MingleConfig.PROJECT_IDENTIFIER),is(nullValue()));
+  assertThat(mingleConfig.errors().on(MingleConfig.BASE_URL),is("Should be a URL starting with https://"));
+}

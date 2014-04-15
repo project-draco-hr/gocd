@@ -1,0 +1,11 @@
+{
+  context.checking(new Expectations(){
+{
+      one(workAssigner).assignWorkToAgent(AGENT_1);
+      will(returnValue(NO_WORK));
+      one(assignedWorkTopic).post(new WorkAssignedMessage(AGENT_1,NO_WORK));
+    }
+  }
+);
+  finder.onMessage(new IdleAgentMessage(AgentRuntimeInfo.fromAgent(AGENT_1,"cookie",null)));
+}

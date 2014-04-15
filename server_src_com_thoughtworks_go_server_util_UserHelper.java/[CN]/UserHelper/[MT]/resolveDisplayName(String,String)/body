@@ -1,0 +1,8 @@
+{
+  Pattern pattern=Pattern.compile("cn=(.*?),\\s");
+  Matcher matcher=pattern.matcher(dn);
+  if (matcher.find()) {
+    return matcher.group(1);
+  }
+  return username;
+}

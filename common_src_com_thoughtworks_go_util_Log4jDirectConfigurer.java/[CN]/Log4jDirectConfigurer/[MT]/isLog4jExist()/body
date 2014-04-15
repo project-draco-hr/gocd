@@ -1,0 +1,13 @@
+{
+  File file=ResourceUtils.getFile(log4jLocation);
+  if (log4jExistInPath(file)) {
+    doExistAction(file.getAbsolutePath());
+    return true;
+  }
+  URL resource=Loader.getResource(log4jLocation);
+  if (log4JExistInClassPath(resource)) {
+    doExistAction(resource.toString());
+    return true;
+  }
+  return false;
+}

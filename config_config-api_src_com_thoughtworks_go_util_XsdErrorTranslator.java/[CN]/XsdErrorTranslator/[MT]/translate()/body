@@ -1,0 +1,10 @@
+{
+  String msg=saxParseException.getMessage();
+  for (  MappingEntry mappingEntry : errorMapping) {
+    String translated=mappingEntry.translate(msg);
+    if (translated != null) {
+      return translated;
+    }
+  }
+  return msg;
+}

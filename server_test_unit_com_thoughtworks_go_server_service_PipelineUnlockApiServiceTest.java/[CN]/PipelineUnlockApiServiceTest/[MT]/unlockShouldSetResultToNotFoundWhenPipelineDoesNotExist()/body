@@ -1,0 +1,11 @@
+{
+  Mockito.when(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString("username"),"pipeline-name")).thenReturn(true);
+  Mockito.when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("does-not-exist"))).thenReturn(false);
+  Pipeline pipeline=new Pipeline();
+  HttpOperationResult result=new HttpOperationResult();
+  pipelineUnlockApiService.unlock("does-not-exist",new Username(new CaseInsensitiveString("username")),result);
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.message(),is("pipeline name does-not-exist is incorrect"));
+  Mockito.verify(goConfigService).hasPipelineNamed(new CaseInsensitiveString("does-not-exist"));
+  Mockito.verify(pipelineDao,never()).unlockPipeline("does-not-exist");
+}

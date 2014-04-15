@@ -1,0 +1,8 @@
+{
+  JobInstances builds=new JobInstances();
+  builds.add(completed("passports",JobResult.Passed));
+  builds.add(completed("passports-failed",JobResult.Failed));
+  builds.add(completed("visas",JobResult.Cancelled));
+  builds.add(completed("flights",JobResult.Cancelled));
+  assertThat(builds.stageState(),Is.is(StageState.Cancelled));
+}

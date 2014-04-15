@@ -1,0 +1,18 @@
+{
+  HgMaterial hg=u.wf(new HgMaterial("hg",null),"folder1");
+  String[] hg_revs={"h11","h12"};
+  u.checkinInOrder(hg,hg_revs);
+  GitMaterial git=u.wf(new GitMaterial("git"),"folder2");
+  String[] git_revs={"g11","g12","g13"};
+  u.checkinInOrder(git,git_revs);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(hg),u.m(git));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(hg),u.m(git));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p1),u.m(p2));
+  String p1_1=u.runAndPass(p1,"h12","g11");
+  String p2_1=u.runAndPass(p2,"h11","g13");
+  String p1_2=u.runAndPass(p1,"h11","g13");
+  String p2_2=u.runAndPass(p2,"h12","g13");
+  MaterialRevisions given=u.mrs(new MaterialRevision[]{u.mr(p1,true,p1_2),u.mr(p2,true,p2_2)});
+  MaterialRevisions expected=u.mrs(new MaterialRevision[]{u.mr(p1,true,p1_2),u.mr(p2,true,p2_1)});
+  assertThat(getRevisionsBasedOnDependencies(p3,goConfigFileDao.load(),given),is(expected));
+}

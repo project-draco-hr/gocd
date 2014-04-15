@@ -1,0 +1,10 @@
+{
+  String content=ConfigFileFixture.configwithSecurity("    <security allowOnlyKnownUsersToLogin='false'>\n" + "      <passwordFile path=\"/home/cruise/projects/cruise_qa/cruise-twist-new/src/config/password.properties\" />\n" + "    </security>");
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  SecurityConfig securityConfig=cruiseConfig.server().security();
+  assertThat(securityConfig.isAllowOnlyKnownUsersToLogin(),is(false));
+  securityConfig.setAllowOnlyKnownUsersToLogin(true);
+  xmlWriter.write(cruiseConfig,out,false);
+  assertThat(out.toString(),containsString("allowOnlyKnownUsersToLogin=\"true\""));
+}

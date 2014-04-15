@@ -1,0 +1,10 @@
+{
+  systemEnvironment=mock(SystemEnvironment.class);
+  serverVersion=mock(ServerVersion.class);
+  goPluginsDir=FileSystemUtils.createDirectory("go-plugins");
+  when(systemEnvironment.get(SystemEnvironment.PLUGIN_GO_PROVIDED_PATH)).thenReturn(goPluginsDir.getAbsolutePath());
+  when(systemEnvironment.get(SystemEnvironment.PLUGIN_FRAMEWORK_ENABLED)).thenReturn(true);
+  pluginManager=mock(PluginManager.class);
+  pluginsInitializer=spy(new PluginsInitializer(pluginManager,systemEnvironment,serverVersion,new ZipUtil()));
+  doReturn(new ZipInputStream(new FileInputStream(new File("test/data/dummy-plugins.zip")))).when(pluginsInitializer).getPluginsZipStream();
+}

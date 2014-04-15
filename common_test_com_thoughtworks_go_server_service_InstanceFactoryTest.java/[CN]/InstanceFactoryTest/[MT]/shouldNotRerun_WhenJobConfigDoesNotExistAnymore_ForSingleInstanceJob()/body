@@ -1,0 +1,17 @@
+{
+  Date old=new DateTime().minusDays(2).toDate();
+  JobInstance rails=jobInstance(old,"rails",7,10);
+  JobInstance java=jobInstance(old,"java",12,22);
+  Stage stage=stage(9,rails,java);
+  Stage newStage=null;
+  CannotRerunJobException exception=null;
+  try {
+    newStage=instanceFactory.createStageForRerunOfJobs(stage,a("rails"),new DefaultSchedulingContext("loser",new Agents()),StageConfigMother.custom("dev","java"),new TimeProvider(),"md5");
+    Assert.fail("should not schedule when job config does not exist anymore");
+  }
+ catch (  CannotRerunJobException e) {
+    exception=e;
+  }
+  assertThat(exception.getJobName(),CoreMatchers.is("rails"));
+  assertThat(newStage,CoreMatchers.is(nullValue()));
+}

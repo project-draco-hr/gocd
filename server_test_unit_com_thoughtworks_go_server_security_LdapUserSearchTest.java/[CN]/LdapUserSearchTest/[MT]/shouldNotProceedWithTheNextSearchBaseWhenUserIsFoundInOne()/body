@@ -1,0 +1,12 @@
+{
+  final FilterBasedLdapUserSearch filter1=mock(FilterBasedLdapUserSearch.class);
+  final FilterBasedLdapUserSearch filter2=mock(FilterBasedLdapUserSearch.class);
+  LdapConfig ldapConfig=setLdapConfig(new BasesConfig(new BaseConfig("base1"),new BaseConfig("base2")));
+  doReturn(filter1).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().get(0).getValue(),ldapConfig.searchFilter());
+  doReturn(filter2).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().get(1).getValue(),ldapConfig.searchFilter());
+  DirContextOperations foundUser=mock(DirContextOperations.class);
+  when(filter1.searchForUser("username")).thenReturn(foundUser);
+  assertThat(spy.searchForUser("username"),is(foundUser));
+  verify(filter1).searchForUser("username");
+  verify(filter2,never()).searchForUser("username");
+}

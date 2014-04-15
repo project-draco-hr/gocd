@@ -1,0 +1,12 @@
+{
+  DependencyMaterialConfig dependencyMaterialConfig=new DependencyMaterialConfig(new CaseInsensitiveString(""),new CaseInsensitiveString(""));
+  assertThat(dependencyMaterialConfig.getPipelineStageName(),is(nullValue()));
+  HashMap<String,String> configMap=new HashMap<String,String>();
+  configMap.put(AbstractMaterialConfig.MATERIAL_NAME,"name1");
+  configMap.put(DependencyMaterialConfig.PIPELINE_STAGE_NAME,"pipeline-1 [stage-1]");
+  dependencyMaterialConfig.setConfigAttributes(configMap);
+  assertThat(dependencyMaterialConfig.getMaterialName(),is(new CaseInsensitiveString("name1")));
+  assertThat(dependencyMaterialConfig.getPipelineName(),is(new CaseInsensitiveString("pipeline-1")));
+  assertThat(dependencyMaterialConfig.getStageName(),is(new CaseInsensitiveString("stage-1")));
+  assertThat(dependencyMaterialConfig.getPipelineStageName(),is("pipeline-1 [stage-1]"));
+}

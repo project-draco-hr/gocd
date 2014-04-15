@@ -1,0 +1,6 @@
+{
+  NantTask nantTask=new NantTask();
+  nantTask.setWorkingDirectory("folder1\\folder2");
+  CommandBuilder builder=(CommandBuilder)nantTaskBuilder.createBuilder(builderFactory,nantTask,TasksTest.pipelineStub("label","/var/cruise-agent/pipelines/cruise"),resolver);
+  assertThat(builder.getWorkingDir(),Is.is(new File("/var/cruise-agent/pipelines/cruise/folder1/folder2")));
+}

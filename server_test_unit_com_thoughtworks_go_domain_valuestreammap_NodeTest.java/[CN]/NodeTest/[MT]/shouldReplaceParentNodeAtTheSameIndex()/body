@@ -1,0 +1,25 @@
+{
+  Node git=new PipelineDependencyNode("git-fingerprint","git");
+  git.setLevel(0);
+  Node p1=new PipelineDependencyNode("p1","p1");
+  p1.setLevel(1);
+  Node p2=new PipelineDependencyNode("p2","p2");
+  p2.setLevel(1);
+  Node dummy=new PipelineDependencyNode("dummy","dummy");
+  dummy.setLevel(1);
+  Node p3=new PipelineDependencyNode("p3","p3");
+  p2.setLevel(2);
+  git.addChildIfAbsent(p1);
+  git.addChildIfAbsent(p2);
+  p1.addParentIfAbsent(git);
+  p2.addParentIfAbsent(git);
+  p1.addChildIfAbsent(p3);
+  p2.addChildIfAbsent(p3);
+  p3.addParentIfAbsent(p1);
+  p3.addParentIfAbsent(p2);
+  assertThat(p3.getParents().size(),is(2));
+  assertThat(p3.getParents(),hasItems(p1,p2));
+  p3.replaceParentWith(p1,dummy);
+  assertThat(p3.getParents().size(),is(2));
+  assertThat(p3.getParents(),hasItems(dummy,p2));
+}

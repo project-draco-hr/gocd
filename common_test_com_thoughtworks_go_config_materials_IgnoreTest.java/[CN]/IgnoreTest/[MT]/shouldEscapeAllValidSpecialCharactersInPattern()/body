@@ -1,0 +1,5 @@
+{
+  hgMaterialConfig=new TfsMaterialConfig(new GoCipher());
+  IgnoredFiles ignore=new IgnoredFiles("$/tfs_repo/Properties/*.*");
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"$/tfs_repo" + separator + "Properties"+ separator+ "AssemblyInfo.cs"),is(true));
+}

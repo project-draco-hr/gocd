@@ -1,0 +1,20 @@
+{
+  return new TypeSafeMatcher<HttpMethod>(){
+    @Override public boolean matchesSafely(    HttpMethod item){
+      PostMethod postMethod=(PostMethod)item;
+      assertThat(postMethod.getParameter("hostname").getValue(),is("cruise.com"));
+      assertThat(postMethod.getParameter("uuid").getValue(),is(uuid));
+      String workingDir=SystemUtil.currentWorkingDirectory();
+      assertThat(postMethod.getParameter("location").getValue(),is(workingDir));
+      assertThat(postMethod.getParameter("operating_system").getValue(),is("minix"));
+      assertThat(postMethod.getParameter("agentAutoRegisterKey").getValue(),is(""));
+      assertThat(postMethod.getParameter("agentAutoRegisterResources").getValue(),is(""));
+      assertThat(postMethod.getParameter("agentAutoRegisterEnvironments").getValue(),is(""));
+      return true;
+    }
+    public void describeTo(    Description description){
+      description.appendText("params containing");
+    }
+  }
+;
+}

@@ -1,0 +1,6 @@
+{
+  setupClassesInBundle("PublicAbstractGoExtensionClass.class");
+  when(bundle.loadClass(contains("PublicAbstractGoExtensionClass"))).thenReturn((Class)PublicAbstractGoExtensionClass.class);
+  activator.start(context);
+  verifyErrorsReported("Class [PublicAbstractGoExtensionClass] is annotated with @Extension but is abstract.",NO_EXT_ERR_MSG);
+}

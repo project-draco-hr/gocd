@@ -1,0 +1,9 @@
+{
+  if (pipelineStageName != null) {
+    return pipelineStageName;
+  }
+  if (CaseInsensitiveString.isBlank(pipelineName) || CaseInsensitiveString.isBlank(stageName)) {
+    return null;
+  }
+  return String.format("%s [%s]",pipelineName,stageName);
+}

@@ -1,0 +1,6 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  agentInstance.update(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null));
+  Registration entry=agentInstance.assignCertification();
+  assertThat(entry.getChain().length,is(not(0)));
+}

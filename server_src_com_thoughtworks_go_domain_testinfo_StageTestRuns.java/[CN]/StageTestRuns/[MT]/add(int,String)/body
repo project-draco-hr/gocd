@@ -1,0 +1,8 @@
+{
+  if (!failingTestsInPipelineByCounter.containsKey(pipelineCounter)) {
+    FailingTestsInPipeline failingTestsInPipeline=new FailingTestsInPipeline(pipelineLabel,pipelineCounter);
+    failingTestsInPipelines.add(failingTestsInPipeline);
+    failingTestsInPipelineByCounter.put(pipelineCounter,failingTestsInPipeline);
+  }
+  return failingTestsInPipelineByCounter.get(pipelineCounter);
+}

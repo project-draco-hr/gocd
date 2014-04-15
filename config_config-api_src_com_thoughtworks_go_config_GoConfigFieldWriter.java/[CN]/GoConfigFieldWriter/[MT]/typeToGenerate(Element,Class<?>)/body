@@ -1,0 +1,15 @@
+{
+  if (type.isInterface() && type.isAnnotationPresent(ConfigInterface.class)) {
+    for (    Class<?> implementation : registry.implementersOf(type)) {
+      if (configTag(implementation).equals(e.getName())) {
+        return implementation;
+      }
+    }
+  }
+ else {
+    if (configTag(type).equals(e.getName())) {
+      return type;
+    }
+  }
+  throw bomb("Unable to determine type to generate.\n" + "Type: " + type.getName() + "\n"+ "Element: "+ configUtil.elementOutput(e));
+}

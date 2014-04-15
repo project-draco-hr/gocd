@@ -1,0 +1,12 @@
+{
+  TestingAuthenticationToken authentication=new TestingAuthenticationToken(new LdapUserDetailsImpl(){
+    public String getUsername(){
+      return "test1";
+    }
+    public String getDn(){
+      return "n=Test User, ou=Beijing, ou=Employees, ou=Enterprise, ou=Principal";
+    }
+  }
+,null,null);
+  assertThat(UserHelper.getUserName(authentication).getDisplayName(),is("test1"));
+}

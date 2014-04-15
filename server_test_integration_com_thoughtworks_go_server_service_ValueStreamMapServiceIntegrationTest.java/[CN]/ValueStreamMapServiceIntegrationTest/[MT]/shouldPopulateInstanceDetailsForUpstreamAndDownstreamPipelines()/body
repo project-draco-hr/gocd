@@ -1,0 +1,34 @@
+{
+  GitMaterial g1=u.wf(new GitMaterial("g1"),"f1");
+  u.checkinInOrder(g1,"g1-1");
+  GitMaterial g2=u.wf(new GitMaterial("g2"),"f2");
+  u.checkinInOrder(g2,"g2-1");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(g1));
+  ScheduleTestUtil.AddedPipeline p=u.saveConfigWith("p",u.m(g2),u.m(p1));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(p));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",u.m(p2));
+  String p1_1=u.runAndPass(p1,"g1-1");
+  String p_1=u.runAndPass(p,"g2-1",p1_1);
+  String p2_1=u.runAndPass(p2,p_1);
+  String p2_2=u.runAndPass(p2,p_1);
+  String p3_1=u.runAndPass(p3,p_1);
+  String p4_1=u.runAndPass(p4,p2_1);
+  configHelper.addStageToPipeline("p2","unrun_stage");
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p",1,username,result);
+  List<List<Node>> allLevels=graph.getNodesAtEachLevel();
+  int CURRENT_PIPELINE_LEVEL=2;
+  Node currentNode=allLevels.get(CURRENT_PIPELINE_LEVEL).get(0);
+  assertEquals(currentNode.revisions().get(0),new PipelineRevision(currentNode.getName(),1,"1"));
+  Node p1_node=allLevels.get(CURRENT_PIPELINE_LEVEL - 1).get(1);
+  assertInstances(p1_node,"p1",1);
+  assertStageDetails(p1_node,1,"s",1,StageState.Passed);
+  assertInstances(allLevels.get(CURRENT_PIPELINE_LEVEL + 1).get(0),"p3",1);
+  Node p2_node=allLevels.get(CURRENT_PIPELINE_LEVEL + 1).get(1);
+  assertInstances(p2_node,"p2",1,2);
+  assertStageDetails(p2_node,1,"s",1,StageState.Passed);
+  assertStageDetails(p2_node,2,"s",1,StageState.Passed);
+  assertStageDetails(p2_node,1,"unrun_stage",0,StageState.Unknown);
+  assertStageDetails(p2_node,2,"unrun_stage",0,StageState.Unknown);
+  assertInstances(allLevels.get(CURRENT_PIPELINE_LEVEL + 2).get(0),"p4",1);
+}

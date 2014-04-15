@@ -1,0 +1,14 @@
+{
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  File expectedBundleDirectory=new File(TEST_BUNDLES_DIR,pluginJarFileName);
+  File activatorFileLocation=new File(expectedBundleDirectory,"lib/go-plugin-activator.jar");
+  FileUtils.writeStringToFile(activatorFileLocation,"SOME-DATA");
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("testplugin.descriptorValidator",pluginJarFile.getAbsolutePath(),expectedBundleDirectory,true);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(descriptor);
+  doNothing().when(registry).loadPlugin(descriptor);
+  listener.pluginJarAdded(new PluginFileDetails(pluginJarFile,true));
+  assertThat(new File(expectedBundleDirectory,"lib/go-plugin-activator.jar").exists(),is(true));
+  assertThat(FileUtils.readFileToString(activatorFileLocation),is(not("SOME-DATA")));
+}

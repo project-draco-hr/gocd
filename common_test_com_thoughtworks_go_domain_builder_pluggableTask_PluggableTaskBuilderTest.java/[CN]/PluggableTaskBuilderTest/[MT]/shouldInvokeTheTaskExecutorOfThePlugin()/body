@@ -1,0 +1,20 @@
+{
+  final int[] executeTaskCalled=new int[1];
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory"){
+    @Override protected ExecutionResult executeTask(    Task task,    BuildLogElement buildLogElement,    DefaultGoPublisher publisher,    EnvironmentVariableContext environmentVariableContext){
+      executeTaskCalled[0]++;
+      return ExecutionResult.success("Test succeeded");
+    }
+  }
+;
+  when(pluginManager.doOn(eq(Task.class),eq(TEST_PLUGIN_ID),any(ActionWithReturn.class))).thenAnswer(new Answer<ExecutionResult>(){
+    @Override public ExecutionResult answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      ActionWithReturn<Task,ExecutionResult> actionWithReturn=(ActionWithReturn<Task,ExecutionResult>)invocationOnMock.getArguments()[2];
+      return actionWithReturn.execute(mock(Task.class),pluginDescriptor);
+    }
+  }
+);
+  taskBuilder.build(buildLogElement,goPublisher,variableContext);
+  assertThat(executeTaskCalled[0],is(1));
+  verify(pluginManager).doOn(eq(Task.class),eq(TEST_PLUGIN_ID),any(ActionWithReturn.class));
+}

@@ -1,0 +1,8 @@
+{
+  Materials materials=new Materials(repo.createMaterial("dest1"),repo.createMaterial("dest2"));
+  String fileName="newFile.txt";
+  repo.addFileAndPush(fileName,"add a new file " + fileName);
+  MaterialRevisions materialRevisions=materials.latestModification(pipelineDir,new TestSubprocessExecutionContext());
+  assertThat(materialRevisions.getRevisions().size(),is(2));
+  assertThat(materialRevisions,containsModifiedFile(fileName));
+}

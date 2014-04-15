@@ -1,0 +1,8 @@
+{
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  environmentVariableContext.setProperty("secure_foo","secure_foo_value",true);
+  environmentVariableContext.setProperty("plain_foo","plain_foo_value",false);
+  List<EnvironmentVariableContext.EnvironmentVariable> secureEnvironmentVariables=environmentVariableContext.getSecureEnvironmentVariables();
+  assertThat(secureEnvironmentVariables.size(),is(1));
+  assertThat(secureEnvironmentVariables,hasItem(new EnvironmentVariableContext.EnvironmentVariable("secure_foo","secure_foo_value",true)));
+}

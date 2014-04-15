@@ -1,0 +1,7 @@
+{
+  DependencyMaterialRevision materialRevision=DependencyMaterialRevision.create("pipeline",10,"1.2.3","stage",4);
+  MaterialRevision withRevision=materialRevision.convert(new DependencyMaterial(new CaseInsensitiveString("pipeline"),new CaseInsensitiveString("stage")),new Date());
+  DependencyMaterialRevision revision=(DependencyMaterialRevision)withRevision.getRevision();
+  assertThat(revision.getRevision(),is("pipeline/10/stage/4"));
+  assertThat(revision.getPipelineLabel(),is("1.2.3"));
+}

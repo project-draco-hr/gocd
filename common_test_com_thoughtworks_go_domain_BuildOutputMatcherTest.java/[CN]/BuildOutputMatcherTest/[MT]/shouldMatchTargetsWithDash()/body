@@ -1,0 +1,9 @@
+{
+  BuildOutputMatcher matcher=new BuildOutputMatcher();
+  String matchedString=matcher.match("The machine is going down:\n-compile.test:");
+  assertThat(matchedString,is("compile.test"));
+  matchedString=matcher.match("The machine is going down:\n-compile-test:");
+  assertThat(matchedString,is("compile-test"));
+  matchedString=matcher.match("The machine is going down:\n-compile?test?:");
+  assertThat(matchedString,is("compile?test?"));
+}

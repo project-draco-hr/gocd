@@ -1,0 +1,6 @@
+{
+  SvnMaterial svn=new SvnMaterial("my-url","user","loser",false);
+  assertThat(svn.toString(),not(containsString("loser")));
+  svn=new SvnMaterial("https://user:loser@foo.bar/baz?quux=bang","user","loser",false);
+  assertThat(svn.toString(),not(containsString("loser")));
+}

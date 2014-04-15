@@ -1,0 +1,11 @@
+{
+  Pipeline completed=pipelineFixture.createdPipelineWithAllStagesPassed();
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  configFileHelper.lockPipeline(pipeline.getName());
+  pipelineService.save(pipeline);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  schedulingChecker.canScheduleStage(completed.getIdentifier(),pipelineFixture.stageName(1),APPROVED_USER,result);
+  assertThat(result.getServerHealthState().isSuccess(),is(false));
+  assertThat(result.getServerHealthState().getDescription(),containsString("is locked"));
+  assertThat(result.getServerHealthState().getDescription(),containsString(pipeline.getName()));
+}

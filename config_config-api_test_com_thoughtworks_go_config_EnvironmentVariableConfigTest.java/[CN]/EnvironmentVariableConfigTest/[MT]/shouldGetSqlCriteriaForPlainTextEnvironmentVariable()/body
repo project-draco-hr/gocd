@@ -1,0 +1,9 @@
+{
+  String plainText="value";
+  EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig(goCipher,"key",plainText,false);
+  Map<String,Object> sqlCriteria=environmentVariableConfig.getSqlCriteria();
+  assertThat((String)sqlCriteria.get("variableName"),is("key"));
+  assertThat((String)sqlCriteria.get("variableValue"),is(plainText));
+  assertThat((Boolean)sqlCriteria.get("isSecure"),is(false));
+  verify(goCipher,never()).encrypt(plainText);
+}

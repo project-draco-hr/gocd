@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  HashMap map=new HashMap();
+  HashMap valueHashMap=new HashMap();
+  valueHashMap.put("name","FOO");
+  valueHashMap.put("value","BAR");
+  map.put(PipelineConfig.ENVIRONMENT_VARIABLES,valueHashMap);
+  pipelineConfig.setVariables(mockEnvironmentVariablesConfig);
+  pipelineConfig.setConfigAttributes(map);
+  verify(mockEnvironmentVariablesConfig).setConfigAttributes(valueHashMap);
+}

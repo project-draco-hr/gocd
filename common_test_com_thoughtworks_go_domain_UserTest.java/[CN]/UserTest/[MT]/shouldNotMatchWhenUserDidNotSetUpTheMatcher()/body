@@ -1,0 +1,5 @@
+{
+  materialRevisions=new MaterialRevisions(new MaterialRevision(MaterialsMother.svnMaterial(),aCheckIn("100","readme")));
+  assertThat(new User("UserName",new String[]{null},"user@mail.com",true).matchModification(materialRevisions),is(false));
+  assertThat(new User("UserName",new String[]{""},"user@mail.com",true).matchModification(materialRevisions),is(false));
+}

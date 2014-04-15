@@ -1,0 +1,16 @@
+{
+  StageIdentifier stageIdentifier=feedEntry.getStageIdentifier();
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("handling stage:<" + stageIdentifier + ">...");
+  }
+  try {
+    transformerRegistry.reset();
+    stageStorage.save(stageResourceImporter.load(stageIdentifier,new InMemoryTempGraphFactory(),transformerRegistry));
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("importing stage:<" + stageIdentifier + "> finished.");
+    }
+  }
+ catch (  GoIntegrationException e) {
+    LOGGER.error("Can not import stage <" + stageIdentifier + ">, will skip to next...",e);
+  }
+}

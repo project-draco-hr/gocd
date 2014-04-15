@@ -1,0 +1,29 @@
+{
+synchronized (mutexForPipeline(pipelineName)) {
+    OperationResult result=new ServerHealthStateOperationResult();
+    if (!schedulingChecker.canSchedule(result)) {
+      errorHandler.cantSchedule(result.getServerHealthState().getDescription(),pipelineName,stageName);
+    }
+    String username=CaseInsensitiveString.str(UserHelper.getUserName().getUsername());
+    if (!securityService.hasOperatePermissionForStage(pipelineName,stageName,username)) {
+      errorHandler.noOperatePermission(pipelineName,stageName);
+    }
+    Pipeline pipeline=pipelineService.fullPipelineByCounterOrLabel(pipelineName,counterOrLabel);
+    if (pipeline == null) {
+      errorHandler.nullPipeline(pipelineName,counterOrLabel,stageName);
+    }
+    if (!pipeline.hasStageBeenRun(stageName)) {
+      if (goConfigService.hasPreviousStage(pipelineName,stageName)) {
+        CaseInsensitiveString previousStageName=goConfigService.previousStage(pipelineName,stageName).name();
+        if (!pipeline.hasStageBeenRun(CaseInsensitiveString.str(previousStageName))) {
+          errorHandler.previousStageNotRun(pipeline.getName(),stageName);
+        }
+      }
+    }
+    Stage stage=internalRerun(pipeline,stageName,username,creator,errorHandler);
+    if (stage == null) {
+      errorHandler.nullStage();
+    }
+    return stage;
+  }
+}

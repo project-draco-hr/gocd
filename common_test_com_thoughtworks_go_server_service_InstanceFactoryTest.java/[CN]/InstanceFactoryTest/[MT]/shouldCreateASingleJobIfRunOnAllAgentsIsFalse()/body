@@ -1,0 +1,12 @@
+{
+  JobConfig jobConfig=new JobConfig("foo");
+  SchedulingContext context=mock(SchedulingContext.class);
+  when(context.getEnvironmentVariablesConfig()).thenReturn(new EnvironmentVariablesConfig());
+  when(context.overrideEnvironmentVariables(any(EnvironmentVariablesConfig.class))).thenReturn(context);
+  RunOnAllAgents.CounterBasedJobNameGenerator jobNameGenerator=new RunOnAllAgents.CounterBasedJobNameGenerator(CaseInsensitiveString.str(jobConfig.name()));
+  JobInstances jobs=instanceFactory.createJobInstance(new CaseInsensitiveString("someStage"),jobConfig,new DefaultSchedulingContext(),new TimeProvider(),jobNameGenerator);
+  assertThat(jobs.toArray(),hasItemInArray(hasProperty("name",is("foo"))));
+  assertThat(jobs.toArray(),hasItemInArray(hasProperty("agentUuid",IsNull.nullValue())));
+  assertThat(jobs.toArray(),hasItemInArray(hasProperty("runOnAllAgents",is(false))));
+  assertThat(jobs.size(),is(1));
+}

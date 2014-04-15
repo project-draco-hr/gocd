@@ -1,0 +1,6 @@
+{
+  configHelper.setViewPermissionForGroup("group1","anyone");
+  PipelineInstanceModels models=pipelineHistoryService.findPipelineInstances(pipelineOne.pipelineName,"latest",3,"anyone");
+  PipelineInstanceModel emptyModel=models.get(0);
+  assertThat(emptyModel.hasNewRevisions(),is(false));
+}

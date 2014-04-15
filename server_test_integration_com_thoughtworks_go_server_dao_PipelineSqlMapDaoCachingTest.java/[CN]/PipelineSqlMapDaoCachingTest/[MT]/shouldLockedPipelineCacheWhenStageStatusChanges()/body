@@ -1,0 +1,11 @@
+{
+  PipelineInstanceModel pipeline=new PipelineInstanceModel("pipeline",-2,"label",BuildCause.createManualForced(),new StageInstanceModels());
+  when(mockTemplate.queryForObject(eq("getPipelineHistoryById"),any())).thenReturn(pipeline);
+  PipelineInstanceModel loaded;
+  pipelineDao.lockedPipeline("pipeline");
+  pipelineDao.lockedPipeline("pipeline");
+  verify(mockTemplate,times(1)).queryForObject(eq("lockedPipeline"),any());
+  changeStageStatus();
+  pipelineDao.lockedPipeline("pipeline");
+  verify(mockTemplate,times(2)).queryForObject(eq("lockedPipeline"),any());
+}

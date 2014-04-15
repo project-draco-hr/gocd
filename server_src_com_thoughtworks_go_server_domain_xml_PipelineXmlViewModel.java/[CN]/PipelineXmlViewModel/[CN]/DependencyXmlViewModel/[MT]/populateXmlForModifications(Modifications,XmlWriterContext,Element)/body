@@ -1,0 +1,8 @@
+{
+  Modification firstModification=modifications.first();
+  Element changeset=modificationsTag.addElement("changeset");
+  String revision=firstModification.getRevision();
+  changeset.addAttribute("changesetUri",StageXmlViewModel.httpUrlFor(writerContext.getBaseUrl(),writerContext.stageIdForLocator(revision)));
+  changeset.addElement("checkinTime").addText(DateUtils.formatISO8601(firstModification.getModifiedTime()));
+  changeset.addElement("revision").addText(revision);
+}

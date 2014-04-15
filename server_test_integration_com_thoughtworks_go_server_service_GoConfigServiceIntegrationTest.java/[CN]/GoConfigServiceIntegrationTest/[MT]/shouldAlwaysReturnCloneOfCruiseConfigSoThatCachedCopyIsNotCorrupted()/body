@@ -1,0 +1,12 @@
+{
+  configHelper.addPipeline("my-pipeline","my-stage");
+  CruiseConfig cruiseConfig=configHelper.load();
+  cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("my-pipeline")).setLabelTemplate("foo-${COUNT}-bar");
+  configHelper.writeConfigFile(cruiseConfig);
+  ConfigForEdit<PipelineConfig> config=goConfigService.loadForEdit("my-pipeline",new Username(new CaseInsensitiveString("root")),new HttpLocalizedOperationResult());
+  config.getConfig().setLabelTemplate("Foo-bar");
+  config.getCruiseConfig().pipelineConfigByName(new CaseInsensitiveString("my-pipeline")).setLabelTemplate("Foo-bar");
+  config.getProcessedConfig().pipelineConfigByName(new CaseInsensitiveString("my-pipeline")).setLabelTemplate("Foo-bar");
+  assertThat(goConfigService.getConfigForEditing().pipelineConfigByName(new CaseInsensitiveString("my-pipeline")).getLabelTemplate(),is("foo-${COUNT}-bar"));
+  assertThat(goConfigService.currentCruiseConfig().pipelineConfigByName(new CaseInsensitiveString("my-pipeline")).getLabelTemplate(),is("foo-${COUNT}-bar"));
+}

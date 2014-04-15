@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=loadConfigFileWithContent(ConfigFileFixture.WITH_3_AGENT_CONFIG);
+  assertThat(cruiseConfig.agents().size(),is(3));
+  assertThat(cruiseConfig.agents().getAgentByUuid("2").isDisabled(),is(true));
+  assertThat(cruiseConfig.agents().getAgentByUuid("1").isDisabled(),is(false));
+}

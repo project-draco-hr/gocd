@@ -1,0 +1,9 @@
+{
+  File workingDirectory=mock(File.class);
+  when(workingDirectory.exists()).thenReturn(true);
+  TfsSDKCommand spy=spy(tfsCommand);
+  doNothing().when(spy).initializeWorkspace(workingDirectory);
+  doNothing().when(spy).retrieveFiles(workingDirectory,null);
+  spy.checkout(workingDirectory,null);
+  verify(workingDirectory).exists();
+}

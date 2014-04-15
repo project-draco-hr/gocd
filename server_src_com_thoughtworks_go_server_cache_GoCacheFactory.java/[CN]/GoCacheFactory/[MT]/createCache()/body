@@ -1,0 +1,6 @@
+{
+  factoryBean.setCacheManager(createCacheManager());
+  factoryBean.afterPropertiesSet();
+  factoryBean.getObject().getCacheConfiguration().setClearOnFlush(clearOnFlush);
+  return new GoCache(factoryBean,transactionSynchronizationManager);
+}

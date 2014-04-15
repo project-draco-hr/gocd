@@ -1,0 +1,16 @@
+{
+  File workingDirectory=mock(File.class);
+  when(workingDirectory.exists()).thenReturn(false);
+  when(workingDirectory.getCanonicalPath()).thenReturn("canonical_path");
+  File[] checkedOutFiles={mock(File.class)};
+  when(workingDirectory.listFiles()).thenReturn(checkedOutFiles);
+  TfsSDKCommand spy=spy(tfsCommand);
+  doNothing().when(spy).initializeWorkspace(workingDirectory);
+  GoTfsWorkspace workspace=mock(GoTfsWorkspace.class);
+  when(client.queryWorkspace(TFS_WORKSPACE,USERNAME)).thenReturn(workspace);
+  doNothing().when(workspace).get(any(GetRequest.class),eq(GetOptions.NONE));
+  spy.checkout(workingDirectory,null);
+  verify(workingDirectory).getCanonicalPath();
+  verify(workingDirectory).listFiles();
+  verify(workspace).get(any(GetRequest.class),eq(GetOptions.NONE));
+}

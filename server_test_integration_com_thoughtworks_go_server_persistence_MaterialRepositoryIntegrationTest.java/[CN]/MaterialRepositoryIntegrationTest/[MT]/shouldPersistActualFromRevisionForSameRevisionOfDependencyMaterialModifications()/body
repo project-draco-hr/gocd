@@ -1,0 +1,13 @@
+{
+  Material material=new DependencyMaterial(new CaseInsensitiveString("pipeline_name"),new CaseInsensitiveString("stage_name"));
+  Modification actualFrom=modification("pipeline_name/8/stage_name/2");
+  MaterialRevision firstRevision=new MaterialRevision(material,new Modifications(actualFrom));
+  saveMaterialRev(firstRevision);
+  Pipeline firstPipeline=createPipeline();
+  savePMR(firstRevision,firstPipeline);
+  firstPipeline=createPipeline();
+  savePMR(firstRevision,firstPipeline);
+  List<PipelineMaterialRevision> pmrs=repo.findPipelineMaterialRevisions(firstPipeline.getId());
+  assertThat(pmrs.get(0).getActualFromRevisionId(),is(actualFrom.getId()));
+  assertEquals(actualFrom,pmrs.get(0).getFromModification());
+}

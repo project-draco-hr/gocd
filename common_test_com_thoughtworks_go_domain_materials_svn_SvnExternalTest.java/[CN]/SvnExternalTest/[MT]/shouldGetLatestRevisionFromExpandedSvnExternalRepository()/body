@@ -1,0 +1,10 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  Material svnExt=svnMaterial(svnRepo.externalRepositoryUrl(),"end2end");
+  List<Modification> modifications=((SvnMaterial)svnExt).latestModification(svnRepo.workingFolder(),new TestSubprocessExecutionContext());
+  materialRevisions.addRevision(svnExt,modifications);
+  assertThat(materialRevisions.numberOfRevisions(),is(1));
+  MaterialRevision materialRevision=materialRevisions.getRevisions().get(0);
+  assertThat(materialRevision.getMaterial(),is(svnExt));
+  assertThat(materialRevision.getRevision().getRevision(),is("4"));
+}

@@ -1,0 +1,26 @@
+{
+  GetMethod toGet=null;
+  InputStream is=null;
+  try {
+    toGet=httpClientFactory.createGet(url);
+    PerfTimer timer=PerfTimer.start(String.format("Downloading from url [%s]",url));
+    execute(toGet);
+    timer.stop();
+    int statusCode=toGet.getStatusCode();
+    if (statusCode == HttpServletResponse.SC_OK) {
+      is=toGet.getResponseBodyAsStream();
+      handler.handle(is);
+    }
+    return statusCode;
+  }
+ catch (  IOException e) {
+    LOGGER.error("Error while downloading [" + url + "]",e);
+    throw e;
+  }
+ finally {
+    IOUtils.closeQuietly(is);
+    if (toGet != null) {
+      toGet.releaseConnection();
+    }
+  }
+}

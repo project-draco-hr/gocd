@@ -1,0 +1,16 @@
+{
+  ConfigurationProperty configurationProperty=new ConfigurationProperty();
+  HashMap attributes=new HashMap();
+  HashMap keyMap=new HashMap();
+  keyMap.put("name","fooKey");
+  attributes.put(ConfigurationProperty.CONFIGURATION_KEY,keyMap);
+  HashMap valueMap=new HashMap();
+  valueMap.put("value","fooValue");
+  attributes.put(ConfigurationProperty.CONFIGURATION_VALUE,valueMap);
+  PackageConfigurations metadata=new PackageConfigurations();
+  metadata.addConfiguration(new PackageConfiguration("fooKey",null));
+  attributes.put(Configuration.METADATA,metadata);
+  configurationProperty.setConfigAttributes(attributes,null);
+  assertThat(configurationProperty.getConfigurationKey().getName(),is("fooKey"));
+  assertThat(configurationProperty.getConfigurationValue().getValue(),is("fooValue"));
+}

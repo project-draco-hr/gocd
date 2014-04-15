@@ -1,0 +1,12 @@
+{
+  Map<String,String> hashMap=new HashMap<String,String>();
+  String packageId="some-id";
+  hashMap.put(PackageMaterialConfig.PACKAGE_ID,packageId);
+  Map<String,Object> attributeMap=new HashMap<String,Object>();
+  attributeMap.put(AbstractMaterialConfig.MATERIAL_TYPE,PackageMaterialConfig.TYPE);
+  attributeMap.put(PackageMaterialConfig.TYPE,hashMap);
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  materialConfigs.setConfigAttributes(attributeMap);
+  assertThat(materialConfigs.size(),is(1));
+  assertThat(((PackageMaterialConfig)materialConfigs.first()).getPackageId(),is(packageId));
+}

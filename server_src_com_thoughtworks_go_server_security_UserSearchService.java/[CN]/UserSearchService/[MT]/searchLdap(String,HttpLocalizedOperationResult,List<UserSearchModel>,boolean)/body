@@ -1,0 +1,22 @@
+{
+  if (goConfigService.isLdapConfigured()) {
+    List<User> users=new ArrayList<User>();
+    try {
+      users=ldapUserSearch.search(searchText);
+    }
+ catch (    LdapUserSearch.NotAllResultsShownException ex) {
+      result.setMessage(LocalizedMessage.string("NOT_ALL_RESULTS_SHOWN"));
+      users=ex.getUsers();
+    }
+catch (    Exception ex) {
+      LOGGER.error(String.format("User search for %s on ldap failed with Exception.",searchText),ex);
+      if (passwordSearchFailed) {
+        result.badRequest(LocalizedMessage.string("USER_SEARCH_FAILED"));
+      }
+ else {
+        result.setMessage(LocalizedMessage.string("LDAP_ERROR"));
+      }
+    }
+    userSearchModels.addAll(convertUsersToUserSearchModel(users,UserSourceType.LDAP));
+  }
+}

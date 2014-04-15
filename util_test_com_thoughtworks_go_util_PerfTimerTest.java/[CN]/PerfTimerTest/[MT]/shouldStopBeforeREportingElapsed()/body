@@ -1,0 +1,6 @@
+{
+  TestingClock clock=new TestingClock();
+  PerfTimer timer=PerfTimer.start("Message",clock);
+  clock.addSeconds(1);
+  assertThat(timer.elapsed(),is(1000L));
+}

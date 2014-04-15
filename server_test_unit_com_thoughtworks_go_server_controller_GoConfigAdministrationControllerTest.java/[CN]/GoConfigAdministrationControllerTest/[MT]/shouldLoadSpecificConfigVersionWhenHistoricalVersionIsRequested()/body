@@ -1,0 +1,8 @@
+{
+  MockHttpServletResponse response=new MockHttpServletResponse();
+  String configXml="config-content";
+  when(goConfigService.getConfigAtVersion("some-md5")).thenReturn(new GoConfigRevision(configXml,"some-md5","loser","100.9.3.1",Edition.Enterprise,new TimeProvider()));
+  controller.getConfigRevision("some-md5",response);
+  assertThat(response.getContentAsString(),is(configXml));
+  assertThat(response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5).toString(),is("some-md5"));
+}

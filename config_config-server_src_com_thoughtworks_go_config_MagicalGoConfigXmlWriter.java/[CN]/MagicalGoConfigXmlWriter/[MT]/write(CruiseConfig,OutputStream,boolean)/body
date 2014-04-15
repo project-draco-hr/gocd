@@ -1,0 +1,21 @@
+{
+  LOGGER.debug("[Serializing Config] Starting to write. Validation skipped? " + skipPreprocessingAndValidation);
+  Context context=metricsProbeService.begin(ProbeType.WRITE_CONFIG_TO_FILE_SYSTEM);
+  try {
+    if (!skipPreprocessingAndValidation) {
+      new MagicalGoConfigXmlLoader(configCache,registry,metricsProbeService).preprocessAndValidate(configForEdit);
+      LOGGER.debug("[Serializing Config] Done with cruise config validators.");
+    }
+    Document document=createEmptyCruiseConfigDocument();
+    write(configForEdit,document.getRootElement(),configCache,registry);
+    LOGGER.debug("[Serializing Config] XSD and DOM validation.");
+    verifyXsdValid(document);
+    MagicalGoConfigXmlLoader.validateDom(document.getRootElement(),registry);
+    LOGGER.info("[Serializing Config] Generating config partial.");
+    XmlUtils.writeXml(document,output);
+    LOGGER.debug("[Serializing Config] Finished writing config partial.");
+  }
+  finally {
+    metricsProbeService.end(ProbeType.WRITE_CONFIG_TO_FILE_SYSTEM,context);
+  }
+}

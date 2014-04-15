@@ -1,0 +1,6 @@
+{
+  String content="<cruise schemaVersion='17'>\n" + "<server artifactsdir='artifactsDir' >" + "</server>"+ "<pipelines>\n"+ "<pipeline name='pipeline1' template='abc'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "</pipeline>\n"+ "<pipeline name='pipeline2'>\n"+ "    <materials>\n"+ "      <pipeline pipelineName='pipeline1' stageName='stage1'/>"+ "    </materials>\n"+ "    <stage name='badstage'>"+ "      <jobs>"+ "        <job name='job1' />"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "<templates>\n"+ "  <pipeline name='abc'>\n"+ "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1' />"+ "      </jobs>"+ "    </stage>"+ "  </pipeline>\n"+ "</templates>\n"+ "</cruise>";
+  CruiseConfig config=ConfigMigrator.loadWithMigration(content).configForEdit;
+  xmlWriter.write(config,output,false);
+  assertThat(output.toString().replaceAll("\\s+"," "),containsString("<pipeline name=\"pipeline1\" template=\"abc\">" + " <materials>" + " <svn url=\"svnurl\" />"+ " </materials>"+ " </pipeline>"));
+}

@@ -1,0 +1,11 @@
+{
+  AgentIdentifier agentIdentifier=mock(AgentIdentifier.class);
+  String uuid="agent-uuid";
+  when(agentIdentifier.getUuid()).thenReturn(uuid);
+  String fingerprint="material-fingerprint";
+  String workingDirectory="working-folder-full-path";
+  AgentSubprocessExecutionContext execCtx=new AgentSubprocessExecutionContext(agentIdentifier,workingDirectory);
+  String workspaceName=execCtx.getProcessNamespace(fingerprint);
+  assertThat(workspaceName,is(CachedDigestUtils.sha256Hex(fingerprint + uuid + workingDirectory)));
+  assertThat(workspaceName.length(),is(64));
+}

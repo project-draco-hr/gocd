@@ -1,0 +1,20 @@
+{
+  File[] jobs=stageRoot.listFiles();
+  if (jobs == null) {
+    throw new IOException("Failed to list contents of " + stageRoot);
+  }
+  boolean didDelete=true;
+  for (  File jobRoot : jobs) {
+    File[] artifacts=jobRoot.listFiles();
+    if (artifacts == null) {
+      throw new IOException("Failed to list contents of " + stageRoot);
+    }
+    for (    File artifact : artifacts) {
+      if (artifact.isDirectory() && artifact.getName().equals(ArtifactLogUtil.CRUISE_OUTPUT_FOLDER)) {
+        continue;
+      }
+      didDelete&=deleteFile(artifact);
+    }
+  }
+  return didDelete;
+}

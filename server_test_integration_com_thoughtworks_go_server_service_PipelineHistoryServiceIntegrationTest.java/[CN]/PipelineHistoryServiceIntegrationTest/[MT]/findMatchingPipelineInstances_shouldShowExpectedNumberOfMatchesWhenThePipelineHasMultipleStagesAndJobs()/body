@@ -1,0 +1,15 @@
+{
+  final int limit=2;
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("pipeline_name");
+  pipelineConfig.add(StageConfigMother.custom("stage-1","job-1","job-2","job-3","job-4"));
+  goConfigService.addPipeline(pipelineConfig,"pipeline-group");
+  pipelineConfig.setLabelTemplate("${COUNT}");
+  Pipeline shouldMatch1=dbHelper.schedulePipeline(pipelineConfig,ModificationsMother.buildCauseForOneModifiedFile(pipelineConfig,"abc-revision-should-match","comment","committer"),new TimeProvider());
+  dbHelper.cancelStage(shouldMatch1.getStages().get(0));
+  Pipeline shouldMatch2=dbHelper.schedulePipeline(pipelineConfig,ModificationsMother.buildCauseForOneModifiedFile(pipelineConfig,"this-abc-revision-should-match-too","another comment","committer"),new TimeProvider());
+  dbHelper.cancelStage(shouldMatch2.getStages().get(0));
+  PipelineInstanceModels actual=pipelineHistoryService.findMatchingPipelineInstances("pipeline_name","abc",limit,new Username(new CaseInsensitiveString("user")),new HttpLocalizedOperationResult());
+  assertThat("size",actual.size(),is(2));
+  assertThat("first counter",actual.get(0).getCounter(),is(shouldMatch2.getCounter()));
+  assertThat("second counter",actual.get(1).getCounter(),is(shouldMatch1.getCounter()));
+}

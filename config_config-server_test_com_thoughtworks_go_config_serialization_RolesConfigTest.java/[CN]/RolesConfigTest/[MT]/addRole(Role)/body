@@ -1,0 +1,9 @@
+{
+  config.server().security().addRole(role);
+  try {
+    new MagicalGoConfigXmlWriter(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).write(config,new ByteArrayOutputStream(),false);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

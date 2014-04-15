@@ -1,0 +1,7 @@
+{
+  AgentConfig agentConfig=new AgentConfig("uuid2","CCeDev01","10.18.5.1");
+  AgentInstances agentInstances=new AgentInstances(null);
+  agentInstances.register(AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",0L,"linux"));
+  agentInstances.register(AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",0L,"linux"));
+  assertThat(agentInstances.findPhysicalAgents().size(),is(1));
+}

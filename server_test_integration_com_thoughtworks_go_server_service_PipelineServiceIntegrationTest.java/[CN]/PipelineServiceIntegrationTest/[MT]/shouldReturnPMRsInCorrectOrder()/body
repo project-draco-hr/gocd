@@ -1,0 +1,21 @@
+{
+  File file1=new File("file1");
+  File file2=new File("file2");
+  File file3=new File("file3");
+  File file4=new File("file4");
+  Material hg1=new HgMaterial("url1","Dest1");
+  Material hg2=new HgMaterial("url2","Dest2");
+  String[] hgRevs=new String[]{"h1","h2"};
+  Date latestModification=new Date();
+  u.checkinFiles(hg2,"h2",a(file1,file2,file3,file4),ModifiedAction.added,org.apache.commons.lang.time.DateUtils.addDays(latestModification,-1));
+  u.checkinFiles(hg1,"h1",a(file1,file2,file3,file4),ModifiedAction.added,latestModification);
+  ScheduleTestUtil.AddedPipeline pair01=u.saveConfigWith("pair01","stageName",u.m(hg1),u.m(hg2));
+  u.runAndPass(pair01,hgRevs);
+  ReflectionUtil.invoke(pipelineSqlMapDao,"initDao");
+  Pipeline pipeline=pipelineService.mostRecentFullPipelineByName("pair01");
+  MaterialRevisions materialRevisions=pipeline.getBuildCause().getMaterialRevisions();
+  Materials materials=materialRevisions.getMaterials();
+  assertThat(materials.size(),is(2));
+  assertThat(materials.get(0),is(hg1));
+  assertThat(materials.get(1),is(hg2));
+}

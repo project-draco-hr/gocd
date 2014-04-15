@@ -1,0 +1,7 @@
+{
+  oauthTokenSweeper.onConfigChange(configWithoutSecurity());
+  CruiseConfig newConfig=configWithoutSecurity();
+  newConfig.server().security().adminsConfig().add(new AdminRole(new CaseInsensitiveString("root")));
+  oauthTokenSweeper.onConfigChange(newConfig);
+  verifyNoMoreInteractions(mockRepo);
+}

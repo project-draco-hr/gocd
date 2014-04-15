@@ -1,0 +1,19 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  PipelinePauseInfo that=(PipelinePauseInfo)o;
+  if (paused != that.paused) {
+    return false;
+  }
+  if (pauseBy != null ? !pauseBy.equals(that.pauseBy) : that.pauseBy != null) {
+    return false;
+  }
+  if (pauseCause != null ? !pauseCause.equals(that.pauseCause) : that.pauseCause != null) {
+    return false;
+  }
+  return true;
+}

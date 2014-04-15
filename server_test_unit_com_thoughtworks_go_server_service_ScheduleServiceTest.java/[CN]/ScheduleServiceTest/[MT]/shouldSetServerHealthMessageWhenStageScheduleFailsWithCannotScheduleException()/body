@@ -1,0 +1,15 @@
+{
+  final PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline-quux");
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("pipeline-quux"))).thenReturn(pipelineConfig);
+  when(environmentConfigService.agentsForPipeline(new CaseInsensitiveString("pipeline-quux"))).thenReturn(new Agents());
+  when(goConfigService.scheduleStage("pipeline-quux","mingle",new DefaultSchedulingContext("loser",new Agents()))).thenThrow(new CannotScheduleException("foo","stage-baz"));
+  try {
+    Pipeline pipeline=PipelineMother.pipeline("pipeline-quux",StageMother.passedStageInstance("mingle","job-bar","pipeline-name"));
+    service.scheduleStage(pipeline,"mingle","loser",new ScheduleService.NewStageInstanceCreator(goConfigService),new ScheduleService.ExceptioningErrorHandler());
+    fail("should have failed as stage could not be scheduled");
+  }
+ catch (  CannotScheduleException e) {
+    assertThat(e.getMessage(),is("foo"));
+  }
+  verify(serverHealthService).update(new ServerHealthState(HealthStateLevel.ERROR,HealthStateType.general(HealthStateScope.forStage("pipeline-quux","stage-baz")),"Failed to trigger stage [stage-baz] pipeline [pipeline-quux]","foo",Timeout.TWO_MINUTES));
+}

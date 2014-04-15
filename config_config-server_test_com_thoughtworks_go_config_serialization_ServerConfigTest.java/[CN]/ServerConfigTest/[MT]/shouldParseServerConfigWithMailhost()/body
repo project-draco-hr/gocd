@@ -1,0 +1,7 @@
+{
+  String xml="<mailhost hostname=\"smtp.company.com\" port=\"25\" " + "username=\"smtpuser\" password=\"password\" tls=\"true\" " + "from=\"cruise@me.com\" admin=\"jez@me.com\"/>";
+  ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
+  CruiseConfig config=new MagicalGoConfigXmlLoader(new ConfigCache(),registry,metricsProbeService).loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(ConfigFileFixture.withServerConfig(xml)))).config;
+  MailHost mailHost=config.server().mailHost();
+  assertThat(mailHost,is(new MailHost("smtp.company.com",25,"smtpuser","password",true,true,"cruise@me.com","jez@me.com")));
+}

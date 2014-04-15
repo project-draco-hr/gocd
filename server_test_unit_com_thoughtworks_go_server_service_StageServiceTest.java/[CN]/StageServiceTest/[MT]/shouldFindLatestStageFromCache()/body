@@ -1,0 +1,9 @@
+{
+  Stage expectedStage=StageMother.custom("pipeline","stage",null);
+  StageStatusCache cache=new StageStatusCache(stageDao);
+  cache.stageStatusChanged(expectedStage);
+  TransactionSynchronizationManager transactionSynchronizationManager=mock(TransactionSynchronizationManager.class);
+  StageService service=new StageService(stageDao,jobInstanceService,null,cache,null,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  Stage actualStage=service.findLatestStage("pipeline","stage");
+  assertThat(actualStage,is(expectedStage));
+}

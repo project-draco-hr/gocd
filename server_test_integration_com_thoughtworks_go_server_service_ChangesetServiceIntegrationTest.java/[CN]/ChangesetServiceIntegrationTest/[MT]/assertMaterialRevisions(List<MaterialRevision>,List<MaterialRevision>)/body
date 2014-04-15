@@ -1,0 +1,9 @@
+{
+  assertThat(actual.size(),is(expected.size()));
+  for (int i=0, size=expected.size(); i < size; i++) {
+    MaterialRevision expectedRevision=expected.get(i);
+    MaterialRevision actualRevision=actual.get(i);
+    assertEquals(expectedRevision.getMaterial().createMaterialInstance(),actualRevision.getMaterial().createMaterialInstance());
+    assertEquals(expectedRevision.getModifications(),actualRevision.getModifications());
+  }
+}

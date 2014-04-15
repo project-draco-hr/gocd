@@ -1,0 +1,5 @@
+{
+  String json=web.httpRequest("pipelineStatus.json",RequestMethod.GET);
+  final JsonTester jsonTester=new JsonTester(json);
+  jsonTester.shouldContain("{ 'pipelines' : [ { 'name' : '" + pipelineName + "' }] }");
+}

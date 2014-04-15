@@ -1,0 +1,10 @@
+{
+  HealthStateScope scope=forPipeline(PIPELINE_NAME);
+  serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.general(scope)));
+  serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.invalidLicense(scope)));
+  serverHealthService.update(ServerHealthState.error("message","description",globalId));
+  assertThat(serverHealthService.getAllLogs().size(),is(3));
+  serverHealthService.removeByScope(scope);
+  assertThat(serverHealthService.getAllLogs().size(),is(1));
+  assertThat(serverHealthService,ServerHealthMatcher.containsState(globalId));
+}

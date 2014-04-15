@@ -1,0 +1,16 @@
+{
+  User user=new User("user1");
+  user.addNotificationFilter(new NotificationFilter("pipeline1","stage",StageEvent.Fails,true));
+  user.addNotificationFilter(new NotificationFilter("pipeline2","stage",StageEvent.Fails,true));
+  userDao.saveOrUpdate(user);
+  user=userDao.findUser(user.getName());
+  NotificationFilter filter1=user.getNotificationFilters().get(0);
+  long filter1Id=filter1.getId();
+  NotificationFilter filter2=user.getNotificationFilters().get(1);
+  user.removeNotificationFilter(filter1.getId());
+  userDao.saveOrUpdate(user);
+  user=userDao.findUser(user.getName());
+  assertThat(user.getNotificationFilters().size(),is(1));
+  assertThat(user.getNotificationFilters().contains(filter2),is(true));
+  assertThat(sessionFactory.openSession().get(NotificationFilter.class,filter1Id),is(Matchers.nullValue()));
+}

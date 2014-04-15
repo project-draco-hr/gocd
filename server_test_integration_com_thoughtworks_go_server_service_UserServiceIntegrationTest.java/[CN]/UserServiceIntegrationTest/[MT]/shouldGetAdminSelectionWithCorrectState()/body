@@ -1,0 +1,7 @@
+{
+  configFileHelper.addAdmins("foo","quux");
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("foo")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.add)));
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("foo","bar")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange)));
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("foo","quux")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.add)));
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("baz","bar")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.remove)));
+}

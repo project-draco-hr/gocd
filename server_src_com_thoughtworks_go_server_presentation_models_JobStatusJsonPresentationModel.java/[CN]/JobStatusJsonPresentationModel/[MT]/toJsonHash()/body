@@ -1,0 +1,22 @@
+{
+  JsonMap jsonParams=new JsonMap();
+  jsonParams.put("agent",agentConfig.getHostNameForDispaly());
+  jsonParams.put("agent_ip",agentConfig.getIpAddress());
+  jsonParams.put("agent_uuid",agentConfig.getUuid());
+  jsonParams.put("build_scheduled_date",getPreciseScheduledDate());
+  jsonParams.put("build_assigned_date",getPreciseDateFor(JobState.Assigned));
+  jsonParams.put("build_preparing_date",getPreciseDateFor(JobState.Preparing));
+  jsonParams.put("build_building_date",getPreciseDateFor(JobState.Building));
+  jsonParams.put("build_completing_date",getPreciseDateFor(JobState.Completing));
+  jsonParams.put("build_completed_date",getPreciseDateFor(JobState.Completed));
+  jsonParams.put("current_status",instance.displayStatusWithResult());
+  jsonParams.put("current_build_duration",instance.getCurrentBuildDuration());
+  jsonParams.put("last_build_duration",this.durationBean.getDuration());
+  jsonParams.put("id",Long.toString(getBuildInstanceId()));
+  jsonParams.put("is_completed",String.valueOf(instance.isCompleted()));
+  jsonParams.put("name",getName());
+  jsonParams.put("result",getResult().toString());
+  jsonParams.put("buildLocator",instance.buildLocator());
+  jsonParams.put("buildLocatorForDisplay",instance.buildLocatorForDisplay());
+  return jsonParams;
+}

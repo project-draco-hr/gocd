@@ -1,0 +1,6 @@
+{
+  PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfig("mingle","stage","job");
+  goConfigService.addPipeline(mingleConfig,"pipeline-group");
+  PipelineInstanceModel pim=pipelineHistoryService.findPipelineInstance("mingle",0,new Username(new CaseInsensitiveString("doesnotmatter")),new HttpOperationResult());
+  assertThat(pim,instanceOf(EmptyPipelineInstanceModel.class));
+}

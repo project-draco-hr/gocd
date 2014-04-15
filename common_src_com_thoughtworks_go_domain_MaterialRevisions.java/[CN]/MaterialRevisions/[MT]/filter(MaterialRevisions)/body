@@ -1,0 +1,8 @@
+{
+  MaterialRevisions filtered=new MaterialRevisions();
+  for (  MaterialRevision myRevision : revisions) {
+    MaterialRevision originalRevision=other.findRevisionFor(myRevision.getMaterial());
+    filtered.addRevision(myRevision.filter(originalRevision));
+  }
+  return filtered;
+}

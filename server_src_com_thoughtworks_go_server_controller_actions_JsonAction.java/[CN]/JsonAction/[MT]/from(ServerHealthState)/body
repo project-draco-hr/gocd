@@ -1,0 +1,8 @@
+{
+  if (serverHealthState.isSuccess()) {
+    return JsonAction.jsonCreated(new JsonMap());
+  }
+  JsonMap jsonLog=new JsonMap();
+  jsonLog.put(ERROR_FOR_JSON,serverHealthState.getDescription());
+  return new JsonAction(serverHealthState.getType().getHttpCode(),jsonLog);
+}

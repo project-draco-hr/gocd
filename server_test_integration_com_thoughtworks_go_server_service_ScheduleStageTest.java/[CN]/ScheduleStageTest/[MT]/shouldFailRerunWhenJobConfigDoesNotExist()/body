@@ -1,0 +1,11 @@
+{
+  Pipeline pipeline=fixture.createPipelineWithFirstStageScheduled();
+  Stage oldStage=pipeline.getStages().byName(fixture.devStage);
+  dbHelper.pass(pipeline);
+  configHelper.removeJob(pipeline.getName(),fixture.devStage,"foo3");
+  HttpOperationResult result=new HttpOperationResult();
+  Stage newStage=scheduleService.rerunJobs(oldStage,a("foo3"),result);
+  assertThat(result.canContinue(),is(false));
+  assertThat(result.message(),containsString("Cannot rerun job, configuration for job named 'foo3' doesn't exist."));
+  assertThat(newStage,is(nullValue()));
+}

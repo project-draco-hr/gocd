@@ -1,0 +1,17 @@
+{
+  if (getSrc() != null) {
+    builder.append('[').append(getSrc()).append(']');
+  }
+ else {
+    Iterator<ArtifactPlan> planIterator=plans.iterator();
+    builder.append('[');
+    while (planIterator.hasNext()) {
+      ArtifactPlan plan=planIterator.next();
+      builder.append(plan.getSrc());
+      if (planIterator.hasNext()) {
+        builder.append(", ");
+      }
+    }
+    builder.append(']');
+  }
+}

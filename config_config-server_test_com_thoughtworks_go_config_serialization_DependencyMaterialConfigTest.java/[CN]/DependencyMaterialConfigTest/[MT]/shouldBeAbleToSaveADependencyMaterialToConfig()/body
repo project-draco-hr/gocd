@@ -1,0 +1,14 @@
+{
+  DependencyMaterialConfig originalMaterial=new DependencyMaterialConfig(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  NewGoConfigMother mother=new NewGoConfigMother();
+  mother.addPipeline("pipeline-name","stage-name","job-name");
+  mother.addPipeline("dependent","stage-name","job-name").addMaterialConfig(originalMaterial);
+  ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+  writer.write(mother.cruiseConfig(),buffer,false);
+  final ByteArrayInputStream inputStream=new ByteArrayInputStream(buffer.toByteArray());
+  CruiseConfig config=loader.loadConfigHolder(FileUtil.readToEnd(inputStream)).config;
+  DependencyMaterialConfig material=(DependencyMaterialConfig)config.pipelineConfigByName(new CaseInsensitiveString("dependent")).materialConfigs().get(1);
+  assertThat(material,is(originalMaterial));
+  assertThat(material.getPipelineName(),is(new CaseInsensitiveString("pipeline-name")));
+  assertThat(material.getStageName(),is(new CaseInsensitiveString("stage-name")));
+}

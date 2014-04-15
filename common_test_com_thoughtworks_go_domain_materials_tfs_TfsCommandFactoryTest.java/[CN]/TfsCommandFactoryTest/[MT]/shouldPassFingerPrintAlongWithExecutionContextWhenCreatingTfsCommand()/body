@@ -1,0 +1,12 @@
+{
+  String fingerprint="fingerprint";
+  when(executionContext.getProcessNamespace(materialFingerprint)).thenReturn(fingerprint);
+  TfsCommandFactory spy=spy(tfsCommandFactory);
+  TfsSDKCommandBuilder commandBuilder=mock(TfsSDKCommandBuilder.class);
+  doReturn(commandBuilder).when(spy).getSDKBuilder();
+  TfsCommand tfsCommand=mock(TfsCommand.class);
+  when(commandBuilder.buildTFSSDKCommand(materialFingerprint,URL,DOMAIN,USERNAME,PASSWORD,fingerprint,PROJECT_PATH)).thenReturn(tfsCommand);
+  spy.create(executionContext,URL,DOMAIN,USERNAME,PASSWORD,materialFingerprint,PROJECT_PATH);
+  verify(executionContext).getProcessNamespace(materialFingerprint);
+  verify(commandBuilder).buildTFSSDKCommand(materialFingerprint,URL,DOMAIN,USERNAME,PASSWORD,fingerprint,PROJECT_PATH);
+}

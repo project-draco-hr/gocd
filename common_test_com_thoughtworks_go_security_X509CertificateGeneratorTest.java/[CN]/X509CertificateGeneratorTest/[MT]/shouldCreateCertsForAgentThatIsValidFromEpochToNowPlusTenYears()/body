@@ -1,0 +1,8 @@
+{
+  X509CertificateGenerator generator=new X509CertificateGenerator();
+  Registration agentCertChain=generator.createAgentCertificate(keystore,"agentHostName");
+  Date epoch=new Date(0);
+  X509Certificate agentCert=agentCertChain.getFirstCertificate();
+  agentCert.checkValidity(epoch);
+  agentCert.checkValidity(DateUtils.addYears(new Date(),9));
+}

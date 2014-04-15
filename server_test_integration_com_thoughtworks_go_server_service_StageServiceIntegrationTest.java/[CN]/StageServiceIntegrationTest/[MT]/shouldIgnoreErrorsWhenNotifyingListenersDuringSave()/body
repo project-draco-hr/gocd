@@ -1,0 +1,19 @@
+{
+  List<StageStatusListener> original=new ArrayList<StageStatusListener>(stageService.getStageStatusListeners());
+  try {
+    stageService.getStageStatusListeners().clear();
+    StageStatusListener failingListener=mock(StageStatusListener.class);
+    doThrow(new RuntimeException("Should not be rethrown by save")).when(failingListener).stageStatusChanged(any(Stage.class));
+    StageStatusListener passingListener=mock(StageStatusListener.class);
+    stageService.getStageStatusListeners().add(failingListener);
+    stageService.getStageStatusListeners().add(passingListener);
+    Stage newInstance=instanceFactory.createStageInstance(pipelineConfig.first(),new DefaultSchedulingContext("anonumous"),md5,new TimeProvider());
+    Stage savedStage=stageService.save(savedPipeline,newInstance);
+    assertThat("Got: " + savedStage.getId(),savedStage.getId() > 0L,is(true));
+    verify(passingListener).stageStatusChanged(any(Stage.class));
+  }
+  finally {
+    stageService.getStageStatusListeners().clear();
+    stageService.getStageStatusListeners().addAll(original);
+  }
+}

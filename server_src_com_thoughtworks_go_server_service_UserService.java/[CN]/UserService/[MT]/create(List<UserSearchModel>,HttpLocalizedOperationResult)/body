@@ -1,0 +1,28 @@
+{
+  if (userSearchModels.isEmpty()) {
+    result.badRequest(LocalizedMessage.string("NO_USERS_SELECTED"));
+    return;
+  }
+synchronized (enableUserMutex) {
+    for (    UserSearchModel userSearchModel : userSearchModels) {
+      User user=userSearchModel.getUser();
+      if (userExists(user)) {
+        result.conflict(LocalizedMessage.string("USER_ALREADY_EXISTS",user.getName(),user.getDisplayName(),user.getEmail()));
+        return;
+      }
+      if (user.isAnonymous()) {
+        result.badRequest(LocalizedMessage.string("USERNAME_NOT_PERMITTED",user.getName()));
+        return;
+      }
+      if (isLicenseUserLimitReached()) {
+        result.badRequest(LocalizedMessage.string("LICENSE_LIMIT_EXCEEDED"));
+        return;
+      }
+      if (!userSearchModel.getUserSourceType().equals(UserSourceType.PASSWORD_FILE) && validateEmailAndMatcher(result,user)) {
+        return;
+      }
+      userDao.saveOrUpdate(user);
+      result.setMessage(LocalizedMessage.string("USER_SUCCESSFULLY_ADDED",user.getName()));
+    }
+  }
+}

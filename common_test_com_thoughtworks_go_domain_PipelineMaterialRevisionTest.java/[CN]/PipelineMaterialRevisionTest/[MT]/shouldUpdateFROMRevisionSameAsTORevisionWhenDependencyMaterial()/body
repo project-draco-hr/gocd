@@ -1,0 +1,17 @@
+{
+  DependencyMaterial material=new DependencyMaterial(new CaseInsensitiveString("pipeline_name"),new CaseInsensitiveString("stage_name"));
+  Modification latestModification=modification(new Date(),"pipeline_name/4/stage_name/1","4",null);
+  MaterialRevision revision=new MaterialRevision(material,latestModification,modification(new Date(),"pipeline_name/2/stage_name/1","2",null));
+  PipelineMaterialRevision pmr=new PipelineMaterialRevision(9,revision,null);
+  Modification differentFrom=modification(new Date(),"pipeline_name/3/stage_name/1","3",null);
+  pmr.useMaterialRevision(new MaterialRevision(material,latestModification,differentFrom));
+  assertThat(pmr.getToModification(),is(latestModification));
+  assertThat(pmr.getFromModification(),is(latestModification));
+  Modification laterThanTheLatest=modification(new Date(),"pipeline_name/5/stage_name/1","5",null);
+  pmr.useMaterialRevision(new MaterialRevision(material,laterThanTheLatest,differentFrom));
+  assertThat(pmr.getToModification(),is(laterThanTheLatest));
+  assertThat(pmr.getFromModification(),is(laterThanTheLatest));
+  pmr.useMaterialRevision(new MaterialRevision(material,laterThanTheLatest,modification(new Date(),"pipeline_name/3/stage_name/2","3",null)));
+  assertThat(pmr.getToModification(),is(laterThanTheLatest));
+  assertThat(pmr.getFromModification(),is(laterThanTheLatest));
+}

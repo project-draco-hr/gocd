@@ -1,0 +1,9 @@
+{
+  ArrayList<MaterialRevision> revisions=new ArrayList<MaterialRevision>();
+  for (  PipelineRevisionRange pipelineRevisionRange : pipelineRevisionRanges) {
+    DependencyMaterialRevision fromDmr=DependencyMaterialRevision.create(pipelineRevisionRange.getFromRevision(),null);
+    DependencyMaterialRevision toDmr=DependencyMaterialRevision.create(pipelineRevisionRange.getToRevision(),null);
+    revisions.addAll(revisionsBetween(pipelineRevisionRange.getPipelineName(),fromDmr.getPipelineCounter(),toDmr.getPipelineCounter(),username,result,true,false));
+  }
+  return deduplicateMaterialRevisionsForCommonMaterials(revisions);
+}

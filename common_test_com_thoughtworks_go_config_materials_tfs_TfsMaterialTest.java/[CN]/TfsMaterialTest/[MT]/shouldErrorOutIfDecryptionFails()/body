@@ -1,0 +1,14 @@
+{
+  GoCipher mockGoCipher=mock(GoCipher.class);
+  String fakeCipherText="fake cipher text";
+  when(mockGoCipher.decrypt(fakeCipherText)).thenThrow(new InvalidCipherTextException("exception"));
+  TfsMaterial material=new TfsMaterial(mockGoCipher,new UrlArgument("/foo"),"username",DOMAIN,"password","");
+  ReflectionUtil.setField(material,"encryptedPassword",fakeCipherText);
+  try {
+    material.getPassword();
+    fail("Should have thrown up");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Could not decrypt the password to get the real password"));
+  }
+}

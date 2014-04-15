@@ -1,0 +1,6 @@
+{
+  diskIsFull.onSetUp();
+  fixture.createdPipelineWithAllStagesPassed();
+  assertThat(schedulingChecker.canManuallyTrigger(fixture.pipelineConfig(),"anyone",new ServerHealthStateOperationResult()),is(false));
+  assertThat(schedulingChecker.canTriggerManualPipeline(fixture.pipelineConfig(),"anyone",new ServerHealthStateOperationResult()),is(false));
+}

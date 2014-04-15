@@ -1,0 +1,5 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  StageIdentifier stageIdentifier=restfulService.translateStageCounter(pipeline.getIdentifier(),fixture.devStage,"latest");
+  assertThat(stageIdentifier,is(new StageIdentifier(pipeline,pipeline.getStages().byName(fixture.devStage))));
+}

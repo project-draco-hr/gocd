@@ -1,0 +1,19 @@
+{
+  SortedSet<String> users=new TreeSet<String>();
+  PipelineConfigs group=cruiseConfig.findGroupOfPipeline(pipelineConfig);
+  if (group.hasAuthorizationDefined()) {
+    if (group.hasOperationPermissionDefined()) {
+      users.addAll(group.getOperateUserNames());
+      List<String> roles=group.getOperateRoleNames();
+      for (      Role role : cruiseConfig.server().security().getRoles()) {
+        if (roles.contains(CaseInsensitiveString.str(role.getName()))) {
+          users.addAll(role.usersOfRole());
+        }
+      }
+    }
+  }
+ else {
+    users.addAll(allUsernames());
+  }
+  return users;
+}

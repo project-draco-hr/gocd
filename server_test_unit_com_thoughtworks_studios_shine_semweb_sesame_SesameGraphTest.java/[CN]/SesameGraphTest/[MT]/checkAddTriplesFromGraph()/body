@@ -1,0 +1,8 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . " + "<http://example.com/1> rdf:type ex:Yadda . ";
+  Graph sourceGraph=createSesameGraph("http://a-context/");
+  sourceGraph.addTriplesFromTurtle(turtle);
+  contextAwareGraph.addTriplesFromGraph(sourceGraph);
+  assertTrue(contextAwareGraph.ask("PREFIX ex: <http://example.com/ontology#> ASK WHERE { <http://example.com/1> a ex:Yadda }"));
+  assertEquals(1,contextAwareGraph.size());
+}

@@ -1,0 +1,7 @@
+{
+  saveRev(new MaterialRevision(pipelineOne.getMaterial(),new Modification(new Date(),"2","MOCK_LABEL-12",null)));
+  configHelper.setViewPermissionForGroup("group1","anyone");
+  PipelineInstanceModels models=pipelineHistoryService.findPipelineInstances(pipelineOne.pipelineName,"latest",3,"anyone");
+  PipelineInstanceModel emptyModel=models.get(0);
+  assertThat(emptyModel.hasNewRevisions(),is(true));
+}

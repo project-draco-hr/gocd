@@ -1,0 +1,6 @@
+{
+  if (this.name.isBlank() || !new NameTypeValidator().isNameValid(name)) {
+    configErrors.add("name",NameTypeValidator.errorMessage("role name",name));
+  }
+  checkForDuplicateUsers(new ErrorMarkingDuplicateHandler(this));
+}

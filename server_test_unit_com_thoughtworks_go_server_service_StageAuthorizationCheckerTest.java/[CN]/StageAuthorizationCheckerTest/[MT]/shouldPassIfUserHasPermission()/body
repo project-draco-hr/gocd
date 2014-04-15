@@ -1,0 +1,12 @@
+{
+  mockery.checking(new Expectations(){
+{
+      one(securityService).hasOperatePermissionForStage(pipelineName,stageName,username);
+      will(returnValue(true));
+    }
+  }
+);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  checker.check(result);
+  assertThat(result.getServerHealthState().isSuccess(),is(true));
+}

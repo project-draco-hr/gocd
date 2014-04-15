@@ -1,0 +1,14 @@
+{
+  PipelineInstanceModel pipeline=pipelineDao.loadHistory(id);
+  if (pipeline == null) {
+    result.notFound("Not Found","Pipeline not found",HealthStateType.general(HealthStateScope.GLOBAL));
+    return null;
+  }
+  PipelineConfig pipelineConfig=goConfigService.currentCruiseConfig().pipelineConfigByName(new CaseInsensitiveString(pipeline.getName()));
+  if (!securityService.hasViewPermissionForPipeline(username,pipeline.getName())) {
+    result.unauthorized("Unauthorized",NOT_AUTHORIZED_TO_VIEW_PIPELINE,HealthStateType.general(HealthStateScope.forPipeline(pipeline.getName())));
+    return null;
+  }
+  populatePipelineInstanceModel(username,false,pipelineConfig,pipeline);
+  return pipeline;
+}

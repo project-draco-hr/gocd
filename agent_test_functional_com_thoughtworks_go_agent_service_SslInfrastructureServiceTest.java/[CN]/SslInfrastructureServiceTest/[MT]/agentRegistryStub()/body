@@ -1,0 +1,11 @@
+{
+  final AgentRegistry registry=context.mock(AgentRegistry.class);
+  context.checking(new Expectations(){
+{
+      allowing(registry).uuid();
+      will(returnValue("uuid"));
+    }
+  }
+);
+  return registry;
+}

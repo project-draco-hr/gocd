@@ -1,0 +1,7 @@
+{
+  Map<CaseInsensitiveString,List<CaseInsensitiveString>> stageMap=new HashMap<CaseInsensitiveString,List<CaseInsensitiveString>>();
+  for (  StageConfig stg : currentPipelineStages) {
+    stageMap.put(stg.name(),stg.getJobs().names());
+  }
+  put(pipelineName,stageMap);
+}

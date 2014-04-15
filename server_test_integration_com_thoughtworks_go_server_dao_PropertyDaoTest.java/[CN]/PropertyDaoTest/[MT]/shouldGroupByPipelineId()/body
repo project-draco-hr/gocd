@@ -1,0 +1,41 @@
+{
+  ArrayList<Map<String,Object>> flatHistory=new ArrayList<Map<String,Object>>();
+  flatHistory.add(new HashMap<String,Object>(){
+{
+      put("PIPELINEID","1");
+      put("KEY","cruise_job_id");
+      put("VALUE","1");
+    }
+  }
+);
+  flatHistory.add(new HashMap<String,Object>(){
+{
+      put("PIPELINEID","1");
+      put("KEY","cruise_agent");
+      put("VALUE","agent1");
+    }
+  }
+);
+  flatHistory.add(new HashMap<String,Object>(){
+{
+      put("PIPELINEID","2");
+      put("KEY","cruise_job_id");
+      put("VALUE","2");
+    }
+  }
+);
+  flatHistory.add(new HashMap<String,Object>(){
+{
+      put("PIPELINEID","2");
+      put("KEY","cruise_agent");
+      put("VALUE","agent2");
+    }
+  }
+);
+  List<Properties> propertiesList=PropertySqlMapDao.groupByPipelineId(flatHistory);
+  assertThat(propertiesList.size(),is(2));
+  assertThat(propertiesList.get(0).size(),is(2));
+  assertThat(propertiesList.get(0).getValue("cruise_agent"),is("agent1"));
+  assertThat(propertiesList.get(1).size(),is(2));
+  assertThat(propertiesList.get(1).getValue("cruise_agent"),is("agent2"));
+}

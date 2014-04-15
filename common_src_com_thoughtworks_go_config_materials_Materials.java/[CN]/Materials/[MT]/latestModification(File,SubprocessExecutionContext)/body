@@ -1,0 +1,26 @@
+{
+  MaterialRevisions revisions=new MaterialRevisions();
+  for (  Material material : this) {
+    List<Modification> modifications=new ArrayList<Modification>();
+    if (material instanceof SvnMaterial) {
+      modifications=((SvnMaterial)material).latestModification(baseDir,execCtx);
+    }
+    if (material instanceof HgMaterial) {
+      modifications=((HgMaterial)material).latestModification(baseDir,execCtx);
+    }
+    if (material instanceof GitMaterial) {
+      modifications=((GitMaterial)material).latestModification(baseDir,execCtx);
+    }
+    if (material instanceof P4Material) {
+      modifications=((P4Material)material).latestModification(baseDir,execCtx);
+    }
+    if (material instanceof TfsMaterial) {
+      modifications=((TfsMaterial)material).latestModification(baseDir,execCtx);
+    }
+    if (material instanceof DependencyMaterial) {
+      modifications=((DependencyMaterial)material).latestModification(baseDir,execCtx);
+    }
+    revisions.addRevision(material,modifications);
+  }
+  return revisions;
+}

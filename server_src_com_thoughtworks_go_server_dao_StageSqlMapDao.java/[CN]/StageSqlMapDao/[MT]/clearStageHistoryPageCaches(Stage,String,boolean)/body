@@ -1,0 +1,14 @@
+{
+  String mutex=mutexForStageHistory(pipelineName,stage.getName());
+  readWriteLock.acquireWriteLock(mutex);
+  try {
+    if (!clearOnlyHistoryPages) {
+      goCache.remove(cacheKeyForStageCount(pipelineName,stage.getName()));
+      goCache.remove(cacheKeyForStageOffset(stage));
+    }
+    goCache.remove(cacheKeyForStageHistories(pipelineName,stage.getName()));
+  }
+  finally {
+    readWriteLock.releaseWriteLock(mutex);
+  }
+}

@@ -1,0 +1,12 @@
+{
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Unknown,JobResult.Failed),is(1));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Unknown,JobResult.Passed),is(-1));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Failed,JobResult.Passed),is(-1));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Passed,JobResult.Failed),is(1));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Passed,JobResult.Passed),is(0));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Cancelled,JobResult.Failed),is(0));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Cancelled,JobResult.Passed),is(-1));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Cancelled,JobResult.Unknown),is(-1));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Unknown,JobResult.Unknown),is(0));
+  assertThat(JobResult.JOB_RESULT_COMPARATOR.compare(JobResult.Unknown,JobResult.Cancelled),is(1));
+}

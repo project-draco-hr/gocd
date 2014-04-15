@@ -1,0 +1,13 @@
+{
+  pipelineTwo.createdPipelineWithAllStagesPassed();
+  pipelineOne.createdPipelineWithAllStagesPassed();
+  configHelper.setViewPermissionForGroup("group1","jez");
+  List<PipelineGroupModel> groupModels=pipelineHistoryService.allActivePipelineInstances(new Username(new CaseInsensitiveString("jez")),PipelineSelections.ALL);
+  assertThat(groupModels.size(),is(2));
+  List<PipelineModel> pipelineOneModels=groupModels.get(0).getPipelineModels();
+  assertThat(pipelineOneModels.size(),is(1));
+  assertThat(pipelineOneModels.get(0).getActivePipelineInstances().get(0).getName(),is(pipelineTwo.pipelineName));
+  List<PipelineModel> pipelineTwoModels=groupModels.get(1).getPipelineModels();
+  assertThat(pipelineTwoModels.size(),is(1));
+  assertThat(pipelineTwoModels.get(0).getActivePipelineInstances().get(0).getName(),is(pipelineOne.pipelineName));
+}

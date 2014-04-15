@@ -1,0 +1,11 @@
+{
+  for (  MaterialConfig material : this) {
+    if (material instanceof DependencyMaterialConfig) {
+      DependencyMaterialConfig dependencyMaterialConfig=(DependencyMaterialConfig)material;
+      if (upstreamPipeline.equals(dependencyMaterialConfig.getPipelineName())) {
+        return dependencyMaterialConfig;
+      }
+    }
+  }
+  return null;
+}

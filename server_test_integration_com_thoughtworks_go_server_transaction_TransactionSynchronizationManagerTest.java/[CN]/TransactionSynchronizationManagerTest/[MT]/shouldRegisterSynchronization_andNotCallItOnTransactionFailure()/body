@@ -1,0 +1,16 @@
+{
+  final TransactionSynchronizationManager synchronizationManager=new TransactionSynchronizationManager();
+  final TransactionSynchronization synchronization=mock(TransactionSynchronization.class);
+  try {
+    transactionTemplate.execute(new org.springframework.transaction.support.TransactionCallbackWithoutResult(){
+      @Override protected void doInTransactionWithoutResult(      TransactionStatus status){
+        synchronizationManager.registerSynchronization(synchronization);
+        throw new RuntimeException();
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+  }
+  verify(synchronization,never()).afterCommit();
+}

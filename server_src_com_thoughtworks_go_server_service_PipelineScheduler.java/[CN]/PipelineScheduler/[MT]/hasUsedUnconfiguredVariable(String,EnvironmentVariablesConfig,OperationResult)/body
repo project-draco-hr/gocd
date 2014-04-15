@@ -1,0 +1,10 @@
+{
+  for (  EnvironmentVariableConfig variable : environmentVariables) {
+    if (!goConfigService.hasVariableInScope(pipelineName,variable.getName())) {
+      String variableUnconfiguredMessage=String.format("Variable '%s' has not been configured for pipeline '%s'",variable.getName(),pipelineName);
+      result.notFound(variableUnconfiguredMessage,variableUnconfiguredMessage,HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+      return true;
+    }
+  }
+  return false;
+}

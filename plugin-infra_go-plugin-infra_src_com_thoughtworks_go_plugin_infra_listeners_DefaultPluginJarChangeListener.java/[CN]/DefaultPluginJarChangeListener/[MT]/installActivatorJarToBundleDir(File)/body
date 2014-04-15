@@ -1,0 +1,10 @@
+{
+  URL activatorJar=findAndValidateActivatorJar();
+  File pluginActivatorJarDestination=new File(new File(pluginBundleExplodedDir,GoPluginOSGiManifest.PLUGIN_DEPENDENCY_DIR),ACTIVATOR_JAR_NAME);
+  try {
+    FileUtils.copyURLToFile(activatorJar,pluginActivatorJarDestination);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(String.format("Failed to copy activator jar %s to bundle dependency dir: %s",activatorJar,pluginActivatorJarDestination),e);
+  }
+}

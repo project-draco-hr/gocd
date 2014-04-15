@@ -1,0 +1,9 @@
+{
+  try {
+    PipelineXmlViewModel.MaterialXmlViewModel.viewModelFor(mock(Material.class));
+  }
+ catch (  Exception e) {
+    assertThat(e instanceof RuntimeException,is(true));
+    assertThat(e.getMessage(),is("Unknown material type"));
+  }
+}

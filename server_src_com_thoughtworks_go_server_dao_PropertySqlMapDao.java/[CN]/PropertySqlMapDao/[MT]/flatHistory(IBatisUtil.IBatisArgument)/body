@@ -1,0 +1,8 @@
+{
+  List<Long> pipelineIds=getSqlMapClientTemplate().queryForList("limitedPipelineIds",arguments.asMap());
+  arguments.and("limitedPipelineIds",pipelineIds);
+  long maxId=Collections.max(pipelineIds);
+  long minId=Collections.min(pipelineIds);
+  arguments=arguments.and("maxId",maxId).and("minId",minId);
+  return (List<Map<String,Object>>)getSqlMapClientTemplate().queryForList("getAllPropertiesHistory",arguments.asMap());
+}

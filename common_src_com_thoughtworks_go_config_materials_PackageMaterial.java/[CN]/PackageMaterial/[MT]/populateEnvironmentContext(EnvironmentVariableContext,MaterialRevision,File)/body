@@ -1,0 +1,31 @@
+{
+  context.setProperty(upperCase(format("GO_PACKAGE_%s_LABEL",escapeEnvironmentVariable(getName().toString()))),materialRevision.getRevision().getRevision(),false);
+  for (  ConfigurationProperty configurationProperty : getPackageDefinition().getRepository().getConfiguration()) {
+    context.setProperty(getEnvironmentVariableKey("GO_REPO_%s_%s",configurationProperty.getConfigurationKey().getName()),configurationProperty.getValue(),configurationProperty.isSecure());
+  }
+  for (  ConfigurationProperty configurationProperty : getPackageDefinition().getConfiguration()) {
+    context.setProperty(getEnvironmentVariableKey("GO_PACKAGE_%s_%s",configurationProperty.getConfigurationKey().getName()),configurationProperty.getValue(),configurationProperty.isSecure());
+  }
+  HashMap<String,String> additionalData=materialRevision.getLatestModification().getAdditionalDataMap();
+  if (additionalData != null) {
+    for (    Map.Entry<String,String> entry : additionalData.entrySet()) {
+      boolean isSecure=false;
+      for (      EnvironmentVariableContext.EnvironmentVariable secureEnvironmentVariable : context.getSecureEnvironmentVariables()) {
+        String urlEncodedValue=null;
+        try {
+          urlEncodedValue=URLEncoder.encode(secureEnvironmentVariable.value(),"UTF-8");
+        }
+ catch (        UnsupportedEncodingException e) {
+        }
+        boolean isSecureEnvironmentVariableEncoded=!StringUtil.isBlank(urlEncodedValue) && !secureEnvironmentVariable.value().equals(urlEncodedValue);
+        if (isSecureEnvironmentVariableEncoded && entry.getValue().contains(urlEncodedValue)) {
+          isSecure=true;
+          break;
+        }
+      }
+      String key=entry.getKey();
+      String value=entry.getValue();
+      context.setProperty(getEnvironmentVariableKey("GO_PACKAGE_%s_%s",key),value,isSecure);
+    }
+  }
+}

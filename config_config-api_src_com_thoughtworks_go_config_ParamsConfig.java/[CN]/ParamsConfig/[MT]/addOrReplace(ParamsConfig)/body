@@ -1,0 +1,10 @@
+{
+  ParamsConfig myCopy=new ParamsConfig(this);
+  for (  ParamConfig newParam : newParams) {
+    if (myCopy.hasParamNamed(newParam.getName())) {
+      myCopy.removeParamNamed(newParam.getName());
+    }
+    myCopy.add(newParam);
+  }
+  return myCopy;
+}

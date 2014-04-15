@@ -1,0 +1,8 @@
+{
+  SvnMaterialConfig svnMaterialConfig=MaterialConfigsMother.svnMaterialConfig();
+  svnMaterialConfig.setAutoUpdate(autoUpdate);
+  MaterialConfig gitMaterialConfig=MaterialConfigsMother.gitMaterialConfig("/foo/bar.git");
+  HgMaterialConfig hgMaterialConfig=MaterialConfigsMother.hgMaterialConfig();
+  P4MaterialConfig p4MaterialConfig=MaterialConfigsMother.p4MaterialConfig();
+  return new PipelineConfig(new CaseInsensitiveString("pipeline1"),new MaterialConfigs(svnMaterialConfig,hgMaterialConfig,gitMaterialConfig,p4MaterialConfig));
+}

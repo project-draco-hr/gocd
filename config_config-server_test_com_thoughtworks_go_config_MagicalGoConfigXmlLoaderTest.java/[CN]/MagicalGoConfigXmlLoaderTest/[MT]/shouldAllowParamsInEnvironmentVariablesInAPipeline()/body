@@ -1,0 +1,5 @@
+{
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='pipeline1'>" + "    <params>" + "         <param name=\"some_param\">param_name</param>"+ "    </params>"+ "      <environmentvariables>"+ "         <variable name='#{some_param}'>stage variable</variable>"+ "      </environmentvariables>"+ "    <materials>"+ "      <svn url ='svnurl'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",22);
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  assertThat(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).getVariables(),hasItem(new EnvironmentVariableConfig("param_name","stage variable")));
+}

@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=loader.loadConfigHolder(FileUtil.readToEnd(toInputStream(CONFIG_WITH_TRACKINGTOOL))).config;
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  assertThat(writer.toXmlPartial(pipelineConfig),is(PIPELINE_WITH_TRACKINGTOOL));
+}

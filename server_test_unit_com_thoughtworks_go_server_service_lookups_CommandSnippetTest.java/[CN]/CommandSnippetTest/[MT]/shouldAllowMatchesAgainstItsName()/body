@@ -1,0 +1,11 @@
+{
+  CommandSnippet snippet=CommandSnippetMother.validSnippet("some-name");
+  assertThat(snippet.isExactMatchOfName("some"),is(false));
+  assertThat(snippet.isExactMatchOfName("some-name"),is(true));
+  assertThat(snippet.isExactMatchOfName("some-name-with-more-stuff"),is(false));
+  assertThat(snippet.isExactMatchOfName("some-other-name"),is(false));
+  assertThat(snippet.hasNameWhichStartsWith("some"),is(true));
+  assertThat(snippet.hasNameWhichStartsWith("some-name"),is(true));
+  assertThat(snippet.hasNameWhichStartsWith("some-name-with-more-stuff"),is(false));
+  assertThat(snippet.hasNameWhichStartsWith("some-other-name"),is(false));
+}

@@ -1,0 +1,19 @@
+{
+  final List<String> cmd=new ArrayList<String>();
+  Process subProcess=mockProcess();
+  String stdErrMsg="Mr. Agent writes to stderr!";
+  when(subProcess.getErrorStream()).thenReturn(new ByteArrayInputStream(stdErrMsg.getBytes()));
+  String stdOutMsg="Mr. Agent writes to stdout!";
+  when(subProcess.getInputStream()).thenReturn(new ByteArrayInputStream(stdOutMsg.getBytes()));
+  when(subProcess.waitFor()).thenAnswer(new Answer<Object>(){
+    public Object answer(    InvocationOnMock invocation) throws Throwable {
+      return 42;
+    }
+  }
+);
+  AgentProcessParentImpl bootstrapper=createBootstrapper(cmd,subProcess);
+  int returnCode=bootstrapper.run("bootstrapper_version","bar",getURLGenerator(),new HashMap<String,String>());
+  assertThat(returnCode,is(42));
+  assertThat(FileUtils.readFileToString(stderrLog).contains(stdErrMsg),is(true));
+  assertThat(FileUtils.readFileToString(stdoutLog).contains(stdOutMsg),is(true));
+}

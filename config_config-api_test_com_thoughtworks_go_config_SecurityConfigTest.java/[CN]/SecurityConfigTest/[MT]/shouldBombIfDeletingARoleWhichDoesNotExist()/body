@@ -1,0 +1,10 @@
+{
+  try {
+    SecurityConfig securityConfig=security(null,pwordFile(),admins());
+    securityConfig.deleteRole(new Role(new CaseInsensitiveString("role99")));
+    fail("Should have blown up with an exception on the previous line as deleting role99 should blow up");
+  }
+ catch (  RuntimeException e) {
+    assertTrue(Pattern.compile("does not exist").matcher(e.getMessage()).find());
+  }
+}

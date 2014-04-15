@@ -1,0 +1,7 @@
+{
+  createScript("echo","echo 'this should not be here'");
+  CommandLine line=CommandLine.createCommandLine("echo").withArg("Using the REAL echo").withWorkingDir(subFolder);
+  InMemoryStreamConsumer out=new InMemoryStreamConsumer();
+  line.execute(out,new EnvironmentVariableContext(),null).waitForExit();
+  assertThat(out.getAllOutput(),containsString("Using the REAL echo"));
+}

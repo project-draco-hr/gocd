@@ -1,0 +1,10 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  try {
+    materialChecker.findSpecificRevision(dependencyMaterial,"");
+    fail("Should not be able to empty revision");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),is(format("Revision was not specified for material [%s]",dependencyMaterial)));
+  }
+}

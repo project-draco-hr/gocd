@@ -1,0 +1,7 @@
+{
+  User user=new User("name1",new String[]{"regx"},"user@mail.com",true);
+  userService.saveOrUpdate(user);
+  User savedUser=userDao.findUser("name1");
+  assertThat(savedUser,is(user));
+  assertThat(userService.load(savedUser.getId()),is(user));
+}

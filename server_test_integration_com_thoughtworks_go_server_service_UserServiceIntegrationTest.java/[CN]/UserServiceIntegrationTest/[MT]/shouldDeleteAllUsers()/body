@@ -1,0 +1,8 @@
+{
+  UserSearchModel foo=new UserSearchModel(new User("fooUser","Mr Foo","foo@cruise.com"));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.create(Arrays.asList(foo),result);
+  assertThat(userService.allUsersForDisplay(UserService.SortableColumn.EMAIL,UserService.SortDirection.ASC).size(),is(1));
+  userService.deleteAll();
+  assertThat(userService.allUsersForDisplay(UserService.SortableColumn.EMAIL,UserService.SortDirection.ASC).size(),is(0));
+}

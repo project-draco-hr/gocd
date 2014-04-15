@@ -1,0 +1,9 @@
+{
+  String agentId="agent-id";
+  CONFIG_HELPER.addSecurityWithPasswordFile();
+  HttpOperationResult operationResult=new HttpOperationResult();
+  CONFIG_HELPER.addAdmins("admin1");
+  agentService.enableAgents(new Username(new CaseInsensitiveString("not-admin")),operationResult,Arrays.asList(agentId));
+  assertThat(operationResult.httpCode(),is(401));
+  assertThat(operationResult.message(),is("Unauthorized to operate on agent"));
+}

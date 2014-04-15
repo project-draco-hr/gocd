@@ -1,0 +1,9 @@
+{
+  CommandLine line=CommandLine.createCommandLine("cmd").withArg("/c").withArg("echo").withArg("My Password is:").withArg(new PasswordArgument("secret"));
+  InMemoryStreamConsumer output=new InMemoryStreamConsumer();
+  InMemoryStreamConsumer displayOutputStreamConsumer=InMemoryStreamConsumer.inMemoryConsumer();
+  ProcessWrapper processWrapper=line.execute(output,new EnvironmentVariableContext(),null);
+  processWrapper.waitForExit();
+  assertThat(output.getAllOutput(),containsString("secret"));
+  assertThat(displayOutputStreamConsumer.getAllOutput(),not(containsString("secret")));
+}

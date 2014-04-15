@@ -1,0 +1,20 @@
+{
+  Map<CaseInsensitiveString,PipelineTimelineEntry> pipelineToOldestEntry=new HashMap<CaseInsensitiveString,PipelineTimelineEntry>();
+  for (  PipelineTimelineEntry challenger : newEntries) {
+    CaseInsensitiveString pipelineName=new CaseInsensitiveString(challenger.getPipelineName());
+    PipelineTimelineEntry champion=pipelineToOldestEntry.get(pipelineName);
+    if (champion == null || challenger.compareTo(champion) < 0) {
+      pipelineToOldestEntry.put(pipelineName,challenger);
+    }
+  }
+  for (  TimelineUpdateListener listener : listeners) {
+    for (    Map.Entry<CaseInsensitiveString,PipelineTimelineEntry> entry : pipelineToOldestEntry.entrySet()) {
+      try {
+        listener.added(entry.getValue(),naturalOrderPmm.get(entry.getKey()));
+      }
+ catch (      Exception e) {
+        LOGGER.warn("Ignoring exception when notifying listener: " + listener,e);
+      }
+    }
+  }
+}

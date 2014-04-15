@@ -1,0 +1,15 @@
+{
+  Material material=new GitMaterial("url","branch");
+  Exception exception=new RuntimeException("failed");
+  String message="Modification check failed for material: " + material.getLongDescription();
+  ServerHealthState error=ServerHealthState.error(message,exception.getMessage(),HealthStateType.general(HealthStateScope.forMaterial(material)));
+  when(materialRepository.findMaterialInstance(material)).thenThrow(exception);
+  try {
+    materialDatabaseUpdater.updateMaterial(material);
+    fail("should have thrown exception");
+  }
+ catch (  Exception e) {
+    assertThat(e,is(exception));
+  }
+  verify(healthService).update(error);
+}

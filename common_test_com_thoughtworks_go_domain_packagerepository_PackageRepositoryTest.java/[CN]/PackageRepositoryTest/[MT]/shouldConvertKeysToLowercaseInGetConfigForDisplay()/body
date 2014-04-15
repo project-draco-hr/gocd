@@ -1,0 +1,7 @@
+{
+  RepositoryMetadataStore.getInstance().addMetadataFor("some-plugin",new PackageConfigurations());
+  PackageMetadataStore.getInstance().addMetadataFor("some-plugin",new PackageConfigurations());
+  Configuration configuration=new Configuration(create("kEY1",false,"vALue1"),create("KEY_MORE_2",false,"VALUE_2"),create("key_3",false,"value3"));
+  PackageRepository repository=PackageRepositoryMother.create("repo1","repo1-name","some-plugin","1",configuration);
+  assertThat(repository.getConfigForDisplay(),is("Repository: [key1=vALue1, key_more_2=VALUE_2, key_3=value3]"));
+}

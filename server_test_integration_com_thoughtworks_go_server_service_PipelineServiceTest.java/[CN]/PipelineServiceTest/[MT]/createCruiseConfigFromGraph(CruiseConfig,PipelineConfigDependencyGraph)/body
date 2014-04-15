@@ -1,0 +1,8 @@
+{
+  String groupName="defaultGroup";
+  cruiseConfig.addPipeline(groupName,pdg.getCurrent());
+  for (  PipelineConfigDependencyGraph upstreamDependency : pdg.getUpstreamDependencies()) {
+    createCruiseConfigFromGraph(cruiseConfig,upstreamDependency);
+  }
+  return cruiseConfig;
+}

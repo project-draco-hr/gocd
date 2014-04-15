@@ -1,0 +1,12 @@
+{
+  String pipelineName="some-pipeline";
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(pipelineName);
+  Pipeline pipeline=dbHelper.schedulePipelineWithAllStages(pipelineConfig,ModificationsMother.modifySomeFiles(pipelineConfig));
+  dbHelper.pass(pipeline);
+  Stage stage=dbHelper.scheduleStage(pipeline,pipelineConfig.getFirstStageConfig());
+  dbHelper.passStage(stage);
+  stage=dbHelper.scheduleStage(pipeline,pipelineConfig.getFirstStageConfig());
+  dbHelper.cancelStage(stage);
+  String stageName=stage.getName();
+  assertThat(pipelineDao.latestPassedStageIdentifier(pipeline.getId(),stageName),is(new StageIdentifier(pipelineName,pipeline.getCounter(),pipeline.getLabel(),stageName,"2")));
+}

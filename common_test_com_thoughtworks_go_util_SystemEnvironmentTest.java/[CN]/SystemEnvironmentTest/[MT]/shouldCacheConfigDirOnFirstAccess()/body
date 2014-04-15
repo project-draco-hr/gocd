@@ -1,0 +1,6 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  assertThat(systemEnvironment.getConfigDir(),is("config"));
+  System.setProperty(SystemEnvironment.CONFIG_DIR_PROPERTY,"raghu");
+  assertThat(systemEnvironment.getConfigDir(),is("config"));
+}

@@ -1,0 +1,9 @@
+{
+  Class<? extends Collection> clazz=value.getClass();
+  try {
+    return clazz.newInstance();
+  }
+ catch (  Exception e) {
+    throw bomb("Error creating default instance of " + clazz.getName(),e);
+  }
+}

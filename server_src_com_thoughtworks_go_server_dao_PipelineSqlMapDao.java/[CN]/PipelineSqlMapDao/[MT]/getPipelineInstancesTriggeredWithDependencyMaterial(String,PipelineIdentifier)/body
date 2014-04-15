@@ -1,0 +1,14 @@
+{
+  String cacheKey=cacheKeyForPipelineInstancesTriggeredWithDependencyMaterial(pipelineName,dependencyPipelineIdentifier.getName(),dependencyPipelineIdentifier.getCounter());
+  List<PipelineIdentifier> pipelineIdentifiers=(List<PipelineIdentifier>)goCache.get(cacheKey);
+  if (pipelineIdentifiers == null) {
+synchronized (cacheKey) {
+      pipelineIdentifiers=(List<PipelineIdentifier>)goCache.get(cacheKey);
+      if (pipelineIdentifiers == null) {
+        pipelineIdentifiers=(List<PipelineIdentifier>)getSqlMapClientTemplate().queryForList("pipelineInstancesTriggeredOutOfDependencyMaterial",arguments("pipelineName",pipelineName).and("dependencyPipelineName",dependencyPipelineIdentifier.getName()).and("stageLocator",dependencyPipelineIdentifier.getName() + "/" + dependencyPipelineIdentifier.getCounter()+ "/%/%").asMap());
+        goCache.put(cacheKey,pipelineIdentifiers);
+      }
+    }
+  }
+  return pipelineIdentifiers;
+}

@@ -1,0 +1,17 @@
+{
+  PipelineConfigDependencyGraph dependencyGraph=dependencyGraphOfDepthOne(MaterialConfigsMother.hgMaterialConfig(),MaterialConfigsMother.svnMaterialConfig());
+  String targetPipeline=dependencyGraph.getCurrent().name().toLower();
+  MaterialRevisions revisions=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("2"));
+  MaterialRevisions firstOrderRevision=createSvnMaterialWithMultipleRevisions(1,oneModifiedFile("2"));
+  MaterialRevision dependencyRevision=dependencyMaterialRevision("upstream",1,"label","first",1,new Date());
+  revisions.addAll(firstOrderRevision);
+  revisions.addRevision(dependencyRevision);
+  dependencyRevision.markAsNotChanged();
+  firstOrderRevision.getMaterialRevision(0).markAsChanged();
+  revisions.getMaterialRevision(0).markAsChanged();
+  MaterialRevisions expectedRevisions=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("1"));
+  expectedRevisions.addRevision(dependencyRevision);
+  when(goConfigService.upstreamDependencyGraphOf(targetPipeline,cruiseConfig)).thenReturn(dependencyGraph);
+  when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenReturn(expectedRevisions);
+  assertThat(new AutoBuild(goConfigService,pipelineService,targetPipeline,new SystemEnvironment(),materialChecker,serverHealthService).onModifications(revisions,false,null).getMaterialRevisions(),is(expectedRevisions));
+}

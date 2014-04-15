@@ -1,0 +1,10 @@
+{
+  long stageId=createSomeJobs(JOB_NAME,30);
+  createCopiedJobs(stageId,JOB_NAME,5);
+  JobInstances instances=jobInstanceDao.latestCompletedJobs(PIPELINE_NAME,STAGE_NAME,JOB_NAME,25);
+  assertThat(instances.size(),is(25));
+  for (  JobInstance instance : instances) {
+    assertThat(instance.getIdentifier().getBuildName(),is(JOB_NAME));
+    assertThat("Should not have retrieved copied-over jobs",instance.isCopy(),is(false));
+  }
+}

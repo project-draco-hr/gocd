@@ -1,0 +1,12 @@
+{
+  BundleContext execCtx=PluginTestUtil.bundleCtxWithHeaders(DataStructureUtils.m(PluginNamespace.XSD_NAMESPACE_PREFIX,"exec",PluginNamespace.XSD_NAMESPACE_URI,"uri-exec"));
+  PluggableViewModelFactory<PluginExec> factory=mock(PluggableViewModelFactory.class);
+  ConfigTypeExtension exec=new TestTaskConfigTypeExtension<PluginExec>(PluginExec.class,factory);
+  PluginExec execInstance=new PluginExec();
+  TaskViewModel stubbedViewModel=new TaskViewModel(execInstance,"my/view",Renderer.FREEMARKER);
+  when(factory.viewModelFor(execInstance,"new")).thenReturn(stubbedViewModel);
+  ConfigurationExtension execTask=new ConfigurationExtension<Task>(new PluginNamespace(execCtx,new URL("file:///exec")),exec);
+  when(pluginExtns.configTagImplementations()).thenReturn(Arrays.asList(execTask));
+  ConfigElementImplementationRegistry registry=new ConfigElementImplementationRegistry(pluginExtns);
+  assertThat(registry.getViewModelFor(execInstance,"new"),is((PluggableViewModel)stubbedViewModel));
+}

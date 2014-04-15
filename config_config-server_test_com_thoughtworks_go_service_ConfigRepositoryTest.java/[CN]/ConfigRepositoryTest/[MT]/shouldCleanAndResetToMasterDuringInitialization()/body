@@ -1,0 +1,9 @@
+{
+  configRepo.checkin(goConfigRevision("v1","md5-1"));
+  configRepo.createBranch(ConfigRepository.BRANCH_AT_REVISION,configRepo.getCurrentRevCommit());
+  configRepo.git().checkout().setName(ConfigRepository.BRANCH_AT_REVISION).call();
+  assertThat(configRepo.git().getRepository().getBranch(),is(ConfigRepository.BRANCH_AT_REVISION));
+  new ConfigRepository(new SystemEnvironment()).initialize();
+  assertThat(configRepo.git().getRepository().getBranch(),is("master"));
+  assertThat(configRepo.git().branchList().call().size(),is(1));
+}

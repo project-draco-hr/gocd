@@ -1,0 +1,27 @@
+{
+  final CurrentLocale locale=new CurrentLocale();
+  new Thread(new Runnable(){
+    public void run(){
+      locale.setLocaleString("in");
+synchronized (this) {
+        try {
+          wait();
+        }
+ catch (        InterruptedException ignored) {
+        }
+      }
+      assertThat(locale.getLocale().getLanguage(),is(new Locale("in").getLanguage()));
+    }
+  }
+).start();
+  new Thread(new Runnable(){
+    public void run(){
+      locale.setLocaleString("en");
+      assertThat(locale.getLocale().getLanguage(),is(new Locale("en").getLanguage()));
+synchronized (this) {
+        notifyAll();
+      }
+    }
+  }
+).start();
+}

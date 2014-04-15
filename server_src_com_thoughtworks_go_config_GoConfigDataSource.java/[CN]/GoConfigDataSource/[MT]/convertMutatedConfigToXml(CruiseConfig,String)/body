@@ -1,0 +1,9 @@
+{
+  try {
+    return configAsXml(modifiedConfig);
+  }
+ catch (  Exception e) {
+    LOGGER.info(format("[CONFIG_MERGE] Pre merge validation failed, latest-md5: %s",latestMd5));
+    throw new ConfigMergePreValidationException(e.getMessage(),e);
+  }
+}

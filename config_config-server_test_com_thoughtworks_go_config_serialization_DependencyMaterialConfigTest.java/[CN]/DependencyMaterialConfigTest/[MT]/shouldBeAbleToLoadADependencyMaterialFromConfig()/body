@@ -1,0 +1,7 @@
+{
+  String xml="<pipeline pipelineName=\"pipeline-name\" stageName=\"stage-name\" />";
+  DependencyMaterialConfig material=loader.fromXmlPartial(xml,DependencyMaterialConfig.class);
+  assertThat(material.getPipelineName(),is(new CaseInsensitiveString("pipeline-name")));
+  assertThat(material.getStageName(),is(new CaseInsensitiveString("stage-name")));
+  assertThat(writer.toXmlPartial(material),is(xml));
+}

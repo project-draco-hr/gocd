@@ -1,0 +1,25 @@
+{
+  for (  final StageIdFaninScmMaterialPair pIdScmPair : pIdScmMaterialList) {
+    final Collection<StageIdFaninScmMaterialPair> matWithSameFingerprint=CollectionUtils.select(pIdScmMaterialList,new Predicate(){
+      @Override public boolean evaluate(      Object o){
+        return pIdScmPair.equals(o);
+      }
+    }
+);
+    boolean diffRevFound=false;
+    for (    StageIdFaninScmMaterialPair pair : matWithSameFingerprint) {
+      if (pair.stageIdentifier == pIdScmPair.stageIdentifier) {
+        continue;
+      }
+      if (pair.faninScmMaterial.revision.equals(pIdScmPair.faninScmMaterial.revision)) {
+        continue;
+      }
+      diffRevFound=true;
+      break;
+    }
+    if (diffRevFound) {
+      return matWithSameFingerprint;
+    }
+  }
+  return Collections.EMPTY_LIST;
+}

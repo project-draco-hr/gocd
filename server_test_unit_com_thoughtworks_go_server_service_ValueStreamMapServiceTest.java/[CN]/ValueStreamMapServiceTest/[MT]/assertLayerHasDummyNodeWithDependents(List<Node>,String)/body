@@ -1,0 +1,8 @@
+{
+  for (  Node currentNode : nodesOfLevel) {
+    if (currentNode.getType() == DependencyNodeType.DUMMY) {
+      assertThat(currentNode.getChildren().size(),is(dependents.length));
+      VSMTestHelper.assertNodeHasChildren(currentNode,dependents);
+    }
+  }
+}

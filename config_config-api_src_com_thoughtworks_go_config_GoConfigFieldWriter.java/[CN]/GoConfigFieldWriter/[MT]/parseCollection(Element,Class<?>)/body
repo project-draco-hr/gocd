@@ -1,0 +1,14 @@
+{
+  ConfigCollection collection=collectionType.getAnnotation(ConfigCollection.class);
+  Class<?> type=collection.value();
+  Object o=newInstance(collectionType);
+  bombUnless(o instanceof Collection,"Must be some sort of list. Was: " + collectionType.getName());
+  Collection baseCollection=(Collection)o;
+  for (  Element childElement : (List<Element>)e.getChildren()) {
+    if (isInCollection(childElement,type)) {
+      baseCollection.add(parseType(childElement,type));
+    }
+  }
+  bombIf(baseCollection.size() < collection.minimum(),"Required at least " + collection.minimum() + " subelements to '"+ e.getName()+ "'. "+ "Found "+ baseCollection.size()+ ".");
+  return baseCollection;
+}

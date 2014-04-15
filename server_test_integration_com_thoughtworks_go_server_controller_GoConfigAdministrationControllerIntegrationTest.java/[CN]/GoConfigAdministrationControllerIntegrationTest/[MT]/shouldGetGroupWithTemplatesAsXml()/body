@@ -1,0 +1,18 @@
+{
+  configHelper.addTemplate("template-1","dev");
+  configHelper.addPipelineWithGroup("group","pipeline","dev","linux");
+  PipelineConfig pipelineWithTemplate=configHelper.addPipelineWithTemplate("group","pipeline-with-template","template-1");
+  assertThat(pipelineWithTemplate.size(),is(0));
+  assertThat(configHelper.currentConfig().pipelineConfigByName(new CaseInsensitiveString("pipeline-with-template")).size(),is(1));
+  CruiseConfig config=goConfigService.currentCruiseConfig();
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString("pipeline-with-template"));
+  assertThat("Should not modify the original template",pipelineConfig.size(),is(1));
+  controller.getGroupAsXmlPartial("group",null,response);
+  String content="<pipelines group=\"group\">\n" + "  <pipeline name=\"pipeline\">\n" + "    <materials>\n"+ "      <svn url=\"svn:///user:pass@tmp/foo\" />\n"+ "    </materials>\n"+ "    <stage name=\"dev\">\n"+ "      <jobs>\n"+ "        <job name=\"linux\" />\n"+ "      </jobs>\n"+ "    </stage>\n"+ "  </pipeline>\n"+ "  <pipeline name=\"pipeline-with-template\" template=\"template-1\">\n"+ "    <materials>\n"+ "      <svn url=\"svn:///user:pass@tmp/foo\" />\n"+ "    </materials>\n"+ "  </pipeline>\n"+ "</pipelines>";
+  assertValidContentAndStatus(SC_OK,"text/xml",content);
+  MockHttpServletResponse postResponse=new MockHttpServletResponse();
+  controller.postGroupAsXmlPartial("group",content,null,postResponse);
+  config=goConfigService.currentCruiseConfig();
+  pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString("pipeline-with-template"));
+  assertThat("Should not modify the original template",pipelineConfig.size(),is(1));
+}

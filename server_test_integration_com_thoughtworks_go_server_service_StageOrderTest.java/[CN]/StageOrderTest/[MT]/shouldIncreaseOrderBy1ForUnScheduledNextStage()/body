@@ -1,0 +1,8 @@
+{
+  schedulePipelineWithFirstStage();
+  Pipeline pipeline=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  dbHelper.passStage(pipeline.getFirstStage());
+  scheduleService.automaticallyTriggerRelevantStagesFollowingCompletionOf(pipeline.getFirstStage());
+  Pipeline mostRecent=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  assertThat(mostRecent.getStages().byName(preCondition.ftStage).getOrderId(),is(1001));
+}

@@ -1,0 +1,16 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  FailureDetails details=(FailureDetails)o;
+  if (!message.equals(details.message)) {
+    return false;
+  }
+  if (!stackTrace.equals(details.stackTrace)) {
+    return false;
+  }
+  return true;
+}

@@ -1,0 +1,36 @@
+{
+  DefaultPluginJarChangeListener spy=spy(listener);
+  String pluginId="plugin-id";
+  String pluginJarFileName="jarName";
+  File pluginJarFile=mock(File.class);
+  File oldPluginBundleDirectory=new File(TEST_BUNDLES_DIR,"old-bundle");
+  FileUtils.forceMkdir(oldPluginBundleDirectory);
+  final File explodedDirectory=mock(File.class);
+  doNothing().when(spy).explodePluginJarToBundleDir(pluginJarFile,explodedDirectory);
+  doNothing().when(spy).installActivatorJarToBundleDir(explodedDirectory);
+  GoPluginDescriptor oldDescriptor=mock(GoPluginDescriptor.class);
+  Bundle oldBundle=mock(Bundle.class);
+  when(oldDescriptor.bundle()).thenReturn(oldBundle);
+  when(oldDescriptor.fileName()).thenReturn(pluginJarFileName);
+  when(oldDescriptor.bundleLocation()).thenReturn(oldPluginBundleDirectory);
+  GoPluginDescriptor newDescriptor=mock(GoPluginDescriptor.class);
+  when(newDescriptor.id()).thenReturn(pluginId);
+  when(newDescriptor.isInvalid()).thenReturn(false);
+  when(newDescriptor.bundleLocation()).thenReturn(explodedDirectory);
+  when(newDescriptor.fileName()).thenReturn(pluginJarFileName);
+  when(newDescriptor.isCurrentOSValidForThisPlugin(systemEnvironment.getCurrentOperatingSystem())).thenReturn(true);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(newDescriptor);
+  when(registry.getPluginByIdOrFileName(pluginId,pluginJarFileName)).thenReturn(oldDescriptor);
+  when(registry.unloadPlugin(newDescriptor)).thenReturn(oldDescriptor);
+  doNothing().when(registry).loadPlugin(newDescriptor);
+  spy.pluginJarUpdated(new PluginFileDetails(pluginJarFile,true));
+  assertThat(oldPluginBundleDirectory.exists(),is(false));
+  verify(registry).getPluginByIdOrFileName(pluginId,pluginJarFileName);
+  verify(registry).unloadPlugin(newDescriptor);
+  verify(registry).loadPlugin(newDescriptor);
+  verify(osgiManifestGenerator).updateManifestOf(newDescriptor);
+  verify(osgiFramework).unloadPlugin(oldDescriptor);
+  verify(osgiFramework).loadPlugin(newDescriptor);
+  verifyNoMoreInteractions(osgiManifestGenerator);
+  verifyNoMoreInteractions(registry);
+}

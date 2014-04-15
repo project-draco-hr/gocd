@@ -1,0 +1,8 @@
+{
+  GoCipher mockGoCipher=mock(GoCipher.class);
+  when(mockGoCipher.encrypt("password")).thenReturn("encrypted");
+  TfsMaterial tfsMaterial=new TfsMaterial(mockGoCipher,new UrlArgument("/foo"),"username",DOMAIN,"password","");
+  tfsMaterial.ensureEncrypted();
+  assertThat(tfsMaterial.getPassword(),is(nullValue()));
+  assertThat(tfsMaterial.getEncryptedPassword(),is("encrypted"));
+}

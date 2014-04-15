@@ -1,0 +1,18 @@
+{
+  if (jobs.get(identifier) == NEVER_RUN) {
+    return new ArrayList<JobInstance>();
+  }
+  List<JobInstance> found=addInstances(identifier,jobs.values());
+  if (found.isEmpty()) {
+    found=addInstances(identifier,stageDao.mostRecentJobsForStage(identifier.getPipelineName(),identifier.getStageName()));
+    if (found.isEmpty()) {
+      jobs.put(identifier,NEVER_RUN);
+    }
+ else {
+      for (      JobInstance jobInstance : found) {
+        cache(jobInstance);
+      }
+    }
+  }
+  return found;
+}

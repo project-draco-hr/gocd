@@ -1,0 +1,26 @@
+{
+  Map attributesMap=(Map)attributes;
+  if (attributesMap.containsKey(RUN_ON_ALL_AGENTS)) {
+    runOnAllAgents="1".equals(attributesMap.get(RUN_ON_ALL_AGENTS));
+  }
+  if (attributesMap.containsKey(NAME)) {
+    String nameString=(String)attributesMap.get(NAME);
+    jobName=nameString == null ? null : new CaseInsensitiveString(nameString);
+  }
+  if (attributesMap.containsKey(TASKS)) {
+    tasks.setConfigAttributes(attributesMap.get(TASKS),taskFactory);
+  }
+  if (attributesMap.containsKey(ENVIRONMENT_VARIABLES)) {
+    variables.setConfigAttributes(attributesMap.get(ENVIRONMENT_VARIABLES));
+  }
+  if (attributesMap.containsKey(TABS)) {
+    tabs.setConfigAttributes(attributesMap.get(TABS));
+  }
+  if (attributesMap.containsKey(RESOURCES)) {
+    resources.importFromCsv((String)attributesMap.get(RESOURCES));
+  }
+  if (attributesMap.containsKey(ARTIFACT_PLANS)) {
+    artifactPlans.setConfigAttributes(attributesMap.get(ARTIFACT_PLANS));
+  }
+  setTimeoutAttribute(attributesMap);
+}

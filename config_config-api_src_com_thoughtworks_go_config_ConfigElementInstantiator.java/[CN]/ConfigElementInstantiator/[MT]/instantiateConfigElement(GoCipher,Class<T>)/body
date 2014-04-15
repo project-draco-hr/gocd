@@ -1,0 +1,11 @@
+{
+  try {
+    boolean isPasswordEncrypter=PasswordEncrypter.class.isAssignableFrom(toGenerate);
+    Constructor<T> tConstructor=isPasswordEncrypter ? toGenerate.getDeclaredConstructor(GoCipher.class) : toGenerate.getDeclaredConstructor();
+    tConstructor.setAccessible(true);
+    return isPasswordEncrypter ? tConstructor.newInstance(goCipher) : tConstructor.newInstance();
+  }
+ catch (  Exception e1) {
+    throw bomb("Error creating new instance of class " + toGenerate.getName(),e1);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  Stage completedMingleStage=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(pipelineConfig.name()),pipelineConfig.findBy(new CaseInsensitiveString("dev")));
+  dbHelper.passStage(completedMingleStage);
+  dbHelper.passStage(completedMingleStage);
+  assertThat(completedMingleStage.getJobInstances().first().getState(),is(JobState.Completed));
+  Pipeline pipeline=pipelineDao.mostRecentPipeline(CaseInsensitiveString.str(pipelineConfig.name()));
+  return dbHelper.passPipeline(pipeline);
+}

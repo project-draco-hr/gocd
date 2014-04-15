@@ -1,0 +1,15 @@
+{
+  setupFile("jez=" + SHA1_BADGER);
+  AuthorityGranter authorityGranter=new AuthorityGranter(securityService);
+  when(securityService.isUserAdmin(new Username(new CaseInsensitiveString("jez")))).thenReturn(true);
+  when(userService.findUserByName("jez")).thenReturn(new com.thoughtworks.go.domain.User("jez","Jezz Humbles","jez@humble.com"));
+  FileAuthenticationProvider provider=new FileAuthenticationProvider(goConfigService,authorityGranter,userService,securityService);
+  final UserDetails details=provider.retrieveUser("jez",null);
+  assertThat(details.getAuthorities()[0].getAuthority(),is("ROLE_SUPERVISOR"));
+  assertThat(details.isAccountNonExpired(),is(true));
+  assertThat(details.isAccountNonLocked(),is(true));
+  assertThat(details.isCredentialsNonExpired(),is(true));
+  assertThat(details.isEnabled(),is(true));
+  assertThat(details.getUsername(),is("jez"));
+  assertThat(details.getPassword(),is(SHA1_BADGER));
+}

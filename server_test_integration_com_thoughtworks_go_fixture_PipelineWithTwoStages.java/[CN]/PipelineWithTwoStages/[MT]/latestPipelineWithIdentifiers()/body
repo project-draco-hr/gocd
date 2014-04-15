@@ -1,0 +1,11 @@
+{
+  Pipeline pipeline;
+  pipeline=dbHelper.getPipelineDao().mostRecentPipeline(pipelineName);
+  for (  Stage stage : pipeline.getStages()) {
+    stage.setIdentifier(new StageIdentifier(pipeline,stage));
+    for (    JobInstance jobInstance : stage.getJobInstances()) {
+      jobInstance.setIdentifier(new JobIdentifier(pipeline,stage,jobInstance));
+    }
+  }
+  return pipeline;
+}

@@ -1,0 +1,10 @@
+{
+  when(configService.hasPipelineNamed(new CaseInsensitiveString("pipeline"))).thenReturn(true);
+  MaterialConfig materialConfig=mock(MaterialConfig.class);
+  when(configService.findMaterial(new CaseInsensitiveString("pipeline"),"invalid-material")).thenReturn(materialConfig);
+  HttpOperationResult result=new HttpOperationResult();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  scheduler.manualProduceBuildCauseAndSave("pipeline",Username.ANONYMOUS,new ScheduleOptions(Collections.singletonMap("invalid-material",""),environmentVariables,new HashMap<String,String>()),result);
+  assertThat(result.httpCode(),is(406));
+  assertThat(result.message(),is("material with fingerprint [invalid-material] has empty revision"));
+}

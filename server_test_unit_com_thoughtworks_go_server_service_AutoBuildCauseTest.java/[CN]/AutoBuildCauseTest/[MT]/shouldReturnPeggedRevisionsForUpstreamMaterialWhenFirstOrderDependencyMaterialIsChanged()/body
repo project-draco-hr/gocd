@@ -1,0 +1,18 @@
+{
+  HgMaterialConfig hg=MaterialConfigsMother.hgMaterialConfig();
+  PipelineConfig third=PipelineConfigMother.pipelineConfig("third",MaterialConfigsMother.dependencyMaterialConfig("second","mingle"),new JobConfigs());
+  PipelineConfig second=PipelineConfigMother.pipelineConfig("second",MaterialConfigsMother.dependencyMaterialConfig("first","mingle"),new JobConfigs());
+  PipelineConfig first=PipelineConfigMother.pipelineConfig("first",hg,new JobConfigs());
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(third,new PipelineConfigDependencyGraph(second,new PipelineConfigDependencyGraph(first)),new PipelineConfigDependencyGraph(first));
+  MaterialRevisions revisions=new MaterialRevisions();
+  MaterialRevision firstRev=dependencyMaterialRevision("first",10,"label","mingle",1,new Date());
+  firstRev.markAsNotChanged();
+  MaterialRevision secondRev=dependencyMaterialRevision("second",1,"label","mingle",1,new Date());
+  secondRev.markAsChanged();
+  revisions.addRevision(secondRev);
+  revisions.addRevision(firstRev);
+  when(goConfigService.upstreamDependencyGraphOf("third",cruiseConfig)).thenReturn(dependencyGraph);
+  MaterialRevisions expectedRevisions=new MaterialRevisions();
+  when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenReturn(expectedRevisions);
+  assertThat(new AutoBuild(goConfigService,pipelineService,"third",new SystemEnvironment(),materialChecker,serverHealthService).onModifications(revisions,false,null).getMaterialRevisions(),sameInstance(expectedRevisions));
+}

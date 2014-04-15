@@ -1,0 +1,12 @@
+{
+  ConfigCollection collectionAnnotation=annotationFor(aClass,ConfigCollection.class);
+  Class<?> elementType=collectionAnnotation.value();
+  for (  Element childElement : (List<Element>)e.getChildren()) {
+    if (isInCollection(childElement,elementType)) {
+      Class<?> collectionType=findConcreteType(childElement,elementType);
+      collection.add(classParser(childElement,collectionType,configCache,new GoCipher(),registry,configReferenceElements).parse());
+    }
+  }
+  int minimumSize=collectionAnnotation.minimum();
+  bombIf(collection.size() < minimumSize,"Required at least " + minimumSize + " subelements to '"+ e.getName()+ "'. "+ "Found "+ collection.size()+ ".");
+}

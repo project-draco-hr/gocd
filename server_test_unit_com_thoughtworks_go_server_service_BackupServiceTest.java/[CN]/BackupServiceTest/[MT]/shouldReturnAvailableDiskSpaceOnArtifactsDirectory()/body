@@ -1,0 +1,9 @@
+{
+  ArtifactsDirHolder artifactsDirHolder=mock(ArtifactsDirHolder.class);
+  File artifactDirectory=mock(File.class);
+  when(artifactsDirHolder.getArtifactsDir()).thenReturn(artifactDirectory);
+  when(artifactDirectory.getUsableSpace()).thenReturn(42424242L);
+  BackupService backupService=new BackupService(null,artifactsDirHolder,mock(GoConfigService.class),null,null,systemEnvironment,serverVersion,configRepo,databaseStrategy);
+  backupService.initialize();
+  assertThat(backupService.availableDiskSpace(),is("40 MB"));
+}

@@ -1,0 +1,10 @@
+{
+  StageIdentifier stage1=new StageIdentifier("blahPipeline",1,"blahLabel","blahStage","1");
+  StageIdentifier stage2=new StageIdentifier("blahPipeline",1,"fooLabel","blahStage","1");
+  StageIdentifier stage3=new StageIdentifier("blahPipeline",1,"blahStage","1");
+  StageIdentifier stage4=new StageIdentifier("blahPipeline",1,"blahStage","2");
+  assertThat(stage1,is(stage2));
+  assertThat(stage1,is(stage3));
+  assertThat(stage2,is(stage3));
+  assertThat(stage2,is(not(stage4)));
+}

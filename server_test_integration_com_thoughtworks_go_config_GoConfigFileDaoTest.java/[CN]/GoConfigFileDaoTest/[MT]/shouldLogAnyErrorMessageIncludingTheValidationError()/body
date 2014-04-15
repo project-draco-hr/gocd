@@ -1,0 +1,9 @@
+{
+  try {
+    cachedGoConfig.save(INVALID_CONFIG_WITH_TYPE_FOR_ARTIFACT,false);
+    fail();
+  }
+ catch (  Exception e) {
+    assertThat(logger.getLog(),containsString("'type' is not allowed to appear in element 'test'."));
+  }
+}

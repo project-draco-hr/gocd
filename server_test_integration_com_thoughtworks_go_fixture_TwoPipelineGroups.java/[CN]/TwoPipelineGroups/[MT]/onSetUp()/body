@@ -1,0 +1,8 @@
+{
+  this.isSetup=true;
+  configHelper.initializeConfigFile();
+  svnTestRepo=new SvnTestRepo("testsvnrepo");
+  SvnCommand svnCommand=new SvnCommand(null,svnTestRepo.projectRepositoryUrl());
+  configHelper.addPipelineWithGroup("group1","pipeline_" + UUID.randomUUID(),svnCommand,"defaultStage","defaultJob");
+  configHelper.addPipelineWithGroup("group2","pipeline_" + UUID.randomUUID(),svnCommand,"defaultStage","defaultJob");
+}

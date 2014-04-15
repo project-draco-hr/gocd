@@ -1,0 +1,10 @@
+{
+  final String val=parseAttribute(e,configField);
+  try {
+    setFieldIfNotNull(configField,o,val);
+  }
+ catch (  TypeMismatchException e1) {
+    final String message=format("Could not set value [{0}] on Field [{1}] of type [{2}] ",val,configField.getName(),configField.getType());
+    throw new RuntimeException(message,e1);
+  }
+}

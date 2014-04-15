@@ -1,0 +1,11 @@
+{
+  GoConfigGraphWalker.WalkedObject walkedObject=new GoConfigGraphWalker.WalkedObject(raw);
+  if (!walkedObject.shouldWalk()) {
+    return;
+  }
+  if (Validatable.class.isAssignableFrom(raw.getClass())) {
+    handler.handle((Validatable)raw,(Validatable)withErrors);
+  }
+  walkCollection(raw,withErrors,handler);
+  walkFields(raw,withErrors,handler);
+}

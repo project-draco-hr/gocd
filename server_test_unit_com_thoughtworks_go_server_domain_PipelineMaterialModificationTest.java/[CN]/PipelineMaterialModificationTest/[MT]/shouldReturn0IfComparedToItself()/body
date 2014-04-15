@@ -1,0 +1,8 @@
+{
+  DateTime now=new DateTime();
+  PipelineTimelineEntry self=modification(Arrays.asList("flyweight"),1,"123",now);
+  assertThat(self.compareTo(self),is(0));
+  PipelineTimelineEntry another=modification(Arrays.asList("flyweight"),1,"123",now);
+  assertThat(self.compareTo(another),is(0));
+  assertThat(another.compareTo(self),is(0));
+}

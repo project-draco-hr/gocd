@@ -1,0 +1,12 @@
+{
+  systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.get(PLUGIN_ACTIVATOR_JAR_PATH)).thenReturn("some-path-which-does-not-exist.jar");
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  File bundleDirectory=new File(TEST_BUNDLES_DIR,pluginJarFileName);
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("some.old.id",pluginJarFile.getAbsolutePath(),bundleDirectory,true);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(descriptor);
+  listener=new DefaultPluginJarChangeListener(registry,osgiManifestGenerator,osgiFramework,goPluginDescriptorBuilder,systemEnvironment);
+  listener.pluginJarAdded(new PluginFileDetails(pluginJarFile,true));
+}

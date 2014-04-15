@@ -1,0 +1,5 @@
+{
+  byte[] testData=new byte[1024 * 1024];
+  new Random().nextBytes(testData);
+  assertThat(DigestUtils.md5Hex(testData),is(CachedDigestUtils.md5Hex(new ByteArrayInputStream(testData))));
+}

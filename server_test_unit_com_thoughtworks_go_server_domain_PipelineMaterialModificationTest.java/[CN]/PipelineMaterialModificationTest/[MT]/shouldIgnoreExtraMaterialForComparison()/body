@@ -1,0 +1,11 @@
+{
+  DateTime base=new DateTime();
+  PipelineTimelineEntry modification=modification(1,Arrays.asList("first","second","third"),Arrays.asList(base,base.plusMinutes(3),base.plusMinutes(2)),1,"123","pipeline");
+  PipelineTimelineEntry that=modification(2,Arrays.asList("first","second"),Arrays.asList(base,base.plusMinutes(2)),2,"123","pipeline");
+  assertThat(modification.compareTo(that),is(1));
+  assertThat(that.compareTo(modification),is(-1));
+  modification=modification(1,Arrays.asList("first","second","third"),Arrays.asList(base,base.plusMinutes(3),base.plusMinutes(2)),1,"123","pipeline");
+  that=modification(2,Arrays.asList("first","second"),Arrays.asList(base,base.plusMinutes(3)),2,"123","pipeline");
+  assertThat(modification.compareTo(that),is(-1));
+  assertThat(that.compareTo(modification),is(1));
+}

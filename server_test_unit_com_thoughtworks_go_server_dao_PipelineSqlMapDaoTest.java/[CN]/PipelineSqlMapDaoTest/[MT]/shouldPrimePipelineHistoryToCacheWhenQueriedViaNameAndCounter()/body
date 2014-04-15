@@ -1,0 +1,14 @@
+{
+  String pipelineName="wholetthedogsout";
+  int pipelineCounter=42;
+  Map<String,Object> map=arguments("pipelineName",pipelineName).and("pipelineCounter",pipelineCounter).asMap();
+  PipelineInstanceModel expected=mock(PipelineInstanceModel.class);
+  when(sqlMapClientTemplate.queryForObject("getPipelineHistoryByNameAndCounter",map)).thenReturn(expected);
+  when(expected.getId()).thenReturn(1111l);
+  when(materialRepository.findMaterialRevisionsForPipeline(expected.getId())).thenReturn(null);
+  PipelineInstanceModel primed=pipelineSqlMapDao.findPipelineHistoryByNameAndCounter(pipelineName,pipelineCounter);
+  assertThat(primed,is(expected));
+  verify(sqlMapClientTemplate,times(1)).queryForObject("getPipelineHistoryByNameAndCounter",map);
+  verify(goCache,times(1)).put(anyString(),eq(expected));
+  verify(goCache,times(2)).get(anyString());
+}

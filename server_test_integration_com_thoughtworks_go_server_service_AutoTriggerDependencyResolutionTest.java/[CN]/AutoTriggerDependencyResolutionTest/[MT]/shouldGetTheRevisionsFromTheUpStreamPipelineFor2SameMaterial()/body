@@ -1,0 +1,14 @@
+{
+  SvnMaterial svn=u.wf(new SvnMaterial("svn","username","password",false),"folder1");
+  String[] svn_revs={"s1","s2","s3"};
+  u.checkinInOrder(svn,svn_revs);
+  HgMaterial hg=u.wf(new HgMaterial("hg",null),"folder2");
+  String[] hg_revs={"h1","h2","h3"};
+  u.checkinInOrder(hg,hg_revs);
+  ScheduleTestUtil.AddedPipeline up1=u.saveConfigWith("up1",u.m(svn),u.m(hg));
+  ScheduleTestUtil.AddedPipeline current=u.saveConfigWith("current",u.m(up1),u.m(svn),u.m(hg));
+  String up1_1=u.runAndPass(up1,"s1","h1");
+  MaterialRevisions given=u.mrs(u.mr(svn,true,svn_revs),u.mr(hg,true,hg_revs),u.mr(up1,true,up1_1));
+  MaterialRevisions expected=u.mrs(u.mr(svn,true,"s1"),u.mr(hg,true,"h1"),u.mr(up1,true,up1_1));
+  assertThat(getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("current")),is(expected));
+}

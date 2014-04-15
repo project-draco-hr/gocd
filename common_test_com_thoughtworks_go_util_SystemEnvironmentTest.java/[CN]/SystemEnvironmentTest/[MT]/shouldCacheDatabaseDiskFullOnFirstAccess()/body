@@ -1,0 +1,7 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  System.setProperty(SystemEnvironment.DATABASE_FULL_SIZE_LIMIT,"100");
+  assertThat(systemEnvironment.getDatabaseDiskSpaceFullLimit(),is(100L));
+  System.setProperty(SystemEnvironment.DATABASE_FULL_SIZE_LIMIT,"50M");
+  assertThat(systemEnvironment.getDatabaseDiskSpaceFullLimit(),is(100L));
+}

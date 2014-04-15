@@ -1,0 +1,13 @@
+{
+  packageRepository.clearEmptyConfigurations();
+  if (packageRepository.isNew()) {
+    packageRepository.setId(UUID.randomUUID().toString());
+    packageRepositories.add(packageRepository);
+  }
+ else {
+    PackageRepository existingPackageRepository=packageRepositories.find(packageRepository.getRepoId());
+    existingPackageRepository.setName(packageRepository.getName());
+    existingPackageRepository.setPluginConfiguration(packageRepository.getPluginConfiguration());
+    existingPackageRepository.setConfiguration(packageRepository.getConfiguration());
+  }
+}

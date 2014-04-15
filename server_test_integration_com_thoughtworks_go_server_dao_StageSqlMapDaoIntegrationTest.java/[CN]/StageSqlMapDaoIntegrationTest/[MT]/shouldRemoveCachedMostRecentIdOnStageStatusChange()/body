@@ -1,0 +1,19 @@
+{
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForObject(eq("getMostRecentId"),any())).thenReturn(20L);
+  String pipelineName=CaseInsensitiveString.str(mingleConfig.name());
+  String stageName=CaseInsensitiveString.str(mingleConfig.get(0).name());
+  String key=stageDao.cacheKeyForMostRecentId(pipelineName,stageName);
+  stageDao.mostRecentId(pipelineName,stageName);
+  Long id=stageDao.mostRecentId(pipelineName,stageName);
+  assertThat(id,is(20L));
+  Stage stage=StageMother.custom(pipelineName,stageName,new JobInstances());
+  stageDao.stageStatusChanged(stage);
+  assertThat(goCache.get(key),is(nullValue()));
+  stageDao.mostRecentId(pipelineName,stageName);
+  id=stageDao.mostRecentId(pipelineName,stageName);
+  assertThat(id,is(20L));
+  assertThat((Long)goCache.get(key),is(20L));
+  verify(mockTemplate,times(2)).queryForObject(eq("getMostRecentId"),any());
+}

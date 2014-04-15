@@ -1,0 +1,16 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","tw-dev","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1"),ConfigurationPropertyMother.create("repo-secure",true,"value")));
+  material.setPackageDefinition(PackageDefinitionMother.create("p-id","go-agent",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2"),ConfigurationPropertyMother.create("pkg-secure",true,"value")),repository));
+  material.setName(new CaseInsensitiveString("tw-dev:go-agent"));
+  Modifications modifications=new Modifications(new Modification(null,null,null,new Date(),"revision-123"));
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  material.populateEnvironmentContext(environmentVariableContext,new MaterialRevision(material,modifications),null);
+  assertThat(environmentVariableContext.getProperty("GO_REPO_TW_DEV_GO_AGENT_K1"),is("v1"));
+  assertThat(environmentVariableContext.getProperty("GO_REPO_TW_DEV_GO_AGENT_REPO_SECURE"),is("value"));
+  assertThat(environmentVariableContext.getPropertyForDisplay("GO_REPO_TW_DEV_GO_AGENT_REPO_SECURE"),is(EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE));
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_K2"),is("v2"));
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_PKG_SECURE"),is("value"));
+  assertThat(environmentVariableContext.getPropertyForDisplay("GO_PACKAGE_TW_DEV_GO_AGENT_PKG_SECURE"),is(EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE));
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_LABEL"),is("revision-123"));
+}

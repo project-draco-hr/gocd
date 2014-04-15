@@ -1,0 +1,14 @@
+{
+  ValidationBean goodResponse=command.checkConnection();
+  assertThat(goodResponse.isValid(),Is.is(true));
+  assertThat("Plain text password detected!",goodResponse.getError().contains(HARRYS_PASSWORD),Is.is(false));
+  ValidationBean badResponse=badUserNameCommand().checkConnection();
+  assertThat(badResponse.isValid(),Is.is(false));
+  assertThat("Plain text password detected!",badResponse.getError().contains(HARRYS_PASSWORD),Is.is(false));
+  badResponse=badPasswordCommand().checkConnection();
+  assertThat(badResponse.isValid(),Is.is(false));
+  assertThat("Plain text password detected!",badResponse.getError().contains("some_bad_password"),Is.is(false));
+  badResponse=badUrlCommand().checkConnection();
+  assertThat(badResponse.isValid(),Is.is(false));
+  assertThat("Plain text password detected!",badResponse.getError().contains(HARRYS_PASSWORD),Is.is(false));
+}

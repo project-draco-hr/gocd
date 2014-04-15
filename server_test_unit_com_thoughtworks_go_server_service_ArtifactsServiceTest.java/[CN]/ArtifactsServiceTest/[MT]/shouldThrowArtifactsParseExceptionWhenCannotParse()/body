@@ -1,0 +1,17 @@
+{
+  final File tempFolder=TestFileUtil.createTempFolder("tempFolder");
+  resourcesToBeCleanedOnTeardown.add(tempFolder);
+  final LogFile logFile=new LogFile(tempFolder,"logFile");
+  String invalidXml="<xml></wrongClosingTag>";
+  FileUtils.writeStringToFile(logFile.getFile(),invalidXml);
+  assumeArtifactsRoot(new File("logs"));
+  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  try {
+    artifactsService.parseLogFile(logFile,true);
+    fail();
+  }
+ catch (  ArtifactsParseException e) {
+    assertThat(e.getMessage(),containsString("Error parsing log file:"));
+    assertThat(e.getMessage(),containsString(logFile.getPath()));
+  }
+}

@@ -1,0 +1,11 @@
+{
+  GoPluginDescriptor descriptor1=GoPluginDescriptor.usingId("id1","location-one.jar",new File("location-one"),true);
+  registry.loadPlugin(descriptor1);
+  GoPluginDescriptor descriptor2=GoPluginDescriptor.usingId("id2","location-two.jar",new File("location-two"),true);
+  registry.loadPlugin(descriptor2);
+  assertThat(registry.plugins().size(),is(2));
+  assertThat(registry.plugins(),hasItems(descriptor1,descriptor2));
+  registry.unloadPlugin(descriptor2);
+  assertThat(registry.plugins().size(),is(1));
+  assertThat(registry.plugins(),hasItems(descriptor1));
+}

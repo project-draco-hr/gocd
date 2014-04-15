@@ -1,0 +1,14 @@
+{
+  resolveCollection(resolvable,resolver);
+  for (  Field node : filterResolvables(resolvable,nodeSelectorPredicate())) {
+    try {
+      Object subResolvable=node.get(resolvable);
+      if (subResolvable != null) {
+        resolver.resolve(subResolvable);
+      }
+    }
+ catch (    IllegalAccessException e) {
+      bomb(e);
+    }
+  }
+}

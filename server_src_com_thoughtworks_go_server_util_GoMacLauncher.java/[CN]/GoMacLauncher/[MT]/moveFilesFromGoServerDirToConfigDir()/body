@@ -1,0 +1,48 @@
+{
+  File dir=new File(APPLICATION_SUPPORT_PATHNAME);
+  File[] files=null;
+  try {
+    files=dir.listFiles(new FileFilter(){
+      @Override public boolean accept(      File file){
+        if (file.isDirectory()) {
+          return false;
+        }
+        String fileName=file.getName();
+        if (fileName.matches("cruise-config\\.xml.*")) {
+          return true;
+        }
+        if (fileName.matches(".*\\.properties.*")) {
+          return true;
+        }
+        if (fileName.matches(".*\\.jks")) {
+          return true;
+        }
+        if (fileName.matches(".*store$")) {
+          return true;
+        }
+        if (fileName.matches("cruise-config\\.xsd")) {
+          return true;
+        }
+        if (fileName.matches("^go-server$")) {
+          return true;
+        }
+        if (fileName.matches("jetty\\.xml")) {
+          return true;
+        }
+        if (fileName.matches("cipher")) {
+          return true;
+        }
+        return false;
+      }
+    }
+);
+    if (files != null && files.length > 0) {
+      for (      File currentFile : files) {
+        moveFileToConfigDir(currentFile);
+      }
+    }
+  }
+ catch (  Exception e) {
+    LOG.severe("Exception while moving files: " + e.toString());
+  }
+}

@@ -1,0 +1,12 @@
+{
+  try {
+    return configRepository.configChangesFor(laterMd5,earlierMd5);
+  }
+ catch (  IllegalArgumentException e) {
+    result.badRequest(LocalizedMessage.string("CONFIG_VERSION_NOT_FOUND"));
+  }
+catch (  Exception e) {
+    result.internalServerError(LocalizedMessage.string("COULD_NOT_RETRIEVE_CONFIG_DIFF"));
+  }
+  return null;
+}

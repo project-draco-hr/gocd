@@ -1,0 +1,8 @@
+{
+  JobIdentifier rescheduledJobIdentifier=new JobIdentifier("foo",10,"label-10","stage","3","job",10l);
+  JobInstance jobInstance=new JobInstance();
+  jobInstance.setIdentifier(rescheduledJobIdentifier);
+  jobInstance.setState(JobState.Rescheduled);
+  listener.jobStatusChanged(jobInstance);
+  verify(serverHealthService).removeByScope(HealthStateScope.forJob("foo","stage","job"));
+}

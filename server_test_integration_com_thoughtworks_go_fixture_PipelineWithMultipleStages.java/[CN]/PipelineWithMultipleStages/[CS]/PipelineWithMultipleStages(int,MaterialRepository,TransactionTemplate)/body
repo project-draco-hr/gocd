@@ -1,0 +1,8 @@
+{
+  super(materialRepository,transactionTemplate);
+  bombIf(stagesSize < 2,"Illegal stagesSize: " + stagesSize + ", at lease 2");
+  this.stagesSize=stagesSize;
+  this.stageNames=new String[stagesSize];
+  this.stageNames[0]=devStage;
+  this.stageNames[1]=ftStage;
+}

@@ -1,0 +1,6 @@
+{
+  HttpOperationResult result=new HttpOperationResult();
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.findPipelineInstance("blahName",1,new Username(new CaseInsensitiveString("foo")),result);
+  assertThat(pipelineInstance,is(nullValue()));
+  assertThat(result.httpCode(),is(404));
+}

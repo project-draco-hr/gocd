@@ -1,0 +1,9 @@
+{
+  SvnMaterial svnMaterial1=repo.createMaterial("multiple-materials/trunk/part1","part1");
+  SvnMaterial svnMaterial2=repo.createMaterial("multiple-materials/trunk/part2","part2");
+  Materials materials=new Materials(svnMaterial1,svnMaterial2);
+  Revision revision=latestRevision(svnMaterial1,pipelineDir,new TestSubprocessExecutionContext());
+  materials.updateTo(revision,pipelineDir,inMemoryConsumer(),new TestSubprocessExecutionContext());
+  FileUtil.deleteFolder(pipelineDir);
+  materials.updateTo(revision,pipelineDir,inMemoryConsumer(),new TestSubprocessExecutionContext());
+}

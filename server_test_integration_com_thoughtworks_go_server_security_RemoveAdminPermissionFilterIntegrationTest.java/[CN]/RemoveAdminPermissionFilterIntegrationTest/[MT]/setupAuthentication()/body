@@ -1,0 +1,7 @@
+{
+  GrantedAuthority[] authorities={};
+  Authentication authentication=new TestingAuthenticationToken(new User("loser","secret",true,true,true,true,authorities),null,authorities);
+  SecurityContextHolder.getContext().setAuthentication(authentication);
+  authentication.setAuthenticated(true);
+  return authentication;
+}

@@ -1,0 +1,21 @@
+{
+  List<ReportingFaninScmMaterial> scmMaterials=new ArrayList<ReportingFaninScmMaterial>();
+  PipelineTimeline pipelineTimeline=context.pipelineTimeline;
+  Queue<PipelineTimelineEntry.Revision> revisionQueue=new ConcurrentLinkedQueue<PipelineTimelineEntry.Revision>();
+  DependencyMaterialConfig dependencyMaterial=(DependencyMaterialConfig)materialConfig;
+  PipelineTimelineEntry entry=pipelineTimeline.instanceFor(dependencyMaterial.getPipelineName(),totalInstanceCount - n);
+  StageIdentifier dependentStageIdentifier=dependentStageIdentifier(context,entry,CaseInsensitiveString.str(dependencyMaterial.getStageName()));
+  if (!StageIdentifier.NULL.equals(dependentStageIdentifier)) {
+    addToRevisionQueue(entry,revisionQueue,scmMaterials,context);
+  }
+ else {
+    return null;
+  }
+  while (!revisionQueue.isEmpty()) {
+    PipelineTimelineEntry.Revision revision=revisionQueue.poll();
+    DependencyMaterialRevision dmr=DependencyMaterialRevision.create(revision.revision,null);
+    PipelineTimelineEntry pte=pipelineTimeline.getEntryFor(new CaseInsensitiveString(dmr.getPipelineName()),dmr.getPipelineCounter());
+    addToRevisionQueue(pte,revisionQueue,scmMaterials,context);
+  }
+  return new Pair<StageIdentifier,List<ReportingFaninScmMaterial>>(dependentStageIdentifier,scmMaterials);
+}

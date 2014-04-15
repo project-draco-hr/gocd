@@ -1,0 +1,7 @@
+{
+  DurationBeans durations=new DurationBeans(new DurationBean(stage.getJobInstances().getByName("job-that-will-fail").getId(),12L));
+  StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,stage,null,new Agents(),durations,new TrackingTool());
+  JsonMap json=presenter.toJson();
+  new JsonTester(json).shouldContain("{ 'stageName' : 'stage'," + "  'builds' : [" + "    { 'name' : 'job-that-will-fail',"+ "    'last_build_duration' : '12' },"+ "    { 'name' : 'job-that-will-pass' }"+ "  ],"+ " 'current_label' : '" + pipeline.getLabel() + "',"+ " 'id' : '1' "+ "}");
+  assertFalse("JSON shouldn't contain last_successful_label",json.toString().contains("last_successful_label"));
+}

@@ -1,0 +1,5 @@
+{
+  AbstractMaterialConfig material=new TestMaterialConfig("");
+  material.setName(new CaseInsensitiveString("funky_name"));
+  assertThat(material.isUsedInLabelTemplate(new PipelineConfig(new CaseInsensitiveString("blah"),"${COUNT}-${test1}-test","",false,(MaterialConfigs)null,new BaseCollection<StageConfig>())),is(false));
+}

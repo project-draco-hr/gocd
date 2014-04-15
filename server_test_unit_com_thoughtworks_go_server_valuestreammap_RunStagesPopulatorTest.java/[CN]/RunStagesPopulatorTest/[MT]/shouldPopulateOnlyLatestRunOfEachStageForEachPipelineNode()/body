@@ -1,0 +1,20 @@
+{
+  ValueStreamMap graph=new ValueStreamMap("p2",new PipelineRevision("p2",1,""));
+  graph.addUpstreamNode(new PipelineDependencyNode("p1","p1"),new PipelineRevision("p1",1,"1"),"p2");
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),new Modifications(ModificationsMother.aCheckIn("1")),"p1");
+  Node p3_node=graph.addDownstreamNode(new PipelineDependencyNode("p3","p3"),"p2");
+  p3_node.addRevision(new PipelineRevision("p3",1,"1"));
+  Stages stagesForP1_1=stages("s1_p1");
+  Stages stagesForP2_1=stages("s1_p2");
+  Stages stagesForP3_1=stages("s1_p3");
+  stagesForP1_1.first().setLatestRun(false);
+  Stage latestStage=StageMother.createPassedStage("p1",1,"s1_p1",2,"sample",new Date());
+  stagesForP1_1.add(latestStage);
+  when(stageDao.findAllStagesFor("p1",1)).thenReturn(stagesForP1_1);
+  when(stageDao.findAllStagesFor("p2",1)).thenReturn(stagesForP2_1);
+  when(stageDao.findAllStagesFor("p3",1)).thenReturn(stagesForP3_1);
+  runStagesPopulator.apply(graph);
+  VSMTestHelper.assertStageDetailsOf(graph,"p1","1",new Stages(latestStage));
+  VSMTestHelper.assertStageDetailsOf(graph,"p2","1",stagesForP2_1);
+  VSMTestHelper.assertStageDetailsOf(graph,"p3","1",stagesForP3_1);
+}

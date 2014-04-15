@@ -1,0 +1,6 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  SvnMaterial svnMaterial=SvnMaterial.createSvnMaterialWithMock(repository);
+  materialRevisions.addRevision(svnMaterial,svnMaterial.latestModification(null,subprocessExecutionContext));
+  return BuildCause.createWithModifications(materialRevisions,"");
+}

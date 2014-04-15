@@ -1,0 +1,14 @@
+{
+  String cacheKey=cacheKeyForPauseState(pipelineName);
+synchronized (cacheKey) {
+    Map<String,Object> args=arguments("pipelineName",pipelineName).and("pauseCause",pauseCause).and("pauseBy",pauseBy).and("paused",true).asMap();
+    PipelinePauseInfo pipelinePauseInfo=(PipelinePauseInfo)getSqlMapClientTemplate().queryForObject("getPipelinePauseState",pipelineName);
+    if (pipelinePauseInfo == null) {
+      getSqlMapClientTemplate().insert("insertPipelinePauseState",args);
+    }
+ else {
+      getSqlMapClientTemplate().update("updatePipelinePauseState",args);
+    }
+    goCache.remove(cacheKey);
+  }
+}

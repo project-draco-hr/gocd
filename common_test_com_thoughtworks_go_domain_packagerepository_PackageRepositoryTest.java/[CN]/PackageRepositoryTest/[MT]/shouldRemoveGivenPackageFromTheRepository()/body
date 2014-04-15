@@ -1,0 +1,10 @@
+{
+  PackageDefinition packageDefinitionOne=new PackageDefinition("pid1","pname1",null);
+  PackageDefinition packageDefinitionTwo=new PackageDefinition("pid2","pname2",null);
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.addPackage(packageDefinitionOne);
+  packageRepository.addPackage(packageDefinitionTwo);
+  packageRepository.removePackage("pid1");
+  assertThat(packageRepository.getPackages().size(),is(1));
+  assertThat(packageRepository.getPackages(),hasItems(packageDefinitionTwo));
+}

@@ -1,0 +1,8 @@
+{
+  GoCipher mockGoCipher=mock(GoCipher.class);
+  when(mockGoCipher.decrypt("encrypted")).thenReturn("password");
+  SvnMaterial material=new SvnMaterial("/foo","username",null,false,mockGoCipher);
+  ReflectionUtil.setField(material,"encryptedPassword","encrypted");
+  material.ensureEncrypted();
+  assertThat(material.getPassword(),is("password"));
+}

@@ -1,0 +1,8 @@
+{
+  String pipelineName=jobIdentifier.getPipelineName();
+  if (securityService.hasViewPermissionForPipeline(username,pipelineName)) {
+    return shineDao.failureDetailsForTest(jobIdentifier,suiteName,testName,result);
+  }
+  result.unauthorized(LocalizedMessage.noViewPermissionForPipeline(CaseInsensitiveString.str(username.getUsername()),pipelineName),HealthStateType.unauthorisedForPipeline(pipelineName));
+  return FailureDetails.nullFailureDetails();
+}

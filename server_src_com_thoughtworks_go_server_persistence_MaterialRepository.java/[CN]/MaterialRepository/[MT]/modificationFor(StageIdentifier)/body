@@ -1,0 +1,26 @@
+{
+  if (stageIdentifier == null) {
+    return null;
+  }
+  String key=cacheKeyForModificationsForStageLocator(stageIdentifier);
+  List<Modification> modifications=(List<Modification>)goCache.get(key);
+  if (modifications == null) {
+synchronized (key) {
+      modifications=(List<Modification>)goCache.get(key);
+      if (modifications == null) {
+        modifications=getHibernateTemplate().executeFind(new HibernateCallback(){
+          public Object doInHibernate(          Session session) throws HibernateException, SQLException {
+            Query q=session.createQuery("FROM Modification WHERE revision = :revision ORDER BY id DESC");
+            q.setParameter("revision",stageIdentifier.getStageLocator());
+            return q.list();
+          }
+        }
+);
+        if (!modifications.isEmpty()) {
+          goCache.put(key,modifications);
+        }
+      }
+    }
+  }
+  return modifications;
+}

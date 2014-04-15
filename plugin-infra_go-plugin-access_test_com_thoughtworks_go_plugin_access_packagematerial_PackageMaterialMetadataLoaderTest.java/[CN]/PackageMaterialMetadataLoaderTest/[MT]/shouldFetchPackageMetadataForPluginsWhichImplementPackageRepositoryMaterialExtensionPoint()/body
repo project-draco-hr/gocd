@@ -1,0 +1,9 @@
+{
+  RepositoryConfiguration expectedRepoConfigurations=new RepositoryConfiguration();
+  com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration expectedPackageConfigurations=new PackageConfiguration();
+  when(packageMaterialConfiguration.getRepositoryConfiguration()).thenReturn(expectedRepoConfigurations);
+  when(packageMaterialConfiguration.getPackageConfiguration()).thenReturn(expectedPackageConfigurations);
+  metadataLoader.fetchRepositoryAndPackageMetaData(pluginDescriptor);
+  assertThat(RepositoryMetadataStore.getInstance().getMetadata(pluginDescriptor.id()).getRepositoryConfiguration(),is(expectedRepoConfigurations));
+  assertThat(PackageMetadataStore.getInstance().getMetadata(pluginDescriptor.id()).getPackageConfiguration(),is(expectedPackageConfigurations));
+}

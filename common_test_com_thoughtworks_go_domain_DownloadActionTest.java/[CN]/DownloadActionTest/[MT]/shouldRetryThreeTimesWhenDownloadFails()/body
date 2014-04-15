@@ -1,0 +1,15 @@
+{
+  when(fetchHandler.handleResult(200,publisher)).thenReturn(true);
+  LogFixture logging=LogFixture.startListening();
+  FailSometimesHttpService httpService=new FailSometimesHttpService(3);
+  DownloadAction downloadAction=new DownloadAction(httpService,publisher,clock);
+  downloadAction.perform("foo",fetchHandler);
+  assertThat(httpService.timesCalled,is(4));
+  shouldHaveLogged(logging,Level.WARN,"Could not fetch artifact foo.");
+  shouldHaveLogged(logging,Level.WARN,"Error was : Caught an exception 'Connection Reset'");
+  assertBetween(clock.getSleeps().get(0),10000L,20000L);
+  assertBetween(clock.getSleeps().get(1),20000L,30000L);
+  assertBetween(clock.getSleeps().get(2),30000L,40000L);
+  assertThat(clock.getSleeps().size(),is(3));
+  logging.stopListening();
+}

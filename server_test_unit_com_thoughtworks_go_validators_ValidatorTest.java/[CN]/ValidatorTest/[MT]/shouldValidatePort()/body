@@ -1,0 +1,7 @@
+{
+  LocalizedResult result=mock(LocalizedResult.class);
+  new PortValidator().validate(1,result);
+  result=mock(LocalizedResult.class);
+  new PortValidator().validate(234444,result);
+  verify(result).invalid("INVALID_PORT");
+}

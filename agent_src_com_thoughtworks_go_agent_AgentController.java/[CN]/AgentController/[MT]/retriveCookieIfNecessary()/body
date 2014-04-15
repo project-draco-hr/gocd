@@ -1,0 +1,8 @@
+{
+  if (!agentRuntimeInfo.hasCookie() && sslInfrastructureService.isRegistered()) {
+    LOG.info("About to get cookie from the server.");
+    String cookie=server.getCookie(agentIdentifier(),agentRuntimeInfo.getLocation());
+    agentRuntimeInfo.setCookie(cookie);
+    LOG.info(String.format("Got cookie: %s ",cookie));
+  }
+}

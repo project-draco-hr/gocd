@@ -1,0 +1,41 @@
+{
+  final String svnMaterial1Url="http://localhost/svn/project1";
+  final String svnMaterial1User="svnMaterial1_user";
+  final String svnMaterial1Password="svnMaterial1_password";
+  final SvnMaterial svnMaterial1=buildMockSvnMaterial(svnMaterial1Url,svnMaterial1User,svnMaterial1Password);
+  String svnMaterial2Url="http://localhost/svn/project2";
+  SvnMaterial svnMaterial2=buildMockSvnMaterial(svnMaterial2Url,null,null);
+  HashSet<SvnMaterial> svnMaterials=new HashSet<SvnMaterial>();
+  svnMaterials.add(svnMaterial1);
+  svnMaterials.add(svnMaterial2);
+  SvnCommand spy=spy(subversion);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocation) throws Throwable {
+      final ConsoleResult consoleResult=mock(ConsoleResult.class);
+      when(consoleResult.outputAsString()).thenReturn(svnInfoOutput);
+      verifyCommandLine((CommandLine)invocation.getArguments()[0]);
+      return consoleResult;
+    }
+    private void verifyCommandLine(    CommandLine commandLine){
+      String commandString=commandLine.toStringForDisplay();
+      if (commandString.contains(svnMaterial1User)) {
+        List<CommandArgument> arguments=commandLine.getArguments();
+        for (        CommandArgument argument : arguments) {
+          if (argument instanceof PasswordArgument) {
+            assertThat(argument.forCommandline(),is(svnMaterial1Password));
+          }
+        }
+      }
+ else {
+        assertThat(commandString,not(Matchers.containsString("--username")));
+        assertThat(commandString,not(Matchers.containsString("password")));
+      }
+    }
+  }
+).when(spy).executeCommand(any(CommandLine.class));
+  HashMap<String,String> result=spy.createUrlToRemoteUUIDMap(svnMaterials);
+  verify(svnMaterial1).getUserName();
+  verify(svnMaterial1).getPassword();
+  verify(svnMaterial2).getUserName();
+  verify(svnMaterial2).getPassword();
+}

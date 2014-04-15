@@ -1,0 +1,11 @@
+{
+  assertEquals(0,contextUnawareGraph.size());
+  String turtle1="@prefix ex: <http://example.com/ontology#> . " + "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . " + "<http://example.com/1> ex:foo \"Yadda\"^^xsd:string . ";
+  contextUnawareGraph.addTriplesFromTurtle(turtle1);
+  assertEquals(0,contextAwareGraph.size());
+  assertEquals(1,contextUnawareGraph.size());
+  String turtle2="@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . " + "<http://example.com/1> rdf:type ex:Yadda . "+ "<http://example.com/2> rdf:type ex:Yadda . ";
+  contextAwareGraph.addTriplesFromTurtle(turtle2);
+  assertEquals(2,contextAwareGraph.size());
+  assertEquals(3,contextUnawareGraph.size());
+}

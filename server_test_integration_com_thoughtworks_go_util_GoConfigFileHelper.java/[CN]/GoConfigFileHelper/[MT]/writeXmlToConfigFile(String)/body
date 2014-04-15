@@ -1,0 +1,9 @@
+{
+  try {
+    FileUtils.writeStringToFile(configFile,xml);
+    goConfigFileDao.forceReload();
+  }
+ catch (  Exception e) {
+    throw bomb("Error writing config file: " + configFile.getAbsolutePath(),e);
+  }
+}

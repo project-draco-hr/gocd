@@ -1,0 +1,7 @@
+{
+  Approval approval=stage.getApproval();
+  for (  String user : users) {
+    approval.getAuthConfig().add(new AdminUser(new CaseInsensitiveString(user)));
+  }
+  stage.updateApproval(approval);
+}

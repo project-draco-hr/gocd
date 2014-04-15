@@ -1,0 +1,12 @@
+{
+  final File testOutput=new File(rootFolder,"testoutput");
+  final File junitReportFolder=new File(testOutput,"junitreport");
+  junitReportFolder.mkdirs();
+  FileOutputStream fileOutputStream=new FileOutputStream(new File(junitReportFolder,"index.html"));
+  IOUtils.write("Test",fileOutputStream);
+  IOUtils.closeQuietly(fileOutputStream);
+  HashMap map=new HashMap();
+  map.put("artifactfolder",rootFolder);
+  jobInstanceLog=new JobInstanceLog(null,map);
+  assertThat(jobInstanceLog.getTestIndexPage().getName(),is("index.html"));
+}

@@ -1,0 +1,6 @@
+{
+  String buildXmlPartial="<svn url=\"http://foo.bar\" username=\"cruise\" password=\"password\" />";
+  MaterialConfig jobs=xmlLoader.fromXmlPartial(toInputStream(buildXmlPartial),SvnMaterialConfig.class);
+  MaterialConfig svnMaterial=MaterialConfigsMother.svnMaterialConfig("http://foo.bar",null,"cruise","password",false,null);
+  assertThat(jobs,is(svnMaterial));
+}

@@ -1,0 +1,10 @@
+{
+  this.clear();
+  Map attributesMap=(Map)attributes;
+  for (  Object o : attributesMap.values()) {
+    Map configurationAttributeMap=(Map)o;
+    ConfigurationProperty configurationProperty=new ConfigurationProperty();
+    configurationProperty.setConfigAttributes(configurationAttributeMap,secureKeyInfoProvider);
+    this.add(configurationProperty);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.pass(pipeline);
+  Stage stage=instanceFactory.createStageInstance(mingleConfig.getFirstStageConfig(),new DefaultSchedulingContext("anyone"),md5,new TimeProvider());
+  stage.building();
+  Stage savedStage=stageDao.save(pipeline,stage);
+  assertThat(savedStage.getIdentifier(),is(new StageIdentifier(pipeline,savedStage)));
+}

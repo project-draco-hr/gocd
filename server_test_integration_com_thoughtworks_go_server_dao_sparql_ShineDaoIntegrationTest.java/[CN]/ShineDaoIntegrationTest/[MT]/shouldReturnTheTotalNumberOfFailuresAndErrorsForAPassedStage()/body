@@ -1,0 +1,16 @@
+{
+  StageIdentifier stageId=failureSetup.setupPipelineInstance(false,null,Arrays.asList(new Modification("blahUser","revision 17","hello@world",new Date(),"17")),new TestFailureSetup.TestResultsStubbing(){
+    public void stub(    Stage stage){
+      dbHelper.passStage(stage);
+      JunitXML junit1=junitXML("testSuite1",2).failed(2).errored(1);
+      junit1.registerStubContent(goURLRepository,"pipelines/" + stage.getJobInstances().get(0).getIdentifier().artifactLocator("junit") + "/junit/");
+      JunitXML junit2=junitXML("testSuite1",2).errored(1);
+      junit2.registerStubContent(goURLRepository,"pipelines/" + stage.getJobInstances().get(1).getIdentifier().artifactLocator("junit") + "/junit/");
+    }
+  }
+,new Date()).stageId;
+  StageTestRuns testRuns=shineDao.failedBuildHistoryForStage(stageId,result);
+  assertThat(testRuns.numberOfTests(),is(4));
+  assertThat(testRuns.totalErrorCount(),is(2));
+  assertThat(testRuns.totalFailureCount(),is(1));
+}

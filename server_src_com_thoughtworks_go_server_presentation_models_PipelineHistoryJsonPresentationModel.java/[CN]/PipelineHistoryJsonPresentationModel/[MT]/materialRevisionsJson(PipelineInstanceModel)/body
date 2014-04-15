@@ -1,0 +1,7 @@
+{
+  CommentRenderer commentRenderer=pipelineConfig.getCommentRenderer();
+  MaterialRevisionsJsonBuilder jsonVisitor=new MaterialRevisionsJsonBuilder(commentRenderer);
+  jsonVisitor.setIncludeModifiedFiles(false);
+  item.getBuildCause().getMaterialRevisions().accept(jsonVisitor);
+  return jsonVisitor.json();
+}

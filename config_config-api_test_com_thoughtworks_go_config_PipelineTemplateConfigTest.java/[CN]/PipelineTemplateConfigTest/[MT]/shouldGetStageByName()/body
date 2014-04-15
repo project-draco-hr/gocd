@@ -1,0 +1,5 @@
+{
+  PipelineTemplateConfig pipelineTemplateConfig=new PipelineTemplateConfig(new CaseInsensitiveString("pipeline"),StageConfigMother.manualStage("manual"),StageConfigMother.manualStage("manual2"));
+  assertThat(pipelineTemplateConfig.findBy(new CaseInsensitiveString("manual")).name(),is(new CaseInsensitiveString("manual")));
+  assertThat(pipelineTemplateConfig.findBy(new CaseInsensitiveString("Does-not-exist")),is(nullValue()));
+}

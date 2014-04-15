@@ -1,0 +1,12 @@
+{
+  if (references == null) {
+    return new String[0];
+  }
+  String[] services=new String[references.length];
+  for (int i=0; i < references.length; i++) {
+    ServiceReference<?> reference=references[i];
+    services[i]=installedBundledContext.getService(reference).getClass().getName();
+  }
+  Arrays.sort(services);
+  return services;
+}

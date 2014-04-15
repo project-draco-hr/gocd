@@ -1,0 +1,10 @@
+{
+  HandlerInterceptor[] tabInterceptors=handlerExecutionChain.getInterceptors();
+  if (tabInterceptors == null) {
+    return interceptorsOfFramework;
+  }
+  HandlerInterceptor[] result=new HandlerInterceptor[interceptorsOfFramework.length + tabInterceptors.length];
+  System.arraycopy(interceptorsOfFramework,0,result,0,interceptorsOfFramework.length);
+  System.arraycopy(tabInterceptors,0,result,interceptorsOfFramework.length,tabInterceptors.length);
+  return result;
+}

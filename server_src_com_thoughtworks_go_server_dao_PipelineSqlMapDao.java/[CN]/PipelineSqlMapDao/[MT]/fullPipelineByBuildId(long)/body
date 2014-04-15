@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=(Pipeline)getSqlMapClientTemplate().queryForObject("getPipelineByBuildId",buildId);
+  if (pipeline == null) {
+    throw new DataRetrievalFailureException("Could not load pipeline from build with id " + buildId);
+  }
+  return loadAssociations(pipeline,pipeline.getName());
+}

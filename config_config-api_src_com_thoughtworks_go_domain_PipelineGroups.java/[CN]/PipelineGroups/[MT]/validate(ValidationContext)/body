@@ -1,0 +1,8 @@
+{
+  Map<String,PipelineConfigs> nameToConfig=new HashMap<String,PipelineConfigs>();
+  List<PipelineConfigs> visited=new ArrayList();
+  for (  PipelineConfigs group : this) {
+    group.validateNameUniqueness(nameToConfig);
+  }
+  validatePipelineNameUniqueness();
+}

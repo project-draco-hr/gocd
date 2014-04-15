@@ -1,0 +1,21 @@
+{
+  String currentPipeline="d3";
+  ValueStreamMap graph=new ValueStreamMap(currentPipeline,null);
+  graph.addUpstreamNode(new PipelineDependencyNode("d2","d2"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("d1","d1"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("d1","d1"),null,"d2");
+  graph.addUpstreamNode(new SCMDependencyNode("g","g","git"),null,"d1");
+  graph.addUpstreamNode(new SCMDependencyNode("g","g","git"),null,"d2");
+  NodeLevelMap nodeLevelMap=new LevelAssignment().apply(graph);
+  dummyNodeCreation.apply(graph,nodeLevelMap);
+  VSMTestHelper.assertNumberOfLevelsInGraph(nodeLevelMap,4);
+  assertThat(nodeLevelMap.get(0).size(),is(1));
+  assertThat(nodeLevelMap.get(-1).size(),is(2));
+  assertThat(nodeLevelMap.get(-2).size(),is(2));
+  assertThat(nodeLevelMap.get(-3).size(),is(1));
+  VSMTestHelper.assertThatNodeHasChildren(graph,"d1",1,"d2");
+  VSMTestHelper.assertThatNodeHasChildren(graph,"g",1,"d1");
+  VSMTestHelper.assertThatNodeHasParents(graph,"d3",1,"d2");
+  VSMTestHelper.assertThatNodeHasParents(graph,"d2",1,"d1");
+  VSMTestHelper.assertThatNodeHasParents(graph,"d1",0,"g");
+}

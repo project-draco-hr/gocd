@@ -1,0 +1,13 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Attempting to import job " + job);
+  }
+  JobXmlViewModel xmlModel=new JobXmlViewModel(job);
+  Graph jobGraph=rdfizer.importURIUsingGRDDL(xmlModel,baseUri);
+  URIReference jobURI=jobGraph.getURIReference(xmlModel.httpUrl(baseUri));
+  importArtifactsForJob(jobURI,jobGraph);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Done building jobs graph with " + jobGraph.size() + " triples");
+  }
+  return jobGraph;
+}

@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.TWO_DUPLICATED_FILTER);
+  int size=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).materialConfigs().first().filter().size();
+  assertThat(size,is(1));
+}

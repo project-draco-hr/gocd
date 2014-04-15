@@ -1,0 +1,7 @@
+{
+  File backupFile=new File(dbDirectory,"hsqldb-upgrade-backup-" + dateString() + ".zip");
+  if (backupFile.exists()) {
+    bomb(BACKUP_ALREADY_EXISTS);
+  }
+  new ZipUtil().zip(oldHsql,backupFile,Deflater.DEFAULT_COMPRESSION);
+}

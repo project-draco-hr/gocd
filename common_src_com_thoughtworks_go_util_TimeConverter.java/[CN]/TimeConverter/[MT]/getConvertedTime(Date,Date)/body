@@ -1,0 +1,9 @@
+{
+  if (dateCheckTheDuration.getTime() < dateLogFileGenerated.getTime()) {
+    String dateString=getHumanReadableDate(new DateTime(dateLogFileGenerated));
+    return new ConvertedTime(dateString);
+  }
+ else {
+    return getConvertedTime((dateCheckTheDuration.getTime() - dateLogFileGenerated.getTime()) / 1000);
+  }
+}

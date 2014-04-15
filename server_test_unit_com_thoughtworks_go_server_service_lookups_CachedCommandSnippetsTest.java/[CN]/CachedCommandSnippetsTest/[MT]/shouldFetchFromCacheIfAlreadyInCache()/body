@@ -1,0 +1,9 @@
+{
+  when(goCache.get(CachedCommandSnippets.CACHE_KEY)).thenReturn(null,expectedSnippets);
+  CommandSnippets actualSnippetsWhichAreNotFromCache=commandSnippetsCache.snippets();
+  CommandSnippets actualSnippetsWhichAreFromCache=commandSnippetsCache.snippets();
+  verify(walker).getAllCommandSnippets(EXPECTED_REPO_DIR);
+  verify(goCache,times(2)).get(CachedCommandSnippets.CACHE_KEY);
+  assertThat(expectedSnippets,is(actualSnippetsWhichAreNotFromCache));
+  assertThat(expectedSnippets,is(actualSnippetsWhichAreFromCache));
+}

@@ -1,0 +1,26 @@
+{
+  try {
+    final ObjectReader reader=gitRepo.newObjectReader();
+    CanonicalTreeParser parser=new CanonicalTreeParser();
+    parser.reset(reader,tree);
+    String lastPath=null;
+    while (true) {
+      final String path=parser.getEntryPathString();
+      parser=parser.next();
+      if (path.equals(lastPath)) {
+        break;
+      }
+      lastPath=path;
+      if (path.equals(CRUISE_CONFIG_XML)) {
+        final ObjectId id=parser.getEntryObjectId();
+        final ObjectLoader loader=reader.open(id);
+        return new String(loader.getBytes());
+      }
+    }
+    return null;
+  }
+ catch (  IOException e) {
+    LOGGER.error(String.format("Could not fetch content from the config repository found at path '%s'",workingDir.getAbsolutePath()),e);
+    throw new RuntimeException("Error while fetching content from the config repository.",e);
+  }
+}

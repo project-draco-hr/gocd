@@ -1,0 +1,17 @@
+{
+  LOGGER.info(String.format("[Configuration Changed] Removing jobs for pipelines that no longer exist in configuration."));
+synchronized (this) {
+    List<JobPlan> jobsToRemove=new ArrayList<JobPlan>();
+    for (    JobPlan jobPlan : jobPlans) {
+      if (!newCruiseConfig.hasBuildPlan(new CaseInsensitiveString(jobPlan.getPipelineName()),new CaseInsensitiveString(jobPlan.getStageName()),jobPlan.getName(),true)) {
+        jobsToRemove.add(jobPlan);
+      }
+    }
+    forAllDo(jobsToRemove,new Closure(){
+      @Override public void execute(      Object o){
+        removeJob((JobPlan)o);
+      }
+    }
+);
+  }
+}

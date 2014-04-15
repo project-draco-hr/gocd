@@ -1,0 +1,5 @@
+{
+  ServerConfig one=new ServerConfig(new SecurityConfig(),new MailHost(new GoCipher()),new ServerSiteUrlConfig("siteURL"),new ServerSiteUrlConfig("secureURL"));
+  one.addError("siteUrl","I dont like this url");
+  assertThat(one,is(new ServerConfig(new SecurityConfig(),new MailHost(new GoCipher()),new ServerSiteUrlConfig("siteURL"),new ServerSiteUrlConfig("secureURL"))));
+}

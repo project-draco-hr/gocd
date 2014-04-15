@@ -1,0 +1,19 @@
+{
+  String pluginId="external";
+  String pluginJarFileName="plugin-file-name";
+  File pluginJarFile=mock(File.class);
+  when(pluginJarFile.getName()).thenReturn(pluginJarFileName);
+  GoPluginDescriptor externalPluginDescriptor=new GoPluginDescriptor(pluginId,"1.0",null,pluginJarFile.getAbsolutePath(),new File(pluginJarFileName),false);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,false)).thenReturn(externalPluginDescriptor);
+  GoPluginDescriptor bundledPluginDescriptor=new GoPluginDescriptor("bundled","1.0",null,null,null,true);
+  when(registry.getPluginByIdOrFileName(pluginId,pluginJarFileName)).thenReturn(bundledPluginDescriptor);
+  DefaultPluginJarChangeListener spy=spy(listener);
+  try {
+    listener.pluginJarAdded(new PluginFileDetails(pluginJarFile,false));
+    fail("should have failed as external plugin cannot replace bundled plugin");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Found bundled plugin with ID: [bundled], external plugin could not be loaded"));
+  }
+  verify(spy,never()).explodePluginJarToBundleDir(pluginJarFile,externalPluginDescriptor.bundleLocation());
+}

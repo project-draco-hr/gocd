@@ -1,0 +1,12 @@
+{
+  final String content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<cruise schemaVersion=\"61\">\n" + "    <server artifactsdir=\"artifacts\">\n"+ "      <security>"+ "        <ldap uri='some_url' managerDn='some_manager_dn' managerPassword='foo' searchBase='ou=Enterprise,ou=Principal,dc=corporate,dc=thoughtworks,dc=com' searchFilter='(sAMAccountName={0})' />"+ "      </security>"+ "    </server>"+ " </cruise>";
+  CruiseConfig config=migrateConfigAndLoadTheNewConfig(content,61);
+  LdapConfig ldapConfig=config.server().security().ldapConfig();
+  BasesConfig basesConfig=ldapConfig.getBasesConfig();
+  assertThat(basesConfig.size(),is(1));
+  assertThat(basesConfig.first().getValue(),is("ou=Enterprise,ou=Principal,dc=corporate,dc=thoughtworks,dc=com"));
+  assertThat(ldapConfig.searchFilter(),is("(sAMAccountName={0})"));
+  assertThat(ldapConfig.uri(),is("some_url"));
+  assertThat(ldapConfig.managerDn(),is("some_manager_dn"));
+  assertThat(ldapConfig.managerPassword(),is("foo"));
+}

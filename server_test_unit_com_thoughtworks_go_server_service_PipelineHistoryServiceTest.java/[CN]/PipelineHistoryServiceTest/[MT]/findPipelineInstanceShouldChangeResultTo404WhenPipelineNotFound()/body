@@ -1,0 +1,10 @@
+{
+  ensureConfigHasPipeline("pipeline");
+  ensureHasPermission(Username.ANONYMOUS,"pipeline");
+  when(pipelineDao.findPipelineHistoryByNameAndCounter("pipeline",1)).thenReturn(null);
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("pipeline"))).thenReturn(config);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.findPipelineInstance("pipeline",1,Username.ANONYMOUS,operationResult);
+  assertThat(pipelineInstance,is(nullValue()));
+  assertThat(operationResult.httpCode(),is(404));
+}

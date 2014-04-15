@@ -1,0 +1,9 @@
+{
+  String s=svnInfo.replaceAll("\\s"," ");
+  Pattern pattern=Pattern.compile(".*revision=\"(\\d+)\".*");
+  Matcher matcher=pattern.matcher(s);
+  if (matcher.matches()) {
+    return matcher.group(1);
+  }
+  throw bomb("Can not parse revision from svninfo: \n" + svnInfo);
+}

@@ -1,0 +1,10 @@
+{
+  long stageId=0;
+  for (int i=0; i < count; i++) {
+    Pipeline newPipeline=createNewPipeline(pipelineConfig);
+    stageId=newPipeline.getFirstStage().getId();
+    JobInstance job=JobInstanceMother.completed(jobName,JobResult.Passed);
+    jobInstanceDao.save(stageId,job);
+  }
+  return stageId;
+}

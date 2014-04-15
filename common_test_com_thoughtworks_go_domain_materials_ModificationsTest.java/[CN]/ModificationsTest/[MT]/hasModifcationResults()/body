@@ -1,0 +1,19 @@
+{
+  Modifications modifications=modificationWithIds();
+  assertThat(modifications.since(3),is(new Modifications(modifcation(4))));
+  assertThat(modifications.since(2),is(new Modifications(modifcation(4),modifcation(3))));
+  try {
+    modifications.since(10);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Could not find modification 10 in " + modifications));
+  }
+  try {
+    modifications.since(6);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Could not find modification 6 in " + modifications));
+  }
+}

@@ -1,0 +1,9 @@
+{
+  ExecTask cancelExecTask=new ExecTask();
+  Builder builderForCancelTask=execTaskBuilder.createBuilder(builderFactory,cancelExecTask,pipeline,resolver);
+  pluggableTask.setCancelTask(cancelExecTask);
+  when(builderFactory.builderFor(cancelExecTask,pipeline,resolver)).thenReturn(builderForCancelTask);
+  Builder expected=expectedBuilder(pluggableTask,builderForCancelTask);
+  Builder actual=pluggableTaskBuilderCreator.createBuilder(builderFactory,pluggableTask,pipeline,resolver);
+  assertThat(actual,Is.is(expected));
+}

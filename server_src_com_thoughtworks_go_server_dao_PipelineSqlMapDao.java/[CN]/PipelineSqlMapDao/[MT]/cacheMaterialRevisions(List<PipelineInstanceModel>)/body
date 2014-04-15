@@ -1,0 +1,18 @@
+{
+  List<CaseInsensitiveString> pipelinesInConfig=getPipelineNamesInConfig();
+  if (pipelinesInConfig.isEmpty()) {
+    LOGGER.warn("No pipelines found in Config, Skipping material revision caching.");
+    return;
+  }
+  Set<Long> ids=new HashSet<Long>();
+  for (  PipelineInstanceModel model : models) {
+    if (pipelinesInConfig.contains(new CaseInsensitiveString(model.getName()))) {
+      ids.add(model.getId());
+    }
+  }
+  if (ids.isEmpty()) {
+    LOGGER.warn("No PIMs found in Config, Skipping material revision caching.");
+    return;
+  }
+  materialRepository.cacheMaterialRevisionsForPipelines(ids);
+}

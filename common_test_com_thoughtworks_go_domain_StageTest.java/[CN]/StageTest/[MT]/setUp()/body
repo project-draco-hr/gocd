@@ -1,0 +1,18 @@
+{
+  timeProvider=new TimeProvider(){
+    @Override public Date currentTime(){
+      return JOB_SCHEDULE_DATE;
+    }
+    public DateTime currentDateTime(){
+      throw new UnsupportedOperationException("Not implemented");
+    }
+    public DateTime timeoutTime(    Timeout timeout){
+      throw new UnsupportedOperationException("Not implemented");
+    }
+  }
+;
+  firstJob=new JobInstance("first-job",timeProvider);
+  secondJob=new JobInstance("second-job",timeProvider);
+  jobInstances=new JobInstances(firstJob,secondJob);
+  stage=StageMother.custom("test",jobInstances);
+}

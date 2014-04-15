@@ -1,0 +1,9 @@
+{
+  for (  Object key : properties.keySet()) {
+    String value=properties.getProperty(String.valueOf(key));
+    if (!value.contains(",")) {
+      properties.setProperty(String.valueOf(key),value + ",ROLE_USER");
+    }
+  }
+  return properties;
+}

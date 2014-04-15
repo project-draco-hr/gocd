@@ -1,0 +1,16 @@
+{
+  LOGGER.info(String.format("[TFS SDK] Exploding File %s from %s to folder %s",entry.getName(),urlOfJar.toString(),tempFolder.getAbsolutePath()));
+  File f=new File(tempFolder + File.separator + entry.getName());
+  f.getParentFile().mkdirs();
+  FileOutputStream out=null;
+  InputStream in=null;
+  try {
+    out=new FileOutputStream(f);
+    in=new URL("jar:file:" + urlOfJar.getFile() + "!/"+ entry).openStream();
+    IOUtils.copy(in,out);
+  }
+  finally {
+    IOUtils.closeQuietly(in);
+    IOUtils.closeQuietly(out);
+  }
+}

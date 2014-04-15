@@ -1,0 +1,9 @@
+{
+  Pipeline assigned=preCondition.createPipelineWithFirstStageAssigned();
+  Stage stage=assigned.findStage(preCondition.devStage);
+  StageSummaryModel model=stageService.findStageSummaryByIdentifier(stage.getIdentifier(),new Username(new CaseInsensitiveString("foo")),new HttpLocalizedOperationResult());
+  assertThat(model.getStage().getFirstJob().getState(),is(JobState.Assigned));
+  scheduleService.updateJobStatus(stage.getFirstJob().getIdentifier(),JobState.Building);
+  StageSummaryModel reloadedModel=stageService.findStageSummaryByIdentifier(stage.getIdentifier(),new Username(new CaseInsensitiveString("foo")),new HttpLocalizedOperationResult());
+  assertThat(reloadedModel.getStage().getFirstJob().getState(),is(JobState.Building));
+}

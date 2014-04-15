@@ -1,0 +1,10 @@
+{
+  GsonBuilder builder=new GsonBuilder();
+  Gson gson=builder.excludeFieldsWithoutExposeAnnotation().create();
+  try {
+    return gson.fromJson(jsonString,clazz);
+  }
+ catch (  Exception e) {
+    return null;
+  }
+}

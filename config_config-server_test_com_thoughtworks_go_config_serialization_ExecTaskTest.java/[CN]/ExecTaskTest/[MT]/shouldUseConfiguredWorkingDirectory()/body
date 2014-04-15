@@ -1,0 +1,5 @@
+{
+  File absoluteFile=new File("test").getAbsoluteFile();
+  ExecTask task=new ExecTask("command","arguments",absoluteFile.getAbsolutePath());
+  assertThat(task.workingDirectory(),Matchers.is(absoluteFile.getPath()));
+}

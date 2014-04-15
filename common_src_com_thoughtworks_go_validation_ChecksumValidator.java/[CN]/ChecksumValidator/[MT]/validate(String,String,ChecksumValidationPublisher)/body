@@ -1,0 +1,17 @@
+{
+  if (artifactMd5Checksums == null) {
+    checksumValidationPublisher.md5ChecksumFileNotFound();
+    return;
+  }
+  String expectedMd5=artifactMd5Checksums.md5For(effectivePath);
+  if (StringUtil.isBlank(expectedMd5)) {
+    checksumValidationPublisher.md5NotFoundFor(effectivePath);
+    return;
+  }
+  if (expectedMd5.equals(artifactMD5)) {
+    checksumValidationPublisher.md5Match(effectivePath);
+  }
+ else {
+    checksumValidationPublisher.md5Mismatch(effectivePath);
+  }
+}

@@ -1,0 +1,23 @@
+{
+  try {
+    PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+    if (canSchedule(pipelineConfig)) {
+      final Pipeline pipelineInstance=pipelineScheduleQueue.createPipeline(buildCause,pipelineConfig,schedulingContext(buildCause.getApprover(),pipelineConfig,pipelineConfig.first()),goConfigService.getCurrentConfig().getMd5(),timeProvider);
+      serverHealthService.update(stageSchedulingSuccessfulState(pipelineName,CaseInsensitiveString.str(pipelineConfig.get(0).name())));
+      return pipelineInstance;
+    }
+  }
+ catch (  PipelineNotFoundException e) {
+    LOGGER.error("Could not find pipeline " + pipelineName,e);
+    pipelineScheduleQueue.clearPipeline(pipelineName);
+  }
+catch (  CannotScheduleException e) {
+    pipelineScheduleQueue.clearPipeline(pipelineName);
+    serverHealthService.update(stageSchedulingFailedState(pipelineName,e));
+  }
+catch (  Exception e) {
+    LOGGER.error("Error while scheduling pipeline " + pipelineName,e);
+    pipelineScheduleQueue.clearPipeline(pipelineName);
+  }
+  return null;
+}

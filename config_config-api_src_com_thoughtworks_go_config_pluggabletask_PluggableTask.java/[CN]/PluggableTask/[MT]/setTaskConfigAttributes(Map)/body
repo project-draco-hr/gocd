@@ -1,0 +1,8 @@
+{
+  for (  ConfigurationProperty property : configuration) {
+    String key=property.getConfigurationKey().getName();
+    if (attributes.containsKey(key)) {
+      property.setConfigurationValue(new ConfigurationValue((String)attributes.get(key)));
+    }
+  }
+}

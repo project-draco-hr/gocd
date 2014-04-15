@@ -1,0 +1,11 @@
+{
+  new SystemEnvironment().setProperty("agent.connection.timeout","-1");
+  AgentConfig agentConfig=new AgentConfig("1234","localhost","192.168.0.1");
+  AgentInstance agentInstance=AgentInstance.create(agentConfig,false,systemEnvironment);
+  agentInstance.enable();
+  agentInstance.update(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null));
+  agentInstance.refresh(null);
+  AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(agentInstance);
+  JsonMap json=adaptor.toJsonHash();
+  new JsonTester(json).shouldContain("{ 'humanizedStatus' : 'lost contact'," + " 'status' : 'lostcontact'}");
+}

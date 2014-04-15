@@ -1,0 +1,10 @@
+{
+  AgentInstance instance=agent(AgentMother.localAgent());
+  Pipeline pipeline=instanceFactory.createPipelineInstance(evolveConfig,modifyNoFiles(evolveConfig),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline);
+  buildAssignmentService.onConfigChange(goConfigService.getCurrentConfig());
+  JobInstance job=buildOf(pipeline);
+  job.cancel();
+  jobInstanceDao.updateStateAndResult(job);
+  assertThat(buildAssignmentService.assignWorkToAgent(instance),is((Work)BuildAssignmentService.NO_WORK));
+}

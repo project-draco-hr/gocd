@@ -1,0 +1,19 @@
+{
+  HgMaterialConfig common=MaterialConfigsMother.hgMaterialConfig();
+  SvnMaterialConfig firstOrderSVNMaterial=MaterialConfigsMother.svnMaterialConfig();
+  GitMaterialConfig firstOrderGitMaterial=MaterialConfigsMother.gitMaterialConfig("url","submodule","branch");
+  P4MaterialConfig firstOrderP4Material=MaterialConfigsMother.p4MaterialConfig();
+  DependencyMaterialConfig up1DependencyMaterial=new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("first"));
+  DependencyMaterialConfig up2DependencyMaterial=new DependencyMaterialConfig(new CaseInsensitiveString("up2"),new CaseInsensitiveString("first"));
+  DependencyMaterialConfig uppestDependencyMaterial=new DependencyMaterialConfig(new CaseInsensitiveString("uppest"),new CaseInsensitiveString("first"));
+  PipelineConfig current=GoConfigMother.createPipelineConfigWithMaterialConfig("current",common,up1DependencyMaterial,up2DependencyMaterial);
+  PipelineConfig up1=GoConfigMother.createPipelineConfigWithMaterialConfig("up1",common,firstOrderGitMaterial,uppestDependencyMaterial);
+  PipelineConfig up2=GoConfigMother.createPipelineConfigWithMaterialConfig("up2",firstOrderSVNMaterial,common,uppestDependencyMaterial);
+  PipelineConfig uppest=GoConfigMother.createPipelineConfigWithMaterialConfig("uppest",common,firstOrderP4Material);
+  PipelineConfigDependencyGraph uppestGraph=new PipelineConfigDependencyGraph(uppest);
+  PipelineConfigDependencyGraph up1Graph=new PipelineConfigDependencyGraph(up1,uppestGraph);
+  PipelineConfigDependencyGraph up2Graph=new PipelineConfigDependencyGraph(up2,uppestGraph);
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,up1Graph,up2Graph);
+  assertThat(dependencyGraph.allMaterialFingerprints().size(),is(7));
+  assertThat(dependencyGraph.allMaterialFingerprints(),hasItems(common.getFingerprint(),firstOrderSVNMaterial.getFingerprint(),firstOrderGitMaterial.getFingerprint(),firstOrderP4Material.getFingerprint(),up1DependencyMaterial.getFingerprint(),up2DependencyMaterial.getFingerprint(),uppestDependencyMaterial.getFingerprint()));
+}

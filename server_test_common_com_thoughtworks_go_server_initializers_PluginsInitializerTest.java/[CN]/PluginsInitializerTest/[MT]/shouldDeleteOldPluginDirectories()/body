@@ -1,0 +1,15 @@
+{
+  File pluginsBundles=new File("plugins_bundles");
+  File pluginsNew=new File("plugins-new");
+  try {
+    FileUtils.forceMkdir(pluginsBundles);
+    FileUtils.forceMkdir(pluginsNew);
+    pluginsInitializer.initialize();
+    assertThat("should have cleaned up  plugins_bundles folder",pluginsBundles.exists(),is(false));
+    assertThat("should have cleaned up  plugins-new folder",pluginsNew.exists(),is(false));
+  }
+  finally {
+    FileUtils.deleteQuietly(pluginsBundles);
+    FileUtils.deleteQuietly(pluginsNew);
+  }
+}

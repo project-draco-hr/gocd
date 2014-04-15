@@ -1,0 +1,10 @@
+{
+  Pipeline olderPipeline=preCondition.createdPipelineWithAllStagesPassed();
+  Pipeline newerPipeline=preCondition.createdPipelineWithAllStagesPassed();
+  Stage oldFtStage=newerPipeline.getStages().byName(preCondition.ftStage);
+  schedulerFixture.rerunAndPassStage(olderPipeline,preCondition.ftStage());
+  Stage passedFtStage=pipelineService.fullPipelineById(olderPipeline.getId()).getStages().byName(preCondition.ftStage);
+  scheduleService.automaticallyTriggerRelevantStagesFollowingCompletionOf(passedFtStage);
+  Stage ftStage=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName).getStages().byName(preCondition.ftStage);
+  assertThat("Should not rerun ft in newer pipeline",ftStage.getId(),is(oldFtStage.getId()));
+}

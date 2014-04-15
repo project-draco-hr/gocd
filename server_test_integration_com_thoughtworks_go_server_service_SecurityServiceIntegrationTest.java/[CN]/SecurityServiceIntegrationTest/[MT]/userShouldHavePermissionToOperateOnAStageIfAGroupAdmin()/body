@@ -1,0 +1,6 @@
+{
+  configHelper.setAdminPermissionForGroup(GROUP_NAME,PIPELINE_ADMIN);
+  configHelper.setOperatePermissionForGroup(GROUP_NAME,OPERATOR);
+  configHelper.setOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,OPERATOR);
+  assertThat(securityService.hasOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,PIPELINE_ADMIN),is(true));
+}

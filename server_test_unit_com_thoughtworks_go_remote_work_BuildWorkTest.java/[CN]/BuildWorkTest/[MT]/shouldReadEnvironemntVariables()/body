@@ -1,0 +1,12 @@
+{
+  String output=ENV_VAIRABLES.replace("workingdir='{WORKINGDIR}'","");
+  buildWork=(BuildWork)getWork(output,PIPELINE_NAME);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  String actual=artifactManipulator.consoleOut();
+  assertThat(actual,matches("'GO_SERVER_URL' (to|with) value '" + SERVER_URL));
+  assertThat(actual,matches("'GO_PIPELINE_LABEL' (to|with) value '" + PIPELINE_LABEL));
+  assertThat(actual,matches("'GO_PIPELINE_NAME' (to|with) value '" + PIPELINE_NAME));
+  assertThat(actual,matches("'GO_STAGE_NAME' (to|with) value '" + STAGE_NAME));
+  assertThat(actual,matches("'GO_STAGE_COUNTER' (to|with) value '" + STAGE_COUNTER));
+  assertThat(actual,matches("'GO_JOB_NAME' (to|with) value '" + JOB_PLAN_NAME));
+}

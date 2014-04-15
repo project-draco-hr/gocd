@@ -1,0 +1,11 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  submoduleRepos.addSubmodule(SUBMODULE,"sub1");
+  GitMaterial gitMaterial=new GitMaterial(submoduleRepos.mainRepo().getUrl());
+  gitMaterial.updateTo(outputStreamConsumer,new StringRevision("origin/master"),workingDir,new TestSubprocessExecutionContext());
+  assertThat(new File(workingDir,"sub1"),exists());
+  submoduleRepos.removeSubmodule("sub1");
+  outputStreamConsumer=inMemoryConsumer();
+  gitMaterial.updateTo(outputStreamConsumer,new StringRevision("origin/master"),workingDir,new TestSubprocessExecutionContext());
+  assertThat(new File(workingDir,"sub1"),not(exists()));
+}

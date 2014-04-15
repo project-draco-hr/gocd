@@ -1,0 +1,10 @@
+{
+  EnvironmentPipelineModel foo=new EnvironmentPipelineModel("foo","env-name");
+  EnvironmentPipelineModel bar=new EnvironmentPipelineModel("bar");
+  EnvironmentPipelineModel baz=new EnvironmentPipelineModel("baz");
+  List<EnvironmentPipelineModel> models=Arrays.asList(foo,bar,baz);
+  Collections.sort(models);
+  assertThat(models.get(0),is(bar));
+  assertThat(models.get(1),is(baz));
+  assertThat(models.get(2),is(foo));
+}

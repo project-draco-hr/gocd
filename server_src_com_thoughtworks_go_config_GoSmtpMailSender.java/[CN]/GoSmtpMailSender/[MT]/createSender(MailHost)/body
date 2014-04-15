@@ -1,0 +1,11 @@
+{
+  GoSmtpMailSender sender=new GoSmtpMailSender();
+  sender.setHost(mailHost.getHostName());
+  sender.setPort(mailHost.getPort());
+  sender.setUsername(mailHost.getUserName());
+  sender.setPassword(mailHost.getCurrentPassword());
+  sender.setAdministratorEmail(mailHost.getAdminMail());
+  sender.setFrom(mailHost.getFrom());
+  sender.setTls(mailHost.getTls());
+  return new BackgroundMailSender(sender);
+}

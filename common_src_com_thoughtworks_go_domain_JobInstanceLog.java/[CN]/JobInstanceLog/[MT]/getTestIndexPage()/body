@@ -1,0 +1,10 @@
+{
+  File folder=new File(getArtifactFolder(),TEST_OUTPUT_FOLDER);
+  if (folder.exists()) {
+    Collection collection=FileUtils.listFiles(folder,new IndexHtmlFilter(),new DirFilter());
+    if (!collection.isEmpty()) {
+      return (File)collection.iterator().next();
+    }
+  }
+  return null;
+}

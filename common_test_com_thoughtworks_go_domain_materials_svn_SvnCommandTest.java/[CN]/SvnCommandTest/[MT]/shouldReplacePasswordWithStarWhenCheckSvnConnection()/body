@@ -1,0 +1,7 @@
+{
+  SvnCommand command=new SvnCommand(null,"http://do-not-care.com","user","password",false);
+  ValidationBean validationBean=command.checkConnection();
+  assertThat(validationBean.isValid(),is(false));
+  assertThat(validationBean.getError(),containsString("INPUT"));
+  assertThat(validationBean.getError(),containsString("******"));
+}

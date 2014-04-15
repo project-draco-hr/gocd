@@ -1,0 +1,12 @@
+{
+  CONFIG_HELPER.addAgent(new AgentConfig(UUID,"agentName","127.0.0.9",new Resources("agent1")));
+  CONFIG_HELPER.addAgent(new AgentConfig(UUID2,"agentName","127.0.0.9",new Resources("agent2")));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  assertThat(cruiseConfig.agents().getAgentByUuid(UUID).isDisabled(),is(false));
+  assertThat(cruiseConfig.agents().getAgentByUuid(UUID2).isDisabled(),is(false));
+  agentService.initialize();
+  agentService.disableAgents(USERNAME,new HttpOperationResult(),Arrays.asList(UUID2));
+  CruiseConfig newCruiseConfig=goConfigFileDao.load();
+  assertThat(newCruiseConfig.agents().getAgentByUuid(UUID).isDisabled(),is(false));
+  assertThat(newCruiseConfig.agents().getAgentByUuid(UUID2).isDisabled(),is(true));
+}

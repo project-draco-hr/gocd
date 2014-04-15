@@ -1,0 +1,7 @@
+{
+  String md5=setUpPipelineGroupsWithAdminPermissions();
+  controller.postPipelineAsXmlPartial(0,"studios",NEW_PIPELINE,md5,response);
+  assertThat(response.getStatus(),is(SC_UNAUTHORIZED));
+  controller.postPipelineAsXmlPartial(0,"consulting",NEW_PIPELINE,md5,response);
+  assertThat(response.getStatus(),is(SC_OK));
+}

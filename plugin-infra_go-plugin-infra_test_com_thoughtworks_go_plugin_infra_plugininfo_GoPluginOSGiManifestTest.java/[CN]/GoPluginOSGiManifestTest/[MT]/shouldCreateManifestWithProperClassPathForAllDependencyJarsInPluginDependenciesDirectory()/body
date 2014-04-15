@@ -1,0 +1,17 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  FileUtils.writeStringToFile(new File(bundleLocation,"lib/dependency-1.jar"),"Some data");
+  FileUtils.writeStringToFile(new File(bundleLocation,"lib/dependency-2.jar"),"Some data");
+  FileUtils.writeStringToFile(new File(bundleLocation,"lib/dependency-3.jar"),"Some data");
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("pluginId","some-plugin.jar",bundleLocation,true);
+  goPluginOSGiManifestGenerator.updateManifestOf(descriptor);
+  assertThat(valueFor(BUNDLE_SYMBOLICNAME),is("pluginId"));
+  String classpathEntry=valueFor(BUNDLE_CLASSPATH);
+  assertThat(classpathEntry,startsWith("lib/go-plugin-activator.jar,.,"));
+  assertThat(classpathEntry,containsString(",lib/dependency.jar"));
+  assertThat(classpathEntry,containsString(",lib/dependency-1.jar"));
+  assertThat(classpathEntry,containsString(",lib/dependency-2.jar"));
+  assertThat(classpathEntry,containsString(",lib/dependency-3.jar"));
+}

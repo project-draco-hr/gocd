@@ -1,0 +1,8 @@
+{
+  sessionFactory=mock(SessionFactory.class);
+  hibernateTemplate=mock(HibernateTemplate.class);
+  goCache=mock(GoCache.class);
+  systemEnvironment=mock(SystemEnvironment.class);
+  pipelineRepository=new PipelineRepository(sessionFactory,goCache,systemEnvironment);
+  pipelineRepository.setHibernateTemplate(hibernateTemplate);
+}

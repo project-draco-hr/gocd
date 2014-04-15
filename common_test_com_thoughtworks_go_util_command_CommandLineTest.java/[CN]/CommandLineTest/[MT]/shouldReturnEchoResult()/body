@@ -1,0 +1,11 @@
+{
+  if (SystemUtil.isWindows()) {
+    ConsoleResult result=CommandLine.createCommandLine("cmd").runOrBomb(null);
+    assertThat(result.outputAsString(),containsString("Windows"));
+  }
+ else {
+    String expectedValue="my input";
+    ConsoleResult result=CommandLine.createCommandLine("echo").withArgs(expectedValue).runOrBomb(null);
+    assertThat(result.outputAsString(),is(expectedValue));
+  }
+}

@@ -1,0 +1,8 @@
+{
+  P4Material p4Material=new P4Material("serverAndPort","view");
+  MaterialInstance original=p4Material.createMaterialInstance();
+  repo.saveOrUpdate(original);
+  MaterialInstance loaded=repo.find(original.getId());
+  Material restored=loaded.toOldMaterial(null,null,null);
+  assertThat((P4Material)restored,is(p4Material));
+}

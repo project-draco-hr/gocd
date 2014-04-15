@@ -1,0 +1,6 @@
+{
+  IgnoredFiles ignore=new IgnoredFiles("**/foo*/**/*");
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"foo-hi/bar/a.doc"),is(true));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"bar/baz/b.doc"),is(false));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"hello-world/woods/foo-hi/bar/a.doc"),is(true));
+}

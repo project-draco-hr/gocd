@@ -1,0 +1,20 @@
+{
+  if (attributesMap.containsKey("timeoutType")) {
+    String timeoutType=(String)attributesMap.get("timeoutType");
+    if (DEFAULT_TIMEOUT.equals(timeoutType)) {
+      this.timeout=null;
+    }
+    if (NEVER_TIMEOUT.equals(timeoutType)) {
+      this.timeout="0";
+    }
+    if (OVERRIDE_TIMEOUT.equals(timeoutType)) {
+      String timeout=(String)attributesMap.get(TIMEOUT);
+      if (StringUtil.isBlank(timeout)) {
+        this.timeout=null;
+      }
+ else {
+        this.timeout=timeout;
+      }
+    }
+  }
+}

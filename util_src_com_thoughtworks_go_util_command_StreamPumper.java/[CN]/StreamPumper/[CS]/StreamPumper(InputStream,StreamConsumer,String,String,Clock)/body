@@ -1,0 +1,17 @@
+{
+  this.streamConsumer=streamConsumer;
+  this.prefix=prefix;
+  this.clock=clock;
+  this.lastHeard=System.currentTimeMillis();
+  try {
+    if (encoding == null) {
+      this.in=new LineNumberReader(new InputStreamReader(in));
+    }
+ else {
+      this.in=new LineNumberReader(new InputStreamReader(in,encoding));
+    }
+  }
+ catch (  UnsupportedEncodingException e) {
+    bomb(format("Unable to use [%s] to decode stream.  The current charset is [%s]",encoding,defaultCharset()));
+  }
+}

@@ -1,0 +1,19 @@
+{
+  LOGGER.info(String.format("[Artifact Download] Trying to resolve '%s' for '%s/%s/%s/%s/%s'",filePath,pipelineName,counterOrLabel,stageName,stageCounter,buildName));
+  long before=System.currentTimeMillis();
+  ArtifactsView view=null;
+  JobIdentifier translatedId;
+  try {
+    translatedId=restfulService.findJob(pipelineName,counterOrLabel,stageName,stageCounter,buildName);
+  }
+ catch (  Exception e) {
+    return buildNotFound(pipelineName,counterOrLabel,stageName,stageCounter,buildName);
+  }
+  if (filePath.contains("..")) {
+    return FileModelAndView.forbiddenUrl(filePath);
+  }
+  view=new LocalArtifactsView(folderViewFactory,artifactsService,translatedId);
+  ModelAndView createdView=view.createView(filePath,sha);
+  LOGGER.info(String.format("[Artifact Download] Successfully resolved '%s' for '%s/%s/%s/%s/%s'. It took: %sms",filePath,pipelineName,counterOrLabel,stageName,stageCounter,buildName,System.currentTimeMillis() - before));
+  return createdView;
+}

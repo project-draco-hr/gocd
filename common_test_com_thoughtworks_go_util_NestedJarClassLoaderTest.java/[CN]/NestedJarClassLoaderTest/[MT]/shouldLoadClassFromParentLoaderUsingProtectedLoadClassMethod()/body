@@ -1,0 +1,12 @@
+{
+  ClassLoader nestedJarClassLoader=new NestedJarClassLoader(urlForSDKJar(),new ClassLoader(){
+    @Override public Class<?> loadClass(    String name) throws ClassNotFoundException {
+      throw new IllegalStateException("NestedJarClassLoader should not be calling me");
+    }
+    @Override protected Class<?> loadClass(    String name,    boolean resolve) throws ClassNotFoundException {
+      return super.loadClass(name,resolve);
+    }
+  }
+);
+  assertNotNull(Class.forName("javax.xml.parsers.SAXParserFactory",true,nestedJarClassLoader));
+}

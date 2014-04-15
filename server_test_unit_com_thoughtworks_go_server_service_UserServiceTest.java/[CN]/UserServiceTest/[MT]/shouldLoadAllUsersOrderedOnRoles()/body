@@ -1,0 +1,16 @@
+{
+  User foo=new User("foo",Arrays.asList("fOO","Foo"),"foo@cruise.com",false);
+  User bar=new User("bar",Arrays.asList("bAR","Bar"),"zooboo@go.com",true);
+  User quux=new User("quux",Arrays.asList("qUUX","Quux"),"quux@cruise.go",false);
+  when(userDao.allUsers()).thenReturn(new Users(Arrays.asList(foo,bar,quux)));
+  when(goConfigService.rolesForUser(new CaseInsensitiveString("foo"))).thenReturn(Arrays.asList(new Role(new CaseInsensitiveString("loser")),new Role(new CaseInsensitiveString("boozer"))));
+  when(goConfigService.rolesForUser(new CaseInsensitiveString("bar"))).thenReturn(Arrays.asList(new Role(new CaseInsensitiveString("user")),new Role(new CaseInsensitiveString("boozer"))));
+  when(goConfigService.rolesForUser(new CaseInsensitiveString("quux"))).thenReturn(Arrays.asList(new Role(new CaseInsensitiveString("user")),new Role(new CaseInsensitiveString("loser"))));
+  List<UserModel> models=userService.allUsersForDisplay(UserService.SortableColumn.ROLES,UserService.SortDirection.DESC);
+  UserModel quuxModel=model(quux,Arrays.asList("user","loser"),false);
+  UserModel barModel=model(bar,Arrays.asList("user","boozer"),false);
+  UserModel fooModel=model(foo,Arrays.asList("loser","boozer"),false);
+  assertThat(models,is(Arrays.asList(quuxModel,barModel,fooModel)));
+  models=userService.allUsersForDisplay(UserService.SortableColumn.ROLES,UserService.SortDirection.ASC);
+  assertThat(models,is(Arrays.asList(fooModel,barModel,quuxModel)));
+}

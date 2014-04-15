@@ -1,0 +1,7 @@
+{
+  userDao.saveOrUpdate(new User("user_one"));
+  userDao.saveOrUpdate(new User("user_three"));
+  createDisabledUser("user_two");
+  assertThat(userService.enabledUserCount(),is(2));
+  assertThat(userService.disabledUserCount(),is(1));
+}

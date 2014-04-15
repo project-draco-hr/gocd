@@ -1,0 +1,14 @@
+{
+  updateConfig(new NoOverwriteUpdateConfigCommand(){
+    public CruiseConfig update(    CruiseConfig cruiseConfig){
+      JobConfigs jobConfigs=cruiseConfig.stageConfigByName(new CaseInsensitiveString(pipeline),new CaseInsensitiveString(stage)).allBuildPlans();
+      bombIf(jobConfigs.size() <= buildIndex,"Build " + pipeline + ":"+ stage+ ":"+ build.name()+ " does not exist in config file. "+ "Unable to update Build");
+      jobConfigs.set(buildIndex,build);
+      return cruiseConfig;
+    }
+    public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+}

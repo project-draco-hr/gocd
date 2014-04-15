@@ -1,0 +1,11 @@
+{
+  String configWithCommand=ConfigFileFixture.withMingleConfig("<mingle baseUrl=\"https://foo.bar/baz\" projectIdentifier=\"cruise-performance\"/>");
+  MingleConfig mingleConfig=ConfigMigrator.loadWithMigration(toInputStream(configWithCommand)).config.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).getMingleConfig();
+  assertThat(mingleConfig,is(new MingleConfig("https://foo.bar/baz","cruise-performance")));
+  configWithCommand=ConfigFileFixture.withMingleConfig("<mingle baseUrl=\"https://foo.bar/baz\" projectIdentifier=\"cruise-performance\"><mqlGroupingConditions>foo = bar!=baz</mqlGroupingConditions></mingle>");
+  mingleConfig=ConfigMigrator.loadWithMigration(toInputStream(configWithCommand)).config.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).getMingleConfig();
+  assertThat(mingleConfig,is(new MingleConfig("https://foo.bar/baz","cruise-performance","foo = bar!=baz")));
+  configWithCommand=ConfigFileFixture.withMingleConfig("<mingle baseUrl=\"https://foo.bar/baz\" projectIdentifier=\"cruise-performance\"><mqlGroupingConditions/></mingle>");
+  mingleConfig=ConfigMigrator.loadWithMigration(toInputStream(configWithCommand)).config.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).getMingleConfig();
+  assertThat(mingleConfig,is(new MingleConfig("https://foo.bar/baz","cruise-performance","")));
+}

@@ -1,0 +1,6 @@
+{
+  StageConfig stageConfig=StageConfigMother.custom(stageName,defaultBuildPlans(buildNames));
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  pipelineConfig.add(stageConfig);
+  return pipelineConfig;
+}

@@ -1,0 +1,8 @@
+{
+  StageIdentifier expected=new StageIdentifier("pipeline",0,"${COUNT}","stage","1");
+  when(mockTemplate.queryForObject(eq("getLastSuccessfulStageInPipeline"),any())).thenReturn(PipelineMother.passedPipelineInstance("pipeline","stage","job"));
+  pipelineDao.findLastSuccessfulStageIdentifier("pipeline","stage");
+  StageIdentifier actual=pipelineDao.findLastSuccessfulStageIdentifier("pipeline","stage");
+  assertEquals(actual,expected);
+  verify(mockTemplate,times(1)).queryForObject(eq("getLastSuccessfulStageInPipeline"),any());
+}

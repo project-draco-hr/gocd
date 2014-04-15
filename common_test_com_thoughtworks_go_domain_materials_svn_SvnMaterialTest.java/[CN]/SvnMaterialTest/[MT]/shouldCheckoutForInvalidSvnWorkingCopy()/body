@@ -1,0 +1,11 @@
+{
+  final File workingCopy=createSvnWorkingCopy(false);
+  context.checking(new Expectations(){
+{
+      one(subversion).checkoutTo(outputStreamConsumer,workingCopy,revision);
+    }
+  }
+);
+  svnMaterial.updateTo(outputStreamConsumer,revision,workingCopy,new TestSubprocessExecutionContext());
+  assertThat(workingCopy.exists(),is(false));
+}

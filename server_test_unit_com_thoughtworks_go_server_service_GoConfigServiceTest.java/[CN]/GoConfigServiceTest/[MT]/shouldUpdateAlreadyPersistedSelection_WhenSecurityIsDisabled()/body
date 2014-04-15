@@ -1,0 +1,13 @@
+{
+  Date date=new DateTime(2000,1,1,1,1,1,1).toDate();
+  when(clock.currentTime()).thenReturn(date);
+  mockConfig();
+  PipelineSelections pipelineSelections=new PipelineSelections(Arrays.asList("pip1"));
+  when(pipelineRepository.findPipelineSelectionsById("123")).thenReturn(pipelineSelections);
+  List<String> newPipelines=Arrays.asList("pipeline1","pipeline2");
+  goConfigService.persistSelectedPipelines("123",null,newPipelines);
+  assertHasSelected(pipelineSelections,newPipelines);
+  assertThat(pipelineSelections.lastUpdated(),is(date));
+  verify(pipelineRepository).findPipelineSelectionsById("123");
+  verify(pipelineRepository).saveSelectedPipelines(argThat(hasValues(Arrays.asList("pipeline1","pipeline2"),Arrays.asList("pipelineX","pipeline3"),clock.currentTime(),null)));
+}

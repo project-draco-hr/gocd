@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipeline=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(PIPELINE));
+  pipeline.addEnvironmentVariable("foo","pipeline-fooValue");
+  pipeline.addEnvironmentVariable("blah","pipeline-blahValue");
+  EnvironmentVariablesConfig variables=goConfigService.variablesFor(PIPELINE);
+  assertThat(variables.size(),is(2));
+  assertThat(variables,hasItems(new EnvironmentVariableConfig("foo","pipeline-fooValue"),new EnvironmentVariableConfig("blah","pipeline-blahValue")));
+}

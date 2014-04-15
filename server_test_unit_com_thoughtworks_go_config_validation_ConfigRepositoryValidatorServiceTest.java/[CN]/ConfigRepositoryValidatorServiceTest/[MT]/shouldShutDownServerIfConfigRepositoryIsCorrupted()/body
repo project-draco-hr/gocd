@@ -1,0 +1,8 @@
+{
+  ConfigRepository configRepository=mock(ConfigRepository.class);
+  when(configRepository.isRepositoryCorrupted()).thenReturn(true);
+  ConfigRepositoryValidatorService configRepositoryValidatorServiceSpy=spy(new ConfigRepositoryValidatorService(configRepository));
+  doNothing().when(configRepositoryValidatorServiceSpy).shutDownServer();
+  configRepositoryValidatorServiceSpy.afterPropertiesSet();
+  verify(configRepositoryValidatorServiceSpy).shutDownServer();
+}

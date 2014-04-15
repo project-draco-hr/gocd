@@ -1,0 +1,6 @@
+{
+  List<Element> projects=XPath.selectNodes(document,format("/Projects/Project"));
+  for (  Element project : projects) {
+    assertThat(project.getAttributeValue("webUrl"),containsString(contextPath));
+  }
+}

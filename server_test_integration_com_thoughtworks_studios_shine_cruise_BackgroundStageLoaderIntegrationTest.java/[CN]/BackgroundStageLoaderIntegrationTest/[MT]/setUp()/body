@@ -1,0 +1,14 @@
+{
+  dbHelper.onSetUp();
+  tempFiles=new TempFiles();
+  File tempFolder=tempFiles.createUniqueFolder("shine");
+  stageStorage=new StageStorage(tempFolder.getAbsolutePath());
+  stageStorage.clear();
+  stageFinder=stageService;
+  pipelineInstanceLoader=pipelineHistoryService;
+  StageResourceImporter importer=new StageResourceImporter("/artifacts",xmlApiService,stageFinder,pipelineInstanceLoader);
+  loader=new BackgroundStageLoader(null,importer,stageStorage,pipelineHistoryService,stageService,systemEnvironment);
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  failureSetup=new TestFailureSetup(materialRepository,dbHelper,pipelineTimeline,configHelper,transactionTemplate);
+}

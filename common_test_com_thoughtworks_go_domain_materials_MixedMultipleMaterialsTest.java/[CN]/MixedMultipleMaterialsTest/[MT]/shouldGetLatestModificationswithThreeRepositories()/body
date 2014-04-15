@@ -1,0 +1,14 @@
+{
+  HgMaterial hgMaterial=hgRepo.material();
+  SvnMaterial svnMaterial=svnRepo.createMaterial("multiple-materials/trunk/part1","part1");
+  GitMaterial gitMaterial=gitRepo.createMaterial();
+  Materials materials=new Materials(hgMaterial,svnMaterial,gitMaterial);
+  MaterialRevisions revisions=materials.latestModification(pipelineDir,new TestSubprocessExecutionContext());
+  assertThat(revisions.getMaterialRevision(0).numberOfModifications(),is(1));
+  assertThat(revisions.getMaterialRevision(0).getRevision(),is(new Modifications(hgRepo.latestModifications()).latestRevision(hgMaterial)));
+  assertThat(revisions.getMaterialRevision(1).numberOfModifications(),is(1));
+  assertThat(revisions.getMaterialRevision(1).getRevision(),is(latestRevision(svnMaterial,pipelineDir,new TestSubprocessExecutionContext())));
+  assertThat(revisions.getMaterialRevision(2).numberOfModifications(),is(1));
+  assertThat(revisions.getMaterialRevision(2).getRevision(),is(new Modifications(gitRepo.latestModifications()).latestRevision(gitMaterial)));
+  assertThat(revisions.toString(),revisions.totalNumberOfModifications(),is(3));
+}

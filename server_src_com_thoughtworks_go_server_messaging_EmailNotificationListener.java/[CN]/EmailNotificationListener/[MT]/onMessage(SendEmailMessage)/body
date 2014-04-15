@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.currentCruiseConfig();
+  if (!cruiseConfig.isMailHostConfigured()) {
+    return;
+  }
+  GoMailSender mailSender=factory.createSender();
+  ValidationBean validationBean=mailSender.send(message.getSubject(),message.getBody(),message.getTo());
+  if (!validationBean.isValid()) {
+    LOGGER.error(validationBean.getError());
+  }
+}

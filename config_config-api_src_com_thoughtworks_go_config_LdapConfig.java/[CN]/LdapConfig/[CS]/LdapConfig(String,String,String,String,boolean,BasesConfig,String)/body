@@ -1,0 +1,13 @@
+{
+  this(new GoCipher());
+  this.uri=nullToBlank(uri);
+  this.managerDn=nullToBlank(managerDn);
+  this.encryptedManagerPassword=encryptedManagerPassword;
+  this.passwordChanged=passwordChanged;
+  if (passwordChanged) {
+    resetPassword(managerPassword);
+    this.managerPassword=nullToBlank(managerPassword);
+  }
+  this.basesConfig=basesConfig;
+  this.searchFilter=nullToBlank(searchFilter);
+}

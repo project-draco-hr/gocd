@@ -1,0 +1,33 @@
+{
+  PathFromAncestor pipelineNamePathFromAncestor=task.getPipelineNamePathFromAncestor();
+  if (pipelineNamePathFromAncestor == null || CaseInsensitiveString.isBlank(pipelineNamePathFromAncestor.getPath()) || CaseInsensitiveString.areEqual(new CaseInsensitiveString(currentPipeline.getName()),pipelineNamePathFromAncestor.getPath())) {
+    task.setPipelineName(new CaseInsensitiveString(currentPipeline.getName()));
+    String stageCounter=JobIdentifier.LATEST;
+    if (currentPipeline.hasStageBeenRun(CaseInsensitiveString.str(task.getStage()))) {
+      stageCounter=String.valueOf(currentPipeline.findStage(CaseInsensitiveString.str(task.getStage())).getCounter());
+    }
+    return new JobIdentifier(new StageIdentifier(currentPipeline.getName(),currentPipeline.getCounter(),currentPipeline.getLabel(),CaseInsensitiveString.str(task.getStage()),stageCounter),CaseInsensitiveString.str(task.getJob()));
+  }
+ else {
+    DependencyMaterialRevision revision=null;
+    if (pipelineNamePathFromAncestor.isAncestor()) {
+      BuildCause buildCause=currentPipeline.getBuildCause();
+      for (      CaseInsensitiveString parentPipelineName : pipelineNamePathFromAncestor.pathToAncestor()) {
+        DependencyMaterialRevision dependencyMaterialRevision=dmrForPipeline(parentPipelineName,buildCause);
+        buildCause=resolver.buildCauseFor(dependencyMaterialRevision.getPipelineName(),dependencyMaterialRevision.getPipelineCounter());
+      }
+      revision=dmrForPipeline(pipelineNamePathFromAncestor.getAncestorName(),buildCause);
+    }
+ else {
+      revision=dmrForPipeline(pipelineNamePathFromAncestor.getPath(),currentPipeline.getBuildCause());
+      if (revision == null) {
+        throw bomb(String.format("Pipeline [%s] tries to fetch artifact from job [%s/%s/%s] " + "which is not a dependency material",currentPipeline.getName(),pipelineNamePathFromAncestor,task.getStage(),task.getJob()));
+      }
+    }
+    String stageCounter=JobIdentifier.LATEST;
+    if (task.getStage().equals(new CaseInsensitiveString(revision.getStageName()))) {
+      stageCounter=String.valueOf(revision.getStageCounter());
+    }
+    return new JobIdentifier(new StageIdentifier(CaseInsensitiveString.str(pipelineNamePathFromAncestor.getAncestorName()),revision.getPipelineCounter(),revision.getPipelineLabel(),CaseInsensitiveString.str(task.getStage()),stageCounter),CaseInsensitiveString.str(task.getJob()));
+  }
+}

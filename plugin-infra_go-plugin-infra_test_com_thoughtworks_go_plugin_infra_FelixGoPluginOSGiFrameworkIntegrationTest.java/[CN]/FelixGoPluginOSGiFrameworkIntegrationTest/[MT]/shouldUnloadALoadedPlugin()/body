@@ -1,0 +1,13 @@
+{
+  GoPluginDescriptor pluginDescriptor=new GoPluginDescriptor(null,null,null,null,descriptorBundleDir,true);
+  Bundle bundle=pluginOSGiFramework.loadPlugin(pluginDescriptor);
+  BundleContext context=bundle.getBundleContext();
+  ServiceReference<?>[] allServiceReferences=context.getServiceReferences(PluginDescriptorAware.class.getCanonicalName(),null);
+  assertThat(allServiceReferences.length,is(1));
+  PluginDescriptorAware service=(PluginDescriptorAware)context.getService(allServiceReferences[0]);
+  assertThat("@Load should have been called",getIntField(service,"loadCalled"),is(1));
+  pluginDescriptor.setBundle(bundle);
+  pluginOSGiFramework.unloadPlugin(pluginDescriptor);
+  assertThat(bundle.getState(),is(Bundle.UNINSTALLED));
+  assertThat("@UnLoad should have been called",getIntField(service,"unloadCalled"),is(1));
+}

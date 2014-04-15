@@ -1,0 +1,15 @@
+{
+  String taskRepositoryLocation=cruiseConfig.server().getCommandRepositoryLocation();
+  if (taskRepositoryLocation == null || isEmpty(taskRepositoryLocation.trim())) {
+    throw new Exception("Command Repository Location cannot be empty");
+  }
+  if (taskRepositoryLocation.startsWith("/") || taskRepositoryLocation.startsWith("\\") || taskRepositoryLocation.contains("~")|| taskRepositoryLocation.contains(":")) {
+    throw new Exception("Invalid Repository Location");
+  }
+  String taskRepositoryRootLocation=systemEnvironment.get(COMMAND_REPOSITORY_DIRECTORY);
+  File taskRepositoryRootDirectory=new File(taskRepositoryRootLocation);
+  File repository=new File(FileUtil.makepath(taskRepositoryRootLocation,taskRepositoryLocation));
+  if (!FileUtil.isChildOf(taskRepositoryRootDirectory,repository)) {
+    throw new Exception(String.format("Invalid  Repository Location, repository should be a subdirectory under %s",taskRepositoryRootDirectory.getAbsolutePath()));
+  }
+}

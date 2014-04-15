@@ -1,0 +1,8 @@
+{
+  String configContent=ConfigFileFixture.configWithPipeline(String.format("<pipeline name='pipeline1'>" + "    <materials>" + "      <tfs url='http://some.repo.local' username='username@domain' password='password' projectPath='$/project_path' />"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>","hello"),GoConstants.CONFIG_SCHEMA_VERSION);
+  FileUtils.writeStringToFile(dataSource.fileLocation(),configContent);
+  GoConfigHolder configHolder=dataSource.load();
+  PipelineConfig pipelineConfig=configHolder.config.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  TfsMaterialConfig tfsMaterial=(TfsMaterialConfig)pipelineConfig.materialConfigs().get(0);
+  assertThat(tfsMaterial.getEncryptedPassword(),is(not(nullValue())));
+}

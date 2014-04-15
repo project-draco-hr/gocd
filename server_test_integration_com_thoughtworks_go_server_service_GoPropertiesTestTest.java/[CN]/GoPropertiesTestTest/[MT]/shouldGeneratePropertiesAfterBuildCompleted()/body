@@ -1,0 +1,6 @@
+{
+  Pipeline newPipeline=fixture.createPipelineWithFirstStageAssigned(AGENT_UUID);
+  JobInstance job=completeStageAndTrigger(newPipeline.getFirstStage());
+  assertCommonBuildProperties(newPipeline,job);
+  assertThat(propertyDao.value(job.getId(),GoConstants.CRUISE_AGENT),is(HOSTNAME));
+}

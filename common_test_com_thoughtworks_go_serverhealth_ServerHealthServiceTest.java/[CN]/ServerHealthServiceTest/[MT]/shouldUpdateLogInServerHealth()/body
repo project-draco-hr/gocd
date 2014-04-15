@@ -1,0 +1,8 @@
+{
+  ServerHealthState serverHealthState=ServerHealthState.error("message","description",globalId);
+  serverHealthService.update(serverHealthState);
+  ServerHealthState newServerHealthState=ServerHealthState.error("updated message","updated description",globalId);
+  serverHealthService.update(newServerHealthState);
+  assertThat(serverHealthService.getAllLogs().size(),is(1));
+  assertThat(serverHealthService,ServerHealthMatcher.containsState(globalId,HealthStateLevel.ERROR,"updated message"));
+}

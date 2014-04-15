@@ -1,0 +1,14 @@
+{
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("plugin.jar","some_path",new File("bundle_location"),true);
+  GoPluginDescriptor descriptorModel=GoPluginDescriptorModel.convertToDescriptorWithAllValues(descriptor);
+  assertThat(descriptor.about(),is(nullValue()));
+  assertThat(descriptorModel.about(),is(notNullValue()));
+  assertThat(descriptorModel.about().description(),is("No description available."));
+  assertThat(descriptorModel.about().version().isEmpty(),is(true));
+  assertThat(descriptorModel.about().vendor(),is(notNullValue()));
+  assertThat(descriptorModel.about().vendor().name(),is("Unknown"));
+  assertThat(descriptorModel.about().vendor().url(),is(nullValue()));
+  assertThat(descriptorModel.about().name(),is("plugin.jar"));
+  assertThat(descriptorModel.about().targetGoVersion(),is("Unknown"));
+  assertThat(descriptorModel.about().targetOperatingSystems().contains("No restrictions"),is(true));
+}

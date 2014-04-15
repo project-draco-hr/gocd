@@ -1,0 +1,10 @@
+{
+  String content="<cruise schemaVersion='17'>\n" + "<server artifactsdir='artifacts' />" + "<pipelines>\n"+ "<pipeline name='pipeline1'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("Should not allow Pipeline with No Stages");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("Pipeline 'pipeline1' does not have any stages configured. A pipeline must have at least one stage."));
+  }
+}

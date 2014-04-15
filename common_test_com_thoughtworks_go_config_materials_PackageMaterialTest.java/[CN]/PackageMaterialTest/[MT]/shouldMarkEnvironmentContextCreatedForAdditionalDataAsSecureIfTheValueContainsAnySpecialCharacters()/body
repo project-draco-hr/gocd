@@ -1,0 +1,23 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","tw-dev","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  material.setPackageDefinition(PackageDefinitionMother.create("p-id","go-agent",new Configuration(ConfigurationPropertyMother.create("k2",true,"!secure_value:with_special_chars"),ConfigurationPropertyMother.create("k3",true,"secure_value_with_regular_chars")),repository));
+  material.setName(new CaseInsensitiveString("tw-dev:go-agent"));
+  HashMap<String,String> map=new HashMap<String,String>();
+  map.put("ADDITIONAL_DATA_ONE","foobar:!secure_value:with_special_chars");
+  map.put("ADDITIONAL_DATA_URL_ENCODED","something:%21secure_value%3Awith_special_chars");
+  map.put("ADDITIONAL_DATA_TWO","foobar:secure_value_with_regular_chars");
+  Modification modification=new Modification("loser","comment","email",new Date(),"revision-123",JsonHelper.toJsonString(map));
+  Modifications modifications=new Modifications(modification);
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  material.populateEnvironmentContext(environmentVariableContext,new MaterialRevision(material,modifications),null);
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_LABEL"),is("revision-123"));
+  assertThat(environmentVariableContext.getProperty("GO_REPO_TW_DEV_GO_AGENT_K1"),is("v1"));
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_K2"),is("!secure_value:with_special_chars"));
+  assertThat(environmentVariableContext.getPropertyForDisplay("GO_PACKAGE_TW_DEV_GO_AGENT_K2"),is("********"));
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_ADDITIONAL_DATA_ONE"),is("foobar:!secure_value:with_special_chars"));
+  assertThat(environmentVariableContext.getPropertyForDisplay("GO_PACKAGE_TW_DEV_GO_AGENT_ADDITIONAL_DATA_ONE"),is("foobar:!secure_value:with_special_chars"));
+  assertThat(environmentVariableContext.getPropertyForDisplay("GO_PACKAGE_TW_DEV_GO_AGENT_ADDITIONAL_DATA_TWO"),is("foobar:secure_value_with_regular_chars"));
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_ADDITIONAL_DATA_URL_ENCODED"),is("something:%21secure_value%3Awith_special_chars"));
+  assertThat(environmentVariableContext.getPropertyForDisplay("GO_PACKAGE_TW_DEV_GO_AGENT_ADDITIONAL_DATA_URL_ENCODED"),is("********"));
+}

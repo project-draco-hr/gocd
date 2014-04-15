@@ -1,0 +1,6 @@
+{
+  IgnoredFiles ignore=new IgnoredFiles("helper/*.*");
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"helper" + separator + "configuration_reference.html"),is(true));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"helper" + separator + "conf-docs"+ separator+ "configuration_reference.html"),is(false));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"helper" + separator + "resources"+ separator+ "images"+ separator+ "cruise"+ separator+ "dependent_build.png"),is(false));
+}

@@ -1,0 +1,41 @@
+{
+  String oldMd5=goConfigService.getConfigForEditing().getMd5();
+  CruiseConfig user1SeeingConfig=configHelper.load();
+  new GoConfigMother().addPipelineWithGroup(user1SeeingConfig,"defaultGroup","user1_pipeline","user1_stage","user1_job");
+  ByteArrayOutputStream os=new ByteArrayOutputStream();
+  configHelper.getXml(user1SeeingConfig,os);
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(false);
+  saver.saveXml(os.toString(),oldMd5);
+  CruiseConfig configBeforePipelineGroupWasAddedAtBeginning=configHelper.load();
+  String md5BeforeAddingGroupAtBeginning=configBeforePipelineGroupWasAddedAtBeginning.getMd5();
+  String configXMLWithGroupAddedAtBeginning=os.toString().replace("</pipelines>","</pipelines><pipelines group=\"first_group\"/>");
+  saver.saveXml(configXMLWithGroupAddedAtBeginning,md5BeforeAddingGroupAtBeginning);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigUpdateResponse response=goConfigService.updateConfigFromUI(new UpdateConfigFromUI(){
+    public void checkPermission(    CruiseConfig cruiseConfig,    LocalizedOperationResult result){
+    }
+    public Validatable node(    CruiseConfig cruiseConfig){
+      return cruiseConfig;
+    }
+    public Validatable updatedNode(    CruiseConfig cruiseConfig){
+      return node(cruiseConfig);
+    }
+    public void update(    Validatable config){
+      CruiseConfig cruiseConfig=(CruiseConfig)config;
+      MaterialConfigs materials=new MaterialConfigs(MaterialConfigsMother.mockMaterialConfigs("file:///tmp/foo"));
+      new GoConfigMother().addPipelineWithGroup(cruiseConfig,"first_group","up_pipeline",materials,"down_stage","down_job");
+    }
+    public Validatable subject(    Validatable node){
+      return node;
+    }
+    public Validatable updatedSubject(    Validatable updatedNode){
+      return subject(updatedNode);
+    }
+  }
+,md5BeforeAddingGroupAtBeginning,new Username(new CaseInsensitiveString("admin")),result);
+  CruiseConfig config=response.getCruiseConfig();
+  assertThat(config.getMd5(),is(md5BeforeAddingGroupAtBeginning));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpStatus.SC_CONFLICT));
+  assertThat(result.message(localizer),is("Save failed. Duplicate unique value [first_group] declared for identity constraint \"uniquePipelines\" of element \"cruise\"."));
+}

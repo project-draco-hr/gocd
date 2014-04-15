@@ -1,0 +1,9 @@
+{
+  JobInstances completed=completedStage.getJobInstances();
+  for (  JobInstance instance : scheduledStage.getJobInstances()) {
+    String oldAgentUuid=completed.getByName(instance.getName()).getAgentUuid();
+    instance.assign(oldAgentUuid,new Date());
+    jobInstanceDao.updateAssignedInfo(instance);
+  }
+  return completed;
+}

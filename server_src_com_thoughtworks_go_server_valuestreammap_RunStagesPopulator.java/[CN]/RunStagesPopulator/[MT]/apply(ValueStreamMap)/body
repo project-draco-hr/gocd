@@ -1,0 +1,11 @@
+{
+  for (  Node node : graph.allNodes()) {
+    for (    Revision revision : node.revisions()) {
+      if (revision instanceof PipelineRevision) {
+        PipelineRevision pipelineRevision=(PipelineRevision)revision;
+        Stages latestStages=latestRunStagesForRevsion(pipelineRevision);
+        pipelineRevision.addStages(latestStages);
+      }
+    }
+  }
+}

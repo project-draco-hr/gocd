@@ -1,0 +1,8 @@
+{
+  String pipelineName="some-pipeline";
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(pipelineName);
+  Pipeline pipeline=dbHelper.schedulePipelineWithAllStages(pipelineConfig,ModificationsMother.modifySomeFiles(pipelineConfig));
+  dbHelper.pass(pipeline);
+  String stage=pipelineConfig.get(0).name().toString();
+  assertThat(pipelineDao.latestPassedStageIdentifier(pipeline.getId(),stage),is(new StageIdentifier(pipelineName,pipeline.getCounter(),pipeline.getLabel(),stage,"1")));
+}

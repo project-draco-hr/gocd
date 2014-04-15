@@ -1,0 +1,7 @@
+{
+  failureSetup.setupPipelineInstance(true,null,goURLRepository);
+  StageIdentifier stageId3=failureSetup.setupPipelineInstance(true,null,goURLRepository).stageId;
+  StageTestRuns stageTestRuns=shineDao.failedBuildHistoryForStage(stageId3,result);
+  List<FailingTestsInPipeline> failingTestsInPipelines=stageTestRuns.failingTestsInPipelines();
+  assertThat(failingTestsInPipelines.size(),is(3));
+}

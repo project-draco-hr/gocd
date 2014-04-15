@@ -1,0 +1,10 @@
+{
+  createTmpFile(artifactRootForJob,"notexists/bar.csv");
+  createTmpFile(artifactRootForJob,"notexists/quux.tmp");
+  ModelAndView view=postZipFolderFromTmp(artifactRootForJob,"/notexists/");
+  assertThat(file(artifactRootForJob,"notexists/bar.csv"),exists());
+  assertThat(file(artifactRootForJob,"notexists/bar.csv"),is(not(directory())));
+  assertThat(file(artifactRootForJob,"notexists/quux.tmp"),exists());
+  assertThat(file(artifactRootForJob,"notexists/quux.tmp"),is(not(directory())));
+  assertStatus(view,SC_CREATED);
+}

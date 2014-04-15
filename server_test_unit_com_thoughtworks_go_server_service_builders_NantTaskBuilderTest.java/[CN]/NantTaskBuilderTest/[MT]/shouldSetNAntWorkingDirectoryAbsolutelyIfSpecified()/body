@@ -1,0 +1,7 @@
+{
+  final File absoluteFile=new File("project").getAbsoluteFile();
+  NantTask task=new NantTask();
+  task.setWorkingDirectory(absoluteFile.getPath());
+  CommandBuilder builder=(CommandBuilder)nantTaskBuilder.createBuilder(builderFactory,task,pipeline,resolver);
+  assertThat(builder.getWorkingDir(),is(absoluteFile));
+}

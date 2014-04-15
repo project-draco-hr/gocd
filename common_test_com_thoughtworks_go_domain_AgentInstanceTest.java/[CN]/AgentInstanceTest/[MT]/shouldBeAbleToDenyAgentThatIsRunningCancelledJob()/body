@@ -1,0 +1,11 @@
+{
+  AgentConfig config=new AgentConfig("UUID","A","127.0.0.1");
+  AgentInstance agent=new AgentInstance(config,LOCAL,systemEnvironment);
+  agent.cancel();
+  AgentBuildingInfo cancelled=agent.getBuildingInfo();
+  assertThat(agent.canDisable(),is(true));
+  agent.deny();
+  assertThat(config.isDisabled(),is(true));
+  assertThat(agent.getStatus(),is(AgentStatus.Disabled));
+  assertThat(agent.getBuildingInfo(),is(cancelled));
+}

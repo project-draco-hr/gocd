@@ -1,0 +1,22 @@
+{
+  StringBuilder s=new StringBuilder();
+  s.append(name);
+  s.append(model.getName());
+  appendLockStatus(model,s);
+  for (  PipelineInstanceModel pim : model.getActivePipelineInstances()) {
+    s.append("[");
+    s.append(pim.getId()).append(DELIMITER);
+    for (    StageInstanceModel stageInstanceModel : pim.getStageHistory()) {
+      s.append(stageInstanceModel.getName()).append(DELIMITER);
+      s.append(stageInstanceModel.getId()).append(DELIMITER);
+      s.append(stageInstanceModel.getState()).append(DELIMITER);
+    }
+    s.append("]");
+  }
+  s.append(model.canOperate()).append(DELIMITER);
+  s.append(model.canForce()).append(DELIMITER);
+  PipelinePauseInfo pauseInfo=model.getPausedInfo();
+  s.append(pauseInfo.isPaused()).append(DELIMITER).append(pauseInfo.getPauseCause().replaceAll("\\W","")).append(DELIMITER).append(pauseInfo.getPauseBy());
+  s.append(DELIMITER).append(model.canAdminister());
+  return key(s.toString());
+}

@@ -1,0 +1,16 @@
+{
+  ValidationBean defaultResponse=ValidationBean.notValid("Repository " + url.forDisplay() + " not found!"+ " : \n"+ e.getMessage());
+  try {
+    boolean olderThanHg10=!isVersionOnedotZeorOrHigher(hgVersionConsoleOut);
+    if (olderThanHg10) {
+      return ValidationBean.notValid(ERROR_OLD_VERSION + hgVersionConsoleOut);
+    }
+ else {
+      return defaultResponse;
+    }
+  }
+ catch (  Exception e1) {
+    LOG.debug("Problem validating HG",e);
+    return defaultResponse;
+  }
+}

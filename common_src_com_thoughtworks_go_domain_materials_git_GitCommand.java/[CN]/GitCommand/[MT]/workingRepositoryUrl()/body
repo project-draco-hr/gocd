@@ -1,0 +1,5 @@
+{
+  String[] args=new String[]{"config","remote.origin.url"};
+  CommandLine gitConfig=git().withArgs(args).withWorkingDir(workingDir);
+  return new UrlArgument(runOrBomb(gitConfig).outputForDisplay().get(0));
+}

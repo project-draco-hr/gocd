@@ -1,0 +1,10 @@
+{
+  LOGGER.info(String.format("[TFS SDK] Exploding natives from %s to folder %s",urlOfJar.toString(),tempFolder.getAbsolutePath()));
+  JarInputStream jarStream=new JarInputStream(urlOfJar.openStream());
+  JarEntry entry;
+  while ((entry=jarStream.getNextJarEntry()) != null) {
+    if (!entry.isDirectory() && entry.getName().contains("native")) {
+      expandFile(urlOfJar,entry,tempFolder);
+    }
+  }
+}

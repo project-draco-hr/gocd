@@ -1,0 +1,24 @@
+{
+  if (isImplicitCollection()) {
+    Object val=GoConfigClassLoader.classParser(e,field.getType(),configCache,new GoCipher(),registry,configReferenceElements).parseImplicitCollection();
+    setValue(val);
+  }
+ else   if (isSubtag(field)) {
+    Object val=subtagParser(e,field,configCache,registry,configReferenceElements).parse();
+    setValue(val);
+  }
+ else   if (isAttribute(field)) {
+    Object val=attributeParser(e,field).parse(defaultValue());
+    setValue(val);
+  }
+ else   if (isConfigValue()) {
+    Object val=e.getText();
+    setValue(val);
+  }
+ else   if (isAnnotationPresent(field,ConfigReferenceElement.class)) {
+    ConfigReferenceElement referenceField=field.getAnnotation(ConfigReferenceElement.class);
+    String refId=e.getAttribute(referenceField.referenceAttribute()).getValue();
+    Object referredObject=configReferenceElements.get(referenceField.referenceCollection(),refId);
+    setValue(referredObject);
+  }
+}

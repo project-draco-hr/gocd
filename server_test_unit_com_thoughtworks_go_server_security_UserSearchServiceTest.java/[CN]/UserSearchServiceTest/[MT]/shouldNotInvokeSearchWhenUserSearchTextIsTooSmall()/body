@@ -1,0 +1,7 @@
+{
+  String smallSearchText="f";
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userSearchService.search(smallSearchText,result);
+  verify(ldapUserSearch,never()).search(smallSearchText);
+  verify(passwordFileUserSearch,never()).search(smallSearchText);
+}

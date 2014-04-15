@@ -1,0 +1,8 @@
+{
+  Element buildProject=findChildByName(root,"cruise :: ft :: firefox");
+  assertThat(buildProject,hasAttribute("activity","Sleeping"));
+  assertThat(buildProject,hasAttribute("lastBuildStatus","Success"));
+  assertThat(buildProject,hasAttribute("lastBuildLabel",String.valueOf(LABEL)));
+  assertThat(buildProject,hasAttribute("lastBuildTime",DATE_STR));
+  assertThat(buildProject,hasAttribute("webUrl",buildDetailUrl()));
+}

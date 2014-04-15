@@ -1,0 +1,22 @@
+{
+  ArrayList<File> allFiles=new ArrayList<File>();
+  for (  ArtifactPlan plan : plans) {
+    final File source=plan.getSource(rootPath);
+    WildcardScanner wildcardScanner=new WildcardScanner(rootPath,plan.getSrc());
+    File[] files=wildcardScanner.getFiles();
+    if (files.length > 0) {
+      final List<File> fileList=files == null ? new ArrayList<File>() : Arrays.asList(files);
+      allFiles.addAll(fileList);
+      for (      File file : fileList) {
+        String destPath=destURL(rootPath,file,plan.getSrc(),plan.getDest());
+        publisher.upload(file,destPath);
+      }
+    }
+ else {
+      final String message=MessageFormat.format("The Directory {0} specified as a test artifact was not found." + " Please check your configuration",FileUtil.normalizePath(source));
+      publisher.consumeLineWithPrefix(message);
+      LOG.error(message);
+    }
+  }
+  return allFiles;
+}

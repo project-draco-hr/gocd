@@ -1,0 +1,6 @@
+{
+  Tab tab=new Tab("fooasdklfjasklfjsdklafjklsdajfklsdajfklsdajklfjsdaklf","bar");
+  tab.validateTabNameSize();
+  assertThat(tab.errors().isEmpty(),is(false));
+  assertThat(tab.errors().on(Tab.NAME),is("Tab name should not exceed 15 characters"));
+}

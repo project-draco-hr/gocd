@@ -1,0 +1,13 @@
+{
+  StageConfig stageConfig=StageConfigMother.custom("stage","foo","bar");
+  JobConfig fooConfig=stageConfig.jobConfigByConfigName(new CaseInsensitiveString("foo"));
+  fooConfig.addVariable("foo","foo");
+  JobConfig barConfig=stageConfig.jobConfigByConfigName(new CaseInsensitiveString("bar"));
+  barConfig.addVariable("foo","bar");
+  MaterialConfigs materialConfigs=MaterialConfigsMother.defaultMaterialConfigs();
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("pipeline"),materialConfigs,stageConfig);
+  DefaultSchedulingContext context=new DefaultSchedulingContext("anonymous");
+  Pipeline instance=instanceFactory.createPipelineInstance(pipelineConfig,ModificationsMother.forceBuild(pipelineConfig),context,"some-md5",new TimeProvider());
+  assertThat(instance.findStage("stage").findJob("foo").getPlan().getVariables(),is(EnvironmentVariablesConfigMother.env("foo","foo")));
+  assertThat(instance.findStage("stage").findJob("bar").getPlan().getVariables(),is(EnvironmentVariablesConfigMother.env("foo","bar")));
+}

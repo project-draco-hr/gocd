@@ -1,0 +1,12 @@
+{
+  PipelineSqlMapDao pipelineSqlMapDao=new PipelineSqlMapDao(null,null,null,null,null,null,null,systemEnvironment,goConfigFileDao,database);
+  ArrayList list1=new ArrayList();
+  ArrayList list2=new ArrayList();
+  assertThat(pipelineSqlMapDao.getLatestRevisionFromOrderedLists(list1,list2),is((String)null));
+  Modification modification1=new Modification(MOD_USER,MOD_COMMENT,EMAIL_ADDRESS,YESTERDAY_CHECKIN,ModificationsMother.nextRevision());
+  list1.add(modification1);
+  assertThat(pipelineSqlMapDao.getLatestRevisionFromOrderedLists(list1,list2),is(ModificationsMother.currentRevision()));
+  Modification modification2=new Modification(MOD_USER_COMMITTER,MOD_COMMENT_2,EMAIL_ADDRESS,TODAY_CHECKIN,ModificationsMother.nextRevision());
+  list2.add(modification2);
+  assertThat(pipelineSqlMapDao.getLatestRevisionFromOrderedLists(list1,list2),is(ModificationsMother.currentRevision()));
+}

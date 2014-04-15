@@ -1,0 +1,13 @@
+{
+  server=new Server(9090);
+  WebAppContext wac=new WebAppContext(".","/go");
+  addFakeAgentBinaryServlet(wac,"/admin/agent",new File("testdata/test-agent.jar"));
+  addFakeAgentBinaryServlet(wac,"/admin/agent-launcher.jar",new File("testdata/agent-launcher.jar"));
+  addFakeAgentBinaryServlet(wac,"/admin/agent-plugins.zip",new File("testdata/agent-plugins.zip"));
+  addlatestAgentStatusCall(wac);
+  addStopServlet(server,wac);
+  addDefaultServlet(wac);
+  server.addHandler(wac);
+  server.setStopAtShutdown(true);
+  server.start();
+}

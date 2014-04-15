@@ -1,0 +1,10 @@
+{
+  String content="<cruise schemaVersion='22'>\n" + "<server artifactsdir='artifacts' />" + "<pipelines>\n"+ "<pipeline name='dev'>\n"+ "    <params>"+ "        <param name='same-name'>ls</param>"+ "        <param name='same-name'>/tmp</param>"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "    <stage name='mingle'>"+ "      <jobs>"+ "        <job name='do-something'>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("Should not allow duplicate params");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Param name 'same-name' is not unique for pipeline 'dev'."));
+  }
+}

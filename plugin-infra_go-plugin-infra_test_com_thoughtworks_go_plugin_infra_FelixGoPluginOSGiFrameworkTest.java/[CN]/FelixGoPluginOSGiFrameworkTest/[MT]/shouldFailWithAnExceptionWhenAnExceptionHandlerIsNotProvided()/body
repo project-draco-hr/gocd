@@ -1,0 +1,26 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  SomeInterface thirdService=mock(SomeInterface.class);
+  registerServices(firstService,secondService,thirdService);
+  spy.start();
+  RuntimeException exceptionToBeThrown=new RuntimeException("Ouch!");
+  doThrow(exceptionToBeThrown).when(secondService).someMethod();
+  try {
+    spy.doOnAll(SomeInterface.class,new Action<SomeInterface>(){
+      public void execute(      SomeInterface obj,      GoPluginDescriptor pluginDescriptor){
+        obj.someMethod();
+        assertThat(pluginDescriptor,is(descriptor));
+      }
+    }
+);
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Ouch!"));
+    assertThat(e.getCause().getMessage(),is("Ouch!"));
+  }
+  verify(firstService).someMethod();
+  verify(secondService).someMethod();
+  verifyZeroInteractions(thirdService);
+  verifyNoMoreInteractions(firstService,secondService);
+}

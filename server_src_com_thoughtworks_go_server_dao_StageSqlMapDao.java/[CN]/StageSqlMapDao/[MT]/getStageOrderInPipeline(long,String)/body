@@ -1,0 +1,4 @@
+{
+  Map<String,Object> params=arguments("pipelineId",pipelineId).and("stageName",stageName).asMap();
+  return (Integer)getSqlMapClientTemplate().queryForObject("getStageOrderInPipeline",params);
+}

@@ -1,0 +1,5 @@
+{
+  int fiveSeconds=5000;
+  JobInstance instance=JobInstanceMother.passed("first",new Date(),fiveSeconds);
+  assertThat((RunDuration.ActualDuration)instance.getDuration(),is(new RunDuration.ActualDuration(new Duration(5 * fiveSeconds))));
+}

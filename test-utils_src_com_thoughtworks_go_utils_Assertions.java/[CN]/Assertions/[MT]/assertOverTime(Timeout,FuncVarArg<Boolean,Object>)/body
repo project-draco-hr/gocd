@@ -1,0 +1,13 @@
+{
+  long end=System.currentTimeMillis() + timeout.inMillis();
+  while (true) {
+    assertTrue(func.call());
+    boolean timedout=System.currentTimeMillis() > end;
+    if (timedout) {
+      break;
+    }
+ else {
+      sleepOneSec();
+    }
+  }
+}

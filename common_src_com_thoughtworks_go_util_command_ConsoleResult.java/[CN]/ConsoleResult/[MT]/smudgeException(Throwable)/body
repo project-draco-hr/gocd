@@ -1,0 +1,5 @@
+{
+  Field messageField=Throwable.class.getDeclaredField("detailMessage");
+  messageField.setAccessible(true);
+  messageField.set(rawException,replaceSecretInfo(rawException.getMessage()));
+}

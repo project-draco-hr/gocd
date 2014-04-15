@@ -1,0 +1,15 @@
+{
+  for (  Resource resource : plan.getResources()) {
+    resource.setBuildId(jobId);
+    getSqlMapClientTemplate().insert("insertResource",resource);
+  }
+  for (  ArtifactPropertiesGenerator generator : plan.getPropertyGenerators()) {
+    generator.setJobId(jobId);
+    getSqlMapClientTemplate().insert("insertArtifactPropertiesGenerator",generator);
+  }
+  for (  ArtifactPlan artifactPlan : plan.getArtifactPlans()) {
+    artifactPlan.setBuildId(jobId);
+    getSqlMapClientTemplate().insert("insertArtifactPlan",artifactPlan);
+  }
+  environmentVariableDao.save(jobId,EnvironmentVariableSqlMapDao.EnvironmentVariableType.Job,plan.getVariables());
+}

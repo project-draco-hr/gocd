@@ -1,0 +1,8 @@
+{
+  DependencyMaterialRevision rev1=DependencyMaterialRevision.create("pipeline",10,"1.0.123","stage",1);
+  DependencyMaterialRevision rev2=DependencyMaterialRevision.create("pipeline",10,"1.0.123","stage",2);
+  DependencyMaterialRevision rev3=DependencyMaterialRevision.create("pipeline",11,"1.0.123","stage",1);
+  assertThat(rev1,is(not(rev2)));
+  assertThat(rev2,is(not(rev3)));
+  assertThat(rev3,is(not(rev1)));
+}

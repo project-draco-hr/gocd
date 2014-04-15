@@ -1,0 +1,11 @@
+{
+  listener=new JobStatusListener(new JobStatusTopic(null),stageService,stageStatusTopic);
+  mockery.checking(new Expectations(){
+{
+      never(stageStatusTopic).post(with(any(StageStatusMessage.class)));
+    }
+  }
+);
+  listener.onMessage(new JobStatusMessage(jobIdentifier,JobState.Completed,AGENT1.getUuid()));
+  mockery.assertIsSatisfied();
+}

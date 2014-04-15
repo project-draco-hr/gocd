@@ -1,0 +1,12 @@
+{
+  User user=new User("user","User",new String[]{"match"},"email",false);
+  user.setId(100);
+  user.addNotificationFilter(new NotificationFilter("p1","S1",StageEvent.Fixed,true));
+  User clonedUser=new User(user);
+  assertThat(clonedUser,is(user));
+  assertThat(clonedUser.getId(),Is.is(user.getId()));
+  assertThat(clonedUser,not(sameInstance(user)));
+  assertThat(clonedUser.getNotificationFilters(),is(user.getNotificationFilters()));
+  assertThat(clonedUser.getNotificationFilters(),not(sameInstance(user.getNotificationFilters())));
+  assertThat(clonedUser.getNotificationFilters().get(0),not(sameInstance(user.getNotificationFilters().get(0))));
+}

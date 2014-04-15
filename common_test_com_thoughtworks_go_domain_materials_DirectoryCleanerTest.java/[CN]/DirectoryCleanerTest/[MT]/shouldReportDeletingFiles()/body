@@ -1,0 +1,10 @@
+{
+  File allowedFolder=new File(baseFolder,"subfolder/allowed");
+  allowedFolder.mkdirs();
+  File notAllowedFolder=new File(baseFolder,"subfolder/notallowed");
+  notAllowedFolder.mkdirs();
+  cleaner.allowed("subfolder/allowed");
+  cleaner.clean();
+  assertThat(consumer.getStdOut(),containsString("Deleting folder " + notAllowedFolder.getPath()));
+  assertThat(consumer.getStdOut(),containsString("Keeping folder " + allowedFolder.getPath()));
+}

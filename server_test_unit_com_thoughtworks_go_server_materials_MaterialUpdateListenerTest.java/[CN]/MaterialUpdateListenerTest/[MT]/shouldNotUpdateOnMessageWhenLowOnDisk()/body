@@ -1,0 +1,5 @@
+{
+  when(diskSpaceMonitor.isLowOnDisk()).thenReturn(true);
+  materialUpdateListener.onMessage(new MaterialUpdateMessage(MATERIAL,0));
+  verify(updater,new Times(0)).updateMaterial(MATERIAL);
+}

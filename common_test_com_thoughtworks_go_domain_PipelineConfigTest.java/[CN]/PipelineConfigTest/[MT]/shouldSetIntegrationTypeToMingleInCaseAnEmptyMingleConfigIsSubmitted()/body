@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  MingleConfig mingleConfig=new MingleConfig();
+  mingleConfig.addError(MingleConfig.BASE_URL,"some error");
+  pipelineConfig.setMingleConfig(mingleConfig);
+  String integrationType=pipelineConfig.getIntegrationType();
+  assertThat(integrationType,is(PipelineConfig.INTEGRATION_TYPE_MINGLE));
+}

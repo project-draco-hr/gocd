@@ -1,0 +1,7 @@
+{
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  material.setFolder("folder-name");
+  material.setVariableWithName(context,"value","GO_PROPERTY");
+  assertThat(context.getProperty("GO_PROPERTY_FOLDER_NAME"),is("value"));
+  assertThat(context.getProperty("GO_PROPERTY"),is(nullValue()));
+}

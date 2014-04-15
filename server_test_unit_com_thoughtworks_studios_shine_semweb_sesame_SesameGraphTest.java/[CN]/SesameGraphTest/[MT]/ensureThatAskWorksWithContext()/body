@@ -1,0 +1,14 @@
+{
+  String rdf="@prefix ex: <http://example.com/ontology#> . " + "<http://example.com/1> ex:Predicate <http://example.com/2> . ";
+  contextAwareGraph.addTriplesFromTurtle(rdf);
+  String falseSparql="PREFIX ex: <http://example.com/ontology#>" + "ASK WHERE { " + " <http://example.com/1> ex:Predicate <http://example.com/254645> . "+ "}";
+  assertAskIsFalse(contextAwareGraph,falseSparql);
+  assertAskIsFalse(contextUnawareGraph,falseSparql);
+  String trueSparql="PREFIX ex: <http://example.com/ontology#>" + "ASK WHERE { " + " <http://example.com/1> ex:Predicate <http://example.com/2> . "+ "}";
+  assertAskIsTrue(contextAwareGraph,trueSparql);
+  assertAskIsTrue(contextUnawareGraph,trueSparql);
+  String falseSparqlWithContext="PREFIX ex: <http://example.com/ontology#>" + "ASK FROM NAMED <http://foo.com/context> WHERE { " + " GRAPH <http://foo.com/context> {"+ "  <http://example.com/1> ex:Predicate <http://example.com/254645> . "+ " }"+ "}";
+  assertAskIsFalse(contextUnawareGraph,falseSparqlWithContext);
+  String trueSparqlWithContext="PREFIX ex: <http://example.com/ontology#>" + "ASK FROM NAMED <http://foo.com/context> WHERE { " + " GRAPH <http://foo.com/context> {"+ "  <http://example.com/1> ex:Predicate <http://example.com/2> . "+ " }"+ "}";
+  assertAskIsTrue(contextUnawareGraph,trueSparqlWithContext);
+}

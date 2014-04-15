@@ -1,0 +1,5 @@
+{
+  PipelineConfig pipeline=(PipelineConfig)pipelineNode;
+  ReflectionUtil.setField(pipeline,"name",new CaseInsensitiveString(newPipelineName));
+  ReflectionUtil.setField(pipeline.getStage(new CaseInsensitiveString("stage")),"name",new CaseInsensitiveString("new-stage"));
+}

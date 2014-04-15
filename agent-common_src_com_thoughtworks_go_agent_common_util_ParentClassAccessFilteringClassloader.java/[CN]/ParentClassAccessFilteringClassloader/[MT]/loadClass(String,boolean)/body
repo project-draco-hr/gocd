@@ -1,0 +1,13 @@
+{
+  if (permittedParentDefns.length == 0) {
+    return super.loadClass(name,false);
+  }
+  for (  Class permittedParentDefn : permittedParentDefns) {
+    if (permittedParentDefn.getCanonicalName().equals(name)) {
+      ClassLoader parent=getParent();
+      LOG.info(String.format("Loading %s using %s",name,parent == null ? "null classloader" : parent.getClass().getCanonicalName()));
+      return super.loadClass(name,false);
+    }
+  }
+  return getSystemClassLoader().loadClass(name);
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    writeToFile(SystemEnvironment.AGENT_JAR_PATH);
+    assertThat(FileUtil.readToEnd(agentService.agentJarInputStream()),is(SystemEnvironment.AGENT_JAR_PATH));
+  }
+  finally {
+    new File(SystemEnvironment.AGENT_JAR_PATH).delete();
+  }
+}

@@ -1,0 +1,9 @@
+{
+  RunIfConfigs configs=new RunIfConfigs();
+  RunIfConfig config=new RunIfConfig("passed");
+  config.addError("status","some error");
+  configs.add(config);
+  configs.addError("key","some error");
+  assertThat(configs.errors().on("key"),is("some error"));
+  assertThat(configs.get(0).errors().on("status"),is("some error"));
+}

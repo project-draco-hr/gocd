@@ -1,0 +1,6 @@
+{
+  String[] data={"alpha/beta/beta.xml","alpha/beta/gamma/gamma.xml"};
+  FileUtil.createFilesByPath(getBaseDir(),data);
+  ds.setBasedir(getBaseDir()).setIncludes(new String[]{"ALPHA/"}).setCaseSensitive(false).scan();
+  compareFiles(ds,data,new String[]{"alpha","alpha/beta","alpha/beta/gamma"});
+}

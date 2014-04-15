@@ -1,0 +1,7 @@
+{
+  String licenseUser="Go UAT ThoughtWorks";
+  String configWithLicenseSection="<cruise schemaVersion='71'>" + "<server artifactsdir=\"logs\" commandRepositoryLocation=\"default\" serverId=\"dev-id\">" + "  </server>"+ "</cruise>";
+  String migratedContent=migrateXmlString(configWithLicenseSection,71);
+  assertThat(migratedContent,not(containsString("license")));
+  assertThat(migratedContent,not(containsString(licenseUser)));
+}

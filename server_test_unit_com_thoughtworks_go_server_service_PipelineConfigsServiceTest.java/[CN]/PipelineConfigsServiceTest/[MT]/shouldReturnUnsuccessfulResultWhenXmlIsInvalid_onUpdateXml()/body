@@ -1,0 +1,22 @@
+{
+  String errorMessage="Can not parse xml";
+  final String groupName="group_name";
+  Localizer localizer=mock(Localizer.class);
+  when(localizer.localize("UPDATE_GROUP_XML_FAILED",groupName,errorMessage)).thenReturn("Invalid");
+  when(securityService.isUserAdminOfGroup(validUser.getUsername(),groupName)).thenReturn(true);
+  String md5="md5";
+  when(goConfigService.configFileMd5()).thenReturn(md5);
+  GoConfigService.XmlPartialSaver groupSaver=mock(GoConfigService.XmlPartialSaver.class);
+  when(goConfigService.groupSaver(groupName)).thenReturn(groupSaver);
+  String updatedPartial="foobar";
+  when(groupSaver.saveXml(updatedPartial,md5)).thenReturn(GoConfigValidity.invalid(errorMessage));
+  GoConfigOperationalResponse<PipelineConfigs> actual=service.updateXml(groupName,updatedPartial,md5,validUser,result);
+  PipelineConfigs configs=actual.getConfigElement();
+  GoConfigValidity validity=actual.getValidity();
+  assertThat(configs,is(nullValue()));
+  assertThat(result.httpCode(),is(500));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Invalid"));
+  assertThat(validity.isValid(),is(false));
+  verify(securityService,times(1)).isUserAdminOfGroup(validUser.getUsername(),groupName);
+}

@@ -1,0 +1,10 @@
+{
+  assertThat(new NameTypeValidator().isNameValid(""),is(false));
+  assertThat(new NameTypeValidator().isNameValid("name"),is(true));
+  assertThat(new NameTypeValidator().isNameValid("!"),is(false));
+  assertThat(new NameTypeValidator().isNameValid("name!"),is(false));
+  assertThat(new NameTypeValidator().isNameValid("name_123"),is(true));
+  assertThat(new NameTypeValidator().isNameValid("1"),is(true));
+  assertThat(new NameTypeValidator().isNameValid("."),is(false));
+  assertThat(new NameTypeValidator().isNameValid("1."),is(true));
+}

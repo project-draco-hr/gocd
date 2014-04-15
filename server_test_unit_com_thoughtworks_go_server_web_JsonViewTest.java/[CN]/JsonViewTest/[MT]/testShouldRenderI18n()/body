@@ -1,0 +1,17 @@
+{
+  JsonMap map=new JsonMap();
+  final String i18nMessage="waiting(zh_CN)";
+  final ResolvableViewableStatus resolvableViewableStatus=new ResolvableViewableStatus(CurrentStatus.WAITING);
+  map.put("key1",resolvableViewableStatus);
+  JsonView view=new JsonView(requestContext);
+  mockContext.checking(new Expectations(){
+{
+      one(requestContext).getMessage(with(equal(resolvableViewableStatus)));
+      will(returnValue(i18nMessage));
+    }
+  }
+);
+  String json=view.renderJson(map);
+  mockContext.assertIsSatisfied();
+  new JsonTester(json).is("{ 'key1' : '" + i18nMessage + "' }");
+}

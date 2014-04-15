@@ -1,0 +1,6 @@
+{
+  Stage ftStage=pipeline.getStages().byName(pipelineFixture.ftStage);
+  when(stageService.findStageWithIdentifier(ftStage.getIdentifier())).thenReturn(ftStage);
+  when(shineDao.failedTestsFor(ftStage.getIdentifier())).thenReturn(new ArrayList<TestSuite>());
+  return ftStage;
+}

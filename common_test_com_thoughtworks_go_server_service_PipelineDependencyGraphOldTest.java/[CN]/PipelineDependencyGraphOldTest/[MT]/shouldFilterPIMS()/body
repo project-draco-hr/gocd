@@ -1,0 +1,10 @@
+{
+  PipelineDependencyGraphOld graph=new PipelineDependencyGraphOld(pim("upstream"),PipelineInstanceModels.createPipelineInstanceModels(pim("pavan"),pim("raghu")));
+  PipelineDependencyGraphOld.Filterer filterer=mock(PipelineDependencyGraphOld.Filterer.class);
+  when(filterer.filterPipeline("raghu")).thenReturn(false);
+  when(filterer.filterPipeline("pavan")).thenReturn(true);
+  graph.filterDependencies(filterer);
+  PipelineInstanceModels models=graph.dependencies();
+  assertThat(models.size(),is(1));
+  assertThat(models.get(0).getName(),is("pavan"));
+}

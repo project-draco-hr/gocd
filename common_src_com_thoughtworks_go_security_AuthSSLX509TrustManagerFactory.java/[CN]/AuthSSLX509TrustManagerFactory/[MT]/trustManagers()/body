@@ -1,0 +1,12 @@
+{
+  try {
+    KeyStore store=new KeyStoreManager().loadOrEmpty(truststore,truststorePassword);
+    if (LOG.isDebugEnabled()) {
+      logKeyStore(store);
+    }
+    return setStoreOnTrustManagers(store);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("Couldn't retrieve certificates to trust.",e);
+  }
+}

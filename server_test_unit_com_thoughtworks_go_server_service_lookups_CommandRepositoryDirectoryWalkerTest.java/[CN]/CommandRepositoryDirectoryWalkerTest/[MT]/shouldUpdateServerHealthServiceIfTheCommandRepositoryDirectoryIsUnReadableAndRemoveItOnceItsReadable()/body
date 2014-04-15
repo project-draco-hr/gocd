@@ -1,0 +1,9 @@
+{
+  sampleDir.setReadable(false);
+  walker.getAllCommandSnippets(sampleDir.getPath());
+  verify(serverHealthService).update(serverHealthWarningMessageWhichContains("Failed to access command repository located in Go Server Directory at " + sampleDir.getPath() + ". The directory does not exist or Go does not have sufficient permissions to access it."));
+  sampleDir.setReadable(true);
+  walker.getAllCommandSnippets(sampleDir.getPath());
+  verify(serverHealthService,times(2)).update(serverHealthMessageWhichSaysItsOk());
+  verifyNoMoreInteractions(serverHealthService);
+}

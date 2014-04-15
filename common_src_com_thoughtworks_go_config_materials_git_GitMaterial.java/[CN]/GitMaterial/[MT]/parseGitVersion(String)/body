@@ -1,0 +1,11 @@
+{
+  String[] lines=hgOut.split("\n");
+  String firstLine=lines[0];
+  Matcher m=GIT_VERSION_PATTERN.matcher(firstLine);
+  if (m.matches()) {
+    return m.group(1);
+  }
+ else {
+    throw bomb("can not parse hgout : " + hgOut);
+  }
+}

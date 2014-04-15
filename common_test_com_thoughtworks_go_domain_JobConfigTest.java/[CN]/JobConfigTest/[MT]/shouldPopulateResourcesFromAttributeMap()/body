@@ -1,0 +1,10 @@
+{
+  HashMap map=new HashMap();
+  String value="a,  b,c   ,d,e";
+  map.put(JobConfig.RESOURCES,value);
+  Resources resources=new Resources();
+  resources.add(new Resource("z"));
+  JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("job-name"),resources,null);
+  jobConfig.setConfigAttributes(map);
+  assertThat(jobConfig.resources().size(),is(5));
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    keyStoreManager.storeCertificate(CHAIN_ALIAS,AGENT_CERTIFICATE_FILE,AGENT_STORE_PASSWORD,keyEntry);
+    LOGGER.info(String.format("[Agent Registration] Stored registration for cert with hash code: %s not valid before: %s",md5Fingerprint(keyEntry.getFirstCertificate()),keyEntry.getCertificateNotBeforeDate()));
+  }
+ catch (  Exception e) {
+    throw bomb("Couldn't save agent key into store",e);
+  }
+}

@@ -1,0 +1,17 @@
+{
+  final File tempFile=TestFileUtil.createTempFile("bufferload-test.tmp");
+  tempFile.deleteOnExit();
+  PrintStream out=null;
+  try {
+    out=new PrintStream(new FileOutputStream(tempFile));
+    for (int i=0; i < count; i++) {
+      out.println(1 + i);
+    }
+  }
+  finally {
+    if (out != null) {
+      out.close();
+    }
+  }
+  return tempFile;
+}

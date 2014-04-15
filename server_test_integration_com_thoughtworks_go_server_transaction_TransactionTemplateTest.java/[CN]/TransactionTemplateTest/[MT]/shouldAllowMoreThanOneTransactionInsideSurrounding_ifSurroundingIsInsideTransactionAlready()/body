@@ -1,0 +1,48 @@
+{
+  final TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  final boolean[] firstNestedTransactionHappened=new boolean[1];
+  final boolean[] secondNestedTransactionHappened=new boolean[1];
+  final boolean[] firstNestedTransactionCalledTransactionSynchronization=new boolean[1];
+  final boolean[] secondNestedTransactionCalledTransactionSynchronization=new boolean[1];
+  final int[] numberOfTimesSynchronizationWasCalled=new int[1];
+  numberOfTimesSynchronizationWasCalled[0]=0;
+  String returnVal=(String)template.execute(new org.springframework.transaction.support.TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      return template.transactionSurrounding(new TransactionTemplate.TransactionSurrounding<RuntimeException>(){
+        public Object surrounding(){
+          transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+            @Override public void afterCommit(){
+              numberOfTimesSynchronizationWasCalled[0]++;
+            }
+          }
+);
+          template.execute(new org.springframework.transaction.support.TransactionCallback(){
+            public Object doInTransaction(            TransactionStatus status){
+              firstNestedTransactionHappened[0]=true;
+              return "foo";
+            }
+          }
+);
+          firstNestedTransactionCalledTransactionSynchronization[0]=numberOfTimesSynchronizationWasCalled[0] > 0;
+          Object ret=template.execute(new org.springframework.transaction.support.TransactionCallback(){
+            public Object doInTransaction(            TransactionStatus status){
+              secondNestedTransactionHappened[0]=true;
+              return "bar";
+            }
+          }
+);
+          secondNestedTransactionCalledTransactionSynchronization[0]=numberOfTimesSynchronizationWasCalled[0] > 0;
+          return ret;
+        }
+      }
+);
+    }
+  }
+);
+  assertThat(returnVal,is("bar"));
+  assertThat(numberOfTimesSynchronizationWasCalled[0],is(1));
+  assertThat(firstNestedTransactionHappened[0],is(true));
+  assertThat(firstNestedTransactionCalledTransactionSynchronization[0],is(false));
+  assertThat(secondNestedTransactionHappened[0],is(true));
+  assertThat(secondNestedTransactionCalledTransactionSynchronization[0],is(false));
+}

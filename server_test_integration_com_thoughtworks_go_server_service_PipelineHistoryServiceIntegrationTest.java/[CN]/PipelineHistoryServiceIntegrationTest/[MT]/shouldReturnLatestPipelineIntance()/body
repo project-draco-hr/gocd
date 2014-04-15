@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=pipelineOne.createPipelineWithFirstStageScheduled();
+  saveRev(new MaterialRevision(pipeline.getMaterialRevisions().getMaterialRevision(0).getMaterial(),new Modification(new Date(),"2","MOCK_LABEL-12",null)));
+  configHelper.setViewPermissionForGroup("group1","username");
+  PipelineInstanceModel latest=pipelineHistoryService.latest(pipeline.getName(),new Username(new CaseInsensitiveString("username")));
+  assertThat(latest.getLatestRevisions().getMaterialRevision(0).getRevision(),is((Revision)new SubversionRevision("2")));
+}

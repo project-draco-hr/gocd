@@ -1,0 +1,9 @@
+{
+  int currentVersion=getCurrentSchemaVersion(content);
+  try {
+    XmlUtils.validate(new ByteArrayInputStream(content.getBytes()),GoConfigSchema.getResource(currentVersion),new XsdErrorTranslator(),new SAXBuilder(),registry.xsds());
+  }
+ catch (  Exception e) {
+    throw bomb("Cruise config file with version " + currentVersion + " is invalid. Unable to upgrade.",e);
+  }
+}

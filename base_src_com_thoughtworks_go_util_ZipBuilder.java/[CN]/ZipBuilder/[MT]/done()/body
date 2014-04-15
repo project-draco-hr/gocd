@@ -1,0 +1,23 @@
+{
+  ZipOutputStream zip=null;
+  try {
+    zip=new ZipOutputStream(new BufferedOutputStream(destinationStream));
+    zip.setLevel(level);
+    for (    Map.Entry<String,File> zipDirToSourceFileEntry : toAdd.entrySet()) {
+      File sourceFileToZip=zipDirToSourceFileEntry.getValue();
+      String destinationFolder=zipDirToSourceFileEntry.getKey();
+      zipUtil.addToZip(new ZipPath(destinationFolder),sourceFileToZip,zip,excludeRootDir);
+    }
+    zip.flush();
+  }
+  finally {
+    if (zip != null) {
+      try {
+        zip.close();
+      }
+ catch (      IOException e) {
+        LOGGER.error("Failed to close the stream",e);
+      }
+    }
+  }
+}

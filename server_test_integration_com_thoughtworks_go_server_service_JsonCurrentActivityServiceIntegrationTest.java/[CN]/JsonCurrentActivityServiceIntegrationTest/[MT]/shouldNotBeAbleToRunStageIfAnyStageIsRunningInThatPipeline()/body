@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=createdPipelineWithAllStagesPassed();
+  fixture.createPipelineWithFirstStageScheduled();
+  PipelineJsonPresentationModel pipelineActivity=pipelineActivity();
+  assertThat(pipelineActivity.getLatestStage(0).getCanRun(),is(false));
+  assertThat(pipelineActivity.getLatestStage(1).getCanRun(),is(true));
+}

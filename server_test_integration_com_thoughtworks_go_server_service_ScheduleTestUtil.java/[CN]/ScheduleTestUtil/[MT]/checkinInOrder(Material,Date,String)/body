@@ -1,0 +1,12 @@
+{
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      for (int i=0; i < revisions.length; i++) {
+        String revision=revisions[i];
+        materialRepository.saveMaterialRevision(new MaterialRevision(material,new Modification("loser number " + i,"commit " + i,"e" + i + "@mail",new DateTime(dateOfCheckin.getTime()).plusHours(i).toDate(),revision)));
+      }
+      return null;
+    }
+  }
+);
+}

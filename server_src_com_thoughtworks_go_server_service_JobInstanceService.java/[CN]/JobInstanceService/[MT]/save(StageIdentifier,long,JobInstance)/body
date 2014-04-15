@@ -1,0 +1,25 @@
+{
+  final JobContext jobContext=new JobContext(stageIdentifier.getPipelineName(),String.valueOf(stageIdentifier.getPipelineCounter()),stageIdentifier.getPipelineLabel(),stageIdentifier.getStageName(),stageIdentifier.getStageCounter(),job.getName(),String.valueOf(job.getId()));
+  Action<IJobPreScheduleHook> actionForEachHook=new Action<IJobPreScheduleHook>(){
+    @Override public void execute(    IJobPreScheduleHook preScheduleHook,    GoPluginDescriptor pluginDescriptor){
+      ResponseContext responseContext=preScheduleHook.call(jobContext);
+      if (LOGGER.isDebugEnabled()) {
+        ResponseContext.ResponseCode responseCode=responseContext == null ? null : responseContext.getResponseCode();
+        String message=responseContext == null ? "Unknown message" : responseContext.getMessage();
+        LOGGER.debug(String.format("[JOB PRE ASSIGNMENT HOOK] Hook %s reported status %s with message %s",preScheduleHook,responseCode,message));
+      }
+    }
+  }
+;
+  ExceptionHandler<IJobPreScheduleHook> exceptionHandler=new ExceptionHandler<IJobPreScheduleHook>(){
+    @Override public void handleException(    IJobPreScheduleHook preScheduleHook,    Throwable t){
+      LOGGER.error(String.format("[JOB PRE ASSIGNMENT HOOK] Hook %s resulted in an exception %s",preScheduleHook,t.getMessage()));
+      throw new RuntimeException(t);
+    }
+  }
+;
+  pluginManager.doOnAll(IJobPreScheduleHook.class,actionForEachHook,exceptionHandler);
+  jobInstanceDao.save(stageId,job);
+  job.setIdentifier(new JobIdentifier(stageIdentifier,job));
+  notifyJobStatusChangeListeners(job);
+}

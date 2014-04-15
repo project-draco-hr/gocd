@@ -1,0 +1,10 @@
+{
+  logUnsavedPersistentObjectInteraction(value,"PersistentObject %s added to cache without an id.");
+  if (predicate.isTrue()) {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(String.format("transaction active during cache put for %s = %s",key,value),new IllegalStateException());
+    }
+    return;
+  }
+  ehCache.put(new Element(key,value));
+}

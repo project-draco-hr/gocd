@@ -1,0 +1,28 @@
+{
+  Pipeline oldest=preCondition.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  final Stage stage=oldest.getStages().byName(preCondition.ftStage);
+  final StageIdentifier identifier=stage.getIdentifier();
+  StageStatusTopic stageStatusTopic=mock(StageStatusTopic.class);
+  JobResultTopic jobResultTopic=mock(JobResultTopic.class);
+  StageStatusListener stageStatusListener=mock(StageStatusListener.class);
+  JobInstanceService jobInstanceService=jobInstanceService(jobResultTopic);
+  StageService stageService=new StageService(stageDao,jobInstanceService,stageStatusTopic,stageStatusCache,securityService,pipelineDao,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache,stageStatusListener);
+  SchedulingPerformanceLogger schedulingPerformanceLogger=mock(SchedulingPerformanceLogger.class);
+  scheduleService=new ScheduleService(goConfigService,pipelineService,stageService,schedulingCheckerService,pipelineScheduledTopic,pipelineDao,stageDao,stageOrderService,securityService,pipelineScheduleQueue,this.jobInstanceService,jobInstanceDao,agentAssignment,environmentConfigService,pipelineLockService,serverHealthService,transactionTemplate,null,transactionSynchronizationManager,null,null,null,null,schedulingPerformanceLogger);
+  try {
+    transactionTemplate.executeWithExceptionHandling(new TransactionCallback(){
+      @Override public Object doInTransaction(      TransactionStatus status) throws Exception {
+        scheduleService.cancelAndTriggerRelevantStages(stage.getId(),null,null);
+        throw new GoUnauthorizedException();
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+  }
+  verify(stageStatusTopic,never()).post(any(StageStatusMessage.class));
+  verify(jobResultTopic,never()).post(any(JobResultMessage.class));
+  verify(stageStatusListener,never()).stageStatusChanged(any(Stage.class));
+}

@@ -1,0 +1,9 @@
+{
+  AgentIdentifier agentIdentifier=agentConfig.getAgentIdentifier();
+  String cookie=agentService.assignCookie(agentIdentifier);
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier,cookie,null);
+  agentRuntimeInfo.busy(new AgentBuildingInfo("path","buildLocator"));
+  agentService.updateRuntimeInfo(agentRuntimeInfo);
+  agentService.disableAgents(USERNAME,new HttpOperationResult(),Arrays.asList(agentConfig.getUuid()));
+  assertThat(isDisabled(agentConfig),is(true));
+}

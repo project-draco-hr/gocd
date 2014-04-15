@@ -1,0 +1,13 @@
+{
+  ArrayList<TaskProperty> taskProperties=new ArrayList<TaskProperty>();
+  if (!StringUtil.isBlank(buildFile)) {
+    taskProperties.add(new TaskProperty(BUILD_FILE,buildFile));
+  }
+  if (!StringUtil.isBlank(target)) {
+    taskProperties.add(new TaskProperty(TARGET,target));
+  }
+  if (!StringUtil.isBlank(workingDirectory)) {
+    taskProperties.add(new TaskProperty(WORKING_DIRECTORY,workingDirectory));
+  }
+  return taskProperties;
+}

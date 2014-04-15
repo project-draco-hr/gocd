@@ -1,0 +1,9 @@
+{
+  GadgetOauthClient google=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(google);
+  GadgetOauthAuthorizationCode authCode=new GadgetOauthAuthorizationCode("fooUser",google,"code",1000L);
+  GadgetDataSource.GadgetOauthAuthorizationCodeDTO authCodeDTO=repo.saveOauthAuthorizationCode(OauthRepositoryTest.attrMap(authCode));
+  GadgetOauthAuthorizationCode loadedAuthCode=(GadgetOauthAuthorizationCode)template.load(GadgetOauthAuthorizationCode.class,authCodeDTO.getId());
+  assertThat(loadedAuthCode.getId(),greaterThan(0l));
+  assertThat(loadedAuthCode.getDTO(),is(authCodeDTO));
+}

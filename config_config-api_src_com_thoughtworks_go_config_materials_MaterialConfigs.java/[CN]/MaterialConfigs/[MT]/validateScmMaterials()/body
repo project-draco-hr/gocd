@@ -1,0 +1,17 @@
+{
+  List<ScmMaterialConfig> scmMaterials=filterScmMaterials();
+  int numberOfMaterials=scmMaterials.size();
+  for (  ScmMaterialConfig material : scmMaterials) {
+    if (numberOfMaterials > 1) {
+      if (StringUtil.isBlank(material.getFolder())) {
+        material.setDestinationFolderError("Destination directory is required when specifying multiple scm materials");
+      }
+      for (      ScmMaterialConfig otherMaterial : scmMaterials) {
+        if (otherMaterial != material) {
+          otherMaterial.validateNotSubdirectoryOf(material);
+          otherMaterial.validateDestinationDirectoryName(material);
+        }
+      }
+    }
+  }
+}

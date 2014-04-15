@@ -1,0 +1,9 @@
+{
+  if (StringUtil.isBlank(address)) {
+    return ValidationBean.valid();
+  }
+  if (address.matches(".*@" + HostnameValidator.HOSTNAME_PATTERN)) {
+    return ValidationBean.valid();
+  }
+  return ValidationBean.notValid(EMAIL_ERROR_MESSAGE);
+}

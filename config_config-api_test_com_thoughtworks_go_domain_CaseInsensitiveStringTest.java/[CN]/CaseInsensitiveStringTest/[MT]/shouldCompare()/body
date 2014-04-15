@@ -1,0 +1,11 @@
+{
+  CaseInsensitiveString foo=new CaseInsensitiveString("foo");
+  CaseInsensitiveString fOO=new CaseInsensitiveString("fOO");
+  CaseInsensitiveString bar=new CaseInsensitiveString("bar");
+  assertThat(foo.compareTo(fOO),is(0));
+  assertThat(fOO.compareTo(foo),is(0));
+  assertThat(bar.compareTo(foo),lessThan(0));
+  assertThat(bar.compareTo(fOO),lessThan(0));
+  assertThat(foo.compareTo(bar),greaterThan(0));
+  assertThat(fOO.compareTo(bar),greaterThan(0));
+}

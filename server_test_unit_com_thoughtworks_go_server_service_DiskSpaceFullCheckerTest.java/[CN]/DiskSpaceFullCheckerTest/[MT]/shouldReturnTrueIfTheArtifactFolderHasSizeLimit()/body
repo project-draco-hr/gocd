@@ -1,0 +1,9 @@
+{
+  new SystemEnvironment().setProperty(SystemEnvironment.ARTIFACT_FULL_SIZE_LIMIT,"1M");
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.setServerConfig(new ServerConfig(".",new SecurityConfig()));
+  ArtifactsDiskSpaceFullChecker fullChecker=createChecker(cruiseConfig);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  fullChecker.check(result);
+  assertThat(result.canContinue(),is(true));
+}

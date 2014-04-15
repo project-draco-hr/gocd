@@ -1,0 +1,10 @@
+{
+  CaseInsensitiveString adminName=new CaseInsensitiveString("admin");
+  String groupName=String.format("group_%s",UUID.randomUUID());
+  GoConfigMother mother=new GoConfigMother();
+  mother.enableSecurityWithPasswordFile(cruiseConfig);
+  cruiseConfig.server().security().adminsConfig().add(new AdminUser(adminName));
+  mother.addPipelineWithGroup(cruiseConfig,groupName,"pipeline","stage");
+  mother.addAdminUserForPipelineGroup(cruiseConfig,"user",groupName);
+  assertThat(goConfigService.isUserAdminOfGroup(new CaseInsensitiveString("user"),groupName),is(true));
+}

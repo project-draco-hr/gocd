@@ -1,0 +1,12 @@
+{
+  User loser=new User("loser");
+  userDao.saveOrUpdate(loser);
+  assertionUtil.assertCacheBehaviourInTxn(new TransactionCacheAssertionUtil.DoInTxn(){
+    public void invoke(){
+      daoSupport.getSqlMapClientTemplate().delete("delete-all-users");
+    }
+  }
+);
+  goCache.clear();
+  assertThat(userDao.findUser("loser"),is(instanceOf(NullUser.class)));
+}

@@ -1,0 +1,8 @@
+{
+  Set<Field> fields=Reflections.getAllFields(getClass(),Reflections.withAnnotation(DataPoint.class));
+  ArrayList<Class> allDataPointMaterialConfigClasses=new ArrayList<Class>();
+  for (  Field field : fields) {
+    allDataPointMaterialConfigClasses.add(field.get(this).getClass());
+  }
+  return allDataPointMaterialConfigClasses;
+}

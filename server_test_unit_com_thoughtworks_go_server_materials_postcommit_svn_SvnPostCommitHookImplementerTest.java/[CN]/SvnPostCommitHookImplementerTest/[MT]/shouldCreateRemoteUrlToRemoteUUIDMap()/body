@@ -1,0 +1,15 @@
+{
+  final SvnPostCommitHookImplementer spy=spy(implementer);
+  final SvnCommand svnCommand=mock(SvnCommand.class);
+  final Material svnMaterial1=mock(SvnMaterial.class);
+  final Material hgMaterial1=mock(HgMaterial.class);
+  final HashSet<Material> allMaterials=new HashSet<Material>(Arrays.asList(svnMaterial1,hgMaterial1));
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocation) throws Throwable {
+      return svnCommand;
+    }
+  }
+).when(spy).getEmptySvnCommand();
+  spy.createUrlToRemoteUUIDMap(allMaterials);
+  verify(svnCommand).createUrlToRemoteUUIDMap(new HashSet<SvnMaterial>(Arrays.asList((SvnMaterial)svnMaterial1)));
+}

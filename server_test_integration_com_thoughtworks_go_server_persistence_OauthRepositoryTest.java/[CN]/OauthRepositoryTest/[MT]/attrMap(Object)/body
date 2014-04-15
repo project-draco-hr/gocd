@@ -1,0 +1,8 @@
+{
+  Map map=new HashMap();
+  for (  Field field : dto.getClass().getDeclaredFields()) {
+    field.setAccessible(true);
+    map.put(camelToSnakeCase(field.getName()),field.get(dto));
+  }
+  return map;
+}

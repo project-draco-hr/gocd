@@ -1,0 +1,9 @@
+{
+  request.setMethod("POST");
+  request.addParameter("uuid",UUID);
+  ModelAndView modelAndView=controller.denyAgent(response,UUID);
+  JsonMap result=(JsonMap)modelAndView.getModel().get("json");
+  new JsonTester(result).is("{ 'result' : 'success' }");
+  assertThat(HttpServletResponse.SC_CREATED,is(equal(response.getStatus())));
+  verify(agentService).disableAgents(eq(USERNAME),any(HttpOperationResult.class),eq(Arrays.asList(UUID)));
+}

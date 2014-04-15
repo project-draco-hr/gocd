@@ -1,0 +1,10 @@
+{
+  String xml=ConfigFileFixture.ONE_PIPELINE;
+  CruiseConfig cruiseConfig=ConfigMigrator.load(xml);
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  StageConfig stageConfig=pipelineConfig.findBy(new CaseInsensitiveString("stage"));
+  JobConfig build=stageConfig.jobConfigByInstanceName("functional",true);
+  assertThat(xmlWriter.toXmlPartial(pipelineConfig),is("<pipeline name=\"pipeline1\">\n" + "  <materials>\n" + "    <svn url=\"foobar\" checkexternals=\"true\" />\n"+ "  </materials>\n"+ "  <stage name=\"stage\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <artifacts>\n"+ "          <artifact src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "        </artifacts>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>"));
+  assertThat(xmlWriter.toXmlPartial(stageConfig),is("<stage name=\"stage\">\n" + "  <jobs>\n" + "    <job name=\"functional\">\n"+ "      <artifacts>\n"+ "        <artifact src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "      </artifacts>\n"+ "    </job>\n"+ "  </jobs>\n"+ "</stage>"));
+  assertThat(xmlWriter.toXmlPartial(build),is("<job name=\"functional\">\n" + "  <artifacts>\n" + "    <artifact src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "  </artifacts>\n"+ "</job>"));
+}

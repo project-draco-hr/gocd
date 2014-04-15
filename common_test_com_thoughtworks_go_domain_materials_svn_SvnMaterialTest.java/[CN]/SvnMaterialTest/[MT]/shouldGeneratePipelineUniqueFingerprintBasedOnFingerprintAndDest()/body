@@ -1,0 +1,6 @@
+{
+  SvnMaterial one=new SvnMaterial("url","username","password",true,"folder1");
+  SvnMaterial two=new SvnMaterial("url","username","password",true,"folder2");
+  assertThat(one.getPipelineUniqueFingerprint(),is(Matchers.not(two.getFingerprint())));
+  assertThat(one.getPipelineUniqueFingerprint(),is(DigestUtils.sha256Hex("type=SvnMaterial<|>url=url<|>username=username<|>checkExternals=true<|>dest=folder1")));
+}

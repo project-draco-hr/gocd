@@ -1,0 +1,15 @@
+{
+  if (!securityService.hasViewPermissionForPipeline(CaseInsensitiveString.str(username.getUsername()),stageId.getPipelineName())) {
+    result.unauthorized(LocalizedMessage.cannotViewPipeline(stageId.getPipelineName()),HealthStateType.general(HealthStateScope.forPipeline(stageId.getPipelineName())));
+    return null;
+  }
+  Stages stages=stageDao.getAllRunsOfStageForPipelineInstance(stageId.getPipelineName(),stageId.getPipelineCounter(),stageId.getStageName());
+  for (  Stage stage : stages) {
+    if (stage.getIdentifier().getStageCounter().equals(stageId.getStageCounter())) {
+      StageSummaryModel summaryModel=new StageSummaryModel(stage,stages,stageDao,null);
+      return summaryModel;
+    }
+  }
+  result.notFound(LocalizedMessage.stageNotFound(stageId),HealthStateType.general(HealthStateScope.GLOBAL));
+  return null;
+}

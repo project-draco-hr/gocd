@@ -1,0 +1,7 @@
+{
+  SecurityConfig securityConfig=goConfigService.security();
+  if (!securityConfig.isSecurityEnabled() || !securityConfig.ldapConfig().isEnabled()) {
+    return false;
+  }
+  return super.supports(authentication);
+}

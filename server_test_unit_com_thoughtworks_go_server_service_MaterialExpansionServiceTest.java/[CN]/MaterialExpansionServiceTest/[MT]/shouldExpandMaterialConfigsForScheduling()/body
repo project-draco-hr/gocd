@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  HgMaterialConfig hg=MaterialConfigsMother.hgMaterialConfig();
+  pipelineConfig.addMaterialConfig(hg);
+  MaterialConfigs materialConfigs=materialExpansionService.expandMaterialConfigsForScheduling(pipelineConfig.materialConfigs());
+  assertThat(materialConfigs.size(),is(1));
+  assertThat((HgMaterialConfig)materialConfigs.get(0),is(hg));
+}

@@ -1,0 +1,8 @@
+{
+  StageConfig[] configs=new StageConfig[stageNames.length];
+  int i=0;
+  for (  String stageName : stageNames) {
+    configs[i++]=new StageConfig(new CaseInsensitiveString(stageName),BuildPlanMother.jobConfigs("dev"));
+  }
+  return new PipelineConfig(new CaseInsensitiveString(pipelineName),MaterialConfigsMother.defaultMaterialConfigs(),configs);
+}

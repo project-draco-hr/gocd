@@ -1,0 +1,14 @@
+{
+  repositoryEntries=entries;
+  if (restub) {
+    when(pipelineRepository.updatePipelineTimeline(timeline)).thenAnswer(new Answer<Object>(){
+      public Object answer(      InvocationOnMock invocationOnMock) throws Throwable {
+        for (        PipelineTimelineEntry entry : repositoryEntries) {
+          timeline.add(entry);
+        }
+        return Arrays.asList(repositoryEntries);
+      }
+    }
+);
+  }
+}

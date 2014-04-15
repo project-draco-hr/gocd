@@ -1,0 +1,7 @@
+{
+  PackageMaterial material=MaterialsMother.packageMaterial();
+  PackageMaterialInstance materialInstance=(PackageMaterialInstance)material.createMaterialInstance();
+  assertThat(materialInstance,is(notNullValue()));
+  assertThat(materialInstance.getFlyweightName(),is(notNullValue()));
+  assertThat(materialInstance.getConfiguration(),is(JsonHelper.toJsonString(material)));
+}

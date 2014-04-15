@@ -1,0 +1,13 @@
+{
+  Pipeline minglePipeline1=schedulePipelineWithStages(PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","defaultStage"));
+  Pipeline minglePipeline2=schedulePipelineWithStages(PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","defaultStage"));
+  pipelineDao.lockPipeline(minglePipeline1);
+  assertThat(pipelineDao.lockedPipeline("mingle"),is(minglePipeline1.getStages().get(0).getIdentifier()));
+  try {
+    pipelineDao.lockPipeline(minglePipeline2);
+    fail("Should not be able to lock a different instance of an already locked pipeline");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Pipeline 'mingle' is already locked (counter = 1)"));
+  }
+}

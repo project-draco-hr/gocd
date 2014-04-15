@@ -1,0 +1,7 @@
+{
+  resources.add(new Resource("all"));
+  agents.add(new AgentConfig("uuid1","host1","127.0.0.1",new Resources("all")));
+  agents.add(new AgentConfig("uuid2","host2","127.0.0.2",new Resources("all")));
+  List<TriStateSelection> selections=TriStateSelection.forAgentsResources(resources,agents);
+  assertThat(selections,hasItem(new TriStateSelection("all",TriStateSelection.Action.add)));
+}

@@ -1,0 +1,20 @@
+{
+  final CruiseConfig config=new CruiseConfig();
+  PackageConfigurations configuration=new PackageConfigurations();
+  configuration.addConfiguration(new PackageConfiguration("key1"));
+  configuration.addConfiguration(new PackageConfiguration("key2").with(PackageConfiguration.SECURE,true));
+  RepositoryMetadataStore.getInstance().addMetadataFor("plugin-1",configuration);
+  for (  String id : ids) {
+    PackageRepository packageRepository=new PackageRepository();
+    packageRepository.setId(id);
+    packageRepository.setName("name" + id);
+    packageRepository.setPluginConfiguration(new PluginConfiguration("plugin-1","1.0.0"));
+    packageRepository.setPackages(new Packages(PackageDefinitionMother.create(id + "-pkg-1",packageRepository),PackageDefinitionMother.create(id + "-pkg-2",packageRepository)));
+    GoCipher cipher=new GoCipher();
+    ConfigurationProperty p1=new ConfigurationProperty(new ConfigurationKey("key1"),new ConfigurationValue("value1"));
+    ConfigurationProperty p2=new ConfigurationProperty(new ConfigurationKey("key2"),null,new EncryptedConfigurationValue(cipher.encrypt("value2")),cipher);
+    packageRepository.setConfiguration(new Configuration(p1,p2));
+    config.setPackageRepositories(new PackageRepositories(packageRepository));
+  }
+  return config;
+}

@@ -1,0 +1,12 @@
+{
+  return argThat(new BaseMatcher<ScheduleCheckMessage>(){
+    @Override public boolean matches(    Object o){
+      ScheduleCheckMessage message=(ScheduleCheckMessage)o;
+      return expectedPipelineName.equals(message.getPipelineName());
+    }
+    @Override public void describeTo(    Description description){
+      description.appendText(expectedPipelineName);
+    }
+  }
+);
+}

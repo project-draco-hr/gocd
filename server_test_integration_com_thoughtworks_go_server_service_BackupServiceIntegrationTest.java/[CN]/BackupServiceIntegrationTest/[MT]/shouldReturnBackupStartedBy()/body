@@ -1,0 +1,32 @@
+{
+  assertThat(backupService.backupStartedBy(),is(nullValue()));
+  final Semaphore waitForBackupToStart=new Semaphore(1);
+  final Semaphore waitForAssertionToCompleteWhileBackupIsOn=new Semaphore(1);
+  final HttpLocalizedOperationResult result=new HttpLocalizedOperationResult(){
+    @Override public void setMessage(    Localizable message){
+      waitForBackupToStart.release();
+      super.setMessage(message);
+      try {
+        waitForAssertionToCompleteWhileBackupIsOn.acquire();
+      }
+ catch (      InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+;
+  waitForAssertionToCompleteWhileBackupIsOn.acquire();
+  waitForBackupToStart.acquire();
+  Thread backupThd=new Thread(new Runnable(){
+    public void run(){
+      backupService.startBackup(admin,result);
+    }
+  }
+);
+  backupThd.start();
+  waitForBackupToStart.acquire();
+  String backupStartedBy=backupService.backupStartedBy();
+  assertThat(ReflectionUtil.getField(backupService,"backupStartedBy"),is((Object)backupStartedBy));
+  waitForAssertionToCompleteWhileBackupIsOn.release();
+  backupThd.join();
+}

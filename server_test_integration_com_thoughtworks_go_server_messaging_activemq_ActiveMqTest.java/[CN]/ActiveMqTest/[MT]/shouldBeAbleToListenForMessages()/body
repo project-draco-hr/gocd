@@ -1,0 +1,9 @@
+{
+  GoMessageTopic<GoTextMessage> topic=new GoMessageTopic<GoTextMessage>(messaging,"queue-name"){
+  }
+;
+  topic.addListener(this);
+  topic.post(new GoTextMessage("Hello World!"));
+  Thread.sleep(1000);
+  assertThat(((GoTextMessage)receivedMessage).getText(),is("Hello World!"));
+}

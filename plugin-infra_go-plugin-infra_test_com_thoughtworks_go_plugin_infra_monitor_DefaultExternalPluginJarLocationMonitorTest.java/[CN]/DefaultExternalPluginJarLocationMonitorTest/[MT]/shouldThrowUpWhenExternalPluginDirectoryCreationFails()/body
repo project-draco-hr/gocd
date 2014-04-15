@@ -1,0 +1,13 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  when(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH)).thenReturn("/xyz");
+  try {
+    new DefaultPluginJarLocationMonitor(systemEnvironment).initialize();
+    fail("should have failed for missing external plugin folder");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Failed to create external plugins folder in location /xyz"));
+  }
+}

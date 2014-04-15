@@ -1,0 +1,15 @@
+{
+  try {
+    KeyStore store=KeyStore.getInstance(KEYSTORE_TYPE);
+    FileInputStream inputStream=new FileInputStream(keystore);
+    store.load(inputStream,PASSWORD_AS_CHAR_ARRAY);
+    IOUtils.closeQuietly(inputStream);
+    KeyStore.PrivateKeyEntry intermediateEntry=(KeyStore.PrivateKeyEntry)store.getEntry("ca-intermediate",new KeyStore.PasswordProtection(PASSWORD_AS_CHAR_ARRAY));
+    Certificate intermediateCertificate=intermediateEntry.getCertificate();
+    agentCertificate.verify(intermediateCertificate.getPublicKey());
+    return true;
+  }
+ catch (  Exception e) {
+    return false;
+  }
+}

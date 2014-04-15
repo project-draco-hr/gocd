@@ -1,0 +1,8 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(goConfigService.isPasswordFileConfigured()).thenReturn(false);
+  when(ldapUserSearch.search("foo")).thenReturn(Arrays.asList(new User("foo")));
+  List<UserSearchModel> models=userSearchService.search("foo",result);
+  assertThat(models.size(),is(1));
+  assertThat(result.hasMessage(),is(false));
+}

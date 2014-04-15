@@ -1,0 +1,24 @@
+{
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      jobService.save(new StageIdentifier("pipelineName",1,"1","defaultStage","1"),42l,job);
+    }
+  }
+);
+  verify(pluginManager).doOnAll(eq(IJobPreScheduleHook.class),jobPreScheduleActionHandlerCaptor.capture(),jobPreScheduleExceptionHandlerCaptor.capture());
+  IJobPreScheduleHook preScheduleHook=mock(IJobPreScheduleHook.class);
+  Action<IJobPreScheduleHook> value=jobPreScheduleActionHandlerCaptor.getValue();
+  value.execute(preScheduleHook,null);
+  final ArgumentCaptor<JobContext> argumentCaptor=ArgumentCaptor.forClass(JobContext.class);
+  verify(preScheduleHook).call(argumentCaptor.capture());
+  JobContext jobContext=argumentCaptor.getValue();
+  Assert.assertThat(jobContext.getPipelineName(),Is.is("pipelineName"));
+  Assert.assertThat(jobContext.getPipelineCounter(),Is.is("1"));
+  Assert.assertThat(jobContext.getPipelineLabel(),Is.is("1"));
+  Assert.assertThat(jobContext.getStageName(),Is.is("defaultStage"));
+  Assert.assertThat(jobContext.getStageCounter(),Is.is(String.valueOf("1")));
+  Assert.assertThat(jobContext.getJobName(),Is.is(job.getName()));
+  Assert.assertThat(jobContext.getJobCounter(),Is.is(String.valueOf(job.getId())));
+  verify(jobInstanceDao).save(42,job);
+}

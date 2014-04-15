@@ -1,0 +1,10 @@
+{
+  MingleConfig mingleConfig=new MingleConfig("http://foo.bar:7019/baz","go-project","foo = bar");
+  assertThat(mingleConfig.getQuotedMql(),is("\"foo = bar\""));
+  mingleConfig=new MingleConfig("http://foo.bar:7019/baz","go-project");
+  assertThat(mingleConfig.getQuotedMql(),is("\"\""));
+  mingleConfig=new MingleConfig("http://foo.bar:7019/baz","go-project","\"foo\" = 'bar'");
+  assertThat(mingleConfig.getQuotedMql(),is("\"\\\"foo\\\" = 'bar'\""));
+  mingleConfig=new MingleConfig("http://foo.bar:7019/baz","go-project","\\\"foo\\\" = 'bar'");
+  assertThat(mingleConfig.getQuotedMql(),is("\"\\\\\\\"foo\\\\\\\" = 'bar'\""));
+}

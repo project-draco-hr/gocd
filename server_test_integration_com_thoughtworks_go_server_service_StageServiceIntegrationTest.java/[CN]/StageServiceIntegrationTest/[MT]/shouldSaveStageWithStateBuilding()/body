@@ -1,0 +1,6 @@
+{
+  Stage stage=instanceFactory.createStageInstance(pipelineConfig.first(),new DefaultSchedulingContext("anonumous"),md5,new TimeProvider());
+  stageService.save(savedPipeline,stage);
+  Stage latestStage=stageService.findLatestStage(CaseInsensitiveString.str(pipelineConfig.name()),CaseInsensitiveString.str(pipelineConfig.first().name()));
+  assertThat(latestStage.getState(),is(StageState.Building));
+}

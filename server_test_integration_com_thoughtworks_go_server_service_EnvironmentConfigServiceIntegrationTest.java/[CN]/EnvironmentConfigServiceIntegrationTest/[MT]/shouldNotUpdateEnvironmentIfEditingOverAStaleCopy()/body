@@ -1,0 +1,9 @@
+{
+  configHelper.addEnvironments("prod");
+  String staleMd5=goConfigFileDao.md5OfConfigFile();
+  service.updateEnvironment("prod",environmentConfig("uat1"),new Username(new CaseInsensitiveString("foo")),staleMd5);
+  assertThat("md5 should be stale",goConfigFileDao.md5OfConfigFile(),is(not(staleMd5)));
+  HttpLocalizedOperationResult result=service.updateEnvironment("prod",environmentConfig("uat2"),new Username(new CaseInsensitiveString("foo")),staleMd5);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Failed to update environment 'prod'. " + ConfigFileHasChangedException.CONFIG_CHANGED_PLEASE_REFRESH));
+}

@@ -1,0 +1,11 @@
+{
+  File artifactsDir=mock(File.class);
+  ArtifactSizeEnforcementFilter artifactSizeEnforcementFilter=new ArtifactSizeEnforcementFilter(mockArtifactsDirHolder,mockSysEnv);
+  when(mockArtifactsDirHolder.getArtifactsDir()).thenReturn(artifactsDir);
+  when(artifactsDir.getUsableSpace()).thenReturn(30000000L);
+  request.addHeader(HttpService.GO_ARTIFACT_PAYLOAD_SIZE,"713");
+  artifactSizeEnforcementFilter.doFilter(request,response,filterChain);
+  artifactSizeEnforcementFilter.doFilter(request,response,filterChain);
+  verify(filterChain,times(2)).doFilter(request,response);
+  verify(mockArtifactsDirHolder,times(1)).getArtifactsDir();
+}

@@ -1,0 +1,12 @@
+{
+  PluginManagerReference reference=PluginManagerReference.reference();
+  try {
+    reference.getPluginManager();
+    fail("should throw exception");
+  }
+ catch (  IllegalStateException ise) {
+  }
+  PluginManager mockManager=mock(PluginManager.class);
+  reference.setPluginManager(mockManager);
+  assertThat(reference.getPluginManager(),is(mockManager));
+}

@@ -1,0 +1,25 @@
+{
+  if (laterCommit == null || earlierCommit == null) {
+    return null;
+  }
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  String output=null;
+  try {
+    DiffFormatter diffFormatter=new DiffFormatter(out);
+    diffFormatter.setRepository(gitRepo);
+    diffFormatter.format(earlierCommit.getId(),laterCommit.getId());
+    output=out.toString();
+    output=StringUtil.stripTillLastOccurrenceOf(output,"+++ b/cruise-config.xml");
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Error occurred during diff computation. Message: " + e.getMessage());
+  }
+ finally {
+    try {
+      out.close();
+    }
+ catch (    Exception e) {
+    }
+  }
+  return output;
+}

@@ -1,0 +1,12 @@
+{
+  User user=new User("jez",new String[]{"jez"},"user@mail.com",true);
+  userDao.saveOrUpdate(user);
+  user=userDao.findUser(user.getName());
+  NotificationFilter filter=new NotificationFilter("cruise","dev",StageEvent.Fixed,false);
+  userService.addNotificationFilter(user.getId(),filter);
+  user=userService.findUserByName(user.getName());
+  assertThat(user.getNotificationFilters().size(),is(1));
+  long deletedNotificationId=user.getNotificationFilters().get(0).getId();
+  userService.removeNotificationFilter(user.getId(),deletedNotificationId);
+  assertThat(userService.findUserByName(user.getName()).getNotificationFilters().size(),is(0));
+}

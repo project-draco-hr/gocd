@@ -1,0 +1,7 @@
+{
+  if (!securityService.hasViewPermissionForPipeline(user,pipelineName)) {
+    operationResult.unauthorized(noViewPermissionForPipeline(CaseInsensitiveString.str(user.getUsername()),pipelineName),unauthorisedForPipeline(pipelineName));
+    return true;
+  }
+  return false;
+}

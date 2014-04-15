@@ -1,0 +1,27 @@
+{
+  String cacheKey=materialKey(material);
+  MaterialInstance materialInstance=(MaterialInstance)goCache.get(cacheKey);
+  if (materialInstance == null) {
+synchronized (cacheKey) {
+      materialInstance=(MaterialInstance)goCache.get(cacheKey);
+      if (materialInstance == null) {
+        DetachedCriteria hibernateCriteria=DetachedCriteria.forClass(material.getInstanceType());
+        for (        Map.Entry<String,Object> property : material.getSqlCriteria().entrySet()) {
+          if (!property.getKey().equals(AbstractMaterial.SQL_CRITERIA_TYPE)) {
+            if (property.getValue() == null) {
+              hibernateCriteria.add(isNull(property.getKey()));
+            }
+ else {
+              hibernateCriteria.add(eq(property.getKey(),property.getValue()));
+            }
+          }
+        }
+        materialInstance=(MaterialInstance)firstResult(hibernateCriteria);
+        if (materialInstance != null) {
+          goCache.put(cacheKey,materialInstance);
+        }
+      }
+    }
+  }
+  return materialInstance;
+}

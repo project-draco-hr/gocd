@@ -1,0 +1,10 @@
+{
+  List<Admin> result=new ArrayList<Admin>(map.size());
+  for (  Map<String,String> usernameMap : map) {
+    String value=usernameMap.get("name").trim();
+    if (!StringUtil.isBlank(value)) {
+      result.add(new AdminRole(new CaseInsensitiveString(value)));
+    }
+  }
+  return result.toArray(new Admin[result.size()]);
+}

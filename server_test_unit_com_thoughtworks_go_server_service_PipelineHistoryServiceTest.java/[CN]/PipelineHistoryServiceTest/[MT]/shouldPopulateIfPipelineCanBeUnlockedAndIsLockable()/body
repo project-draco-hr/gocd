@@ -1,0 +1,12 @@
+{
+  ensureConfigHasPipeline("pipeline");
+  stubConfigServiceToReturnPipeline("pipeline",config);
+  when(goConfigService.isLockable("pipeline")).thenReturn(true);
+  ensureHasPermission(Username.ANONYMOUS,"pipeline");
+  PipelineInstanceModel instanceModel=PipelineInstanceModel.createPipeline("pipeline",-1,"label",BuildCause.createNeverRun(),new StageInstanceModels());
+  when(pipelineDao.findPipelineHistoryByNameAndCounter("pipeline",1)).thenReturn(instanceModel);
+  when(pipelineUnlockService.canUnlock(eq("pipeline"),eq(Username.ANONYMOUS),any(HttpOperationResult.class))).thenReturn(true);
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.findPipelineInstance("pipeline",1,Username.ANONYMOUS,new HttpOperationResult());
+  assertThat(pipelineInstance.canUnlock(),is(true));
+  assertThat(pipelineInstance.isLockable(),is(true));
+}

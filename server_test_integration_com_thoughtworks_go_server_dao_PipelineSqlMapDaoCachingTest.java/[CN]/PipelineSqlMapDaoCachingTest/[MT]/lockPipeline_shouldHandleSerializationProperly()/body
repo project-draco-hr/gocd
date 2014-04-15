@@ -1,0 +1,6 @@
+{
+  when(mockTemplate.queryForObject("lockedPipeline","mingle")).thenReturn(null);
+  assertNull(pipelineDao.lockedPipeline("mingle"));
+  goCache.put(pipelineDao.lockedPipelineCacheKey("mingle"),new StageIdentifier("NOT_LOCKED",0,"NOT_LOCKED",null));
+  assertNull(pipelineDao.lockedPipeline("mingle"));
+}

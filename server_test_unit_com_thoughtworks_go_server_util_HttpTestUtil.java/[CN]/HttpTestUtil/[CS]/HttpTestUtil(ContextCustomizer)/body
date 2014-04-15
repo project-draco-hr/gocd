@@ -1,0 +1,13 @@
+{
+  Security.addProvider(new BouncyCastleProvider());
+  serverKeyStore=createTempFile("server.jks");
+  prepareCertStore(serverKeyStore);
+  server=new Server();
+  Context ctx=new Context();
+  SessionManager sm=new HashSessionManager();
+  SessionHandler sh=new SessionHandler(sm);
+  ctx.setSessionHandler(sh);
+  customizer.customize(ctx);
+  ctx.setContextPath("/go");
+  server.addHandler(ctx);
+}

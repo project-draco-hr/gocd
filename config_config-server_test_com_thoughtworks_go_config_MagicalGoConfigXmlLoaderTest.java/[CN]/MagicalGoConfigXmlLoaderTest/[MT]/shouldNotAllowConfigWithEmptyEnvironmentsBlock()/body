@@ -1,0 +1,10 @@
+{
+  String content=ConfigFileFixture.configWithEnvironments("<environments>" + "</environments>");
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("XSD should not allow empty environments block");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("The content of element 'environments' is not complete. One of '{environment}' is expected."));
+  }
+}

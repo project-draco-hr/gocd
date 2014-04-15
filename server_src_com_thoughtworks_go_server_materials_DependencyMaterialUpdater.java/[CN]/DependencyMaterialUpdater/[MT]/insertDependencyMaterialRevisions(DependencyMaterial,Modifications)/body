@@ -1,0 +1,18 @@
+{
+  final String key=cacheKeyForDependencyMaterial(dependencyMaterial);
+  if (goCache.isKeyInCache(key)) {
+    return;
+  }
+  if (list.isEmpty()) {
+    insertRevisionsForAllParentStageInstances(dependencyMaterial);
+  }
+ else {
+    insertRevisionsForParentStagesAfter(dependencyMaterial,list);
+  }
+  transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+    @Override public void afterCommit(){
+      goCache.putInAfterCommit(key,"IS UP TO DATE");
+    }
+  }
+);
+}

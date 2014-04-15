@@ -1,0 +1,17 @@
+{
+  GoConfigService configService=mock(GoConfigService.class);
+  GoMailSender goMailSender=mock(GoMailSender.class);
+  when(configService.getMailSender()).thenReturn(goMailSender);
+  when(configService.adminEmail()).thenReturn("mail@admin.com");
+  when(configService.isUserAdmin(admin)).thenReturn(true);
+  TimeProvider timeProvider=mock(TimeProvider.class);
+  DateTime now=new DateTime();
+  when(timeProvider.currentDateTime()).thenReturn(now);
+  BackupService service=new BackupService(dataSource,artifactsDirHolder,configService,timeProvider,backupInfoRepository,systemEnvironment,serverVersion,configRepository,databaseStrategy);
+  service.initialize();
+  service.startBackup(admin,new HttpLocalizedOperationResult());
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  String body=String.format("Backup of the Go server at '%s' was successfully completed. The backup is stored at location: %s. This backup was triggered by 'admin'.",ipAddress,backupDir(now).getAbsolutePath());
+  verify(goMailSender).send(new SendEmailMessage("Server Backup Completed Successfully",body,"mail@admin.com"));
+  verifyNoMoreInteractions(goMailSender);
+}

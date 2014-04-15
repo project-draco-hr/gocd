@@ -1,0 +1,17 @@
+{
+  lockPipelineMutex.writeLock().lock();
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      final String cacheKey=lockedPipelineCacheKey(pipelineName);
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCompletion(        int status){
+          goCache.remove(cacheKey);
+          lockPipelineMutex.writeLock().unlock();
+        }
+      }
+);
+      getSqlMapClientTemplate().update("unlockLockedPipeline",pipelineName);
+    }
+  }
+);
+}

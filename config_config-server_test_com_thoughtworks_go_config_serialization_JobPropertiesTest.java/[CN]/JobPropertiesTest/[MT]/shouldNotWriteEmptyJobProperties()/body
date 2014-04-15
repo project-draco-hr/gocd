@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=cruiseConfigWithProperties();
+  ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+  writer.write(cruiseConfig,buffer,false);
+  assertThat(new String(buffer.toByteArray()),not(containsString("properties")));
+}

@@ -1,0 +1,16 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("foo bar","stage1","job1");
+  FetchTask firstFetch=new FetchTask();
+  JobConfig firstJob=pipelineConfig.getFirstStageConfig().getJobs().get(0);
+  firstJob.addTask(firstFetch);
+  firstJob.addTask(new AntTask());
+  JobConfig secondJob=new JobConfig();
+  secondJob.addTask(new ExecTask());
+  FetchTask secondFetch=new FetchTask();
+  secondJob.addTask(secondFetch);
+  pipelineConfig.add(new StageConfig(new CaseInsensitiveString("stage-2"),new JobConfigs(secondJob)));
+  List<FetchTask> fetchTasks=pipelineConfig.getFetchTasks();
+  assertThat(fetchTasks.size(),is(2));
+  assertThat(fetchTasks.contains(firstFetch),is(true));
+  assertThat(fetchTasks.contains(secondFetch),is(true));
+}

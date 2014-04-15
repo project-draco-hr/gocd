@@ -1,0 +1,9 @@
+{
+  Material material=new HgMaterial("http://some_server/repo",null);
+  Modification latestModification=modification(new Date(),"123",null,null);
+  Modification earlierModification=modification(new Date(),"23",null,null);
+  MaterialRevision revision=new MaterialRevision(material,latestModification,earlierModification);
+  PipelineMaterialRevision pmr=new PipelineMaterialRevision(9,revision,null);
+  assertThat(pmr.getToModification(),is(latestModification));
+  assertThat(pmr.getFromModification(),is(earlierModification));
+}

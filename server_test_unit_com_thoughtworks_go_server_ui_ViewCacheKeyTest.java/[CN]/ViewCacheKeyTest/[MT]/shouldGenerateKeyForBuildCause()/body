@@ -1,0 +1,14 @@
+{
+  PipelineModel model=new PipelineModel("pipelineName",true,true,PipelinePauseInfo.notPaused());
+  PipelineInstanceModel pipelineInstance=PipelineInstanceModel.createPipeline("pipelineName",10,"label-10",BuildCause.createExternal(),new StageInstanceModels());
+  pipelineInstance.setId(12);
+  TrackingTool trackingTool=new TrackingTool("link","regex");
+  pipelineInstance.setTrackingTool(trackingTool);
+  model.addPipelineInstance(pipelineInstance);
+  PipelineInstanceModel pipelineInstance2=PipelineInstanceModel.createPipeline("pipelineName",7,"label-7",BuildCause.createExternal(),new StageInstanceModels());
+  pipelineInstance2.setId(14);
+  MingleConfig mingleConfig=new MingleConfig("mingle","project","mql");
+  pipelineInstance2.setMingleConfig(mingleConfig);
+  model.addPipelineInstance(pipelineInstance2);
+  assertThat(viewCacheKey.forPipelineModelBuildCauses(model),is(String.format("view_buildCausesForPipelineModel_pipelineName[12|%s|%s][14|%s|%s]",trackingTool.hashCode(),-1,-1,mingleConfig.hashCode())));
+}

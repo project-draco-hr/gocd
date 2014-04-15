@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=dbHelper.schedulePipeline(PipelineConfigMother.createPipelineConfig("foo","stage1","job1"),new TimeProvider());
+  List<Stage> stages=stageDao.oldestStagesHavingArtifacts();
+  assertThat(stages.size(),is(0));
+  dbHelper.pass(pipeline);
+  stages=stageDao.oldestStagesHavingArtifacts();
+  assertThat(stages.size(),is(1));
+}

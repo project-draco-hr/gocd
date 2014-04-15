@@ -1,0 +1,22 @@
+{
+  File oldHsqlScript=new File(oldHsql(),"cruise.script");
+  if (oldHsql().exists()) {
+    LOGGER.info(String.format("Found database at %s to be hsql. Migrating it to h2db.",oldHsqlScript.getAbsolutePath()));
+    try {
+      backupOldDb(dbDirectory(),oldHsql());
+      if (oldHsqlScript.exists()) {
+        backupNewTemplateDb(dbDirectory(),newDb());
+        replayScript(new File(oldHsql(),"cruise.script"));
+        replayScript(new File(oldHsql(),"cruise.log"));
+      }
+      deleteDirectory(oldHsql());
+      LOGGER.info(String.format("Finished Migrating from hsqldb to h2db",oldHsqlScript.getAbsolutePath()));
+    }
+ catch (    IOException e) {
+      bomb("Could not migrate old hsqldb to h2. IOException occured.",e);
+    }
+catch (    SQLException e) {
+      bomb("Could not migrate old hsqldb to h2. SQL error occurred.",e);
+    }
+  }
+}

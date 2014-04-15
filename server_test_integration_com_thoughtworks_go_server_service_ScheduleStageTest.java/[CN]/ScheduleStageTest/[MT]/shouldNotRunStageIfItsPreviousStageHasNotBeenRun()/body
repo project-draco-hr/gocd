@@ -1,0 +1,10 @@
+{
+  Pipeline pipeline=fixture.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  String theThirdStage=fixture.stageName(3);
+  try {
+    scheduleService.rerunStage(pipeline.getName(),pipeline.getLabel(),theThirdStage);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is(String.format("Can not run stage [%s] in pipeline [%s] because its previous stage has not been run.",theThirdStage,pipeline.getName())));
+  }
+}

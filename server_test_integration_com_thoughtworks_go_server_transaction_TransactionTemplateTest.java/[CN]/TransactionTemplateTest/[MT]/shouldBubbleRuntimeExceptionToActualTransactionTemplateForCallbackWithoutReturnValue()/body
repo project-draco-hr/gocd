@@ -1,0 +1,18 @@
+{
+  TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  try {
+    template.executeWithExceptionHandling(new TransactionCallbackWithoutResult(){
+      @Override public void doInTransactionWithoutResult(      TransactionStatus status) throws Exception {
+        registerSynchronization();
+        throw new Exception("foo");
+      }
+    }
+);
+    fail("should have thrown exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("foo"));
+  }
+  assertThat(txnCommited,is(false));
+  assertThat(txnCompleted,is(true));
+}

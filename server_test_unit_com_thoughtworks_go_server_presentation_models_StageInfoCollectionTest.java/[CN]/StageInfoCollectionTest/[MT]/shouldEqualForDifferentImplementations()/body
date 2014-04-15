@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("cruise","ut","ft");
+  StageConfigurationModels twoAutoStages=new StageConfigurationModels(pipelineConfig);
+  StageConfigurationModels infoCollection=new StageConfigurationModels();
+  infoCollection.add(new NullStageHistoryItem("ut",true));
+  infoCollection.add(new NullStageHistoryItem("ft",true));
+  assertThat(twoAutoStages.equals(infoCollection),is(true));
+}

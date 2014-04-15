@@ -1,0 +1,9 @@
+{
+  AgentInstance building=AgentInstanceMother.building();
+  AgentInstanceMother.updateAgentLauncherVersion(building,"12.5");
+  AgentViewModel buildingViewModel=new AgentViewModel(building);
+  assertThat(buildingViewModel.getBootstrapperVersion(),is(building.getAgentLauncherVersion()));
+  AgentInstanceMother.updateAgentLauncherVersion(building,"12.3");
+  buildingViewModel=new AgentViewModel(building);
+  assertThat(buildingViewModel.getBootstrapperVersion(),is(building.getAgentLauncherVersion()));
+}

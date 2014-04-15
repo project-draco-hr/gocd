@@ -1,0 +1,14 @@
+{
+  ConsoleResult consoleResult=diffTree(mod.getRevision());
+  List<String> result=consoleResult.output();
+  for (  String resultLine : result) {
+    if (resultLine.equals(mod.getRevision())) {
+      continue;
+    }
+    Matcher m=matchResultLine(resultLine);
+    if (!m.find()) {
+      bomb("Unable to parse git-diff-tree output line: " + consoleResult.replaceSecretInfo(resultLine) + "\n"+ "From output:\n"+ consoleResult.outputForDisplayAsString());
+    }
+    mod.createModifiedFile(m.group(2),null,parseGitAction(m.group(1).charAt(0)));
+  }
+}

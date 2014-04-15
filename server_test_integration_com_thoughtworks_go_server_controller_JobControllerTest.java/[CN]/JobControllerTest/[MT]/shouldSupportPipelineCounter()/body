@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  Stage stage=pipeline.getFirstStage();
+  JobInstance job=stage.getFirstJob();
+  ModelAndView modelAndView=controller.jobDetail(pipeline.getName(),String.valueOf(pipeline.getCounter()),stage.getName(),String.valueOf(stage.getCounter()),job.getName());
+  assertThat(presenter(modelAndView).getBuildLocator(),is(job.getIdentifier().buildLocator()));
+}

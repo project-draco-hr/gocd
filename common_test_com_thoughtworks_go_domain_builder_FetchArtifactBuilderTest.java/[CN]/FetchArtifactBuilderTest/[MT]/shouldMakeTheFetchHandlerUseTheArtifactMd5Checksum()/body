@@ -1,0 +1,10 @@
+{
+  ArtifactMd5Checksums artifactMd5Checksums=mock(ArtifactMd5Checksums.class);
+  when(urlService.baseRemoteURL()).thenReturn("http://10.10.1.1/go/files");
+  when(checksumFileHandler.url("http://10.10.1.1/go/files","cruise/10/dev/1/windows")).thenReturn("http://10.10.1.1/go/files/cruise/10/dev/1/windows/cruise-output/md5.checksum");
+  when(checksumFileHandler.getArtifactMd5Checksums()).thenReturn(artifactMd5Checksums);
+  FetchHandler fetchHandler=mock(FetchHandler.class);
+  FetchArtifactBuilder builder=getBuilder(new JobIdentifier("cruise",10,"1","dev","1","windows",1L),"log",dest.getPath(),fetchHandler,checksumFileHandler);
+  builder.fetch(downloadAction,urlService);
+  verify(fetchHandler).useArtifactMd5Checksums(artifactMd5Checksums);
+}

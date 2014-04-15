@@ -1,0 +1,10 @@
+{
+  for (  ConfigurationExtension configExtension : pluginExtns.configTagImplementations()) {
+    for (    ConfigTypeExtension typeExtension : configExtension.implementations) {
+      Class impl=typeExtension.getImplementation();
+      registerImplementer(typeExtension.getType(),impl);
+      registerView(impl,typeExtension.getFactory());
+    }
+    registerPluginNamespace(configExtension.pluginNamespace);
+  }
+}

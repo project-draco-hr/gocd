@@ -1,0 +1,40 @@
+{
+  if (!goConfigService.isUserAdmin(username)) {
+    result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_BACKUP"),HealthStateType.unauthorised());
+    return;
+  }
+synchronized (BACKUP_MUTEX) {
+    DateTime now=timeProvider.currentDateTime();
+    final File destDir=new File(backupLocation(),BACKUP + now.toString("YYYYMMdd-HHmmss"));
+    if (!destDir.mkdirs()) {
+      result.badRequest(LocalizedMessage.string("BACKUP_UNSUCCESSFUL","Could not create the backup directory."));
+      return;
+    }
+    try {
+      backupRunningSince=now;
+      backupStartedBy=username.getUsername().toString();
+      backupVersion(destDir);
+      backupConfig(destDir);
+      configRepository.doLocked(new VoidThrowingFn<IOException>(){
+        @Override public void run() throws IOException {
+          backupConfigRepository(destDir);
+        }
+      }
+);
+      backupDb(destDir);
+      serverBackupRepository.save(new ServerBackup(destDir.getAbsolutePath(),now.toDate(),username.getUsername().toString()));
+      mailSender.send(EmailMessageDrafter.backupSuccessfullyCompletedMessage(destDir.getAbsolutePath(),goConfigService.adminEmail(),username));
+      result.setMessage(LocalizedMessage.string("BACKUP_COMPLETED_SUCCESSFULLY"));
+    }
+ catch (    Exception e) {
+      FileUtils.deleteQuietly(destDir);
+      result.badRequest(LocalizedMessage.string("BACKUP_UNSUCCESSFUL",e.getMessage()));
+      LOGGER.error("[Backup] Failed to backup Go.",e);
+      mailSender.send(EmailMessageDrafter.backupFailedMessage(e.getMessage(),goConfigService.adminEmail()));
+    }
+ finally {
+      backupRunningSince=null;
+      backupStartedBy=null;
+    }
+  }
+}

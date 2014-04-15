@@ -1,0 +1,10 @@
+{
+  if (stage.getState().completed()) {
+    if (activePipelinesToIds.containsKey(pipelineName)) {
+      TreeSet<Long> ids=activePipelinesToIds.get(pipelineName);
+      if (!ids.last().equals(stage.getPipelineId())) {
+        ids.remove(stage.getPipelineId());
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  List<Revision> revisions=node.revisions();
+  assertThat(revisions.size(),is(pipelineCounters.length));
+  for (  Integer pipelineCounter : pipelineCounters) {
+    assertThat(String.format("Pipeline %s does not have pipeline counter %s",pipelineName,pipelineCounter),revisions.contains(new PipelineRevision(pipelineName,pipelineCounter,pipelineCounter.toString())),is(true));
+  }
+}

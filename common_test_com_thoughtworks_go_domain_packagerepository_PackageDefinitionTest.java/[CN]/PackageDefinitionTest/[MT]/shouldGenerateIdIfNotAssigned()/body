@@ -1,0 +1,9 @@
+{
+  PackageDefinition packageDefinition=new PackageDefinition();
+  packageDefinition.ensureIdExists();
+  assertThat(packageDefinition.getId(),is(notNullValue()));
+  packageDefinition=new PackageDefinition();
+  packageDefinition.setId("id");
+  packageDefinition.ensureIdExists();
+  assertThat(packageDefinition.getId(),is("id"));
+}

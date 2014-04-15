@@ -1,0 +1,12 @@
+{
+  PackageDefinition entryToBeDeleted=null;
+  for (  PackageDefinition packageDefinition : packages) {
+    if (packageDefinition.getId().equals(packageId)) {
+      entryToBeDeleted=packageDefinition;
+    }
+  }
+  if (entryToBeDeleted == null) {
+    throw new RuntimeException(format("Could not find package with id:[%s]",packageId));
+  }
+  packages.remove(entryToBeDeleted);
+}

@@ -1,0 +1,17 @@
+{
+  File workingDirectory=mock(File.class);
+  when(workingDirectory.exists()).thenReturn(false);
+  GoTfsWorkspace workspace=mock(GoTfsWorkspace.class);
+  GoTfsWorkspace[] workspaces={workspace};
+  when(client.queryWorkspaces(TFS_WORKSPACE,USERNAME)).thenReturn(workspaces);
+  when(workspace.isLocalPathMapped(anyString())).thenReturn(false);
+  doNothing().when(workspace).createWorkingFolder(any(com.microsoft.tfs.core.clients.versioncontrol.soapextensions.WorkingFolder.class));
+  TfsSDKCommand spy=spy(tfsCommand);
+  doNothing().when(spy).retrieveFiles(workingDirectory,null);
+  spy.checkout(workingDirectory,null);
+  verify(client,times(1)).queryWorkspaces(TFS_WORKSPACE,USERNAME);
+  verify(client,never()).createWorkspace(TFS_WORKSPACE);
+  verify(workspace,times(1)).isLocalPathMapped(anyString());
+  verify(workspace,times(1)).createWorkingFolder(any(com.microsoft.tfs.core.clients.versioncontrol.soapextensions.WorkingFolder.class));
+  verify(spy).retrieveFiles(workingDirectory,null);
+}

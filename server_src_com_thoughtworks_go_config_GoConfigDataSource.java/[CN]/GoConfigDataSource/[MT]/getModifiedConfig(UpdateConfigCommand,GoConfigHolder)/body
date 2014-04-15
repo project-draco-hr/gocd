@@ -1,0 +1,12 @@
+{
+  LOGGER.debug("[Config Save] ==-- Getting modified config");
+  if (shouldMergeConfig(updatingCommand,configHolder)) {
+    if (!systemEnvironment.get(SystemEnvironment.ENABLE_CONFIG_MERGE_FEATURE)) {
+      throw new ConfigMergeException(ConfigFileHasChangedException.CONFIG_CHANGED_PLEASE_REFRESH);
+    }
+    return getMergedConfig((NoOverwriteUpdateConfigCommand)updatingCommand,configHolder.configForEdit.getMd5());
+  }
+  CruiseConfig config=updatingCommand.update(cloner.deepClone(configHolder.configForEdit));
+  LOGGER.debug("[Config Save] ==-- Done getting modified config");
+  return config;
+}

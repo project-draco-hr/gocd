@@ -1,0 +1,8 @@
+{
+  String pluginId="pluginId";
+  PluggableTaskViewModelFactory factory=new PluggableTaskViewModelFactory();
+  PluggableViewModel<PluggableTask> viewModel=factory.viewModelFor(new PluggableTask("",new PluginConfiguration(pluginId,"1"),new Configuration()),"edit");
+  assertThat((String)viewModel.getParameters().get("template"),is(String.format("Associated plugin '%s' not found. Please contact the Go admin to install the plugin.",pluginId)));
+  assertThat(viewModel.getTypeForDisplay(),is(pluginId));
+  assertThat(viewModel instanceof MissingPluggableTaskViewModel,is(true));
+}

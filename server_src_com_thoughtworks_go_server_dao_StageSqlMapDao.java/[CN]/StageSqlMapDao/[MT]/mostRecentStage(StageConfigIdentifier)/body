@@ -1,0 +1,4 @@
+{
+  Map<String,Object> toGet=arguments("pipelineName",identifier.getPipelineName()).and("stageName",identifier.getStageName()).asMap();
+  return (Stage)getSqlMapClientTemplate().queryForObject("getMostRecentStage",toGet);
+}

@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=fixture.pipelineConfig();
+  BuildCause cause=modifySomeFiles(pipelineConfig,ModificationsMother.currentRevision());
+  queue.finishSchedule(fixture.pipelineName,cause,cause);
+  queue.schedule(fixture.pipelineName,cause);
+  assertThat(fixture.pipelineName,is(scheduledOn(queue)));
+  assertThat(queue.createPipeline(cause,pipelineConfig,new DefaultSchedulingContext(cause.getApprover(),new Agents()),"md5-test",new TimeProvider()),is(nullValue()));
+  assertThat(fixture.pipelineName,is(not(scheduledOn(queue))));
+}

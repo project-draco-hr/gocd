@@ -1,0 +1,9 @@
+{
+  List<CaseInsensitiveString> pipelineDeps=new ArrayList<CaseInsensitiveString>();
+  for (  MaterialConfig material : materialConfigs) {
+    if (material instanceof DependencyMaterialConfig) {
+      pipelineDeps.add(((DependencyMaterialConfig)material).getPipelineName());
+    }
+  }
+  return new Node(pipelineDeps);
+}

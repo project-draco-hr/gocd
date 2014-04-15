@@ -1,0 +1,15 @@
+{
+  SecurityConfig securityConfig=new SecurityConfig();
+  securityConfig.modifyLdap(new LdapConfig("ldap://uri","dn","p",null,true,new BasesConfig(new BaseConfig("")),""));
+  assertThat((String)ReflectionUtil.getField(securityConfig.ldapConfig(),"managerPassword"),is(""));
+  assertThat(securityConfig.ldapConfig().managerPassword(),is("p"));
+  String encryptedPassword=new GoCipher().encrypt("p");
+  assertThat(securityConfig.ldapConfig().getEncryptedManagerPassword(),is(encryptedPassword));
+  securityConfig.modifyLdap(new LdapConfig("ldap://uri","dn","notP",null,false,new BasesConfig(new BaseConfig("")),""));
+  assertThat((String)ReflectionUtil.getField(securityConfig.ldapConfig(),"managerPassword"),is(""));
+  assertThat(securityConfig.ldapConfig().managerPassword(),is("p"));
+  assertThat(securityConfig.ldapConfig().getEncryptedManagerPassword(),is(encryptedPassword));
+  securityConfig.modifyLdap(new LdapConfig("ldap://uri","dn","",null,true,new BasesConfig(new BaseConfig("")),""));
+  assertThat(securityConfig.ldapConfig().managerPassword(),is(""));
+  assertThat(securityConfig.ldapConfig().getEncryptedManagerPassword(),is(nullValue()));
+}

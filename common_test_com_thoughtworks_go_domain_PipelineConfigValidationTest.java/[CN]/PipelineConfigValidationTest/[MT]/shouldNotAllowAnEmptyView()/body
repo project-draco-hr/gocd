@@ -1,0 +1,8 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline1");
+  P4MaterialConfig materialConfig=new P4MaterialConfig("localhost:1666","");
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  pipelineConfig.addMaterialConfig(materialConfig);
+  materialConfig.validate(validationContext);
+  assertThat(materialConfig.errors().on("view"),is("P4 view cannot be empty."));
+}

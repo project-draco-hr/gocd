@@ -1,0 +1,8 @@
+{
+  dbHelper.onSetUp();
+  pipelineFixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  pipelineFixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  schedulerFixture=new SchedulerFixture(dbHelper,stageDao,scheduleService);
+}

@@ -1,0 +1,9 @@
+{
+  for (  MaterialRevision materialRevision : getCurrentRevisions()) {
+    String materialName=CaseInsensitiveString.str(materialRevision.getMaterial().getName());
+    if (materialName != null && materialName.equals(requestedMaterialName)) {
+      return materialRevision.getRevision();
+    }
+  }
+  throw new RuntimeException("material not known for pipeline " + getName());
+}

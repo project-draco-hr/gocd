@@ -1,0 +1,9 @@
+{
+  JsonView view=new JsonView(requestContext);
+  MockHttpServletResponse response=new MockHttpServletResponse();
+  JsonMap map=new JsonMap();
+  map.put("key","\r\t\n");
+  view.renderMergedOutputModel(JsonView.asMap(map),new MockHttpServletRequest(),response);
+  String json=response.getContentAsString();
+  new JsonTester(json).is("{ 'key' : '\\r\\t\\n' }");
+}

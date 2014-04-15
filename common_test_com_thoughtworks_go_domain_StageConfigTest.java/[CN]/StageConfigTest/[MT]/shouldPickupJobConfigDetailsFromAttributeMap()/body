@@ -1,0 +1,7 @@
+{
+  StageConfig config=new StageConfig();
+  Map stageAttrs=m(StageConfig.JOBS,a(m(JobConfig.NAME,"con-job"),m(JobConfig.NAME,"boring-job")));
+  config.setConfigAttributes(stageAttrs);
+  assertThat(config.getJobs().get(0).name(),is(new CaseInsensitiveString("con-job")));
+  assertThat(config.getJobs().get(1).name(),is(new CaseInsensitiveString("boring-job")));
+}

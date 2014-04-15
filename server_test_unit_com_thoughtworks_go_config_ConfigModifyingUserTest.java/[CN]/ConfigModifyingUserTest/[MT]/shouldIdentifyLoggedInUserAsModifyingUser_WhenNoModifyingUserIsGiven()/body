@@ -1,0 +1,6 @@
+{
+  SecurityContext context=SecurityContextHolder.getContext();
+  context.setAuthentication(new UsernamePasswordAuthenticationToken(new User("loser_boozer","pass",true,true,true,true,new GrantedAuthority[]{}),null));
+  ConfigModifyingUser user=new ConfigModifyingUser();
+  assertThat(user.getUserName(),is("loser_boozer"));
+}

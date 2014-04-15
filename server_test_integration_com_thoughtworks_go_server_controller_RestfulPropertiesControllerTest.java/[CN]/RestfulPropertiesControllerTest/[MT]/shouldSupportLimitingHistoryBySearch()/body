@@ -1,0 +1,9 @@
+{
+  setProperty(oldPipeline,"a","100");
+  setProperty(newPipeline,"a","300");
+  getAllPropertyHistoryListAsCsvBySearch(null,1);
+  CSVResponse csvResponse=new CSVResponse(response);
+  assertThat(csvResponse.isCSV(),is(true));
+  assertThat(csvResponse.statusEquals(SC_OK),is(true));
+  assertThat(csvResponse.containsColumn("a","300"),is(true));
+}

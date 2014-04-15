@@ -1,0 +1,29 @@
+{
+  Folder folder=null;
+  try {
+    folder=getInboxFolder();
+    Message[] messagesInBox=folder.getMessages();
+    List<Message> messages=new ArrayList<Message>();
+    for (    Message message : messagesInBox) {
+      if (message.getSubject().contains(subject)) {
+        messages.add(message);
+      }
+    }
+    if (messages == null || messages.size() == 0) {
+      throw new RuntimeException("No message found with subject :" + subject);
+    }
+    if (messages.size() > 1) {
+      throw new RuntimeException("Multiple message matched subject : [" + print(messages) + "]");
+    }
+    return messages.get(0);
+  }
+  finally {
+    if (folder != null && folder.isOpen()) {
+      try {
+        folder.close(true);
+      }
+ catch (      MessagingException e) {
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  String viewName="viewName";
+  Map model=new HashMap();
+  request.setRequestURI("/tab/not-exist");
+  ModelAndView modelAndView=new ModelAndView(viewName,model);
+  tabInterceptor.postHandle(request,null,null,modelAndView);
+  assertThat(modelAndView.getViewName(),is(viewName));
+  assertThat((Map)modelAndView.getModel(),is(model));
+}

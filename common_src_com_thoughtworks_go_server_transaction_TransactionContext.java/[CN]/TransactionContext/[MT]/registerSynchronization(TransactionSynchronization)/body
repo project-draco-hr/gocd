@@ -1,0 +1,8 @@
+{
+  if (isInTransactionSurrounding() && !isTransactionBodyExecuting()) {
+    futureSynchronizations.add(synchronization);
+  }
+ else {
+    doRegisterSynchronization(synchronization);
+  }
+}

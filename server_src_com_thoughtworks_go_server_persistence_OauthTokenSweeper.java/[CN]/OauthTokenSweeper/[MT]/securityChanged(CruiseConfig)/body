@@ -1,0 +1,5 @@
+{
+  SecurityConfig currentSecurity=currentConfig.server().security();
+  SecurityConfig newSecurity=newConfig.server().security();
+  return (currentSecurity == null && newSecurity != null) || (currentSecurity != null && currentSecurity.hasSecurityMethodChanged(newSecurity));
+}

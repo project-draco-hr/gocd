@@ -1,0 +1,12 @@
+{
+  ensureExists(instanceId);
+  String propertyName=property.getKey();
+  try {
+    getSqlMapClientTemplate().insert("saveProperty",arguments("instanceId",instanceId).and("propertyName",propertyName).and("value",property.getValue()).asMap());
+    return true;
+  }
+ catch (  DataAccessException e) {
+    LOGGER.error("Error saving property '" + propertyName + "' = '"+ property.getValue()+ "' on instanceId '"+ (Long)instanceId+ "'");
+    return false;
+  }
+}

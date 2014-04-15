@@ -1,0 +1,8 @@
+{
+  StageConfig stage=StageConfigMother.custom("stage","job");
+  JobConfigs configs=stage.allBuildPlans();
+  Resource resource=new Resource();
+  resource.setName(resourceName);
+  configs.get(0).resources().add(resource);
+  return stage;
+}

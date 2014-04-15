@@ -1,0 +1,16 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  assertThat(valueFor(BUNDLE_SYMBOLICNAME),is(nullValue()));
+  assertThat(valueFor(BUNDLE_CLASSPATH),is(nullValue()));
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("pluginId","some-plugin.jar",bundleLocation,true);
+  GoPluginOSGiManifest manifest=new GoPluginOSGiManifest(descriptor);
+  manifest.update();
+  assertThat(valueFor(BUNDLE_SYMBOLICNAME),is("pluginId"));
+  assertThat(valueFor(BUNDLE_ACTIVATOR),is(DefaultGoPluginActivator.class.getCanonicalName()));
+  assertThat(valueFor(BUNDLE_CLASSPATH),is("lib/go-plugin-activator.jar,.,lib/dependency.jar"));
+  assertThat(descriptor.bundleSymbolicName(),is("pluginId"));
+  assertThat(descriptor.bundleClassPath(),is("lib/go-plugin-activator.jar,.,lib/dependency.jar"));
+  assertThat(descriptor.bundleActivator(),is(DefaultGoPluginActivator.class.getCanonicalName()));
+}

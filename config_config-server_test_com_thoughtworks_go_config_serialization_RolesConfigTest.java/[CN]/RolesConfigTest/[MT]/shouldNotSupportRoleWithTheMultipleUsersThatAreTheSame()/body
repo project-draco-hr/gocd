@@ -1,0 +1,9 @@
+{
+  try {
+    addRole(role("test_role",user("chris"),user("chris")));
+    fail("User already exists");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),is("User 'chris' already exists in 'test_role'."));
+  }
+}

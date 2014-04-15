@@ -1,0 +1,10 @@
+{
+  InMemoryStreamConsumer consumer2=inMemoryConsumer();
+  List<String> arrays=new ArrayList<String>();
+  arrays.add("-p");
+  arrays.add(serverAndPort());
+  arrays.addAll(Arrays.asList(args));
+  CommandLine command=createCommandLine("p4").withWorkingDir(workingDir).withArgs("-p",serverAndPort()).withArgs(args);
+  command.run(consumer2,null);
+  System.out.println(consumer2.getAllOutput());
+}

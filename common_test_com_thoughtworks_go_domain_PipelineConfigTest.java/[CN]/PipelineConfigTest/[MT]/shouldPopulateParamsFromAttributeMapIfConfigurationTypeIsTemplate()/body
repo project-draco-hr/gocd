@@ -1,0 +1,12 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  HashMap map=new HashMap();
+  HashMap valueHashMap=new HashMap();
+  valueHashMap.put("param-name","FOO");
+  valueHashMap.put("param-value","BAR");
+  map.put(PipelineConfig.PARAMS,valueHashMap);
+  map.put(PipelineConfig.CONFIGURATION_TYPE,PipelineConfig.CONFIGURATION_TYPE_TEMPLATE);
+  pipelineConfig.setParams(mockParamsConfig);
+  pipelineConfig.setConfigAttributes(map);
+  verify(mockParamsConfig).setConfigAttributes(valueHashMap);
+}

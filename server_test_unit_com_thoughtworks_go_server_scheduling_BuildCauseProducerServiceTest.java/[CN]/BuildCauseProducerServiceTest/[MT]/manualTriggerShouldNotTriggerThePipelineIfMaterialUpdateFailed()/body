@@ -1,0 +1,9 @@
+{
+  HgMaterialConfig hgMaterialConfig=new HgMaterialConfig("url",null);
+  HgMaterial hgMaterial=new HgMaterial("url",null);
+  pipelineConfig.addMaterialConfig(hgMaterialConfig);
+  when(materialConfigConverter.toMaterial(hgMaterialConfig)).thenReturn(hgMaterial);
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig,new ScheduleOptions(),new ServerHealthStateOperationResult());
+  sendMaterialUpdateFailedMessage(extractMaterialListenerInstanceFromRegisterCall(),hgMaterial);
+  assertThat(triggerMonitor.isAlreadyTriggered(CaseInsensitiveString.str(pipelineConfig.name())),is(false));
+}

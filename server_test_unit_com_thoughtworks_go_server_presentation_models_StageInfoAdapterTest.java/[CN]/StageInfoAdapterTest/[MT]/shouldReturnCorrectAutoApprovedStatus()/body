@@ -1,0 +1,5 @@
+{
+  StageConfig stage=StageConfigMother.custom("dev",new JobConfigs());
+  assertThat(stage.requiresApproval(),is(false));
+  assertThat(new StageInfoAdapter(stage).isAutoApproved(),is(true));
+}

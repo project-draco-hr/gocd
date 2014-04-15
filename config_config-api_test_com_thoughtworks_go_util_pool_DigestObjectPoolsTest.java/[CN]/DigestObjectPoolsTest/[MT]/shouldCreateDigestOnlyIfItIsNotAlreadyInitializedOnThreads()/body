@@ -1,0 +1,24 @@
+{
+  DigestObjectPools.CreateDigest creator=mock(DigestObjectPools.CreateDigest.class);
+  when(creator.create(DigestObjectPools.SHA_256)).thenReturn(MessageDigest.getInstance(DigestObjectPools.SHA_256));
+  final DigestObjectPools pools=new DigestObjectPools(creator);
+  try {
+    final DigestObjectPools.DigestOperation operation=mock(DigestObjectPools.DigestOperation.class);
+    pools.computeDigest(DigestObjectPools.SHA_256,operation);
+    pools.computeDigest(DigestObjectPools.SHA_256,operation);
+    Thread thread=new Thread(new Runnable(){
+      public void run(){
+        pools.computeDigest(DigestObjectPools.SHA_256,operation);
+        pools.computeDigest(DigestObjectPools.SHA_256,operation);
+      }
+    }
+);
+    thread.start();
+    thread.join();
+    verify(creator,times(2)).create(DigestObjectPools.SHA_256);
+    verifyNoMoreInteractions(creator);
+  }
+  finally {
+    pools.clearThreadLocals();
+  }
+}

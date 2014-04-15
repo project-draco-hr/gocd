@@ -1,0 +1,16 @@
+{
+  final List<String> cmd=new ArrayList<String>();
+  String expectedAgentMd5=FileDigester.md5DigestOfFile(new File("testdata/test-agent.jar"));
+  String expectedAgentPluginsMd5=FileDigester.md5DigestOfFile(new File("testdata/agent-plugins.zip"));
+  AgentProcessParentImpl bootstrapper=createBootstrapper(cmd);
+  int returnCode=bootstrapper.run("launcher_version","bar",getURLGenerator(),new HashMap<String,String>());
+  assertThat(returnCode,is(42));
+  assertThat(cmd.get(0),is(getProperty("java.home") + getProperty("file.separator") + "bin"+ getProperty("file.separator")+ "java"));
+  assertThat(cmd.get(1),is("-Dagent.launcher.version=launcher_version"));
+  assertThat(cmd.get(2),is("-Dagent.plugins.md5=" + expectedAgentPluginsMd5));
+  assertThat(cmd.get(3),is("-Dagent.binary.md5=" + expectedAgentMd5));
+  assertThat(cmd.get(4),is("-Dagent.launcher.md5=bar"));
+  assertThat(cmd.get(5),is("-jar"));
+  assertThat(cmd.get(6),is("agent.jar"));
+  assertThat(cmd.get(7),is("https://localhost:9443/go/"));
+}

@@ -1,0 +1,11 @@
+{
+  assertThat(newJava.getId(),CoreMatchers.is(-1l));
+  assertThat(newJava.getTransitions().isEmpty(),CoreMatchers.is(false));
+  assertThat(newJava.getResult(),CoreMatchers.is(JobResult.Passed));
+  assertThat(newJava.getState(),CoreMatchers.is(JobState.Completed));
+  assertThat(newJava.getTransitions().byState(JobState.Scheduled).getId(),CoreMatchers.is(-1l));
+  assertThat(newJava.getTransitions().byState(JobState.Completed).getId(),CoreMatchers.is(-1l));
+  assertThat(newJava.getOriginalJobId(),CoreMatchers.is(originalId));
+  assertThat(newJava.isRerun(),CoreMatchers.is(false));
+  assertThat(newJava.isCopy(),CoreMatchers.is(true));
+}

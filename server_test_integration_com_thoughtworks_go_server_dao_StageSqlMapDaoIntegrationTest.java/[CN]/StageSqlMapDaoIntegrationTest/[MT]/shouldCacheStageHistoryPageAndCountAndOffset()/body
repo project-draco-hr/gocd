@@ -1,0 +1,24 @@
+{
+  HgMaterial hg=new HgMaterial("url",null);
+  String[] hg_revs={"h1"};
+  scheduleUtil.checkinInOrder(hg,hg_revs);
+  String pipelineName="p1";
+  String stageName="stage_name";
+  ScheduleTestUtil.AddedPipeline p1=scheduleUtil.saveConfigWith(pipelineName,stageName,scheduleUtil.m(hg));
+  scheduleUtil.runAndPass(p1,"h1");
+  Stage stage=stageDao.mostRecentStage(new StageConfigIdentifier(pipelineName,stageName));
+  stageDao.findStageHistoryPage(stage,10);
+  Method cacheKeyForStageHistories=getMethodViaReflection("cacheKeyForStageHistories",String.class,String.class);
+  Method cacheKeyForStageCount=getMethodViaReflection("cacheKeyForStageCount",String.class,String.class);
+  Method cacheKeyForStageOffset=getMethodViaReflection("cacheKeyForStageOffset",Stage.class);
+  Object primedStageHistoryPage=goCache.get((String)cacheKeyForStageHistories.invoke(stageDao,pipelineName,stageName));
+  Object primedStageHistoryCount=goCache.get((String)cacheKeyForStageCount.invoke(stageDao,pipelineName,stageName));
+  Object primedStageHistoryOffset=goCache.get((String)cacheKeyForStageOffset.invoke(stageDao,stage),String.valueOf(stage.getId()));
+  stageDao.findStageHistoryPage(stage,10);
+  Object cachedStageHistoryPage=goCache.get((String)cacheKeyForStageHistories.invoke(stageDao,pipelineName,stageName));
+  Object cachedStageHistoryCount=goCache.get((String)cacheKeyForStageCount.invoke(stageDao,pipelineName,stageName));
+  Object cachedStageHistoryOffset=goCache.get((String)cacheKeyForStageOffset.invoke(stageDao,stage),String.valueOf(stage.getId()));
+  assertThat(cachedStageHistoryPage,is(sameInstance(primedStageHistoryPage)));
+  assertThat(cachedStageHistoryCount,is(sameInstance(primedStageHistoryCount)));
+  assertThat(cachedStageHistoryOffset,is(sameInstance(primedStageHistoryOffset)));
+}

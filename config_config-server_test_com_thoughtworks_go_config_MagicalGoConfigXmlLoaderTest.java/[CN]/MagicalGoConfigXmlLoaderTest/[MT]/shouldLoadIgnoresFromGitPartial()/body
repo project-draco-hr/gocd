@@ -1,0 +1,9 @@
+{
+  String gitPartial="<git url='file:///tmp/testGitRepo/project1' >\n" + "            <filter>\n" + "                <ignore pattern='x'/>\n"+ "            </filter>\n"+ "        </git>";
+  GitMaterialConfig gitMaterial=xmlLoader.fromXmlPartial(toInputStream(gitPartial),GitMaterialConfig.class);
+  assertThat(gitMaterial.getBranch(),is(GitMaterialConfig.DEFAULT_BRANCH));
+  Filter parsedFilter=gitMaterial.filter();
+  Filter expectedFilter=new Filter();
+  expectedFilter.add(new IgnoredFiles("x"));
+  assertThat(parsedFilter,is(expectedFilter));
+}

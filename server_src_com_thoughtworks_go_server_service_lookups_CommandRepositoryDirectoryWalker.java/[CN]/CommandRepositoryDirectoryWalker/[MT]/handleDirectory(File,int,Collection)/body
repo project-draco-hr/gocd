@@ -1,0 +1,12 @@
+{
+  if (FileUtil.isHidden(directory)) {
+    return false;
+  }
+  if (!FileUtil.isDirectoryReadable(directory)) {
+    String message=String.format("Failed to access command repository directory: %s.",directory.getPath());
+    serverHealthService.update(ServerHealthState.warning("Command Repository",message,HealthStateType.commandRepositoryAccessibilityIssue(),systemEnvironment.getCommandRepoWarningTimeout()));
+    LOGGER.warn(message);
+    return false;
+  }
+  return true;
+}

@@ -1,0 +1,18 @@
+{
+  HashSet<MaterialConfig> materialConfigs=new HashSet<MaterialConfig>();
+  Set<Map> uniqueMaterials=new HashSet<Map>();
+  for (  PipelineConfigs pipelineConfigs : this) {
+    for (    PipelineConfig pipelineConfig : pipelineConfigs) {
+      for (      MaterialConfig materialConfig : pipelineConfig.materialConfigs()) {
+        if (!uniqueMaterials.contains(materialConfig.getSqlCriteria()) && materialConfig instanceof ScmMaterialConfig) {
+          if (materialConfig.isAutoUpdate()) {
+            continue;
+          }
+          materialConfigs.add(materialConfig);
+          uniqueMaterials.add(materialConfig.getSqlCriteria());
+        }
+      }
+    }
+  }
+  return materialConfigs;
+}

@@ -1,0 +1,14 @@
+{
+  String currentPipeline="P1";
+  ValueStreamMap graph=new ValueStreamMap(currentPipeline,null);
+  graph.addUpstreamNode(new PipelineDependencyNode("d1","d1"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("d2","d2"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d1");
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d2");
+  List<List<Node>> nodesAtEachLevel=graph.presentationModel().getNodesAtEachLevel();
+  assertThat(nodesAtEachLevel.size(),is(3));
+  assertThat(nodesAtEachLevel.get(0).get(0).getName(),is("d3"));
+  assertThat(nodesAtEachLevel.get(1).get(0).getName(),is("d1"));
+  assertThat(nodesAtEachLevel.get(1).get(1).getName(),is("d2"));
+  assertThat(nodesAtEachLevel.get(2).get(0).getName(),is(currentPipeline));
+}

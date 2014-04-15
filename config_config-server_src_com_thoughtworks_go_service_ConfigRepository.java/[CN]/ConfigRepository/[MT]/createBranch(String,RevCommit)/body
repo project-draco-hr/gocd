@@ -1,0 +1,9 @@
+{
+  try {
+    git.branchCreate().setName(branchName).setStartPoint(revCommit).call();
+  }
+ catch (  GitAPIException e) {
+    LOGGER.error(String.format("[CONFIG_MERGE] Failed to create branch %s at revision %s",branchName,revCommit.getId()));
+    throw e;
+  }
+}

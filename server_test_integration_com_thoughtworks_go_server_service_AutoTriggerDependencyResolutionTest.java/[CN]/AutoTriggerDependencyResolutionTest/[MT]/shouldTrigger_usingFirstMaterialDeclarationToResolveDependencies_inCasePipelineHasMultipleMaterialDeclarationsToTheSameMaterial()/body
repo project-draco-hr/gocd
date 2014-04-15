@@ -1,0 +1,31 @@
+{
+  GitMaterial git=new GitMaterial("git");
+  String[] git_revs={"g1","g2","g3"};
+  u.checkinInOrder(git,git_revs);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git,"p1-first"),u.m(git,"p1-second"));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(p1),u.m(git,"p2-first"),u.m(git,"p2-second"));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(p2),u.m(git));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String p1_1=u.runAndPass(p1,"g1","g1");
+  assertThat(getRevisionsBasedOnDependencies(p2,cruiseConfig,u.mrs(new MaterialRevision[]{u.mr(rel(p1,p2),true,p1_1),u.mr(rel(git,p2,0),true,"g1","g2","g3"),u.mr(rel(git,p2,1),true,"g1","g2","g3")})),is(u.mrs(new MaterialRevision[]{u.mr(rel(p1,p2),true,p1_1),u.mr(rel(git,p2,0),true,"g1"),u.mr(rel(git,p2,1),true,"g1")})));
+  String p2_1=u.runAndPass(p2,p1_1,"g1","g1");
+  assertThat(getRevisionsBasedOnDependencies(p3,cruiseConfig,u.mrs(new MaterialRevision[]{u.mr(rel(p1,p3),true,p1_1),u.mr(rel(p2,p3),true,p2_1),u.mr(rel(git,p3),true,"g1","g2","g3")})),is(u.mrs(new MaterialRevision[]{u.mr(rel(p1,p3),true,p1_1),u.mr(rel(p2,p3),true,p2_1),u.mr(rel(git,p3),true,"g1")})));
+  String p3_1=u.runAndPass(p3,p1_1,p2_1,"g1");
+  String p1_2=u.runAndPass(p1,"g1","g2");
+  assertThat(getRevisionsBasedOnDependencies(p2,cruiseConfig,u.mrs(new MaterialRevision[]{u.mr(rel(p1,p2),true,p1_2),u.mr(rel(git,p2,0),true,"g2","g3"),u.mr(rel(git,p2,1),true,"g2","g3")})),is(u.mrs(new MaterialRevision[]{u.mr(rel(p1,p2),true,p1_2),u.mr(rel(git,p2,0),false,"g1"),u.mr(rel(git,p2,1),false,"g1")})));
+  String p2_2=u.runAndPass(p2,p1_2,"g1","g1");
+  assertThat(getRevisionsBasedOnDependencies(p3,cruiseConfig,u.mrs(new MaterialRevision[]{u.mr(rel(p1,p3),true,p1_2),u.mr(rel(p2,p3),true,p2_2),u.mr(rel(git,p3),true,"g2","g3")})),is(u.mrs(new MaterialRevision[]{u.mr(rel(p1,p3),true,p1_2),u.mr(rel(p2,p3),true,p2_2),u.mr(rel(git,p3),false,"g1")})));
+  String p3_2=u.runAndPass(p3,p1_2,p2_2,"g1");
+  String p2_3=u.runAndPass(p2,p1_2,"g1","g3");
+  assertThat(getRevisionsBasedOnDependencies(p3,cruiseConfig,u.mrs(new MaterialRevision[]{u.mr(rel(p1,p3),true,p1_2),u.mr(rel(p2,p3),true,p2_3),u.mr(rel(git,p3),true,"g2","g3")})),is(u.mrs(new MaterialRevision[]{u.mr(rel(p1,p3),true,p1_2),u.mr(rel(p2,p3),true,p2_3),u.mr(rel(git,p3),false,"g1")})));
+  String p3_3=u.runAndPass(p3,p1_2,p2_3,"g1");
+  String p2_4=u.runAndPass(p2,p1_2,"g2","g1");
+  AutoBuild autoBuild=new AutoBuild(goConfigService,pipelineService,"P3",systemEnvironment,materialChecker,serverHealthService);
+  MaterialRevision[] given={u.mr(rel(p1,p3),true,p1_2),u.mr(rel(p2,p3),true,p2_4),u.mr(rel(git,p3),true,"g2","g3")};
+  MaterialRevision[] previous={u.mr(rel(p1,p3),true,p1_2),u.mr(rel(p2,p3),true,p2_3),u.mr(rel(git,p3),true,"g1")};
+  BuildCause buildCause=autoBuild.onModifications(u.mrs(given),false,u.mrs(previous));
+  assertThat(buildCause,is(nullValue()));
+  String p1_3=u.runAndPass(p1,"g2","g1");
+  String p2_5=u.runAndPass(p2,p1_3,"g2","g1");
+  assertThat(getRevisionsBasedOnDependencies(p3,cruiseConfig,u.mrs(new MaterialRevision[]{u.mr(rel(p1,p3),true,p1_3),u.mr(rel(p2,p3),true,p2_5),u.mr(rel(git,p3),true,"g2","g3")})),is(u.mrs(new MaterialRevision[]{u.mr(rel(p1,p3),true,p1_3),u.mr(rel(p2,p3),true,p2_5),u.mr(rel(git,p3),true,"g2")})));
+}

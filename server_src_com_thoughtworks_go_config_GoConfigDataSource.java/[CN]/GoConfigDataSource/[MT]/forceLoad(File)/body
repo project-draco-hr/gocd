@@ -1,0 +1,18 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Reloading config file: " + configFile.getAbsolutePath());
+  }
+  try {
+    return internalLoad(FileUtils.readFileToString(configFile),new ConfigModifyingUser(FILESYSTEM));
+  }
+ catch (  Exception e) {
+    LOGGER.error("Unable to load config file: " + configFile.getAbsolutePath() + " "+ e.getMessage(),e);
+    if (configFile.exists()) {
+      LOGGER.warn("--- " + configFile.getAbsolutePath() + " ---");
+      LOGGER.warn(FileUtil.readContentFromFile(configFile));
+      LOGGER.warn("------");
+    }
+    LOGGER.debug(e);
+    throw e;
+  }
+}

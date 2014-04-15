@@ -1,0 +1,11 @@
+{
+  List<CaseInsensitiveString> pipelines=environmentConfigService.pipelinesFor(environmentName);
+  if (pipelines.isEmpty()) {
+    environments.add(new Environment(CaseInsensitiveString.str(environmentName),new ArrayList<PipelineModel>()));
+    return;
+  }
+  List<PipelineModel> pipelineInstanceModels=getPipelinesInstanceForEnvironment(pipelines,username);
+  if (!pipelineInstanceModels.isEmpty()) {
+    environments.add(new Environment(CaseInsensitiveString.str(environmentName),pipelineInstanceModels));
+  }
+}

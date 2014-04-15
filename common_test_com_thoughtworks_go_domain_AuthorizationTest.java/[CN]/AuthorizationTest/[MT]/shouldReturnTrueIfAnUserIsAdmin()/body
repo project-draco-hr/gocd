@@ -1,0 +1,5 @@
+{
+  Authorization authorization=new Authorization(new AdminsConfig(new AdminUser(new CaseInsensitiveString("foo"))));
+  assertThat(authorization.isUserAnAdmin(new CaseInsensitiveString("foo"),new ArrayList<Role>()),is(true));
+  assertThat(authorization.isUserAnAdmin(new CaseInsensitiveString("bar"),new ArrayList<Role>()),is(false));
+}

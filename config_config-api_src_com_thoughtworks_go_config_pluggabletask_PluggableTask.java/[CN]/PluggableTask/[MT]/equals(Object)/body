@@ -1,0 +1,19 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  if (!super.equals(o)) {
+    return false;
+  }
+  PluggableTask that=(PluggableTask)o;
+  if (configuration != null ? !configuration.equals(that.configuration) : that.configuration != null) {
+    return false;
+  }
+  if (!pluginConfiguration.equals(that.pluginConfiguration)) {
+    return false;
+  }
+  return true;
+}

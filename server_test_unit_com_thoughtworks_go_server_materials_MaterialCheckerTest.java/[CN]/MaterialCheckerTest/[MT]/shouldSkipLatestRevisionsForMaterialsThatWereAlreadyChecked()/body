@@ -1,0 +1,11 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  SvnMaterial svnMaterial=new SvnMaterial("svnUrl",null,null,false);
+  Stage passedStage=StageMother.passedStageInstance("stage-name","job-name","pipeline-name");
+  Modification dependencyModification=new Modification("Unknown","Unknown",null,passedStage.completedDate(),"pipeline-name/1[LABEL-1]/stage-name/0");
+  Modification svnModification=new Modification("user","commend","em@il",new Date(),"1");
+  Mockito.when(materialRepository.findLatestModification(svnMaterial)).thenReturn(revisions(dependencyMaterial,svnModification));
+  materialChecker.findLatestRevisions(new MaterialRevisions(new MaterialRevision(dependencyMaterial,dependencyModification)),new Materials(dependencyMaterial,svnMaterial));
+  Mockito.verify(materialRepository,never()).findLatestModification(dependencyMaterial);
+  Mockito.verify(materialRepository).findLatestModification(svnMaterial);
+}

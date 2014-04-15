@@ -1,0 +1,8 @@
+{
+  subversion.checkoutTo(outputStreamConsumer,checkoutFolder,SubversionRevision.HEAD);
+  File file=checkoutFolder.listFiles(DOT_SVN_IGNORING_FILTER)[0];
+  file.delete();
+  assertThat(file.exists(),is(false));
+  subversion.cleanupAndRevert(outputStreamConsumer,checkoutFolder);
+  assertThat(file.exists(),is(true));
+}

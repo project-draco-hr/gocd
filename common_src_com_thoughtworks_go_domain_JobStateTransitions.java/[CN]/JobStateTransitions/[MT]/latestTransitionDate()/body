@@ -1,0 +1,9 @@
+{
+  Date mostRecent=null;
+  for (  JobStateTransition transition : this) {
+    if (mostRecent == null || transition.getStateChangeTime().after(mostRecent)) {
+      mostRecent=transition.getStateChangeTime();
+    }
+  }
+  return mostRecent;
+}

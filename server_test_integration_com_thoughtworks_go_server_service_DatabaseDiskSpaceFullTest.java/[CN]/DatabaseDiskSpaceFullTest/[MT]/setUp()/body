@@ -1,0 +1,9 @@
+{
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  serverHealthService.removeAllLogs();
+  fixture.usingConfigHelper(configHelper).usingDbHelper(databaseAccessHelper).onSetUp();
+  configHelper.setupMailHost();
+  diskIsFull.onSetUp();
+}

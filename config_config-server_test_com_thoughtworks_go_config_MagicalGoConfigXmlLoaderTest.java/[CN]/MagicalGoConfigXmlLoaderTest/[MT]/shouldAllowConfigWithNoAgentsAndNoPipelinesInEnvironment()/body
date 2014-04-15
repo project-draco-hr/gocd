@@ -1,0 +1,5 @@
+{
+  String content=ConfigFileFixture.configWithEnvironments("<environments>" + "  <environment name='uat' />" + "</environments>");
+  CruiseConfig config=ConfigMigrator.loadWithMigration(content).config;
+  assertThat(config.getEnvironments().size(),is(1));
+}

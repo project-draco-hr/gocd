@@ -1,0 +1,7 @@
+{
+  ClassLoader nestedJarClassLoader=new NestedJarClassLoader(urlForSDKJar());
+  InputStream bootstrapResource=this.getClass().getClassLoader().getResourceAsStream("javax/swing/text/html/default.css");
+  assertThat(bootstrapResource,is(not(nullValue())));
+  bootstrapResource=nestedJarClassLoader.getResourceAsStream("sound.properties");
+  assertThat(bootstrapResource,is(nullValue()));
+}

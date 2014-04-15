@@ -1,0 +1,9 @@
+{
+  MailHost mailHost1=new MailHost("blah",42,"blah","password-1",true,true,"from","to");
+  MailHost mailHost2=new MailHost("blah",42,"blah","password-2",true,true,"from","to");
+  MailHost mailHost3=new MailHost("blah",42,"blah","password-2",false,true,"from","to");
+  assertThat(mailHost1,is(mailHost2));
+  assertThat(mailHost1.hashCode(),is(mailHost2.hashCode()));
+  assertThat(mailHost2,is(mailHost3));
+  assertThat(mailHost2.hashCode(),is(mailHost3.hashCode()));
+}

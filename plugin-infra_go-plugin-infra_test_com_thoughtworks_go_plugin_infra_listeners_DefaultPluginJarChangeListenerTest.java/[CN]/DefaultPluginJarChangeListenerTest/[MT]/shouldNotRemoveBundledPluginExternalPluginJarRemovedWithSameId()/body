@@ -1,0 +1,12 @@
+{
+  String pluginId="plugin-id";
+  String pluginJarFileName="plugin-file-name";
+  File pluginJarFile=mock(File.class);
+  when(pluginJarFile.getName()).thenReturn(pluginJarFileName);
+  GoPluginDescriptor oldPluginDescriptor=new GoPluginDescriptor(pluginId,"1.0",null,null,null,true);
+  when(registry.getPluginByIdOrFileName(null,pluginJarFileName)).thenReturn(oldPluginDescriptor);
+  DefaultPluginJarChangeListener spy=spy(listener);
+  spy.pluginJarRemoved(new PluginFileDetails(pluginJarFile,false));
+  verify(registry,never()).unloadPlugin(oldPluginDescriptor);
+  verify(osgiFramework,never()).unloadPlugin(oldPluginDescriptor);
+}

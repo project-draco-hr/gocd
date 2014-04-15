@@ -1,0 +1,8 @@
+{
+  SvnMaterial mainRepo=MaterialsMother.svnMaterial("mainRepo");
+  MaterialRevisions revisions=new MaterialRevisions();
+  revisions.addRevision(mainRepo,multipleModificationList());
+  revisions.addRevision(MaterialsMother.svnMaterial("externalRepo"),multipleModificationList());
+  buildCause=BuildCause.createWithModifications(revisions,"");
+  buildCause.assertMaterialsMatch(new MaterialConfigs(mainRepo.config()));
+}

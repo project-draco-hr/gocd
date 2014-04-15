@@ -1,0 +1,18 @@
+{
+  Bundle bundle=pluginOSGiFramework.loadPlugin(new GoPluginDescriptor(null,null,null,null,errorGeneratingDescriptorBundleDir,true));
+  assertThat(bundle.getState(),is(Bundle.ACTIVE));
+  ActionWithReturn<PluginDescriptorAware,Object> action=new ActionWithReturn<PluginDescriptorAware,Object>(){
+    @Override public Object execute(    PluginDescriptorAware descriptorAware,    GoPluginDescriptor goPluginDescriptor){
+      descriptorAware.setPluginDescriptor(null);
+      return null;
+    }
+  }
+;
+  try {
+    pluginOSGiFramework.doOn(PluginDescriptorAware.class,"testplugin.descriptorValidator",action);
+    fail("Should Throw An Exception");
+  }
+ catch (  Exception ex) {
+    assertThat(ex.getCause() instanceof AbstractMethodError,is(true));
+  }
+}

@@ -1,0 +1,11 @@
+{
+  List<String> args=new ArrayList<String>();
+  if (executable != null) {
+    args.add(executable);
+  }
+  for (int i=0; i < arguments.size(); i++) {
+    CommandArgument argument=arguments.get(i);
+    args.add(argument.forDisplay());
+  }
+  return args.toArray(new String[args.size()]);
+}

@@ -1,0 +1,5 @@
+{
+  String scheme=new URI(url).getScheme();
+  ServerSiteUrlConfig siteUrl=forceSsl || (scheme != null && scheme.equals("https")) ? getSecureSiteUrl() : serverConfig().getSiteUrl();
+  return siteUrl.siteUrlFor(url,false);
+}

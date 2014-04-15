@@ -1,0 +1,11 @@
+{
+  SvnMaterialConfig svnMaterial=new SvnMaterialConfig("https://some-url","new-user","new-pass",false);
+  configHelper.addPipeline("new-pipeline","new-stage",svnMaterial,"first-job");
+  PipelineInstanceModels instanceModels=pipelineHistoryService.loadWithEmptyAsDefault("new-pipeline",Pagination.ONE_ITEM,"username");
+  PipelineInstanceModel instanceModel=instanceModels.get(0);
+  assertThat(instanceModel.getMaterials(),is(new MaterialConfigs(svnMaterial)));
+  assertThat(instanceModel.getCurrentRevision(svnMaterial).getRevision(),is("No historical data"));
+  assertThat(instanceModel.getLatestRevision(svnMaterial).getRevision(),is("No historical data"));
+  assertThat(instanceModel.getStageHistory().size(),is(1));
+  assertThat(instanceModel.getStageHistory().get(0).getName(),is("new-stage"));
+}

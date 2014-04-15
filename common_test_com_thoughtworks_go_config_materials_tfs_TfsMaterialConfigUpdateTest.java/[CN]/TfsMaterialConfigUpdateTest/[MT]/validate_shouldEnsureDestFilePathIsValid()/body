@@ -1,0 +1,6 @@
+{
+  TfsMaterialConfig tfsMaterialConfig=new TfsMaterialConfig(new GoCipher(),new UrlArgument("http://10.4.4.101:8080/tfs/Sample"),"loser","CORPORATE","passwd","walk_this_path");
+  tfsMaterialConfig.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"../a"));
+  tfsMaterialConfig.validate(new ValidationContext(null));
+  assertThat(tfsMaterialConfig.errors().on(TfsMaterialConfig.FOLDER),is("Dest folder '../a' is not valid. It must be a sub-directory of the working folder."));
+}

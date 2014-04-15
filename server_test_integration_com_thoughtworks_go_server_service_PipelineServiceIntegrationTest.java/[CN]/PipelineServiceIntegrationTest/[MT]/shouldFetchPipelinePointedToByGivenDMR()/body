@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("pipeline","stage","job");
+  dbHelper.savePipelineWithMaterials(pipeline);
+  UpstreamPipelineResolver resolver=pipelineService;
+  BuildCause loadedBC=resolver.buildCauseFor(DependencyMaterialRevision.create(pipeline.getStages().get(0).getIdentifier().getStageLocator(),pipeline.getLabel()).getPipelineName(),DependencyMaterialRevision.create(pipeline.getStages().get(0).getIdentifier().getStageLocator(),pipeline.getLabel()).getPipelineCounter());
+  assertEquals(pipeline.getBuildCause(),loadedBC);
+}

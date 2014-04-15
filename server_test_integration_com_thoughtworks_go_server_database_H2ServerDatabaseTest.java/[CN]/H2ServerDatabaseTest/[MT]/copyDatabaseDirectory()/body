@@ -1,0 +1,12 @@
+{
+  dbFixture=new DatabaseFixture();
+  dbFixture.copyH2Db();
+  env=dbFixture.env();
+  H2Database tmpdb=new H2Database(env);
+  tmpdb.startDatabase();
+  tmpdb.upgrade();
+  tmpdb.shutdown();
+  env.setDebugMode(true);
+  h2Database=new H2Database(env);
+  h2Database.startDatabase();
+}

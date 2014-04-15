@@ -1,0 +1,6 @@
+{
+  pipelinePauseInfo.setPaused(true);
+  JsonTester jsonTester=new JsonTester(presenter.toJson());
+  jsonTester.shouldContain("{ 'paused' : 'true' }");
+  jsonTester.shouldNotContain("{ 'needsApproval' : 'true' }");
+}

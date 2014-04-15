@@ -1,0 +1,13 @@
+{
+  dbHelper.pass(savedPipeline);
+  listener=new JobStatusListener(new JobStatusTopic(null),stageService,stageStatusTopic);
+  final StageStatusMessage stagePassed=new StageStatusMessage(jobIdentifier.getStageIdentifier(),StageState.Passed,StageResult.Passed);
+  mockery.checking(new Expectations(){
+{
+      one(stageStatusTopic).post(stagePassed);
+    }
+  }
+);
+  listener.onMessage(new JobStatusMessage(jobIdentifier,JobState.Completed,AGENT1.getUuid()));
+  mockery.assertIsSatisfied();
+}

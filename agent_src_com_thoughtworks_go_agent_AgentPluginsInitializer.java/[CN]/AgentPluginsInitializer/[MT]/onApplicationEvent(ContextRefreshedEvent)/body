@@ -1,0 +1,15 @@
+{
+  try {
+    File agentPluginsZip=new File(DownloadableFile.AGENT_PLUGINS.getLocalFileName());
+    File pluginsFolder=new File(SystemEnvironment.PLUGINS_PATH);
+    zipUtil.unzip(agentPluginsZip,pluginsFolder);
+    defaultPluginJarLocationMonitor.initialize();
+    pluginManager.startPluginInfrastructure();
+  }
+ catch (  IOException e) {
+    LOG.warn("could not extract plugin zip",e);
+  }
+catch (  RuntimeException e) {
+    LOG.warn("error while initializing agent plugins",e);
+  }
+}

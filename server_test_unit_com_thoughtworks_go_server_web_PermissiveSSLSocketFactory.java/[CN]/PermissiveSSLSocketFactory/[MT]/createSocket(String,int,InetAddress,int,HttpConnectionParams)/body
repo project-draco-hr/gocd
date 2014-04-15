@@ -1,0 +1,7 @@
+{
+  if (params == null) {
+    throw new IllegalArgumentException("Parameters may not be null");
+  }
+  int timeout=params.getConnectionTimeout();
+  return timeout == 0 ? createSocket(host,port,localAddress,localPort) : ControllerThreadSocketFactory.createSocket(this,host,port,localAddress,localPort,timeout);
+}

@@ -1,0 +1,10 @@
+{
+  Materials materials=new Materials();
+  HgMaterial material1=MaterialsMother.hgMaterial();
+  material1.setFolder("folder1");
+  HgMaterial material2=MaterialsMother.hgMaterial();
+  material2.setFolder("folder2");
+  materials.add(material1);
+  materials.add(material2);
+  assertThat((HgMaterial)materials.byFolder("folder1"),is(material1));
+}

@@ -1,0 +1,8 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  AgentRuntimeInfo newRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  newRuntimeInfo.setUsableSpace(1000L);
+  assertThat(agentInstance.getUsableSpace(),is(not(newRuntimeInfo.getUsableSpace())));
+  agentInstance.update(newRuntimeInfo);
+  assertThat(agentInstance.getUsableSpace(),is(newRuntimeInfo.getUsableSpace()));
+}

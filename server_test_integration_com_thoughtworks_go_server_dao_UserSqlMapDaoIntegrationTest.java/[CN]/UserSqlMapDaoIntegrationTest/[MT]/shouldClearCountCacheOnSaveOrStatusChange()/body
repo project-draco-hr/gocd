@@ -1,0 +1,18 @@
+{
+  User user=new User("user",new String[]{"*.*,user"},"user@mail.com",true);
+  userDao.saveOrUpdate(user);
+  assertThat(userDao.enabledUserCount(),is(1));
+  User loser=new User("loser","Loser","loser@mail.com");
+  loser.disable();
+  User foo=new User("foo","Foo","foo@mail.com");
+  userDao.saveOrUpdate(loser);
+  userDao.saveOrUpdate(foo);
+  userDao.saveOrUpdate(user);
+  assertThat(userDao.enabledUserCount(),is(2));
+  userDao.enableUsers(Arrays.asList(loser.getName()));
+  assertThat(userDao.enabledUserCount(),is(3));
+  userDao.disableUsers(Arrays.asList(user.getName()));
+  assertThat(userDao.enabledUserCount(),is(2));
+  userDao.saveOrUpdate(new User("bozer","Bozer","bozer@emai.com"));
+  assertThat(userDao.enabledUserCount(),is(3));
+}

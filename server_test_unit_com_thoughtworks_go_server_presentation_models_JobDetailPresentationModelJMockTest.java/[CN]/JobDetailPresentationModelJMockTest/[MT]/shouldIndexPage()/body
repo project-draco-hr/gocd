@@ -1,0 +1,11 @@
+{
+  context.checking(new Expectations(){
+{
+      allowing(stubJobInstance).getTestIndexPage();
+      will(returnValue(new File("home/user/testoutput/result/index.html")));
+    }
+  }
+);
+  String path=jobDetailPresenter.getIndexPageURL();
+  assertThat(path,is("files/pipeline/1/stageName/0/build/testoutput/result/index.html"));
+}

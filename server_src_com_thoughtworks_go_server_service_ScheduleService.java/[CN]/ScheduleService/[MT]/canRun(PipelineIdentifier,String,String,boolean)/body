@@ -1,0 +1,8 @@
+{
+  if (!goConfigService.hasStageConfigNamed(pipelineIdentifier.getName(),stageName)) {
+    return false;
+  }
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  schedulingChecker.canScheduleStage(pipelineIdentifier,stageName,username,result);
+  return result.getServerHealthState().isSuccess() && hasPreviousStageBeenScheduled;
+}

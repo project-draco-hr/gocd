@@ -1,0 +1,6 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("mingle"),new CaseInsensitiveString("dev"),new CaseInsensitiveString("linux-firefox"),"log.xml","dest");
+  Pipeline pipeline=pipelineWithDepencencyMaterial("cruise","mingle",1,"label-1","dev",2);
+  FetchArtifactBuilder builder=(FetchArtifactBuilder)fetchTaskBuilder.createBuilder(builderFactory,fetchTask,pipeline,resolver);
+  assertThat(builder.artifactLocator(),is("mingle/1/dev/2/linux-firefox/log.xml"));
+}

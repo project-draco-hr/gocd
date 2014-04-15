@@ -1,0 +1,17 @@
+{
+  Material material=new HgMaterial("http://some_server/repo",null);
+  Modification latestModification=modification(new Date(),"123",null,null);
+  Modification earlierModification=modification(new Date(),"23",null,null);
+  PipelineMaterialRevision pmr=new PipelineMaterialRevision(9,new MaterialRevision(material,latestModification,earlierModification),null);
+  Modification earlierThatEarlyModification=modification(new Date(),"13",null,null);
+  pmr.useMaterialRevision(new MaterialRevision(material,latestModification,earlierThatEarlyModification));
+  assertThat(pmr.getToModification(),is(latestModification));
+  assertThat(pmr.getFromModification(),is(earlierThatEarlyModification));
+  Modification laterThanLatestModification=modification(new Date(),"1234",null,null);
+  pmr.useMaterialRevision(new MaterialRevision(material,laterThanLatestModification,earlierThatEarlyModification));
+  assertThat(pmr.getToModification(),is(laterThanLatestModification));
+  assertThat(pmr.getFromModification(),is(earlierThatEarlyModification));
+  pmr.useMaterialRevision(new MaterialRevision(material,laterThanLatestModification,earlierModification));
+  assertThat(pmr.getToModification(),is(laterThanLatestModification));
+  assertThat(pmr.getFromModification(),is(earlierModification));
+}

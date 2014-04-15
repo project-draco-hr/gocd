@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=loadConfigFileWithContent(ConfigFileFixture.VERSION_0);
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline"));
+  StageConfig firstStage=pipelineConfig.get(0);
+  StageConfig secondStage=pipelineConfig.get(1);
+  assertThat(firstStage.requiresApproval(),is(Boolean.FALSE));
+  assertThat(secondStage.requiresApproval(),is(Boolean.TRUE));
+}

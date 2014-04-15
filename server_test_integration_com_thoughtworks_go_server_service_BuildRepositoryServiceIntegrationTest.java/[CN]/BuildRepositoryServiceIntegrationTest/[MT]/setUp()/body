@@ -1,0 +1,13 @@
+{
+  dbHelper.onSetUp();
+  config.onSetUp();
+  config.usingCruiseConfigDao(goConfigFileDao);
+  goConfigService.forceNotifyListeners();
+  svnTestRepo=new SvnTestRepo("testsvnrepo");
+  svnRepo=new SvnCommand(null,svnTestRepo.projectRepositoryUrl());
+  config.addPipeline(PIPELINE_NAME,DEV_STAGE,svnRepo,"foo");
+  mingle=config.addStageToPipeline(PIPELINE_NAME,FT_STAGE,"bar");
+  config.addAgent(HOSTNAME,AGENT_UUID);
+  pipeline=dbHelper.newPipelineWithAllStagesPassed(mingle);
+  goCache.clear();
+}

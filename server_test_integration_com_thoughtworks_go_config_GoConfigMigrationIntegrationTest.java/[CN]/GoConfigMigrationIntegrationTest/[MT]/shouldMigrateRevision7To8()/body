@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=loadConfigFileWithContent(ConfigFileFixture.VERSION_7);
+  HgMaterialConfig hgConfig=(HgMaterialConfig)cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("framework")).materialConfigs().first();
+  assertThat(hgConfig.getFolder(),is(nullValue()));
+  assertThat(hgConfig.filter(),is(notNullValue()));
+}

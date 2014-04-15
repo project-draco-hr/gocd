@@ -1,0 +1,12 @@
+{
+  String dependent="P1";
+  ValueStreamMap graph=new ValueStreamMap(dependent,null);
+  graph.addUpstreamNode(new SCMDependencyNode("git_fingerprint","git","git"),null,dependent);
+  List<List<Node>> nodesAtEachLevel=graph.presentationModel().getNodesAtEachLevel();
+  assertThat(nodesAtEachLevel.size(),is(2));
+  assertThat(nodesAtEachLevel.get(0).size(),is(1));
+  Node gitScmNode=nodesAtEachLevel.get(0).get(0);
+  assertThat(gitScmNode.getId(),is("git_fingerprint"));
+  assertThat(gitScmNode.getName(),is("git"));
+  VSMTestHelper.assertThatNodeHasChildren(graph,"git_fingerprint",0,dependent);
+}

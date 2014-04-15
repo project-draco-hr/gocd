@@ -1,0 +1,9 @@
+{
+  PackageRepository repository=PackageRepositoryMother.create(repoId,repoName,pluginid,version,new Configuration((ConfigurationProperty[])repoProperties.toArray()));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create(pkgId,pkgName,new Configuration((ConfigurationProperty[])packageProperties.toArray()),repository);
+  repository.getPackages().add(packageDefinition);
+  PackageMaterial material=new PackageMaterial(pkgId);
+  material.setId(1);
+  material.setPackageDefinition(packageDefinition);
+  return material;
+}

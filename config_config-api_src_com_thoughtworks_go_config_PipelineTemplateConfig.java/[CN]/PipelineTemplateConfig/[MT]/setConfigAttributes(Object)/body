@@ -1,0 +1,14 @@
+{
+  Map attributeMap=(Map)attributes;
+  if (attributeMap.containsKey(NAME)) {
+    String strName=(String)attributeMap.get(NAME);
+    name=new CaseInsensitiveString(strName);
+  }
+  if (attributeMap.containsKey(AUTHORIZATION)) {
+    this.authorization=new Authorization();
+    this.authorization.setConfigAttributes(attributeMap.get(AUTHORIZATION));
+  }
+ else {
+    this.authorization=new Authorization();
+  }
+}

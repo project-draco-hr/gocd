@@ -1,0 +1,18 @@
+{
+  try {
+    if (!conn.isOpen()) {
+      throw new IllegalStateException("Cannot create a temp graph on a closed graph!");
+    }
+    Repository inMemRepos=InMemoryRepositoryFactory.emptyRepository();
+    String contextURI=null;
+    if (contextResource.length > 0) {
+      contextURI=contextResource[0].stringValue();
+    }
+    Graph tempGraph=new SesameGraph(inMemRepos.getConnection(),contextURI);
+    tempGraphs.add(tempGraph);
+    return tempGraph;
+  }
+ catch (  RepositoryException ex) {
+    throw new ShineRuntimeException("Unable to create temp graph!",ex);
+  }
+}

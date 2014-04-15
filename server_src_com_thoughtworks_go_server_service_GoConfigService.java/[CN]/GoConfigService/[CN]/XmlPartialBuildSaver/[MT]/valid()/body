@@ -1,0 +1,8 @@
+{
+  CruiseConfig config=configForEditing();
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString(pipeline));
+  bombIf(pipelineConfig.hasTemplate(),String.format("Pipeline '%s' references template '%s'. Cannot edit job.",pipeline,pipelineConfig.getTemplateName()));
+  JobConfigs jobConfigs=config.stageConfigByName(new CaseInsensitiveString(pipeline),new CaseInsensitiveString(stage)).allBuildPlans();
+  bombIf(jobConfigs.size() <= buildIndex,"Build does not exist.");
+  return jobConfigs.get(buildIndex);
+}

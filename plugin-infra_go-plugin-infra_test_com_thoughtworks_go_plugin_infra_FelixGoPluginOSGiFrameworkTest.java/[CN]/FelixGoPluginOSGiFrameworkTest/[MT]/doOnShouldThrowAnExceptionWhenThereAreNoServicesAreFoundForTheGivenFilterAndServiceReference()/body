@@ -1,0 +1,60 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  String symbolicName="dummy_symbolic_name";
+  registerServicesWithSameSymbolicName(symbolicName,firstService,secondService);
+  spy.start();
+  try {
+    spy.doOn(SomeOtherInterface.class,symbolicName,new ActionWithReturn<SomeOtherInterface,Object>(){
+      @Override public Object execute(      SomeOtherInterface obj,      GoPluginDescriptor pluginDescriptor){
+        assertThat(pluginDescriptor,is(descriptor));
+        throw new RuntimeException("Should Not Be invoked");
+      }
+    }
+);
+    fail("Should throw plugin framework exception");
+  }
+ catch (  GoPluginFrameworkException ex) {
+    assertThat(ex.getMessage().startsWith("No reference found"),is(true));
+    assertThat(ex.getMessage().contains(SomeOtherInterface.class.getCanonicalName()),is(true));
+    assertThat(ex.getMessage().contains(symbolicName),is(true));
+  }
+  try {
+    spy.doOn(SomeOtherInterface.class,symbolicName,new Action<SomeOtherInterface>(){
+      @Override public void execute(      SomeOtherInterface obj,      GoPluginDescriptor pluginDescriptor){
+        assertThat(pluginDescriptor,is(descriptor));
+        throw new RuntimeException("Should Not Be invoked");
+      }
+    }
+);
+    fail("Should throw plugin framework exception");
+  }
+ catch (  GoPluginFrameworkException ex) {
+    assertThat(ex.getMessage().startsWith("No reference found"),is(true));
+    assertThat(ex.getMessage().contains(SomeOtherInterface.class.getCanonicalName()),is(true));
+    assertThat(ex.getMessage().contains(symbolicName),is(true));
+  }
+  try {
+    spy.doOnWithExceptionHandling(SomeOtherInterface.class,symbolicName,new Action<SomeOtherInterface>(){
+      @Override public void execute(      SomeOtherInterface obj,      GoPluginDescriptor pluginDescriptor){
+        assertThat(pluginDescriptor,is(descriptor));
+        throw new RuntimeException("Should Not Be invoked");
+      }
+    }
+,new ExceptionHandler<SomeOtherInterface>(){
+      @Override public void handleException(      SomeOtherInterface obj,      Throwable t){
+      }
+    }
+);
+    fail("Should throw plugin framework exception");
+  }
+ catch (  GoPluginFrameworkException ex) {
+    assertThat(ex.getMessage().startsWith("No reference found"),is(true));
+    assertThat(ex.getMessage().contains(SomeOtherInterface.class.getCanonicalName()),is(true));
+    assertThat(ex.getMessage().contains(symbolicName),is(true));
+  }
+  verify(firstService,never()).someMethodWithReturn();
+  verify(secondService,never()).someMethodWithReturn();
+  verify(secondService,never()).someMethod();
+  verifyNoMoreInteractions(firstService,secondService);
+}

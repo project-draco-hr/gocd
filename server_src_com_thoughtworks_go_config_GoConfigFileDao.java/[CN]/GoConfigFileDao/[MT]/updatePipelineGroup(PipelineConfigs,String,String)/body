@@ -1,0 +1,13 @@
+{
+  updateConfig(new NoOverwriteUpdateConfigCommand(){
+    public CruiseConfig update(    final CruiseConfig cruiseConfig){
+      bombIf(!cruiseConfig.hasPipelineGroup(groupName),"Pipeline group " + groupName + " does not exist in config file. "+ "Unable to update the Pipeline group.");
+      cruiseConfig.updateGroup(pipelineConfigs,groupName);
+      return cruiseConfig;
+    }
+    public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+}

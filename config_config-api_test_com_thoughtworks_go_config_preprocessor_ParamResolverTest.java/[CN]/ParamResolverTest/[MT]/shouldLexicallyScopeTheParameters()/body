@@ -1,0 +1,18 @@
+{
+  PipelineConfig withParams=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  withParams.addParam(param("foo","pipeline"));
+  PipelineConfig withoutParams=PipelineConfigMother.createPipelineConfig("mingle","dev","ant");
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.addPipeline("group",withParams);
+  cruiseConfig.addPipeline("group",withoutParams);
+  cruiseConfig.server().setArtifactsDir("/#{foo}/#{bar}");
+  HgMaterialConfig materialConfig=MaterialConfigsMother.hgMaterialConfig();
+  materialConfig.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"work/#{foo}/#{bar}/baz"));
+  withParams.addMaterialConfig(materialConfig);
+  withParams.setLabelTemplate("2.0.#{foo}-#{bar}");
+  withoutParams.setLabelTemplate("2.0.#{foo}-#{bar}");
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","global"),param("bar","global-only"))),fieldCache).resolve(cruiseConfig);
+  assertThat(withParams.materialConfigs().get(1).getFolder(),is("work/pipeline/global-only/baz"));
+  assertThat(withParams.getLabelTemplate(),is("2.0.pipeline-global-only"));
+  assertThat(withoutParams.getLabelTemplate(),is("2.0.global-global-only"));
+}

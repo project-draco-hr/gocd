@@ -1,0 +1,8 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  MingleConfig mingleConfig=mingleConfigService.mingleConfigForPipelineNamed("foo",new Username(new CaseInsensitiveString("some_loser")),result);
+  assertThat(mingleConfig,is(nullValue()));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("You do not have view permissions for pipeline 'foo'."));
+  assertThat(result.httpCode(),is(401));
+}

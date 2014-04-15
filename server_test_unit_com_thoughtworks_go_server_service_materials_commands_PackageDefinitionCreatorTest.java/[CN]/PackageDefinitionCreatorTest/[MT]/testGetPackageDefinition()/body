@@ -1,0 +1,6 @@
+{
+  HashMap<String,Serializable> params=PackageDefinitionMother.paramsForPackageMaterialAssociation(repoId,pkgId);
+  PackageDefinitionCreator packageDefinitionCreator=new PackageDefinitionCreator(packageDefinitionService,params);
+  PackageDefinition fetchedPackageDefinition=packageDefinitionCreator.getPackageDefinition(cruiseConfig);
+  assertThat(fetchedPackageDefinition.getId(),is(pkgId));
+}

@@ -1,0 +1,16 @@
+{
+  String cacheKey=lockedPipelineCacheKey(pipelineName);
+  lockPipelineMutex.readLock().lock();
+  try {
+    StageIdentifier lockedBy=(StageIdentifier)goCache.get(cacheKey);
+    if (lockedBy != null) {
+      return lockedBy.equals(NOT_LOCKED) ? null : lockedBy;
+    }
+    lockedBy=(StageIdentifier)getSqlMapClientTemplate().queryForObject("lockedPipeline",pipelineName);
+    goCache.put(cacheKey,lockedBy == null ? NOT_LOCKED : lockedBy);
+    return lockedBy;
+  }
+  finally {
+    lockPipelineMutex.readLock().unlock();
+  }
+}

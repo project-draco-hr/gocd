@@ -1,0 +1,9 @@
+{
+  PipelineConfig first=PipelineConfigMother.pipelineConfig("first");
+  PipelineConfigs group=new PipelineConfigs(first,PipelineConfigMother.pipelineConfig("second"));
+  PipelineConfig duplicate=PipelineConfigMother.pipelineConfig("first");
+  group.addWithoutValidation(duplicate);
+  group.validate(null);
+  assertThat(duplicate.errors().on(PipelineConfig.NAME),is("You have defined multiple pipelines called 'first'. Pipeline names are case-insensitive and must be unique."));
+  assertThat(first.errors().on(PipelineConfig.NAME),is("You have defined multiple pipelines called 'first'. Pipeline names are case-insensitive and must be unique."));
+}

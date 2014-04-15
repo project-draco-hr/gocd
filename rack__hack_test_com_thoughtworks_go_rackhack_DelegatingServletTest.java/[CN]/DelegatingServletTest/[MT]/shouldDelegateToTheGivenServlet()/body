@@ -1,0 +1,26 @@
+{
+  MockServletContext ctx=new MockServletContext();
+  ctx.addInitParameter(DelegatingListener.DELEGATE_SERVLET,DummyServlet.class.getCanonicalName());
+  ServletContextEvent evt=new ServletContextEvent(ctx);
+  DelegatingListener listener=new DelegatingListener();
+  listener.contextInitialized(evt);
+  assertThat((DummyServlet)ctx.getAttribute(DelegatingListener.DELEGATE_SERVLET),is(DummyServlet.class));
+  DelegatingServlet servlet=new DelegatingServlet();
+  servlet.init(new MockServletConfig(ctx));
+  Request request=new Request(){
+    @Override public String getRequestURI(){
+      return uri;
+    }
+    @Override public void setRequestURI(    String newUri){
+      uri=newUri;
+    }
+    @Override public void setAttribute(    String name,    Object value){
+      attrName=name;
+      attrValue=value.toString();
+    }
+  }
+;
+  servlet.service(request,new MockHttpServletResponse());
+  assertThat(attrName,is(DummyServlet.URI_ATTRIBUTE));
+  assertThat(attrValue,is("/go/stuff/action"));
+}

@@ -1,0 +1,8 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  User invalidUser=new User("fooUser","Foo User","invalidEmail");
+  UserSearchModel searchModel=new UserSearchModel(invalidUser,UserSourceType.LDAP);
+  userService.create(Arrays.asList(searchModel),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Failed to add user. Validations failed. Invalid email address."));
+}

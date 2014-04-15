@@ -1,0 +1,6 @@
+{
+  MaterialService spy=spy(materialService);
+  doReturn(data.klass).when(spy).getMaterialClass(data.material);
+  List<Modification> actual=spy.latestModification(data.material,null,null);
+  assertThat(actual,is(MODIFICATIONS));
+}

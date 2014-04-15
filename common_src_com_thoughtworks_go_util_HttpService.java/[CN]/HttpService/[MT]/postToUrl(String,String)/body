@@ -1,0 +1,11 @@
+{
+  LOGGER.info("Posting property to the URL " + url + "Property Value ="+ value);
+  PostMethod propertyPost=httpClientFactory.createPost(url);
+  try {
+    propertyPost.setRequestBody(new NameValuePair[]{new NameValuePair("value",value)});
+    execute(propertyPost);
+  }
+  finally {
+    propertyPost.releaseConnection();
+  }
+}

@@ -1,0 +1,6 @@
+{
+  Modification modification=new Modification();
+  Mockito.when(materialRepository.findLatestModification(mockMaterial)).thenReturn(revisions(mockMaterial,modification));
+  materialChecker.findLatestRevisions(new MaterialRevisions(),new Materials(mockMaterial));
+  Mockito.verify(materialRepository).findLatestModification(mockMaterial);
+}

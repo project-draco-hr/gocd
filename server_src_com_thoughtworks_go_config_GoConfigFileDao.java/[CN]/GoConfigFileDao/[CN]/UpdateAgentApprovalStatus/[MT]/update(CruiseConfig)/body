@@ -1,0 +1,6 @@
+{
+  AgentConfig agentConfig=cruiseConfig.agents().getAgentByUuid(uuid);
+  bombIfNull(agentConfig,"Unable to set agent approval status; Agent [" + uuid + "] not found.");
+  agentConfig.setDisabled(denied);
+  return cruiseConfig;
+}

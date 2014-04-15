@@ -1,0 +1,6 @@
+{
+  configHelper.addAdmins("admin");
+  configHelper.addPipelineWithGroup("newGroup","newPipeline","newStage","newJob");
+  List<String> groups=securityService.modifiableGroupsForUser(new Username(new CaseInsensitiveString("admin")));
+  assertThat(groups,hasItems(GROUP_NAME,"newGroup"));
+}

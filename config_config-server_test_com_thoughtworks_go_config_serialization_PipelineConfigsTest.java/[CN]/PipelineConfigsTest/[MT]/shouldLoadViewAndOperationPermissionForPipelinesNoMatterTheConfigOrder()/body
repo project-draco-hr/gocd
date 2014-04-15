@@ -1,0 +1,9 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(configureAuthorization(VIEW_PERMISSION + OPERATION_PERMISSION));
+  PipelineConfigs group=cruiseConfig.getGroups().first();
+  assertThat(group.getAuthorization(),instanceOf(Authorization.class));
+  AdminsConfig actualView=group.getAuthorization().getViewConfig();
+  AdminsConfig actualOperation=group.getAuthorization().getOperationConfig();
+  assertion(actualView);
+  assertion(actualOperation);
+}

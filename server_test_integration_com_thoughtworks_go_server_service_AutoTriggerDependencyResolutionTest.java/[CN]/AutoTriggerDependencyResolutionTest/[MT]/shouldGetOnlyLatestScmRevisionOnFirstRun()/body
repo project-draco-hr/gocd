@@ -1,0 +1,12 @@
+{
+  GitMaterial gitMaterial=new GitMaterial("git-url",null,"dest-folder");
+  u.checkinInOrder(gitMaterial,"git-1","git-2","git-3");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(gitMaterial));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(gitMaterial));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(gitMaterial),u.m(p1),u.m(p2));
+  String p1_1=u.runAndPass(p1,"git-3");
+  String p2_1=u.runAndPass(p2,"git-3");
+  MaterialRevisions given=u.mrs(u.mr(gitMaterial,true,"git-3"),u.mr(p1,false,p1_1),u.mr(p2,false,p2_1));
+  MaterialRevisions expected=u.mrs(u.mr(gitMaterial,true,"git-3"),u.mr(p1,false,p1_1),u.mr(p2,false,p2_1));
+  assertThat(getRevisionsBasedOnDependencies(p3,goConfigFileDao.load(),given),is(expected));
+}

@@ -1,0 +1,8 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  String installPath="/var/lib/GoServer";
+  AgentRuntimeInfo newRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  newRuntimeInfo.setLocation(installPath);
+  agentInstance.update(newRuntimeInfo);
+  assertThat(agentInstance.getLocation(),is(installPath));
+}

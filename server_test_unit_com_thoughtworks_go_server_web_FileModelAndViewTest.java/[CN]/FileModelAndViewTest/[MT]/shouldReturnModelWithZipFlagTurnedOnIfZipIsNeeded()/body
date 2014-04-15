@@ -1,0 +1,5 @@
+{
+  ZippedArtifact zippedArtifact=new ZippedArtifact(existFile.getParentFile(),existFile.getName());
+  ModelAndView modelAndView=FileModelAndView.createFileView(zippedArtifact,"");
+  assertThat(modelAndView.getModel().containsKey(FileView.NEED_TO_ZIP),is(true));
+}

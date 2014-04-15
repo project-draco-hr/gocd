@@ -1,0 +1,20 @@
+{
+  return new TypeSafeMatcher<String>(){
+    public String consoleOut;
+    public String message;
+    public boolean matchesSafely(    String consoleOut){
+      try {
+        this.consoleOut=consoleOut;
+        this.message="Failed to upload " + file.getCanonicalPath();
+        return StringUtils.contains(consoleOut,message);
+      }
+ catch (      IOException e) {
+        return false;
+      }
+    }
+    public void describeTo(    Description description){
+      description.appendText("Expected console to contain [" + message + "] but was "+ consoleOut);
+    }
+  }
+;
+}

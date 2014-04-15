@@ -1,0 +1,6 @@
+{
+  OperationResult operationResult=new ServerHealthStateOperationResult();
+  buildCauseProducer.manualProduceBuildCauseAndSave(MINGLE_PIPELINE_NAME,Username.ANONYMOUS,new ScheduleOptions(),operationResult);
+  scheduleHelper.waitForAnyScheduled(5);
+  assertThat(operationResult.canContinue(),is(true));
+}

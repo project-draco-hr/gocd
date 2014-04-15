@@ -1,0 +1,6 @@
+{
+  CommandLine command=svn(true).withArgs("checkout","--non-interactive","-r",revision.getRevision()).withArg(repositoryUrl).withArg(targetFolder.getAbsolutePath());
+  executeCommand(command,outputStreamConsumer);
+  bombIf(!targetFolder.exists(),"Folder was not created or does not exist.. something broken");
+  return null;
+}

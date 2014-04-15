@@ -1,0 +1,15 @@
+{
+  GoConfigService.XmlPartialSaver fileSaver=mock(GoConfigService.XmlPartialSaver.class);
+  when(fileSaver.asXml()).thenReturn("xml content");
+  when(fileSaver.getMd5()).thenReturn("md5 value");
+  when(goConfigService.fileSaver(false)).thenReturn(fileSaver);
+  when(goConfigService.fileLocation()).thenReturn(fileLocation);
+  final Json json=adminService.configurationJsonForSourceXml();
+  JsonMap expectedJson=new JsonMap();
+  JsonMap expectedConfig=new JsonMap();
+  expectedConfig.put("location",fileLocation);
+  expectedConfig.put("content","xml content");
+  expectedConfig.put("md5","md5 value");
+  expectedJson.put("config",expectedConfig);
+  assertThat(json.contains(expectedJson),is(true));
+}

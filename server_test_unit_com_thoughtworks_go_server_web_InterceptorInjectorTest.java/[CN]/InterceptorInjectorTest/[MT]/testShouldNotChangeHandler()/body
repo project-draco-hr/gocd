@@ -1,0 +1,8 @@
+{
+  SimpleUrlHandlerMapping handler=new SimpleUrlHandlerMapping();
+  Mock proceedingJoinPoint=mock(ProceedingJoinPoint.class);
+  proceedingJoinPoint.expects(once()).method("proceed").will(returnValue(new HandlerExecutionChain(handler,null)));
+  InterceptorInjector injector=new InterceptorInjector();
+  HandlerExecutionChain handlers=injector.mergeInterceptorsToTabs((ProceedingJoinPoint)proceedingJoinPoint.proxy());
+  assertSame(handler,handlers.getHandler());
+}

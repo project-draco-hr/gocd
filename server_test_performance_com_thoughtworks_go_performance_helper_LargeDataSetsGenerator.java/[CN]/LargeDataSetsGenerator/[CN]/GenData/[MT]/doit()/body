@@ -1,0 +1,8 @@
+{
+  dbHelper.onTearDown();
+  dbHelper.onSetUp();
+  for (int i=0; i < numOfPipelines; i++) {
+    pipelineDao.saveWithStages(completedPipelineWithStagesAndBuilds("studios",BASE_STAGE_NAMES,BASE_BUILD_NAMES));
+  }
+  pipelineDao.saveWithStages(firstStageBuildingAndSecondStageScheduled("studios",BASE_STAGE_NAMES,BASE_BUILD_NAMES));
+}

@@ -1,0 +1,16 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("Invoking parent classloader for %s with resolve %s",name,resolve));
+  }
+  try {
+    Method loadClass=findNonPublicMethod("loadClass",myLoader.getClass(),String.class,boolean.class);
+    return (Class<?>)loadClass.invoke(myLoader,name,(Boolean)resolve);
+  }
+ catch (  InvocationTargetException e) {
+    handleClassNotFound(e);
+    throw new RuntimeException("Failed to invoke parent classloader",e);
+  }
+catch (  IllegalAccessException e) {
+    throw new RuntimeException("Failed to invoke parent classloader",e);
+  }
+}

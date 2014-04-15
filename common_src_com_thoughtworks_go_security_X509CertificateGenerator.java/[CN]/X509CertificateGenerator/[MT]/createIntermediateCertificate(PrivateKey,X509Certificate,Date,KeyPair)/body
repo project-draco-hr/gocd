@@ -1,0 +1,15 @@
+{
+  X509Principal issuerDn=PrincipalUtil.getSubjectX509Principal(caCert);
+  X509Principal subjectDn=createX509Principal(withOU(INTERMEDIATE_CERT_OU),withEmailAddress(CERT_EMAIL));
+  X509CertificateGenerator.V3X509CertificateGenerator v3CertGen=new V3X509CertificateGenerator(startDate,issuerDn,subjectDn,keyPair.getPublic(),serialNumber());
+  v3CertGen.addSubjectKeyIdExtension(keyPair.getPublic());
+  v3CertGen.addAuthorityKeyIdExtension(caCert);
+  v3CertGen.addBasicConstraintsExtension();
+  X509Certificate cert=v3CertGen.generate(caPrivKey);
+  Date now=new Date();
+  cert.checkValidity(now);
+  cert.verify(caCert.getPublicKey());
+  PKCS12BagAttributeSetter.usingBagAttributeCarrier(cert).setFriendlyName(INTERMEDIATE_CERT_OU);
+  PKCS12BagAttributeSetter.usingBagAttributeCarrier(keyPair.getPrivate()).setFriendlyName(FRIENDLY_NAME).setLocalKeyId(keyPair.getPublic());
+  return cert;
+}

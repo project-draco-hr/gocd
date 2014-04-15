@@ -1,0 +1,7 @@
+{
+  InMemoryStreamConsumer output=inMemoryConsumer();
+  p4.client(clientConfig("new_p4_client",clientFolder),output,true);
+  assertThat(output.getStdOut(),containsString("Client new_p4_client saved."));
+  p4.client(clientConfig("new_p4_client",clientFolder),output,true);
+  assertThat(output.getStdOut(),containsString("Client new_p4_client not changed."));
+}

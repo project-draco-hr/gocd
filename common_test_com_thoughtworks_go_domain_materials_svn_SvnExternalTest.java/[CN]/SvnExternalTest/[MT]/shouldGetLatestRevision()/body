@@ -1,0 +1,15 @@
+{
+  SvnMaterial svn=svnMaterial(svnRepo.projectRepositoryUrl(),null);
+  SvnMaterial svnExt=svnMaterial(svnRepo.externalRepositoryUrl(),"end2end");
+  final Materials materials=new Materials(svn,svnExt);
+  final MaterialRevisions materialRevisions=materials.latestModification(svnRepo.workingFolder(),new TestSubprocessExecutionContext());
+  assertThat(materialRevisions.numberOfRevisions(),is(2));
+  MaterialRevision main=materialRevisions.getRevisions().get(0);
+  assertThat((SvnMaterial)main.getMaterial(),is(svn));
+  assertThat(main.getModifications().size(),is(1));
+  assertThat(main.getRevision().getRevision(),is("5"));
+  MaterialRevision external=materialRevisions.getRevisions().get(1);
+  assertThat((SvnMaterial)external.getMaterial(),is(svnExt));
+  assertThat(external.getRevision().getRevision(),is("4"));
+  assertThat(external.getModifications().size(),is(1));
+}

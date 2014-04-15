@@ -1,0 +1,9 @@
+{
+  AdminRole role=new AdminRole(new CaseInsensitiveString("role2"));
+  PipelineConfigs pipelinesConfig=new PipelineConfigs(new Authorization(new ViewConfig(role)));
+  CruiseConfig config=new CruiseConfig(pipelinesConfig);
+  role.validate(ValidationContext.forChain(config));
+  ConfigErrors errors=role.errors();
+  assertThat(errors.isEmpty(),is(false));
+  assertThat(errors.on(AdminRole.NAME),is("Role \"role2\" does not exist!"));
+}

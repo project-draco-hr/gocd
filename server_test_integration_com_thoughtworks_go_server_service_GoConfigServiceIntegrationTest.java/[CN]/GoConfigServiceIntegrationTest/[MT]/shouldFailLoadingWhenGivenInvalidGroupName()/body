@@ -1,0 +1,8 @@
+{
+  configHelper.addPipelineWithGroup("group_one","pipeline","stage","my_job");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit<PipelineConfigs> configForEdit=goConfigService.loadGroupForEditing("group_foo",new Username(new CaseInsensitiveString("loser")),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Pipeline group named 'group_foo' does not exist."));
+  assertThat(configForEdit,is(nullValue()));
+}

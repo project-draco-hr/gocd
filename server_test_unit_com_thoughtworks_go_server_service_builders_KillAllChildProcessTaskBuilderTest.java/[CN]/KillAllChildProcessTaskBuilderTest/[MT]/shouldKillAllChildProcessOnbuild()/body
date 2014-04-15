@@ -1,0 +1,12 @@
+{
+  ProcessWrapper processWrapper=CommandLine.createCommandLine("sleep").withArg(String.valueOf(10 * 60)).execute(ProcessOutputStreamConsumer.inMemoryConsumer(),new EnvironmentVariableContext(),null);
+  assertThat(processWrapper.isRunning(),is(true));
+  BuildLogElement log=mock(BuildLogElement.class);
+  DefaultGoPublisher publisher=mock(DefaultGoPublisher.class);
+  EnvironmentVariableContext environmentVariableContext=mock(EnvironmentVariableContext.class);
+  long before=getSystemTime();
+  Builder builder=new KillAllChildProcessTaskBuilder().createBuilder(builderFactory,new KillAllChildProcessTask(),null,null);
+  builder.build(log,publisher,environmentVariableContext);
+  assertThat(processWrapper.waitForExit(),is(greaterThan(0)));
+  assertThat(getSystemTime() - before,is(lessThan(10 * 60 * 1000* 1000* 1000L)));
+}

@@ -1,0 +1,12 @@
+{
+  for (  HashMap<Class,List<Object>> classListHashMap : toRegister) {
+    for (    Map.Entry<Class,List<Object>> entry : classListHashMap.entrySet()) {
+      Class serviceInterface=entry.getKey();
+      for (      Object serviceImplementation : entry.getValue()) {
+        Hashtable<String,String> serviceProperties=new Hashtable<String,String>();
+        serviceProperties.put(Constants.BUNDLE_SYMBOLICNAME,pluginId);
+        bundleContext.registerService(serviceInterface,serviceImplementation,serviceProperties);
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  PipelineConfig config=PipelineMother.createPipelineConfig("pipeline",new MaterialConfigs(MaterialConfigsMother.hgMaterialConfig()),"firstStage","secondStage");
+  Pipeline pipeline1=dbHelper.newPipelineWithFirstStagePassed(config);
+  dbHelper.updateNaturalOrder(pipeline1.getId(),1.0);
+  Pipeline pipeline2=dbHelper.newPipelineWithFirstStagePassed(config);
+  Stage stage=dbHelper.scheduleStage(pipeline2,config.get(1));
+  dbHelper.failStage(stage);
+  dbHelper.updateNaturalOrder(pipeline2.getId(),2.0);
+  Pipeline pipeline3=dbHelper.newPipelineWithFirstStagePassed(config);
+  dbHelper.updateNaturalOrder(pipeline3.getId(),1.5);
+  Pipeline pipeline4=dbHelper.newPipelineWithFirstStagePassed(config);
+  stage=dbHelper.scheduleStage(pipeline4,config.get(1));
+  dbHelper.cancelStage(stage);
+  dbHelper.updateNaturalOrder(pipeline4.getId(),0.5);
+  Pipeline pipeline7=dbHelper.newPipelineWithFirstStagePassed(config);
+  stage=dbHelper.scheduleStage(pipeline7,config.get(1));
+  dbHelper.failStage(stage);
+  dbHelper.updateNaturalOrder(pipeline7.getId(),11.0);
+  pipeline7=pipelineDao.loadPipeline(pipeline7.getId());
+  pipeline4=pipelineDao.loadPipeline(pipeline4.getId());
+  pipeline2=pipelineDao.loadPipeline(pipeline2.getId());
+  List<StageIdentifier> list=stageDao.findFailedStagesBetween("pipeline","secondStage",0.0,11.0);
+  assertThat(list.size(),is(2));
+  assertThat(list.get(0),is(pipeline7.findStage("secondStage").getIdentifier()));
+  assertThat(list.get(1),is(pipeline2.findStage("secondStage").getIdentifier()));
+}

@@ -1,0 +1,17 @@
+{
+  FileInputStream stream=null;
+  try {
+    stream=new FileInputStream(PREFS_FILE);
+    Properties myProps=defaultProperties();
+    myProps.load(stream);
+    LOG.info("Loaded preferences from " + PREFS_FILE);
+    return myProps;
+  }
+ catch (  Exception e) {
+    LOG.error("File not found for " + PREFS_FILE,e);
+  }
+ finally {
+    closeQuietly(stream);
+  }
+  return new Properties();
+}

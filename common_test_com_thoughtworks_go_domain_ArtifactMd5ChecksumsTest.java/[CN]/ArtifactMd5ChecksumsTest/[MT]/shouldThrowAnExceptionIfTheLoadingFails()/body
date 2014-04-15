@@ -1,0 +1,10 @@
+{
+  try {
+    new ArtifactMd5Checksums(file);
+    fail("Should have failed because of an invalid properites file");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getCause(),instanceOf(IOException.class));
+    assertThat(e.getMessage(),is(String.format("[Checksum Verification] Could not load the MD5 from the checksum file '%s'",file)));
+  }
+}

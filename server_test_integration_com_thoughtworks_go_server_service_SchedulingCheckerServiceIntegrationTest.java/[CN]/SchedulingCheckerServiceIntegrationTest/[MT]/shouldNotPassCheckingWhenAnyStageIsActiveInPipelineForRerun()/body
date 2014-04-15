@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStageScheduled();
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  schedulingChecker.canScheduleStage(pipeline.getIdentifier(),pipelineFixture.ftStage,APPROVED_USER,result);
+  assertThat(result.getServerHealthState().isSuccess(),is(false));
+  assertThat(result.getServerHealthState().getDescription(),containsString("still in progress"));
+  assertThat(result.getServerHealthState().getDescription(),containsString(pipeline.getName()));
+}

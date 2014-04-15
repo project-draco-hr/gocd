@@ -1,0 +1,8 @@
+{
+  JobInstance instance=JobInstanceMother.assignedWithAgentId("testBuild","uuid");
+  instance.completing(JobResult.Failed);
+  instance.reschedule();
+  assertThat(instance.getState(),is(JobState.Scheduled));
+  assertThat(instance.getAgentUuid(),is(nullValue()));
+  assertThat(instance.getResult(),is(JobResult.Unknown));
+}

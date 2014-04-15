@@ -1,0 +1,13 @@
+{
+  service=spy(service);
+  systemEnvironment.set(SystemEnvironment.MATERIAL_UPDATE_INACTIVE_TIMEOUT,2);
+  ProcessManager processManager=mock(ProcessManager.class);
+  Material material=mock(Material.class);
+  service.updateMaterial(material);
+  when(service.getProcessManager()).thenReturn(processManager);
+  when(material.getFingerprint()).thenReturn("fingerprint");
+  when(processManager.getIdleTimeFor("fingerprint")).thenReturn(60010L);
+  service.updateMaterial(material);
+  verify(serverHealthService,never()).removeByScope(HealthStateScope.forMaterialUpdate(material));
+  verify(serverHealthService,never()).update(Matchers.<ServerHealthState>any());
+}

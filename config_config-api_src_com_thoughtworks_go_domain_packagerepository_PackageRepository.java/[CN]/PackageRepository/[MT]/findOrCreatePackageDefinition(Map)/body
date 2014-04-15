@@ -1,0 +1,9 @@
+{
+  if (attributes.get("packageId") != null) {
+    return findPackage((String)attributes.get("packageId"));
+  }
+  PackageDefinition packageDefinition=new PackageDefinition();
+  packageDefinition.setRepository(this);
+  packageDefinition.setConfigAttributes(attributes.get("package_definition"));
+  return packageDefinition;
+}

@@ -1,0 +1,10 @@
+{
+  when(pipelineDao.pipelineGraphByNameAndCounter("blahPipeline",12)).thenReturn(null);
+  ensureConfigHasPipeline("blahPipeline");
+  ensureHasPermission(USERNAME,"blahPipeline");
+  HttpOperationResult result=new HttpOperationResult();
+  pipelineHistoryService.pipelineDependencyGraph("blahPipeline",12,USERNAME,result);
+  assertThat(result.canContinue(),is(false));
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.message(),is("Pipeline [blahPipeline] with counter [12] is not found"));
+}

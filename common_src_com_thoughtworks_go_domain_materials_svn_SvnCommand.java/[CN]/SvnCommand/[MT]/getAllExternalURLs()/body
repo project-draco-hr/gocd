@@ -1,0 +1,14 @@
+{
+  CommandLine svnExternalCommand=svn(true).withArgs("propget","--non-interactive","svn:externals","-R").withArg(repositoryUrl);
+  ConsoleResult result=executeCommand(svnExternalCommand);
+  String svnExternalConsoleOut=result.outputAsString();
+  String repoUrl=remoteInfo(new SAXBuilder(false)).getUrl();
+  List<SvnExternal> svnExternalList=null;
+  try {
+    svnExternalList=new SvnExternalParser().parse(svnExternalConsoleOut,repoUrl);
+  }
+ catch (  RuntimeException e) {
+    throw (RuntimeException)result.smudgedException(e);
+  }
+  return svnExternalList;
+}

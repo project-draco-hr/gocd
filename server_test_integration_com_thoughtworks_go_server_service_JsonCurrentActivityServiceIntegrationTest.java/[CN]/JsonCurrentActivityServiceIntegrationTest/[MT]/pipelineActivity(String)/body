@@ -1,0 +1,8 @@
+{
+  Collection<PipelineJsonPresentationModel> models=service.pipelinesActivity(username,fixture.pipelineName);
+  assertThat(models.size(),is(1));
+  PipelineJsonPresentationModel pipelineActivity=models.iterator().next();
+  assertThat(pipelineActivity.getName(),is(fixture.pipelineName));
+  assertThat(pipelineActivity.getStageCount(),is(2));
+  return pipelineActivity;
+}

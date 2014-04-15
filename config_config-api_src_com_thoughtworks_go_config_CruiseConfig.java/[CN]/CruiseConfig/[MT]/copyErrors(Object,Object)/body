@@ -1,0 +1,9 @@
+{
+  GoConfigParallelGraphWalker walker=new GoConfigParallelGraphWalker(from,to);
+  walker.walk(new GoConfigParallelGraphWalker.Handler(){
+    public void handle(    Validatable rawObject,    Validatable objectWithErrors){
+      rawObject.errors().addAll(objectWithErrors.errors());
+    }
+  }
+);
+}

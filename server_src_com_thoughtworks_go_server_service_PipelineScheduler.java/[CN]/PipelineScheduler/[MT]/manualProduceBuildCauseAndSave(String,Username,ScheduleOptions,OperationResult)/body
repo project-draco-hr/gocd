@@ -1,0 +1,20 @@
+{
+  LOGGER.info(String.format("[Pipeline Schedule] [Requested] Manual trigger of pipeline '%s' requested by %s",pipelineName,CaseInsensitiveString.str(username.getUsername())));
+  if (pipelineNotFound(pipelineName,result)) {
+    return;
+  }
+  if (materialNotFound(pipelineName,scheduleOptions.getSpecifiedRevisions(),result)) {
+    return;
+  }
+  if (revisionInvalid(scheduleOptions.getSpecifiedRevisions(),result)) {
+    return;
+  }
+  if (hasUsedUnconfiguredVariable(pipelineName,scheduleOptions.getVariables(),result)) {
+    return;
+  }
+  LOGGER.info(String.format("[Pipeline Schedule] [Accepted] Manual trigger of pipeline '%s' accepted for user %s",pipelineName,CaseInsensitiveString.str(username.getUsername())));
+  removeLicenseInvalidFromLog();
+  PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+  buildCauseProducerService.manualSchedulePipeline(username,pipelineConfig,scheduleOptions,result);
+  LOGGER.info(String.format("[Pipeline Schedule] [Processed] Manual trigger of pipeline '%s' processed with result '%s'",pipelineName,result.getServerHealthState()));
+}

@@ -1,0 +1,7 @@
+{
+  HandlerExecutionChain handlerExecutionChain=(HandlerExecutionChain)pjp.proceed();
+  if (handlerExecutionChain == null) {
+    return null;
+  }
+  return new HandlerExecutionChain(handlerExecutionChain.getHandler(),mergeInterceptors(handlerExecutionChain));
+}

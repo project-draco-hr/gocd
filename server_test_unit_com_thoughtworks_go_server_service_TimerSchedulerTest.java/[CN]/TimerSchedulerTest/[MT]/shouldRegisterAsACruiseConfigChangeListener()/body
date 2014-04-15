@@ -1,0 +1,9 @@
+{
+  when(schedulerFactory.getScheduler()).thenReturn(scheduler);
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  TimerScheduler timerScheduler=new TimerScheduler(schedulerFactory,goConfigService,null,null);
+  timerScheduler.initialize();
+  verify(goConfigService).register(timerScheduler);
+  verify(schedulerFactory).getScheduler();
+  verify(scheduler).start();
+}

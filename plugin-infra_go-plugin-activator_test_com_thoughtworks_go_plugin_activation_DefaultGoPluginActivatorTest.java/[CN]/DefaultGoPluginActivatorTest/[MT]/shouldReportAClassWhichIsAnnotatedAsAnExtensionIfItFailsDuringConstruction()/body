@@ -1,0 +1,6 @@
+{
+  setupClassesInBundle("PublicGoExtensionClassWhichThrowsAnExceptionInItsConstructor.class");
+  when(bundle.loadClass(contains("PublicGoExtensionClassWhichThrowsAnExceptionInItsConstructor"))).thenReturn((Class)PublicGoExtensionClassWhichThrowsAnExceptionInItsConstructor.class);
+  activator.start(context);
+  verifyErrorsReported(format("Class [PublicGoExtensionClassWhichThrowsAnExceptionInItsConstructor] is annotated with @Extension but cannot be constructed. Reason: java.lang.RuntimeException: %s.",CONSTRUCTOR_FAIL_MSG),NO_EXT_ERR_MSG);
+}

@@ -1,0 +1,9 @@
+{
+  if (framework == null) {
+    LOGGER.warn("[Plugin Framework] Plugins are not enabled, so cannot do an action on all implementations of " + serviceReferenceClass);
+    return false;
+  }
+  BundleContext bundleContext=framework.getBundleContext();
+  Collection<ServiceReference<T>> matchingServiceReferences=findServiceReferenceWithPluginId(serviceReferenceClass,pluginId,bundleContext);
+  return !matchingServiceReferences.isEmpty();
+}

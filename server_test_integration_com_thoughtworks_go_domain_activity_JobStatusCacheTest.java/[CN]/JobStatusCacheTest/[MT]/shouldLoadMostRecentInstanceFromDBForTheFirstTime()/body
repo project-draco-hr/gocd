@@ -1,0 +1,6 @@
+{
+  pipelineFixture.createdPipelineWithAllStagesPassed();
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStageScheduled();
+  JobInstance expect=pipeline.getStages().byName(pipelineFixture.devStage).getJobInstances().first();
+  assertThat(jobStatusCache.currentJob(new JobConfigIdentifier(pipelineFixture.pipelineName,pipelineFixture.devStage,PipelineWithTwoStages.JOB_FOR_DEV_STAGE)),is(expect));
+}

@@ -1,0 +1,10 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Localizer localizer=mock(Localizer.class);
+  when(configRepo.configChangesFor("md5-5","md5-4")).thenThrow(new RuntimeException("something"));
+  goConfigService.configChangesFor("md5-5","md5-4",result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(SC_INTERNAL_SERVER_ERROR));
+  result.message(localizer);
+  verify(localizer).localize("COULD_NOT_RETRIEVE_CONFIG_DIFF",new Object[]{});
+}

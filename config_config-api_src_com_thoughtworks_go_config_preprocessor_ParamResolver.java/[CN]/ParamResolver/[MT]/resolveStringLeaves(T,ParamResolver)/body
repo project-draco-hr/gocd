@@ -1,0 +1,14 @@
+{
+  for (  Field leaf : filterResolvables(resolvable,leafStringSelectorPredicate())) {
+    try {
+      String preResolved=(String)leaf.get(resolvable);
+      if (preResolved != null) {
+        String resolved=resolver.resolveString(resolvable,leaf,preResolved);
+        leaf.set(resolvable,resolved);
+      }
+    }
+ catch (    IllegalAccessException e) {
+      bomb(e);
+    }
+  }
+}

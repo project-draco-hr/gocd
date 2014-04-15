@@ -1,0 +1,14 @@
+{
+  if (readingTestSuite) {
+    testcaseExtractor.endElement(uri,localName,qName);
+  }
+  if (readingTestSuite && "testcase".equals(qName)) {
+    testcaseExtractor.report(testcaseResult);
+    testcasesForSingleTestSuite.add(testcaseResult.get("testcase"));
+  }
+  if ("testsuite".equals(qName)) {
+    readingTestSuite=false;
+    singleTestSuite.appendTestCases(testcasesForSingleTestSuite);
+    testSuites.add(singleTestSuite);
+  }
+}

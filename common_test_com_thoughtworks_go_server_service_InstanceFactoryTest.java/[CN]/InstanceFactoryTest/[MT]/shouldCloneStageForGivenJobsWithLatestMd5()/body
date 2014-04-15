@@ -1,0 +1,20 @@
+{
+  TimeProvider timeProvider=new TimeProvider(){
+    @Override public Date currentTime(){
+      return new Date();
+    }
+    public DateTime currentDateTime(){
+      throw new UnsupportedOperationException("Not implemented");
+    }
+    public DateTime timeoutTime(    Timeout timeout){
+      throw new UnsupportedOperationException("Not implemented");
+    }
+  }
+;
+  JobInstance firstJob=new JobInstance("first-job",timeProvider);
+  JobInstance secondJob=new JobInstance("second-job",timeProvider);
+  JobInstances jobInstances=new JobInstances(firstJob,secondJob);
+  Stage stage=StageMother.custom("test",jobInstances);
+  Stage clonedStage=instanceFactory.createStageForRerunOfJobs(stage,Arrays.asList("first-job"),new DefaultSchedulingContext("loser",new Agents()),StageConfigMother.custom("test","first-job","second-job"),new TimeProvider(),"latest");
+  assertThat(clonedStage.getConfigVersion(),CoreMatchers.is("latest"));
+}

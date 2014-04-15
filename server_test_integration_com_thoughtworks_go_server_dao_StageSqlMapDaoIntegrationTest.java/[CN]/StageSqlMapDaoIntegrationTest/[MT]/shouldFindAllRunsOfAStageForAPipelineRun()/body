@@ -1,0 +1,9 @@
+{
+  Pipeline[] pipelines=pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig);
+  Pipeline completed=pipelines[0];
+  rerunFirstStage(completed);
+  Stages stages=stageDao.getAllRunsOfStageForPipelineInstance(completed.getName(),completed.getCounter(),STAGE_DEV);
+  assertThat(stages.size(),is(2));
+  assertThat(stages.first().getIdentifier(),is(new StageIdentifier(completed.getName(),completed.getCounter(),completed.getLabel(),STAGE_DEV,"1")));
+  assertThat(stages.last().getIdentifier(),is(new StageIdentifier(completed.getName(),completed.getCounter(),completed.getLabel(),STAGE_DEV,"2")));
+}

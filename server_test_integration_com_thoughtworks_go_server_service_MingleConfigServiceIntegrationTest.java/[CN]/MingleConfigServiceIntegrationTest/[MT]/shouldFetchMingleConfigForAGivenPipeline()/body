@@ -1,0 +1,10 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  MingleConfig mingleConfig=mingleConfigService.mingleConfigForPipelineNamed("foo",new Username(new CaseInsensitiveString("authorized_user")),result);
+  assertThat(mingleConfig,is(new MingleConfig("https://some-tracking-tool:8443","project-super-secret","hello=world")));
+  assertThat(result.isSuccessful(),is(true));
+  result=new HttpLocalizedOperationResult();
+  mingleConfig=mingleConfigService.mingleConfigForPipelineNamed("foo",new Username(new CaseInsensitiveString("admin")),result);
+  assertThat(mingleConfig,is(new MingleConfig("https://some-tracking-tool:8443","project-super-secret","hello=world")));
+  assertThat(result.isSuccessful(),is(true));
+}

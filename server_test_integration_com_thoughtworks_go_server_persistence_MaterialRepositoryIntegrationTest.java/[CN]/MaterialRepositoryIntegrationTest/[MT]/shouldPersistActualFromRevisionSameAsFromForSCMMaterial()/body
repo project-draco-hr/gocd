@@ -1,0 +1,9 @@
+{
+  HgMaterial material=new HgMaterial("sdg",null);
+  MaterialRevision firstRevision=new MaterialRevision(material,new Modifications(modification("10"),modification("9"),modification("8")));
+  saveMaterialRev(firstRevision);
+  Pipeline firstPipeline=createPipeline();
+  savePMR(firstRevision,firstPipeline);
+  List<PipelineMaterialRevision> pmrs=repo.findPipelineMaterialRevisions(firstPipeline.getId());
+  assertThat(pmrs.get(0).getActualFromRevisionId(),is(pmrs.get(0).getFromModification().getId()));
+}

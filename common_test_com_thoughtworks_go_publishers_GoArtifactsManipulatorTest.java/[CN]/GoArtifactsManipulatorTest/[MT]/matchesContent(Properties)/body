@@ -1,0 +1,12 @@
+{
+  return new BaseMatcher<File>(){
+    public boolean matches(    Object item){
+      File checksumFile=(File)item;
+      return new ArtifactMd5Checksums(checksumFile).equals(new ArtifactMd5Checksums(expectedProperties));
+    }
+    public void describeTo(    Description description){
+      description.appendText("Checksum file should also be uploaded along with the artifact");
+    }
+  }
+;
+}

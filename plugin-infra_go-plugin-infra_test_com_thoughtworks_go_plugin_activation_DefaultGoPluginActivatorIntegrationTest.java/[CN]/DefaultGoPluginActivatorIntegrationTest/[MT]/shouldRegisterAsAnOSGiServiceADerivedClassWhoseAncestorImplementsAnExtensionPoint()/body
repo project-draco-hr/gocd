@@ -1,0 +1,8 @@
+{
+  BundleContext installedBundledContext=bundleContext(installBundleWithClasses(PluginAwareExtensionThatIsADerivedClass.class,DummyPluginAwareExtension.class,PluginAwareExtensionThatIsADerivedClass.class.getSuperclass()));
+  ServiceReference<?>[] references=installedBundledContext.getServiceReferences(PluginDescriptorAware.class.getName(),null);
+  String[] services=toSortedServiceClassNames(installedBundledContext,references);
+  assertEquals(Arrays.toString(services),2,services.length);
+  assertEquals(DummyPluginAwareExtension.class.getName(),services[0]);
+  assertEquals(PluginAwareExtensionThatIsADerivedClass.class.getName(),services[1]);
+}

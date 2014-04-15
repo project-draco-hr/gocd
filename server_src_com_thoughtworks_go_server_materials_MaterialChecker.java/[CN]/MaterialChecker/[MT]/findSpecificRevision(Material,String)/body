@@ -1,0 +1,10 @@
+{
+  if (StringUtils.isEmpty(revision)) {
+    throw new RuntimeException(format("Revision was not specified for material [%s]",material));
+  }
+  Modification modification=materialRepository.findModificationWithRevision(material,revision);
+  if (modification == null) {
+    throw new RuntimeException(format("Unable to find revision [%s] for material [%s]",revision,material));
+  }
+  return new MaterialRevision(material,modification);
+}

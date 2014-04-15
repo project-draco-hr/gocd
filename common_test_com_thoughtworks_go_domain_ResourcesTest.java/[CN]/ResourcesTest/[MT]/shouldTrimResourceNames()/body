@@ -1,0 +1,10 @@
+{
+  Resources resources=new Resources();
+  resources.add(new Resource("foo"));
+  resources.add(new Resource("foo      "));
+  assertThat(resources.size(),is(1));
+  Resources newResources=new Resources();
+  newResources.add(new Resource("foo       "));
+  newResources.add(new Resource("foo  "));
+  assertThat(newResources.size(),is(1));
+}

@@ -1,0 +1,29 @@
+{
+  CommandLine firstCommand=mock(CommandLine.class);
+  doReturn(firstCommand).when(firstCommand).withArg(anyString());
+  doReturn(firstCommand).when(firstCommand).withWorkingDir(any(File.class));
+  when(firstCommand.run(any(InMemoryStreamConsumer.class),eq(GarageService.PROCESS_TAG))).thenReturn(0);
+  CommandLine secondCommand=mock(CommandLine.class);
+  doReturn(secondCommand).when(secondCommand).withArg(anyString());
+  doReturn(secondCommand).when(secondCommand).withWorkingDir(any(File.class));
+  when(secondCommand.run(any(InMemoryStreamConsumer.class),eq(GarageService.PROCESS_TAG))).thenReturn(0);
+  final List<CommandLine> commands=new LinkedList<CommandLine>();
+  commands.add(firstCommand);
+  commands.add(secondCommand);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  GarageService spy=spy(garageService);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      CommandLine remove=commands.get(0);
+      commands.remove(remove);
+      return remove;
+    }
+  }
+).when(spy).getGit();
+  spy.gc(result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(result.hasMessage(),is(true));
+  verify(spy,times(2)).getGit();
+  verify(firstCommand).run(any(InMemoryStreamConsumer.class),eq(GarageService.PROCESS_TAG));
+  verify(secondCommand).run(any(InMemoryStreamConsumer.class),eq(GarageService.PROCESS_TAG));
+}

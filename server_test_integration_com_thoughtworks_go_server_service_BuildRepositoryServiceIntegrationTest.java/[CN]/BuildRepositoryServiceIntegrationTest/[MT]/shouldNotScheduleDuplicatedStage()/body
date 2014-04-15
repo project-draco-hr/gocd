@@ -1,0 +1,16 @@
+{
+  Pipeline oldPipeline=dbHelper.newPipelineWithFirstStagePassed(mingle);
+  Pipeline latestPipeline=dbHelper.newPipelineWithAllStagesPassed(mingle);
+  int oldSize=latestPipeline.getStages().size();
+  Stage stage=oldPipeline.getStages().first();
+  scheduleService.automaticallyTriggerRelevantStagesFollowingCompletionOf(stage);
+  oldPipeline=pipelineDao.loadPipeline(oldPipeline.getId());
+  Stage ftStage=oldPipeline.getStages().byName(FT_STAGE);
+  JobInstance secondJob=ftStage.getJobInstances().first();
+  secondJob.setIdentifier(new JobIdentifier(oldPipeline,ftStage,secondJob));
+  secondJob.setAgentUuid(AGENT_UUID);
+  jobInstanceDao.updateAssignedInfo(secondJob);
+  reportJobPassed(secondJob);
+  latestPipeline=pipelineDao.loadPipeline(latestPipeline.getId());
+  assertThat(latestPipeline.getStages().size(),is(oldSize));
+}

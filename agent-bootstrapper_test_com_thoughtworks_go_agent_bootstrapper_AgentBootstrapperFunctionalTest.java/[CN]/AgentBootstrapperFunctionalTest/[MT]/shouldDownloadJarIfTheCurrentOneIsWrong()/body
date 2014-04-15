@@ -1,0 +1,15 @@
+{
+  if (!OS_CHECKER.satisfy()) {
+    File agentJar=new File("agent.jar");
+    agentJar.delete();
+    createRandomFile(agentJar);
+    long original=agentJar.length();
+    new AgentBootstrapper(){
+      @Override void jvmExit(      int returnValue){
+      }
+    }
+.go(false,"localhost",9090);
+    assertThat(agentJar.length(),not(original));
+    agentJar.delete();
+  }
+}

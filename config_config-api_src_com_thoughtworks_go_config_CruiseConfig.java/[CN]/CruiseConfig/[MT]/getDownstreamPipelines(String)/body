@@ -1,0 +1,9 @@
+{
+  ArrayList<PipelineConfig> configs=new ArrayList<PipelineConfig>();
+  for (  PipelineConfig pipelineConfig : pipelinesFromAllGroups()) {
+    if (pipelineConfig.dependsOn(new CaseInsensitiveString(pipelineName))) {
+      configs.add(pipelineConfig);
+    }
+  }
+  return configs;
+}

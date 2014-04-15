@@ -1,0 +1,9 @@
+{
+  if (json instanceof JsonUrl) {
+    return ((JsonUrl)json).url.equals(this.url);
+  }
+ else   if (json instanceof JsonString) {
+    return new JsonString(this.url).contains(json);
+  }
+  return false;
+}

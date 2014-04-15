@@ -1,0 +1,10 @@
+{
+  Stage stage=stageService.findLatestStage(pipelineName,stageName);
+  if (stage == null) {
+    String stageLocator=String.format("(pipeline name: %s, stage name %s)",pipelineName,stageName);
+    LOGGER.warn("[Stage Cancellation] Failed to retrieve stage" + stageLocator);
+    result.notFound(LocalizedMessage.string("STAGE_FOR_LOCATOR_NOT_FOUND",stageLocator),HealthStateType.general(HealthStateScope.GLOBAL));
+    return null;
+  }
+  return cancelAndTriggerRelevantStages(stage.getId(),userName,result);
+}

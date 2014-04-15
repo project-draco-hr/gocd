@@ -1,0 +1,6 @@
+{
+  BuildOutputMatcher matcher=new BuildOutputMatcher();
+  String output="Started\n" + "/usr/lib/ruby/1.8/openssl/x509.rb:24: warning: instance variable @config not initialized\n" + "/usr/lib/ruby/1.8/openssl/x509.rb:24: warning: instance variable @config not initialized\n"+ "/usr/lib/ruby/1.8/openssl/x509.rb:24: warning: instance variable @config not initialized\n"+ "/usr/lib/ruby/1.8/rdoc/parsers/parse_c.rb:204: warning: method redefined; discarding old progress\n"+ "............................................................."+ "............................................................."+ "..........................................................................\n"+ "Finished in 30.080708 seconds.";
+  String matchedString=matcher.match(output);
+  assertThat(matchedString,is(get30Dot()));
+}

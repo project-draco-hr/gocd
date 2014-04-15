@@ -1,0 +1,17 @@
+{
+  try {
+    md=MessageDigest.getInstance("MD5");
+  }
+ catch (  NoSuchAlgorithmException e) {
+    throw ExceptionUtils.bomb(e);
+  }
+  byte[] buffer=new byte[DEFAULT_BUFFER_SIZE];
+  long count=0;
+  int n;
+  while (-1 != (n=input.read(buffer))) {
+    md.update(buffer,0,n);
+    output.write(buffer,0,n);
+    count+=n;
+  }
+  return count;
+}

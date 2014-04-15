@@ -1,0 +1,15 @@
+{
+  JobInstances instances=new JobInstances();
+  JobInstance assigned=JobInstanceMother.assigned("test");
+  instances.add(assigned);
+  JobInstance oldest=passed("oldest");
+  oldest.completed(new Date());
+  instances.add(oldest);
+  JobInstance newest=failed("newest");
+  newest.completed(new Date());
+  instances.add(newest);
+  instances.add(JobInstance.NULL);
+  JobInstance scheduled=scheduled("redHerring");
+  instances.add(scheduled);
+  return instances;
+}

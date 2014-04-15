@@ -1,0 +1,29 @@
+{
+  PipelineConfigDependencyGraph dependencyGraph=dependencyGraphOfDepthOne(MaterialConfigsMother.hgMaterialConfig(),MaterialConfigsMother.svnMaterialConfig());
+  String targetPipeline=dependencyGraph.getCurrent().name().toLower();
+  MaterialRevisions revisions=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("2"),oneModifiedFile("1"));
+  MaterialRevisions revisionsForMaterial2=multipleRevisions(MaterialsMother.svnMaterial(),10,oneModifiedFile("svn2"));
+  MaterialRevision dependencyRevision=dependencyMaterialRevision("upstream",1,"label","first",1,new Date());
+  revisions.addRevision(dependencyRevision);
+  revisions.addAll(revisionsForMaterial2);
+  for (  MaterialRevision revision : revisions) {
+    revision.markAsChanged();
+  }
+  MaterialRevisions expectedRevisions=createHgMaterialWithMultipleRevisions(1,oneModifiedFile("1"));
+  expectedRevisions.getMaterialRevision(0).markAsChanged();
+  MaterialRevisions expectedForMaterial2=multipleRevisions(MaterialsMother.svnMaterial(),10,oneModifiedFile("svn1"));
+  expectedForMaterial2.getMaterialRevision(0).markAsNotChanged();
+  expectedRevisions.addRevision(dependencyRevision);
+  expectedRevisions.addAll(expectedForMaterial2);
+  when(goConfigService.upstreamDependencyGraphOf(targetPipeline,cruiseConfig)).thenReturn(dependencyGraph);
+  when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenReturn(expectedRevisions);
+  BuildCause buildCause=new AutoBuild(goConfigService,pipelineService,targetPipeline,new SystemEnvironment(),materialChecker,serverHealthService).onModifications(revisions,false,null);
+  MaterialRevisions finalRevisions=buildCause.getMaterialRevisions();
+  assertThat(finalRevisions.numberOfRevisions(),is(expectedRevisions.numberOfRevisions()));
+  for (int i=0; i < expectedRevisions.numberOfRevisions(); i++) {
+    MaterialRevision finalRev=finalRevisions.getMaterialRevision(i);
+    MaterialRevision expectedRev=expectedRevisions.getMaterialRevision(i);
+    assertThat(finalRev,is(expectedRev));
+    assertThat(finalRev.isChanged(),is(expectedRev.isChanged()));
+  }
+}

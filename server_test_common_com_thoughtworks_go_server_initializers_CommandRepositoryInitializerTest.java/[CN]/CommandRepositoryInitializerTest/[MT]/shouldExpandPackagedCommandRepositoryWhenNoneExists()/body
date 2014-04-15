@@ -1,0 +1,10 @@
+{
+  File defaultDirectory=getAFile(false);
+  when(systemEnvironment.getDefaultCommandRepository()).thenReturn(defaultDirectory);
+  doReturn(zipInputStream).when(spy).getPackagedRepositoryZipStream();
+  spy.initialize();
+  verify(spy,times(1)).usePackagedCommandRepository(zipInputStream,defaultDirectory);
+  verify(spy,times(1)).getPackagedRepositoryZipStream();
+  verify(zipUtil,never()).getFileContentInsideZip(zipInputStream,VERSION_FILE);
+  verify(spy,never()).getExistingVersion(defaultDirectory);
+}

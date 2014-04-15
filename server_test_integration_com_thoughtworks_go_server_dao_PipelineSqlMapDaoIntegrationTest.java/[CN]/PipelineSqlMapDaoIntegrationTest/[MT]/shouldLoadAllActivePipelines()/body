@@ -1,0 +1,22 @@
+{
+  PipelineConfig twistConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("twist","dev","ft");
+  Pipeline twistPipeline=dbHelper.newPipelineWithAllStagesPassed(twistConfig);
+  List<CaseInsensitiveString> allPipelineNames=goConfigFileDao.load().getAllPipelineNames();
+  if (!allPipelineNames.contains(new CaseInsensitiveString("twist"))) {
+    goConfigFileDao.addPipeline(twistConfig,"pipelinesqlmapdaotest");
+  }
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev","ft");
+  if (!allPipelineNames.contains(new CaseInsensitiveString("mingle"))) {
+    goConfigFileDao.addPipeline(mingleConfig,"pipelinesqlmapdaotest");
+  }
+  Pipeline firstPipeline=dbHelper.newPipelineWithAllStagesPassed(mingleConfig);
+  Pipeline secondPipeline=dbHelper.newPipelineWithFirstStagePassed(mingleConfig);
+  dbHelper.scheduleStage(secondPipeline,mingleConfig.get(1));
+  Pipeline thirdPipeline=dbHelper.newPipelineWithFirstStageScheduled(mingleConfig);
+  PipelineInstanceModels pipelineHistories=pipelineDao.loadActivePipelines();
+  assertThat(pipelineHistories.size(),is(3));
+  assertThat(pipelineHistories.get(0).getId(),is(thirdPipeline.getId()));
+  assertThat(pipelineHistories.get(1).getId(),is(secondPipeline.getId()));
+  assertThat(pipelineHistories.get(2).getId(),is(twistPipeline.getId()));
+  assertThat(pipelineHistories.get(0).getBuildCause().getMaterialRevisions().isEmpty(),is(false));
+}

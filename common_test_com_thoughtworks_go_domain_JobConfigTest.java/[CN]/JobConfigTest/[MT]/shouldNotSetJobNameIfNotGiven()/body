@@ -1,0 +1,7 @@
+{
+  JobConfig config=new JobConfig("some-job-name");
+  config.setConfigAttributes(m());
+  assertThat(config.name(),is(new CaseInsensitiveString("some-job-name")));
+  config.setConfigAttributes(m(JobConfig.NAME,null));
+  assertThat(config.name(),is(nullValue()));
+}

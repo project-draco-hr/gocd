@@ -1,0 +1,10 @@
+{
+  DateTime now=new DateTime();
+  when(timeProvider.currentTimeMillis()).thenReturn(now.getMillis());
+  JobIdentifier unresponsiveJob=new JobIdentifier("foo",12,"foo-10","stage","2","job",20l);
+  JobInstance job=buildingInstance(unresponsiveJob);
+  listener.jobStatusChanged(job);
+  job.cancel();
+  listener.jobStatusChanged(job);
+  verify(serverHealthService).removeByScope(HealthStateScope.forJob("foo","stage","job"));
+}

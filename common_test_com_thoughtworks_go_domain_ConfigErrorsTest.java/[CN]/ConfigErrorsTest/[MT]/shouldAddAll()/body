@@ -1,0 +1,10 @@
+{
+  ConfigErrors configErrors=new ConfigErrors();
+  configErrors.add("err1","foo");
+  configErrors.add("err1","baz");
+  configErrors.add("err2","bar");
+  ConfigErrors other=new ConfigErrors();
+  other.add("baz","one");
+  other.addAll(configErrors);
+  assertThat(other.getAll(),hasItems("baz","foo","baz","bar"));
+}

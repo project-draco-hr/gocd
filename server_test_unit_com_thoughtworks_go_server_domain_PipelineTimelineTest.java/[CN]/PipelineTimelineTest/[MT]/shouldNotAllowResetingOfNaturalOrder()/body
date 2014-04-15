@@ -1,0 +1,11 @@
+{
+  PipelineTimeline mods=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  mods.add(fourth);
+  mods.add(first);
+  try {
+    mods.add(fourth);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Calculated natural ordering 1.5 is not the same as the existing naturalOrder 1.0, for pipeline pipeline, with id 4"));
+  }
+}

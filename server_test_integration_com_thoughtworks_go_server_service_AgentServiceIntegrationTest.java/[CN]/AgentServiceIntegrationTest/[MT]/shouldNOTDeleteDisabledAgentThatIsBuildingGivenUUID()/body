@@ -1,0 +1,11 @@
+{
+  AgentConfig disabledButBuildingAgent=createDisabledAgent(UUID);
+  goConfigFileDao.load();
+  assertThat(agentService.agents().size(),is(1));
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.deleteAgents(USERNAME,operationResult,Arrays.asList(disabledButBuildingAgent.getUuid()));
+  assertThat(operationResult.httpCode(),is(406));
+  assertThat(operationResult.message(),is("Deleted 0 agent(s). Failed to delete 1 agent(s), as agent(s) might not be disabled or are still building."));
+  assertThat(agentService.agents().size(),is(1));
+  assertThat(agentService.agents().get(0).getUuid(),is(UUID));
+}

@@ -1,0 +1,20 @@
+{
+  if (descriptor.isInvalid()) {
+    LOGGER.debug("Descriptor Invalid skipping plugin descriptor callback.");
+    return;
+  }
+  if (!goPluginOSGiFramework.hasReferenceFor(PluginDescriptorAware.class,descriptor.id())) {
+    return;
+  }
+  goPluginOSGiFramework.doOnAllWithExceptionHandlingForPlugin(PluginDescriptorAware.class,descriptor.id(),new Action<PluginDescriptorAware>(){
+    @Override public void execute(    PluginDescriptorAware descriptorAwarePlugin,    GoPluginDescriptor pluginDescriptor){
+      descriptorAwarePlugin.setPluginDescriptor(pluginDescriptor);
+    }
+  }
+,new ExceptionHandler<PluginDescriptorAware>(){
+    @Override public void handleException(    PluginDescriptorAware obj,    Throwable t){
+      LOGGER.warn("Set Plugin Descriptor Call failed for plugin: " + descriptor.id(),t);
+    }
+  }
+);
+}

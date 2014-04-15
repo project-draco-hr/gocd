@@ -1,0 +1,8 @@
+{
+  AgentConfig buildingAgentConfig=new AgentConfig("uuid3","CCeDev01","10.18.5.1",new Resources("java"));
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(buildingAgentConfig.getAgentIdentifier(),"cookie",null);
+  agentRuntimeInfo.busy(new AgentBuildingInfo("pipeline",buildLocator));
+  AgentInstance building=AgentInstance.createFromConfig(buildingAgentConfig,new SystemEnvironment());
+  building.update(agentRuntimeInfo);
+  return building;
+}

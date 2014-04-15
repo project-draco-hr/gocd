@@ -1,0 +1,8 @@
+{
+  SvnMaterial material=new SvnMaterial("http://foo.bar/baz","user","pass",false);
+  MaterialRevisions materialRevisions=new MaterialRevisions(new MaterialRevision(material,new Modification(new Date(),"1234","MOCK_LABEL-12",null)));
+  when(goConfigService.upstreamDependencyGraphOf("foo",cruiseConfig)).thenReturn(new PipelineConfigDependencyGraph(null));
+  when(pipelineService.getRevisionsBasedOnDependencies(materialRevisions,cruiseConfig,new CaseInsensitiveString("foo"))).thenReturn(materialRevisions);
+  BuildCause buildCause=new AutoBuild(goConfigService,pipelineService,"foo",new SystemEnvironment(),materialChecker,serverHealthService).onModifications(materialRevisions,false,null);
+  assertThat(buildCause.getApprover(),is(GoConstants.DEFAULT_APPROVED_BY));
+}

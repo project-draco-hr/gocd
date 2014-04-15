@@ -1,0 +1,12 @@
+{
+  CONFIG_HELPER=new GoConfigFileHelper();
+  dbHelper.onSetUp();
+  CONFIG_HELPER.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  CONFIG_HELPER.onSetUp();
+  repository=new SvnCommand(null,testRepo.projectRepositoryUrl());
+  goConfigService.forceNotifyListeners();
+  agentAssignment.clear();
+  goCache.clear();
+  CONFIG_HELPER.addPipeline("blahPipeline","blahStage",MaterialConfigsMother.hgMaterialConfig("file:///home/cruise/projects/cruisen/manual-testing/ant_hg/dummy"),"job1","job2");
+  CONFIG_HELPER.makeJobRunOnAllAgents("blahPipeline","blahStage","job2");
+}

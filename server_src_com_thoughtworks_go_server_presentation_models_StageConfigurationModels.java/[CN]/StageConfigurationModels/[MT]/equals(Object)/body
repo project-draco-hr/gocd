@@ -1,0 +1,18 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (getClass() != o.getClass()) {
+    return false;
+  }
+  StageConfigurationModels that=(StageConfigurationModels)o;
+  if (size() != that.size()) {
+    return false;
+  }
+  for (int i=0; i < that.size(); i++) {
+    if (!StageInfoAdapter.equals(get(i),that.get(i))) {
+      return false;
+    }
+  }
+  return true;
+}

@@ -1,0 +1,14 @@
+{
+  StringBuilder sb=new StringBuilder();
+  boolean failures=false;
+  for (  String ask : truthAsks) {
+    if (!graph.ask(ask)) {
+      failures=true;
+      sb.append(ask);
+      sb.append("\n");
+    }
+  }
+  if (failures) {
+    fail("Graph:\n" + com.thoughtworks.studios.shine.semweb.GraphTestHelper.dumpRDFXMLToString(graph) + "\n\n"+ "Asks that are expecting to be true:\n"+ sb.toString());
+  }
+}

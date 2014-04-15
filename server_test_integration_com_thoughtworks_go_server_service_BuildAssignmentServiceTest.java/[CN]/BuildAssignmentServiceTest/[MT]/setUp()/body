@@ -1,0 +1,14 @@
+{
+  configHelper=new GoConfigFileHelper().usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  dbHelper.onSetUp();
+  fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  repository=new SvnCommand(null,testRepo.projectRepositoryUrl());
+  evolveConfig=configHelper.addPipeline("evolve",STAGE_NAME,repository,"unit");
+  configHelper.addPipeline("anotherPipeline",STAGE_NAME,repository,"anotherTest");
+  configHelper.addPipeline("thirdPipeline",STAGE_NAME,repository,"yetAnotherTest");
+  goConfigService.forceNotifyListeners();
+  goCache.clear();
+  u=new ScheduleTestUtil(transactionTemplate,materialRepository,dbHelper,configHelper);
+}

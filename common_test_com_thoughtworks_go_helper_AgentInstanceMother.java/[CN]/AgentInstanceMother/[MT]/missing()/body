@@ -1,0 +1,8 @@
+{
+  AgentConfig agentConfig=new AgentConfig("1234","localhost","192.168.0.1");
+  AgentInstance instance=AgentInstance.createFromConfig(agentConfig,new SystemEnvironment());
+  AgentRuntimeInfo newRuntimeInfo=AgentRuntimeInfo.initialState(agentConfig);
+  newRuntimeInfo.setStatus(AgentStatus.Missing);
+  instance.update(newRuntimeInfo);
+  return instance;
+}

@@ -1,0 +1,6 @@
+{
+  OauthClient client=new OauthClient("mingle","client_id","client_secret","http://something");
+  template.save(client);
+  OauthDataSource.OauthClientDTO dto=repo.findOauthClientByName("mingle");
+  assertThat(dto,is(client.getDTO()));
+}

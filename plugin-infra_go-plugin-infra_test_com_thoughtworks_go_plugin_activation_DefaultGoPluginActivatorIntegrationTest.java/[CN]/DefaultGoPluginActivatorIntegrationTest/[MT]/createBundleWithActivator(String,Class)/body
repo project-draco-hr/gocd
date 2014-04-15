@@ -1,0 +1,10 @@
+{
+  TinyBundle bundleBeingBuilt=TinyBundles.bundle().add(GoPluginActivator.class).add(DefaultGoPluginActivator.class,InnerClassStrategy.ALL).set(Constants.BUNDLE_ACTIVATOR,DefaultGoPluginActivator.class.getCanonicalName()).set(Constants.BUNDLE_CLASSPATH,".,lib/dependency.jar").set(Constants.BUNDLE_SYMBOLICNAME,GO_TEST_DUMMY_SYMBOLIC_NAME);
+  for (  Class aClass : classesToBeAdded) {
+    bundleBeingBuilt.add(aClass,InnerClassStrategy.NONE);
+  }
+  ZipInputStream src=new ZipInputStream(bundleBeingBuilt.build());
+  File bundleExplodedDir=explodeBundleIntoDirectory(src,destinationDir);
+  IOUtils.closeQuietly(src);
+  return bundleExplodedDir;
+}

@@ -1,0 +1,13 @@
+{
+  return new NoOverwriteUpdateConfigCommand(){
+    @Override public String unmodifiedMd5(){
+      return md5;
+    }
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      JobConfig job=cruiseConfig.findJob(pipelineName,stageName,oldJobName);
+      ReflectionUtil.setField(job,"jobName",new CaseInsensitiveString(newJobName));
+      return cruiseConfig;
+    }
+  }
+;
+}

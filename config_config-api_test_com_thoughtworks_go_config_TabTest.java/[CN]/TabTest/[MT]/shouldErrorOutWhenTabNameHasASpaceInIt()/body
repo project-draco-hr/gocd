@@ -1,0 +1,6 @@
+{
+  Tab tab=new Tab("foo bar","bite/me");
+  tab.validate(null);
+  assertThat(tab.errors().isEmpty(),is(false));
+  assertThat(tab.errors().on(Tab.NAME),is("Tab name 'foo bar' is invalid. This must be alphanumeric and can contain underscores and periods."));
+}

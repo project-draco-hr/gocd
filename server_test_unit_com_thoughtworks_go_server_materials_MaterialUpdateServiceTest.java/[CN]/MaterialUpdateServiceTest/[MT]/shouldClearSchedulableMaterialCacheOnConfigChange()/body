@@ -1,0 +1,7 @@
+{
+  when(serverHealthService.getAllLogs()).thenReturn(new ServerHealthStates());
+  service.onTimer();
+  service.onConfigChange(mock(CruiseConfig.class));
+  service.onTimer();
+  verify(goConfigService,times(2)).getSchedulableMaterials();
+}

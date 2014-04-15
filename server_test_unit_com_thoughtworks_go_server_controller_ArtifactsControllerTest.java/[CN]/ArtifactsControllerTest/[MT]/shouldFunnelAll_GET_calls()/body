@@ -1,0 +1,12 @@
+{
+  final ModelAndView returnVal=new ModelAndView();
+  ArtifactsController controller=new ArtifactsController(artifactService,restfulService,mock(ZipArtifactCache.class),mock(ScheduleService.class),consoleActivityMonitor,mock(GoConfigService.class)){
+    @Override ModelAndView getArtifact(    String filePath,    ArtifactFolderViewFactory folderViewFactory,    String pipelineName,    String counterOrLabel,    String stageName,    String stageCounter,    String buildName,    String sha,    String serverAlias) throws Exception {
+      return returnVal;
+    }
+  }
+;
+  assertThat(controller.getArtifactAsHtml("pipeline","counter","stage","2","job","file_name","sha1",null),sameInstance(returnVal));
+  assertThat(controller.getArtifactAsZip("pipeline","counter","stage","2","job","file_name","sha1"),sameInstance(returnVal));
+  assertThat(controller.getArtifactAsJson("pipeline","counter","stage","2","job","file_name","sha1"),sameInstance(returnVal));
+}

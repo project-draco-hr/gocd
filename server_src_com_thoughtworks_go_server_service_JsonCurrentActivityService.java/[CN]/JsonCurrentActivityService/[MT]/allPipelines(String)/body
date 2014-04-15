@@ -1,0 +1,14 @@
+{
+  List<PipelineJsonPresentationModel> pipelines=new ArrayList<PipelineJsonPresentationModel>();
+  for (  PipelineConfigs group : goConfigService.getCurrentConfig().getGroups()) {
+    if (securityService.hasViewPermissionForGroup(username,group.getGroup())) {
+      for (      PipelineConfig config : group) {
+        PipelineJsonPresentationModel jsonPresentationModel=currentActivity.getPipelineStatus(CaseInsensitiveString.str(config.name()));
+        if (jsonPresentationModel != null) {
+          pipelines.add(jsonPresentationModel);
+        }
+      }
+    }
+  }
+  return filter(username,pipelines);
+}

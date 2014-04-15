@@ -1,0 +1,10 @@
+{
+  URL jarURL=urlForSDKJar("lib/tfs-impl.jar");
+  URL expandedJarUrl=expandJarAndReturnURL(jarURL);
+  File tempFolder=FileUtil.createTempFolder();
+  tempFolder.deleteOnExit();
+  explodeNatives(expandedJarUrl,tempFolder);
+  setNativePath(tempFolder);
+  String useTheParentLog4jConfiguration="log4j";
+  return new NestedJarClassLoader(expandedJarUrl,useTheParentLog4jConfiguration);
+}

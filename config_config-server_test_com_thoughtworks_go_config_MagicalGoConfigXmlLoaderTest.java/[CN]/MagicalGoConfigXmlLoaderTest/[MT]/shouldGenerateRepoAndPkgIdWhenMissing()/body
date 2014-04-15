@@ -1,0 +1,6 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'><repositories>\n"+ withPackages(REPO_WITH_MISSING_ID,PACKAGE_WITH_MISSING_ID)+ " </repositories></cruise>";
+  GoConfigHolder configHolder=xmlLoader.loadConfigHolder(xml);
+  assertThat(configHolder.config.getPackageRepositories().get(0).getId(),is(notNullValue()));
+  assertThat(configHolder.config.getPackageRepositories().get(0).getPackages().get(0).getId(),is(notNullValue()));
+}

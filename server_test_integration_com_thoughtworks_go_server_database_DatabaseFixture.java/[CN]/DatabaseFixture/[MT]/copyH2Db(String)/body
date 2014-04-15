@@ -1,0 +1,8 @@
+{
+  File h2DbDir=new File(tmpDb,"h2db");
+  if (h2DbDir.exists()) {
+    h2DbDir.delete();
+    h2DbDir.mkdirs();
+  }
+  new ZipUtil().unzip(new File(templatesDir(),oldDb),h2DbDir);
+}

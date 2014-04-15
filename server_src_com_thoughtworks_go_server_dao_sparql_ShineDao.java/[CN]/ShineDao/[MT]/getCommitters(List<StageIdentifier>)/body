@@ -1,0 +1,12 @@
+{
+  String committersForStage="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + "PREFIX xunit: <" + XUnitOntology.URI + "> "+ "PREFIX cruise: <"+ GoOntology.URI+ "> "+ "\n"+ "SELECT DISTINCT ?failedPipelineCounter ?failedPipelineLabel ?user {\n"+ "       ?pipeline cruise:pipelineCounter ?failedPipelineCounter .\n"+ "       ?pipeline cruise:pipelineLabel ?failedPipelineLabel .\n"+ "       ?pipelineTrigger a cruise:ChangeSet .\n"+ "       OPTIONAL {"+ "         ?pipelineTrigger cruise:user ?user .\n"+ "       }"+ "} ORDER BY ?failedPipelineCounter ?user";
+  return stagesQuery.select(committersForStage,failedStageIds,new RdfResultMapper<PipelineCommiter>(){
+    public PipelineCommiter map(    BoundVariables aRow){
+      String userName=aRow.getString("user");
+      Integer failedPipelineCounter=aRow.getInt("failedPipelineCounter");
+      String failedPipelineLabel=aRow.getString("failedPipelineLabel");
+      return new PipelineCommiter(userName,failedPipelineCounter,failedPipelineLabel);
+    }
+  }
+);
+}

@@ -1,0 +1,20 @@
+{
+  Modifications modifications=cachedModifications(expandedInstance);
+  if (modifications != null && !modifications.isEmpty()) {
+    return modifications.get(0);
+  }
+  String cacheKey=latestMaterialModificationsKey(expandedInstance);
+synchronized (cacheKey) {
+    Modification modification=(Modification)getHibernateTemplate().execute(new HibernateCallback(){
+      public Object doInHibernate(      Session session) throws HibernateException, SQLException {
+        Query query=session.createQuery("FROM Modification WHERE materialId = ? ORDER BY id DESC");
+        query.setMaxResults(1);
+        query.setLong(0,expandedInstance.getId());
+        return query.uniqueResult();
+      }
+    }
+);
+    goCache.put(cacheKey,new Modifications(modification));
+    return modification;
+  }
+}

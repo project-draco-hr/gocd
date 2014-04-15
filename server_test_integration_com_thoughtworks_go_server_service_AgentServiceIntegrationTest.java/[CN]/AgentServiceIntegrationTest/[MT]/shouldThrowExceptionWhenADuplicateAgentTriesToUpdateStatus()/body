@@ -1,0 +1,22 @@
+{
+  AgentInstance instance=AgentInstanceMother.building();
+  AgentService agentService=getAgentService(new AgentInstances(null,instance));
+  AgentInstances agents=agentService.findRegisteredAgents();
+  String uuid=instance.agentConfig().getUuid();
+  assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Building));
+  AgentIdentifier identifier=instance.agentConfig().getAgentIdentifier();
+  agentDao.associateCookie(identifier,"new_cookie");
+  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.fromAgent(identifier,"old_cookie",null);
+  try {
+    agentService.updateRuntimeInfo(runtimeInfo);
+    fail("agent with bad cookie should not be able to update runtime info");
+  }
+ catch (  AgentWithDuplicateUUIDException e) {
+    assertThat(e.getMessage(),is(format("Agent [%s] has invalid cookie",runtimeInfo.agentInfoDebugString())));
+  }
+  agents=agentService.findRegisteredAgents();
+  assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Building));
+  AgentIdentifier agentIdentifier=instance.agentConfig().getAgentIdentifier();
+  String cookie=agentService.assignCookie(agentIdentifier);
+  agentService.updateRuntimeInfo(AgentRuntimeInfo.fromAgent(agentIdentifier,cookie,null));
+}

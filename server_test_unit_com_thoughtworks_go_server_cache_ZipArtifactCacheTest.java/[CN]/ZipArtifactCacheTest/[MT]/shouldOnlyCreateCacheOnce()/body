@@ -1,0 +1,19 @@
+{
+  ArrayList<FileCheckerThread> threads=new ArrayList<FileCheckerThread>();
+  for (int i=0; i < 10; i++) {
+    threads.add(new FileCheckerThread());
+  }
+  for (  FileCheckerThread thread : threads) {
+    thread.start();
+  }
+  for (  FileCheckerThread thread : threads) {
+    thread.join(1000);
+    if (thread.isAlive()) {
+      fail("Timeout waiting for threads");
+    }
+  }
+  for (  FileCheckerThread thread : threads) {
+    assertThat(thread.isDone(),is(true));
+    assertThat(thread.artifact.replaceAll("\\\\","/"),endsWith(JOB_FOLDERS + "/dir.zip"));
+  }
+}

@@ -1,0 +1,13 @@
+{
+  try {
+    User user=userService.load(getUserId(request));
+    user.setEmail(email);
+    user.setEmailMe(toBoolean(emailMe));
+    user.setMatcher(matchers);
+    userService.saveOrUpdate(user);
+    return new Redirection("/mycruise/user").addParameter(MESSAGE_KEY,"Successfully saved the settings");
+  }
+ catch (  Exception e) {
+    return render(request,error(MESSAGE_KEY,"Failed to save: " + e.getMessage()));
+  }
+}

@@ -1,0 +1,8 @@
+{
+  if (stageHistoryItem.needsApproval() && !pipelinePauseInfo.isPaused()) {
+    jsonMap.put("needsApproval",String.valueOf(true));
+  }
+ else   if (stageHistoryItem.getApprovedBy() != null) {
+    jsonMap.put("approvedBy",stageHistoryItem.getApprovedBy());
+  }
+}

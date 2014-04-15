@@ -1,0 +1,24 @@
+{
+  long currentTime=timeProvider.currentTimeMillis();
+  for (  Map.Entry<JobIdentifier,Long> jobTimeEntry : jobLastActivityMap.entrySet()) {
+    long difference=currentTime - jobTimeEntry.getValue();
+    JobIdentifier jobIdentifier=jobTimeEntry.getKey();
+    if (shouldCancelHungJob(jobIdentifier,difference)) {
+      scheduleService.cancelJob(jobIdentifier);
+      try {
+        artifactService.appendToConsoleLog(jobIdentifier,String.format("Go cancelled this job as it has not generated any console output for more than %s minute(s)",inMinutes(jobTerminationThreshold(jobIdentifier))));
+      }
+ catch (      Exception e) {
+        LOGGER.error(String.format("Failed to update console log with reason for cancelling hung job '%s'",jobIdentifier.buildLocator()),e);
+      }
+      this.jobLastActivityMap.remove(jobIdentifier);
+      removeHungJobWarning(jobIdentifier);
+      LOGGER.info(String.format("Cancelled hung job '%s' as it was hung for more than '%s' minutes",jobIdentifier.buildLocator(),inMinutes(difference)));
+    }
+ else     if (difference > warningThreshold) {
+      LOGGER.info(String.format("Job '%s' has not updated console log for more than '%s' minutes",jobIdentifier.buildLocator(),inMinutes(difference)));
+      removeHungJobWarning(jobIdentifier);
+      addJobHungWarning(jobIdentifier,difference);
+    }
+  }
+}

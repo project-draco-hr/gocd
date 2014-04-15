@@ -1,0 +1,13 @@
+{
+  JobIdentifier jobIdentifier=job.getIdentifier();
+synchronized (mutexForStageInstance(jobIdentifier)) {
+    JobInstance instance=jobInstanceService.buildByIdWithTransitions(job.getJobId());
+    if (instance.getState() == JobState.Completed) {
+      LOGGER.info(String.format("[Agent Assignment] Not assigning a completed job [%s] to agent %s",instance.getIdentifier(),agentUuid));
+      return true;
+    }
+    instance.assign(agentUuid,timeProvider.currentTime());
+    jobInstanceService.updateAssignedInfo(instance);
+    return false;
+  }
+}

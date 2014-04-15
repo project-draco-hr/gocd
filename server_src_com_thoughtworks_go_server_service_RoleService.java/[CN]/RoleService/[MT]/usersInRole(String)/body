@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.currentCruiseConfig();
+  Role role=cruiseConfig.server().security().roleNamed(roleName);
+  if (role != null) {
+    return role.getUsers();
+  }
+  return Collections.emptyList();
+}

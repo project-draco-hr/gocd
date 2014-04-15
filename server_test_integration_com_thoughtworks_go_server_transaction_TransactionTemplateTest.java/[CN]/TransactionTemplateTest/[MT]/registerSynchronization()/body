@@ -1,0 +1,11 @@
+{
+  transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+    @Override public void afterCommit(){
+      txnCommited=true;
+    }
+    @Override public void afterCompletion(    int status){
+      txnCompleted=true;
+    }
+  }
+);
+}

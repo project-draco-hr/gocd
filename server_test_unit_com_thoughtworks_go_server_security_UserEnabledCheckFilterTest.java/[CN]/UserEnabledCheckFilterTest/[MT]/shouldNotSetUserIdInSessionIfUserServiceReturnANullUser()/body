@@ -1,0 +1,12 @@
+{
+  String userName="none";
+  SecurityContextHelper.setCurrentUser(userName);
+  Authentication actual=SecurityContextHolder.getContext().getAuthentication();
+  when(session.getAttribute(USERID_ATTR)).thenReturn(null);
+  NullUser nullUser=new NullUser();
+  when(userService.findUserByName(userName)).thenReturn(nullUser);
+  filter.doFilterHttp(req,res,chain);
+  assertThat(SecurityContextHolder.getContext().getAuthentication(),is(actual));
+  verify(session,never()).setAttribute(eq(USERID_ATTR),Matchers.<Object>any());
+  verify(chain).doFilter(req,res);
+}

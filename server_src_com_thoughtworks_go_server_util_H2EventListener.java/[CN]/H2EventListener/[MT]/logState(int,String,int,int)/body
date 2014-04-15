@@ -1,0 +1,22 @@
+{
+switch (state) {
+case DatabaseEventListener.STATE_BACKUP_FILE:
+    log("Backing up " + name + " "+ (100L * progress / max)+ "%");
+  break;
+case DatabaseEventListener.STATE_CREATE_INDEX:
+log("Creating index " + name + " "+ (100L * progress / max)+ "%");
+break;
+case DatabaseEventListener.STATE_RECOVER:
+log("Recovering " + name + " "+ (100L * progress / max)+ "%");
+break;
+case DatabaseEventListener.STATE_SCAN_FILE:
+log("Scanning file " + name + " "+ (100L * progress / max)+ "%");
+break;
+case DatabaseEventListener.STATE_STATEMENT_START:
+case DatabaseEventListener.STATE_STATEMENT_END:
+case DatabaseEventListener.STATE_STATEMENT_PROGRESS:
+break;
+default :
+log("Unknown state: " + state);
+}
+}

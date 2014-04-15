@@ -1,0 +1,40 @@
+{
+  if (!isRootApplicationContext(contextRefreshedEvent.getApplicationContext())) {
+    return;
+  }
+  try {
+    defaultPluginJarLocationMonitor.initialize();
+    pluginsInitializer.initialize();
+    pluginsZipInitializer.initialize();
+    configElementImplementationRegistrar.initialize();
+    configRepository.initialize();
+    goConfigDataSource.upgradeIfNecessary();
+    cachedGoConfig.loadConfigIfNull();
+    goConfigService.initialize();
+    licenseViolationChecker.initialize();
+    artifactsDirHolder.initialize();
+    artifactsService.initialize();
+    environmentConfigService.initialize();
+    oauthTokenSweeper.initialize();
+    invalidConfigMessageRemover.initialize();
+    ldapContextFactory.initialize();
+    agentService.initialize();
+    pipelineLockService.initialize();
+    buildAssignmentService.initialize();
+    materialUpdateService.initialize();
+    pipelineScheduler.initialize();
+    removeAdminPermissionFilter.initialize();
+    pipelineTimeline.updateTimelineOnInit();
+    pipelineSqlMapDao.initialize();
+    commandRepositoryInitializer.initialize();
+    consoleActivityMonitor.populateActivityMap();
+    timerScheduler.initialize();
+    stageResourceImporter.initialize();
+    goCasServiceProperties.initialize();
+    goDiskSpaceMonitor.initialize();
+    backupService.initialize();
+  }
+ catch (  Throwable throwable) {
+    throw new RuntimeException(throwable);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  String downloadUrl1=urlService.getUploadUrlOfAgent(jobIdentifier,"file");
+  String downloadUrl2=urlService.getUploadUrlOfAgent(jobIdentifier,"/file");
+  assertThat(downloadUrl1,endsWith("/files/pipelineName/LATEST/stageName/LATEST/buildName/file?attempt=1&buildId=123"));
+  assertThat(downloadUrl1,endsWith(downloadUrl2));
+}

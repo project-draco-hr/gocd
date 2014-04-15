@@ -1,0 +1,8 @@
+{
+  StageInstanceModel item=new StageInstanceModel("foo","10",JobHistory.withJob("unit",JobState.Assigned,JobResult.Unknown,new Date()));
+  StageInstanceModel previous=new StageInstanceModel("foo","1",JobHistory.withJob("unit",JobState.Completed,JobResult.Passed,new Date()));
+  assertThat(item.hasPreviousStage(),is(false));
+  item.setPreviousStage(previous);
+  assertThat(item.hasPreviousStage(),is(true));
+  assertThat(item.getPreviousStage(),is(previous));
+}

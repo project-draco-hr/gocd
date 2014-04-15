@@ -1,0 +1,14 @@
+{
+  final AdminsConfig adminsConfig=cruiseConfig.server().security().adminsConfig();
+switch (adminPrivilegeSelection.getAction()) {
+case add:
+    if (!adminsConfig.hasUser(new CaseInsensitiveString(user),ALWAYS_FALSE_MATCHER)) {
+      adminsConfig.add(new AdminUser(new CaseInsensitiveString(user)));
+    }
+  break;
+case remove:
+adminsConfig.remove(new AdminUser(new CaseInsensitiveString(user)));
+break;
+}
+return cruiseConfig;
+}

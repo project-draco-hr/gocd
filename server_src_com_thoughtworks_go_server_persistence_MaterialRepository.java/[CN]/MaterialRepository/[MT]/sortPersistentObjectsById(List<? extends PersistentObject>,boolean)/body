@@ -1,0 +1,15 @@
+{
+  Comparator<PersistentObject> ascendingSort=new Comparator<PersistentObject>(){
+    @Override public int compare(    PersistentObject po1,    PersistentObject po2){
+      return (int)(po1.getId() - po2.getId());
+    }
+  }
+;
+  Comparator<PersistentObject> descendingSort=new Comparator<PersistentObject>(){
+    @Override public int compare(    PersistentObject po1,    PersistentObject po2){
+      return (int)(po2.getId() - po1.getId());
+    }
+  }
+;
+  Collections.sort(persistentObjects,asc ? ascendingSort : descendingSort);
+}

@@ -1,0 +1,11 @@
+{
+  String pluginJarName="invalid-descriptor-plugin.jar";
+  copyPluginToThePluginDirectory(pluginDirectory,pluginJarName);
+  File pluginJarFile=new File(pluginDirectory,pluginJarName);
+  GoPluginDescriptor descriptor=goPluginDescriptorBuilder.build(pluginJarFile,true);
+  GoPluginDescriptor expectedDescriptor=buildXMLSchemaErrorDescriptor(pluginJarName);
+  assertThat(descriptor,CoreMatchers.is(expectedDescriptor));
+  assertThat(descriptor.isInvalid(),CoreMatchers.is(true));
+  assertThat(descriptor.isBundledPlugin(),CoreMatchers.is(true));
+  assertThat(descriptor.getStatus().getMessages(),is(expectedDescriptor.getStatus().getMessages()));
+}

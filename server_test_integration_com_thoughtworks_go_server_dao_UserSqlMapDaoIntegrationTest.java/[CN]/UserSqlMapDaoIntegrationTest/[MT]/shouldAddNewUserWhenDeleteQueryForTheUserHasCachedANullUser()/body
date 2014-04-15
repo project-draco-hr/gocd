@@ -1,0 +1,17 @@
+{
+  String userName="invalidForNowUser";
+  try {
+    userDao.deleteUser(userName);
+    fail("should have failed");
+  }
+ catch (  Exception e) {
+    assertThat(e instanceof UserNotFoundException,is(true));
+  }
+  User addingTheUserNow=new User(userName);
+  addingTheUserNow.disable();
+  userDao.saveOrUpdate(addingTheUserNow);
+  User retrievedUser=userDao.findUser(userName);
+  assertThat(retrievedUser instanceof NullUser,is(false));
+  assertThat(retrievedUser,is(addingTheUserNow));
+  assertThat(userDao.deleteUser(userName),is(true));
+}

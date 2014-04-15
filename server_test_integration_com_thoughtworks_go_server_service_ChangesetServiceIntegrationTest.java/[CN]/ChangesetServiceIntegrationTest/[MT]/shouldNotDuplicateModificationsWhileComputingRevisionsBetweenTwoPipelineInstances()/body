@@ -1,0 +1,19 @@
+{
+  Username loser=new Username(new CaseInsensitiveString("loser"));
+  ManualBuild build=new ManualBuild(loser);
+  Date checkinTime=new Date();
+  Modification hgCommit1=checkinWithComment("abcd","#4518 - foo",checkinTime);
+  Pipeline pipelineOne=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,hgCommit1));
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,hgCommit1));
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,hgCommit1));
+  Pipeline pipelineFour=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,hgCommit1));
+  List<MaterialRevision> expectedRevisions=Arrays.asList(new MaterialRevision(hg,hgCommit1));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<MaterialRevision> revisions=changesetService.revisionsBetween(CaseInsensitiveString.str(pipelineConfig.name()),pipelineOne.getCounter(),pipelineFour.getCounter(),loser,result,true,false);
+  assertMaterialRevisions(expectedRevisions,revisions);
+  assertThat(result.isSuccessful(),is(true));
+  List<String> cardsInBetween=changesetService.getCardNumbersBetween(CaseInsensitiveString.str(pipelineConfig.name()),pipelineOne.getCounter(),pipelineFour.getCounter(),loser,result,false);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(cardsInBetween.size(),is(1));
+  assertThat(cardsInBetween,is(Arrays.asList("4518")));
+}

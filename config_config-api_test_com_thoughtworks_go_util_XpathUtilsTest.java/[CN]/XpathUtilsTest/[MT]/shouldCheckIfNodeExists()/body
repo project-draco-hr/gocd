@@ -1,0 +1,7 @@
+{
+  String attribute="//son/grandson[@name=\"anyone\"]/@address";
+  assertThat(XpathUtils.evaluate(getTestFile(),attribute),is(""));
+  assertThat(XpathUtils.nodeExists(getTestFile(),attribute),is(true));
+  String textNode="//son/grandson[2]/text()";
+  assertThat(XpathUtils.nodeExists(getTestFile(),textNode),is(false));
+}

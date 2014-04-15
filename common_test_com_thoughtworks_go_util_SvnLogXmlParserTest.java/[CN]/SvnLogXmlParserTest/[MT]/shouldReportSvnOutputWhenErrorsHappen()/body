@@ -1,0 +1,10 @@
+{
+  SvnLogXmlParser parser=new SvnLogXmlParser();
+  try {
+    parser.parse("invalid xml","",new SAXBuilder(false));
+    fail("should have failed when invalid xml is parsed");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("invalid xml"));
+  }
+}

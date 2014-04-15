@@ -1,0 +1,8 @@
+{
+  setupClassesInBundle("GoExtensionWithLoadUnloadAnnotation.class");
+  when(bundle.loadClass(contains("GoExtensionWithLoadUnloadAnnotation"))).thenReturn((Class)GoExtensionWithLoadUnloadAnnotation.class);
+  activator.start(context);
+  assertThat(GoExtensionWithLoadUnloadAnnotation.loadInvoked,is(1));
+  activator.stop(context);
+  assertThat(GoExtensionWithLoadUnloadAnnotation.unLoadInvoked,is(1));
+}

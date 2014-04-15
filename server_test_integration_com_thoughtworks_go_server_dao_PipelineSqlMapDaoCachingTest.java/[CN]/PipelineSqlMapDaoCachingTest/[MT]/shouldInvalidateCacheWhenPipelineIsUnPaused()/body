@@ -1,0 +1,11 @@
+{
+  String pipelineName="pipelineName";
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("pauseCause",null).and("pauseBy",null).and("paused",false).asMap();
+  when(mockTemplate.update("updatePipelinePauseState",args)).thenReturn(0);
+  when(mockTemplate.queryForObject("getPipelinePauseState",pipelineName)).thenReturn(PipelinePauseInfo.notPaused());
+  pipelineDao.pauseState(pipelineName);
+  pipelineDao.unpause(pipelineName);
+  PipelinePauseInfo actualPauseInfo=pipelineDao.pauseState(pipelineName);
+  assertThat(actualPauseInfo,is(PipelinePauseInfo.notPaused()));
+  verify(mockTemplate,times(2)).queryForObject("getPipelinePauseState",pipelineName);
+}

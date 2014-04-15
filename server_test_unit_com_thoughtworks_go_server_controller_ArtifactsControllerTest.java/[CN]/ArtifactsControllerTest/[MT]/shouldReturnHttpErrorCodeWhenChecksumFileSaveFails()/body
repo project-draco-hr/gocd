@@ -1,0 +1,13 @@
+{
+  File artifactFile=new File("junk");
+  when(artifactService.findArtifact(any(JobIdentifier.class),eq("some-path"))).thenReturn(artifactFile);
+  when(artifactService.saveFile(any(File.class),any(InputStream.class),eq(false),eq(1))).thenReturn(true);
+  when(artifactService.saveOrAppendFile(any(File.class),any(InputStream.class))).thenReturn(false);
+  MockMultipartHttpServletRequest mockMultipartHttpServletRequest=new MockMultipartHttpServletRequest();
+  mockMultipartHttpServletRequest.addFile(new MockMultipartFile(REGULAR_MULTIPART_FILENAME,"content".getBytes()));
+  mockMultipartHttpServletRequest.addFile(new MockMultipartFile(CHECKSUM_MULTIPART_FILENAME,"checksum-content".getBytes()));
+  ModelAndView modelAndView=artifactsController.postArtifact("pipeline-1","1","stage-1","2","job-1",122L,"some-path",1,mockMultipartHttpServletRequest);
+  ResponseCodeView view=(ResponseCodeView)modelAndView.getView();
+  assertThat(view.getStatusCode(),is(SC_INTERNAL_SERVER_ERROR));
+  assertThat(view.getContent(),is("Error saving checksum file for the artifact at path 'some-path'"));
+}

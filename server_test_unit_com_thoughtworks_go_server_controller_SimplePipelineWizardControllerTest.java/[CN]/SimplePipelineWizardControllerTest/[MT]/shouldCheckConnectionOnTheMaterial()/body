@@ -1,0 +1,9 @@
+{
+  SvnMaterialConfig mockMaterialConfig=mock(SvnMaterialConfig.class);
+  when(mockMaterialConfig.errors()).thenReturn(new ConfigErrors());
+  when(materialConnectivityService.checkConnection(eq(mockMaterialConfig),any(CheckConnectionSubprocessExecutionContext.class))).thenReturn(ValidationBean.valid());
+  String view=SimplePipelineWizardController.DUMMY_VIEW;
+  when(materialFactory.getMaterial("svn","url","username","password",false,view,null,null,null)).thenReturn(mockMaterialConfig);
+  controller.checkSCMConnection(null,"svn","url","username","password","false",null,null,view,mock(HttpServletResponse.class));
+  verify(materialConnectivityService).checkConnection(eq(mockMaterialConfig),any(CheckConnectionSubprocessExecutionContext.class));
+}

@@ -1,0 +1,7 @@
+{
+  final List<Modification> materialRevisions=subversion.latestModification();
+  assertThat(materialRevisions.size(),is(1));
+  final Modification modification=materialRevisions.get(0);
+  assertThat(modification.getComment(),is("Added simple build shell to dump the environment to console."));
+  assertThat(modification.getModifiedFiles().size(),is(1));
+}

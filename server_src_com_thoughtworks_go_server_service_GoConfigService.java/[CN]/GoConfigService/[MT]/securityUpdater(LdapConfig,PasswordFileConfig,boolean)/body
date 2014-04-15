@@ -1,0 +1,12 @@
+{
+  return new UpdateConfigCommand(){
+    public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      SecurityConfig securityConfig=cruiseConfig.server().security();
+      securityConfig.modifyLdap(ldapConfig);
+      securityConfig.modifyPasswordFile(passwordFileConfig);
+      securityConfig.modifyAllowOnlyKnownUsers(!shouldAllowAutoLogin);
+      return cruiseConfig;
+    }
+  }
+;
+}

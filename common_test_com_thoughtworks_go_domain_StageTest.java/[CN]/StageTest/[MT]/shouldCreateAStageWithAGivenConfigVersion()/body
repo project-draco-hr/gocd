@@ -1,0 +1,6 @@
+{
+  Stage stage=new Stage("foo-stage",new JobInstances(),"admin","manual",false,false,"git-sha",new TimeProvider());
+  assertThat(stage.getConfigVersion(),is("git-sha"));
+  stage=new Stage("foo-stage",new JobInstances(),"admin","manual",new TimeProvider());
+  assertThat(stage.getConfigVersion(),is(nullValue()));
+}

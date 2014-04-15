@@ -1,0 +1,12 @@
+{
+  SvnMaterial svn1=u.wf(new SvnMaterial("svn","username","password",false),"one");
+  SvnMaterial svn2=u.wf(new SvnMaterial("svn","username","password",false),"two");
+  String[] svn_revs={"s1"};
+  u.checkinInOrder(svn1,svn_revs);
+  ScheduleTestUtil.AddedPipeline second=u.saveConfigWith("second",u.m(svn1));
+  ScheduleTestUtil.AddedPipeline third=u.saveConfigWith("third",u.m(second),u.m(svn2));
+  String second_1=u.runAndPass(second,"s1");
+  MaterialRevisions given=u.mrs(u.mr(second,true,second_1),u.mr(svn2,true,"s1"));
+  MaterialRevisions materialRevisions=getRevisionsBasedOnDependencies(third,goConfigFileDao.load(),given);
+  assertThat(materialRevisions,is(given));
+}

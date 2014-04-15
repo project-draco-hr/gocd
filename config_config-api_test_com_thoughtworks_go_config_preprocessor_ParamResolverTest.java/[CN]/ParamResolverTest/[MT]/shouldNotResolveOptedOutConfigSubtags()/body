@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  pipelineConfig.setLabelTemplate("2.1-${COUNT}-#{foo}-bar-#{bar}");
+  pipelineConfig.addParam(param("#{foo}-name","#{foo}-#{bar}-baz"));
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.getLabelTemplate(),is("2.1-${COUNT}-pavan-bar-jj"));
+  assertThat(pipelineConfig.getParams().get(0),is(param("#{foo}-name","#{foo}-#{bar}-baz")));
+  assertThat(pipelineConfig.getClass().getDeclaredField("params").getAnnotation(SkipParameterResolution.class),is(SkipParameterResolution.class));
+}

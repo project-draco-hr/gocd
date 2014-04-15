@@ -1,0 +1,7 @@
+{
+  GitTestRepo testRepo=new GitTestRepo(GitTestRepo.GIT_SUBMODULE_REF_BUNDLE);
+  GitCommand gitCommand=new GitCommand(null,testRepo.gitRepository(),GitMaterialConfig.DEFAULT_BRANCH,false);
+  Modification modification=gitCommand.latestModification();
+  assertThat(modification.getModifiedFiles().size(),is(1));
+  assertThat(modification.getModifiedFiles().get(0).getFileName(),is("remote.txt"));
+}

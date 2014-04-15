@@ -1,0 +1,6 @@
+{
+  request.getSession().setAttribute(SPRING_SECURITY_CONTEXT_KEY,securityContext);
+  securityContext.setAuthentication(new TestingAuthenticationToken(new User("Test User","pwd",true,new GrantedAuthority[]{new GrantedAuthorityImpl("nowt")}),null,null));
+  view.exposeHelpers(velocityContext,request);
+  assertThat((String)velocityContext.get(GoVelocityView.PRINCIPAL),is("Test User"));
+}

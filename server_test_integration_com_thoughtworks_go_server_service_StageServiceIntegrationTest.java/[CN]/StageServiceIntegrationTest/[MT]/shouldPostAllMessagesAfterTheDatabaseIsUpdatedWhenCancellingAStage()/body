@@ -1,0 +1,33 @@
+{
+  jobResultTopic.addListener(new GoMessageListener<JobResultMessage>(){
+    public void onMessage(    JobResultMessage message){
+      JobIdentifier jobIdentifier=message.getJobIdentifier();
+      JobInstance instance=jobInstanceDao.mostRecentJobWithTransitions(jobIdentifier);
+      receivedState=instance.getState();
+      receivedResult=instance.getResult();
+    }
+  }
+);
+  stageService.addStageStatusListener(new StageStatusListener(){
+    public void stageStatusChanged(    Stage stage){
+      Stage retrievedStage=stageDao.stageById(stage.getId());
+      receivedStageResult=retrievedStage.getResult();
+    }
+  }
+);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      stageService.cancelStage(stage);
+    }
+  }
+);
+  Assertions.waitUntil(Timeout.TEN_SECONDS,new Assertions.Predicate(){
+    public boolean call() throws Exception {
+      return receivedResult != null && receivedState != null && receivedStageResult != null;
+    }
+  }
+);
+  assertThat(receivedState,is(JobState.Completed));
+  assertThat(receivedResult,is(JobResult.Cancelled));
+  assertThat(receivedStageResult,is(StageResult.Cancelled));
+}

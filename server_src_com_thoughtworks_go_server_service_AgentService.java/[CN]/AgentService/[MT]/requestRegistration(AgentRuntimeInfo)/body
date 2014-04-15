@@ -1,0 +1,14 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Agent is requesting registration " + agentRuntimeInfo);
+  }
+  AgentInstance agentInstance=agentInstances.register(agentRuntimeInfo);
+  Registration registration=agentInstance.assignCertification();
+  if (agentInstance.isRegistered()) {
+    agentConfigService.saveOrUpdateAgent(agentInstance);
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("New Agent approved " + agentRuntimeInfo);
+    }
+  }
+  return registration;
+}

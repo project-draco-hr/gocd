@@ -1,0 +1,13 @@
+{
+  when(schedulerFactory.getScheduler()).thenReturn(scheduler);
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  List<PipelineConfig> pipelineConfigs=asList(pipelineConfigWithTimer("uat","0 15 10 ? * MON-FRI"),pipelineConfig("dist"));
+  when(goConfigService.getAllPipelineConfigs()).thenReturn(pipelineConfigs);
+  TimerScheduler timerScheduler=new TimerScheduler(schedulerFactory,goConfigService,null,null);
+  timerScheduler.initialize();
+  JobDetail expectedJob=new JobDetail("uat","CruiseTimers",TimerScheduler.SchedulePipelineQuartzJob.class);
+  Trigger expectedTrigger=new CronTrigger("uat","CruiseTimers","0 15 10 ? * MON-FRI");
+  verify(scheduler).scheduleJob(expectedJob,expectedTrigger);
+  verify(schedulerFactory).getScheduler();
+  verify(scheduler).start();
+}

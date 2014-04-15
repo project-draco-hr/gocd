@@ -1,0 +1,6 @@
+{
+  JobInstance jobInstance=JobInstanceMother.completed("Baboon",JobResult.Passed);
+  JobInstance instance=jobInstanceDao.save(stageId,jobInstance);
+  JobInstance actual=jobInstanceDao.buildByIdWithTransitions(instance.getId());
+  assertThat(actual.isNull(),is(false));
+}

@@ -1,0 +1,10 @@
+{
+  Property propertyB=property("a/2","d");
+  Property propertyA=property("a/1","b");
+  propertyDao.save(buildId,propertyB);
+  propertyDao.save(buildId,propertyA);
+  Properties properties=propertyDao.list(buildId);
+  assertThat(properties.size(),is(2));
+  assertThat(properties.get(0),is(propertyA));
+  assertThat(properties.get(1),is(propertyB));
+}

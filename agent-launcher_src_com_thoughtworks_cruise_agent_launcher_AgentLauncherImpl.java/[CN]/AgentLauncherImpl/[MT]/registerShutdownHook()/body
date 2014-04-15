@@ -1,0 +1,10 @@
+{
+  Thread shutdownHook=new Thread(){
+    @Override public void run(){
+      lockFile.delete();
+    }
+  }
+;
+  Runtime.getRuntime().addShutdownHook(shutdownHook);
+  return shutdownHook;
+}

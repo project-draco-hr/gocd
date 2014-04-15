@@ -1,0 +1,13 @@
+{
+  JobInstance expected=scheduled(JOB_NAME,new Date(1000));
+  jobInstanceDao.save(stageId,expected);
+  JobInstance actual=jobInstanceDao.buildByIdWithTransitions(expected.getId());
+  assertThat(actual.getTransitions(),sizeIs(1));
+  expected.changeState(JobState.Assigned);
+  jobInstanceDao.updateStateAndResult(expected);
+  actual=jobInstanceDao.buildByIdWithTransitions(expected.getId());
+  assertThat(actual.getTransitions(),sizeIs(2));
+  for (  JobStateTransition transition : actual.getTransitions()) {
+    assertThat(transition.getStageId(),is(stageId));
+  }
+}

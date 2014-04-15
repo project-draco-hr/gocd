@@ -1,0 +1,14 @@
+{
+  String p4view="//depot/... //localhost/...";
+  Materials p4Materials=MaterialsMother.p4Materials(p4view);
+  P4Material p4Material=(P4Material)p4Materials.first();
+  p4Material.setUseTickets(true);
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(p4Materials.convertToConfigs());
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(modifyOneFile(pipelineConfig),Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  savePipeline(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  Materials materials=pipelineFromDB.getMaterials();
+  assertThat((P4Material)materials.get(0),is(p4Material));
+}

@@ -1,0 +1,23 @@
+{
+  stubJobInstance=context.mock(JobInstance.class);
+  TrackingTool trackingTool=context.mock(TrackingTool.class);
+  artifactService=context.mock(ArtifactsService.class);
+  jobIdentifier=new JobIdentifier("pipeline",-1,"1","stageName","0","build",1L);
+  context.checking(new Expectations(){
+{
+      allowing(stubJobInstance).getName();
+      will(returnValue("build"));
+      allowing(stubJobInstance).getId();
+      will(returnValue(1L));
+      allowing(stubJobInstance).getIdentifier();
+      will(returnValue(jobIdentifier));
+    }
+  }
+);
+  Stage stage=StageMother.custom("stageName",stubJobInstance);
+  Pipeline pipeline=new Pipeline("pipeline",null,stage);
+  pipeline.setId(1L);
+  trackingTool=new TrackingTool();
+  jobDetailPresenter=new JobDetailPresentationModel(stubJobInstance,null,null,pipeline,new Tabs(),trackingTool,artifactService,new Properties(),null);
+  testFolder=TestFileUtil.createTempFolder("testFiles");
+}

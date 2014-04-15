@@ -1,0 +1,7 @@
+{
+  PipelineSelections pipelineSelections=new PipelineSelections(Arrays.asList("pipeline1"));
+  assertThat(pipelineSelections.includesGroup(createGroup("group1",pipelineConfig("pipelineX"))),is(true));
+  assertThat(pipelineSelections.includesGroup(createGroup("group2",pipelineConfig("pipeline2"),pipelineConfig("pipeline1"))),is(false));
+  assertThat(pipelineSelections.includesPipeline(pipelineConfig("pipeline1")),is(false));
+  assertThat(pipelineSelections.includesPipeline(pipelineConfig("pipeline2")),is(true));
+}

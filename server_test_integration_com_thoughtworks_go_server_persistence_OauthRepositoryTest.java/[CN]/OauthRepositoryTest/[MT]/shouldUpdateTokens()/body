@@ -1,0 +1,12 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  OauthToken fooTokenFor09=new OauthToken("foo@bar.com",mingle09,"access-token","refresh-token",23324324);
+  template.save(fooTokenFor09);
+  Map map=attrMap(fooTokenFor09.getDTO());
+  map.put("id",fooTokenFor09.getId());
+  map.put("access_token","hello_world");
+  repo.saveOauthToken(map);
+  OauthDataSource.OauthTokenDTO dto=((OauthToken)template.load(OauthToken.class,fooTokenFor09.getId())).getDTO();
+  assertThat(dto.getAccessToken(),is("hello_world"));
+}

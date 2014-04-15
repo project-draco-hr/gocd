@@ -1,0 +1,7 @@
+{
+  InMemoryStreamConsumer actualConsumer=ProcessOutputStreamConsumer.inMemoryConsumer();
+  SafeOutputStreamConsumer streamConsumer=new SafeOutputStreamConsumer(actualConsumer);
+  streamConsumer.addArgument(commandArgumentWhichHasASecret("secret"));
+  streamConsumer.stdOutput("This line has a secret and another secret in it.");
+  assertThat(actualConsumer.getAllOutput(),not(containsString("secret")));
+}

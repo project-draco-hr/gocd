@@ -1,0 +1,6 @@
+{
+  String downloadUrl1=urlService.getRestfulArtifactUrl(jobIdentifier,"file");
+  String downloadUrl2=urlService.getRestfulArtifactUrl(jobIdentifier,"/file");
+  assertThat(downloadUrl1,is("/files/pipelineName/LATEST/stageName/LATEST/buildName/file"));
+  assertThat(downloadUrl1,is(downloadUrl2));
+}

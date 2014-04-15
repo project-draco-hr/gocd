@@ -1,0 +1,19 @@
+{
+  List<Long> jobIds=(List<Long>)getSqlMapClientTemplate().queryForList("scheduledPlanIds");
+  List<JobPlan> plans=new ArrayList<JobPlan>();
+  for (  Long jobId : jobIds) {
+    String cacheKey=cacheKeyForJobPlan(jobId);
+synchronized (cacheKey) {
+      JobPlan jobPlan=(JobPlan)goCache.get(cacheKey);
+      if (jobPlan == null) {
+        jobPlan=_loadJobPlan(jobId);
+      }
+      if (jobPlan != null) {
+        jobPlan=cloner.deepClone(jobPlan);
+        goCache.put(cacheKey,jobPlan);
+        plans.add(jobPlan);
+      }
+    }
+  }
+  return plans;
+}

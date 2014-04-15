@@ -1,0 +1,5 @@
+{
+  String xmlWithExtraStuff="<?xml version='1.0' encoding='UTF-8' ?>" + "<testsuite>" + "<testcase name='anError'>"+ "<error message='A message for an error' />"+ "</testcase>"+ "<testcase name='oneThatWorks'/>"+ "<testcase name='aFailure'>"+ "<failure message='A message for a failure.'><![CDATA[Aren't you glad you are not a failure?]]></failure>"+ "</testcase>"+ "<whatDoesNotBelong>This does not belong</whatDoesNotBelong>"+ "</testsuite>";
+  InputStream xunitXMLStream=new ByteArrayInputStream(xmlWithExtraStuff.getBytes());
+  transformer.transform(xunitXMLStream,new InMemoryTempGraphFactory());
+}

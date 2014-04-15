@@ -1,0 +1,13 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  materialConfigs.add(new HgMaterialConfig("",null));
+  materialConfigs.add(new SvnMaterialConfig("","","",false));
+  Map<String,String> hashMap=new HashMap<String,String>();
+  hashMap.put(HgMaterialConfig.URL,"foo");
+  Map<String,Object> attributeMap=new HashMap<String,Object>();
+  attributeMap.put(AbstractMaterialConfig.MATERIAL_TYPE,HgMaterialConfig.TYPE);
+  attributeMap.put(HgMaterialConfig.TYPE,hashMap);
+  materialConfigs.setConfigAttributes(attributeMap);
+  assertThat(materialConfigs.size(),is(1));
+  assertThat((HgMaterialConfig)materialConfigs.first(),is(new HgMaterialConfig("foo",null)));
+}

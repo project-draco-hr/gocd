@@ -1,0 +1,8 @@
+{
+  assertThat(descriptorWithTargetOSes().isCurrentOSValidForThisPlugin(LINUX),is(true));
+  assertThat(descriptorWithTargetOSes().isCurrentOSValidForThisPlugin(WINDOWS),is(true));
+  assertThat(descriptorWithTargetOSes("Linux").isCurrentOSValidForThisPlugin(LINUX),is(true));
+  assertThat(descriptorWithTargetOSes("Windows").isCurrentOSValidForThisPlugin(LINUX),is(false));
+  assertThat(descriptorWithTargetOSes("Windows","Linux").isCurrentOSValidForThisPlugin(LINUX),is(true));
+  assertThat(descriptorWithTargetOSes("Windows","SunOS","Mac OS X").isCurrentOSValidForThisPlugin(LINUX),is(false));
+}

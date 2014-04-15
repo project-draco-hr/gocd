@@ -1,0 +1,5 @@
+{
+  Statement statement=connection.createStatement();
+  String sql="SELECT" + "    pmr.Id AS Id," + "    pmr.fromRevisionId AS fromRevisionId,"+ "    pmr.materialId AS materialId,"+ "    m.type AS materialType,"+ "    p.name AS pipelineName"+ " FROM"+ "    pipelines p"+ "    INNER JOIN pipelineMaterialRevisions pmr ON pmr.pipelineId = p.id"+ "    INNER JOIN materials m ON m.id = pmr.materialId"+ " ORDER BY"+ "    p.name, m.id, pmr.id";
+  return statement.executeQuery(sql);
+}

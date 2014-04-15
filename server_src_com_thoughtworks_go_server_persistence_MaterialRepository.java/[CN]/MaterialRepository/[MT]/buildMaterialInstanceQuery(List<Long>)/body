@@ -1,0 +1,8 @@
+{
+  StringBuilder queryBuilder=new StringBuilder("FROM MaterialInstance WHERE id IN (");
+  for (  Long materialId : materialIds) {
+    queryBuilder.append(materialId + ",");
+  }
+  queryBuilder.append(")");
+  return queryBuilder.toString().replace(",)",")");
+}

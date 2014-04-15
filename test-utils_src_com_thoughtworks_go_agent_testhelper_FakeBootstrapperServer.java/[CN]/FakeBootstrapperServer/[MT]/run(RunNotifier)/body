@@ -1,0 +1,19 @@
+{
+  try {
+    start();
+  }
+ catch (  Exception e) {
+    runNotifier.fireTestFailure(new Failure(getDescription(),e));
+  }
+  try {
+    super.run(runNotifier);
+  }
+  finally {
+    try {
+      stop();
+    }
+ catch (    Exception e) {
+      runNotifier.fireTestFailure(new Failure(getDescription(),e));
+    }
+  }
+}

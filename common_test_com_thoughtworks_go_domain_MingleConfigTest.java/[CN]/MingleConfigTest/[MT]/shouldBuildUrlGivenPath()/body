@@ -1,0 +1,12 @@
+{
+  MingleConfig mingleConfig=new MingleConfig("http://foo.bar:7019/baz","go-project");
+  assertThat(mingleConfig.urlFor("/gadgets/card_activity.xml"),is("http://foo.bar:7019/baz/gadgets/card_activity.xml"));
+  assertThat(mingleConfig.urlFor("gadgets/card_activity.xml"),is("http://foo.bar:7019/bazgadgets/card_activity.xml"));
+  mingleConfig=new MingleConfig("http://foo.bar:7019/baz/","go-project");
+  assertThat(mingleConfig.urlFor("/gadgets/card_activity.xml"),is("http://foo.bar:7019/baz/gadgets/card_activity.xml"));
+  assertThat(mingleConfig.urlFor("gadgets/card_activity.xml"),is("http://foo.bar:7019/baz/gadgets/card_activity.xml"));
+  mingleConfig=new MingleConfig("http://foo.bar:7019","go-project");
+  assertThat(mingleConfig.urlFor("/gadgets/card_activity.xml"),is("http://foo.bar:7019/gadgets/card_activity.xml"));
+  mingleConfig=new MingleConfig("http://foo.bar:7019/quux?hi=there","go-project");
+  assertThat(mingleConfig.urlFor("/gadgets/card_activity.xml"),is("http://foo.bar:7019/quux/gadgets/card_activity.xml?hi=there"));
+}

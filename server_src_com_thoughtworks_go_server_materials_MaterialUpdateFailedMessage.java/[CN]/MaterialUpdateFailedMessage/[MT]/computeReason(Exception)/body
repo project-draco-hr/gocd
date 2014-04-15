@@ -1,0 +1,10 @@
+{
+  String message=message(e);
+  if (e.getCause() != null) {
+    String causeMessage=message(e.getCause());
+    if (!causeMessage.equals(message)) {
+      return String.format("%s. Cause: %s",message,causeMessage);
+    }
+  }
+  return message;
+}

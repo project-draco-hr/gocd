@@ -1,0 +1,16 @@
+{
+  BufferedReader bufferedReader=null;
+  try {
+    bufferedReader=new BufferedReader(new FileReader(file));
+    String line=bufferedReader.readLine();
+    if (!line.contains("<?xml")) {
+      out.println(line);
+    }
+    while ((line=bufferedReader.readLine()) != null) {
+      out.println(line);
+    }
+  }
+  finally {
+    IOUtils.closeQuietly(bufferedReader);
+  }
+}

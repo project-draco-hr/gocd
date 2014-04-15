@@ -1,0 +1,19 @@
+{
+  Ruby runtime=context.getRuntime();
+  if (!(vOrig instanceof GeneratorState)) {
+    throw runtime.newTypeError(vOrig,getType());
+  }
+  GeneratorState orig=(GeneratorState)vOrig;
+  this.indent=orig.indent;
+  this.space=orig.space;
+  this.spaceBefore=orig.spaceBefore;
+  this.objectNl=orig.objectNl;
+  this.arrayNl=orig.arrayNl;
+  this.maxNesting=orig.maxNesting;
+  this.allowNaN=orig.allowNaN;
+  this.asciiOnly=orig.asciiOnly;
+  this.quirksMode=orig.quirksMode;
+  this.bufferInitialLength=orig.bufferInitialLength;
+  this.depth=orig.depth;
+  return this;
+}

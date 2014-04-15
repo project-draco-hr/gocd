@@ -1,0 +1,17 @@
+{
+  long start=System.currentTimeMillis();
+  long trialTime=0;
+  do {
+    if (lines.contains(testLine)) {
+      return true;
+    }
+    try {
+      Thread.sleep(10);
+    }
+ catch (    InterruptedException e) {
+    }
+    trialTime=System.currentTimeMillis() - start;
+  }
+ while (trialTime < timeout);
+  return false;
+}

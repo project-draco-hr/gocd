@@ -1,0 +1,14 @@
+{
+  FileOutputStream fos=null;
+  try {
+    File file=new File(configDir(),fileName);
+    FileUtils.forceMkdir(file.getParentFile());
+    fos=new FileOutputStream(file);
+    fos.write(content.getBytes());
+  }
+  finally {
+    if (fos != null) {
+      fos.close();
+    }
+  }
+}

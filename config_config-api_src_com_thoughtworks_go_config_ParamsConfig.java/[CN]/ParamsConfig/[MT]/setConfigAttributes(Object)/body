@@ -1,0 +1,13 @@
+{
+  if (attributes != null) {
+    this.clear();
+    for (    Map attributeMap : (List<Map>)attributes) {
+      String name=(String)attributeMap.get(ParamConfig.NAME);
+      String value=(String)attributeMap.get(ParamConfig.VALUE);
+      if (StringUtil.isBlank(name) && StringUtil.isBlank(value)) {
+        continue;
+      }
+      this.add(new ParamConfig(name,value));
+    }
+  }
+}

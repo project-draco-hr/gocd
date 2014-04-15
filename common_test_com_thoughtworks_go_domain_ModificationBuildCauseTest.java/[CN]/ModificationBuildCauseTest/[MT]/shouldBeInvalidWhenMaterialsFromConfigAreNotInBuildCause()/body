@@ -1,0 +1,13 @@
+{
+  SvnMaterial mainRepo=MaterialsMother.svnMaterial("mainRepo");
+  SvnMaterial extRepo=MaterialsMother.svnMaterial("externalRepo");
+  MaterialRevisions revisions=new MaterialRevisions();
+  revisions.addRevision(mainRepo,multipleModificationList());
+  buildCause=BuildCause.createWithModifications(revisions,"");
+  try {
+    buildCause.assertMaterialsMatch(new MaterialConfigs(mainRepo.config(),extRepo.config()));
+    fail("All the materials from config file should be in build cause");
+  }
+ catch (  Exception expected) {
+  }
+}

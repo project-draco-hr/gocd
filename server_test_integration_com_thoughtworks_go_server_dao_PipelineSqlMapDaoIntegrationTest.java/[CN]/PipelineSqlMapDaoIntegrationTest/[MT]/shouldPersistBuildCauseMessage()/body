@@ -1,0 +1,8 @@
+{
+  MaterialRevisions materialRevisions=ModificationsMother.multipleModifications();
+  BuildCause buildCause=BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS);
+  Pipeline pipeline=new Pipeline("Test",buildCause);
+  save(pipeline);
+  Pipeline loaded=pipelineDao.mostRecentPipeline("Test");
+  assertThat(loaded.getBuildCauseMessage(),is(buildCause.getBuildCauseMessage()));
+}

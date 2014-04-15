@@ -1,0 +1,29 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git"),"f");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(git));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p1),u.m(p2),u.m(git));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",u.m(p1),u.m(p2),u.m(p3));
+  int i=0;
+  u.checkinInOrder(git,u.d(i++),"g0");
+  String p1_1=u.runAndPass(p1,"g0");
+  String p2_1=u.runAndPass(p2,"g0");
+  String p3_1=u.runAndPass(p3,p1_1,p2_1,"g0");
+  String p4_1=u.runAndPass(p4,p1_1,p2_1,p3_1);
+  u.checkinInOrder(git,u.d(i++),"g1");
+  String p1_2=u.runAndPass(p1,"g1");
+  u.checkinInOrder(git,u.d(i++),"g2");
+  String p2_2=u.runAndPass(p2,"g2");
+  String p3_2=u.runAndPass(p3,p1_2,p2_2,"g2");
+  u.checkinInOrder(git,u.d(i++),"g3");
+  String p1_3=u.runAndPass(p1,"g3");
+  String p2_3=u.runAndPass(p2,"g3");
+  String p3_3=u.runAndPass(p3,p1_3,p2_3,"g3");
+  String p4_2=u.runAndPass(p4,p1_3,p2_3,p3_3);
+  String p2_4=u.runAndPass(p2,"g1");
+  String p3_4=u.runAndPass(p3,p1_2,p2_4,"g1");
+  MaterialRevisions given=u.mrs(u.mr(p1,true,p1_3),u.mr(p2,true,p2_4),u.mr(p3,true,p3_4));
+  MaterialRevisions expected=u.mrs(u.mr(p1,true,p1_2),u.mr(p2,true,p2_4),u.mr(p3,true,p3_4));
+  MaterialRevisions revisionsBasedOnDependencies=getRevisionsBasedOnDependencies(p4,goConfigFileDao.load(),given);
+  assertThat(revisionsBasedOnDependencies,is(expected));
+}

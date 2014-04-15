@@ -1,0 +1,7 @@
+{
+  PipelineConfigs group=null;
+  if (groupName != null) {
+    group=getCurrentConfig().findGroup(groupName);
+  }
+  return isUserAdmin(new Username(userName)) || isUserAdminOfGroup(userName,group);
+}

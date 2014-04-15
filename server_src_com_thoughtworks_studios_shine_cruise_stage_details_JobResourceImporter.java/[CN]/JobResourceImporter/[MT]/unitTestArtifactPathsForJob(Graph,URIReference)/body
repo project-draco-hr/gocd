@@ -1,0 +1,9 @@
+{
+  String selectArtifactPaths=GoOntology.URI_PREFIX + "prefix xsd: <http://www.w3.org/2001/XMLSchema#> " + "SELECT DISTINCT ?artifactPath WHERE { "+ "<"+ jobURI.getURIText()+ "> cruise:hasArtifacts ?artifacts . "+ "?artifacts a cruise:Artifacts . "+ "?artifacts cruise:hasArtifact ?artifact . "+ "?artifact cruise:artifactPath ?artifactPath . "+ "?artifact cruise:artifactType 'unit'^^xsd:string "+ "}";
+  List<BoundVariables> bvs=graph.select(selectArtifactPaths);
+  List<String> result=new ArrayList<String>(bvs.size());
+  for (  BoundVariables bv : bvs) {
+    result.add(bv.getString("artifactPath"));
+  }
+  return result;
+}

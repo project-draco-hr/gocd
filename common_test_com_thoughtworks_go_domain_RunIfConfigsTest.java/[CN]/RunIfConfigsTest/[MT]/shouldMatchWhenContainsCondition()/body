@@ -1,0 +1,6 @@
+{
+  RunIfConfigs configs=new RunIfConfigs(PASSED);
+  assertThat(configs.match(RunIfConfig.fromJobResult(JobResult.Passed.toLowerCase())),is(true));
+  assertThat(configs.match(RunIfConfig.fromJobResult(JobResult.Failed.toLowerCase())),is(false));
+  assertThat(configs.match(RunIfConfig.fromJobResult(JobResult.Cancelled.toLowerCase())),is(false));
+}

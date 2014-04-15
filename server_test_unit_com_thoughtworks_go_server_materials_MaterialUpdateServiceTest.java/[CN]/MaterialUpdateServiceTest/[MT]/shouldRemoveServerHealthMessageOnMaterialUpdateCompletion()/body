@@ -1,0 +1,6 @@
+{
+  Material material=mock(Material.class);
+  when(material.getFingerprint()).thenReturn("fingerprint");
+  service.onMessage(new MaterialUpdateCompletedMessage(material,0));
+  verify(serverHealthService).removeByScope(HealthStateScope.forMaterialUpdate(material));
+}

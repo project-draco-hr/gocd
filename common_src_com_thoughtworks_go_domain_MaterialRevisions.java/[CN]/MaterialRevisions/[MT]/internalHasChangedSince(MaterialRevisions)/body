@@ -1,0 +1,12 @@
+{
+  if (revisions.size() != original.revisions.size()) {
+    return true;
+  }
+  for (  MaterialRevision revision : revisions) {
+    MaterialRevision originalRevision=original.findRevisionFor(revision.getMaterial());
+    if (originalRevision == null || revision.hasChangedSince(originalRevision)) {
+      return true;
+    }
+  }
+  return false;
+}

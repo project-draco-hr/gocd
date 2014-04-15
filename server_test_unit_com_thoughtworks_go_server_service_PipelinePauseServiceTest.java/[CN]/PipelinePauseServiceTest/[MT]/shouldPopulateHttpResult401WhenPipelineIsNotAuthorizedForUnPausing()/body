@@ -1,0 +1,8 @@
+{
+  setUpValidPipelineWithInvalidAuth();
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  pipelinePauseService.unpause(VALID_PIPELINE,INVALID_USER,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpStatus.SC_UNAUTHORIZED));
+  verify(pipelineDao,never()).unpause(VALID_PIPELINE);
+}

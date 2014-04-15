@@ -1,0 +1,15 @@
+{
+  MaterialConfigs unsharedScmMaterialConfigs=unsharedMaterialConfigs();
+  List<PipelineConfigQueueEntry> queue=new ArrayList<PipelineConfigQueueEntry>(buildQueue());
+  for (  MaterialRevision revision : revisions) {
+    Material material=revision.getMaterial();
+    MaterialConfig materialConfig=material.config();
+    if (unsharedScmMaterialConfigs.hasMaterialWithFingerprint(materialConfig) || revision.isDependencyMaterialRevision()) {
+      continue;
+    }
+    if (isThisMaterialIgnored(queue,revision,materialConfig)) {
+      return true;
+    }
+  }
+  return false;
+}

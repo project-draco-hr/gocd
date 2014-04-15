@@ -1,0 +1,15 @@
+{
+  InputStream stream=getClass().getResourceAsStream("jemstep_svn_log.xml");
+  String xml=FileUtil.readToEnd(stream);
+  stream.close();
+  SvnLogXmlParser parser=new SvnLogXmlParser();
+  List<Modification> revisions=parser.parse(xml,"",new SAXBuilder(false));
+  assertThat(revisions.size(),is(43));
+  Modification modWithoutComment=null;
+  for (  Modification revision : revisions) {
+    if (revision.getRevision().equals("7815")) {
+      modWithoutComment=revision;
+    }
+  }
+  assertThat(modWithoutComment.getComment(),is(nullValue()));
+}

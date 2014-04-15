@@ -1,0 +1,14 @@
+{
+  printPipelineTimelineEntry(entry,context);
+  for (  Map.Entry<String,List<PipelineTimelineEntry.Revision>> revisionList : entry.revisions().entrySet()) {
+    String fingerprint=revisionList.getKey();
+    PipelineTimelineEntry.Revision revision=revisionList.getValue().get(0);
+    if (isScmMaterial(fingerprint,context)) {
+      scmMaterials.add(new ReportingFaninScmMaterial(fingerprint,revision));
+      continue;
+    }
+    if (isDependencyMaterial(fingerprint,context)) {
+      revisionQueue.add(revision);
+    }
+  }
+}

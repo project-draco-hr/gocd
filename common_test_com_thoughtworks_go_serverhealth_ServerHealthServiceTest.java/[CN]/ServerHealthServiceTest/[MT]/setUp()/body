@@ -1,0 +1,8 @@
+{
+  serverHealthService=new ServerHealthService();
+  globalId=HealthStateType.general(GLOBAL);
+  pipelineId=HealthStateType.general(forPipeline(PIPELINE_NAME));
+  groupId=HealthStateType.invalidLicense(forGroup("group"));
+  testingClock=new TestingClock();
+  ServerHealthState.clock=testingClock;
+}

@@ -1,0 +1,9 @@
+{
+  PipelineSelections selections=PipelineSelections.singleSelection("pipeline");
+  assertThat(selections.includesPipeline("pipeline"),is(true));
+  assertThat(selections.includesPipeline(pipelineConfig("pipeline")),is(true));
+  assertThat(selections.includesPipeline("PIPELINE"),is(true));
+  assertThat(selections.includesPipeline(pipelineConfig("PIPELINE")),is(true));
+  assertThat(selections.includesPipeline("foo"),is(false));
+  assertThat(selections.includesPipeline(pipelineConfig("foo")),is(false));
+}

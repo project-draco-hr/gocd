@@ -1,0 +1,8 @@
+{
+  for (  JobInstance job : stage.getJobInstances()) {
+    job.assign("uuid",new DateTime(completionDate.getTime()).minusHours(1).toDate());
+    job.completing(result,completionDate);
+    job.completed(completionDate);
+  }
+  stage.setLastTransitionedTime(new Timestamp(completionDate.getTime()));
+}

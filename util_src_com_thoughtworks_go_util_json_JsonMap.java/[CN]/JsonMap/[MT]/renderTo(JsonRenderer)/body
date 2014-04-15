@@ -1,0 +1,14 @@
+{
+  boolean first=true;
+  renderer.append("{ ");
+  for (  Map.Entry<String,Json> jsonEntry : this.entrySet()) {
+    if (!first) {
+      renderer.append(",");
+    }
+    renderer.quote(jsonEntry.getKey());
+    renderer.append(": ");
+    jsonEntry.getValue().renderTo(renderer);
+    first=false;
+  }
+  renderer.append(" }");
+}

@@ -1,0 +1,12 @@
+{
+  String key="key";
+  String plainText="plainText";
+  String cipherText="encrypted";
+  when(goCipher.encrypt(plainText)).thenReturn(cipherText);
+  when(goCipher.decrypt(cipherText)).thenReturn(plainText);
+  EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig(goCipher,key,plainText,true);
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  environmentVariableConfig.addTo(context);
+  assertThat(context.getProperty(key),is(plainText));
+  assertThat(context.getPropertyForDisplay(key),is(EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE));
+}

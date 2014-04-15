@@ -1,0 +1,10 @@
+{
+  LOGGER.info("Retriving Active Pipelines from Database...");
+  final List<PipelineInstanceModel> pipelines=getAllPIMs();
+  if (pipelines.isEmpty()) {
+    return;
+  }
+  Thread[] loaderThreads=loadActivePipelineAndHistoryToCache(pipelines);
+  cacheMaterialRevisions(pipelines);
+  waitForLoaderThreadsToJoin(loaderThreads);
+}

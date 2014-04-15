@@ -1,0 +1,8 @@
+{
+  buildWork=(BuildWork)getWork(WILL_PASS,PIPELINE_NAME,false,false);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertThat(artifactManipulator.consoleOut(),containsString("Start to prepare"));
+  assertThat(artifactManipulator.consoleOut(),not(containsString("Start updating")));
+  assertThat(artifactManipulator.consoleOut(),containsString("Skipping material update since stage is configured not to fetch materials"));
+  assertThat(buildRepository.states.contains(JobState.Preparing),is(true));
+}

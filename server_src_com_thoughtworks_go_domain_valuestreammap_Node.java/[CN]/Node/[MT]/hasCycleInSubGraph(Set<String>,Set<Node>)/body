@@ -1,0 +1,16 @@
+{
+  if (nodesInPath.contains(getId())) {
+    return true;
+  }
+  nodesInPath.add(getId());
+  for (  Node child : getChildren()) {
+    if (!verifiedNodes.contains(child)) {
+      if (child.hasCycleInSubGraph(nodesInPath,verifiedNodes)) {
+        return true;
+      }
+    }
+  }
+  nodesInPath.remove(getId());
+  verifiedNodes.add(this);
+  return false;
+}

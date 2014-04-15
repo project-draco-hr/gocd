@@ -1,0 +1,10 @@
+{
+  PipelineTemplateConfig template=PipelineTemplateConfigMother.createTemplateWithParams("template-name","foo","bar","baz");
+  ParamsConfig params=template.referredParams();
+  assertThat(params.size(),is(3));
+  assertThat(params,hasItem(new ParamConfig("foo",null)));
+  assertThat(params,hasItem(new ParamConfig("bar",null)));
+  assertThat(params,hasItem(new ParamConfig("baz",null)));
+  params=template.referredParams();
+  assertThat(params.size(),is(3));
+}

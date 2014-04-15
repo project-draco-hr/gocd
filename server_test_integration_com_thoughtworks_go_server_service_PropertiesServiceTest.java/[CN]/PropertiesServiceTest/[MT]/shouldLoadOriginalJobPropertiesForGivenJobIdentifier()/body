@@ -1,0 +1,10 @@
+{
+  Properties props=new Properties(new Property("a","1"),new Property("b","2"));
+  PropertyDao propertyDao=mock(PropertyDao.class);
+  JobResolverService resolver=mock(JobResolverService.class);
+  PropertiesService service=new PropertiesService(propertyDao,null,null,resolver);
+  JobIdentifier oldId=new JobIdentifier("pipeline-name",10,"label-10","stage-name","3","job-name",9l);
+  when(propertyDao.list(6l)).thenReturn(props);
+  when(resolver.actualJobIdentifier(oldId)).thenReturn(new JobIdentifier("pipeline-name",7,"label-7","stage-name","1","job-name",6l));
+  assertThat(service.getPropertiesForOriginalJob(oldId),is(props));
+}

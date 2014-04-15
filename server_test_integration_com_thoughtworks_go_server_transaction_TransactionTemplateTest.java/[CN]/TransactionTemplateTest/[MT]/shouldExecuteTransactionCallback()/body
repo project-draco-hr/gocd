@@ -1,0 +1,13 @@
+{
+  TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  String returnVal=(String)template.execute(new org.springframework.transaction.support.TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      registerSynchronization();
+      return "foo";
+    }
+  }
+);
+  assertThat(txnCommited,is(true));
+  assertThat(txnCompleted,is(true));
+  assertThat(returnVal,is("foo"));
+}

@@ -1,0 +1,9 @@
+{
+  Set<Pair<PipelineConfig,StageConfig>> result=new HashSet<Pair<PipelineConfig,StageConfig>>();
+  for (  StageConfig stageConfig : this) {
+    if (stageConfig.canBeOperatedBy(new Role(roleName))) {
+      result.add(pair(this,stageConfig));
+    }
+  }
+  return result;
+}

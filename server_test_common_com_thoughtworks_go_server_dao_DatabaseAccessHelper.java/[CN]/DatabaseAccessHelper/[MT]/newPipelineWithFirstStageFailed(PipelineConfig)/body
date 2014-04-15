@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=instanceFactory.createPipelineInstance(config,BuildCause.createManualForced(modifyOneFile(MaterialsMother.createMaterialsFromMaterialConfigs(config.materialConfigs()),ModificationsMother.currentRevision()),Username.ANONYMOUS),new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  savePipelineWithStagesAndMaterials(pipeline);
+  failStage(pipeline.getFirstStage());
+  return pipeline;
+}

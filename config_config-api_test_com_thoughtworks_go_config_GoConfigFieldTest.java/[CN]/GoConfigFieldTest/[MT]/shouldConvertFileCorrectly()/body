@@ -1,0 +1,8 @@
+{
+  final Foo object=new Foo();
+  final GoConfigFieldWriter field=new GoConfigFieldWriter(Foo.class.getDeclaredField("directory"),object,configCache,null);
+  final Element element=new Element("foo");
+  element.setAttribute("directory","foo" + FileUtil.fileseparator() + "dir");
+  field.setValueIfNotNull(element,object);
+  assertThat(object.directory.getPath(),is("foo" + FileUtil.fileseparator() + "dir"));
+}

@@ -1,0 +1,6 @@
+{
+  ConfigElementImplementationRegistry registry=this.registry;
+  when(registry.implementersOf(Task.class)).thenReturn(taskImplementations());
+  TaskViewService taskViewService=new TaskViewService(registry,mock(PluginManager.class));
+  assertThat((AntTask)taskViewService.taskInstanceFor(new AntTask().getTaskType()),is(new AntTask()));
+}

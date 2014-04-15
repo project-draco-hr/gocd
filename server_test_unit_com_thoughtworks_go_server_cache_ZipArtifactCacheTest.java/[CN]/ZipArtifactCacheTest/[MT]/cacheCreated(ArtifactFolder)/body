@@ -1,0 +1,16 @@
+{
+  return new TypeSafeMatcher<ZipArtifactCache>(){
+    public boolean matchesSafely(    ZipArtifactCache item){
+      try {
+        return item.cacheCreated(artifactFolder);
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
+    public void describeTo(    Description description){
+      description.appendText("cacheCreated from " + artifactFolder);
+    }
+  }
+;
+}

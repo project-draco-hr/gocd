@@ -1,0 +1,9 @@
+{
+  int numberOfFailures=0;
+  List testSuites=getTestSuites();
+  for (int i=0; i < testSuites.size(); i++) {
+    BuildTestSuite suite=(BuildTestSuite)testSuites.get(i);
+    numberOfFailures+=suite.getNumberOfFailures();
+  }
+  return numberOfFailures;
+}

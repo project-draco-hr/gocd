@@ -1,0 +1,5 @@
+{
+  MaterialRevisions first=new MaterialRevisions(new MaterialRevision(MaterialsMother.svnMaterial(),oneModifiedFile("revision1")));
+  MaterialRevisions second=new MaterialRevisions(new MaterialRevision(MaterialsMother.svnMaterial(),oneModifiedFile("revision1")));
+  assertThat(BuildCause.createWithModifications(first,"").isSameAs(BuildCause.createWithModifications(second,"")),is(true));
+}

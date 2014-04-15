@@ -1,0 +1,12 @@
+{
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  Stage stage=StageMother.passedStageInstance("pipeline","stage","job",new Date());
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForObject(eq("findStageWithJobsByIdentifier"),any())).thenReturn(stage);
+  Stage actual=stageDao.findStageWithIdentifier(new StageIdentifier("pipeline",1,"stage","1"));
+  assertEquals(stage,actual);
+  assertFalse("Make sure the cached object is cloned",stage == actual);
+  updateResultInTransaction(actual,StageResult.Passed);
+  stageDao.findStageWithIdentifier(new StageIdentifier("pipeline",1,"stage","1"));
+  verify(mockTemplate,times(2)).queryForObject(eq("findStageWithJobsByIdentifier"),any());
+}

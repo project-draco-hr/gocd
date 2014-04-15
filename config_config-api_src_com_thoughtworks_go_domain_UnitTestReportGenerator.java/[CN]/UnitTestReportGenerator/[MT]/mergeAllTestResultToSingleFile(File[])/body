@@ -1,0 +1,12 @@
+{
+  FileOutputStream mergedResourcesStream=null;
+  try {
+    File mergedResource=TestFileUtil.createUniqueTempFile("mergedFile.xml");
+    mergedResourcesStream=new FileOutputStream(mergedResource);
+    merge(allTestFiles,mergedResourcesStream);
+    return mergedResource;
+  }
+  finally {
+    IOUtils.closeQuietly(mergedResourcesStream);
+  }
+}

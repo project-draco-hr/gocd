@@ -1,0 +1,7 @@
+{
+  String stageName="dev";
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle",stageName);
+  Pipeline mingle=schedulePipelineWithStages(mingleConfig);
+  String label=pipelineDao.mostRecentLabel(mingle.getName());
+  assertThat(label,is(mingle.getLabel()));
+}

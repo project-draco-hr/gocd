@@ -1,0 +1,10 @@
+{
+  String stageXmlPartial="<stage name=\"mingle\">\n" + "  <jobs>\n" + "    <job name=\"functional\">\n"+ "      <artifacts>\n"+ "        <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "      </artifacts>\n"+ "    </job>\n"+ "  </jobs>\n"+ "</stage>\n";
+  try {
+    xmlLoader.fromXmlPartial(toInputStream(stageXmlPartial),JobConfig.class);
+    fail("Should not be able to load stage into jobConfig");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Unable to parse element <stage> for class JobConfig"));
+  }
+}

@@ -1,0 +1,15 @@
+{
+  Pipeline pipeline1=pipeline;
+  TestFailureSetup.SavedStage savedStage=failureSetup.setupPipelineInstance(true,null,goURLRepository);
+  StageIdentifier stageId2=savedStage.stageId;
+  Pipeline pipeline2=savedStage.pipeline;
+  StageTestRuns stageTestRuns=shineDao.failedBuildHistoryForStage(stageId2,result);
+  List<FailingTestsInPipeline> failingTestsInPipelines=stageTestRuns.failingTestsInPipelines();
+  assertThat(failingTestsInPipelines.size(),is(2));
+  FailingTestsInPipeline failingPipeline2=failingTestsInPipelines.get(0);
+  assertThat(failingPipeline2.getLabel(),is(pipeline2.getLabel()));
+  assertThat(failingPipeline2.failingSuites().size(),is(0));
+  FailingTestsInPipeline failingPipeline1=failingTestsInPipelines.get(1);
+  assertThat(failingPipeline1.getLabel(),is(pipeline1.getLabel()));
+  assertThat(failingPipeline1.failingSuites().size(),is(1));
+}

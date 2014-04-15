@@ -1,0 +1,19 @@
+{
+  if (goLicenseService.isLicenseValid()) {
+    request.setAttribute(GoConstants.EDITION,goLicenseService.getCruiseEdition());
+    return true;
+  }
+  request.setAttribute(GoConstants.EDITION,"");
+  if (ignoreResolver.shouldIgnore(request)) {
+    return true;
+  }
+  if (paymentResolver.shouldPay(request)) {
+    response.setStatus(HttpServletResponse.SC_PAYMENT_REQUIRED);
+    response.setContentType(RESPONSE_CHARSET);
+    response.getWriter().write("Invalid license");
+  }
+ else {
+    response.sendRedirect(request.getContextPath() + "/about");
+  }
+  return false;
+}

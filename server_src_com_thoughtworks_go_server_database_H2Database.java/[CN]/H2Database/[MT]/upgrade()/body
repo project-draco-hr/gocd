@@ -1,0 +1,13 @@
+{
+  BasicDataSource source=createDataSource(Boolean.FALSE);
+  if (env.inDbDebugMode()) {
+    LOG.info("In debug mode - not upgrading database");
+  }
+ else {
+    Migration upgradeToH2=new MigrateHsqldbToH2(source,env);
+    upgradeToH2.migrate();
+    Migration migrateSchema=new DbDeployMigration(source,env);
+    migrateSchema.migrate();
+  }
+  shutdown();
+}

@@ -1,0 +1,10 @@
+{
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  context.setProperty("GO_SERVER_URL",SystemEnvironment.getProperty("serviceUrl"),false);
+  jobIdentifier().populateEnvironmentVariables(context);
+  assertThat(context.getProperty("GO_PIPELINE_NAME"),is(pipelineName));
+  assertThat(context.getProperty("GO_PIPELINE_LABEL"),is(pipelineLabel));
+  assertThat(context.getProperty("GO_STAGE_NAME"),is(stageName));
+  assertThat(context.getProperty("GO_STAGE_COUNTER"),is(stageCounter));
+  assertThat(context.getProperty("GO_JOB_NAME"),is(jobName));
+}

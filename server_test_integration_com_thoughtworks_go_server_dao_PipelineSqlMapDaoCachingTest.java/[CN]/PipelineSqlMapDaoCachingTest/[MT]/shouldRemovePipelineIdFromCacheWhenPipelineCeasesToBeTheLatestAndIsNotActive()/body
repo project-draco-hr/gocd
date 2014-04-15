@@ -1,0 +1,20 @@
+{
+  final String pipelineName="pipeline";
+  CruiseConfig mockCruiseConfig=mock(CruiseConfig.class);
+  GoConfigFileDao mockconfigFileDao=mock(GoConfigFileDao.class);
+  when(mockconfigFileDao.load()).thenReturn(mockCruiseConfig);
+  when(mockCruiseConfig.getAllPipelineNames()).thenReturn(Arrays.asList(new CaseInsensitiveString(pipelineName)));
+  pipelineDao=new PipelineSqlMapDao(null,repository,goCache,environmentVariableDao,transactionTemplate,null,transactionSynchronizationManager,systemEnvironment,mockconfigFileDao,databaseStrategy);
+  pipelineDao.setSqlMapClientTemplate(mockTemplate);
+  PipelineInstanceModel first=model(1,JobState.Completed,JobResult.Passed);
+  PipelineInstanceModel second=model(2,JobState.Building,JobResult.Unknown);
+  PipelineInstanceModels pims=PipelineInstanceModels.createPipelineInstanceModels(first);
+  when(mockTemplate.queryForList("allActivePipelines")).thenReturn(pims);
+  when(mockTemplate.queryForObject("getPipelineHistoryById",arguments("id",1L).asMap())).thenReturn(first);
+  when(mockTemplate.queryForObject("getPipelineHistoryById",arguments("id",2L).asMap())).thenReturn(second);
+  pipelineDao.loadActivePipelines();
+  changeStageStatus(2);
+  PipelineInstanceModels models=pipelineDao.loadActivePipelines();
+  assertThat(models.size(),is(1));
+  assertThat(models.get(0).getId(),is(2L));
+}

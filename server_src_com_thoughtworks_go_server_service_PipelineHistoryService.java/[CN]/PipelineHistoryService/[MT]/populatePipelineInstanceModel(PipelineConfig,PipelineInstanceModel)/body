@@ -1,0 +1,11 @@
+{
+  if (pipelineInstanceModel.getId() > 0) {
+    CaseInsensitiveString pipelineName=new CaseInsensitiveString(pipelineInstanceModel.getName());
+    pipelineInstanceModel.setPipelineAfter(pipelineTimeline.runAfter(pipelineInstanceModel.getId(),pipelineName));
+    pipelineInstanceModel.setPipelineBefore(pipelineTimeline.runBefore(pipelineInstanceModel.getId(),pipelineName));
+  }
+  populatePlaceHolderStages(pipelineInstanceModel);
+  populateMaterialRevisionsOnBuildCause(pipelineInstanceModel);
+  pipelineInstanceModel.setMaterialConfigs(pipelineConfig.materialConfigs());
+  pipelineInstanceModel.setLatestRevisions(materialRepository.findLatestRevisions(pipelineConfig.materialConfigs()));
+}

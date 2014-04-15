@@ -1,0 +1,26 @@
+{
+  if (CaseInsensitiveString.str(name()).length() > 255 || XmlUtils.doesNotMatchUsingXsdRegex(JOB_NAME_PATTERN_REGEX,CaseInsensitiveString.str(name()))) {
+    String message=String.format("Invalid job name '%s'. This must be alphanumeric and can contain underscores and periods. The maximum allowed length is %d characters.",name(),NameTypeValidator.MAX_LENGTH);
+    errors.add(NAME,message);
+  }
+  if (timeout != null) {
+    try {
+      double timeoutForValidation=Double.parseDouble(this.timeout);
+      if (timeoutForValidation < 0) {
+        errors().add(TIMEOUT,"Timeout cannot be a negative number as it represents number of minutes");
+      }
+    }
+ catch (    NumberFormatException e) {
+      errors().add(TIMEOUT,"Timeout should be a valid number as it represents number of minutes");
+    }
+  }
+  for (  Resource resource : resources) {
+    if (StringUtils.isEmpty(resource.getName())) {
+      CaseInsensitiveString pipelineName=validationContext.getPipeline().name();
+      CaseInsensitiveString stageName=validationContext.getStage().name();
+      CaseInsensitiveString jobName=name();
+      String message=String.format("Empty resource name in job \"%s\" of stage \"%s\" of pipeline \"%s\". If a template is used, please ensure that the resource parameters are defined for this pipeline.",jobName,stageName,pipelineName);
+      errors.add(RESOURCES,message);
+    }
+  }
+}

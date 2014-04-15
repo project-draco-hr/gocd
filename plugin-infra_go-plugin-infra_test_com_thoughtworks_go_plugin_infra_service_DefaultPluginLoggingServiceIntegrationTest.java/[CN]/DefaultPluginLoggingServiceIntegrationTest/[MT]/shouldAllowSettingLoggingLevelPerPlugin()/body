@@ -1,0 +1,10 @@
+{
+  when(systemEnvironment.pluginLoggingLevel(pluginID(1))).thenReturn(Level.WARN);
+  pluginLoggingService.debug(pluginID(1),"LoggingClass","debug");
+  pluginLoggingService.info(pluginID(1),"LoggingClass","info");
+  pluginLoggingService.warn(pluginID(1),"LoggingClass","warn");
+  pluginLoggingService.error(pluginID(1),"SomeOtherClass","error");
+  assertNumberOfMessagesInLog(pluginLog(1),2);
+  assertMessageInLog(pluginID(1),pluginLog(1),"WARN","LoggingClass","warn");
+  assertMessageInLog(pluginID(1),pluginLog(1),"ERROR","SomeOtherClass","error");
+}

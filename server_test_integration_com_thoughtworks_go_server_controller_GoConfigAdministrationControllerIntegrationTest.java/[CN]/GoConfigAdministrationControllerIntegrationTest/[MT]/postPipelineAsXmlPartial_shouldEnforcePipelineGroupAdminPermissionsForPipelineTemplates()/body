@@ -1,0 +1,8 @@
+{
+  String md5=setUpPipelineGroupsWithAdminPermissions();
+  controller.postPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,NEW_PIPELINE_TEMPLATE,md5,response);
+  assertThat(response.getStatus(),is(SC_UNAUTHORIZED));
+  setCurrentUser("admin");
+  controller.postPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,NEW_PIPELINE_TEMPLATE,md5,response);
+  assertThat(response.getStatus(),is(SC_OK));
+}

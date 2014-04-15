@@ -1,0 +1,9 @@
+{
+  Modification modification=oneModifiedFile("revision1");
+  SvnMaterial material=MaterialsMother.svnMaterial();
+  MaterialRevision notChanged=new MaterialRevision(material,false,modification);
+  MaterialRevision changed=new MaterialRevision(material,true,modification);
+  changed.markAsChanged();
+  assertThat(changed,is(notChanged));
+  assertThat(changed.hashCode(),is(notChanged.hashCode()));
+}

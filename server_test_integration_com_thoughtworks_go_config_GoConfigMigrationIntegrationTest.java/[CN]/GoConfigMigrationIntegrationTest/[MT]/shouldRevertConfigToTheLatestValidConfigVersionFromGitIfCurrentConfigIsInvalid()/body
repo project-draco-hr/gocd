@@ -1,0 +1,16 @@
+{
+  try {
+    loadConfigFileWithContent(ConfigFileFixture.MINIMAL);
+    loadConfigFileWithContent("<cruise></cruise>");
+    ServerHealthStates states=serverHealthService.getAllLogs();
+    assertThat(states.size(),is(1));
+    assertThat(states.get(0).getDescription(),containsString("Go encountered an invalid configuration file while starting up. The invalid configuration file has been renamed to ???"));
+    assertThat(states.get(0).getDescription(),containsString("??? and a new configuration file has been automatically created using the last good configuration."));
+    assertThat(states.get(0).getMessage(),containsString("Invalid Configuration"));
+    assertThat(states.get(0).getType(),is(HealthStateType.general(HealthStateScope.forInvalidConfig())));
+    assertThat(states.get(0).getLogLevel(),is(HealthStateLevel.WARNING));
+  }
+ catch (  Exception e) {
+    fail("Should not Throw an exception, should revert to the last valid file versioned in config.git");
+  }
+}

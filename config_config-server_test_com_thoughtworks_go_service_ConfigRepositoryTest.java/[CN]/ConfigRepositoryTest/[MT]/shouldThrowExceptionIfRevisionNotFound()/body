@@ -1,0 +1,17 @@
+{
+  configRepo.checkin(goConfigRevision("v1","md5-1"));
+  try {
+    configRepo.configChangesFor("md5-1","md5-not-found");
+    fail("Should have failed");
+  }
+ catch (  IllegalArgumentException e) {
+    assertThat(e.getMessage(),is("There is no config version corresponding to md5: 'md5-not-found'"));
+  }
+  try {
+    configRepo.configChangesFor("md5-not-found","md5-1");
+    fail("Should have failed");
+  }
+ catch (  IllegalArgumentException e) {
+    assertThat(e.getMessage(),is("There is no config version corresponding to md5: 'md5-not-found'"));
+  }
+}

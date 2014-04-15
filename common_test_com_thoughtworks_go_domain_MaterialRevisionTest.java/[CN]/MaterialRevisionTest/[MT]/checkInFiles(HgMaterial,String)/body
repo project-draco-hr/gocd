@@ -1,0 +1,12 @@
+{
+  final File localDir=TestFileUtil.createTempFolder("foo");
+  InMemoryStreamConsumer consumer=inMemoryConsumer();
+  hgMaterial.updateTo(consumer,latestRevision(hgMaterial,workingFolder,new TestSubprocessExecutionContext()),localDir,new TestSubprocessExecutionContext());
+  for (  String fileName : fileNames) {
+    File file=new File(localDir,fileName);
+    FileUtils.writeStringToFile(file,"");
+    hgMaterial.add(localDir,consumer,file);
+  }
+  hgMaterial.commit(localDir,consumer,"Adding a new file.","TEST");
+  hgMaterial.push(localDir,consumer);
+}

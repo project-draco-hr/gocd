@@ -1,0 +1,10 @@
+{
+  ConfigurationProperty configurationProperty=new ConfigurationProperty(new ConfigurationKey("key"),(ConfigurationValue)null);
+  configurationProperty.initialize();
+  assertThat(configurationProperty.getConfigurationKey().getName(),is("key"));
+  assertThat(configurationProperty.getConfigurationValue(),is(notNullValue()));
+  assertThat(configurationProperty.getConfigurationValue().getValue(),is(""));
+  assertThat(configurationProperty.getEncryptedValue(),is(nullValue()));
+  Method initializeMethod=ReflectionUtils.findMethod(ConfigurationProperty.class,"initialize");
+  assertThat(initializeMethod.getAnnotation(PostConstruct.class),is(notNullValue()));
+}

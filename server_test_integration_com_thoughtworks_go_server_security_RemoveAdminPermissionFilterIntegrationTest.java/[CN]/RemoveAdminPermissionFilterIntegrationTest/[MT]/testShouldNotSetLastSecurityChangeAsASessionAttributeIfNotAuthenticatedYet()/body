@@ -1,0 +1,9 @@
+{
+  when(timeProvider.currentTimeMillis()).thenReturn(100L);
+  when(session.getAttribute(RemoveAdminPermissionFilter.SECURITY_CONFIG_LAST_CHANGE)).thenReturn(null);
+  RemoveAdminPermissionFilter filter=new RemoveAdminPermissionFilter(goConfigService,timeProvider);
+  filter.initialize();
+  turnOnSecurity("pavan");
+  filter.doFilterHttp(request,response,chain);
+  verifyNoMoreInteractions(session);
+}

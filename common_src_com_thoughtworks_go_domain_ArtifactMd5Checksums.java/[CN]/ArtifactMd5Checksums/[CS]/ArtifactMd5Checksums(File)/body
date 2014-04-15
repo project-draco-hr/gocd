@@ -1,0 +1,31 @@
+{
+  this.checksumProperties=new Properties();
+  FileReader fileReader=null;
+  BufferedReader reader=null;
+  try {
+    fileReader=new FileReader(checksumProperties);
+    reader=new BufferedReader(fileReader);
+    this.checksumProperties.load(reader);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(String.format("[Checksum Verification] Could not load the MD5 from the checksum file '%s'",checksumProperties),e);
+  }
+ finally {
+    if (reader != null) {
+      try {
+        reader.close();
+      }
+ catch (      IOException e) {
+        LOGGER.warn("Failed to close buffered reader for checksum file: " + checksumProperties.getAbsolutePath(),e);
+      }
+    }
+    if (fileReader != null) {
+      try {
+        fileReader.close();
+      }
+ catch (      IOException e) {
+        LOGGER.warn("Failed to close file-reader for checksum file: " + checksumProperties.getAbsolutePath(),e);
+      }
+    }
+  }
+}

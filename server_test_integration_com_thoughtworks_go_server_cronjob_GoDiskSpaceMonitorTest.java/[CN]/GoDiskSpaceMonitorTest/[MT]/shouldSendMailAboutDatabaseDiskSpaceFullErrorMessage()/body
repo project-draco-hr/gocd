@@ -1,0 +1,13 @@
+{
+  DatabaseDiskIsFull full=new DatabaseDiskIsFull();
+  full.onSetUp();
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(SHITLOADS_OF_DISK_SPACE);
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(systemEnvironment.getDbFolder())).thenReturn(full.getLowLimit() - 1L);
+  try {
+    goDiskSpaceMonitor.onTimer();
+    emailSender.assertHasMessageContaining("No database disk space error message from Go Server");
+  }
+  finally {
+    full.onTearDown();
+  }
+}

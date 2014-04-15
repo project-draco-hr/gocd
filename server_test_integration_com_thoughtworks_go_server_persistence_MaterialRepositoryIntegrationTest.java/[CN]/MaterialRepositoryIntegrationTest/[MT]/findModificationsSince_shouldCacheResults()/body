@@ -1,0 +1,15 @@
+{
+  SvnMaterial material=MaterialsMother.svnMaterial();
+  MaterialRevision zero=saveOneScmModification(material,"user1","file1");
+  MaterialRevision first=saveOneScmModification(material,"user1","file1");
+  MaterialRevision second=saveOneScmModification(material,"user2","file2");
+  MaterialRevision third=saveOneScmModification(material,"user2","file2");
+  repo.findModificationsSince(material,first);
+  HibernateTemplate mockTemplate=mock(HibernateTemplate.class);
+  repo.setHibernateTemplate(mockTemplate);
+  List<Modification> modifications=repo.findModificationsSince(material,first);
+  assertThat(modifications.size(),is(2));
+  assertEquals(third.getLatestModification(),modifications.get(0));
+  assertEquals(second.getLatestModification(),modifications.get(1));
+  verifyNoMoreInteractions(mockTemplate);
+}

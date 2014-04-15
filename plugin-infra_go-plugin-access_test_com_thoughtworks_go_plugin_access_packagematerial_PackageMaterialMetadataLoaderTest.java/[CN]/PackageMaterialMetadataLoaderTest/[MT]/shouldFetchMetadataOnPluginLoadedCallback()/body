@@ -1,0 +1,6 @@
+{
+  PackageMaterialMetadataLoader spy=spy(metadataLoader);
+  doNothing().when(spy).fetchRepositoryAndPackageMetaData(pluginDescriptor);
+  spy.pluginLoaded(pluginDescriptor);
+  verify(spy).fetchRepositoryAndPackageMetaData(pluginDescriptor);
+}

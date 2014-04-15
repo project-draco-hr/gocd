@@ -1,0 +1,11 @@
+{
+  MaterialRevision svnRevision=new MaterialRevision(this.svnMaterial,ModificationsMother.oneModifiedFile(svnRepoFixture.getHeadRevision(svnRepoFixture.getEnd2EndRepoUrl())));
+  SvnMaterial svnMaterialForExternal=SvnMaterial.createSvnMaterialWithMock(new SvnCommand(null,svnRepoFixture.getExternalRepoUrl()));
+  String folder=this.svnMaterial.getFolder() == null ? "external" : this.svnMaterial.getFolder() + "/" + "external";
+  svnMaterialForExternal.setFolder(folder);
+  MaterialRevision svnExternalRevision=new MaterialRevision(svnMaterialForExternal,ModificationsMother.oneModifiedFile(svnRepoFixture.getHeadRevision(svnRepoFixture.getExternalRepoUrl())));
+  MaterialRevision hgRevision=new MaterialRevision(hgMaterial,ModificationsMother.oneModifiedFile(hgTestRepo.latestModifications().get(0).getRevision()));
+  MaterialRevision dependencyRevision1=ModificationsMother.dependencyMaterialRevision(0,dependencyMaterial.getPipelineName() + "-label",1,dependencyMaterial,new Date());
+  MaterialRevision dependencyRevisionWithName=ModificationsMother.dependencyMaterialRevision(0,dependencyMaterialWithName.getPipelineName() + "-label",1,dependencyMaterialWithName,new Date());
+  return new MaterialRevisions(svnRevision,svnExternalRevision,hgRevision,dependencyRevision1,dependencyRevisionWithName);
+}

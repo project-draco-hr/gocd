@@ -1,0 +1,18 @@
+{
+  String abcd="Abcd";
+  String abcdDefault="first of alphabets";
+  String wxyz="wxyz";
+  String wxyzDefault="last of alphabets";
+  taskConfig.addProperty(wxyz).withDefault(wxyzDefault);
+  taskConfig.addProperty(abcd).withDefault(abcdDefault);
+  List<? extends Property> properties=taskConfig.list();
+  assertThat(properties.size(),is(2));
+  for (  Property property : properties) {
+    assertThat(property != null,is(true));
+    assertThat(property instanceof TaskConfigProperty,is(true));
+  }
+  assertThat(taskConfig.get(abcd) != null,is(true));
+  assertThat(taskConfig.get(abcd).getValue(),is(abcdDefault));
+  assertThat(taskConfig.get(wxyz) != null,is(true));
+  assertThat(taskConfig.get(wxyz).getValue(),is(wxyzDefault));
+}

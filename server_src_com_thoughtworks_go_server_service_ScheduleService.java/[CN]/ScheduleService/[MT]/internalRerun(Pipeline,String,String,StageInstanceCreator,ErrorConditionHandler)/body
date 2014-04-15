@@ -1,0 +1,7 @@
+{
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  if (!schedulingChecker.canRerunStage(pipeline.getIdentifier(),stageName,approvedBy,result)) {
+    errorHandler.cantSchedule("Cannot schedule: " + result.getServerHealthState().getDescription(),pipeline.getName(),stageName);
+  }
+  return scheduleStage(pipeline,stageName,approvedBy,creator,errorHandler);
+}

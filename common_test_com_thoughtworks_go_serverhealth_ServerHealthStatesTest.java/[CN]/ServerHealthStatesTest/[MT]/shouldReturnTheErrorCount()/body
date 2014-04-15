@@ -1,0 +1,5 @@
+{
+  ServerHealthStates states=new ServerHealthStates(ServerHealthState.error("msg","desc",HealthStateType.artifactsDirChanged()),ServerHealthState.warning("another","some",HealthStateType.databaseDiskFull()));
+  assertThat(states.errorCount(),is(1));
+  assertThat(states.warningCount(),is(1));
+}

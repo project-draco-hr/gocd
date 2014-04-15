@@ -1,0 +1,8 @@
+{
+  SecurityContext context=SecurityContextHolder.getContext();
+  request.getSession().setAttribute(SPRING_SECURITY_LAST_EXCEPTION_KEY,new OnlyKnownUsersAllowedException("Foo"));
+  request.setAttribute(SessionDenialAwareAuthenticationProcessingFilterEntryPoint.SESSION_DENIED,true);
+  context.setAuthentication(null);
+  response.sendRedirect("/go/auth/login");
+  super.onUnsuccessfulAuthentication(request,response,failed);
+}

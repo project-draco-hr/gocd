@@ -1,0 +1,15 @@
+{
+  File workingDir=TestFileUtil.createTempFolder("p4-working-dir-" + UUID.randomUUID());
+  P4Client client=createClient();
+  client.client(clientConfig(clientName,workingDir),inMemoryConsumer(),true);
+  File dir=new File(workingDir,p4Material1.getFolder());
+  dir.mkdirs();
+  checkout(dir);
+  File newFile=new File(new File(workingDir,p4Material1.getFolder()),fileName);
+  newFile.createNewFile();
+  add(workingDir,newFile.getAbsolutePath());
+  commit(comment,workingDir);
+  client.removeClient();
+  List<Modification> modifications=p4Material1.latestModification(workingDir,new TestSubprocessExecutionContext());
+  return modifications;
+}

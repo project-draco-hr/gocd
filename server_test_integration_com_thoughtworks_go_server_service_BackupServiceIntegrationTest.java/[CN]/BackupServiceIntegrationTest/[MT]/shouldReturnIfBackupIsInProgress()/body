@@ -1,0 +1,27 @@
+{
+  final Semaphore waitForBackupToBegin=new Semaphore(1);
+  final Semaphore waitForAssertion_whichHasToHappen_whileBackupIsRunning=new Semaphore(1);
+  Database databaseStrategyMock=mock(Database.class);
+  doAnswer(new Answer<Object>(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      waitForBackupToBegin.release();
+      waitForAssertion_whichHasToHappen_whileBackupIsRunning.acquire();
+      return null;
+    }
+  }
+).when(databaseStrategyMock).backup(any(File.class));
+  final BackupService backupService=new BackupService(dataSource,artifactsDirHolder,goConfigService,new TimeProvider(),backupInfoRepository,systemEnvironment,serverVersion,configRepository,databaseStrategyMock);
+  waitForBackupToBegin.acquire();
+  Thread thd=new Thread(new Runnable(){
+    public void run(){
+      backupService.startBackup(admin,new HttpLocalizedOperationResult());
+    }
+  }
+);
+  thd.start();
+  waitForAssertion_whichHasToHappen_whileBackupIsRunning.acquire();
+  waitForBackupToBegin.acquire();
+  assertThat(backupService.isBackingUp(),is(true));
+  waitForAssertion_whichHasToHappen_whileBackupIsRunning.release();
+  thd.join();
+}

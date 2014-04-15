@@ -1,0 +1,12 @@
+{
+  Materials branchedMaterials=MaterialsMother.gitMaterials("gitUrl","foo");
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(branchedMaterials.convertToConfigs());
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(modifyOneFile(pipelineConfig),Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  savePipeline(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  Materials materials=pipelineFromDB.getMaterials();
+  GitMaterial gitMaterial=(GitMaterial)materials.get(0);
+  assertThat(gitMaterial.getBranch(),is("foo"));
+}

@@ -1,0 +1,7 @@
+{
+  if (!goConfigService.isLockable(pipeline.getName())) {
+    return true;
+  }
+  StageIdentifier locked=lockedPipeline(pipeline.getName());
+  return locked == null || locked.pipelineIdentifier().equals(pipeline);
+}

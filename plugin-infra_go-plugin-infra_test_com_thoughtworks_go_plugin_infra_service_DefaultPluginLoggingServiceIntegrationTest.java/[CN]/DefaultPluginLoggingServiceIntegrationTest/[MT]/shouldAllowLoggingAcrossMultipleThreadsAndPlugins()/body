@@ -1,0 +1,16 @@
+{
+  Thread thread1=createThreadFor(pluginID(1),"1");
+  Thread thread2=createThreadFor(pluginID(2),"2");
+  Thread thread3=createThreadFor(pluginID(1),"3");
+  Thread thread4=createThreadFor(pluginID(2),"4");
+  thread1.start();
+  thread2.start();
+  thread3.start();
+  thread4.start();
+  thread1.join();
+  thread2.join();
+  thread3.join();
+  thread4.join();
+  assertNumberOfMessagesInLog(pluginLog(1),200);
+  assertNumberOfMessagesInLog(pluginLog(2),200);
+}

@@ -1,0 +1,7 @@
+{
+  RepositoryMetadataStore metadataStore=RepositoryMetadataStore.getInstance();
+  PackageConfigurations repositoryConfigurationPut=new PackageConfigurations();
+  metadataStore.addMetadataFor("plugin-id",repositoryConfigurationPut);
+  assertThat(metadataStore.hasPlugin("plugin-id"),is(true));
+  assertThat(metadataStore.hasPlugin("some-plugin-which-does-not-exist"),is(false));
+}

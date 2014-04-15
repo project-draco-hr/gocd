@@ -1,0 +1,12 @@
+{
+  if (touchLoop == null) {
+    return;
+  }
+  if (!lockFile.exists()) {
+    LOG.warn("No lock file found at " + lockFile.getAbsolutePath());
+    return;
+  }
+  if (!lockFile.delete()) {
+    LOG.error("Unable to delete lock file at " + lockFile.getAbsolutePath());
+  }
+}

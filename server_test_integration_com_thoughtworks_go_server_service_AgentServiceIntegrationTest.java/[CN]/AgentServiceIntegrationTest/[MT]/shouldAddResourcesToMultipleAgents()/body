@@ -1,0 +1,12 @@
+{
+  createEnabledAgent(UUID);
+  createEnabledAgent(UUID2);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.modifyResources(USERNAME,operationResult,Arrays.asList(UUID,UUID2),Arrays.asList(new TriStateSelection("old-resource",TriStateSelection.Action.add),new TriStateSelection("new-resource",TriStateSelection.Action.add)));
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(operationResult.message(),is("Resource(s) modified on 2 agent(s)"));
+  assertThat(agentService.findAgentAndRefreshStatus(UUID).agentConfig().getResources(),hasItem(new Resource("old-resource")));
+  assertThat(agentService.findAgentAndRefreshStatus(UUID).agentConfig().getResources(),hasItem(new Resource("new-resource")));
+  assertThat(agentService.findAgentAndRefreshStatus(UUID2).agentConfig().getResources(),hasItem(new Resource("old-resource")));
+  assertThat(agentService.findAgentAndRefreshStatus(UUID2).agentConfig().getResources(),hasItem(new Resource("new-resource")));
+}

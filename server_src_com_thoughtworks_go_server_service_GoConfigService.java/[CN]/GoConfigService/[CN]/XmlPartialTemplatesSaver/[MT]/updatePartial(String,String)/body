@@ -1,0 +1,24 @@
+{
+  org.dom4j.Document document=documentRoot();
+  Element root=document.getRootElement();
+  Element oldTemplatesDefinition=((Element)root.selectSingleNode("//cruise/templates"));
+  List nodesUnderRoot=root.content();
+  if (StringUtils.isBlank(xmlPartial) && oldTemplatesDefinition != null) {
+    root.remove(oldTemplatesDefinition);
+  }
+ else {
+    Element newTemplatesDefinition=reader.read(new StringReader(xmlPartial)).getRootElement();
+    if (oldTemplatesDefinition == null) {
+      List<Node> pipelinesNodes=root.selectNodes("//cruise/pipelines");
+      bombIf(pipelinesNodes.size() == 0,"There are no pipelines configured. Please add at least one pipeline in order to use templates.");
+      Node lastPipeline=pipelinesNodes.get(pipelinesNodes.size() - 1);
+      int index=root.indexOf(lastPipeline);
+      nodesUnderRoot.add(index + 1,newTemplatesDefinition);
+    }
+ else {
+      int index=nodesUnderRoot.indexOf(oldTemplatesDefinition);
+      nodesUnderRoot.set(index,newTemplatesDefinition);
+    }
+  }
+  return saveConfig(document.asXML(),md5);
+}

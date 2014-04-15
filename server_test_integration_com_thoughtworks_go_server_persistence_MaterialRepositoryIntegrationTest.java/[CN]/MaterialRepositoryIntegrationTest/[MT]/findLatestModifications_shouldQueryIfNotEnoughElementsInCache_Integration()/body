@@ -1,0 +1,7 @@
+{
+  SvnMaterial material=MaterialsMother.svnMaterial();
+  MaterialRevision mod=saveOneScmModification(material,"user2","file3");
+  goCache.clear();
+  Modification modification=repo.findLatestModification(repo.findMaterialInstance(material));
+  assertEquals(mod.getLatestModification(),modification);
+}

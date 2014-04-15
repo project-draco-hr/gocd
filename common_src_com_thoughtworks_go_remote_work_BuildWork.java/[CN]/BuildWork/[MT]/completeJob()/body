@@ -1,0 +1,10 @@
+{
+  if (goPublisher.isIgnored()) {
+    return;
+  }
+  goPublisher.reportCurrentStatus(JobState.Completing);
+  goPublisher.reportAction("Start to create properties");
+  harvestProperties(goPublisher);
+  goPublisher.reportAction("Start to upload");
+  plan.publishArtifacts(goPublisher,workingDirectory);
+}

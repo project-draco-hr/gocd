@@ -1,0 +1,8 @@
+{
+  Pipeline[] pipelines=pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig);
+  Stage loaded=stageDao.mostRecentStage(new StageConfigIdentifier(PIPELINE_NAME,STAGE_DEV));
+  Stage stage=pipelines[1].getStages().byName(STAGE_DEV);
+  assertThat(loaded.getId(),is(stage.getId()));
+  assertThat(loaded.getIdentifier(),is(new StageIdentifier(pipelines[1],stage)));
+  assertThat(loaded.getIdentifier().getId(),is(stage.getId()));
+}

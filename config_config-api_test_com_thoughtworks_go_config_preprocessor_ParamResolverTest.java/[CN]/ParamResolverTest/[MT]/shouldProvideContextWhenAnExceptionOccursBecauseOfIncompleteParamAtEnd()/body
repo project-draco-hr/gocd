@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  pipelineConfig.setLabelTemplate("abc#{");
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.errors().on("labelTemplate"),is("Incomplete param usage in 'abc#{'"));
+}

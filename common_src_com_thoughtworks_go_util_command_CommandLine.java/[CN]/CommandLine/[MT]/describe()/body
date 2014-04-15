@@ -1,0 +1,10 @@
+{
+  String description="--- Command ---\n" + toString() + "\n--- Environment ---\n"+ env+ "\n"+ "--- INPUT ----\n"+ StringUtils.join(inputs,",")+ "\n";
+  for (  CommandArgument argument : arguments) {
+    description=argument.replaceSecretInfo(description);
+  }
+  for (  SecretString secret : secrets) {
+    description=secret.replaceSecretInfo(description);
+  }
+  return description;
+}

@@ -1,0 +1,13 @@
+{
+  List<BoundVariables> results=new LinkedList<BoundVariables>();
+  TupleQueryResult tupleQueryResult=getTupleQueryResult(sparqlSelect);
+  try {
+    while (tupleQueryResult.hasNext()) {
+      results.add(new SesameBoundVariables(tupleQueryResult.getBindingNames(),tupleQueryResult.next()));
+    }
+  }
+ catch (  QueryEvaluationException e) {
+    throw new ShineRuntimeException(e);
+  }
+  return results;
+}

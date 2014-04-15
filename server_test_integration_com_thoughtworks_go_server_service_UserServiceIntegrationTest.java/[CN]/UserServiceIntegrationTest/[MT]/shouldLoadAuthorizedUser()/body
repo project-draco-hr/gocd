@@ -1,0 +1,11 @@
+{
+  givingJezViewPermissionToMingle();
+  User tom=new User("tom",new String[]{"tom"},"tom@mail.com",true);
+  User jez=new User("jez",new String[]{"jez"},"user@mail.com",true);
+  addUserWithNotificationFilter(jez,new NotificationFilter("mingle","dev",StageEvent.All,false));
+  addUserWithNotificationFilter(tom,new NotificationFilter("mingle","dev",StageEvent.All,false));
+  Users users=userService.findValidSubscribers(new StageConfigIdentifier("mingle","dev"));
+  assertThat(users.size(),is(1));
+  assertThat(users.get(0),is(jez));
+  assertThat(users.get(0).getNotificationFilters().size(),is(1));
+}

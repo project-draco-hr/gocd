@@ -1,0 +1,10 @@
+{
+  logger=new SubprocessLogger(stubSysMon());
+  LogFixture log=LogFixture.startListening();
+  logger.registerAsExitHook("foo bar baz");
+  logger.run();
+  String allLogs=log.allLogs();
+  log.stopListening();
+  assertThat(allLogs,containsString("foo bar baz\n\tPID: 101\tname: name-1\towner: owner-1\tcommand: command-1\n\tPID: 103\tname: name-1a\towner: owner-1\tcommand: command-1a"));
+  assertThat(allLogs,not(containsString("PID: 102")));
+}

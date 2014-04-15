@@ -1,0 +1,16 @@
+{
+  Mockery mockery=new Mockery();
+  final StageDao mock=mockery.mock(StageDao.class);
+  final StageConfigIdentifier identifier=new StageConfigIdentifier("cruise","dev");
+  final Stage instance=StageMother.failingStage("dev");
+  mockery.checking(new Expectations(){
+{
+      one(mock).mostRecentStage(identifier);
+      will(returnValue(instance));
+    }
+  }
+);
+  StageStatusCache cache=new StageStatusCache(mock);
+  assertThat(cache.currentStage(identifier).getName(),is(instance.getName()));
+  assertThat(cache.currentStage(identifier).getName(),is(instance.getName()));
+}

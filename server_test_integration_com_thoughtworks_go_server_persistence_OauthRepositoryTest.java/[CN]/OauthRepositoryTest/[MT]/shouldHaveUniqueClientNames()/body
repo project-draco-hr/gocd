@@ -1,0 +1,10 @@
+{
+  OauthClient client=new OauthClient("mingle","client_id","client_secret","http://something");
+  template.save(client);
+  try {
+    template.save(new OauthClient("mingle","another_id","super_secret","http://something/another"));
+    fail("Should not be able to add 2 clients with the same name");
+  }
+ catch (  Exception expected) {
+  }
+}

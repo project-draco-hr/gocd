@@ -1,0 +1,8 @@
+{
+  if (instance.isCompleted()) {
+    LogFile logFile=artifactsService.getInstanceLogFile(instance.getIdentifier());
+    Map properties=artifactsService.parseLogFile(logFile,instance.isPassed());
+    properties.put("artifactfolder",artifactsService.findArtifact(instance.getIdentifier(),""));
+    instance.setInstanceLog(new JobInstanceLog(logFile,properties));
+  }
+}

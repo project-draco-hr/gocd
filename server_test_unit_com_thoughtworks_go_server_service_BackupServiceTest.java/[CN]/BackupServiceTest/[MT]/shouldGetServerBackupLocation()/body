@@ -1,0 +1,8 @@
+{
+  ArtifactsDirHolder artifactsDirHolder=mock(ArtifactsDirHolder.class);
+  String location="/var/go-server-backups";
+  when(artifactsDirHolder.getBackupsDir()).thenReturn(new File(location));
+  BackupService backupService=new BackupService(null,artifactsDirHolder,mock(GoConfigService.class),null,null,systemEnvironment,serverVersion,configRepo,databaseStrategy);
+  backupService.initialize();
+  assertThat(backupService.backupLocation(),is(new File(location).getAbsolutePath()));
+}

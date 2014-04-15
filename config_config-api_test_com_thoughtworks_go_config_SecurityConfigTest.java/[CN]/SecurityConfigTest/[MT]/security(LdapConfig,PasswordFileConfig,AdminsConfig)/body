@@ -1,0 +1,9 @@
+{
+  ldap=ldap == null ? new LdapConfig(new GoCipher()) : ldap;
+  pwordFile=pwordFile == null ? new PasswordFileConfig() : pwordFile;
+  SecurityConfig security=new SecurityConfig(ldap,pwordFile,true,admins);
+  for (  Role role : DEFAULT_ROLES) {
+    security.addRole(role);
+  }
+  return security;
+}

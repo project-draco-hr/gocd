@@ -1,0 +1,15 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  OauthToken tokenFoo=new OauthToken("foo@bar.com",mingle09,"access-token","refresh-token",23324324);
+  template.save(tokenFoo);
+  OauthToken tokenBar=new OauthToken("bar@bar.com",mingle09,"access-token-bar","refresh-token-bar",23324324);
+  template.save(tokenBar);
+  OauthClient mingle05=new OauthClient("mingle05","client_id_5","client_secret_5","http://something");
+  template.save(mingle05);
+  OauthToken tokenBaz=new OauthToken("baz@bar.com",mingle05,"access-token-baz","refresh-token-baz",23324324);
+  template.save(tokenBaz);
+  Collection<OauthDataSource.OauthTokenDTO> tokens=repo.findAllOauthTokenByOauthClientId("client_id");
+  assertThat(tokens.size(),is(2));
+  assertThat(tokens,hasItems(tokenFoo.getDTO(),tokenBar.getDTO()));
+}

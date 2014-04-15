@@ -1,0 +1,8 @@
+{
+  JsonMap jsonMap=presenter.toJson();
+  JsonValue jsonValue=JsonUtils.from(jsonMap);
+  JsonValue revision=jsonValue.getObject("groups",0,"history",0,"materialRevisions",0);
+  assertThat(revision.getString("revision"),is("svn.100"));
+  assertThat(revision.getString("user"),is("user"));
+  assertThat(revision.getString("date"),is(DateUtils.formatISO8601(modificationDate)));
+}

@@ -1,0 +1,8 @@
+{
+  LdapConfig newLdapConfig=newCruiseConfig.server().security().ldapConfig();
+  if (!currentLdapConfig.equals(newLdapConfig)) {
+    ldapContextFactory.initializeDelegator();
+    currentLdapConfig=newLdapConfig;
+    LOGGER.info(String.format("[Configuration Changed] LDAP configuration changed."));
+  }
+}

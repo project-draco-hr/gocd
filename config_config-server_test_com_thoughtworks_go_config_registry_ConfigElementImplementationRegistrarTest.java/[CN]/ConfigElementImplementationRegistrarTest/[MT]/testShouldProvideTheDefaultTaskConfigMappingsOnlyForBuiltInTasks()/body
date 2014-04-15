@@ -1,0 +1,10 @@
+{
+  List<Class<? extends Task>> tasks=new ArrayList<Class<? extends Task>>();
+  tasks.add(AntTask.class);
+  tasks.add(NantTask.class);
+  tasks.add(ExecTask.class);
+  tasks.add(RakeTask.class);
+  tasks.add(FetchTask.class);
+  tasks.add(PluggableTask.class);
+  assertThat(registry.implementersOf(Task.class),is(tasks));
+}

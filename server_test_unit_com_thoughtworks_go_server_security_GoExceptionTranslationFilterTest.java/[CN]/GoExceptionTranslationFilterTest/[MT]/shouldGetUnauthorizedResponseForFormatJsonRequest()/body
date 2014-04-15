@@ -1,0 +1,6 @@
+{
+  request.setRequestURI("pipelines");
+  request.setParameter("format","json");
+  filter.sendStartAuthentication(request,response,filterChain,authenticationException);
+  assertThat(response.getStatus(),is(HttpServletResponse.SC_UNAUTHORIZED));
+}

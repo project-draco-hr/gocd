@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=createPipelineWithFirstStageScheduled();
+  dbHelper.passStage(pipeline.getFirstStage());
+  dbHelper.scheduleStage(pipeline,pipelineConfig().findBy(new CaseInsensitiveString(ftStage)));
+  return dbHelper.getPipelineDao().mostRecentPipeline(pipeline.getName());
+}

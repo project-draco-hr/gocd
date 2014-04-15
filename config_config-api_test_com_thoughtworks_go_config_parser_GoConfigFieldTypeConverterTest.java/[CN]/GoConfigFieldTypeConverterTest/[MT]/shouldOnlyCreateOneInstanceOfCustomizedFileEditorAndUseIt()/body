@@ -1,0 +1,9 @@
+{
+  GoConfigFieldTypeConverter converter=new GoConfigFieldTypeConverter();
+  Field expectedField=converter.getClass().getDeclaredField("propertyEditor");
+  int modifier=expectedField.getModifiers();
+  assertThat(Modifier.isStatic(modifier),is(true));
+  assertThat(Modifier.isFinal(modifier),is(true));
+  PropertyEditor actual=converter.findCustomEditor(File.class,null);
+  assertThat(actual,is(ReflectionUtil.getStaticField(converter.getClass(),"propertyEditor")));
+}

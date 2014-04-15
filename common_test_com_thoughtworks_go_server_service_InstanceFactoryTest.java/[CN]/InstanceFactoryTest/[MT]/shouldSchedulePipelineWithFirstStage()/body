@@ -1,0 +1,12 @@
+{
+  StageConfig stageOneConfig=StageConfigMother.stageConfig("dev",BuildPlanMother.withBuildPlans("functional","unit"));
+  StageConfig stageTwoConfig=StageConfigMother.stageConfig("qa",BuildPlanMother.withBuildPlans("suiteOne","suiteTwo"));
+  MaterialConfigs materialConfigs=MaterialConfigsMother.defaultMaterialConfigs();
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("mingle"),materialConfigs,stageOneConfig,stageTwoConfig);
+  BuildCause buildCause=BuildCause.createManualForced(modifyOneFile(pipelineConfig),Username.ANONYMOUS);
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,buildCause,new DefaultSchedulingContext("test"),"some-md5",new TimeProvider());
+  assertThat(pipeline.getName(),is("mingle"));
+  assertThat(pipeline.getStages().size(),is(1));
+  assertThat(pipeline.getStages().get(0).getName(),is("dev"));
+  assertThat(pipeline.getStages().get(0).getJobInstances().get(0).getName(),is("functional"));
+}

@@ -1,0 +1,14 @@
+{
+  try {
+    goConfigFileDao.updateConfig(new UpdateConfigCommand(){
+      public CruiseConfig update(      CruiseConfig cruiseConfig) throws Exception {
+        cruiseConfig.getEnvironments().add(new EnvironmentConfig(new CaseInsensitiveString("foo")));
+        return cruiseConfig;
+      }
+    }
+);
+  }
+ catch (  RuntimeException e) {
+    fail("should not have failed for edit when overwrite allowed.");
+  }
+}

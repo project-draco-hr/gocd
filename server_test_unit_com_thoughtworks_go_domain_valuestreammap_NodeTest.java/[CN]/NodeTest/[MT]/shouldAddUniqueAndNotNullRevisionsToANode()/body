@@ -1,0 +1,13 @@
+{
+  Revision p11=new PipelineRevision("p1",1,"label1");
+  Revision p12=new PipelineRevision("p1",2,"label2");
+  PipelineDependencyNode node=new PipelineDependencyNode("p1","p1");
+  node.setLevel(1);
+  node.addRevision(p11);
+  node.addRevision(null);
+  node.addRevision(p12);
+  node.addRevision(p11);
+  List<Revision> revisions=node.revisions();
+  assertThat(revisions.toString(),revisions.size(),is(2));
+  assertThat(revisions,hasItems(p11,p12));
+}

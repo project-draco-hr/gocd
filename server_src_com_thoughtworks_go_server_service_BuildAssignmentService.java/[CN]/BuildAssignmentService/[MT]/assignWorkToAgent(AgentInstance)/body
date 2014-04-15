@@ -1,0 +1,23 @@
+{
+  if (!agent.isRegistered()) {
+    return new UnregisteredAgentWork(agent.getUuid());
+  }
+  if (agent.isFromRemoteHost() && hasRemoteAgentReachedLimit()) {
+    return NO_WORK;
+  }
+  if (agent.isDisabled()) {
+    return new DeniedAgentWork(agent.getUuid());
+  }
+synchronized (this) {
+    scheduleService.rescheduleAbandonedBuildIfNecessary(agent.getAgentIdentifier());
+    final JobPlan job=findMatchingJob(agent);
+    if (job != null) {
+      Work buildWork=createWork(agent,job);
+      AgentBuildingInfo buildingInfo=new AgentBuildingInfo(job.getIdentifier().buildLocatorForDisplay(),job.getIdentifier().buildLocator());
+      agentService.building(agent.getUuid(),buildingInfo);
+      LOGGER.info(format("[Agent Assignment] Assigned job [%s] to agent [%s]",job.getIdentifier(),agent.agentConfig().getAgentIdentifier()));
+      return buildWork;
+    }
+  }
+  return NO_WORK;
+}

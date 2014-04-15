@@ -1,0 +1,18 @@
+{
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo-name","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","package-name",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2")),repository);
+  PackageMaterialConfig p1=new PackageMaterialConfig();
+  p1.setPackageDefinition(packageDefinition);
+  PackageMaterialConfig p2=new PackageMaterialConfig();
+  p2.setPackageDefinition(packageDefinition);
+  assertThat(p1.equals(p2),is(true));
+  p1=new PackageMaterialConfig();
+  p2=new PackageMaterialConfig();
+  assertThat(p1.equals(p2),is(false));
+  p2.setPackageDefinition(packageDefinition);
+  assertThat(p1.equals(p2),is(false));
+  p1.setPackageDefinition(packageDefinition);
+  p2=new PackageMaterialConfig();
+  assertThat(p1.equals(p2),is(false));
+  assertThat(p1.equals(null),is(false));
+}

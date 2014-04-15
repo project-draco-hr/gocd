@@ -1,0 +1,6 @@
+{
+  shouldMigrate=shouldMigrate == null ? false : shouldMigrate;
+  GoConfigService.XmlPartialSaver fileSaver=goConfigService.fileSaver(shouldMigrate);
+  GoConfigValidity configValidity=fileSaver.saveXml(configFileContent,expectedMd5);
+  return configValidity;
+}

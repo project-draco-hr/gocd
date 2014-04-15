@@ -1,0 +1,20 @@
+{
+  if (pIdScmPair == null) {
+    return false;
+  }
+  List<ReportingFaninScmMaterial> scmMaterialList=pIdScmPair.last();
+  for (  final ReportingFaninScmMaterial scmMaterial : scmMaterialList) {
+    Collection<ReportingFaninScmMaterial> scmMaterialOfSameFingerprint=CollectionUtils.select(scmMaterialList,new Predicate(){
+      @Override public boolean evaluate(      Object o){
+        return scmMaterial.equals(o);
+      }
+    }
+);
+    for (    ReportingFaninScmMaterial faninScmMaterial : scmMaterialOfSameFingerprint) {
+      if (!faninScmMaterial.revision.equals(scmMaterial.revision)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}

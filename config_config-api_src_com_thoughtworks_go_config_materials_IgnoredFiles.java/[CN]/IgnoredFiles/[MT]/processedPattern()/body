@@ -1,0 +1,22 @@
+{
+  if (this.processedPattern == null) {
+    String[] parts=FileUtil.normalizePath(pattern).split("/");
+    StringBuilder sb=new StringBuilder();
+    for (    String part : parts) {
+      part=escape(part);
+      if ("**".equals(part)) {
+        sb.append(part.replace("**","([^/]*/)*"));
+      }
+ else       if (part.contains("*")) {
+        sb.append(part.replace("*","[^/]*"));
+        sb.append("/");
+      }
+ else {
+        sb.append(part);
+        sb.append("/");
+      }
+    }
+    this.processedPattern=StringUtils.chomp(sb.toString(),"/");
+  }
+  return this.processedPattern;
+}

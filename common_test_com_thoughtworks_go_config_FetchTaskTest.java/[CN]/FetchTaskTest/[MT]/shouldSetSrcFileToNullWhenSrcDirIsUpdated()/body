@@ -1,0 +1,6 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("pname"),new CaseInsensitiveString("sname"),new CaseInsensitiveString("jname"),"sfile","dest");
+  fetchTask.setConfigAttributes(m(FetchTask.PIPELINE_NAME,"pipeline_foo",FetchTask.STAGE,"stage_bar",FetchTask.JOB,"job_baz",FetchTask.IS_SOURCE_A_FILE,"0",FetchTask.SRC,"src_dir",FetchTask.DEST,"dest_dir"));
+  assertThat(fetchTask.getSrcfile(),is(nullValue()));
+  assertThat(fetchTask.getSrcdir(),is("src_dir"));
+}

@@ -1,0 +1,31 @@
+{
+synchronized (downloadableFile.mutex()) {
+    Map<String,String> headers=new HashMap<String,String>();
+    boolean updated=false;
+    boolean downloaded=false;
+    while (!updated) {
+      try {
+        headers=headers();
+        File localFile=new File(downloadableFile.getLocalFileName());
+        md5=headers.get(MD5_HEADER);
+        if (!localFile.exists() || !checksOut(localFile,md5)) {
+          PerfTimer timer=PerfTimer.start("Downloading new " + downloadableFile + " with md5 signature: "+ md5);
+          downloaded=download();
+          timer.stop();
+        }
+        updated=true;
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+        LOG.error("Couldn't update " + downloadableFile + ". Sleeping for 1m. Error: "+ e.toString());
+        try {
+          int period=Integer.parseInt(System.getProperty("sleep.for.download","60000"));
+          Thread.sleep(period);
+        }
+ catch (        InterruptedException ie) {
+        }
+      }
+    }
+    return new DownloadResult(downloaded,headers,urlGenerator);
+  }
+}

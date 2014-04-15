@@ -1,0 +1,16 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  Map<String,String> hashMap=new HashMap<String,String>();
+  hashMap.put(P4MaterialConfig.SERVER_AND_PORT,"localhost:1666");
+  hashMap.put(P4MaterialConfig.USERNAME,"username");
+  hashMap.put(P4MaterialConfig.PASSWORD,"password");
+  hashMap.put(P4MaterialConfig.VIEW,"foo");
+  Map<String,Object> attributeMap=new HashMap<String,Object>();
+  attributeMap.put(AbstractMaterialConfig.MATERIAL_TYPE,P4MaterialConfig.TYPE);
+  attributeMap.put(P4MaterialConfig.TYPE,hashMap);
+  materialConfigs.setConfigAttributes(attributeMap);
+  assertThat(materialConfigs.size(),is(1));
+  P4MaterialConfig expected=new P4MaterialConfig("localhost:1666","foo","username");
+  expected.setPassword("password");
+  assertThat((P4MaterialConfig)materialConfigs.first(),is(expected));
+}

@@ -1,0 +1,10 @@
+{
+  GadgetOauthClient google=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(google);
+  GadgetOauthClient yahoo=new GadgetOauthClient("yahoo.com","yahoo","client_id","client_secret");
+  template.save(yahoo);
+  repo.deleteGadgetsOauthClient(google.getId());
+  Collection<GadgetDataSource.GadgetOauthClientDTO> oauthClients=repo.findAllGadgetsOauthClient();
+  assertThat(oauthClients.size(),is(1));
+  assertThat(oauthClients,hasItem(yahoo.getDTO()));
+}

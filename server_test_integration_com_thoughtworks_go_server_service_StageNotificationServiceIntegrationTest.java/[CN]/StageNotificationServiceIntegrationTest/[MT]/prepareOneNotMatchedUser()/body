@@ -1,0 +1,7 @@
+{
+  String chrisMail="chris@cruise.com";
+  User chris=new User("chris",new String[]{"will not be matched"},chrisMail,true);
+  chris.addNotificationFilter(new NotificationFilter(pipelineFixture.pipelineName,pipelineFixture.ftStage,StageEvent.All,true));
+  userDao.saveOrUpdate(chris);
+  return chrisMail;
+}

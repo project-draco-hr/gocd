@@ -1,0 +1,6 @@
+{
+  CONFIG_HELPER.addSecurityWithAdminConfig();
+  CONFIG_HELPER.setOperatePermissionForGroup(DEFAULT_GROUP,"user1");
+  assertThat(securityService.hasOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,"user1"),is(true));
+  assertThat(securityService.hasOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,"anyone"),is(false));
+}

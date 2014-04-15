@@ -1,0 +1,10 @@
+{
+  pipelineOne.createPipelineWithFirstStageScheduled();
+  SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig("new-material",null,null,false);
+  svnMaterialConfig.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"new-material"));
+  configHelper.addMaterialToPipeline(pipelineOne.pipelineName,svnMaterialConfig);
+  configHelper.setViewPermissionForGroup("group1","username");
+  PipelineInstanceModels latest=pipelineHistoryService.loadWithEmptyAsDefault(pipelineOne.pipelineName,Pagination.ONE_ITEM,"username");
+  MaterialRevisions latestRevision=latest.get(0).getLatestRevisions();
+  assertThat(latestRevision.getRevisions().size(),is(1));
+}

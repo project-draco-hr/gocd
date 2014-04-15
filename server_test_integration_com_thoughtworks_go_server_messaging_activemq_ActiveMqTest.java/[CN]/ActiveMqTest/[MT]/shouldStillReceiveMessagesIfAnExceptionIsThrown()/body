@@ -1,0 +1,14 @@
+{
+  ExceptionListener exceptionListener=new ExceptionListener();
+  GoMessageQueue<GoTextMessage> queue=new GoMessageQueue<GoTextMessage>(messaging,"queue-name"){
+  }
+;
+  queue.addListener(exceptionListener);
+  queue.post(new GoTextMessage("Hello World1"));
+  queue.post(new GoTextMessage("Hello World2"));
+  queue.post(new GoTextMessage("Hello World3"));
+  queue.post(new GoTextMessage("Hello World4"));
+  queue.post(new GoTextMessage("Hello World5"));
+  Thread.sleep(1000);
+  assertThat(exceptionListener.receivedMessages.size(),is(5));
+}

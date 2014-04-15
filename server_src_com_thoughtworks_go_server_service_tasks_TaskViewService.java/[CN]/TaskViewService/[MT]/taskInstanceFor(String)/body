@@ -1,0 +1,9 @@
+{
+  List<Task> tasks=allTasks();
+  for (  Task task : tasks) {
+    if (task.getTaskType().equals(type)) {
+      return task;
+    }
+  }
+  throw new RuntimeException(String.format("Could not find any task of type: %s",type));
+}

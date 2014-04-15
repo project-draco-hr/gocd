@@ -1,0 +1,14 @@
+{
+  AgentIdentifier agentIdentifier=message.getAgent();
+  Work work=message.getWork();
+  if (work instanceof NoWork) {
+synchronized (agentMutex(agentIdentifier)) {
+      assignments.remove(agentIdentifier);
+    }
+  }
+ else {
+synchronized (agentMutex(agentIdentifier)) {
+      assignments.replace(agentIdentifier,NO_WORK,work);
+    }
+  }
+}

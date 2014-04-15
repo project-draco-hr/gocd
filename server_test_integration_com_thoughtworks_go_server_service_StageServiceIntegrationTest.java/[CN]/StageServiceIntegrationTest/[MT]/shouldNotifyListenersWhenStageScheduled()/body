@@ -1,0 +1,9 @@
+{
+  ccTrayStatus.clear();
+  Stage newInstance=instanceFactory.createStageInstance(pipelineConfig.first(),new DefaultSchedulingContext("anonumous"),md5,new TimeProvider());
+  Stage savedStage=stageService.save(savedPipeline,newInstance);
+  assertThat(ccTrayStatus.projects().size(),is(4));
+  assertThat(ccTrayStatus.projects(),hasItem(new ProjectStatus(savedStage.getIdentifier().ccProjectName(),savedStage.stageState().cctrayActivity(),savedStage.getIdentifier().webUrl())));
+  JobInstance jobInstance=savedStage.getJobInstances().first();
+  assertThat(ccTrayStatus.projects(),hasItem(new ProjectStatus(jobInstance.getIdentifier().ccProjectName(),jobInstance.getState().cctrayActivity(),jobInstance.getIdentifier().webUrl())));
+}

@@ -1,0 +1,7 @@
+{
+  expectLoadForEditing(configWith(createPipelineConfig("pipeline","stage","build")));
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(true);
+  GoConfigValidity validity=saver.saveXml("some_junk","junk_md5");
+  assertThat(validity.isValid(),is(false));
+  assertThat(validity.errorMessage(),is("Error on line 1: Content is not allowed in prolog."));
+}

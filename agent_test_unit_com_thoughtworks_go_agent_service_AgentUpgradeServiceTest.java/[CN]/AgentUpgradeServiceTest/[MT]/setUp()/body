@@ -1,0 +1,9 @@
+{
+  systemEnvironment=mock(SystemEnvironment.class);
+  urlService=mock(URLService.class);
+  HttpClient httpClient=mock(HttpClient.class);
+  agentUpgradeService=spy(new AgentUpgradeService(urlService,httpClient,systemEnvironment));
+  httpMethod=mock(GetMethod.class);
+  doReturn(httpMethod).when(agentUpgradeService).getAgentLatestStatusGetMethod();
+  when(httpClient.executeMethod(httpMethod)).thenReturn(200);
+}

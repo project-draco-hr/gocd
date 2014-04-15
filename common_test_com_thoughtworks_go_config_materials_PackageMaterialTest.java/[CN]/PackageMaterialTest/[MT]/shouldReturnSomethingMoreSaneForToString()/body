@@ -1,0 +1,6 @@
+{
+  PackageMaterial material=MaterialsMother.packageMaterial();
+  RepositoryMetadataStore.getInstance().addMetadataFor(material.getPluginId(),new PackageConfigurations());
+  PackageMetadataStore.getInstance().addMetadataFor(material.getPluginId(),new PackageConfigurations());
+  assertThat(material.toString(),is("'PackageMaterial{Repository: [k1=repo-v1, k2=repo-v2] - Package: [k3=package-v1]}'"));
+}

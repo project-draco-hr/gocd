@@ -1,0 +1,9 @@
+{
+  File[] files=tmpDb.listFiles();
+  for (  File file : files) {
+    if (file.getName().contains("hsqldb-upgrade-backup")) {
+      return file;
+    }
+  }
+  throw new FileNotFoundException("No backup file found. Directory contains: " + Arrays.asList(files));
+}

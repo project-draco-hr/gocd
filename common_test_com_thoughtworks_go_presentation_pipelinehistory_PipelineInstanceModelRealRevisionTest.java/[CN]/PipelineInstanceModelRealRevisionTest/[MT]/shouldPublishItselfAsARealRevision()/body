@@ -1,0 +1,6 @@
+{
+  assertThat(new StringRevision("foo").isRealRevision(),is(true));
+  assertThat(DependencyMaterialRevision.create("blahPipeline",5,"blahLabel","blahStage",2).isRealRevision(),is(true));
+  assertThat(new NullRevision().isRealRevision(),is(false));
+  assertThat(PipelineInstanceModel.UNKNOWN_REVISION.isRealRevision(),is(false));
+}

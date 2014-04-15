@@ -1,0 +1,17 @@
+{
+  TimeReportingUtil t=new TimeReportingUtil(key.toString());
+  t.begin();
+  try {
+    testAction.perform();
+  }
+ catch (  Exception e) {
+    throw e;
+  }
+ finally {
+    try {
+      t.report();
+    }
+ catch (    IOException e) {
+    }
+  }
+}

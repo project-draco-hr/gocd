@@ -1,0 +1,8 @@
+{
+  schedulingChecker.canTriggerManualPipeline(pipelineConfig,CaseInsensitiveString.str(username.getUsername()),operationResult);
+  if (!operationResult.canContinue()) {
+    ServerHealthState serverHealthState=operationResult.getServerHealthState();
+    LOGGER.info(String.format("'%s'  because '%s'",serverHealthState.getMessage(),serverHealthState.getDescription()));
+    serverHealthService.update(serverHealthState);
+  }
+}

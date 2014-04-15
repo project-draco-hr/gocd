@@ -1,0 +1,18 @@
+{
+  try {
+    Message message=consumer.receive();
+    if (message == null) {
+      LOG.debug("Message consumer was closed.");
+      return true;
+    }
+    ObjectMessage omessage=(ObjectMessage)message;
+    listener.onMessage((GoMessage)omessage.getObject());
+  }
+ catch (  JMSException e) {
+    LOG.warn("Error reciving message. Message receiving will continue despite this error.",e);
+  }
+catch (  Exception e) {
+    LOG.error("Exception thrown in message handling by listener " + listener,e);
+  }
+  return false;
+}

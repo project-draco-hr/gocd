@@ -1,0 +1,10 @@
+{
+  Pipeline correctPipeline=new Pipeline("Test",BuildCause.createWithEmptyModifications());
+  savePipeline(correctPipeline);
+  Pipeline incorrectPipeline=new Pipeline("Tests",BuildCause.createWithEmptyModifications());
+  savePipeline(incorrectPipeline);
+  Pipeline loadedId=pipelineDao.findPipelineByNameAndCounter(correctPipeline.getName(),correctPipeline.getCounter());
+  assertThat(loadedId.getId(),is(correctPipeline.getId()));
+  loadedId=pipelineDao.findPipelineByNameAndCounter(correctPipeline.getName().toLowerCase(),correctPipeline.getCounter());
+  assertThat(loadedId.getId(),is(correctPipeline.getId()));
+}

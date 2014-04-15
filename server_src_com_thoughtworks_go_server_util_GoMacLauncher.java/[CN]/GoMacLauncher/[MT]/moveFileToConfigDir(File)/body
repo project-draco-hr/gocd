@@ -1,0 +1,7 @@
+{
+  LOG.info("Moving file: " + file.getAbsolutePath());
+  boolean success=file.renameTo(new File(GO_CONFIG_DIRECTORY_PATH + file.getName()));
+  if (!success) {
+    throw new IOException("Could not move file: " + file.getAbsolutePath());
+  }
+}

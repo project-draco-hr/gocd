@@ -1,0 +1,13 @@
+{
+  String pluginId="pluginid";
+  PackageConfigurations repositoryConfigurations=new PackageConfigurations();
+  repositoryConfigurations.add(new PackageConfiguration("k1","v1").with(PackageConfiguration.PART_OF_IDENTITY,true));
+  RepositoryMetadataStore.getInstance().addMetadataFor(pluginId,repositoryConfigurations);
+  PackageConfigurations packageConfigurations=new PackageConfigurations();
+  packageConfigurations.add(new PackageConfiguration("k2","v2").with(PackageConfiguration.PART_OF_IDENTITY,true));
+  PackageMetadataStore.getInstance().addMetadataFor(pluginId,packageConfigurations);
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo",pluginId,"version",new Configuration(create("k1",false,"v1")));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","name",new Configuration(create("k2",false,"v2")),repository);
+  String fingerprint=packageDefinition.getFingerprint(AbstractMaterial.FINGERPRINT_DELIMITER);
+  assertThat(fingerprint,is(CachedDigestUtils.sha256Hex("plugin-id=pluginid<|>k2=v2<|>k1=v1")));
+}

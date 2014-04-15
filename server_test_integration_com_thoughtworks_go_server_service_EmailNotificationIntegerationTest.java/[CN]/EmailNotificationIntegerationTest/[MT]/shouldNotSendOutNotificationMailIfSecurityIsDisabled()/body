@@ -1,0 +1,6 @@
+{
+  agentReportJobIsCompleted(UNIT_LINUX);
+  agentReportJobIsCompleted(UNIT_WINDOWS);
+  final String expectedSubject=job.getIdentifier().getStageIdentifier().stageLocator();
+  assertWillHappen(pop3MailClient,not(emailSubjectContains(expectedSubject)));
+}

@@ -1,0 +1,9 @@
+{
+  final User user=userService.findUserByName(username);
+  if (StringUtil.isBlank(user.getName())) {
+    return new GoUserPrinciple(user.getName(),user.getDisplayName(),"",false,false,false,false,new GrantedAuthority[]{});
+  }
+ else {
+    return new GoUserPrinciple(user.getName(),user.getDisplayName(),"",true,true,true,true,authorityGranter.authorities(username));
+  }
+}

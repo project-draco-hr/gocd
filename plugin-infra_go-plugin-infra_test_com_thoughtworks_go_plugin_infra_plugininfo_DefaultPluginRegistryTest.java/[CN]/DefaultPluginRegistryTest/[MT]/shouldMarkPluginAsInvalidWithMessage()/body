@@ -1,0 +1,12 @@
+{
+  String pluginId="plugin-id";
+  File pluginFile=mock(File.class);
+  String message="random failure";
+  DefaultPluginRegistry spy=spy(registry);
+  GoPluginDescriptor descriptor=new GoPluginDescriptor(pluginId,"1.0",null,null,pluginFile,true);
+  spy.loadPlugin(descriptor);
+  spy.markPluginInvalid(pluginId,Arrays.asList(message));
+  GoPluginDescriptor loadedDescriptor=spy.plugins().get(0);
+  assertThat(loadedDescriptor.isInvalid(),is(true));
+  assertThat(loadedDescriptor.getStatus().getMessages(),hasItem(message));
+}

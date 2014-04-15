@@ -1,0 +1,6 @@
+{
+  String pipelineName="some-pipeline";
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(pipelineName);
+  Pipeline pipeline=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  assertThat(pipelineDao.getCounterForPipeline(pipeline.getName()),is(1));
+}

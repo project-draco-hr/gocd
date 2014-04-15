@@ -1,0 +1,7 @@
+{
+  StageConfig stage=StageConfigMother.stageConfig("stage");
+  StageConfigMother.addApprovalWithUsers(stage,"user1","user2");
+  StageConfigMother.addApprovalWithRoles(stage,"role1","role2");
+  assertThat(stage.getOperateUsers(),is(Arrays.asList(new AdminUser(new CaseInsensitiveString("user1")),new AdminUser(new CaseInsensitiveString("user2")))));
+  assertThat(stage.getOperateRoles(),is(Arrays.asList(new AdminRole(new CaseInsensitiveString("role1")),new AdminRole(new CaseInsensitiveString("role2")))));
+}

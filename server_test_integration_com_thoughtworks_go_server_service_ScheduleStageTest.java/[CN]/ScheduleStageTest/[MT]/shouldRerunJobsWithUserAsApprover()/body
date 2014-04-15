@@ -1,0 +1,12 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  Stage oldStage=pipeline.getStages().byName(fixture.devStage);
+  SecurityContext context=SecurityContextHolder.getContext();
+  context.setAuthentication(new UsernamePasswordAuthenticationToken(new User("loser","pass",true,true,true,true,new GrantedAuthority[]{}),null));
+  HttpOperationResult result=new HttpOperationResult();
+  Stage newStage=scheduleService.rerunJobs(oldStage,a("foo","foo3"),result);
+  Stage loadedLatestStage=dbHelper.getStageDao().findStageWithIdentifier(newStage.getIdentifier());
+  assertThat(loadedLatestStage.getApprovedBy(),is("loser"));
+  assertThat(oldStage.getApprovedBy(),is(not("loser")));
+  assertThat(result.canContinue(),is(true));
+}

@@ -1,0 +1,19 @@
+{
+  Username username=new Username(new CaseInsensitiveString("Foo"));
+  when(environmentConfigService.pipelinesFor(new CaseInsensitiveString("uat"))).thenReturn(Arrays.asList(new CaseInsensitiveString("uat-pipeline"),new CaseInsensitiveString("staging-pipeline")));
+  PipelineInstanceModel uatInstance=stubPipelineHistoryServiceToReturnPipelines("uat-pipeline");
+  PipelineInstanceModel stagingInstance=stubPipelineHistoryServiceToReturnPipelines("staging-pipeline");
+  ArrayList<Environment> environments=new ArrayList<Environment>();
+  environmentService.addEnvironmentFor(new CaseInsensitiveString("uat"),username,environments);
+  assertThat(environments.size(),is(1));
+  Environment environment=environments.get(0);
+  assertThat(environment.getName(),is("uat"));
+  List<PipelineModel> models=environment.getPipelineModels();
+  assertThat(models.size(),is(2));
+  PipelineModel model1=new PipelineModel(uatInstance.getName(),true,true,PipelinePauseInfo.notPaused());
+  model1.addPipelineInstance(uatInstance);
+  assertThat(models,hasItem(model1));
+  PipelineModel model2=new PipelineModel(stagingInstance.getName(),true,true,PipelinePauseInfo.notPaused());
+  model2.addPipelineInstance(stagingInstance);
+  assertThat(models,hasItem(model2));
+}

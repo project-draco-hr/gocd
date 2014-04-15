@@ -1,0 +1,10 @@
+{
+  Iterator<FailingTestsInPipeline> pipelineIterator=failingTestsInPipelines.iterator();
+  while (pipelineIterator.hasNext()) {
+    FailingTestsInPipeline failingTestsInPipeline=pipelineIterator.next();
+    FailingTestsInPipeline previousPipeline=previousPipeline(failingTestsInPipeline);
+    if (previousPipeline != null) {
+      failingTestsInPipeline.removeDuplicateTestEntries(previousPipeline);
+    }
+  }
+}

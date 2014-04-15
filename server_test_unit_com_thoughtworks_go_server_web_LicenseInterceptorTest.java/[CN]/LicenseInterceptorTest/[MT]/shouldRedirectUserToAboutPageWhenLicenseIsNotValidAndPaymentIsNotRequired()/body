@@ -1,0 +1,14 @@
+{
+  assumeShouldNotIgnore();
+  assumeLicenseIsInvalid();
+  context.checking(new Expectations(){
+{
+      one(paymentResolver).shouldPay(mockHttpServletRequest);
+      will(returnValue(false));
+    }
+  }
+);
+  boolean returnCode=licenseInterceptor.preHandle(mockHttpServletRequest,mockHttpServletResponse,null);
+  assertThat(returnCode,is(false));
+  assertThat(mockHttpServletResponse.getRedirectedUrl(),is("/go/about"));
+}

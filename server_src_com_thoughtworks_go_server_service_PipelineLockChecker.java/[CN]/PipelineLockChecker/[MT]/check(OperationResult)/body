@@ -1,0 +1,11 @@
+{
+  HealthStateType healthStateType=HealthStateType.general(HealthStateScope.forPipeline(pipelineName));
+  if (pipelineLockService.isLocked(pipelineName)) {
+    String message=format("Pipeline %s cannot be scheduled",pipelineName);
+    String description=format("Pipeline %s is locked as another instance of this pipeline is running.",pipelineName);
+    result.conflict(message,description,healthStateType);
+  }
+ else {
+    result.success(healthStateType);
+  }
+}

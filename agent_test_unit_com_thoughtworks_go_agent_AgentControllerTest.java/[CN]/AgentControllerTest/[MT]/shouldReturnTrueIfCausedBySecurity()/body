@@ -1,0 +1,8 @@
+{
+  Exception exception=new Exception(new RuntimeException(new GeneralSecurityException()));
+  when(agentRegistry.uuid()).thenReturn(agentUuid);
+  agentController=new AgentController(loopServer,artifactsManipulator,sslInfrastructureService,agentRegistry,agentUpgradeService,subprocessLogger,systemEnvironment,pluginManager);
+  agentController.init();
+  assertTrue(agentController.isCausedBySecurity(exception));
+  verify(sslInfrastructureService).createSslInfrastructure();
+}

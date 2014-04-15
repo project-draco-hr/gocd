@@ -1,0 +1,13 @@
+{
+  MaterialRevisions revisions=new MaterialRevisions();
+  for (  Material material : materials) {
+    if (ensureHasRevisionForMaterial(peggedRevisions,revisions,material)) {
+      continue;
+    }
+    for (    MaterialRevision revision : materialRepository.findLatestModification(material)) {
+      revision.markAsChanged();
+      revisions.addRevision(revision);
+    }
+  }
+  return revisions;
+}

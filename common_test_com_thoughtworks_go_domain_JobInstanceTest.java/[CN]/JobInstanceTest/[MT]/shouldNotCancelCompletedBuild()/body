@@ -1,0 +1,5 @@
+{
+  final JobInstance instance=JobInstanceMother.completed("plan1",JobResult.Passed);
+  instance.cancel();
+  assertThat(instance.getResult(),is(JobResult.Passed));
+}

@@ -1,0 +1,10 @@
+{
+  Mockito.when(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString("username"),"pipeline-name")).thenReturn(true);
+  Mockito.when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("pipeline-name"))).thenReturn(true);
+  Mockito.when(goConfigService.isLockable("pipeline-name")).thenReturn(true);
+  Mockito.when(pipelineDao.lockedPipeline("pipeline-name")).thenReturn(null);
+  HttpOperationResult result=new HttpOperationResult();
+  pipelineUnlockApiService.unlock("pipeline-name",new Username(new CaseInsensitiveString("username")),result);
+  assertThat(result.httpCode(),is(406));
+  assertThat(result.message(),is("lock exists within the pipeline configuration but no pipeline instance is currently in progress"));
+}

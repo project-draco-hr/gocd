@@ -1,0 +1,8 @@
+{
+  PipelineConfigs first=createGroup("first","pipeline");
+  PipelineConfigs dup=createGroup("first","pipeline");
+  PipelineGroups groups=new PipelineGroups(first,dup);
+  groups.validate(null);
+  assertThat(first.errors().on(PipelineConfigs.GROUP),is("Group with name 'first' already exists"));
+  assertThat(dup.errors().on(PipelineConfigs.GROUP),is("Group with name 'first' already exists"));
+}

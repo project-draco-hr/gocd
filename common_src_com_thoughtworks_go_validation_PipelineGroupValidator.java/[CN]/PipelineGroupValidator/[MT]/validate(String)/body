@@ -1,0 +1,7 @@
+{
+  if (StringUtils.isEmpty(pipelineGroupName)) {
+    return ValidationBean.valid();
+  }
+  boolean valid=pipelineGroupName.matches(NAME_PATTERN);
+  return valid ? ValidationBean.valid() : ValidationBean.notValid(ERRORR_MESSAGE);
+}

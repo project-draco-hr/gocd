@@ -1,0 +1,21 @@
+{
+  cruiseConfig.accept(new TaskConfigVisitor(){
+    public void visit(    PipelineConfig pipelineConfig,    StageConfig stageConfig,    JobConfig jobConfig,    Task task){
+      if (task instanceof BuildTask) {
+        validate(pipelineConfig,stageConfig,jobConfig,((BuildTask)task).workingDirectory());
+      }
+ else       if (task instanceof FetchTask) {
+        FetchTask fetchTask=(FetchTask)task;
+        validate(pipelineConfig,stageConfig,jobConfig,fetchTask.getSrc());
+        validate(pipelineConfig,stageConfig,jobConfig,fetchTask.getDest());
+      }
+    }
+    private void validate(    PipelineConfig pipelineConfig,    StageConfig stageConfig,    JobConfig jobConfig,    String path){
+      if (path == null) {
+        return;
+      }
+      bombUnless(FileUtil.isFolderInsideSandbox(path),String.format("Task of job '%s' in stage '%s' of pipeline '%s' has path '%s' which is outside the working directory.",jobConfig.name(),stageConfig.name(),pipelineConfig.name(),path));
+    }
+  }
+);
+}

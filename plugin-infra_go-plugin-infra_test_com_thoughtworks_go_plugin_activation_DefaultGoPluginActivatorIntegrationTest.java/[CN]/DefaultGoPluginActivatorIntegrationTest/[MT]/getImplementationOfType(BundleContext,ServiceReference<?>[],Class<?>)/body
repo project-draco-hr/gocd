@@ -1,0 +1,12 @@
+{
+  if (references == null) {
+    return new String[0];
+  }
+  for (  ServiceReference<?> reference : references) {
+    Object service=installedBundledContext.getService(reference);
+    if (service.getClass().getName().equals(type.getName())) {
+      return service;
+    }
+  }
+  throw new RuntimeException("Class type not found: " + type);
+}

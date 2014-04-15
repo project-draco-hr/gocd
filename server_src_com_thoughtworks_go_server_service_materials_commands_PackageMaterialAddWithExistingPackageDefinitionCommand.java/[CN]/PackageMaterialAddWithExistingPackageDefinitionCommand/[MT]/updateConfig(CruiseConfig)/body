@@ -1,0 +1,6 @@
+{
+  PackageDefinition packageDefinition=getPackageDefinition(cruiseConfig);
+  packageMaterialConfig.setPackageDefinition(packageDefinition);
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipeline));
+  pipelineConfig.addMaterialConfig(packageMaterialConfig);
+}

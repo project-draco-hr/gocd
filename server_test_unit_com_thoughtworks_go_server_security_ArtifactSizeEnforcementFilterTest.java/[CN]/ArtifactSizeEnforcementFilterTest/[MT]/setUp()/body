@@ -1,0 +1,13 @@
+{
+  mockArtifactsDirHolder=mock(ArtifactsDirHolder.class);
+  mockSysEnv=mock(SystemEnvironment.class);
+  request=new MockHttpServletRequest();
+  response=new MockHttpServletResponse();
+  artifactSizeEnforcementFilter=new ArtifactSizeEnforcementFilter(mockArtifactsDirHolder,mockSysEnv);
+  filterChain=mock(FilterChain.class);
+  File mockArtifactsDir=mock(File.class);
+  when(mockArtifactsDirHolder.getArtifactsDir()).thenReturn(mockArtifactsDir);
+  when(mockArtifactsDir.getUsableSpace()).thenReturn(1050000L);
+  when(mockSysEnv.getArtifactReposiotryFullLimit()).thenReturn(1L);
+  when(mockSysEnv.getDiskSpaceCacheRefresherInterval()).thenReturn(5000L);
+}

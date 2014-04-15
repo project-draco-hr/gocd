@@ -1,0 +1,10 @@
+{
+  Set<Node> verifiedNodes=new HashSet<Node>();
+  Set<String> nodesInPath=new HashSet<String>();
+  for (  Node node : findRootNodes()) {
+    if (node.hasCycleInSubGraph(nodesInPath,verifiedNodes)) {
+      return true;
+    }
+  }
+  return false;
+}

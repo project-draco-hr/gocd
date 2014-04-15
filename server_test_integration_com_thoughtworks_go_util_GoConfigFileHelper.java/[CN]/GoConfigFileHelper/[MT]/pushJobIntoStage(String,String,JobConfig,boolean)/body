@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=load();
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  StageConfig stageConfig=pipelineConfig.findBy(new CaseInsensitiveString(stageName));
+  if (clearExistingJobs) {
+    stageConfig.allBuildPlans().clear();
+  }
+  stageConfig.allBuildPlans().add(jobConfig);
+  writeConfigFile(cruiseConfig);
+  return stageConfig;
+}

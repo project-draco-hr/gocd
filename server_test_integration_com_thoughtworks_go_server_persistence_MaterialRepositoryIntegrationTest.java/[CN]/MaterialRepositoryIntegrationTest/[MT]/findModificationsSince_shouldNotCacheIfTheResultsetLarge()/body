@@ -1,0 +1,13 @@
+{
+  SvnMaterial material=MaterialsMother.svnMaterial();
+  MaterialRevision first=saveOneScmModification(material,"user1","file1");
+  MaterialRevision second=saveOneScmModification(material,"user2","file2");
+  goCache.clear();
+  repo=new MaterialRepository(sessionFactory,goCache,1,transactionSynchronizationManager,materialConfigConverter,materialExpansionService,databaseStrategy);
+  repo.findModificationsSince(material,first);
+  assertThat(repo.cachedModifications(repo.findMaterialInstance(material)),is(nullValue()));
+  repo.findModificationsSince(material,second);
+  assertThat(repo.cachedModifications(repo.findMaterialInstance(material)),is(notNullValue()));
+  repo.findModificationsSince(material,first);
+  assertThat(repo.cachedModifications(repo.findMaterialInstance(material)),is(nullValue()));
+}

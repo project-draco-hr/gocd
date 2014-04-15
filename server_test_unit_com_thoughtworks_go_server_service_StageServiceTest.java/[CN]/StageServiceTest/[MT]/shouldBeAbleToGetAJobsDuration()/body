@@ -1,0 +1,19 @@
+{
+  TestingClock clock=new TestingClock();
+  JobInstance theJob=JobInstanceMother.building("job",clock.currentTime());
+  theJob.setClock(clock);
+  clock.addSeconds(9);
+  theJob.completing(JobResult.Passed,clock.currentTime());
+  theJob.completed(clock.currentTime());
+  StageIdentifier stageId=new StageIdentifier(theJob.getPipelineName(),1,"1.0.1","1");
+  Stages stages=new Stages(StageMother.custom(theJob.getStageName(),theJob));
+  TransactionSynchronizationManager transactionSynchronizationManager=mock(TransactionSynchronizationManager.class);
+  StageService service=new StageService(stageDao,null,null,null,alwaysAllow(),null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  when(stageDao.getAllRunsOfStageForPipelineInstance(stageId.getPipelineName(),stageId.getPipelineCounter(),stageId.getStageName())).thenReturn(stages);
+  when(stageDao.getExpectedDurationMillis(theJob.getPipelineName(),theJob.getStageName(),theJob)).thenReturn(10 * 1000L);
+  StageSummaryModel stageForView=service.findStageSummaryByIdentifier(stageId,ALWAYS_ALLOW_USER,new HttpLocalizedOperationResult());
+  JobInstanceModel job=stageForView.passedJobs().get(0);
+  assertThat(job.getElapsedTime(),is(theJob.getElapsedTime()));
+  assertThat(job.getPercentComplete(),is(90));
+  verify(stageDao).getExpectedDurationMillis(theJob.getPipelineName(),theJob.getStageName(),theJob);
+}

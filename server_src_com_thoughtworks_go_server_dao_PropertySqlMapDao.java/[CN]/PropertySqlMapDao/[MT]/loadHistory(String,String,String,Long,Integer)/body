@@ -1,0 +1,7 @@
+{
+  IBatisUtil.IBatisArgument arguments=arguments("pipeline",pipelineName).and("stage",stageName).and("build",jobName).and("limitCount",limitCount);
+  if (maxPipelineId != null) {
+    arguments.and("pipelineId",maxPipelineId);
+  }
+  return groupByPipelineId(flatHistory(arguments));
+}

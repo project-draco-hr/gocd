@@ -1,0 +1,8 @@
+{
+  repository=new SvnRemoteRepository();
+  repository.addUser(HARRY,HARRYS_PASSWORD);
+  repository.start();
+  command=new SvnCommand(null,repository.getUrl(),HARRY,HARRYS_PASSWORD,true);
+  workingDir=TestFileUtil.createTempFolder("workingDir" + System.currentTimeMillis());
+  outputStreamConsumer=inMemoryConsumer();
+}

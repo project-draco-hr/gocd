@@ -1,0 +1,6 @@
+{
+  String fileName="/some-filename.xml";
+  CommandSnippet snippetWhichMatches=CommandSnippetMother.validSnippet("maven");
+  when(snippets.findByRelativePath(fileName)).thenReturn(snippetWhichMatches);
+  assertThat(commandRepositoryService.getCommandSnippetByRelativePath(fileName),is(snippetWhichMatches));
+}

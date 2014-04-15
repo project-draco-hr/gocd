@@ -1,0 +1,11 @@
+{
+  for (  Material mat : MaterialsMother.createMaterialsFromMaterialConfigs(wrtPipeline.config.materialConfigs())) {
+    if (mat.getFingerprint().equals(material.getFingerprint())) {
+      if (nth-- > 0) {
+        continue;
+      }
+      return CLONER.deepClone(mat);
+    }
+  }
+  throw new RuntimeException("You don't have this material configured");
+}

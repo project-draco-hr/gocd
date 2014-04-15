@@ -1,0 +1,8 @@
+{
+  boolean optional=attribute.optional();
+  boolean isMissingAttribute=!hasAttribute(e,attribute.value());
+  if (!optional && isMissingAttribute) {
+    throw bomb("Non optional attribute '" + attribute.value() + "' is not in element: "+ elementOutput(e));
+  }
+  return optional && isMissingAttribute;
+}

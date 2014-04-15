@@ -1,0 +1,7 @@
+{
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  environmentVariableContext.setProperty(PROPERTY_NAME,PROPERTY_VALUE,true);
+  assertThat(environmentVariableContext.getProperty(PROPERTY_NAME),is(PROPERTY_VALUE));
+  assertThat(environmentVariableContext.getPropertyForDisplay(PROPERTY_NAME),is(EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE));
+  assertThat(environmentVariableContext.isPropertySecure(PROPERTY_NAME),is(true));
+}

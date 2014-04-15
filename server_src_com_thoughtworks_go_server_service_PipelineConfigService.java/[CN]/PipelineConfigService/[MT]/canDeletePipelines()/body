@@ -1,0 +1,22 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.getCurrentConfig();
+  Map<CaseInsensitiveString,CanDeleteResult> nameToCanDeleteIt=new HashMap<CaseInsensitiveString,CanDeleteResult>();
+  Hashtable<CaseInsensitiveString,Node> hashtable=cruiseConfig.getDependencyTable();
+  List<CaseInsensitiveString> pipelineNames=cruiseConfig.getAllPipelineNames();
+  for (  CaseInsensitiveString pipelineName : pipelineNames) {
+    CaseInsensitiveString envName=environmentUsedIn(cruiseConfig,pipelineName);
+    if (envName != null) {
+      nameToCanDeleteIt.put(pipelineName,new CanDeleteResult(false,LocalizedMessage.string("CANNOT_DELETE_PIPELINE_IN_ENVIRONMENT",pipelineName,envName)));
+    }
+ else {
+      CaseInsensitiveString downStream=downstreamOf(hashtable,pipelineName);
+      if (downStream != null) {
+        nameToCanDeleteIt.put(pipelineName,new CanDeleteResult(false,LocalizedMessage.string("CANNOT_DELETE_PIPELINE_USED_AS_MATERIALS",pipelineName,downStream)));
+      }
+ else {
+        nameToCanDeleteIt.put(pipelineName,new CanDeleteResult(true,LocalizedMessage.string("CAN_DELETE_PIPELINE")));
+      }
+    }
+  }
+  return nameToCanDeleteIt;
+}

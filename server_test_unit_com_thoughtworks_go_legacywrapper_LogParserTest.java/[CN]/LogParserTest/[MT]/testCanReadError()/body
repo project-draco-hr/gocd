@@ -1,0 +1,20 @@
+{
+  LogFile logFile=new LogFile(DataUtils.getFailedBuildLbuildAsFile().getFile());
+  boolean isPassed=false;
+  Map map=logParser.parseLogFile(logFile,isPassed);
+  List suites=getTestSuites(map);
+  BuildTestSuite firstSuite=(BuildTestSuite)suites.get(0);
+  List erroringTestCases=firstSuite.getErrorTestCases();
+  assertThat(erroringTestCases.size(),is(1));
+  BuildTestCase erroredTest=(BuildTestCase)erroringTestCases.get(0);
+  String expectedClassName="net.sourceforge.cruisecontrol.sampleproject.connectfour.PlayingStandTest";
+  String expectedNoClassDefFoundError="java.lang.NoClassDefFoundError: org/objectweb/asm/CodeVisitor";
+  String exptectedClassPath="at net.sf.cglib.core.KeyFactory$Generator.generateClass(KeyFactory.java:165)";
+  assertThat(erroredTest.getClassname(),is(expectedClassName));
+  assertThat(erroredTest.getDuration(),is("0.016"));
+  assertThat(erroredTest.getName(),is("testFourConnected"));
+  assertThat(erroredTest.didError(),is(true));
+  assertThat(erroredTest.getMessage(),is("org/objectweb/asm/CodeVisitor"));
+  assertThat(erroredTest.getMessageBody(),containsString(expectedNoClassDefFoundError));
+  assertThat(erroredTest.getMessageBody(),containsString(exptectedClassPath));
+}

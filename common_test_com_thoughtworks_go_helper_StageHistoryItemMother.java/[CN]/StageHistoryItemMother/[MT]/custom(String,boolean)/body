@@ -1,0 +1,12 @@
+{
+  StageInstanceModel stageHistoryItem=new StageInstanceModel();
+  stageHistoryItem.setName(stageName);
+  if (isAutoApproved) {
+    stageHistoryItem.setApprovalType(GoConstants.APPROVAL_SUCCESS);
+  }
+ else {
+    stageHistoryItem.setApprovalType(GoConstants.APPROVAL_MANUAL);
+  }
+  assertThat("Should create the correct stub",stageHistoryItem.isAutoApproved(),is(isAutoApproved));
+  return stageHistoryItem;
+}

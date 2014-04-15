@@ -1,0 +1,19 @@
+{
+  String mutex=mutexForStageHistory(pipelineName,stageName);
+  readWriteLock.acquireReadLock(mutex);
+  try {
+    Pagination pagination=function.call();
+    String subKey=String.format("%s-%s",pagination.getCurrentPage(),pagination.getPageSize());
+    String key=cacheKeyForStageHistories(pipelineName,stageName);
+    StageHistoryPage stageHistoryPage=(StageHistoryPage)goCache.get(key,subKey);
+    if (stageHistoryPage == null) {
+      List<StageHistoryEntry> stageHistoryEntries=findStages(pagination,pipelineName,stageName);
+      stageHistoryPage=new StageHistoryPage(stageHistoryEntries,pagination,findImmediateChronologicallyForwardStageHistoryEntry(stageHistoryEntries.get(0)));
+      goCache.put(key,subKey,stageHistoryPage);
+    }
+    return cloner.deepClone(stageHistoryPage);
+  }
+  finally {
+    readWriteLock.releaseReadLock(mutex);
+  }
+}

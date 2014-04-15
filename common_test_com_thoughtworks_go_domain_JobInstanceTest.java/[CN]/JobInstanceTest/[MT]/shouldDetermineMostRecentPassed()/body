@@ -1,0 +1,14 @@
+{
+  JobInstance oldestPassed=JobInstanceMother.building("oldestPassed");
+  oldestPassed.completing(JobResult.Passed,DateUtils.addHours(new Date(),-1));
+  oldestPassed.completed(DateUtils.addHours(new Date(),-1));
+  JobInstance newestPassed=JobInstanceMother.building("newestPassed");
+  newestPassed.completing(JobResult.Passed,new Date());
+  newestPassed.completed(new Date());
+  assertEquals(newestPassed,newestPassed.mostRecentPassed(oldestPassed));
+  assertEquals(newestPassed,oldestPassed.mostRecentPassed(newestPassed));
+  JobInstance newestFailed=JobInstanceMother.building("newestFailed");
+  newestFailed.completing(JobResult.Failed,DateUtils.addHours(new Date(),+1));
+  newestFailed.completed(DateUtils.addHours(new Date(),+1));
+  assertEquals(newestPassed,newestPassed.mostRecentPassed(newestFailed));
+}

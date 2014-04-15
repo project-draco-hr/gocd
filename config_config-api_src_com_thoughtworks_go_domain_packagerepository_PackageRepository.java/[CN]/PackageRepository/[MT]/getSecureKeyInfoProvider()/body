@@ -1,0 +1,14 @@
+{
+  final RepositoryMetadataStore repositoryMetadataStore=RepositoryMetadataStore.getInstance();
+  final PackageConfigurations metadata=repositoryMetadataStore.getMetadata(pluginConfiguration.getId());
+  if (metadata == null) {
+    return null;
+  }
+  return new SecureKeyInfoProvider(){
+    @Override public boolean isSecure(    String key){
+      PackageConfiguration packageConfiguration=metadata.get(key);
+      return packageConfiguration.getOption(PackageConfiguration.SECURE);
+    }
+  }
+;
+}

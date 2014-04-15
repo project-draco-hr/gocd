@@ -1,0 +1,5 @@
+{
+  final ByteArrayInputStream inputStream=new ByteArrayInputStream(ConfigMigrator.migrate(ConfigFileFixture.CONTAINS_MULTI_DIFFERENT_STATUS_RUN_IF).getBytes());
+  CruiseConfig cruiseConfig=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).loadConfigHolder(FileUtil.readToEnd(inputStream)).config;
+  assertThat(cruiseConfig,is(not(nullValue())));
+}

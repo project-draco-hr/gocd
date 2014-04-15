@@ -1,0 +1,16 @@
+{
+  return new TypeSafeMatcher<BuildCause>(){
+    @Override public boolean matchesSafely(    BuildCause item){
+      for (      MaterialRevision revision : revisions) {
+        if (!item.getMaterialRevisions().getRevisions().contains(revision)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    public void describeTo(    Description description){
+      description.appendText("should contain revisions " + Arrays.toString(revisions));
+    }
+  }
+;
+}

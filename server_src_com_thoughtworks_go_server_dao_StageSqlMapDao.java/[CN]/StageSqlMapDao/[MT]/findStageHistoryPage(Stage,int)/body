@@ -1,0 +1,11 @@
+{
+  final StageIdentifier id=stage.getIdentifier();
+  return findStageHistoryPage(id.getPipelineName(),id.getStageName(),new FuncVarArg<Pagination,Object>(){
+    public Pagination call(    Object... ignore){
+      int total=getCount(id.getPipelineName(),id.getStageName());
+      int offset=findOffsetForStage(stage);
+      return Pagination.pageFor(offset,total,pageSize);
+    }
+  }
+);
+}

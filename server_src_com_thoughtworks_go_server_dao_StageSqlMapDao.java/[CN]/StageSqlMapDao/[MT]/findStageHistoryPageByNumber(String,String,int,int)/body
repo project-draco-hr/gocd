@@ -1,0 +1,9 @@
+{
+  return findStageHistoryPage(pipelineName,stageName,new FuncVarArg<Pagination,Object>(){
+    public Pagination call(    Object... ignore){
+      int total=getCount(pipelineName,stageName);
+      return Pagination.pageByNumber(pageNumber,total,pageSize);
+    }
+  }
+);
+}

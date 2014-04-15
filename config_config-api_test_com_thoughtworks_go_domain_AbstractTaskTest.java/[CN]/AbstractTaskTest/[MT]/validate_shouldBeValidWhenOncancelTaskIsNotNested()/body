@@ -1,0 +1,6 @@
+{
+  AbstractTask task=new ExecTask("ls","-la","foo");
+  task.setCancelTask(new ExecTask());
+  task.validate(null);
+  assertThat(task.errors().isEmpty(),is(true));
+}

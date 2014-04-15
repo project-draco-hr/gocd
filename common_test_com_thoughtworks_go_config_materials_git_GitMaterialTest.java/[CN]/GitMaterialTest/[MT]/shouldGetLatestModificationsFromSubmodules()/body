@@ -1,0 +1,15 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  submoduleRepos.addSubmodule(SUBMODULE,"sub1");
+  GitMaterial gitMaterial=new GitMaterial(submoduleRepos.mainRepo().getUrl());
+  File workingDirectory=TestFileUtil.createTempFolder("workingDir-" + System.currentTimeMillis());
+  Materials materials=new Materials();
+  materials.add(gitMaterial);
+  MaterialRevisions materialRevisions=materials.latestModification(workingDirectory,new TestSubprocessExecutionContext());
+  assertThat(materialRevisions.numberOfRevisions(),is(1));
+  MaterialRevision materialRevision=materialRevisions.getMaterialRevision(0);
+  assertThat(materialRevision.getRevision().getRevision(),is(submoduleRepos.currentRevision(GitSubmoduleRepos.NAME)));
+  File file=submoduleRepos.files(SUBMODULE).get(0);
+  File workingSubmoduleFolder=new File(workingDirectory,"sub1");
+  assertThat(new File(workingSubmoduleFolder,file.getName()),exists());
+}

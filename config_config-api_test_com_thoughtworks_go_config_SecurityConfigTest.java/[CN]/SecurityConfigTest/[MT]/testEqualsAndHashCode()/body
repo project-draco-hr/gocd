@@ -1,0 +1,9 @@
+{
+  SecurityConfig one=new SecurityConfig(null,null,true,null,true);
+  SecurityConfig two=new SecurityConfig(null,null,true,null,false);
+  SecurityConfig three=new SecurityConfig(null,null,true,null,true);
+  assertThat(one,is(three));
+  assertThat(one,not(is(two)));
+  assertThat(one.hashCode(),is(three.hashCode()));
+  assertThat(one.hashCode(),not(is(two.hashCode())));
+}

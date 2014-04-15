@@ -1,0 +1,11 @@
+{
+  transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+    @Override public void afterCommit(){
+      String cacheKey=latestMaterialModificationsKey(materialInstance);
+synchronized (cacheKey) {
+        goCache.remove(cacheKey);
+      }
+    }
+  }
+);
+}

@@ -1,0 +1,7 @@
+{
+  MockHttpServletRequest req=new MockHttpServletRequest();
+  assertThat(req.getAttributeNames().hasMoreElements(),is(false));
+  DeploymentContextWriter writer=new DeploymentContextWriter();
+  writer.writeSslPort(req);
+  assertThat((Integer)req.getAttribute("ssl_port"),is(5050));
+}

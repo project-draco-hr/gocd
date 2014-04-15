@@ -1,0 +1,12 @@
+{
+  CruiseConfig updatedConfig=null;
+  try {
+    updateCommand.update(clonedConfigForEdit());
+    updatedConfig=updateCommand.cruiseConfig();
+  }
+ catch (  Exception oops) {
+    updatedConfig=clonedConfigForEdit();
+  }
+  setMD5(md5,updatedConfig);
+  return updatedConfig;
+}

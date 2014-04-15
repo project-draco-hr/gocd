@@ -1,0 +1,13 @@
+{
+  if (hostName != null) {
+    return hostName;
+  }
+  try {
+    hostName=InetAddress.getLocalHost().getHostName();
+  }
+ catch (  UnknownHostException e) {
+    hostName="unknown-host-" + Math.abs(new Random(System.currentTimeMillis()).nextInt()) % 1000;
+    LOG.warn("Unable to resolve hostname: " + e.getMessage() + ". Using: "+ hostName);
+  }
+  return hostName;
+}

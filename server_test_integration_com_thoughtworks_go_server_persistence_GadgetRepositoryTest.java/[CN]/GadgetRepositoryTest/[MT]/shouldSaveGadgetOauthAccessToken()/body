@@ -1,0 +1,9 @@
+{
+  GadgetOauthClient google=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(google);
+  GadgetOauthAccessToken token=new GadgetOauthAccessToken("fooUser",google,"access_token","refresh_token",1000L);
+  GadgetDataSource.GadgetOauthAccessTokenDTO tokenDto=repo.saveOauthAccessToken(OauthRepositoryTest.attrMap(token));
+  GadgetOauthAccessToken accessToken=(GadgetOauthAccessToken)template.load(GadgetOauthAccessToken.class,tokenDto.getId());
+  assertThat(accessToken.getId(),greaterThan(0l));
+  assertThat(accessToken.getDTO(),is(tokenDto));
+}

@@ -1,0 +1,23 @@
+{
+  ScheduleTestUtil u=new ScheduleTestUtil(transactionTemplate,materialRepository,dbHelper,configHelper);
+  GitMaterial git=u.wf(new GitMaterial("git"),"f");
+  ScheduleTestUtil.AddedPipeline upstream=u.saveConfigWith("upstream",u.m(git));
+  ScheduleTestUtil.AddedPipeline downstream=u.saveConfigWith("downstream",u.m(upstream),u.m(git));
+  int i=0;
+  u.checkinInOrder(git,u.d(i++),"g0");
+  String upstream_1=u.runAndPass(upstream,"g0");
+  u.runAndFail(downstream,upstream_1,"g0");
+  Document document=ccTrayStatusService.createCctrayXmlDocument("http://localhost/go");
+  assertThat(XPath.selectNodes(document,"/Projects/Project").size(),is(4));
+  String upstreamPipelineName=upstream.config.name().toString();
+  String upstreamStageName=upstream.config.getFirstStageConfig().name().toString();
+  String upstreamJobName=upstream.config.getFirstStageConfig().getJobs().get(0).name().toString();
+  String downstreamPipelineName=downstream.config.name().toString();
+  String downstreamStageName=downstream.config.getFirstStageConfig().name().toString();
+  String downstreamJobName=downstream.config.getFirstStageConfig().getJobs().get(0).name().toString();
+  assertHasTag(document,format("/Projects/Project[@name='%s :: %s']",upstreamPipelineName,upstreamStageName));
+  assertHasTag(document,format("/Projects/Project[@name='%s :: %s :: %s']",upstreamPipelineName,upstreamStageName,upstreamJobName));
+  assertHasTag(document,format("/Projects/Project[@name='%s :: %s']",downstreamPipelineName,downstreamStageName));
+  assertHasTag(document,format("/Projects/Project[@name='%s :: %s :: %s']",downstreamPipelineName,downstreamStageName,downstreamJobName));
+  assertHasTag(document,format("/Projects/Project[@name='%s :: %s']/messages/message[@text='loser number 0'][@kind='Breakers']",downstreamPipelineName,downstreamStageName));
+}

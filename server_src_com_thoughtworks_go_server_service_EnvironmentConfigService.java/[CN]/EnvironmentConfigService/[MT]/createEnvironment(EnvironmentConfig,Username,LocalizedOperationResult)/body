@@ -1,0 +1,14 @@
+{
+  Localizable noPermission=LocalizedMessage.string("NO_PERMISSION_TO_ADD_ENVIRONMENT",user.getDisplayName());
+  Localizable.CurryableLocalizable actionFailed=LocalizedMessage.string("ENV_ADD_FAILED");
+  editEnvironments(new EditEnvironments(){
+    public void performEdit(){
+      if (goConfigService.hasEnvironmentNamed(config.name())) {
+        result.conflict(LocalizedMessage.string("CANNOT_ADD_ENV_ALREADY_EXISTS",config.name()));
+        return;
+      }
+      goConfigService.addEnvironment(config);
+    }
+  }
+,config,user,result,noPermission,actionFailed);
+}

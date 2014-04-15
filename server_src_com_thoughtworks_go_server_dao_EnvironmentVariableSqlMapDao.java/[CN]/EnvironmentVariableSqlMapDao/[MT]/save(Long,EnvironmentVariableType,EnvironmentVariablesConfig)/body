@@ -1,0 +1,13 @@
+{
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      for (      EnvironmentVariableConfig variable : variables) {
+        EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig(variable);
+        environmentVariableConfig.setEntityId(entityId);
+        environmentVariableConfig.setEntityType(type.toString());
+        sessionFactory.getCurrentSession().save(environmentVariableConfig);
+      }
+    }
+  }
+);
+}

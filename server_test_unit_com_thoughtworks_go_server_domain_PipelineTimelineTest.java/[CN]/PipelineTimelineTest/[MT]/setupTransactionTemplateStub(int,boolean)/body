@@ -1,0 +1,17 @@
+{
+  this.txnStatus=status;
+  if (restub) {
+    when(transactionTemplate.execute(Mockito.any(TransactionCallback.class))).thenAnswer(new Answer<Object>(){
+      public Object answer(      InvocationOnMock invocationOnMock) throws Throwable {
+        TransactionCallback callback=(TransactionCallback)invocationOnMock.getArguments()[0];
+        callback.doInTransaction(null);
+        if (txnStatus == TransactionSynchronization.STATUS_COMMITTED) {
+          transactionSynchronization.afterCommit();
+        }
+        transactionSynchronization.afterCompletion(txnStatus);
+        return null;
+      }
+    }
+);
+  }
+}

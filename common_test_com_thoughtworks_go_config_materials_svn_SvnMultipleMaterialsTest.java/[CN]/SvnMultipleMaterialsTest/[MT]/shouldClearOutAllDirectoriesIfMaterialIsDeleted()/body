@@ -1,0 +1,13 @@
+{
+  SvnMaterial part1=repo.createMaterial("multiple-materials/trunk/part1","part1");
+  SvnMaterial part2=repo.createMaterial("multiple-materials/trunk/part2","part2");
+  Materials materials=new Materials(part1,part2);
+  Revision revision=latestRevision(part1,pipelineDir,new TestSubprocessExecutionContext());
+  materials.updateTo(revision,pipelineDir,inMemoryConsumer(),new TestSubprocessExecutionContext());
+  assertThat(new File(pipelineDir,"part1").exists(),is(true));
+  assertThat(new File(pipelineDir,"part2").exists(),is(true));
+  Materials changedMaterials=new Materials(part1);
+  changedMaterials.updateTo(revision,pipelineDir,inMemoryConsumer(),new TestSubprocessExecutionContext());
+  assertThat(new File(pipelineDir,"part1").exists(),is(true));
+  assertThat(new File(pipelineDir,"part2").exists(),is(false));
+}

@@ -1,0 +1,9 @@
+{
+  AgentViewModel agentInLib=new AgentViewModel(updateLocation(pending(),"/var/lib"));
+  AgentViewModel agentInBin=new AgentViewModel(updateLocation(pending(),"/usr/bin"));
+  AgentViewModel agentInUpcaseBin=new AgentViewModel(updateLocation(pending(),"/Usr/bin"));
+  List<AgentViewModel> sorted=sort(AgentViewModel.LOCATION_COMPARATOR,agentInLib,agentInBin,agentInUpcaseBin);
+  assertThat(sorted.get(0),is(agentInUpcaseBin));
+  assertThat(sorted.get(1),is(agentInBin));
+  assertThat(sorted.get(2),is(agentInLib));
+}

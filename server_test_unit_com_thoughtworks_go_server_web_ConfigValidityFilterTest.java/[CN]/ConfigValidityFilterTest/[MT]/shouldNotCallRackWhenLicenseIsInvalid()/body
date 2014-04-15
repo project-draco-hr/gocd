@@ -1,0 +1,5 @@
+{
+  Mockito.when(mockLicenseInterceptor.preHandle(request,response,null)).thenReturn(false);
+  configValidityFilter.doFilter(request,response,filterChain);
+  Mockito.verify(filterChain,Mockito.never()).doFilter(request,response);
+}

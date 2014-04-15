@@ -1,0 +1,9 @@
+{
+  Pattern pattern=Pattern.compile("\\$\\{([a-zA-Z0-9_\\-.!~*'():]+)\\}");
+  java.util.regex.Matcher matcher=pattern.matcher(this.labelTemplate);
+  LinkedHashSet<String> result=new LinkedHashSet<String>();
+  while (matcher.find()) {
+    result.add(matcher.group(1));
+  }
+  return result;
+}

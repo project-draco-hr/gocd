@@ -1,0 +1,8 @@
+{
+  JsonMap jsonMap=new JsonMap();
+  jsonMap.put("pipeline","name");
+  ModelAndView modelAndView=JsonAction.jsonFound(jsonMap).respond(response);
+  request.addParameter("callback","foo");
+  jsonpInterceptor.postHandle(request,response,null,modelAndView);
+  assertThat(modelAndView.getModel().get("json"),is(instanceOf(JsonpString.class)));
+}

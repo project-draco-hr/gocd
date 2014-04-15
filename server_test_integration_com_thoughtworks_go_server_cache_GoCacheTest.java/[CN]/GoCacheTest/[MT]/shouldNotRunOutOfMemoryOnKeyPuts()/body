@@ -1,0 +1,8 @@
+{
+  for (Long n=0L; n < 100000; n++) {
+    String key="key" + n;
+    Object value=largeObject();
+    goCache.put(key,value);
+    assertThat(goCache.get(key),is(value));
+  }
+}

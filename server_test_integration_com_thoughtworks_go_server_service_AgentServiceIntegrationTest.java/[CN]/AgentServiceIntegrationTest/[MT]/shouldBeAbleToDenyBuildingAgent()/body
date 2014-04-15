@@ -1,0 +1,14 @@
+{
+  String agentName="agentName";
+  String agentId=DatabaseAccessHelper.AGENT_UUID;
+  AgentConfig agentConfig=new AgentConfig(agentId,agentName,"127.0.0.9");
+  addAgent(agentConfig);
+  AgentIdentifier agentIdentifier=agentConfig.getAgentIdentifier();
+  String cookie=agentService.assignCookie(agentIdentifier);
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier,cookie,null);
+  agentRuntimeInfo.busy(new AgentBuildingInfo("path","buildLocator"));
+  agentService.updateRuntimeInfo(agentRuntimeInfo);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.disableAgents(USERNAME,operationResult,Arrays.asList(agentId));
+  assertAgentDisablingSucceeded(operationResult,agentId);
+}

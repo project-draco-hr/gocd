@@ -1,0 +1,19 @@
+{
+  PackageRepository packageRepository=packageRepository("yum");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  PackageMaterialProvider packageMaterialProvider=mock(PackageMaterialProvider.class);
+  PluginManager pluginManager=dummyPluginManager(packageMaterialProvider);
+  PackageRepositoryService service=new PackageRepositoryService(pluginManager,goConfigService,securityService,localizer);
+  PackageMaterialPoller poller=mock(PackageMaterialPoller.class);
+  when(packageMaterialProvider.getPoller()).thenReturn(poller);
+  ArgumentCaptor<RepositoryConfiguration> argumentCaptor=new ArgumentCaptor<RepositoryConfiguration>();
+  Result actionResult=new Result().withErrorMessages("Repo invalid!!","Could not connect");
+  when(poller.checkConnectionToRepository(argumentCaptor.capture())).thenReturn(actionResult);
+  service.checkConnection(packageRepository,result);
+  RepositoryConfiguration packageConfigurations=argumentCaptor.getValue();
+  PackageMaterialTestHelper.assertPackageConfiguration(packageConfigurations.list(),packageRepository.getConfiguration());
+  assertThat(result.isSuccessful(),is(false));
+  when(localizer.localize("PACKAGE_REPOSITORY_CHECK_CONNECTION_FAILED","Repo invalid!!\nCould not connect")).thenReturn("error_msg");
+  assertThat(result.message(localizer),is("error_msg"));
+  verify(poller).checkConnectionToRepository(any(RepositoryConfiguration.class));
+}

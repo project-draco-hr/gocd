@@ -1,0 +1,7 @@
+{
+  onTearDown();
+  long space=new File(".").getFreeSpace() / 1024;
+  String limit=(space - 10) + "M";
+  new SystemEnvironment().setProperty(ARTIFACT_WARNING_SIZE_LIMIT,limit);
+  return limit;
+}

@@ -1,0 +1,23 @@
+{
+  if (line == null || line.length == 0) {
+    return "";
+  }
+  final StringBuffer result=new StringBuffer();
+  for (int i=0; i < line.length; i++) {
+    if (i > 0) {
+      result.append(separator);
+    }
+    if (quote) {
+      try {
+        result.append(quoteArgument(line[i]));
+      }
+ catch (      CommandLineException e) {
+        LOG.error("Error quoting argument.",e);
+      }
+    }
+ else {
+      result.append(line[i]);
+    }
+  }
+  return result.toString();
+}

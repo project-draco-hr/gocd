@@ -1,0 +1,10 @@
+{
+  JobConfigs jobConfigs=new JobConfigs();
+  jobConfigs.add(jobConfig("Test"));
+  try {
+    jobConfigs.add(jobConfig("Test"));
+    fail("Should not be able to add build plan with the same name again");
+  }
+ catch (  RuntimeException expected) {
+  }
+}

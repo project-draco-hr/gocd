@@ -1,0 +1,8 @@
+{
+  CruiseConfig config=load();
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  for (  String resource : resources) {
+    pipelineConfig.findBy(new CaseInsensitiveString(stageName)).jobConfigByConfigName(new CaseInsensitiveString(jobName)).addResource(resource);
+  }
+  writeConfigFile(config);
+}

@@ -1,0 +1,6 @@
+{
+  MaterialInstance original=new SvnMaterialInstance("url","username",UUID.randomUUID().toString(),true);
+  repo.saveOrUpdate(original);
+  MaterialInstance loaded=repo.find(original.getId());
+  assertThat(loaded,is(original));
+}

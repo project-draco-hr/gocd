@@ -1,0 +1,23 @@
+{
+  return new TypeSafeMatcher<Pop3MailClient>(){
+    private String errorMessage="";
+    public boolean matchesSafely(    Pop3MailClient client){
+      try {
+        Message message=client.findMessageWithSubject(subject);
+        boolean b=message != null;
+        if (b) {
+          errorMessage="No message";
+        }
+        return b;
+      }
+ catch (      Exception e) {
+        errorMessage=e.getMessage();
+        return false;
+      }
+    }
+    public void describeTo(    Description description){
+      description.appendText(String.format("Expected to find message with subject [%s], but got error: %s",subject,errorMessage));
+    }
+  }
+;
+}

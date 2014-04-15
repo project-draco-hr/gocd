@@ -1,0 +1,8 @@
+{
+  final JobInstance jobInstance=JobInstanceMother.assigned("dev");
+  when(agentService.findRegisteredAgents()).thenReturn(activities());
+  when(jobInstanceService.findHungJobs(Arrays.asList("uuid1","uuid2"))).thenReturn(new JobInstances(jobInstance));
+  scheduleService.rescheduleHungJobs();
+  verify(agentService).findRegisteredAgents();
+  verify(jobInstanceService).findHungJobs(Arrays.asList("uuid1","uuid2"));
+}

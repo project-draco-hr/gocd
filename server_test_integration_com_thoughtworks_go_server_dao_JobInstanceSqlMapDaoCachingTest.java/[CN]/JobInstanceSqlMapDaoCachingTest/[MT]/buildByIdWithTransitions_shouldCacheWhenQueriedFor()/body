@@ -1,0 +1,11 @@
+{
+  jobInstanceDao.setSqlMapClientTemplate(mockTemplate);
+  JobInstance job=JobInstanceMother.assigned("job");
+  job.setId(1L);
+  when(mockTemplate.queryForObject("buildByIdWithTransitions",1L)).thenReturn(job);
+  JobInstance actual=jobInstanceDao.buildByIdWithTransitions(1L);
+  assertThat(actual,is(job));
+  assertThat(actual == job,is(false));
+  jobInstanceDao.buildByIdWithTransitions(1L);
+  verify(mockTemplate,times(1)).queryForObject("buildByIdWithTransitions",1L);
+}

@@ -1,0 +1,15 @@
+{
+  int total=stageDao.getTotalStageCountForChart(pipelineName,stageName);
+  Pagination pagination=Pagination.pageByNumber(pageNumber,total,pageSize);
+  List<Stage> stages=stageDao.findStageHistoryForChart(pipelineName,stageName,pageSize,pagination.getOffset());
+  StageSummaryModels stageSummaryModels=new StageSummaryModels();
+  for (  Stage forStage : stages) {
+    StageSummaryModel stageSummaryByIdentifier=new StageSummaryModel(forStage,null,stageDao,forStage.getIdentifier());
+    if (!stageSummaryByIdentifier.getStage().getState().completed()) {
+      continue;
+    }
+    stageSummaryModels.add(stageSummaryByIdentifier);
+  }
+  stageSummaryModels.setPagination(pagination);
+  return stageSummaryModels;
+}

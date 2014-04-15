@@ -1,0 +1,16 @@
+{
+  Iterator<FailingTestsInPipeline> pipelineIterator=failingTestsInPipelines.iterator();
+  while (pipelineIterator.hasNext()) {
+    FailingTestsInPipeline failingTestsInPipeline=pipelineIterator.next();
+    FailingTestsInPipeline previousPipeline=previousPipeline(failingTestsInPipeline);
+    if (previousPipeline != null) {
+      for (      TestSuite failingSuite : failingTestsInPipeline.failingSuites()) {
+        for (        TestInformation failingTest : failingSuite.tests()) {
+          if (!previousPipeline.contains(failingSuite.fullName(),failingTest.getName())) {
+            removeAllTestsBeyond(failingSuite.fullName(),failingTest.getName(),previousPipeline);
+          }
+        }
+      }
+    }
+  }
+}

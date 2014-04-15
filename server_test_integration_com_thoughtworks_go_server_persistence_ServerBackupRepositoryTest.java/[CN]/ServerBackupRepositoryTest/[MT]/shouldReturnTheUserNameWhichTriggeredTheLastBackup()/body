@@ -1,0 +1,6 @@
+{
+  Date time=new Date();
+  repository.save(new ServerBackup("file_path",time,"loser"));
+  repository.save(new ServerBackup("file_path",time,"new_loser"));
+  assertEquals(new ServerBackup("file_path",time,"new_loser"),repository.lastBackup());
+}

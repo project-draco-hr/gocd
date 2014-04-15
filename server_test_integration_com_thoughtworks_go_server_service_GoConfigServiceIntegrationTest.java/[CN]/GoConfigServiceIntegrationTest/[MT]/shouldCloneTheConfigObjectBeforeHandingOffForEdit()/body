@@ -1,0 +1,21 @@
+{
+  configHelper.addAdmins("hero");
+  configHelper.addPipelineWithGroup("group_one","pipeline","stage","my_job");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit<PipelineConfigs> groupForEdit=goConfigService.loadGroupForEditing("group_one",new Username(new CaseInsensitiveString("hero")),result);
+  PipelineConfigs group=groupForEdit.getConfig();
+  group.getAuthorization().getAdminsConfig().add(new AdminUser(new CaseInsensitiveString("loser")));
+  PipelineConfigs groupFromProcessedConfigCopy=groupForEdit.getProcessedConfig().getGroups().findGroup("group_one");
+  groupFromProcessedConfigCopy.getAuthorization().getAdminsConfig().add(new AdminUser(new CaseInsensitiveString("loser")));
+  PipelineConfigs groupFromEditableConfigCopy=groupForEdit.getCruiseConfig().getGroups().findGroup("group_one");
+  groupFromEditableConfigCopy.getAuthorization().getAdminsConfig().add(new AdminUser(new CaseInsensitiveString("loser")));
+  AdminsConfig adminsConfig=goConfigService.getConfigForEditing().findGroup("group_one").getAuthorization().getAdminsConfig();
+  assertThat(adminsConfig.size(),is(0));
+  adminsConfig=goConfigService.currentCruiseConfig().findGroup("group_one").getAuthorization().getAdminsConfig();
+  assertThat(adminsConfig.size(),is(0));
+  group.setGroup("new-name");
+  assertThat(groupForEdit.getCruiseConfig().hasPipelineGroup("group_one"),is(true));
+  assertThat(groupForEdit.getProcessedConfig().hasPipelineGroup("group_one"),is(true));
+  assertThat(groupForEdit.getCruiseConfig().hasPipelineGroup("new-name"),is(false));
+  assertThat(groupForEdit.getProcessedConfig().hasPipelineGroup("new-name"),is(false));
+}

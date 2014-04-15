@@ -1,0 +1,10 @@
+{
+  EnvironmentPipelineModel foo=new EnvironmentPipelineModel("foo","env");
+  assertThat(foo.isAssociatedWithEnvironment("env"),is(true));
+  assertThat(foo.isAssociatedWithEnvironment("env2"),is(false));
+  assertThat(foo.isAssociatedWithEnvironment(null),is(false));
+  foo=new EnvironmentPipelineModel("foo");
+  assertThat(foo.isAssociatedWithEnvironment("env"),is(false));
+  assertThat(foo.isAssociatedWithEnvironment("env2"),is(false));
+  assertThat(foo.isAssociatedWithEnvironment(null),is(false));
+}

@@ -1,0 +1,9 @@
+{
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForObject(eq("getMostRecentId"),any())).thenReturn(20L);
+  stageDao.mostRecentId(CaseInsensitiveString.str(mingleConfig.name()),CaseInsensitiveString.str(mingleConfig.get(0).name()));
+  Long id=stageDao.mostRecentId(CaseInsensitiveString.str(mingleConfig.name()),CaseInsensitiveString.str(mingleConfig.get(0).name()));
+  assertThat(id,is(20L));
+  verify(mockTemplate,times(1)).queryForObject(eq("getMostRecentId"),any());
+}

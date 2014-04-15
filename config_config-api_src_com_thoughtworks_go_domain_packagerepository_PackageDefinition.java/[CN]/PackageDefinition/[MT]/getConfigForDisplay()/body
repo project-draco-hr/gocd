@@ -1,0 +1,5 @@
+{
+  AbstractMetaDataStore metadataStore=PackageMetadataStore.getInstance();
+  List<ConfigurationProperty> propertiesToBeUsedForDisplay=ConfigurationDisplayUtil.getConfigurationPropertiesToBeUsedForDisplay(metadataStore,pluginId(),configuration);
+  return format("%s - Package: %s",getRepository().getConfigForDisplay(),configuration.forDisplay(propertiesToBeUsedForDisplay));
+}

@@ -1,0 +1,14 @@
+{
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(new AgentIdentifier("localhost","127.0.0.1","uuid"));
+  AgentRuntimeInfo newRuntimeInfo=AgentRuntimeInfo.fromAgent(new AgentIdentifier("go02","10.10.10.1","uuid"),"cookie","12.3");
+  newRuntimeInfo.setBuildingInfo(new AgentBuildingInfo("Idle",""));
+  newRuntimeInfo.setLocation("home");
+  newRuntimeInfo.setUsableSpace(10L);
+  newRuntimeInfo.setOperatingSystem("Linux");
+  agentRuntimeInfo.updateSelf(newRuntimeInfo);
+  assertThat(agentRuntimeInfo.getBuildingInfo(),is(newRuntimeInfo.getBuildingInfo()));
+  assertThat(agentRuntimeInfo.getLocation(),is(newRuntimeInfo.getLocation()));
+  assertThat(agentRuntimeInfo.getUsableSpace(),is(newRuntimeInfo.getUsableSpace()));
+  assertThat(agentRuntimeInfo.getOperatingSystem(),is(newRuntimeInfo.getOperatingSystem()));
+  assertThat(agentRuntimeInfo.getAgentLauncherVersion(),is(newRuntimeInfo.getAgentLauncherVersion()));
+}

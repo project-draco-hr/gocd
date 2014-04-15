@@ -1,0 +1,18 @@
+{
+  CruiseConfig configToSave=new CruiseConfig();
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setName("name");
+  packageRepository.setPluginConfiguration(new PluginConfiguration("plugin-id","version"));
+  packageRepository.setConfiguration(new Configuration(getConfigurationProperty("url",false,"http://go"),getConfigurationProperty("secure",true,"secure")));
+  PackageDefinition packageDefinition=new PackageDefinition(null,"name",new Configuration(getConfigurationProperty("name",false,"go-agent")));
+  packageDefinition.setRepository(packageRepository);
+  packageRepository.getPackages().add(packageDefinition);
+  configToSave.getPackageRepositories().add(packageRepository);
+  xmlWriter.write(configToSave,output,false);
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(output.toString());
+  PackageRepositories packageRepositories=goConfigHolder.config.getPackageRepositories();
+  assertThat(packageRepositories.size(),is(configToSave.getPackageRepositories().size()));
+  assertThat(packageRepositories.get(0).getId(),is(notNullValue()));
+  assertThat(packageRepositories.get(0).getPackages().size(),is(1));
+  assertThat(packageRepositories.get(0).getPackages().get(0).getId(),is(notNullValue()));
+}

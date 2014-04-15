@@ -1,0 +1,7 @@
+{
+  String link="http://mingle05/projects/cce/cards/${ID}";
+  String regex="\\d+";
+  trackingTool=new DefaultCommentRenderer(link,regex);
+  String result=trackingTool.render("evo-1020: checkin message");
+  assertThat(result,is("evo-<a href=\"" + "http://mingle05/projects/cce/cards/1020\" " + "target=\"story_tracker\">1020</a>: checkin message"));
+}

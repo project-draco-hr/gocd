@@ -1,0 +1,9 @@
+{
+  DefaultJobPlan original=new DefaultJobPlan(new Resources(),new ArtifactPlans(),new ArtifactPropertiesGenerators(),0,new JobIdentifier(),"uuid",env(new String[]{"blah","foo"},new String[]{"value","bar"}),new EnvironmentVariablesConfig());
+  original.setTriggerVariables(env(new String[]{"blah","another"},new String[]{"override","anotherValue"}));
+  EnvironmentVariableContext variableContext=new EnvironmentVariableContext();
+  original.applyTo(variableContext);
+  assertThat(variableContext.getProperty("blah"),is("override"));
+  assertThat(variableContext.getProperty("foo"),is("bar"));
+  assertThat(variableContext.getProperty("another"),is(nullValue()));
+}

@@ -1,0 +1,11 @@
+{
+  if (!gitsubmoduleEnabled()) {
+    return;
+  }
+  outputStreamConsumer.stdOutput("[GIT] Updating git sub-modules");
+  String[] args=new String[]{"submodule","update","--init"};
+  CommandLine gitCmd=git().withArgs(args).withWorkingDir(workingDir);
+  runOrBomb(gitCmd);
+  outputStreamConsumer.stdOutput("[GIT] Cleaning unversioned files and sub-modules");
+  printSubmoduleStatus(outputStreamConsumer);
+}

@@ -1,0 +1,13 @@
+{
+  configHelper.setViewPermissionForGroup(pipelineOne.groupName,"jez");
+  PipelineInstanceModels models=pipelineHistoryService.findPipelineInstances(pipelineOne.pipelineName,"latest",3,"jez");
+  assertThat(models.size(),is(1));
+  PipelineInstanceModel emptyModel=models.get(0);
+  assertThat(emptyModel.getName(),is(pipelineOne.pipelineName));
+  assertThat(emptyModel.getLabel(),is("unknown"));
+  assertThat(emptyModel.getBuildCauseMessage(),is("No modifications"));
+  assertThat(emptyModel.getStageHistory().size(),is(3));
+  assertThat(emptyModel.getStageHistory().get(0).getState(),is(StageState.Unknown));
+  assertThat(emptyModel.getCreatedTimeForDisplay(),is(TimeConverter.ConvertedTime.NO_HISTORICAL_DATA));
+  assertThat(emptyModel.getCanRun(),is(true));
+}

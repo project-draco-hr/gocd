@@ -1,0 +1,11 @@
+{
+  Agents agents=new Agents();
+  agents.add(new AgentConfig("1","localhost","2"));
+  AgentConfig denied=new AgentConfig("2","localhost","2");
+  denied.setDisabled(true);
+  agents.add(denied);
+  Set<String> uuids=agents.acceptedUuids();
+  assertThat(uuids.size(),is(2));
+  assertThat(uuids,hasItem("1"));
+  assertThat(uuids,hasItem("2"));
+}

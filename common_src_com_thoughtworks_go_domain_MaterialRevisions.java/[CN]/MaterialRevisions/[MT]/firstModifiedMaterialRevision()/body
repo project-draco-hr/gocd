@@ -1,0 +1,8 @@
+{
+  for (  MaterialRevision revision : revisions) {
+    if (revision.isChanged()) {
+      return revision;
+    }
+  }
+  return revisions.isEmpty() ? new NullMaterialRevision() : revisions.get(0);
+}

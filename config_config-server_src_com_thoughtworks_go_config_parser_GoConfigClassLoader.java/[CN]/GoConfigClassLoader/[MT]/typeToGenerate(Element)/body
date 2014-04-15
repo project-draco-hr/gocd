@@ -1,0 +1,10 @@
+{
+  if (isImplicitCollection(aClass,configCache)) {
+    return aClass;
+  }
+  Class<T> type=(Class<T>)findConcreteType(e,aClass);
+  if (type == null) {
+    bombIfNull(type,String.format("Unable to determine type to generate. Type: %s Element: %s",type.getName(),configUtil.elementOutput(e)));
+  }
+  return type;
+}

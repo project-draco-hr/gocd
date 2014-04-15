@@ -1,0 +1,8 @@
+{
+  String stageName="invalidStageName";
+  PipelineConfig invalidPipeline=configHelper.addPipelineWithInvalidMaterial("invalidPipeline",stageName);
+  int beforeScheduling=pipelineDao.count(CaseInsensitiveString.str(invalidPipeline.name()));
+  autoSchedulePipelines();
+  int afterScheduling=pipelineDao.count(CaseInsensitiveString.str(invalidPipeline.name()));
+  assertThat(beforeScheduling,is(afterScheduling));
+}

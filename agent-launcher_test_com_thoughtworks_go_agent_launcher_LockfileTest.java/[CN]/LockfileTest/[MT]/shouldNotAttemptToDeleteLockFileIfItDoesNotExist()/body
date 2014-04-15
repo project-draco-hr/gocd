@@ -1,0 +1,7 @@
+{
+  File mockfile=mock(File.class);
+  Lockfile lockfile=new Lockfile(mockfile);
+  when(mockfile.exists()).thenReturn(false);
+  lockfile.delete();
+  verify(mockfile,never()).delete();
+}

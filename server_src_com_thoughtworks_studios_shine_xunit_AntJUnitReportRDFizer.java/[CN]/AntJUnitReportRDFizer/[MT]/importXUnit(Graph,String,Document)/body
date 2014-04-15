@@ -1,0 +1,9 @@
+{
+  Graph xunitGraph=grddlTransformer.transform(doc,graphFactory);
+  List<URIReference> testCaseResources=testCases(xunitGraph);
+  URIReference jobResource=graph.getURIReference(parentURI);
+  for (  Resource testCaseResource : testCaseResources) {
+    graph.addStatement(jobResource,XUnitOntology.HAS_TEST_CASE,testCaseResource);
+  }
+  graph.addTriplesFromGraph(xunitGraph);
+}

@@ -1,0 +1,12 @@
+{
+  ArrayList<String> list=new ArrayList<String>();
+  list.add("foo");
+  list.add("bar");
+  String result=ListUtil.find(list,new ListUtil.Condition(){
+    @Override public <String>boolean isMet(    String item){
+      return item == "bar";
+    }
+  }
+);
+  assertThat(result,is("bar"));
+}

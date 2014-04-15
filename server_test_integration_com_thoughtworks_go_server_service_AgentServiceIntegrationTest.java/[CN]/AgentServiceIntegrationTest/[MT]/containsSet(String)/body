@@ -1,0 +1,11 @@
+{
+  return new TypeSafeMatcher<Set<String>>(){
+    @Override public boolean matchesSafely(    Set<String> item){
+      return item.containsAll(Arrays.asList(items));
+    }
+    public void describeTo(    Description description){
+      description.appendText("to contain ").appendValue(items);
+    }
+  }
+;
+}

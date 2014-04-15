@@ -1,0 +1,8 @@
+{
+  SvnMaterialConfig svnMaterialConfig=svnMaterialConfig(svnRepo.projectRepositoryUrl(),"mainRepo");
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  materialExpansionService.expandForScheduling(svnMaterialConfig,materialConfigs);
+  assertThat(materialConfigs.size(),is(2));
+  assertThat((SvnMaterialConfig)materialConfigs.get(0),is(svnMaterialConfig));
+  assertThat(((SvnMaterialConfig)materialConfigs.get(1)).getUrl(),endsWith("end2end/"));
+}

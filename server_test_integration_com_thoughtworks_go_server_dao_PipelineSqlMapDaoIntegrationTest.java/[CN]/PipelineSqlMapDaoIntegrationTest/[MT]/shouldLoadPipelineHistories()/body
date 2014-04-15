@@ -1,0 +1,18 @@
+{
+  String dev="dev";
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle",dev);
+  Pipeline mingle=schedulePipelineWithStages(mingleConfig);
+  Stage firstStage=mingle.getFirstStage();
+  Pipeline mingle2=schedulePipelineWithStages(mingleConfig);
+  JobInstance instance=firstStage.getJobInstances().first();
+  jobInstanceDao.ignore(instance);
+  PipelineInstanceModels pipelineHistories=pipelineDao.loadHistory(mingle.getName(),10,0);
+  assertThat(pipelineHistories.size(),is(2));
+  StageInstanceModels stageHistories=pipelineHistories.first().getStageHistory();
+  assertThat(stageHistories.size(),is(1));
+  StageInstanceModel history=stageHistories.first();
+  assertThat(history.getName(),is(dev));
+  assertThat(history.getApprovalType(),is(GoConstants.APPROVAL_SUCCESS));
+  assertThat(history.getBuildHistory().size(),is(2));
+  assertThat(pipelineHistories.get(1).getName(),is("mingle"));
+}

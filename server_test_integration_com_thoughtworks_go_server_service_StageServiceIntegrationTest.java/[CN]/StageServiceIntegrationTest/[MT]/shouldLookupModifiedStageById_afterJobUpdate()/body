@@ -1,0 +1,7 @@
+{
+  Stage stageLoadedBeforeUpdate=stageService.stageById(stage.getId());
+  dbHelper.completeAllJobs(stage,JobResult.Passed);
+  assertThat(stageService.stageById(stage.getId()),is(stageLoadedBeforeUpdate));
+  stageService.updateResult(stage);
+  assertThat(stageService.stageById(stage.getId()),is(not(stageLoadedBeforeUpdate)));
+}

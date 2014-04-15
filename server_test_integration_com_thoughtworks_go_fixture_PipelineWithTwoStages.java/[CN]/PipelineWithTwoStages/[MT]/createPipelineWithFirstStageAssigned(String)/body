@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=createPipelineWithFirstStageScheduled();
+  JobInstances instances=pipeline.getStages().byName(devStage).getJobInstances();
+  for (  JobInstance instance : instances) {
+    dbHelper.assignToAgent(instance,agentId);
+  }
+  return dbHelper.getPipelineDao().loadPipeline(pipeline.getId());
+}

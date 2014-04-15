@@ -1,0 +1,17 @@
+{
+  Document doc=new SAXReader().read(new FileInputStream(new File("/home/cruise/sample_junit.xml")));
+  Element suite=(Element)doc.selectSingleNode("//testsuite");
+  Element rootElement=doc.getRootElement();
+  for (int i=0; i < 50000; i++) {
+    Element copy=suite.createCopy();
+    setAttr(i,copy,"name");
+    setAttr(i,copy,"hostname");
+    List<Element> elements=copy.selectNodes(".//testcase");
+    for (    Element element : elements) {
+      setAttr(i,element,"classname");
+      setAttr(i,element,"name");
+    }
+    rootElement.add(copy);
+  }
+  FileUtils.writeStringToFile(new File("/tmp/repo/imagine.xml"),doc.asXML());
+}

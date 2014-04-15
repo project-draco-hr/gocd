@@ -1,0 +1,14 @@
+{
+  File dir=artifactsService.findArtifact(jobIdentifier,"");
+  dir.mkdirs();
+  File file=new File(dir,ArtifactLogUtil.CONSOLE_LOG_FILE_NAME);
+  try {
+    new FileOutputStream(file).close();
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+  createdFiles.add(file);
+  file.deleteOnExit();
+  return file;
+}

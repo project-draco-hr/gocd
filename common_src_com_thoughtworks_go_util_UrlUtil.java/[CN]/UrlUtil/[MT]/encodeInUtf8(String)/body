@@ -1,0 +1,20 @@
+{
+  String[] parts=url.split("/");
+  StringBuilder builder=new StringBuilder();
+  for (int i=0; i < parts.length; i++) {
+    String part=parts[i];
+    try {
+      builder.append(URLEncoder.encode(part,UTF_8));
+    }
+ catch (    UnsupportedEncodingException e) {
+      bomb(e);
+    }
+    if (i < parts.length - 1) {
+      builder.append('/');
+    }
+  }
+  if (url.endsWith("/")) {
+    builder.append('/');
+  }
+  return builder.toString();
+}

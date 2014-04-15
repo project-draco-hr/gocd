@@ -1,0 +1,9 @@
+{
+  txnTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      getHibernateTemplate().bulkUpdate("DELETE OauthAuthorization");
+      getHibernateTemplate().bulkUpdate("DELETE OauthToken");
+    }
+  }
+);
+}

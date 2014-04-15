@@ -1,0 +1,15 @@
+{
+  HgMaterialConfig materialOne=new HgMaterialConfig("http://url1",null);
+  materialOne.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"folder"));
+  HgMaterialConfig materialTwo=new HgMaterialConfig("http://url2",null);
+  materialTwo.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"foLder"));
+  CruiseConfig config=GoConfigMother.configWithPipelines("one");
+  PipelineConfig pipelineOne=config.pipelineConfigByName(new CaseInsensitiveString("one"));
+  pipelineOne.setMaterialConfigs(new MaterialConfigs(materialOne,materialTwo));
+  MaterialConfigs materials=pipelineOne.materialConfigs();
+  materials.validate(ValidationContext.forChain(config));
+  assertThat(materials.get(0).errors().isEmpty(),is(false));
+  assertThat(materials.get(1).errors().isEmpty(),is(false));
+  assertThat(materials.get(0).errors().on(ScmMaterialConfig.FOLDER),is("The destination directory must be unique across materials."));
+  assertThat(materials.get(1).errors().on(ScmMaterialConfig.FOLDER),is("The destination directory must be unique across materials."));
+}

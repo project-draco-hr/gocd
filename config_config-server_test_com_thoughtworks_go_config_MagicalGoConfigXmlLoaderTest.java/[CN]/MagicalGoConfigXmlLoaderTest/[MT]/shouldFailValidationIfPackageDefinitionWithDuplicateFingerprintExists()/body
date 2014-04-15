@@ -1,0 +1,18 @@
+{
+  com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration packageConfiguration=new com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration();
+  packageConfiguration.add(new PackageMaterialProperty("PKG-KEY1"));
+  RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
+  repositoryConfiguration.add(new PackageMaterialProperty("REPO-KEY1"));
+  repositoryConfiguration.add(new PackageMaterialProperty("REPO-KEY2").with(REQUIRED,false).with(PART_OF_IDENTITY,false));
+  repositoryConfiguration.add(new PackageMaterialProperty("REPO-KEY3").with(REQUIRED,false).with(PART_OF_IDENTITY,false).with(SECURE,true));
+  PackageMetadataStore.getInstance().addMetadataFor("plugin-1",new PackageConfigurations(packageConfiguration));
+  RepositoryMetadataStore.getInstance().addMetadataFor("plugin-1",new PackageConfigurations(repositoryConfiguration));
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<repositories>\n"+ "    <repository id='repo-id-1' name='name-1'>\n"+ "		<pluginConfiguration id='plugin-1' version='1.0'/>\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>REPO-KEY1</key>\n"+ "          <value>repo-key1</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>REPO-KEY2</key>\n"+ "          <value>repo-key2</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>REPO-KEY3</key>\n"+ "          <value>repo-key3</value>\n"+ "        </property>\n"+ "      </configuration>\n"+ "      <packages>\n"+ "        <package id='package-id-1' name='name-1'>\n"+ "          <configuration>\n"+ "            <property>\n"+ "              <key>PKG-KEY1</key>\n"+ "              <value>pkg-key1</value>\n"+ "            </property>\n"+ "          </configuration>\n"+ "        </package>\n"+ "      </packages>\n"+ "    </repository>\n"+ "    <repository id='repo-id-2' name='name-2'>\n"+ "		<pluginConfiguration id='plugin-1' version='1.0'/>\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>REPO-KEY1</key>\n"+ "          <value>repo-key1</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>REPO-KEY2</key>\n"+ "          <value>another-repo-key2</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>REPO-KEY3</key>\n"+ "          <value>another-repo-key3</value>\n"+ "        </property>\n"+ "      </configuration>\n"+ "      <packages>\n"+ "        <package id='package-id-2' name='name-2'>\n"+ "          <configuration>\n"+ "            <property>\n"+ "              <key>PKG-KEY1</key>\n"+ "              <value>pkg-key1</value>\n"+ "            </property>\n"+ "          </configuration>\n"+ "        </package>\n"+ "      </packages>\n"+ "    </repository>\n"+ "  </repositories>"+ "</cruise>";
+  try {
+    xmlLoader.loadConfigHolder(xml);
+    Assert.fail("should have thrown duplicate fingerprint exception");
+  }
+ catch (  GoConfigInvalidException e) {
+    assertThat(e.getMessage(),is("Cannot save package or repo, found duplicate packages. [Repo Name: 'name-1', Package Name: 'name-1'], [Repo Name: 'name-2', Package Name: 'name-2']"));
+  }
+}

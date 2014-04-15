@@ -1,0 +1,23 @@
+{
+  ProcessBuilder builder=new ProcessBuilder();
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  environmentVariableContext.setProperty("GO_SERVER_URL","abc",false);
+  environmentVariableContext.setProperty("GO_PIPELINE_NAME","pipelineName",false);
+  environmentVariableContext.setProperty("GO_PIPELINE_LABEL","label",false);
+  environmentVariableContext.setProperty("GO_STAGE_NAME","stageName",false);
+  environmentVariableContext.setProperty("GO_STAGE_COUNTER","stageCounter",false);
+  environmentVariableContext.setProperty("GO_JOB_NAME","jobName",false);
+  environmentVariableContext.setProperty("GO_DEPENDENCY_LABEL_pipelineName_stageName","dependency",false);
+  environmentVariableContext.setProperty("GO_REVISION","someRevision",false);
+  environmentVariableContext.setProperty("GO_REVISION_SRC_TEST","anotherRevision",false);
+  CommandLine.setEnvironmentVariables(builder,environmentVariableContext,new InMemoryStreamConsumer());
+  Map<String,String> environment=builder.environment();
+  assertThat(environment.get("GO_SERVER_URL"),is("abc"));
+  assertThat(environment.get("GO_PIPELINE_NAME"),is("pipelineName"));
+  assertThat(environment.get("GO_PIPELINE_LABEL"),is("label"));
+  assertThat(environment.get("GO_STAGE_NAME"),is("stageName"));
+  assertThat(environment.get("GO_STAGE_COUNTER"),is("stageCounter"));
+  assertThat(environment.get("GO_JOB_NAME"),is("jobName"));
+  assertThat(environment.get("GO_REVISION"),is("someRevision"));
+  assertThat(environment.get("GO_REVISION_SRC_TEST"),is("anotherRevision"));
+}

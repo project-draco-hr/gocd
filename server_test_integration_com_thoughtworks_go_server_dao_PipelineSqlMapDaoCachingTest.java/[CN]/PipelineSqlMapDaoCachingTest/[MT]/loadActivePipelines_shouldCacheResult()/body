@@ -1,0 +1,22 @@
+{
+  final String pipelineName="pipeline";
+  CruiseConfig mockCruiseConfig=mock(CruiseConfig.class);
+  GoConfigFileDao mockconfigFileDao=mock(GoConfigFileDao.class);
+  when(mockconfigFileDao.load()).thenReturn(mockCruiseConfig);
+  when(mockCruiseConfig.getAllPipelineNames()).thenReturn(Arrays.asList(new CaseInsensitiveString(pipelineName)));
+  pipelineDao=new PipelineSqlMapDao(null,repository,goCache,environmentVariableDao,transactionTemplate,null,transactionSynchronizationManager,systemEnvironment,mockconfigFileDao,databaseStrategy);
+  pipelineDao.setSqlMapClientTemplate(mockTemplate);
+  PipelineInstanceModel pipeline=new PipelineInstanceModel(pipelineName,-2,"label",BuildCause.createManualForced(),new StageInstanceModels());
+  PipelineInstanceModels pims=PipelineInstanceModels.createPipelineInstanceModels(pipeline);
+  when(mockTemplate.queryForList("allActivePipelines")).thenReturn(pims);
+  when(mockTemplate.queryForObject(eq("getPipelineHistoryById"),any())).thenReturn(pipeline);
+  PipelineInstanceModels loaded;
+  loaded=pipelineDao.loadActivePipelines();
+  loaded=pipelineDao.loadActivePipelines();
+  assertNotSame(pipeline,loaded);
+  assertTrue(ToStringBuilder.reflectionToString(loaded) + " not equal to\n" + ToStringBuilder.reflectionToString(pipeline),EqualsBuilder.reflectionEquals(loaded,pims));
+  verify(mockTemplate,times(1)).queryForList("allActivePipelines");
+  verify(mockTemplate,times(1)).queryForObject(eq("getPipelineHistoryById"),any());
+  verify(mockconfigFileDao,times(2)).load();
+  verify(mockCruiseConfig,times(2)).getAllPipelineNames();
+}

@@ -1,0 +1,7 @@
+{
+  final SecurityConfig securityConfig=goConfigService.security();
+  Set<Role> roles=allRoles(securityConfig);
+  final List<TriStateSelection> roleSelections=TriStateSelection.forRoles(roles,users);
+  final TriStateSelection adminSelection=TriStateSelection.forSystemAdmin(securityConfig.adminsConfig(),roles,new SecurityService.UserRoleMatcherImpl(securityConfig),users);
+  return new AdminAndRoleSelections(adminSelection,roleSelections);
+}

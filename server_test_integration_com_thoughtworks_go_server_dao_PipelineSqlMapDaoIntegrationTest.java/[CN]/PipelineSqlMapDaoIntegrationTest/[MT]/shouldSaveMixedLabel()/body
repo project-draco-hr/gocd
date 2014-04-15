@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=new Pipeline("Test","mingle-${COUNT}-${mingle}",BuildCause.createWithModifications(revisions(false),""));
+  pipeline.updateCounter(0);
+  save(pipeline);
+  Pipeline loaded=pipelineDao.loadPipeline(pipeline.getId());
+  assertThat(loaded.getLabel(),is("mingle-1-" + ModificationsMother.currentRevision()));
+}

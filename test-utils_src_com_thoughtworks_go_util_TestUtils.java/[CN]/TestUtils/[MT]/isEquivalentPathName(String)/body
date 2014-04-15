@@ -1,0 +1,15 @@
+{
+  return new TypeSafeMatcher<String>(){
+    public String actual;
+    public String expected;
+    public boolean matchesSafely(    String o){
+      actual=new File(o).getPath();
+      expected=new File(pathToMatch).getPath();
+      return actual.equals(expected);
+    }
+    public void describeTo(    Description description){
+      description.appendText("The actual path:" + actual + "does not match the expected path:"+ expected);
+    }
+  }
+;
+}

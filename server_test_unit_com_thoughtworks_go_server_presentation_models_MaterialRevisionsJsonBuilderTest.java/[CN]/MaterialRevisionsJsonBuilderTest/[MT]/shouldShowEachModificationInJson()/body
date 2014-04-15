@@ -1,0 +1,15 @@
+{
+  JSONArray revisions=buildJson();
+  JSONObject revision=(JSONObject)revisions.get(0);
+  JSONArray jsonArray=(JSONArray)revision.get("modifications");
+  assertThat(jsonArray.size(),is(3));
+  JSONObject modification=(JSONObject)jsonArray.get(2);
+  assertAttributeInJson(modification,"user",ModificationsMother.MOD_USER);
+  assertAttributeInJson(modification,"comment",ModificationsMother.MOD_COMMENT);
+  assertAttributeInJson(modification,"date",DateUtils.formatISO8601(ModificationsMother.TWO_DAYS_AGO_CHECKIN));
+  JSONArray modifiedFiles=(JSONArray)modification.get("modifiedFiles");
+  assertThat(modifiedFiles.size(),is(1));
+  JSONObject file=(JSONObject)modifiedFiles.get(0);
+  assertAttributeInJson(file,"action",ModificationsMother.MOD_MODIFIED_ACTION.toString());
+  assertAttributeInJson(file,"fileName",ModificationsMother.MOD_FILE_BUILD_XML);
+}

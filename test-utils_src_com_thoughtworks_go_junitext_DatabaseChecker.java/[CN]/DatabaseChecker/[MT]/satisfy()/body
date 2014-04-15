@@ -1,0 +1,12 @@
+{
+  String databaseProvider=System.getProperty("go.database.provider",SystemEnvironment.H2_DATABASE);
+  if (H2.equals(targetDB) && databaseProvider.endsWith("." + H2)) {
+    System.clearProperty("db.host");
+    System.clearProperty("db.user");
+    System.clearProperty("db.password");
+    System.clearProperty("db.port");
+    System.clearProperty("db.name");
+    return true;
+  }
+  return databaseProvider.endsWith("." + targetDB);
+}

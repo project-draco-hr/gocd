@@ -1,0 +1,8 @@
+{
+  List<String> materials=Arrays.asList("flyweight","another");
+  DateTime base=new DateTime();
+  PipelineTimelineEntry modification=modification(1,materials,Arrays.asList(base,base.plusMinutes(3)),1,"123");
+  PipelineTimelineEntry that=modification(2,materials,Arrays.asList(base,base.plusMinutes(2)),1,"123");
+  assertThat(modification.compareTo(that),is(1));
+  assertThat(that.compareTo(modification),is(-1));
+}

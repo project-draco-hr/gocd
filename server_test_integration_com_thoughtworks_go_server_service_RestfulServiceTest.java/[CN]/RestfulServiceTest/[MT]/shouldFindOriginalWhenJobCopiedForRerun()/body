@@ -1,0 +1,18 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  Stage stage=pipeline.getStages().byName(fixture.devStage);
+  JobInstance job=stage.findJob(PipelineWithTwoStages.JOB_FOR_DEV_STAGE);
+  Stage rerunStage=instanceFactory.createStageForRerunOfJobs(stage,a(PipelineWithTwoStages.DEV_STAGE_SECOND_JOB),new DefaultSchedulingContext("loser",new Agents()),fixture.pipelineConfig().getStage(new CaseInsensitiveString(fixture.devStage)),new TimeProvider(),"md5");
+  stageDao.saveWithJobs(pipeline,rerunStage);
+  dbHelper.passStage(rerunStage);
+  JobIdentifier result=restfulService.findJob(pipeline.getName(),String.valueOf(pipeline.getCounter()),stage.getName(),String.valueOf(rerunStage.getCounter()),job.getName());
+  JobIdentifier expect=new JobIdentifier(pipeline,stage,job);
+  assertThat(result,is(expect));
+  long copiedJobId=rerunStage.getJobInstances().getByName(job.getName()).getId();
+  assertThat(copiedJobId,is(not(job.getId())));
+  result=restfulService.findJob(pipeline.getName(),String.valueOf(pipeline.getCounter()),stage.getName(),String.valueOf(rerunStage.getCounter()),job.getName());
+  assertThat(result,is(expect));
+  result=restfulService.findJob(pipeline.getName(),String.valueOf(pipeline.getCounter()),stage.getName(),String.valueOf(rerunStage.getCounter()),job.getName(),copiedJobId);
+  assertThat(result,is(not(expect)));
+  assertThat(result,is(new JobIdentifier(rerunStage.getIdentifier(),job.getName(),copiedJobId)));
+}

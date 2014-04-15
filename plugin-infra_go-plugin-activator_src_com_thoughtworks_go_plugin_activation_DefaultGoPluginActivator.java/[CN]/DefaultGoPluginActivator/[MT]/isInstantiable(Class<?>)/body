@@ -1,0 +1,8 @@
+{
+  if (!isANonStaticInnerClass(candidateClass)) {
+    boolean hasPublicDefaultConstructor=candidateClass.getConstructor() != null;
+    return hasPublicDefaultConstructor;
+  }
+  boolean hasAConstructorWhichTakesMyOuterClass=candidateClass.getConstructor(candidateClass.getDeclaringClass()) != null;
+  return hasAConstructorWhichTakesMyOuterClass && isInstantiable(candidateClass.getDeclaringClass());
+}

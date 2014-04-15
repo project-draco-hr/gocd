@@ -1,0 +1,16 @@
+{
+  if (alreadyInitialized(pluginId)) {
+    return;
+  }
+synchronized (pluginId.intern()) {
+    if (alreadyInitialized(pluginId)) {
+      return;
+    }
+    FileAppender pluginAppender=getAppender(pluginId);
+    Logger logger=Logger.getLogger(PLUGIN_LOGGER_PREFIX + "." + pluginId);
+    logger.setAdditivity(false);
+    logger.setLevel(systemEnvironment.pluginLoggingLevel(pluginId));
+    logger.addAppender(pluginAppender);
+    loggingServiceLogger.debug("Plugin with ID: " + pluginId + " will log to: "+ pluginAppender.getFile());
+  }
+}

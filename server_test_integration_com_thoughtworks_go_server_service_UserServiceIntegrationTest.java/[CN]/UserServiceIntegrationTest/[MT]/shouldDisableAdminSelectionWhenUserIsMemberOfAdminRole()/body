@@ -1,0 +1,11 @@
+{
+  configFileHelper.addRole(new Role(new CaseInsensitiveString("foo-grp"),new RoleUser(new CaseInsensitiveString("foo")),new RoleUser(new CaseInsensitiveString("foo-one"))));
+  configFileHelper.addRole(new Role(new CaseInsensitiveString("quux-grp"),new RoleUser(new CaseInsensitiveString("quux"))));
+  configFileHelper.addRole(new Role(new CaseInsensitiveString("bar-grp"),new RoleUser(new CaseInsensitiveString("bar")),new RoleUser(new CaseInsensitiveString("bar-one"))));
+  configFileHelper.addAdminRoles("foo-grp","quux-grp");
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("foo")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.add,false)));
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("foo","bar")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange,false)));
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("bar","baz")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.remove)));
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("baz")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.remove)));
+  assertThat(userService.getAdminAndRoleSelections(Arrays.asList("foo","quux")).getAdminSelection(),is(new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.add,false)));
+}

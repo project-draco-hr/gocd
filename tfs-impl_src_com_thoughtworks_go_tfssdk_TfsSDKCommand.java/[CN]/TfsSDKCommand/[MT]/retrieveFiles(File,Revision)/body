@@ -1,0 +1,15 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("[TFS SDK] Getting Files for TFS workspace %s for user %s ",getWorkspace(),getUserName()));
+  }
+  GoTfsWorkspace workspace=client.queryWorkspace(getWorkspace(),getUserName());
+  ItemSpec spec=new ItemSpec(FileUtil.getCanonicalPath(workDir),RecursionType.FULL);
+  VersionSpec versionSpec=getVersionSpec(revision);
+  GetRequest request=new GetRequest(spec,versionSpec);
+  if (FileUtil.isFolderEmpty(workDir)) {
+    workspace.get(request,GetOptions.FORCE_GET_ALL);
+  }
+ else {
+    workspace.get(request,GetOptions.NONE);
+  }
+}

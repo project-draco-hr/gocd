@@ -1,0 +1,11 @@
+{
+  try {
+    String cookie=agentService.assignCookie(identifier);
+    LOGGER.info(format("[Agent Cookie] Agent [%s] at location [%s] asked for a new cookie, assigned [%s]",identifier,location,cookie));
+    return cookie;
+  }
+ catch (  Exception e) {
+    LOGGER.error(String.format("[Agent Cookie] Agent [%s] at location [%s] could not get a cookie.",identifier,location),e);
+    throw wrappedException(e);
+  }
+}

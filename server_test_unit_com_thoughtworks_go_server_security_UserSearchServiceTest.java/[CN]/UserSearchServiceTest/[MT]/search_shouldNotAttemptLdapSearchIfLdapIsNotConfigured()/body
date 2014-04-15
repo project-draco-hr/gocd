@@ -1,0 +1,8 @@
+{
+  User foo=new User("foo",new ArrayList<String>(),"foo@cruise.com",false);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(goConfigService.isLdapConfigured()).thenReturn(false);
+  when(passwordFileUserSearch.search("foo")).thenReturn(Arrays.asList(foo));
+  userSearchService.search("foo",result);
+  verifyNoMoreInteractions(ldapUserSearch);
+}

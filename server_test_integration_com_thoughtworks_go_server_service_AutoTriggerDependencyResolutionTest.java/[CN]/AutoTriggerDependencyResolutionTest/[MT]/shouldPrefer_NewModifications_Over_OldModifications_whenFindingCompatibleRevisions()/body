@@ -1,0 +1,19 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git"),"folder1");
+  String[] git_revs={"g1"};
+  int i=0;
+  u.checkinInOrder(git,u.d(i++),git_revs);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(p1));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(p2));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g1");
+  String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),p1_1);
+  String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g1");
+  String p2_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),p1_2);
+  String p2_3=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),p1_1);
+  MaterialRevisions given=u.mrs(u.mr(p2,true,p2_3),u.mr(u.mw(p1),false,p1_2));
+  MaterialRevisions expected=u.mrs(u.mr(p2,true,p2_3),u.mr(u.mw(p1),false,p1_2));
+  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(p3,cruiseConfig,given);
+  assertThat(finalRevisions,is(expected));
+}

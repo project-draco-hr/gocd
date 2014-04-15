@@ -1,0 +1,7 @@
+{
+  for (  Map.Entry<CaseInsensitiveString,CycleState> cycleStateEntry : state.entrySet()) {
+    if (cycleStateEntry.getValue() == CycleState.VISITING) {
+      throw ExceptionUtils.bomb("Unexpected node in visiting state: " + cycleStateEntry.getKey());
+    }
+  }
+}

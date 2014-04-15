@@ -1,0 +1,17 @@
+{
+  final PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("config"),new MaterialConfigs());
+  Material material=new HgMaterial("url",null);
+  pipelineConfig.addMaterialConfig(material.config());
+  MaterialUpdateStatusListener statusListener=new MaterialUpdateStatusListener(){
+    public void onMaterialUpdate(    MaterialUpdateCompletedMessage message){
+      materialUpdateStatusNotifier.removeListenerFor(pipelineConfig);
+    }
+    public boolean isListeningFor(    Material material){
+      return true;
+    }
+  }
+;
+  materialUpdateStatusNotifier.registerListenerFor(pipelineConfig,statusListener);
+  materialUpdateStatusNotifier.onMessage(new MaterialUpdateSuccessfulMessage(material,123));
+  assertThat(materialUpdateStatusNotifier.hasListenerFor(pipelineConfig),is(false));
+}

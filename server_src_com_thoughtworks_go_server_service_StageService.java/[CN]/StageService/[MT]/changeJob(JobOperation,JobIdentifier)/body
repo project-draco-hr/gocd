@@ -1,0 +1,12 @@
+{
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      jobOperation.invoke();
+      stageDao.clearCachedStage(identifier.getStageIdentifier());
+      Stage stage=stageDao.findStageWithIdentifier(identifier.getStageIdentifier());
+      updateStageWithoutNotifications(stage);
+      notifyStageStatusChangeListeners(stage);
+    }
+  }
+);
+}

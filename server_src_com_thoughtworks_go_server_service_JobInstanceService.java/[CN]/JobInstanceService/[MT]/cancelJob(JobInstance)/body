@@ -1,0 +1,8 @@
+{
+  LOGGER.info(String.format("cancelling job [%s]",job));
+  boolean cancelled=job.cancel();
+  if (cancelled) {
+    updateStateAndResult(job);
+    notifyJobCancelled(job);
+  }
+}

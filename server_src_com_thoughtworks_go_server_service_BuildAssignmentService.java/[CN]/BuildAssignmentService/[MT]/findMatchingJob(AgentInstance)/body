@@ -1,0 +1,6 @@
+{
+  List<JobPlan> filteredJobPlans=environmentConfigService.filterJobsByAgent(jobPlans,agent.getUuid());
+  JobPlan match=agent.firstMatching(filteredJobPlans);
+  jobPlans.remove(match);
+  return match;
+}

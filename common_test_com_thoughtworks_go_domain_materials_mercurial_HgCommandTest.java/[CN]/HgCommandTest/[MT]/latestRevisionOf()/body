@@ -1,0 +1,5 @@
+{
+  CommandLine hg=hg(serverRepo,"log","--limit","1","--template","{node}");
+  String[] input=new String[]{};
+  return new StringRevision(hg.runOrBomb(null,input).outputAsString());
+}

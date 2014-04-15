@@ -1,0 +1,9 @@
+{
+  AgentViewModel agentA=new AgentViewModel(updateResources(AgentInstanceMother.building(),"foo,bar"));
+  AgentViewModel agentB=new AgentViewModel(updateResources(pending(),"blah,dfg"));
+  AgentViewModel agentC=new AgentViewModel(updateResources(pending(),"goo,zoo"));
+  List<AgentViewModel> sorted=sort(AgentViewModel.RESOURCES_COMPARATOR,agentC,agentA,agentB);
+  assertThat(sorted.get(0),is(agentA));
+  assertThat(sorted.get(1),is(agentB));
+  assertThat(sorted.get(2),is(agentC));
+}

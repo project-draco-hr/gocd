@@ -1,0 +1,5 @@
+{
+  List<StageFeedEntry> stageEntries=stageDao.findCompletedStagesFor(pipelineName,FeedModifier.Before,entryId,FEED_PAGE_SIZE);
+  populateAuthorsAndMingleCards(stageEntries,pipelineName,username);
+  return new FeedEntries(new ArrayList<FeedEntry>(stageEntries));
+}

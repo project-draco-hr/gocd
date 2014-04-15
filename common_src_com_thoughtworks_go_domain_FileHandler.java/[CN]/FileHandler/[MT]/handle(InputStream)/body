@@ -1,0 +1,31 @@
+{
+  FileOutputStream fileOutputStream=null;
+  try {
+    fileOutputStream=FileUtils.openOutputStream(artifact);
+    if (LOG.isInfoEnabled()) {
+      LOG.info(String.format("[Artifact File Download] [%s] Download of artifact %s started",new Date(),artifact.getName()));
+    }
+    IOUtils.copyLarge(stream,fileOutputStream);
+    if (LOG.isInfoEnabled()) {
+      LOG.info(String.format("[Artifact File Download] [%s] Download of artifact %s ended",new Date(),artifact.getName()));
+    }
+  }
+  finally {
+    IOUtils.closeQuietly(fileOutputStream);
+  }
+  FileInputStream inputStream=null;
+  try {
+    inputStream=new FileInputStream(artifact);
+    if (LOG.isInfoEnabled()) {
+      LOG.info(String.format("[Artifact File Download] [%s] Checksum computation of artifact %s started",new Date(),artifact.getName()));
+    }
+    String artifactMD5=md5Hex(inputStream);
+    new ChecksumValidator(artifactMd5Checksums).validate(srcFile,artifactMD5,checksumValidationPublisher);
+    if (LOG.isInfoEnabled()) {
+      LOG.info(String.format("[Artifact File Download] [%s] Checksum computation of artifact %s ended",new Date(),artifact.getName()));
+    }
+  }
+  finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+}

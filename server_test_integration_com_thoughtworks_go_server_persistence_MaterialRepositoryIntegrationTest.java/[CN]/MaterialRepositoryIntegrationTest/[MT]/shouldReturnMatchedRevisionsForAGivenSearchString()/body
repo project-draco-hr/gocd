@@ -1,0 +1,9 @@
+{
+  ScmMaterial material=material();
+  repo.saveOrUpdate(material.createMaterialInstance());
+  MaterialRevision materialRevision=saveOneScmModification("40c95a3c41f54b5fb3107982cf2acd08783f102a",material,"pavan","meet_you_in_hell.txt","comment");
+  saveOneScmModification(material,"turn_her","of_course_he_will_be_there_first.txt");
+  List<MatchedRevision> revisions=repo.findRevisionsMatching(material.config(),"pavan");
+  assertThat(revisions.size(),is(1));
+  assertMatchedRevision(revisions.get(0),materialRevision.getLatestShortRevision(),materialRevision.getLatestRevisionString(),"pavan",materialRevision.getDateOfLatestModification(),"comment");
+}

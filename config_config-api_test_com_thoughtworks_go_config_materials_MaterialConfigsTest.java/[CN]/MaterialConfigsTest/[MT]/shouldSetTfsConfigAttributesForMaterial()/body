@@ -1,0 +1,18 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  Map<String,String> tfsAttrMap=new HashMap<String,String>();
+  tfsAttrMap.put(TfsMaterialConfig.URL,"foo");
+  tfsAttrMap.put(TfsMaterialConfig.USERNAME,"bar");
+  tfsAttrMap.put(TfsMaterialConfig.PASSWORD,"baz");
+  tfsAttrMap.put(TfsMaterialConfig.PROJECT_PATH,"to_hell");
+  tfsAttrMap.put(TfsMaterialConfig.MATERIAL_NAME,"crapy_material");
+  tfsAttrMap.put(TfsMaterialConfig.DOMAIN,"CORPORATE");
+  Map<String,Object> attributeMap=new HashMap<String,Object>();
+  attributeMap.put(AbstractMaterialConfig.MATERIAL_TYPE,TfsMaterialConfig.TYPE);
+  attributeMap.put(TfsMaterialConfig.TYPE,tfsAttrMap);
+  materialConfigs.setConfigAttributes(attributeMap);
+  TfsMaterialConfig tfsMaterialConfig=new TfsMaterialConfig(new GoCipher(),new UrlArgument("foo"),"bar","CORPORATE","baz","to_hell");
+  tfsMaterialConfig.setName(new CaseInsensitiveString("crapy_material"));
+  assertThat((TfsMaterialConfig)materialConfigs.first(),is(tfsMaterialConfig));
+  assertThat(tfsMaterialConfig.getPassword(),is("baz"));
+}

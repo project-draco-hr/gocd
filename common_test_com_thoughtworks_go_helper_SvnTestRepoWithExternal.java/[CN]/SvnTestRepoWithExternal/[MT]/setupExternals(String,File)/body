@@ -1,0 +1,10 @@
+{
+  String url=projectRepositoryUrl();
+  SvnCommand svnRepo=getSvnExternalCommand(url,false);
+  svnRepo.checkoutTo(outputStreamConsumer,workingFolder,SubversionRevision.HEAD);
+  svnRepo.propset(externalsHost,"svn:externals",externalRepoName + " " + externalRepositoryUrl());
+  beforeCheckin=new Date();
+  svnRepo.commit(inMemoryConsumer(),workingFolder,"changed svn externals");
+  commitToExternalRepo(externalRepositoryUrl());
+  afterCheckin=new Date();
+}

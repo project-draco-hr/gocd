@@ -1,0 +1,8 @@
+{
+  logger=new SubprocessLogger(stubSysMon());
+  LogFixture log=LogFixture.startListening();
+  logger.run();
+  String allLogs=log.allLogs();
+  log.stopListening();
+  assertThat(allLogs,containsString("Logged all subprocesses."));
+}

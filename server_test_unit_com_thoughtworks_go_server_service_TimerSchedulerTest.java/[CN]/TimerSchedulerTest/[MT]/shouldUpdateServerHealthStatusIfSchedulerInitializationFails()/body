@@ -1,0 +1,9 @@
+{
+  when(schedulerFactory.getScheduler()).thenThrow(new SchedulerException("Should fail creation for this test"));
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  ServerHealthService serverHealthService=mock(ServerHealthService.class);
+  TimerScheduler timerScheduler=new TimerScheduler(schedulerFactory,goConfigService,null,serverHealthService);
+  timerScheduler.initialize();
+  verify(schedulerFactory).getScheduler();
+  verify(serverHealthService).update(ServerHealthState.error("Failed to initialize timer","Cannot schedule pipelines using the timer",HealthStateType.general(HealthStateScope.GLOBAL)));
+}

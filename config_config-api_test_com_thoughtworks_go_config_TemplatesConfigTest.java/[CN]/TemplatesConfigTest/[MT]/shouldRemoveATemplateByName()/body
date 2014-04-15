@@ -1,0 +1,7 @@
+{
+  PipelineTemplateConfig template2=template("template2");
+  TemplatesConfig templates=new TemplatesConfig(template("template1"),template2);
+  templates.removeTemplateNamed(new CaseInsensitiveString("template1"));
+  assertThat(templates.size(),is(1));
+  assertThat(templates.get(0),is(template2));
+}

@@ -1,0 +1,12 @@
+{
+  List<PluggableViewModel<Task>> viewModels=new ArrayList<PluggableViewModel<Task>>();
+  for (  Task task : allTasks()) {
+    if (hasCancelTaskOfType(given,task)) {
+      viewModels.add(getViewModel(given.cancelTask(),"edit"));
+    }
+ else {
+      viewModels.add(getViewModel(task,"new"));
+    }
+  }
+  return viewModels;
+}

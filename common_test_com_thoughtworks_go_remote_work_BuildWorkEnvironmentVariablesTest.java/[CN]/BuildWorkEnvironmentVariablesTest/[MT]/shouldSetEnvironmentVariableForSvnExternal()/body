@@ -1,0 +1,9 @@
+{
+  svnRepoFixture.createExternals(svnRepoFixture.getEnd2EndRepoUrl());
+  command=new SvnCommand(null,svnRepoFixture.getEnd2EndRepoUrl(),null,null,true);
+  svnMaterial=SvnMaterial.createSvnMaterialWithMock(command);
+  svnMaterial.setFolder("svn-Dir");
+  EnvironmentVariableContext environmentVariableContext=doWorkWithMaterials(new Materials(svnMaterial));
+  assertThat(environmentVariableContext.getProperty("GO_REVISION_SVN_DIR"),is("4"));
+  assertThat(environmentVariableContext.getProperty("GO_REVISION_SVN_DIR_EXTERNAL"),is("4"));
+}

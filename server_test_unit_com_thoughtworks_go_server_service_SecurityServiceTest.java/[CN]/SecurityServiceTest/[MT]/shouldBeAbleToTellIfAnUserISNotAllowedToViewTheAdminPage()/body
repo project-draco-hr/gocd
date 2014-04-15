@@ -1,0 +1,7 @@
+{
+  final Username user=new Username(new CaseInsensitiveString("user"));
+  when(goConfigService.isGroupAdministrator(user.getUsername())).thenReturn(Boolean.FALSE);
+  SecurityService spy=spy(securityService);
+  doReturn(false).when(spy).isAuthorizedToViewAndEditTemplates(user);
+  assertThat(spy.canViewAdminPage(new Username(new CaseInsensitiveString("user"))),is(false));
+}

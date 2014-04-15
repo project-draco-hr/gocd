@@ -1,0 +1,9 @@
+{
+  long latest=JobStateTransition.NOT_PERSISTED;
+  for (  JobStateTransition transition : this) {
+    if (transition.getId() > latest) {
+      latest=transition.getId();
+    }
+  }
+  return latest;
+}

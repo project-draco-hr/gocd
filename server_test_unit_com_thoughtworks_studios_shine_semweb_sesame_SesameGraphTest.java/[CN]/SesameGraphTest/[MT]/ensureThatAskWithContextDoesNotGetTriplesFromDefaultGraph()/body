@@ -1,0 +1,8 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . " + "<http://example.com/1> ex:foo \"Yadda\"^^xsd:string . ";
+  contextUnawareGraph.addTriplesFromTurtle(turtle);
+  String sparqlWithExplicitContext="PREFIX ex: <http://example.com/ontology#> " + "ASK WHERE { " + "GRAPH <" + CONTEXT + "> { "+ "[] ex:foo _:foo "+ "}"+ "}";
+  assertFalse(contextUnawareGraph.ask(sparqlWithExplicitContext));
+  String sparqlWithNoContext="PREFIX ex: <http://example.com/ontology#> " + "ASK WHERE { " + "[] ex:foo _:foo "+ "}";
+  assertFalse(contextAwareGraph.ask(sparqlWithNoContext));
+}

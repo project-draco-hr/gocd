@@ -1,0 +1,6 @@
+{
+  GrantedAuthority agentAuth=mock(GrantedAuthority.class);
+  when(agentAuth.getAuthority()).thenReturn(roleName);
+  GrantedAuthority[] grantedAuthorities=roleName == null ? new GrantedAuthority[]{} : new GrantedAuthority[]{agentAuth};
+  stubSecurityContextForGrantedAuthorities(grantedAuthorities);
+}

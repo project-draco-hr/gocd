@@ -1,0 +1,16 @@
+{
+  GoMessageTopic<GoMessage> topic=new GoMessageTopic<GoMessage>(messageService,"TestTopic-All");
+  int numberOfMessages=2;
+  Set<String> expectedMessages=new HashSet<String>();
+  StubGoMessageListener listener1=new StubGoMessageListener();
+  topic.addListener(listener1);
+  StubGoMessageListener listener2=new StubGoMessageListener();
+  topic.addListener(listener2);
+  for (int i=0; i < numberOfMessages; i++) {
+    String message="message-" + i;
+    topic.post(new GoTextMessage(message));
+    expectedMessages.add(message);
+  }
+  assertWillHappen(listener1.receivedMessage,is(expectedMessages),Timeout.FIVE_SECONDS);
+  assertWillHappen(listener2.receivedMessage,is(expectedMessages),Timeout.FIVE_SECONDS);
+}

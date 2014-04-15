@@ -1,0 +1,7 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(mingle09);
+  assertThat(template.find("from OauthClient").size(),is(1));
+  repo.deleteOauthClient(mingle09.getId());
+  assertThat(template.find("from OauthClient").size(),is(0));
+}

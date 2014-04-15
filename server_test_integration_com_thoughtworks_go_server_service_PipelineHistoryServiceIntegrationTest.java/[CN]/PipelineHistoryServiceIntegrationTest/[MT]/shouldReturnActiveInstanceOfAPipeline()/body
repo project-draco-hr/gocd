@@ -1,0 +1,10 @@
+{
+  pipelineOne.createdPipelineWithAllStagesPassed();
+  configHelper.setViewPermissionForGroup("group1","jez");
+  String pipelineName=pipelineOne.pipelineName;
+  List<PipelineGroupModel> groupModels=pipelineHistoryService.getActivePipelineInstance(new Username(new CaseInsensitiveString("jez")),pipelineName.toUpperCase());
+  assertThat(groupModels.size(),is(1));
+  List<PipelineModel> pipelineOneModels=groupModels.get(0).getPipelineModels();
+  assertThat(pipelineOneModels.size(),is(1));
+  assertThat(pipelineOneModels.get(0).getActivePipelineInstances().get(0).getName(),is(pipelineName));
+}

@@ -1,0 +1,6 @@
+{
+  fixture.createNewCheckin();
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(fixture.pipelineName);
+  JsonMap jsonMap=requestPipelineHistoryPage();
+  assertThat(getItemInJson(jsonMap,"showForceBuildButton"),is("true"));
+}

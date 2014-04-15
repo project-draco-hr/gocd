@@ -1,0 +1,17 @@
+{
+  Username user=Username.ANONYMOUS;
+  final HttpOperationResult result=new HttpOperationResult();
+  when(mockSchedulingCheckerService.canTriggerManualPipeline(pipelineConfig,CaseInsensitiveString.str(user.getUsername()),operationResult)).thenAnswer(new Answer<Boolean>(){
+    public Boolean answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      result.accepted("junk","junk",healthStateType);
+      return true;
+    }
+  }
+);
+  buildCauseProducerService.markPipelineAsAlreadyTriggered(pipelineConfig);
+  buildCauseProducerService.manualSchedulePipeline(user,pipelineConfig,new ScheduleOptions(),result);
+  assertThat(result.canContinue(),is(false));
+  assertThat(result.message(),is("Failed to force pipeline: pipeline"));
+  verify(mockMaterialUpdateService,never()).updateMaterial(any(Material.class));
+  verify(mockMaterialUpdateStatusNotifier,never()).registerListenerFor(eq(pipelineConfig),any(MaterialUpdateStatusListener.class));
+}

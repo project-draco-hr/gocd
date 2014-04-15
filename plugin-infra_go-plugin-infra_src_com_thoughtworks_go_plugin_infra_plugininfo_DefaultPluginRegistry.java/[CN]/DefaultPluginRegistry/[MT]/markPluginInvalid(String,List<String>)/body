@@ -1,0 +1,9 @@
+{
+  if (pluginId == null || (!containsKey(pluginId))) {
+    throw new RuntimeException(String.format("Invalid plugin identifier '%s'",pluginId));
+  }
+  GoPluginDescriptor goPluginDescriptor=idToDescriptorMap.get(pluginId);
+  if (goPluginDescriptor != null) {
+    goPluginDescriptor.markAsInvalid(messages,null);
+  }
+}

@@ -1,0 +1,24 @@
+{
+  AbstractTask task=new ExecTask();
+  Map onCancelMapAttrib=new HashMap();
+  onCancelMapAttrib.put(ExecTask.COMMAND,"sudo");
+  onCancelMapAttrib.put(ExecTask.ARGS,"ls -la");
+  onCancelMapAttrib.put(ExecTask.WORKING_DIR,"working_dir");
+  onCancelMapAttrib.put(AbstractTask.RUN_IF_CONFIGS_ANY,"1");
+  onCancelMapAttrib.put(AbstractTask.RUN_IF_CONFIGS_FAILED,"1");
+  onCancelMapAttrib.put(AbstractTask.RUN_IF_CONFIGS_PASSED,"1");
+  Map onCancelConfigAttributes=new HashMap();
+  onCancelConfigAttributes.put(OnCancelConfig.EXEC_ON_CANCEL,onCancelMapAttrib);
+  onCancelConfigAttributes.put(OnCancelConfig.ON_CANCEL_OPTIONS,"exec");
+  Map actualTaskAttributes=new HashMap();
+  actualTaskAttributes.put(AbstractTask.ON_CANCEL_CONFIG,onCancelConfigAttributes);
+  actualTaskAttributes.put(AbstractTask.HAS_CANCEL_TASK,"1");
+  ExecTask execTask=new ExecTask();
+  when(taskFactory.taskInstanceFor(execTask.getTaskType())).thenReturn(execTask);
+  task.setConfigAttributes(actualTaskAttributes,taskFactory);
+  assertThat(task.hasCancelTask(),is(true));
+  assertThat((ExecTask)task.cancelTask(),is(new ExecTask("sudo","ls -la","working_dir")));
+  assertThat(task.cancelTask().getConditions().match(RunIfConfig.ANY),is(true));
+  assertThat(task.cancelTask().getConditions().match(RunIfConfig.FAILED),is(true));
+  assertThat(task.cancelTask().getConditions().match(RunIfConfig.PASSED),is(true));
+}

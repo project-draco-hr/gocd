@@ -1,0 +1,14 @@
+{
+  Configuration packageConfiguration=new Configuration(getConfigurationProperty("name",false,"go-agent"));
+  Configuration repositoryConfiguration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig configToSave=new CruiseConfig();
+  PackageRepository packageRepository=createPackageRepository("plugin-id","version","id","name",repositoryConfiguration,new Packages(new PackageDefinition("id with space","name",packageConfiguration)));
+  configToSave.setPackageRepositories(new PackageRepositories(packageRepository));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not have allowed two repositories with same id");
+  }
+ catch (  XsdValidationException e) {
+    assertThat(e.getMessage(),is("Package id is invalid. \"id with space\" should conform to the pattern - [a-zA-Z0-9_\\-]{1}[a-zA-Z0-9_\\-.]*"));
+  }
+}

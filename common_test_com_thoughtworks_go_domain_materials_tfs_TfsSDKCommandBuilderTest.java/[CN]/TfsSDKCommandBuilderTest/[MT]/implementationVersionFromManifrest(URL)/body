@@ -1,0 +1,13 @@
+{
+  JarInputStream in=new JarInputStream(log4jJarFromClasspath.openStream());
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  in.getManifest().write(out);
+  out.close();
+  List<String> lines=IOUtils.readLines(new ByteArrayInputStream(out.toByteArray()));
+  for (  String line : lines) {
+    if (line.startsWith("Implementation-Version")) {
+      return line.split(":")[1].trim();
+    }
+  }
+  return null;
+}

@@ -1,0 +1,14 @@
+{
+  addInput(input);
+  InMemoryStreamConsumer output=ProcessOutputStreamConsumer.inMemoryConsumer();
+  ProcessWrapper process=execute(output,new EnvironmentVariableContext(),processTag);
+  int returnValue=process.waitForExit();
+  ConsoleResult result=new ConsoleResult(returnValue,output.getStdLines(),output.getErrLines(),arguments,secrets,failOnNonZeroReturn);
+  if (result.failed()) {
+    throw new CommandLineException(this,result);
+  }
+  if (LOG.isDebugEnabled()) {
+    LOG.debug("Output: \n" + join(result.outputForDisplay(),"\n"));
+  }
+  return result;
+}

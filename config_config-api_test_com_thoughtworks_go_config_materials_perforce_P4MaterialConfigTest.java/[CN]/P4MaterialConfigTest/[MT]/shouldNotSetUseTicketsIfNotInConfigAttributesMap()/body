@@ -1,0 +1,9 @@
+{
+  P4MaterialConfig p4MaterialConfig=new P4MaterialConfig("","");
+  HashMap<String,String> map=new HashMap<String,String>();
+  map.put(P4MaterialConfig.USE_TICKETS,"true");
+  p4MaterialConfig.setConfigAttributes(map);
+  assertThat(p4MaterialConfig.getUseTickets(),is(true));
+  p4MaterialConfig.setConfigAttributes(new HashMap());
+  assertThat(p4MaterialConfig.getUseTickets(),is(false));
+}

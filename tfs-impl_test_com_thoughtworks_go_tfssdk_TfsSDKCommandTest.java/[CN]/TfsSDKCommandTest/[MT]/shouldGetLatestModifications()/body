@@ -1,0 +1,9 @@
+{
+  Changeset[] changeSets=getChangeSets(42);
+  when(client.queryHistory(TFS_PROJECT,null,1)).thenReturn(changeSets);
+  TfsSDKCommand spy=spy(tfsCommand);
+  doReturn(null).when(spy).getModifiedFiles(changeSets[0]);
+  assertThat(spy.latestModification(null).isEmpty(),is(false));
+  verify(client).queryHistory(TFS_PROJECT,null,1);
+  verify(spy).getModifiedFiles(changeSets[0]);
+}

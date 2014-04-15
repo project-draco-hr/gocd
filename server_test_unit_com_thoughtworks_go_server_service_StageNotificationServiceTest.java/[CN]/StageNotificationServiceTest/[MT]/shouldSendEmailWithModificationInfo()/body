@@ -1,0 +1,10 @@
+{
+  String jezMail=prepareOneMatchedUser();
+  final Date date=new Date();
+  stubPipelineAndStage(date);
+  stageNotificationService.sendNotifications(stageIdentifier,StageEvent.Fails,new Username(new CaseInsensitiveString("loser")));
+  String body=inMemoryEmailNotificationTopic.getBody(jezMail);
+  assertThat(body,containsString(MATERIAL_SECTION_HEADER));
+  String materialBody=textAfter(body,MATERIAL_SECTION_HEADER);
+  assertEquals("\n\nSubversion: http://some/svn/url\n" + String.format("revision: 123, modified by lgao on %s\n",date) + "Fixing the not checked in files\n"+ "added build.xml\n"+ "deleted some.xml\n\n"+ "Sent by Go on behalf of jez",materialBody);
+}

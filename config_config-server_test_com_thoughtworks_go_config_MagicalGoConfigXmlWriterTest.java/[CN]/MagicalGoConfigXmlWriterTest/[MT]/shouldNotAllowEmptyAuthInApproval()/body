@@ -1,0 +1,12 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.ONE_PIPELINE);
+  StageConfig stageConfig=com.thoughtworks.go.helper.StageConfigMother.custom("newStage",new AuthConfig());
+  cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).add(stageConfig);
+  try {
+    xmlWriter.write(cruiseConfig,output,false);
+    assertThat("Should not allow approval with empty auth",output.toString().contains("<auth"),is(false));
+  }
+ catch (  JDOMParseException expected) {
+    assertThat(expected.getMessage(),containsString("The content of element 'auth' is not complete"));
+  }
+}

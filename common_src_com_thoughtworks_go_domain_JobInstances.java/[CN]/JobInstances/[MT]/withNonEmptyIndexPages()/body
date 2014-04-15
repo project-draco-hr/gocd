@@ -1,0 +1,10 @@
+{
+  JobInstances jobInstances=new JobInstances();
+  for (  JobInstance key : this) {
+    File indexPage=key.getTestIndexPage();
+    if (indexPage != null && TEST_RESULTS_FILE.equals(indexPage.getName())) {
+      jobInstances.add(key);
+    }
+  }
+  return jobInstances;
+}

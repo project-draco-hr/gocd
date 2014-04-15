@@ -1,0 +1,13 @@
+{
+  try {
+    OperationResult result=new ServerHealthServiceUpdatingOperationResult(serverHealthService);
+    if (!schedulingChecker.canSchedule(result)) {
+      return;
+    }
+    removeLicenseInvalidFromLog();
+    checkPipelines();
+  }
+ catch (  Exception e) {
+    LOGGER.error("Error autoScheduling pipelines",e);
+  }
+}

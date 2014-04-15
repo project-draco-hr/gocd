@@ -1,0 +1,11 @@
+{
+  List<String> targetRows=null;
+  for (  String row : this.allRows) {
+    targetRows=Arrays.asList(rows);
+    List<String> storedRows=Arrays.asList(row.split(","));
+    if (StringUtils.contains(storedRows.toString(),targetRows.toString())) {
+      return true;
+    }
+  }
+  throw new RuntimeException("Failed to find " + targetRows + " in all allColumns "+ this.allRows);
+}

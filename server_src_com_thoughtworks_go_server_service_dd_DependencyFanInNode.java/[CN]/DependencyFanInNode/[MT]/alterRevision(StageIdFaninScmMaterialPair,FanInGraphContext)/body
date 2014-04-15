@@ -1,0 +1,31 @@
+{
+  if (currentRevision == revisionToSet.stageIdentifier) {
+    return RevisionAlteration.SAME_AS_CURRENT_REVISION;
+  }
+  if (!stageIdentifierScmMaterial.get(currentRevision).contains(revisionToSet.faninScmMaterial)) {
+    return RevisionAlteration.NOT_APPLICABLE;
+  }
+  ArrayList<StageIdentifier> stageIdentifiers=new ArrayList<StageIdentifier>(stageIdentifierScmMaterial.keySet());
+  int currentRevIndex=stageIdentifiers.indexOf(currentRevision);
+  for (int i=currentRevIndex; i < stageIdentifiers.size(); i++) {
+    final StageIdentifier key=stageIdentifiers.get(i);
+    final List<FaninScmMaterial> materials=new ArrayList<FaninScmMaterial>(stageIdentifierScmMaterial.get(key));
+    final int index=materials.indexOf(revisionToSet.faninScmMaterial);
+    if (index == -1) {
+      return ALL_OPTIONS_EXHAUSTED;
+    }
+    final FaninScmMaterial faninScmMaterial=materials.get(index);
+    if (faninScmMaterial.revision.equals(revisionToSet.faninScmMaterial.revision)) {
+      currentRevision=key;
+      return ALTERED_TO_CORRECT_REVISION;
+    }
+    if (faninScmMaterial.revision.lessThan(revisionToSet.faninScmMaterial.revision)) {
+      currentRevision=key;
+      return ALTERED_TO_CORRECT_REVISION;
+    }
+  }
+  if (!hasMoreInstances()) {
+    return ALL_OPTIONS_EXHAUSTED;
+  }
+  return NEED_MORE_REVISIONS;
+}

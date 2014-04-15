@@ -1,0 +1,15 @@
+{
+  context.checking(new Expectations(){
+{
+      one(publisher).upload(with(any(File.class)),with(any(String.class)));
+      one(publisher).setProperty(new Property(TOTAL_TEST_COUNT,"2762"));
+      one(publisher).setProperty(new Property(FAILED_TEST_COUNT,"0"));
+      one(publisher).setProperty(new Property(IGNORED_TEST_COUNT,"120"));
+      one(publisher).setProperty(new Property(TEST_TIME,"221.766"));
+    }
+  }
+);
+  copyAndClose(sourcePath("TestReport-Integration.xml"),targetPath("test-result1.xml"));
+  copyAndClose(new FileInputStream("test-resources" + FileUtil.fileseparator() + "data"+ FileUtil.fileseparator()+ "TestReport-Unit.xml"),new FileOutputStream(testFolder.getAbsolutePath() + FileUtil.fileseparator() + "test-result2.xml"));
+  generator.generate(testFolder.listFiles());
+}

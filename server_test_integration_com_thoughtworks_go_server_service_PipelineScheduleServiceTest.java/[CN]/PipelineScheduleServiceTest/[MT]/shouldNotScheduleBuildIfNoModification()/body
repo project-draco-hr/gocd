@@ -1,0 +1,10 @@
+{
+  autoSchedulePipelines("mingle","evolve");
+  Stage evolveInstance=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(evolveConfig.name()),evolveConfig.findBy(new CaseInsensitiveString("dev")));
+  dbHelper.passStage(evolveInstance);
+  stageDao.stageStatusChanged(evolveInstance);
+  autoSchedulePipelines();
+  Stage mostRecent=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(evolveConfig.name()),evolveConfig.findBy(new CaseInsensitiveString("dev")));
+  assertThat(mostRecent.getId(),is(evolveInstance.getId()));
+  assertThat(mostRecent.getJobInstances().first().getState(),is(JobState.Completed));
+}

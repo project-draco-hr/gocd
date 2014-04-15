@@ -1,0 +1,17 @@
+{
+  try {
+    scheduleService.rerunStage(pipelineName,counterOrLabel,stageName);
+    return ResponseCodeView.create(HttpServletResponse.SC_OK,"");
+  }
+ catch (  GoUnauthorizedException e) {
+    return ResponseCodeView.create(HttpServletResponse.SC_UNAUTHORIZED,"");
+  }
+catch (  StageNotFoundException e) {
+    LOGGER.error(String.format("Error while rerunning %s/%s/%s",pipelineName,counterOrLabel,stageName),e);
+    return ResponseCodeView.create(HttpServletResponse.SC_NOT_FOUND,e.getMessage());
+  }
+catch (  Exception e) {
+    LOGGER.error(String.format("Error while rerunning %s/%s/%s",pipelineName,counterOrLabel,stageName),e);
+    return ResponseCodeView.create(HttpServletResponse.SC_BAD_REQUEST,e.getMessage());
+  }
+}

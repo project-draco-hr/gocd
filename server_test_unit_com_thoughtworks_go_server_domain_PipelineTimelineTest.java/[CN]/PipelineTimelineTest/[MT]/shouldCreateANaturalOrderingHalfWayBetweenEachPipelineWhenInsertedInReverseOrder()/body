@@ -1,0 +1,12 @@
+{
+  PipelineTimeline mods=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  mods.add(fourth);
+  assertThat(fourth.naturalOrder(),is(1.0));
+  mods.add(first);
+  assertThat(first.naturalOrder(),is(0.5));
+  double thirdOrder=(1.0 + 0.5) / 2.0;
+  mods.add(third);
+  assertThat(third.naturalOrder(),is(thirdOrder));
+  mods.add(second);
+  assertThat(second.naturalOrder(),is((thirdOrder + 0.5) / 2.0));
+}

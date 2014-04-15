@@ -1,0 +1,27 @@
+{
+  final ResultGetter resultGetter;
+  Mockery context=new Mockery(){
+{
+      setImposteriser(ClassImposteriser.INSTANCE);
+    }
+  }
+;
+  resultGetter=context.mock(ResultGetter.class);
+  context.checking(new Expectations(){
+{
+      one(resultGetter).getString();
+      will(returnValue(str));
+    }
+  }
+);
+  StageState result=(StageState)callback.getResult(resultGetter);
+  assertThat(result,is(equal(value)));
+  final ParameterSetter parameterSetter=context.mock(ParameterSetter.class);
+  context.checking(new Expectations(){
+{
+      one(parameterSetter).setString(str);
+    }
+  }
+);
+  callback.setParameter(parameterSetter,value);
+}

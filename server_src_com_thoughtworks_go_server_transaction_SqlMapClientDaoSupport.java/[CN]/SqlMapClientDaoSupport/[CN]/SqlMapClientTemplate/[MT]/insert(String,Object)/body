@@ -1,0 +1,9 @@
+{
+  return executeInternal(new Operation<Object>(){
+    public Object execute(){
+      stopServingForTransaction();
+      return SqlMapClientTemplate.super.insert(translateStatementName(statementName),parameterObject);
+    }
+  }
+);
+}

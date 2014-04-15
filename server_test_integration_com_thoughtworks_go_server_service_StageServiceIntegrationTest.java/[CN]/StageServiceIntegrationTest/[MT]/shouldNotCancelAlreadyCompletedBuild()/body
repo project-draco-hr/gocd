@@ -1,0 +1,25 @@
+{
+  jobResultTopic.addListener(new GoMessageListener<JobResultMessage>(){
+    public void onMessage(    JobResultMessage message){
+      JobIdentifier jobIdentifier=message.getJobIdentifier();
+      JobInstance instance=jobInstanceDao.mostRecentJobWithTransitions(jobIdentifier);
+      receivedState=instance.getState();
+      receivedResult=instance.getResult();
+    }
+  }
+);
+  JobInstanceMother.completed(job,Passed,new Date());
+  jobInstanceDao.updateStateAndResult(job);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      stageService.cancelStage(stage);
+    }
+  }
+);
+  JobInstance instanceFromDB=jobInstanceDao.buildByIdWithTransitions(job.getId());
+  assertThat(instanceFromDB.getState(),is(JobState.Completed));
+  assertThat(instanceFromDB.getResult(),is(Passed));
+  assertThat(agentService.findAgentAndRefreshStatus(UUID).isCancelled(),is(false));
+  assertThat(receivedState,is(nullValue()));
+  assertThat(receivedResult,is(nullValue()));
+}

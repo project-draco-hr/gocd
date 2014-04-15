@@ -1,0 +1,6 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  agentInstance.update(buildingRuntimeInfo());
+  agentInstance.update(idleRuntimeInfo());
+  assertThat(agentInstance.getBuildingInfo(),is(AgentBuildingInfo.NOT_BUILDING));
+}

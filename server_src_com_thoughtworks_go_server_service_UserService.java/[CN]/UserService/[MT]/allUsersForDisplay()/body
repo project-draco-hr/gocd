@@ -1,0 +1,13 @@
+{
+  Collection<User> users=allUsers();
+  ArrayList<UserModel> userModels=new ArrayList<UserModel>();
+  for (  User user : users) {
+    String userName=user.getName();
+    ArrayList<String> roles=new ArrayList<String>();
+    for (    Role role : goConfigService.rolesForUser(new CaseInsensitiveString(userName))) {
+      roles.add(CaseInsensitiveString.str(role.getName()));
+    }
+    userModels.add(new UserModel(user,roles,securityService.isUserAdmin(new Username(new CaseInsensitiveString(userName)))));
+  }
+  return userModels;
+}

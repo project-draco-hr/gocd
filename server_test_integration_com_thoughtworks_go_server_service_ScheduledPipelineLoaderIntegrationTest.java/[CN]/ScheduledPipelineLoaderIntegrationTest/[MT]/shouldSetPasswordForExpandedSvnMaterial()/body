@@ -1,0 +1,24 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("last",new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job-one"))));
+  pipelineConfig.materialConfigs().clear();
+  SvnMaterialConfig materialConfig=svnRepo.materialConfig();
+  materialConfig.setConfigAttributes(Collections.singletonMap(SvnMaterialConfig.CHECK_EXTERNALS,String.valueOf(true)));
+  materialConfig.setPassword("boozer");
+  pipelineConfig.addMaterialConfig(materialConfig);
+  configHelper.addPipeline(pipelineConfig);
+  MaterialConfigs allConfigsWithExpandedExternals=materialExpansionService.expandMaterialConfigsForScheduling(pipelineConfig.materialConfigs());
+  MaterialRevisions materialRevisions=ModificationsMother.modifyOneFile(MaterialsMother.createMaterialsFromMaterialConfigs(allConfigsWithExpandedExternals));
+  Pipeline building=PipelineMother.buildingWithRevisions(pipelineConfig,materialRevisions);
+  Pipeline pipeline=dbHelper.savePipelineWithMaterials(building);
+  final long jobId=pipeline.getStages().get(0).getJobInstances().get(0).getId();
+  Pipeline loadedPipeline=(Pipeline)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      return loader.pipelineWithPasswordAwareBuildCauseByBuildId(jobId);
+    }
+  }
+);
+  MaterialRevisions revisions=loadedPipeline.getBuildCause().getMaterialRevisions();
+  assertThat(revisions.getRevisions().size(),is(2));
+  assertThat(((SvnMaterial)revisions.getRevisions().get(0).getMaterial()).getPassword(),is("boozer"));
+  assertThat(((SvnMaterial)revisions.getRevisions().get(1).getMaterial()).getPassword(),is("boozer"));
+}

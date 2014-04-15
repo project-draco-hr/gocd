@@ -1,0 +1,7 @@
+{
+  svnMaterial.setFolder(null);
+  JSONArray revisions=buildJson();
+  assertThat(revisions.size(),is(1));
+  JSONObject jsonValue=(JSONObject)revisions.get(0);
+  assertThat(jsonValue.get("folder").render(false),is("\"\""));
+}

@@ -1,0 +1,10 @@
+{
+  final File testOutput=new File(rootFolder,TestArtifactPlan.TEST_OUTPUT_FOLDER);
+  testOutput.mkdirs();
+  IOUtils.write("Test",new FileOutputStream(new File(testOutput,"index.html")));
+  HashMap map=new HashMap();
+  map.put("artifactfolder",rootFolder);
+  jobInstanceLog=new JobInstanceLog(null,map);
+  assertThat(jobInstanceLog.getTestIndexPage().getName(),is("index.html"));
+  FileUtil.deleteFolder(rootFolder);
+}

@@ -1,0 +1,10 @@
+{
+  when(dataSource.findOauthTokenByAccessToken("token-string")).thenReturn(oauthTokenDto("user-id"));
+  GrantedAuthority[] grantedAuthorities={GoAuthority.ROLE_OAUTH_USER.asAuthority()};
+  OauthAuthenticationToken authentication=provider.authenticate(new OauthAuthenticationToken("token-string"));
+  assertThat(authentication.isAuthenticated(),is(true));
+  UserDetails userDetails=(UserDetails)authentication.getPrincipal();
+  assertThat(userDetails.getUsername(),is("user-id"));
+  assertThat(userDetails.getAuthorities(),is(grantedAuthorities));
+  assertThat(authentication.getAuthorities(),is(grantedAuthorities));
+}

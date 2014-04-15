@@ -1,0 +1,11 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . " + "<http://example.com/1> rdf:type ex:Yadda . ";
+  Graph sourceGraph=graphFactory.createTempGraph();
+  sourceGraph.addTriplesFromTurtle(turtle);
+  contextAwareGraph.addTriplesFromGraph(sourceGraph);
+  String sparql="PREFIX ex: <http://example.com/ontology#> " + "ASK WHERE { " + "  <http://example.com/1> a ex:Yadda "+ "}";
+  assertTrue(contextAwareGraph.ask(sparql));
+  assertTrue(contextUnawareGraph.ask(sparql));
+  assertEquals(1,contextAwareGraph.size());
+  assertEquals(1,contextUnawareGraph.size());
+}

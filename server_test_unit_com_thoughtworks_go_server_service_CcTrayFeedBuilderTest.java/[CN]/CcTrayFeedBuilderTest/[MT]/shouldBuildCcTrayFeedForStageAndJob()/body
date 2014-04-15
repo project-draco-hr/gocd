@@ -1,0 +1,12 @@
+{
+  context.checking(new Expectations(){
+{
+      one(ccTrayStatus).dumpProject("cruise :: dev",result);
+      one(ccTrayStatus).dumpProject("cruise :: dev :: linux-firefox",result);
+    }
+  }
+);
+  PipelineConfig withStages=PipelineConfigMother.createPipelineConfig("cruise","dev","linux-firefox");
+  PipelineConfigs group=new PipelineConfigs(withStages);
+  ccTrayFeedBuilder.visit(group);
+}

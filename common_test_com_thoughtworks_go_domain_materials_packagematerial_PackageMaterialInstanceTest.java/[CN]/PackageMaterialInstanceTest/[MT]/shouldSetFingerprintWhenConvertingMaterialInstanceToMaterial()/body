@@ -1,0 +1,9 @@
+{
+  String fingerprint="fingerprint";
+  PackageMaterial material=MaterialsMother.packageMaterial();
+  PackageMaterialInstance materialInstance=new PackageMaterialInstance(JsonHelper.toJsonString(material),"flyweight");
+  ReflectionUtil.setField(materialInstance,"fingerprint",fingerprint);
+  materialInstance.setId(1L);
+  PackageMaterial constructedMaterial=(PackageMaterial)materialInstance.toOldMaterial(null,null,null);
+  assertThat(constructedMaterial.getFingerprint(),Is.is(fingerprint));
+}

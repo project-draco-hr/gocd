@@ -1,0 +1,10 @@
+{
+  if (pipelineWithTwoStages != null) {
+    pipelineWithTwoStages.onTearDown();
+  }
+  dbHelper.onTearDown();
+  pipelineScheduleQueue.clear();
+  testRepo.tearDown();
+  FileUtil.deleteFolder(new File("pipelines"));
+  configHelper.onTearDown();
+}

@@ -1,0 +1,13 @@
+{
+  when(systemEnvironment.getAgentMd5()).thenReturn("old-md5");
+  expectHeaderValue(httpMethod,SystemEnvironment.AGENT_CONTENT_MD5_HEADER,"new-md5");
+  doThrow(new RuntimeException("Agent md5 mismatch")).when(agentUpgradeService).jvmExit();
+  try {
+    agentUpgradeService.checkForUpgrade();
+    fail("should have done jvm exit");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),Is.is("Agent md5 mismatch"));
+  }
+  verify(httpMethod,never()).getResponseHeader(SystemEnvironment.AGENT_LAUNCHER_CONTENT_MD5_HEADER);
+}

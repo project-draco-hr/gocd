@@ -1,0 +1,8 @@
+{
+  assertThat(userDao.findUser("user-1"),is(instanceOf(NullUser.class)));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("user-1"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),Arrays.asList(new TriStateSelection("dev",TriStateSelection.Action.add)),result);
+  assertThat(userDao.findUser("user-1"),is(instanceOf(NullUser.class)));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),containsString("User 'user-1' does not exist in the database."));
+}

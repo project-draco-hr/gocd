@@ -1,0 +1,16 @@
+{
+  Map attributeMap=(Map)attributes;
+  if (attributeMap == null) {
+    return;
+  }
+  if (attributeMap.containsKey(GROUP)) {
+    this.group=(String)attributeMap.get(GROUP);
+  }
+  if (attributeMap.containsKey(AUTHORIZATION)) {
+    this.authorization=new Authorization();
+    this.authorization.setConfigAttributes(attributeMap.get(AUTHORIZATION));
+  }
+ else {
+    this.authorization=new Authorization();
+  }
+}

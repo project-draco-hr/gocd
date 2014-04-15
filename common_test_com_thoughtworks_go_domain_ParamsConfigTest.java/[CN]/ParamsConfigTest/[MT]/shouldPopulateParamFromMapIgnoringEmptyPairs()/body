@@ -1,0 +1,10 @@
+{
+  paramsConfig=new ParamsConfig();
+  List paramsMap=new ArrayList<Map>();
+  paramsMap.add(createParamMap("param-name","param-value"));
+  paramsMap.add(createParamMap("",""));
+  paramsMap.add(createParamMap("","bar"));
+  paramsConfig.setConfigAttributes(paramsMap);
+  assertThat(paramsConfig.size(),is(2));
+  assertThat(paramsConfig.getParamNamed("param-name").getValue(),is("param-value"));
+}

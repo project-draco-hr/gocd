@@ -1,0 +1,19 @@
+{
+  final int limit=3;
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline_name","stage","job");
+  goConfigService.addPipeline(pipelineConfig,"pipeline-group");
+  pipelineConfig.setLabelTemplate("${COUNT}-blah-1");
+  Pipeline shouldMatch1=dbHelper.schedulePipeline(pipelineConfig,ModificationsMother.buildCauseForOneModifiedFile(pipelineConfig,"abc1234","hello world  -THIS SHOULD MATCH","dev"),new TimeProvider());
+  dbHelper.cancelStage(shouldMatch1.getStages().get(0));
+  Pipeline shouldMatch2=dbHelper.schedulePipeline(pipelineConfig,ModificationsMother.buildCauseForOneModifiedFile(pipelineConfig,"abc12345","some MONKEY","THIS SHOULD ALSO MATCH - YELLOW"),new TimeProvider());
+  dbHelper.cancelStage(shouldMatch2.getStages().get(0));
+  Pipeline shouldMatch3=dbHelper.schedulePipeline(pipelineConfig,ModificationsMother.buildCauseForOneModifiedFile(pipelineConfig,"revision-HELLO-there-SHOULD_MATCH","some monkey","foo"),new TimeProvider());
+  dbHelper.cancelStage(shouldMatch3.getStages().get(0));
+  Pipeline shouldNotMatch=dbHelper.schedulePipeline(pipelineConfig,ModificationsMother.buildCauseForOneModifiedFile(pipelineConfig,"revision-there-2","some monkey","foo"),new TimeProvider());
+  dbHelper.cancelStage(shouldNotMatch.getStages().get(0));
+  PipelineInstanceModels actual=pipelineHistoryService.findMatchingPipelineInstances("pipeline_name","ello",limit,new Username(new CaseInsensitiveString("user")),new HttpLocalizedOperationResult());
+  assertThat("size",actual.size(),is(3));
+  assertThat("first counter",actual.get(0).getCounter(),is(3));
+  assertThat("second counter",actual.get(1).getCounter(),is(2));
+  assertThat("third counter",actual.get(2).getCounter(),is(1));
+}

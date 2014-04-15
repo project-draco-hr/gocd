@@ -1,0 +1,15 @@
+{
+  String repoId="repoId";
+  HashMap repositoryIdMap=new HashMap();
+  repositoryIdMap.put("repositoryId",repoId);
+  Map params=new HashMap();
+  params.put("package_definition",repositoryIdMap);
+  CruiseConfig config=mock(CruiseConfig.class);
+  PackageRepositories packageRepositories=mock(PackageRepositories.class);
+  when(packageRepositories.find(repoId)).thenReturn(mock(PackageRepository.class));
+  when(config.getPackageRepositories()).thenReturn(packageRepositories);
+  PackageMaterialAddWithNewPackageDefinitionCommand command=spy(new PackageMaterialAddWithNewPackageDefinitionCommand(packageDefinitionService,securityService,pipelineName,new PackageMaterialConfig(),admin,params));
+  command.createNewPackageDefinition(config);
+  InOrder inOrder=inOrder(command,config);
+  inOrder.verify(config).savePackageDefinition(any(PackageDefinition.class));
+}

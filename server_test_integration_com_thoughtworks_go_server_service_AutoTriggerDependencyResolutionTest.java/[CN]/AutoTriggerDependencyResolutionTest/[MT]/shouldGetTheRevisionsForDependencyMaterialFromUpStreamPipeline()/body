@@ -1,0 +1,18 @@
+{
+  HgMaterial hg=u.wf(new HgMaterial("hg",null),"folder1");
+  String[] hg_revs={"hg1","hg2","hg3","hg4"};
+  int i=1;
+  u.checkinInOrder(hg,u.d(i++),hg_revs);
+  ScheduleTestUtil.AddedPipeline common=u.saveConfigWith("common",u.m(hg));
+  ScheduleTestUtil.AddedPipeline up1=u.saveConfigWith("up1",u.m(common));
+  ScheduleTestUtil.AddedPipeline current=u.saveConfigWith("current",u.m(up1),u.m(common));
+  String common_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(common,u.d(i++),"hg1");
+  String common_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(common,u.d(i++),"hg2");
+  String common_3=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(common,u.d(i++),"hg3");
+  String common_4=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(common,u.d(i++),"hg4");
+  String up1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(up1,u.d(i++),common_3);
+  MaterialRevisions given=u.mrs(u.mr(up1,false,up1_1),u.mr(common,false,common_4));
+  MaterialRevisions expected=u.mrs(u.mr(up1,false,up1_1),u.mr(common,false,common_3));
+  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("current"));
+  assertThat(finalRevisions,is(expected));
+}

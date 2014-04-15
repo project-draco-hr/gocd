@@ -1,0 +1,10 @@
+{
+  cancel(stage);
+  notifyStageStatusChangeListeners(stage);
+  transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+    @Override public void afterCommit(){
+      stageStatusTopic.post(new StageStatusMessage(stage.getIdentifier(),stage.stageState(),stage.getResult(),UserHelper.getUserName()));
+    }
+  }
+);
+}

@@ -1,0 +1,5 @@
+{
+  CommandLine gitCmd=git().withArgs("submodule","status").withWorkingDir(workingDir);
+  ConsoleResult result=runOrBomb(gitCmd);
+  return submoduleFolders(result.output());
+}

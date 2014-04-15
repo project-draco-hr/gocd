@@ -1,0 +1,32 @@
+{
+  final boolean[] associate=new boolean[1];
+  final TriStateSelection.Assigner<String,String> disableWhenEql=new TriStateSelection.Assigner<String,String>(){
+    public boolean shouldAssociate(    String a,    String b){
+      return associate[0];
+    }
+    public String identifier(    String s){
+      return s;
+    }
+    public boolean shouldEnable(    String a,    String b){
+      return !a.equals(b);
+    }
+  }
+;
+  final HashSet<String> assignables=new HashSet<String>(Arrays.asList("quux","baz"));
+  associate[0]=true;
+  List<TriStateSelection> selections=TriStateSelection.convert(assignables,Arrays.asList("foo","bar"),disableWhenEql);
+  assertThat(selections,hasItem(new TriStateSelection("quux",TriStateSelection.Action.add)));
+  assertThat(selections,hasItem(new TriStateSelection("baz",TriStateSelection.Action.add)));
+  associate[0]=false;
+  selections=TriStateSelection.convert(assignables,Arrays.asList("foo","bar"),disableWhenEql);
+  assertThat(selections,hasItem(new TriStateSelection("quux",TriStateSelection.Action.remove)));
+  assertThat(selections,hasItem(new TriStateSelection("baz",TriStateSelection.Action.remove)));
+  associate[0]=true;
+  selections=TriStateSelection.convert(assignables,Arrays.asList("quux","bar"),disableWhenEql);
+  assertThat(selections,hasItem(new TriStateSelection("quux",TriStateSelection.Action.add,false)));
+  assertThat(selections,hasItem(new TriStateSelection("baz",TriStateSelection.Action.add,true)));
+  associate[0]=false;
+  selections=TriStateSelection.convert(assignables,Arrays.asList("bar","baz"),disableWhenEql);
+  assertThat(selections,hasItem(new TriStateSelection("quux",TriStateSelection.Action.remove,true)));
+  assertThat(selections,hasItem(new TriStateSelection("baz",TriStateSelection.Action.remove,false)));
+}

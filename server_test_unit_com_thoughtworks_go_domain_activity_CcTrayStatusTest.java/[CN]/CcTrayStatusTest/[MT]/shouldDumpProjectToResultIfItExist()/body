@@ -1,0 +1,8 @@
+{
+  CcTrayStatus status=new CcTrayStatus(materialRepo,stageDao);
+  Stage stage=failedStage("cruise","label","dev","2","linux-firefox");
+  status.stageStatusChanged(stage);
+  ArrayList<ProjectStatus> result=new ArrayList<ProjectStatus>();
+  status.dumpProject("cruise :: dev",result);
+  assertThat(result,hasItem(projectStatusForFailedStage(stage)));
+}

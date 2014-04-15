@@ -1,0 +1,8 @@
+{
+  StageInstanceModels stages=new StageInstanceModels();
+  stages.addStage("unit1",JobHistory.withJob("test",JobState.Completed,JobResult.Passed,new Date()));
+  stages.addFutureStage("unit2",false);
+  PipelineInstanceModel pim=PipelineInstanceModel.createPipeline("pipeline",-1,"label",BuildCause.createNeverRun(),stages);
+  pim.setLatestRevisions(MaterialRevisions.EMPTY);
+  assertThat("pim.hasNeverCheckedForRevisions()",pim.hasNeverCheckedForRevisions(),is(true));
+}

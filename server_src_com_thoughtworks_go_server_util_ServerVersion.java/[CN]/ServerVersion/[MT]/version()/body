@@ -1,0 +1,23 @@
+{
+  if (goVersion == null) {
+    try {
+      if (viewResolvers.length != 0) {
+        for (        ViewResolver viewResolver : viewResolvers) {
+          GoVelocityView view=(GoVelocityView)viewResolver.resolveViewName("admin/admin_version.txt",Locale.getDefault());
+          if (view != null) {
+            goVersion=view.getContentAsString();
+            break;
+          }
+        }
+      }
+ else {
+        goVersion=NOT_APPLICABLE;
+      }
+    }
+ catch (    Exception e) {
+      LOG.error("Got an exception while computing the Go server version.",e);
+      goVersion=NOT_APPLICABLE;
+    }
+  }
+  return goVersion;
+}

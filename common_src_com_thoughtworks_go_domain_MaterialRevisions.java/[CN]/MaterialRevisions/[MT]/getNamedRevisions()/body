@@ -1,0 +1,10 @@
+{
+  Map<String,String> results=new HashMap<String,String>();
+  for (  MaterialRevision mr : revisions) {
+    CaseInsensitiveString materialName=mr.getMaterial().getName();
+    if (!CaseInsensitiveString.isBlank(materialName)) {
+      results.put(CaseInsensitiveString.str(materialName),getRevisionValueOf(mr.getRevision()));
+    }
+  }
+  return results;
+}

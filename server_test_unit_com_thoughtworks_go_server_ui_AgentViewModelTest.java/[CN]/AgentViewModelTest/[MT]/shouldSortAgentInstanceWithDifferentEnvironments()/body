@@ -1,0 +1,13 @@
+{
+  AgentViewModel agentA=new AgentViewModel(AgentInstanceMother.building(),"foo","bar");
+  AgentViewModel agentB=new AgentViewModel(AgentInstanceMother.building(),"blah","dfg");
+  AgentViewModel agentC=new AgentViewModel(AgentInstanceMother.building(),"goo","zoo");
+  AgentViewModel agentD=new AgentViewModel(AgentInstanceMother.building());
+  AgentViewModel agentE=new AgentViewModel(AgentInstanceMother.building(),"foo","Baz");
+  List<AgentViewModel> sorted=sort(AgentViewModel.ENVIRONMENTS_COMPARATOR,agentC,agentA,agentB,agentD,agentE);
+  assertThat(sorted.get(0),is(agentD));
+  assertThat(sorted.get(1),is(agentA));
+  assertThat(sorted.get(2),is(agentE));
+  assertThat(sorted.get(3),is(agentB));
+  assertThat(sorted.get(4),is(agentC));
+}

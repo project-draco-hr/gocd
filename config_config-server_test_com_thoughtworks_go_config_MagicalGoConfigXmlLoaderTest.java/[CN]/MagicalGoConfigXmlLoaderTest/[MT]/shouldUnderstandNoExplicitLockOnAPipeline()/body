@@ -1,0 +1,12 @@
+{
+  String pipelineXmlPartial="<pipeline name=\"pipeline\">\n" + "  <materials>\n" + "    <hg url=\"/hgrepo\"/>\n"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <artifacts>\n"+ "          <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "        </artifacts>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n";
+  PipelineConfig pipeline=xmlLoader.fromXmlPartial(toInputStream(pipelineXmlPartial),PipelineConfig.class);
+  assertThat(pipeline.hasExplicitLock(),is(false));
+  try {
+    pipeline.explicitLock();
+    fail("Should throw exception if call explicit lock without first checking to see if there is one");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("There is no explicit lock on the pipeline 'pipeline'."));
+  }
+}

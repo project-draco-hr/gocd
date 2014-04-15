@@ -1,0 +1,8 @@
+{
+  pipelineScheduleQueue.schedule("blahPipeline",saveMaterials(modifySomeFiles(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("blahPipeline")))));
+  scheduleService.autoSchedulePipelinesFromRequestBuffer();
+  List<ServerHealthState> stateList=serverHealthService.filterByScope(HealthStateScope.forStage("blahPipeline","blahStage"));
+  assertThat(stateList.size(),is(1));
+  assertThat(stateList.get(0).getMessage(),is("Failed to trigger stage [blahStage] pipeline [blahPipeline]"));
+  assertThat(stateList.get(0).getDescription(),is("Could not find matching agents to run job [job2] of stage [blahStage]."));
+}

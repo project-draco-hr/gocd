@@ -1,0 +1,8 @@
+{
+  String configContent=ConfigFileFixture.configWithPipeline(String.format("<pipeline name='pipeline1'>" + "    <materials>" + "      <svn url='svnurl' username='admin' password='%s'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>","hello"),GoConstants.CONFIG_SCHEMA_VERSION);
+  FileUtils.writeStringToFile(dataSource.fileLocation(),configContent);
+  GoConfigHolder configHolder=dataSource.load();
+  PipelineConfig pipelineConfig=configHolder.config.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)pipelineConfig.materialConfigs().get(0);
+  assertThat(svnMaterialConfig.getEncryptedPassword(),is(not(nullValue())));
+}

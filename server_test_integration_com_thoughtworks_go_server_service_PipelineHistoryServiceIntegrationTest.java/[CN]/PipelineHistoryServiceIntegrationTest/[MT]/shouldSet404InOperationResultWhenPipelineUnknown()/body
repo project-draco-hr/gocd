@@ -1,0 +1,7 @@
+{
+  HttpOperationResult result=new HttpOperationResult();
+  PipelineInstanceModels pipelineInstances=pipelineHistoryService.findAllPipelineInstances("pipeline_that_does_not_exist",new Username(new CaseInsensitiveString("foo")),result);
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.message(),is("Pipeline named [pipeline_that_does_not_exist] is not known."));
+  assertThat(pipelineInstances,is(nullValue()));
+}

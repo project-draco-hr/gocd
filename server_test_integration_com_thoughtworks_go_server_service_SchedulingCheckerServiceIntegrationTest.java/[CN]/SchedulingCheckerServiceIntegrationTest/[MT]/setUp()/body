@@ -1,0 +1,11 @@
+{
+  configFileHelper.onSetUp();
+  configFileHelper.usingCruiseConfigDao(goConfigFileDao);
+  pipelineFixture=new PipelineWithMultipleStages(2,materialRepository,transactionTemplate);
+  pipelineFixture.usingConfigHelper(configFileHelper).usingDbHelper(dbHelper).onSetUp();
+  pipelineFixture.configStageAsManualApprovalWithApprovedUsers(pipelineFixture.ftStage,APPROVED_USER);
+  configFileHelper.addSecurityWithNonExistantPasswordFile();
+  configFileHelper.addSecurityWithAdminConfig();
+  dbHelper.onSetUp();
+  diskSpaceSimulator=new DiskSpaceSimulator();
+}

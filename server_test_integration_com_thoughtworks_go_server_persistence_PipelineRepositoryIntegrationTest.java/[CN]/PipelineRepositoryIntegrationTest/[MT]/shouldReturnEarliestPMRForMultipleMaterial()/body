@@ -1,0 +1,27 @@
+{
+  final HgMaterial hgmaterial=MaterialsMother.hgMaterial("first");
+  final SvnMaterial svnMaterial=MaterialsMother.svnMaterial();
+  PipelineConfig pipelineConfig=createPipelineConfig(PIPELINE_NAME,"stage","job");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(hgmaterial.config(),svnMaterial.config()));
+  final DateTime date=new DateTime(1984,12,23,0,0,0,0);
+  long first=save(pipelineConfig,1,1.0,new MaterialRevision(hgmaterial,oneModifiedFile("13",date.plusDays(2).toDate()),oneModifiedFile("12",date.plusDays(2).toDate()),oneModifiedFile("11",date.plusDays(3).toDate())),new MaterialRevision(svnMaterial,oneModifiedFile("23",date.plusDays(6).toDate()),oneModifiedFile("22",date.plusDays(2).toDate()),oneModifiedFile("21",date.plusDays(2).toDate())));
+  long second=save(pipelineConfig,2,0.0,new MaterialRevision(hgmaterial,oneModifiedFile("15",date.plusDays(3).toDate()),oneModifiedFile("14",date.plusDays(2).toDate())),new MaterialRevision(svnMaterial,oneModifiedFile("25",date.plusDays(5).toDate())));
+  PipelineTimeline pipelineTimeline=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  pipelineRepository.updatePipelineTimeline(pipelineTimeline);
+  Collection<PipelineTimelineEntry> modifications=pipelineTimeline.getEntriesFor(PIPELINE_NAME);
+  assertThat(modifications.size(),is(2));
+  assertThat(modifications,hasItem(expected(first,new HashMap<String,List<PipelineTimelineEntry.Revision>>(){
+{
+      put(hgmaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(2).toDate(),"123",hgmaterial.getFingerprint(),8)));
+      put(svnMaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(6).toDate(),"456",svnMaterial.getFingerprint(),12)));
+    }
+  }
+,1)));
+  assertThat(modifications,hasItem(expected(second,new HashMap<String,List<PipelineTimelineEntry.Revision>>(){
+{
+      put(hgmaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(3).toDate(),"234",hgmaterial.getFingerprint(),9)));
+      put(svnMaterial.getFingerprint(),a(new PipelineTimelineEntry.Revision(date.plusDays(5).toDate(),"345",svnMaterial.getFingerprint(),10)));
+    }
+  }
+,2)));
+}

@@ -1,0 +1,18 @@
+{
+  HgMaterial hgMaterial1=MaterialsMother.hgMaterial("hgUrl","dest");
+  MaterialRevision hgMaterialRevision1=saveOneScmModification(hgMaterial1,"user","file");
+  DependencyMaterial depMaterial1=new DependencyMaterial(new CaseInsensitiveString("blahPipeline"),new CaseInsensitiveString("blahStage"));
+  MaterialRevision depMaterialRevision1=saveOneDependencyModification(depMaterial1,"blahPipeline/1/blahStage/1");
+  PipelineConfig pipelineConfig=PipelineMother.createPipelineConfig("mingle",new MaterialConfigs(hgMaterial1.config(),depMaterial1.config()),"dev");
+  MaterialRevisions materialRevisions1=new MaterialRevisions(hgMaterialRevision1,depMaterialRevision1);
+  pipelineSqlMapDao.save(instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(materialRevisions1,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider()));
+  HgMaterial hgMaterial2=MaterialsMother.hgMaterial("hgUrl","dest");
+  MaterialRevision hgMaterialRevision2=saveOneScmModification(hgMaterial2,"user","file");
+  DependencyMaterial depMaterial2=new DependencyMaterial(new CaseInsensitiveString("blahPipeline"),new CaseInsensitiveString("blahStage"));
+  MaterialRevision depMaterialRevision2=saveOneDependencyModification(depMaterial2,"blahPipeline/2/blahStage/1");
+  PipelineConfig pipelineConfig2=PipelineMother.createPipelineConfig("mingle",new MaterialConfigs(hgMaterial2.config(),depMaterial2.config()),"dev");
+  MaterialRevisions materialRevisions2=new MaterialRevisions(hgMaterialRevision2,depMaterialRevision2);
+  savePipeline(instanceFactory.createPipelineInstance(pipelineConfig2,BuildCause.createManualForced(materialRevisions2,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider()));
+  MaterialRevisions revisions=new MaterialRevisions(new MaterialRevision(depMaterial1,depMaterialRevision1.getLatestModification()),new MaterialRevision(hgMaterial2,hgMaterialRevision2.getLatestModification()));
+  assertThat(repo.hasPipelineEverRunWith("mingle",revisions),is(true));
+}

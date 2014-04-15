@@ -1,0 +1,6 @@
+{
+  AntJUnitReportRDFizer junitRDFizer=new AntJUnitReportRDFizer(new InMemoryTempGraphFactory(),XSLTTransformerRegistry);
+  Graph graph=junitRDFizer.importFile("http://job",document(FileUtils.readFileToString(new File("test/data/twist_xunit/passing/TWIST_TEST--scenarios.ATest.xml"))));
+  String ask="prefix cruise: <" + GoOntology.URI + "> "+ "PREFIX xunit: <"+ XUnitOntology.URI+ "> "+ "prefix xsd: <http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE { "+ "<http://job> xunit:hasTestCase _:testCase . "+ "_:testCase a xunit:TestCase . "+ "_:testCase xunit:testSuiteName 'FailureHistoryForOneFailedCruiseBuild.scn'^^xsd:string . "+ "_:testCase xunit:testCaseName 'FailureHistoryForOneFailedCruiseBuild.scn'^^xsd:string . "+ "}";
+  assertAskIsTrue(graph,ask);
+}

@@ -1,0 +1,14 @@
+{
+  TestFailureSetup.SavedStage stage=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new Date());
+  pipelineInstanceLoader=mock(PipelineInstanceLoader.class);
+  when(pipelineInstanceLoader.loadPipelineForShine(anyLong())).thenThrow(new RuntimeException("ouch, that hurt!"));
+  StageResourceImporter importer=new StageResourceImporter("/artifacts",xmlApiService,stageFinder,pipelineInstanceLoader);
+  loader=new BackgroundStageLoader(null,importer,stageStorage,pipelineHistoryService,stageService,systemEnvironment);
+  try {
+    loader.handle(feedEntry(stage),pipelineInstanceLoader);
+    fail("should have failed as pipeline load bombed");
+  }
+ catch (  Exception e) {
+  }
+  assertFalse(stageStorage.isStageStored(stage.stageId));
+}

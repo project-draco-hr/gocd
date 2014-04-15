@@ -1,0 +1,14 @@
+{
+  return new TypeSafeMatcher<String>(){
+    private String consoleOut;
+    public String stdout;
+    public boolean matchesSafely(    String consoleOut){
+      this.consoleOut=consoleOut;
+      return StringUtils.contains(consoleOut.toLowerCase(),"build failed");
+    }
+    public void describeTo(    Description description){
+      description.appendText("expected console to contain [build failed] but was " + consoleOut);
+    }
+  }
+;
+}

@@ -1,0 +1,9 @@
+{
+  JobInstances instances=new JobInstances();
+  for (  JobConfig jobConfig : stageConfig.getJobs()) {
+    RunOnAllAgents.CounterBasedJobNameGenerator nameGenerator=new RunOnAllAgents.CounterBasedJobNameGenerator(CaseInsensitiveString.str(jobConfig.name()));
+    JobInstances configInstances=createJobInstance(stageConfig.name(),jobConfig,context,clock,nameGenerator);
+    instances.addAll(configInstances);
+  }
+  return instances;
+}

@@ -1,0 +1,11 @@
+{
+  User user=new User("user",new String[]{"*.*,user"},"user@mail.com",true);
+  User loser=new User("loser",new String[]{"loser","user"},"loser@mail.com",true);
+  User boozer=new User("boozer",new String[]{"boozer"},"boozer@mail.com",true);
+  userDao.saveOrUpdate(user);
+  userDao.saveOrUpdate(loser);
+  userDao.saveOrUpdate(boozer);
+  List<User> allUsers=userDao.allUsers();
+  assertThat(allUsers,hasItems(user,loser,boozer));
+  assertThat(allUsers.size(),is(3));
+}

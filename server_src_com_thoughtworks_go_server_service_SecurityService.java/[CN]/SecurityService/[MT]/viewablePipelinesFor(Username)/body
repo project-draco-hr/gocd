@@ -1,0 +1,9 @@
+{
+  List<CaseInsensitiveString> pipelines=new ArrayList<CaseInsensitiveString>();
+  for (  String group : goConfigService.allGroups()) {
+    if (hasViewPermissionForGroup(CaseInsensitiveString.str(username.getUsername()),group)) {
+      pipelines.addAll(goConfigService.pipelines(group));
+    }
+  }
+  return pipelines;
+}

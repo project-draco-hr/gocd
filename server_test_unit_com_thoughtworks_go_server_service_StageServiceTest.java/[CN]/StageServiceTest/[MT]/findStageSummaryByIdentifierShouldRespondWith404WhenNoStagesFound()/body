@@ -1,0 +1,12 @@
+{
+  SecurityService securityService=mock(SecurityService.class);
+  when(securityService.hasViewPermissionForPipeline(CaseInsensitiveString.str(ALWAYS_ALLOW_USER.getUsername()),"pipeline_does_not_exist")).thenReturn(true);
+  TransactionSynchronizationManager transactionSynchronizationManager=mock(TransactionSynchronizationManager.class);
+  StageService service=new StageService(stageDao,null,null,null,securityService,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  StageIdentifier stageId=new StageIdentifier("pipeline_does_not_exist/10/stage_name/1");
+  when(stageDao.getAllRunsOfStageForPipelineInstance(stageId.getPipelineName(),stageId.getPipelineCounter(),stageId.getStageName())).thenReturn(new Stages());
+  StageSummaryModel model=service.findStageSummaryByIdentifier(stageId,ALWAYS_ALLOW_USER,result);
+  assertThat(result.httpCode(),is(404));
+  assertThat(model,is(nullValue()));
+}

@@ -1,0 +1,8 @@
+{
+  String turtle="@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . " + "@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . "+ "<http://example.com/1> <http://example.com/predicate> <http://example.com/2> . "+ "<http://example.com/3> a <http://example.com/type> . ";
+  contextAwareGraph.addTriplesFromTurtle(turtle);
+  contextAwareGraph.removeTypeOn(contextAwareGraph.getURIReference("http://example.com/3"),new RDFType("http://example.com/type"));
+  assertEquals(1,contextAwareGraph.size());
+  String ask="" + "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" + "ASK WHERE { "+ "  <http://example.com/1> <http://example.com/predicate> <http://example.com/2>"+ "}";
+  assertAskIsTrue(contextAwareGraph,ask);
+}

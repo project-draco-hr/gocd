@@ -1,0 +1,11 @@
+{
+  String currentContent=FileUtils.readFileToString(configFile);
+  GoConfigHolder configHolder=magicalGoConfigXmlLoader.loadConfigHolder(currentContent);
+  ByteArrayOutputStream stream=new ByteArrayOutputStream();
+  magicalGoConfigXmlWriter.write(configHolder.configForEdit,stream,false);
+  String postEncryptContent=new String(stream.toByteArray());
+  if (!currentContent.equals(postEncryptContent)) {
+    LOGGER.debug("[Encrypt] Writing config to file");
+    FileUtils.writeStringToFile(configFile,postEncryptContent);
+  }
+}

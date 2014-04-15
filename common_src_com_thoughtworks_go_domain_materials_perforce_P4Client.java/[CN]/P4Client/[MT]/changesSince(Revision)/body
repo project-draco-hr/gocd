@@ -1,0 +1,6 @@
+{
+  CommandLine p4=p4("changes",clientView() + "@" + revision.getRevision()+ ",#head");
+  ConsoleResult result=execute(p4);
+  P4OutputParser parser=new P4OutputParser(this);
+  return Modifications.filterOutRevision(parser.modifications(result),revision);
+}

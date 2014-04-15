@@ -1,0 +1,15 @@
+{
+  repositoryForMaterial(new SvnTestRepo("svnTestRepo"));
+  prepareAPipelineWithHistory();
+  checkInFiles("foo");
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  materialDatabaseUpdater.updateMaterial(svnMaterial);
+  buildCauseProducerService.autoSchedulePipeline(CaseInsensitiveString.str(mingleConfig.name()),result,123);
+  assertThat(result.canContinue(),is(true));
+  BuildCause mingleBuildCause=pipelineScheduleQueue.toBeScheduled().get(CaseInsensitiveString.str(mingleConfig.name()));
+  MaterialRevisions materialRevisions=mingleBuildCause.getMaterialRevisions();
+  assertThat(materialRevisions.getRevisions().size(),is(1));
+  Materials materials=materialRevisions.getMaterials();
+  assertThat(materials.size(),is(1));
+  assertThat(materials.get(0),is((Material)svnMaterial));
+}

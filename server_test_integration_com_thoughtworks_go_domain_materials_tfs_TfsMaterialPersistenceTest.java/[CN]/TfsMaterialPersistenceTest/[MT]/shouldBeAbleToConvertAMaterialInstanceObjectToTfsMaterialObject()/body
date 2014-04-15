@@ -1,0 +1,8 @@
+{
+  TfsMaterial tfsCfg=new TfsMaterial(new GoCipher(),new UrlArgument("url"),"loser","CORPORATE","password","/dev/null");
+  tfsCfg.setFolder("folder");
+  tfsCfg.setName(new CaseInsensitiveString("materialName"));
+  MaterialInstance tfsInstance=materialRepository.findOrCreateFrom(tfsCfg);
+  Material material=tfsInstance.toOldMaterial("materialName","folder","password");
+  assertThat((TfsMaterial)material,is(tfsCfg));
+}

@@ -1,0 +1,12 @@
+{
+  configHelper.addPipeline("cruise","dev",repository);
+  goConfigService.forceNotifyListeners();
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials("mingle","evolve","cruise");
+  Assertions.assertWillHappen(2,PipelineScheduleQueueMatcher.numberOfScheduledPipelinesIsAtLeast(pipelineScheduleQueue),Timeout.FIVE_SECONDS);
+  int originalSize=pipelineScheduleQueue.toBeScheduled().size();
+  assertThat(originalSize,greaterThan(1));
+  configHelper.initializeConfigFile();
+  goConfigService.forceNotifyListeners();
+  scheduleService.autoSchedulePipelinesFromRequestBuffer();
+  assertThat(pipelineScheduleQueue.toBeScheduled().size(),is(0));
+}

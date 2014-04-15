@@ -1,0 +1,9 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("one");
+  PipelineConfig pipelineOne=config.pipelineConfigByName(new CaseInsensitiveString("one"));
+  SvnMaterialConfig svnMaterialConfig=MaterialConfigsMother.svnMaterialConfig();
+  svnMaterialConfig.setFolder(null);
+  pipelineOne.setMaterialConfigs(new MaterialConfigs(svnMaterialConfig));
+  pipelineOne.materialConfigs().validate(ValidationContext.forChain(config));
+  assertThat(svnMaterialConfig.errors().toString(),svnMaterialConfig.errors().getAll().size(),is(0));
+}

@@ -1,0 +1,11 @@
+{
+  JobInstance instance=jobInstanceDao.save(stageId,new JobInstance(projectOne));
+  instance.setIdentifier(new JobIdentifier(savedPipeline,savedStage,instance));
+  Resources resources=new Resources("one, two, three");
+  JobPlan savedPlan=new DefaultJobPlan(resources,artifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier());
+  jobInstanceDao.save(instance.getId(),savedPlan);
+  final List<JobPlan> planList=jobInstanceDao.orderedScheduledBuilds();
+  final List<JobPlan> plans=findPlans(planList,projectOne);
+  assertThat(plans.size(),is(1));
+  assertThat(plans.get(0).getResources(),is((List<Resource>)resources));
+}

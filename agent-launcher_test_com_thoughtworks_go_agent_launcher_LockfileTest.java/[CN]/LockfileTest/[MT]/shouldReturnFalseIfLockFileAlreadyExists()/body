@@ -1,0 +1,8 @@
+{
+  File mockfile=mock(File.class);
+  Lockfile lockfile=new Lockfile(mockfile);
+  when(mockfile.exists()).thenReturn(true);
+  when(mockfile.lastModified()).thenReturn(System.currentTimeMillis());
+  assertThat(lockfile.tryLock(),is(false));
+  verify(mockfile).exists();
+}

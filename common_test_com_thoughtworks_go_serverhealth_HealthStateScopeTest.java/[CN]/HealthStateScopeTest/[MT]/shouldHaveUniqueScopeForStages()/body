@@ -1,0 +1,9 @@
+{
+  HealthStateScope scope1=HealthStateScope.forStage("blahPipeline","blahStage");
+  HealthStateScope scope2=HealthStateScope.forStage("blahPipeline","blahStage");
+  HealthStateScope scope25=HealthStateScope.forStage("blahPipeline","blahOtherStage");
+  HealthStateScope scope3=HealthStateScope.forStage("blahOtherPipeline","blahOtherStage");
+  assertThat(scope1,is(scope2));
+  assertThat(scope1,not(scope25));
+  assertThat(scope1,not(scope3));
+}

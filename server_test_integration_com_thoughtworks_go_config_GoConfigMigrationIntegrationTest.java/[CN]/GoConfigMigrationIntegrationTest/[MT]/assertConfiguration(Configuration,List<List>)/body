@@ -1,0 +1,9 @@
+{
+  int position=0;
+  for (  ConfigurationProperty configurationProperty : configuration) {
+    assertThat(configurationProperty.getConfigurationKey().getName(),is(expectedKeyValuePair.get(position).get(0)));
+    assertThat(configurationProperty.isSecure(),is(expectedKeyValuePair.get(position).get(1)));
+    assertThat(configurationProperty.getConfigurationValue().getValue(),is(expectedKeyValuePair.get(position).get(2)));
+    position++;
+  }
+}

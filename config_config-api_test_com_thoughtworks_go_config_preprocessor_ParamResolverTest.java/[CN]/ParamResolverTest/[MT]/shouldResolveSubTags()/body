@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  pipelineConfig.setLabelTemplate("2.1-${COUNT}-#{foo}-bar-#{bar}");
+  TrackingTool trackingTool=new TrackingTool("http://#{foo}.com/#{bar}","\\w+#{bar}");
+  pipelineConfig.setTrackingTool(trackingTool);
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.getLabelTemplate(),is("2.1-${COUNT}-pavan-bar-jj"));
+  assertThat(trackingTool.getLink(),is("http://pavan.com/jj"));
+  assertThat(trackingTool.getRegex(),is("\\w+jj"));
+}

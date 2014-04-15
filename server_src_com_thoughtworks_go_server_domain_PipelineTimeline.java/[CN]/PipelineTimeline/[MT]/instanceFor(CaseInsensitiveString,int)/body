@@ -1,0 +1,10 @@
+{
+  scheduleOrderLock.readLock().lock();
+  try {
+    ArrayList<PipelineTimelineEntry> instances=scheduleOrderPmm.get(pipelineName);
+    return instances == null ? null : instances.get(index);
+  }
+  finally {
+    scheduleOrderLock.readLock().unlock();
+  }
+}

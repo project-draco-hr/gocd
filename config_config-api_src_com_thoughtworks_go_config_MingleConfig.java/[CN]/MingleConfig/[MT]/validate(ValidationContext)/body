@@ -1,0 +1,8 @@
+{
+  if (isDefined() && XmlUtils.doesNotMatchUsingXsdRegex(MINGLE_URL_PATTERN_REGEX,baseUrl)) {
+    configErrors.add(BASE_URL,"Should be a URL starting with https://");
+  }
+  if (projectIdentifier != null && XmlUtils.doesNotMatchUsingXsdRegex(PROJECT_IDENTIFIER_PATTERN_REGEX,projectIdentifier)) {
+    configErrors.add(PROJECT_IDENTIFIER,"Should be a valid mingle identifier.");
+  }
+}

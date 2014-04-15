@@ -1,0 +1,11 @@
+{
+  CommandLine command=buildSvnLogCommandForLatestOne();
+  ConsoleResult result=executeCommand(command);
+  String output=result.outputAsString();
+  try {
+    return parseSvnLog(output);
+  }
+ catch (  Exception e) {
+    throw bomb(result.smudgedException(e));
+  }
+}

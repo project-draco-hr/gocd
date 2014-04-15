@@ -1,0 +1,21 @@
+{
+  Pipeline pipeline=savePipeline(instanceFactory.createPipelineInstance(config,BuildCause.createWithModifications(hgMaterialRevisions,"Loser"),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider()));
+  CaseInsensitiveString stageName=config.get(0).name();
+  DependencyMaterial material=new DependencyMaterial(config.name(),stageName);
+  String label=pipeline.getLabel();
+  ArrayList<Modification> mods=new ArrayList<Modification>();
+  for (int i=0; i < dmrStageCounters.length; i++) {
+    int dmrStageCounter=dmrStageCounters[i];
+    StageIdentifier stageIdentifier=new StageIdentifier(pipeline.getIdentifier(),CaseInsensitiveString.str(stageName),String.valueOf(dmrStageCounter));
+    mods.add(new Modification(d,stageIdentifier.getStageLocator(),label,pipeline.getId()));
+  }
+  final MaterialRevision materialRevision=new MaterialRevision(material,mods);
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveMaterialRevision(materialRevision);
+      return null;
+    }
+  }
+);
+  return material;
+}

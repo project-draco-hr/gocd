@@ -1,0 +1,6 @@
+{
+  subversion.checkoutTo(outputStreamConsumer,checkoutFolder,revision(2));
+  assertThat(checkoutFolder.exists(),is(true));
+  assertThat(checkoutFolder.listFiles().length,org.hamcrest.core.Is.is(not(0)));
+  assertAtRevision(2,"TestReport-Unit.xml");
+}

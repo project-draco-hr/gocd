@@ -1,0 +1,5 @@
+{
+  GoConfigService service=goConfigServiceWithInvalidStatus();
+  assertThat(service.checkConfigFileValid().isValid(),is(false));
+  assertThat(service.checkConfigFileValid().errorMessage(),is("JDom exception"));
+}

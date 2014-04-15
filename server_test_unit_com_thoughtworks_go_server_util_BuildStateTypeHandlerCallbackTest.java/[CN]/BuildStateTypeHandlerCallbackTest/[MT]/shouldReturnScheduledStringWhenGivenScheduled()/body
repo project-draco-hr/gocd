@@ -1,0 +1,11 @@
+{
+  final ParameterSetter parameterSetter=context.mock(ParameterSetter.class);
+  context.checking(new Expectations(){
+{
+      one(parameterSetter).setString(JobState.Scheduled.toString());
+    }
+  }
+);
+  BuildStateTypeHandlerCallback callback=new BuildStateTypeHandlerCallback();
+  callback.setParameter(parameterSetter,JobState.Scheduled);
+}

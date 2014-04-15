@@ -1,0 +1,12 @@
+{
+  StageConfig stageConfig=StageConfigMother.custom("dev","build","alpha");
+  Stage stage=instanceFactory.createStageInstance(stageConfig,new DefaultSchedulingContext("anyone"),"md5-test",new TimeProvider());
+  for (  JobInstance instance : stage.getJobInstances()) {
+    instance.setIdentifier(new JobIdentifier("cruise","1","dev","1",instance.getName()));
+  }
+  jobStatusCache.jobStatusChanged(stage.getJobInstances().first());
+  jobStatusCache.jobStatusChanged(stage.getJobInstances().last());
+  JobInstances jobs=jobInstanceService.currentJobsOfStage("cruise",stageConfig);
+  assertThat(jobs.first().getName(),is("alpha"));
+  assertThat(jobs.last().getName(),is("build"));
+}

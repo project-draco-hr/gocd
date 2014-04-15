@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("pipeline");
+  SecurityConfig securityConfig=cruiseConfig.server().security();
+  securityConfig.modifyPasswordFile(new PasswordFileConfig("foo.bar"));
+  securityConfig.addRole(roleDefinition);
+  securityConfig.adminsConfig().add(admins);
+  return cruiseConfig;
+}

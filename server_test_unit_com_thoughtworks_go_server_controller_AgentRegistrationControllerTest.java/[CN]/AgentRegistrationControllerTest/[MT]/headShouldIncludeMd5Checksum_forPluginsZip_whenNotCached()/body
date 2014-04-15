@@ -1,0 +1,6 @@
+{
+  ReflectionUtil.setField(controller,AGENT_PLUGINS_CHECKSUM_FIELD,"default");
+  controller.checkAgentPluginsZipStatus(request,response);
+  assertEquals("default",response.getHeader("Content-MD5"));
+  verify(systemEnvironment,never()).get(SystemEnvironment.ALL_PLUGINS_ZIP_PATH);
+}

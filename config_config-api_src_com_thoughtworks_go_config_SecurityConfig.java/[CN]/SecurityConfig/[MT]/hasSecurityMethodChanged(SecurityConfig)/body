@@ -1,0 +1,8 @@
+{
+  if (newSecurity == null) {
+    return true;
+  }
+  boolean ldapChanged=!ObjectUtil.equal(ldapConfig,newSecurity.ldapConfig());
+  boolean passwordFileChanged=!ObjectUtil.equal(passwordFileConfig,newSecurity.passwordFileConfig());
+  return ldapChanged || passwordFileChanged;
+}

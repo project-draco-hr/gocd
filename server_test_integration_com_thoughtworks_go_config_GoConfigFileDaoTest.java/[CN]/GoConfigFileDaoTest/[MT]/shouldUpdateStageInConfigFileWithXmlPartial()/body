@@ -1,0 +1,10 @@
+{
+  useConfigString(ConfigFileFixture.CRUISE);
+  JobConfigs jobConfigs=goConfigFileDao.load().stageConfigByName(new CaseInsensitiveString("cruise"),new CaseInsensitiveString("dev")).allBuildPlans();
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("ft"),jobConfigs);
+  goConfigFileDao.updateStage("cruise",0,stage,goConfigFileDao.md5OfConfigFile());
+  CruiseConfig config=goConfigFileDao.load();
+  PipelineConfig pipeline=config.pipelineConfigByName(new CaseInsensitiveString("cruise"));
+  assertThat(pipeline.size(),is(1));
+  assertThat(pipeline.get(0).name(),is(new CaseInsensitiveString("ft")));
+}

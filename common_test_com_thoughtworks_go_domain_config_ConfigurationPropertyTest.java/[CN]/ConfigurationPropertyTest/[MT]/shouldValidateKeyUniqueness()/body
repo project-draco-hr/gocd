@@ -1,0 +1,11 @@
+{
+  ConfigurationProperty property=new ConfigurationProperty(new ConfigurationKey("key"),new ConfigurationValue());
+  HashMap<String,ConfigurationProperty> map=new HashMap<String,ConfigurationProperty>();
+  ConfigurationProperty original=new ConfigurationProperty(new ConfigurationKey("key"),new ConfigurationValue());
+  map.put("key",original);
+  property.validateKeyUniqueness(map,"Repo");
+  assertThat(property.errors().isEmpty(),is(false));
+  assertThat(property.errors().getAllOn(ConfigurationProperty.CONFIGURATION_KEY).contains("Duplicate key 'key' found for Repo"),is(true));
+  assertThat(original.errors().isEmpty(),is(false));
+  assertThat(original.errors().getAllOn(ConfigurationProperty.CONFIGURATION_KEY).contains("Duplicate key 'key' found for Repo"),is(true));
+}

@@ -1,0 +1,12 @@
+{
+  String sanitizedGroupName=PipelineConfigs.sanitizedGroupName(groupName);
+  if (!this.hasGroup(sanitizedGroupName)) {
+    createNewGroup(sanitizedGroupName,pipeline);
+    return;
+  }
+  for (  PipelineConfigs pipelines : this) {
+    if (pipelines.save(pipeline,sanitizedGroupName)) {
+      return;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  Pipeline pipeline1=instanceFactory.createPipelineInstance(evolveConfig,modifySomeFiles(evolveConfig),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline1);
+  buildAssignmentService.onTimer();
+  BuildWork work=(BuildWork)buildAssignmentService.assignWorkToAgent(agent(AgentMother.localAgent()));
+  BuildWork deserialized=(BuildWork)SerializationTester.serializeAndDeserialize(work);
+  assertThat(deserialized.getAssignment().materialRevisions(),is(work.getAssignment().materialRevisions()));
+  assertThat(deserialized.getAssignment(),is(work.getAssignment()));
+  assertThat(deserialized,is(work));
+}

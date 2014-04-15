@@ -1,0 +1,10 @@
+{
+  return new Users((List<User>)transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus transactionStatus){
+      Query query=sessionFactory.getCurrentSession().createQuery("FROM User");
+      query.setCacheable(true);
+      return query.list();
+    }
+  }
+));
+}

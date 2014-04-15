@@ -1,0 +1,11 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  spy.start();
+  boolean reference=spy.hasReferenceFor(SomeInterface.class,secondService.toString());
+  assertThat(reference,is(false));
+  registerServices(firstService,secondService);
+  reference=spy.hasReferenceFor(SomeInterface.class,secondService.toString());
+  assertThat(reference,is(true));
+  verifyNoMoreInteractions(firstService,secondService);
+}

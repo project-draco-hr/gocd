@@ -1,0 +1,18 @@
+{
+  naturalOrderLock.readLock().lock();
+  try {
+    TreeSet<PipelineTimelineEntry> treeForPipeline=naturalOrderPmm.get(pipelineName);
+    if (treeForPipeline == null) {
+      return null;
+    }
+    for (    PipelineTimelineEntry pipelineTimelineEntry : treeForPipeline) {
+      if (id == pipelineTimelineEntry.getId()) {
+        return pipelineTimelineEntry.insertedAfter();
+      }
+    }
+    throw new RuntimeException("Cannot find pipeline with id: " + id);
+  }
+  finally {
+    naturalOrderLock.readLock().unlock();
+  }
+}

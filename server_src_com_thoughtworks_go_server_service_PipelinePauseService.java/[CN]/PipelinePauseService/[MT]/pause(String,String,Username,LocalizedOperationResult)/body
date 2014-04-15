@@ -1,0 +1,16 @@
+{
+  String pauseByUserName=pausedBy == null ? "" : pausedBy.getUsername().toString();
+  if (pipelineDoesNotExist(pipelineName,result) || notAuthorized(pipelineName,pauseByUserName,result)) {
+    return;
+  }
+  if (StringUtils.isBlank(pauseCause)) {
+    pauseCause="";
+  }
+  try {
+    pausePipeline(pipelineName,pauseCause,pausedBy);
+  }
+ catch (  Exception e) {
+    LOGGER.error("[Pipeline Pause] Failed to pause pipeline",e);
+    result.internalServerError(LocalizedMessage.string("INTERNAL_SERVER_ERROR"));
+  }
+}

@@ -1,0 +1,9 @@
+{
+  Graph graph=new InMemoryTempGraphFactory().createTempGraph();
+  String rdf="" + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ." + "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> ."+ ""+ "<http://pipeline/1> rdf:type cruise:Pipeline ."+ "<http://pipeline/1> cruise:hasStage <http://stage/1> ."+ "<http://pipeline/1> cruise:hasStage <http://stage/2> ."+ "<http://stage/1> rdf:type cruise:Stage .  "+ "<http://stage/2> rdf:type cruise:Stage .  ";
+  GraphActions actions=new GraphActions(graph);
+  actions.queueRemoveResourceStatement(graph.createURIReference(GoOntology.PIPELINE_RESOURCE,"http://pipeline/1"),GoOntology.HAS_STAGE,graph.createURIReference(GoOntology.STAGE_RESOURCE,"http://stage/1"));
+  actions.queueRemoveResourceStatement(graph.createURIReference(GoOntology.PIPELINE_RESOURCE,"http://pipeline/1"),RDFOntology.TYPE,graph.createURIReference(GoOntology.STAGE_RESOURCE,"http://stage/2"));
+  actions.execute();
+  assertEquals(3L,graph.size());
+}

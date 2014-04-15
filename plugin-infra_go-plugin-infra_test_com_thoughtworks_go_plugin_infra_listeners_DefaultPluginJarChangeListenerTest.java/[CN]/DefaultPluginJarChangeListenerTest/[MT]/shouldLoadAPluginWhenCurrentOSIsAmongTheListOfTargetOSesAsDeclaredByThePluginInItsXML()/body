@@ -1,0 +1,12 @@
+{
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  GoPluginDescriptor descriptor=new GoPluginDescriptor("some.old.id","1.0",new GoPluginDescriptor.About(null,null,null,null,null,asList("Windows","Linux")),null,new File(pluginJarFileName),false);
+  when(systemEnvironment.getCurrentOperatingSystem()).thenReturn(OperatingSystem.WINDOWS);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(descriptor);
+  listener=new DefaultPluginJarChangeListener(registry,osgiManifestGenerator,osgiFramework,goPluginDescriptorBuilder,systemEnvironment);
+  listener.pluginJarAdded(new PluginFileDetails(pluginJarFile,true));
+  verify(registry,times(1)).loadPlugin(descriptor);
+  verify(osgiFramework,times(1)).loadPlugin(descriptor);
+}

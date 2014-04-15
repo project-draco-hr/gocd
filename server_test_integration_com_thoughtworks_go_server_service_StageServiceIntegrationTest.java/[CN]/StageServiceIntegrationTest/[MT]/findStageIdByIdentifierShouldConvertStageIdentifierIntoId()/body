@@ -1,0 +1,5 @@
+{
+  dbHelper.execute("UPDATE pipelines SET label = '1.3.4' WHERE id = " + stage.getPipelineId());
+  dbHelper.execute("UPDATE pipelines SET counter = null WHERE id = " + stage.getPipelineId());
+  assertThat(stageService.findStageIdByLocator("mingle/1.3.4/dev/1"),is(stage.getId()));
+}

@@ -1,0 +1,17 @@
+{
+  return argThat(new BaseMatcher<ServerHealthState>(){
+    @Override public boolean matches(    Object o){
+      ServerHealthState serverHealthState=(ServerHealthState)o;
+      String description=serverHealthState.getDescription();
+      boolean isTheMessageWeHaveBeenWaitingFor=description.contains(expectedPartOfMessage);
+      if (isTheMessageWeHaveBeenWaitingFor) {
+        assertThat(serverHealthState.getLogLevel(),is(HealthStateLevel.WARNING));
+      }
+      return isTheMessageWeHaveBeenWaitingFor;
+    }
+    @Override public void describeTo(    Description description){
+      description.appendText("Expected message to contain: " + expectedPartOfMessage);
+    }
+  }
+);
+}

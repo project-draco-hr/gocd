@@ -1,0 +1,9 @@
+{
+  try {
+    isProcessingBasicAuth.set(true);
+    super.doFilterHttp(httpRequest,httpResponse,chain);
+  }
+  finally {
+    isProcessingBasicAuth.set(false);
+  }
+}

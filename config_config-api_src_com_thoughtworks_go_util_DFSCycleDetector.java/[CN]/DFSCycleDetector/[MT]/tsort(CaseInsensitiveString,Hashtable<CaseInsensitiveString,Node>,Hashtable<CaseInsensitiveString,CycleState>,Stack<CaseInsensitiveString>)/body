@@ -1,0 +1,16 @@
+{
+  state.put(root,CycleState.VISITING);
+  visiting.push(root);
+  validateRootExists(root,stageTable,visiting);
+  Node stage=stageTable.get(root);
+  for (  CaseInsensitiveString cur : stage.getDependencies()) {
+    if (!state.containsKey(cur)) {
+      tsort(cur,stageTable,state,visiting);
+    }
+ else     if (state.get(cur) == CycleState.VISITING) {
+      throwCircularException(cur,visiting);
+    }
+  }
+  popAndAssertTopIsConsistent(visiting,root);
+  state.put(root,CycleState.VISITED);
+}

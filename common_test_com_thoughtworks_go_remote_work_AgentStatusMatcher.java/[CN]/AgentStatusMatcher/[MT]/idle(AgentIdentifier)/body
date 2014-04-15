@@ -1,0 +1,16 @@
+{
+  return new TypeSafeMatcher<AgentRuntimeInfo>(){
+    public AgentRuntimeInfo expectedStatus;
+    private AgentRuntimeInfo agentStatus;
+    public boolean matchesSafely(    AgentRuntimeInfo agentStatus){
+      this.agentStatus=agentStatus;
+      expectedStatus=AgentRuntimeInfo.fromAgent(identifier,"cookie",null);
+      expectedStatus.idle();
+      return expectedStatus.equals(agentStatus);
+    }
+    public void describeTo(    Description description){
+      description.appendText("expected [" + expectedStatus + " but was"+ agentStatus);
+    }
+  }
+;
+}

@@ -1,0 +1,6 @@
+{
+  if ((ArtifactLogUtil.getConsoleOutputFolderAndFileName()).equals(filePath)) {
+    return ResponseCodeView.create(SC_NOT_FOUND,"Console log for this job is unavailable as it may have been purged by Go or deleted externally.");
+  }
+  return ResponseCodeView.create(SC_NOT_FOUND,"Artifact '" + filePath + "' is unavailable as it may have been purged by Go or deleted externally.");
+}

@@ -1,0 +1,11 @@
+{
+  factoryBean.setCacheManager(createCacheManager());
+  factoryBean.setCacheName("userCache");
+  factoryBean.setDiskPersistent(false);
+  factoryBean.setOverflowToDisk(false);
+  factoryBean.setMaxElementsInMemory(1000);
+  factoryBean.setEternal(true);
+  factoryBean.setMemoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU);
+  factoryBean.afterPropertiesSet();
+  return (Cache)factoryBean.getObject();
+}

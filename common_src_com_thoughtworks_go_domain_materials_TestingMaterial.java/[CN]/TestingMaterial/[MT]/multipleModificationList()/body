@@ -1,0 +1,15 @@
+{
+  List<Modification> modifications=new ArrayList<Modification>();
+  Date today=new Date();
+  Date yesterday=new DateTime().minusDays(1).toDate();
+  Modification modification1=new Modification("lgao","Fixing the not checked in files","foo@bar.com",yesterday,"99");
+  modification1.createModifiedFile("build.xml","\\build",ModifiedAction.added);
+  modifications.add(modification1);
+  Modification modification2=new Modification("committer","Added the README file","foo@bar.com",today,"100");
+  modification2.createModifiedFile("oldbuild.xml","\\build",ModifiedAction.added);
+  modifications.add(modification2);
+  Modification modification3=new Modification("committer <html />","Added the README file with <html />","foo@bar.com",today,"101");
+  modification3.createModifiedFile("README.txt","\\build",ModifiedAction.added);
+  modifications.add(modification3);
+  return modifications;
+}

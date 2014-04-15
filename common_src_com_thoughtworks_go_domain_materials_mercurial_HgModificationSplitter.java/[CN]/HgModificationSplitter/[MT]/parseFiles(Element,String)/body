@@ -1,0 +1,9 @@
+{
+  List files=filesElement.getChild(fileType).getChildren("file");
+  List<File> modifiedFiles=new ArrayList<File>();
+  for (Iterator iterator=files.iterator(); iterator.hasNext(); ) {
+    Element node=(Element)iterator.next();
+    modifiedFiles.add(new File(org.apache.commons.lang.StringEscapeUtils.unescapeXml(node.getText())));
+  }
+  return modifiedFiles;
+}

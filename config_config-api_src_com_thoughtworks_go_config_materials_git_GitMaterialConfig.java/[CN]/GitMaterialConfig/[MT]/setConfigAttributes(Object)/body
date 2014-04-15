@@ -1,0 +1,13 @@
+{
+  if (attributes == null) {
+    return;
+  }
+  super.setConfigAttributes(attributes);
+  Map map=(Map)attributes;
+  if (map.containsKey(BRANCH)) {
+    this.branch=(String)map.get(BRANCH);
+  }
+  if (map.containsKey(URL)) {
+    this.url=new UrlArgument((String)map.get(URL));
+  }
+}

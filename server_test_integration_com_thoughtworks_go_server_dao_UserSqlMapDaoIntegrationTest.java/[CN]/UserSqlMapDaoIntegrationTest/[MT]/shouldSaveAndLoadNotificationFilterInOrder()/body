@@ -1,0 +1,11 @@
+{
+  User user=anUser();
+  NotificationFilter filter1=new NotificationFilter("PipelineName","StageName",StageEvent.Fixed,false);
+  NotificationFilter filter2=new NotificationFilter("PipelineName","StageName",StageEvent.Fails,false);
+  user.setNotificationFilters(Arrays.asList(filter1,filter2));
+  userDao.saveOrUpdate(user);
+  user=userDao.findUser("user");
+  assertThat(user.getNotificationFilters().size(),is(2));
+  assertThat(user.getNotificationFilters().get(0),is(filter1));
+  assertThat(user.getNotificationFilters().get(1).getId(),is(filter2.getId()));
+}

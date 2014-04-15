@@ -1,0 +1,7 @@
+{
+  if (!goConfigService.hasPipelineNamed(new CaseInsensitiveString(pipelineName))) {
+    result.notFound(String.format("Pipeline '%s' not found",pipelineName),String.format("Pipeline '%s' not found",pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return true;
+  }
+  return false;
+}

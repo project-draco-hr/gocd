@@ -1,0 +1,7 @@
+{
+  final PipelineConfigs newPipeline=new PipelineConfigs();
+  PipelineConfig pipelineConfig=createPipelineConfig("pipeline","name","plan");
+  newPipeline.add(pipelineConfig);
+  expectLoad(new CruiseConfig(newPipeline));
+  assertThat(goConfigService.stageConfigNamed("pipeline","name"),is(pipelineConfig.findBy(new CaseInsensitiveString("name"))));
+}

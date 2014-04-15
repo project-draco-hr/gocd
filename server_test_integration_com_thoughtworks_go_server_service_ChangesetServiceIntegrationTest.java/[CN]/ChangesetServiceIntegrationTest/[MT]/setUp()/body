@@ -1,0 +1,14 @@
+{
+  dbHelper.onSetUp();
+  configHelper=new GoConfigFileHelper(goConfigFileDao);
+  configHelper.onSetUp();
+  git=MaterialsMother.gitMaterial("http://google.com",null,"master");
+  git.setFolder("git");
+  hg=MaterialsMother.hgMaterial();
+  hg.setFolder("hg");
+  svn=MaterialsMother.svnMaterial("http://google.com/svn");
+  svn.setFolder("svn");
+  pipelineConfig=configHelper.addPipeline("foo-bar","stage",new MaterialConfigs(hg.config()),"build");
+  pipelineConfigWithTwoMaterials=configHelper.addPipeline("foo","stage",new MaterialConfigs(git.config(),hg.config()),"build");
+  pipelineConfigWithSvn=configHelper.addPipeline("bar","stage",new MaterialConfigs(svn.config()),"build");
+}

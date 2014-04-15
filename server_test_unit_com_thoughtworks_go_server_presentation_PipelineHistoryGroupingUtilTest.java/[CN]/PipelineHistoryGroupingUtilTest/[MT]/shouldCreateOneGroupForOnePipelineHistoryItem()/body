@@ -1,0 +1,6 @@
+{
+  PipelineInstanceModel pipelineInstanceModel=PipelineHistoryItemMother.custom("stage1","stage2");
+  PipelineHistoryGroups historyGroups=groupingUtil.createGroups(PipelineInstanceModels.createPipelineInstanceModels(pipelineInstanceModel));
+  assertThat(historyGroups.size(),is(1));
+  assertThat(historyGroups.first().hasSameStagesAs(pipelineInstanceModel),is(true));
+}

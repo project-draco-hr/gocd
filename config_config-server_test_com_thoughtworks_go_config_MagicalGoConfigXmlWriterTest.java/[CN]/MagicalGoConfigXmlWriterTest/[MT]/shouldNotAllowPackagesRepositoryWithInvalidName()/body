@@ -1,0 +1,14 @@
+{
+  Configuration packageConfiguration=new Configuration(getConfigurationProperty("name",false,"go-agent"));
+  Configuration repositoryConfiguration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig configToSave=new CruiseConfig();
+  PackageRepository packageRepository=createPackageRepository("plugin-id","version","id","name with space",repositoryConfiguration,new Packages(new PackageDefinition("id","name",packageConfiguration)));
+  configToSave.setPackageRepositories(new PackageRepositories(packageRepository));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not have allowed two repositories with same id");
+  }
+ catch (  GoConfigInvalidException e) {
+    assertThat(e.getMessage(),is("Invalid PackageRepository name 'name with space'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
+  }
+}

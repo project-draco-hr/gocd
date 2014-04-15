@@ -1,0 +1,10 @@
+{
+  File versionFile=TestFileUtil.writeStringToTempFileInFolder("default","version.txt","10.1=10");
+  File randomFile=TestFileUtil.createTestFile(versionFile.getParentFile(),"random");
+  File defaultCommandRepoDir=versionFile.getParentFile();
+  initializer.usePackagedCommandRepository(new ZipInputStream(new FileInputStream(getZippedCommandRepo("12.4=12"))),defaultCommandRepoDir);
+  assertThat(defaultCommandRepoDir.exists(),is(true));
+  assertThat(FileUtils.readFileToString(new File(defaultCommandRepoDir,"version.txt")),is("12.4=12"));
+  assertThat(new File(defaultCommandRepoDir,"snippet.xml").exists(),is(true));
+  assertThat(new File(defaultCommandRepoDir,randomFile.getName()).exists(),is(false));
+}

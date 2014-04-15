@@ -1,0 +1,9 @@
+{
+  for (  Revision revision : p1_node.revisions()) {
+    PipelineRevision pipelineRevision=(PipelineRevision)revision;
+    if (pipelineCounter == pipelineRevision.getCounter()) {
+      return pipelineRevision;
+    }
+  }
+  throw new RuntimeException(String.format("VSM node of %s does not have revision %s",p1_node.getName(),pipelineCounter));
+}

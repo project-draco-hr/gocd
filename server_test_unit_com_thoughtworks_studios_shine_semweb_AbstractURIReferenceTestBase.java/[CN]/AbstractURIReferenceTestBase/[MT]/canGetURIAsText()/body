@@ -1,0 +1,7 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "<http://example.com/1> a ex:Whatever . ";
+  graph.addTriplesFromTurtle(turtle);
+  String sparqlSelect="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?node  WHERE { " + "?node a ex:Whatever "+ "}";
+  BoundVariables bv=graph.selectFirst(sparqlSelect);
+  assertEquals("http://example.com/1",bv.getURIReference("node").getURIText());
+}

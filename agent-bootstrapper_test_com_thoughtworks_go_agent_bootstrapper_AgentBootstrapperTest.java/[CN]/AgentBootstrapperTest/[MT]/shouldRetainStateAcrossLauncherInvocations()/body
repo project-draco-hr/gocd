@@ -1,0 +1,36 @@
+{
+  final Map expectedContext=new HashMap();
+  AgentBootstrapper agentBootstrapper=new AgentBootstrapper(){
+    @Override AgentLauncherCreator getLauncherCreator(){
+      return new AgentLauncherCreator(){
+        public AgentLauncher createLauncher(){
+          return new AgentLauncher(){
+            public static final String COUNT="count";
+            public int launch(            AgentLaunchDescriptor descriptor){
+              Map descriptorContext=descriptor.context();
+              incrementCount(descriptorContext);
+              incrementCount(expectedContext);
+              Integer expectedCount=(Integer)expectedContext.get(COUNT);
+              assertThat((Integer)descriptorContext.get(COUNT),is(expectedCount));
+              if (expectedCount > 3) {
+                ((AgentBootstrapper)descriptor.getBootstrapper()).stopLooping();
+              }
+              return 0;
+            }
+            private void incrementCount(            Map map){
+              Integer currentInvocationCount=map.containsKey(COUNT) ? (Integer)map.get(COUNT) : 0;
+              map.put(COUNT,currentInvocationCount + 1);
+            }
+          }
+;
+        }
+        @Override public void destroy(){
+        }
+      }
+;
+    }
+  }
+;
+  AgentBootstrapper spy=stubJVMExit(agentBootstrapper);
+  spy.go(true,"localhost",80);
+}

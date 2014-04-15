@@ -1,0 +1,23 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("[Agent Registration] Using URL %s to register.",serverUrl));
+  }
+  PostMethod postMethod=new PostMethod(serverUrl);
+  postMethod.addParameter("hostname",agentHostName);
+  postMethod.addParameter("uuid",agentRegistry.uuid());
+  String workingdir=SystemUtil.currentWorkingDirectory();
+  postMethod.addParameter("location",workingdir);
+  postMethod.addParameter("usablespace",String.valueOf(AgentRuntimeInfo.usableSpace(workingdir)));
+  postMethod.addParameter("operating_system",new SystemEnvironment().getOperatingSystemName());
+  postMethod.addParameter("agentAutoRegisterKey",agentAutoRegisterProperties.getAgentAutoRegisterKey());
+  postMethod.addParameter("agentAutoRegisterResources",agentAutoRegisterProperties.getAgentAutoRegisterResources());
+  postMethod.addParameter("agentAutoRegisterEnvironments",agentAutoRegisterProperties.getAgentAutoRegisterEnvironments());
+  try {
+    httpClient.executeMethod(postMethod);
+    InputStream is=postMethod.getResponseBodyAsStream();
+    return readResponse(is);
+  }
+  finally {
+    postMethod.releaseConnection();
+  }
+}

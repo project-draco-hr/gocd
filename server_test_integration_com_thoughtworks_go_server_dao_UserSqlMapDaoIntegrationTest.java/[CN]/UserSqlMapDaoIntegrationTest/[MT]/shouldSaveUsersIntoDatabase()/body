@@ -1,0 +1,7 @@
+{
+  User user=anUser();
+  userDao.saveOrUpdate(user);
+  User savedUser=userDao.findUser("user");
+  assertThat(savedUser,is(user));
+  assertThat(userDao.load(savedUser.getId()),is(user));
+}

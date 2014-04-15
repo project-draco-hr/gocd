@@ -1,0 +1,26 @@
+{
+  useConfigString(ConfigFileFixture.CRUISE);
+  String oldServerId=goConfigFileDao.load().server().getServerId();
+  Exception ex=null;
+  try {
+    GoConfigFileHelper.withServerIdImmutability(new Procedure(){
+      public void call(){
+        goConfigFileDao.updateConfig(new UpdateConfigCommand(){
+          public CruiseConfig update(          CruiseConfig cruiseConfig) throws Exception {
+            ReflectionUtil.setField(cruiseConfig.server(),"serverId","new-value");
+            return cruiseConfig;
+          }
+        }
+);
+      }
+    }
+);
+    fail("should not save with modified serverId");
+  }
+ catch (  Exception e) {
+    ex=e;
+  }
+  assertThat(ex.getMessage(),is("The value of 'serverId' uniquely identifies a Go server instance. This field cannot be modified."));
+  CruiseConfig config=goConfigFileDao.load();
+  assertThat(config.server().getServerId(),is(oldServerId));
+}

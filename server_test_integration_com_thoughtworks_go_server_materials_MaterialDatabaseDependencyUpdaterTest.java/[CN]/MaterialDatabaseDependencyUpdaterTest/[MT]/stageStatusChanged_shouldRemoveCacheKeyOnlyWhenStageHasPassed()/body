@@ -1,0 +1,7 @@
+{
+  final DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  String key=DependencyMaterialUpdater.cacheKeyForDependencyMaterial(dependencyMaterial);
+  goCache.put(key,"foo");
+  dependencyMaterialUpdater.stageStatusChanged(StageMother.createPassedStage("pipeline-name",1,"stage-name",1,"job-name",new Date()));
+  assertThat(goCache.get(key),is(nullValue()));
+}

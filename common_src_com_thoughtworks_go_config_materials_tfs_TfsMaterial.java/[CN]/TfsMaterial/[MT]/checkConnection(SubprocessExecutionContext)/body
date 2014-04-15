@@ -1,0 +1,10 @@
+{
+  try {
+    tfs(execCtx).checkConnection();
+    return ValidationBean.valid();
+  }
+ catch (  Exception e) {
+    LOGGER.error("[TFS] Error during check connection",e);
+    return ValidationBean.notValid(e.getMessage());
+  }
+}

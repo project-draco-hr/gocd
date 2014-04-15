@@ -1,0 +1,14 @@
+{
+  try {
+    GitCommand.checkConnection(url);
+    return ValidationBean.valid();
+  }
+ catch (  Exception e) {
+    try {
+      return handleException(e,GitCommand.version());
+    }
+ catch (    Exception notInstallGitException) {
+      return ValidationBean.notValid(ERR_GIT_NOT_FOUND);
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  setProperty(oldPipeline,"a/2","200");
+  setProperty(oldPipeline,"a/1","100");
+  setProperty(newPipeline,"a/2","400");
+  setProperty(newPipeline,"a/1","300");
+  getAllPropertyHistoryListAsCsvBySearch();
+  CSVResponse csvResponse=new CSVResponse(response);
+  assertThat(csvResponse.isCSV(),is(true));
+  assertThat(csvResponse.statusEquals(SC_OK),is(true));
+  assertThat(csvResponse.containsRow("a/1","a/2"),is(true));
+  assertThat(csvResponse.containsColumn("a/1","100","300"),is(true));
+  assertThat(csvResponse.containsColumn("a/2","200","400"),is(true));
+}

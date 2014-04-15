@@ -1,0 +1,9 @@
+{
+  if (material.getName() == null && pmr.getMaterialName() == null) {
+    return true;
+  }
+  if (material.getName() == null && pmr.getMaterialName() != null) {
+    return false;
+  }
+  return material.getName().equals(new CaseInsensitiveString(pmr.getMaterialName()));
+}

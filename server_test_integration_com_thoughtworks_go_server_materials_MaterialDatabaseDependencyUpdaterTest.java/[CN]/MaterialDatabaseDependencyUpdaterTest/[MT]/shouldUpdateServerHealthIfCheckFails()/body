@@ -1,0 +1,15 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  RuntimeException runtimeException=new RuntimeException("Description of error");
+  Mockito.when(dependencyMaterialSourceDao.getPassedStagesByName(new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name")),Pagination.pageStartingAt(0,null,MaterialDatabaseUpdater.STAGES_PER_PAGE))).thenThrow(runtimeException);
+  try {
+    updater.updateMaterial(dependencyMaterial);
+    fail("should have thrown exception " + runtimeException.getMessage());
+  }
+ catch (  Exception e) {
+    assertSame(e,runtimeException);
+  }
+  HealthStateType scope=HealthStateType.general(HealthStateScope.forMaterial(dependencyMaterial));
+  ServerHealthState state=ServerHealthState.error("Modification check failed for material: pipeline-name","Description of error",scope);
+  Mockito.verify(healthService).update(state);
+}

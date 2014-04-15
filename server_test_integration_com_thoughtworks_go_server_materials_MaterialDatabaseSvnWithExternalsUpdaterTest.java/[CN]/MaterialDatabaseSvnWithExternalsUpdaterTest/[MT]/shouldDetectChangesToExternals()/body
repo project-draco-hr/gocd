@@ -1,0 +1,7 @@
+{
+  ((SvnTestRepoWithExternal)testRepo).checkInExternalFile("external.txt","EXTERNAL");
+  updater.updateMaterial(material);
+  MaterialRevisions materialRevisions=materialRepository.findLatestModification(material);
+  assertThat(materialRevisions.numberOfRevisions(),is(2));
+  assertThat(materialRevisions.getMaterialRevision(1).getModification(0).getComment(),is("EXTERNAL"));
+}

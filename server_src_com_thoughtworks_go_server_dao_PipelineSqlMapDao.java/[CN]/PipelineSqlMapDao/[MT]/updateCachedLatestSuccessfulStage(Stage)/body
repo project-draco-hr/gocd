@@ -1,0 +1,9 @@
+{
+  if (stage.passed()) {
+    StageIdentifier identifier=stage.getIdentifier();
+    String cacheKey=latestSuccessfulStageCacheKey(identifier.getPipelineName(),identifier.getStageName());
+synchronized (cacheKey) {
+      goCache.put(cacheKey,identifier);
+    }
+  }
+}

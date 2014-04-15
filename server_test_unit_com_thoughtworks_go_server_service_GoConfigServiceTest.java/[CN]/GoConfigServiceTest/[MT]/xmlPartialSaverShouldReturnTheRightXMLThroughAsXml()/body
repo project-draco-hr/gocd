@@ -1,0 +1,6 @@
+{
+  expectLoadForEditing(new GoConfigMother().defaultCruiseConfig());
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(true);
+  assertThat(saver.asXml(),containsString(String.format("schemaVersion=\"%s\"",GoConstants.CONFIG_SCHEMA_VERSION)));
+  assertThat(saver.asXml(),containsString("xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\""));
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    ConfigMigrator.loadWithMigration(ConfigFileFixture.TASKS_WITH_EMPTY_ON_CANCEL);
+    fail("Should not allow empty 'oncancel'");
+  }
+ catch (  Exception expected) {
+    System.out.println(expected.getMessage());
+  }
+}

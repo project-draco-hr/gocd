@@ -1,0 +1,6 @@
+{
+  TestMaterialConfig testMaterialConfig=new TestMaterialConfig("foo");
+  String pipelineUniqueFingerprint=testMaterialConfig.getPipelineUniqueFingerprint();
+  testMaterialConfig.setConfigAttributes(m("bar","baz"));
+  assertThat(testMaterialConfig.getPipelineUniqueFingerprint(),not(pipelineUniqueFingerprint));
+}

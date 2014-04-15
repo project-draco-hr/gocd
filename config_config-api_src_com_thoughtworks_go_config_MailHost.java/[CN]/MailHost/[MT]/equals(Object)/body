@@ -1,0 +1,28 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  MailHost mailHost=(MailHost)o;
+  if (port != mailHost.port) {
+    return false;
+  }
+  if (tls != mailHost.tls) {
+    return false;
+  }
+  if (getAdminMail() != null ? !getAdminMail().equals(mailHost.getAdminMail()) : mailHost.getAdminMail() != null) {
+    return false;
+  }
+  if (getFrom() != null ? !getFrom().equals(mailHost.getFrom()) : mailHost.getFrom() != null) {
+    return false;
+  }
+  if (hostName != null ? !hostName.equals(mailHost.hostName) : mailHost.hostName != null) {
+    return false;
+  }
+  if (username != null ? !username.equals(mailHost.username) : mailHost.username != null) {
+    return false;
+  }
+  return true;
+}

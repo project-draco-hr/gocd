@@ -1,0 +1,8 @@
+{
+  JobPlan jobPlan=(JobPlan)getSqlMapClientTemplate().queryForObject("scheduledPlan",arguments("id",jobId).asMap());
+  if (jobPlan == null) {
+    return null;
+  }
+  loadVariables(jobPlan);
+  return jobPlan;
+}

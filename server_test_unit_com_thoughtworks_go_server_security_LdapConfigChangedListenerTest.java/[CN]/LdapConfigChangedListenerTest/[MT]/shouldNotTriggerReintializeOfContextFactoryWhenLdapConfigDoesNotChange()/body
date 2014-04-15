@@ -1,0 +1,9 @@
+{
+  LdapConfig oldLdapConfig=new LdapConfig("oldOne","manager","pwd",null,true,new BasesConfig(new BaseConfig("foo")),"bar");
+  helper.addLdapSecurityWith(oldLdapConfig,true,new PasswordFileConfig(),new AdminsConfig());
+  LdapContextFactory mockContextFactory=mock(LdapContextFactory.class);
+  LdapConfigChangedListener listener=new LdapConfigChangedListener(oldLdapConfig,mockContextFactory);
+  helper.addLdapSecurityWith(oldLdapConfig,true,new PasswordFileConfig(),new AdminsConfig());
+  listener.onConfigChange(helper.currentConfig());
+  verify(mockContextFactory,never()).initializeDelegator();
+}

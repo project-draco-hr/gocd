@@ -1,0 +1,11 @@
+{
+  MessageQueueCounterProbe counterProbe=new MessageQueueCounterProbe(ProbeType.MATERIAL_UPDATE_QUEUE_COUNTER,"something");
+  List<Integer> queue=new ArrayList<Integer>();
+  queue.add(1);
+  counterProbe.begin();
+  queue.add(2);
+  counterProbe.begin();
+  queue.remove(0);
+  counterProbe.end(null);
+  MatcherAssert.assertThat(counterProbe.getPendingItems().count(),is((long)queue.size()));
+}

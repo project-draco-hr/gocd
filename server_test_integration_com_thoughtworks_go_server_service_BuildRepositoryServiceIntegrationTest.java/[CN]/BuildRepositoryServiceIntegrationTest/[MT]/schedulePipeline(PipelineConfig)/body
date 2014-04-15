@@ -1,0 +1,15 @@
+{
+  return (Pipeline)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      MaterialRevisions materialRevisions=new MaterialRevisions();
+      for (      Material material : MaterialsMother.createMaterialsFromMaterialConfigs(pipeline.materialConfigs())) {
+        materialRevisions.addRevision(material,new Modification("user","comment",null,new Date(),ModificationsMother.nextRevision()));
+      }
+      materialRepository.save(materialRevisions);
+      Pipeline scheduledPipeline=instanceFactory.createPipelineInstance(pipeline,BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+      pipelineService.save(scheduledPipeline);
+      return scheduledPipeline;
+    }
+  }
+);
+}

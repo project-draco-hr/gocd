@@ -1,0 +1,13 @@
+{
+  if (isSecure) {
+    try {
+      return goCipher.decrypt(encryptedValue.getValue());
+    }
+ catch (    InvalidCipherTextException e) {
+      throw new RuntimeException(String.format("Could not decrypt secure environment variable value for name %s",getName()),e);
+    }
+  }
+ else {
+    return value.getValue();
+  }
+}

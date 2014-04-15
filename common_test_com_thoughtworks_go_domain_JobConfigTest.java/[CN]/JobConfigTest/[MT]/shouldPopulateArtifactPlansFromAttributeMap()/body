@@ -1,0 +1,11 @@
+{
+  HashMap map=new HashMap();
+  HashMap valueHashMap=new HashMap();
+  valueHashMap.put("src","dest");
+  valueHashMap.put("src1","dest1");
+  map.put(JobConfig.ARTIFACT_PLANS,valueHashMap);
+  ArtifactPlans mockArtifactPlans=mock(ArtifactPlans.class);
+  JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("job-name"),new Resources(),mockArtifactPlans);
+  jobConfig.setConfigAttributes(map);
+  verify(mockArtifactPlans).setConfigAttributes(valueHashMap);
+}

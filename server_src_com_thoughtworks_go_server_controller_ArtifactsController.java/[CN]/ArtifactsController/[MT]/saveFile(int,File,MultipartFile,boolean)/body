@@ -1,0 +1,12 @@
+{
+  InputStream inputStream=null;
+  boolean success;
+  try {
+    inputStream=multipartFile.getInputStream();
+    success=artifactsService.saveFile(artifact,inputStream,shouldUnzip,convertedAttempt);
+  }
+  finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+  return success;
+}

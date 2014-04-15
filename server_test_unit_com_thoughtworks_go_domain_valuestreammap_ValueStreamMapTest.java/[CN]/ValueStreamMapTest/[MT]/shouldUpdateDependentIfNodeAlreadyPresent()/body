@@ -1,0 +1,9 @@
+{
+  String dependent="P1";
+  ValueStreamMap graph=new ValueStreamMap(dependent,null);
+  graph.addUpstreamNode(new PipelineDependencyNode("d1","d1"),null,dependent);
+  graph.addUpstreamNode(new PipelineDependencyNode("d2","d2"),null,dependent);
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d1");
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d2");
+  VSMTestHelper.assertThatNodeHasChildren(graph,"d3",0,"d1","d2");
+}

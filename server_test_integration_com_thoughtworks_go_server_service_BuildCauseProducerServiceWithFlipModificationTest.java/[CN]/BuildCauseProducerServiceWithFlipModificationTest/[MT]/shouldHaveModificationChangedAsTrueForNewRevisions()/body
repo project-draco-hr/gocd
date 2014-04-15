@@ -1,0 +1,9 @@
+{
+  mingleConfig=configHelper.addPipeline(PIPELINE_NAME,STAGE_NAME,svnMaterialConfig,"unit","functional");
+  consume(buildCause());
+  svnRepository.checkInOneFile("abc");
+  final HashMap<String,String> revisions=new HashMap<String,String>();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,new Username(new CaseInsensitiveString("pavan")),new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
+  verifyBuildCauseHasModificationsWith(pipelineScheduleQueue.toBeScheduled(),true);
+}

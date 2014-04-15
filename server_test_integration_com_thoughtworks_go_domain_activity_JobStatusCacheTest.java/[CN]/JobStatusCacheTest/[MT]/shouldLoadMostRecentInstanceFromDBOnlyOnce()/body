@@ -1,0 +1,18 @@
+{
+  Mockery mockery=new Mockery();
+  final StageDao mock=mockery.mock(StageDao.class);
+  final JobInstance instance=JobInstanceMother.passed("linux-firefox");
+  final List<JobInstance> found=new ArrayList<JobInstance>();
+  found.add(instance);
+  mockery.checking(new Expectations(){
+{
+      one(mock).mostRecentJobsForStage("pipeline","stage");
+      will(returnValue(found));
+    }
+  }
+);
+  JobConfigIdentifier identifier=new JobConfigIdentifier(instance.getPipelineName(),instance.getStageName(),instance.getName());
+  JobStatusCache cache=new JobStatusCache(mock);
+  assertThat(cache.currentJob(identifier).getState(),is(instance.getState()));
+  assertThat(cache.currentJob(identifier).getState(),is(instance.getState()));
+}

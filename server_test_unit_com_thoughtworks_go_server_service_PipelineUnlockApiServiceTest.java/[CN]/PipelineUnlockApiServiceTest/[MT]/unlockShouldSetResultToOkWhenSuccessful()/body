@@ -1,0 +1,13 @@
+{
+  Mockito.when(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString("username"),"pipeline-name")).thenReturn(true);
+  Mockito.when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("pipeline-name"))).thenReturn(true);
+  Mockito.when(goConfigService.isLockable("pipeline-name")).thenReturn(true);
+  Mockito.when(pipelineLockService.lockedPipeline("pipeline-name")).thenReturn(new StageIdentifier("pipeline-name",10,"10","stage","2"));
+  Pipeline pipeline=new Pipeline();
+  Mockito.when(pipelineDao.findPipelineByNameAndCounter("pipeline-name",10)).thenReturn(pipeline);
+  HttpOperationResult result=new HttpOperationResult();
+  pipelineUnlockApiService.unlock("pipeline-name",new Username(new CaseInsensitiveString("username")),result);
+  assertThat(result.httpCode(),is(200));
+  assertThat(result.message(),is("pipeline lock released for pipeline-name"));
+  Mockito.verify(pipelineLockService).unlock("pipeline-name");
+}

@@ -1,0 +1,9 @@
+{
+  PipelineTemplateConfig template=template("TEmplatE1");
+  TemplatesConfig templates=new TemplatesConfig(template);
+  PipelineTemplateConfig duplicateTemplate=template("template1");
+  templates.add(duplicateTemplate);
+  templates.validate(null);
+  assertThat(template.errors().isEmpty(),is(false));
+  assertThat(duplicateTemplate.errors().isEmpty(),is(false));
+}

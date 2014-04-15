@@ -1,0 +1,30 @@
+{
+  String includedFiles[]=ds.getIncludedFiles();
+  String includedDirectories[]=ds.getIncludedDirectories();
+  assertThat("expected " + Arrays.asList(expectedFiles) + " but "+ Arrays.asList(includedFiles),includedFiles.length,is(expectedFiles.length));
+  assertThat("directories present: ",includedDirectories.length,is(expectedDirectories.length));
+  TreeSet files=new TreeSet();
+  for (int counter=0; counter < includedFiles.length; counter++) {
+    files.add(includedFiles[counter].replace(File.separatorChar,'/'));
+  }
+  TreeSet directories=new TreeSet();
+  for (int counter=0; counter < includedDirectories.length; counter++) {
+    directories.add(includedDirectories[counter].replace(File.separatorChar,'/'));
+  }
+  String currentfile;
+  Iterator i=files.iterator();
+  int counter=0;
+  while (i.hasNext()) {
+    currentfile=(String)i.next();
+    assertThat(currentfile,is(expectedFiles[counter]));
+    counter++;
+  }
+  String currentdirectory;
+  Iterator dirit=directories.iterator();
+  counter=0;
+  while (dirit.hasNext()) {
+    currentdirectory=(String)dirit.next();
+    assertThat(currentdirectory,is(expectedDirectories[counter]));
+    counter++;
+  }
+}

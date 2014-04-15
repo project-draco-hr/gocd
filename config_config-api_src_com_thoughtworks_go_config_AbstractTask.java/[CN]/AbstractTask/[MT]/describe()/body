@@ -1,0 +1,22 @@
+{
+  StringBuilder builder=new StringBuilder();
+  ConfigTag configTag=this.getClass().getAnnotation(ConfigTag.class);
+  builder.append("<").append(configTag.value()).append(" ");
+  GoConfigClassWriter cruiseConfigClass=new GoConfigClassWriter(this.getClass(),new ConfigCache(),null);
+  List<GoConfigFieldWriter> fields=cruiseConfigClass.getAllFields(this);
+  for (  GoConfigFieldWriter field : fields) {
+    if (field.isAttribute()) {
+      Object value=field.getValue();
+      if (!field.isDefault(cruiseConfigClass)) {
+        appendIfNotEmpty(builder,value,field.value());
+      }
+    }
+ else {
+      addDescribeOfArguments(builder,configTag,field);
+    }
+  }
+  if (!(this instanceof ExecTask)) {
+    builder.append("/>");
+  }
+  return builder.toString();
+}

@@ -1,0 +1,14 @@
+{
+  return convert(environments,agents,new Assigner<EnvironmentConfig,AgentConfig>(){
+    public boolean shouldAssociate(    AgentConfig agent,    EnvironmentConfig environment){
+      return environment.hasAgent(agent.getUuid());
+    }
+    public String identifier(    EnvironmentConfig environment){
+      return CaseInsensitiveString.str(environment.name());
+    }
+    public boolean shouldEnable(    AgentConfig agent,    EnvironmentConfig environment){
+      return true;
+    }
+  }
+);
+}

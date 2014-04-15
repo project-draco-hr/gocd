@@ -1,0 +1,11 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("[TFS] Unmapping Project Path %s for Workspace %s, User %s ",projectPath,workspace,userName));
+  }
+  try {
+    unMap();
+  }
+ catch (  Exception e) {
+    LOGGER.warn(String.format("[TFS] Unmapping Project Path %s failed for Workspace %s, User %s",projectPath,workspace,userName),e);
+  }
+}

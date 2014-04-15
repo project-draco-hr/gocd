@@ -1,0 +1,9 @@
+{
+  goCache.clear();
+  dbHelper.onSetUp();
+  mockTemplate=mock(SqlMapClientTemplate.class);
+  repository=mock(MaterialRepository.class);
+  environmentVariableDao=mock(EnvironmentVariableDao.class);
+  pipelineDao=new PipelineSqlMapDao(null,repository,goCache,environmentVariableDao,transactionTemplate,null,transactionSynchronizationManager,systemEnvironment,configFileDao,databaseStrategy);
+  pipelineDao.setSqlMapClientTemplate(mockTemplate);
+}

@@ -1,0 +1,9 @@
+{
+  paramsConfig=new ParamsConfig();
+  ParamConfig one=new ParamConfig("name","value");
+  paramsConfig.add(one);
+  ParamConfig two=new ParamConfig("other","other-value");
+  paramsConfig.add(two);
+  assertThat(paramsConfig.getIndex("other"),is(1));
+  assertThat(paramsConfig.getIndex("name"),is(0));
+}

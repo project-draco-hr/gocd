@@ -1,0 +1,14 @@
+{
+  if (!securityService.isUserAdmin(username)) {
+    result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_ADMINISTER"),HealthStateType.unauthorised());
+    return null;
+  }
+  List<PipelineConfig> allPipelineConfigs=goConfigService.getAllPipelineConfigsForEdit();
+  List<PipelineConfig> allPipelinesNotUsingTemplates=new ArrayList<PipelineConfig>();
+  for (  PipelineConfig pipeline : allPipelineConfigs) {
+    if (!pipeline.hasTemplate()) {
+      allPipelinesNotUsingTemplates.add(pipeline);
+    }
+  }
+  return allPipelinesNotUsingTemplates;
+}

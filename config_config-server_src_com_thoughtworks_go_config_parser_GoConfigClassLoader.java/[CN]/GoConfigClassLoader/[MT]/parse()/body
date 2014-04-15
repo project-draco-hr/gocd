@@ -1,0 +1,21 @@
+{
+  bombUnless(atElement(),"Unable to parse element <" + e.getName() + "> for class "+ aClass.getSimpleName());
+  T o=createInstance();
+  if (isAnnotationPresent(aClass,ConfigReferenceCollection.class)) {
+    ConfigReferenceCollection referenceCollection=aClass.getAnnotation(ConfigReferenceCollection.class);
+    String collectionName=referenceCollection.collectionName();
+    String idFieldName=referenceCollection.idFieldName();
+    if (e.getAttribute(idFieldName) != null) {
+      String id=e.getAttribute(idFieldName).getValue();
+      configReferenceElements.add(collectionName,id,o);
+    }
+  }
+  for (  GoConfigFieldLoader field : allFields(o)) {
+    field.parse();
+  }
+  if (isConfigCollection()) {
+    parseCollection((Collection)o);
+  }
+  postConstruct(o);
+  return o;
+}

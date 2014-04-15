@@ -1,0 +1,15 @@
+{
+  SecurityConfig securityConfig=goConfigService.security();
+  LdapConfig ldapConfig=securityConfig.ldapConfig();
+  if (ldapConfig.isEnabled()) {
+    try {
+      delegate=new DefaultSpringSecurityContextSource(ldapConfig.uri());
+      delegate.setBaseEnvironmentProperties(System.getProperties());
+      new LdapContextSourceConfigurator(ldapConfig).configure(delegate);
+      delegate.afterPropertiesSet();
+    }
+ catch (    Exception e) {
+      throw bomb("Invalid or empty ldap config, Error creating DefaultSpringSecurityContextSource",e);
+    }
+  }
+}

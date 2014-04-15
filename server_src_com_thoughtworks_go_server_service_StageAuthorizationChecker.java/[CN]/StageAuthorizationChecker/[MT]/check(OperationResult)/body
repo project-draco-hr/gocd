@@ -1,0 +1,10 @@
+{
+  HealthStateType id=HealthStateType.general(HealthStateScope.forPipeline(pipelineName));
+  if (!securityService.hasOperatePermissionForStage(pipelineName,stageName,username)) {
+    String message=String.format("Failed to trigger pipeline [%s]",pipelineName);
+    result.unauthorized(message,"User " + username + " does not have permission to schedule "+ pipelineName+ "/"+ stageName,id);
+  }
+ else {
+    result.success(id);
+  }
+}

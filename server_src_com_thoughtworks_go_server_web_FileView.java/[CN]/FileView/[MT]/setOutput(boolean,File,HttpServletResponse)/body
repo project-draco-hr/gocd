@@ -1,0 +1,10 @@
+{
+  ServletOutputStream out=response.getOutputStream();
+  if (needToZip) {
+    new ZipUtil().zip(file,out,Deflater.NO_COMPRESSION);
+  }
+ else {
+    IOUtils.copy(new FileInputStream(file),out);
+  }
+  out.flush();
+}

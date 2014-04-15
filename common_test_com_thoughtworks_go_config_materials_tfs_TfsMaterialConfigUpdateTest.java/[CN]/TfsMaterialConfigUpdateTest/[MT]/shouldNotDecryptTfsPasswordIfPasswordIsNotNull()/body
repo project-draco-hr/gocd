@@ -1,0 +1,11 @@
+{
+  GoCipher mockGoCipher=mock(GoCipher.class);
+  when(mockGoCipher.encrypt("password")).thenReturn("encrypted");
+  when(mockGoCipher.decrypt("encrypted")).thenReturn("password");
+  TfsMaterialConfig materialConfig=new TfsMaterialConfig(mockGoCipher,new UrlArgument("http://10.4.4.101:8080/tfs/Sample"),"loser","CORPORATE","password","walk_this_path");
+  materialConfig.ensureEncrypted();
+  when(mockGoCipher.encrypt("new_password")).thenReturn("new_encrypted");
+  materialConfig.setPassword("new_password");
+  when(mockGoCipher.decrypt("new_encrypted")).thenReturn("new_password");
+  assertThat(materialConfig.getPassword(),is("new_password"));
+}

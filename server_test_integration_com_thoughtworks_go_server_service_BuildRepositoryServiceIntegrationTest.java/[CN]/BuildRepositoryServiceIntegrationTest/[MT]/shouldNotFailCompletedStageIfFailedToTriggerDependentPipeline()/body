@@ -1,0 +1,10 @@
+{
+  Subversion notExistsRepo=new SvnCommand(null,"http://notExistSvnURL");
+  PipelineConfig dependentPipeline=config.addPipeline("product","dev",notExistsRepo,"build");
+  config.setDependencyOn(dependentPipeline,PIPELINE_NAME,DEV_STAGE);
+  int beforeProcessing=serverHealthService.getAllValidLogs(goConfigService.currentCruiseConfig()).size();
+  int oldSize=pipelineScheduleQueue.toBeScheduled().size();
+  createPipelineWithFirstStageCompleted(mingle);
+  assertThat(serverHealthService.getAllValidLogs(goConfigService.currentCruiseConfig()).size(),is(beforeProcessing + 1));
+  assertThat(pipelineScheduleQueue.toBeScheduled().size(),is(oldSize));
+}

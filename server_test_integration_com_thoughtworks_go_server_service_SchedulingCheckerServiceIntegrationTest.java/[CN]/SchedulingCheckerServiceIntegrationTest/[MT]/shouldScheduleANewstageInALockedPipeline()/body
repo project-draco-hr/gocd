@@ -1,0 +1,8 @@
+{
+  configFileHelper.lockPipeline(pipelineFixture.pipelineName);
+  Pipeline pipeline=pipelineFixture.schedulePipeline();
+  firstStagePassedAndSecondStageNotStarted(pipeline);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  schedulingChecker.canScheduleStage(pipeline.getIdentifier(),pipelineFixture.stageName(2),APPROVED_USER,result);
+  assertThat(result.getServerHealthState().isSuccess(),is(true));
+}

@@ -1,0 +1,13 @@
+{
+  String pipelineIdsSql=queryExtensions.queryFromInclusiveModificationsForPipelineRange(pipelineName,fromCounter,toCounter);
+  SQLQuery pipelineIdsQuery=session.createSQLQuery(pipelineIdsSql);
+  final List ids=pipelineIdsQuery.list();
+  if (ids.isEmpty()) {
+    return new ArrayList<Long>();
+  }
+  String minMaxQuery=" SELECT mod.materialId as materialId, min(mod.id) as min, max(mod.id) as max" + " FROM modifications mod " + "     INNER JOIN pipelineMaterialRevisions pmr ON (mod.id >= pmr.actualFromRevisionId AND mod.id <= pmr.toRevisionId) AND mod.materialId = pmr.materialId "+ " WHERE pmr.pipelineId IN (:ids) "+ " GROUP BY mod.materialId";
+  SQLQuery query=session.createSQLQuery("SELECT mods.id " + " FROM modifications mods" + "     INNER JOIN (" + minMaxQuery + ") as edges on edges.materialId = mods.materialId and mods.id >= min and mods.id <= max"+ " ORDER BY mods.materialId ASC, mods.id DESC");
+  query.addScalar("id",new LongType());
+  query.setParameterList("ids",ids);
+  return query.list();
+}

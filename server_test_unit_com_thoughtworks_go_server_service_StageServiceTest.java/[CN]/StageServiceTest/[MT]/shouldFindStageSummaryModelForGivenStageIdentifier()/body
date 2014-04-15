@@ -1,0 +1,19 @@
+{
+  SecurityService securityService=alwaysAllow();
+  TransactionSynchronizationManager transactionSynchronizationManager=mock(TransactionSynchronizationManager.class);
+  StageService service=new StageService(stageDao,null,null,null,securityService,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  Stage stageRun1=StageMother.completedStageInstanceWithTwoPlans("stage_name");
+  stageRun1.setIdentifier(new StageIdentifier("pipeline_name/10/stage_name/1"));
+  stageRun1.setCounter(1);
+  Stage stageRun2=StageMother.completedStageInstanceWithTwoPlans("stage_name");
+  stageRun2.setIdentifier(new StageIdentifier("pipeline_name/10/stage_name/2"));
+  stageRun2.setCounter(2);
+  Stages stages=new Stages(stageRun1,stageRun2);
+  StageIdentifier stageId=new StageIdentifier("pipeline_name/10/stage_name/2");
+  when(stageDao.getAllRunsOfStageForPipelineInstance(stageId.getPipelineName(),stageId.getPipelineCounter(),stageId.getStageName())).thenReturn(stages);
+  StageSummaryModel stageForView=service.findStageSummaryByIdentifier(stageId,ALWAYS_ALLOW_USER,new HttpLocalizedOperationResult());
+  assertThat(stageForView.getName(),is(stageRun2.getName()));
+  assertThat(stageForView.getState(),is(stageRun2.stageState()));
+  assertThat(stageForView.getStageCounter(),is(String.valueOf(stageRun2.getCounter())));
+  assertThat(stageForView.getTotalRuns(),is(2));
+}

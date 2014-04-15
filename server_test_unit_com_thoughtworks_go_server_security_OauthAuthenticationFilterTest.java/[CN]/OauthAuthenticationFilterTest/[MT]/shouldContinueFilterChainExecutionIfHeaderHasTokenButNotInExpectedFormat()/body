@@ -1,0 +1,5 @@
+{
+  when(req.getHeader(OauthAuthenticationFilter.AUTHORIZATION)).thenReturn("Token token=butWithoutQuotes");
+  filter.doFilterHttp(req,res,chain);
+  verify(chain).doFilter(req,res);
+}

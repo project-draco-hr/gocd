@@ -1,0 +1,11 @@
+{
+  assertThat(instance.getName(),is(stageName));
+  assertTrue(instance.getId() > 0);
+  JobInstances instances=instance.getJobInstances();
+  assertThat(instances.size(),is(2));
+  JobInstance nixJob=instances.get(0);
+  assertThat(nixJob.getName(),is("NixBuild"));
+  JobInstance winJob=instances.get(1);
+  assertThat(winJob.getName(),is("WinBuild"));
+  assertThat(nixJob.getState(),is(JobState.Completed));
+}

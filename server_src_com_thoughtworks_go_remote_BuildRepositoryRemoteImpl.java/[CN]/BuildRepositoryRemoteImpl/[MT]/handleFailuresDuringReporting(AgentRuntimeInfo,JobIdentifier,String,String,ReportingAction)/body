@@ -1,0 +1,14 @@
+{
+  String agentDebugString=agentRuntimeInfo.agentInfoDebugString();
+  LOGGER.info(format("[%s] is reporting %s [%s] for [%s]",agentDebugString,thingBeingReported,changedValue,jobIdentifier.toFullString()));
+  try {
+    action.call();
+  }
+ catch (  AgentWithDuplicateUUIDException agentException) {
+    throw wrappedException(agentException);
+  }
+catch (  Exception e) {
+    LOGGER.error(format("Exception occurred when [%s] tries to report " + thingBeingReported + " [%s] for [%s]",agentDebugString,changedValue,jobIdentifier.toFullString()),e);
+    throw wrappedException(e);
+  }
+}

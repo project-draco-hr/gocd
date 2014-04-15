@@ -1,0 +1,11 @@
+{
+  expectLoad(unchangedConfig());
+  try {
+    goConfigService.translateToActualCase(new JobConfigIdentifier("invalid-pipeline",STAGE,JOB));
+    fail("should throw exception if pipeline does not exist");
+  }
+ catch (  Exception e) {
+    assertThat(e,instanceOf(PipelineNotFoundException.class));
+    assertThat(e.getMessage(),containsString("invalid-pipeline"));
+  }
+}

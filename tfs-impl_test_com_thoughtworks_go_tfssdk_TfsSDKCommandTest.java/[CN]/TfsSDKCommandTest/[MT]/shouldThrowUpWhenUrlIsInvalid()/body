@@ -1,0 +1,9 @@
+{
+  TfsSDKCommand tfsCommandForInvalidCollection=new TfsSDKCommand(null,new StringArgument("invalid_url"),DOMAIN,USERNAME,PASSWORD,TFS_WORKSPACE,TFS_PROJECT);
+  try {
+    tfsCommandForInvalidCollection.init();
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Unable to connect to TFS Collection invalid_url com.microsoft.tfs.core.config.IllegalConfigurationException: Unable to produce a server URI"));
+  }
+}

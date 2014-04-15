@@ -1,0 +1,10 @@
+{
+  Pipeline pipeline=preCondition.createdPipelineWithAllStagesPassed();
+  Stage oldDevStage=pipeline.getStages().byName(preCondition.devStage);
+  reOrderTwoStages();
+  schedulerFixture.rerunAndPassStage(pipeline,preCondition.ftStage());
+  Stage ftStage=stageDao.mostRecentWithBuilds(preCondition.pipelineName,preCondition.ftStage());
+  scheduleService.automaticallyTriggerRelevantStagesFollowingCompletionOf(ftStage);
+  Stage devStage=stageDao.mostRecentWithBuilds(preCondition.pipelineName,preCondition.devStage());
+  assertThat("Should not schedule dev stage again",devStage.getId(),is(oldDevStage.getId()));
+}

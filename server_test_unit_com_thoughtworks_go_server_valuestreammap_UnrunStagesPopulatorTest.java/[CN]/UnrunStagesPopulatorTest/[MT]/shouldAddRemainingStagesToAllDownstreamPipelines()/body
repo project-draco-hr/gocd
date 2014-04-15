@@ -1,0 +1,21 @@
+{
+  ValueStreamMap valueStreamMap=new ValueStreamMap("p",revision("p",1));
+  Node p1_node=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p1","p1"),"p");
+  Node p2_node=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p2","p2"),"p1");
+  Node p3_node=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p3","p3"),"p");
+  addRevisions(p1_node);
+  addRevisions(p2_node);
+  addRevisions(p3_node);
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  String grp="first";
+  cruiseConfig.addPipeline(grp,pipelineConfig("p"));
+  cruiseConfig.addPipeline(grp,pipelineConfig("p1"));
+  cruiseConfig.addPipeline(grp,pipelineConfig("p2"));
+  cruiseConfig.addPipeline(grp,pipelineConfig("p3"));
+  when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
+  unrunStagesPopulator.apply(valueStreamMap);
+  assertRevision(valueStreamMap.getCurrentPipeline().revisions().get(0));
+  assertStages(p1_node);
+  assertStages(p2_node);
+  assertStages(p3_node);
+}

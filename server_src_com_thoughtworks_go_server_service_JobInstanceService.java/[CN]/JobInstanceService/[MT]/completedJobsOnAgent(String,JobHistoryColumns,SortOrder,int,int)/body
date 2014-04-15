@@ -1,0 +1,10 @@
+{
+  int total=jobInstanceDao.totalCompletedJobsOnAgent(uuid);
+  Pagination pagination=Pagination.pageByNumber(pageNumber,total,pageSize);
+  List<JobInstance> jobInstances=jobInstanceDao.completedJobsOnAgent(uuid,columnName,order,pagination.getOffset(),pageSize);
+  CruiseConfig cruiseConfig=goConfigService.getCurrentConfig();
+  for (  JobInstance jobInstance : jobInstances) {
+    jobInstance.setPipelineStillConfigured(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString(jobInstance.getPipelineName())));
+  }
+  return new JobInstancesModel(new JobInstances(jobInstances),pagination);
+}

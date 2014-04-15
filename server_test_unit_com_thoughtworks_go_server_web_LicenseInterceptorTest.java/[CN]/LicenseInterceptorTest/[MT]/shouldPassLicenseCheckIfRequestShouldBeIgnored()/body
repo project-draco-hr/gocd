@@ -1,0 +1,11 @@
+{
+  assumeLicenseIsInValid();
+  context.checking(new Expectations(){
+{
+      one(ignoreResolver).shouldIgnore(mockHttpServletRequest);
+      will(returnValue(true));
+    }
+  }
+);
+  assertThat("Should return true if request should be ignored",licenseInterceptor.preHandle(mockHttpServletRequest,mockHttpServletResponse,null),is(true));
+}

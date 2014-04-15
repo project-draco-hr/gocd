@@ -1,0 +1,16 @@
+{
+  GoConfigMigration upgrader=new GoConfigMigration(new GoConfigMigration.UpgradeFailedHandler(){
+    public void handle(    Exception e){
+      throw new AssertionError("upgrade failed!!!!!");
+    }
+  }
+,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  FileUtils.writeStringToFile(configFile,ConfigFileFixture.DEFAULT_XML_WITH_2_AGENTS);
+  configRepository.checkin(new GoConfigRevision("dummy-content","some-md5","loser","100.3.1",Edition.Free,new TimeProvider()));
+  upgrader.upgradeIfNecessary(configFile,currentGoServerVersion);
+  GoConfigRevision latest=configRepository.getRevision(ConfigRepository.CURRENT);
+  assertThat(latest.getUsername(),is("Upgrade"));
+  String contents=FileUtils.readFileToString(configFile);
+  assertThat(latest.getContent(),is(contents));
+  assertThat(latest.getMd5(),is(DigestUtils.md5Hex(contents)));
+}

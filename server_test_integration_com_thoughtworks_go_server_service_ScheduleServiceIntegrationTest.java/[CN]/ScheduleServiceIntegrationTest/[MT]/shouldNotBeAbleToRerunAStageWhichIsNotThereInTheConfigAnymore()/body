@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=pipelineFixture.createdPipelineWithAllStagesPassed();
+  assertThat(scheduleService.canRun(new PipelineIdentifier(pipeline.getName(),pipeline.getCounter(),pipeline.getLabel()),pipelineFixture.ftStage,"",true),is(true));
+  configHelper.removeStage(pipelineFixture.pipelineName,pipelineFixture.ftStage);
+  assertThat(scheduleService.canRun(new PipelineIdentifier(pipeline.getName(),pipeline.getCounter(),pipeline.getLabel()),pipelineFixture.ftStage,"",true),is(false));
+}

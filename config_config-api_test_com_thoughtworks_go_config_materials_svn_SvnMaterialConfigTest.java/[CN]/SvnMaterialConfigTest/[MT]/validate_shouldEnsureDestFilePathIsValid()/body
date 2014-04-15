@@ -1,0 +1,6 @@
+{
+  SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig("/foo","","",false);
+  svnMaterialConfig.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"../a"));
+  svnMaterialConfig.validate(new ValidationContext(null));
+  assertThat(svnMaterialConfig.errors().on(SvnMaterialConfig.FOLDER),is("Dest folder '../a' is not valid. It must be a sub-directory of the working folder."));
+}

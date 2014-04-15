@@ -1,0 +1,7 @@
+{
+  dbHelper.onSetUp();
+  fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+}

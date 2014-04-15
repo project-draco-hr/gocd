@@ -1,0 +1,10 @@
+{
+  String xmlContent="<foo name='invalid'";
+  try {
+    XmlUtils.validate(xmlContent,GoConfigSchema.getCurrentSchema(),new XsdErrorTranslator(),new SAXBuilder());
+    fail("Should throw a XsdValidationException");
+  }
+ catch (  Exception e) {
+    assertThat(e,is(instanceOf(XsdValidationException.class)));
+  }
+}

@@ -1,0 +1,18 @@
+{
+  return new TypeSafeMatcher<ServerHealthService>(){
+    private ServerHealthState entry;
+    public boolean matchesSafely(    ServerHealthService item){
+      for (      ServerHealthState serverHealthState : item.getAllLogs()) {
+        if (serverHealthState.getType().equals(healthStateType)) {
+          entry=serverHealthState;
+          return false;
+        }
+      }
+      return true;
+    }
+    public void describeTo(    Description description){
+      description.appendText("HealthStateType " + healthStateType + " contains: "+ entry+ "\n"+ "With level: "+ entry.getLogLevel());
+    }
+  }
+;
+}

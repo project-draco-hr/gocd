@@ -1,0 +1,7 @@
+{
+  String agentId="unknown-agent-id";
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.disableAgents(USERNAME,operationResult,Arrays.asList(agentId));
+  assertThat(operationResult.httpCode(),is(404));
+  assertThat(operationResult.message(),is("Agent not found."));
+}

@@ -1,0 +1,18 @@
+{
+  List result=new ArrayList();
+  BufferedReader reader=null;
+  try {
+    reader=new BufferedReader(new FileReader(source));
+    String line;
+    while ((line=reader.readLine()) != null) {
+      result.add(line);
+    }
+  }
+ catch (  IOException ioe) {
+    throw new CruiseControlException("Error reading file: " + source.getAbsolutePath(),ioe);
+  }
+ finally {
+    close(reader);
+  }
+  return result;
+}

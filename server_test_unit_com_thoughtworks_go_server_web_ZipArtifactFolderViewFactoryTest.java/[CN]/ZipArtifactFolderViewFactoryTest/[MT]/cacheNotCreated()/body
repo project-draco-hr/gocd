@@ -1,0 +1,11 @@
+{
+  return new ZipArtifactCache(null,null){
+    public boolean cacheCreated(    ArtifactFolder artifactFolder){
+      return false;
+    }
+    public File cachedFile(    ArtifactFolder artifactFolder){
+      throw new RuntimeException("Cache file " + artifactFolder + " not created yet");
+    }
+  }
+;
+}

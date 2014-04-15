@@ -1,0 +1,5 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . " + "<http://example.com/1> rdf:type ex:Yadda . ";
+  contextUnawareGraph.addTriplesFromTurtle(turtle);
+  assertAskIsTrue(contextUnawareGraph,"PREFIX ex: <http://example.com/ontology#> ASK WHERE { <http://example.com/1> a ex:Yadda }");
+}

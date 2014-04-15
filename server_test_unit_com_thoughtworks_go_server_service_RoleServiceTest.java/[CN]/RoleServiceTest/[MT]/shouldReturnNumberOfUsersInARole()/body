@@ -1,0 +1,11 @@
+{
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("some_pipeline");
+  RoleUser roleUser1=new RoleUser(new CaseInsensitiveString("go_user_1"));
+  RoleUser roleUser2=new RoleUser(new CaseInsensitiveString("go_user_2"));
+  cruiseConfig.server().security().addRole(new Role(new CaseInsensitiveString("go_role"),roleUser1,roleUser2));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  RoleService service=new RoleService(goConfigService);
+  assertThat(service.usersInRole("go_role").size(),is(2));
+  assertThat(service.usersInRole("go_role"),hasItems(roleUser1,roleUser2));
+}

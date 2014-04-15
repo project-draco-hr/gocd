@@ -1,0 +1,14 @@
+{
+  MultipartFile checksumMultipartFile=getChecksumFile(request);
+  if (checksumMultipartFile != null) {
+    String checksumFilePath=String.format("%s/%s/%s",artifactsService.findArtifactRoot(jobIdentifier),ArtifactLogUtil.CRUISE_OUTPUT_FOLDER,ArtifactLogUtil.MD5_CHECKSUM_FILENAME);
+    File checksumFile=artifactsService.getArtifactLocation(checksumFilePath);
+synchronized (checksumFilePath.intern()) {
+      return artifactsService.saveOrAppendFile(checksumFile,checksumMultipartFile.getInputStream());
+    }
+  }
+ else {
+    LOGGER.warn(String.format("[Artifacts Upload] Checksum file not uploaded for artifact at path '%s'",filePath));
+  }
+  return true;
+}

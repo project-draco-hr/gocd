@@ -1,0 +1,10 @@
+{
+  CommandLine line=CommandLine.createCommandLine("doesnotexist");
+  try {
+    line.waitForSuccess(100);
+    fail("Expected Exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Timeout after 0.1 seconds waiting for command 'doesnotexist'"));
+  }
+}

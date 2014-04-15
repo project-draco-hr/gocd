@@ -1,0 +1,7 @@
+{
+  GoPluginDescriptor existingDescriptor=getPluginByIdOrFileName(descriptor.id(),descriptor.fileName());
+  if (existingDescriptor == null) {
+    throw new RuntimeException("Could not find existing plugin with ID: " + descriptor.id());
+  }
+  return idToDescriptorMap.remove(existingDescriptor.id());
+}

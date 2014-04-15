@@ -1,0 +1,11 @@
+{
+  subversion.checkoutTo(outputStreamConsumer,checkoutFolder,SubversionRevision.HEAD);
+  assertAtRevision(4,"TestReport-Unit.xml");
+  try {
+    subversion.updateTo(outputStreamConsumer,checkoutFolder,revision(-1));
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("--password ******"));
+  }
+}

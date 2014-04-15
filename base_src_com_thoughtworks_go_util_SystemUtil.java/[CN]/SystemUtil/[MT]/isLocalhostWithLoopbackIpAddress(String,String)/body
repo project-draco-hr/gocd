@@ -1,0 +1,15 @@
+{
+  InetAddress[] allMatchingAddresses;
+  try {
+    allMatchingAddresses=InetAddress.getAllByName(forAddress);
+  }
+ catch (  UnknownHostException e) {
+    return false;
+  }
+  for (  InetAddress inetAddress : allMatchingAddresses) {
+    if (inetAddress.isLoopbackAddress() && inetAddress.getHostAddress().equals(ipAddress)) {
+      return true;
+    }
+  }
+  return false;
+}

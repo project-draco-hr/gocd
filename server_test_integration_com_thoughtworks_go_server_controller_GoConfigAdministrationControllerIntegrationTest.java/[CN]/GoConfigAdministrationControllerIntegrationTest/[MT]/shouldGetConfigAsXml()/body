@@ -1,0 +1,8 @@
+{
+  configHelper.addPipeline("pipeline","stage","build1","build2");
+  controller.getCurrentConfigXml(null,response);
+  ByteArrayOutputStream os=new ByteArrayOutputStream();
+  new MagicalGoConfigXmlWriter(new ConfigCache(),registry,metricsProbeService).write(goConfigFileDao.loadForEditing(),os,true);
+  assertValidContentAndStatus(SC_OK,"text/xml",os.toString());
+  assertThat((String)response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5),is(goConfigFileDao.md5OfConfigFile()));
+}

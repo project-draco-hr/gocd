@@ -1,0 +1,6 @@
+{
+  assertThat(AgentInstanceMother.updateRuntimeStatus(AgentInstanceMother.updateUsableSpace(AgentInstanceMother.idle(new Date(),"CCeDev01"),1024L),AgentRuntimeStatus.Missing).freeDiskSpace(),is(DiskSpace.unknownDiskSpace()));
+  assertThat(AgentInstanceMother.updateRuntimeStatus(AgentInstanceMother.updateUsableSpace(AgentInstanceMother.idle(new Date(),"CCeDev01"),1024L),AgentRuntimeStatus.LostContact).freeDiskSpace(),is(DiskSpace.unknownDiskSpace()));
+  assertThat(AgentInstanceMother.updateRuntimeStatus(AgentInstanceMother.updateUsableSpace(AgentInstanceMother.idle(new Date(),"CCeDev01"),1024L),AgentRuntimeStatus.Idle).freeDiskSpace(),is(new DiskSpace(1024L)));
+  assertThat(AgentInstanceMother.updateRuntimeStatus(AgentInstanceMother.updateUsableSpace(AgentInstanceMother.idle(new Date(),"CCeDev01"),null),AgentRuntimeStatus.Idle).freeDiskSpace(),is(DiskSpace.unknownDiskSpace()));
+}

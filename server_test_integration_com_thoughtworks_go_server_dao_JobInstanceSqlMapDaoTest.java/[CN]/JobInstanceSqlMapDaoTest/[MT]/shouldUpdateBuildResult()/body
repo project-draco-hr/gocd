@@ -1,0 +1,12 @@
+{
+  JobInstance jobInstance=JobInstanceMother.scheduled("Baboon");
+  jobInstanceDao.save(stageId,jobInstance);
+  jobInstance.cancel();
+  jobInstanceDao.updateStateAndResult(jobInstance);
+  JobInstance instance=jobInstanceDao.buildByIdWithTransitions(jobInstance.getId());
+  assertThat(instance.getResult(),is(JobResult.Cancelled));
+  jobInstance.fail();
+  jobInstanceDao.updateStateAndResult(jobInstance);
+  instance=jobInstanceDao.buildByIdWithTransitions(jobInstance.getId());
+  assertThat(instance.getResult(),is(JobResult.Failed));
+}

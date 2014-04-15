@@ -1,0 +1,12 @@
+{
+  File logFile=artifactsService.findArtifact(jobIdentifier,"cruise-output/log.xml");
+  File log=artifactsService.findArtifact(jobIdentifier,"cruise-output/" + logFile.getName());
+  artifactsService.saveFile(log,logFileStream,false,1);
+  File test=artifactsService.findArtifact(jobIdentifier,"testoutput/result/index.html");
+  artifactsService.saveFile(test,indexhtml,false,1);
+  createdFiles.add(logFile);
+  createdFiles.add(artifactsService.serializedPropertiesFile(logFile));
+  logFile.deleteOnExit();
+  logFile.getParentFile().deleteOnExit();
+  return logFile;
+}

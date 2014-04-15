@@ -1,0 +1,10 @@
+{
+  List<JobIdentifier> buildingJobs=new ArrayList<JobIdentifier>();
+  for (  Long activeJobId : activeJobIds) {
+    JobIdentifier jobIdentifier=(JobIdentifier)getSqlMapClientTemplate().queryForObject("getBuildingJobIdentifier",activeJobId);
+    if (jobIdentifier != null) {
+      buildingJobs.add(jobIdentifier);
+    }
+  }
+  return buildingJobs;
+}

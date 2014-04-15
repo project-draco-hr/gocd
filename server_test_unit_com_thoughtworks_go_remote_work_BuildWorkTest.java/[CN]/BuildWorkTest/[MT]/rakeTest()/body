@@ -1,0 +1,5 @@
+{
+  buildWork=(BuildWork)getWork(RAKE,PIPELINE_NAME);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertThat(artifactManipulator.consoleOut(),containsString("rake [-f rakefile] {options} targets..."));
+}

@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  Stage oldStage=pipeline.getStages().byName(fixture.devStage);
+  scheduleService.rerunStage(pipeline.getName(),String.valueOf(pipeline.getCounter()),fixture.devStage);
+  Stage stage=dbHelper.getStageDao().mostRecentStage(new StageConfigIdentifier(pipeline.getName(),fixture.devStage));
+  assertThat(stage.getCounter(),is(oldStage.getCounter() + 1));
+}

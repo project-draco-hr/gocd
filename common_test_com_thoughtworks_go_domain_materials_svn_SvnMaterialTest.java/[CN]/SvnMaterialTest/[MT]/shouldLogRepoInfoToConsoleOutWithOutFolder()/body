@@ -1,0 +1,12 @@
+{
+  final File workingCopy=new File("xyz");
+  context.checking(new Expectations(){
+{
+      one(subversion).checkoutTo(outputStreamConsumer,workingCopy,revision);
+    }
+  }
+);
+  svnMaterial.updateTo(outputStreamConsumer,revision,workingCopy,new TestSubprocessExecutionContext());
+  String stdout=outputStreamConsumer.getStdOut();
+  assertThat(stdout,containsString(String.format("Start updating %s at revision %s from %s","files",revision.getRevision(),svnMaterial.getUrl())));
+}

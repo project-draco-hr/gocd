@@ -1,0 +1,8 @@
+{
+  SecurityConfig security=server().security();
+  Role role=security.roleNamed(roleToDelete);
+  if (role == null) {
+    return false;
+  }
+  return security.adminsConfig().isAdminRole(Arrays.asList(role));
+}

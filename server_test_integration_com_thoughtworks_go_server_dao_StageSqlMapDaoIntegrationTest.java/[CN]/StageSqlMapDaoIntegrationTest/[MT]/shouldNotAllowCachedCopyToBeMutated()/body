@@ -1,0 +1,8 @@
+{
+  Pipeline[] pipelines=pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig);
+  long id=pipelines[0].getStages().get(0).getId();
+  Stage loaded=stageDao.stageById(id);
+  loaded.setName("quux-baz-bar-foo");
+  assertThat(loaded.getName(),is("quux-baz-bar-foo"));
+  assertThat(stageDao.stageById(id).getName(),is(STAGE_DEV));
+}

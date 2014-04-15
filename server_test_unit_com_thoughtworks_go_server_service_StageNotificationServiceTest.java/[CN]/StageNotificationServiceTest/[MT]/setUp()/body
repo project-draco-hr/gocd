@@ -1,0 +1,13 @@
+{
+  pipelineService=mock(PipelineService.class);
+  userService=mock(UserService.class);
+  systemEnvironment=new SystemEnvironment();
+  stageService=mock(StageService.class);
+  inMemoryEmailNotificationTopic=new InMemoryEmailNotificationTopic();
+  serverConfigService=mock(ServerConfigService.class);
+  goConfigService=mock(GoConfigService.class);
+  shineDao=mock(ShineDao.class);
+  stageNotificationService=new StageNotificationService(pipelineService,userService,inMemoryEmailNotificationTopic,systemEnvironment,stageService,serverConfigService,shineDao);
+  stageIdentifier=new StageIdentifier("go",1,"go-1","dev","2");
+  instanceFactory=new InstanceFactory();
+}

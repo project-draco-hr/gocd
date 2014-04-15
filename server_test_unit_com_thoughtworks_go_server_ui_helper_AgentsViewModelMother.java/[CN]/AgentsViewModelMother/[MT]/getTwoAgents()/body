@@ -1,0 +1,9 @@
+{
+  AgentInstance building=AgentInstanceMother.building();
+  building.getResources().add(new Resource("ruby"));
+  AgentInstance idle=AgentInstanceMother.idle();
+  HashSet<String> environments=new HashSet<String>();
+  environments.add("hello");
+  environments.add("yellow");
+  return new AgentsViewModel(new AgentViewModel(idle,environments),new AgentViewModel(building));
+}

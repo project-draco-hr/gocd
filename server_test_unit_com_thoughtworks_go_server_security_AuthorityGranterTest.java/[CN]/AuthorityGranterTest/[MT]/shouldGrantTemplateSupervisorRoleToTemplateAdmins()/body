@@ -1,0 +1,8 @@
+{
+  String templateAdmin="template-admin";
+  when(securityService.isAuthorizedToViewAndEditTemplates(new Username(new CaseInsensitiveString(templateAdmin)))).thenReturn(true);
+  GrantedAuthority[] authorities=authorityGranter.authorities(templateAdmin);
+  assertThat(authorities,hasItemInArray(GoAuthority.ROLE_TEMPLATE_SUPERVISOR.asAuthority()));
+  assertThat(authorities,not(hasItemInArray(GoAuthority.ROLE_GROUP_SUPERVISOR.asAuthority())));
+  assertThat(authorities,hasItemInArray(GoAuthority.ROLE_USER.asAuthority()));
+}

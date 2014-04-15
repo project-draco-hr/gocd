@@ -1,0 +1,14 @@
+{
+  PipelineDependencyNode p1=new PipelineDependencyNode("p1","p1");
+  p1.setLevel(1);
+  p1.setDepth(5);
+  PipelineDependencyNode p2=new PipelineDependencyNode("p2","p2");
+  p2.setLevel(1);
+  p2.setDepth(1);
+  PipelineDependencyNode p3=new PipelineDependencyNode("p3","p3");
+  p3.setLevel(1);
+  p3.setDepth(4);
+  List<PipelineDependencyNode> nodes=Arrays.asList(p1,p2,p3);
+  Collections.sort(nodes);
+  assertThat(nodes,is(Arrays.asList(p2,p3,p1)));
+}

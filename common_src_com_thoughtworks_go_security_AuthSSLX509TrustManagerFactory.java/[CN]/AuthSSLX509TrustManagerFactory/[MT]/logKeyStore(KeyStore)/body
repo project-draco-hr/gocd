@@ -1,0 +1,16 @@
+{
+  Enumeration aliases=store.aliases();
+  while (aliases.hasMoreElements()) {
+    String alias=(String)aliases.nextElement();
+    LOG.debug("Trusted certificate '" + alias + "':");
+    Certificate trustedcert=store.getCertificate(alias);
+    if (trustedcert != null && trustedcert instanceof X509Certificate) {
+      X509Certificate cert=(X509Certificate)trustedcert;
+      LOG.trace("  Subject DN: " + cert.getSubjectDN());
+      LOG.trace("  Signature Algorithm: " + cert.getSigAlgName());
+      LOG.trace("  Valid from: " + cert.getNotBefore());
+      LOG.trace("  Valid until: " + cert.getNotAfter());
+      LOG.trace("  Issuer: " + cert.getIssuerDN());
+    }
+  }
+}

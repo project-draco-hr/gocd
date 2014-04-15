@@ -1,0 +1,12 @@
+{
+  Pipeline pipeline=pipelineOne.createdPipelineWithAllStagesPassed();
+  String groupName=configHelper.currentConfig().getGroups().findGroupNameByPipeline(new CaseInsensitiveString(pipeline.getName()));
+  configHelper.setViewPermissionForGroup(groupName,"admin");
+  HttpOperationResult result=new HttpOperationResult();
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.findPipelineInstance(pipeline.getName(),pipeline.getCounter(),new Username(new CaseInsensitiveString("foo")),result);
+  assertThat(pipelineInstance,is(nullValue()));
+  assertThat(result.httpCode(),is(401));
+  assertThat(result.message(),is("Not authorized to view pipeline"));
+  pipelineInstance=pipelineHistoryService.findPipelineInstance(pipeline.getName(),pipeline.getCounter(),new Username(new CaseInsensitiveString("admin")),new HttpOperationResult());
+  assertThat(pipelineInstance,is(not(nullValue())));
+}

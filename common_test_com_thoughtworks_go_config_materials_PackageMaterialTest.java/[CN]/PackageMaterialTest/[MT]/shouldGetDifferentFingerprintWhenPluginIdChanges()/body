@@ -1,0 +1,9 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo","yum-1","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  material.setPackageDefinition(PackageDefinitionMother.create("p-id-1","name",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2")),repository));
+  PackageMaterial anotherMaterial=new PackageMaterial();
+  PackageRepository anotherRepository=PackageRepositoryMother.create("repo-id","repo","yum-2","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  anotherMaterial.setPackageDefinition(PackageDefinitionMother.create("p-id-2","name",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2")),anotherRepository));
+  assertThat(material.getFingerprint().equals(anotherMaterial.getFingerprint()),is(false));
+}

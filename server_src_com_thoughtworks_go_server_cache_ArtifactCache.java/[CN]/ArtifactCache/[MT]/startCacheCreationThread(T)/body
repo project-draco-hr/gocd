@@ -1,0 +1,20 @@
+{
+  boolean inserted=pendingCacheFiles.add(artifactLocation);
+  if (inserted) {
+    Thread cacheCreatorThread=new Thread("cache-creator-thread-" + UUID.randomUUID().toString()){
+      public void run(){
+        try {
+          createCachedFile(artifactLocation);
+        }
+ catch (        Exception e) {
+          pendingExceptions.putIfAbsent(artifactLocation,e);
+        }
+ finally {
+          pendingCacheFiles.remove(artifactLocation);
+        }
+      }
+    }
+;
+    cacheCreatorThread.start();
+  }
+}

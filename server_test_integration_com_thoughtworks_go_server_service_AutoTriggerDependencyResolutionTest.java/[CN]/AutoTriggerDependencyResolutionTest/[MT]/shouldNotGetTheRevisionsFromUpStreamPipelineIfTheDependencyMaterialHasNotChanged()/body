@@ -1,0 +1,11 @@
+{
+  HgMaterial hg=u.wf(new HgMaterial("hg",null),"folder1");
+  String[] hg_revs={"hg1","hg2","hg3"};
+  u.checkinInOrder(hg,hg_revs);
+  ScheduleTestUtil.AddedPipeline up1=u.saveConfigWith("up1",u.m(hg));
+  ScheduleTestUtil.AddedPipeline current=u.saveConfigWith("current",u.m(hg),u.m(up1));
+  String up1_1=u.runAndPass(up1,"hg1");
+  MaterialRevisions given=u.mrs(u.mr(hg,false,"hg1"),u.mr(up1,false,up1_1));
+  MaterialRevisions expected=u.mrs(u.mr(hg,false,"hg1"),u.mr(up1,false,up1_1));
+  assertThat(getRevisionsBasedOnDependencies(current,goConfigFileDao.load(),given),is(expected));
+}

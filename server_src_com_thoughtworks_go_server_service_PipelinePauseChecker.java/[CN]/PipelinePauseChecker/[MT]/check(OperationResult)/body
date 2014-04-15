@@ -1,0 +1,10 @@
+{
+  HealthStateType id=HealthStateType.general(HealthStateScope.forPipeline(pipelineName));
+  if (pipelinePauseService.isPaused(pipelineName)) {
+    String message=String.format("Failed to trigger pipeline [%s]",pipelineName);
+    result.conflict(message,String.format("Pipeline %s is paused",pipelineName),id);
+  }
+ else {
+    result.success(id);
+  }
+}

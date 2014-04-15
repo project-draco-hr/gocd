@@ -1,0 +1,5 @@
+{
+  MaterialRevisions first=new MaterialRevisions(svnMaterialRevision("1",FILTER_DOC_PDF,oneHourAgoMod,yesterdayMod),svnMaterialRevision("2",FILTER_DOC_PDF,nowMod));
+  MaterialRevisions second=new MaterialRevisions(svnMaterialRevision("2",FILTER_DOC_PDF,nowMod),svnMaterialRevision("1",FILTER_DOC_PDF,oneHourAgoMod,yesterdayMod));
+  assertThat(second.hasChangedSince(first),is(false));
+}

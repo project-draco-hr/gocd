@@ -1,0 +1,11 @@
+{
+  InMemoryStreamConsumer output=ProcessOutputStreamConsumer.inMemoryConsumer();
+  HgCommand hgCommand=null;
+  try {
+    hgCommand=hg(baseDir,output);
+  }
+ catch (  Exception e) {
+    bomb(e.getMessage() + " " + output.getStdError(),e);
+  }
+  return hgCommand;
+}

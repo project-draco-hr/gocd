@@ -1,0 +1,13 @@
+{
+  TMP_DIR=new File("./tmp" + RANDOM.nextFloat());
+  recreateDirectory(TMP_DIR);
+  registry=new DefaultPluginRegistry();
+  pluginOSGiFramework=new FelixGoPluginOSGiFramework(registry,new SystemEnvironment());
+  pluginOSGiFramework.start();
+  ZipInputStream zippedOSGiBundleFile=new ZipInputStream(FileUtils.openInputStream(pathOfFileInDefaultFiles("descriptor-aware-test-plugin.osgi.jar")));
+  descriptorBundleDir=explodeBundleIntoDirectory(zippedOSGiBundleFile,"descriptor-plugin-bundle-dir");
+  zippedOSGiBundleFile=new ZipInputStream(FileUtils.openInputStream(pathOfFileInDefaultFiles("error-generating-descriptor-aware-test-plugin.osgi.jar")));
+  errorGeneratingDescriptorBundleDir=explodeBundleIntoDirectory(zippedOSGiBundleFile,"error-generating-descriptor-plugin-bundle-dir");
+  zippedOSGiBundleFile=new ZipInputStream(FileUtils.openInputStream(pathOfFileInDefaultFiles("exception-throwing-at-load-plugin.osgi.jar")));
+  exceptionThrowingAtLoadDescriptorBundleDir=explodeBundleIntoDirectory(zippedOSGiBundleFile,"exception-throwing-at-load-plugin-bundle-dir");
+}

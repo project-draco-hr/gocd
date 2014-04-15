@@ -1,0 +1,10 @@
+{
+  Method[] methods=getMethodsWithAnnotation(extensionObject,annotation);
+  if (methods.length == 0) {
+    return null;
+  }
+  if (methods.length > 1) {
+    throw new RuntimeException("More than one method with @" + annotation.getSimpleName() + " annotation not allowed. Methods Found: "+ Arrays.toString(methods));
+  }
+  return methods[0];
+}

@@ -1,0 +1,12 @@
+{
+  FileInputStream inputStream=new FileInputStream(CONFIG_FILE);
+  try {
+    long startTry=System.currentTimeMillis();
+    xmlLoader.loadConfigHolder(FileUtil.readToEnd(inputStream));
+    long endTry=System.currentTimeMillis();
+    return endTry - startTry;
+  }
+  finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+}

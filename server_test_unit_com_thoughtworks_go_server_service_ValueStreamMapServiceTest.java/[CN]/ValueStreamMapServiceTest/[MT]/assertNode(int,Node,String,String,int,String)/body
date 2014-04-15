@@ -1,0 +1,14 @@
+{
+  assertThat(node.getLevel(),is(level));
+  assertThat(node.getName(),is(expectedNodeName));
+  assertThat(node.getId(),is(expectedNodeId));
+  assertThat(node.getChildren().size(),is(dependents.length + expectedDummyDependentsCount));
+  VSMTestHelper.assertNodeHasChildren(node,dependents);
+  int dummyDependentsCount=0;
+  for (  Node child : node.getChildren()) {
+    if (isUUID(child.getId())) {
+      dummyDependentsCount++;
+    }
+  }
+  assertThat(dummyDependentsCount,is(expectedDummyDependentsCount));
+}

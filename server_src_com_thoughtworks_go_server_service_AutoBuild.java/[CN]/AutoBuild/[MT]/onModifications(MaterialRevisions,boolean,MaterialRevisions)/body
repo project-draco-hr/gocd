@@ -1,0 +1,23 @@
+{
+  if (originalMaterialRevisions == null || originalMaterialRevisions.isEmpty()) {
+    throw new RuntimeException("Cannot find modifications, please check your SCM setting or environment.");
+  }
+  if (!originalMaterialRevisions.hasDependencyMaterials()) {
+    return BuildCause.createWithModifications(originalMaterialRevisions,GoConstants.DEFAULT_APPROVED_BY);
+  }
+  CruiseConfig cruiseConfig=goConfigService.currentCruiseConfig();
+  MaterialRevisions recomputedBasedOnDependencies;
+  if (systemEnvironment.enforceRevisionCompatibilityWithUpstream() && systemEnvironment.enforceFanInFallbackBehaviour()) {
+    recomputedBasedOnDependencies=fanInOnWithFallback(originalMaterialRevisions,cruiseConfig,new CaseInsensitiveString(pipelineName));
+  }
+ else   if (systemEnvironment.enforceRevisionCompatibilityWithUpstream()) {
+    recomputedBasedOnDependencies=fanInOn(originalMaterialRevisions,cruiseConfig,new CaseInsensitiveString(pipelineName));
+  }
+ else {
+    recomputedBasedOnDependencies=fanInOffTriangleDependency(originalMaterialRevisions,cruiseConfig);
+  }
+  if (recomputedBasedOnDependencies != null && canRunWithRecomputedRevisions(materialConfigurationChanged,previousMaterialRevisions,recomputedBasedOnDependencies)) {
+    return BuildCause.createWithModifications(recomputedBasedOnDependencies,GoConstants.DEFAULT_APPROVED_BY);
+  }
+  return null;
+}

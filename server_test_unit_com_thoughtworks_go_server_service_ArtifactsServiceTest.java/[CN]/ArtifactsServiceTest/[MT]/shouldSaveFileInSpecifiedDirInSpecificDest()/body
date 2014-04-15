@@ -1,0 +1,11 @@
+{
+  final File logsDir=new File("logs");
+  final ByteArrayInputStream stream=new ByteArrayInputStream("".getBytes());
+  String buildInstanceId="1";
+  final File destFile=new File(logsDir,buildInstanceId + File.separator + "generated"+ File.separator+ LOG_XML_NAME);
+  assumeArtifactsRoot(logsDir);
+  String fileName="generated" + File.separator + LOG_XML_NAME;
+  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  artifactsService.saveFile(destFile,stream,false,1);
+  Mockito.verify(systemService).streamToFile(eq(stream),eq(destFile));
+}

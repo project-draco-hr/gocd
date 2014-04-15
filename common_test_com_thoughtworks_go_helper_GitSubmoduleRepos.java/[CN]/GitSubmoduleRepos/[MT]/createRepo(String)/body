@@ -1,0 +1,7 @@
+{
+  File withSubmodules=TestFileUtil.createTestFolder(temporaryFolder,repoName);
+  git(withSubmodules).init();
+  String fileName="file-" + System.currentTimeMillis();
+  addAndCommitNewFile(withSubmodules,fileName,"Added " + fileName);
+  return withSubmodules;
+}

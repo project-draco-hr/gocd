@@ -1,0 +1,18 @@
+{
+  AgentConfig deniedAgent1=new AgentConfig("uuid1","deniedAgent1","127.0.0.1");
+  deniedAgent1.disable();
+  CONFIG_HELPER.addAgent(deniedAgent1);
+  AgentConfig deniedAgent2=new AgentConfig("uuid2","deniedAgent2","127.0.0.2");
+  deniedAgent2.disable();
+  CONFIG_HELPER.addAgent(deniedAgent2);
+  CONFIG_HELPER.addAgent(new AgentConfig("uuid3","approvedAgent1","127.0.0.3"));
+  goConfigFileDao.load();
+  agentService.initialize();
+  AgentInstances approvedAgents=agentService.findPhysicalAgents().findEnabledAgents();
+  assertThat(approvedAgents.size(),is(1));
+  assertThat(approvedAgents.findAgentAndRefreshStatus("uuid3").agentConfig().getHostname(),is("approvedAgent1"));
+  AgentInstances deniedAgents=agentService.findPhysicalAgents().findAgents(AgentStatus.Disabled);
+  assertThat(deniedAgents.size(),is(2));
+  assertThat(deniedAgents.findAgentAndRefreshStatus("uuid1").agentConfig().getHostname(),is("deniedAgent1"));
+  assertThat(deniedAgents.findAgentAndRefreshStatus("uuid2").agentConfig().getHostname(),is("deniedAgent2"));
+}

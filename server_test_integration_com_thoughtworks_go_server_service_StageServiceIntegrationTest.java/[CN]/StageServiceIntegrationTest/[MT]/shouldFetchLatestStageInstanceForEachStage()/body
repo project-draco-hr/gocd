@@ -1,0 +1,11 @@
+{
+  MingleConfig upstreamMingle=new MingleConfig("https://mingle.gingle/when/single","jingle");
+  MingleConfig downstreamMingle=new MingleConfig("https://downstream-mingle","go");
+  setup2DependentInstances(upstreamMingle,downstreamMingle);
+  List<StageIdentity> latestStageInstances=stageService.findLatestStageInstances();
+  assertThat(latestStageInstances.size(),is(4));
+  assertThat(latestStageInstances.contains(new StageIdentity("mingle","dev",8L)),is(true));
+  assertThat(latestStageInstances.contains(new StageIdentity("upstream-without-mingle","stage",13L)),is(true));
+  assertThat(latestStageInstances.contains(new StageIdentity("downstream","down-stage",14L)),is(true));
+  assertThat(latestStageInstances.contains(new StageIdentity("upstream-with-mingle","stage",10L)),is(true));
+}

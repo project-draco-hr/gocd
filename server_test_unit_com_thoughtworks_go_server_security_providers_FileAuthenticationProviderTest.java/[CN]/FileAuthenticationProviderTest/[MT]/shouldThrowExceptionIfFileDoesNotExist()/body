@@ -1,0 +1,6 @@
+{
+  when(goConfigService.security()).thenReturn(new SecurityConfig(new LdapConfig(new GoCipher()),new PasswordFileConfig("ueyrweiyri"),true,null));
+  AuthorityGranter authorityGranter=new AuthorityGranter(securityService);
+  FileAuthenticationProvider provider=new FileAuthenticationProvider(goConfigService,authorityGranter,userService,securityService);
+  provider.retrieveUser("blah",null);
+}

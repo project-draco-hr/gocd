@@ -1,0 +1,12 @@
+{
+  AgentInstance instance=AgentInstanceMother.building();
+  AgentService agentService=getAgentService(new AgentInstances(null,instance));
+  AgentInstances agents=agentService.findRegisteredAgents();
+  String uuid=instance.agentConfig().getUuid();
+  assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Building));
+  AgentIdentifier agentIdentifier=instance.agentConfig().getAgentIdentifier();
+  String cookie=agentService.assignCookie(agentIdentifier);
+  agentService.updateRuntimeInfo(AgentRuntimeInfo.fromAgent(agentIdentifier,cookie,null));
+  agents=agentService.findRegisteredAgents();
+  assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Idle));
+}

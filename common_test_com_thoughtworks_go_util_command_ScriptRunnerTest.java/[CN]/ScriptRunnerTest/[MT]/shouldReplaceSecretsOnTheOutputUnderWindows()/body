@@ -1,0 +1,6 @@
+{
+  CommandLine command=CommandLine.createCommandLine("cmd").withArg("/c").withArg("echo").withArg("My password is ").withArg(new PasswordArgument("secret"));
+  InMemoryConsumer output=new InMemoryConsumer();
+  command.runScript(new ExecScript("FOO"),output,new EnvironmentVariableContext(),null);
+  assertThat(output.toString(),not(containsString("secret")));
+}

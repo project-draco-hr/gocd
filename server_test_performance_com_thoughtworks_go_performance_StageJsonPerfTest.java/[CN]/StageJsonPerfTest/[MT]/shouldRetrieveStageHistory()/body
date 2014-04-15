@@ -1,0 +1,4 @@
+{
+  String json=web.httpRequest("stageHistory.json",RequestMethod.GET,"?pipelineName=" + pipelineName + "&stageName="+ stageName);
+  new JsonTester(json).shouldContain("{ 'history' : [ {" + " 'pipelineName' : '" + pipelineName + "',"+ " 'stageName' : '"+ stageName+ "' } ] }");
+}

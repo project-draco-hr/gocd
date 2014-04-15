@@ -1,0 +1,8 @@
+{
+  updater.updateMaterial(material);
+  SvnTestRepoWithExternal otherRepo=new SvnTestRepoWithExternal(testRepoWithExternal.externalRepositoryUrl());
+  SvnMaterial otherMaterial=new SvnMaterial(otherRepo.projectRepositoryUrl(),null,null,true);
+  updater.updateMaterial(otherMaterial);
+  MaterialRevisions materialRevisions=materialRepository.findLatestModification(otherMaterial);
+  assertThat(materialRevisions.numberOfRevisions(),is(2));
+}

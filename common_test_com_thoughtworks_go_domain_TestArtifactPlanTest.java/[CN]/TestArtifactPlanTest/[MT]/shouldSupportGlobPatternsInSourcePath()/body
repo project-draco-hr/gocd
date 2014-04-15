@@ -1,0 +1,12 @@
+{
+  ArtifactPlan artifactPlan=new ArtifactPlan(ArtifactType.file,"**/*/a.log","logs");
+  TestArtifactPlan testArtifactPlan=new TestArtifactPlan(artifactPlan);
+  File first=new File("target/test/report/a.log");
+  File second=new File("target/test/test/a/b/a.log");
+  first.mkdirs();
+  second.mkdirs();
+  testArtifactPlan.publish(mockArtifactPublisher,rootPath);
+  verify(mockArtifactPublisher).upload(first,"logs/report");
+  verify(mockArtifactPublisher).upload(second,"logs/test/a/b");
+  verify(mockArtifactPublisher,new Times(2)).upload(any(File.class),eq("testoutput"));
+}

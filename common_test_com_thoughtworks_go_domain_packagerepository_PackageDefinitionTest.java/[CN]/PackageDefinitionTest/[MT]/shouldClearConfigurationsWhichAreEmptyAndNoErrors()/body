@@ -1,0 +1,12 @@
+{
+  PackageDefinition packageDefinition=new PackageDefinition();
+  packageDefinition.getConfiguration().add(new ConfigurationProperty(new ConfigurationKey("name-one"),new ConfigurationValue()));
+  packageDefinition.getConfiguration().add(new ConfigurationProperty(new ConfigurationKey("name-two"),new EncryptedConfigurationValue()));
+  packageDefinition.getConfiguration().add(new ConfigurationProperty(new ConfigurationKey("name-three"),null,new EncryptedConfigurationValue(),null));
+  ConfigurationProperty configurationProperty=new ConfigurationProperty(new ConfigurationKey("name-four"),null,new EncryptedConfigurationValue(),null);
+  configurationProperty.addErrorAgainstConfigurationValue("error");
+  packageDefinition.getConfiguration().add(configurationProperty);
+  packageDefinition.clearEmptyConfigurations();
+  assertThat(packageDefinition.getConfiguration().size(),is(1));
+  assertThat(packageDefinition.getConfiguration().get(0).getConfigurationKey().getName(),is("name-four"));
+}

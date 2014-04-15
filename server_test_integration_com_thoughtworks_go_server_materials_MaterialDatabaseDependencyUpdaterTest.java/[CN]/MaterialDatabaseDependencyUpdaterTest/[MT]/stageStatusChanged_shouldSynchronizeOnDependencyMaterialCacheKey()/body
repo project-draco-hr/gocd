@@ -1,0 +1,49 @@
+{
+  final CountDownLatch latch=new CountDownLatch(1);
+  final boolean[] flag=new boolean[]{false};
+  updater=new MaterialDatabaseUpdater(materialRepository,healthService,transactionTemplate,goCache,dependencyMaterialUpdater,scmMaterialUpdater,null,materialExpansionService){
+    @Override void updateMaterialWithNewRevisions(    Material material){
+      try {
+        flag[0]=true;
+        latch.countDown();
+        Thread.sleep(5000);
+        flag[0]=false;
+      }
+ catch (      InterruptedException e) {
+      }
+    }
+  }
+;
+  dependencyMaterialUpdater=new DependencyMaterialUpdater(goCache,transactionSynchronizationManager,dependencyMaterialSourceDao,materialRepository,materialService){
+    @Override void removeCacheKey(    String key){
+      assertThat(flag[0],is(false));
+    }
+  }
+;
+  final DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  Stages stages=stages(9,10,11);
+  stubStageServiceGetHistory(null,stages);
+  Thread updaterThread=new Thread(new Runnable(){
+    public void run(){
+      try {
+        updater.updateMaterial(dependencyMaterial);
+        updater.updateMaterial(dependencyMaterial);
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+,"updaterthread");
+  updaterThread.start();
+  latch.await();
+  Thread thread=new Thread(new Runnable(){
+    public void run(){
+      dependencyMaterialUpdater.stageStatusChanged(StageMother.passedStageInstance("stage-name","job-name","pipeline-name"));
+    }
+  }
+,"otherthread");
+  thread.start();
+  updaterThread.join();
+  thread.join();
+}

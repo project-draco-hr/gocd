@@ -1,0 +1,12 @@
+{
+  List<Revision> revisions=new ArrayList<Revision>();
+  for (  Modification modification : modifications) {
+    revisions.add(new SCMRevision(modification));
+  }
+  SCMDependencyNode scmNode=(SCMDependencyNode)addUpstreamNode(node,dependentNodeId);
+  scmNode.addRevisions(revisions);
+  if (materialName != null) {
+    scmNode.addMaterialName(materialName.toString());
+  }
+  return scmNode;
+}

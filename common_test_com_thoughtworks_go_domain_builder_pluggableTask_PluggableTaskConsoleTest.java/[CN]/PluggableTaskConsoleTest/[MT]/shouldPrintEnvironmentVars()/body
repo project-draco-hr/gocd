@@ -1,0 +1,18 @@
+{
+  Map<String,String> env=new HashMap<String,String>();
+  Console.SecureEnvVarSpecifier varSpecifier=mock(Console.SecureEnvVarSpecifier.class);
+  for (int i=0; i < keys.size(); i++) {
+    env.put(keys.get(i),values.get(i));
+    when(varSpecifier.isSecure(keys.get(i))).thenReturn(i % 2 == 0);
+  }
+  doNothing().when(publisher).consumeLine("Environment variables: ");
+  for (int i=0; i < keys.size(); i++) {
+    doNothing().when(publisher).consumeLine(String.format("Name= %s  Value= %s",keys.get(i),i % 2 == 0 ? PluggableTaskConsole.MASK_VALUE : values.get(i)));
+  }
+  console.printEnvironment(env,varSpecifier);
+  verify(publisher).consumeLine("Environment variables: ");
+  for (int i=0; i < keys.size(); i++) {
+    verify(varSpecifier).isSecure(keys.get(i));
+    verify(publisher).consumeLine(String.format("Name= %s  Value= %s",keys.get(i),i % 2 == 0 ? PluggableTaskConsole.MASK_VALUE : values.get(i)));
+  }
+}

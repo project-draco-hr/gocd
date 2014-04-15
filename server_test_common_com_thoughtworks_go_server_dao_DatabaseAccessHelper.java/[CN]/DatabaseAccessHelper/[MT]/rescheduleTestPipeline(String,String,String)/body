@@ -1,0 +1,7 @@
+{
+  String[] jobConfigNames=new String[]{};
+  PipelineConfig pipelineConfig=configurePipeline(pipelineName,stageName,jobConfigNames);
+  BuildCause buildCause=BuildCause.createManualForced(modifyOneFile(MaterialsMother.createMaterialsFromMaterialConfigs(pipelineConfig.materialConfigs()),ModificationsMother.currentRevision()),Username.ANONYMOUS);
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,buildCause,new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  return savePipelineWithStagesAndMaterials(pipeline);
+}

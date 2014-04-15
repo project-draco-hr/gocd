@@ -1,0 +1,20 @@
+{
+  final OsProcess process1=mock(OsProcess.class);
+  when(process1.processInfo()).thenReturn(new ProcessInfo(101,100,"command-1","name-1","owner-1",100,200,400,800));
+  final OsProcess process1a=mock(OsProcess.class);
+  when(process1a.processInfo()).thenReturn(new ProcessInfo(103,100,"command-1a","name-1a","owner-1",160,260,460,860));
+  final OsProcess process2=mock(OsProcess.class);
+  when(process2.processInfo()).thenReturn(new ProcessInfo(102,101,"command-2","name-2","owner-1",150,250,450,850));
+  JavaSysMon sysMon=new JavaSysMon(){
+    @Override public void visitProcessTree(    int pid,    ProcessVisitor processVisitor){
+      processVisitor.visit(process2,2);
+      processVisitor.visit(process1,1);
+      processVisitor.visit(process1a,1);
+    }
+    @Override public int currentPid(){
+      return 100;
+    }
+  }
+;
+  return sysMon;
+}

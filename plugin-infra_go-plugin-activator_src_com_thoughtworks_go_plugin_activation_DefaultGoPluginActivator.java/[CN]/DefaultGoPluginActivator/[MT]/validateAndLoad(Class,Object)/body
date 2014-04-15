@@ -1,0 +1,17 @@
+{
+  try {
+    processLoadAndUnloadAnnotatedMethods(implementation);
+  }
+ catch (  InvocationTargetException e) {
+    errors.add(String.format("Class [%s] is annotated with @Extension but cannot be registered. Reason: %s.",candidateGoExtensionClass.getSimpleName(),e.getTargetException().toString()));
+  }
+catch (  IllegalAccessException e) {
+    errors.add(String.format("Class [%s] is annotated with @Extension will not be registered. Reason: %s.",candidateGoExtensionClass.getSimpleName(),e.toString()));
+  }
+catch (  RuntimeException e) {
+    errors.add(String.format("Class [%s] is annotated with @Extension will not be registered. Reason: %s.",candidateGoExtensionClass.getSimpleName(),e.toString()));
+  }
+catch (  Throwable e) {
+    errors.add(String.format("Class [%s] is annotated with @Extension but cannot be constructed or registered. Reason: [%s].",candidateGoExtensionClass.getSimpleName(),e.getCause()));
+  }
+}

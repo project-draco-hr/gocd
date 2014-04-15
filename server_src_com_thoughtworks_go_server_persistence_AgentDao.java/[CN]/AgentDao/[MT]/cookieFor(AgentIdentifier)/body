@@ -1,0 +1,14 @@
+{
+  String key=agentCacheKey(agentIdentifier);
+  AgentCookie cookie=(AgentCookie)cache.get(key);
+  if (cookie == null) {
+synchronized (key) {
+      cookie=findAgentCookieByUuid(agentIdentifier);
+      cache.put(key,cookie);
+    }
+  }
+  if (cookie != null) {
+    return cookie.getCookie();
+  }
+  return null;
+}

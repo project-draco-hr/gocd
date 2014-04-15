@@ -1,0 +1,18 @@
+{
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  job.setAgentUuid("dummy agent");
+  try {
+    transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+      protected void doInTransactionWithoutResult(      TransactionStatus status){
+        jobService.cancelJob(job);
+        throw new RuntimeException("to rollback txn");
+      }
+    }
+);
+  }
+ catch (  RuntimeException e) {
+  }
+  verify(jobInstanceDao).updateStateAndResult(job);
+  verify(buildPropertiesService).saveCruiseProperties(job);
+  verify(topic,never()).post(any(JobResultMessage.class));
+}

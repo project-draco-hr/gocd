@@ -1,0 +1,9 @@
+{
+  shineDao=mock(ShineDao.class);
+  securityService=mock(SecurityService.class);
+  stageFinder=mock(StageFinder.class);
+  failureService=new FailureService(securityService,shineDao,stageFinder);
+  username=new Username(new CaseInsensitiveString("foo"));
+  jobIdentifier=new JobIdentifier(new StageIdentifier("pipeline",10,"stage","5"),"job");
+  result=new HttpLocalizedOperationResult();
+}

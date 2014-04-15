@@ -1,0 +1,7 @@
+{
+  LdapContextSourceConfigurator configurator=new LdapContextSourceConfigurator(new LdapConfig("uri","managerDn","managerPass",null,true,new BasesConfig(new BaseConfig("searchBase")),"searchFilter"));
+  AbstractContextSource ctxSrc=mock(AbstractContextSource.class);
+  configurator.configure(ctxSrc);
+  verify(ctxSrc).setPassword("managerPass");
+  verify(ctxSrc).setUserDn("managerDn");
+}

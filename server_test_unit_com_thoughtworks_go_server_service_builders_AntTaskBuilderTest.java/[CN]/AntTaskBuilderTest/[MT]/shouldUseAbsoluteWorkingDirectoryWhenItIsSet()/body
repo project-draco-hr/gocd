@@ -1,0 +1,6 @@
+{
+  final File absoluteFile=new File("me/antdirectory").getAbsoluteFile();
+  antTask.setWorkingDirectory(absoluteFile.getPath());
+  CommandBuilder builder=(CommandBuilder)antTaskBuilder.createBuilder(builderFactory,antTask,pipeline,resolver);
+  assertThat(builder.getWorkingDir(),is(absoluteFile));
+}

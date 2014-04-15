@@ -1,0 +1,12 @@
+{
+  try {
+    svn().cleanupAndRevert(outputStreamConsumer,workingFolder);
+  }
+ catch (  Exception e) {
+    LOGGER.error("Failed to do cleanup and revert in " + workingFolder.getAbsolutePath());
+  }
+  if (LOGGER.isTraceEnabled()) {
+    LOGGER.trace("Updating to revision " + revision + " on "+ workingFolder);
+  }
+  svn().updateTo(outputStreamConsumer,workingFolder,revision);
+}

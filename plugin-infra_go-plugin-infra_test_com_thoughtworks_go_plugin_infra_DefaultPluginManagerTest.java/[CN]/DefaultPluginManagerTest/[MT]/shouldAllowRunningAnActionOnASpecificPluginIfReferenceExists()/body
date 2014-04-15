@@ -1,0 +1,13 @@
+{
+  PluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,systemEnvironment);
+  Action action=mock(Action.class);
+  String pluginId1="test-plugin-id-1";
+  String pluginId2="test-plugin-id-2";
+  when(goPluginOSGiFramework.hasReferenceFor(SomeInterface.class,pluginId1)).thenReturn(true);
+  when(goPluginOSGiFramework.hasReferenceFor(SomeInterface.class,pluginId2)).thenReturn(false);
+  pluginManager.doOnIfHasReference(SomeInterface.class,pluginId1,action);
+  pluginManager.doOnIfHasReference(SomeInterface.class,pluginId2,action);
+  verify(goPluginOSGiFramework).hasReferenceFor(SomeInterface.class,pluginId1);
+  verify(goPluginOSGiFramework).hasReferenceFor(SomeInterface.class,pluginId2);
+  verify(goPluginOSGiFramework).doOn(SomeInterface.class,pluginId1,action);
+}

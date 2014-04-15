@@ -1,0 +1,9 @@
+{
+  String select="" + "PREFIX cruise: <" + GoOntology.URI + "> "+ "SELECT ?pipelineName ?pipelineCounter ?stageName ?stageCounter WHERE {"+ "  ?pipeline a cruise:Pipeline ."+ "  ?pipeline cruise:pipelineName ?pipelineName ."+ "  ?pipeline cruise:pipelineCounter ?pipelineCounter ."+ "  ?pipeline cruise:hasStage ?stage ."+ "  ?stage cruise:stageName ?stageName ."+ "  ?stage cruise:stageCounter ?stageCounter ."+ "}";
+  BoundVariables bv=graph.selectFirst(select);
+  if (bv == null) {
+    throw new ShineRuntimeException("Cannot save a stage graph without stage identification information!");
+  }
+  StageIdentifier stageIdentifier=new StageIdentifier(bv.getString("pipelineName"),bv.getInt("pipelineCounter"),bv.getString("stageName"),bv.getString("stageCounter"));
+  return stageIdentifier;
+}

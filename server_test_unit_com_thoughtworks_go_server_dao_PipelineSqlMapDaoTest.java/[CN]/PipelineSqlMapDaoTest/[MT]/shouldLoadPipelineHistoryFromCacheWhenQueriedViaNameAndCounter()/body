@@ -1,0 +1,9 @@
+{
+  String pipelineName="wholetthedogsout";
+  int pipelineCounter=42;
+  PipelineInstanceModel expected=mock(PipelineInstanceModel.class);
+  when(goCache.get(anyString())).thenReturn(expected);
+  PipelineInstanceModel reFetch=pipelineSqlMapDao.findPipelineHistoryByNameAndCounter(pipelineName,pipelineCounter);
+  assertThat(reFetch,is(expected));
+  verify(goCache).get(anyString());
+}

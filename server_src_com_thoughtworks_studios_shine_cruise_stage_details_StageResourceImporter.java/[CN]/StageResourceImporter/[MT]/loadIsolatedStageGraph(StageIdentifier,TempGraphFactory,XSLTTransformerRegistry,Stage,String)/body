@@ -1,0 +1,8 @@
+{
+  GoGRDDLResourceRDFizer stageRdfizer=new GoGRDDLResourceRDFizer("stage","cruise/stage-graph-grddl.xsl",tempGraphFactory,transformerRegistry,xmlApiService);
+  Graph graph=stageRdfizer.importURIUsingGRDDL(new StageXmlViewModel(stageWithIdentifier),baseUri);
+  if (!stageCompleted(graph)) {
+    throw new CanNotImportABuildingStageException(stageIdentifier + " is not completed yet, can not load test details");
+  }
+  return graph;
+}

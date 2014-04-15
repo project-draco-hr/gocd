@@ -1,0 +1,10 @@
+{
+  context.checking(new Expectations(){
+{
+      allowing(stubJobInstance).getBuildError();
+      will(returnValue("build cause"));
+    }
+  }
+);
+  assertThat(jobDetailPresenter.hasBuildError(),is(true));
+}

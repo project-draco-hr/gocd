@@ -1,0 +1,8 @@
+{
+  AgentInstances agentInstances=new AgentInstances(null);
+  agentInstances.add(idle);
+  agentInstances.add(building);
+  agentInstances.add(AgentInstanceMother.updateUuid(AgentInstanceMother.building(),"blah"));
+  assertThat(agentInstances.numberOf(AgentStatus.Building),is(2));
+  assertThat(agentInstances.numberOf(AgentStatus.Idle),is(1));
+}

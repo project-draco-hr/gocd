@@ -1,0 +1,13 @@
+{
+  LogFixture logging=LogFixture.startListening();
+  FailSometimesHttpService httpService=new FailSometimesHttpService(99);
+  try {
+    new DownloadAction(httpService,new StubGoPublisher(),clock).perform("foo",fetchHandler);
+    fail("Expected to throw exception after four tries");
+  }
+ catch (  Exception e) {
+    assertThat(httpService.timesCalled,is(4));
+    shouldHaveLogged(logging,Level.ERROR,"Giving up fetching resource 'foo'. Tried 4 times and failed.");
+  }
+  logging.stopListening();
+}

@@ -1,0 +1,14 @@
+{
+  String key=cacheKeyForLatestStageInstances();
+  List<StageIdentity> stageIdentities=(List<StageIdentity>)goCache.get(key);
+  if (stageIdentities == null) {
+synchronized (key) {
+      stageIdentities=(List<StageIdentity>)goCache.get(key);
+      if (stageIdentities == null) {
+        stageIdentities=(List<StageIdentity>)getSqlMapClientTemplate().queryForList("latestStageInstances");
+        goCache.put(key,stageIdentities);
+      }
+    }
+  }
+  return stageIdentities;
+}

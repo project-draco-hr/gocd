@@ -1,0 +1,17 @@
+{
+  configHelper.addPipeline("pipeline","stage");
+  String md5=goConfigService.getConfigForEditing().getMd5();
+  UpdateConfigFromUI pipelineAndStageRename=new PipelineStageRenamingCommand(){
+    @Override public void update(    Validatable pipelineNode){
+      throw new RuntimeException("Oh no!");
+    }
+  }
+;
+  ConfigUpdateResponse response=goConfigService.updateConfigFromUI(pipelineAndStageRename,md5,Username.ANONYMOUS,new HttpLocalizedOperationResult());
+  assertThat(goConfigService.getConfigForEditing().hasPipelineNamed(new CaseInsensitiveString("new-pipeline")),is(false));
+  assertThat(goConfigService.getConfigForEditing().hasPipelineNamed(new CaseInsensitiveString("pipeline")),is(true));
+  assertThat(((PipelineConfig)response.getNode()).name(),is(new CaseInsensitiveString("pipeline")));
+  assertThat(((StageConfig)response.getSubject()).name(),is(new CaseInsensitiveString("stage")));
+  assertThat(response.configAfterUpdate().hasStageConfigNamed(new CaseInsensitiveString("pipeline"),new CaseInsensitiveString("new-stage"),false),is(false));
+  assertThat(response.configAfterUpdate().hasStageConfigNamed(new CaseInsensitiveString("pipeline"),new CaseInsensitiveString("stage"),false),is(true));
+}

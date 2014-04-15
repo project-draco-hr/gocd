@@ -1,0 +1,9 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo-name","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  material.setPackageDefinition(PackageDefinitionMother.create("p-id","package-name",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2")),repository));
+  Map<String,Object> attributesForXml=material.getAttributesForXml();
+  assertThat(attributesForXml.get("type").toString(),is("PackageMaterial"));
+  assertThat(attributesForXml.get("repositoryName").toString(),is("repo-name"));
+  assertThat(attributesForXml.get("packageName").toString(),is("package-name"));
+}

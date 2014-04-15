@@ -1,0 +1,15 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  final Map map=attrMap(mingle09.getDTO());
+  template.save(mingle09);
+  map.put("name","a different name");
+  map.put("id",mingle09.getId());
+  repo.transaction(new Runnable(){
+    public void run(){
+      repo.saveOauthClient(map);
+    }
+  }
+);
+  OauthClient client=(OauthClient)template.load(OauthClient.class,mingle09.getId());
+  assertThat(client.getDTO().getName(),is("a different name"));
+}

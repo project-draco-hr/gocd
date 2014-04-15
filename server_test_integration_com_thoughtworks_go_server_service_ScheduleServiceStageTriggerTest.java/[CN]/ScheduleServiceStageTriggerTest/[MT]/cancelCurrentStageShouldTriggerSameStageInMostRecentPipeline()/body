@@ -1,0 +1,11 @@
+{
+  Pipeline oldest=preCondition.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  long cancelledStageId=oldest.getStages().byName(preCondition.ftStage).getId();
+  scheduleService.cancelAndTriggerRelevantStages(cancelledStageId,null,null);
+  Pipeline mostRecent=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  Stage cancelledStage=stageService.stageById(cancelledStageId);
+  assertThat(cancelledStage.stageState(),is(StageState.Cancelled));
+  assertThat(mostRecent.getStages().byName(preCondition.ftStage).stageState(),is(StageState.Building));
+}

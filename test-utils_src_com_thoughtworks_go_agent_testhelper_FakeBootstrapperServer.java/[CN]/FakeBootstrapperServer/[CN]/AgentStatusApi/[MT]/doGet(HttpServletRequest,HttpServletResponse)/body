@@ -1,0 +1,9 @@
+{
+  resp.setHeader("Plugins-Status",status);
+  pluginProps.setProperty("Active Mock Bundle 1","1.1.1");
+  pluginProps.setProperty("Active Mock Bundle 2","2.2.2");
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  pluginProps.store(baos,"Go Plugins for Testing");
+  resp.getOutputStream().write(baos.toByteArray());
+  baos.close();
+}

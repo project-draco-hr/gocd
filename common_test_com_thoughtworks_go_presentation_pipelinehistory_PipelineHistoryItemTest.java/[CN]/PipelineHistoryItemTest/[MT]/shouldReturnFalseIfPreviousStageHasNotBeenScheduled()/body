@@ -1,0 +1,6 @@
+{
+  PipelineInstanceModel twoStages=PipelineHistoryItemMother.custom(new NullStageHistoryItem("stage1"),new StageInstanceModel("stage2","1",new JobHistory()));
+  assertThat(twoStages.hasPreviousStageBeenScheduled("stage2"),is(false));
+  PipelineInstanceModel threeStages=PipelineHistoryItemMother.custom(new NullStageHistoryItem("stage1"),new NullStageHistoryItem("stage2"),new StageInstanceModel("stage3","1",new JobHistory()));
+  assertThat(threeStages.hasPreviousStageBeenScheduled("stage3"),is(false));
+}

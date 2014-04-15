@@ -1,0 +1,12 @@
+{
+  final String output="Change 539921 on 2008/09/24 by abc@SomeRefinery_abc_sa1-sgr-xyz-001 'more work in progress on ABC un'\n" + "Change 539920 on 2008/09/24 by " + "abc@SomeRefinery_abc_sa1-sgr-xyz-001 'Fixed pipeline for abc-new-sale'\n"+ "Change 539919 on 2008/09/24 by "+ "james@SomeRefinery_def_sa1-sgr-xyz-001 'Assignment stage to send ok and'\n"+ "Change 539918 on 2008/09/24 by abc@SomeRefinery_abc_sa1-sgr-xyz-001 'More refactoring and code clean'\n"+ "Change 539917 on 2008/09/24 by thomas@tom_ws_stuff 'added client name for Arza SW'\n"+ "Change 539916 on 2008/09/24 by alex@SA2-COUNT-LAX-001 'sending the context further '\n"+ "Change 539915 on 2008/09/24 by ellen@ellen-box-1 'TT 678 cause:Old code try to'\n"+ "Change 539914 on 2008/09/24 by valerie@ExcelSheets_New 'update sheet comments '\n"+ "\n"+ "Change 539913 on 2008/09/24 by perforce@SOM-NAME-HERE-HOST-1 'apply new version numbers via A'\n"+ "Change 539912 on 2008/09/24 by lance@lance-box-1 'Corrected a typo. '\n"+ "\n"+ "Change 539911 on 2008/09/24 by lance@lance-box-1 'corrected a typo. '\n"+ "Change 539910 on 2008/09/24 by josh@josh_box_1 'Changes to remove hacks I had m'\n"+ "Change 539909 on 2008/09/24 by thomas@tom_ws_stuff 'Added Arza SW to add request '\n"+ "Change 539908 on 2008/09/24 by padma@Padma '1. Fix #2644 : When the FSOi'\n"+ "Change 539907 on 2008/09/24 by berlin@Dans_Box 'Added GetDocumentMetadataForEdi'\n"+ "Change 539906 on 2008/09/24 by lance@lance-box-1 'Added detail aboutPFP. '\n"+ "Change 539904 on 2008/09/24 by lance@lance-box-1 'Added a detail about PFP. '\n"+ "Change 539903 on 2008/09/24 by nitya@docs_box 'Updated for lam, am 20080923'\n"+ "Change 539902 on 2008/09/24 by abc@SomeRefinery_abc_sa1-sgr-xyz-001 'Work in progress '\n"+ "Change 539901 on 2008/09/24 by anil@anil-box-1 'Added all columns of AA_TASK to'\n"+ "";
+  context.checking(new Expectations(){
+{
+      allowing(p4Client).describe(with(any(Long.class)));
+      will(returnValue("Change 539921 by abc@SomeRefinery_abc_sa1-sgr-xyz-001 on 2008/09/24 12:10:00\n" + "\n" + "\tmore work in progress on ABC unit test\n"+ "\n"+ "Affected files ...\n"+ ""));
+    }
+  }
+);
+  List<Modification> modifications=parser.modifications(new ConsoleResult(0,Arrays.asList(output.split("\n")),new ArrayList<String>(),new ArrayList<CommandArgument>(),new ArrayList<SecretString>()));
+  assertThat(modifications.size(),is(20));
+}

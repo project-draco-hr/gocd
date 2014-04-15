@@ -1,0 +1,28 @@
+{
+  String destPath=dest.getAbsolutePath();
+  try {
+    if (LOGGER.isTraceEnabled()) {
+      LOGGER.trace("Saving file [" + destPath + "]");
+    }
+    if (shouldUnzip) {
+      zipUtil.unzip(new ZipInputStream(stream),dest);
+    }
+ else {
+      systemService.streamToFile(stream,dest);
+    }
+    if (LOGGER.isTraceEnabled()) {
+      LOGGER.trace("File [" + destPath + "] saved.");
+    }
+    return true;
+  }
+ catch (  IOException e) {
+    final String message=format("Failed to save the file to: [%s]",destPath);
+    if (attempt < GoConstants.PUBLISH_MAX_RETRIES) {
+      LOGGER.warn(message,e);
+    }
+ else {
+      LOGGER.error(message,e);
+    }
+    return false;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  String link="http://mingle05/projects/cce/cards/${ID}";
+  String regex="(?:Task |#|Bug )(\\d+)";
+  trackingTool=new DefaultCommentRenderer(link,regex);
+  assertThat(trackingTool.render("Task 111: checkin message"),is("<a href=\"" + "http://mingle05/projects/cce/cards/111\" " + "target=\"story_tracker\">Task 111</a>: checkin message"));
+  assertThat(trackingTool.render("Bug 111: checkin message"),is("<a href=\"" + "http://mingle05/projects/cce/cards/111\" " + "target=\"story_tracker\">Bug 111</a>: checkin message"));
+  assertThat(trackingTool.render("#111: checkin message"),is("<a href=\"" + "http://mingle05/projects/cce/cards/111\" " + "target=\"story_tracker\">#111</a>: checkin message"));
+}

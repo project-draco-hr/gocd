@@ -1,0 +1,21 @@
+{
+  LogFile logFile=new LogFile(DataUtils.getFailedBuildLbuildAsFile().getFile());
+  boolean isPassed=false;
+  Map map=logParser.parseLogFile(logFile,isPassed);
+  List suites=getTestSuites(map);
+  BuildTestSuite firstSuite=(BuildTestSuite)suites.get(0);
+  List failingCases=firstSuite.getFailingTestCases();
+  assertThat(firstSuite.getNumberOfFailures(),is(3));
+  assertThat(failingCases.size(),is(3));
+  BuildTestCase failingTest=(BuildTestCase)failingCases.get(0);
+  String expectedNoClassDefFoundError="junit.framework.AssertionFailedError: Error during schema validation";
+  String exptectedClassPath="at junit.framework.Assert.fail(Assert.java:47)";
+  String className="net.sourceforge.cruisecontrol.sampleproject.connectfour.PlayingStandTest";
+  assertThat(failingTest.getClassname(),is(className));
+  assertThat(failingTest.getDuration(),is("3.807"));
+  assertThat(failingTest.getName(),is("testSomething"));
+  assertThat(failingTest.getResult(),is(BuildTestCaseResult.FAILED));
+  assertThat(failingTest.getMessage(),is("Not the expected result"));
+  assertThat(failingTest.getMessageBody(),containsString(expectedNoClassDefFoundError));
+  assertThat(failingTest.getMessageBody(),containsString(exptectedClassPath));
+}

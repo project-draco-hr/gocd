@@ -1,0 +1,17 @@
+{
+  Document documentRoot=null;
+  try {
+    builder.setFeature("http://apache.org/xml/features/validation/schema",true);
+    builder.setProperty("http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",resource.toURI().toString());
+    builder.setValidation(true);
+    builder.setErrorHandler(errorHandler);
+    documentRoot=builder.build(new StringReader(xmlContent));
+  }
+ catch (  Exception e) {
+    throw new XsdValidationException(e.getMessage());
+  }
+  if (errorHandler.hasValidationError()) {
+    throw new XsdValidationException(errorHandler.translate());
+  }
+  return documentRoot.getRootElement();
+}

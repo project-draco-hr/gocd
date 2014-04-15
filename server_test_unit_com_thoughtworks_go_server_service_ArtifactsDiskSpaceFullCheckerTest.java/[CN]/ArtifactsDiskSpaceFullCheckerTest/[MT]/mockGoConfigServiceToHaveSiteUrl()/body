@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=configWithSiteUrl();
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  when(goConfigService.artifactsDir()).thenReturn(new File("."));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(goConfigService.adminEmail()).thenReturn("admin@email.com");
+  return goConfigService;
+}

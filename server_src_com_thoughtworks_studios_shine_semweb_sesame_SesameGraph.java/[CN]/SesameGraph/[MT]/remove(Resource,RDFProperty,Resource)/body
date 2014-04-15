@@ -1,0 +1,11 @@
+{
+  AbstractSesameResource sesameSubject=(AbstractSesameResource)tripleSubject;
+  URI sesameNativePredicate=getSesameNativeProperty(triplePredicate);
+  AbstractSesameResource sesameObject=(AbstractSesameResource)tripleObject;
+  try {
+    conn.remove(sesameSubject.getSesameNativeResource(),sesameNativePredicate,sesameObject.getSesameNativeResource(),contextResource);
+  }
+ catch (  RepositoryException e) {
+    throw new ShineRuntimeException(e);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  Stages latestRunStages=new Stages();
+  for (  Stage stage : this) {
+    if (stage.isLatestRun()) {
+      latestRunStages.add(stage);
+    }
+  }
+  Collections.sort(latestRunStages,new Comparator<Stage>(){
+    @Override public int compare(    Stage s1,    Stage s2){
+      return new Integer(s1.getOrderId()).compareTo(s2.getOrderId());
+    }
+  }
+);
+  return latestRunStages;
+}

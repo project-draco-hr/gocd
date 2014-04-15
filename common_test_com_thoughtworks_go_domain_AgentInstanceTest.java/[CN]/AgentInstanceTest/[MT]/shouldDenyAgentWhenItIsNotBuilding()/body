@@ -1,0 +1,7 @@
+{
+  AgentInstance original=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  original.update(idleRuntimeInfo());
+  original.deny();
+  assertThat(agentConfig.isDisabled(),is(true));
+  assertThat(original.getStatus(),is(AgentStatus.Disabled));
+}

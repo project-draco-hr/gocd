@@ -1,0 +1,13 @@
+{
+  return new URLTemplateLoader(){
+    @Override protected URL getURL(    String s){
+      try {
+        return new URL(s);
+      }
+ catch (      MalformedURLException e) {
+        throw new RuntimeException(String.format("Could not create url from %s",s));
+      }
+    }
+  }
+;
+}

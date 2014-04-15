@@ -1,0 +1,17 @@
+{
+  JobConfig jobConfig=new JobConfig("foo");
+  jobConfig.setRunOnAllAgents(true);
+  SchedulingContext context=mock(SchedulingContext.class);
+  when(context.getApprovedBy()).thenReturn("chris");
+  when(context.findAgentsMatching(new Resources())).thenReturn(new ArrayList<AgentConfig>());
+  when(context.getEnvironmentVariablesConfig()).thenReturn(new EnvironmentVariablesConfig());
+  when(context.overrideEnvironmentVariables(any(EnvironmentVariablesConfig.class))).thenReturn(context);
+  try {
+    RunOnAllAgents.CounterBasedJobNameGenerator jobNameGenerator=new RunOnAllAgents.CounterBasedJobNameGenerator(CaseInsensitiveString.str(jobConfig.name()));
+    instanceFactory.createJobInstance(new CaseInsensitiveString("myStage"),jobConfig,new DefaultSchedulingContext(),new TimeProvider(),jobNameGenerator);
+    Assert.fail("should have failed as no agents matched");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Could not find matching agents to run job [foo] of stage [myStage]."));
+  }
+}

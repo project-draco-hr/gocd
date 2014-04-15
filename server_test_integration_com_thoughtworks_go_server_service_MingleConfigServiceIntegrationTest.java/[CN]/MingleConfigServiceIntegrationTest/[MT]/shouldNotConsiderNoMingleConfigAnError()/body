@@ -1,0 +1,6 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  MingleConfig mingleConfig=mingleConfigService.mingleConfigForPipelineNamed("bar",new Username(new CaseInsensitiveString("admin")),result);
+  assertThat(mingleConfig,is(nullValue()));
+  assertThat(result.isSuccessful(),is(true));
+}

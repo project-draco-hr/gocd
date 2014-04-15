@@ -1,0 +1,6 @@
+{
+  userDao.saveOrUpdate(new User("some-random-user"));
+  makeSureThatCacheIsInitialized();
+  userDao.enableUsers(Arrays.asList("some-random-user"));
+  assertThatEnabledUserCacheHasBeenCleared();
+}

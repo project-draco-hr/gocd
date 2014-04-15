@@ -1,0 +1,11 @@
+{
+  PipelineConfig shineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("shine","1stStage","2ndStage");
+  Pipeline shineInstance=dbHelper.newPipelineWithFirstStageFailed(shineConfig);
+  dbHelper.scheduleStage(shineInstance,shineConfig.get(1),1);
+  PipelineDependencyGraphOld dependencyGraph=pipelineDao.pipelineGraphByNameAndCounter("shine",1);
+  assertPipelineEquals(shineInstance,dependencyGraph.pipeline());
+  StageInstanceModels models=dependencyGraph.pipeline().getStageHistory();
+  assertThat(models.size(),is(2));
+  assertThat(models.get(0).getName(),is("1stStage"));
+  assertThat(models.get(1).getName(),is("2ndStage"));
+}

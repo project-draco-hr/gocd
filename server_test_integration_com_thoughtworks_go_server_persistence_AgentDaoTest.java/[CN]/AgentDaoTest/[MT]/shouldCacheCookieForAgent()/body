@@ -1,0 +1,18 @@
+{
+  AgentIdentifier agentIdentifier=new AgentIdentifier("host","127.0.0.1","uuid");
+  agentDao.associateCookie(agentIdentifier,"cookie");
+  assertThat(agentDao.cookieFor(agentIdentifier),is("cookie"));
+  hibernateTemplate.execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      AgentCookie agentCookie=(AgentCookie)session.createQuery("from AgentCookie where uuid = 'uuid'").uniqueResult();
+      agentCookie.updateCookie("updated_cookie");
+      session.update(agentCookie);
+      return null;
+    }
+  }
+);
+  assertThat(cookieForUuid(),is("updated_cookie"));
+  assertThat(agentDao.cookieFor(agentIdentifier),is("cookie"));
+  goCache.clear();
+  assertThat(agentDao.cookieFor(agentIdentifier),is("updated_cookie"));
+}

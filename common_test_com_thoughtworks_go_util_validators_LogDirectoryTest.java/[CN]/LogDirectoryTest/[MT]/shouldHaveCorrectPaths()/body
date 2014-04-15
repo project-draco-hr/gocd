@@ -1,0 +1,6 @@
+{
+  assertThat(LogDirectory.fromEnvironment(LINUX),is(new LogDirectory("/var/log/go-server")));
+  assertThat(LogDirectory.fromEnvironment(SUN_OS),is(new LogDirectory("/var/log/cruise-server")));
+  assertThat(LogDirectory.fromEnvironment(OSX),is(new LogDirectory("/Library/Logs/GoServer")));
+  assertThat(LogDirectory.fromEnvironment(OperatingSystem.WINDOWS),is(LogDirectory.CURRENT));
+}

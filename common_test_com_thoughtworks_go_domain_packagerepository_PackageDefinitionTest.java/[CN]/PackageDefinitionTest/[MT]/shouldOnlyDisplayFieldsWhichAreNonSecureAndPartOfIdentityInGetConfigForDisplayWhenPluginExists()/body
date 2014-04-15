@@ -1,0 +1,20 @@
+{
+  String pluginId="plugin-id";
+  PackageConfigurations repositoryConfigurations=new PackageConfigurations();
+  repositoryConfigurations.add(new PackageConfiguration("rk1","rv1").with(PackageConfiguration.PART_OF_IDENTITY,true).with(PackageConfiguration.SECURE,false));
+  repositoryConfigurations.add(new PackageConfiguration("rk2","rv2").with(PackageConfiguration.PART_OF_IDENTITY,false).with(PackageConfiguration.SECURE,false));
+  repositoryConfigurations.add(new PackageConfiguration("rk3","rv3").with(PackageConfiguration.PART_OF_IDENTITY,true).with(PackageConfiguration.SECURE,true));
+  RepositoryMetadataStore.getInstance().addMetadataFor(pluginId,repositoryConfigurations);
+  PackageConfigurations packageConfigurations=new PackageConfigurations();
+  packageConfigurations.add(new PackageConfiguration("pk1","pv1").with(PackageConfiguration.PART_OF_IDENTITY,true).with(PackageConfiguration.SECURE,false));
+  packageConfigurations.add(new PackageConfiguration("pk2","pv2").with(PackageConfiguration.PART_OF_IDENTITY,false).with(PackageConfiguration.SECURE,false));
+  packageConfigurations.add(new PackageConfiguration("pk3","pv3").with(PackageConfiguration.PART_OF_IDENTITY,true).with(PackageConfiguration.SECURE,true));
+  packageConfigurations.add(new PackageConfiguration("pk4","pv4").with(PackageConfiguration.PART_OF_IDENTITY,false).with(PackageConfiguration.SECURE,true));
+  packageConfigurations.add(new PackageConfiguration("pk5","pv5").with(PackageConfiguration.PART_OF_IDENTITY,true).with(PackageConfiguration.SECURE,false));
+  PackageMetadataStore.getInstance().addMetadataFor(pluginId,packageConfigurations);
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo",pluginId,"version",new Configuration(create("rk1",false,"rv1"),create("rk2",false,"rv2"),create("rk3",true,"rv3")));
+  Configuration packageConfig=new Configuration(create("pk1",false,"pv1"),create("pk2",false,"pv2"),create("pk3",true,"pv3"),create("pk4",true,"pv4"),create("pk5",false,"pv5"));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","name",packageConfig,repository);
+  packageDefinition.setRepository(repository);
+  assertThat(packageDefinition.getConfigForDisplay(),is("Repository: [rk1=rv1] - Package: [pk1=pv1, pk5=pv5]"));
+}

@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  pipelineConfig.setTrackingTool(new TrackingTool("link","regex"));
+  Map map=new HashMap();
+  map.put(PipelineConfig.INTEGRATION_TYPE,PipelineConfig.INTEGRATION_TYPE_NONE);
+  pipelineConfig.setConfigAttributes(map);
+  assertThat(pipelineConfig.getTrackingTool(),is(nullValue()));
+  assertThat(pipelineConfig.getIntegrationType(),is(PipelineConfig.INTEGRATION_TYPE_NONE));
+}

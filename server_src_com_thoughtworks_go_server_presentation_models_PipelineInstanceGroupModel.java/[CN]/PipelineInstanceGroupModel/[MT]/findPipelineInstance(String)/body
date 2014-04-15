@@ -1,0 +1,11 @@
+{
+  if ("latest".equals(pipelineLabel) && !pipelineInstances.isEmpty()) {
+    return pipelineInstances.first();
+  }
+  for (  PipelineInstanceModel instance : pipelineInstances) {
+    if (instance.getLabel().equals(pipelineLabel)) {
+      return instance;
+    }
+  }
+  return null;
+}

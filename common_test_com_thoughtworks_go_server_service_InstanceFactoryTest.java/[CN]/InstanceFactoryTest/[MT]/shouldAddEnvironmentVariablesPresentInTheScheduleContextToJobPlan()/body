@@ -1,0 +1,9 @@
+{
+  JobConfig jobConfig=new JobConfig("foo");
+  EnvironmentVariablesConfig variablesConfig=new EnvironmentVariablesConfig();
+  variablesConfig.add("blahVar","blahVal");
+  SchedulingContext context=new DefaultSchedulingContext("Loser");
+  context=context.overrideEnvironmentVariables(variablesConfig);
+  JobPlan plan=instanceFactory.createJobPlan(jobConfig,context);
+  assertThat(plan.getVariables(),hasItem(new EnvironmentVariableConfig("blahVar","blahVal")));
+}

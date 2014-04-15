@@ -1,0 +1,7 @@
+{
+  AgentInstance pending=AgentInstanceMother.pending();
+  AgentConfig config=new AgentConfig(pending.getUuid(),pending.getHostname(),pending.getIpAddress());
+  pending.syncConfig(config);
+  AgentStatus status=pending.getStatus();
+  assertThat(status,is(AgentStatus.Idle));
+}

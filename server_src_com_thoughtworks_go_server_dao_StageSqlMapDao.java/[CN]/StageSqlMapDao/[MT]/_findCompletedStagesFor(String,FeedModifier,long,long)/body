@@ -1,0 +1,7 @@
+{
+  Map parameters=new HashMap();
+  parameters.put("value",transitionId);
+  parameters.put("pageLimit",pageSize);
+  parameters.put("pipelineName",pipelineName);
+  return (List<StageFeedEntry>)getSqlMapClientTemplate().queryForList("allCompletedStagesForPipeline" + feedModifier.suffix(),parameters);
+}

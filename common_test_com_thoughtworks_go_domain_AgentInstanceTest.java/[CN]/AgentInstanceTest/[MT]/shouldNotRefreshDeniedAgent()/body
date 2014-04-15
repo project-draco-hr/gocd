@@ -1,0 +1,12 @@
+{
+  agentConfig.disable();
+  AgentInstance instance=AgentInstance.createFromConfig(agentConfig,new SystemEnvironment(){
+    public int getAgentConnectionTimeout(){
+      return -1;
+    }
+  }
+);
+  instance.update(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null));
+  instance.refresh(null);
+  assertThat(instance.getStatus().getRuntimeStatus(),is(not(AgentRuntimeStatus.LostContact)));
+}

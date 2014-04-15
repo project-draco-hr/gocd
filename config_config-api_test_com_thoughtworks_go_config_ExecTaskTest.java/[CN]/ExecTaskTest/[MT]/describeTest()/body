@@ -1,0 +1,5 @@
+{
+  ExecTask task=new ExecTask("ant","-f build.xml run","subfolder");
+  task.setTimeout(600);
+  assertThat(task.describe(),Is.is("<exec command=\"ant\" args=\"-f build.xml run\" workingdir=\"subfolder\" timeout=\"600\" />"));
+}

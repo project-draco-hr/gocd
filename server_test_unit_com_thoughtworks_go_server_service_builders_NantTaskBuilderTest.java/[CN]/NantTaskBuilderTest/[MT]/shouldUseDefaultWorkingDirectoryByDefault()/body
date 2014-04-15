@@ -1,0 +1,5 @@
+{
+  NantTask nantTask=new NantTask();
+  CommandBuilder commandBuilder=(CommandBuilder)nantTaskBuilder.createBuilder(builderFactory,nantTask,TasksTest.pipelineStub("label","/cruise"),resolver);
+  assertThat(commandBuilder.getWorkingDir(),is(new File("/cruise")));
+}

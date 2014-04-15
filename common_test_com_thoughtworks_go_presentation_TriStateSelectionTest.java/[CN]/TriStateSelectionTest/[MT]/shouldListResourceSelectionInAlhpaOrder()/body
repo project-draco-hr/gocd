@@ -1,0 +1,10 @@
+{
+  HashSet<Resource> resources=new HashSet<Resource>();
+  resources.add(new Resource("B02"));
+  resources.add(new Resource("b01"));
+  resources.add(new Resource("a01"));
+  List<TriStateSelection> selections=TriStateSelection.forAgentsResources(resources,agents);
+  assertThat(selections.get(0),Matchers.is(new TriStateSelection("a01",TriStateSelection.Action.remove)));
+  assertThat(selections.get(1),Matchers.is(new TriStateSelection("b01",TriStateSelection.Action.remove)));
+  assertThat(selections.get(2),Matchers.is(new TriStateSelection("B02",TriStateSelection.Action.remove)));
+}

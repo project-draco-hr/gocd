@@ -1,0 +1,5 @@
+{
+  queue.schedule("cruise",BuildCause.createWithEmptyModifications());
+  queue.clearPipeline("cruise");
+  assertThat(queue.toBeScheduled().get("cruise"),is(nullValue()));
+}

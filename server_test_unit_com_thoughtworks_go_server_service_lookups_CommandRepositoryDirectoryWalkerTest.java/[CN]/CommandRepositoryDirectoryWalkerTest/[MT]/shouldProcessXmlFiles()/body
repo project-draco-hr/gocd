@@ -1,0 +1,10 @@
+{
+  FileUtil.writeContentToFile(CommandSnippetMother.validXMLSnippetContentForCommand("MsBuild"),xmlFile);
+  ArrayList results=new ArrayList();
+  walker.handleFile(xmlFile,0,results);
+  assertThat(results.size(),is(1));
+  CommandSnippet snippet=(CommandSnippet)results.get(0);
+  Assert.assertThat(snippet.getBaseFileName(),is("foo"));
+  Assert.assertThat(snippet.getCommandName(),is("MsBuild"));
+  Assert.assertThat(snippet.getArguments(),is(Arrays.asList("pack","component.nuspec")));
+}

@@ -1,0 +1,6 @@
+{
+  PackageRepository packageRepository1=PackageRepositoryMother.create("repo-id1","repo1","plugin-id","1.0",null);
+  PackageRepository packageRepository2=PackageRepositoryMother.create("repo-id2","repo2","plugin-id","1.0",null);
+  PackageRepositories packageRepositories=new PackageRepositories(packageRepository1,packageRepository2);
+  assertThat(packageRepositories.find("repo-id2"),is(packageRepository2));
+}

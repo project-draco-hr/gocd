@@ -1,0 +1,14 @@
+{
+  userName="GAO LI";
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  dbHelper.onSetUp();
+  pipelineConfig=PipelineMother.withSingleStageWithMaterials(PIPELINE_NAME,STAGE_NAME,withBuildPlans(UNIT_LINUX,UNIT_WINDOWS));
+  pipelineConfig.setMaterialConfigs(MaterialConfigsMother.multipleMaterialConfigs());
+  pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createWithModifications(modifyOneFile(pipelineConfig),""),new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY),"md5-test",new TimeProvider());
+  savePipeline=pipelineService.save(pipeline);
+  configHelper.addMailHost(new MailHost(HOST_NAME,PORT,USERNAME,PASSWORD,true,false,FROM,TO));
+  usersettingDao.saveOrUpdate(new User(userName,new String[]{"lgao.*"},"cruise2@cruise.com",true));
+  pop3MailClient=new Pop3MailClient(HOST_NAME,110,USERNAME,PASSWORD);
+  pop3MailClient.deleteAllMessages();
+}

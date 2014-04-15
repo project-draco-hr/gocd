@@ -1,0 +1,12 @@
+{
+  try {
+    KeyStore store=new KeyStoreManager().loadOrEmpty(keystoreFile,keystorePassword);
+    if (LOG.isDebugEnabled()) {
+      logKeyStore(store);
+    }
+    return createKeyManagers(store);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("Couldn't get key managers",e);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  File file=new File("c:a/b/c/d/e");
+  File file2=new File("c:foo\\bar\\baz");
+  assertThat(FileUtil.filesystemSafeFileHash(file).matches("[0-9a-zA-Z\\.\\-]*"),is(true));
+  assertThat(FileUtil.filesystemSafeFileHash(file2),not(FileUtil.filesystemSafeFileHash(file)));
+}

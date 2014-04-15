@@ -1,0 +1,14 @@
+{
+  CommandLine command=svn(true).withArgs("log","--non-interactive","--xml","-v","-r","HEAD:" + subversionRevision.getRevision()).withArg(repositoryUrl);
+  ConsoleResult result=executeCommand(command);
+  String output=result.outputAsString();
+  try {
+    List<Modification> modifications=parseSvnLog(output);
+    modifications=Modifications.filterOutRevision(modifications,subversionRevision);
+    return modifications;
+  }
+ catch (  Exception e) {
+    LOG.error("Error parsing svn log output",result.smudgedException(e));
+    throw bomb(e);
+  }
+}

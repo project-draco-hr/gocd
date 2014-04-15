@@ -1,0 +1,10 @@
+{
+  try {
+    pipelineDao.findBuildCauseOfPipelineByNameAndCounter("foo",1);
+    fail("should have thrown PipelineNotFoundException");
+  }
+ catch (  Exception e) {
+    assertThat(e instanceof PipelineNotFoundException,is(true));
+    assertThat(e.getMessage(),is("Pipeline foo with counter 1 was not found"));
+  }
+}

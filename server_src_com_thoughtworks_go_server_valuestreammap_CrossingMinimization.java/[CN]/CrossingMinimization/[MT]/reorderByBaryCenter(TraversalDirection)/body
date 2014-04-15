@@ -1,0 +1,13 @@
+{
+  while (traversalDirection.hasNext()) {
+    List<Node> nodesAtLevel=traversalDirection.next();
+    ArrayList<NodeBaryCentre> nodeBaryCentres=new ArrayList<NodeBaryCentre>();
+    for (    Node node : nodesAtLevel) {
+      List<Node> relatedNodes=traversalDirection.getRelatedNodesAtPreviousLevel(node);
+      nodeBaryCentres.add(getNodeBaryCentre(node,relatedNodes));
+    }
+    sort(nodeBaryCentres);
+    updateNodeDepths(nodeBaryCentres);
+    sort(nodesAtLevel);
+  }
+}

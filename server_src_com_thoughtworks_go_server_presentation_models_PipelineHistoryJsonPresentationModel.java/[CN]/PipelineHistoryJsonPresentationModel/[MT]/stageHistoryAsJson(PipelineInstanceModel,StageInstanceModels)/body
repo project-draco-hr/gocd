@@ -1,0 +1,18 @@
+{
+  JsonList json=new JsonList();
+  for (  StageInstanceModel stageHistoryItem : stageHistory) {
+    JsonMap jsonMap=new JsonMap();
+    jsonMap.put("stageName",stageHistoryItem.getName());
+    jsonMap.put("stageId",stageHistoryItem.getId());
+    jsonMap.put("stageStatus",stageHistoryItem.getState().toString());
+    StageIdentifier stageIdentifier=new StageIdentifier(pipelineInstanceModel.getPipelineIdentifier(),stageHistoryItem.getName(),stageHistoryItem.getCounter());
+    jsonMap.put("stageLocator",UrlUtil.encodeInUtf8(stageIdentifier.stageLocator()));
+    jsonMap.put("getCanRun",Boolean.toString(stageHistoryItem.getCanRun()));
+    jsonMap.put("getCanCancel",Boolean.toString(stageHistoryItem.getCanCancel()));
+    jsonMap.put("scheduled",Boolean.toString(stageHistoryItem.isScheduled()));
+    jsonMap.put("stageCounter",stageHistoryItem.getCounter());
+    handleApproval(stageHistoryItem,jsonMap);
+    json.add(jsonMap);
+  }
+  return json;
+}

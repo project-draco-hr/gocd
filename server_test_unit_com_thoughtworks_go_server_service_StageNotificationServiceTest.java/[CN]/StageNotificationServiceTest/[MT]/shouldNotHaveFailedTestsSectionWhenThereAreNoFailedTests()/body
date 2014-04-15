@@ -1,0 +1,8 @@
+{
+  String jezMail=prepareOneMatchedUser();
+  stubPipelineAndStage(new Date());
+  when(shineDao.failedTestsFor(stageIdentifier)).thenReturn(new ArrayList<TestSuite>());
+  stageNotificationService.sendNotifications(stageIdentifier,StageEvent.Fails,new Username(new CaseInsensitiveString("loser")));
+  String body=inMemoryEmailNotificationTopic.getBody(jezMail);
+  assertThat(body,not(containsString(StageNotificationService.FAILED_TEST_SECTION)));
+}

@@ -1,0 +1,6 @@
+{
+  String multipleMatchXPATH="//artifact/@src";
+  generator=new ArtifactPropertiesGenerator(TEST_PROPERTY,createSrcFile().getName(),multipleMatchXPATH);
+  generator.addError("src","Source invalid");
+  assertThat(generator.errors().on("src"),is("Source invalid"));
+}

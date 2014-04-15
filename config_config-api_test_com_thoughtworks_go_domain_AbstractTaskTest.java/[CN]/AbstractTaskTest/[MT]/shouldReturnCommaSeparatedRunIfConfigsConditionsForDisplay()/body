@@ -1,0 +1,8 @@
+{
+  AbstractTask execTask=new ExecTask("ls","-la","42");
+  execTask.getConditions().add(RunIfConfig.PASSED);
+  execTask.getConditions().add(RunIfConfig.FAILED);
+  execTask.getConditions().add(RunIfConfig.ANY);
+  String actual=execTask.getConditionsForDisplay();
+  assertThat(actual,is("Passed, Failed, Any"));
+}

@@ -1,0 +1,12 @@
+{
+  AgentConfig config=agentConfig("linux, mercurial");
+  AgentInstance agentInstance=new AgentInstance(config,LOCAL,systemEnvironment);
+  final JobPlan job=jobPlan("pipeline-name","job-name","linux",config.getUuid() + "-ensure-doesn't-match");
+  JobPlan matchingJob=agentInstance.firstMatching(new ArrayList<JobPlan>(){
+{
+      add(job);
+    }
+  }
+);
+  assertThat(matchingJob,is(nullValue()));
+}

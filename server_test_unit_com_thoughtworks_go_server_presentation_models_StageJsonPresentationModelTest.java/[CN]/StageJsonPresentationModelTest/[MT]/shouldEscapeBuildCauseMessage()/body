@@ -1,0 +1,8 @@
+{
+  String userWithHtmlCharacters="<user>";
+  pipeline.setBuildCause(BuildCause.createManualForced(materialRevisions(userWithHtmlCharacters),new Username(new CaseInsensitiveString(userWithHtmlCharacters))));
+  StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,stage,null,new Agents());
+  JsonTester jsonTester=new JsonTester(presenter.toJson());
+  String expected=StringEscapeUtils.escapeHtml(userWithHtmlCharacters);
+  jsonTester.shouldContain("{'buildCause':'Forced by " + expected + "'}");
+}

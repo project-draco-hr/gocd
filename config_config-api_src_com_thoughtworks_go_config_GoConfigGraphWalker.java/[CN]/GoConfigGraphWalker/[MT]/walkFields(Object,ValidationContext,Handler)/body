@@ -1,0 +1,15 @@
+{
+  for (  Field field : getAllFields(current.getClass())) {
+    field.setAccessible(true);
+    try {
+      Object o=field.get(current);
+      if (o == null || isAConstantField(field) || field.isAnnotationPresent(IgnoreTraversal.class)) {
+        continue;
+      }
+      walkSubtree(o,ctx,handler);
+    }
+ catch (    IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}

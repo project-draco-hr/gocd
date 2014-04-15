@@ -1,0 +1,10 @@
+{
+  StageDao dao=mock(StageDao.class);
+  when(dao.mostRecentJobsForStage("cruise","dev")).thenReturn(new ArrayList<JobInstance>());
+  JobStatusCache cache=new JobStatusCache(dao);
+  assertThat(cache.currentJobs(new JobConfigIdentifier("cruise","dev","linux-firefox")).isEmpty(),is(true));
+  JobInstance instance=jobInstance("linux-firefox");
+  cache.jobStatusChanged(instance);
+  assertThat(cache.currentJobs(new JobConfigIdentifier("cruise","dev","linux-firefox")).get(0),is(instance));
+  Mockito.verify(dao,times(1)).mostRecentJobsForStage("cruise","dev");
+}

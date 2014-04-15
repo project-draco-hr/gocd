@@ -1,0 +1,15 @@
+{
+  PackageDefinition packageDefinition=cruiseConfig.getPackageRepositories().get(0).getPackages().get(0);
+  String repoId=packageDefinition.getRepository().getId();
+  String pkgId=packageDefinition.getId();
+  HashMap<String,Serializable> params=PackageDefinitionMother.paramsForPackageMaterialAssociation(repoId,pkgId);
+  PackageMaterialConfig materialToBeCreated=new PackageMaterialConfig();
+  PackageMaterialAddWithExistingPackageDefinitionCommand command=new PackageMaterialAddWithExistingPackageDefinitionCommand(packageDefinitionService,securityService,pipelineName,materialToBeCreated,admin,params);
+  command.update(cruiseConfig);
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  assertThat(pipelineConfig.materialConfigs().last() instanceof PackageMaterialConfig,is(true));
+  PackageMaterialConfig packageMaterial=(PackageMaterialConfig)pipelineConfig.materialConfigs().last();
+  assertThat(packageMaterial,is(materialToBeCreated));
+  assertThat(packageMaterial.getPackageDefinition(),is(packageDefinition));
+  verify(packageDefinitionService,never()).performPluginValidationsFor(packageDefinition);
+}

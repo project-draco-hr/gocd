@@ -1,0 +1,9 @@
+{
+  CruiseConfig config=ConfigMigrator.loadWithMigration(ConfigFileFixture.TASKS_WITH_ON_CANCEL).config;
+  JobConfig job=config.jobConfigByName("pipeline1","mingle","cardlist",true);
+  Task task=job.tasks().findFirstByType(AntTask.class);
+  assertThat(task.hasCancelTask(),is(true));
+  assertThat((ExecTask)task.cancelTask(),is(new ExecTask("kill.rb","","utils")));
+  Task task2=job.tasks().findFirstByType(ExecTask.class);
+  assertThat(task2.hasCancelTask(),is(false));
+}

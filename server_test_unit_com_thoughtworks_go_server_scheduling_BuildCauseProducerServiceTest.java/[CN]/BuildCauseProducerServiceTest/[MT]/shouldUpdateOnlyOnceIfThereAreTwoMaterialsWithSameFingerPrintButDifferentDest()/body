@@ -1,0 +1,19 @@
+{
+  HgMaterial material1=new HgMaterial("url",null);
+  HgMaterial material2=new HgMaterial("url",null);
+  HgMaterialConfig materialConfig1=new HgMaterialConfig("url",null);
+  HgMaterialConfig materialConfig2=new HgMaterialConfig("url",null);
+  material1.setFolder("folder1");
+  material2.setFolder("folder2");
+  assertThat(material1.getFingerprint(),is(material2.getFingerprint()));
+  pipelineConfig.addMaterialConfig(materialConfig1);
+  pipelineConfig.addMaterialConfig(materialConfig2);
+  Material[] materials=new Material[]{material1,material2};
+  when(materialConfigConverter.toMaterial(materialConfig1)).thenReturn(material1);
+  when(materialConfigConverter.toMaterial(materialConfig2)).thenReturn(material2);
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig,new ScheduleOptions(new HashMap<String,String>(),new HashMap<String,String>(),new HashMap<String,String>()),new ServerHealthStateOperationResult());
+  verify(mockMaterialUpdateService,times(1)).updateMaterial(any(Material.class));
+  MaterialUpdateStatusListener statusListener=extractMaterialListenerInstanceFromRegisterCall();
+  statusListener.onMaterialUpdate(new MaterialUpdateFailedMessage(materials[0],0,new Exception("Cannot connect to repo")));
+  verify(mockMaterialUpdateStatusNotifier).removeListenerFor(pipelineConfig);
+}

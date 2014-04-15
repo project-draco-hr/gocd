@@ -1,0 +1,25 @@
+{
+  StageIdentifier stageIdentifier=mock(StageIdentifier.class);
+  String pipelineName="some_pipeline_name";
+  String stageName="stage_name";
+  long pipelineId=41l;
+  when(stageIdentifier.getPipelineName()).thenReturn(pipelineName);
+  when(stageIdentifier.getStageName()).thenReturn(stageName);
+  StageHistoryEntry topOfThisPage=mock(StageHistoryEntry.class);
+  StageHistoryEntry bottomOfPreviousPage=mock(StageHistoryEntry.class);
+  when(topOfThisPage.getId()).thenReturn(pipelineId);
+  when(topOfThisPage.getIdentifier()).thenReturn(stageIdentifier);
+  HashMap args=new HashMap();
+  args.put("pipelineName",pipelineName);
+  args.put("stageName",stageName);
+  args.put("id",pipelineId);
+  args.put("limit",1);
+  when(sqlMapClientTemplate.queryForObject("findStageHistoryEntryBefore",args)).thenReturn(bottomOfPreviousPage);
+  StageHistoryEntry actual=stageSqlMapDao.findImmediateChronologicallyForwardStageHistoryEntry(topOfThisPage);
+  assertThat(actual,is(bottomOfPreviousPage));
+  verify(stageIdentifier).getPipelineName();
+  verify(stageIdentifier).getStageName();
+  verify(topOfThisPage).getId();
+  verify(topOfThisPage).getIdentifier();
+  verify(sqlMapClientTemplate).queryForObject("findStageHistoryEntryBefore",args);
+}

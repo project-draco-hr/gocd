@@ -1,0 +1,8 @@
+{
+  AgentConfig linux=agent("uuid1","linux");
+  AgentConfig windows=agent("uuid2","windows");
+  windows.disable();
+  Agents matchingAgents=new Agents(linux,windows);
+  DefaultSchedulingContext context=new DefaultSchedulingContext("approved",matchingAgents);
+  assertThat(context.findAgentsMatching(resources()),is(new Agents(linux)));
+}

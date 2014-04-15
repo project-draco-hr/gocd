@@ -1,0 +1,10 @@
+{
+  String target=String.format(".*(%s/?)$",GoConstants.OLD_URL_CONTEXT);
+  Pattern pattern=Pattern.compile(target);
+  Matcher matcher=pattern.matcher(url);
+  if (matcher.matches()) {
+    String context=matcher.group(1);
+    url=url.substring(0,url.lastIndexOf(context)) + GoConstants.GO_URL_CONTEXT + "/";
+  }
+  new SystemEnvironment().setProperty("serviceUrl",url);
+}

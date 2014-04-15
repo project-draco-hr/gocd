@@ -1,0 +1,20 @@
+{
+  try {
+    startJesServer();
+    Pop3MailClient client=new Pop3MailClient("localhost",1101,"cruise@localhost","password");
+    client.deleteAllMessages();
+    assertThat(client.numberOfMessages(),is(0));
+    int count=5;
+    System.out.println("Sending test messages");
+    for (int i=0; i < count; i++) {
+      sendMessage(i);
+    }
+    System.out.println("Waiting for test messages to arrive");
+    for (int i=0; i < count; i++) {
+      shouldReceiveMessage(client,"from-" + i + "@localhost","This is a test " + i);
+    }
+  }
+  finally {
+    stopServer();
+  }
+}

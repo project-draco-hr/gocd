@@ -1,0 +1,4 @@
+{
+  String pipelineXmlPartial="<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<cruise " + "        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "+ "        xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\" "+ "        schemaVersion=\"6\">\n"+ "  <server artifactsdir=\"logs\">\n"+ "  </server>\n"+ "<pipelines>\n"+ "  <pipeline name=\"pipeline-name\">\n" + materials + "    <stage name=\"mingle\">\n"+ "      <jobs>\n"+ "        <job name=\"functional\">\n"+ "          <artifacts>\n"+ "            <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "          </artifacts>\n"+ "        </job>\n"+ "      </jobs>\n"+ "    </stage>\n"+ "  </pipeline>\n"+ "</pipelines>"+ "</cruise>\n";
+  return ConfigMigrator.loadWithMigration(toInputStream(pipelineXmlPartial)).config;
+}

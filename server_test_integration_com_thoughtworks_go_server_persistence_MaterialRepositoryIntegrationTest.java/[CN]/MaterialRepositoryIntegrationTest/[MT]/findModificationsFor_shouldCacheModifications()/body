@@ -1,0 +1,15 @@
+{
+  HibernateTemplate mockTemplate=mock(HibernateTemplate.class);
+  repo.setHibernateTemplate(mockTemplate);
+  ArrayList modifications=new ArrayList();
+  when(mockTemplate.find("FROM Modification WHERE materialId = ? AND id BETWEEN ? AND ? ORDER BY id DESC",new Object[]{10L,-1L,-1L})).thenReturn(modifications);
+  MaterialInstance materialInstance=material().createMaterialInstance();
+  materialInstance.setId(10);
+  when(mockTemplate.findByCriteria(any(DetachedCriteria.class))).thenReturn(Arrays.asList(materialInstance));
+  PipelineMaterialRevision pmr=pipelineMaterialRevision();
+  List<Modification> actual;
+  actual=repo.findModificationsFor(pmr);
+  actual=repo.findModificationsFor(pmr);
+  assertSame(modifications,actual);
+  verify(mockTemplate,times(1)).find("FROM Modification WHERE materialId = ? AND id BETWEEN ? AND ? ORDER BY id DESC",new Object[]{10L,-1L,-1L});
+}

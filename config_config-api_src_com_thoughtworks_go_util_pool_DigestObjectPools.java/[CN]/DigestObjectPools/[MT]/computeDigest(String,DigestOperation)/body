@@ -1,0 +1,14 @@
+{
+  if (!SHA_256.equals(algorithm) && !MD_5.equals(algorithm)) {
+    throw new IllegalArgumentException("Algorithm not supported");
+  }
+  try {
+    MessageDigest digest=getDigest(algorithm);
+    String result=operation.perform(digest);
+    digest.reset();
+    return result;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("Failed to compute the digest.",e);
+  }
+}

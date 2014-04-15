@@ -1,0 +1,8 @@
+{
+  Pipeline mostRecent=dbHelper.getPipelineDao().mostRecentPipeline(pipelineConfig.name().toString());
+  bombIf(mostRecent.getStages().byName(pipelineConfig.getFirstStageConfig().name().toString()).isActive(),"Can not schedule new pipeline: the first stage is still running");
+  Pipeline pipeline=schedulePipeline(pipelineConfig);
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline);
+  pipeline.getStages().byName(pipelineConfig.getFirstStageConfig().name().toString()).getJobInstances();
+  return dbHelper.getPipelineDao().loadPipeline(pipeline.getId());
+}

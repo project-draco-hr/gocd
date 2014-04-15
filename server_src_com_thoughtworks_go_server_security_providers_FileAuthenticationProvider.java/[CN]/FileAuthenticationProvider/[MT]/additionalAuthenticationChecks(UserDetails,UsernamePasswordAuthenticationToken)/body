@@ -1,0 +1,6 @@
+{
+  final String plainTextPassword=(String)authentication.getCredentials();
+  if (!userDetails.getPassword().equals(StringUtil.sha1Digest(plainTextPassword.getBytes()))) {
+    throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials","Bad credential"));
+  }
+}

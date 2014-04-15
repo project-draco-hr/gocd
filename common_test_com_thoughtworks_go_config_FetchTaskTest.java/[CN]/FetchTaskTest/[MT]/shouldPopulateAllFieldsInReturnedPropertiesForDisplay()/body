@@ -1,0 +1,12 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("foo-pipeline"),new CaseInsensitiveString("bar-stage"),new CaseInsensitiveString("baz-job"),"quux.c","bang-file");
+  assertThat(fetchTask.getPropertiesForDisplay(),hasItems(new TaskProperty("PIPELINE_NAME","foo-pipeline","pipeline_name"),new TaskProperty("STAGE_NAME","bar-stage","stage_name"),new TaskProperty("JOB_NAME","baz-job","job_name"),new TaskProperty("SRC_FILE","quux.c","src_file"),new TaskProperty("DEST_FILE","bang-file","dest_file")));
+  assertThat(fetchTask.getPropertiesForDisplay().size(),is(5));
+  fetchTask=new FetchTask(new CaseInsensitiveString("foo-pipeline"),new CaseInsensitiveString("bar-stage"),new CaseInsensitiveString("baz-job"),null,"bang-file");
+  fetchTask.setSrcdir("foo/src");
+  assertThat(fetchTask.getPropertiesForDisplay(),hasItems(new TaskProperty("PIPELINE_NAME","foo-pipeline","pipeline_name"),new TaskProperty("STAGE_NAME","bar-stage","stage_name"),new TaskProperty("JOB_NAME","baz-job","job_name"),new TaskProperty("SRC_DIR","foo/src","src_dir"),new TaskProperty("DEST_FILE","bang-file","dest_file")));
+  assertThat(fetchTask.getPropertiesForDisplay().size(),is(5));
+  fetchTask=new FetchTask(new CaseInsensitiveString(null),new CaseInsensitiveString("bar-stage"),new CaseInsensitiveString("baz-job"),null,null);
+  assertThat(fetchTask.getPropertiesForDisplay(),hasItems(new TaskProperty("STAGE_NAME","bar-stage","stage_name"),new TaskProperty("JOB_NAME","baz-job","job_name")));
+  assertThat(fetchTask.getPropertiesForDisplay().size(),is(2));
+}

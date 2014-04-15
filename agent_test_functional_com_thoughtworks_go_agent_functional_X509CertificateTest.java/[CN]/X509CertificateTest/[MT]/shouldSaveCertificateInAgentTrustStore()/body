@@ -1,0 +1,8 @@
+{
+  Protocol authhttps=new Protocol("https",protocolSocketFactory,sslPort);
+  Protocol.registerProtocol("https",authhttps);
+  HttpClient client=new HttpClient();
+  GetMethod httpget=new GetMethod("https://localhost:" + sslPort + "/go/");
+  client.executeMethod(httpget);
+  assertTrue("Should have created trust store",truststore.exists());
+}

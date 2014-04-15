@@ -1,0 +1,10 @@
+{
+  configHelper=new GoConfigFileHelper();
+  dbHelper.onSetUp();
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  svnRepository=new SvnTestRepo("testSvnRepo");
+  hgTestRepo=new HgTestRepo("testHgRepo");
+  repository=new SvnCommand(null,svnRepository.projectRepositoryUrl());
+  svnMaterialConfig=new SvnMaterialConfig(repository.getUrl().forCommandline(),repository.getUserName(),repository.getPassword(),repository.isCheckExternals());
+}

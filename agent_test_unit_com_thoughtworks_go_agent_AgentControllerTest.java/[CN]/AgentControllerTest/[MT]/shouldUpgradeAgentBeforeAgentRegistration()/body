@@ -1,0 +1,7 @@
+{
+  agentController=new AgentController(loopServer,artifactsManipulator,sslInfrastructureService,agentRegistry,agentUpgradeService,subprocessLogger,systemEnvironment,pluginManager);
+  InOrder inOrder=inOrder(agentUpgradeService,sslInfrastructureService);
+  agentController.loop();
+  inOrder.verify(agentUpgradeService).checkForUpgrade();
+  inOrder.verify(sslInfrastructureService).registerIfNecessary();
+}

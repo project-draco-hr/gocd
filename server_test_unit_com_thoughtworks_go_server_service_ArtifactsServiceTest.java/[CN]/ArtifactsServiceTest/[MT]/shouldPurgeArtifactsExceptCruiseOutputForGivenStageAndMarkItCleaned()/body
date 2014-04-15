@@ -1,0 +1,30 @@
+{
+  File artifactsRoot=new File("artifact-root");
+  assumeArtifactsRoot(artifactsRoot);
+  willCleanUp(artifactsRoot);
+  File jobDir=new File("artifact-root/pipelines/pipeline/10/stage/20/job");
+  jobDir.mkdirs();
+  File aFile=new File(jobDir,"foo");
+  FileUtil.writeContentToFile("hello world",aFile);
+  File aDirectory=new File(jobDir,"bar");
+  aDirectory.mkdir();
+  File anotherFile=new File(aDirectory,"baz");
+  FileUtil.writeContentToFile("quux",anotherFile);
+  File cruiseOutputDir=new File(jobDir,"cruise-output");
+  cruiseOutputDir.mkdir();
+  File consoleLog=new File(cruiseOutputDir,"console.log");
+  FileUtil.writeContentToFile("Build Logs",consoleLog);
+  File checksumFile=new File(cruiseOutputDir,"md5.checksum");
+  FileUtil.writeContentToFile("foo:25463254625346",checksumFile);
+  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  artifactsService.initialize();
+  Stage stage=StageMother.createPassedStage("pipeline",10,"stage",20,"job",new Date());
+  artifactsService.purgeArtifactsForStage(stage);
+  assertThat(jobDir.exists(),is(true));
+  assertThat(aFile.exists(),is(false));
+  assertThat(anotherFile.exists(),is(false));
+  assertThat(aDirectory.exists(),is(false));
+  assertThat(new File("artifact-root/pipelines/pipeline/10/stage/20/job/cruise-output/console.log").exists(),is(true));
+  assertThat(new File("artifact-root/pipelines/pipeline/10/stage/20/job/cruise-output/md5.checksum").exists(),is(true));
+  verify(stageService).markArtifactsDeletedFor(stage);
+}

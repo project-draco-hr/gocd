@@ -1,0 +1,10 @@
+{
+  DigestObjectPools.DigestOperation operation=mock(DigestObjectPools.DigestOperation.class);
+  try {
+    pools.computeDigest("upside_down_fred_rubble_bubble_cake",operation);
+    fail("Expected to get an exception as the algorithm is Flintstones proprietary!");
+  }
+ catch (  IllegalArgumentException expected) {
+    assertThat(expected.getMessage(),is("Algorithm not supported"));
+  }
+}

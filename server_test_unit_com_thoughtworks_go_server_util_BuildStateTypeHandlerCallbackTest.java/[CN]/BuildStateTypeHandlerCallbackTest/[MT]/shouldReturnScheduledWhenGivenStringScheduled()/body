@@ -1,0 +1,12 @@
+{
+  context.checking(new Expectations(){
+{
+      one(resultGetter).getString();
+      will(returnValue(JobState.Scheduled.toString()));
+    }
+  }
+);
+  BuildStateTypeHandlerCallback callback=new BuildStateTypeHandlerCallback();
+  JobState result=(JobState)callback.getResult(resultGetter);
+  assertThat(result,is(equal(JobState.Scheduled)));
+}

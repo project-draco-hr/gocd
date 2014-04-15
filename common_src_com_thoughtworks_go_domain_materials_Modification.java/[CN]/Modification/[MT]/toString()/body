@@ -1,0 +1,15 @@
+{
+  SimpleDateFormat formatter=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+  StringBuffer sb=new StringBuffer();
+  if (materialInstance != null) {
+    sb.append("Material: ").append(materialInstance).append('\n');
+  }
+  String timeString=modifiedTime == null ? "" : formatter.format(modifiedTime);
+  sb.append("Last Modified: ").append(timeString).append('\n');
+  sb.append("Revision: ").append(revision).append('\n');
+  sb.append("UserName: ").append(userName).append('\n');
+  sb.append("EmailAddress: ").append(emailAddress).append('\n');
+  sb.append("Comment: ").append(comment).append('\n');
+  sb.append("PipelineLabel: ").append(pipelineLabel).append('\n');
+  return sb.toString();
+}

@@ -1,0 +1,20 @@
+{
+  String cachekey=cacheKeyForStageIdentifier(identifier);
+  String cacheKeyForIdentifiers=cacheKeyForListOfStageIdentifiers(identifier);
+synchronized (cacheKeyForIdentifiers) {
+    Stage stage=(Stage)goCache.get(cacheKeyForIdentifiers,cachekey);
+    if (stage == null) {
+      IBatisUtil.IBatisArgument argument=IBatisUtil.arguments("pipelineName",identifier.getPipelineName()).and("pipelineCounter",identifier.getPipelineCounter()).and("stageName",identifier.getStageName()).and("stageCounter",Integer.parseInt(identifier.getStageCounter()));
+      if (identifier.getPipelineLabel() != null) {
+        argument=argument.and("pipelineLabel",identifier.getPipelineLabel());
+      }
+      Map arguments=argument.asMap();
+      stage=(Stage)getSqlMapClientTemplate().queryForObject("findStageWithJobsByIdentifier",arguments);
+      if (stage == null) {
+        return new NullStage(identifier.getStageName());
+      }
+      goCache.put(cacheKeyForIdentifiers,cachekey,stage);
+    }
+    return cloner.deepClone(stage);
+  }
+}

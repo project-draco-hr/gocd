@@ -1,0 +1,15 @@
+{
+  Authentication authentication=setupAuthentication();
+  when(session.getAttribute(RemoveAdminPermissionFilter.SECURITY_CONFIG_LAST_CHANGE)).thenReturn(0L).thenReturn(0L).thenReturn(100L);
+  RemoveAdminPermissionFilter filter=new RemoveAdminPermissionFilter(goConfigService,timeProvider);
+  filter.initialize();
+  filter.doFilterHttp(request,response,chain);
+  assertThat(authentication.isAuthenticated(),is(true));
+  turnOnSecurity("pavan");
+  filter.doFilterHttp(request,response,chain);
+  assertThat(authentication.isAuthenticated(),is(false));
+  authentication.setAuthenticated(true);
+  modifyArtifactRoot();
+  filter.doFilterHttp(request,response,chain);
+  assertThat(authentication.isAuthenticated(),is(true));
+}

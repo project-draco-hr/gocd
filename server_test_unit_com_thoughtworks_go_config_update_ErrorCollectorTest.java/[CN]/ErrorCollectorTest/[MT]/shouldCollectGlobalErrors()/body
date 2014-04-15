@@ -1,0 +1,11 @@
+{
+  ConfigErrors first=new ConfigErrors();
+  first.add("field-one","error-one");
+  ConfigErrors second=new ConfigErrors();
+  second.add("field-two","error-two");
+  ArrayList<String> errorBucket=new ArrayList<String>();
+  ErrorCollector.collectGlobalErrors(errorBucket,Arrays.asList(first,second));
+  assertThat(errorBucket.size(),is(2));
+  assertThat(errorBucket.contains("error-one"),is(true));
+  assertThat(errorBucket.contains("error-two"),is(true));
+}

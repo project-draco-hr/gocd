@@ -1,0 +1,10 @@
+{
+  configHelper.turnOnSecurity();
+  configHelper.addAdmins("hero");
+  configHelper.addPipelineWithGroup("group_one","pipeline","stage","my_job");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit<PipelineConfigs> configForEdit=goConfigService.loadGroupForEditing("group_one",new Username(new CaseInsensitiveString("loser")),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Unauthorized to edit 'group_one' group."));
+  assertThat(configForEdit,is(nullValue()));
+}

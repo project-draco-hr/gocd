@@ -1,0 +1,15 @@
+{
+  Bundle bundle=pluginOSGiFramework.loadPlugin(new GoPluginDescriptor(null,null,null,null,descriptorBundleDir,true));
+  assertThat(bundle.getState(),is(Bundle.ACTIVE));
+  String filterBySymbolicName=String.format("(%s=%s)",Constants.BUNDLE_SYMBOLICNAME,"testplugin.descriptorValidator");
+  BundleContext context=bundle.getBundleContext();
+  ServiceReference<?>[] allServiceReferences=context.getServiceReferences(PluginDescriptorAware.class.getCanonicalName(),filterBySymbolicName);
+  assertThat(allServiceReferences.length,is(1));
+  try {
+    PluginDescriptorAware service=(PluginDescriptorAware)context.getService(allServiceReferences[0]);
+    service.setPluginDescriptor(getDescriptor());
+  }
+ catch (  Exception e) {
+    fail(String.format("setPluginDescriptor should have been called. Exception: %s",e.getMessage()));
+  }
+}

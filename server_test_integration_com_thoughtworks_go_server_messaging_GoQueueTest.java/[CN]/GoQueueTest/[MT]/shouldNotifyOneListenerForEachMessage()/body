@@ -1,0 +1,15 @@
+{
+  GoMessageQueue<GoMessage> queue=new GoMessageQueue<GoMessage>(messageService,"TestQueue");
+  int numberOfListeners=2;
+  int numberOfMessages=numberOfListeners + 2;
+  for (int i=0; i < numberOfListeners; i++) {
+    queue.addListener(new StubGoMessageListener(i));
+  }
+  Set<String> expectMessages=new ConcurrentHashSet<String>();
+  for (int i=0; i < numberOfMessages; i++) {
+    String text="Message-" + i;
+    queue.post(new GoTextMessage(text));
+    expectMessages.add(text);
+  }
+  assertWillHappen(receivedMessage,is(expectMessages),Timeout.FIVE_SECONDS);
+}

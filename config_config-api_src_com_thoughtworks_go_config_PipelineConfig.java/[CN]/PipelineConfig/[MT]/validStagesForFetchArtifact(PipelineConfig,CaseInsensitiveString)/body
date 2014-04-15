@@ -1,0 +1,13 @@
+{
+  for (  DependencyMaterialConfig dependencyMaterial : downstreamPipeline.dependencyMaterialConfigs()) {
+    if (dependencyMaterial.getPipelineName().equals(name)) {
+      List<StageConfig> stageConfigs=allStagesBefore(dependencyMaterial.getStageName());
+      stageConfigs.add(getStage(dependencyMaterial.getStageName()));
+      return stageConfigs;
+    }
+  }
+  if (this.equals(downstreamPipeline)) {
+    return allStagesBefore(currentDownstreamStage);
+  }
+  return null;
+}

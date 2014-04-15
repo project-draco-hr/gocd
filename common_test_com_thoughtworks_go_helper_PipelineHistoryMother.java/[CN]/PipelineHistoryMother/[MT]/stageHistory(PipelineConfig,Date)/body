@@ -1,0 +1,16 @@
+{
+  StageInstanceModels history=new StageInstanceModels();
+  for (  StageConfig stageConfig : pipelineConfig) {
+    StageInstanceModel item=new StageInstanceModel(CaseInsensitiveString.str(stageConfig.name()),"1",buildHistory(stageConfig,modificationDate));
+    item.setCounter("1");
+    item.setApprovalType(new InstanceFactory().createStageInstance(stageConfig,new DefaultSchedulingContext("anyone"),md5,new TimeProvider()).getApprovalType());
+    if (stageConfig.requiresApproval()) {
+      item.setApprovedBy(APPROVED_BY);
+    }
+ else {
+      item.setApprovedBy(GoConstants.DEFAULT_APPROVED_BY);
+    }
+    history.add(item);
+  }
+  return history;
+}

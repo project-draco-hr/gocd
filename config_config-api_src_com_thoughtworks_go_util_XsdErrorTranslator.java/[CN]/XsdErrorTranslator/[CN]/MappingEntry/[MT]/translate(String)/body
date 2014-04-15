@@ -1,0 +1,7 @@
+{
+  final Matcher matcher=pattern.matcher(message);
+  if (matcher.matches()) {
+    return MessageFormat.format(replacement,applyTransforms(extractArguments(matcher)));
+  }
+  return null;
+}

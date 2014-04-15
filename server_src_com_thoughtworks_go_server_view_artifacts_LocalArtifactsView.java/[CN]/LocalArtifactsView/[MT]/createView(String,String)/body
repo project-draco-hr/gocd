@@ -1,0 +1,13 @@
+{
+  File file=artifactsService.findArtifact(translatedId,filePath);
+  if (file.exists() && file.isFile()) {
+    return FileModelAndView.createFileView(file,sha);
+  }
+  String convertedURL=filePath.replaceFirst("\\.(html|json|zip)$","");
+  File directory=artifactsService.findArtifact(translatedId,convertedURL);
+  if (directory.exists() && directory.isDirectory()) {
+    ArtifactFolder folder=new ArtifactFolder(translatedId,directory,convertedURL);
+    return folderViewFactory.createView(translatedId,folder);
+  }
+  return FileModelAndView.fileNotFound(filePath);
+}

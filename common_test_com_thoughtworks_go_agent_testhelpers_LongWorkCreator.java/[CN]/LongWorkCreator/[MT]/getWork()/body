@@ -1,0 +1,14 @@
+{
+  try {
+    CruiseConfig config=GoConfigMother.pipelineHavingJob(PIPELINE_NAME,STAGE_NAME,JOB_PLAN_NAME,ARTIFACT_FILE.getAbsolutePath(),ARTIFACT_FOLDER.getAbsolutePath());
+    BuildCause buildCause=BuildCause.createWithEmptyModifications();
+    builder=new ArrayList<Builder>();
+    builder.add(new SleepBuilder());
+    JobPlan instance=toBuildInstance(config);
+    BuildAssignment buildAssignment=BuildAssignment.create(instance,buildCause,builder,new File(CruiseConfig.WORKING_BASE_DIR + PIPELINE_NAME));
+    return new BuildWork(buildAssignment);
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}

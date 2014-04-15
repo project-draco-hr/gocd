@@ -1,0 +1,13 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  submoduleRepos.addSubmodule(SUBMODULE,"sub1");
+  GitCommand gitWithSubmodule=new GitCommand(null,createTempWorkingDirectory(),GitMaterialConfig.DEFAULT_BRANCH,false){
+    @Override public Map<String,String> submoduleUrls(){
+      return Collections.singletonMap("submodule","submodule");
+    }
+  }
+;
+  InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  gitWithSubmodule.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
+  gitWithSubmodule.updateSubmoduleWithInit(outputStreamConsumer);
+}

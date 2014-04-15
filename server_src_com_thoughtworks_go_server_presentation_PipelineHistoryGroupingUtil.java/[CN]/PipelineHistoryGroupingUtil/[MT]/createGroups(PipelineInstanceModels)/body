@@ -1,0 +1,12 @@
+{
+  PipelineHistoryGroups groups=new PipelineHistoryGroups();
+  for (  PipelineInstanceModel pipelineInstanceModel : pipelineHistory) {
+    if (!groups.isEmpty() && groups.last().hasSameStagesAs(pipelineInstanceModel)) {
+      groups.last().getPipelineInstances().add(pipelineInstanceModel);
+    }
+ else {
+      groups.add(createGroupFor(pipelineInstanceModel));
+    }
+  }
+  return groups;
+}

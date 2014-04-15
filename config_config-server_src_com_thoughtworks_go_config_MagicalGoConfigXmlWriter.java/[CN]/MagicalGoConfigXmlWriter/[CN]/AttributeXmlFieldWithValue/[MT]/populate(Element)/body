@@ -1,0 +1,10 @@
+{
+  if (value == null && !isDefault()) {
+    if (!isDefault()) {
+      throw bomb(format("Try to write null value into configuration! [{0}.{1}]",field.getDeclaringClass().getName(),field.getName()));
+    }
+    throw bomb(format("A non default field {0}(on {1}) had null value",field.getName(),field.getDeclaringClass().getName()));
+  }
+  String attributeName=field.getAnnotation(ConfigAttribute.class).value();
+  parent.setAttribute(new Attribute(attributeName,valueString()));
+}

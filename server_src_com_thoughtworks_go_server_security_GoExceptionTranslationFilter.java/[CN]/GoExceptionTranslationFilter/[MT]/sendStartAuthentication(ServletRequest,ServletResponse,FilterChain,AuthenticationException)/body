@@ -1,0 +1,18 @@
+{
+  HttpServletRequest httpRequest=(HttpServletRequest)request;
+  HttpServletResponse httpResponse=(HttpServletResponse)response;
+  if (isJson(httpRequest) || isJsonFormat(httpRequest)) {
+    httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    return;
+  }
+  final Log logger=LogFactory.getLog(GoExceptionTranslationFilter.class);
+  SavedRequest savedRequest=new SavedRequest(httpRequest,getPortResolver());
+  if (logger.isDebugEnabled()) {
+    logger.debug("Authentication entry point being called; SavedRequest added to Session: " + savedRequest);
+  }
+  if (isCreateSessionAllowed() && shouldRedirect(savedRequest.getRequestUrl())) {
+    httpRequest.getSession().setAttribute(AbstractProcessingFilter.SPRING_SECURITY_SAVED_REQUEST_KEY,savedRequest);
+  }
+  SecurityContextHolder.getContext().setAuthentication(null);
+  determineAuthenticationPoint(httpRequest).commence(httpRequest,response,reason);
+}

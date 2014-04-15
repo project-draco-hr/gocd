@@ -1,0 +1,9 @@
+{
+  CommandLine gitCheck=getGit().withArg("--version");
+  InMemoryStreamConsumer consumer=new InMemoryStreamConsumer();
+  if (execute(gitCheck,consumer,result)) {
+    File configRepoDir=systemEnvironment.getConfigRepoDir();
+    CommandLine gc=getGit().withArg("gc").withWorkingDir(configRepoDir);
+    execute(gc,consumer,result);
+  }
+}

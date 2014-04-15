@@ -1,0 +1,11 @@
+{
+  String databaseUsername=env.get(SystemEnvironment.GO_DATABASE_USER);
+  String databasePassword=env.get(SystemEnvironment.GO_DATABASE_PASSWORD);
+  LOG.info(String.format("[db] Using connection configuration %s [User: %s]",url,databaseUsername));
+  source.setDriverClassName("org.h2.Driver");
+  source.setUrl(url);
+  source.setUsername(databaseUsername);
+  source.setPassword(databasePassword);
+  source.setMaxActive(env.get(SystemEnvironment.GO_DATABASE_MAX_ACTIVE));
+  source.setMaxIdle(env.get(SystemEnvironment.GO_DATABASE_MAX_IDLE));
+}

@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=pipelineOne.createdPipelineWithAllStagesPassed();
+  configHelper.setViewPermissionForGroup("group1","anyone");
+  PipelineInstanceModels history=pipelineHistoryService.findPipelineInstances(pipelineOne.pipelineName,"latest",3,"anyone");
+  assertThat(history.get(0).getName(),is(pipeline.getName()));
+  assertThat(history.get(0).getLabel(),is(pipeline.getLabel()));
+}

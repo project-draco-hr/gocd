@@ -1,0 +1,6 @@
+{
+  waitForCacheCreated();
+  assertThat(zipArtifactCache,cacheCreated(artifactFolder));
+  File zipFile=zipArtifactCache.cachedFile(artifactFolder);
+  assertThat(zipFile.getAbsolutePath().replaceAll("\\\\","/"),endsWith("cache/artifacts/" + JOB_FOLDERS + "/dir.zip"));
+}

@@ -1,0 +1,19 @@
+{
+  String pipelineName="cruise";
+  String firstStageName=JOB_NAME;
+  String secondStageName="twist";
+  configHelper.addPipeline(pipelineName,firstStageName);
+  configHelper.addStageToPipeline(pipelineName,"twist");
+  configHelper.lockPipeline(pipelineName);
+  final Pipeline pipeline=PipelineMother.completedPipelineWithStagesAndBuilds(pipelineName,asList(firstStageName,secondStageName),asList(JOB_NAME,"twist"));
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      materialRepository.save(pipeline.getBuildCause().getMaterialRevisions());
+    }
+  }
+);
+  pipelineService.save(pipeline);
+  assertThat(pipelineLockService.isLocked(pipelineName),is(true));
+  scheduleService.automaticallyTriggerRelevantStagesFollowingCompletionOf(pipeline.getStages().last());
+  assertThat(pipelineLockService.isLocked(pipelineName),is(false));
+}

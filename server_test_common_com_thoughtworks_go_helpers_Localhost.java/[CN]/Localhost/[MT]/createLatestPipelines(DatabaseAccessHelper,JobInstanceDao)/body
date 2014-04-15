@@ -1,0 +1,11 @@
+{
+  Stage mingleStage=dbHelper.saveTestPipelineWithoutSchedulingBuilds("studios","mingle").getStages().get(0);
+  long mingleStageId=mingleStage.getId();
+  Pipeline mingle=dbHelper.getPipelineDao().mostRecentPipeline("studios");
+  saveBuildPlanAndCreateLogFile(mingle,completed("functional",JobResult.Failed),jobInstanceDao);
+  saveBuildPlanAndCreateLogFile(mingle,completed("unit",JobResult.Passed),jobInstanceDao);
+  long evolveStageId=dbHelper.saveTestPipeline("evolve","dev").getStages().get(0).getId();
+  JobInstance building=JobInstanceMother.building("jobConfig1");
+  Pipeline pipeline=dbHelper.getPipelineDao().mostRecentPipeline("evolve");
+  jobInstanceDao.save(evolveStageId,building);
+}

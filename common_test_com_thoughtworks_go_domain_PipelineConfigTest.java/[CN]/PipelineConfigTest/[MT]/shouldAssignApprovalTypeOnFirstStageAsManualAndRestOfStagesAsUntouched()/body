@@ -1,0 +1,8 @@
+{
+  Map approvalAttributes=Collections.singletonMap(Approval.TYPE,Approval.MANUAL);
+  Map<String,Map> map=Collections.singletonMap(StageConfig.APPROVAL,approvalAttributes);
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("p1",StageConfigMother.custom("s1",Approval.automaticApproval()),StageConfigMother.custom("s2",Approval.automaticApproval()));
+  pipelineConfig.setConfigAttributes(map);
+  assertThat(pipelineConfig.get(0).getApproval().getType(),is(Approval.MANUAL));
+  assertThat(pipelineConfig.get(1).getApproval().getType(),is(Approval.SUCCESS));
+}

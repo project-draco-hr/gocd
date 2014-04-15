@@ -1,0 +1,11 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  User invalidUser=new User("fooUser","Foo User","invalidEmail");
+  UserSearchModel searchModel=new UserSearchModel(invalidUser,UserSourceType.LDAP);
+  when(userDao.findUser("fooUser")).thenReturn(new NullUser());
+  when(userDao.enabledUserCount()).thenReturn(1);
+  when(licenseService.maximumUsersAllowed()).thenReturn(10);
+  userService.create(Arrays.asList(searchModel),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpServletResponse.SC_BAD_REQUEST));
+}

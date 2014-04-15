@@ -1,0 +1,14 @@
+{
+  return new TypeSafeMatcher<List<AgentRuntimeStatus>>(){
+    @Override public boolean matchesSafely(    List<AgentRuntimeStatus> actual){
+      if (actual.isEmpty()) {
+        return false;
+      }
+      return actual.get(0).equals(expected);
+    }
+    public void describeTo(    Description description){
+      description.appendText(expected.toString());
+    }
+  }
+;
+}

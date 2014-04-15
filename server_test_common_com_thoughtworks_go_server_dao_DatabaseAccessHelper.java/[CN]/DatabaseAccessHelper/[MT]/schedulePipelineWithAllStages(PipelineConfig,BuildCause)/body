@@ -1,0 +1,11 @@
+{
+  buildCause.assertMaterialsMatch(pipelineConfig.materialConfigs());
+  DefaultSchedulingContext defaultSchedulingContext=new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY);
+  Stages stages=new Stages();
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,buildCause,defaultSchedulingContext,md5,new TimeProvider());
+  for (  StageConfig stageConfig : pipelineConfig) {
+    stages.add(instanceFactory.createStageInstance(stageConfig,defaultSchedulingContext,md5,new TimeProvider()));
+  }
+  pipeline.setStages(stages);
+  return scheduleJobInstancesAndSavePipeline(pipeline);
+}

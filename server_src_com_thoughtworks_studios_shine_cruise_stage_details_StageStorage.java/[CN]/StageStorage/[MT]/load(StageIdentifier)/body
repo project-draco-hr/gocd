@@ -1,0 +1,13 @@
+{
+  String fileName=stagePath(stageIdentifier);
+  try {
+    InputStream inputStream=new BufferedInputStream(new FileInputStream(fileName));
+    Graph tempGraph=new InMemoryTempGraphFactory().createTempGraph();
+    tempGraph.addTriplesFromTurtle(inputStream);
+    inputStream.close();
+    return tempGraph;
+  }
+ catch (  IOException e) {
+    throw new ShineRuntimeException(String.format("Unable to read stage n3 file for " + stageIdentifier + "(file: %s). This should never happen.",fileName),e);
+  }
+}

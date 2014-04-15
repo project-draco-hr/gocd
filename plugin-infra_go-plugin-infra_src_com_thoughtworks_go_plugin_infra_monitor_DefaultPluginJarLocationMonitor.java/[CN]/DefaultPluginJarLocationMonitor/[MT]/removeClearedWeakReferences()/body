@@ -1,0 +1,9 @@
+{
+  Iterator<WeakReference<PluginJarChangeListener>> iterator=listeners.iterator();
+  while (iterator.hasNext()) {
+    WeakReference<PluginJarChangeListener> next=iterator.next();
+    if (next.get() == null) {
+      iterator.remove();
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  for (  ArtifactPlan existingPlan : existingPlans) {
+    if (this.equals(existingPlan)) {
+      this.addUniquenessViolationError();
+      existingPlan.addUniquenessViolationError();
+      return;
+    }
+  }
+  existingPlans.add(this);
+}

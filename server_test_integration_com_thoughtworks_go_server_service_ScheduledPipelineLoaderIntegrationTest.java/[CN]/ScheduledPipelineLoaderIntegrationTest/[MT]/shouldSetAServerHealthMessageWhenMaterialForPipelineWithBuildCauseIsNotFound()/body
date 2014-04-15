@@ -1,0 +1,47 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("last",new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job-one"))));
+  pipelineConfig.materialConfigs().clear();
+  SvnMaterialConfig onDirOne=MaterialConfigsMother.svnMaterialConfig("google.com","dirOne","loser","boozer",false,"**/*.html");
+  final P4MaterialConfig onDirTwo=MaterialConfigsMother.p4MaterialConfig("host:987654321","zoozer","secret","through-the-window",true);
+  onDirTwo.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"dirTwo"));
+  pipelineConfig.addMaterialConfig(onDirOne);
+  pipelineConfig.addMaterialConfig(onDirTwo);
+  configHelper.addPipeline(pipelineConfig);
+  Pipeline building=PipelineMother.building(pipelineConfig);
+  final Pipeline pipeline=dbHelper.savePipelineWithMaterials(building);
+  CruiseConfig cruiseConfig=configHelper.currentConfig();
+  PipelineConfig cfg=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("last"));
+  cfg.removeMaterialConfig(cfg.materialConfigs().get(1));
+  configHelper.writeConfigFile(cruiseConfig);
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPipeline("last")).size(),is(0));
+  final long jobId=pipeline.getStages().get(0).getJobInstances().get(0).getId();
+  Date currentTime=new Date(System.currentTimeMillis() - 1);
+  Pipeline loadedPipeline=(Pipeline)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      Pipeline loadedPipeline=null;
+      try {
+        loadedPipeline=loader.pipelineWithPasswordAwareBuildCauseByBuildId(jobId);
+        fail("should not have loaded pipeline with build-cause as one of the necessary materials was not found");
+      }
+ catch (      Exception e) {
+        assertThat(e,is(instanceOf(StaleMaterialsOnBuildCause.class)));
+        assertThat(e.getMessage(),is("Cannot load job 'last/" + pipeline.getCounter() + "/stage/1/job-one' because material "+ onDirTwo+ " was not found in config."));
+      }
+      return loadedPipeline;
+    }
+  }
+);
+  assertThat(loadedPipeline,is(nullValue()));
+  JobInstance reloadedJobInstance=jobInstanceService.buildById(jobId);
+  assertThat(reloadedJobInstance.getState(),is(JobState.Completed));
+  assertThat(reloadedJobInstance.getResult(),is(JobResult.Failed));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forJob("last","stage","job-one")).size(),is(1));
+  ServerHealthState error=serverHealthService.filterByScope(HealthStateScope.forJob("last","stage","job-one")).get(0);
+  assertThat(error,is(new ServerHealthState(HealthStateLevel.ERROR,HealthStateType.general(HealthStateScope.forJob("last","stage","job-one")),"Cannot load job 'last/" + pipeline.getCounter() + "/stage/1/job-one' because material "+ onDirTwo+ " was not found in config.","Job for pipeline 'last/" + pipeline.getCounter() + "/stage/1/job-one' has been failed as one or more material configurations were either changed or removed.",Timeout.FIVE_MINUTES)));
+  DateTime expiryTime=(DateTime)ReflectionUtil.getField(error,"expiryTime");
+  assertThat(expiryTime.toDate().after(currentTime),is(true));
+  assertThat(expiryTime.toDate().before(new Date(System.currentTimeMillis() + 5 * 60 * 1000 + 1)),is(true));
+  String logText=FileUtil.readToEnd(artifactsService.findArtifact(reloadedJobInstance.getIdentifier(),ArtifactLogUtil.getConsoleLogOutputFolderAndFileName()));
+  assertThat(logText,containsString("Cannot load job 'last/" + pipeline.getCounter() + "/stage/1/job-one' because material "+ onDirTwo+ " was not found in config."));
+  assertThat(logText,containsString("Job for pipeline 'last/" + pipeline.getCounter() + "/stage/1/job-one' has been failed as one or more material configurations were either changed or removed."));
+}

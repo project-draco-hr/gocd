@@ -1,0 +1,13 @@
+{
+  InputStream inputStream=null;
+  String checksum=null;
+  try {
+    inputStream=src.invoke();
+    checksum=md5DigestOfStream(inputStream);
+  }
+  finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+  assert(checksum != null);
+  return checksum;
+}

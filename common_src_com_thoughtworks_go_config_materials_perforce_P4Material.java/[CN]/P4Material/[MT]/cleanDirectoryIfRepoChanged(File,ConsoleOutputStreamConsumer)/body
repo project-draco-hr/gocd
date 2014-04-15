@@ -1,0 +1,23 @@
+{
+  boolean cleaned=false;
+  try {
+    String p4RepoId=p4RepoId();
+    File file=new File(workingDirectory,".cruise_p4repo");
+    if (!file.exists()) {
+      FileUtils.writeStringToFile(file,p4RepoId);
+      return true;
+    }
+    String existingRepoId=FileUtils.readFileToString(file);
+    if (!p4RepoId.equals(existingRepoId)) {
+      outputConsumer.stdOutput(String.format("\n[%s] Working directory has changed. Deleting and re-creating it.",GoConstants.PRODUCT_NAME));
+      FileUtils.deleteDirectory(workingDirectory);
+      workingDirectory.mkdirs();
+      FileUtils.writeStringToFile(file,p4RepoId);
+      cleaned=true;
+    }
+    return cleaned;
+  }
+ catch (  IOException e) {
+    throw bomb(e);
+  }
+}

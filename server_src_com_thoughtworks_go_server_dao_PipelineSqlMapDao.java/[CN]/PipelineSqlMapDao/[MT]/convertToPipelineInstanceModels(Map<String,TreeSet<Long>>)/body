@@ -1,0 +1,24 @@
+{
+  List<PipelineInstanceModel> models=new ArrayList<PipelineInstanceModel>();
+  List<CaseInsensitiveString> pipelinesInConfig=getPipelineNamesInConfig();
+  if (pipelinesInConfig.isEmpty()) {
+    LOGGER.warn("No pipelines found in Config, Skipping PIM loading.");
+    return PipelineInstanceModels.createPipelineInstanceModels(models);
+  }
+  List<Long> pipelineIds=loadIdsFromHistory(result);
+  int collectionCount=pipelineIds.size();
+  for (int i=0; i < collectionCount; i++) {
+    Long id=pipelineIds.get(i);
+    PipelineInstanceModel model=loadHistory(id);
+    if (model == null) {
+      continue;
+    }
+    if (!pipelinesInConfig.contains(new CaseInsensitiveString(model.getName()))) {
+      LOGGER.debug("Skipping PIM for pipeline " + model.getName() + " ,since its not found in current config");
+      continue;
+    }
+    models.add(model);
+    loadPipelineHistoryBuildCause(model);
+  }
+  return PipelineInstanceModels.createPipelineInstanceModels(models);
+}

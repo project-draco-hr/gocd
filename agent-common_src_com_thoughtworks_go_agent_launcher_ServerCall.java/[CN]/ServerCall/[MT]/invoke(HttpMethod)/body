@@ -1,0 +1,33 @@
+{
+  HashMap<String,String> headers=new HashMap<String,String>();
+  HttpClient httpClient=new HttpClient();
+  httpClient.setConnectionTimeout(HTTP_TIMEOUT_IN_MILLISECONDS);
+  try {
+    final int status=httpClient.executeMethod(method);
+    if (status == HttpStatus.SC_NOT_FOUND) {
+      StringWriter sw=new StringWriter();
+      PrintWriter out=new PrintWriter(sw);
+      out.println("Return Code: " + status);
+      out.println("Few Possible Causes: ");
+      out.println("1. Your Go Server is down or not accessible.");
+      out.println("2. This agent might be incompatible with your Go Server.Please fix the version mismatch between Go Server and Go Agent.");
+      out.close();
+      throw new Exception(sw.toString());
+    }
+    if (status != HttpStatus.SC_OK) {
+      throw new Exception("Got status " + status + " "+ method.getStatusText()+ " from server");
+    }
+    for (    Header header : method.getResponseHeaders()) {
+      headers.put(header.getName(),header.getValue());
+    }
+    return new ServerResponseWrapper(headers,method.getResponseBodyAsStream());
+  }
+ catch (  Exception e) {
+    String message="Couldn't access Go Server with base url: " + method.getURI() + ": "+ e.toString();
+    LOG.error(message);
+    throw new Exception(message,e);
+  }
+ finally {
+    method.releaseConnection();
+  }
+}

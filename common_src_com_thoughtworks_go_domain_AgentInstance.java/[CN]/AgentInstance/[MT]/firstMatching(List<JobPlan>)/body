@@ -1,0 +1,15 @@
+{
+  for (  JobPlan jobPlan : jobPlans) {
+    if (jobPlan.getAgentUuid() == null) {
+      if (agentConfig.hasAllResources(jobPlan.getResources())) {
+        return jobPlan;
+      }
+    }
+ else {
+      if (agentConfig.getUuid().equals(jobPlan.getAgentUuid())) {
+        return jobPlan;
+      }
+    }
+  }
+  return null;
+}

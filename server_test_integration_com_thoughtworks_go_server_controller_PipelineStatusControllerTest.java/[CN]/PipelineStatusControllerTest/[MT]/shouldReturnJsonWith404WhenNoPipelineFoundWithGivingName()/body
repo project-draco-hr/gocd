@@ -1,0 +1,6 @@
+{
+  MockHttpServletResponse response=new MockHttpServletResponse();
+  MockHttpServletRequest req=new MockHttpServletRequest();
+  pipelineStatusController.list("not-Exist-Pipeline",false,response,req);
+  assertThat(response.getStatus(),is(HttpServletResponse.SC_NOT_FOUND));
+}

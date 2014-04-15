@@ -1,0 +1,5 @@
+{
+  CommandSnippet commandSnippet=xmlParser.parse("<exec command='nuget'> <arg>pack </exec>","nuget","/some/path/filename.xml");
+  assertThat(commandSnippet.getErrorMessage(),is("Reason: Error on line 1: The element type \"arg\" must be terminated by the matching end-tag \"</arg>\"."));
+  assertThat(commandSnippet.isValid(),is(false));
+}

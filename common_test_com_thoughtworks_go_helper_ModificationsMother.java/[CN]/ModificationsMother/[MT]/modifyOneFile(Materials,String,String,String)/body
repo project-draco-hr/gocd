@@ -1,0 +1,19 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  Materials expandedMaterials=new Materials();
+  for (  Material material : materials) {
+    expandedMaterials.add(material);
+  }
+  for (  Material material : expandedMaterials) {
+    Modification modification;
+    if (material instanceof DependencyMaterial) {
+      DependencyMaterial dependencyMaterial=(DependencyMaterial)material;
+      modification=oneModifiedFile(committer,dependencyMaterial.getPipelineName() + "/1/" + dependencyMaterial.getStageName()+ "/"+ revision,TWO_DAYS_AGO_CHECKIN,dependencyMaterial.getPipelineName() + "-1.2.3");
+    }
+ else {
+      modification=oneModifiedFile(committer,revision,comment,TWO_DAYS_AGO_CHECKIN);
+    }
+    materialRevisions.addRevision(new MaterialRevision(material,true,modification));
+  }
+  return materialRevisions;
+}

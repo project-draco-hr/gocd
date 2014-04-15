@@ -1,0 +1,21 @@
+{
+  String mutexPipelineName=PipelinePauseService.mutexForPausePipeline(pipeline.getName());
+synchronized (mutexPipelineName) {
+    return (Pipeline)transactionTemplate.execute(new TransactionCallback(){
+      public Object doInTransaction(      TransactionStatus status){
+        if (pipeline instanceof NullPipeline) {
+          return pipeline;
+        }
+        updateCounter(pipeline);
+        Pipeline pipelineWithId=pipelineDao.save(pipeline);
+        pipelineLockService.lockIfNeeded(pipelineWithId);
+        for (        Stage stage : pipeline.getStages()) {
+          stageService.save(pipelineWithId,stage);
+        }
+        pipelineTimeline.update();
+        return pipelineWithId;
+      }
+    }
+);
+  }
+}

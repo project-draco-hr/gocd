@@ -1,0 +1,19 @@
+{
+  PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+  String username=CaseInsensitiveString.str(UserHelper.getUserName().getUsername());
+  Pagination pagination=null;
+  try {
+    pagination=Pagination.pageStartingAt(startParam,pipelineHistoryService.totalCount(pipelineName),perPageParam);
+  }
+ catch (  Exception e) {
+    JsonMap json=new JsonMap();
+    JsonHelper.addDeveloperErrorMessage(json,e);
+    return jsonNotAcceptable(json).respond(response);
+  }
+  PipelinePauseInfo pauseInfo=pipelinePauseService.pipelinePauseInfo(pipelineName);
+  boolean hasBuildCauseInBuffer=pipelineScheduleQueue.hasBuildCause(CaseInsensitiveString.str(pipelineConfig.name()));
+  PipelineInstanceModels pipelineHistory=pipelineHistoryService.load(pipelineName,pagination,username,true);
+  boolean hasForcedBuildCause=pipelineScheduleQueue.hasForcedBuildCause(pipelineName);
+  PipelineHistoryJsonPresentationModel historyJsonPresenter=new PipelineHistoryJsonPresentationModel(pauseInfo,pipelineHistory,pipelineConfig,pagination,canForce(pipelineConfig,username),hasForcedBuildCause,hasBuildCauseInBuffer,canPause(pipelineConfig,username));
+  return jsonFound(historyJsonPresenter).respond(response);
+}

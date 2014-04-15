@@ -1,0 +1,16 @@
+{
+  try {
+    HgCommand.checkConnection(url);
+    return ValidationBean.valid();
+  }
+ catch (  Exception e) {
+    String message=null;
+    try {
+      message=HgCommand.version();
+      return handleException(e,message);
+    }
+ catch (    Exception ex) {
+      return ValidationBean.notValid(ERR_NO_HG_INSTALLED);
+    }
+  }
+}

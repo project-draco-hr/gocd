@@ -1,0 +1,12 @@
+{
+  setProperty(oldPipeline,"a/2","200");
+  setProperty(oldPipeline,"a/1","100");
+  response=new MockHttpServletResponse();
+  ModelAndView modelAndView=propertiesController.jobSearch("pipeline",oldPipeline.getLabel(),"stage",String.valueOf(oldStage.getCounter()),"build","json","a/2",response);
+  Map map=modelAndView.getModel();
+  String content=map.get("json").toString();
+  assertThat(content,containsString("a/2"));
+  assertThat(content,containsString("200"));
+  assertThat(content,not(containsString("a/1")));
+  assertThat(content,not(containsString("100")));
+}

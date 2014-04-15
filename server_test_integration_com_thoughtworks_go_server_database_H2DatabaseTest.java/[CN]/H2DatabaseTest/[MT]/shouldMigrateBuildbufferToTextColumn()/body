@@ -1,0 +1,8 @@
+{
+  dbFixture.copyOldDb();
+  h2Database.startDatabase();
+  h2Database.upgrade();
+  BasicDataSource dataSource=h2Database.createDataSource();
+  assertColumnType(dataSource,"modifications","comment",DatabaseFixture.LONGVARCHAR);
+  assertColumnType(dataSource,"properties","value","VARCHAR(255)");
+}

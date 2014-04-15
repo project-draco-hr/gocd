@@ -1,0 +1,15 @@
+{
+  InMemoryCache cache=new InMemoryCache();
+  StagesQuery stagesQuery=new StagesQuery(graphLoader,cache);
+  String sparql="PREFIX cruise:<" + GoOntology.URI + ">"+ "SELECT ?job WHERE {"+ "  ?job a cruise:Job . "+ "}";
+  StageIdentifier stageIdentifier=new StageIdentifier("p",1,"s","2");
+  cache.put(Arrays.<BoundVariables>asList(new BoundVariablesStub("job","http://job/1")),new StagesQueryCache.CacheKey(sparql,stageIdentifier));
+  List<BoundVariables> bvs=stagesQuery.select(sparql,Arrays.asList(stageIdentifier),new RdfResultMapper<BoundVariables>(){
+    public BoundVariables map(    BoundVariables aRow){
+      return aRow;
+    }
+  }
+);
+  assertEquals(1,bvs.size());
+  assertEquals("http://job/1",bvs.get(0).getAsString("job"));
+}

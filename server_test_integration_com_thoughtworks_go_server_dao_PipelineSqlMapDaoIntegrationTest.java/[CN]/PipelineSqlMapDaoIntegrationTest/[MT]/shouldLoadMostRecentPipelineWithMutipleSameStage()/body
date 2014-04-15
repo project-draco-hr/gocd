@@ -1,0 +1,11 @@
+{
+  String stageName="dev";
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle",stageName);
+  Pipeline mingle=schedulePipelineWithStages(mingleConfig);
+  Stage newInstance=rescheduleStage(stageName,mingleConfig,mingle);
+  Pipeline mostRecentPipeline=pipelineDao.mostRecentPipeline(mingle.getName());
+  assertThat(mostRecentPipeline,hasSameId(mingle));
+  assertThat("Asserting number of stages. Stages are:\n\t" + mostRecentPipeline.getStages(),mostRecentPipeline.getStages().size(),is(1));
+  assertThat(mostRecentPipeline.getFirstStage().getId(),is(newInstance.getId()));
+  assertThat(mostRecentPipeline.getBuildCause().getMaterialRevisions().totalNumberOfModifications(),is(1));
+}

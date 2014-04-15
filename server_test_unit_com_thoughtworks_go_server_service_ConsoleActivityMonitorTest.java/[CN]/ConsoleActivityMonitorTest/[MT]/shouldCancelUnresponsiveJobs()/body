@@ -1,0 +1,16 @@
+{
+  JobIdentifier unresponsiveJob=new JobIdentifier("pipelines",10,"label-10","stage","3","job",25l);
+  listener.jobStatusChanged(buildingInstance(unresponsiveJob));
+  JobIdentifier responsiveJob=new JobIdentifier("foo",12,"foo-10","stage","2","job",20l);
+  listener.jobStatusChanged(buildingInstance(responsiveJob));
+  when(timeProvider.currentTimeMillis()).thenReturn(new DateTime(1971,1,1,0,55,59,0).getMillis());
+  consoleActivityMonitor.consoleUpdatedFor(unresponsiveJob);
+  consoleActivityMonitor.consoleUpdatedFor(responsiveJob);
+  when(timeProvider.currentTimeMillis()).thenReturn(new DateTime(1972,1,1,1,0,0,0).getMillis());
+  consoleActivityMonitor.consoleUpdatedFor(responsiveJob);
+  when(timeProvider.currentTimeMillis()).thenReturn(new DateTime(1972,1,1,1,1,0,0).getMillis());
+  consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);
+  verify(scheduleService).cancelJob(unresponsiveJob);
+  consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);
+  verifyNoMoreInteractions(jobInstanceService);
+}

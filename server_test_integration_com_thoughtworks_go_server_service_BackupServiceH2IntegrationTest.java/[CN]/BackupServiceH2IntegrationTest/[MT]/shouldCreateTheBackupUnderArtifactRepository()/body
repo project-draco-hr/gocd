@@ -1,0 +1,17 @@
+{
+  TimeProvider timeProvider=mock(TimeProvider.class);
+  DateTime now=new DateTime();
+  when(timeProvider.currentDateTime()).thenReturn(now);
+  assertThat(backupsDirectory.exists(),is(false));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  BackupService service=new BackupService(dataSource,artifactsDirHolder,goConfigService,timeProvider,backupInfoRepository,systemEnvironment,serverVersion,configRepository,databaseStrategy);
+  service.initialize();
+  service.startBackup(admin,result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(backupsDirectory.exists(),is(true));
+  assertThat(backupsDirectory.isDirectory(),is(true));
+  File backup=new File(backupsDirectory,BackupService.BACKUP + now.toString("YYYYMMdd-HHmmss"));
+  assertThat(backup.exists(),is(true));
+  assertThat(new File(backup,"db.zip").exists(),is(true));
+  assertEquals(new ServerBackup(backup.getAbsolutePath(),now.toDate(),admin.getUsername().toString()),backupInfoRepository.lastBackup());
+}

@@ -1,0 +1,23 @@
+{
+  JobInstance buildingJob1=building(projectOne,new Date(1));
+  buildingJob1.setAgentUuid("uuid1");
+  jobInstanceDao.save(stageId,buildingJob1);
+  JobInstance buildingJob2=building("project2",new Date(2));
+  buildingJob2.setAgentUuid("uuid2");
+  jobInstanceDao.save(stageId,buildingJob2);
+  JobInstance buildingJob3=building("project3",new Date(3));
+  buildingJob3.setAgentUuid("uuid3");
+  jobInstanceDao.save(stageId,buildingJob3);
+  List<String> liveAgentIds=new ArrayList<String>(){
+{
+      add("uuid1");
+      add("uuid2");
+    }
+  }
+;
+  JobInstances list=jobInstanceDao.findHungJobs(liveAgentIds);
+  assertThat(list.size(),is(1));
+  JobInstance reloaded=list.get(0);
+  assertThat(reloaded,hasSameId(buildingJob3));
+  assertThat(reloaded.getIdentifier(),is(jobIdentifier(buildingJob3)));
+}

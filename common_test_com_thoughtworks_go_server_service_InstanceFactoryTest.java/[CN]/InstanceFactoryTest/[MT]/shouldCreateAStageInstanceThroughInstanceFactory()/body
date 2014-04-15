@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs(),new StageConfig(new CaseInsensitiveString("first"),new JobConfigs(new JobConfig("job1"),new JobConfig("job2"))));
+  Stage actualStage=instanceFactory.createStageInstance(pipelineConfig,new CaseInsensitiveString("first"),new DefaultSchedulingContext(),"md5",clock);
+  JobInstances jobInstances=new JobInstances();
+  jobInstances.add(new JobInstance("job1",clock));
+  jobInstances.add(new JobInstance("job2",clock));
+  Stage expectedStage=new Stage("first",jobInstances,"Unknown",Approval.SUCCESS,clock);
+  assertThat(actualStage,is(expectedStage));
+}

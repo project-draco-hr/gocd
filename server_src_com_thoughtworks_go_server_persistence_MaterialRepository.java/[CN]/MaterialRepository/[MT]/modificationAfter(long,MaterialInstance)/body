@@ -1,0 +1,13 @@
+{
+  BigInteger result=(BigInteger)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      String sql="SELECT id " + " FROM modifications " + " WHERE materialId = ? "+ "        AND id > ?"+ " ORDER BY id"+ " LIMIT 1";
+      SQLQuery query=session.createSQLQuery(sql);
+      query.setLong(0,materialInstance.getId());
+      query.setLong(1,id);
+      return query.uniqueResult();
+    }
+  }
+);
+  return result == null ? id : result.longValue();
+}

@@ -1,0 +1,17 @@
+{
+  EnvironmentVariablesConfig variablesConfig=new EnvironmentVariablesConfig();
+  variablesConfig.add("blahVar","blahVal");
+  variablesConfig.add("differentVar","differentVal");
+  JobConfig jobConfig=new JobConfig("foo");
+  jobConfig.setVariables(variablesConfig);
+  EnvironmentVariablesConfig overridenConfig=new EnvironmentVariablesConfig();
+  overridenConfig.add("blahVar","originalVal");
+  overridenConfig.add("secondVar","secondVal");
+  SchedulingContext context=new DefaultSchedulingContext();
+  context=context.overrideEnvironmentVariables(overridenConfig);
+  JobPlan plan=instanceFactory.createJobPlan(jobConfig,context);
+  assertThat(plan.getVariables().size(),is(3));
+  assertThat(plan.getVariables(),hasItem(new EnvironmentVariableConfig("blahVar","blahVal")));
+  assertThat(plan.getVariables(),hasItem(new EnvironmentVariableConfig("secondVar","secondVal")));
+  assertThat(plan.getVariables(),hasItem(new EnvironmentVariableConfig("differentVar","differentVal")));
+}

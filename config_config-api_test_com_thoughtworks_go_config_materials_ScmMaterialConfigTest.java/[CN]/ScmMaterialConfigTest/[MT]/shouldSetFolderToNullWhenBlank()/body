@@ -1,0 +1,6 @@
+{
+  material.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"foo"));
+  assertThat(material.getFolder(),is(not(nullValue())));
+  material.setConfigAttributes(new SingletonMap(ScmMaterialConfig.FOLDER,""));
+  assertThat(material.getFolder(),is(nullValue()));
+}

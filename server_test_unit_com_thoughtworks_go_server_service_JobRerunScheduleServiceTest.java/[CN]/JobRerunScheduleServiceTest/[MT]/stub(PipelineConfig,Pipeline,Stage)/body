@@ -1,0 +1,9 @@
+{
+  StageIdentifier identifier=lastStage.getIdentifier();
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("mingle"))).thenReturn(mingleConfig);
+  when(goConfigService.stageConfigNamed("mingle",identifier.getStageName())).thenReturn(mingleConfig.get(0));
+  when(schedulingChecker.canSchedule(any(OperationResult.class))).thenReturn(true);
+  when(schedulingChecker.canRerunStage(eq(pipeline.getIdentifier()),eq(lastStage.getName()),eq("anonymous"),any(OperationResult.class))).thenReturn(true);
+  when(securityService.hasOperatePermissionForStage(eq("mingle"),eq(lastStage.getName()),any(String.class))).thenReturn(true);
+  when(pipelineService.fullPipelineByCounterOrLabel("mingle",String.valueOf(identifier.getPipelineCounter()))).thenReturn(pipeline);
+}

@@ -1,0 +1,10 @@
+{
+  final ByteArrayOutputStream outStream=new ByteArrayOutputStream();
+  try {
+    new MagicalGoConfigXmlWriter(configCache,registry,metricsProbeService).write(cruiseConfig,outStream,true);
+    return outStream.toString();
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}

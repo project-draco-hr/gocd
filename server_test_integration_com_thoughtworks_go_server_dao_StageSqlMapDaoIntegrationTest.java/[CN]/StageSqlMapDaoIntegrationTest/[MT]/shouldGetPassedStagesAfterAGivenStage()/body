@@ -1,0 +1,19 @@
+{
+  List<Pipeline> completedPipelines=createFourPipelines();
+  Pipeline firstPipeline=completedPipelines.get(0);
+  Pipeline secondPipeline=completedPipelines.get(1);
+  Pipeline thirdPipeline=completedPipelines.get(2);
+  Pipeline fourthPipeline=completedPipelines.get(3);
+  Stage firstStageOfPipeline=firstPipeline.getStages().get(0);
+  StageIdentifier stageIdentifierOfFirstStageOfFirstPipeline=firstStageOfPipeline.getIdentifier();
+  List<StageAsDMR> stages=stageDao.getPassedStagesAfter(stageIdentifierOfFirstStageOfFirstPipeline,2,0);
+  StageAsDMR firstStage=stages.get(0);
+  assertThat(firstStage,is(stageAsDmr(stageDao.stageById(secondPipeline.getFirstStage().getId()))));
+  assertThat(stages.size(),is(2));
+  assertThat(stages.get(0),is(stageAsDmr(stageDao.stageById(secondPipeline.getFirstStage().getId()))));
+  assertThat(stages.get(1),is(stageAsDmr(stageDao.stageById(thirdPipeline.getFirstStage().getId()))));
+  stages=stageDao.getPassedStagesAfter(stageIdentifierOfFirstStageOfFirstPipeline,2,2);
+  assertThat(stages.size(),is(1));
+  Stage fourthPipelineStage=fourthPipeline.getFirstStage();
+  assertThat(stages.get(0),is(stageAsDmr(stageDao.stageById(fourthPipelineStage.getId()))));
+}

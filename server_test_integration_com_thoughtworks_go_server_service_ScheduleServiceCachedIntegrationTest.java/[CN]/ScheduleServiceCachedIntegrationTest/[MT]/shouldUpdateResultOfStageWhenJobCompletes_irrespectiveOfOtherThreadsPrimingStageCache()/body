@@ -1,0 +1,16 @@
+{
+  Pipeline assigned=preCondition.createPipelineWithFirstStageAssigned();
+  Stage stage=assigned.findStage(preCondition.devStage);
+  StageSummaryModel model=stageService.findStageSummaryByIdentifier(stage.getIdentifier(),new Username(new CaseInsensitiveString("foo")),new HttpLocalizedOperationResult());
+  JobIdentifier identifier=stage.getFirstJob().getIdentifier();
+  scheduleService.updateJobStatus(identifier,JobState.Building);
+  scheduleService.jobCompleting(identifier,JobResult.Passed,"uuid");
+  Stage stageLoadedByOtherFlows=stageDao.stageById(stage.getId());
+  scheduleService.updateJobStatus(stage.getFirstJob().getIdentifier(),JobState.Completed);
+  StageSummaryModel reloadedModel=stageService.findStageSummaryByIdentifier(stage.getIdentifier(),new Username(new CaseInsensitiveString("foo")),new HttpLocalizedOperationResult());
+  Stage reloadedStage=reloadedModel.getStage();
+  assertThat(reloadedStage.getFirstJob().getState(),is(JobState.Completed));
+  assertThat(reloadedStage.getCompletedByTransitionId(),is(reloadedStage.getFirstJob().getTransitions().byState(JobState.Completed).getId()));
+  assertThat(reloadedStage.getResult(),is(StageResult.Passed));
+  assertThat(reloadedStage.getState(),is(StageState.Passed));
+}

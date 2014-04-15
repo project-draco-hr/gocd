@@ -1,0 +1,15 @@
+{
+  final Pipeline pipeline=pipelineFixture.createdPipelineWithAllStagesPassed();
+  JobConfig jobConfig=pipelineFixture.devStage().allBuildPlans().first();
+  RunOnAllAgents.CounterBasedJobNameGenerator jobNameGenerator=new RunOnAllAgents.CounterBasedJobNameGenerator(CaseInsensitiveString.str(jobConfig.name()));
+  JobInstances instances=instanceFactory.createJobInstance(new CaseInsensitiveString("someStage"),jobConfig,new DefaultSchedulingContext(),new TimeProvider(),jobNameGenerator);
+  final JobInstance newJob=instances.first();
+  final StageIdentifier stageIdentifier=new StageIdentifier(pipeline.getName(),pipeline.getCounter(),pipeline.getLabel(),pipeline.getFirstStage().getName(),String.valueOf(pipeline.getFirstStage().getCounter()));
+  dbHelper.txTemplate().execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      jobInstanceService.save(stageIdentifier,pipeline.getFirstStage().getId(),newJob);
+    }
+  }
+);
+  assertThat(newJob.getIdentifier(),is(new JobIdentifier(pipeline,pipeline.getFirstStage(),newJob)));
+}

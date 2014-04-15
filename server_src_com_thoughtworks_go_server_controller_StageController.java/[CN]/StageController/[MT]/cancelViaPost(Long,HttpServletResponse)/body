@@ -1,0 +1,13 @@
+{
+  try {
+    HttpLocalizedOperationResult cancelResult=new HttpLocalizedOperationResult();
+    scheduleService.cancelAndTriggerRelevantStages(stageId,UserHelper.getUserName(),cancelResult);
+    return handleResult(cancelResult,response);
+  }
+ catch (  GoUnauthorizedException e) {
+    return ResponseCodeView.create(HttpServletResponse.SC_UNAUTHORIZED,e.getMessage());
+  }
+catch (  Exception e) {
+    return ResponseCodeView.create(HttpServletResponse.SC_NOT_ACCEPTABLE,e.getMessage());
+  }
+}

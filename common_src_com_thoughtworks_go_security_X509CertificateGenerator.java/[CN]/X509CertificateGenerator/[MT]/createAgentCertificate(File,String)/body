@@ -1,0 +1,16 @@
+{
+  Date epoch=new Date(0);
+  KeyPair agentKeyPair=KeyPairCreator.createKeyPair();
+  try {
+    KeyStore store=loadOrCreateCAKeyStore(authorityKeystore);
+    KeyStore.PrivateKeyEntry intermediateEntry=(KeyStore.PrivateKeyEntry)store.getEntry("ca-intermediate",new KeyStore.PasswordProtection(PASSWORD_AS_CHAR_ARRAY));
+    Certificate[] chain=new Certificate[3];
+    chain[2]=store.getCertificate("ca-cert");
+    chain[1]=intermediateEntry.getCertificate();
+    chain[0]=createAgentCertificate(agentKeyPair.getPublic(),intermediateEntry.getPrivateKey(),chain[1].getPublicKey(),agentHostname,epoch);
+    return new Registration(agentKeyPair.getPrivate(),chain);
+  }
+ catch (  Exception e) {
+    throw bomb("Couldn't create agent certificate",e);
+  }
+}

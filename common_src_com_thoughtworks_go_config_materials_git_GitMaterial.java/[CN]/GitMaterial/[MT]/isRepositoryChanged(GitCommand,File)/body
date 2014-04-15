@@ -1,0 +1,8 @@
+{
+  UrlArgument currentWorkingUrl=command.workingRepositoryUrl();
+  if (LOG.isTraceEnabled()) {
+    LOG.trace("Current repository url of [" + workingDirectory + "]: "+ currentWorkingUrl);
+    LOG.trace("Target repository url: " + url);
+  }
+  return !MaterialUrl.sameUrl(url.forCommandline(),currentWorkingUrl.forCommandline()) || !getBranch().equals(command.getCurrentBranch());
+}

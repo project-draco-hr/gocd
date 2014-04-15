@@ -1,0 +1,8 @@
+{
+  for (  MaterialRevision materialRevision : buildCause.getMaterialRevisions()) {
+    if (materialRevision.getMaterial().getPipelineUniqueFingerprint().equals(materialConfig.getPipelineUniqueFingerprint())) {
+      return materialRevision;
+    }
+  }
+  return null;
+}

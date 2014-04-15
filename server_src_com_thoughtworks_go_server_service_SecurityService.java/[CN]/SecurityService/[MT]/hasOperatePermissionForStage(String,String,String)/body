@@ -1,0 +1,20 @@
+{
+  if (!goConfigService.isSecurityEnabled()) {
+    return true;
+  }
+  if (!goConfigService.hasStageConfigNamed(pipelineName,stageName)) {
+    return false;
+  }
+  StageConfig stage=goConfigService.stageConfigNamed(pipelineName,stageName);
+  CaseInsensitiveString userName=new CaseInsensitiveString(username);
+  if (stage.hasOperatePermissionDefined()) {
+    CruiseConfig cruiseConfig=goConfigService.getCurrentConfig();
+    String groupName=goConfigService.findGroupNameByPipeline(new CaseInsensitiveString(pipelineName));
+    PipelineConfigs group=goConfigService.getCurrentConfig().findGroup(groupName);
+    if (isUserAdmin(new Username(userName)) || isUserAdminOfGroup(userName,group)) {
+      return true;
+    }
+    return goConfigService.readAclBy(pipelineName,stageName).isGranted(userName);
+  }
+  return hasOperatePermissionForPipeline(new CaseInsensitiveString(username),pipelineName);
+}

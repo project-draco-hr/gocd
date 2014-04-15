@@ -1,0 +1,8 @@
+{
+  setupSecurity();
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit configForEdit=goConfigService.loadForEdit("non-existent-pipeline",new Username(new CaseInsensitiveString("loser")),result);
+  assertThat(configForEdit,is(nullValue()));
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.message(localizer),is("Pipeline 'non-existent-pipeline' not found."));
+}

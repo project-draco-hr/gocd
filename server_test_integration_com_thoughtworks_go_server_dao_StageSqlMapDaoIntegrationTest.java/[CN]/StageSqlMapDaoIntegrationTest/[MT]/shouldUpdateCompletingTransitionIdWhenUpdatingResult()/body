@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig)[1];
+  Stage stage=pipeline.getStages().get(0);
+  stage.setCompletedByTransitionId(10L);
+  updateResultInTransaction(stage,StageResult.Passed);
+  Stage reloaded=stageDao.stageById(stage.getId());
+  assertThat(reloaded.getCompletedByTransitionId(),greaterThan(0l));
+}

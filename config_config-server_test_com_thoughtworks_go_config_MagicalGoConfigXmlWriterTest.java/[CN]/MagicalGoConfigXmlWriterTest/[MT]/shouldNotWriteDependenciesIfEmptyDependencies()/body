@@ -1,0 +1,6 @@
+{
+  String xml=ConfigFileFixture.EMPTY_DEPENDENCIES;
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(IOUtils.toInputStream(xml)).config;
+  xmlWriter.write(cruiseConfig,output,false);
+  assertThat(output.toString().replaceAll(">\\s+<",""),not(containsString("dependencies")));
+}

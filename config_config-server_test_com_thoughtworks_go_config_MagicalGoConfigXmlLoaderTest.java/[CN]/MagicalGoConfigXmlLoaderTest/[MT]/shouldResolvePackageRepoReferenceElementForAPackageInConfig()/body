@@ -1,0 +1,7 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<repositories>\n"+ "    <repository id='repo-id' name='name'>\n"+ "		<pluginConfiguration id='plugin-id' version='1.0'/>\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>url</key>\n"+ "          <value>http://go</value>\n"+ "        </property>\n"+ "      </configuration>\n"+ "      <packages>\n"+ "        <package id='package-id' name='name'>\n"+ "          <configuration>\n"+ "            <property>\n"+ "              <key>name</key>\n"+ "              <value>go-agent</value>\n"+ "            </property>\n"+ "          </configuration>\n"+ "        </package>\n"+ "      </packages>\n"+ "    </repository>\n"+ "  </repositories></cruise>";
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(xml);
+  PackageRepository packageRepository=goConfigHolder.config.getPackageRepositories().first();
+  PackageDefinition packageDefinition=packageRepository.getPackages().first();
+  assertThat(packageDefinition.getRepository(),is(packageRepository));
+}

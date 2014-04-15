@@ -1,0 +1,6 @@
+{
+  PipelineTimelineEntry modification=modification(Arrays.asList("flyweight"),1,"123",new DateTime());
+  PipelineTimelineEntry that=modification(2,Arrays.asList("flyweight"),Arrays.asList(new DateTime().plusMinutes(1)),1,"123");
+  assertThat(modification.compareTo(that),is(-1));
+  assertThat(that.compareTo(modification),is(1));
+}

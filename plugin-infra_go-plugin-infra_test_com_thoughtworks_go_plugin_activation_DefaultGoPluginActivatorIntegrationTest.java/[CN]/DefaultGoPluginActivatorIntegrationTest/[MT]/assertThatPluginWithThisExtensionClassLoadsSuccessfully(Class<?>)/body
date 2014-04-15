@@ -1,0 +1,7 @@
+{
+  BundleContext installedBundleContext=bundleContext(installBundleWithClasses(extensionClass));
+  ServiceReference<?>[] references=installedBundleContext.getServiceReferences(PluginDescriptorAware.class.getName(),null);
+  assertEquals("No service registered for PluginDescriptorAware class",1,references.length);
+  assertEquals("Symbolic Name property should be present",GO_TEST_DUMMY_SYMBOLIC_NAME,references[0].getProperty(Constants.BUNDLE_SYMBOLICNAME));
+  assertEquals(extensionClass.getName(),installedBundleContext.getService(references[0]).getClass().getName());
+}

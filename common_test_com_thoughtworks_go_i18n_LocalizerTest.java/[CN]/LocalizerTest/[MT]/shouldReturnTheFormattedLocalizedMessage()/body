@@ -1,0 +1,16 @@
+{
+  CurrentLocale locale=new CurrentLocale();
+  ReloadableResourceBundleMessageSource source=new ReloadableResourceBundleMessageSource();
+  source.setBasename("test_message");
+  MessageSourceAccessor accessor=new MessageSourceAccessor(source);
+  Localizer localizer=new Localizer(accessor,locale);
+  assertThat(localizer.localize("hello_world"),is("Hello World"));
+  locale.setLocaleString(Localizer.LOCALE_ENGLISH_US);
+  assertThat(localizer.localize("MY_HOME","San Francisco"),is("My home is San Francisco"));
+  locale.setLocaleString(Localizer.LOCALE_KANNADA);
+  assertThat(localizer.localize("MY_HOME","????????????????????????"),is("???????????? ????????? ????????????????????????"));
+  locale.setLocaleString(Localizer.LOCALE_KANNADA);
+  assertThat(localizer.localize("MY_BIRTHDAY",new DateTime(1984,12,23,14,0,0,0,DateTimeZone.UTC).toDate()),is("???????????? ?????????????????? ???????????? 12/23/84"));
+  locale.setLocaleString(Localizer.LOCALE_ENGLISH_US);
+  assertThat(localizer.localize("MY_BIRTHDAY",new DateTime(1984,12,23,14,0,0,0,DateTimeZone.UTC).toDate()),is("My birthday is 12/23/84"));
+}

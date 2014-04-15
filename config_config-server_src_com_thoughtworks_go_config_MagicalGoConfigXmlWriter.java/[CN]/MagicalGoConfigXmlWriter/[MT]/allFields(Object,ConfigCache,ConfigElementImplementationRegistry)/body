@@ -1,0 +1,24 @@
+{
+  List<XmlFieldWithValue> list=new ArrayList<XmlFieldWithValue>();
+  Class originalClass=o.getClass();
+  for (  GoConfigFieldWriter field : allFieldsWithInherited(originalClass,o,configCache,registry)) {
+    Field configField=field.getConfigField();
+    if (field.isImplicitCollection()) {
+      list.add(new ImplicitCollectionXmlFieldWithValue(originalClass,configField,(Collection)field.getValue(),configCache,registry));
+    }
+ else     if (field.isConfigCollection()) {
+      list.add(new ExplicitCollectionXmlFieldWithValue(originalClass,configField,(Collection)field.getValue(),configCache,registry));
+    }
+ else     if (field.isSubtag()) {
+      list.add(new SubTagXmlFieldWithValue(originalClass,configField,field.getValue(),configCache,registry));
+    }
+ else     if (field.isAttribute()) {
+      final Object value=field.getValue();
+      list.add(new AttributeXmlFieldWithValue(originalClass,configField,value,configCache,registry));
+    }
+ else     if (field.isConfigValue()) {
+      list.add(new ValueXmlFieldWithValue(configField,field.getValue(),originalClass,configCache,registry));
+    }
+  }
+  return list;
+}

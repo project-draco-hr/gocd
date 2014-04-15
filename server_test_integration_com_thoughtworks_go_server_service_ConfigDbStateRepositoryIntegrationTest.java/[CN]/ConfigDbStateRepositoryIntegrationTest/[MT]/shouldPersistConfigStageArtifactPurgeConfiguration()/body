@@ -1,0 +1,15 @@
+{
+  configHelper.addPipeline("pipeline-one","stage-zero");
+  configHelper.addStageToPipeline("pipeline-one",StageConfigMother.custom("stage-one",true,"job-foo"));
+  configHelper.addPipeline("pipeline-two","stage-two-zero");
+  configHelper.addStageToPipeline("pipeline-two",StageConfigMother.custom("stage-two-one",true,"job-foo"));
+  configHelper.addStageToPipeline("pipeline-two",StageConfigMother.custom("stage-one","job-bar"));
+  configDbStateRepository.flushConfigState();
+  List<StageArtifactCleanupProhibited> list=configDbStateRepository.getHibernateTemplate().find("from StageArtifactCleanupProhibited");
+  assertThat(list.size(),is(5));
+  assertThat(list,hasItem(new StageArtifactCleanupProhibited("pipeline-one","stage-zero",false)));
+  assertThat(list,hasItem(new StageArtifactCleanupProhibited("pipeline-one","stage-one",true)));
+  assertThat(list,hasItem(new StageArtifactCleanupProhibited("pipeline-two","stage-two-zero",false)));
+  assertThat(list,hasItem(new StageArtifactCleanupProhibited("pipeline-two","stage-two-one",true)));
+  assertThat(list,hasItem(new StageArtifactCleanupProhibited("pipeline-two","stage-one",false)));
+}

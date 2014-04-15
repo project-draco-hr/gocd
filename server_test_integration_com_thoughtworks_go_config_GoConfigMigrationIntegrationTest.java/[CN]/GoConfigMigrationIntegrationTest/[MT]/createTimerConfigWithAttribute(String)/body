@@ -1,0 +1,6 @@
+{
+  final String content=ConfigFileFixture.configWithPipeline("<pipeline name='old-timer'>" + "  <timer " + valueForOnChangesInTimer + ">0 0 1 * * ?</timer>"+ "  <materials>"+ "    <git url='/tmp/git' />"+ "  </materials>"+ "  <stage name='dist'>"+ "    <jobs>"+ "      <job name='test' />"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",63);
+  CruiseConfig configAfterMigration=migrateConfigAndLoadTheNewConfig(content,63);
+  PipelineConfig pipelineConfig=configAfterMigration.pipelineConfigByName(new CaseInsensitiveString("old-timer"));
+  return pipelineConfig.getTimer();
+}

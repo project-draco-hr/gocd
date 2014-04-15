@@ -1,0 +1,13 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.CONTAINS_MULTI_DIFFERENT_STATUS_RUN_IF);
+  StageConfig stage=xmlLoader.fromXmlPartial(ConfigFileFixture.SAME_STATUS_RUN_IF_PARTIAL,StageConfig.class);
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("test"));
+  pipelineConfig.set(0,stage);
+  try {
+    xmlWriter.write(cruiseConfig,output,false);
+    fail();
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Duplicate unique value [passed] declared for identity constraint \"uniqueRunIfTypeForExec\" of element \"exec\"."));
+  }
+}

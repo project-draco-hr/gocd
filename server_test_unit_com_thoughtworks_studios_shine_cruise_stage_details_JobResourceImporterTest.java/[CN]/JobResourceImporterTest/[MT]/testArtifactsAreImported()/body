@@ -1,0 +1,11 @@
+{
+  Clock.fakeNowUTC(2008,1,20,0,0,1);
+  JobInstance failedJob=JobInstanceMother.failed("test");
+  Document document=docFor(happyJobResourceXML);
+  document.selectSingleNode("//link[@rel='self']/@href").setText(new JobXmlViewModel(failedJob).httpUrl(baseUri));
+  when(xmlApiService.write(any(JobXmlViewModel.class),eq(baseUri))).thenReturn(document);
+  JobResourceImporter rdfImporter=new JobResourceImporter("test/data/cruise/artifacts",new InMemoryTempGraphFactory(),transformerRegistry,xmlApiService);
+  Graph graph=rdfImporter.importJob(failedJob,baseUri);
+  String testCountSelect="PREFIX xunit: <" + XUnitOntology.URI + "> SELECT ?testcase WHERE { ?testCase a xunit:TestCase }";
+  assertEquals(5,graph.select(testCountSelect).size());
+}

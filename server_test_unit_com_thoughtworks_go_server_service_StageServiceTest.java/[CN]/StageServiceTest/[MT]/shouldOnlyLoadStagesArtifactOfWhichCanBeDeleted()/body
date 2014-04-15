@@ -1,0 +1,14 @@
+{
+  StageService service=new StageService(stageDao,null,null,null,securityService,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  Stage stageFoo=StageMother.passedStageInstance("stage-foo","job","pipeline-baz");
+  Stage stageBar=StageMother.passedStageInstance("stage-bar","job","pipeline-quux");
+  Stage stageBaz=StageMother.passedStageInstance("stage-baz","job","pipeline-foo");
+  Stage stageQuux=StageMother.passedStageInstance("stage-quux","job","pipeline-bar");
+  when(stageDao.oldestStagesHavingArtifacts()).thenReturn(asList(stageFoo,stageBar,stageBaz,stageQuux));
+  List<Stage> stages=service.oldestStagesWithDeletableArtifacts();
+  assertThat(stages.size(),is(4));
+  assertThat(stages,hasItem(stageFoo));
+  assertThat(stages,hasItem(stageBar));
+  assertThat(stages,hasItem(stageBaz));
+  assertThat(stages,hasItem(stageQuux));
+}

@@ -1,0 +1,5 @@
+{
+  assertThat(GoConfigValidity.valid(ConfigSaveState.UPDATED).wasMerged(),is(false));
+  assertThat(GoConfigValidity.valid(ConfigSaveState.MERGED).wasMerged(),is(true));
+  assertThat(GoConfigValidity.invalid("error!").wasMerged(),is(false));
+}

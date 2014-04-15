@@ -1,0 +1,11 @@
+{
+  return new TypeSafeMatcher<String>(){
+    public boolean matchesSafely(    String underTest){
+      return underTest.contains(toMatch);
+    }
+    public void describeTo(    Description description){
+      description.appendText("The actual string does not contain the expected string.");
+    }
+  }
+;
+}

@@ -1,0 +1,7 @@
+{
+  JobInstance mostRecent=JobInstanceMother.building("mostRecent");
+  mostRecent.completing(JobResult.Passed,new Date());
+  mostRecent.completed(new Date());
+  assertEquals(mostRecent,mostRecent.mostRecentPassed(JobInstance.NULL));
+  assertEquals(mostRecent,JobInstance.NULL.mostRecentPassed(mostRecent));
+}

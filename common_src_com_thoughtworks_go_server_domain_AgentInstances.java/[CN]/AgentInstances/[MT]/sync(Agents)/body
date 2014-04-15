@@ -1,0 +1,23 @@
+{
+  for (  AgentConfig agentInConfig : agentsFromConfig) {
+    String uuid=agentInConfig.getUuid();
+    if (agentInstances.containsKey(uuid)) {
+      agentInstances.get(uuid).syncConfig(agentInConfig);
+    }
+ else {
+      agentInstances.put(uuid,AgentInstance.createFromConfig(agentInConfig,new SystemEnvironment()));
+    }
+  }
+synchronized (agentInstances) {
+    List<String> uuids=new ArrayList<String>();
+    for (    String uuid : agentInstances.keySet()) {
+      AgentInstance instance=agentInstances.get(uuid);
+      if (!agentsFromConfig.hasAgent(uuid) && !(instance.getStatus() == AgentStatus.Pending)) {
+        uuids.add(uuid);
+      }
+    }
+    for (    String uuid : uuids) {
+      agentInstances.remove(uuid);
+    }
+  }
+}

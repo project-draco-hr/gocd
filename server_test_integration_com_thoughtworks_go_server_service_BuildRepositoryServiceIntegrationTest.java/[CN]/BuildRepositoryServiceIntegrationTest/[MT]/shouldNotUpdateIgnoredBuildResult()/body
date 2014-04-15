@@ -1,0 +1,8 @@
+{
+  Stage stage=dbHelper.saveBuildingStage("studios","dev");
+  JobInstance job=stage.getJobInstances().get(0);
+  scheduleService.rescheduleJob(job);
+  buildRepositoryService.completing(job.getIdentifier(),JobResult.Passed,AGENT_UUID);
+  JobInstance reloaded=jobInstanceDao.buildByIdWithTransitions(job.getId());
+  assertThat(reloaded.getResult(),is(JobResult.Unknown));
+}

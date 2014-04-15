@@ -1,0 +1,17 @@
+{
+  File folder=TestFileUtil.createTempFolder("log");
+  File consolelog=new File(folder,"console.log");
+  folder.mkdirs();
+  consolelog.createNewFile();
+  zip=new ZipUtil().zip(folder,TestFileUtil.createUniqueTempFile(folder.getName()),Deflater.NO_COMPRESSION);
+  toClean.add(folder);
+  toClean.add(zip);
+  dest=new File("dest");
+  dest.mkdirs();
+  toClean.add(dest);
+  clock=new TestingClock();
+  publisher=new StubGoPublisher();
+  checksumFileHandler=mock(ChecksumFileHandler.class);
+  urlService=mock(URLService.class);
+  downloadAction=mock(DownloadAction.class);
+}

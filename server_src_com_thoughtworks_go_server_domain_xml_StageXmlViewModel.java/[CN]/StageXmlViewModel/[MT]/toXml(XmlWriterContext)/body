@@ -1,0 +1,19 @@
+{
+  DOMElement root=new DOMElement("stage");
+  root.addAttribute("name",stage.getName()).addAttribute("counter",String.valueOf(stage.getCounter()));
+  Document document=new DOMDocument(root);
+  root.addElement("link").addAttribute("rel","self").addAttribute("href",httpUrl(writerContext.getBaseUrl()));
+  StageIdentifier stageId=stage.getIdentifier();
+  root.addElement("id").addCDATA(stageId.asURN());
+  String pipelineName=stageId.getPipelineName();
+  root.addElement("pipeline").addAttribute("name",pipelineName).addAttribute("counter",String.valueOf(stageId.getPipelineCounter())).addAttribute("label",stageId.getPipelineLabel()).addAttribute("href",writerContext.getBaseUrl() + "/api/pipelines/" + pipelineName+ "/"+ stage.getPipelineId()+ ".xml");
+  root.addElement("updated").addText(DateUtils.formatISO8601(stage.latestTransitionDate()));
+  root.addElement("result").addText(stage.getResult().toString());
+  root.addElement("state").addText(stage.status());
+  root.addElement("approvedBy").addCDATA(stage.getApprovedBy());
+  Element jobs=root.addElement("jobs");
+  for (  JobInstance jobInstance : stage.getJobInstances()) {
+    jobs.addElement("job").addAttribute("href",writerContext.getBaseUrl() + "/api/jobs/" + jobInstance.getId()+ ".xml");
+  }
+  return document;
+}

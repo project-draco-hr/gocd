@@ -1,0 +1,11 @@
+{
+  String cacheKey=latestSuccessfulStageCacheKey(pipelineName,stageName);
+synchronized (cacheKey) {
+    StageIdentifier lastStageIdentifier=(StageIdentifier)goCache.get(cacheKey);
+    if (lastStageIdentifier == null) {
+      lastStageIdentifier=_findLastSuccessfulStageIdentifier(pipelineName,stageName);
+      goCache.put(cacheKey,lastStageIdentifier);
+    }
+    return lastStageIdentifier;
+  }
+}

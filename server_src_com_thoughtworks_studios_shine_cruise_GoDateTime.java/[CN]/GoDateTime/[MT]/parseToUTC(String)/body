@@ -1,0 +1,17 @@
+{
+  DateTimeFormatter format=ISODateTimeFormat.dateTimeNoMillis();
+  DateTime dateTime;
+  try {
+    dateTime=format.parseDateTime(timestampString);
+  }
+ catch (  java.lang.IllegalArgumentException e) {
+    format=DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z");
+    try {
+      dateTime=format.parseDateTime(timestampString);
+    }
+ catch (    java.lang.IllegalArgumentException e2) {
+      throw new GoDateTimeException("Could not parse datetime " + timestampString,e2);
+    }
+  }
+  return dateTime.toDateTime(DateTimeZone.forID("UTC"));
+}

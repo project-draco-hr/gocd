@@ -1,0 +1,17 @@
+{
+  folder=TestFileUtil.createTempFolder("ZipArtifactCacheTest-" + System.currentTimeMillis());
+  File artifact=new File(folder,JOB_FOLDERS);
+  artifact.mkdirs();
+  TestFileUtil.createTestFolder(artifact,"dir");
+  TestFileUtil.createTestFile(artifact,"dir/file1");
+  artifactsDirHolder=context.mock(ArtifactsDirHolder.class);
+  context.checking(new Expectations(){
+{
+      allowing(artifactsDirHolder).getArtifactsDir();
+      will(returnValue(folder));
+    }
+  }
+);
+  zipArtifactCache=new ZipArtifactCache(this.artifactsDirHolder,new ZipUtil());
+  artifactFolder=new ArtifactFolder(JOB_IDENTIFIER,new File(artifact,"dir"),"dir");
+}

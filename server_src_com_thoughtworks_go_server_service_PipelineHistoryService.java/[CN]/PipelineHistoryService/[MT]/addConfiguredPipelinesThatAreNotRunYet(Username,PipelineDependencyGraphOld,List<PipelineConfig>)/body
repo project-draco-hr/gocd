@@ -1,0 +1,7 @@
+{
+  for (  PipelineConfig dependent : dependents) {
+    if (!graph.hasDependent(CaseInsensitiveString.str(dependent.name()))) {
+      graph.addDependent(addEmptyPipelineInstance(CaseInsensitiveString.str(dependent.name()),username,dependent,false));
+    }
+  }
+}

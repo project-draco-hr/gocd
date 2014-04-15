@@ -1,0 +1,11 @@
+{
+  File nestedJarFile=File.createTempFile(new File(urlOfJar.toExternalForm()).getName(),".jar");
+  nestedJarFile.deleteOnExit();
+  FileOutputStream out=new FileOutputStream(nestedJarFile);
+  InputStream in=urlOfJar.openStream();
+  IOUtils.copy(in,out);
+  out.close();
+  in.close();
+  LOGGER.info(String.format("[TFS SDK] Exploded Jar %s from to %s",urlOfJar.toString(),nestedJarFile.toURI().toURL()));
+  return nestedJarFile.toURI().toURL();
+}

@@ -1,0 +1,9 @@
+{
+  List<StageIdentity> latestStages=Arrays.asList(new StageIdentity("p1","s1",10L),new StageIdentity("p2","s2",100L));
+  when(sqlMapClientTemplate.queryForList("latestStageInstances")).thenReturn(latestStages);
+  List<StageIdentity> firstStageInstances=stageSqlMapDao.findLatestStageInstances();
+  List<StageIdentity> latestStageInstances=stageSqlMapDao.findLatestStageInstances();
+  assertThat(firstStageInstances,is(latestStages));
+  assertThat(latestStageInstances,is(latestStages));
+  verify(sqlMapClientTemplate,times(1)).queryForList("latestStageInstances");
+}

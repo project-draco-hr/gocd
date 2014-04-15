@@ -1,0 +1,10 @@
+{
+  serverHealthService=mock(ServerHealthService.class);
+  systemEnvironment=mock(SystemEnvironment.class);
+  zipUtil=mock(ZipUtil.class);
+  zipInputStream=mock(ZipInputStream.class);
+  when(systemEnvironment.get(SystemEnvironment.VERSION_FILE_IN_DEFAULT_COMMAND_REPOSITORY)).thenReturn("version.txt");
+  CommandRepositoryInitializer initializer=new CommandRepositoryInitializer(systemEnvironment,zipUtil,serverHealthService);
+  spy=spy(initializer);
+  tempFiles=new TempFiles();
+}

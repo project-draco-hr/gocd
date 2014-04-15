@@ -1,0 +1,8 @@
+{
+  JobIdentifier jobId=new JobIdentifier(new StageIdentifier("pipelineName",1,"stageName","1"),"job");
+  buildRepository.reportCompleted(info,jobId,JobResult.Passed);
+  verify(repositoryService).completing(jobId,JobResult.Passed,info.getUUId());
+  verify(agentService).updateRuntimeInfo(info);
+  verify(repositoryService).updateStatusFromAgent(jobId,JobState.Completed,info.getUUId());
+  assertThat(log(),hasItem(String.format("[%s] is reporting status and result [%s, %s] for [%s]",info.agentInfoDebugString(),JobState.Completed,JobResult.Passed,jobId.toFullString())));
+}

@@ -1,0 +1,8 @@
+{
+  passwordFile=TestFileUtil.createTempFile("password.properties");
+  passwordFile.deleteOnExit();
+  final String nonAdmin="jez=ThmbShxAtJepX80c2JY1FzOEmUk=\n";
+  final String admin1="admin1=W6ph5Mm5Pz8GgiULbPgzG37mj9g=\n";
+  FileUtils.writeStringToFile(passwordFile,nonAdmin + admin1);
+  return passwordFile;
+}

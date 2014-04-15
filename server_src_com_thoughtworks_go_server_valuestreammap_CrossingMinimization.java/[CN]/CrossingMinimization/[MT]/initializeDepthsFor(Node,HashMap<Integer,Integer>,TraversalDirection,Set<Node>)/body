@@ -1,0 +1,17 @@
+{
+  if (visited.contains(node)) {
+    return;
+  }
+  visited.add(node);
+  int depth=1;
+  if (levelToDepthMap.containsKey(node.getLevel())) {
+    depth=levelToDepthMap.get(node.getLevel()) + 1;
+  }
+  if (node.getDepth() == 0) {
+    node.setDepth(depth);
+    levelToDepthMap.put(node.getLevel(),depth);
+  }
+  for (  Node relatedNode : traversalDirection.getRelatedNodesAtNextLevel(node)) {
+    initializeDepthsFor(relatedNode,levelToDepthMap,traversalDirection,visited);
+  }
+}

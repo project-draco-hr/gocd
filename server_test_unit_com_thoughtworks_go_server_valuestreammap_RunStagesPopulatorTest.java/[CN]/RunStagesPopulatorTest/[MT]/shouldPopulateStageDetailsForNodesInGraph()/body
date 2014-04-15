@@ -1,0 +1,21 @@
+{
+  ValueStreamMap graph=new ValueStreamMap("p3",new PipelineRevision("p3",1,"labelp3-1"));
+  graph.addUpstreamNode(new PipelineDependencyNode("p1","p1"),new PipelineRevision("p1",1,"labelp1-1"),"p3");
+  graph.addUpstreamNode(new PipelineDependencyNode("p2","p2"),new PipelineRevision("p2",1,"labelp2-1"),"p3");
+  graph.addUpstreamNode(new PipelineDependencyNode("p1","p1"),new PipelineRevision("p1",2,"labelp1-2"),"p2");
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),new Modifications(ModificationsMother.aCheckIn("1")),"p1");
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),new Modifications(ModificationsMother.aCheckIn("1")),"p2");
+  Stages stagesForP1_1=stages("stages-for-p1-1");
+  Stages stagesForP1_2=stages("stages-for-p1-2");
+  Stages stagesForP2_1=stages("stages-for-p2-1");
+  Stages stagesForP3_1=stages("stages-for-p3-1");
+  when(stageDao.findAllStagesFor("p1",1)).thenReturn(stagesForP1_1);
+  when(stageDao.findAllStagesFor("p1",2)).thenReturn(stagesForP1_2);
+  when(stageDao.findAllStagesFor("p2",1)).thenReturn(stagesForP2_1);
+  when(stageDao.findAllStagesFor("p3",1)).thenReturn(stagesForP3_1);
+  runStagesPopulator.apply(graph);
+  VSMTestHelper.assertStageDetailsOf(graph,"p1","1",stagesForP1_1);
+  VSMTestHelper.assertStageDetailsOf(graph,"p1","2",stagesForP1_2);
+  VSMTestHelper.assertStageDetailsOf(graph,"p2","1",stagesForP2_1);
+  VSMTestHelper.assertStageDetailsOf(graph,"p3","1",stagesForP3_1);
+}

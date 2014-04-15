@@ -1,0 +1,7 @@
+{
+  if (actualFileToUse == null) {
+    LOGGER.trace("Using the default Directory->" + defaultWorkingDir);
+    return normalizePath(defaultWorkingDir);
+  }
+  return applyBaseDirIfRelativeAndNormalize(defaultWorkingDir,new File(actualFileToUse));
+}

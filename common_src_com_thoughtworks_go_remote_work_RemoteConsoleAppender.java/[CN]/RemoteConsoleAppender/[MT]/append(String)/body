@@ -1,0 +1,21 @@
+{
+  PutMethod putMethod=new PutMethod(consoleUri);
+  try {
+    HttpClient httpClient=httpService.httpClient();
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Appending console to URL -> " + consoleUri);
+    }
+    putMethod.setRequestEntity(new StringRequestEntity(content));
+    HttpClientParams clientParams=new HttpClientParams();
+    clientParams.setParameter("agentId",agentIdentifier.getUuid());
+    HttpService.setSizeHeader(putMethod,content.getBytes().length);
+    putMethod.setParams(clientParams);
+    httpClient.executeMethod(putMethod);
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Got " + putMethod.getStatusCode());
+    }
+  }
+  finally {
+    putMethod.releaseConnection();
+  }
+}

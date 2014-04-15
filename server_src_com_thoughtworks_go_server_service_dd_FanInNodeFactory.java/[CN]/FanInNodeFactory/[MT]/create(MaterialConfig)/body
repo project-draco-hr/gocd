@@ -1,0 +1,5 @@
+{
+  if (material instanceof ScmMaterialConfig || material instanceof PackageMaterialConfig)   return new RootFanInNode(material);
+  if (material instanceof DependencyMaterialConfig)   return new DependencyFanInNode(material);
+  throw new RuntimeException("Not a valid material type");
+}

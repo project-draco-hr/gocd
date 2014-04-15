@@ -1,0 +1,7 @@
+{
+  service=spy(service);
+  when(service.hasUpdateIntervalElapsedForScmMaterial(material())).thenReturn(false);
+  service.onTimer();
+  verify(service,never()).updateMaterial(material());
+  verify(service).hasUpdateIntervalElapsedForScmMaterial(material());
+}

@@ -1,0 +1,20 @@
+{
+  mingle=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl(PIPELINE_NAME,DEV_STAGE,svnTestRepo.projectRepositoryUrl());
+  StageConfig devStage=mingle.get(0);
+  schedulePipeline(mingle);
+  final Stage stage=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(mingle.name()),devStage);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      stageService.cancelStage(stage);
+    }
+  }
+);
+  final Stage cancelled=stageService.stageById(stage.getId());
+  assertThat(cancelled.stageState(),is(StageState.Cancelled));
+  final JobInstances builds=cancelled.getJobInstances();
+  for (  JobInstance job : builds) {
+    assertThat(job.currentStatus(),is(JobState.Completed));
+    assertThat(job.getResult(),is(JobResult.Cancelled));
+    assertThat(job.displayStatusWithResult(),is("cancelled"));
+  }
+}

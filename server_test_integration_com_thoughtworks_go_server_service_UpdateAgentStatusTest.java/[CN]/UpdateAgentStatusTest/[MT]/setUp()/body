@@ -1,0 +1,10 @@
+{
+  dbHelper.onSetUp();
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  preCondition=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  preCondition.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  agentService.clearAll();
+  agentService.requestRegistration(AgentRuntimeInfo.fromServer(new AgentConfig(agentId,"CCEDev01","10.81.2.1"),false,"/var/lib",0L,"linux"));
+  agentService.approve(agentId);
+}

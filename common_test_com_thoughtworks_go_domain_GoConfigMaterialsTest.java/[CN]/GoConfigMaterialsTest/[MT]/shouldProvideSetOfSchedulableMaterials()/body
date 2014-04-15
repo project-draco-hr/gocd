@@ -1,0 +1,6 @@
+{
+  SvnMaterialConfig svnMaterialConfig=MaterialConfigsMother.svnMaterialConfig("url","svnDir",true);
+  PipelineConfig pipeline1=new PipelineConfig(new CaseInsensitiveString("pipeline1"),new MaterialConfigs(svnMaterialConfig));
+  CruiseConfig config=new CruiseConfig(new PipelineConfigs(pipeline1));
+  assertThat(config.getAllUniqueMaterialsBelongingToAutoPipelines(),hasItem(svnMaterialConfig));
+}

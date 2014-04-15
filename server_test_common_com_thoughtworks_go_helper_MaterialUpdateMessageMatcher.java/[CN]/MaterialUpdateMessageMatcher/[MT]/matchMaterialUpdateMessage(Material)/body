@@ -1,0 +1,12 @@
+{
+  return argThat(new BaseMatcher<MaterialUpdateMessage>(){
+    @Override public boolean matches(    Object o){
+      MaterialUpdateMessage message=(MaterialUpdateMessage)o;
+      return expectedMaterial.equals(message.getMaterial());
+    }
+    @Override public void describeTo(    Description description){
+      description.appendText("Expected material to be: " + expectedMaterial);
+    }
+  }
+);
+}

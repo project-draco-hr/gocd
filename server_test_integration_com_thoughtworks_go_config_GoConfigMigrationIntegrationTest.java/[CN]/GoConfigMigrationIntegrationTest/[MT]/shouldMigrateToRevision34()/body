@@ -1,0 +1,6 @@
+{
+  final String content=FileUtil.readToEnd(getClass().getResourceAsStream("svn-p4-with-parameterized-passwords.xml"));
+  String migratedContent=migrateXmlString(content,22);
+  String expected=content.replaceAll("#\\{jez_passwd\\}","badger").replace("<cruise schemaVersion=\"22\">","<cruise schemaVersion=\"" + GoConstants.CONFIG_SCHEMA_VERSION + "\">").replaceAll("##","#");
+  assertStringsIgnoringCarriageReturnAreEqual(expected,migratedContent);
+}

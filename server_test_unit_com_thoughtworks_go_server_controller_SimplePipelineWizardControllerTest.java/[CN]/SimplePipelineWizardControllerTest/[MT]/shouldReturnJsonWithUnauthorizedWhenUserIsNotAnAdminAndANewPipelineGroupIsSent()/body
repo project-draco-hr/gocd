@@ -1,0 +1,11 @@
+{
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("AnnaBond"))).thenReturn(false);
+  SecurityContextHelper.setCurrentUser("ram");
+  Username ram=new Username(new CaseInsensitiveString("ram"));
+  when(securityService.isUserAdmin(ram)).thenReturn(false);
+  when(securityService.isUserAdminOfGroup(ram.getUsername(),"newGroup")).thenReturn(false);
+  ModelAndView modelAndView=controller.createPipeline("AnnaBond","newGroup",null,"http://test/","","","","","",null,null,null,"","",false,"",null,null,null,response);
+  Map data=modelAndView.getModel();
+  JsonMap json=(JsonMap)data.get("json");
+  new JsonTester(json).shouldContain("{ 'error' : 'User \\'ram\\' is not authorised to add pipelines to pipeline group newGroup' }");
+}

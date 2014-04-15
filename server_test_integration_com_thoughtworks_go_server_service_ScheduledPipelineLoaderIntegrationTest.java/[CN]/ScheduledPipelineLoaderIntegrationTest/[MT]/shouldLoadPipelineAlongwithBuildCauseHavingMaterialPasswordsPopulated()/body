@@ -1,0 +1,22 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("last",new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job-one"))));
+  pipelineConfig.materialConfigs().clear();
+  SvnMaterial onDirOne=MaterialsMother.svnMaterial("google.com","dirOne","loser","boozer",false,"**/*.html");
+  P4Material onDirTwo=MaterialsMother.p4Material("host:987654321","zoozer","secret","through-the-window",true);
+  onDirTwo.setFolder("dirTwo");
+  pipelineConfig.addMaterialConfig(onDirOne.config());
+  pipelineConfig.addMaterialConfig(onDirTwo.config());
+  configHelper.addPipeline(pipelineConfig);
+  Pipeline building=PipelineMother.building(pipelineConfig);
+  Pipeline pipeline=dbHelper.savePipelineWithMaterials(building);
+  final long jobId=pipeline.getStages().get(0).getJobInstances().get(0).getId();
+  Pipeline loadedPipeline=(Pipeline)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      return loader.pipelineWithPasswordAwareBuildCauseByBuildId(jobId);
+    }
+  }
+);
+  MaterialRevisions revisions=loadedPipeline.getBuildCause().getMaterialRevisions();
+  assertThat(((SvnMaterial)revisions.findRevisionFor(onDirOne).getMaterial()).getPassword(),is("boozer"));
+  assertThat(((P4Material)revisions.findRevisionFor(onDirTwo).getMaterial()).getPassword(),is("secret"));
+}

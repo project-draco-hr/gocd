@@ -1,0 +1,9 @@
+{
+  this.materialRepository=materialRepository;
+  this.transactionTemplate=transactionTemplate;
+  this.hgMaterial=new HgMaterial("http://google.com",null);
+  this.pipelineConfig=PipelineMother.createPipelineConfig("foo-pipeline",new MaterialConfigs(hgMaterial.config()),"bar-stage");
+  configHelper.addPipeline(pipelineConfig);
+  this.dbHelper=dbHelper;
+  this.pipelineTimeline=pipelineTimeline;
+}

@@ -1,0 +1,23 @@
+{
+  pipelineOne.createdPipelineWithAllStagesPassed();
+  configHelper.setOperatePermissionForGroup("group1","chris","raghu");
+  Username userNameChris=new Username(new CaseInsensitiveString("chris"));
+  pipelinePauseService.pause(pipelineOne.pipelineName,"paused",userNameChris);
+  Username userNameRaghu=new Username(new CaseInsensitiveString("raghu"));
+  pipelinePauseService.pause(pipelineTwo.pipelineName,"other paused",userNameRaghu);
+  configHelper.setViewPermissionForGroup("group1","jez");
+  List<PipelineGroupModel> groupModels=pipelineHistoryService.allActivePipelineInstances(new Username(new CaseInsensitiveString("jez")),PipelineSelections.ALL);
+  assertThat(groupModels.size(),is(2));
+  List<PipelineModel> pipelineOneModels=groupModels.get(0).getPipelineModels();
+  assertThat(pipelineOneModels.size(),is(1));
+  PipelinePauseInfo pausedInfo=pipelineOneModels.get(0).getPausedInfo();
+  assertThat("isPaused",pausedInfo.isPaused(),is(true));
+  assertThat(pausedInfo.getPauseBy(),is("chris"));
+  assertThat(pausedInfo.getPauseCause(),is("paused"));
+  List<PipelineModel> pipelineTwoModels=groupModels.get(1).getPipelineModels();
+  assertThat(pipelineTwoModels.size(),is(1));
+  PipelinePauseInfo pipelineTwoPausedInfo=pipelineTwoModels.get(0).getPausedInfo();
+  assertThat("isPaused",pipelineTwoPausedInfo.isPaused(),is(true));
+  assertThat(pipelineTwoPausedInfo.getPauseBy(),is("raghu"));
+  assertThat(pipelineTwoPausedInfo.getPauseCause(),is("other paused"));
+}

@@ -1,0 +1,6 @@
+{
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  when(goConfigService.getServerId()).thenReturn("my-server-id");
+  ServerSubprocessExecutionContext serverSubprocessExecutionContext=new ServerSubprocessExecutionContext(goConfigService);
+  assertThat(serverSubprocessExecutionContext.getProcessNamespace("fingerprint"),is(CachedDigestUtils.sha256Hex("my-server-id" + "fingerprint")));
+}

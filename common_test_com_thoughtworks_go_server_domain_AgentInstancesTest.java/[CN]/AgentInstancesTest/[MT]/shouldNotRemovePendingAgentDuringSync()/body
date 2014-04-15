@@ -1,0 +1,8 @@
+{
+  AgentInstances agentInstances=new AgentInstances(null,AgentInstanceMother.building());
+  agentInstances.add(pending);
+  Agents agents=new Agents();
+  agentInstances.sync(agents);
+  assertThat(agentInstances.size(),is(1));
+  assertThat(agentInstances.findAgentAndRefreshStatus("uuid4").getStatus(),is(AgentStatus.Pending));
+}

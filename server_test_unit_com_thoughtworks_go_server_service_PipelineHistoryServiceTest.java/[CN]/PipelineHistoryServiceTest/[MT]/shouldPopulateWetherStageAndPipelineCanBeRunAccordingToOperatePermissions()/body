@@ -1,0 +1,22 @@
+{
+  ensureConfigHasPipeline("pipeline");
+  ensureHasPermission(Username.ANONYMOUS,"pipeline");
+  StageInstanceModels stages=new StageInstanceModels();
+  stages.add(new StageInstanceModel("dev","1",new JobHistory()));
+  stages.add(new StageInstanceModel("qa","1",new JobHistory()));
+  PipelineInstanceModel instanceModel=PipelineInstanceModel.createPipeline("pipeline",-1,"label",BuildCause.createNeverRun(),stages);
+  when(pipelineDao.findPipelineHistoryByNameAndCounter("pipeline",1)).thenReturn(instanceModel);
+  stubConfigServiceToReturnPipeline("pipeline",config);
+  StageInstanceModel firstStage=instanceModel.getStageHistory().get(0);
+  when(scheduleService.canRun(instanceModel.getPipelineIdentifier(),firstStage.getName(),CaseInsensitiveString.str(Username.ANONYMOUS.getUsername()),instanceModel.hasPreviousStageBeenScheduled(firstStage.getName()))).thenReturn(true);
+  StageInstanceModel secondStage=instanceModel.getStageHistory().get(1);
+  when(scheduleService.canRun(instanceModel.getPipelineIdentifier(),secondStage.getName(),CaseInsensitiveString.str(Username.ANONYMOUS.getUsername()),instanceModel.hasPreviousStageBeenScheduled(secondStage.getName()))).thenReturn(false);
+  when(securityService.hasOperatePermissionForStage("pipeline","dev",CaseInsensitiveString.str(Username.ANONYMOUS.getUsername()))).thenReturn(true);
+  when(securityService.hasOperatePermissionForStage("pipeline","qa",CaseInsensitiveString.str(Username.ANONYMOUS.getUsername()))).thenReturn(false);
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.findPipelineInstance("pipeline",1,Username.ANONYMOUS,new HttpOperationResult());
+  StageInstanceModels models=pipelineInstance.getStageHistory();
+  assertThat(models.get(0).getCanRun(),is(true));
+  assertThat(models.get(1).getCanRun(),is(false));
+  assertThat(models.get(0).hasOperatePermission(),is(true));
+  assertThat(models.get(1).hasOperatePermission(),is(false));
+}

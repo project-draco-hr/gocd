@@ -1,0 +1,7 @@
+{
+  String pipelineXmlPartial="<pipeline name=\"pipeline\">\n" + "  <materials>\n" + "    <hg url=\"/hgrepo\"/>\n"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <artifacts>\n"+ "          <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "        </artifacts>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n";
+  PipelineConfig pipeline=xmlLoader.fromXmlPartial(toInputStream(pipelineXmlPartial),PipelineConfig.class);
+  assertThat(pipeline.name(),is(new CaseInsensitiveString("pipeline")));
+  assertThat(pipeline.size(),is(1));
+  assertThat(pipeline.findBy(new CaseInsensitiveString("mingle")).jobConfigByInstanceName("functional",true),is(notNullValue()));
+}

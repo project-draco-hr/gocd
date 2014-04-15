@@ -1,0 +1,17 @@
+{
+  final RuntimeException exception=new RuntimeException("foo");
+  context.checking(new Expectations(){
+{
+      one(workAssigner).assignWorkToAgent(AGENT_1);
+      will(throwException(exception));
+      one(assignedWorkTopic).post(new WorkAssignedMessage(AGENT_1,NO_WORK));
+    }
+  }
+);
+  try {
+    finder.onMessage(new IdleAgentMessage(AgentRuntimeInfo.fromAgent(AGENT_1,"cookie",null)));
+  }
+ catch (  Exception e) {
+    assertSame(exception,e);
+  }
+}

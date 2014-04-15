@@ -1,0 +1,8 @@
+{
+  if (!securityService.hasOperatePermissionForAgents(username)) {
+    String message="Unauthorized to operate on agent";
+    operationResult.unauthorized(message,message,HealthStateType.general(HealthStateScope.GLOBAL));
+    return false;
+  }
+  return true;
+}

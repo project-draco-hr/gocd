@@ -1,0 +1,7 @@
+{
+  User user=new User("loser","moocow","moocow@example.com");
+  userDao.saveOrUpdate(user);
+  user.setDisplayName("");
+  userDao.saveOrUpdate(user);
+  assertThat(userDao.findUser("loser").getDisplayName(),is("loser"));
+}

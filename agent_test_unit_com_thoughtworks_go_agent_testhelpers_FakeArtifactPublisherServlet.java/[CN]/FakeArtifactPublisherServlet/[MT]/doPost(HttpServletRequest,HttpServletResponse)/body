@@ -1,0 +1,7 @@
+{
+  CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver();
+  MultipartHttpServletRequest httpServletRequest=multipartResolver.resolveMultipart(request);
+  Map<String,MultipartFile> map=httpServletRequest.getFileMap();
+  MultipartFile multipartFile=map.values().iterator().next();
+  receivedFiles.add(multipartFile.getOriginalFilename());
+}

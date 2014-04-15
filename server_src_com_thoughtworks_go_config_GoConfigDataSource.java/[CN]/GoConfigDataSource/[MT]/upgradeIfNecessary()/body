@@ -1,0 +1,8 @@
+{
+  GoConfigMigrationResult migrationResult=this.upgrader.upgradeIfNecessary(fileLocation(),serverVersion.version());
+  if (migrationResult.isUpgradeFailure()) {
+    String message=migrationResult.message();
+    serverHealthService.update(ServerHealthState.warning("Invalid Configuration",message,HealthStateType.general(HealthStateScope.forInvalidConfig())));
+    LOGGER.warn(message);
+  }
+}

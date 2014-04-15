@@ -1,0 +1,5 @@
+{
+  GrantedAuthority[] authorities={new GrantedAuthorityImpl("anything")};
+  TestingAuthenticationToken authentication=new TestingAuthenticationToken(new GoUserPrinciple("user","Full Name","password",true,true,true,true,authorities),null,authorities);
+  assertThat(UserHelper.getUserName(authentication),is(new Username(new CaseInsensitiveString("user"),"Full Name")));
+}

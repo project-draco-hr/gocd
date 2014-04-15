@@ -1,0 +1,10 @@
+{
+  EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig((GoCipher)null);
+  HashMap attrs=new HashMap();
+  attrs.put(EnvironmentVariableConfig.NAME,"foo");
+  attrs.put(EnvironmentVariableConfig.VALUE,"password");
+  environmentVariableConfig.setConfigAttributes(attrs);
+  assertThat(environmentVariableConfig.getValue(),is("password"));
+  assertThat(environmentVariableConfig.getName(),is("foo"));
+  assertThat(environmentVariableConfig.isSecure(),is(false));
+}

@@ -1,0 +1,6 @@
+{
+  CruiseConfig config=configForEditing();
+  bombIf(!config.exist(pipelineIndex),"Pipeline does not exist.");
+  PipelineConfig originalConfig=config.find(groupName,pipelineIndex);
+  return originalConfig.getCopyForEditing();
+}

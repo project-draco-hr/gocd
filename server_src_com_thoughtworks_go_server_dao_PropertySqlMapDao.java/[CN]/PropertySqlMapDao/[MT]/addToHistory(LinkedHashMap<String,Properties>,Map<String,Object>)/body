@@ -1,0 +1,9 @@
+{
+  String id=String.valueOf(flatMap.get("pipelineid"));
+  String key=(String)flatMap.get("key");
+  String value=(String)flatMap.get("value");
+  if (!propHistory.containsKey(id)) {
+    propHistory.put(id,new Properties());
+  }
+  propHistory.get(id).add(new Property(key,value));
+}

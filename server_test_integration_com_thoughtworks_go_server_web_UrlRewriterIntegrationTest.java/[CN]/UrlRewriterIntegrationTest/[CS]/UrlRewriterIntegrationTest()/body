@@ -1,0 +1,24 @@
+{
+  httpUtil=new HttpTestUtil(new HttpTestUtil.ContextCustomizer(){
+    public void customize(    Context ctx) throws Exception {
+      wac=mock(WebApplicationContext.class);
+      ctx.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,wac);
+      ctx.setBaseResource(Resource.newResource(new File(getClass().getClassLoader().getResource("WEB-INF/urlrewrite.xml").getFile()).getParent()));
+      ctx.addFilter(UrlRewriteFilter.class,"/*",1).setInitParameter("confPath","/urlrewrite.xml");
+      ctx.addServlet(HttpTestUtil.EchoServlet.class,"/*");
+    }
+  }
+);
+  httpUtil.httpConnector(HTTP);
+  httpUtil.httpsConnector(HTTPS);
+  when(wac.getBean("serverConfigService")).thenReturn(new BaseUrlProvider(){
+    public boolean hasAnyUrlConfigured(){
+      return useConfiguredUrls;
+    }
+    public String siteUrlFor(    String url,    boolean forceSsl) throws URISyntaxException {
+      ServerSiteUrlConfig siteUrl=forceSsl ? new ServerSiteUrlConfig("https://127.2.2.2:" + 9071) : new ServerSiteUrlConfig("http://127.2.2.2:" + 5197);
+      return siteUrl.siteUrlFor(url);
+    }
+  }
+);
+}

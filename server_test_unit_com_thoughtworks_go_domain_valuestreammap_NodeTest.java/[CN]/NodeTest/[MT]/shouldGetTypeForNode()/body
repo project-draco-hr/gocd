@@ -1,0 +1,8 @@
+{
+  Node g1=new SCMDependencyNode("g1","g1","git");
+  Node p2=new PipelineDependencyNode("p2","p2");
+  Node dummy=new DummyNode("dummy","dummy");
+  assertThat(g1.getType(),is(DependencyNodeType.MATERIAL));
+  assertThat(p2.getType(),is(DependencyNodeType.PIPELINE));
+  assertThat(dummy.getType(),is(DependencyNodeType.DUMMY));
+}

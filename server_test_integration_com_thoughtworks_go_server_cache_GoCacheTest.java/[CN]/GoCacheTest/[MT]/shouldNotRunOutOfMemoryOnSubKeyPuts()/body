@@ -1,0 +1,8 @@
+{
+  for (Long n=0L; n < 1; n++) {
+    String key="key" + (n % 10);
+    String subKey=n.toString();
+    goCache.put(key,subKey,n);
+    assertThat((Long)goCache.get(key,subKey),is(n));
+  }
+}

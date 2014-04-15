@@ -1,0 +1,11 @@
+{
+  return new ServerUrlGenerator(){
+    @Override public String serverUrlFor(    String subPath){
+      return "http://" + host + ":"+ port+ "/go/"+ subPath;
+    }
+    @Override public String serverSslBaseUrl(    int serverHttpsPort){
+      return "https://" + host + ":"+ serverHttpsPort+ "/go/";
+    }
+  }
+;
+}

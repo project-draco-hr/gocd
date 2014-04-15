@@ -1,0 +1,10 @@
+{
+  AgentInstance original=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  AgentRuntimeInfo runtimeInfo=buildingRuntimeInfo();
+  original.update(runtimeInfo);
+  assertThat(original.canDisable(),is(true));
+  original.deny();
+  assertThat(agentConfig.isDisabled(),is(true));
+  assertThat(original.getStatus(),is(AgentStatus.Disabled));
+  assertThat(original.getBuildingInfo(),is(runtimeInfo.getBuildingInfo()));
+}

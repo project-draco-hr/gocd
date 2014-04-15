@@ -1,0 +1,7 @@
+{
+  createPipelinesFolderIfNotExist();
+  sslInfrastructureService.createSslInfrastructure();
+  AgentIdentifier identifier=agentIdentifier();
+  agentRuntimeInfo=AgentRuntimeInfo.fromAgent(identifier,systemEnvironment.getAgentLauncherVersion());
+  subprocessLogger.registerAsExitHook("Following processes were alive at shutdown: ");
+}

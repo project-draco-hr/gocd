@@ -1,0 +1,6 @@
+{
+  if (workingFolder == null || !workingFolder.exists()) {
+    workingFolder=TestFileUtil.createTempFolder("svnTestWorkingCopy");
+    svnClient.checkoutTo(inMemoryConsumer(),workingFolder,SubversionRevision.HEAD);
+  }
+}

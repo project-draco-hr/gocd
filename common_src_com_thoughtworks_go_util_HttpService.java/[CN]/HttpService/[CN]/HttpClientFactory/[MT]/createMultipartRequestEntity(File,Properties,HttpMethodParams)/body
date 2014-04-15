@@ -1,0 +1,10 @@
+{
+  ArrayList<Part> parts=new ArrayList<Part>();
+  parts.add(new FilePart(GoConstants.ZIP_MULTIPART_FILENAME,artifact));
+  if (artifactChecksums != null) {
+    ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+    artifactChecksums.store(outputStream,"");
+    parts.add(new FilePart(GoConstants.CHECKSUM_MULTIPART_FILENAME,new ByteArrayPartSource("checksum_file",outputStream.toByteArray())));
+  }
+  return new MultipartRequestEntity(parts.toArray(new Part[]{}),methodParams);
+}

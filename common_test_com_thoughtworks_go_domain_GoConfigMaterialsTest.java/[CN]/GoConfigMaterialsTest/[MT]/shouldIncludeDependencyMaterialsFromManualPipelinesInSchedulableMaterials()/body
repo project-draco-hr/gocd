@@ -1,0 +1,9 @@
+{
+  DependencyMaterialConfig dependencyMaterialConfig=MaterialConfigsMother.dependencyMaterialConfig();
+  PipelineConfig pipeline1=new PipelineConfig(new CaseInsensitiveString("pipeline1"),new MaterialConfigs(dependencyMaterialConfig));
+  pipeline1.add(new StageConfig(new CaseInsensitiveString("manual-stage"),new JobConfigs(),new Approval()));
+  CruiseConfig config=new CruiseConfig(new PipelineConfigs(pipeline1));
+  Set<MaterialConfig> materialConfigs=config.getAllUniqueMaterialsBelongingToAutoPipelines();
+  assertThat(materialConfigs.size(),is(1));
+  assertThat(materialConfigs.contains(dependencyMaterialConfig),is(true));
+}

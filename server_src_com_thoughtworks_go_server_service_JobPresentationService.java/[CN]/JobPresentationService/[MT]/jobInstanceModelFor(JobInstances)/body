@@ -1,0 +1,9 @@
+{
+  ArrayList<JobInstanceModel> models=new ArrayList<JobInstanceModel>();
+  for (  JobInstance jobInstance : jobInstances) {
+    AgentInstance agentInstance=jobInstance.isAssignedToAgent() ? agentService.findAgentAndRefreshStatus(jobInstance.getAgentUuid()) : null;
+    models.add(new JobInstanceModel(jobInstance,jobDurationStrategy,agentInstance));
+  }
+  sort(models,JobInstanceModel.JOB_MODEL_COMPARATOR);
+  return models;
+}

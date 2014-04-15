@@ -1,0 +1,24 @@
+{
+  String templateName="empty_template";
+  CaseInsensitiveString templateAdminUser=new CaseInsensitiveString("templateAdminUser");
+  Username templateUser=new Username(templateAdminUser);
+  PipelineTemplateConfig emptyTemplate=PipelineTemplateConfigMother.createTemplate(templateName,new Authorization(new AdminsConfig(new AdminUser(templateAdminUser))),StageConfigMother.stageConfig("some_stage"));
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.addTemplate(emptyTemplate);
+  when(securityService.isAuthorizedToEditTemplate(templateName,templateUser)).thenReturn(true);
+  when(goConfigService.getConfigHolder()).thenReturn(new GoConfigHolder(cruiseConfig,cruiseConfig));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit<PipelineTemplateConfig> configForEdit=service.loadForEdit(templateName,templateUser,result);
+  assertThat(configForEdit,is(not(nullValue())));
+  CaseInsensitiveString empty_template=new CaseInsensitiveString(templateName);
+  assertThat(configForEdit.getConfig().name(),is(empty_template));
+  PipelineTemplateConfig template=configForEdit.getConfig();
+  PipelineTemplateConfig templateForEdit=configForEdit.getCruiseConfig().findTemplate(empty_template);
+  PipelineTemplateConfig processedTemplate=configForEdit.getProcessedConfig().findTemplate(empty_template);
+  PipelineTemplateConfig serversTemplate=cruiseConfig.findTemplate(empty_template);
+  serversTemplate.add(new StageConfig(new CaseInsensitiveString("stage-one"),new JobConfigs(new JobConfig("job"))));
+  assertThat(serversTemplate.size(),is(2));
+  assertThat(template.size(),is(1));
+  assertThat(templateForEdit.size(),is(1));
+  assertThat(processedTemplate.size(),is(1));
+}

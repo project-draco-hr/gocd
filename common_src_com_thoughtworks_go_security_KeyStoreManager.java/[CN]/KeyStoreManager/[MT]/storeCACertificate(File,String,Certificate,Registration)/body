@@ -1,0 +1,7 @@
+{
+  lazyLoadedStore=KeyStore.getInstance(KEYSTORE_TYPE);
+  loadStore(lazyLoadedStore);
+  lazyLoadedStore.setCertificateEntry("ca-cert",caCertificate);
+  lazyLoadedStore.setEntry("ca-intermediate",entry.asKeyStoreEntry(),new KeyStore.PasswordProtection(password.toCharArray()));
+  writeStore(storeFile,password);
+}

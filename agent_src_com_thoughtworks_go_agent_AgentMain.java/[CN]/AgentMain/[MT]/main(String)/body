@@ -1,0 +1,9 @@
+{
+  if (args.length != 1) {
+    throw new RuntimeException("Usage: java -jar agent.jar https://<cruise server hostname>:<cruise server port>/go/");
+  }
+  LoggingHelper.configureLoggerIfNoneExists("go-agent.log","go-agent-log4j.properties");
+  setServiceUrl(args[0]);
+  ClassPathXmlApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
+  ctx.registerShutdownHook();
+}

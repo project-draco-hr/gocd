@@ -1,0 +1,7 @@
+{
+  long now=System.currentTimeMillis();
+  when(goLicenseService.getExpirationDate()).thenReturn(new Date(now + daysInMills(SystemEnvironment.NUMBER_OF_DAYS_TO_EXPIRY + 1)));
+  when(timeProvider.currentTimeMillis()).thenReturn(now);
+  filter.onSuccessfulAuthentication(request,null,null);
+  assertThat(session.getAttribute(AuthenticationProcessingFilter.LICENSE_EXPIRING_IN),is(nullValue()));
+}

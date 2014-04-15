@@ -1,0 +1,13 @@
+{
+  try {
+    String contents=FileUtils.readFileToString(log4jFile);
+    for (    LoggingFileTransformer transformer : transformers) {
+      contents=transformer.transform(contents);
+    }
+    FileUtils.writeStringToFile(log4jFile,contents);
+  }
+ catch (  Exception e) {
+    return validation.addError(e);
+  }
+  return Validation.SUCCESS;
+}

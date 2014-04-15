@@ -1,0 +1,7 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  configHelper.addEnvironments("foo-env");
+  assertThat(service.named("foo-env"),sameInstance(service.named("foo-env")));
+  assertThat(service.named("foo-env"),not(sameInstance(service.forEdit("foo-env",result).getConfigElement())));
+  assertThat(result.isSuccessful(),is(true));
+}

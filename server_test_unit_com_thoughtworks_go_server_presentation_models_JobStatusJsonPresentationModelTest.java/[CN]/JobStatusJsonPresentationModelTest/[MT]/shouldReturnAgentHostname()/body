@@ -1,0 +1,7 @@
+{
+  JobInstance instance=JobInstanceMother.building("Plan1");
+  instance.setAgentUuid("1234");
+  JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(instance,new AgentConfig("1234","localhost",null));
+  JsonTester tester=new JsonTester(presenter.toJsonHash());
+  tester.shouldContain(" { 'agent' : 'localhost' } ");
+}

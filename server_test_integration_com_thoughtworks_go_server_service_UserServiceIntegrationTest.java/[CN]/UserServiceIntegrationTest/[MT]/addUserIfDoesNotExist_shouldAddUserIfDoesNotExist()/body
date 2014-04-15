@@ -1,0 +1,8 @@
+{
+  UsernamePasswordAuthenticationToken auth=new UsernamePasswordAuthenticationToken(getAuthUser("new_user"),"credentials",new GrantedAuthority[]{GoAuthority.ROLE_USER.asAuthority()});
+  assertThat(userDao.findUser("new_user"),isANullUser());
+  userService.addUserIfDoesNotExist(UserHelper.getUserName(auth));
+  User loadedUser=userDao.findUser("new_user");
+  assertThat(loadedUser,is(new User("new_user","new_user","")));
+  assertThat(loadedUser,not(isANullUser()));
+}

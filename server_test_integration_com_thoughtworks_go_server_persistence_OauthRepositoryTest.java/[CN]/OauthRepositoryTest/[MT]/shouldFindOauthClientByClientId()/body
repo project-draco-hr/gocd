@@ -1,0 +1,8 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id_9","client_secret_9","http://something");
+  template.save(mingle09);
+  OauthDataSource.OauthClientDTO dto=repo.findOauthClientByClientId(String.valueOf("client_id_9"));
+  assertThat(dto,is(mingle09.getDTO()));
+  dto=repo.findOauthClientByClientId(String.valueOf("client_id_non_existent"));
+  assertThat(dto,is(nullValue()));
+}

@@ -1,0 +1,14 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  broker=new BrokerService();
+  broker.setBrokerName(BROKER_NAME);
+  broker.setPersistent(false);
+  broker.setUseJmx(systemEnvironment.getActivemqUseJmx());
+  broker.getManagementContext().setConnectorPort(systemEnvironment.getActivemqConnectorPort());
+  broker.start();
+  factory=new ActiveMQConnectionFactory(BROKER_URL);
+  factory.getPrefetchPolicy().setQueuePrefetch(systemEnvironment.getActivemqQueuePrefetch());
+  factory.setCopyMessageOnSend(false);
+  connection=(ActiveMQConnection)factory.createConnection();
+  connection.start();
+}

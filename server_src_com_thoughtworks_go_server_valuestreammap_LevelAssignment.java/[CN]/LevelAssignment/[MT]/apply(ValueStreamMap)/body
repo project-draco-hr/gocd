@@ -1,0 +1,15 @@
+{
+  Node rootNode=valueStreamMap.getCurrentPipeline();
+  rootNode.setLevel(0);
+  List<Node> topologicalOrderForUpstream=new ArrayList<Node>();
+  Upstream upstream=new Upstream();
+  getTopologicalOrder(rootNode,upstream,new HashSet<Node>(),topologicalOrderForUpstream);
+  Collections.reverse(topologicalOrderForUpstream);
+  assignLevels(topologicalOrderForUpstream,upstream);
+  ArrayList<Node> topologicalOrderForDownstream=new ArrayList<Node>();
+  Downstream downstream=new Downstream();
+  getTopologicalOrder(rootNode,downstream,new HashSet<Node>(),topologicalOrderForDownstream);
+  Collections.reverse(topologicalOrderForDownstream);
+  assignLevels(topologicalOrderForDownstream,downstream);
+  return levelToNodesMap(valueStreamMap);
+}

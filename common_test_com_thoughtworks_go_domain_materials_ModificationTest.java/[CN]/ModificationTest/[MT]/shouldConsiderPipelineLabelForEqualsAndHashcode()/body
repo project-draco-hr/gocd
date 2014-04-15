@@ -1,0 +1,11 @@
+{
+  Date date=new Date();
+  Modification modification=new Modification("user","comment","foo@bar.com",date,"15");
+  Modification anotherModificationWithoutLabel=new Modification("user","comment","foo@bar.com",date,"15");
+  Modification modificationWithLabel=new Modification("user","comment","foo@bar.com",date,"15");
+  modificationWithLabel.setPipelineLabel("foo-12");
+  assertThat(modification.hashCode(),not(modificationWithLabel.hashCode()));
+  assertThat(modification.hashCode(),is(anotherModificationWithoutLabel.hashCode()));
+  assertThat(modification,not(modificationWithLabel));
+  assertThat(modification,is(anotherModificationWithoutLabel));
+}

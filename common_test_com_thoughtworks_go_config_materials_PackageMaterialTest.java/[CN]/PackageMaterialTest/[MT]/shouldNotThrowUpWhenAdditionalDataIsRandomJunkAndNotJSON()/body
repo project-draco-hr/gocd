@@ -1,0 +1,12 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","tw-dev","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  material.setPackageDefinition(PackageDefinitionMother.create("p-id","go-agent",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2")),repository));
+  material.setName(new CaseInsensitiveString("tw-dev:go-agent"));
+  Modifications modifications=new Modifications(new Modification("loser","comment","email",new Date(),"revision-123","salkdfjdsa-jjgkj!!!vcxknbvkjk"));
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  material.populateEnvironmentContext(environmentVariableContext,new MaterialRevision(material,modifications),null);
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_LABEL"),is("revision-123"));
+  assertThat(environmentVariableContext.getProperty("GO_REPO_TW_DEV_GO_AGENT_K1"),is("v1"));
+  assertThat(environmentVariableContext.getProperty("GO_PACKAGE_TW_DEV_GO_AGENT_K2"),is("v2"));
+}

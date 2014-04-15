@@ -1,0 +1,15 @@
+{
+  String key=cacheKeyForLatestStageFeedForPipeline(pipelineName);
+  List<StageFeedEntry> feedEntries=(List<StageFeedEntry>)goCache.get(key);
+  if (feedEntries == null) {
+synchronized (key) {
+      feedEntries=(List<StageFeedEntry>)goCache.get(key);
+      if (feedEntries == null) {
+        feedEntries=stageDao.findCompletedStagesFor(pipelineName,FeedModifier.Latest,-1,FEED_PAGE_SIZE);
+        populateAuthorsAndMingleCards(feedEntries,pipelineName,username);
+        goCache.put(key,feedEntries);
+      }
+    }
+  }
+  return cloner.deepClone(new FeedEntries(new ArrayList<FeedEntry>(feedEntries)));
+}

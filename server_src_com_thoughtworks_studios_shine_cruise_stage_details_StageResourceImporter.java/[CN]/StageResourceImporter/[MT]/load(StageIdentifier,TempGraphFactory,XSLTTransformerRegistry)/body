@@ -1,0 +1,19 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Attempting to import stage with url <" + stageIdentifier + "> !");
+  }
+  long importStartingTime=System.currentTimeMillis();
+  try {
+    Stage stage=stageFinder.findStageWithIdentifier(stageIdentifier);
+    String baseUri="https://localhost:8154/go";
+    Graph graph=loadIsolatedStageGraph(stageIdentifier,tempGraphFactory,transformerRegistry,stage,baseUri);
+    importPipeline(pipelineInstanceLoader.loadPipelineForShine(stage.getPipelineId()),graph,transformerRegistry,baseUri);
+    importJobs(graph,transformerRegistry,stage,baseUri);
+    return graph;
+  }
+  finally {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Done importing stage with url <" + stageIdentifier + "> with "+ (System.currentTimeMillis() - importStartingTime)+ " ms!");
+    }
+  }
+}

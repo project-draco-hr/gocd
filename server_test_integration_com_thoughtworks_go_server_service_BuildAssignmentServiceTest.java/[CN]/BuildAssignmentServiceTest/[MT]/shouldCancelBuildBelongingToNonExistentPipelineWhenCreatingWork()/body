@@ -1,0 +1,27 @@
+{
+  fixture.createPipelineWithFirstStageScheduled();
+  Pipeline pipeline=pipelineDao.mostRecentPipeline(fixture.pipelineName);
+  ScheduledPipelineLoader scheduledPipelineLoader=mock(ScheduledPipelineLoader.class);
+  when(scheduledPipelineLoader.pipelineWithPasswordAwareBuildCauseByBuildId(pipeline.getFirstStage().getJobInstances().first().getId())).thenThrow(new PipelineNotFoundException("thrown by mockPipelineService"));
+  GoConfigService mockGoConfigService=mock(GoConfigService.class);
+  CruiseConfig config=configHelper.currentConfig();
+  configHelper.removePipeline(fixture.pipelineName,config);
+  when(mockGoConfigService.getCurrentConfig()).thenReturn(config);
+  buildAssignmentService=new BuildAssignmentService(mockGoConfigService,jobInstanceService,scheduleService,licenseService,agentService,environmentConfigService,timeProvider,transactionTemplate,scheduledPipelineLoader,pipelineService,builderFactory);
+  buildAssignmentService.onTimer();
+  AgentConfig agentConfig=new AgentConfig("uuid");
+  agentConfig.addResource(new Resource("some-other-resource"));
+  try {
+    buildAssignmentService.assignWorkToAgent(agent(agentConfig));
+    fail("should have thrown PipelineNotFoundException");
+  }
+ catch (  PipelineNotFoundException e) {
+  }
+  pipeline=pipelineDao.mostRecentPipeline(fixture.pipelineName);
+  JobInstance job=pipeline.getFirstStage().getJobInstances().first();
+  assertThat(job.getState(),is(JobState.Completed));
+  assertThat(job.getResult(),is(JobResult.Cancelled));
+  Stage stage=stageDao.findStageWithIdentifier(job.getIdentifier().getStageIdentifier());
+  assertThat(stage.getState(),is(StageState.Cancelled));
+  assertThat(stage.getResult(),is(StageResult.Cancelled));
+}

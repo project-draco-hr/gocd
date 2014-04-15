@@ -1,0 +1,9 @@
+{
+  dbFixture.copyDeltas();
+  dbFixture.copyH2Db("with-usernames-in-different-cases.zip");
+  h2Database=new H2Database(dbFixture.env());
+  h2Database.startDatabase();
+  assertThat(DatabaseFixture.query("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME='ARTIFACTSDELETED' AND TABLE_NAME='STAGES' AND TABLE_SCHEMA='PUBLIC'",h2Database),is(new Object[][]{{0L}}));
+  h2Database.upgrade();
+  assertThat(DatabaseFixture.query("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME='ARTIFACTSDELETED' AND TABLE_NAME='STAGES' AND TABLE_SCHEMA='PUBLIC'",h2Database),is(new Object[][]{{1L}}));
+}

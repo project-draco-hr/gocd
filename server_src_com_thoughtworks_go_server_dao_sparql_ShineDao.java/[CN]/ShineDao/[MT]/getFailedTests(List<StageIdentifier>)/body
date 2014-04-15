@@ -1,0 +1,15 @@
+{
+  String selectFailingTests="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + "PREFIX xunit: <" + XUnitOntology.URI + "> "+ "PREFIX cruise: <"+ GoOntology.URI+ "> "+ "\n"+ "SELECT DISTINCT ?testSuiteName ?testCaseName ?isError ?jobName ?failedPipelineName ?failedPipelineCounter ?failedPipelineLabel ?failedStageName ?failedStageCounter {\n"+ "       ?pipeline cruise:pipelineName ?failedPipelineName . "+ "       ?pipeline cruise:pipelineCounter ?failedPipelineCounter . "+ "       ?pipeline cruise:pipelineLabel ?failedPipelineLabel . "+ "       ?pipeline cruise:hasStage ?stage . "+ "       ?stage cruise:stageName ?failedStageName . "+ "       ?stage cruise:stageCounter ?failedStageCounter . "+ "       ?stage cruise:hasJob ?job . "+ "       ?job cruise:jobName ?jobName .\n"+ "       OPTIONAL {\n"+ "              ?job xunit:hasTestCase ?testCase .\n"+ "              ?testCase xunit:testCaseName ?testCaseName .\n"+ "              ?testCase xunit:testSuiteName ?testSuiteName .\n"+ "              ?testCase xunit:hasFailure ?failure .\n"+ "              ?failure xunit:isError ?isError.\n"+ "       }\n"+ "} ORDER BY ?jobName ?testSuiteName ?testCaseName";
+  return stagesQuery.select(selectFailingTests,failedStageIds,new RdfResultMapper<TestCaseModel>(){
+    public TestCaseModel map(    BoundVariables aRow){
+      String failedPipelineName=aRow.getString("failedPipelineName");
+      int failedPipelineCounter=aRow.getInt("failedPipelineCounter");
+      String failedPipelineLabel=aRow.getString("failedPipelineLabel");
+      String failedStageName=aRow.getString("failedStageName");
+      String failedStageCounter=aRow.getString("failedStageCounter");
+      String jobName=aRow.getString("jobName");
+      return new TestCaseModel(new JobIdentifier(failedPipelineName,failedPipelineCounter,failedPipelineLabel,failedStageName,failedStageCounter,jobName),aRow.getString("testSuiteName"),aRow.getString("testCaseName"),aRow.getBoolean("isError"));
+    }
+  }
+);
+}

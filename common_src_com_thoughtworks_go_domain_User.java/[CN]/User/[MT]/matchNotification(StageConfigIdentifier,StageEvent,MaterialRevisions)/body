@@ -1,0 +1,13 @@
+{
+  if (!shouldSendEmailToMe()) {
+    return false;
+  }
+  for (  NotificationFilter filter : notificationFilters) {
+    if (filter.matchStage(stageIdentifier,event)) {
+      if (filter.isAppliedOnAllCheckins() || matchModification(materialRevisions)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

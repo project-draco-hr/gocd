@@ -1,0 +1,13 @@
+{
+  try {
+    TupleQuery tupleQuery=conn.prepareTupleQuery(QueryLanguage.SPARQL,sparqlSelect);
+    contextualize(tupleQuery);
+    return tupleQuery.evaluate();
+  }
+ catch (  UnsupportedSPARQLStatementException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    throw new ShineRuntimeException(e);
+  }
+}

@@ -1,0 +1,7 @@
+{
+  JobInstance instance=building(jobConfigName,scheduledDate,interval);
+  instance.changeState(JobState.Completing,addMillis(scheduledDate,4 * interval));
+  instance.changeState(JobState.Completed,addMillis(scheduledDate,5 * interval));
+  instance.setResult(JobResult.Passed);
+  return instance;
+}

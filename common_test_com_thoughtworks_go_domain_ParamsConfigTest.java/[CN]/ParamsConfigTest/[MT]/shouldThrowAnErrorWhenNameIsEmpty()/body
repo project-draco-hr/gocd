@@ -1,0 +1,8 @@
+{
+  paramsConfig=new ParamsConfig();
+  ParamConfig empty=new ParamConfig("","value");
+  paramsConfig.add(empty);
+  paramsConfig.validate(context);
+  assertThat(empty.errors().isEmpty(),is(false));
+  assertThat(empty.errors().firstError(),contains("Parameter cannot have an empty name for pipeline 'some-pipeline'."));
+}

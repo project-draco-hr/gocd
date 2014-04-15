@@ -1,0 +1,13 @@
+{
+  if (newConfig == null) {
+    return;
+  }
+  if (this.currentConfig == null) {
+    this.currentConfig=newConfig;
+  }
+  if (securityChanged(newConfig)) {
+    oauthRepo.deleteAllOauthGrants();
+    LOGGER.info(String.format("[Configuration Changed] Deleting all OAuth grants."));
+  }
+  this.currentConfig=newConfig;
+}

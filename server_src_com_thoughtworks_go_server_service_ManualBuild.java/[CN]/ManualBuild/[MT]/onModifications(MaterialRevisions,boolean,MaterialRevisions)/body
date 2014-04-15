@@ -1,0 +1,6 @@
+{
+  if (materialRevisions == null || materialRevisions.isEmpty()) {
+    throw new RuntimeException("Cannot find modifications, please check your SCM setting or environment.");
+  }
+  return BuildCause.createManualForced(materialRevisions,username);
+}

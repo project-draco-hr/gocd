@@ -1,0 +1,33 @@
+{
+  try {
+    ByteArrayOutputStream stream=new ByteArrayOutputStream();
+    String xmlStringBeforeUpgrade=FileUtils.readFileToString(configFile);
+    int currentVersion=getCurrentSchemaVersion(xmlStringBeforeUpgrade);
+    String reloadedXml;
+    if (shouldUpgrade(currentVersion)) {
+      backup(configFile);
+      reloadedXml=upgrade(xmlStringBeforeUpgrade,currentVersion);
+      GoConfigHolder configHolder=reloadedConfig(stream,reloadedXml);
+      reloadedXml=new String(stream.toByteArray());
+      configRepository.checkin(new GoConfigRevision(reloadedXml,CachedDigestUtils.md5Hex(reloadedXml),UPGRADE,currentGoServerVersion,configHolder.config.edition(),timeProvider));
+    }
+ else {
+      GoConfigHolder configHolder=reloadedConfig(stream,xmlStringBeforeUpgrade);
+      reloadedXml=new String(stream.toByteArray());
+    }
+    FileUtils.writeStringToFile(configFile,reloadedXml);
+  }
+ catch (  Exception e) {
+    GoConfigRevision currentConfigRevision=configRepository.getCurrentRevision();
+    if (shouldTryOlderVersion && ifVersionedConfig(currentConfigRevision)) {
+      GoConfigMigrationResult goConfigMigrationResult=revertFileToVersion(configFile,currentConfigRevision,e);
+      upgradeValidateAndVersion(configFile,false,currentGoServerVersion);
+      return goConfigMigrationResult;
+    }
+ else {
+      log(shouldTryOlderVersion);
+      throw e;
+    }
+  }
+  return GoConfigMigrationResult.success();
+}

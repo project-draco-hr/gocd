@@ -1,0 +1,26 @@
+{
+  if (ldapConfig.getBasesConfig().isEmpty()) {
+    throw new RuntimeException("Atleast one Search Base needs to be configured.");
+  }
+  OrFilter filter=new OrFilter();
+  String searchString=MessageFormat.format("*{0}*",username);
+  filter.or(new LikeFilter(SAM_ACCOUNT_NAME,searchString));
+  filter.or(new LikeFilter(UID,searchString));
+  filter.or(new LikeFilter(COMMON_NAME,searchString));
+  filter.or(new LikeFilter(USER_PRINCIPLE_NAME,searchString));
+  filter.or(new LikeFilter(MAIL_ID,searchString));
+  filter.or(new LikeFilter(ALIAS_EMAIL_ID,searchString));
+  SearchControls controls=new SearchControls();
+  controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+  controls.setCountLimit(MAX_RESULTS);
+  AttributesMapperCallbackHandler handler=getAttributesMapperCallbackHandler();
+  for (  BaseConfig baseConfig : ldapConfig.getBasesConfig()) {
+    try {
+      ldapTemplate.search(baseConfig.getValue(),filter.encode(),controls,handler);
+    }
+ catch (    org.springframework.ldap.LimitExceededException e) {
+      throw new NotAllResultsShownException(buildUserList(handler.getList()));
+    }
+  }
+  return buildUserList(handler.getList());
+}

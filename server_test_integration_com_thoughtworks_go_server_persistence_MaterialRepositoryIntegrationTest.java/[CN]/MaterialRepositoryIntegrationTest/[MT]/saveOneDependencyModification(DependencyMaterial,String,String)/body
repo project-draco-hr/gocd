@@ -1,0 +1,11 @@
+{
+  return (MaterialRevision)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      Modification modification=new Modification(new Date(),revision,label,null);
+      MaterialRevision originalRevision=new MaterialRevision(dependencyMaterial,modification);
+      repo.save(new MaterialRevisions(originalRevision));
+      return originalRevision;
+    }
+  }
+);
+}

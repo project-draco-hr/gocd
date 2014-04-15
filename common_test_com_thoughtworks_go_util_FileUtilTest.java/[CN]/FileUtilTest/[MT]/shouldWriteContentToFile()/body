@@ -1,0 +1,10 @@
+{
+  String content="content";
+  File targetFile=TestFileUtil.createTempFile("test1.txt");
+  FileUtil.writeContentToFile(content,targetFile);
+  FileInputStream input=new FileInputStream(targetFile);
+  String actual=IOUtils.toString(input);
+  assertThat(actual,is(content));
+  input.close();
+  targetFile.delete();
+}

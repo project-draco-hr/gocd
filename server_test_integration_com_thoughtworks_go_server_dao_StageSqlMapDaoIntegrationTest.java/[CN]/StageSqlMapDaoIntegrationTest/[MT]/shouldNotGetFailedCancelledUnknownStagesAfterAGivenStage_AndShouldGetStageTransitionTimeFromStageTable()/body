@@ -1,0 +1,25 @@
+{
+  List<Pipeline> pipelines=new ArrayList<Pipeline>();
+  pipelines.add(pipelineWithFirstStagePassed(mingleConfig));
+  pipelines.add(pipelineWithFirstStageCancelled(mingleConfig));
+  pipelines.add(pipelineWithFirstStagePassed(mingleConfig));
+  pipelines.add(pipelineWithFirstStageRunning(mingleConfig));
+  pipelines.add(pipelineWithFirstStagePassed(mingleConfig));
+  pipelines.add(pipelineWithFirstStageFailed(mingleConfig));
+  pipelines.add(pipelineWithFirstStagePassed(mingleConfig));
+  Pipeline firstPipeline_passed=pipelines.get(0);
+  Pipeline thirdPipeline_passed=pipelines.get(2);
+  Pipeline fifthPipeline_passed=pipelines.get(4);
+  Pipeline seventhPipeline_passed=pipelines.get(6);
+  StageAsDMR stageOfThirdPipeline=stageAsDmr(stageDao.stageById(thirdPipeline_passed.getStages().get(0).getId()));
+  StageAsDMR stageOfFifthPipeline=stageAsDmr(stageDao.stageById(fifthPipeline_passed.getStages().get(0).getId()));
+  StageAsDMR stageOfSeventhPipeline=stageAsDmr(stageDao.stageById(seventhPipeline_passed.getStages().get(0).getId()));
+  List<StageAsDMR> twoPassedAfterFirstPipeline=stageDao.getPassedStagesAfter(firstPipeline_passed.getStages().get(0).getIdentifier(),2,0);
+  assertThat(twoPassedAfterFirstPipeline.size(),is(2));
+  assertThat(twoPassedAfterFirstPipeline,is(asList(stageOfThirdPipeline,stageOfFifthPipeline)));
+  List<StageAsDMR> highLimitOfPipelineWhichPassedAfterFirstPipeline=stageDao.getPassedStagesAfter(firstPipeline_passed.getStages().get(0).getIdentifier(),5,0);
+  assertThat(highLimitOfPipelineWhichPassedAfterFirstPipeline.size(),is(3));
+  assertThat(highLimitOfPipelineWhichPassedAfterFirstPipeline,is(asList(stageOfThirdPipeline,stageOfFifthPipeline,stageOfSeventhPipeline)));
+  List<StageAsDMR> pipelineAfterLatestRun=stageDao.getPassedStagesAfter(seventhPipeline_passed.getStages().get(0).getIdentifier(),1,0);
+  assertThat(pipelineAfterLatestRun.size(),is(0));
+}

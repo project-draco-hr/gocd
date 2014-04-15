@@ -1,0 +1,8 @@
+{
+  Pipeline firstPipeline=createdPipelineWithAllStagesPassed();
+  PipelineJsonPresentationModel pipelineActivity=pipelineActivity();
+  assertThat(pipelineActivity.getLatestStage(0).getPipelineLabel(),is(firstPipeline.getLabel()));
+  Pipeline changedPipeline=createdPipelineWithAllStagesPassed();
+  PipelineJsonPresentationModel pipelineActivity2=pipelineActivity();
+  assertThat(pipelineActivity2.getLatestStage(0).getPipelineLabel(),is(changedPipeline.getLabel()));
+}

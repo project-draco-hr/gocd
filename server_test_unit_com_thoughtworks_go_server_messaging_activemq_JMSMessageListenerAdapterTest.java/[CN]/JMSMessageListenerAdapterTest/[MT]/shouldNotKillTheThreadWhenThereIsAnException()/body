@@ -1,0 +1,21 @@
+{
+  MessageConsumer consumer=mock(MessageConsumer.class);
+  when(consumer.receive()).thenThrow(new RuntimeException("should swallow me"));
+  GoMessageListener mockListener=new GoMessageListener(){
+    public void onMessage(    GoMessage message){
+      throw new UnsupportedOperationException("not implemented yet");
+    }
+    @Override public String toString(){
+      return "test-listener";
+    }
+  }
+;
+  JMSMessageListenerAdapter listenerAdapter=JMSMessageListenerAdapter.startListening(consumer,mockListener);
+  try {
+    listenerAdapter.runImpl();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    fail("expected no exception get: " + e);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  TfsMaterial material=new TfsMaterial(new GoCipher(),new UrlArgument("http://url/"),"user","domain","password","$project/path/");
+  TfsMaterialConfig config=(TfsMaterialConfig)material.config();
+  assertThat(config.getPassword(),is("password"));
+  assertThat(config.getEncryptedPassword(),is(Matchers.not(Matchers.nullValue())));
+}

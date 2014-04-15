@@ -1,0 +1,11 @@
+{
+  PipelineTimeline mods=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  mods.add(first);
+  mods.add(fourth);
+  mods.add(third);
+  mods.add(second);
+  assertThat(third.insertedBefore(),is(fourth));
+  assertThat(third.insertedAfter(),is(first));
+  assertThat(second.insertedBefore(),is(third));
+  assertThat(second.insertedAfter(),is(first));
+}

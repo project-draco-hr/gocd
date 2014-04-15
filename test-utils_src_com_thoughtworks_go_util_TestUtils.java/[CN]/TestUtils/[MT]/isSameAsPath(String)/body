@@ -1,0 +1,12 @@
+{
+  final String expectedPath=expected.replace('/',File.separatorChar);
+  return new TypeSafeMatcher<String>(){
+    @Override protected boolean matchesSafely(    String actual){
+      return expectedPath.equals(actual);
+    }
+    @Override public void describeTo(    Description description){
+      description.appendText(expectedPath);
+    }
+  }
+;
+}

@@ -1,0 +1,14 @@
+{
+  CruiseConfig oldConfig=goConfigFileDao.load();
+  String oldIp=oldConfig.agents().getAgentByUuid("uuid").getIpAddress();
+  assertThat(oldIp,is("10.81.2.1"));
+  AgentIdentifier agentIdentifier1=new AgentIdentifier("localhost","10.18.3.95","uuid");
+  AgentRuntimeInfo agentRuntimeInfo1=AgentRuntimeInfo.fromAgent(agentIdentifier1,"cookie",null);
+  agentRuntimeInfo1.busy(new AgentBuildingInfo("building","buildLocator"));
+  agentService.updateRuntimeInfo(agentRuntimeInfo1);
+  CruiseConfig newConfig=goConfigFileDao.load();
+  String newIp=newConfig.agents().getAgentByUuid("uuid").getIpAddress();
+  assertThat(newIp,is("10.18.3.95"));
+  GoConfigRevision rev=configRepo.getRevision(newConfig.getMd5());
+  assertThat(rev.getUsername(),is("agent_uuid_10.18.3.95_CCEDev01"));
+}

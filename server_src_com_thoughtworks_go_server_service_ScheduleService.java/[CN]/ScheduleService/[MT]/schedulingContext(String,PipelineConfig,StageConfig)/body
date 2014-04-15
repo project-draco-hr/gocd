@@ -1,0 +1,7 @@
+{
+  Agents availableAgents=environmentConfigService.agentsForPipeline(pipelineConfig.name());
+  SchedulingContext context=new DefaultSchedulingContext(username,availableAgents);
+  context=context.overrideEnvironmentVariables(pipelineConfig.getVariables());
+  context=context.overrideEnvironmentVariables(stageConfig.getVariables());
+  return context;
+}

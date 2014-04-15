@@ -1,0 +1,6 @@
+{
+  if (!renderers.containsKey(viewModel.getRenderingFramework())) {
+    throw new RuntimeException("No appropriate render found");
+  }
+  return renderers.get(viewModel.getRenderingFramework()).render(viewModel,mixedContext(localContext,viewModel.getParameters()));
+}

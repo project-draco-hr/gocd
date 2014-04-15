@@ -1,0 +1,16 @@
+{
+  fixture=(PipelineWithMultipleStages)new PipelineWithMultipleStages(2,materialRepository,transactionTemplate).usingTwoJobs();
+  fixture.usingConfigHelper(configFileHelper).usingDbHelper(dbHelper).onSetUp();
+  Pipeline pipeline=fixture.createPipelineWithFirstStageAssigned();
+  Stage currentStage=pipeline.getFirstStage();
+  JobInstances jobs=currentStage.getJobInstances();
+  JobInstance firstJob=jobs.first();
+  firstJob.completing(JobResult.Passed);
+  firstJob.completed(new Date());
+  jobInstanceDao.updateStateAndResult(firstJob);
+  stageService.findStageWithIdentifier(new StageIdentifier(pipeline,currentStage));
+  stageService.cancelJob(jobs.last());
+  Stage savedStage=stageService.stageById(currentStage.getId());
+  assertThat(savedStage.getState(),is(StageState.Cancelled));
+  assertThat(savedStage.getResult(),is(StageResult.Cancelled));
+}

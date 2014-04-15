@@ -1,0 +1,12 @@
+{
+  LogFixture logFixture=LogFixture.startListening();
+  LogFixture.enableDebug();
+  CommandLine line=CommandLine.createCommandLine("notexist").withArg(new PasswordArgument("secret"));
+  try {
+    line.runOrBomb(null);
+  }
+ catch (  Exception e) {
+  }
+  assertThat(ArrayUtil.join(logFixture.getMessages()),containsString("notexist ******"));
+  logFixture.stopListening();
+}

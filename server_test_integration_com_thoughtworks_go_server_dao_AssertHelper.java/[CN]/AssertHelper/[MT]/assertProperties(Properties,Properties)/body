@@ -1,0 +1,11 @@
+{
+  String msg="Properties should match";
+  nullsafeAssert(msg,actual,expect);
+  assertThat(actual.size(),is(expect.size()));
+  for (int i=0; i < expect.size(); i++) {
+    Property expectProperty=expect.get(i);
+    Property actualProperty=actual.get(i);
+    assertThat(msg,actualProperty.getKey(),is(expectProperty.getKey()));
+    assertThat(msg,actualProperty.getValue(),is(expectProperty.getValue()));
+  }
+}

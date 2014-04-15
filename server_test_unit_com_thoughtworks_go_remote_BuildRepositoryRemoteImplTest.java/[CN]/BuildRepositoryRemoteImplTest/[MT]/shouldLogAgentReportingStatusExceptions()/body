@@ -1,0 +1,13 @@
+{
+  JobIdentifier jobId=new JobIdentifier(new StageIdentifier("pipelineName",1,"stageName","1"),"job");
+  RuntimeException runtimeException=new RuntimeException("holy smoke");
+  doThrow(runtimeException).when(repositoryService).updateStatusFromAgent(jobId,JobState.Building,info.getUUId());
+  try {
+    buildRepository.reportCurrentStatus(info,jobId,JobState.Building);
+    fail("should have propagated exception raised by build repository service");
+  }
+ catch (  Exception e) {
+    assertRemoteException(e,runtimeException);
+  }
+  assertThat(log(),hasItem(String.format("Exception occurred when [%s] tries to report status [%s] for [%s]",info.agentInfoDebugString(),JobState.Building,jobId.toFullString())));
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    addApproverToStage(USER_WITH_PERMISSION_TO_OPERATE_ON_GROUP);
+  }
+ catch (  Exception e) {
+    fail("should allow boozer to operate on stage, as he has operate permission on the group");
+  }
+  PipelineConfig pipelineConfig=configHelper.load().pipelineConfigByName(new CaseInsensitiveString(PIPELINE_FOO));
+  StageConfig stage=pipelineConfig.getStage(new CaseInsensitiveString(STAGE_BAR));
+  assertThat(stage.getApproval().getAuthConfig().getUsers(),hasItem(new AdminUser(new CaseInsensitiveString(USER_WITH_PERMISSION_TO_OPERATE_ON_GROUP))));
+}

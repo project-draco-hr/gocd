@@ -1,0 +1,11 @@
+{
+  String fingerprint=getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER);
+  Packages packageDefinitionsWithSameFingerprint=packagesMap.get(fingerprint);
+  if (packageDefinitionsWithSameFingerprint.size() > 1) {
+    List<String> packageNames=new ArrayList<String>();
+    for (    PackageDefinition packageDefinition : packageDefinitionsWithSameFingerprint) {
+      packageNames.add(format("[Repo Name: '%s', Package Name: '%s']",packageDefinition.getRepository().getName(),packageDefinition.getName()));
+    }
+    addError(ID,String.format("Cannot save package or repo, found duplicate packages. %s",join(packageNames)));
+  }
+}

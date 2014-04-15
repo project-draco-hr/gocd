@@ -1,0 +1,16 @@
+{
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  GoPluginDescriptor descriptor=new GoPluginDescriptor("some.old.id","1.0",new GoPluginDescriptor.About(null,null,null,null,null,null),null,new File(pluginJarFileName),false);
+  when(systemEnvironment.getCurrentOperatingSystem()).thenReturn(OperatingSystem.WINDOWS);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(descriptor);
+  when(osgiFramework.hasReferenceFor(PluginDescriptorAware.class,descriptor.id())).thenReturn(true);
+  doThrow(new RuntimeException("Exception in plugin descriptor")).when(osgiFramework).doOnAllForPlugin(eq(PluginDescriptorAware.class),eq(descriptor.id()),Matchers.<Action<PluginDescriptorAware>>anyObject());
+  listener=new DefaultPluginJarChangeListener(registry,osgiManifestGenerator,osgiFramework,goPluginDescriptorBuilder,systemEnvironment);
+  listener.pluginJarAdded(new PluginFileDetails(pluginJarFile,true));
+  verify(registry,times(1)).loadPlugin(descriptor);
+  verify(osgiFramework,times(1)).loadPlugin(descriptor);
+  verify(osgiFramework,times(1)).hasReferenceFor(PluginDescriptorAware.class,descriptor.id());
+  verify(osgiFramework,times(1)).doOnAllWithExceptionHandlingForPlugin(eq(PluginDescriptorAware.class),eq(descriptor.id()),Matchers.<Action<PluginDescriptorAware>>anyObject(),Matchers.<ExceptionHandler<PluginDescriptorAware>>anyObject());
+}

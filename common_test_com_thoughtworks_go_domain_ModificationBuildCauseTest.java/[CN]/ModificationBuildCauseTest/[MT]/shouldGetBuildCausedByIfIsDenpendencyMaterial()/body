@@ -1,0 +1,6 @@
+{
+  MaterialRevisions revisions=new MaterialRevisions();
+  Modification modification=new Modification(new Date(),"pipelineName/10/stageName/1","MOCK_LABEL-12",null);
+  revisions.addRevision(new DependencyMaterial(new CaseInsensitiveString("cruise"),new CaseInsensitiveString("dev")),modification);
+  assertThat(BuildCause.createWithModifications(revisions,"").getBuildCauseMessage(),is("triggered by pipelineName/10/stageName/1"));
+}

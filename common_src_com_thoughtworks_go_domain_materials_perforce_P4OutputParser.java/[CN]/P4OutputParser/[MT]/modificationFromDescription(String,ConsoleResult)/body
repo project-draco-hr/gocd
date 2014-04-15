@@ -1,0 +1,13 @@
+{
+  String[] parts=StringUtils.splitByWholeSeparator(output,SEPARATOR);
+  Pattern pattern=Pattern.compile(DESCRIBE_OUTPUT_PATTERN,Pattern.MULTILINE);
+  Matcher matcher=pattern.matcher(parts[0]);
+  if (matcher.find()) {
+    Modification modification=new Modification();
+    parseFistline(modification,matcher.group(1),result);
+    parseComment(matcher,modification);
+    parseAffectedFiles(parts,modification);
+    return modification;
+  }
+  throw new P4OutputParseException("Could not parse P4 description: " + output);
+}

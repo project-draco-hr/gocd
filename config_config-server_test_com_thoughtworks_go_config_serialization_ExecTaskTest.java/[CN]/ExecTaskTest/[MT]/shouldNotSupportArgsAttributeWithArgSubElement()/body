@@ -1,0 +1,12 @@
+{
+  String jobXml="<job name='dev'>\n" + "  <tasks>\n" + "    <exec command='ls' args='arg1 arg2'>\n"+ "      <arg>arg1</arg>\n"+ "      <arg>arg2</arg>\n"+ "    </exec>\n"+ "  </tasks>"+ "</job>";
+  String configXml=ConfigFileFixture.withJob(jobXml);
+  try {
+    ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
+    new MagicalGoConfigXmlLoader(new ConfigCache(),registry,metricsProbeService).loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(configXml)));
+    fail("should throw exception if both 'args' attribute and 'arg' sub element are configured");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString(ExecTask.EXEC_CONFIG_ERROR));
+  }
+}

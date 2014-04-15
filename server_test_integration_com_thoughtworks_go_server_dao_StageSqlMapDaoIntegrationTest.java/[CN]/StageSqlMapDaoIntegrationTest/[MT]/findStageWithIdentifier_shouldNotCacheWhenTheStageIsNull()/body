@@ -1,0 +1,9 @@
+{
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForObject(eq("findStageWithJobsByIdentifier"),any())).thenReturn(null);
+  Stage actual=stageDao.findStageWithIdentifier(new StageIdentifier("pipeline",1,"stage","1"));
+  assertThat((NullStage)actual,is(new NullStage("stage")));
+  stageDao.findStageWithIdentifier(new StageIdentifier("pipeline",1,"stage","1"));
+  verify(mockTemplate,times(2)).queryForObject(eq("findStageWithJobsByIdentifier"),any());
+}

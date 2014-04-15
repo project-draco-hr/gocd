@@ -1,0 +1,11 @@
+{
+  ResultSet rs=null;
+  try {
+    rs=connection.createStatement().executeQuery(sql);
+    rs.next();
+    return rs.getLong(1);
+  }
+  finally {
+    closeQuietly(rs);
+  }
+}

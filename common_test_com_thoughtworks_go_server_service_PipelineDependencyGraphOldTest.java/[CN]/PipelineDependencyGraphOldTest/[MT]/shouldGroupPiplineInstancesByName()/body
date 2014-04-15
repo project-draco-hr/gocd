@@ -1,0 +1,16 @@
+{
+  PipelineInstanceModel raghu1=pim("raghu");
+  raghu1.setCounter(1);
+  PipelineInstanceModel raghu2=pim("raghu");
+  raghu2.setCounter(2);
+  PipelineInstanceModel phavan=pim("pavan");
+  PipelineDependencyGraphOld graph=new PipelineDependencyGraphOld(pim("upstream"),PipelineInstanceModels.createPipelineInstanceModels(raghu2,phavan,raghu1));
+  Map<String,TreeSet<PipelineInstanceModel>> map=graph.groupedDependencies();
+  assertThat(map.size(),is(2));
+  assertOrderIsMainted(map);
+  assertThat(map.get("pavan").size(),is(1));
+  assertThat(map.get("pavan"),hasItem(phavan));
+  assertThat(map.get("raghu").size(),is(2));
+  assertThat(map.get("raghu").first(),is(raghu2));
+  assertThat(map.get("raghu").last(),is(raghu1));
+}

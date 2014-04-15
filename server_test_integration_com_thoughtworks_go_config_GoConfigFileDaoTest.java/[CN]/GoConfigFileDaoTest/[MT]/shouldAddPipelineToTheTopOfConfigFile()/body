@@ -1,0 +1,15 @@
+{
+  goConfigFileDao.load();
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("addedFirst","ut","www.spring.com");
+  PipelineConfig pipelineConfig2=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("addedSecond","ut","www.spring.com");
+  goConfigFileDao.addPipeline(pipelineConfig,DEFAULT_GROUP);
+  goConfigFileDao.addPipeline(pipelineConfig2,DEFAULT_GROUP);
+  goConfigFileDao.load();
+  final File configFile=new File(goConfigFileDao.fileLocation());
+  final String content=FileUtils.readFileToString(configFile);
+  final int indexOfSecond=content.indexOf("addedSecond");
+  final int indexOfFirst=content.indexOf("addedFirst");
+  assertThat(indexOfSecond,is(not(-1)));
+  assertThat(indexOfFirst,is(not(-1)));
+  assertTrue(indexOfSecond < indexOfFirst);
+}

@@ -1,0 +1,6 @@
+{
+  Materials materials=new Materials(MaterialsMother.dependencyMaterial());
+  MaterialRevisions original=modifyOneFile(materials,"1");
+  MaterialRevisions newRevisions=modifyOneFile(materials,"2");
+  assertThat(newRevisions.hasChangedSince(original),is(true));
+}

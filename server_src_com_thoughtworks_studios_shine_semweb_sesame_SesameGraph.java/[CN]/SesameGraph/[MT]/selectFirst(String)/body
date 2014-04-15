@@ -1,0 +1,18 @@
+{
+  BoundVariables boundVariables;
+  TupleQueryResult tupleQueryResult=getTupleQueryResult(sparqlSelect);
+  try {
+    if (!tupleQueryResult.hasNext()) {
+      return null;
+    }
+    boundVariables=new SesameBoundVariables(tupleQueryResult.getBindingNames(),tupleQueryResult.next());
+    if (tupleQueryResult.hasNext()) {
+      tupleQueryResult.close();
+      throw new MoreThanOneResultFoundException(sparqlSelect);
+    }
+  }
+ catch (  QueryEvaluationException e) {
+    throw new ShineRuntimeException("Could not parse query: <<" + sparqlSelect + ">>",e);
+  }
+  return boundVariables;
+}

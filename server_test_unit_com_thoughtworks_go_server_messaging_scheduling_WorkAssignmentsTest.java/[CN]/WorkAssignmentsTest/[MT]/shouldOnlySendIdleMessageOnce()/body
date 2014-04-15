@@ -1,0 +1,10 @@
+{
+  context.checking(new Expectations(){
+{
+      one(idleAgentsTopic).post(new IdleAgentMessage(agent));
+    }
+  }
+);
+  assertThat(assignments.getWork(agent),is(NO_WORK));
+  assertThat(assignments.getWork(agent),is(NO_WORK));
+}

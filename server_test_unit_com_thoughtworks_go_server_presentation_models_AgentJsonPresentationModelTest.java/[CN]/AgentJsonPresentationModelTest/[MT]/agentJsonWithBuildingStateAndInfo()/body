@@ -1,0 +1,10 @@
+{
+  AgentConfig agentConfig=new AgentConfig("1234","localhost","192.168.0.1");
+  AgentInstance agentInstance=AgentInstance.create(agentConfig,false,systemEnvironment);
+  agentInstance.enable();
+  String buildingInfo="pipeline/label/stage/job";
+  agentInstance.building(new AgentBuildingInfo(buildingInfo,"buildLocator"));
+  AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(agentInstance);
+  JsonMap json=adaptor.toJsonHash();
+  new JsonTester(json).shouldContain("{ 'hostname' : 'localhost'," + "  'status' : 'building'," + "  'buildingInfo' : '" + buildingInfo + "',"+ "  'buildLocator' : 'buildLocator' }");
+}

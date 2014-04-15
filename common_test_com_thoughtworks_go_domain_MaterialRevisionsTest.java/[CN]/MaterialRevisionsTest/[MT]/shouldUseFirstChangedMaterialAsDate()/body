@@ -1,0 +1,5 @@
+{
+  Date now=new Date();
+  MaterialRevisions materialRevisions=madeChanges(new boolean[]{false,true},oneModifiedFile("user1","svnRev",TWO_DAYS_AGO_CHECKIN),oneModifiedFile("user2","hgRev",now));
+  assertThat(materialRevisions.getDateOfLatestModification(),is(now));
+}

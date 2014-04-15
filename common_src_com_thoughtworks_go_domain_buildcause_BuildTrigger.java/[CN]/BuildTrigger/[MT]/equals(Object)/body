@@ -1,0 +1,22 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  BuildTrigger trigger=(BuildTrigger)o;
+  if (forced != trigger.forced) {
+    return false;
+  }
+  if (dbName != null ? !dbName.equals(trigger.dbName) : trigger.dbName != null) {
+    return false;
+  }
+  if (message != null ? !message.equals(trigger.message) : trigger.message != null) {
+    return false;
+  }
+  if (priority != trigger.priority) {
+    return false;
+  }
+  return true;
+}

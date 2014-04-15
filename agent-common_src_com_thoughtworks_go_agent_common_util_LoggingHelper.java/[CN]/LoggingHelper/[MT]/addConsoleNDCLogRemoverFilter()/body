@@ -1,0 +1,13 @@
+{
+  Enumeration allAppenders=Logger.getRootLogger().getAllAppenders();
+  while (allAppenders.hasMoreElements()) {
+    Appender appender=(Appender)allAppenders.nextElement();
+    if (isConsoleNdcAppender(appender)) {
+      continue;
+    }
+    Filter filter=getConsoleNDCFilter(appender);
+    if (filter != CONSOLE_NDC_REJECT_FILTER) {
+      appender.addFilter(CONSOLE_NDC_REJECT_FILTER);
+    }
+  }
+}

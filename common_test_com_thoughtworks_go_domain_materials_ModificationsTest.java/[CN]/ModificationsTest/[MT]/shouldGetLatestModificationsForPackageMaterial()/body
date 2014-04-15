@@ -1,0 +1,17 @@
+{
+  Date timestamp=new Date();
+  String revisionString="123";
+  HashMap<String,String> data=new HashMap<String,String>();
+  data.put("1","one");
+  data.put("2","two");
+  Modification modification=new Modification(null,null,null,timestamp,revisionString,JsonHelper.toJsonString(data));
+  Modifications modifications=new Modifications(modification);
+  Revision revision=modifications.latestRevision(new PackageMaterial());
+  assertThat(revision instanceof PackageMaterialRevision,is(true));
+  PackageMaterialRevision packageMaterialRevision=(PackageMaterialRevision)revision;
+  assertThat(packageMaterialRevision.getRevision(),is(revisionString));
+  assertThat(packageMaterialRevision.getTimestamp(),is(timestamp));
+  assertThat(packageMaterialRevision.getData().size(),is(data.size()));
+  assertThat(packageMaterialRevision.getData().get("1"),is(data.get("1")));
+  assertThat(packageMaterialRevision.getData().get("2"),is(data.get("2")));
+}

@@ -1,0 +1,10 @@
+{
+  ArrayList<Revision> revisions=new ArrayList<Revision>(this.revisions);
+  Collections.sort(revisions,new Comparator<Revision>(){
+    @Override public int compare(    Revision o1,    Revision o2){
+      return ((SCMRevision)o1).compareTo((SCMRevision)o2);
+    }
+  }
+);
+  return revisions;
+}

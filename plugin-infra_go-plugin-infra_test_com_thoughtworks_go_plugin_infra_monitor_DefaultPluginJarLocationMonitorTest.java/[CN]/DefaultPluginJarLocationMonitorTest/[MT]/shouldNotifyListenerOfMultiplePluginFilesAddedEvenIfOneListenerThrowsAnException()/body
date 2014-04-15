@@ -1,0 +1,23 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  PluginJarChangeListener exceptionRasingListener=mock(PluginJarChangeListener.class);
+  doThrow(new RuntimeException("Dummy Listener Exception")).when(exceptionRasingListener).pluginJarAdded(Matchers.<PluginFileDetails>anyObject());
+  monitor.addPluginJarChangeListener(exceptionRasingListener);
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.start();
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar");
+  waitAMoment();
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar",true));
+  verify(exceptionRasingListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-1.jar",true));
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-2.jar");
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-3.jar");
+  waitAMoment();
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-2.jar",true));
+  verify(exceptionRasingListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-2.jar",true));
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-3.jar",true));
+  verify(exceptionRasingListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin-3.jar",true));
+  verifyNoMoreInteractions(changeListener);
+  verifyNoMoreInteractions(exceptionRasingListener);
+}

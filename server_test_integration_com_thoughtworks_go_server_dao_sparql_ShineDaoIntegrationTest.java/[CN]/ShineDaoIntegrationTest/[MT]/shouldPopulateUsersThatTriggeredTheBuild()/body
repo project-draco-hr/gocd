@@ -1,0 +1,12 @@
+{
+  StageTestRuns stageTestRuns=failingStageHistory();
+  List<FailingTestsInPipeline> failingTestsInPipelines=stageTestRuns.failingTestsInPipelines();
+  List<String> users=failingTestsInPipelines.get(1).users();
+  assertThat(users.size(),is(2));
+  assertThat(users,hasItem("fooUser"));
+  assertThat(users,hasItem("RRR & DR"));
+  assertThat(users.size(),is(2));
+  users=failingTestsInPipelines.get(0).users();
+  assertThat(users.size(),is(1));
+  assertThat(users,hasItem("blahUser"));
+}

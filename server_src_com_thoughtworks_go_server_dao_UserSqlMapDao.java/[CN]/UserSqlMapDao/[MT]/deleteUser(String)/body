@@ -1,0 +1,16 @@
+{
+  return (Boolean)transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus status){
+      User user=findUser(username);
+      if (user instanceof NullUser) {
+        throw new UserNotFoundException();
+      }
+      if (user.isEnabled()) {
+        throw new UserEnabledException();
+      }
+      sessionFactory.getCurrentSession().delete(user);
+      return Boolean.TRUE;
+    }
+  }
+);
+}

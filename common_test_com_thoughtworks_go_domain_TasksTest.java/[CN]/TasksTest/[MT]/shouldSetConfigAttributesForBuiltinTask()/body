@@ -1,0 +1,13 @@
+{
+  HashMap attributes=new HashMap();
+  attributes.put(Tasks.TASK_OPTIONS,"ant");
+  attributes.put("ant",antTaskAttribs("build.xml","test","foo"));
+  TaskFactory taskFactory=mock(TaskFactory.class);
+  AntTask antTask=new AntTask();
+  when(taskFactory.taskInstanceFor(antTask.getTaskType())).thenReturn(antTask);
+  Tasks tasks=new Tasks();
+  Tasks spy=spy(tasks);
+  spy.setConfigAttributes(attributes,taskFactory);
+  assertThat(spy.size(),is(1));
+  assertThat((AntTask)spy.get(0),is(antTask("build.xml","test","foo")));
+}

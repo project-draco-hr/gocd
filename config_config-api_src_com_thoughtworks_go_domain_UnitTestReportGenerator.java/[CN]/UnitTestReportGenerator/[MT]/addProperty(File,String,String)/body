@@ -1,0 +1,12 @@
+{
+  try {
+    String xpath="//div/p/span[@class='" + cssClass + "']";
+    String output=XpathUtils.evaluate(factory,xmlFile,xpath);
+    output=output.startsWith(".") ? "0" + output : output;
+    Property property=new Property(cruiseProperty,output);
+    publisher.setProperty(property);
+  }
+ catch (  Exception e) {
+    publisher.consumeLine("Could not publish property " + e.getMessage());
+  }
+}

@@ -1,0 +1,15 @@
+{
+  goCache.put("loser","boozer");
+  final String[] cachedValueBeforeAndAfter=new String[2];
+  transactionTemplate.execute(new org.springframework.transaction.support.TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      cachedValueBeforeAndAfter[0]=(String)goCache.get("loser");
+      inTxn.invoke();
+      cachedValueBeforeAndAfter[1]=(String)goCache.get("loser");
+    }
+  }
+);
+  assertThat((String)goCache.get("loser"),is("boozer"));
+  assertThat(cachedValueBeforeAndAfter[0],is("boozer"));
+  return cachedValueBeforeAndAfter[1];
+}

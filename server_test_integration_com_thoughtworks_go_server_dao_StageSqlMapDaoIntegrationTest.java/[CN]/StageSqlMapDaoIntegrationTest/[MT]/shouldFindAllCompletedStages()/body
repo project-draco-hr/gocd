@@ -1,0 +1,7 @@
+{
+  PipelineAndStage[] stages=run4Pipelines();
+  List<FeedEntry> completedStages=new ArrayList<FeedEntry>(stageDao.findAllCompletedStages(FeedModifier.Latest,-1,5));
+  assertThat(completedStages.size(),is(4));
+  assertFeed(completedStages.get(0),stages[3].stage);
+  assertFeed(completedStages.get(1),stages[2].stage);
+}

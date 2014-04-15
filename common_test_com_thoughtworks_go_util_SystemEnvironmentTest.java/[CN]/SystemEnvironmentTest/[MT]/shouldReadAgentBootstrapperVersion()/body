@@ -1,0 +1,10 @@
+{
+  try {
+    System.setProperty(GoConstants.AGENT_LAUNCHER_VERSION,"12.2");
+    SystemEnvironment systemEnvironment=new SystemEnvironment();
+    assertThat(systemEnvironment.getAgentLauncherVersion(),is("12.2"));
+  }
+  finally {
+    System.setProperty(GoConstants.AGENT_LAUNCHER_VERSION,"");
+  }
+}

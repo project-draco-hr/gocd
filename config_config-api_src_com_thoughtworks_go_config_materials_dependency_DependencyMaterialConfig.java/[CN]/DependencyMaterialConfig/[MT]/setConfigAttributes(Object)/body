@@ -1,0 +1,25 @@
+{
+  resetCachedIdentityAttributes();
+  if (attributes == null) {
+    return;
+  }
+  Map attributesMap=(Map)attributes;
+  if (attributesMap.containsKey(MATERIAL_NAME)) {
+    name=new CaseInsensitiveString((String)attributesMap.get(MATERIAL_NAME));
+    if (CaseInsensitiveString.isBlank(name)) {
+      name=null;
+    }
+  }
+  if (attributesMap.containsKey(PIPELINE_STAGE_NAME)) {
+    pipelineStageName=(String)attributesMap.get(PIPELINE_STAGE_NAME);
+    Matcher matcher=PIPELINE_STAGE_COMBINATION_PATTERN.matcher(pipelineStageName);
+    if (matcher.matches()) {
+      pipelineName=new CaseInsensitiveString(matcher.group(1));
+      String stageNameWithBrackets=matcher.group(2);
+      stageName=new CaseInsensitiveString(stageNameWithBrackets.replace("[","").replace("]",""));
+    }
+ else {
+      errors.add(PIPELINE_STAGE_NAME,String.format("'%s' should conform to the pattern 'pipeline [stage]'",pipelineStageName));
+    }
+  }
+}

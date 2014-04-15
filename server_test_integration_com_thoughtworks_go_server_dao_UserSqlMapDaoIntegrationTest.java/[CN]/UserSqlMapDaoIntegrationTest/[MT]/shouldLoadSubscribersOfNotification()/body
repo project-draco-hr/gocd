@@ -1,0 +1,22 @@
+{
+  User user1=new User("user1");
+  user1.addNotificationFilter(new NotificationFilter("pipeline","stage",StageEvent.Fails,true));
+  userDao.saveOrUpdate(user1);
+  User user2=new User("user2");
+  user2.addNotificationFilter(new NotificationFilter("pipeline","stage",StageEvent.Fails,true));
+  user2.addNotificationFilter(new NotificationFilter("pipeline","stage",StageEvent.Breaks,true));
+  user2.addNotificationFilter(new NotificationFilter("pipeline","stage",StageEvent.Passes,true));
+  userDao.saveOrUpdate(user2);
+  User user3=new User("user3");
+  user3.addNotificationFilter(new NotificationFilter("p1","s1",StageEvent.Fails,true));
+  userDao.saveOrUpdate(user3);
+  User user4=new User("user4");
+  userDao.saveOrUpdate(user4);
+  Users subscribedUsers=userDao.findNotificationSubscribingUsers();
+  userDao.findNotificationSubscribingUsers();
+  assertThat(subscribedUsers.size(),is(3));
+  assertThat(subscribedUsers.containsAll(Arrays.asList(user1,user2,user3)),is(true));
+  assertThat(subscribedUsers.get(0).getNotificationFilters().size(),is(1));
+  assertThat(subscribedUsers.get(1).getNotificationFilters().size(),is(3));
+  assertThat(subscribedUsers.get(2).getNotificationFilters().size(),is(1));
+}

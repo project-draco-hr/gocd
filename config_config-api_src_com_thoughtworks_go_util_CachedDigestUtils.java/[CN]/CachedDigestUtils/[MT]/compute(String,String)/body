@@ -1,0 +1,9 @@
+{
+  return objectPools.computeDigest(algorithm,new DigestObjectPools.DigestOperation(){
+    public String perform(    MessageDigest digest){
+      digest.update(org.apache.commons.codec.binary.StringUtils.getBytesUtf8(string));
+      return Hex.encodeHexString(digest.digest());
+    }
+  }
+);
+}

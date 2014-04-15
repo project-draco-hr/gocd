@@ -1,0 +1,9 @@
+{
+  ZipInputStream zipInputStream=getPackagedRepositoryZipStream();
+  try {
+    return new Version(zipUtil.getFileContentInsideZip(zipInputStream,systemEnvironment.get(VERSION_FILE_IN_DEFAULT_COMMAND_REPOSITORY)));
+  }
+  finally {
+    zipInputStream.close();
+  }
+}

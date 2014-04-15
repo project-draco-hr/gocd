@@ -1,0 +1,11 @@
+{
+  lastHeard=System.currentTimeMillis();
+  if (streamConsumer != null) {
+    if (StringUtils.isBlank(prefix)) {
+      streamConsumer.consumeLine(line);
+    }
+ else {
+      streamConsumer.consumeLine(prefix + line);
+    }
+  }
+}

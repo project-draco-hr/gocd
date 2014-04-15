@@ -1,0 +1,17 @@
+{
+  Username username=new Username(new CaseInsensitiveString("user"));
+  String templateName="templateName";
+  PipelineTemplateConfig emptyTemplate=PipelineTemplateConfigMother.createTemplate(templateName);
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.addTemplate(emptyTemplate);
+  when(securityService.isAuthorizedToEditTemplate(templateName,username)).thenReturn(false);
+  when(goConfigService.getConfigHolder()).thenReturn(new GoConfigHolder(cruiseConfig,cruiseConfig));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigForEdit<PipelineTemplateConfig> configForEdit=service.loadForEdit(templateName,username,result);
+  assertThat(configForEdit,is(nullValue()));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(401));
+  Localizer localizer=mock(Localizer.class);
+  when(localizer.localize("UNAUTHORIZED_TO_EDIT_TEMPLATE",templateName)).thenReturn("No template for you");
+  assertThat(result.message(localizer),is("No template for you"));
+}

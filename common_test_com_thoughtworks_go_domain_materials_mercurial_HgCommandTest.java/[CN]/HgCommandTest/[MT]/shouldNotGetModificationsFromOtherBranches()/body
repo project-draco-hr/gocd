@@ -1,0 +1,8 @@
+{
+  makeACommitToSecondBranch();
+  hg(workingDirectory,"pull").runOrBomb(null);
+  List<Modification> actual=hgCommand.modificationsSince(new StringRevision(REVISION_0));
+  assertThat(actual.size(),is(2));
+  assertThat(actual.get(0).getRevision(),is(REVISION_2));
+  assertThat(actual.get(1).getRevision(),is(REVISION_1));
+}

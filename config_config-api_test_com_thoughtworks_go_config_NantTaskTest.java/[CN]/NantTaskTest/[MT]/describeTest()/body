@@ -1,0 +1,8 @@
+{
+  NantTask task=new NantTask();
+  task.setBuildFile("default.build");
+  task.setTarget("test");
+  task.setWorkingDirectory("lib");
+  task.setNantPath("tmp");
+  assertThat(task.describe(),is("<nant nantpath=\"tmp\" buildfile=\"default.build\" target=\"test\" workingdir=\"lib\" />"));
+}

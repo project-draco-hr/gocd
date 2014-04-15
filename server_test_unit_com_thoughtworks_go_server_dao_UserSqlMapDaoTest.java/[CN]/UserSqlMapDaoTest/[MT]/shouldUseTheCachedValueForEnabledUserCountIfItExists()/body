@@ -1,0 +1,9 @@
+{
+  goCache.put(UserSqlMapDao.ENABLED_USER_COUNT_CACHE_KEY,10);
+  Integer firstEnabledUserCount=dao.enabledUserCount();
+  Integer secondEnabledUserCount=dao.enabledUserCount();
+  assertThat(firstEnabledUserCount,is(10));
+  assertThat(secondEnabledUserCount,is(10));
+  assertThat((Integer)goCache.get(UserSqlMapDao.ENABLED_USER_COUNT_CACHE_KEY),is(10));
+  verify(mockHibernateTemplate,times(0)).execute(any(HibernateCallback.class));
+}

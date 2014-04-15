@@ -1,0 +1,15 @@
+{
+  StageConfig config=new StageConfig();
+  HashMap map=new HashMap();
+  List operateRoles=new ArrayList();
+  operateRoles.add(nameMap("role1"));
+  operateRoles.add(nameMap("role1"));
+  operateRoles.add(nameMap("role2"));
+  map.put(StageConfig.OPERATE_ROLES,operateRoles);
+  map.put(StageConfig.OPERATE_USERS,new ArrayList());
+  map.put(StageConfig.SECURITY_MODE,"define");
+  config.setConfigAttributes(map);
+  assertThat(config.getOperateRoles().size(),is(2));
+  assertThat(config.getOperateRoles(),hasItem(new AdminRole(new CaseInsensitiveString("role1"))));
+  assertThat(config.getOperateRoles(),hasItem(new AdminRole(new CaseInsensitiveString("role2"))));
+}

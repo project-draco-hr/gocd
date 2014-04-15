@@ -1,0 +1,12 @@
+{
+  if (o instanceof String) {
+    return new JsonString((String)o);
+  }
+ else   if (o instanceof ScriptableObject) {
+    return parseMapOrList((ScriptableObject)o);
+  }
+ else   if (o instanceof UniqueTag) {
+    return new JsonString(o.toString());
+  }
+  throw bomb("Unknown type: " + o.getClass());
+}

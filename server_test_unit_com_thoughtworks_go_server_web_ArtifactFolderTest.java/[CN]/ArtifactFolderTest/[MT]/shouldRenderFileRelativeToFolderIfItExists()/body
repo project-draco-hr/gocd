@@ -1,0 +1,7 @@
+{
+  File file=new File(folder,"foo.xml");
+  file.getParentFile().mkdirs();
+  FileUtils.writeStringToFile(file,"FOO");
+  assertThat(artifactFolder.renderArtifactFiles("http://uri"),containsString(">\nfoo.xml\n</a>"));
+  assertThat(artifactFolder.renderArtifactFiles("http://uri"),containsString("<a href=\"http://uri/files/pipeline-name/label-111/" + "stage-name/1/job-name/pathRelativeToBaseURL/foo.xml\">"));
+}

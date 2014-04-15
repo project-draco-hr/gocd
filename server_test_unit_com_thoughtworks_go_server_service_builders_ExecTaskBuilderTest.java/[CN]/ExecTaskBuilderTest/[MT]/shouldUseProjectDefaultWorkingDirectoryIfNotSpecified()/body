@@ -1,0 +1,6 @@
+{
+  ExecTask task=new ExecTask("command","",(String)null);
+  final File defaultWorkingDir=new File("foo");
+  CommandBuilder builder=(CommandBuilder)execTaskBuilder.createBuilder(builderFactory,task,TasksTest.pipelineStub("label","foo"),resolver);
+  assertThat(builder.getWorkingDir(),isSamePath(defaultWorkingDir));
+}

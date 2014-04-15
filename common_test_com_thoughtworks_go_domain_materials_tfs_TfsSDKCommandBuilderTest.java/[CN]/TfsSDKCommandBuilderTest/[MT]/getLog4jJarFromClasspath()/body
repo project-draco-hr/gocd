@@ -1,0 +1,10 @@
+{
+  URLClassLoader classLoader=(URLClassLoader)this.getClass().getClassLoader();
+  for (  URL u : classLoader.getURLs()) {
+    String jarPath=u.getPath();
+    if (jarPath.endsWith(".jar") && jarPath.contains("log4j")) {
+      return u;
+    }
+  }
+  return null;
+}

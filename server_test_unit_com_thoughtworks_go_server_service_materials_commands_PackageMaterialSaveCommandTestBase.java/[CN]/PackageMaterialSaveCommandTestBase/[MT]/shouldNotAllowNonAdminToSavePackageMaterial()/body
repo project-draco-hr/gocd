@@ -1,0 +1,9 @@
+{
+  Username view=new Username(new CaseInsensitiveString("view"));
+  when(securityService.isUserAdminOfGroup(view.getUsername(),pipelineGroup)).thenReturn(false);
+  PackageMaterialSaveCommand command=getCommand(view);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  command.checkPermission(cruiseConfig,result);
+  assertThat(result.isSuccessful(),is(false));
+  verify(securityService,times(1)).isUserAdminOfGroup(view.getUsername(),pipelineGroup);
+}

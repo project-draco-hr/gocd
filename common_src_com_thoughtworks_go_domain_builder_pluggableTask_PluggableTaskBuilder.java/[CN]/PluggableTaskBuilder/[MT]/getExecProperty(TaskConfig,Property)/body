@@ -1,0 +1,5 @@
+{
+  String key=property.getKey();
+  String configValue=pluginConfig.get(key) == null ? null : pluginConfig.get(key).get(PluggableTask.VALUE_KEY);
+  return configValue == null ? defaultConfig.get(key) : new TaskConfigProperty(key,configValue);
+}

@@ -1,0 +1,10 @@
+{
+  PipelineConfigs defaultGroup=createGroup("defaultGroup",createPipelineConfig("pipeline1","stage1"));
+  PipelineConfigs defaultGroup2=createGroup("defaultGroup2",createPipelineConfig("pipeline2","stage2"));
+  PipelineGroups pipelineGroups=new PipelineGroups(defaultGroup,defaultGroup2);
+  PipelineConfig pipelineConfig=createPipelineConfig("pipeline3","stage1");
+  pipelineGroups.addPipeline("defaultGroup",pipelineConfig);
+  assertThat(defaultGroup,hasItem(pipelineConfig));
+  assertThat(defaultGroup2,not(hasItem(pipelineConfig)));
+  assertThat(pipelineGroups.size(),is(2));
+}

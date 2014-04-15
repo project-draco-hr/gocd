@@ -1,0 +1,12 @@
+{
+  sysEnv=mock(SystemEnvironment.class);
+  serverConfig=new ServerConfig();
+  goConfigService=mock(GoConfigService.class);
+  when(goConfigService.serverConfig()).thenReturn(serverConfig);
+  stageService=mock(StageService.class);
+  when(goConfigService.serverConfig()).thenReturn(serverConfig);
+  artifactService=mock(ArtifactsService.class);
+  diskSpaceChecker=mock(SystemDiskSpaceChecker.class);
+  configDbStateRepository=mock(ConfigDbStateRepository.class);
+  artifactsDiskCleaner=new ArtifactsDiskCleaner(sysEnv,goConfigService,diskSpaceChecker,artifactService,stageService,configDbStateRepository);
+}

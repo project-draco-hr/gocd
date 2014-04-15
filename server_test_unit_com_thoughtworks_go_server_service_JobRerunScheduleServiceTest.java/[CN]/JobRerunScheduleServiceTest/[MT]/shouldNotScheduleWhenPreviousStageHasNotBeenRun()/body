@@ -1,0 +1,9 @@
+{
+  PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfigWithStages("mingle","compile","link","test");
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("mingle","compile","dev");
+  Stage lastStage=StageMother.createPassedStage("mingle",1,"test",1,"dev",new Date());
+  stub(mingleConfig,pipeline,lastStage);
+  when(goConfigService.hasPreviousStage("mingle",lastStage.getIdentifier().getStageName())).thenReturn(true);
+  when(goConfigService.previousStage("mingle",lastStage.getIdentifier().getStageName())).thenReturn(mingleConfig.get(1));
+  assertScheduleFailure("dev",lastStage,"Can not run stage [test] in pipeline [mingle] because its previous stage has not been run.",400);
+}

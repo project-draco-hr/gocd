@@ -1,0 +1,10 @@
+{
+  String content="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifactsDir'>"+ "</server>"+ "<pipelines>"+ "<pipeline name='some_pipeline'>"+ "    <materials>"+ "      <hg url='hgurl' />"+ "    </materials>"+ "  <stage name='some_stage'>"+ "    <jobs>"+ "      <job name='some_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>"+ "</pipelines>"+ "</cruise>";
+  try {
+    GoConfigHolder goConfigHolder=ConfigMigrator.loadWithMigration(content);
+    assertThat(goConfigHolder.config.server().getCommandRepositoryLocation(),is("default"));
+  }
+ catch (  Exception e) {
+    Assert.fail("Should not come here");
+  }
+}

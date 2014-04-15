@@ -1,0 +1,10 @@
+{
+  Map<V,Set<K>> resultMap=new HashMap<V,Set<K>>();
+  CollectionValueMap<V,K> map=collectionValMap(resultMap,new HashSet<K>());
+  for (  Map.Entry<K,List<V>> entry : inputMap.entrySet()) {
+    for (    V v : entry.getValue()) {
+      map.put(v,entry.getKey());
+    }
+  }
+  return resultMap;
+}

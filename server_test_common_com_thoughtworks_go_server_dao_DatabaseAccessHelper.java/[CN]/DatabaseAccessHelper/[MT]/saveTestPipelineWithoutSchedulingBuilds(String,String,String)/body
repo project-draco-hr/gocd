@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipelineConfig=configurePipeline(pipelineName,stageName,jobConfigNames);
+  Pipeline pipeline=scheduleWithFileChanges(pipelineConfig);
+  clearAllBuildInstances(pipeline);
+  return savePipelineWithStagesAndMaterials(pipeline);
+}

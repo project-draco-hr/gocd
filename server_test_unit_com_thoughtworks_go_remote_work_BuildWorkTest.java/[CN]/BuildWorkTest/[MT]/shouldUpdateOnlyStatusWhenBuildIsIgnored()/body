@@ -1,0 +1,8 @@
+{
+  buildWork=(BuildWork)getWork(WILL_PASS,"pipeline1");
+  buildRepository=new com.thoughtworks.go.remote.work.BuildRepositoryRemoteStub(true);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  assertThat(buildRepository.results.isEmpty(),is(true));
+  assertThat(buildRepository.states,containsResult(JobState.Completed));
+  assertThat(artifactManipulator.consoleOut(),printedJobCompletedInfo(JOB_IDENTIFIER.buildLocator()));
+}

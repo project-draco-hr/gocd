@@ -1,0 +1,8 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(goConfigService.isPasswordFileConfigured()).thenReturn(true);
+  when(ldapUserSearch.search("foo")).thenThrow(new RuntimeException("Ldap Error"));
+  when(passwordFileUserSearch.search("foo")).thenThrow(new IOException("Password file not found"));
+  userSearchService.search("foo",result);
+  assertThat(result.localizable(),is((Localizable)LocalizedMessage.string("USER_SEARCH_FAILED")));
+}

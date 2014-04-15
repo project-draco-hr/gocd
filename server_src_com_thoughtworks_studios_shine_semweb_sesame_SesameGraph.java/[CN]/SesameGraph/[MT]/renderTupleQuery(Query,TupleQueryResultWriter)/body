@@ -1,0 +1,8 @@
+{
+  TupleQueryResult tupleQueryResult=((TupleQuery)query).evaluate();
+  writer.startQueryResult(tupleQueryResult.getBindingNames());
+  while (tupleQueryResult.hasNext()) {
+    writer.handleSolution(tupleQueryResult.next());
+  }
+  writer.endQueryResult();
+}

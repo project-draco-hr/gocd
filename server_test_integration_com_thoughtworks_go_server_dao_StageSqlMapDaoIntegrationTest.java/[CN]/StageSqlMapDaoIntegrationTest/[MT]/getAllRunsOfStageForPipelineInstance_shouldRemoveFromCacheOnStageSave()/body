@@ -1,0 +1,18 @@
+{
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  Stage newStage=StageMother.passedStageInstance("pipeline","stage",2,"job",new Date());
+  Stage first=StageMother.passedStageInstance("pipeline","stage",1,"job",new Date());
+  List<Stage> expected=asList(first);
+  List<Stage> expectedSecondTime=asList(first,newStage);
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForList(eq("getAllRunsOfStageForPipelineInstance"),any())).thenReturn(expected,expectedSecondTime);
+  stageDao.getAllRunsOfStageForPipelineInstance("pipeline",1,"stage");
+  Pipeline pipeline=PipelineMother.pipeline("pipeline");
+  pipeline.setCounter(1);
+  stageDao.save(pipeline,newStage);
+  Stages actual=stageDao.getAllRunsOfStageForPipelineInstance("pipeline",1,"stage");
+  assertThat(actual.size(),is(2));
+  assertThat(actual,hasItem(newStage));
+  assertThat(actual,hasItem(first));
+  verify(mockTemplate,times(2)).queryForList(eq("getAllRunsOfStageForPipelineInstance"),any());
+}

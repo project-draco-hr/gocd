@@ -1,0 +1,25 @@
+{
+  ArrayList<TriStateSelection> selections=new ArrayList<TriStateSelection>();
+  for (  T t : assignables) {
+    int count=0;
+    boolean enabled=true;
+    for (    V assignee : assignees) {
+      if (associator.shouldAssociate(assignee,t)) {
+        count++;
+      }
+      enabled=enabled && associator.shouldEnable(assignee,t);
+    }
+    Action action=Action.remove;
+    if (count > 0) {
+      if (count == assignees.size()) {
+        action=Action.add;
+      }
+ else {
+        action=Action.nochange;
+      }
+    }
+    selections.add(new TriStateSelection(associator.identifier(t),action,enabled));
+  }
+  Collections.sort(selections);
+  return selections;
+}

@@ -1,0 +1,13 @@
+{
+  FileOutputStream output=null;
+  try {
+    output=new FileOutputStream(agentJar);
+    IOUtils.write(data,output);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+ finally {
+    IOUtils.closeQuietly(output);
+  }
+}

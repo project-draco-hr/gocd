@@ -1,0 +1,21 @@
+{
+  final JobState state=JobState.Assigned;
+  final JobInstance instance=context.mock(JobInstance.class);
+  context.checking(new Expectations(){
+{
+      one(instance).isNull();
+      will(returnValue(false));
+      one(instance).getResult();
+      will(returnValue(JobResult.Unknown));
+      one(jobInstanceService).buildByIdWithTransitions(jobIdendifier.getBuildId());
+      will(returnValue(instance));
+      one(instance).getState();
+      one(instance).changeState(with(equal(state)));
+      one(jobInstanceService).updateStateAndResult(instance);
+      atLeast(1).of(instance).getAgentUuid();
+      will(returnValue(agentUuid));
+    }
+  }
+);
+  buildRepositoryService.updateStatusFromAgent(jobIdendifier,state,"wrongId");
+}

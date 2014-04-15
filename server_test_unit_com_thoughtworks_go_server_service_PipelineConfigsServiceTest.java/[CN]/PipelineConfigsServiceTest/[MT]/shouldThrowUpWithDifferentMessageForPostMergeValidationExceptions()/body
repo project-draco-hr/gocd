@@ -1,0 +1,18 @@
+{
+  String groupName="renamed_group_name";
+  GoConfigService.XmlPartialSaver groupSaver=mock(GoConfigService.XmlPartialSaver.class);
+  when(securityService.isUserAdminOfGroup(validUser.getUsername(),groupName)).thenReturn(true);
+  when(goConfigService.configFileMd5()).thenReturn("old-md5");
+  when(goConfigService.groupSaver(groupName)).thenReturn(groupSaver);
+  when(groupSaver.saveXml(null,"md5")).thenReturn(GoConfigValidity.invalid("some error").mergePostValidationError());
+  GoConfigOperationalResponse<PipelineConfigs> actual=service.updateXml(groupName,null,"md5",validUser,result);
+  PipelineConfigs configElement=actual.getConfigElement();
+  GoConfigValidity validity=actual.getValidity();
+  assertThat(configElement,is(nullValue()));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(validity.isValid(),is(false));
+  assertThat(validity.isPostValidationError(),is(true));
+  LocalizedKeyValueMessage message=(LocalizedKeyValueMessage)ReflectionUtil.getField(result,"message");
+  String key=(String)ReflectionUtil.getField(message,"key");
+  assertThat(key,is("FLASH_MESSAGE_ON_CONFLICT"));
+}

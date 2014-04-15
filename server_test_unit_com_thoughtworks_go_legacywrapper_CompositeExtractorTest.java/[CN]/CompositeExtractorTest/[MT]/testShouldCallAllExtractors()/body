@@ -1,0 +1,8 @@
+{
+  Mock extractor1=mock(SAXBasedExtractor.class);
+  Mock extractor2=mock(SAXBasedExtractor.class);
+  extractor1.expects(once()).method("report").with(ANYTHING);
+  extractor2.expects(once()).method("report").with(ANYTHING);
+  com.thoughtworks.go.legacywrapper.CompositeExtractor handler=new com.thoughtworks.go.legacywrapper.CompositeExtractor(extractors(extractor1,extractor2));
+  handler.report(null);
+}

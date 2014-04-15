@@ -1,0 +1,5 @@
+{
+  for (  StageInstanceModel stage : pipelineInstanceModel.getStageHistory()) {
+    stage.setOperatePermission(securityService.hasOperatePermissionForStage(pipelineInstanceModel.getName(),stage.getName(),CaseInsensitiveString.str(username.getUsername())));
+  }
+}

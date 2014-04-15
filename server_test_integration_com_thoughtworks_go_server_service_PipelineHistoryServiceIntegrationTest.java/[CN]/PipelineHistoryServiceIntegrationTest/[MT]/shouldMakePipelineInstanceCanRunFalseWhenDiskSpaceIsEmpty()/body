@@ -1,0 +1,14 @@
+{
+  diskIsFull.onSetUp();
+  configHelper.updateArtifactRoot(TestFileUtil.createTempFolder("serverlogs").getAbsolutePath());
+  pipelineOne.createdPipelineWithAllStagesPassed();
+  PipelineInstanceModels history=pipelineHistoryService.load(pipelineOne.pipelineName,Pagination.pageStartingAt(0,1,10),"jez",true);
+  assertThat(history.size(),is(1));
+  assertThat(history.first().getCanRun(),is(false));
+  StageInstanceModels stageHistory=history.first().getStageHistory();
+  assertThat(stageHistory.size(),is(3));
+  for (  StageInstanceModel stageHistoryItem : stageHistory) {
+    assertThat(stageHistoryItem.isScheduled(),is(true));
+    assertThat(stageHistoryItem.getCanRun(),is(false));
+  }
+}

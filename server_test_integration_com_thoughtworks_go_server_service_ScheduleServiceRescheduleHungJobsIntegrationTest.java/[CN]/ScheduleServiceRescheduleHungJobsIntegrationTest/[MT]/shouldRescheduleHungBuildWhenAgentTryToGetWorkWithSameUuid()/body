@@ -1,0 +1,20 @@
+{
+  AgentConfig agentConfig=AgentMother.localAgent();
+  AgentInstance instance=agent(agentConfig);
+  BuildCause buildCause=modifySomeFiles(evolveConfig);
+  dbHelper.saveMaterials(buildCause.getMaterialRevisions());
+  Pipeline pipeline=instanceFactory.createPipelineInstance(evolveConfig,buildCause,new DefaultSchedulingContext(DEFAULT_APPROVED_BY),"md5-test",new TimeProvider());
+  buildAssignmentService.onTimer();
+  Stage stage=pipeline.getFirstStage();
+  JobInstance jobInstance=stage.getJobInstances().get(0);
+  jobInstance.setAgentUuid(agentConfig.getUuid());
+  jobInstance.changeState(JobState.Building);
+  pipelineDao.saveWithStages(pipeline);
+  buildAssignmentService.onTimer();
+  buildAssignmentService.assignWorkToAgent(instance);
+  buildAssignmentService.onTimer();
+  buildAssignmentService.assignWorkToAgent(instance);
+  final Stage reloadedStage=stageDao.stageById(stage.getId());
+  final JobInstance rescheduledJob=reloadedStage.getJobInstances().getByName(jobInstance.getName());
+  assertThat(rescheduledJob.getState(),is(JobState.Assigned));
+}

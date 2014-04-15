@@ -1,0 +1,7 @@
+{
+  Role firstRole=new Role(new CaseInsensitiveString("role1"),new RoleUser(new CaseInsensitiveString("USER1")),new RoleUser(new CaseInsensitiveString("user2")));
+  Role secondRole=new Role(new CaseInsensitiveString("role2"),new RoleUser(new CaseInsensitiveString("user1")),new RoleUser(new CaseInsensitiveString("user3")));
+  Role thirdRole=new Role(new CaseInsensitiveString("role3"),new RoleUser(new CaseInsensitiveString("user2")),new RoleUser(new CaseInsensitiveString("user3")));
+  RolesConfig rolesConfig=new RolesConfig(firstRole,secondRole,thirdRole);
+  assertThat(rolesConfig.memberRoles(new AdminUser(new CaseInsensitiveString("user1"))),is(asList(firstRole,secondRole)));
+}

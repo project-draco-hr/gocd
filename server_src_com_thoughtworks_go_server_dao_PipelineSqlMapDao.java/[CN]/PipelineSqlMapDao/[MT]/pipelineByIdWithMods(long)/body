@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=(Pipeline)getSqlMapClientTemplate().queryForObject("pipelineById",pipelineId);
+  if (pipeline == null) {
+    throw new DataRetrievalFailureException("Could not load pipeline with id " + pipelineId);
+  }
+  return loadMaterialRevisions(pipeline);
+}

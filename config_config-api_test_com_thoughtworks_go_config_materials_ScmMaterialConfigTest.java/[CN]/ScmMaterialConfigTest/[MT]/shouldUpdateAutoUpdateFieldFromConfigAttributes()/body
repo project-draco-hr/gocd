@@ -1,0 +1,14 @@
+{
+  material.setConfigAttributes(new SingletonMap(AUTO_UPDATE,"false"));
+  assertThat(material.isAutoUpdate(),is(false));
+  material.setConfigAttributes(new SingletonMap(AUTO_UPDATE,null));
+  assertThat(material.isAutoUpdate(),is(false));
+  material.setConfigAttributes(new SingletonMap(AUTO_UPDATE,"true"));
+  assertThat(material.isAutoUpdate(),is(true));
+  material.setConfigAttributes(new HashMap());
+  assertThat(material.isAutoUpdate(),is(false));
+  material.setConfigAttributes(new SingletonMap(AUTO_UPDATE,null));
+  assertThat(material.isAutoUpdate(),is(false));
+  material.setConfigAttributes(new SingletonMap(AUTO_UPDATE,"random-stuff"));
+  assertThat(material.isAutoUpdate(),is(false));
+}

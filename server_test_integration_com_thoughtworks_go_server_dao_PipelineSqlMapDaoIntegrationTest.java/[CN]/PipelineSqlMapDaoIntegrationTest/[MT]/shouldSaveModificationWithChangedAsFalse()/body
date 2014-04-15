@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createWithModifications(revisions(false),""));
+  save(pipeline);
+  Pipeline loaded=pipelineDao.loadPipeline(pipeline.getId());
+  assertThat(loaded.getMaterialRevisions().getMaterialRevision(0).isChanged(),is(false));
+}

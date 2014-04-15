@@ -1,0 +1,11 @@
+{
+  RuntimeException runtimeException=new RuntimeException("holy smoke");
+  when(agentService.assignCookie(info.getIdentifier())).thenThrow(runtimeException);
+  try {
+    buildRepository.getCookie(info.getIdentifier(),"/foo/bar");
+    fail("should propagate exception raised by agent service assignCookie");
+  }
+ catch (  Exception e) {
+    assertRemoteException(e,runtimeException);
+  }
+}

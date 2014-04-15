@@ -1,0 +1,4 @@
+{
+  String askIfFailureIsCorrectlyTransformed="PREFIX xunit: <" + XUnitOntology.URI + "> "+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE { "+ "?testCase a xunit:TestCase ; "+ "xunit:testCaseName \"aFailure\"^^xsd:string ; "+ "xunit:hasFailure ?failure . "+ "?failure a xunit:Failure ; "+ "xunit:failureMessage \"A message for a failure.\"^^xsd:string ; "+ "xunit:failureStackTrace \"Aren't you glad you are not a failure?\"^^xsd:string ; "+ "xunit:isError \"false\"^^xsd:boolean "+ "}";
+  assertAskIsTrue(minimalDataGraph,askIfFailureIsCorrectlyTransformed);
+}

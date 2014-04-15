@@ -1,0 +1,5 @@
+{
+  String ldapCfg="<ldap uri=\"foo\" managerDn=\"foo\" managerPassword=\"bar\">" + "<bases><base>base1</base></bases>" + "</ldap>";
+  LdapConfig ldapConfig=xmlLoader.fromXmlPartial(toInputStream(ldapCfg),LdapConfig.class);
+  assertThat(ldapConfig.searchFilter(),is(""));
+}

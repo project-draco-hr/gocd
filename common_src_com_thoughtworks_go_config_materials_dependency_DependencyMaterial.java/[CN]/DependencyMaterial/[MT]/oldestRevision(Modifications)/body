@@ -1,0 +1,8 @@
+{
+  if (modifications.size() > 1) {
+    LOGGER.warn(String.format("Dependency material %s has multiple modifications",this.getDisplayName()));
+  }
+  Modification oldestModification=modifications.get(modifications.size() - 1);
+  String revision=oldestModification.getRevision();
+  return DependencyMaterialRevision.create(revision,oldestModification.getPipelineLabel());
+}

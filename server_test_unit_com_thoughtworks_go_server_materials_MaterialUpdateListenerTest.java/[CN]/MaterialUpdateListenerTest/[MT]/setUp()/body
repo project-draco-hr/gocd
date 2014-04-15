@@ -1,0 +1,8 @@
+{
+  topic=mock(MaterialUpdateCompletedTopic.class);
+  updater=mock(MaterialDatabaseUpdater.class);
+  diskSpaceMonitor=mock(GoDiskSpaceMonitor.class);
+  transactionTemplate=mock(TransactionTemplate.class);
+  mduPerformanceLogger=mock(MDUPerformanceLogger.class);
+  materialUpdateListener=new MaterialUpdateListener(topic,updater,mduPerformanceLogger,diskSpaceMonitor);
+}

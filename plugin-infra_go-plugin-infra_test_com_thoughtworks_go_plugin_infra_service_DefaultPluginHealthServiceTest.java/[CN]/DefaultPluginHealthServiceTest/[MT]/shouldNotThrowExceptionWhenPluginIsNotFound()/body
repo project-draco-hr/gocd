@@ -1,0 +1,12 @@
+{
+  String pluginId="invalid-plugin";
+  String message="some msg";
+  List<String> reasons=Arrays.asList(message);
+  doThrow(new RuntimeException()).when(pluginRegistry).markPluginInvalid(pluginId,reasons);
+  try {
+    serviceDefault.reportErrorAndInvalidate(pluginId,reasons);
+  }
+ catch (  Exception e) {
+    fail("Should not have thrown exception");
+  }
+}

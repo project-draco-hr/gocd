@@ -1,0 +1,14 @@
+{
+  User user=getUser(request);
+  if (user.getId() != NOT_PERSISTED && UserHelper.getUserId(request) == null) {
+    UserHelper.setUserId(request,user.getId());
+  }
+  if (!user.isEnabled()) {
+    SecurityContext context=SecurityContextHolder.getContext();
+    request.getSession().setAttribute(SPRING_SECURITY_LAST_EXCEPTION_KEY,new DisabledException("Your account has been disabled by the administrator"));
+    request.setAttribute(SESSION_DENIED,true);
+    context.setAuthentication(null);
+    UserHelper.setUserId(request,null);
+  }
+  chain.doFilter(request,response);
+}

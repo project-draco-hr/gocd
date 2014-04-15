@@ -1,0 +1,10 @@
+{
+  dest.getParentFile().mkdirs();
+  FileOutputStream out=new FileOutputStream(dest,true);
+  try {
+    IOUtils.copyLarge(stream,out);
+  }
+  finally {
+    IOUtils.closeQuietly(out);
+  }
+}

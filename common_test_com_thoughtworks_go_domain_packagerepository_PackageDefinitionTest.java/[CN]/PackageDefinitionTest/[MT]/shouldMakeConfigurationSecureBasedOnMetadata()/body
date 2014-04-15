@@ -1,0 +1,15 @@
+{
+  ConfigurationProperty secureProperty=new ConfigurationProperty(new ConfigurationKey("key1"),new ConfigurationValue("value1"),null,new GoCipher());
+  ConfigurationProperty nonSecureProperty=new ConfigurationProperty(new ConfigurationKey("key2"),new ConfigurationValue("value2"),null,new GoCipher());
+  PackageDefinition packageDefinition=new PackageDefinition("go","name",new Configuration(secureProperty,nonSecureProperty));
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setPluginConfiguration(new PluginConfiguration("plugin-id","1.0"));
+  packageDefinition.setRepository(packageRepository);
+  PackageConfigurations packageConfigurations=new PackageConfigurations();
+  packageConfigurations.addConfiguration(new PackageConfiguration("key1").with(PackageConfiguration.SECURE,true));
+  packageConfigurations.addConfiguration(new PackageConfiguration("key2").with(PackageConfiguration.SECURE,false));
+  PackageMetadataStore.getInstance().addMetadataFor("plugin-id",packageConfigurations);
+  packageDefinition.applyPackagePluginMetadata("plugin-id");
+  assertThat(secureProperty.isSecure(),is(true));
+  assertThat(nonSecureProperty.isSecure(),is(false));
+}

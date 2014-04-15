@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=PipelineMother.building(mingleConfig);
+  pipeline=dbHelper.savePipelineWithStagesAndMaterials(pipeline);
+  Pipeline newPipeline=manualSchedule(CaseInsensitiveString.str(mingleConfig.name()));
+  assertThat(newPipeline.getId(),is(pipeline.getId()));
+}

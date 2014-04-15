@@ -1,0 +1,27 @@
+{
+  String prefixToCheckAgainst=prefix.toLowerCase();
+  ArrayList<CommandSnippet> exactNameMatchingSnippets=new ArrayList<CommandSnippet>();
+  ArrayList<CommandSnippet> partialNameMatchingSnippets=new ArrayList<CommandSnippet>();
+  ArrayList<CommandSnippet> exactKeywordMatchingSnippets=new ArrayList<CommandSnippet>();
+  for (  CommandSnippet snippet : snippets) {
+    if (!snippet.isValid()) {
+      continue;
+    }
+    if (snippet.isExactMatchOfName(prefixToCheckAgainst)) {
+      exactNameMatchingSnippets.add(snippet);
+      continue;
+    }
+    if (snippet.hasNameWhichStartsWith(prefixToCheckAgainst)) {
+      partialNameMatchingSnippets.add(snippet);
+      continue;
+    }
+    if (snippet.containsKeyword(prefixToCheckAgainst)) {
+      exactKeywordMatchingSnippets.add(snippet);
+    }
+  }
+  ArrayList<CommandSnippet> matchedSnippets=new ArrayList<CommandSnippet>();
+  matchedSnippets.addAll(exactNameMatchingSnippets);
+  matchedSnippets.addAll(partialNameMatchingSnippets);
+  matchedSnippets.addAll(exactKeywordMatchingSnippets);
+  return matchedSnippets;
+}

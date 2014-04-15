@@ -1,0 +1,4 @@
+{
+  List list=this.template.find(String.format("from %s where %s = ?",type.getSimpleName(),columnName),columnValue);
+  return list.isEmpty() ? null : ((OauthDomainEntity<T>)list.get(0)).getDTO();
+}

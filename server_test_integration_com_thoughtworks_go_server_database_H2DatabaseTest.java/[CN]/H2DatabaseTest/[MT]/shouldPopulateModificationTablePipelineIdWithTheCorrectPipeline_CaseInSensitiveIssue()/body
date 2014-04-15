@@ -1,0 +1,12 @@
+{
+  dbFixture.copyDeltas();
+  dbFixture.copyH2Db("migration84_test_db.zip");
+  H2Database database=new H2Database(dbFixture.env());
+  database.startDatabase();
+  database.upgrade();
+  database.shutdown();
+  database.startDatabase();
+  int afterRename=numericQuery("SELECT pipelineId FROM modifications WHERE revision = 'Zoo/4/foo/1'",database);
+  int beforeRename=numericQuery("SELECT pipelineId FROM modifications WHERE revision = 'zoo/1/up-stage/1'",database);
+  assertThat(afterRename == beforeRename,is(false));
+}

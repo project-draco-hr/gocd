@@ -1,0 +1,28 @@
+{
+  PluggableTask task=mock(PluggableTask.class);
+  when(task.getPluginConfiguration()).thenReturn(new PluginConfiguration());
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory"){
+    @Override protected ExecutionResult executeTask(    Task task,    BuildLogElement buildLogElement,    DefaultGoPublisher publisher,    EnvironmentVariableContext environmentVariableContext){
+      throw new RuntimeException("err");
+    }
+  }
+;
+  when(pluginManager.doOn(eq(Task.class),eq(TEST_PLUGIN_ID),any(ActionWithReturn.class))).thenAnswer(new Answer<ExecutionResult>(){
+    @Override public ExecutionResult answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      ActionWithReturn<Task,ExecutionResult> actionWithReturn=(ActionWithReturn<Task,ExecutionResult>)invocationOnMock.getArguments()[2];
+      return actionWithReturn.execute(mock(Task.class),pluginDescriptor);
+    }
+  }
+);
+  try {
+    taskBuilder.build(buildLogElement,goPublisher,variableContext);
+    fail("expected exception to be thrown");
+  }
+ catch (  Exception e) {
+    ArgumentCaptor<String> captor=ArgumentCaptor.forClass(String.class);
+    verify(goPublisher).consumeLine(captor.capture());
+    String error="Error: err";
+    assertThat(captor.getValue(),is(error));
+    assertThat(e.getMessage(),is(new RuntimeException("err").toString()));
+  }
+}

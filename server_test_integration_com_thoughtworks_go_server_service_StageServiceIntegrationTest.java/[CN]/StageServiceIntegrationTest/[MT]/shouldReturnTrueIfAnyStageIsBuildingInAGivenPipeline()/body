@@ -1,0 +1,6 @@
+{
+  fixture=new PipelineWithMultipleStages(4,materialRepository,transactionTemplate);
+  fixture.usingConfigHelper(configFileHelper).usingDbHelper(dbHelper).onSetUp();
+  Pipeline pipeline=fixture.createPipelineWithFirstStageAssigned();
+  assertThat(stageService.isAnyStageActiveForPipeline(fixture.pipelineName,pipeline.getCounter()),Is.is(true));
+}

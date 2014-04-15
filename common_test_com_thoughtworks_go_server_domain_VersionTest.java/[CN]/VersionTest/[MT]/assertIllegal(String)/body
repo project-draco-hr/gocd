@@ -1,0 +1,9 @@
+{
+  try {
+    new Version(versionWhichShouldBeIllegal);
+    fail("Should have been illegal: " + versionWhichShouldBeIllegal);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Could not parse contents of version file: " + versionWhichShouldBeIllegal));
+  }
+}

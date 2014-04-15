@@ -1,0 +1,7 @@
+{
+  assertThat(System.getProperty(SystemEnvironment.RESOLVE_FANIN_REVISIONS),nullValue());
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  assertThat(systemEnvironment.enforceRevisionCompatibilityWithUpstream(),is(true));
+  System.setProperty(SystemEnvironment.RESOLVE_FANIN_REVISIONS,SystemEnvironment.CONFIGURATION_NO);
+  assertThat(systemEnvironment.enforceRevisionCompatibilityWithUpstream(),is(true));
+}

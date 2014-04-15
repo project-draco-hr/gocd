@@ -1,0 +1,12 @@
+{
+  String pipelineName=current.getIdentifier().getPipelineName();
+  String stageName=current.getIdentifier().getStageName();
+  JobInstances recent25=jobInstanceService.latestCompletedJobs(pipelineName,stageName,current.getName());
+  AgentConfig agentConfig=goConfigService.agentByUuid(current.getAgentUuid());
+  Pipeline pipelineWithOneBuild=pipelineService.wrapBuildDetails(current);
+  Tabs customizedTabs=goConfigService.getCustomizedTabs(pipelineWithOneBuild.getName(),pipelineWithOneBuild.getFirstStage().getName(),current.getName());
+  TrackingTool trackingTool=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineWithOneBuild.getName())).trackingTool();
+  Properties properties=propertiesService.getPropertiesForJob(current.getId());
+  Stage stage=stageService.getStageByBuild(current);
+  return new JobDetailPresentationModel(current,recent25,agentConfig,pipelineWithOneBuild,customizedTabs,trackingTool,artifactService,properties,stage);
+}

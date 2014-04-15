@@ -1,0 +1,6 @@
+{
+  Pipeline running=pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig)[1];
+  dbHelper.pass(running);
+  StageIdentifier lastSuccessful=pipelineDao.findLastSuccessfulStageIdentifier(CaseInsensitiveString.str(mingleConfig.name()),STAGE_DEV);
+  assertThat(lastSuccessful.getPipelineLabel(),is(running.getLabel()));
+}

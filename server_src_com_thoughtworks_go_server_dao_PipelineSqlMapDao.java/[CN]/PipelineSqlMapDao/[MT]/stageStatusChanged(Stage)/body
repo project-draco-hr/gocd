@@ -1,0 +1,9 @@
+{
+  removeStageSpecificCache(stage);
+  syncCachedActivePipelines(stage);
+  updateCachedLatestSuccessfulStage(stage);
+  String pipelineName=stage.getIdentifier().getPipelineName();
+  Integer pipelineCounter=stage.getIdentifier().getPipelineCounter();
+  clearLockedPipelineCache(pipelineName);
+  clearPipelineHistoryCacheViaNameAndCounter(pipelineName,pipelineCounter);
+}

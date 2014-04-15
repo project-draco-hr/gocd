@@ -1,0 +1,13 @@
+{
+  environmentConfigService.sync(environments("uat","prod"));
+  Set<String> envForUat=environmentConfigService.environmentsFor("uat-agent");
+  assertThat(envForUat.size(),is(1));
+  assertThat(envForUat,hasItem("uat"));
+  Set<String> envForProd=environmentConfigService.environmentsFor("prod-agent");
+  assertThat(envForProd.size(),is(1));
+  assertThat(envForProd,hasItem("prod"));
+  Set<String> envForOmniPresent=environmentConfigService.environmentsFor(EnvironmentConfigMother.OMNIPRESENT_AGENT);
+  assertThat(envForOmniPresent.size(),is(2));
+  assertThat(envForOmniPresent,hasItem("prod"));
+  assertThat(envForOmniPresent,hasItem("prod"));
+}

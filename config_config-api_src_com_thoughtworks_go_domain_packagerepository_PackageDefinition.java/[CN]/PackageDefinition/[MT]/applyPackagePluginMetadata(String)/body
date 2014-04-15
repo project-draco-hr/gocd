@@ -1,0 +1,9 @@
+{
+  for (  ConfigurationProperty configurationProperty : configuration) {
+    PackageMetadataStore packageMetadataStore=PackageMetadataStore.getInstance();
+    if (packageMetadataStore.getMetadata(pluginId) != null) {
+      boolean isSecureProperty=packageMetadataStore.hasOption(pluginId,configurationProperty.getConfigurationKey().getName(),PackageConfiguration.SECURE);
+      configurationProperty.handleSecureValueConfiguration(isSecureProperty);
+    }
+  }
+}

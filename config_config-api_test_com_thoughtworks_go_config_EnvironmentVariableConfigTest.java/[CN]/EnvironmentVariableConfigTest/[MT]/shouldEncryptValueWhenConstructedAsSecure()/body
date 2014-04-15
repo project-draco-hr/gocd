@@ -1,0 +1,11 @@
+{
+  GoCipher goCipher=mock(GoCipher.class);
+  String encryptedText="encrypted";
+  when(goCipher.encrypt("password")).thenReturn(encryptedText);
+  EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig(goCipher);
+  HashMap attrs=getAttributeMap("password","true","true");
+  environmentVariableConfig.setConfigAttributes(attrs);
+  assertThat(environmentVariableConfig.getEncryptedValue(),is(encryptedText));
+  assertThat(environmentVariableConfig.getName(),is("foo"));
+  assertThat(environmentVariableConfig.isSecure(),is(true));
+}

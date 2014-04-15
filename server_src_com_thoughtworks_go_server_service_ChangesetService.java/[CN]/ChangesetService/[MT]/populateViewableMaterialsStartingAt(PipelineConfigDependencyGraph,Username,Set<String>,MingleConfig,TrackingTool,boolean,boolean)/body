@@ -1,0 +1,10 @@
+{
+  for (  MaterialConfig materialConfig : graph.getCurrent().materialConfigs()) {
+    fingerprints.add(materialConfig.getFingerprint());
+  }
+  for (  PipelineConfigDependencyGraph upstream : graph.getUpstreamDependencies()) {
+    if (canView(username,upstream.getCurrent()) && (skipCheckForMingle || mingleConfigMatches(upstream.getCurrent(),mingleConfig)) && (skipTrackingToolMatch || trackingToolMatches(upstream.getCurrent(),trackingTool))) {
+      populateViewableMaterialsStartingAt(upstream,username,fingerprints,mingleConfig,trackingTool,skipCheckForMingle,skipTrackingToolMatch);
+    }
+  }
+}

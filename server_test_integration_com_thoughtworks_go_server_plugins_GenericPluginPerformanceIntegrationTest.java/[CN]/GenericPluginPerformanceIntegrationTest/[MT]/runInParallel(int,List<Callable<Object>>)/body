@@ -1,0 +1,15 @@
+{
+  long start=System.currentTimeMillis();
+  ExecutorService executorService=Executors.newFixedThreadPool(concurrencyLevel);
+  List<Future<Object>> futures=executorService.invokeAll(operations);
+  for (  Future<Object> future : futures) {
+    try {
+      future.get();
+    }
+ catch (    Exception e) {
+      e.printStackTrace();
+    }
+  }
+  long end=System.currentTimeMillis();
+  System.err.println((end - start) / 1000.0);
+}

@@ -1,0 +1,9 @@
+{
+  String fingerprint="fingerprint";
+  PackageDefinition packageDefinition=mock(PackageDefinition.class);
+  PackageMaterial packageMaterial=new PackageMaterial();
+  packageMaterial.setPackageDefinition(packageDefinition);
+  packageMaterial.setFingerprint(fingerprint);
+  assertThat(packageMaterial.getFingerprint(),is(fingerprint));
+  verify(packageDefinition,never()).getFingerprint(anyString());
+}

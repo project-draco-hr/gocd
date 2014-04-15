@@ -1,0 +1,7 @@
+{
+  String mutextPipelineName=mutexForPausePipeline(pipelineName);
+synchronized (mutextPipelineName) {
+    pipelineSqlMapDao.unpause(pipelineName);
+    LOGGER.info(String.format("[Pipeline Unpause] Pipeline [%s] is unpaused by [%s]",pipelineName,unpausedBy));
+  }
+}

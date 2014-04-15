@@ -1,0 +1,8 @@
+{
+  int current=this.indexOf(moveMeStage);
+  if (current == -1) {
+    throw new RuntimeException(String.format("Cannot find the stage '%s' in pipeline '%s'",moveMeStage.name(),name()));
+  }
+  this.remove(moveMeStage);
+  this.add(current + moveBy,moveMeStage);
+}

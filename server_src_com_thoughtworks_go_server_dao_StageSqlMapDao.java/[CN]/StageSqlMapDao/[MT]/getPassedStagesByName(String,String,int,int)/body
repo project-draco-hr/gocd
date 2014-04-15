@@ -1,0 +1,4 @@
+{
+  Map<String,Object> toGet=arguments("pipelineName",pipelineName).and("stageName",stageName).and("limit",limit).and("offset",offset).asMap();
+  return new Stages((List<Stage>)getSqlMapClientTemplate().queryForList("allPassedStagesByName",toGet));
+}

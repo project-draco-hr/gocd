@@ -1,0 +1,12 @@
+{
+  LiveCacheStatistics statistics=cache.statistics();
+  infoCollector.addSubSection("Cache runtime information");
+  infoCollector.append(String.format("Statistics enabled? %s\n",statistics.isStatisticsEnabled()));
+  infoCollector.append(String.format("Average get time in milliseconds: %s [Min: %s, Max: %s]\n",statistics.getAverageGetTimeMillis(),statistics.getMinGetTimeMillis(),statistics.getMaxGetTimeMillis()));
+  infoCollector.append(String.format("Cache size: %s (Accuracy: %s)\n",statistics.getSize(),statistics.getStatisticsAccuracyDescription()));
+  infoCollector.append(String.format("Cache counts: [Hits: %s, Miss: %s, Expired: %s, Eviction: %s, Put: %s, Remove: %s]\n\n",statistics.getCacheHitCount(),statistics.getCacheMissCount(),statistics.getExpiredCount(),statistics.getEvictedCount(),statistics.getPutCount(),statistics.getRemovedCount()));
+  infoCollector.append(String.format("Cache size (in-memory): %s\n",statistics.getInMemorySize()));
+  infoCollector.append(String.format("Cache hit count (in-memory): %s\n",statistics.getInMemoryHitCount()));
+  infoCollector.append(String.format("Cache size (disk): %s\n",statistics.getOnDiskSize()));
+  infoCollector.append(String.format("Cache hit count (disk): %s\n",statistics.getOnDiskHitCount()));
+}

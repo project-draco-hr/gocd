@@ -1,0 +1,18 @@
+{
+  cachedGoConfig.onTimer();
+  GoConfigValidity configValidity=cachedGoConfig.checkConfigFileValid();
+  assertThat(configValidity.isValid(),is(true));
+  cachedGoConfig.writeWithLock(new UpdateConfigCommand(){
+    public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      addPipelineWithParams(cruiseConfig);
+      return cruiseConfig;
+    }
+  }
+);
+  PipelineConfig reloadedPipelineConfig=cachedGoConfig.currentConfig().pipelineConfigByName(new CaseInsensitiveString("mingle"));
+  HgMaterialConfig hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
+  assertThat(hgMaterialConfig.getUrl(),is("http://hg-server/repo-name"));
+  reloadedPipelineConfig=cachedGoConfig.loadForEditing().pipelineConfigByName(new CaseInsensitiveString("mingle"));
+  hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
+  assertThat(hgMaterialConfig.getUrl(),is("http://#{foo}/#{bar}"));
+}

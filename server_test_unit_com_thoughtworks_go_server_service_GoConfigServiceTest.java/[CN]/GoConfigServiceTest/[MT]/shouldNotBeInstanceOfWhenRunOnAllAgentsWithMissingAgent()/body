@@ -1,0 +1,11 @@
+{
+  expectLoad(unchangedConfigWithRunOnAllAgents());
+  String missingJobName=JOB + "-missing";
+  try {
+    goConfigService.translateToActualCase(new JobConfigIdentifier(PIPELINE,STAGE,missingJobName));
+    fail("Should not be able to find job with missing agent");
+  }
+ catch (  JobNotFoundException expected) {
+    assertThat(expected.getMessage(),is(format("Job '%s' not found in pipeline '%s' stage '%s'",missingJobName,PIPELINE,STAGE)));
+  }
+}

@@ -1,0 +1,7 @@
+{
+  ldapServer.addUser(employeesOrgUnit,"foleys","some-password","Shilpa Foley","foleys@somecompany.com");
+  List<User> users=ldapUserSearch.search("foleys@");
+  assertThat(users.size(),is(1));
+  assertThat(users.get(0).getName(),is("foleys"));
+  assertThat(users.get(0).getEmail(),is("foleys@somecompany.com"));
+}

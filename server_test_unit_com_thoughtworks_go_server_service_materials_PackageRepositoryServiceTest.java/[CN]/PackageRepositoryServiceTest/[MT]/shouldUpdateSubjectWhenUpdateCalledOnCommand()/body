@@ -1,0 +1,8 @@
+{
+  Username username=new Username(new CaseInsensitiveString("user"));
+  PackageRepository packageRepository=new PackageRepository();
+  UpdateConfigFromUI updateCommand=service.getPackageRepositoryUpdateCommand(packageRepository,username);
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  updateCommand.update(cruiseConfig);
+  verify(cruiseConfig).savePackageRepository(packageRepository);
+}

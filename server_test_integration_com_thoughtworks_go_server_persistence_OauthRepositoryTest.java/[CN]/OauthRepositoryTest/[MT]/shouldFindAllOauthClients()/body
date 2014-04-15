@@ -1,0 +1,11 @@
+{
+  OauthClient mingle1=new OauthClient("mingle09","client_id_9","client_secret_9","http://something");
+  OauthClient mingle2=new OauthClient("mingle05","client_id_5","client_secret_5","http://something-else");
+  OauthClient go01=new OauthClient("go01","client_id_1","client_secret_1","http://fake-go-server");
+  template.save(mingle1);
+  template.save(mingle2);
+  template.save(go01);
+  Collection<OauthDataSource.OauthClientDTO> clients=repo.findAllOauthClient();
+  assertThat(clients.size(),is(3));
+  assertThat(clients,hasItems(mingle1.getDTO(),mingle2.getDTO(),go01.getDTO()));
+}

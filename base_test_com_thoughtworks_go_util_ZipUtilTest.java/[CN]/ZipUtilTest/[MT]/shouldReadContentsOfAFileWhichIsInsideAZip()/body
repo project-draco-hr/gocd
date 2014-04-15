@@ -1,0 +1,6 @@
+{
+  FileUtils.writeStringToFile(new File(srcDir,"some-file.txt"),"some-text-here");
+  zipFile=zipUtil.zip(srcDir,TestFileUtil.createUniqueTempFile(srcDir.getName()),Deflater.NO_COMPRESSION);
+  String someStuff=zipUtil.getFileContentInsideZip(new ZipInputStream(new FileInputStream(zipFile)),"some-file.txt");
+  assertThat(someStuff,Is.is("some-text-here"));
+}

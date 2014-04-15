@@ -1,0 +1,9 @@
+{
+  JobConfig jobConfig=new JobConfig("job-name");
+  jobConfig.setConfigAttributes(m(JobConfig.TABS,a(m(Tab.NAME,"tab1",Tab.PATH,"path1"),m(Tab.NAME,"tab2",Tab.PATH,"path2"))));
+  assertThat(jobConfig.getTabs().size(),is(2));
+  assertThat(jobConfig.getTabs().get(0).getName(),is("tab1"));
+  assertThat(jobConfig.getTabs().get(1).getName(),is("tab2"));
+  assertThat(jobConfig.getTabs().get(0).getPath(),is("path1"));
+  assertThat(jobConfig.getTabs().get(1).getPath(),is("path2"));
+}

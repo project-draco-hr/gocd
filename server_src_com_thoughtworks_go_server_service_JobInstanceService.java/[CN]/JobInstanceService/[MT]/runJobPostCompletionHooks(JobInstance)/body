@@ -1,0 +1,19 @@
+{
+  final JobContext jobContext=new JobContext(job.getIdentifier().getPipelineName(),String.valueOf(job.getIdentifier().getPipelineCounter()),job.getIdentifier().getPipelineLabel(),job.getIdentifier().getStageName(),job.getIdentifier().getStageCounter(),job.getName(),String.valueOf(job.getId()),job.getResult().getStatus(),job.getAgentUuid());
+  Action<IJobPostCompletionHook> actionForEachHook=new Action<IJobPostCompletionHook>(){
+    public void execute(    IJobPostCompletionHook jobPostCompletionHook,    GoPluginDescriptor pluginDescriptor){
+      ResponseContext responseContext=jobPostCompletionHook.call(jobContext);
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug(String.format("[JOB POST COMPLETION HOOK] Hook %s reported status %s with message %s",jobPostCompletionHook,responseContext.getResponseCode(),responseContext.getMessage()));
+      }
+    }
+  }
+;
+  ExceptionHandler<IJobPostCompletionHook> exceptionHandler=new ExceptionHandler<IJobPostCompletionHook>(){
+    public void handleException(    IJobPostCompletionHook jobPostCompletionHook,    Throwable t){
+      LOGGER.error(String.format("[JOB POST COMPLETION HOOK] Hook %s resulted in an exception %s",jobPostCompletionHook,t.getMessage()));
+    }
+  }
+;
+  pluginManager.doOnAll(IJobPostCompletionHook.class,actionForEachHook,exceptionHandler);
+}

@@ -1,0 +1,8 @@
+{
+  graph.filterDependencies(new PipelineDependencyGraphOld.Filterer(){
+    public boolean filterPipeline(    String pipelineName){
+      return goConfigService.hasPipelineNamed(new CaseInsensitiveString(pipelineName)) && securityService.hasViewPermissionForPipeline(username,pipelineName);
+    }
+  }
+);
+}

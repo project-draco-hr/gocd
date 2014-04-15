@@ -1,0 +1,11 @@
+{
+  File parentFile=parent.getCanonicalFile();
+  File current=subdirectory.getCanonicalFile();
+  while (current != null) {
+    if (current.equals(parentFile)) {
+      return true;
+    }
+    current=current.getParentFile();
+  }
+  return false;
+}

@@ -1,0 +1,23 @@
+{
+  Date updateDate=new Date();
+  CruiseConfig config=mock(CruiseConfig.class);
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("down");
+  MingleConfig mingleConfig=new MingleConfig("http://foo.bar:7019/baz/","go-project");
+  pipelineConfig.setMingleConfig(mingleConfig);
+  Map<Long,List<ModificationForPipeline>> expectedModMapDown=new HashMap<Long,List<ModificationForPipeline>>();
+  Modification mod1=ModificationsMother.checkinWithComment("revision","#123 hello wolrd",updateDate);
+  expectedModMapDown.put(1L,asList(new ModificationForPipeline(new PipelineId("down",1L),mod1,"Svn","fooBarBaaz")));
+  FeedEntry expected=stageFeedEntry("down",updateDate);
+  when(stageDao.findCompletedStagesFor("down",FeedModifier.Latest,-1,25)).thenReturn(asList(stageFeedEntry("down",updateDate),stageFeedEntry("down",updateDate)));
+  when(goConfigService.currentCruiseConfig()).thenReturn(config);
+  when(changesetService.modificationsOfPipelines(asList(1L,1L),"down",Username.ANONYMOUS)).thenReturn(expectedModMapDown);
+  when(config.hasPipelineNamed(any(CaseInsensitiveString.class))).thenReturn(false).thenReturn(true);
+  when(config.pipelineConfigByName(any(CaseInsensitiveString.class))).thenReturn(pipelineConfig);
+  StageService service=new StageService(stageDao,null,null,null,null,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,new StubGoCache(transactionSynchronizationManager));
+  FeedEntries feedEntries=service.feed("down",Username.ANONYMOUS);
+  assertThat(feedEntries,is(new FeedEntries(asList(expected,expected))));
+  assertThat(feedEntries.get(0).getAuthors(),is(asList(new Author(ModificationsMother.MOD_USER_COMMITTER,ModificationsMother.EMAIL_ADDRESS))));
+  assertEquals(feedEntries.get(0).getMingleCards().size(),0);
+  assertThat(feedEntries.get(1).getAuthors(),is(asList(new Author(ModificationsMother.MOD_USER_COMMITTER,ModificationsMother.EMAIL_ADDRESS))));
+  assertThat(feedEntries.get(1).getMingleCards(),is(asList(new MingleCard(mingleConfig,"123"))));
+}

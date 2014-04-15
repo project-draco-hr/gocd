@@ -1,0 +1,13 @@
+{
+  Pipeline pipeline=preCondition.createdPipelineWithAllStagesPassed();
+  reOrderTwoStages();
+  scheduleService.rerunStage(pipeline,preCondition.devStage(),"anyone");
+  pipeline=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  dbHelper.passStage(pipeline.getFirstStage());
+  Stage devStage=stageDao.mostRecentWithBuilds(preCondition.pipelineName,preCondition.devStage());
+  Stage oldFtStage=stageDao.mostRecentWithBuilds(preCondition.pipelineName,preCondition.ftStage());
+  scheduleService.automaticallyTriggerRelevantStagesFollowingCompletionOf(devStage);
+  Stage ftStage=stageDao.mostRecentWithBuilds(preCondition.pipelineName,preCondition.ftStage());
+  assertThat(String.format("Should schedule new ft stage: old id: %s, new id: %s",oldFtStage.getId(),ftStage.getId()),ftStage.getId() > oldFtStage.getId(),is(true));
+  assertThat(ftStage.getJobInstances().first().getState(),is(JobState.Scheduled));
+}

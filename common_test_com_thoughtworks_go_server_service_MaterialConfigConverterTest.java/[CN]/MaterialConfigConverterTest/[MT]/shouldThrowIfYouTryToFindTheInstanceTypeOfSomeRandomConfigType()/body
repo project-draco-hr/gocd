@@ -1,0 +1,10 @@
+{
+  MaterialConfigConverter converter=new MaterialConfigConverter();
+  try {
+    converter.getInstanceType(new TestingMaterialConfig());
+    fail("Should have thrown up");
+  }
+ catch (  Exception e) {
+    assertEquals("Unexpected type: TestingMaterialConfig",e.getMessage());
+  }
+}

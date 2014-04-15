@@ -1,0 +1,8 @@
+{
+  configRepo.checkin(goConfigRevision("something","md5-1"));
+  RevCommit revCommit=configRepo.getCurrentRevCommit();
+  configRepo.createBranch("branch1",revCommit);
+  Ref branch=getBranch("branch1");
+  assertThat(branch,is(notNullValue()));
+  assertThat(branch.getObjectId(),is(revCommit.getId()));
+}

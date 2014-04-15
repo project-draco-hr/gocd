@@ -1,0 +1,8 @@
+{
+  PackageMaterial material=new PackageMaterial();
+  PackageDefinition packageDefinition=create("id","package",new Configuration(),PackageRepositoryMother.create("id","name","plugin-id","plugin-version",new Configuration()));
+  material.setPackageDefinition(packageDefinition);
+  when(pluginManager.doOn(eq(PackageMaterialProvider.class),eq("plugin-id"),any(ActionWithReturn.class))).thenReturn(new PackageRevision("blah-123",new Date(),"user"));
+  List<Modification> modifications=materialService.latestModification(material,null,null);
+  assertThat(modifications.get(0).getRevision(),is("blah-123"));
+}

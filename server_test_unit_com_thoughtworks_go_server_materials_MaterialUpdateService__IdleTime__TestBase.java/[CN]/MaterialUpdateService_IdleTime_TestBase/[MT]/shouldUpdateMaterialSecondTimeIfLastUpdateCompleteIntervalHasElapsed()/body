@@ -1,0 +1,14 @@
+{
+  systemEnvironment.setProperty(SystemEnvironment.MATERIAL_UPDATE_IDLE_INTERVAL_PROPERTY,"1000");
+  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  service=spy(service);
+  Set<MaterialConfig> schedulableMaterials=goConfigService.getSchedulableMaterials();
+  Set<Material> materials=new HashSet<Material>();
+  materials.add(material());
+  when(materialConfigConverter.toMaterials(schedulableMaterials)).thenReturn(materials);
+  service.onTimer();
+  service.onMessage(new MaterialUpdateSuccessfulMessage(material(),0));
+  Thread.sleep(2000);
+  service.onTimer();
+  verify(service,times(2)).updateMaterial(material());
+}

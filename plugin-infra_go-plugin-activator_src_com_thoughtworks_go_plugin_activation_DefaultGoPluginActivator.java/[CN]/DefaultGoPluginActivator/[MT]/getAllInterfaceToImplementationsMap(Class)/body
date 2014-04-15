@@ -1,0 +1,19 @@
+{
+  HashMap<Class,List<Object>> interfaceAndItsImplementations=new HashMap<Class,List<Object>>();
+  Set<Class> interfaces=findAllInterfacesInHierarchy(candidateGoExtensionClass);
+  Object implementation=createImplementationOf(candidateGoExtensionClass);
+  if (implementation == null) {
+    return interfaceAndItsImplementations;
+  }
+  for (  Class anInterface : interfaces) {
+    if (isGoExtensionPointInterface(anInterface)) {
+      List<Object> implementations=interfaceAndItsImplementations.get(anInterface);
+      if (implementations == null) {
+        implementations=new ArrayList<Object>();
+        interfaceAndItsImplementations.put(anInterface,implementations);
+      }
+      implementations.add(implementation);
+    }
+  }
+  return interfaceAndItsImplementations;
+}

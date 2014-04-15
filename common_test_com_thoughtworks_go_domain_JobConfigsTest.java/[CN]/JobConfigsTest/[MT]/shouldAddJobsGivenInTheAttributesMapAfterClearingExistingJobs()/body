@@ -1,0 +1,8 @@
+{
+  JobConfigs jobs=new JobConfigs();
+  jobs.add(new JobConfig("quux"));
+  jobs.setConfigAttributes(a(m(JobConfig.NAME,"foo"),m(JobConfig.NAME,"bar")));
+  assertThat(jobs.get(0).name(),is(new CaseInsensitiveString("foo")));
+  assertThat(jobs.get(1).name(),is(new CaseInsensitiveString("bar")));
+  assertThat(jobs.size(),is(2));
+}

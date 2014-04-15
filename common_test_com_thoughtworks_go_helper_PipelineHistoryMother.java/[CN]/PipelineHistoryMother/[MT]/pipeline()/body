@@ -1,0 +1,9 @@
+{
+  PipelineModel pipelineModel=new PipelineModel("pipe1",true,true,PipelinePauseInfo.notPaused());
+  MaterialRevisions materialRevisions=ModificationsMother.createHgMaterialRevisions();
+  PipelineInstanceModel instanceModel=PipelineInstanceModel.createPipeline("pipe1",-1,"label1",BuildCause.createWithModifications(materialRevisions,"foo-bar"),new StageInstanceModels());
+  instanceModel.setMaterialConfigs(new MaterialConfigs(materialRevisions.getMaterialRevision(0).getMaterial().config()));
+  instanceModel.setLatestRevisions(materialRevisions);
+  pipelineModel.addPipelineInstance(instanceModel);
+  return pipelineModel;
+}

@@ -1,0 +1,12 @@
+{
+  JobConfig jobConfig=new JobConfig();
+  HashMap map=new HashMap();
+  HashMap valueHashMap=new HashMap();
+  valueHashMap.put("name","FOO");
+  valueHashMap.put("value","BAR");
+  map.put(JobConfig.ENVIRONMENT_VARIABLES,valueHashMap);
+  EnvironmentVariablesConfig mockEnvironmentVariablesConfig=mock(EnvironmentVariablesConfig.class);
+  jobConfig.setVariables(mockEnvironmentVariablesConfig);
+  jobConfig.setConfigAttributes(map);
+  verify(mockEnvironmentVariablesConfig).setConfigAttributes(valueHashMap);
+}

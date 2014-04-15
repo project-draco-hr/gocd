@@ -1,0 +1,8 @@
+{
+  JobInstance oldJob=savedStage.getJobInstances().getByName(JOB_NAME);
+  jobInstanceDao.ignore(oldJob);
+  JobInstance expected=JobInstanceMother.scheduled(JOB_NAME);
+  expected=jobInstanceDao.save(stageId,expected);
+  long actual=jobInstanceDao.findOriginalJobIdentifier(new StageIdentifier(savedPipeline,savedStage),JOB_NAME).getBuildId();
+  assertThat(actual,is(expected.getId()));
+}

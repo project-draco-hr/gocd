@@ -1,0 +1,8 @@
+{
+  assertionUtil=new TransactionCacheAssertionUtil(goCache,transactionTemplate);
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  dbHelper.onSetUp();
+  goCache.clear();
+  daoSupport=new SqlMapClientDaoSupport(goCache,sqlMapClient,systemEnvironment,databaseStrategy);
+}

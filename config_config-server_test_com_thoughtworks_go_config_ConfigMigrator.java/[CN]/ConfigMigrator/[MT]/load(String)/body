@@ -1,0 +1,9 @@
+{
+  try {
+    ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
+    return new MagicalGoConfigXmlLoader(new ConfigCache(),registry,metricsProbeService).loadConfigHolder(migrate(content)).config;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

@@ -1,0 +1,17 @@
+{
+  GitMaterial git3=new GitMaterial("/tmp/git-repo3",null,"git3");
+  u.checkinInOrder(git3,"g31");
+  GitMaterial git4=new GitMaterial("/tmp/git-repo4",null,"git4");
+  u.checkinInOrder(git4,"g41");
+  GitMaterial git5=new GitMaterial("/tmp/git-repo5",null,"git5");
+  u.checkinInOrder(git5,"g51");
+  ScheduleTestUtil.AddedPipeline p5=u.saveConfigWith("p5",StageConfig.DEFAULT_NAME,u.m(git3),u.m(git4));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",StageConfig.DEFAULT_NAME,u.m(p5),u.m(git3),u.m(git4),u.m(git5));
+  ScheduleTestUtil.AddedPipeline p8=u.saveConfigWith("p8",StageConfig.DEFAULT_NAME,u.m(p4));
+  ScheduleTestUtil.AddedPipeline p11=u.saveConfigWith("p11",StageConfig.DEFAULT_NAME,u.m(p8));
+  String p5_1=u.runAndPass(p5,"g31","g41");
+  String p4_1=u.runAndPass(p4,p5_1,"g31","g41","g51");
+  String p8_1=u.runAndPass(p8,p4_1);
+  MaterialRevisions given=u.mrs(new MaterialRevision[]{u.mr(p8,true,p8_1)});
+  assertThat(getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("p11")),is(given));
+}

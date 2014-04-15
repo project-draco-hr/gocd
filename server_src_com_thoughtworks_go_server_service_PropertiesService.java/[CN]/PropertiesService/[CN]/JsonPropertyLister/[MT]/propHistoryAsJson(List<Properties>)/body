@@ -1,0 +1,9 @@
+{
+  JsonList jsonList=new JsonList();
+  for (  Properties properties : jobPropertiesHistory) {
+    JsonMap jsonMap=new JsonMap();
+    jsonMap.put("properties",properties.toJson());
+    jsonList.add(jsonMap);
+  }
+  return jsonFound(jsonList);
+}

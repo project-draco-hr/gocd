@@ -1,0 +1,12 @@
+{
+  RollingFileAppender appender;
+  try {
+    appender=new RollingFileAppender(LOG4J_PATTERN,logFilePath(logOutputFilename),true);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+  appender.setMaxBackupIndex(4);
+  appender.setMaxFileSize("5000KB");
+  return appender;
+}

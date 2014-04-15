@@ -1,0 +1,10 @@
+{
+  MockHttpServletRequest req=new MockHttpServletRequest();
+  req.setAttribute(EchoAttributeServlet.ECHO_BODY_ATTRIBUTE,"some-random-echo-body");
+  MockHttpServletResponse res=new MockHttpServletResponse();
+  res.setContentType("foo/bar");
+  dataPt.call(servlet,req,res);
+  assertThat(res.getContentAsString(),is("some-random-echo-body"));
+  assertThat(res.getContentType(),is("foo/bar"));
+  assertThat(res.getStatus(),is(200));
+}

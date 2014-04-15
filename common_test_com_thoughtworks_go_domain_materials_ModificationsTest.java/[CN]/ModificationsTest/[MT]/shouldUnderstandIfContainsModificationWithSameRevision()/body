@@ -1,0 +1,12 @@
+{
+  MaterialInstance materialInstance=MaterialsMother.hgMaterial().createMaterialInstance();
+  final Modification modification=modificationWith(materialInstance,"1");
+  final Modification sameModification=modificationWith(materialInstance,"1");
+  final Modification modificationWithDifferentRev=modificationWith(materialInstance,"2");
+  final Modification modificationWithDifferentMaterial=modificationWith(MaterialsMother.hgMaterial("http://foo.com").createMaterialInstance(),"1");
+  Modifications modifications=new Modifications(modification);
+  assertThat(modifications.containsRevisionFor(modification),is(true));
+  assertThat(modifications.containsRevisionFor(sameModification),is(true));
+  assertThat(modifications.containsRevisionFor(modificationWithDifferentRev),is(false));
+  assertThat(modifications.containsRevisionFor(modificationWithDifferentMaterial),is(true));
+}

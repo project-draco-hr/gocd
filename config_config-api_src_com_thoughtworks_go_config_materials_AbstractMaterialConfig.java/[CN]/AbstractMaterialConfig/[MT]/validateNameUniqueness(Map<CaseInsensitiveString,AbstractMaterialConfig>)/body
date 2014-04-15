@@ -1,0 +1,13 @@
+{
+  if (CaseInsensitiveString.isBlank(getName())) {
+    return;
+  }
+  CaseInsensitiveString currentMaterialName=getName();
+  AbstractMaterialConfig materialWithSameName=map.get(currentMaterialName);
+  if (materialWithSameName != null) {
+    materialWithSameName.addNameConflictError();
+    addNameConflictError();
+    return;
+  }
+  map.put(currentMaterialName,this);
+}

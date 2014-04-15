@@ -1,0 +1,11 @@
+{
+  String configString="<cruise schemaVersion='69'>" + "   <templates>" + "       <pipeline name='template-name'>"+ "           <authorization>"+ "               <admins>"+ "                   <user>admin1</user>"+ "                   <user>admin2</user>"+ "               </admins>"+ "           </authorization>"+ "           <stage name='stage-name'>"+ "               <jobs>"+ "                   <job name='job-name'/>"+ "               </jobs>"+ "           </stage>"+ "       </pipeline>"+ "   </templates>"+ "</cruise>";
+  String migratedContent=migrateXmlString(configString,69);
+  assertThat(migratedContent,containsString("<authorization>"));
+  CruiseConfig configForEdit=loader.loadConfigHolder(migratedContent).configForEdit;
+  PipelineTemplateConfig template=configForEdit.getTemplateByName(new CaseInsensitiveString("template-name"));
+  Authorization authorization=template.getAuthorization();
+  assertThat(authorization,is(not(nullValue())));
+  assertThat(authorization.hasAdminsDefined(),is(true));
+  assertThat(authorization.getAdminsConfig().getUsers(),hasItems(new AdminUser(new CaseInsensitiveString("admin1")),new AdminUser(new CaseInsensitiveString("admin2"))));
+}

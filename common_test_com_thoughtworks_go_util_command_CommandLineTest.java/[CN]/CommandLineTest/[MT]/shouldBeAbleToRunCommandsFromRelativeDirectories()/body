@@ -1,0 +1,9 @@
+{
+  File shellScript=new File(tempFolder,"hello-world.sh");
+  FileUtil.writeContentToFile("echo ${PWD}",shellScript);
+  assertThat(shellScript.setExecutable(true),is(true));
+  CommandLine line=CommandLine.createCommandLine("../hello-world.sh").withWorkingDir(subFolder);
+  InMemoryStreamConsumer out=new InMemoryStreamConsumer();
+  line.execute(out,new EnvironmentVariableContext(),null).waitForExit();
+  assertThat(out.getAllOutput().trim(),endsWith("subFolder"));
+}

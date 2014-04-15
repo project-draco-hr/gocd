@@ -1,0 +1,6 @@
+{
+synchronized (mutexForPipelineName(pipelineName)) {
+    BuildCause buildCause=toBeScheduled.get(pipelineName);
+    return buildCause != null && buildCause.isForced();
+  }
+}

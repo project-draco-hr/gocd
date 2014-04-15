@@ -1,0 +1,15 @@
+{
+  HashMap attributes=new HashMap();
+  String content="config_xml";
+  attributes.put("content",content);
+  String md5="config_md5";
+  attributes.put("md5",md5);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  GoConfigService.XmlPartialSaver fileSaver=mock(GoConfigService.XmlPartialSaver.class);
+  when(fileSaver.saveXml(content,md5)).thenReturn(GoConfigValidity.valid());
+  when(goConfigService.fileSaver(false)).thenReturn(fileSaver);
+  adminService.updateConfig(attributes,result);
+  assertThat(result.isSuccessful(),is(true));
+  verify(fileSaver).saveXml(content,md5);
+  verify(goConfigService).fileSaver(false);
+}

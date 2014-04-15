@@ -1,0 +1,8 @@
+{
+  pipelineConfig.setLabelTemplate("fixed-label");
+  Pipeline oldPipeline=createNewPipeline(pipelineConfig);
+  Pipeline newPipeline=createNewPipeline(pipelineConfig);
+  JobInstance expected=oldPipeline.getFirstStage().getJobInstances().first();
+  JobInstance actual=jobInstanceDao.mostRecentJobWithTransitions(new JobIdentifier(oldPipeline,oldPipeline.getFirstStage(),expected));
+  assertThat(actual.getId(),is(expected.getId()));
+}

@@ -1,0 +1,25 @@
+{
+  String pipelineName="cruise";
+  String firstStageName=JOB_NAME;
+  PipelineConfig pipelineConfig=configHelper.addPipeline(pipelineName,firstStageName);
+  Pipeline pipeline=PipelineMother.building(pipelineConfig);
+  saveRev(pipeline);
+  JobInstance firstJob=pipeline.findStage(firstStageName).getFirstJob();
+  assertThat(stageDao.stageById(firstJob.getStageId()).stageState(),is(StageState.Building));
+  assertThat(stageDao.stageById(firstJob.getStageId()).getResult(),is(StageResult.Unknown));
+  scheduleService.failJob(firstJob);
+  JobInstance instance=jobInstanceService.buildById(firstJob.getId());
+  assertThat(instance.getState(),is(JobState.Completed));
+  assertThat(instance.getResult(),is(JobResult.Failed));
+  assertThat(stageDao.stageById(instance.getStageId()).stageState(),is(StageState.Failing));
+  assertThat(stageDao.stageById(instance.getStageId()).getResult(),is(StageResult.Failed));
+  assertThat(stageDao.stageById(instance.getStageId()).getCompletedByTransitionId(),is(nullValue()));
+  JobInstance secondJob=pipeline.findStage(firstStageName).getJobInstances().get(1);
+  scheduleService.failJob(secondJob);
+  instance=jobInstanceService.buildByIdWithTransitions(secondJob.getId());
+  assertThat(instance.getState(),is(JobState.Completed));
+  assertThat(instance.getResult(),is(JobResult.Failed));
+  assertThat(stageDao.stageById(instance.getStageId()).stageState(),is(StageState.Failed));
+  assertThat(stageDao.stageById(instance.getStageId()).getResult(),is(StageResult.Failed));
+  assertThat(stageDao.stageById(instance.getStageId()).getCompletedByTransitionId(),is(instance.getTransitions().latestTransitionId()));
+}

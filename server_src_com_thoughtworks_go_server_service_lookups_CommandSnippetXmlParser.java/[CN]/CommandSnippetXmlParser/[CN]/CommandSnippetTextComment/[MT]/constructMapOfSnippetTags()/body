@@ -1,0 +1,9 @@
+{
+  String[] linesInComment=content.split("\n");
+  for (  String lineInComment : linesInComment) {
+    Matcher matcher=commentLineKeyValuePattern.matcher(lineInComment);
+    if (matcher.matches()) {
+      snippetTagMap.put(matcher.group(1).toLowerCase(),matcher.group(2));
+    }
+  }
+}

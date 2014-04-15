@@ -1,0 +1,17 @@
+{
+  return new TypeSafeMatcher<Properties>(){
+    private final List<String> missingProps=new ArrayList<String>();
+    public boolean matchesSafely(    Properties item){
+      for (      Property property : properties) {
+        if (!item.contains(property)) {
+          missingProps.add(property.toString());
+        }
+      }
+      return missingProps.isEmpty();
+    }
+    public void describeTo(    Description description){
+      description.appendText("contains [").appendText(join(missingProps)).appendText("]");
+    }
+  }
+;
+}

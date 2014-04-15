@@ -1,0 +1,9 @@
+{
+  String dest=this.getFolder();
+  if (dest == null) {
+    return;
+  }
+  if (!(FileUtil.isFolderInsideSandbox(dest))) {
+    setDestinationFolderError(String.format("Dest folder '%s' is not valid. It must be a sub-directory of the working folder.",dest));
+  }
+}

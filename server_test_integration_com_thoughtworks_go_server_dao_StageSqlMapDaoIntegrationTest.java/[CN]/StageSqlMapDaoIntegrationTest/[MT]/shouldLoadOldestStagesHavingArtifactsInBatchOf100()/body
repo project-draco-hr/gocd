@@ -1,0 +1,19 @@
+{
+  Pipeline[] pipelines=new Pipeline[101];
+  for (int i=0; i < 101; i++) {
+    Pipeline pipeline=dbHelper.schedulePipeline(PipelineConfigMother.createPipelineConfig("foo_" + i,"stage1","job1"),new TimeProvider());
+    dbHelper.pass(pipeline);
+    pipelines[i]=pipeline;
+  }
+  List<Stage> stages=stageDao.oldestStagesHavingArtifacts();
+  assertThat(stages.size(),is(100));
+  for (int i=0; i < 100; i++) {
+    Stage stage=stages.get(i);
+    assertThat(stage.getIdentifier(),Matchers.is(pipelines[i].getFirstStage().getIdentifier()));
+    stageDao.markArtifactsDeletedFor(stage);
+  }
+  stages=stageDao.oldestStagesHavingArtifacts();
+  assertThat(stages.size(),is(1));
+  stageDao.markArtifactsDeletedFor(stages.get(0));
+  assertThat(stageDao.oldestStagesHavingArtifacts().size(),is(0));
+}

@@ -1,0 +1,14 @@
+{
+  Class<? extends Object> extnPointClass=extensionObject.getClass();
+  ArrayList<Method> methodsWithLoadAnnotation=new ArrayList<Method>();
+  for (  Method method : extnPointClass.getDeclaredMethods()) {
+    boolean annotated=hasAnnotation(annotation,method);
+    if (annotated && isPublic(method) && isNonStatic(method)&& hasOneArgOfPluginContextType(method)) {
+      methodsWithLoadAnnotation.add(method);
+    }
+ else     if (annotated) {
+      reportWarningsForAnnotatedMethod(method,annotation);
+    }
+  }
+  return methodsWithLoadAnnotation.toArray(new Method[methodsWithLoadAnnotation.size()]);
+}

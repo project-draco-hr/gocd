@@ -1,0 +1,12 @@
+{
+  final TransactionSynchronizationManager synchronizationManager=new TransactionSynchronizationManager();
+  final ArrayList<Boolean> transactionActivity=new ArrayList<Boolean>();
+  transactionTemplate.execute(new org.springframework.transaction.support.TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      transactionActivity.add(synchronizationManager.isActualTransactionActive());
+    }
+  }
+);
+  assertThat(transactionActivity,is(Arrays.asList(true)));
+  assertThat(synchronizationManager.isActualTransactionActive(),is(false));
+}

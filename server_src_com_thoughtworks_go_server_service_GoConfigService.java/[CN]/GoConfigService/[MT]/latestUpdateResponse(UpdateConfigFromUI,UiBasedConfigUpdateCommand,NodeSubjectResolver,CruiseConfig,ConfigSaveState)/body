@@ -1,0 +1,11 @@
+{
+  Validatable node=null;
+  Validatable subject=null;
+  try {
+    node=nodeSubResolver.getNode(command,config);
+    subject=subjectFromNode(command,nodeSubResolver,node);
+  }
+ catch (  Exception e) {
+  }
+  return new ConfigUpdateResponse(config,node,subject,updateCommand,configSaveState);
+}

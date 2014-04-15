@@ -1,0 +1,8 @@
+{
+  if (!state.completed()) {
+    return RunDuration.IN_PROGRESS_DURATION;
+  }
+  Date start=new Date(createdTime.getTime());
+  Date end=new Date(lastTransitionedTime.getTime());
+  return new RunDuration.ActualDuration(new Duration(end.getTime() - start.getTime()));
+}

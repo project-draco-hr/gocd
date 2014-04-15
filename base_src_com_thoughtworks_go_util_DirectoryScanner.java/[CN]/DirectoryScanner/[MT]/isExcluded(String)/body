@@ -1,0 +1,12 @@
+{
+  ensureNonPatternSetsReady();
+  if (isCaseSensitive() ? excludeNonPatterns.contains(name) : excludeNonPatterns.contains(name.toUpperCase())) {
+    return true;
+  }
+  for (int i=0; i < excludePatterns.length; i++) {
+    if (matchPath(excludePatterns[i],name,isCaseSensitive())) {
+      return true;
+    }
+  }
+  return false;
+}

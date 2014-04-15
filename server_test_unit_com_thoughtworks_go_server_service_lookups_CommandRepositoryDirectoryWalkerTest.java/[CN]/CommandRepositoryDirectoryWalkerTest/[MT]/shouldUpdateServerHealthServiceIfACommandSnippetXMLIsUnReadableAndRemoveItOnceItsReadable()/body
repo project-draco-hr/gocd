@@ -1,0 +1,12 @@
+{
+  File dirWithUnreadableFile=tempFiles.mkdir("dirWithUnreadableFile");
+  File unreadableFile=new File(dirWithUnreadableFile,"unreadable.xml");
+  FileUtils.copyFile(xmlFile,unreadableFile);
+  unreadableFile.setReadable(false);
+  walker.getAllCommandSnippets(dirWithUnreadableFile.getPath());
+  verify(serverHealthService).update(serverHealthWarningMessageWhichContains("Failed to access command snippet XML file located in Go Server Directory at " + unreadableFile.getPath() + ". Go does not have sufficient permissions to access it."));
+  unreadableFile.setReadable(true);
+  walker.getAllCommandSnippets(dirWithUnreadableFile.getPath());
+  verify(serverHealthService,times(2)).update(serverHealthMessageWhichSaysItsOk());
+  verifyNoMoreInteractions(serverHealthService);
+}

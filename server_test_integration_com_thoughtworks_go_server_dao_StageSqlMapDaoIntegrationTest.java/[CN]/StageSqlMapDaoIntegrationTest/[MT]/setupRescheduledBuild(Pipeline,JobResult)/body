@@ -1,0 +1,7 @@
+{
+  Stage stage=pipeline.getStages().first();
+  JobInstance rescheduled=stage.getJobInstances().first().clone();
+  rescheduled.changeState(JobState.Rescheduled);
+  rescheduled.setResult(jobResult);
+  jobInstanceDao.save(stage.getId(),rescheduled);
+}

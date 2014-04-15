@@ -1,0 +1,14 @@
+{
+  DependencyMaterialConfig dependencyMaterialConfig=mock(DependencyMaterialConfig.class);
+  DependencyMaterial dependencyMaterial=mock(DependencyMaterial.class);
+  Set<MaterialConfig> materialConfigs=new HashSet<MaterialConfig>(Collections.singleton(dependencyMaterialConfig));
+  Set<Material> materials=new HashSet<Material>(Collections.singleton(dependencyMaterial));
+  when(goConfigService.getSchedulableMaterials()).thenReturn(materialConfigs);
+  when(materialConfigConverter.toMaterials(materialConfigs)).thenReturn(materials);
+  systemEnvironment.setProperty(SystemEnvironment.MATERIAL_UPDATE_IDLE_INTERVAL_PROPERTY,"100000");
+  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  service=spy(service);
+  service.onTimer();
+  service.onTimer();
+  verify(service,times(2)).updateMaterial(dependencyMaterial);
+}

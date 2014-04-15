@@ -1,0 +1,20 @@
+{
+  final FilterBasedLdapUserSearch filter1=mock(FilterBasedLdapUserSearch.class);
+  final FilterBasedLdapUserSearch filter2=mock(FilterBasedLdapUserSearch.class);
+  final FilterBasedLdapUserSearch filter3=mock(FilterBasedLdapUserSearch.class);
+  final FilterBasedLdapUserSearch filter4=mock(FilterBasedLdapUserSearch.class);
+  LdapConfig ldapConfig=setLdapConfig(new BasesConfig(new BaseConfig("base1"),new BaseConfig("base2"),new BaseConfig("base3"),new BaseConfig("base4")));
+  doReturn(filter1).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().get(0).getValue(),ldapConfig.searchFilter());
+  doReturn(filter2).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().get(1).getValue(),ldapConfig.searchFilter());
+  doReturn(filter3).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().get(2).getValue(),ldapConfig.searchFilter());
+  doReturn(filter4).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().get(3).getValue(),ldapConfig.searchFilter());
+  DirContextOperations foundUser=mock(DirContextOperations.class);
+  RuntimeException runtimeException=new RuntimeException("Invalid search base");
+  when(filter1.searchForUser("username")).thenThrow(runtimeException);
+  when(filter2.searchForUser("username")).thenThrow(new UsernameNotFoundException("User not found"));
+  when(filter3.searchForUser("username")).thenThrow(runtimeException);
+  when(filter4.searchForUser("username")).thenReturn(foundUser);
+  assertThat(spy.searchForUser("username"),is(foundUser));
+  verify(logger,times(1)).warn("The ldap configuration for search base 'base1' is invalid",runtimeException);
+  verify(logger,times(1)).warn("The ldap configuration for search base 'base3' is invalid",runtimeException);
+}

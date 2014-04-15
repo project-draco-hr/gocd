@@ -1,0 +1,6 @@
+{
+  PipelineConfig downstream=PipelineConfigMother.createPipelineConfigWithStages("downstream","s1","s2");
+  List<StageConfig> fetchableStages=downstream.validStagesForFetchArtifact(downstream,new CaseInsensitiveString("s2"));
+  assertThat(fetchableStages.size(),is(1));
+  assertThat(fetchableStages,hasItem(downstream.get(0)));
+}

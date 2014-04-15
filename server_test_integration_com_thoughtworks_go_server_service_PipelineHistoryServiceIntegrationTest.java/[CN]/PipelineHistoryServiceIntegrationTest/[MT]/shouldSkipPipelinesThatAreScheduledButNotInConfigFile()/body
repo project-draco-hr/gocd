@@ -1,0 +1,7 @@
+{
+  pipelineOne.createPipelineWithFirstStageScheduled();
+  configHelper.removePipeline(pipelineOne.pipelineName);
+  configHelper.removePipeline(pipelineTwo.pipelineName);
+  List<PipelineGroupModel> groupModels=pipelineHistoryService.allActivePipelineInstances(new Username(new CaseInsensitiveString("jez")),PipelineSelections.ALL);
+  assertThat(groupModels.size(),is(0));
+}

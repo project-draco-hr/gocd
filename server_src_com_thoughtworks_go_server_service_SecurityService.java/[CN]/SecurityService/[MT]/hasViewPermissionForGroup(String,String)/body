@@ -1,0 +1,12 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.getCurrentConfig();
+  if (!cruiseConfig.isSecurityEnabled()) {
+    return true;
+  }
+  CaseInsensitiveString username=new CaseInsensitiveString(userName);
+  if (isUserAdmin(new Username(username))) {
+    return true;
+  }
+  PipelineConfigs group=cruiseConfig.getGroups().findGroup(pipelineGroupName);
+  return isUserAdminOfGroup(username,group) || group.hasViewPermission(username,new UserRoleMatcherImpl(cruiseConfig.server().security()));
+}

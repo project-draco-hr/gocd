@@ -1,0 +1,8 @@
+{
+  for (  String jobName : jobNames) {
+    JobInstances jobInstances=newStage.getJobInstances();
+    JobInstance oldJob=jobInstances.getByName(jobName);
+    jobInstances.remove(oldJob);
+    createJobType(oldJob.isRunOnAllAgents()).createRerunInstances(oldJob,jobInstances,context,stageConfig,clock,this);
+  }
+}

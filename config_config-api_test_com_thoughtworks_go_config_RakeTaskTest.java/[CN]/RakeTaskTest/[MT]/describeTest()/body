@@ -1,0 +1,7 @@
+{
+  RakeTask rakeTask=new RakeTask();
+  rakeTask.setBuildFile("myrakefile.rb");
+  rakeTask.setTarget("db:migrate VERSION=0");
+  rakeTask.setWorkingDirectory("lib");
+  assertThat(rakeTask.describe(),is("<rake buildfile=\"myrakefile.rb\" target=\"db:migrate VERSION=0\" workingdir=\"lib\" />"));
+}

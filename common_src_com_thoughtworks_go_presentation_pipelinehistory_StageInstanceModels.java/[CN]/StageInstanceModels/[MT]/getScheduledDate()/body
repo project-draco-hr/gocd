@@ -1,0 +1,13 @@
+{
+  Date earliestScheduledDate=null;
+  for (  StageInstanceModel stage : this) {
+    if (!stage.isScheduled()) {
+      continue;
+    }
+    Date stageDate=stage.getScheduledDate();
+    if (earliestScheduledDate == null || stageDate.before(earliestScheduledDate)) {
+      earliestScheduledDate=stageDate;
+    }
+  }
+  return earliestScheduledDate;
+}

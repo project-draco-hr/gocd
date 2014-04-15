@@ -1,0 +1,10 @@
+{
+  final File logsDir=new File("logs");
+  final ByteArrayInputStream stream=new ByteArrayInputStream("".getBytes());
+  String buildInstanceId="1";
+  final File destFile=new File(logsDir,buildInstanceId + File.separator + LOG_XML_NAME);
+  assumeArtifactsRoot(logsDir);
+  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  artifactsService.saveFile(destFile.getParentFile(),stream,true,1);
+  Mockito.verify(zipUtil).unzip(any(ZipInputStream.class),eq(destFile.getParentFile()));
+}

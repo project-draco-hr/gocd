@@ -1,0 +1,15 @@
+{
+  this.clear();
+  if (attributes != null) {
+    for (    Map attributeMap : (List<Map>)attributes) {
+      EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig(new GoCipher());
+      try {
+        environmentVariableConfig.setConfigAttributes(attributeMap);
+        this.add(environmentVariableConfig);
+      }
+ catch (      IllegalArgumentException e) {
+        continue;
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  MaterialInstance original=new SvnMaterialInstance("url","username",UUID.randomUUID().toString(),true);
+  Modification modification=new Modification("user","comment","email",new Date(),ModificationsMother.nextRevision());
+  modification.createModifiedFile("file1","folder1",ModifiedAction.added);
+  modification.createModifiedFile("file2","folder2",ModifiedAction.deleted);
+  repo.saveOrUpdate(original);
+  MaterialInstance loaded=repo.find(original.getId());
+  assertThat(loaded,is(original));
+}

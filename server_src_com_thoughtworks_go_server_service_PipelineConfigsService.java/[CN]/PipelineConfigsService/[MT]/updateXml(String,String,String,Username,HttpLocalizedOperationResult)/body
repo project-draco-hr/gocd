@@ -1,0 +1,15 @@
+{
+  if (!userHasPermissions(username,groupName,result)) {
+    return new GoConfigOperationalResponse<PipelineConfigs>(GoConfigValidity.valid(),null);
+  }
+  GoConfigValidity goConfigValidity=goConfigService.groupSaver(groupName).saveXml(xmlPartial,md5);
+  if (!goConfigValidity.isValid()) {
+    handleError(groupName,goConfigValidity,result);
+    return new GoConfigOperationalResponse<PipelineConfigs>(goConfigValidity,null);
+  }
+  Localizable savedSuccessMessage=LocalizedMessage.string("SAVED_CONFIGURATION_SUCCESSFULLY");
+  Localizable localizableMessage=goConfigValidity.wasMerged() ? LocalizedMessage.composite(savedSuccessMessage,LocalizedMessage.string("CONFIG_MERGED")) : savedSuccessMessage;
+  result.setMessage(localizableMessage);
+  PipelineConfigs pipelineConfigs=magicalGoConfigXmlLoader.fromXmlPartial(xmlPartial,PipelineConfigs.class);
+  return new GoConfigOperationalResponse<PipelineConfigs>(goConfigValidity,pipelineConfigs);
+}

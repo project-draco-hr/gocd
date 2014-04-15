@@ -1,0 +1,5 @@
+{
+  PipelineConfigs group=new PipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
+  group.getAuthorization().getViewConfig().add(new AdminUser(new CaseInsensitiveString("jez")));
+  assertThat(group.hasViewPermission(new CaseInsensitiveString("jez"),null),is(true));
+}

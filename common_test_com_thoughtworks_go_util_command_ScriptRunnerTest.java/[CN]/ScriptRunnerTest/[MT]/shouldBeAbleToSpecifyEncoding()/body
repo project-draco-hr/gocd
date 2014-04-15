@@ -1,0 +1,8 @@
+{
+  String chrisWasHere="???????????????";
+  CommandLine command=CommandLine.createCommandLine("echo").withArg(chrisWasHere).withEncoding("UTF-8");
+  InMemoryConsumer output=new InMemoryConsumer();
+  ExecScript script=new ExecScript("FOO");
+  command.runScript(script,output,new EnvironmentVariableContext(),null);
+  assertThat(output.toString(),containsString(chrisWasHere));
+}

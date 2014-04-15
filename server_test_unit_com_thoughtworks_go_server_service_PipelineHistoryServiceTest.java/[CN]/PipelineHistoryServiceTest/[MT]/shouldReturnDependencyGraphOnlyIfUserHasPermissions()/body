@@ -1,0 +1,15 @@
+{
+  PipelineInstanceModel instanceModel=pim("blahPipeline");
+  instanceModel.setId(12);
+  PipelineDependencyGraphOld expected=new PipelineDependencyGraphOld(instanceModel,createPipelineInstanceModels());
+  when(pipelineDao.pipelineGraphByNameAndCounter("blahPipeline",12)).thenReturn(expected);
+  ensureConfigHasPipeline("blahPipeline");
+  when(goConfigService.downstreamPipelinesOf("blahPipeline")).thenReturn(new ArrayList<PipelineConfig>());
+  stubConfigServiceToReturnPipeline("blahPipeline",PipelineConfigMother.pipelineConfig("blahPipeline"));
+  when(pipelineTimeline.pipelineBefore(12)).thenReturn(1L);
+  when(pipelineDao.loadHistory(1)).thenReturn(new PipelineInstanceModel("blahPipeline",21,"prev-label",BuildCause.createWithEmptyModifications(),new StageInstanceModels()));
+  Username foo=new Username(new CaseInsensitiveString("foo"));
+  ensureHasPermission(USERNAME,"blahPipeline");
+  assertThat(pipelineHistoryService.pipelineDependencyGraph("blahPipeline",12,foo,new HttpOperationResult()),is(nullValue()));
+  assertThat(pipelineHistoryService.pipelineDependencyGraph("blahPipeline",12,USERNAME,new HttpOperationResult()),is(expected));
+}

@@ -1,0 +1,25 @@
+{
+  List<Modification> modifications=new ArrayList<Modification>();
+  for (  String change : result.output()) {
+    if (!StringUtils.isBlank(change)) {
+      String description="";
+      try {
+        long revision=revisionFromChange(change);
+        description=p4Client.describe(revision);
+        modifications.add(modificationFromDescription(description,result));
+      }
+ catch (      P4OutputParseException e) {
+        LOG.error("Error parsing changes for " + this);
+        LOG.error("---- change ---------");
+        LOG.error(result.replaceSecretInfo(change));
+        LOG.error("---- description ----");
+        LOG.error(result.replaceSecretInfo(description));
+        LOG.error("---------------------");
+      }
+catch (      RuntimeException e) {
+        throw (RuntimeException)result.smudgedException(e);
+      }
+    }
+  }
+  return modifications;
+}

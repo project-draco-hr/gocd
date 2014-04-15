@@ -1,0 +1,6 @@
+{
+  String pipelineName="blahPipeline";
+  configFileHelper.addPipelineWithGroup("group2",pipelineName,"stage","job");
+  pipelineScheduleQueue.schedule(pipelineName,BuildCause.createWithEmptyModifications());
+  assertThat(schedulingChecker.canManuallyTrigger(pipelineName,new Username(new CaseInsensitiveString("blahUser"))),is(true));
+}

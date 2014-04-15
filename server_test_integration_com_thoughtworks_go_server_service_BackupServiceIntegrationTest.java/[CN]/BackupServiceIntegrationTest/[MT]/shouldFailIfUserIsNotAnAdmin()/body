@@ -1,0 +1,6 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  backupService.startBackup(new Username(new CaseInsensitiveString("loser")),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Unauthorized to initiate Go backup as you are not a Go administrator"));
+}

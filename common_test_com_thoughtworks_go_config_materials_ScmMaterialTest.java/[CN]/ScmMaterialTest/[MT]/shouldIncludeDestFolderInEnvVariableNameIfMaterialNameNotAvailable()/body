@@ -1,0 +1,10 @@
+{
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  material.setVariableWithName(context,"value","GO_PROPERTY");
+  assertThat(context.getProperty("GO_PROPERTY"),is("value"));
+  context=new EnvironmentVariableContext();
+  material.setFolder("foo_dir");
+  material.setVariableWithName(context,"value","GO_PROPERTY");
+  assertThat(context.getProperty("GO_PROPERTY_" + material.getFolder().toUpperCase()),is("value"));
+  assertThat(context.getProperty("GO_PROPERTY"),is(nullValue()));
+}

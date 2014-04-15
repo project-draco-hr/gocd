@@ -1,0 +1,37 @@
+{
+  JarFile jarFile=new JarFile(absolutePath);
+  Enumeration<JarEntry> entries=jarFile.entries();
+  while (entries.hasMoreElements()) {
+    JarEntry jarEntry=entries.nextElement();
+    String entryName=jarEntry.getName();
+    if (entryName.startsWith(libDirPrefix) && entryName.endsWith(".jar")) {
+      File depsDir=new File(EXPLODED_DEPENDENCIES_DIR_NAME,jarFileName);
+      depsDir.mkdirs();
+      String entryBaseName=entryName.replaceAll(".*/","");
+      File extractedJar=new File(depsDir,entryBaseName);
+      InputStream jarStream=null;
+      FileOutputStream fileOutputStream=null;
+      try {
+        URL jarUrl=new URL("jar:file:" + absolutePath + "!/"+ entryName);
+        URLConnection conn=jarUrl.openConnection();
+        conn.setUseCaches(false);
+        jarStream=conn.getInputStream();
+        fileOutputStream=new FileOutputStream(extractedJar);
+        org.apache.commons.io.IOUtils.copyLarge(jarStream,fileOutputStream);
+      }
+  finally {
+        try {
+          if (jarStream != null) {
+            jarStream.close();
+          }
+        }
+  finally {
+          if (fileOutputStream != null) {
+            fileOutputStream.close();
+          }
+        }
+      }
+      urlsExtracted.add(extractedJar.toURI().toURL());
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  if (!validate(pipelineName,username,result)) {
+    return null;
+  }
+  if (pipelineInstanceModel == null && pipelineCounter == 0) {
+    pipelineInstanceModel=PipelineInstanceModel.createEmptyPipelineInstanceModel(pipelineName,BuildCause.createWithEmptyModifications(),new StageInstanceModels());
+  }
+  if (pipelineInstanceModel == null) {
+    String pipelineInstanceNotFound=String.format("Pipeline [%s/%s] not found.",pipelineName,pipelineCounter);
+    result.notFound(pipelineInstanceNotFound,pipelineInstanceNotFound,HealthStateType.general(HealthStateScope.GLOBAL));
+    return null;
+  }
+  populatePlaceHolderStages(pipelineInstanceModel);
+  populateStageOperatePermission(pipelineInstanceModel,username);
+  populateCanRunStatus(username,pipelineInstanceModel);
+  populateLockStatus(pipelineName,username,pipelineInstanceModel);
+  return pipelineInstanceModel;
+}

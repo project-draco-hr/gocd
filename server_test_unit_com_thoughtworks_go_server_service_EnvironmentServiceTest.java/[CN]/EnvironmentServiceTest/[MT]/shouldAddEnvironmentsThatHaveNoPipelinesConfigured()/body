@@ -1,0 +1,10 @@
+{
+  when(environmentConfigService.environmentNames()).thenReturn(Arrays.asList(new CaseInsensitiveString("uat"),new CaseInsensitiveString("preprod")));
+  when(environmentConfigService.pipelinesFor(new CaseInsensitiveString("uat"))).thenReturn(new ArrayList<CaseInsensitiveString>());
+  when(environmentConfigService.pipelinesFor(new CaseInsensitiveString("preprod"))).thenReturn(Arrays.asList(new CaseInsensitiveString("preprod-pipeline")));
+  stubPipelineHistoryServiceToReturnPipelines("preprod-pipeline");
+  List<Environment> environments=environmentService.getEnvironments(USER_FOO);
+  assertThat(environments.size(),is(2));
+  assertThat(environments.get(0).getPipelineModels().size(),is(0));
+  assertThat(environments.get(1).getPipelineModels().size(),is(1));
+}

@@ -1,0 +1,6 @@
+{
+  JobConfig job=new JobConfig("job");
+  job.addTask(new ExecTask("ls","-la","pwd"));
+  job.addTask(new AntTask());
+  return new StageConfig(new CaseInsensitiveString(stageName),new JobConfigs(job));
+}

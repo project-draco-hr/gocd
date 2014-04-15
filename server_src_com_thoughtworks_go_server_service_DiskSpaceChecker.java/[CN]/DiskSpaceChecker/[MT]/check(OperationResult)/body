@@ -1,0 +1,31 @@
+{
+  if (timeSinceLastChecked() > systemEnvironment.getDiskSpaceCacheRefresherInterval()) {
+synchronized (this) {
+      if (timeSinceLastChecked() > systemEnvironment.getDiskSpaceCacheRefresherInterval()) {
+        targetExists=targetFolder.exists();
+        availableSpace=availableSpace();
+        lastCheckedTime=System.currentTimeMillis();
+      }
+    }
+  }
+  long size=limitInMb();
+  if (!targetExists) {
+    result.success(healthStateType);
+    return;
+  }
+  long limit=size * GoConstants.MEGA_BYTE;
+  boolean notEnoughSpace=availableSpace < limit;
+  if (notEnoughSpace) {
+    if (!isInErrorState()) {
+      inErrorState();
+      if (sender != null) {
+        sender.sendEmail(createEmail());
+      }
+    }
+    createFailure(result,size,availableSpace);
+  }
+ else {
+    clearErrorState();
+    result.success(healthStateType);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  JobInstance instance=JobInstanceMother.scheduled("jobConfig1");
+  instance.assign("1234",timeProvider.currentTime());
+  assertThat(instance.getState(),is(JobState.Assigned));
+  assertThat(instance.getTransitions().byState(JobState.Assigned),not(nullValue()));
+}

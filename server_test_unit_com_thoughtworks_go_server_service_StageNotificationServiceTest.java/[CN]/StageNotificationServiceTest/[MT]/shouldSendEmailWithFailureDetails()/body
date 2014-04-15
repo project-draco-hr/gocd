@@ -1,0 +1,28 @@
+{
+  final String expectedBaseUrl=String.format("http://test.host:8153");
+  String jezMail=prepareOneMatchedUser();
+  final Date date=new Date();
+  stubPipelineAndStage(date);
+  final TestSuite suite1=new TestSuite("com.thoughtworks.go.FailOne");
+  suite1.addTest("shouldCompile",TestStatus.Error,new JobIdentifier(stageIdentifier,"compile"));
+  suite1.addTest("shouldPass",TestStatus.Failure,new JobIdentifier(stageIdentifier,"test"));
+  suite1.addTest("shouldPass",TestStatus.Failure,new JobIdentifier(stageIdentifier,"twist"));
+  suite1.addTest("shouldCompile2",TestStatus.Failure,new JobIdentifier(stageIdentifier,"compile"));
+  final TestSuite suite2=new TestSuite("com.thoughtworks.go.FailTwo");
+  suite2.addTest("shouldCompile",TestStatus.Error,new JobIdentifier(stageIdentifier,"test"));
+  suite2.addTest("shouldTest",TestStatus.Failure,new JobIdentifier(stageIdentifier,"test"));
+  when(serverConfigService.siteUrlFor(anyString(),eq(false))).thenAnswer(new Answer<String>(){
+    public String answer(    InvocationOnMock invocation) throws Throwable {
+      Object[] args=invocation.getArguments();
+      return morphURl((String)args[0],expectedBaseUrl);
+    }
+  }
+);
+  when(shineDao.failedTestsFor(stageIdentifier)).thenReturn(Arrays.asList(suite1,suite2));
+  stageNotificationService.sendNotifications(stageIdentifier,StageEvent.Fails,new Username(new CaseInsensitiveString("loser")));
+  String body=inMemoryEmailNotificationTopic.getBody(jezMail);
+  assertThat(body,containsString(StageNotificationService.FAILED_TEST_SECTION));
+  String restOfThebody=textAfter(body,StageNotificationService.FAILED_TEST_SECTION);
+  String failuresText=restOfThebody.substring(0,restOfThebody.indexOf(StageNotificationService.MATERIAL_SECTION_HEADER));
+  assertEquals("\n\nThe following tests failed in pipeline 'go' (instance 'go-1'):\n\n" + "* com.thoughtworks.go.FailOne\n" + "   shouldCompile\n"+ "     Errored on 'compile' (" + expectedBaseUrl + "/go/tab/build/detail/go/1/dev/2/compile)\n"+ "   shouldCompile2\n"+ "     Failed on 'compile' ("+ expectedBaseUrl+ "/go/tab/build/detail/go/1/dev/2/compile)\n"+ "   shouldPass\n"+ "     Failed on 'test' ("+ expectedBaseUrl+ "/go/tab/build/detail/go/1/dev/2/test)\n"+ "     Failed on 'twist' ("+ expectedBaseUrl+ "/go/tab/build/detail/go/1/dev/2/twist)\n"+ "\n\n* com.thoughtworks.go.FailTwo\n"+ "   shouldCompile\n"+ "     Errored on 'test' ("+ expectedBaseUrl+ "/go/tab/build/detail/go/1/dev/2/test)\n"+ "   shouldTest\n"+ "     Failed on 'test' ("+ expectedBaseUrl+ "/go/tab/build/detail/go/1/dev/2/test)\n\n\n",failuresText);
+}

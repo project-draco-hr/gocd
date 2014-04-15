@@ -1,0 +1,15 @@
+{
+  String currentPipeline="d1";
+  ValueStreamMap graph=new ValueStreamMap(currentPipeline,null);
+  graph.addUpstreamNode(new PipelineDependencyNode("d2","d2"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("d4","d4"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("d2","d2"),null,"d4");
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d4");
+  NodeLevelMap nodeLevelMap=new LevelAssignment().apply(graph);
+  dummyNodeCreation.apply(graph,nodeLevelMap);
+  VSMTestHelper.assertNumberOfLevelsInGraph(nodeLevelMap,3);
+  assertThat(nodeLevelMap.get(0).size(),is(1));
+  assertThat(nodeLevelMap.get(-1).size(),is(3));
+  assertThat(nodeLevelMap.get(-2).size(),is(2));
+}

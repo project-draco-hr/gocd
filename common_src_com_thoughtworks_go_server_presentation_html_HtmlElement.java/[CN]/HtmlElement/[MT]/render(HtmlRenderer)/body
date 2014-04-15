@@ -1,0 +1,16 @@
+{
+  renderer.append("<" + elementName);
+  for (  HtmlAttribute attribute : attributes) {
+    attribute.render(renderer);
+  }
+  if (elements.isEmpty()) {
+    renderer.append(" />\n");
+  }
+ else {
+    renderer.append(">\n");
+    for (    HtmlRenderable element : elements) {
+      element.render(renderer);
+    }
+    renderer.append("</" + elementName + ">\n");
+  }
+}

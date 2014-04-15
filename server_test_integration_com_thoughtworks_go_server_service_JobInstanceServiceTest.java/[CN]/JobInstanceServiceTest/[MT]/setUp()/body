@@ -1,0 +1,7 @@
+{
+  initMocks(this);
+  job=JobInstanceMother.building("dev");
+  transactionSynchronizationManager=new TestTransactionSynchronizationManager();
+  transactionTemplate=new TestTransactionTemplate(transactionSynchronizationManager);
+  jobStatusCache=new JobStatusCache(stageDao);
+}

@@ -1,0 +1,15 @@
+{
+  StageConfig stage1=StageConfigMother.custom("stage_foo","foo1","foo2");
+  StageConfig stage2=StageConfigMother.custom("stage_bar","bar1","bar2");
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfig("pipeline",stage1,stage2);
+  PipelineTemplateConfigViewModel viewModel=new PipelineTemplateConfigViewModel(new PipelineTemplateConfig(),"",Arrays.asList(PipelineConfigMother.pipelineConfig("foo_bar"),pipeline));
+  Map m=m("template",m(PipelineTemplateConfig.NAME,"template_name"),PipelineTemplateConfigViewModel.USE_EXISTING_PIPELINE,"1",PipelineTemplateConfigViewModel.SELECTED_PIPELINE_NAME,pipeline.name().toString());
+  viewModel.setConfigAttributes(m);
+  assertThat(viewModel.useExistingPipeline(),is(true));
+  assertThat(viewModel.selectedPipelineName(),is(pipeline.name().toString()));
+  PipelineTemplateConfig template=viewModel.templateConfig();
+  assertThat(template.name(),is(new CaseInsensitiveString("template_name")));
+  assertThat(template.size(),is(2));
+  assertThat(template.get(0),is(stage1));
+  assertThat(template.get(1),is(stage2));
+}

@@ -1,0 +1,14 @@
+{
+  for (  Node node : valueStreamMap.allNodes()) {
+    if (node instanceof PipelineDependencyNode) {
+      String pipelineName=node.getName();
+      PipelineDependencyNode pipelineDependencyNode=(PipelineDependencyNode)node;
+      if (!goConfigService.hasPipelineNamed(new CaseInsensitiveString(pipelineName))) {
+        pipelineDependencyNode.setDeleted();
+      }
+ else       if (!securityService.hasViewPermissionForPipeline(username,pipelineName)) {
+        pipelineDependencyNode.setNoPermission();
+      }
+    }
+  }
+}

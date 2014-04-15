@@ -1,0 +1,13 @@
+{
+  Element element=new Element("Project");
+  element.setAttribute("name",name);
+  element.setAttribute("activity",activity);
+  element.setAttribute("lastBuildStatus",lastBuildStatus);
+  element.setAttribute("lastBuildLabel",lastBuildLabel);
+  element.setAttribute("lastBuildTime",DateUtils.formatIso8601ForCCTray(lastBuildTime));
+  element.setAttribute("webUrl",fullContextPath + "/" + webUrl);
+  if (!breakers.isEmpty()) {
+    addBreakers(element);
+  }
+  return element;
+}

@@ -1,0 +1,9 @@
+{
+  String userName="USER";
+  saveUser(userName.toLowerCase());
+  User found=userDao.findUser(userName);
+  found.disable();
+  userDao.saveOrUpdate(found);
+  assertThat(userDao.findUser(userName).isEnabled(),is(false));
+  assertThat(userDao.findUser(userName.toLowerCase()).isEnabled(),is(false));
+}

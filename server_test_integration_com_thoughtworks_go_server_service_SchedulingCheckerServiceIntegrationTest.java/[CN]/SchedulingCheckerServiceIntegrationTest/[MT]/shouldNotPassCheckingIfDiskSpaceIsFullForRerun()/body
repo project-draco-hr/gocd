@@ -1,0 +1,10 @@
+{
+  String limit=diskSpaceSimulator.simulateDiskFull();
+  String s=pipelineFixture.pipelineName;
+  String label="LATEST";
+  String stageName=CaseInsensitiveString.str(pipelineFixture.devStage().name());
+  String username=APPROVED_USER;
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  assertThat(schedulingChecker.canScheduleStage(new PipelineIdentifier(s,1,label),stageName,username,result),is(false));
+  assertThat(result.getServerHealthState().getDescription(),containsString(String.format("Go has less than %sb of disk space",limit)));
+}

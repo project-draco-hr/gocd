@@ -1,0 +1,9 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  Validation validation=mock(Validation.class);
+  when(validation.isSuccessful()).thenReturn(true);
+  StubGoServer goServer=new StubGoServer(systemEnvironment,validation);
+  goServer.subprocessLogger=mock(SubprocessLogger.class);
+  goServer.go();
+  verify(goServer.subprocessLogger).registerAsExitHook("Following processes were alive at shutdown: ");
+}

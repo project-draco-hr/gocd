@@ -1,0 +1,12 @@
+{
+  try {
+    scheduleService.scheduleStage(manualSchedule("blahPipeline"),"blahStage","blahUser",new ScheduleService.NewStageInstanceCreator(goConfigService),new ScheduleService.ExceptioningErrorHandler());
+    fail("should throw CannotScheduleException");
+  }
+ catch (  CannotScheduleException e) {
+  }
+  List<ServerHealthState> stateList=serverHealthService.filterByScope(HealthStateScope.forStage("blahPipeline","blahStage"));
+  assertThat(stateList.size(),is(1));
+  assertThat(stateList.get(0).getMessage(),is("Failed to trigger stage [blahStage] pipeline [blahPipeline]"));
+  assertThat(stateList.get(0).getDescription(),is("Could not find matching agents to run job [job2] of stage [blahStage]."));
+}

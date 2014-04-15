@@ -1,0 +1,6 @@
+{
+  Mockito.when(lockService.canScheduleStageInPipeline(pipeline)).thenReturn(false);
+  checker.check(result);
+  assertThat(result.canContinue(),is(false));
+  assertThat(result.message(),containsString("is locked"));
+}

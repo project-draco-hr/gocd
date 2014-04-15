@@ -1,0 +1,10 @@
+{
+  final CommandLine cl=CommandLine.createCommandLine(EXEC_WITH_SPACES);
+  cl.withArg(ARG_SPACES_NOQUOTES);
+  cl.withArg(ARG_NOSPACES);
+  cl.withArg(ARG_SPACES);
+  final String expectedWithQuotes=DBL_QUOTE + EXEC_WITH_SPACES + DBL_QUOTE+ " "+ DBL_QUOTE+ ARG_SPACES_NOQUOTES+ DBL_QUOTE+ " "+ ARG_NOSPACES+ " "+ DBL_QUOTE+ ARG_SPACES+ DBL_QUOTE;
+  assertEquals(expectedWithQuotes,cl.toString());
+  assertEquals(expectedWithQuotes.replaceAll(DBL_QUOTE,""),cl.toStringForDisplay());
+  assertEquals("Did the impl of CommandLine.toString() change?",expectedWithQuotes,cl + "");
+}

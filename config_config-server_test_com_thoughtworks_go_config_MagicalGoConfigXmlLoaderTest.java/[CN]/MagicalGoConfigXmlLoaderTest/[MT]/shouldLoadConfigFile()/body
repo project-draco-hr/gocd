@@ -1,0 +1,31 @@
+{
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(ConfigFileFixture.CONFIG).config;
+  PipelineConfig pipelineConfig1=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  assertThat(pipelineConfig1.size(),is(2));
+  assertThat(pipelineConfig1.getLabelTemplate(),is(PipelineLabel.COUNT_TEMPLATE));
+  StageConfig stage1=pipelineConfig1.get(0);
+  assertThat(stage1.name(),is(new CaseInsensitiveString("stage1")));
+  assertThat(stage1.allBuildPlans().size(),is(1));
+  assertThat("Should require approval",stage1.requiresApproval(),is(true));
+  AdminsConfig admins=stage1.getApproval().getAuthConfig();
+  assertThat(admins,hasItem((Admin)new AdminRole(new CaseInsensitiveString("admin"))));
+  assertThat(admins,hasItem((Admin)new AdminRole(new CaseInsensitiveString("qa_lead"))));
+  assertThat(admins,hasItem((Admin)new AdminUser(new CaseInsensitiveString("jez"))));
+  StageConfig stage2=pipelineConfig1.get(1);
+  assertThat("Should not require approval",stage2.requiresApproval(),is(false));
+  JobConfig plan=stage1.jobConfigByInstanceName("plan1",true);
+  assertThat(plan.name(),is(new CaseInsensitiveString("plan1")));
+  assertThat(plan.resources(),is(new Resources("tiger, lion")));
+  assertThat(plan.getTabs().size(),is(2));
+  assertThat(plan.getTabs().first().getName(),is("Emma"));
+  assertThat(plan.getTabs().first().getPath(),is("logs/emma/index.html"));
+  assertThat(pipelineConfig1.materialConfigs().size(),is(1));
+  shouldBeSvnMaterial(pipelineConfig1.materialConfigs().first());
+  PipelineConfig pipelineConfig2=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline2"));
+  shouldBeHgMaterial(pipelineConfig2.materialConfigs().first());
+  PipelineConfig pipelineConfig3=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline3"));
+  MaterialConfig p4Material=pipelineConfig3.materialConfigs().first();
+  shouldBeP4Material(p4Material);
+  PipelineConfig pipelineConfig4=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline4"));
+  shouldBeGitMaterial(pipelineConfig4.materialConfigs().first());
+}

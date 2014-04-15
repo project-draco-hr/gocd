@@ -1,0 +1,10 @@
+{
+  ParamResolver resolver=this;
+  if (ParamScope.class.isAssignableFrom(resolvable.getClass())) {
+    ParamScope newScope=(ParamScope)resolvable;
+    resolver=newScope.applyOver(resolver);
+  }
+  resolveStringLeaves(resolvable,resolver);
+  resolveNonStringLeaves(resolvable,resolver);
+  resolveNodes(resolvable,resolver);
+}

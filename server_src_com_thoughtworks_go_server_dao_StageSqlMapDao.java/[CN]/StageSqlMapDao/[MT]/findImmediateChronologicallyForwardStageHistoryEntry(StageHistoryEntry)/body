@@ -1,0 +1,5 @@
+{
+  StageIdentifier stageIdentifier=stageHistoryEntry.getIdentifier();
+  Map<String,Object> args=arguments("pipelineName",stageIdentifier.getPipelineName()).and("stageName",stageIdentifier.getStageName()).and("id",stageHistoryEntry.getId()).and("limit",1).asMap();
+  return (StageHistoryEntry)getSqlMapClientTemplate().queryForObject("findStageHistoryEntryBefore",args);
+}

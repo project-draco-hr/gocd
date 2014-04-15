@@ -1,0 +1,5 @@
+{
+  when(goLicenseService.isLicenseExpired()).thenReturn(false);
+  expiryValidator.updateServerHealth();
+  verify(serverHealthService).update(ServerHealthState.success(HealthStateType.expiredLicense(HealthStateScope.GLOBAL)));
+}

@@ -1,0 +1,7 @@
+{
+  HttpOperationResult result=new HttpOperationResult();
+  Stage stage=service.rerunJobs(oldStage,a(jobName),result);
+  assertThat(stage,is(nullValue()));
+  assertThat(result.httpCode(),is(statusCode));
+  assertThat(result.message(),is(failureMessage));
+}

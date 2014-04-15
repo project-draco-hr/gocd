@@ -1,0 +1,8 @@
+{
+  AgentInstance original=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  original.update(buildingRuntimeInfo());
+  AgentConfig newAgentConfig=new AgentConfig(agentConfig.getUuid(),agentConfig.getHostname(),agentConfig.getIpAddress());
+  newAgentConfig.disable();
+  original.syncConfig(newAgentConfig);
+  assertThat(original.getStatus(),is(AgentStatus.Disabled));
+}

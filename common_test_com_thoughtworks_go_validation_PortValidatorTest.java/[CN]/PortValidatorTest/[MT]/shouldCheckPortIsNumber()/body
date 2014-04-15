@@ -1,0 +1,5 @@
+{
+  assertThat(Validator.PORT.validate("some@here.com").isValid(),is(false));
+  assertThat(Validator.PORT.validate("12345").isValid(),is(true));
+  assertThat(Validator.PORT.validate("foo").getError(),is(PortValidator.ERROR_MESSAGE));
+}

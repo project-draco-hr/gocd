@@ -1,0 +1,7 @@
+{
+  if (goConfigService.hasNextStage(pipeline.getName(),stageName)) {
+    StageConfig nextStageConfig=goConfigService.nextStage(pipeline.getName(),stageName);
+    return stageHasBeenRun(pipeline,nextStageConfig) ? null : nextStageConfig;
+  }
+  return null;
+}

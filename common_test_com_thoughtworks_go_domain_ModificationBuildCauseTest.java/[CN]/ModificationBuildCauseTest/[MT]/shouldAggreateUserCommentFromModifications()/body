@@ -1,0 +1,7 @@
+{
+  ModificationSummaries summaries=buildCause.toModificationSummaries();
+  String message=summaries.getModification(0).getComment();
+  String user=summaries.getModification(0).getUserName();
+  assertThat(user,is(ModificationsMother.MOD_USER_WITH_HTML_CHAR));
+  assertThat(message,is(ModificationsMother.MOD_COMMENT_3));
+}

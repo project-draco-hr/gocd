@@ -1,0 +1,6 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  assertThat(systemEnvironment.getLicenseExpiryWarningTime(),is(30));
+  System.setProperty(SystemEnvironment.NUMBER_OF_DAYS_TO_EXPIRY_PROPERTY,"2");
+  assertThat(systemEnvironment.getLicenseExpiryWarningTime(),is(2));
+}

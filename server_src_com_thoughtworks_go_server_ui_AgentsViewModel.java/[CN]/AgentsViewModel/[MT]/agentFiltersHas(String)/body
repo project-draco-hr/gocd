@@ -1,0 +1,9 @@
+{
+  return CollectionUtils.exists(Arrays.asList(AgentFilters.values()),new Predicate(){
+    public boolean evaluate(    Object o){
+      AgentFilters filter=(AgentFilters)o;
+      return filter.name().equals(enumKey.toUpperCase());
+    }
+  }
+);
+}

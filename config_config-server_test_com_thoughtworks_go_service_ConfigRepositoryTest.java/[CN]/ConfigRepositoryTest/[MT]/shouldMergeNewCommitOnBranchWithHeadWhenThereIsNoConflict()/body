@@ -1,0 +1,10 @@
+{
+  String original="first\nsecond\n";
+  String changeOnBranch="first\nsecond\nthird\n";
+  String changeOnMaster="1st\nsecond\n";
+  String oldMd5="md5-1";
+  configRepo.checkin(goConfigRevision(original,oldMd5));
+  configRepo.checkin(goConfigRevision(changeOnMaster,"md5-2"));
+  String mergedConfig=configRepo.getConfigMergedWithLatestRevision(goConfigRevision(changeOnBranch,"md5-3"),oldMd5);
+  assertThat(mergedConfig,is("1st\nsecond\nthird\n"));
+}

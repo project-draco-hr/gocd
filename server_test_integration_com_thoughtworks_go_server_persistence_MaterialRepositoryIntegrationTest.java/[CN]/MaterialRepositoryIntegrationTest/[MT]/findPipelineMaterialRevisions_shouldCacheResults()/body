@@ -1,0 +1,7 @@
+{
+  HibernateTemplate mockTemplate=mock(HibernateTemplate.class);
+  repo.setHibernateTemplate(mockTemplate);
+  repo.findPipelineMaterialRevisions(2);
+  repo.findPipelineMaterialRevisions(2);
+  verify(mockTemplate,times(1)).find("FROM PipelineMaterialRevision WHERE pipelineId = ? ORDER BY id",2L);
+}

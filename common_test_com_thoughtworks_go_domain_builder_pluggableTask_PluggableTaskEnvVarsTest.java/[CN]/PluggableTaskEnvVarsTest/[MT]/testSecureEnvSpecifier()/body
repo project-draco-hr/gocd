@@ -1,0 +1,6 @@
+{
+  Console.SecureEnvVarSpecifier secureEnvVarSpecifier=envVars.secureEnvSpecifier();
+  for (int i=0; i < keys.size(); i++) {
+    assertThat(secureEnvVarSpecifier.isSecure(keys.get(i)),is(i % 2 != 0));
+  }
+}

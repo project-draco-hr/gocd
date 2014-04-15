@@ -1,0 +1,6 @@
+{
+  StageIdentifier identifier=upstreamStage.getIdentifier();
+  String rev=identifier.getStageLocator();
+  String pipelineLabel=identifier.getPipelineLabel();
+  return new MaterialRevision(material,new Modification(new Date(),rev,pipelineLabel,upstreamStage.getPipelineId()));
+}

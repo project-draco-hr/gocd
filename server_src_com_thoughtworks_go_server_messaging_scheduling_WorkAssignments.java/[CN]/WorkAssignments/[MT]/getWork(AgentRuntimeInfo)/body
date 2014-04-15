@@ -1,0 +1,15 @@
+{
+  AgentIdentifier agent=runtimeInfo.getIdentifier();
+synchronized (agentMutex(agent)) {
+    Work work=assignments.get(agent);
+    if (work == null) {
+      assignments.put(agent,NO_WORK);
+      idleAgentsTopic.post(new IdleAgentMessage(runtimeInfo));
+      return NO_WORK;
+    }
+    if (work instanceof NoWork) {
+      return work;
+    }
+    return assignments.remove(agent);
+  }
+}

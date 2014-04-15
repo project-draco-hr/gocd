@@ -1,0 +1,9 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  stubStageServiceGetHistory(null,stages(),stages());
+  updater.updateMaterial(dependencyMaterial);
+  updater.updateMaterial(dependencyMaterial);
+  assertThat(goCache.get(DependencyMaterialUpdater.cacheKeyForDependencyMaterial(dependencyMaterial)),not(nullValue()));
+  updater.updateMaterial(dependencyMaterial);
+  Mockito.verify(dependencyMaterialSourceDao,times(2)).getPassedStagesByName(any(DependencyMaterial.class),any(Pagination.class));
+}

@@ -1,0 +1,13 @@
+{
+  SecurityContextHelper.setCurrentUser("loser");
+  long userId=1;
+  User disabledUser1=getUser("loser",userId);
+  disabledUser1.disable();
+  User disabledUser=disabledUser1;
+  when(userService.findUserByName(disabledUser.getName())).thenReturn(disabledUser);
+  filter.doFilterHttp(req,res,chain);
+  assertThat(SecurityContextHolder.getContext().getAuthentication(),is(nullValue()));
+  verify(session).setAttribute(eq(SPRING_SECURITY_LAST_EXCEPTION_KEY),any(DisabledException.class));
+  verify(req).setAttribute(SessionDenialAwareAuthenticationProcessingFilterEntryPoint.SESSION_DENIED,true);
+  verify(chain).doFilter(req,res);
+}

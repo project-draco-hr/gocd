@@ -1,0 +1,22 @@
+{
+  LOG.info(String.format("Attempting to load %s from %s File: ",manifestClassKey,jarFileName));
+  try {
+    File agentJar=new File(jarFileName);
+    String absolutePath=agentJar.getAbsolutePath();
+    List<URL> urls=new ArrayList<URL>();
+    urls.add(agentJar.toURI().toURL());
+    if (manifestLibDirKey != null) {
+      String libDirPrefix=getManifestKey(absolutePath,manifestLibDirKey);
+      LOG.info(String.format("manifestLibDirKey: %s: %s",manifestLibDirKey,libDirPrefix));
+      prepareRefferedJars(jarFileName,absolutePath,urls,libDirPrefix);
+    }
+    ParentClassAccessFilteringClassloader filteringLoader=new ParentClassAccessFilteringClassloader(JarUtil.class.getClassLoader(),allowedForLoadingFromParent);
+    URLClassLoader classLoader=new URLClassLoader(urls.toArray(new URL[0]),filteringLoader);
+    String bootClassName=getManifestKey(absolutePath,manifestClassKey);
+    LOG.info(String.format("manifestClassKey: %s: %s",manifestClassKey,bootClassName));
+    return classLoader.loadClass(bootClassName).newInstance();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

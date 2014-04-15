@@ -1,0 +1,15 @@
+{
+  PipelineConfig source=PipelineConfigMother.createPipelineConfig("somePipeline","stage","job");
+  source.addEnvironmentVariable("k1","v1");
+  source.addEnvironmentVariable("k2","v2");
+  GoCipher goCipher=mock(GoCipher.class);
+  when(goCipher.encrypt("secret")).thenReturn("encrypted");
+  source.addEnvironmentVariable(new EnvironmentVariableConfig(goCipher,"secret_key","secret",true));
+  PipelineConfig cloned=source.duplicate();
+  EnvironmentVariablesConfig clonedEnvVariables=cloned.getPlainTextVariables();
+  EnvironmentVariablesConfig sourceEnvVariables=source.getPlainTextVariables();
+  assertThat(clonedEnvVariables.size(),is(sourceEnvVariables.size()));
+  clonedEnvVariables.getPlainTextVariables().containsAll(sourceEnvVariables.getPlainTextVariables());
+  assertThat(cloned.getSecureVariables().size(),is(source.getSecureVariables().size()));
+  assertThat(cloned.getSecureVariables().containsAll(source.getSecureVariables()),is(true));
+}

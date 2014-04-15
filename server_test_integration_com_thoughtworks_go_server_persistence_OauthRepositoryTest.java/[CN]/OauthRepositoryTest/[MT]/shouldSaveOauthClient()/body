@@ -1,0 +1,8 @@
+{
+  OauthClient mingle09=new OauthClient("mingle09","client_id","client_secret","http://something");
+  Map<String,String> map=attrMap(mingle09.getDTO());
+  repo.saveOauthClient(map);
+  OauthClient client=(OauthClient)template.find("from OauthClient where clientSecret = 'client_secret'").get(0);
+  OauthDataSource.OauthClientDTO dto=client.getDTO();
+  assertHasIdAndMatches(dto,mingle09.getDTO());
+}

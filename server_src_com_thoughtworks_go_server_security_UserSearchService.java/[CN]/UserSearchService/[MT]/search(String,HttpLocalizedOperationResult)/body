@@ -1,0 +1,12 @@
+{
+  List<UserSearchModel> userSearchModels=new ArrayList<UserSearchModel>();
+  if (isInputValid(searchText,result)) {
+    return userSearchModels;
+  }
+  boolean passwordSearchFailed=searchPasswordFile(searchText,result,userSearchModels);
+  searchLdap(searchText,result,userSearchModels,passwordSearchFailed);
+  if (userSearchModels.size() == 0 && !result.hasMessage()) {
+    result.setMessage(LocalizedMessage.string("NO_SEARCH_RESULTS_ERROR"));
+  }
+  return userSearchModels;
+}

@@ -1,0 +1,8 @@
+{
+  for (  String pipeline : pipelines) {
+    Materials materials=MaterialsMother.createMaterialsFromMaterialConfigs(goConfigService.getCurrentConfig().pipelineConfigByName(new CaseInsensitiveString(pipeline)).materialConfigs());
+    for (    Material material : materials) {
+      materialDatabaseUpdater.updateMaterial(material);
+    }
+  }
+}

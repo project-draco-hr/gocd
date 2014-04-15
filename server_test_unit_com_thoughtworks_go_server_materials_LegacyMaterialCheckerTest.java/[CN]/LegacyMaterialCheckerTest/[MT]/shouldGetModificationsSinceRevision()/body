@@ -1,0 +1,10 @@
+{
+  Material material=mock(Material.class);
+  MaterialRevision materialRevision=mock(MaterialRevision.class);
+  Revision revision=mock(Revision.class);
+  List<Modification> modifications=new ArrayList<Modification>();
+  when(materialRevision.getRevision()).thenReturn(revision);
+  when(materialService.modificationsSince(material,file,revision,null)).thenReturn(modifications);
+  List<Modification> actual=checker.findModificationsSince(file,material,materialRevision);
+  assertThat(actual,is(modifications));
+}

@@ -1,0 +1,10 @@
+{
+  RepositoryMetadataStore.getInstance().addMetadataFor("some-plugin",new PackageConfigurations());
+  PackageMetadataStore.getInstance().addMetadataFor("some-plugin",new PackageConfigurations());
+  PackageMaterial material=new PackageMaterial();
+  Configuration configuration=new Configuration(ConfigurationPropertyMother.create("k1",false,"repo-v1"),ConfigurationPropertyMother.create("k2",false,"repo-v2"));
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo-name","some-plugin","version",configuration);
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","package-name",new Configuration(ConfigurationPropertyMother.create("k3",false,"package-v1")),repository);
+  material.setPackageDefinition(packageDefinition);
+  assertThat(material.getUriForDisplay(),is("Repository: [k1=repo-v1, k2=repo-v2] - Package: [k3=package-v1]"));
+}

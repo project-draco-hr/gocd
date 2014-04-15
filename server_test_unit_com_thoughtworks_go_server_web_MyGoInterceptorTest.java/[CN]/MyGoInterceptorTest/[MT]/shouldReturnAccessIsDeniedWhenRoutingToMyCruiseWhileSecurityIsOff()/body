@@ -1,0 +1,6 @@
+{
+  securityIs(false);
+  boolean result=myGoInterceptor.preHandle(request,response,new MyGoController(mock(UserService.class),mock(SecurityService.class),mock(Localizer.class)));
+  assertThat(response.getStatus(),is(HttpServletResponse.SC_NOT_FOUND));
+  assertThat(result,is(false));
+}

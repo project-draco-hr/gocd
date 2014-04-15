@@ -1,0 +1,10 @@
+{
+  Stages stages=stageDao.getPassedStagesByName(CaseInsensitiveString.str(material.getPipelineName()),CaseInsensitiveString.str(material.getStageName()),pagination.getPageSize(),pagination.getOffset());
+  List<Modification> mods=new ArrayList<Modification>();
+  for (  Stage stage : stages) {
+    StageIdentifier stageIdentifier=stage.getIdentifier();
+    Modification modification=new Modification(stage.completedDate(),stageIdentifier.stageLocator(),stageIdentifier.getPipelineLabel(),stage.getPipelineId());
+    mods.add(modification);
+  }
+  return mods;
+}

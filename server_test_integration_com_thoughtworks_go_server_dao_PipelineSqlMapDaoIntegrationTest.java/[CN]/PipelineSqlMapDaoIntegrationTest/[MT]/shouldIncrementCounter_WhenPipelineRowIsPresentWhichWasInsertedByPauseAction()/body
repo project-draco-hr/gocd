@@ -1,0 +1,7 @@
+{
+  String pipelineName="some-pipeline";
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(pipelineName);
+  Pipeline pipeline=dbHelper.newPipelineWithAllStagesPassed(pipelineConfig);
+  dbHelper.newPipelineWithAllStagesPassed(pipelineConfig);
+  assertThat(pipelineDao.getCounterForPipeline(pipeline.getName()),is(pipeline.getCounter() + 1));
+}

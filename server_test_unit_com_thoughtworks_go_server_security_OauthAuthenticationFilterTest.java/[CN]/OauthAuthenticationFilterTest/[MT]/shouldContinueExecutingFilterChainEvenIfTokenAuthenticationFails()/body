@@ -1,0 +1,7 @@
+{
+  when(req.getHeader(OauthAuthenticationFilter.AUTHORIZATION)).thenReturn("Token token=\"invalid-token\"");
+  when(authenticationManager.authenticate(new OauthAuthenticationToken("invalid-token"))).thenThrow(new BadCredentialsException("failed to auth"));
+  filter.doFilterHttp(req,res,chain);
+  verify(securityContext).setAuthentication(null);
+  verify(chain).doFilter(req,res);
+}

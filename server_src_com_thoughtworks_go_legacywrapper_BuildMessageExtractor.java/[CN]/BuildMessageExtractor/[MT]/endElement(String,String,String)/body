@@ -1,0 +1,13 @@
+{
+  if (readingBuild && readingMessage) {
+    messageExtractor.endElement(uri,localName,qName);
+    messageExtractor.report(messagesResult);
+  }
+  if (isMessageTag(qName)) {
+    readingMessage=false;
+    return;
+  }
+  if (isBuildTag(qName)) {
+    readingBuild=false;
+  }
+}

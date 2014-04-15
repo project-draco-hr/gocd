@@ -1,0 +1,7 @@
+{
+  LOGGER.info(String.format("[Artifact Download] About to download: %s. ShouldZip? = %s",file.getAbsolutePath(),needToZip));
+  long before=System.currentTimeMillis();
+  handleFile(file,needToZip,httpServletResponse);
+  long timeTaken=System.currentTimeMillis() - before;
+  LOGGER.info(String.format("[Artifact Download] Finished downloading: %s. ShouldZip? = %s. The time taken is: %sms",file.getAbsolutePath(),needToZip,timeTaken));
+}

@@ -1,0 +1,9 @@
+{
+  JSONParser parser=new JSONParser(new StringReader(json));
+  try {
+    return parser.nextValue();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("Error parsing json: [" + json + "]",e);
+  }
+}

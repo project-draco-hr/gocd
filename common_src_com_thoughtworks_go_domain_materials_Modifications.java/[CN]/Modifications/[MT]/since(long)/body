@@ -1,0 +1,10 @@
+{
+  Modifications laterRevisions=new Modifications();
+  for (  Modification modification : this) {
+    if (modification.getId() == sinceId) {
+      return laterRevisions;
+    }
+    laterRevisions.add(modification);
+  }
+  throw new RuntimeException(String.format("Could not find modification %s in %s",sinceId,this));
+}

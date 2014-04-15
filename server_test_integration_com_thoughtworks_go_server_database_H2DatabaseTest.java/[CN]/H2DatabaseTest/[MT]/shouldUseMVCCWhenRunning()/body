@@ -1,0 +1,6 @@
+{
+  h2Database.startDatabase();
+  h2Database.upgrade();
+  BasicDataSource dataSource=h2Database.createDataSource();
+  assertThat(dataSource.getUrl(),containsString("MVCC=TRUE"));
+}

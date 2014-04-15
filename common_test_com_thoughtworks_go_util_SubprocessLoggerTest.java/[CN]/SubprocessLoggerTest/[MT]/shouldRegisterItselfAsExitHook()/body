@@ -1,0 +1,10 @@
+{
+  logger=new SubprocessLogger(new JavaSysMon());
+  logger.registerAsExitHook("foo");
+  try {
+    Runtime.getRuntime().addShutdownHook(logger.exitHook());
+  }
+ catch (  IllegalArgumentException e) {
+    assertThat(e.getMessage(),is("Hook previously registered"));
+  }
+}

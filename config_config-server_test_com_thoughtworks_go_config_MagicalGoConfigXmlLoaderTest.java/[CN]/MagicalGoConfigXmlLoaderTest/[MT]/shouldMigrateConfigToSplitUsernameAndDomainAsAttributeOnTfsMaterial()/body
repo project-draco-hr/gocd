@@ -1,0 +1,13 @@
+{
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='some_pipeline'>" + "    <materials>" + "      <tfs url='tfsurl' username='domain\\username' password='bar' projectPath='project-path' />"+ "    </materials>"+ "  <stage name='some_stage'>"+ "    <jobs>"+ "      <job name='some_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",52);
+  try {
+    CruiseConfig config=ConfigMigrator.loadWithMigration(content).config;
+    PipelineConfig pipeline=config.pipelineConfigByName(new CaseInsensitiveString("some_pipeline"));
+    TfsMaterialConfig material=(TfsMaterialConfig)pipeline.materialConfigs().get(0);
+    assertThat(material.getUsername(),is("username"));
+    assertThat(material.getDomain(),is("domain"));
+  }
+ catch (  Exception e) {
+    fail("Valid TFS tag for migration 51 and above");
+  }
+}

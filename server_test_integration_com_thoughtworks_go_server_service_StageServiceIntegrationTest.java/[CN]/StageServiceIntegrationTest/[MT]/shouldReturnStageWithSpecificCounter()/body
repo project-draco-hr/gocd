@@ -1,0 +1,7 @@
+{
+  Stage firstStage=savedPipeline.getStages().first();
+  Stage newInstance=instanceFactory.createStageInstance(pipelineConfig.first(),new DefaultSchedulingContext("anonymous"),md5,new TimeProvider());
+  Stage newSavedStage=stageService.save(savedPipeline,newInstance);
+  Stage latestStage=stageService.findStageWithIdentifier(new StageIdentifier(CaseInsensitiveString.str(pipelineConfig.name()),null,savedPipeline.getLabel(),firstStage.getName(),String.valueOf(newSavedStage.getCounter())));
+  assertThat(latestStage,is(newSavedStage));
+}

@@ -1,0 +1,11 @@
+{
+  HealthStateType id=HealthStateType.general(HealthStateScope.forPipeline(pipelineIdentifier.getName()));
+  if (activityService.isAnyStageActive(pipelineIdentifier)) {
+    String description=String.format("Pipeline[name='%s', counter='%s', label='%s'] is still in progress",pipelineIdentifier.getName(),pipelineIdentifier.getCounter(),pipelineIdentifier.getLabel());
+    String message=String.format("Failed to trigger pipeline [%s]",pipelineIdentifier.getName());
+    result.error(message,description,id);
+  }
+ else {
+    result.success(id);
+  }
+}

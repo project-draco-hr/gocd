@@ -1,0 +1,8 @@
+{
+  when(pipelinePauseService.isPaused(pipelineName)).thenReturn(true);
+  HttpOperationResult result=new HttpOperationResult();
+  checker.check(result);
+  assertThat(result.httpCode(),is(409));
+  assertThat(result.getServerHealthState().isSuccess(),is(false));
+  assertThat(result.getServerHealthState().getDescription(),is("Pipeline cruise is paused"));
+}

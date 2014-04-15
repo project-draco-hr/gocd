@@ -1,0 +1,6 @@
+{
+  ZipFile actualZip=new ZipFile(targetZipFile);
+  ZipEntry entry=actualZip.getEntry(file);
+  assertThat(entry,is(notNullValue()));
+  assertThat(IOUtils.toString(actualZip.getInputStream(entry)),is(expectedContent));
+}

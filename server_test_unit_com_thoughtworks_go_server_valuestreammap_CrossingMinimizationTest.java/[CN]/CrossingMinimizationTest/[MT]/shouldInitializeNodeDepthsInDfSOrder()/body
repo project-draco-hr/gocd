@@ -1,0 +1,30 @@
+{
+  String g1="g1";
+  String g2="g2";
+  String p1="p1";
+  String p2="p2";
+  String p="p";
+  String p3="p3";
+  String p4="p4";
+  String p5="p5";
+  String p6="p6";
+  ValueStreamMap graph=new ValueStreamMap(p,null);
+  graph.addUpstreamNode(new PipelineDependencyNode(p1,p1),null,p);
+  graph.addUpstreamNode(new PipelineDependencyNode(p2,p2),null,p);
+  graph.addUpstreamNode(new SCMDependencyNode(g2,g2,"git"),null,p2);
+  graph.addUpstreamNode(new SCMDependencyNode(g1,g1,"git"),null,p1);
+  graph.addDownstreamNode(new PipelineDependencyNode(p3,p3),p);
+  graph.addDownstreamNode(new PipelineDependencyNode(p4,p4),p);
+  graph.addDownstreamNode(new PipelineDependencyNode(p6,p6),p4);
+  graph.addDownstreamNode(new PipelineDependencyNode(p5,p5),p3);
+  crossingMinimization.initializeNodeDepths(nodeLevelMap(graph));
+  assertThat(graph.findNode(g1).getDepth(),is(1));
+  assertThat(graph.findNode(g2).getDepth(),is(2));
+  assertThat(graph.findNode(p1).getDepth(),is(1));
+  assertThat(graph.findNode(p2).getDepth(),is(2));
+  assertThat(graph.findNode(p).getDepth(),is(1));
+  assertThat(graph.findNode(p3).getDepth(),is(1));
+  assertThat(graph.findNode(p4).getDepth(),is(2));
+  assertThat(graph.findNode(p5).getDepth(),is(1));
+  assertThat(graph.findNode(p6).getDepth(),is(2));
+}

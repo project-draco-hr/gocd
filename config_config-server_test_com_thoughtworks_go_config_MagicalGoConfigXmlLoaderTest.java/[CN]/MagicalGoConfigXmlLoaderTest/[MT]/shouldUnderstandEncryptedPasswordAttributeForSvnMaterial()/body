@@ -1,0 +1,15 @@
+{
+  String password="abc";
+  String encryptedPassword=new GoCipher().encrypt(password);
+  String content=ConfigFileFixture.configWithPipeline(format("<pipeline name='pipeline1'>" + "    <materials>" + "      <svn url='svnurl' username='admin' encryptedPassword='%s'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",encryptedPassword),32);
+  GoConfigHolder configHolder=ConfigMigrator.loadWithMigration(content);
+  CruiseConfig cruiseConfig=configHolder.config;
+  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).materialConfigs().get(0);
+  assertThat(svnMaterialConfig.getEncryptedPassword(),is(encryptedPassword));
+  assertThat(svnMaterialConfig.getPassword(),is(password));
+  CruiseConfig configForEdit=configHolder.configForEdit;
+  svnMaterialConfig=(SvnMaterialConfig)configForEdit.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).materialConfigs().get(0);
+  assertThat(svnMaterialConfig.getEncryptedPassword(),is(encryptedPassword));
+  assertThat(svnMaterialConfig.getPassword(),is("abc"));
+  assertThat(ReflectionUtil.getField(svnMaterialConfig,"password"),is(nullValue()));
+}

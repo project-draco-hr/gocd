@@ -1,0 +1,10 @@
+{
+  try {
+    when(operationResult.canContinue()).thenThrow(new RuntimeException("force a failure"));
+    buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig,new ScheduleOptions(),operationResult);
+    fail("expected exception, got none");
+  }
+ catch (  Exception e) {
+    assertThat(triggerMonitor.isAlreadyTriggered(CaseInsensitiveString.str(pipelineConfig.name())),is(false));
+  }
+}

@@ -1,0 +1,7 @@
+{
+  GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand();
+  for (  String user : users) {
+    command.addCommand(new GoConfigFileDao.ModifyAdminPrivilegeCommand(user,adminPrivilege));
+  }
+  return command;
+}

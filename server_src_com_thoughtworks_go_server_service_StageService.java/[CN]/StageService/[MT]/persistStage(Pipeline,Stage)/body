@@ -1,0 +1,10 @@
+{
+  long pipelineId=pipeline.getId();
+  stage.setOrderId(resolveStageOrder(pipelineId,stage.getName()));
+  Stage savedStage=stageDao.save(pipeline,stage);
+  savedStage.setIdentifier(new StageIdentifier(pipeline.getName(),pipeline.getCounter(),pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter())));
+  for (  JobInstance jobInstance : savedStage.getJobInstances()) {
+    jobInstance.setIdentifier(new JobIdentifier(pipeline,savedStage,jobInstance));
+  }
+  return savedStage;
+}

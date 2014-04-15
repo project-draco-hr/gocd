@@ -1,0 +1,5 @@
+{
+  CommandSnippet commandSnippet=xmlParser.parse("<exec command='nuget' ></exec><exec command='ls'></exec>","nuget","/some/path/filename.xml");
+  assertThat(commandSnippet.getErrorMessage(),is("Reason: Error on line 1: The markup in the document following the root element must be well-formed."));
+  assertThat(commandSnippet.isValid(),is(false));
+}

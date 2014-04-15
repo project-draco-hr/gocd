@@ -1,0 +1,10 @@
+{
+  UserSearchModel passwordUser=new UserSearchModel(new User("passwordUser"),UserSourceType.PASSWORD_FILE);
+  doNothing().when(userDao).saveOrUpdate(passwordUser.getUser());
+  when(userDao.findUser("passwordUser")).thenReturn(new NullUser());
+  when(userDao.enabledUserCount()).thenReturn(10);
+  when(licenseService.maximumUsersAllowed()).thenReturn(100);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.create(Arrays.asList(passwordUser),result);
+  assertThat(result.isSuccessful(),is(true));
+}

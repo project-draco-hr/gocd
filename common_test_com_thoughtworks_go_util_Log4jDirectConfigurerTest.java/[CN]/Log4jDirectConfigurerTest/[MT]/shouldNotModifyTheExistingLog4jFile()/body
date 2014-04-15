@@ -1,0 +1,6 @@
+{
+  createLog4J();
+  Log4jDirectConfigurer log4jDirectConfigurer=new Log4jDirectConfigurer(log4jExist.getName());
+  log4jDirectConfigurer.afterPropertiesSet();
+  assertThat(FileUtils.readFileToString(log4jExist),is(DEFAULT_LOG4J));
+}

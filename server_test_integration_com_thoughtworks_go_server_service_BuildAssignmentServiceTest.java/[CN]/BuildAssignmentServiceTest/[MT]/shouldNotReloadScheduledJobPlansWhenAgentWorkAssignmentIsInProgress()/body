@@ -1,0 +1,44 @@
+{
+  fixture.createPipelineWithFirstStageScheduled();
+  Pipeline pipeline=pipelineDao.mostRecentPipeline(fixture.pipelineName);
+  JobInstance job=pipeline.getFirstStage().getJobInstances().first();
+  final JobInstanceService mockJobInstanceService=mock(JobInstanceService.class);
+  final Pipeline pipeline1=pipeline;
+  final Semaphore sem=new Semaphore(1);
+  sem.acquire();
+  when(mockJobInstanceService.orderedScheduledBuilds()).thenReturn(jobInstanceService.orderedScheduledBuilds());
+  when(mockJobInstanceService.buildByIdWithTransitions(job.getId())).thenReturn(jobInstanceService.buildByIdWithTransitions(job.getId()));
+  ScheduledPipelineLoader scheduledPipelineLoader=new ScheduledPipelineLoader(null,null,null,null,null,null,null,null){
+    @Override public Pipeline pipelineWithPasswordAwareBuildCauseByBuildId(    long buildId){
+      sem.release();
+      sleepQuietly(1000);
+      verify(mockJobInstanceService,times(1)).orderedScheduledBuilds();
+      return pipeline1;
+    }
+  }
+;
+  final BuildAssignmentService buildAssignmentServiceUnderTest=new BuildAssignmentService(goConfigService,mockJobInstanceService,scheduleService,licenseService,agentService,environmentConfigService,timeProvider,transactionTemplate,scheduledPipelineLoader,pipelineService,builderFactory);
+  final Throwable[] fromThread=new Throwable[1];
+  buildAssignmentServiceUnderTest.onTimer();
+  Thread assigner=new Thread(new Runnable(){
+    public void run(){
+      try {
+        final AgentConfig agentConfig=new AgentConfig("uuid");
+        agentConfig.addResource(new Resource("some-other-resource"));
+        buildAssignmentServiceUnderTest.assignWorkToAgent(agent(agentConfig));
+      }
+ catch (      Throwable e) {
+        e.printStackTrace();
+        fromThread[0]=e;
+      }
+ finally {
+      }
+    }
+  }
+,"assignmentThread");
+  assigner.start();
+  sem.acquire();
+  buildAssignmentServiceUnderTest.onTimer();
+  assigner.join();
+  assertThat(fromThread[0],is(nullValue()));
+}

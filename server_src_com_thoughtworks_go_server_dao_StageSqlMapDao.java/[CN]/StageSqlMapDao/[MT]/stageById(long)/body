@@ -1,0 +1,17 @@
+{
+  String key=cacheKeyForStageById(id);
+  Stage stage=(Stage)goCache.get(key);
+  if (stage == null) {
+synchronized (key) {
+      stage=(Stage)goCache.get(key);
+      if (stage == null) {
+        stage=(Stage)getSqlMapClientTemplate().queryForObject("getStageById",id);
+        if (stage == null) {
+          throw new DataRetrievalFailureException("Unable to load related stage data for id " + id);
+        }
+        goCache.put(key,stage);
+      }
+    }
+  }
+  return cloner.deepClone(stage);
+}

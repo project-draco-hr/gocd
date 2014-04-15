@@ -1,0 +1,8 @@
+{
+  CaseInsensitiveString templateAdmin=new CaseInsensitiveString("template-admin");
+  CaseInsensitiveString templateAdminWhoDoesNotHavePermissionToThisTemplate=new CaseInsensitiveString("user");
+  String templateName="template1";
+  PipelineTemplateConfig template=PipelineTemplateConfigMother.createTemplate(templateName,new Authorization(new AdminsConfig(new AdminUser(templateAdmin))),StageConfigMother.manualStage("stage-name"));
+  TemplatesConfig templates=new TemplatesConfig(template);
+  assertThat(templates.canUserEditTemplate(templateName,templateAdminWhoDoesNotHavePermissionToThisTemplate),is(false));
+}

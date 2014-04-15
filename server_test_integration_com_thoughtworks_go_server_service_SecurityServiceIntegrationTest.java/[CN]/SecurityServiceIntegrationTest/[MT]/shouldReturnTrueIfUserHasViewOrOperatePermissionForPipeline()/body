@@ -1,0 +1,6 @@
+{
+  configHelper.setViewPermissionForGroup(GROUP_NAME,VIEWER);
+  assertThat("should have view permission",securityService.hasViewOrOperatePermissionForPipeline(new Username(new CaseInsensitiveString(VIEWER)),PIPELINE_NAME),is(true));
+  configHelper.setOperatePermissionForGroup(GROUP_NAME,OPERATOR);
+  assertThat("should have operate permission",securityService.hasViewOrOperatePermissionForPipeline(new Username(new CaseInsensitiveString(OPERATOR)),PIPELINE_NAME),is(true));
+}

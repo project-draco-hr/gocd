@@ -1,0 +1,5 @@
+{
+  for (  JobStateTransition transition : instance.getTransitions()) {
+    propertyDao.save(instance.getId(),new Property(getTransitionKey(transition.getCurrentState()),formatISO8601(transition.getStateChangeTime())));
+  }
+}

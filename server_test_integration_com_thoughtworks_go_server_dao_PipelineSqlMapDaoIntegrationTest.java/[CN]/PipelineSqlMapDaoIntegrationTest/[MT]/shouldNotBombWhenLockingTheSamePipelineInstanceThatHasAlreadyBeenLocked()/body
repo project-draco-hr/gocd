@@ -1,0 +1,11 @@
+{
+  Pipeline minglePipeline1=schedulePipelineWithStages(PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","defaultStage"));
+  pipelineDao.lockPipeline(minglePipeline1);
+  assertThat(pipelineDao.lockedPipeline("mingle"),is(minglePipeline1.getStages().get(0).getIdentifier()));
+  try {
+    pipelineDao.lockPipeline(minglePipeline1);
+  }
+ catch (  Exception e) {
+    fail("Should not bomb trying to lock a locked pipeline instance but got: " + e.getMessage());
+  }
+}

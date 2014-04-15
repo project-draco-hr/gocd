@@ -1,0 +1,7 @@
+{
+  Graph graph=new InMemoryTempGraphFactory().createTempGraph();
+  URIReference newResource=graph.createURIReference(BAR_CLASS,stubResourceURI);
+  URIReference parentResource=graph.getURIReference(parent);
+  graph.addStatement(parentResource,FOO_PROPERTY,newResource);
+  return graph;
+}

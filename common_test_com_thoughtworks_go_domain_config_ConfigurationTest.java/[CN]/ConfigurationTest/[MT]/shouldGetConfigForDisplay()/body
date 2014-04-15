@@ -1,0 +1,7 @@
+{
+  ConfigurationProperty property1=new ConfigurationProperty(new ConfigurationKey("key1"),new ConfigurationValue("value1"),null,null);
+  ConfigurationProperty property2=new ConfigurationProperty(new ConfigurationKey("key2"),new ConfigurationValue("value2"),null,null);
+  Configuration config=new Configuration(property1,property2);
+  assertThat(config.forDisplay(asList(property1)),is("[key1=value1]"));
+  assertThat(config.forDisplay(asList(property1,property2)),is("[key1=value1, key2=value2]"));
+}

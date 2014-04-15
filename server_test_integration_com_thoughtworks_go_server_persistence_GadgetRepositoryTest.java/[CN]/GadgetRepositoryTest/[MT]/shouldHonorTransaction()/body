@@ -1,0 +1,23 @@
+{
+  final GadgetOauthClient client=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  try {
+    repo.transaction(new Runnable(){
+      public void run(){
+        template.save(client);
+        throw new RuntimeException("ouch! it failed.");
+      }
+    }
+);
+    fail("should have bubbled up transaction failing exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("ouch! it failed."));
+  }
+  try {
+    template.load(GadgetOauthClient.class,client.getId());
+    fail("should have failed because transaction was not successful");
+  }
+ catch (  Exception e) {
+    assertThat(e,is(Matchers.<Object>instanceOf(HibernateObjectRetrievalFailureException.class)));
+  }
+}

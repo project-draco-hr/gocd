@@ -1,0 +1,12 @@
+{
+  ArrayList<CaseInsensitiveString> users=new ArrayList<CaseInsensitiveString>();
+  for (  Admin admin : authorizedAdmins) {
+    if (admin instanceof AdminRole) {
+      addRoleUsers(users,admin.getName());
+    }
+ else {
+      users.add(admin.getName());
+    }
+  }
+  return users;
+}

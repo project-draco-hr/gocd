@@ -1,0 +1,9 @@
+{
+  Resources resources=new Resources();
+  String csv="a, b,   c,d   ";
+  resources.add(new Resource("old_resource"));
+  assertThat(resources.size(),is(1));
+  resources.importFromCsv(csv);
+  assertThat(resources.size(),is(4));
+  assertThat(resources.exportToCsv(),is("a, b, c, d, "));
+}

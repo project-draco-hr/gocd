@@ -1,0 +1,13 @@
+{
+  configHelper.addPipeline("pipeline","stage","build1","build2");
+  String newXml="<job name=\"build2\" />";
+  String md5=goConfigFileDao.md5OfConfigFile();
+  ModelAndView mav=controller.postBuildAsXmlPartial("pipeline","stage",0,newXml,md5,response);
+  assertThat(response.getStatus(),is(SC_CONFLICT));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  Json json=(Json)mav.getModel().get("json");
+  JsonMap expected=new JsonMap();
+  expected.put("result","Duplicate unique value [build2] declared for identity constraint \"uniqueJob\" of element \"jobs\".");
+  expected.put("originalContent",newXml);
+  assertThat(json,is((Json)expected));
+}

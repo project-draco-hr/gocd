@@ -1,0 +1,23 @@
+{
+  File destDir=new File(SystemEnvironment.getProperty("user.dir"),"db");
+  destDir.mkdirs();
+  try {
+    unzip(new ZipInputStream(this.getClass().getResourceAsStream("/defaultFiles/h2deltas.zip")),destDir);
+  }
+ catch (  IOException e) {
+    validation.addError(e);
+  }
+  File dbFile=new File(destDir,"h2db/cruise.h2.db");
+  if (dbFile.exists() && dbFile.canWrite() && dbFile.canRead()) {
+    return Validation.SUCCESS;
+  }
+ else {
+    try {
+      unzip(new ZipInputStream(this.getClass().getResourceAsStream("/defaultFiles/h2db.zip")),destDir);
+    }
+ catch (    Exception e) {
+      return validation.addError(e);
+    }
+  }
+  return validation;
+}

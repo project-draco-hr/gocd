@@ -1,0 +1,11 @@
+{
+  String stageName=CaseInsensitiveString.str(dependencyMaterial.getStageName());
+  String label=upstreams[0].getLabel();
+  List<Modification> modifications=new ArrayList<Modification>();
+  for (  Pipeline upstream : upstreams) {
+    modifications.add(new Modification(new Date(),DependencyMaterialRevision.create(CaseInsensitiveString.str(dependencyMaterial.getPipelineName()),upstream.getCounter(),label,stageName,upstream.findStage(stageName).getCounter()).getRevision(),label,upstream.getId()));
+  }
+  MaterialRevision depRev=addRevisionsWithModifications(dependencyMaterial,modifications.toArray(new Modification[0]));
+  materialRevisions.add(depRev);
+  return Arrays.asList(depRev);
+}

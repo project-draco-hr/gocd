@@ -1,0 +1,6 @@
+{
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  AgentInstance instance=AgentInstance.createFromLiveAgent(agentRuntimeInfo,systemEnvironment);
+  instance.deny();
+  assertThat(instance.getStatus(),is(AgentStatus.Disabled));
+}

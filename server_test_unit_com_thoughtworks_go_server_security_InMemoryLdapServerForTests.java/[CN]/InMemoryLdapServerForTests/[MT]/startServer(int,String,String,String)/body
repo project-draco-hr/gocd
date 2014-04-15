@@ -1,0 +1,16 @@
+{
+  InMemoryListenerConfig listenerConfig=InMemoryListenerConfig.createLDAPConfig("default",port);
+  InMemoryDirectoryServerConfig serverConfig=new InMemoryDirectoryServerConfig(new DN(baseDn));
+  serverConfig.setSchema(null);
+  serverConfig.setListenerConfigs(listenerConfig);
+  serverConfig.addAdditionalBindCredentials(bindDn,bindPassword);
+  InMemoryDirectoryServer server=new InMemoryDirectoryServer(serverConfig);
+  try {
+    server.startListening();
+  }
+ catch (  LDAPException e) {
+    throw new RuntimeException(e);
+  }
+  new LDIFAddChangeRecord(baseDn,new Attribute("objectClass","domain","top")).processChange(server);
+  return server;
+}

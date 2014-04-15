@@ -1,0 +1,7 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("Changing status of job instance with identifier %s to %s from agent[%s]",jobIdentifier,jobState,agentUuid));
+  }
+  checkAgentUUID(jobIdentifier,agentUuid);
+  scheduleService.updateJobStatus(jobIdentifier,jobState);
+}

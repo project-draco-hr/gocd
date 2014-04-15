@@ -1,0 +1,10 @@
+{
+  context.checking(new Expectations(){
+{
+      one(jobInstanceService).buildByIdWithTransitions((long)with(any(Integer.class)));
+      will(returnValue(NullJobInstance.NULL));
+    }
+  }
+);
+  assertThat(buildRepositoryService.isCancelledOrRescheduled(123L),is(false));
+}

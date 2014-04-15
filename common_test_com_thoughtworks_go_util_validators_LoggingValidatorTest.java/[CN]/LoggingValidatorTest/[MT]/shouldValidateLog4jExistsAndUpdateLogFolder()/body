@@ -1,0 +1,15 @@
+{
+  final Validation validation=new Validation();
+  context.checking(new Expectations(){
+{
+      one(log4jFileValidator).validate(validation);
+      will(returnValue(validation));
+      one(logDirectory).update(log4jPropertiesFile,validation);
+      will(returnValue(validation));
+      one(log4jConfigReloader).reload(log4jPropertiesFile);
+    }
+  }
+);
+  new LoggingValidator(log4jPropertiesFile,log4jFileValidator,logDirectory,log4jConfigReloader).validate(validation);
+  assertThat(validation.isSuccessful(),is(true));
+}

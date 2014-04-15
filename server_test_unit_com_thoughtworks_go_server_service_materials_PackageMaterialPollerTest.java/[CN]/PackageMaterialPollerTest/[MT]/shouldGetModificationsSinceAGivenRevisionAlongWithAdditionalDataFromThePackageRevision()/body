@@ -1,0 +1,28 @@
+{
+  String previousRevision="rev-122";
+  Date timestamp=new Date();
+  HashMap<String,String> dataInPreviousRevision=new HashMap<String,String>();
+  dataInPreviousRevision.put("1","one");
+  PackageMaterialRevision knownRevision=new PackageMaterialRevision(previousRevision,timestamp,dataInPreviousRevision);
+  ArgumentCaptor<PackageRevision> knownPackageRevision=new ArgumentCaptor<PackageRevision>();
+  PackageRevision latestRevision=new PackageRevision("rev-123",timestamp,"user");
+  String dataKey="2";
+  String dataValue="two";
+  latestRevision.addData(dataKey,dataValue);
+  when(packageMaterialPoller.latestModificationSince(packageConfiguration.capture(),repositoryConfiguration.capture(),knownPackageRevision.capture())).thenReturn(latestRevision);
+  List<Modification> modifications=poller.modificationsSince(material,null,knownRevision,null);
+  assertThat(knownPackageRevision.getValue().getRevision(),is(previousRevision));
+  assertThat(knownPackageRevision.getValue().getTimestamp(),is(timestamp));
+  assertThat(knownPackageRevision.getValue().getData(),is(notNullValue()));
+  assertThat(knownPackageRevision.getValue().getData().size(),is(dataInPreviousRevision.size()));
+  assertThat(knownPackageRevision.getValue().getData().get("1"),is(dataInPreviousRevision.get("1")));
+  HashMap<String,String> expected=new HashMap<String,String>();
+  expected.put(dataKey,dataValue);
+  String expectedDataString=JsonHelper.toJsonString(expected);
+  Modification firstModification=modifications.get(0);
+  assertThat(firstModification.getRevision(),is("rev-123"));
+  assertThat(firstModification.getModifiedTime(),is(timestamp));
+  assertThat(firstModification.getUserName(),is("user"));
+  assertThat(firstModification.getComment(),is(notNullValue()));
+  assertThat(firstModification.getAdditionalData(),is(expectedDataString));
+}

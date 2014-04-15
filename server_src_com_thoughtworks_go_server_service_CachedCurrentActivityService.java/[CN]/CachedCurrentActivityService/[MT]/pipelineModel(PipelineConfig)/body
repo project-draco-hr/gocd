@@ -1,0 +1,7 @@
+{
+  String name=CaseInsensitiveString.str(pipelineConfig.name());
+  PipelinePauseInfo pauseInfo=pipelinePauseService.pipelinePauseInfo(name);
+  boolean forcedBuild=pipelineScheduleQueue.hasForcedBuildCause(name);
+  List<StageJsonPresentationModel> stageModels=stagesModel(pipelineConfig);
+  return new PipelineJsonPresentationModel(goConfigService.findGroupNameByPipeline(new CaseInsensitiveString(name)),name,pauseInfo,forcedBuild,stageModels);
+}

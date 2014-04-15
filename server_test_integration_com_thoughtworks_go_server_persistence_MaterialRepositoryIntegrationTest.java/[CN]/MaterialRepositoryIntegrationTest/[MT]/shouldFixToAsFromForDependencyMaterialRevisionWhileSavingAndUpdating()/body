@@ -1,0 +1,25 @@
+{
+  Material material=new DependencyMaterial(new CaseInsensitiveString("pipeline_name"),new CaseInsensitiveString("stage_name"));
+  MaterialRevision firstRevision=new MaterialRevision(material,new Modifications(modification("pipeline_name/10/stage_name/1"),modification("pipeline_name/9/stage_name/2"),modification("pipeline_name/8/stage_name/2")));
+  saveMaterialRev(firstRevision);
+  Pipeline firstPipeline=createPipeline();
+  savePMR(firstRevision,firstPipeline);
+  MaterialRevisions revisionsFor11=repo.findMaterialRevisionsForPipeline(firstPipeline.getId());
+  assertThat(revisionsFor11.getModifications(material).size(),is(1));
+  assertThat(revisionsFor11.getModifications(material).get(0).getRevision(),is("pipeline_name/10/stage_name/1"));
+  MaterialRevision secondRevision=new MaterialRevision(material,new Modifications(modification("pipeline_name/11/stage_name/2"),modification("pipeline_name/11/stage_name/1")));
+  saveMaterialRev(secondRevision);
+  Pipeline secondPipeline=createPipeline();
+  savePMR(secondRevision,secondPipeline);
+  MaterialRevisions revisionsFor12=repo.findMaterialRevisionsForPipeline(secondPipeline.getId());
+  assertThat(revisionsFor12.getModifications(material).size(),is(1));
+  assertThat(revisionsFor12.getModifications(material).get(0).getRevision(),is("pipeline_name/11/stage_name/2"));
+  MaterialRevision thirdRevision=new MaterialRevision(material,new Modifications(modification("pipeline_name/12/stage_name/1")));
+  saveMaterialRev(thirdRevision);
+  Pipeline thirdPipeline=createPipeline();
+  savePMR(thirdRevision,thirdPipeline);
+  savePMR(thirdRevision,thirdPipeline);
+  MaterialRevisions revisionsFor13=repo.findMaterialRevisionsForPipeline(thirdPipeline.getId());
+  assertThat(revisionsFor13.getModifications(material).size(),is(1));
+  assertThat(revisionsFor13.getModifications(material).get(0).getRevision(),is("pipeline_name/12/stage_name/1"));
+}

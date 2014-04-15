@@ -1,0 +1,7 @@
+{
+  GoPluginDescriptor descriptor=goPluginDescriptorBuilder.build(pluginFileDetails.file(),pluginFileDetails.isBundledPlugin());
+  GoPluginDescriptor existingDescriptor=registry.getPluginByIdOrFileName(descriptor.id(),descriptor.fileName());
+  validateIfExternalPluginRemovingBundledPlugin(descriptor,existingDescriptor);
+  validatePluginCompatibilityWithCurrentOS(descriptor);
+  addPlugin(pluginFileDetails,descriptor);
+}

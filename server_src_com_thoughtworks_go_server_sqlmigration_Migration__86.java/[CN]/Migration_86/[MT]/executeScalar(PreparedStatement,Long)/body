@@ -1,0 +1,13 @@
+{
+  ResultSet rs=null;
+  try {
+    rs=ps.executeQuery();
+    if (rs.next()) {
+      return rs.getLong(1);
+    }
+    return defaultValue;
+  }
+  finally {
+    closeQuietly(rs);
+  }
+}

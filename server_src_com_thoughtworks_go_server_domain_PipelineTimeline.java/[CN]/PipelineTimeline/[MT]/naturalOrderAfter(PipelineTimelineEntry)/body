@@ -1,0 +1,9 @@
+{
+  naturalOrderLock.readLock().lock();
+  try {
+    return naturalOrderPmm.get(new CaseInsensitiveString(pipelineTimelineEntry.getPipelineName())).higher(pipelineTimelineEntry);
+  }
+  finally {
+    naturalOrderLock.readLock().unlock();
+  }
+}

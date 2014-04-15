@@ -1,0 +1,18 @@
+{
+  if (dir == null) {
+    throw new RuntimeException("dir must not be null.");
+  }
+  String[] newfiles=dir.list();
+  if (newfiles == null) {
+    if (!dir.exists()) {
+      throw new RuntimeException(dir + " doesn't exist.");
+    }
+ else     if (!dir.isDirectory()) {
+      throw new RuntimeException(dir + " is not a directory.");
+    }
+ else {
+      throw new RuntimeException("IO error scanning directory '" + dir.getAbsolutePath() + "'");
+    }
+  }
+  scandir(dir,vpath,fast,newfiles);
+}

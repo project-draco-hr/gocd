@@ -1,0 +1,13 @@
+{
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  job.setAgentUuid("dummy agent");
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      jobService.cancelJob(job);
+    }
+  }
+);
+  verify(jobInstanceDao).updateStateAndResult(job);
+  verify(buildPropertiesService).saveCruiseProperties(job);
+  verify(topic).post(new JobResultMessage(job.getIdentifier(),JobResult.Cancelled,job.getAgentUuid()));
+}

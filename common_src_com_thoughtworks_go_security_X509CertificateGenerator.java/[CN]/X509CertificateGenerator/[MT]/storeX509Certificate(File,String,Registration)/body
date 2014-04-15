@@ -1,0 +1,9 @@
+{
+  try {
+    PKCS12BagAttributeSetter.usingBagAttributeCarrier(entry.getPrivateKey()).setFriendlyName(FRIENDLY_NAME).setLocalKeyId(entry.getPublicKey());
+    keyStoreManager.storeX509Certificate(FRIENDLY_NAME,file,passwd,entry);
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}

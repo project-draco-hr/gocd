@@ -1,0 +1,9 @@
+{
+  try {
+    configs.named(new CaseInsensitiveString("not-exist"));
+    fail("Should throw exception if the environment does not exist");
+  }
+ catch (  NoSuchEnvironmentException e) {
+    assertThat(e.getMessage(),Matchers.is("Environment [not-exist] does not exist."));
+  }
+}

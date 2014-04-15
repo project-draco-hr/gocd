@@ -1,0 +1,9 @@
+{
+  try {
+    xmlLoader.loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(ConfigFileFixture.CONFIG_WITH_EMPTY_ROLES)));
+    fail("Should not allow approval with empty roles");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("The content of element 'roles' is not complete. One of '{role}' is expected."));
+  }
+}

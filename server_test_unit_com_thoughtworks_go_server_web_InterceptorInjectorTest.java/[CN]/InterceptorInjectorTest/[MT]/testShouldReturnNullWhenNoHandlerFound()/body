@@ -1,0 +1,7 @@
+{
+  Mock proceedingJoinPoint=mock(ProceedingJoinPoint.class);
+  proceedingJoinPoint.expects(once()).method("proceed").will(returnValue(null));
+  InterceptorInjector injector=new InterceptorInjector();
+  HandlerExecutionChain handlers=injector.mergeInterceptorsToTabs((ProceedingJoinPoint)proceedingJoinPoint.proxy());
+  assertNull(handlers);
+}

@@ -1,0 +1,11 @@
+{
+  PackageMaterial material=MaterialsMother.packageMaterial();
+  MaterialInstance materialInstance=material.createMaterialInstance();
+  materialRepository.saveOrUpdate(materialInstance);
+  addMetadata(material,"fieldX",false);
+  material.getPackageDefinition().getConfiguration().addNewConfiguration("fieldX",true);
+  List<Modification> modifications=ModificationsMother.multipleModificationList();
+  packageMaterialUpdater.insertLatestOrNewModifications(material,materialInstance,new File(""),new Modifications(modifications));
+  MaterialInstance actualInstance=materialRepository.findMaterialInstance(material);
+  Assert.assertThat(actualInstance.getConfiguration(),is(material.createMaterialInstance().getConfiguration()));
+}

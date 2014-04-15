@@ -1,0 +1,8 @@
+{
+  when(goCache.get(CachedCommandSnippets.CACHE_KEY)).thenReturn(null,expectedSnippets);
+  when(systemEnvironment.get(SystemEnvironment.COMMAND_REPOSITORY_CACHE_TIME_IN_SECONDS)).thenReturn(1);
+  commandSnippetsCache.snippets();
+  Thread.sleep(2 * 1000);
+  commandSnippetsCache.snippets();
+  verify(walker,times(2)).getAllCommandSnippets(EXPECTED_REPO_DIR);
+}

@@ -1,0 +1,7 @@
+{
+  String loggerProperties="log4j.properties";
+  ClassLoader nestedJarClassLoader=new NestedJarClassLoader(urlForSDKJar(),"SAXParserFactory.class",loggerProperties);
+  URL actual=nestedJarClassLoader.getResource(loggerProperties);
+  URL expected=this.getClass().getClassLoader().getResource(loggerProperties);
+  assertThat(actual,is(expected));
+}

@@ -1,0 +1,11 @@
+{
+  List<Long> expectedIds=new ArrayList<Long>();
+  expectedIds.add(1L);
+  expectedIds.add(2L);
+  when(mockTemplate.queryForList(eq("getPipelineRange"),any())).thenReturn(expectedIds);
+  pipelineDao.findPipelineIds("pipelineName",2,0);
+  pipelineDao.findPipelineIds("pipelineName",2,0);
+  pipelineDao.findPipelineIds("pipelineName",1,2);
+  pipelineDao.findPipelineIds("pipelineName",1,2);
+  verify(mockTemplate,times(4)).queryForList(eq("getPipelineRange"),any());
+}

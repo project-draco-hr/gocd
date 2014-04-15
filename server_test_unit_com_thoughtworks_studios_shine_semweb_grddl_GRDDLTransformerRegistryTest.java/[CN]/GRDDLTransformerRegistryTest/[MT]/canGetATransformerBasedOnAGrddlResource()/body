@@ -1,0 +1,8 @@
+{
+  XSLTTransformerRegistry registry=new XSLTTransformerRegistry();
+  Transformer transformer1=registry.getTransformer("xunit/ant-junit-grddl.xsl");
+  Transformer transformer2=registry.getTransformer("xunit/ant-junit-grddl.xsl");
+  Transformer transformer3=registry.getTransformer("cruise/job-grddl.xsl");
+  assertSame(transformer1,transformer2);
+  assertNotSame(transformer1,transformer3);
+}

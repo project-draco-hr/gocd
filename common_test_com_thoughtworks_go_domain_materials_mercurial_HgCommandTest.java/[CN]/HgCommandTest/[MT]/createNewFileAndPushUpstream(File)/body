@@ -1,0 +1,5 @@
+{
+  createNewFileAndCheckIn(workingDir);
+  String branchName=hg(workingDir,"branch").runOrBomb(null).outputAsString();
+  hg(workingDir,"push","--rev",branchName).runOrBomb(null);
+}

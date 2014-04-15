@@ -1,0 +1,8 @@
+{
+  List<Modification> actual=hgCommand.latestOneModificationAsModifications();
+  assertThat(actual.size(),is(1));
+  final Modification modification=actual.get(0);
+  assertThat(modification.getComment(),is("test"));
+  assertThat(modification.getUserName(),is("cruise"));
+  assertThat(modification.getModifiedFiles().size(),is(1));
+}

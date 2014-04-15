@@ -1,0 +1,8 @@
+{
+  if (shaDigestCache.containsKey(string)) {
+    return shaDigestCache.get(string);
+  }
+  String digest=compute(string,DigestObjectPools.SHA_256);
+  shaDigestCache.putIfAbsent(string,digest);
+  return digest;
+}

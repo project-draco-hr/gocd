@@ -1,0 +1,17 @@
+{
+  Modification modification=mock(Modification.class);
+  Session session=mock(Session.class);
+  Query query=mock(Query.class);
+  int materialId=111;
+  String revision="Rev -1";
+  String key=materialRepository.cacheKeyForModificationWithRevision(materialId,revision);
+  when(session.createQuery(anyString())).thenReturn(query);
+  when(query.uniqueResult()).thenReturn(modification);
+  Modification actualModification=materialRepository.findModificationWithRevision(session,materialId,revision);
+  assertThat(actualModification,is(modification));
+  modification=materialRepository.findModificationWithRevision(session,materialId,revision);
+  assertThat(actualModification,is(modification));
+  verify(query,times(1)).uniqueResult();
+  verify(goCache,times(3)).get(key);
+  verify(goCache,times(1)).put(key,modification);
+}

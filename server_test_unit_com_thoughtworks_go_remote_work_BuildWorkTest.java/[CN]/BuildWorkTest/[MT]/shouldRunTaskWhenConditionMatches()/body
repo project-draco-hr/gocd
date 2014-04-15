@@ -1,0 +1,7 @@
+{
+  buildWork=(BuildWork)getWork(MULTIPLE_RUN_IFS,PIPELINE_NAME);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  String actual=artifactManipulator.consoleOut();
+  assertThat(actual,containsString("[go] Current job status: passed.\n\n" + "[go] Start to execute task: " + "<exec command=\"echo\" args=\"run when status is failed, passed or cancelled\" />. "));
+  assertThat(actual,containsString("run when status is failed, passed or cancelled"));
+}

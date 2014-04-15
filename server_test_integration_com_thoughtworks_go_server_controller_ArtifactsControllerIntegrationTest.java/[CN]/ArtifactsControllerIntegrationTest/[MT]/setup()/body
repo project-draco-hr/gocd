@@ -1,0 +1,19 @@
+{
+  configHelper=new GoConfigFileHelper();
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  pipelineName="pipeline-" + UUID.randomUUID().toString();
+  request=new MockHttpServletRequest();
+  response=new MockHttpServletResponse();
+  dbHelper.onSetUp();
+  pipeline=dbHelper.saveTestPipeline(pipelineName,"stage","build");
+  dbHelper.saveBuildingStage(pipeline.getStages().byName("stage"));
+  configHelper.addPipeline(pipelineName,"stage","build");
+  stage=pipeline.getStages().byName("stage");
+  job=stage.getJobInstances().getByName("build");
+  buildId=job.getId();
+  JobIdentifier jobId=new JobIdentifier(pipeline.getName(),-2,pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter()),job.getName(),job.getId());
+  artifactRootForJob=artifactService.findArtifact(jobId,"");
+  deleteDirectory(artifactRootForJob);
+  artifactRootForJob.mkdirs();
+}

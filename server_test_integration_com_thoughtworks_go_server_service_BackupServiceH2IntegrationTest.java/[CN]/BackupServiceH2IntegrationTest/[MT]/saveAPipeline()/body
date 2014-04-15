@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline",new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job-one"))));
+  pipelineConfig.materialConfigs().clear();
+  SvnMaterialConfig onDirOne=MaterialConfigsMother.svnMaterialConfig("google.com","dirOne","loser","boozer",false,"**/*.html");
+  pipelineConfig.addMaterialConfig(onDirOne);
+  Pipeline building=PipelineMother.building(pipelineConfig);
+  return dbHelper.savePipelineWithMaterials(building);
+}

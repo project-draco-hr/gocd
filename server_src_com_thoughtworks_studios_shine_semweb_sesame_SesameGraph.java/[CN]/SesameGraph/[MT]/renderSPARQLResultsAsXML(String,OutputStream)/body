@@ -1,0 +1,19 @@
+{
+  try {
+    Query query=conn.prepareQuery(QueryLanguage.SPARQL,sparql);
+    contextualize(query);
+    if (query instanceof TupleQuery) {
+      renderTupleQuery(query,new SPARQLResultsXMLWriter(stream));
+    }
+ else {
+      renderBooleanQuery(query,new SPARQLBooleanXMLWriter(stream));
+    }
+    stream.flush();
+  }
+ catch (  UnsupportedSPARQLStatementException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    throw new ShineRuntimeException("Could not render sparql results as XML: <<" + sparql + ">>",e);
+  }
+}

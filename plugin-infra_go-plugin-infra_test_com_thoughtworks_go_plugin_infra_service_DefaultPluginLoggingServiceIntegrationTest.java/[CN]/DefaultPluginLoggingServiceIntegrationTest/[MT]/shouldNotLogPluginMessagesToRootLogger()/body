@@ -1,0 +1,8 @@
+{
+  LogFixture appender=LogFixture.startListening(Level.INFO);
+  Logger.getRootLogger().addAppender(appender);
+  DefaultPluginLoggingService service=new DefaultPluginLoggingService(systemEnvironment);
+  service.info(pluginID(1),"LoggingClass","this-message-should-not-go-to-root-logger");
+  String failureMessage="Expected no messages to be logged to root logger. Found: " + Arrays.toString(appender.getMessages());
+  assertThat(failureMessage,appender.getMessages().length,is(0));
+}

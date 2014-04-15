@@ -1,0 +1,8 @@
+{
+  File dir=files.mkdir("foo");
+  assertThat(dir.exists(),is(true));
+  File file=new File(dir,"foo");
+  file.createNewFile();
+  files.cleanUp();
+  assertThat(dir.exists(),is(false));
+}

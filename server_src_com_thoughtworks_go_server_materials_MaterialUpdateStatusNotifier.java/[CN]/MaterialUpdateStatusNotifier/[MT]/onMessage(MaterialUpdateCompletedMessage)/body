@@ -1,0 +1,12 @@
+{
+  for (  MaterialUpdateStatusListener listener : pending.values()) {
+    if (listener.isListeningFor(message.getMaterial())) {
+      try {
+        listener.onMaterialUpdate(message);
+      }
+ catch (      Exception e) {
+        LOGGER.error("Caught error when notifying listeners of material-update",e);
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  StageConfig moveMeStage=StageConfigMother.stageConfig("move-me");
+  StageConfig dontMoveMeStage=StageConfigMother.stageConfig("dont-move-me");
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline",dontMoveMeStage);
+  try {
+    pipelineConfig.incrementIndex(moveMeStage);
+    fail("Should fail to increment the index of a stage that is not found");
+  }
+ catch (  RuntimeException expected) {
+    assertThat(expected.getMessage(),is("Cannot find the stage 'move-me' in pipeline 'pipeline'"));
+  }
+  try {
+    pipelineConfig.decrementIndex(moveMeStage);
+    fail("Should fail to increment the index of a stage that is not found");
+  }
+ catch (  RuntimeException expected) {
+    assertThat(expected.getMessage(),is("Cannot find the stage 'move-me' in pipeline 'pipeline'"));
+  }
+}

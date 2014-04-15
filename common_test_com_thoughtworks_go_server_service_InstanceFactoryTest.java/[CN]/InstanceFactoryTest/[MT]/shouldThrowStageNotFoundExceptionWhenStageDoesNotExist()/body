@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs(),new StageConfig(new CaseInsensitiveString("first"),new JobConfigs()));
+  try {
+    instanceFactory.createStageInstance(pipelineConfig,new CaseInsensitiveString("doesNotExist"),new DefaultSchedulingContext(),"md5",clock);
+    fail("Found the stage doesNotExist but, well, it doesn't");
+  }
+ catch (  StageNotFoundException expected) {
+    assertThat(expected.getMessage(),is("Stage 'doesNotExist' not found in pipeline 'cruise'"));
+  }
+}

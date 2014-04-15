@@ -1,0 +1,6 @@
+{
+  FanInGraph fanInGraph=new FanInGraph(cruiseConfig,pipelineName,materialRepository,pipelineDao,systemEnvironment,materialConfigConverter);
+  final MaterialRevisions computedRevisions=fanInGraph.computeRevisions(actualRevisions,pipelineTimeline);
+  fillUpNonOverridableRevisions(actualRevisions,computedRevisions);
+  return restoreOriginalOrderUsingFingerprint(actualRevisions,computedRevisions);
+}

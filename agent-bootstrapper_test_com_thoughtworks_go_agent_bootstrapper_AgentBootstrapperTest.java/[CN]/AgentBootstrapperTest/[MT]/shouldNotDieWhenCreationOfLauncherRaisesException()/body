@@ -1,0 +1,52 @@
+{
+  final Semaphore waitForLauncherCreation=new Semaphore(1);
+  waitForLauncherCreation.acquire();
+  final boolean[] reLaunchWaitIsCalled=new boolean[1];
+  final AgentBootstrapper bootstrapper=new AgentBootstrapper(){
+    @Override void waitForRelaunchTime(){
+      assertThat(waitTimeBeforeRelaunch,is(0));
+      reLaunchWaitIsCalled[0]=true;
+      super.waitForRelaunchTime();
+    }
+    @Override AgentLauncherCreator getLauncherCreator(){
+      return new AgentLauncherCreator(){
+        public AgentLauncher createLauncher(){
+          try {
+            throw new RuntimeException("i bombed");
+          }
+  finally {
+            if (waitForLauncherCreation.availablePermits() == 0) {
+              waitForLauncherCreation.release();
+            }
+          }
+        }
+        @Override public void destroy(){
+        }
+      }
+;
+    }
+  }
+;
+  final AgentBootstrapper spyBootstrapper=stubJVMExit(bootstrapper);
+  Thread stopLoopThd=new Thread(new Runnable(){
+    public void run(){
+      try {
+        waitForLauncherCreation.acquire();
+      }
+ catch (      InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+      ReflectionUtil.setField(spyBootstrapper,"loop",false);
+    }
+  }
+);
+  stopLoopThd.start();
+  try {
+    spyBootstrapper.go(true,"ghost-name",3518);
+    stopLoopThd.join();
+  }
+ catch (  Exception e) {
+    fail("should not have propagated exception thrown while creating launcher");
+  }
+  assertThat(reLaunchWaitIsCalled[0],is(true));
+}

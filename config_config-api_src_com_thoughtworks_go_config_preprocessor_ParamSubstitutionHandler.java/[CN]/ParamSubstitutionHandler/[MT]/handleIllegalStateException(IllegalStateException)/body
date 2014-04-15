@@ -1,0 +1,10 @@
+{
+  if (Validatable.class.isAssignableFrom(resolvable.getClass())) {
+    Validatable validatable=(Validatable)resolvable;
+    validatable.addError(fieldName,e.getMessage());
+  }
+ else {
+    throw e;
+  }
+  result=new StringBuilder(stringToResolve);
+}

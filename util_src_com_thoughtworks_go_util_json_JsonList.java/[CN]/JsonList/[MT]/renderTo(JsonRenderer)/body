@@ -1,0 +1,12 @@
+{
+  boolean first=true;
+  renderer.append("[ ");
+  for (  Json json : this) {
+    if (!first) {
+      renderer.append(",");
+    }
+    json.renderTo(renderer);
+    first=false;
+  }
+  renderer.append(" ]");
+}

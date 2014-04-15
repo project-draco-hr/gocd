@@ -1,0 +1,7 @@
+{
+  GadgetOauthClient saved1=new GadgetOauthClient("google.com","google","client_id","client_secret");
+  template.save(saved1);
+  GadgetDataSource.GadgetOauthClientDTO dto=repo.findGadgetsOauthClientByOauthAuthorizeUrl("google.com");
+  assertThat(dto,not(nullValue()));
+  assertThat(dto,is(saved1.getDTO()));
+}

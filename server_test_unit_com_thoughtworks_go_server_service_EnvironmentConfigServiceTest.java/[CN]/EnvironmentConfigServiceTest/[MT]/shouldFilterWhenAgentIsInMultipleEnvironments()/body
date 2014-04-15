@@ -1,0 +1,7 @@
+{
+  environmentConfigService.sync(environments("uat","prod"));
+  List<JobPlan> filtered=environmentConfigService.filterJobsByAgent(jobs("no-env","uat","prod"),EnvironmentConfigMother.OMNIPRESENT_AGENT);
+  assertThat(filtered.size(),is(2));
+  assertThat(filtered.get(0).getPipelineName(),is("uat-pipeline"));
+  assertThat(filtered.get(1).getPipelineName(),is("prod-pipeline"));
+}

@@ -1,0 +1,4 @@
+{
+  Graph graph=graphWithRDF("" + "@prefix cruise: <" + GoOntology.URI + "> . "+ "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . "+ "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . "+ ""+ "<http://pipeline/1> a cruise:Pipeline ."+ "<http://pipeline/1> cruise:pipelineName \"p\"^^xsd:string ."+ "<http://pipeline/1> cruise:hasStage <http://stage/1> ."+ "<http://stage/1> rdf:type cruise:Stage . "+ "<http://stage/1> cruise:stageName \"s\"^^xsd:string . "+ "<http://stage/1> cruise:stageCounter 2 . "+ "<http://stage/1> cruise:hasJob <http://job/1> . "+ "<http://job/1> a cruise:Job . "+ "");
+  stageStorage.save(graph);
+}

@@ -1,0 +1,8 @@
+{
+  String adminUser="admin1";
+  String templateName="template-name";
+  CruiseConfig configForEdit=addTemplateWithTemplateAdminUser(adminUser,templateName);
+  ConfigUpdateResponse response=goConfigService.updateConfigFromUI(new AddStageToTemplate(templateName,"stage2"),configForEdit.getMd5(),new Username(new CaseInsensitiveString(adminUser)),new HttpLocalizedOperationResult());
+  CruiseConfig configAfterUpdate=response.configAfterUpdate();
+  assertThat(configAfterUpdate.getTemplateByName(new CaseInsensitiveString(templateName)).size(),is(2));
+}

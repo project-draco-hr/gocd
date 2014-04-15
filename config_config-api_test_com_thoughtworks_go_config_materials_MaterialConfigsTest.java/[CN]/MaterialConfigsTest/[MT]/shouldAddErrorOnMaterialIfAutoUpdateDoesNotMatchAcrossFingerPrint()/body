@@ -1,0 +1,13 @@
+{
+  HgMaterialConfig materialOne=new HgMaterialConfig("http://url1",null);
+  materialOne.setAutoUpdate(false);
+  HgMaterialConfig materialTwo=new HgMaterialConfig("http://url1",null);
+  materialTwo.setAutoUpdate(true);
+  CruiseConfig config=GoConfigMother.configWithPipelines("one","two");
+  PipelineConfig pipelineOne=config.pipelineConfigByName(new CaseInsensitiveString("one"));
+  pipelineOne.setMaterialConfigs(new MaterialConfigs(materialOne));
+  PipelineConfig pipelineTwo=config.pipelineConfigByName(new CaseInsensitiveString("two"));
+  pipelineTwo.setMaterialConfigs(new MaterialConfigs(materialTwo));
+  pipelineOne.materialConfigs().validate(ValidationContext.forChain(config));
+  assertThat(pipelineOne.materialConfigs().get(0).errors().on(ScmMaterialConfig.AUTO_UPDATE),is("Material of type Mercurial (http://url1) is specified more than once in the configuration with different values for the autoUpdate attribute. All copies of the a material should have the same value for this attribute."));
+}

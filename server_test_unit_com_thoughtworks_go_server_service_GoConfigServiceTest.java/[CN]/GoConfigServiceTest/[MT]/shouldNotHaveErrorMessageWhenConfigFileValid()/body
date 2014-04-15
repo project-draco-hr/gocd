@@ -1,0 +1,6 @@
+{
+  when(goConfigFileDao.checkConfigFileValid()).thenReturn(GoConfigValidity.valid());
+  GoConfigValidity configValidity=goConfigService.checkConfigFileValid();
+  assertThat(configValidity.isValid(),is(true));
+  assertThat(configValidity.errorMessage(),is(""));
+}

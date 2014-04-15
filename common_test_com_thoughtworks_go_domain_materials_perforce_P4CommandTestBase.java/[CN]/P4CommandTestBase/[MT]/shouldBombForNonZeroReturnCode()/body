@@ -1,0 +1,12 @@
+{
+  ProcessOutputStreamConsumer outputStreamConsumer=Mockito.mock(ProcessOutputStreamConsumer.class);
+  CommandLine line=Mockito.mock(CommandLine.class);
+  when(line.run(outputStreamConsumer,null,"foo")).thenReturn(1);
+  try {
+    p4.execute(line,"foo",outputStreamConsumer,true);
+    fail("did't bomb for non zero return code");
+  }
+ catch (  Exception e) {
+  }
+  verify(line).run(outputStreamConsumer,null,"foo");
+}

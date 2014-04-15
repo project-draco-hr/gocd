@@ -1,0 +1,7 @@
+{
+  PluggableTask pluggableTask=new PluggableTask("",new PluginConfiguration("plugin-1","2"),new Configuration());
+  PluggableTaskViewModelFactory factory=new PluggableTaskViewModelFactory();
+  PluggableViewModel<PluggableTask> viewModel=factory.viewModelFor(pluggableTask,"new");
+  assertThat(viewModel.getTypeForDisplay(),is("First plugin"));
+  assertThat((String)viewModel.getParameters().get("template"),is("<input type='text' ng-model='abc'></input>"));
+}

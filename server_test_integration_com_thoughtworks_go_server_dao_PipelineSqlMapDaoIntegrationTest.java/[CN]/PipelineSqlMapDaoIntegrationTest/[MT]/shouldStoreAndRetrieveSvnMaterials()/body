@@ -1,0 +1,13 @@
+{
+  SvnMaterial svnMaterial=svnMaterial("svnUrl","folder");
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(svnMaterial.config()));
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  materialRevisions.addRevision(svnMaterial,ModificationsMother.multipleModificationList());
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  savePipeline(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  final Materials materials=pipelineFromDB.getMaterials();
+  assertThat((SvnMaterial)materials.get(0),is(svnMaterial));
+}

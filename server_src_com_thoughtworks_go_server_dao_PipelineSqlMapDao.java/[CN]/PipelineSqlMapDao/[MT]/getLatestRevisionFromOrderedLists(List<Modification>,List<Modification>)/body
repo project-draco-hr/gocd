@@ -1,0 +1,16 @@
+{
+  Modification latestModification=null;
+  if (!orderedList1.isEmpty()) {
+    latestModification=orderedList1.get(0);
+  }
+  if (!orderedList2.isEmpty()) {
+    Modification modification=orderedList2.get(0);
+    if (latestModification == null) {
+      latestModification=modification;
+    }
+ else     if (modification.getModifiedTime().compareTo(latestModification.getModifiedTime()) > 0) {
+      latestModification=modification;
+    }
+  }
+  return latestModification != null ? latestModification.getRevision() : null;
+}

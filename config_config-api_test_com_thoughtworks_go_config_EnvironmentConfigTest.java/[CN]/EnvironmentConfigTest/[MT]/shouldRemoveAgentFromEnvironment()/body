@@ -1,0 +1,11 @@
+{
+  environmentConfig.addAgent("uuid1");
+  environmentConfig.addAgent("uuid2");
+  assertThat(environmentConfig.getAgents().size(),is(2));
+  assertThat(environmentConfig.hasAgent("uuid1"),is(true));
+  assertThat(environmentConfig.hasAgent("uuid2"),is(true));
+  environmentConfig.removeAgent("uuid1");
+  assertThat(environmentConfig.getAgents().size(),is(1));
+  assertThat(environmentConfig.hasAgent("uuid1"),is(false));
+  assertThat(environmentConfig.hasAgent("uuid2"),is(true));
+}

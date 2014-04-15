@@ -1,0 +1,10 @@
+{
+  try {
+    ConfigMigrator.loadWithMigration(new ByteArrayInputStream(ConfigFileFixture.WITHOUT_SERVER_TAG.getBytes()));
+    fail();
+  }
+ catch (  Exception e) {
+    String expectedMsg="The content of element 'cruise' is not complete. One of '{server}' is expected.";
+    assertThat(e.toString(),containsString(expectedMsg));
+  }
+}

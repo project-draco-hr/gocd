@@ -1,0 +1,7 @@
+{
+  final SystemEnvironment systemEnvironment=context.mock(SystemEnvironment.class);
+  Validation validation=new Validation().addError(new Exception("Server Port occupied"));
+  StubGoServer goServer=new StubGoServer(systemEnvironment,validation);
+  goServer.go();
+  assertThat(goServer.wasStarted(),is(false));
+}

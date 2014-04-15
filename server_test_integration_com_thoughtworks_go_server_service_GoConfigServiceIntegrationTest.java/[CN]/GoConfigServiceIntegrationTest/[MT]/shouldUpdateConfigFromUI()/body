@@ -1,0 +1,10 @@
+{
+  configHelper.addPipeline("pipeline","stage");
+  String md5=goConfigService.getConfigForEditing().getMd5();
+  ConfigUpdateResponse response=goConfigService.updateConfigFromUI(new AddStageToPipelineCommand("secondStage"),md5,Username.ANONYMOUS,new HttpLocalizedOperationResult());
+  PipelineConfig config=goConfigService.getConfigForEditing().pipelineConfigByName(new CaseInsensitiveString("pipeline"));
+  assertThat(config.size(),is(2));
+  assertThat(config.get(0).name(),is(new CaseInsensitiveString("stage")));
+  assertThat(config.get(1).name(),is(new CaseInsensitiveString("secondStage")));
+  assertThat(response.configAfterUpdate().hasStageConfigNamed(new CaseInsensitiveString("pipeline"),new CaseInsensitiveString("secondStage"),true),is(true));
+}

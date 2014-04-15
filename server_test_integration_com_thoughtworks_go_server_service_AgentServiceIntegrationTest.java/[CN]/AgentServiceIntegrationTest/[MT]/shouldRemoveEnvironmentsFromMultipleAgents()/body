@@ -1,0 +1,13 @@
+{
+  createEnvironment("uat","prod");
+  createEnabledAgent(UUID);
+  createEnabledAgent(UUID2);
+  addAgentToEnv("uat",UUID);
+  addAgentToEnv("prod",UUID2);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.modifyEnvironments(USERNAME,operationResult,Arrays.asList(UUID,UUID2),Arrays.asList(new TriStateSelection("uat",TriStateSelection.Action.remove),new TriStateSelection("prod",TriStateSelection.Action.nochange)));
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(operationResult.message(),is("Environment(s) modified on 2 agent(s)"));
+  assertThat(environmentConfigService.environmentsFor(UUID2),not(containsSet("uat")));
+  assertThat(environmentConfigService.environmentsFor(UUID2),containsSet("prod"));
+}

@@ -1,0 +1,7 @@
+{
+  URL activatorJar=getClass().getClassLoader().getResource(systemEnvironment.get(PLUGIN_ACTIVATOR_JAR_PATH));
+  if (activatorJar == null) {
+    throw new RuntimeException("Unable to load plugins. Cannot find activator jar in classpath.");
+  }
+  return activatorJar;
+}

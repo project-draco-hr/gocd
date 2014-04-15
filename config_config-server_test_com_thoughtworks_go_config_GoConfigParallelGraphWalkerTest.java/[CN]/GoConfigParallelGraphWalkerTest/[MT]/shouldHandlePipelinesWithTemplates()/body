@@ -1,0 +1,13 @@
+{
+  CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("pipeline-1");
+  cruiseConfig.getTemplates().add(new PipelineTemplateConfig(new CaseInsensitiveString("template-1"),new StageConfig(new CaseInsensitiveString("invalid stage name"),new JobConfigs(new JobConfig("job-1")))));
+  PipelineConfig pipelineWithTemplate=new PipelineConfig(new CaseInsensitiveString("pipeline-with-template"),MaterialConfigsMother.defaultMaterialConfigs());
+  pipelineWithTemplate.setTemplateName(new CaseInsensitiveString("template-1"));
+  cruiseConfig.getGroups().get(0).add(pipelineWithTemplate);
+  CruiseConfig rawCruiseConfig=new Cloner().deepClone(cruiseConfig);
+  MagicalGoConfigXmlLoader.validate(cruiseConfig);
+  cruiseConfig.copyErrorsTo(rawCruiseConfig);
+  assertThat(rawCruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline-with-template")).errors().isEmpty(),is(true));
+  assertThat(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline-with-template")).getStage(new CaseInsensitiveString("invalid stage name")).errors().isEmpty(),is(false));
+  assertThat(rawCruiseConfig.getTemplateByName(new CaseInsensitiveString("template-1")).errors().isEmpty(),is(true));
+}

@@ -1,0 +1,19 @@
+{
+  try {
+    DateTime dateTime=formatter.parseDateTime(date);
+    return dateTime.toDate();
+  }
+ catch (  Exception e) {
+  }
+  try {
+    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ").parse(date);
+  }
+ catch (  ParseException e) {
+  }
+  try {
+    return dateFormatFor("yyyy-MM-dd'T'HH:mm:ss","UTC").parse(date);
+  }
+ catch (  ParseException e) {
+    throw bomb(e);
+  }
+}

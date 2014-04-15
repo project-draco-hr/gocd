@@ -1,0 +1,15 @@
+{
+  List<PipelineConfig> previousNodes=new ArrayList<PipelineConfig>();
+  previousNodes.add(startNode);
+  List<PipelineConfig> currentNodes=new ArrayList<PipelineConfig>();
+  for (int i=1; i <= numberOfLevels; i++) {
+    for (int j=1; j <= numberOfNodesPerLevel; j++) {
+      String pipelineName=String.format("pipeline_%s_%d_%d",pipelineNameSuffix,i,j);
+      PipelineConfig pipelineConfig=createPipelineWithInstances(pipelineName,previousNodes,numberOfInstances);
+      currentNodes.add(pipelineConfig);
+    }
+    previousNodes=currentNodes;
+    currentNodes=new ArrayList<PipelineConfig>();
+  }
+  return createPipelineWithInstances(endNodeName,previousNodes,numberOfInstances);
+}

@@ -1,0 +1,12 @@
+{
+  String cacheKey=(PipelineSqlMapDao.class + "_cacheKeyForPipelineInstancesWithDependencyMaterial_" + "p1_p_1").intern();
+  List<PipelineIdentifier> result=Arrays.asList(new PipelineIdentifier("p1",1,"1"));
+  when(mockTemplate.queryForList(eq("pipelineInstancesTriggeredOutOfDependencyMaterial"),anyString())).thenReturn(result);
+  List<PipelineIdentifier> actual=pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial("p1",new PipelineIdentifier("p",1));
+  assertThat(actual,Matchers.is(result));
+  assertThat((List<PipelineIdentifier>)goCache.get(cacheKey),is(result));
+  MaterialRevisions materialRevisions=new MaterialRevisions(new MaterialRevision(new DependencyMaterial(new CaseInsensitiveString("p"),new CaseInsensitiveString("s")),new Modification("u","comment","email",new Date(),"p/2/s/1")));
+  Pipeline pipeline=new Pipeline("p1",BuildCause.createWithModifications(materialRevisions,""));
+  pipelineDao.save(pipeline);
+  assertThat((List<PipelineIdentifier>)goCache.get(cacheKey),is(result));
+}

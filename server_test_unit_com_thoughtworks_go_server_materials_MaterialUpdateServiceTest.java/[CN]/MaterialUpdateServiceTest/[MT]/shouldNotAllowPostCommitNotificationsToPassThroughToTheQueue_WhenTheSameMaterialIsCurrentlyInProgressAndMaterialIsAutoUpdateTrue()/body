@@ -1,0 +1,11 @@
+{
+  ScmMaterial material=mock(ScmMaterial.class);
+  when(material.isAutoUpdate()).thenReturn(true);
+  when(metricsProbeService.begin(ProbeType.MATERIAL_UPDATE_QUEUE_COUNTER)).thenReturn(mock(Context.class));
+  MaterialUpdateMessage message=new MaterialUpdateMessage(material,0);
+  doNothing().when(queue).post(message);
+  service.updateMaterial(material);
+  service.updateMaterial(material);
+  verify(queue,times(1)).post(message);
+  verify(material).isAutoUpdate();
+}

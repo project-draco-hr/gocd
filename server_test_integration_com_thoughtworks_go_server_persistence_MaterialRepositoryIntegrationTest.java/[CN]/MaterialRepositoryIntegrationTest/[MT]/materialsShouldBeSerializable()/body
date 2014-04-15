@@ -1,0 +1,16 @@
+{
+  SvnMaterial svnMaterial=MaterialsMother.svnMaterial();
+  Modification modification=new Modification("user","comment","email",new Date(),"revision");
+  modification.createModifiedFile("file1","folder1",ModifiedAction.added);
+  modification.createModifiedFile("file2","folder2",ModifiedAction.deleted);
+  final MaterialRevision materialRevision=new MaterialRevision(svnMaterial,modification);
+  MaterialInstance materialInstance=(MaterialInstance)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      return repo.saveMaterialRevision(materialRevision);
+    }
+  }
+);
+  List<Modification> mods=repo.findMaterialRevisionsForMaterial(materialInstance.getId());
+  List<Modification> deserialized=(List<Modification>)SerializationTester.serializeAndDeserialize(mods);
+  assertThat(deserialized,is(mods));
+}

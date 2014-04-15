@@ -1,0 +1,9 @@
+{
+  JobIdentifier unresponsiveJob=new JobIdentifier("pipelines",10,"label-10","stage","3","job",25l);
+  listener.jobStatusChanged(buildingInstance(unresponsiveJob));
+  when(timeProvider.currentTimeMillis()).thenReturn(new DateTime(1971,1,1,0,55,59,0).getMillis());
+  consoleActivityMonitor.consoleUpdatedFor(unresponsiveJob);
+  when(timeProvider.currentTimeMillis()).thenReturn(new DateTime(1972,1,1,1,1,0,0).getMillis());
+  consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);
+  verify(artifactService).appendToConsoleLog(unresponsiveJob,"Go cancelled this job as it has not generated any console output for more than 5 minute(s)");
+}

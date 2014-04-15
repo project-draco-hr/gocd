@@ -1,0 +1,6 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  Mockito.when(dependencyMaterialSourceDao.getPassedStagesByName(new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name")),Pagination.pageStartingAt(0,null,MaterialDatabaseUpdater.STAGES_PER_PAGE))).thenReturn(new ArrayList<Modification>());
+  updater.updateMaterial(dependencyMaterial);
+  Mockito.verify(healthService).removeByScope(HealthStateScope.forMaterial(dependencyMaterial));
+}

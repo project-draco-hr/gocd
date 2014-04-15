@@ -1,0 +1,35 @@
+{
+  PackageConfigurations repositoryConfiguration=new PackageConfigurations();
+  repositoryConfiguration.add(new PackageConfiguration("url"));
+  repositoryConfiguration.add(new PackageConfiguration("username"));
+  repositoryConfiguration.add(new PackageConfiguration("password").with(SECURE,true));
+  repositoryConfiguration.add(new PackageConfiguration("secureKeyNotChanged").with(SECURE,true));
+  RepositoryMetadataStore.getInstance().addMetadataFor("yum",repositoryConfiguration);
+  String name="go-server";
+  String repoId="repo-id";
+  String pluginId="yum";
+  ConfigurationHolder url=new ConfigurationHolder("url","http://test.com");
+  ConfigurationHolder username=new ConfigurationHolder("username","user");
+  String oldEncryptedValue="oldEncryptedValue";
+  ConfigurationHolder password=new ConfigurationHolder("password","pass",oldEncryptedValue,true,"1");
+  ConfigurationHolder secureKeyNotChanged=new ConfigurationHolder("secureKeyNotChanged","pass",oldEncryptedValue,true,"0");
+  Map attributes=createPackageRepositoryConfiguration(name,pluginId,repoId,url,username,password,secureKeyNotChanged);
+  PackageRepository packageRepository=new PackageRepository();
+  Packages packages=new Packages();
+  packageRepository.setPackages(packages);
+  packageRepository.setConfigAttributes(attributes);
+  assertThat(packageRepository.getName(),is(name));
+  assertThat(packageRepository.getId(),is(repoId));
+  assertThat(packageRepository.getPluginConfiguration().getId(),is(pluginId));
+  assertThat(packageRepository.getConfiguration().get(0).getConfigurationKey().getName(),is(url.name));
+  assertThat(packageRepository.getConfiguration().get(0).getConfigurationValue().getValue(),is(url.value));
+  assertThat(packageRepository.getConfiguration().get(1).getConfigurationKey().getName(),is(username.name));
+  assertThat(packageRepository.getConfiguration().get(1).getConfigurationValue().getValue(),is(username.value));
+  assertThat(packageRepository.getConfiguration().get(2).getConfigurationKey().getName(),is(password.name));
+  assertThat(packageRepository.getConfiguration().get(2).getEncryptedValue().getValue(),is(new GoCipher().encrypt(password.value)));
+  assertThat(packageRepository.getConfiguration().get(2).getConfigurationValue(),is(nullValue()));
+  assertThat(packageRepository.getConfiguration().get(3).getConfigurationKey().getName(),is(secureKeyNotChanged.name));
+  assertThat(packageRepository.getConfiguration().get(3).getEncryptedValue().getValue(),is(oldEncryptedValue));
+  assertThat(packageRepository.getConfiguration().get(3).getConfigurationValue(),is(nullValue()));
+  assertSame(packageRepository.getPackages(),packages);
+}

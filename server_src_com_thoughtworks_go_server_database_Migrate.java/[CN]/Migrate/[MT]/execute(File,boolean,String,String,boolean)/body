@@ -1,0 +1,29 @@
+{
+  String pathToJavaExe=getJavaExecutablePath();
+  this.quiet=runQuiet;
+  if (file.isDirectory() && recursive) {
+    for (    File f : file.listFiles()) {
+      execute(f,recursive,user,password,runQuiet);
+    }
+    return;
+  }
+  if (!file.getName().endsWith(".data.db")) {
+    return;
+  }
+  LOGGER.info("Migrating the database at " + file.getAbsolutePath() + " to the new format. This might take a while based on the size of your database.");
+  String fileNameWithoutExtension=truncateFileExtension(file.getAbsolutePath());
+  File newDatabaseFile=new File(fileNameWithoutExtension + ".h2.db");
+  if (newDatabaseFile.exists()) {
+    LOGGER.info("Removing " + newDatabaseFile.getAbsolutePath() + " [the new database file]");
+    FileUtils.deleteQuietly(newDatabaseFile);
+  }
+  if (!OLD_H2_FILE.exists()) {
+    throw new IllegalStateException(String.format("h2 file %s not found, migration could not be completed successfully",OLD_H2_FILE.getAbsolutePath()));
+  }
+  String url="jdbc:h2:" + fileNameWithoutExtension;
+  exec(new String[]{pathToJavaExe,"-Xmx" + MAX_MEMORY_FOR_MIGRATION,"-cp",OLD_H2_FILE.getAbsolutePath(),"org.h2.tools.Script","-script",TEMP_SCRIPT,"-url",url,"-user",user});
+  file.renameTo(new File(file.getAbsoluteFile() + ".backup"));
+  RunScript.execute(url,user,password,TEMP_SCRIPT,"UTF-8",true);
+  new File(TEMP_SCRIPT).delete();
+  LOGGER.info("Migrating the h2db to the new format is complete.");
+}

@@ -1,0 +1,15 @@
+{
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  File removedBundleDirectory=new File(BUNDLE_DIR,pluginJarFileName);
+  Bundle bundle=mock(Bundle.class);
+  GoPluginDescriptor descriptorOfThePluginWhichWillBeRemoved=GoPluginDescriptor.usingId("testplugin.descriptorValidator",pluginJarFile.getAbsolutePath(),removedBundleDirectory,true);
+  descriptorOfThePluginWhichWillBeRemoved.setBundle(bundle);
+  when(registry.getPluginByIdOrFileName(null,descriptorOfThePluginWhichWillBeRemoved.fileName())).thenReturn(descriptorOfThePluginWhichWillBeRemoved);
+  when(registry.unloadPlugin(descriptorOfThePluginWhichWillBeRemoved)).thenReturn(descriptorOfThePluginWhichWillBeRemoved);
+  copyPluginToTheDirectory(BUNDLE_DIR,pluginJarFileName);
+  listener.pluginJarRemoved(new PluginFileDetails(pluginJarFile,true));
+  verify(registry).unloadPlugin(descriptorOfThePluginWhichWillBeRemoved);
+  verify(osgiFramework).unloadPlugin(descriptorOfThePluginWhichWillBeRemoved);
+  assertThat(removedBundleDirectory.exists(),is(false));
+}

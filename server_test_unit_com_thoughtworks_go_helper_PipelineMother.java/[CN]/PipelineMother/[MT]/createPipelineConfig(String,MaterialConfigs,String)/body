@@ -1,0 +1,7 @@
+{
+  List<StageConfig> stages=new ArrayList<StageConfig>();
+  for (  String stageName : stageNames) {
+    stages.add(com.thoughtworks.go.helper.StageConfigMother.twoBuildPlansWithResourcesAndMaterials(stageName));
+  }
+  return new PipelineConfig(new CaseInsensitiveString(pipelineName),materialConfigs,stages.toArray(new StageConfig[0]));
+}

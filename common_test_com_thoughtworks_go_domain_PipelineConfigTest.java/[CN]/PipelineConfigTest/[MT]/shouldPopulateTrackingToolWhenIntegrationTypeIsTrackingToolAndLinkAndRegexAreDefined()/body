@@ -1,0 +1,14 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  pipelineConfig.setMingleConfig(new MingleConfig("baseUri","go"));
+  HashMap map=new HashMap();
+  HashMap valueHashMap=new HashMap();
+  valueHashMap.put("link","GoleyLink");
+  valueHashMap.put("regex","GoleyRegex");
+  map.put(PipelineConfig.TRACKING_TOOL,valueHashMap);
+  map.put(PipelineConfig.INTEGRATION_TYPE,PipelineConfig.INTEGRATION_TYPE_TRACKING_TOOL);
+  pipelineConfig.setConfigAttributes(map);
+  assertThat(pipelineConfig.getTrackingTool(),is(new TrackingTool("GoleyLink","GoleyRegex")));
+  assertThat(pipelineConfig.getMingleConfig(),is(new MingleConfig()));
+  assertThat(pipelineConfig.getIntegrationType(),is(PipelineConfig.INTEGRATION_TYPE_TRACKING_TOOL));
+}

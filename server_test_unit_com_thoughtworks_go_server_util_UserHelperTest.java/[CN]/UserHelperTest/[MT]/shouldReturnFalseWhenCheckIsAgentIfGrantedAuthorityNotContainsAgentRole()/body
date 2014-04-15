@@ -1,0 +1,4 @@
+{
+  TestingAuthenticationToken authentication=new TestingAuthenticationToken(null,null,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("anything")});
+  assertThat(UserHelper.matchesRole(authentication,X509AuthoritiesPopulator.ROLE_AGENT),is(false));
+}

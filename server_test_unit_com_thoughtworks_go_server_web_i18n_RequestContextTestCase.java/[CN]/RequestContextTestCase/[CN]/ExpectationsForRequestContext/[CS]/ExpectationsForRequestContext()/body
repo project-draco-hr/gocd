@@ -1,0 +1,22 @@
+{
+  allowing(request).getAttribute(with(equal("org.springframework.web.servlet.DispatcherServlet.CONTEXT")));
+  will(returnValue(webApplicationContext));
+  allowing(request).getLocale();
+  will(returnValue(Locale.getDefault()));
+  allowing(request).getAttribute(with(any(String.class)));
+  will(returnValue(null));
+  allowing(request).getSession(with(any(Boolean.class)));
+  will(returnValue(null));
+  allowing(webApplicationContext).getServletContext();
+  will(returnValue(servletContext));
+  allowing(servletContext).getAttribute(with(any(String.class)));
+  will(returnValue(null));
+  allowing(servletContext).getInitParameter(with(any(String.class)));
+  will(returnValue(null));
+  allowing(webApplicationContext).getMessage(with(any(MessageSourceResolvable.class)),with(any(Locale.class)));
+  will(returnValue(""));
+  allowing(webApplicationContext).getMessage(with(any(String.class)),with(any(Object[].class)),with(any(Locale.class)));
+  will(returnValue(""));
+  allowing(webApplicationContext).getBean(with(any(String.class)),with(any(Class.class)));
+  will(throwException(new NoSuchBeanDefinitionException("No such bean!")));
+}

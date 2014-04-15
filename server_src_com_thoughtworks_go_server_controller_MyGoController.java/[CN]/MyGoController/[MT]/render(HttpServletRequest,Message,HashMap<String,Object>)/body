@@ -1,0 +1,14 @@
+{
+  User user=userService.load(getUserId(request));
+  user.populateModel(data);
+  for (  String key : data.keySet()) {
+    if (StringUtils.isNotBlank(request.getParameter(key))) {
+      data.put(key,request.getParameter(key));
+    }
+  }
+  List<PipelineConfigs> groups=securityService.viewableGroupsFor(getUserName());
+  data.put("pipelines",new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(getPipelineModelsSortedByNameFor(groups)));
+  data.put("l",localizer);
+  message.populateModel(data);
+  return new ModelAndView("mycruise/mycruise-tab",data);
+}

@@ -1,0 +1,7 @@
+{
+  CruiseConfig cruiseConfig=loader.loadConfigHolder(FileUtil.readToEnd(toInputStream(CONFIG_WITH_TRACKINGTOOL))).config;
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  TrackingTool trackingTool=pipelineConfig.trackingTool();
+  assertThat(trackingTool.getLink(),is("http://mingle05/projects/cce/cards/${ID}"));
+  assertThat(trackingTool.getRegex(),is("(evo-\\d+)"));
+}

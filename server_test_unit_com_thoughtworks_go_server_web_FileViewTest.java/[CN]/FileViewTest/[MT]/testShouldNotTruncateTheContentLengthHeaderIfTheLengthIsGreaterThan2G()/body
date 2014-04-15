@@ -1,0 +1,9 @@
+{
+  File fourGBfile=Mockito.mock(File.class);
+  long fourGB=4658798592L;
+  when(fourGBfile.length()).thenReturn(fourGB);
+  HttpServletResponse responseMock=Mockito.mock(HttpServletResponse.class);
+  view.setContentLength(false,fourGBfile,responseMock);
+  Mockito.verify(responseMock).addHeader("Content-Length","4658798592");
+  Mockito.verifyNoMoreInteractions(responseMock);
+}

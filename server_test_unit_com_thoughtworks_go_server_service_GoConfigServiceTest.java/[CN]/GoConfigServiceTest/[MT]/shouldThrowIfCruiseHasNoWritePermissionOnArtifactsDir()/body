@@ -1,0 +1,19 @@
+{
+  if (SystemUtil.isWindows()) {
+    return;
+  }
+  File artifactsDir=FileUtil.createTempFolder();
+  artifactsDir.setWritable(false,false);
+  cruiseConfig.setServerConfig(new ServerConfig(artifactsDir.getAbsolutePath(),new SecurityConfig()));
+  expectLoad(cruiseConfig);
+  try {
+    goConfigService.initialize();
+    fail("should throw when cruise has no write permission on artifacts dir " + artifactsDir.getAbsolutePath());
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Cruise does not have write permission on " + artifactsDir.getAbsolutePath()));
+  }
+ finally {
+    FileUtil.deleteFolder(artifactsDir);
+  }
+}

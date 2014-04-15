@@ -1,0 +1,8 @@
+{
+  AgentsViewModel agents=agentsViewModel();
+  agents.filter(String.format("name:%s",AgentInstanceMother.disabled().getHostname()));
+  assertThat(agents.size(),is(1));
+  agents=agentsViewModel();
+  agents.filter("name:CCeDev");
+  assertThat(agents.size(),is(4));
+}

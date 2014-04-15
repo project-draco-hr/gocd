@@ -1,0 +1,8 @@
+{
+  JsonList json=new JsonList();
+  json.add(map("one","11"));
+  json.add(map("two","2"));
+  json.add(map("six","6"));
+  JsonTester tester=new JsonTester(json);
+  tester.shouldContain("[ { 'one' : \"RegEx:\\\\d+\" },  " + "  { 'two' : '2' } ] ");
+}

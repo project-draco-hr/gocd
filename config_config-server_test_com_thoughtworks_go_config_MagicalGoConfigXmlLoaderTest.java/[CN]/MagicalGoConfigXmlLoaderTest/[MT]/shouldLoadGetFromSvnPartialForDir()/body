@@ -1,0 +1,12 @@
+{
+  String buildXmlPartial="<jobs>\n" + "  <job name=\"functional\">\n" + "     <tasks>\n"+ "         <fetchartifact stage='dev' job='unit' srcdir='dist' dest='lib' />\n"+ "      </tasks>\n"+ "    </job>\n"+ "</jobs>";
+  JobConfigs jobs=xmlLoader.fromXmlPartial(toInputStream(buildXmlPartial),JobConfigs.class);
+  JobConfig job=jobs.first();
+  Tasks fetch=job.tasks();
+  assertThat(fetch.size(),is(1));
+  FetchTask task=(FetchTask)fetch.first();
+  assertThat(task.getStage(),is(new CaseInsensitiveString("dev")));
+  assertThat(task.getJob().toString(),is("unit"));
+  assertThat(task.getSrc(),is("dist"));
+  assertThat(task.getDest(),is("lib"));
+}

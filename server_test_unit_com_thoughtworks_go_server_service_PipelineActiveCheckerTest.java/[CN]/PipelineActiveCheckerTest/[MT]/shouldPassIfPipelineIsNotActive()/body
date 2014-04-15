@@ -1,0 +1,12 @@
+{
+  mockery.checking(new Expectations(){
+{
+      one(service).isAnyStageActive(pipelineIdentifier);
+      will(returnValue(false));
+    }
+  }
+);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  checker.check(result);
+  assertThat(result.getServerHealthState().isSuccess(),is(true));
+}

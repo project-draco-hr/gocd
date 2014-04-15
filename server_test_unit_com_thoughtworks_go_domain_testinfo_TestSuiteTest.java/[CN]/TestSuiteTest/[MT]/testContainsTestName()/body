@@ -1,0 +1,9 @@
+{
+  testSuite.addTest("testB",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  testSuite.addTest("testA",TestStatus.Error,new JobIdentifier("",-1,"","","","job-1"));
+  assertThat(testSuite.contains("testA"),is(true));
+  assertThat(testSuite.contains("testB"),is(true));
+  assertThat(testSuite.contains("testC"),is(false));
+  assertThat(testSuite.contains(""),is(false));
+  assertThat(testSuite.contains(null),is(false));
+}

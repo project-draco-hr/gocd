@@ -1,0 +1,17 @@
+{
+  surrogatePairStart=charStart;
+  ensureMin(1);
+  int lowSurrogate=readUtf8Char();
+  if (lowSurrogate == '\\') {
+    ensureMin(5);
+    if (readUtf8Char() != 'u')     throw invalidUtf8();
+    lowSurrogate=readHex();
+  }
+  if (Character.isLowSurrogate((char)lowSurrogate)) {
+    writeUtf8Char(Character.toCodePoint(highSurrogate,(char)lowSurrogate));
+    surrogatePairStart=-1;
+  }
+ else {
+    throw invalidUtf8();
+  }
+}

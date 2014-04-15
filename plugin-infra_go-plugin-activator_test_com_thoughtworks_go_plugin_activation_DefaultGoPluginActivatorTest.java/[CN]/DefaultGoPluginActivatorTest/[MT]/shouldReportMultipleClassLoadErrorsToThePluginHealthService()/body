@@ -1,0 +1,6 @@
+{
+  setupClassesInBundle("SomeClass.class","SomeOtherClass.class");
+  when(bundle.loadClass(anyString())).thenThrow(new ClassNotFoundException("Ouch! Failed"));
+  activator.start(context);
+  verifyErrorsReported("Class [SomeClass] could not be loaded. Message: [Ouch! Failed].","Class [SomeOtherClass] could not be loaded. Message: [Ouch! Failed].",NO_EXT_ERR_MSG);
+}

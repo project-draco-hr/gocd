@@ -1,0 +1,8 @@
+{
+  String instanceName=RunOnAllAgents.CounterBasedJobNameGenerator.appendMarker(jobName,counter);
+  JobInstance jobInstance=building(instanceName);
+  jobInstance.setRunOnAllAgents(true);
+  JobIdentifier identifier=new JobIdentifier(pipelineName,pipelineLabel,stageName,"1",instanceName);
+  jobInstance.setIdentifier(identifier);
+  return jobInstance;
+}

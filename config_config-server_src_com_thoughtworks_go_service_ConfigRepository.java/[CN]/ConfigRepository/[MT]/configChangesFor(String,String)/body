@@ -1,0 +1,14 @@
+{
+  return doLocked(new ThrowingFn<String,GitAPIException>(){
+    public String call() throws GitAPIException {
+      RevCommit laterCommit=null;
+      RevCommit earlierCommit=null;
+      if (!StringUtil.isBlank(laterMD5)) {
+        laterCommit=getRevCommitForMd5(laterMD5);
+      }
+      if (!StringUtil.isBlank(earlierMD5))       earlierCommit=getRevCommitForMd5(earlierMD5);
+      return findDiffBetweenTwoRevisions(laterCommit,earlierCommit);
+    }
+  }
+);
+}

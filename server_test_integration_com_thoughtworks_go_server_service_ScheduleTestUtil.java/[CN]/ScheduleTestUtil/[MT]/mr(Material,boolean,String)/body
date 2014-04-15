@@ -1,0 +1,12 @@
+{
+  ArrayList<Modification> modifications=new ArrayList<Modification>();
+  for (  String rev : revs) {
+    Modification mod=modForRev(rev);
+    modifications.add(0,mod);
+  }
+  MaterialRevision materialRevision=new MaterialRevision(material,modifications);
+  if (changed) {
+    materialRevision.markAsChanged();
+  }
+  return materialRevision;
+}

@@ -1,0 +1,14 @@
+{
+  String cacheKey=materialKey(material);
+synchronized (cacheKey) {
+    MaterialInstance materialInstance=findMaterialInstance(material);
+    if (materialInstance == null) {
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug(String.format("Material instance for material '%s' not found in the database, creating a new instance now.",material));
+      }
+      materialInstance=material.createMaterialInstance();
+      saveOrUpdate(materialInstance);
+    }
+    return materialInstance;
+  }
+}

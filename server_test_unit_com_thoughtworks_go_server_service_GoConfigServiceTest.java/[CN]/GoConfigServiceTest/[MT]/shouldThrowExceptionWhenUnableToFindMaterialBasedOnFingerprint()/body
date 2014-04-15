@@ -1,0 +1,12 @@
+{
+  SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig("repo",null,null,false);
+  cruiseConfig=configWith(GoConfigMother.createPipelineConfigWithMaterialConfig(svnMaterialConfig));
+  when(goConfigFileDao.load()).thenReturn(cruiseConfig);
+  try {
+    goConfigService.materialForPipelineWithFingerprint("pipeline","bad-fingerprint");
+    fail("Shouldn't be able to find material with incorrect fingerprint");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),is("Pipeline [pipeline] does not have a material with fingerprint [bad-fingerprint]"));
+  }
+}

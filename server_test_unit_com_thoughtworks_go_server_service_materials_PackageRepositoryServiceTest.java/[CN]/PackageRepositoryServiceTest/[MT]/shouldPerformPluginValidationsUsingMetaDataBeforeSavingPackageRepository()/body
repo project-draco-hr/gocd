@@ -1,0 +1,20 @@
+{
+  String pluginId="yum";
+  PackageConfigurations repositoryConfiguration=new PackageConfigurations();
+  repositoryConfiguration.add(new PackageConfiguration("required").with(PackageConfiguration.REQUIRED,true));
+  repositoryConfiguration.add(new PackageConfiguration("required_secure").with(PackageConfiguration.REQUIRED,true).with(PackageConfiguration.SECURE,true));
+  repositoryConfiguration.add(new PackageConfiguration("secure").with(PackageConfiguration.SECURE,true).with(PackageConfiguration.REQUIRED,false));
+  repositoryConfiguration.add(new PackageConfiguration("not_required_not_secure"));
+  RepositoryMetadataStore.getInstance().addMetadataFor(pluginId,repositoryConfiguration);
+  PackageRepository packageRepository=new PackageRepository();
+  packageRepository.setPluginConfiguration(new PluginConfiguration(pluginId,"1.0"));
+  packageRepository.getConfiguration().add(ConfigurationPropertyMother.create("required",false,""));
+  packageRepository.getConfiguration().add(ConfigurationPropertyMother.create("required_secure",true,""));
+  packageRepository.getConfiguration().add(ConfigurationPropertyMother.create("secure",true,""));
+  packageRepository.getConfiguration().add(ConfigurationPropertyMother.create("not_required_not_secure",false,""));
+  when(pluginManager.getPluginDescriptorFor(pluginId)).thenReturn(new GoPluginDescriptor(pluginId,"1.0",null,null,null,true));
+  when(localizer.localize("MANDATORY_CONFIGURATION_FIELD")).thenReturn("mandatory field");
+  service.performPluginValidationsFor(packageRepository);
+  assertThat(packageRepository.getConfiguration().get(0).getConfigurationValue().errors().getAllOn("value"),is(Arrays.asList("mandatory field")));
+  assertThat(packageRepository.getConfiguration().get(1).getEncryptedValue().errors().getAllOn("value"),is(Arrays.asList("mandatory field")));
+}

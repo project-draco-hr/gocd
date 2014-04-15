@@ -1,0 +1,13 @@
+{
+  if (pathElements.size() > 0) {
+    String current=(String)pathElements.remove(0);
+    try {
+      return FileUtil.isSymbolicLink(base,current) || isSymlink(new File(base,current),pathElements);
+    }
+ catch (    IOException ioe) {
+      String msg="IOException caught while checking " + "for links, couldn't get canonical path!";
+      System.err.println(msg);
+    }
+  }
+  return false;
+}

@@ -1,0 +1,20 @@
+{
+  Collection defaultCollection=generateDefaultCollection();
+  for (  XmlFieldWithValue xmlFieldWithValue : allFields(value,configCache,registry)) {
+    if (!xmlFieldWithValue.isDefault()) {
+      xmlFieldWithValue.populate(parent);
+    }
+  }
+  for (  Object item : value) {
+    if (defaultCollection.contains(item)) {
+      continue;
+    }
+    if (item.getClass().isAnnotationPresent(ConfigCollection.class) && item instanceof Collection) {
+      new ExplicitCollectionXmlFieldWithValue(originalClass,null,(Collection)item,configCache,registry).populate(parent);
+      continue;
+    }
+    Element childElement=elementFor(item.getClass(),configCache);
+    parent.addContent(childElement);
+    write(item,childElement,configCache,registry);
+  }
+}

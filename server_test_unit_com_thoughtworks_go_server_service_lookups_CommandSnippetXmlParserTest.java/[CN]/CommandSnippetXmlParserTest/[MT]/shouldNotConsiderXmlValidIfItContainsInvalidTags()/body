@@ -1,0 +1,5 @@
+{
+  CommandSnippet commandSnippet=xmlParser.parse("<exec command='nuget' invalidTag='foo'><arg>pack</arg><arg>component.nuspec</arg></exec>","nuget","/some/path/filename.xml");
+  assertThat(commandSnippet.getErrorMessage(),is("Reason: Attribute 'invalidTag' is not allowed to appear in element 'exec'."));
+  assertThat(commandSnippet.isValid(),is(false));
+}

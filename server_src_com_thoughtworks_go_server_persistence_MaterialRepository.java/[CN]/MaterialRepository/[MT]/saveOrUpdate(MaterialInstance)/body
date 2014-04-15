@@ -1,0 +1,8 @@
+{
+  String cacheKey=materialKey(materialInstance.getFingerprint());
+synchronized (cacheKey) {
+    getHibernateTemplate().saveOrUpdate(materialInstance);
+    goCache.remove(cacheKey);
+    goCache.put(cacheKey,materialInstance);
+  }
+}

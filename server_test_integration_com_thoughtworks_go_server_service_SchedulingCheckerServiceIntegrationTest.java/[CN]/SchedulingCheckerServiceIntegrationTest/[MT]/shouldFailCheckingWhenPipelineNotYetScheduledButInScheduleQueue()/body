@@ -1,0 +1,9 @@
+{
+  String pipelineName="blahPipeline";
+  PipelineConfig pipelineConfig=configFileHelper.addPipelineWithGroup("group2",pipelineName,"stage","job");
+  pipelineScheduleQueue.schedule(pipelineName,BuildCause.createManualForced());
+  HttpOperationResult operationResult=new HttpOperationResult();
+  assertThat(schedulingChecker.canManuallyTrigger(pipelineConfig,"blahUser",operationResult),is(false));
+  assertThat(operationResult.canContinue(),is(false));
+  assertThat(operationResult.message(),is("Failed to trigger pipeline: blahPipeline"));
+}

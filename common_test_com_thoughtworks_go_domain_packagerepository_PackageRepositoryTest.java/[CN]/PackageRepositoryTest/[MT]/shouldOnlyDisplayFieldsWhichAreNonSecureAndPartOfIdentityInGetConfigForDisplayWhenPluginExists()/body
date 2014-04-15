@@ -1,0 +1,12 @@
+{
+  PackageConfigurations repositoryConfiguration=new PackageConfigurations();
+  repositoryConfiguration.addConfiguration(new PackageConfiguration("key1").with(PART_OF_IDENTITY,true).with(SECURE,false));
+  repositoryConfiguration.addConfiguration(new PackageConfiguration("key2").with(PART_OF_IDENTITY,false).with(SECURE,false));
+  repositoryConfiguration.addConfiguration(new PackageConfiguration("key3").with(PART_OF_IDENTITY,true).with(SECURE,true));
+  repositoryConfiguration.addConfiguration(new PackageConfiguration("key4").with(PART_OF_IDENTITY,false).with(SECURE,true));
+  repositoryConfiguration.addConfiguration(new PackageConfiguration("key5").with(PART_OF_IDENTITY,true).with(SECURE,false));
+  RepositoryMetadataStore.getInstance().addMetadataFor("plugin1",repositoryConfiguration);
+  Configuration configuration=new Configuration(create("key1",false,"value1"),create("key2",false,"value2"),create("key3",true,"value3"),create("key4",true,"value4"),create("key5",false,"value5"));
+  PackageRepository repository=PackageRepositoryMother.create("repo1","repo1-name","plugin1","1",configuration);
+  assertThat(repository.getConfigForDisplay(),is("Repository: [key1=value1, key5=value5]"));
+}

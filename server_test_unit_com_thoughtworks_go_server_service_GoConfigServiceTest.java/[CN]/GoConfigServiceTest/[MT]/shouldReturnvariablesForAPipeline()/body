@@ -1,0 +1,12 @@
+{
+  EnvironmentConfig env=cruiseConfig.addEnvironment("environment");
+  env.addEnvironmentVariable("foo","env-fooValue");
+  env.addEnvironmentVariable("bar","env-barValue");
+  env.addPipeline(new CaseInsensitiveString(PIPELINE));
+  PipelineConfig pipeline=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(PIPELINE));
+  pipeline.addEnvironmentVariable("foo","pipeline-fooValue");
+  pipeline.addEnvironmentVariable("blah","pipeline-blahValue");
+  EnvironmentVariablesConfig variables=goConfigService.variablesFor(PIPELINE);
+  assertThat(variables.size(),is(3));
+  assertThat(variables,hasItems(new EnvironmentVariableConfig("foo","pipeline-fooValue"),new EnvironmentVariableConfig("bar","env-barValue"),new EnvironmentVariableConfig("blah","pipeline-blahValue")));
+}

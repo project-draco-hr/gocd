@@ -1,0 +1,11 @@
+{
+  FailureDetails failureDetails=shineDao.failureDetailsForTest(new JobIdentifier(stageId,"WinBuild"),"testSuite1","test1",result);
+  assertThat(failureDetails.getMessage(),is("Something assert failed..."));
+  assertThat(failureDetails.getStackTrace(),is("junit.framework.AssertionFailedError: Something assert failed..."));
+  failureDetails=shineDao.failureDetailsForTest(new JobIdentifier(stageId,"WinBuild"),"testSuite1","test2",result);
+  assertThat(failureDetails.getMessage(),is("Something went wrong"));
+  assertThat(failureDetails.getStackTrace(),is("com.foo.MyException: Something went wrong..."));
+  failureDetails=shineDao.failureDetailsForTest(new JobIdentifier(stageId,"NixBuild"),"testSuite1","test1",result);
+  assertThat(failureDetails.getMessage(),is("Something assert failed..."));
+  assertThat(failureDetails.getStackTrace(),is("junit.framework.AssertionFailedError: Something assert failed..."));
+}

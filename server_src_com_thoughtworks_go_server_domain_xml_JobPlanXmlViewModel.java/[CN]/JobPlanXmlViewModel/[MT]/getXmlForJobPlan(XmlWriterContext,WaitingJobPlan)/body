@@ -1,0 +1,25 @@
+{
+  JobPlan jobPlan=waitingJobPlan.jobPlan();
+  DOMElement root=new DOMElement("job");
+  root.addAttribute("name",jobPlan.getName()).addAttribute("id",String.valueOf(jobPlan.getJobId()));
+  root.addElement("link").addAttribute("rel","self").addAttribute("href",httpUrlFor(writerContext.getBaseUrl(),jobPlan.getIdentifier()));
+  root.addElement("buildLocator").addText(jobPlan.getIdentifier().buildLocator());
+  if (!StringUtil.isBlank(waitingJobPlan.envName())) {
+    root.addElement("environment").addText(waitingJobPlan.envName());
+  }
+  if (!jobPlan.getResources().isEmpty()) {
+    DOMElement resources=new DOMElement("resources");
+    for (    Resource resource : jobPlan.getResources()) {
+      resources.addElement("resource").addCDATA(resource.getName());
+    }
+    root.add(resources);
+  }
+  if (!jobPlan.getVariables().isEmpty()) {
+    DOMElement envVars=new DOMElement("environmentVariables");
+    for (    EnvironmentVariableConfig environmentVariableConfig : jobPlan.getVariables()) {
+      envVars.addElement("variable").addAttribute("name",environmentVariableConfig.getName()).addText(environmentVariableConfig.getDisplayValue());
+    }
+    root.add(envVars);
+  }
+  return root;
+}

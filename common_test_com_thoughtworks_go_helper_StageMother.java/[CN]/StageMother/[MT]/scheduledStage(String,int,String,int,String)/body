@@ -1,0 +1,11 @@
+{
+  StageConfig stageConfig=StageConfigMother.oneBuildPlanWithResourcesAndMaterials(stageName,buildName);
+  Stage stage=scheduleInstance(stageConfig);
+  stage.setCounter(stageCounter);
+  stage.setIdentifier(new StageIdentifier(pipelineName,pipelineCounter,"LABEL-" + pipelineCounter,stageName,"" + stageCounter));
+  stage.setId(fakeId());
+  for (  JobInstance jobInstance : stage.getJobInstances()) {
+    jobInstance.setIdentifier(new JobIdentifier(pipelineName,pipelineCounter,"LABEL-" + pipelineCounter,stageName,"" + stageCounter,buildName,fakeId()));
+  }
+  return stage;
+}

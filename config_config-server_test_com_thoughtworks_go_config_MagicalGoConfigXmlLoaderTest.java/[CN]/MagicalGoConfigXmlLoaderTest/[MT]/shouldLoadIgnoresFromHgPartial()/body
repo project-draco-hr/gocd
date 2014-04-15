@@ -1,0 +1,8 @@
+{
+  String buildXmlPartial="<hg url=\"file:///tmp/testSvnRepo/project1/trunk\" >\n" + "            <filter>\n" + "                <ignore pattern=\"x\"/>\n"+ "            </filter>\n"+ "        </hg>";
+  MaterialConfig hgMaterial=xmlLoader.fromXmlPartial(toInputStream(buildXmlPartial),HgMaterialConfig.class);
+  Filter parsedFilter=hgMaterial.filter();
+  Filter expectedFilter=new Filter();
+  expectedFilter.add(new IgnoredFiles("x"));
+  assertThat(parsedFilter,is(expectedFilter));
+}

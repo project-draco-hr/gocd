@@ -1,0 +1,29 @@
+{
+  final Material svnMaterial1=mock(SvnMaterial.class);
+  final Material svnMaterial2=mock(SvnMaterial.class);
+  final Material svnMaterial3=mock(SvnMaterial.class);
+  final Material hgMaterial=mock(HgMaterial.class);
+  final Material gitMaterial=mock(GitMaterial.class);
+  final Material p4Material=mock(P4Material.class);
+  final Material tfsMaterial=mock(TfsMaterial.class);
+  final Material dependencyMaterial=mock(DependencyMaterial.class);
+  final HashSet<Material> allMaterials=new HashSet<Material>(Arrays.asList(svnMaterial1,svnMaterial2,svnMaterial3,gitMaterial,hgMaterial,p4Material,tfsMaterial,dependencyMaterial));
+  final SvnPostCommitHookImplementer spy=spy(implementer);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocation) throws Throwable {
+      return Boolean.TRUE;
+    }
+  }
+).when(spy).isQualified(anyString(),any(SvnMaterial.class),any(HashMap.class));
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocation) throws Throwable {
+      return new HashMap();
+    }
+  }
+).when(spy).createUrlToRemoteUUIDMap(allMaterials);
+  final HashMap params=new HashMap();
+  params.put(SvnPostCommitHookImplementer.UUID,"some uuid");
+  final Set<Material> prunedList=spy.prune(allMaterials,params);
+  assertThat(prunedList.size(),is(3));
+  assertThat(prunedList,hasItems(svnMaterial1,svnMaterial2,svnMaterial3));
+}

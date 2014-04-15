@@ -1,0 +1,7 @@
+{
+  FileValidator fv=FileValidator.configFileAlwaysOverwrite("does.not.exist",new SystemEnvironment());
+  Validation val=new Validation();
+  fv.validate(val);
+  new File(SystemEnvironment.getProperty("java.io.tmpdir"),"does.not.exist").deleteOnExit();
+  assertThat(val.isSuccessful(),is(false));
+}

@@ -1,0 +1,18 @@
+{
+  String expectedZipPath=TestFileUtil.createTempFile("go-plugins-all.zip").getAbsolutePath();
+  File bundledPluginsDir=TestFileUtil.createTempFolder("plugins-bundled");
+  File externalPluginsDir=TestFileUtil.createTempFolder("plugins-external");
+  FileUtils.writeStringToFile(new File(bundledPluginsDir,"bundled1.jar"),"Bundled1");
+  FileUtils.writeStringToFile(new File(bundledPluginsDir,"bundled2.jar"),"Bundled2");
+  FileUtils.writeStringToFile(new File(externalPluginsDir,"external1.jar"),"External1");
+  FileUtils.writeStringToFile(new File(externalPluginsDir,"external2.jar"),"External2");
+  when(systemEnvironment.get(PLUGIN_GO_PROVIDED_PATH)).thenReturn(bundledPluginsDir.getAbsolutePath());
+  when(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH)).thenReturn(externalPluginsDir.getAbsolutePath());
+  when(systemEnvironment.get(ALL_PLUGINS_ZIP_PATH)).thenReturn(expectedZipPath);
+  pluginsZipInitializer.initialize();
+  assertThat(expectedZipPath + " should exist",new File(expectedZipPath).exists(),is(true));
+  assertThat(new ZipFile(expectedZipPath).getEntry("bundled/bundled1.jar"),is(notNullValue()));
+  assertThat(new ZipFile(expectedZipPath).getEntry("bundled/bundled2.jar"),is(notNullValue()));
+  assertThat(new ZipFile(expectedZipPath).getEntry("external/external1.jar"),is(notNullValue()));
+  assertThat(new ZipFile(expectedZipPath).getEntry("external/external2.jar"),is(notNullValue()));
+}

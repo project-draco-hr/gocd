@@ -1,0 +1,6 @@
+{
+  changeArtifactsDirAndThenTryToUseIt("/tmp/invalid-dir");
+  assertThat(serverHealthService,containsState(ArtifactsDirHolder.ARTIFACTS_ROOT_CHANGE_HEALTH_STATE_TYPE));
+  changeArtifactsDirAndThenTryToUseIt(artifactsDirHolder.getArtifactsDir().getPath());
+  assertThat(serverHealthService,doesNotContainState(ArtifactsDirHolder.ARTIFACTS_ROOT_CHANGE_HEALTH_STATE_TYPE));
+}

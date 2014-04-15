@@ -1,0 +1,12 @@
+{
+  return (Stage)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      stage.building();
+      final Stage savedStage=persistStage(pipeline,stage);
+      persistJobs(savedStage);
+      notifyStageStatusChangeListeners(savedStage);
+      return savedStage;
+    }
+  }
+);
+}

@@ -1,0 +1,11 @@
+{
+  String jobWithCommand="<job name=\"functional\">\n" + "      <tasks>\n" + "        <exec command=\"\" arguments=\"\" />\n"+ "      </tasks>\n"+ "    </job>\n";
+  String configWithInvalidCommand=ConfigFileFixture.withCommand(jobWithCommand);
+  try {
+    ConfigMigrator.loadWithMigration(toInputStream(configWithInvalidCommand));
+    fail("Should not allow empty command");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Command is invalid. \"\" should conform to the pattern - .*[\\S]+.*"));
+  }
+}

@@ -1,0 +1,12 @@
+{
+  LOGGER.error("Error happend",e);
+  JsonMap json=new JsonMap();
+  String pipelineName=request.getParameter("pipelineName");
+  if (isEmpty(pipelineName) && isForceBuildRequest(request)) {
+    addFriendlyErrorMessage(json,"Cannot schedule: missed pipeline name");
+  }
+ else {
+    addFriendlyErrorMessage(json,e.getMessage());
+  }
+  return jsonNotAcceptable(json).respond(response);
+}

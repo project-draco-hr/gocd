@@ -1,0 +1,9 @@
+{
+  Date old=new DateTime().minusDays(2).toDate();
+  JobInstance rails=jobInstance(old,"rails",7,10);
+  JobInstance java=jobInstance(old,"java",12,22);
+  Stage stage=stage(9,rails,java);
+  Stage newStage=instanceFactory.createStageForRerunOfJobs(stage,a("rails"),new DefaultSchedulingContext("loser",new Agents()),StageConfigMother.custom("dev","rails","java"),new TimeProvider(),"md5");
+  assertThat(newStage.getJobInstances().getByName("rails").getAgentUuid(),CoreMatchers.is(nullValue()));
+  assertThat(newStage.getJobInstances().getByName("java").getAgentUuid(),CoreMatchers.is(not(nullValue())));
+}

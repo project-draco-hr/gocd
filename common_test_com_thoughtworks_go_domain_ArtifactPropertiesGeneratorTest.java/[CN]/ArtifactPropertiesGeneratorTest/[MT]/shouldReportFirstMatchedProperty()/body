@@ -1,0 +1,6 @@
+{
+  String multipleMatchXPATH="//artifact/@src";
+  generator=new ArtifactPropertiesGenerator(TEST_PROPERTY,createSrcFile().getName(),multipleMatchXPATH);
+  generator.generate(goPublisherImple,workspace);
+  assertThat(sentContents.get(0),containsString("Property " + TEST_PROPERTY + " = target\\connectfour.jar created"));
+}

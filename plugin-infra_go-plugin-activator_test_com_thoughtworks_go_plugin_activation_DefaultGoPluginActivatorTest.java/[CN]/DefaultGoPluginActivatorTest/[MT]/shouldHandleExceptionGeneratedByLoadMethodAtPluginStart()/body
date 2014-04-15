@@ -1,0 +1,7 @@
+{
+  setupClassesInBundle("GoExtensionWithLoadAnnotationMethodThrowingException.class");
+  when(bundle.loadClass(contains("GoExtensionWithLoadAnnotationMethodThrowingException"))).thenReturn((Class)GoExtensionWithLoadAnnotationMethodThrowingException.class);
+  activator.start(context);
+  assertThat(activator.hasErrors(),is(true));
+  verifyErrorsReported("Class [GoExtensionWithLoadAnnotationMethodThrowingException] is annotated with @Extension but cannot be registered. " + "Reason: java.io.IOException: Load Dummy Checked Exception.");
+}

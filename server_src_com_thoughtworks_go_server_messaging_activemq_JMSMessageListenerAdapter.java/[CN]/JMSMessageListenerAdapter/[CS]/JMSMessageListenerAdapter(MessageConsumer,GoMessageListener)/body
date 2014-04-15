@@ -1,0 +1,9 @@
+{
+  this.consumer=consumer;
+  this.listener=listener;
+  thread=new Thread(this);
+  String threadNameSuffix="MessageListener for " + listener.getClass().getSimpleName();
+  thread.setName(thread.getId() + "@" + threadNameSuffix);
+  thread.setDaemon(true);
+  thread.start();
+}

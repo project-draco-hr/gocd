@@ -1,0 +1,13 @@
+{
+  assertThat(loaded,is(Matchers.<Object>instanceOf(unpersistentExpected.getClass())));
+  Field id=loaded.getClass().getDeclaredField("id");
+  id.setAccessible(true);
+  assertThat((Long)id.get(loaded),is(greaterThan(0l)));
+  for (  Field field : loaded.getClass().getDeclaredFields()) {
+    if (field.getName().equals("id")) {
+      continue;
+    }
+    field.setAccessible(true);
+    assertThat(field.get(loaded),is(field.get(unpersistentExpected)));
+  }
+}

@@ -1,0 +1,10 @@
+{
+  String fileName="fileName";
+  CommandSnippet commandSnippet=xmlParser.parse("<exec command='ls'><arg>-la</arg><arg>file</arg></exec>",fileName,"/some/path/filename.xml");
+  assertThat(commandSnippet.isValid(),is(true));
+  assertThat(commandSnippet.getCommandName(),is("ls"));
+  assertThat(commandSnippet.getArguments(),is(Arrays.asList("-la","file")));
+  assertThat(commandSnippet.getBaseFileName(),is(fileName));
+  assertThat(commandSnippet.getName(),is(fileName));
+  assertThat(commandSnippet.getRelativePath(),is("/some/path/filename.xml"));
+}

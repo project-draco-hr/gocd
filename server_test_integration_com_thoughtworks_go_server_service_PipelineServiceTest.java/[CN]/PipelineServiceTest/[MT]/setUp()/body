@@ -1,0 +1,14 @@
+{
+  pipelineTimeline=mock(PipelineTimeline.class);
+  pipelineDao=mock(PipelineSqlMapDao.class);
+  materialRepository=mock(MaterialRepository.class);
+  TestTransactionSynchronizationManager mockTransactionSynchronizationManager=new TestTransactionSynchronizationManager();
+  TransactionTemplate mockTransactionTemplate=new TestTransactionTemplate(mockTransactionSynchronizationManager);
+  service=new PipelineService(pipelineDao,mock(StageService.class),mock(PipelineLockService.class),pipelineTimeline,materialRepository,mockTransactionTemplate,systemEnvironment,null,materialConfigConverter);
+  first=oneModifiedFile("1");
+  third=oneModifiedFile("3");
+  second=oneModifiedFile("2");
+  first.setId(1);
+  third.setId(3);
+  second.setId(2);
+}

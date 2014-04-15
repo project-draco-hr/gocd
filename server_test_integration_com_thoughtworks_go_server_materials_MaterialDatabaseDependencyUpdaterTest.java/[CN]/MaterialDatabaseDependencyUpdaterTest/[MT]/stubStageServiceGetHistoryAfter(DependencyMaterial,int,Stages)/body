@@ -1,0 +1,16 @@
+{
+  if (material == null) {
+    material=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  }
+  StageIdentifier identifier=new StageIdentifier(String.format("%s/%s/%s/0",material.getPipelineName().toString(),pipelineCounter,material.getStageName().toString()));
+  for (int i=0; i < stageses.length; i++) {
+    Stages stages=stageses[i];
+    List<Modification> mods=new ArrayList<Modification>();
+    for (    Stage stage : stages) {
+      StageIdentifier id=stage.getIdentifier();
+      mods.add(new Modification(stage.completedDate(),id.stageLocator(),id.getPipelineLabel(),stage.getPipelineId()));
+    }
+    Mockito.when(dependencyMaterialSourceDao.getPassedStagesAfter(identifier.stageLocator(),material,Pagination.pageStartingAt(i * MaterialDatabaseUpdater.STAGES_PER_PAGE,null,MaterialDatabaseUpdater.STAGES_PER_PAGE))).thenReturn(mods);
+  }
+  when(dependencyMaterialSourceDao.getPassedStagesAfter(identifier.stageLocator(),material,Pagination.pageStartingAt(MaterialDatabaseUpdater.STAGES_PER_PAGE * stageses.length,null,MaterialDatabaseUpdater.STAGES_PER_PAGE))).thenReturn(new ArrayList<Modification>());
+}

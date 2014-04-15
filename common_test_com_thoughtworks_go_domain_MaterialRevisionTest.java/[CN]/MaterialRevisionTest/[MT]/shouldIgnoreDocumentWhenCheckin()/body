@@ -1,0 +1,8 @@
+{
+  MaterialRevision original=new MaterialRevision(hgMaterial,hgMaterial.modificationsSince(workingFolder,REVISION_0,new TestSubprocessExecutionContext()));
+  Filter filter=new Filter(new IgnoredFiles("helper/**/*.*"));
+  hgMaterial.setFilter(filter);
+  checkInFiles(hgMaterial,"helper/topics/installing_go_agent.xml","helper/topics/installing_go_server.xml");
+  MaterialRevision newRev=findNewRevision(original,hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  assertThat(newRev.filter(original),is(original));
+}

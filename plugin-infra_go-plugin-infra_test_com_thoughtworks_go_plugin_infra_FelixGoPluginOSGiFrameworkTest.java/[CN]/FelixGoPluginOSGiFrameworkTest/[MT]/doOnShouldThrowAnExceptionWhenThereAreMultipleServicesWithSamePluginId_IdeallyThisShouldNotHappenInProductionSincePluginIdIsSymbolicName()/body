@@ -1,0 +1,60 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  String symbolicName="same_symbolic_name";
+  registerServicesWithSameSymbolicName(symbolicName,firstService,secondService);
+  spy.start();
+  try {
+    spy.doOn(SomeInterface.class,symbolicName,new ActionWithReturn<SomeInterface,Object>(){
+      @Override public Object execute(      SomeInterface obj,      GoPluginDescriptor pluginDescriptor){
+        assertThat(pluginDescriptor,is(descriptor));
+        return obj.someMethodWithReturn();
+      }
+    }
+);
+    fail("Should throw plugin framework exception");
+  }
+ catch (  GoPluginFrameworkException ex) {
+    assertThat(ex.getMessage().startsWith("More than one reference found"),is(true));
+    assertThat(ex.getMessage().contains(SomeInterface.class.getCanonicalName()),is(true));
+    assertThat(ex.getMessage().contains(symbolicName),is(true));
+  }
+  try {
+    spy.doOn(SomeInterface.class,symbolicName,new Action<SomeInterface>(){
+      @Override public void execute(      SomeInterface obj,      GoPluginDescriptor pluginDescriptor){
+        assertThat(pluginDescriptor,is(descriptor));
+        obj.someMethod();
+      }
+    }
+);
+    fail("Should throw plugin framework exception");
+  }
+ catch (  GoPluginFrameworkException ex) {
+    assertThat(ex.getMessage().startsWith("More than one reference found"),is(true));
+    assertThat(ex.getMessage().contains(SomeInterface.class.getCanonicalName()),is(true));
+    assertThat(ex.getMessage().contains(symbolicName),is(true));
+  }
+  try {
+    spy.doOnWithExceptionHandling(SomeInterface.class,symbolicName,new Action<SomeInterface>(){
+      @Override public void execute(      SomeInterface obj,      GoPluginDescriptor pluginDescriptor){
+        assertThat(pluginDescriptor,is(descriptor));
+        obj.someMethod();
+      }
+    }
+,new ExceptionHandler<SomeInterface>(){
+      @Override public void handleException(      SomeInterface obj,      Throwable t){
+      }
+    }
+);
+    fail("Should throw plugin framework exception");
+  }
+ catch (  GoPluginFrameworkException ex) {
+    assertThat(ex.getMessage().startsWith("More than one reference found"),is(true));
+    assertThat(ex.getMessage().contains(SomeInterface.class.getCanonicalName()),is(true));
+    assertThat(ex.getMessage().contains(symbolicName),is(true));
+  }
+  verify(firstService,never()).someMethodWithReturn();
+  verify(secondService,never()).someMethodWithReturn();
+  verify(secondService,never()).someMethod();
+  verifyNoMoreInteractions(firstService,secondService);
+}

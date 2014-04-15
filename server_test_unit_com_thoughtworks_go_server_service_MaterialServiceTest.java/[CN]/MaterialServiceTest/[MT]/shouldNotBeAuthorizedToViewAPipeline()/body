@@ -1,0 +1,6 @@
+{
+  when(securityService.hasViewPermissionForPipeline("pavan","pipeline")).thenReturn(false);
+  LocalizedOperationResult operationResult=mock(LocalizedOperationResult.class);
+  materialService.searchRevisions("pipeline","sha","search-string",new Username(new CaseInsensitiveString("pavan")),operationResult);
+  verify(operationResult).unauthorized(LocalizedMessage.cannotViewPipeline("pipeline"),HealthStateType.general(HealthStateScope.forPipeline("pipeline")));
+}

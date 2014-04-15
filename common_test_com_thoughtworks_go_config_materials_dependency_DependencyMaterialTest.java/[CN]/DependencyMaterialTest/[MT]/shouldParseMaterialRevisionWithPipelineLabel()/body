@@ -1,0 +1,12 @@
+{
+  ArrayList<Modification> mods=new ArrayList<Modification>();
+  Modification mod=new Modification(new Date(),"pipelineName/123/stageName/2","pipeline-label-123",null);
+  mods.add(mod);
+  DependencyMaterialRevision revision=(DependencyMaterialRevision)new Modifications(mods).latestRevision(dependencyMaterial);
+  assertThat(revision.getRevision(),is("pipelineName/123/stageName/2"));
+  assertThat(revision.getPipelineLabel(),is("pipeline-label-123"));
+  assertThat(revision.getPipelineCounter(),is(123));
+  assertThat(revision.getPipelineName(),is("pipelineName"));
+  assertThat(revision.getStageName(),is("stageName"));
+  assertThat(revision.getStageCounter(),is(2));
+}

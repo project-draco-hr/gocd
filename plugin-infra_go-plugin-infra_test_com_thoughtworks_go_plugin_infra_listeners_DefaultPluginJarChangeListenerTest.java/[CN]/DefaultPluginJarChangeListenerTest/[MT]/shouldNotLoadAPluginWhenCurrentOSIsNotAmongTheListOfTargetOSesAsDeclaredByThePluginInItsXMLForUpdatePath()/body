@@ -1,0 +1,18 @@
+{
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  String pluginID="some.id";
+  GoPluginDescriptor newPluginDescriptor=new GoPluginDescriptor(pluginID,"1.0",new GoPluginDescriptor.About(null,null,null,null,null,asList("Mac OS X")),null,new File(pluginJarFileName),true);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,false)).thenReturn(newPluginDescriptor);
+  GoPluginDescriptor oldPluginDescriptor=new GoPluginDescriptor(pluginID,"1.0",new GoPluginDescriptor.About(null,null,null,null,null,asList("Linux","Mac OS X")),null,new File(pluginJarFileName),true);
+  when(registry.getPluginByIdOrFileName(pluginID,pluginJarFileName)).thenReturn(oldPluginDescriptor);
+  when(systemEnvironment.getCurrentOperatingSystem()).thenReturn(OperatingSystem.LINUX);
+  when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(newPluginDescriptor);
+  when(registry.unloadPlugin(newPluginDescriptor)).thenReturn(oldPluginDescriptor);
+  listener=new DefaultPluginJarChangeListener(registry,osgiManifestGenerator,osgiFramework,goPluginDescriptorBuilder,systemEnvironment);
+  listener.pluginJarUpdated(new PluginFileDetails(pluginJarFile,true));
+  verify(registry,times(1)).loadPlugin(newPluginDescriptor);
+  assertThat(newPluginDescriptor.getStatus().getMessages().size(),is(1));
+  assertThat(newPluginDescriptor.getStatus().getMessages().get(0),is("Plugin with ID (some.id) is not valid: Incompatible with current operating system 'Linux'. Valid operating systems are: [Mac OS X]."));
+}

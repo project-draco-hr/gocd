@@ -1,0 +1,12 @@
+{
+  HgMaterial material=MaterialsMother.hgMaterial("hgUrl","dest");
+  MaterialRevision hgMaterialRevision=saveOneScmModification(material,"user","file");
+  DependencyMaterial depMaterial=new DependencyMaterial(new CaseInsensitiveString("blahPipeline"),new CaseInsensitiveString("blahStage"));
+  MaterialRevision depMaterialRevision=saveOneDependencyModification(depMaterial,"blahPipeline/1/blahStage/1");
+  PipelineConfig pipelineConfig=PipelineMother.createPipelineConfig("mingle",new MaterialConfigs(material.config(),depMaterial.config()),"dev");
+  MaterialRevisions revisions=new MaterialRevisions(hgMaterialRevision,depMaterialRevision);
+  pipelineSqlMapDao.save(instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(revisions,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider()));
+  MaterialRevision laterRevision=saveOneScmModification(material,"user","file");
+  MaterialRevisions newRevisions=new MaterialRevisions(depMaterialRevision,laterRevision);
+  assertThat(repo.hasPipelineEverRunWith("mingle",newRevisions),is(false));
+}

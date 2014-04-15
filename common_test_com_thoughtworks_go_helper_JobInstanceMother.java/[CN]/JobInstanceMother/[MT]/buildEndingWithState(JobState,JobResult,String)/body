@@ -1,0 +1,23 @@
+{
+  final JobInstance instance=new JobInstance(jobConfig);
+  instance.setAgentUuid("1234");
+  instance.setId(1L);
+  instance.setIdentifier(defaultJobIdentifier(jobConfig));
+  instance.setState(endState);
+  instance.setTransitions(new JobStateTransitions());
+  DateTime now=new DateTime();
+  Date scheduledDate=now.minusMinutes(5).toDate();
+  instance.setScheduledDate(scheduledDate);
+  List<JobState> orderedStates=orderedBuildStates();
+  DateTime stateDate=new DateTime(scheduledDate);
+  for (  JobState stateToCompareTo : orderedStates) {
+    if (endState.compareTo(stateToCompareTo) >= 0) {
+      instance.changeState(stateToCompareTo,stateDate.toDate());
+      stateDate=stateDate.plusMinutes(1);
+    }
+  }
+  if (endState.equals(JobState.Completed)) {
+    instance.setResult(result);
+  }
+  return instance;
+}

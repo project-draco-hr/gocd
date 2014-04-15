@@ -1,0 +1,14 @@
+{
+  JobConfig jobConfig=getJob(jobIdentifier);
+  if (jobConfig == null) {
+    return false;
+  }
+  String timeout=jobConfig.getTimeout();
+  if ("0".equals(timeout)) {
+    return false;
+  }
+  if (timeout == null && !"0".equals(serverConfig().getJobTimeout())) {
+    return true;
+  }
+  return timeout != null && !"0".equals(timeout);
+}

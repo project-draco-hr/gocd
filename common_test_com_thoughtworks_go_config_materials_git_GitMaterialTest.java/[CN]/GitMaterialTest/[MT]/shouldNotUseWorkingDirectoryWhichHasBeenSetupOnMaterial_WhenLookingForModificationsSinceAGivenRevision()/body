@@ -1,0 +1,9 @@
+{
+  String workingDirSpecifiedInMaterial="some-working-dir";
+  GitMaterial git=new GitMaterial(repositoryUrl,GitMaterialConfig.DEFAULT_BRANCH,workingDirSpecifiedInMaterial);
+  List<Modification> modifications=git.modificationsSince(workingDir,REVISION_0,new TestSubprocessExecutionContext());
+  assertThat(modifications.size(),is(greaterThan(0)));
+  assertThat(new File(workingDir,".git").isDirectory(),is(true));
+  assertThat(new File(workingDir,workingDirSpecifiedInMaterial).isDirectory(),is(false));
+  assertThat(new File(new File(workingDir,workingDirSpecifiedInMaterial),".git").isDirectory(),is(false));
+}

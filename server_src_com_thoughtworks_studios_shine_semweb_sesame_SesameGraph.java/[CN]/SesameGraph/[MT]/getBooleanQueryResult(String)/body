@@ -1,0 +1,13 @@
+{
+  try {
+    BooleanQuery booleanQuery=conn.prepareBooleanQuery(QueryLanguage.SPARQL,sparqlSelect);
+    contextualize(booleanQuery);
+    return booleanQuery.evaluate();
+  }
+ catch (  UnsupportedSPARQLStatementException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    throw new ShineRuntimeException(e);
+  }
+}

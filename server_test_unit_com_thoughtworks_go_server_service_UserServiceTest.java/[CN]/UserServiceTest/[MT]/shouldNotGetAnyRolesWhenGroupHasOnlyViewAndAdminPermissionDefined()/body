@@ -1,0 +1,19 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  SecurityConfig securityConfig=securityConfigWithRole("role1","user1","user2");
+  securityConfigWithRole(securityConfig,"role2","user1","user2","user3");
+  securityConfigWithRole(securityConfig,"role3","user4","user5","user3");
+  securityConfigWithRole(securityConfig,"role3","user4","user5","user2");
+  config.setServerConfig(new ServerConfig(null,securityConfig));
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job")));
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfig("pipeline",stage);
+  config.addPipeline("defaultGroup",pipeline);
+  PipelineConfigs group=config.findGroup("defaultGroup");
+  group.getAuthorization().getViewConfig().add(new AdminRole(new CaseInsensitiveString("role1")));
+  group.getAuthorization().getViewConfig().add(new AdminUser(new CaseInsensitiveString("shilpa")));
+  group.getAuthorization().getAdminsConfig().add(new AdminRole(new CaseInsensitiveString("role3")));
+  Set<String> roles=userService.rolesThatCanOperateOnStage(config,pipeline);
+  assertThat(config.findGroup("defaultGroup").hasAuthorizationDefined(),is(true));
+  assertThat(config.findGroup("defaultGroup").hasOperationPermissionDefined(),is(false));
+  assertThat(roles.size(),is(0));
+}

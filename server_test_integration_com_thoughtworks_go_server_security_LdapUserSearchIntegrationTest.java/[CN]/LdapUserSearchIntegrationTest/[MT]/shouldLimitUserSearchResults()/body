@@ -1,0 +1,10 @@
+{
+  addManyUsers(200);
+  try {
+    ldapUserSearch.search("somecompany");
+    fail("Should have failed as number of results higher than allowed limit.");
+  }
+ catch (  LdapUserSearch.NotAllResultsShownException e) {
+    assertThat(e.getUsers().size(),is(100));
+  }
+}

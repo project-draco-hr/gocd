@@ -1,0 +1,13 @@
+{
+  new SystemEnvironment().setProperty("serviceUrl","some_random_place");
+  Materials materials=new Materials(svnMaterial);
+  EnvironmentVariableContext environmentVariableContext=doWorkWithMaterials(materials);
+  assertThat(environmentVariableContext.getProperty("GO_REVISION"),is("3"));
+  assertThat(environmentVariableContext.getProperty("GO_SERVER_URL"),is("some_random_place"));
+  assertThat(environmentVariableContext.getProperty("GO_PIPELINE_NAME"),is(PIPELINE_NAME));
+  assertThat(environmentVariableContext.getProperty("GO_PIPELINE_LABEL"),is("1"));
+  assertThat(environmentVariableContext.getProperty("GO_STAGE_NAME"),is(STAGE_NAME));
+  assertThat(environmentVariableContext.getProperty("GO_STAGE_COUNTER"),is("1"));
+  assertThat(environmentVariableContext.getProperty("GO_JOB_NAME"),is(JOB_NAME));
+  assertThat(environmentVariableContext.getProperty("GO_TRIGGER_USER"),is(TRIGGERED_BY_USER));
+}

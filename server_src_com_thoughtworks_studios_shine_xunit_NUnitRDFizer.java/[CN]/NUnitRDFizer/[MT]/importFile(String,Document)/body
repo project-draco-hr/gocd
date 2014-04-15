@@ -1,0 +1,11 @@
+{
+  DocumentResult result=new DocumentResult();
+  DocumentSource source=new DocumentSource(document);
+  try {
+    transformer.transform(source,result);
+    return jUnitRDFizer.importFile(parentURI,result.getDocument());
+  }
+ catch (  TransformerException e) {
+    throw new ShineRuntimeException(e);
+  }
+}

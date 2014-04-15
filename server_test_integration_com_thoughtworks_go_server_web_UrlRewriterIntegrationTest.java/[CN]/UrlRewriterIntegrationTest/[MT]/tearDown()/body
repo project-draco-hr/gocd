@@ -1,0 +1,9 @@
+{
+  if (originalSslPort == null) {
+    System.getProperties().remove(SystemEnvironment.CRUISE_SERVER_SSL_PORT);
+  }
+ else {
+    System.setProperty(SystemEnvironment.CRUISE_SERVER_SSL_PORT,originalSslPort);
+  }
+  httpUtil.stop();
+}

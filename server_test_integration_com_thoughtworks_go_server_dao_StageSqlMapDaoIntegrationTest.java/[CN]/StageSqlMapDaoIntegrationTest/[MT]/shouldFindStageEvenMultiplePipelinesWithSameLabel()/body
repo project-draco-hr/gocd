@@ -1,0 +1,7 @@
+{
+  mingleConfig.setLabelTemplate("fixed-label");
+  Pipeline pipeline=pipelineWithFirstStagePassed(mingleConfig);
+  Stage expect=pipeline.getFirstStage();
+  Stage stage=stageDao.findStageWithIdentifier(new StageIdentifier(pipeline,expect));
+  assertThat(stage,hasSameId(expect));
+}

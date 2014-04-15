@@ -1,0 +1,13 @@
+{
+  AgentConfig agentConfig=new AgentConfig(uuid,"agentName","127.0.0.9");
+  addAgent(agentConfig);
+  AgentIdentifier agentIdentifier=agentConfig.getAgentIdentifier();
+  String cookie=agentService.assignCookie(agentIdentifier);
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier,cookie,null);
+  agentRuntimeInfo.idle();
+  agentService.updateRuntimeInfo(agentRuntimeInfo);
+  assertTrue(agentService.findAgentAndRefreshStatus(uuid).isIdle());
+  agentService.disableAgents(USERNAME,new HttpOperationResult(),Arrays.asList(agentConfig.getUuid()));
+  assertThat(isDisabled(agentConfig),is(true));
+  return agentConfig;
+}

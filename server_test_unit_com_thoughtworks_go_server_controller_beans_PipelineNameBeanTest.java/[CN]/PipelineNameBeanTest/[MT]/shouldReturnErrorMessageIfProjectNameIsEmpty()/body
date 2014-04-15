@@ -1,0 +1,6 @@
+{
+  PipelineNameBean bean=new PipelineNameBean("",false);
+  JsonMap json=(JsonMap)bean.validate().toJson();
+  assertThat(json.getJsonString("isValid").withoutQuote(),is("false"));
+  assertThat(json.getJsonString(ERROR_FOR_JSON).withoutQuote(),is("Pipeline name is required"));
+}

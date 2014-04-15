@@ -1,0 +1,15 @@
+{
+  when(checksums.md5For("fetch_dest/first")).thenReturn(null);
+  zip=createZip("under_dir");
+  dirHandler.useArtifactMd5Checksums(checksums);
+  try {
+    dirHandler.handle(new FileInputStream(zip));
+    dirHandler.handleResult(200,goPublisher);
+  }
+ catch (  RuntimeException e) {
+    fail("should not have failed");
+  }
+  verify(checksums).md5For("fetch_dest/first");
+  verify(checksums).md5For("fetch_dest/under_dir/second");
+  assertArtifactWasSaved("under_dir");
+}

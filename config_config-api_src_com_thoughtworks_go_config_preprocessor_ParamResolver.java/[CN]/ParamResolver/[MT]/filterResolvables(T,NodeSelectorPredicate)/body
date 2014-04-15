@@ -1,0 +1,10 @@
+{
+  List<Field> interpolatableFields=new ArrayList<Field>();
+  for (  Field declaredField : getFields(resolvable)) {
+    if (predicate.shouldSelect(declaredField)) {
+      interpolatableFields.add(declaredField);
+      declaredField.setAccessible(true);
+    }
+  }
+  return interpolatableFields;
+}

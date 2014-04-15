@@ -1,0 +1,5 @@
+{
+  StageConfig stageConfig=StageConfigMother.custom("test",Approval.manualApproval());
+  Stage instance=instanceFactory.createStageInstance(stageConfig,new DefaultSchedulingContext("anyone"),"md5",new TimeProvider());
+  assertThat(instance.getApprovalType(),is(GoConstants.APPROVAL_MANUAL));
+}

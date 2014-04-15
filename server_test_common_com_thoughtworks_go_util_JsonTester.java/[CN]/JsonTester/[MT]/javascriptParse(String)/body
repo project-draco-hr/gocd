@@ -1,0 +1,11 @@
+{
+  try {
+    Context ctx=Context.enter();
+    ScriptableObject scope=ctx.initStandardObjects();
+    return parse(ctx.evaluateString(scope,"json = " + other,"JsonTester",1,null));
+  }
+ catch (  Exception evaluator) {
+    System.err.println("Invalid json:\n" + other);
+    throw bomb("Invalid javascript",evaluator);
+  }
+}

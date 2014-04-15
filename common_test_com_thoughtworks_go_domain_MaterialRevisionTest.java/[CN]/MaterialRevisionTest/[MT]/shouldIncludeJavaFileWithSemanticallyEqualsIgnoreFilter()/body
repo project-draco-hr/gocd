@@ -1,0 +1,10 @@
+{
+  MaterialRevision original=new MaterialRevision(hgMaterial,hgMaterial.modificationsSince(workingFolder,REVISION_0,new TestSubprocessExecutionContext()));
+  Filter filter=new Filter(new IgnoredFiles("**/*.doc"),new IgnoredFiles("*.doc"));
+  GoConfigMother.createPipelineConfig(filter,(ScmMaterialConfig)hgMaterial.config());
+  checkInFiles(hgMaterial,"A.java");
+  checkInFiles(hgMaterial,"B.doc");
+  checkInFiles(hgMaterial,"C.pdf");
+  MaterialRevision newRev=findNewRevision(original,hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  assertThat(newRev.filter(original),is(newRev));
+}

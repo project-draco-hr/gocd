@@ -1,0 +1,14 @@
+{
+  HgMaterialConfig materialOne=new HgMaterialConfig("http://url1",null);
+  materialOne.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"some-folder"));
+  materialOne.setAutoUpdate(true);
+  HgMaterialConfig materialTwo=new HgMaterialConfig("http://url1",null);
+  materialTwo.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"some-folder-2"));
+  materialTwo.setAutoUpdate(false);
+  CruiseConfig config=GoConfigMother.configWithPipelines("one");
+  PipelineConfig pipelineOne=config.pipelineConfigByName(new CaseInsensitiveString("one"));
+  pipelineOne.setMaterialConfigs(new MaterialConfigs(materialOne,materialTwo));
+  pipelineOne.materialConfigs().validate(ValidationContext.forChain(config));
+  assertThat(pipelineOne.materialConfigs().get(0).errors().getAll().size(),is(1));
+  assertThat(pipelineOne.materialConfigs().get(1).errors().getAll().size(),is(1));
+}

@@ -1,0 +1,14 @@
+{
+  if (StringUtils.isEmpty(pipelineName)) {
+    return ValidationBean.notValid("Pipeline name is required");
+  }
+ else   if (StringUtils.isBlank(pipelineName) || !validateProjectName()) {
+    return ValidationBean.notValid(ERRORR_MESSAGE);
+  }
+ else   if (hasPipeline) {
+    return ValidationBean.notValid("Pipeline name already exists, please choose another one.");
+  }
+ else {
+    return ValidationBean.valid();
+  }
+}

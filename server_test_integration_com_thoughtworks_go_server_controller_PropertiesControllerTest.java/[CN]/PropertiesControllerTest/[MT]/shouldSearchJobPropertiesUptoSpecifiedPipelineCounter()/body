@@ -1,0 +1,10 @@
+{
+  Pipeline pipeline1=createNewPipeline();
+  Pipeline pipeline2=createNewPipeline();
+  Pipeline pipeline3=createNewPipeline();
+  controller.jobsSearch(fixture.pipelineName,fixture.devStage,PipelineWithTwoStages.JOB_FOR_DEV_STAGE,String.valueOf(pipeline2.getCounter()),null,response);
+  Csv csv=Csv.fromString(response.getContentAsString());
+  assertThat(csv.containsRow(createCsvRow(pipeline1)),is(true));
+  assertThat(csv.containsRow(createCsvRow(pipeline2)),is(true));
+  assertThat(csv.containsRow(createCsvRow(pipeline3)),is(false));
+}

@@ -1,0 +1,7 @@
+{
+  new SystemEnvironment().setProperty("serviceUrl","some_random_place");
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  context.setProperty("GO_SERVER_URL",SystemEnvironment.getProperty("serviceUrl"),false);
+  jobIdentifier().populateEnvironmentVariables(context);
+  assertThat(context.getProperty("GO_SERVER_URL"),is("some_random_place"));
+}

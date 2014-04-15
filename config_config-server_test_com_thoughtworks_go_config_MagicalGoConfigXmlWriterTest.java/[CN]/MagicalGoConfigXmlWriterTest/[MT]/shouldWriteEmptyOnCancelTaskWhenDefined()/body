@@ -1,0 +1,5 @@
+{
+  String partial="<job name=\"functional\">\n" + "  <tasks>\n" + "    <exec command=\"echo\">\n"+ "      <oncancel />\n"+ "    </exec>\n"+ "  </tasks>\n"+ "</job>";
+  JobConfig jobConfig=xmlLoader.fromXmlPartial(partial,JobConfig.class);
+  assertThat(xmlWriter.toXmlPartial(jobConfig),is(partial));
+}

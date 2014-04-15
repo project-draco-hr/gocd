@@ -1,0 +1,14 @@
+{
+  String cacheKey=pmrModificationsKey(pmr);
+  List<Modification> modifications=(List<Modification>)goCache.get(cacheKey);
+  if (modifications == null) {
+synchronized (cacheKey) {
+      modifications=(List<Modification>)goCache.get(cacheKey);
+      if (modifications == null) {
+        modifications=getHibernateTemplate().find("FROM Modification WHERE materialId = ? AND id BETWEEN ? AND ? ORDER BY id DESC",new Object[]{findMaterialInstance(pmr.getMaterial()).getId(),pmr.getFromModification().getId(),pmr.getToModification().getId()});
+        goCache.put(cacheKey,modifications);
+      }
+    }
+  }
+  return modifications;
+}

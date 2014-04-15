@@ -1,0 +1,10 @@
+{
+  Matcher matcher=TAB_NAME_PATTERN.matcher(name);
+  if (!matcher.matches()) {
+    this.addError(NAME,String.format("Tab name '%s' is invalid. This must be alphanumeric and can contain underscores and periods.",name));
+  }
+  matcher=TAB_PATH_PATTERN.matcher(path);
+  if (!matcher.matches()) {
+    this.addError(PATH,String.format("Tab path '%s' is invalid. This must be a valid file path.",path));
+  }
+}

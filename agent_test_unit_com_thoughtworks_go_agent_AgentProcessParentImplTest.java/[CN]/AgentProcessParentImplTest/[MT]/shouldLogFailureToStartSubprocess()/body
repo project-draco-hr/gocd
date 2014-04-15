@@ -1,0 +1,19 @@
+{
+  final List<String> cmd=new ArrayList<String>();
+  LogFixture logFixture=LogFixture.startListening();
+  try {
+    AgentProcessParentImpl bootstrapper=new AgentProcessParentImpl(){
+      @Override Process invoke(      String[] command) throws IOException {
+        cmd.addAll(Arrays.asList(command));
+        throw new RuntimeException("something failed!");
+      }
+    }
+;
+    int returnCode=bootstrapper.run("bootstrapper_version","bar",getURLGenerator(),new HashMap<String,String>());
+    assertThat(returnCode,is(-373));
+    assertThat(logFixture.contains(Level.ERROR,"Exception while executing command: " + StringUtils.join(cmd," ") + " - java.lang.RuntimeException: something failed!"),is(true));
+  }
+  finally {
+    logFixture.stopListening();
+  }
+}

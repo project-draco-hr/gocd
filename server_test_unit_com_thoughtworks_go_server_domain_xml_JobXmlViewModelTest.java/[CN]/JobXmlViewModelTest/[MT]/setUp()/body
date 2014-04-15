@@ -1,0 +1,8 @@
+{
+  xmlWriterContext=mock(XmlWriterContext.class);
+  jobPlan=mock(JobPlan.class);
+  defaultJob=JobInstanceMother.completed("defaultJob");
+  when(xmlWriterContext.planFor(defaultJob.getIdentifier())).thenReturn(jobPlan);
+  when(xmlWriterContext.propertiesForJob(defaultJob.getId())).thenReturn(new Properties());
+  jobXmlViewModel=new JobXmlViewModel(defaultJob);
+}

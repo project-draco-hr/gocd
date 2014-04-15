@@ -1,0 +1,10 @@
+{
+  User foo=new User("foo",Arrays.asList("fOO","Foo"),"foo@cruise.com",false);
+  User bar=new User("bar",Arrays.asList("bAR","Bar"),"bar@go.com",true);
+  when(userDao.allUsers()).thenReturn(new Users(Arrays.asList(foo,bar)));
+  when(securityService.isUserAdmin(new Username(new CaseInsensitiveString("foo")))).thenReturn(true);
+  when(goConfigService.rolesForUser(new CaseInsensitiveString("foo"))).thenReturn(Arrays.asList(new Role(new CaseInsensitiveString("loser")),new Role(new CaseInsensitiveString("boozer"))));
+  when(goConfigService.rolesForUser(new CaseInsensitiveString("bar"))).thenReturn(Arrays.asList(new Role(new CaseInsensitiveString("user")),new Role(new CaseInsensitiveString("loser"))));
+  List<UserModel> models=userService.allUsersForDisplay(UserService.SortableColumn.USERNAME,UserService.SortDirection.ASC);
+  assertThat(models,is(Arrays.asList(model(bar,Arrays.asList("user","loser"),false),model(foo,Arrays.asList("loser","boozer"),true))));
+}

@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=PipelineMother.withSingleStageWithMaterials("go","dev",withBuildPlans("unit"));
+  pipelineConfig.getFirstStageConfig().setFetchMaterials(false);
+  configHelper.addPipeline("go","dev");
+  scheduleHelper.schedule(pipelineConfig,BuildCause.createWithModifications(modifyOneFile(pipelineConfig),""),GoConstants.DEFAULT_APPROVED_BY);
+  List<JobPlan> jobPlans=jobInstanceService.orderedScheduledBuilds();
+  assertThat(jobPlans.size(),is(1));
+  assertThat(jobPlans.get(0).shouldFetchMaterials(),is(false));
+}

@@ -1,0 +1,13 @@
+{
+  String pipelineName="P1";
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages(pipelineName,"S1");
+  String username="username";
+  BuildCause manualForced=BuildCause.createManualForced(modifyOneFile(pipelineConfig),new Username(new CaseInsensitiveString(username)));
+  Pipeline pipeline=dbHelper.schedulePipeline(pipelineConfig,manualForced,username,new TimeProvider());
+  dbHelper.pass(pipeline);
+  long jobId=pipeline.getStages().get(0).getJobInstances().get(0).getId();
+  Pipeline pipelineFromDB=pipelineDao.pipelineWithMaterialsAndModsByBuildId(jobId);
+  assertThat(pipelineFromDB.getBuildCause().getApprover(),Is.is(username));
+  assertThat(pipelineFromDB.getBuildCause().getBuildCauseMessage(),Is.is("Forced by username"));
+  assertThat(pipelineFromDB.getName(),Is.is(pipelineName));
+}

@@ -1,0 +1,7 @@
+{
+  environmentConfigService.sync(environments("uat","prod"));
+  List<CaseInsensitiveString> environmentNames=environmentConfigService.environmentNames();
+  assertThat(environmentNames.size(),is(2));
+  assertThat(environmentNames,hasItem(new CaseInsensitiveString("uat")));
+  assertThat(environmentNames,hasItem(new CaseInsensitiveString("prod")));
+}

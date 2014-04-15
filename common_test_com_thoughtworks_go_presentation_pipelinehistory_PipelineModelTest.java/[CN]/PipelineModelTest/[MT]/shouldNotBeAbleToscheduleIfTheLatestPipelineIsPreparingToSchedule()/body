@@ -1,0 +1,6 @@
+{
+  PipelineInstanceModel instanceModel=PipelineInstanceModel.createPreparingToSchedule("pipelineName",new StageInstanceModels());
+  PipelineModel pipelineModel=new PipelineModel(instanceModel.getName(),true,true,PipelinePauseInfo.notPaused());
+  pipelineModel.addPipelineInstance(instanceModel);
+  assertThat(pipelineModel.canForce(),is(false));
+}

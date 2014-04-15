@@ -1,0 +1,6 @@
+{
+  CompositeChecker checker=new CompositeChecker(StubCheckerFactory.warning(),StubCheckerFactory.successful());
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  checker.check(result);
+  assertThat(result.getServerHealthState(),Is.is(WARNING_SERVER_HEALTH_STATE));
+}

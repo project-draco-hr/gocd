@@ -1,0 +1,5 @@
+{
+  pipelineService.save(preCondition.schedulePipeline());
+  Pipeline pipeline=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  assertThat(pipeline.getStages().first().getOrderId(),is(1));
+}

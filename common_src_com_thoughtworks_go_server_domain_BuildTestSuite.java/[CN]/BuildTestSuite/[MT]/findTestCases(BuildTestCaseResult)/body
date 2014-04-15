@@ -1,0 +1,14 @@
+{
+  if (checkTestCases()) {
+    List cases=new ArrayList();
+    for (int i=0; i < testCases.size(); i++) {
+      BuildTestCase testCase=(BuildTestCase)testCases.get(i);
+      BuildTestCaseResult result=testCase.getResult();
+      if (result.equals(filter)) {
+        cases.add(testCase);
+      }
+    }
+    return cases;
+  }
+  return null;
+}

@@ -1,0 +1,9 @@
+{
+  AgentConfig agentConfig=cruiseConfig.agents().getAgentByUuid(uuid);
+  if (agentConfig.isNull()) {
+    bomb("Unable to delete agent; Agent [" + uuid + "] not found.");
+  }
+  cruiseConfig.getEnvironments().removeAgentFromAllEnvironments(uuid);
+  cruiseConfig.agents().remove(agentConfig);
+  return cruiseConfig;
+}

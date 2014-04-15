@@ -1,0 +1,10 @@
+{
+  ApplicationContext context=mock(ApplicationContext.class);
+  when(contextRefreshedEvent.getApplicationContext()).thenReturn(context);
+  when(context.getParent()).thenReturn(null);
+  initializer.onApplicationEvent(contextRefreshedEvent);
+  InOrder inOrder=inOrder(initializers);
+  for (  Initializer initializer : initializers) {
+    inOrder.verify(initializer).initialize();
+  }
+}

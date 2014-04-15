@@ -1,0 +1,6 @@
+{
+  String fingerprint="material-fingerprint";
+  when(executionContext.getProcessNamespace(fingerprint)).thenReturn("workspace-name");
+  assertThat(executionContext.getProcessNamespace(fingerprint),is("workspace-name"));
+  verify(executionContext,times(1)).getProcessNamespace(fingerprint);
+}

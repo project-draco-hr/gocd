@@ -1,0 +1,14 @@
+{
+  String defaultValue="test-default";
+  Property property=new Property("key",null,defaultValue);
+  assertThat(property.getValue(),is(defaultValue));
+  property=new Property("key","",defaultValue);
+  assertThat(property.getValue(),is(""));
+  property=new Property("key").withDefault(defaultValue);
+  assertThat(property.getValue(),is(defaultValue));
+  property=new Property("key");
+  assertThat(property.getValue() == null,is(true));
+  String value="yek";
+  property=new Property("key",value,defaultValue);
+  assertThat(property.getValue(),is(value));
+}

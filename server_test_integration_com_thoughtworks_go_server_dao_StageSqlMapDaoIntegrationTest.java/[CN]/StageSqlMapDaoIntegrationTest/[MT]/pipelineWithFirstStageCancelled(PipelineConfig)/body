@@ -1,0 +1,5 @@
+{
+  Pipeline pipeline=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  dbHelper.cancelStage(pipelineAndFirstStageOf(pipeline).stage);
+  return pipeline;
+}

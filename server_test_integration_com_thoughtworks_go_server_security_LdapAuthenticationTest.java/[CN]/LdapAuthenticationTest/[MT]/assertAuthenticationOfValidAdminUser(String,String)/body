@@ -1,0 +1,6 @@
+{
+  Authentication authentication=new UsernamePasswordAuthenticationToken(userName,password);
+  Authentication result=ldapAuthenticationProvider.authenticate(authentication);
+  assertThat(result.isAuthenticated(),is(true));
+  assertThat(userName + " should have " + ROLE_SUPERVISOR+ " authority",result.getAuthorities(),hasItemInArray(ROLE_SUPERVISOR.asAuthority()));
+}

@@ -1,0 +1,6 @@
+{
+  String validXpath="//buildplan/@name";
+  generator=new ArtifactPropertiesGenerator(TEST_PROPERTY,createSrcFile().getName(),validXpath);
+  generator.generate(goPublisherImple,workspace);
+  assertThat(sentContents.get(0),containsString("Property " + TEST_PROPERTY + " = test created"));
+}

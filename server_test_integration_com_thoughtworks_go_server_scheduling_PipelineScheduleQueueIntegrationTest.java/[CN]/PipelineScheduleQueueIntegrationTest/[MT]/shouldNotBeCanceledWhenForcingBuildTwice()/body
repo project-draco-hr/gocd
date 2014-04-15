@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipelineConfig=fixture.pipelineConfig();
+  BuildCause cause=forceBuild(pipelineConfig);
+  saveRev(cause);
+  queue.finishSchedule(fixture.pipelineName,cause,newCause);
+  queue.schedule(fixture.pipelineName,cause);
+  assertThat(pipelineDao.mostRecentLabel(fixture.pipelineName),is(nullValue()));
+  assertThat(fixture.pipelineName,is(scheduledOn(queue)));
+  assertThat(queue.createPipeline(cause,pipelineConfig,new DefaultSchedulingContext(cause.getApprover(),new Agents()),"md5-test",new TimeProvider()),is(not(nullValue())));
+  assertThat(pipelineDao.mostRecentLabel(fixture.pipelineName),is("label-1"));
+}

@@ -1,0 +1,6 @@
+{
+  BackgroundMailSender background=new BackgroundMailSender(neverReturns,1);
+  ValidationBean validationBean=background.send("Subject","body","to@someone");
+  assertThat(validationBean.isValid(),is(false));
+  assertThat(validationBean.getError(),containsString("Timeout when sending email"));
+}

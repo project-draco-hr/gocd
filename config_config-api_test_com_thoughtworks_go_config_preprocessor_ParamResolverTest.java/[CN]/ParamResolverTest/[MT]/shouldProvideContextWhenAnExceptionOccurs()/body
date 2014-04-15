@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  pipelineConfig.setLabelTemplate("#a");
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.errors().on("labelTemplate"),is("Error when processing params for '#a' used in field 'labelTemplate', # must be followed by a parameter pattern or escaped by another #"));
+}

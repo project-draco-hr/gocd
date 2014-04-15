@@ -1,0 +1,11 @@
+{
+  if (StringUtils.isEmpty(link)) {
+    configErrors.add(LINK,"Link should be populated");
+  }
+ else   if (StringUtils.isEmpty(regex)) {
+    configErrors.add(REGEX,"Regex should be populated");
+  }
+  if (!link.contains("${ID}")) {
+    configErrors.add(LINK,"Link must be a URL containing '${ID}'. Go will replace the string '${ID}' with the first matched group from the regex at run-time.");
+  }
+}

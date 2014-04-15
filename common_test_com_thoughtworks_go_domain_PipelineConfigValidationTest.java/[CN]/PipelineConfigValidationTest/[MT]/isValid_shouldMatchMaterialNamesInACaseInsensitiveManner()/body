@@ -1,0 +1,10 @@
+{
+  pipeline.setLabelTemplate("pipeline-${count}-${myGit}");
+  ScmMaterialConfig gitMaterialConfig=MaterialConfigsMother.gitMaterialConfig("git://url");
+  gitMaterialConfig.setName(new CaseInsensitiveString("mygit"));
+  pipeline.addMaterialConfig(gitMaterialConfig);
+  pipeline.validate(validationContext);
+  assertThat(pipeline.errors().isEmpty(),is(true));
+  List<String> errors=pipeline.errors().getAllOn("labelTemplate");
+  assertThat(errors,is(nullValue()));
+}

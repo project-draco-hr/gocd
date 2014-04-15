@@ -1,0 +1,22 @@
+{
+  HttpServletRequest req=(HttpServletRequest)request;
+  HttpServletResponse res=(HttpServletResponse)response;
+  String headerValue=req.getHeader(HttpService.GO_ARTIFACT_PAYLOAD_SIZE);
+  if (lastOperationTime.pastWaitingPeriod()) {
+synchronized (this) {
+      if (lastOperationTime.pastWaitingPeriod()) {
+        totalAvailableSpace=artifactsDirHolder.getArtifactsDir().getUsableSpace() - systemEnvironment.getArtifactReposiotryFullLimit() * GoConstants.MEGA_BYTE;
+        lastOperationTime.refresh();
+      }
+    }
+  }
+  if (!StringUtil.isBlank(headerValue) && Long.valueOf(headerValue) * 2 > totalAvailableSpace) {
+    Long artifactSize=Long.valueOf(headerValue);
+    String logMsg=String.format("[Artifact Upload] Artifact upload (Required Size %s * 2 = %s) was denied by the server because it has run out of disk space (Available Space %s).",artifactSize,artifactSize * 2,totalAvailableSpace);
+    LOG.error(logMsg);
+    res.setStatus(HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE);
+  }
+ else {
+    chain.doFilter(req,response);
+  }
+}

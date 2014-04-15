@@ -1,0 +1,13 @@
+{
+  Appender consoleAppender=createFileAppender(consoleFileName);
+  consoleAppender.setName(ndc.name());
+  consoleAppender.setLayout(LOG4J_CONSOLE_PATTERN);
+  consoleAppender.addFilter(new org.apache.log4j.spi.Filter(){
+    @Override public int decide(    LoggingEvent event){
+      return event.getNDC() == ndc.toString() ? ACCEPT : DENY;
+    }
+  }
+);
+  addConsoleNDCLogRemoverFilter();
+  return consoleAppender;
+}

@@ -1,0 +1,9 @@
+{
+  TestingClock clock=new TestingClock();
+  PerfTimer timer=PerfTimer.start("Message",clock);
+  clock.addSeconds(1);
+  LogFixture log=LogFixture.startListening();
+  timer.stop();
+  assertThat(log.getLog(),containsString("Performance: Message took 1000ms"));
+  log.stopListening();
+}

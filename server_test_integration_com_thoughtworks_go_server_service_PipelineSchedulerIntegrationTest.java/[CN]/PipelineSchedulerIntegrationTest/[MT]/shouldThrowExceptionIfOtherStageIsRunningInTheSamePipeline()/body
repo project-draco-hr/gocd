@@ -1,0 +1,12 @@
+{
+  Pipeline pipeline=makeCompletedPipeline();
+  StageConfig ftStage=goConfigService.stageConfigNamed(PIPELINE_MINGLE,FT_STAGE);
+  scheduleService.rerunStage(PIPELINE_MINGLE,pipeline.getCounter().toString(),FT_STAGE);
+  try {
+    scheduleService.rerunStage(PIPELINE_MINGLE,pipeline.getCounter().toString(),FT_STAGE);
+    Assert.fail("Should throw exception if fails to re-run stage");
+  }
+ catch (  Exception ignored) {
+    assertThat(ignored.getMessage(),matches("Cannot schedule: Pipeline.+is still in progress"));
+  }
+}

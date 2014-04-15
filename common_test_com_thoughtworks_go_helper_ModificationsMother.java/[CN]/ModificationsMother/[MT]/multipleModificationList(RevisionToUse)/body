@@ -1,0 +1,13 @@
+{
+  Modification modification1=new Modification(MOD_USER,MOD_COMMENT,EMAIL_ADDRESS,TWO_DAYS_AGO_CHECKIN,revisionToUse.next());
+  modification1.createModifiedFile(MOD_FILE_BUILD_XML,"\\build",MOD_MODIFIED_ACTION);
+  Modification modification2=new Modification(MOD_USER_COMMITTER,MOD_COMMENT_2,EMAIL_ADDRESS,YESTERDAY_CHECKIN,revisionToUse.next());
+  modification2.createModifiedFile(MOD_FILE_OLD_BUILD_XML,"\\build",MOD_MODIFIED_ACTION);
+  Modification modification3=new Modification(MOD_USER_WITH_HTML_CHAR,MOD_COMMENT_3,EMAIL_ADDRESS,TODAY_CHECKIN,revisionToUse.next());
+  modification3.createModifiedFile(MOD_FILE_READ_ME,"\\build",MOD_MODIFIED_ACTION);
+  List<Modification> modifications=new ArrayList<Modification>();
+  modifications.add(modification3);
+  modifications.add(modification2);
+  modifications.add(modification1);
+  return modifications;
+}

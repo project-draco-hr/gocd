@@ -1,0 +1,25 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  if (!super.equals(o)) {
+    return false;
+  }
+  CommandBuilder that=(CommandBuilder)o;
+  if (args != null ? !args.equals(that.args) : that.args != null) {
+    return false;
+  }
+  if (command != null ? !command.equals(that.command) : that.command != null) {
+    return false;
+  }
+  if (errorString != null ? !errorString.equals(that.errorString) : that.errorString != null) {
+    return false;
+  }
+  if (workingDir != null ? !workingDir.equals(that.workingDir) : that.workingDir != null) {
+    return false;
+  }
+  return true;
+}

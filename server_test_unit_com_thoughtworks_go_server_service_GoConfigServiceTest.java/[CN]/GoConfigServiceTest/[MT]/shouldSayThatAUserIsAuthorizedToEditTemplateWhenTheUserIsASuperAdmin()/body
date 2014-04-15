@@ -1,0 +1,8 @@
+{
+  String adminName="theSuperAdmin";
+  String templateName="template";
+  GoConfigMother.enableSecurityWithPasswordFile(cruiseConfig);
+  GoConfigMother.enableSuperAdminForConfig(cruiseConfig,adminName).addTemplate(createTemplate(templateName));
+  when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
+  assertThat(goConfigService.isAuthorizedToEditTemplate(templateName,new Username(new CaseInsensitiveString(adminName))),is(true));
+}

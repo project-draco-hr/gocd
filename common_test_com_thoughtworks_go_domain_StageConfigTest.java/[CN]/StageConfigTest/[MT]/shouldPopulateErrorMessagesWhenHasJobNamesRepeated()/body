@@ -1,0 +1,20 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline","stage-1","con-job");
+  config.addPipeline("group-foo",pipelineConfig);
+  StageConfig stageConfig=pipelineConfig.get(0);
+  JobConfig newJob=new JobConfig("foo!");
+  StageConfig newlyAddedStage=new StageConfig(new CaseInsensitiveString("."),new JobConfigs(newJob));
+  pipelineConfig.addStageWithoutValidityAssertion(newlyAddedStage);
+  stageConfig.getJobs().addJobWithoutValidityAssertion(new JobConfig(new CaseInsensitiveString("con-job"),new Resources(),new ArtifactPlans(),new Tasks(new ExecTask("ls","-la","foo"))));
+  List<ConfigErrors> allErrors=config.validateAfterPreprocess();
+  assertThat(allErrors.size(),is(4));
+  assertThat(allErrors.get(0).on(JobConfig.NAME),is("You have defined multiple jobs called 'con-job'. Job names are case-insensitive and must be unique."));
+  assertThat(allErrors.get(1).on(JobConfig.NAME),is("You have defined multiple jobs called 'con-job'. Job names are case-insensitive and must be unique."));
+  assertThat(allErrors.get(2).on(StageConfig.NAME),is("Invalid stage name '.'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
+  assertThat(allErrors.get(3).on(JobConfig.NAME),is("Invalid job name 'foo!'. This must be alphanumeric and can contain underscores and periods. The maximum allowed length is 255 characters."));
+  assertThat(stageConfig.getJobs().get(0).errors().on(JobConfig.NAME),is("You have defined multiple jobs called 'con-job'. Job names are case-insensitive and must be unique."));
+  assertThat(stageConfig.getJobs().get(1).errors().on(JobConfig.NAME),is("You have defined multiple jobs called 'con-job'. Job names are case-insensitive and must be unique."));
+  assertThat(newlyAddedStage.errors().on(StageConfig.NAME),is("Invalid stage name '.'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
+  assertThat(newJob.errors().on(JobConfig.NAME),is("Invalid job name 'foo!'. This must be alphanumeric and can contain underscores and periods. The maximum allowed length is 255 characters."));
+}

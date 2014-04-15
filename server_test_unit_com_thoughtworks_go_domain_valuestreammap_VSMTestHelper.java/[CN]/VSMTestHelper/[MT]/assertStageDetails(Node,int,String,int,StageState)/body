@@ -1,0 +1,7 @@
+{
+  PipelineRevision revision=getPipelineRevision(p1_node,pipelineCounter);
+  assertThat(revision.getStages().hasStage(stageName),is(true));
+  Stage stage=revision.getStages().byName(stageName);
+  assertThat(stage.getCounter(),is(stageCounter));
+  assertThat(stage.getState(),is(stageState));
+}

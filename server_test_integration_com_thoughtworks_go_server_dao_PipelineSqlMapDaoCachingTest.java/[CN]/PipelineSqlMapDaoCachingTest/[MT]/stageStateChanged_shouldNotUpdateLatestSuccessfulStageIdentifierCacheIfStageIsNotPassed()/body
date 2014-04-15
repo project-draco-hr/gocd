@@ -1,0 +1,13 @@
+{
+  Stage passed=StageMother.createPassedStage("pipeline",1,"stage",8,"job",new Date());
+  passed.setPipelineId(1L);
+  pipelineDao.stageStatusChanged(passed);
+  pipelineDao.findLastSuccessfulStageIdentifier("pipeline","stage");
+  Stage failed=StageMother.completedFailedStageInstance("pipeline","dev","job");
+  failed.setIdentifier(new StageIdentifier("pipeline",1,"LABEL-1","stage","10000"));
+  failed.setPipelineId(1L);
+  pipelineDao.stageStatusChanged(failed);
+  StageIdentifier actual=pipelineDao.findLastSuccessfulStageIdentifier("pipeline","stage");
+  assertEquals(passed.getIdentifier(),actual);
+  verify(mockTemplate,never()).queryForObject(eq("getLastSuccessfulStageInPipeline"),any());
+}

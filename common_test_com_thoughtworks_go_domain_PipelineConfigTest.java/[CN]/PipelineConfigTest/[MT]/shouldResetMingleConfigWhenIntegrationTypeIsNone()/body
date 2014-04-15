@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  pipelineConfig.setMingleConfig(new MingleConfig("baseUri","go"));
+  Map map=new HashMap();
+  map.put(PipelineConfig.INTEGRATION_TYPE,PipelineConfig.INTEGRATION_TYPE_NONE);
+  pipelineConfig.setConfigAttributes(map);
+  assertThat(pipelineConfig.getMingleConfig(),is(new MingleConfig()));
+  assertThat(pipelineConfig.getIntegrationType(),is(PipelineConfig.INTEGRATION_TYPE_NONE));
+}

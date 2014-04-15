@@ -1,0 +1,76 @@
+{
+  PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfig("mingle","build","unit","functional");
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("mingle","build","unit");
+  final Stage firstStage=pipeline.getFirstStage();
+  stub(mingleConfig,pipeline,firstStage);
+  stubConfigMd5Cal("latest-md5");
+  final Semaphore sem=new Semaphore(1);
+  sem.acquire();
+  final ThreadLocal<Integer> requestNumber=new ThreadLocal<Integer>();
+  final boolean[] firstRequestFinished=new boolean[]{false};
+  final boolean[] secondReqGotInAfterFirstFinished=new boolean[]{false};
+  schedulingChecker=new SchedulingCheckerService(null,null,null,null,null,null,null,null,null,null,null){
+    @Override public boolean canSchedule(    OperationResult result){
+      if (requestNumber.get() == 0) {
+        sem.release();
+      }
+      if (requestNumber.get() == 1) {
+        secondReqGotInAfterFirstFinished[0]=firstRequestFinished[0];
+      }
+      return true;
+    }
+    @Override public boolean canRerunStage(    PipelineIdentifier pipelineIdentifier,    String stageName,    String username,    OperationResult result){
+      return true;
+    }
+  }
+;
+  TestTransactionTemplate template=new TestTransactionTemplate(new TestTransactionSynchronizationManager()){
+    @Override public Object execute(    TransactionCallback action){
+      if (requestNumber.get() == 0) {
+        try {
+          Thread.sleep(5000);
+        }
+ catch (        InterruptedException e) {
+          throw new RuntimeException();
+        }
+      }
+      return super.execute(action);
+    }
+  }
+;
+  service=new ScheduleService(goConfigService,pipelineService,stageService,schedulingChecker,mock(PipelineScheduledTopic.class),mock(PipelineDao.class),mock(StageDao.class),mock(StageOrderService.class),securityService,pipelineScheduleQueue,jobInstanceService,mock(JobInstanceDao.class),mock(AgentAssignment.class),environmentConfigService,lockService,serverHealthService,template,mock(AgentService.class),null,timeProvider,null,null,mock(InstanceFactory.class),schedulingPerformanceLogger){
+    @Override public Stage scheduleStage(    Pipeline pipeline,    String stageName,    String username,    StageInstanceCreator creator,    ErrorConditionHandler errorHandler){
+      Stage stage=super.scheduleStage(pipeline,stageName,username,creator,errorHandler);
+      if (requestNumber.get() == 0) {
+        firstRequestFinished[0]=true;
+      }
+      return stage;
+    }
+  }
+;
+  Thread firstReq=new Thread(new Runnable(){
+    public void run(){
+      requestNumber.set(0);
+      service.rerunJobs(firstStage,a("unit"),new HttpOperationResult());
+    }
+  }
+);
+  Thread secondReq=new Thread(new Runnable(){
+    public void run(){
+      try {
+        requestNumber.set(1);
+        sem.acquire();
+      }
+ catch (      InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+      service.rerunJobs(firstStage,a("unit"),new HttpOperationResult());
+    }
+  }
+);
+  firstReq.start();
+  secondReq.start();
+  firstReq.join();
+  secondReq.join();
+  assertThat("second request should have gone-in only after first is out",secondReqGotInAfterFirstFinished[0],is(true));
+}

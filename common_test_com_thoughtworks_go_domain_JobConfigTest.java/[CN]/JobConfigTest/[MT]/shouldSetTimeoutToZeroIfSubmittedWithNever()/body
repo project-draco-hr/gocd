@@ -1,0 +1,4 @@
+{
+  config.setConfigAttributes(m(JobConfig.NAME,"foo-job","timeoutType",JobConfig.NEVER_TIMEOUT,JobConfig.TIMEOUT,"100",JobConfig.TASKS,m(Tasks.TASK_OPTIONS,"exec","exec",m(Task.TASK_TYPE,"exec",ExecTask.COMMAND,"ls",ExecTask.ARGS,"-la",ExecTask.WORKING_DIR,"/tmp"))));
+  assertThat(config.getTimeout(),is("0"));
+}

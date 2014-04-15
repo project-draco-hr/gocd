@@ -1,0 +1,7 @@
+{
+  SecurityContextHelper.setCurrentUser(Username.ANONYMOUS.getUsername().toString());
+  when(session.getAttribute(USERID_ATTR)).thenReturn(null);
+  filter.doFilterHttp(req,res,chain);
+  verifyZeroInteractions(userService);
+  verify(chain).doFilter(req,res);
+}

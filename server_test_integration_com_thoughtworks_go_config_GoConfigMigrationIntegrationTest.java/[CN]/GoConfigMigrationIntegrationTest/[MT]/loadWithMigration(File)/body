@@ -1,0 +1,18 @@
+{
+  GoConfigMigration migration=new GoConfigMigration(new GoConfigMigration.UpgradeFailedHandler(){
+    public void handle(    Exception e){
+      String content="";
+      try {
+        content=FileUtil.readContentFromFile(configFile);
+      }
+ catch (      IOException e1) {
+      }
+      throw bomb(e.getMessage() + ": content=\n" + content,e);
+    }
+  }
+,configRepository,new TimeProvider(),configCache,registry,metricsProbeService);
+  SystemEnvironment sysEnv=new SystemEnvironment();
+  GoConfigDataSource configDataSource=new GoConfigDataSource(migration,configRepository,sysEnv,new TimeProvider(),configCache,serverVersion,registry,metricsProbeService,serverHealthService);
+  configDataSource.upgradeIfNecessary();
+  return configDataSource.forceLoad(configFile);
+}

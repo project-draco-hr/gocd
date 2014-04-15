@@ -1,0 +1,9 @@
+{
+  super(stageConfigs);
+  this.name=name;
+  this.labelTemplate=labelTemplate;
+  this.setMaterialConfigs(materialConfigs);
+  if (cronSpec != null) {
+    this.timer=new TimerConfig(cronSpec,timerShouldTriggerOnlyOnMaterialChanges);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  BuildCause beforeSchedule=queue.toBeScheduled().get(fixture.pipelineName);
+  assertThat(beforeSchedule,is(nullValue()));
+  BuildCause buildCause=BuildCause.createWithEmptyModifications();
+  queue.schedule(fixture.pipelineName,buildCause);
+  BuildCause afterSchedule=queue.toBeScheduled().get(fixture.pipelineName);
+  assertThat(afterSchedule,is(buildCause));
+}

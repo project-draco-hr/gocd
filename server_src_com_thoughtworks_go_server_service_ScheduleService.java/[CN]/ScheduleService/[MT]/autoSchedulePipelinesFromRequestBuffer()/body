@@ -1,0 +1,21 @@
+{
+synchronized (autoScheduleMutex) {
+    try {
+      for (      Entry<String,BuildCause> entry : pipelineScheduleQueue.toBeScheduled().entrySet()) {
+        String pipelineName=entry.getKey();
+        BuildCause buildCause=entry.getValue();
+        LOGGER.info(String.format("[Pipeline Schedule] Scheduling pipeline %s with build cause %s",pipelineName,buildCause));
+        long schedulingStartTime=System.currentTimeMillis();
+        Pipeline pipeline=schedulePipeline(pipelineName,buildCause);
+        long schedulingEndTime=System.currentTimeMillis();
+        if (pipeline != null) {
+          pipelineScheduledTopic.post(new PipelineScheduledMessage(pipeline.getIdentifier()));
+          schedulingPerformanceLogger.scheduledPipeline(pipelineName,pipelineScheduleQueue.toBeScheduled().size(),schedulingStartTime,schedulingEndTime);
+        }
+      }
+    }
+ catch (    Throwable e) {
+      LOGGER.error(String.format("[Pipeline Schedule] An exception occurred while scheduling the pipeline. %s",e));
+    }
+  }
+}

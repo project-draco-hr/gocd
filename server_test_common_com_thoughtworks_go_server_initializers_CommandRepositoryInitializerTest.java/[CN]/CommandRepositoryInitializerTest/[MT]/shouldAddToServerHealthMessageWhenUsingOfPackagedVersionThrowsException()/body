@@ -1,0 +1,10 @@
+{
+  File defaultDirectory=getAFile(false);
+  when(systemEnvironment.getDefaultCommandRepository()).thenReturn(defaultDirectory);
+  doReturn(zipInputStream).when(spy).getPackagedRepositoryZipStream();
+  doThrow(new IOException("Something went wrong")).when(spy).usePackagedCommandRepository(zipInputStream,defaultDirectory);
+  spy.initialize();
+  String errorMessage="Unable to upgrade command repository located at " + defaultDirectory.getAbsolutePath() + ". Message: Something went wrong";
+  verify(serverHealthService).update(serverHealthErrorMessageWhichContains(errorMessage));
+  verify(spy,times(1)).usePackagedCommandRepository(zipInputStream,defaultDirectory);
+}

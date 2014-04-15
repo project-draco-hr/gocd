@@ -1,0 +1,12 @@
+{
+  assertThat(jobInstanceDao.orderedScheduledBuilds().size(),is(2));
+  JobIdentifier jobIdentifier=new JobIdentifier(PIPELINE_NAME,"LABEL-1",STAGE_NAME,"1",JOB_NAME);
+  long newestId=schedule(JOB_NAME,stageId,new Date(10001),jobIdentifier);
+  long olderId=schedule(JOB_NAME,stageId,new Date(10000),jobIdentifier);
+  long oldestId=schedule(JOB_NAME,stageId,new Date(999),jobIdentifier);
+  List<JobPlan> jobPlans=jobInstanceDao.orderedScheduledBuilds();
+  assertThat(jobPlans.size(),is(5));
+  assertJobInstance(jobPlans.get(0),oldestId,PIPELINE_NAME,STAGE_NAME);
+  assertJobInstance(jobPlans.get(1),olderId,PIPELINE_NAME,STAGE_NAME);
+  assertJobInstance(jobPlans.get(2),newestId,PIPELINE_NAME,STAGE_NAME);
+}

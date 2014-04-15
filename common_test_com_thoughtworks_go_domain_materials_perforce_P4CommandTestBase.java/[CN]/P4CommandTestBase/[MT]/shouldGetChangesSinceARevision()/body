@@ -1,0 +1,7 @@
+{
+  List<Modification> output=p4.changesSince(new StringRevision("1"));
+  assertThat(output.size(),is(3));
+  assertThat(output.get(0).getRevision(),is("4"));
+  assertThat(output.get(1).getRevision(),is("3"));
+  assertThat(output.get(2).getRevision(),is("2"));
+}

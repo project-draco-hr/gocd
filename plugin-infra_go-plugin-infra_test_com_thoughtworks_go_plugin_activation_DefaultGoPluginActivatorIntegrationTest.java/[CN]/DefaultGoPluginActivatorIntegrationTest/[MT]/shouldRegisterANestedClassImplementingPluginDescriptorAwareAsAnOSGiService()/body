@@ -1,0 +1,14 @@
+{
+  if (new OSChecker(OSChecker.WINDOWS).satisfy()) {
+    return;
+  }
+  File bundleWithActivator=createBundleWithActivator(BUNDLE_DIR_WHICH_HAS_PROPER_ACTIVATOR,PluginAwareExtensionOuterClass.class,PluginAwareExtensionOuterClass.PluginAwareExtensionNestedClass.class,PluginAwareExtensionOuterClass.PluginAwareExtensionInnerClass.class,PluginAwareExtensionOuterClass.PluginAwareExtensionInnerClass.PluginAwareExtensionSecondLevelInnerClass.class,PluginAwareExtensionOuterClass.PluginAwareExtensionInnerClass.PluginAwareExtensionSecondLevelInnerClass.PluginAwareExtensionThirdLevelInnerClass.class,PluginAwareExtensionOuterClass.PluginAwareExtensionInnerClass.PluginAwareExtensionSecondLevelSiblingInnerClassWhichDoesNotHaveADefaultConstructor.class);
+  BundleContext installedBundledContext=bundleContext(installBundleFoundInDirectory(bundleWithActivator));
+  ServiceReference<?>[] references=installedBundledContext.getServiceReferences(PluginDescriptorAware.class.getName(),null);
+  String[] services=toSortedServiceClassNames(installedBundledContext,references);
+  assertEquals(Arrays.toString(services),4,services.length);
+  assertEquals(PluginAwareExtensionOuterClass.class.getName(),services[0]);
+  assertEquals(PluginAwareExtensionOuterClass.PluginAwareExtensionInnerClass.class.getName(),services[1]);
+  assertEquals(PluginAwareExtensionOuterClass.PluginAwareExtensionInnerClass.PluginAwareExtensionSecondLevelInnerClass.PluginAwareExtensionThirdLevelInnerClass.class.getName(),services[2]);
+  assertEquals(PluginAwareExtensionOuterClass.PluginAwareExtensionNestedClass.class.getName(),services[3]);
+}

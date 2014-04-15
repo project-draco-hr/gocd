@@ -1,0 +1,5 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("mingle"),new CaseInsensitiveString("dev"),new CaseInsensitiveString("one"),"",null);
+  FetchHandler fetchHandler=fetchTaskBuilder.getHandler(fetchTask,"cruise");
+  assertThat((FileHandler)fetchHandler,is(new FileHandler(new File("pipelines/cruise"),getSrc())));
+}

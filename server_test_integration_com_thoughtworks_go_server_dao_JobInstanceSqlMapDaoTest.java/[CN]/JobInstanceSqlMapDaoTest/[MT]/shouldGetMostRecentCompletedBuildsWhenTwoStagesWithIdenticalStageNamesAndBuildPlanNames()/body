@@ -1,0 +1,10 @@
+{
+  Pipeline otherPipeline=PipelineMother.passedPipelineInstance(PIPELINE_NAME + "2",STAGE_NAME,JOB_NAME);
+  dbHelper.savePipelineWithStagesAndMaterials(otherPipeline);
+  for (int i=0; i < 2; i++) {
+    Pipeline completedPipeline=PipelineMother.passedPipelineInstance(PIPELINE_NAME,STAGE_NAME,JOB_NAME);
+    dbHelper.savePipelineWithStagesAndMaterials(completedPipeline);
+  }
+  assertThat(jobInstanceDao.latestCompletedJobs(PIPELINE_NAME,STAGE_NAME,JOB_NAME,25).size(),is(2));
+  assertThat(jobInstanceDao.latestCompletedJobs(otherPipeline.getName(),STAGE_NAME,JOB_NAME,25).size(),is(1));
+}

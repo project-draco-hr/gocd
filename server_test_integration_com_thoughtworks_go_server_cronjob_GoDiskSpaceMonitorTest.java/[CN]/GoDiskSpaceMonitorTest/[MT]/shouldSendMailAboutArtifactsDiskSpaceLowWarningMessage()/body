@@ -1,0 +1,13 @@
+{
+  ArtifactsDiskIsLow low=new ArtifactsDiskIsLow();
+  low.onSetUp();
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(low.getLowLimit() + 1L);
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(systemEnvironment.getDbFolder())).thenReturn(1000 * MEGA_BYTE);
+  try {
+    goDiskSpaceMonitor.onTimer();
+    emailSender.assertHasMessageContaining("Low artifacts disk space warning message from Go Server");
+  }
+  finally {
+    low.onTearDown();
+  }
+}

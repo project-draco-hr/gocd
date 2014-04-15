@@ -1,0 +1,17 @@
+{
+  Pipeline expectedPipeline=saveAPipeline();
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  backupService.startBackup(admin,result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(result.message(localizer),is("Backup completed successfully."));
+  String location=tempFiles.createUniqueFolder("foo").getAbsolutePath();
+  Restore.execute(dbZip(),location,"cruise",false);
+  BasicDataSource source=constructTestDataSource(new File(location));
+  ResultSet resultSet=source.getConnection().prepareStatement("select * from pipelines where id = " + expectedPipeline.getId()).executeQuery();
+  int size=0;
+  while (resultSet.next()) {
+    assertThat(resultSet.getString("name"),is(expectedPipeline.getName()));
+    size++;
+  }
+  assertThat(size,is(1));
+}

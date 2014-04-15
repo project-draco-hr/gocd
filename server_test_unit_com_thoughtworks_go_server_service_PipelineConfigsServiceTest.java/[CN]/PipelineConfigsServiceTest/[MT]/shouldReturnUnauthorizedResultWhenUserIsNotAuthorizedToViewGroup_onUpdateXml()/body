@@ -1,0 +1,17 @@
+{
+  String groupName="some-secret-group";
+  Localizer localizer=mock(Localizer.class);
+  when(localizer.localize("UNAUTHORIZED_TO_EDIT_GROUP",groupName)).thenReturn("Unauthorized!");
+  Username invalidUser=new Username(new CaseInsensitiveString("invalidUser"));
+  when(securityService.isUserAdminOfGroup(invalidUser.getUsername(),groupName)).thenReturn(false);
+  when(goConfigService.configFileMd5()).thenReturn("md5");
+  GoConfigOperationalResponse<PipelineConfigs> actual=service.updateXml(groupName,"","md5",invalidUser,result);
+  PipelineConfigs configElement=actual.getConfigElement();
+  GoConfigValidity validity=actual.getValidity();
+  assertThat(configElement,is(nullValue()));
+  assertThat(result.httpCode(),is(401));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Unauthorized!"));
+  assertThat(validity.isValid(),is(true));
+  verify(securityService,times(1)).isUserAdminOfGroup(invalidUser.getUsername(),groupName);
+}

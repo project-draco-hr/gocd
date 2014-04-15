@@ -1,0 +1,9 @@
+{
+  PackageRepository repository=PackageRepositoryMother.create("repo1");
+  String existingPackageId=repository.getPackages().get(0).getId();
+  PackageDefinition pkg=PackageDefinitionMother.create("pkg");
+  repository.addPackage(pkg);
+  assertThat(repository.getPackages().size(),is(2));
+  assertThat(repository.getPackages().get(0).getId(),is(existingPackageId));
+  assertThat(repository.getPackages().get(1).getId(),is(pkg.getId()));
+}

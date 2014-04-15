@@ -1,0 +1,7 @@
+{
+  String pluginId=pluginConfiguration.getId();
+  AbstractMetaDataStore metadataStore=RepositoryMetadataStore.getInstance();
+  List<ConfigurationProperty> propertiesToBeUsedForDisplay=ConfigurationDisplayUtil.getConfigurationPropertiesToBeUsedForDisplay(metadataStore,pluginId,configuration);
+  String prefix=metadataStore.hasPlugin(pluginId) ? "" : "WARNING! Plugin missing for ";
+  return prefix + "Repository: " + configuration.forDisplay(propertiesToBeUsedForDisplay);
+}

@@ -1,0 +1,15 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git"),"f");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2_s1=u.saveConfigWith("p2","s1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2_s2=u.addStageToPipeline(p2_s1.config.name(),"s2");
+  ScheduleTestUtil.MaterialDeclaration p2_material=u.m(new DependencyMaterial(p2_s1.config.name(),new CaseInsensitiveString("s2")));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",p2_material,u.m(p1));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",u.m(new DependencyMaterial(p2_s1.config.name(),new CaseInsensitiveString("s1"))));
+  u.checkinInOrder(git,"g1");
+  String p1_1=u.runAndPass(p1,"g1");
+  String p2_s2_1=u.runAndPass(p2_s2,"g1");
+  MaterialRevisions given=u.mrs(u.mr(p1,true,p1_1),u.mr(p2_s2,true,p2_s2_1));
+  MaterialRevisions revisionsBasedOnDependencies=getRevisionsBasedOnDependencies(p3,goConfigFileDao.load(),given);
+  assertThat(revisionsBasedOnDependencies,is(given));
+}

@@ -1,0 +1,12 @@
+{
+  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)configuredMaterial;
+  if (!svnMaterialConfig.isCheckExternals()) {
+    return;
+  }
+  List<SvnExternal> urLs=svn(svnMaterialConfig).getAllExternalURLs();
+  for (  SvnExternal externalUrl : urLs) {
+    SvnMaterialConfig svnMaterial=new SvnMaterialConfig(externalUrl.getURL(),svnMaterialConfig.getUserName(),svnMaterialConfig.getPassword(),true,svnMaterialConfig.folderFor(externalUrl.getFolder()));
+    svnMaterial.setFilter(svnMaterialConfig.filter());
+    expandedMaterials.add(svnMaterial);
+  }
+}

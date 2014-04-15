@@ -1,0 +1,10 @@
+{
+  final File workingCopy=new File("xyz");
+  context.checking(new Expectations(){
+{
+      one(subversion).checkoutTo(outputStreamConsumer,workingCopy,revision);
+    }
+  }
+);
+  svnMaterial.updateTo(outputStreamConsumer,revision,workingCopy,new TestSubprocessExecutionContext());
+}

@@ -1,0 +1,11 @@
+{
+  if (pipelineHistoryGroups.isEmpty()) {
+    if (hasBuildCauseInBuffer || pipelineConfig.isFirstStageManualApproval()) {
+      createGroupForCurrentConfig(latest);
+    }
+    return;
+  }
+  if (hasPipelineConfigChanged()) {
+    createGroupForCurrentConfig(latest);
+  }
+}

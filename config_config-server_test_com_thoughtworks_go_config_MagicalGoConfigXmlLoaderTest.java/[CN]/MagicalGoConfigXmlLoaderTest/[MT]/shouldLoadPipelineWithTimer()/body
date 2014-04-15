@@ -1,0 +1,5 @@
+{
+  CruiseConfig config=ConfigMigrator.loadWithMigration(ConfigFileFixture.PIPELINE_WITH_TIMER).config;
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString("pipeline"));
+  assertThat(pipelineConfig.getTimer(),is(new TimerConfig("0 15 10 ? * MON-FRI",false)));
+}

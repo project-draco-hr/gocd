@@ -1,0 +1,11 @@
+{
+  List<Pipeline> completedPipelines=new ArrayList<Pipeline>();
+  mingleConfig.add(StageConfigMother.custom("new-stage","job-1"));
+  for (int i=0; i < 10; i++) {
+    Pipeline completed=dbHelper.schedulePipelineWithAllStages(mingleConfig,ModificationsMother.modifySomeFiles(mingleConfig));
+    dbHelper.pass(completed);
+    completedPipelines.add(completed);
+  }
+  List<Stage> stages=stageDao.findStageHistoryForChart(mingleConfig.name().toString(),mingleConfig.first().name().toString(),10,0);
+  assertStagesFound(stages,10,CaseInsensitiveString.str(mingleConfig.first().name()));
+}

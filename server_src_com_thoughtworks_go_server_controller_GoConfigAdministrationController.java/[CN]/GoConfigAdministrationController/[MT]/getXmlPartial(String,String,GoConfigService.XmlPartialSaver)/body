@@ -1,0 +1,20 @@
+{
+  if (!isTemplate(groupName) && !isCurrentUserAdminOfGroup(groupName)) {
+    return XmlAction.xmlUnAuthorized(errorMessageForGroup(groupName));
+  }
+  if (isTemplate(groupName) && !isCurrentUserAdmin()) {
+    return XmlAction.xmlUnAuthorized(errorMessageForTemplates());
+  }
+  String xml=null;
+  try {
+    xml=xmlPartialSaver.asXml();
+  }
+ catch (  Exception e) {
+    return XmlAction.xmlNotFound(e.getMessage());
+  }
+  String newMd5=xmlPartialSaver.getMd5();
+  if (oldMd5 != null && !oldMd5.equals(newMd5)) {
+    return XmlAction.xmlMd5Conflict(ConfigFileHasChangedException.CONFIG_CHANGED_PLEASE_REFRESH,newMd5);
+  }
+  return XmlAction.xmlFound(xml,newMd5);
+}

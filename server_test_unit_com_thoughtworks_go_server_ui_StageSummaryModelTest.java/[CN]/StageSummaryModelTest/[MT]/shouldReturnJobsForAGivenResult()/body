@@ -1,0 +1,17 @@
+{
+  JobInstance first=JobInstanceMother.completed("first",JobResult.Failed);
+  JobInstance second=JobInstanceMother.completed("bsecond",JobResult.Passed);
+  JobInstance third=JobInstanceMother.completed("athird",JobResult.Passed);
+  JobInstance fourth=JobInstanceMother.building("fourth");
+  JobInstance fifth=JobInstanceMother.completed("fifth",JobResult.Cancelled);
+  Stage stage=StageMother.custom("pipeline","stage",new JobInstances(first,second,third,fourth,fifth));
+  StageSummaryModel model=new StageSummaryModel(stage,new Stages(stage),JOB_DURATION_STRATEGY,null);
+  assertThat(model.passedJobs().size(),is(2));
+  assertThat(model.passedJobs().get(0).getName(),is(third.getName()));
+  assertThat(model.passedJobs().get(1).getName(),is(second.getName()));
+  assertThat(model.nonPassedJobs().size(),is(2));
+  assertThat(model.nonPassedJobs().get(0).getName(),is(fifth.getName()));
+  assertThat(model.nonPassedJobs().get(1).getName(),is(first.getName()));
+  assertThat(model.inProgressJobs().size(),is(1));
+  assertThat(model.inProgressJobs().get(0).getName(),is(fourth.getName()));
+}

@@ -1,0 +1,13 @@
+{
+  ClassMockery context=new ClassMockery();
+  final Stage stage=context.mock(Stage.class);
+  context.checking(new Expectations(){
+{
+      allowing(stage).stageState();
+      will(returnValue(StageState.Failing));
+    }
+  }
+);
+  StageCctrayPresentationModel presenter=new StageCctrayPresentationModel(null,stage);
+  assertThat(presenter.stageActivity(),is("Sleeping"));
+}

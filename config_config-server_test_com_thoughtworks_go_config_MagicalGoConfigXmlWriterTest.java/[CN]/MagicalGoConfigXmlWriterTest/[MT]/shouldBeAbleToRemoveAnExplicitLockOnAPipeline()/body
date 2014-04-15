@@ -1,0 +1,7 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline1");
+  config.setServerConfig(new ServerConfig("foo",new SecurityConfig()));
+  config.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).removeExplicitLocks();
+  xmlWriter.write(config,output,false);
+  assertThat(output.toString(),not(containsString("isLocked=")));
+}

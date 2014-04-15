@@ -1,0 +1,12 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  CruiseConfig config=new CruiseConfig();
+  EnvironmentConfig env=new EnvironmentConfig(new CaseInsensitiveString("foo"));
+  env.addPipeline(new CaseInsensitiveString("bar"));
+  env.addAgent("baz");
+  env.addEnvironmentVariable("quux","bang");
+  config.getEnvironments().add(env);
+  when(mockGoConfigService.getConfigForEditing()).thenReturn(config);
+  assertThat(environmentConfigService.forEdit("foo",result).getConfigElement(),is(env));
+  assertThat(result.isSuccessful(),is(true));
+}

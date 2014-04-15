@@ -1,0 +1,6 @@
+{
+  assertThat(Pagination.pageByNumber(1,100,1).getPages(),is(Arrays.asList(Pagination.currentPage(1),Pagination.page(2),Pagination.page(3),Pagination.PageNumber.DOTS,Pagination.page(100),Pagination.page(2,"next"))));
+  assertThat(Pagination.pageByNumber(2,100,1).getPages(),is(Arrays.asList(Pagination.page(1,"prev"),Pagination.page(1),Pagination.currentPage(2),Pagination.page(3),Pagination.page(4),Pagination.PageNumber.DOTS,Pagination.page(100),Pagination.page(3,"next"))));
+  assertThat(Pagination.pageByNumber(3,100,1).getPages(),is(Arrays.asList(Pagination.page(2,"prev"),Pagination.page(1),Pagination.page(2),Pagination.currentPage(3),Pagination.page(4),Pagination.page(5),Pagination.PageNumber.DOTS,Pagination.page(100),Pagination.page(4,"next"))));
+  assertThat(Pagination.pageByNumber(4,100,1).getPages(),is(Arrays.asList(Pagination.page(3,"prev"),Pagination.page(1),Pagination.page(2),Pagination.page(3),Pagination.currentPage(4),Pagination.page(5),Pagination.page(6),Pagination.PageNumber.DOTS,Pagination.page(100),Pagination.page(5,"next"))));
+}

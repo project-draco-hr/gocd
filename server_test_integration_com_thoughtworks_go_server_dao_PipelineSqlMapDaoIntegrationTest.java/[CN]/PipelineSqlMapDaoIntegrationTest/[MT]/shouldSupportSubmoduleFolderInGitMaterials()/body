@@ -1,0 +1,12 @@
+{
+  Materials materials=MaterialsMother.gitMaterials("gitUrl","submoduleFolder",null);
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(materials.convertToConfigs());
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(modifyOneFile(pipelineConfig),Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  save(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  Materials materialsFromDB=pipelineFromDB.getMaterials();
+  GitMaterial gitMaterial=(GitMaterial)materialsFromDB.get(0);
+  assertThat(gitMaterial.getSubmoduleFolder(),is("submoduleFolder"));
+}

@@ -1,0 +1,15 @@
+{
+  List<PipelineConfig> pipelineConfigs=cruiseConfig.allPipelines();
+  PipelineConfig dummyPipeline=new PipelineConfig();
+  for (  PipelineConfig pipelineConfig : pipelineConfigs) {
+    dummyPipeline.addMaterialConfig(new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.last().name()));
+  }
+  PipelineTemplateConfig pipelineTemplateConfig=cruiseConfig.getTemplates().templateByName(pipelineName);
+  for (  StageConfig stageConfig : pipelineTemplateConfig) {
+    if (stageName.equals(stageConfig.name())) {
+      break;
+    }
+    dummyPipeline.add(stageConfig);
+  }
+  return dummyPipeline;
+}

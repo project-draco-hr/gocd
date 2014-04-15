@@ -1,0 +1,5 @@
+{
+  request.getSession().setAttribute(SPRING_SECURITY_CONTEXT_KEY,securityContext);
+  view.exposeHelpers(velocityContext,request);
+  assertNull("Principal should be null",velocityContext.get(GoVelocityView.PRINCIPAL));
+}

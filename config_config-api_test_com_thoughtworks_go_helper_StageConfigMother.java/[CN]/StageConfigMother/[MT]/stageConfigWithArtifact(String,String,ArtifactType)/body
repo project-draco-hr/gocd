@@ -1,0 +1,7 @@
+{
+  ArtifactPlans artifactPlansWithTests=new ArtifactPlans();
+  artifactPlansWithTests.add(new ArtifactPlan(artifactType,"src","dest"));
+  JobConfig job1=new JobConfig(new CaseInsensitiveString(jobName),new Resources("abc"),artifactPlansWithTests);
+  StageConfig stage=new StageConfig(new CaseInsensitiveString(stageName),new JobConfigs(job1));
+  return stage;
+}

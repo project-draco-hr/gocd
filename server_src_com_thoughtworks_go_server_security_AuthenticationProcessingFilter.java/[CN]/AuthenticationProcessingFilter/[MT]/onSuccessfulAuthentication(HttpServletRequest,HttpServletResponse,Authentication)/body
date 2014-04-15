@@ -1,0 +1,10 @@
+{
+  super.onSuccessfulAuthentication(request,response,authResult);
+  long diff=goLicenseService.getExpirationDate().getTime() - timeProvider.currentTimeMillis();
+  int days=systemEnvironment.getLicenseExpiryWarningTime();
+  User user=user();
+  if (diff <= (days * millsInADay()) && !user.hasDisabledLicenseExpiryWarning()) {
+    long numberOfDaysToExpiry=diff / millsInADay();
+    request.getSession().setAttribute(LICENSE_EXPIRING_IN,numberOfDaysToExpiry);
+  }
+}

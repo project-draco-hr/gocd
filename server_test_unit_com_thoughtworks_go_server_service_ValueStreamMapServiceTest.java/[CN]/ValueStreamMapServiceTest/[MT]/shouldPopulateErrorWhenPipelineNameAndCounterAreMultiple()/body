@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("MYPIPELINE",new MaterialConfigs(new GitMaterialConfig("sampleGit")));
+  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(pipelineConfig));
+  when(pipelineService.findPipelineByCounterOrLabel("MYPIPELINE","1")).thenThrow(Exception.class);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("MYPIPELINE",1,user,result);
+  assertThat(graph,is(IsNull.nullValue()));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat((String)ReflectionUtil.getField(result.localizable(),"key"),is("VSM_INTERNAL_SERVER_ERROR"));
+}

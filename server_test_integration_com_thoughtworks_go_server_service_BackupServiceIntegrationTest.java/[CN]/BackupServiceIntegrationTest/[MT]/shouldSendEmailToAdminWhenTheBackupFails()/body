@@ -1,0 +1,23 @@
+{
+  GoConfigService configService=mock(GoConfigService.class);
+  when(configService.adminEmail()).thenReturn("mail@admin.com");
+  GoMailSender goMailSender=mock(GoMailSender.class);
+  when(configService.getMailSender()).thenReturn(goMailSender);
+  when(configService.isUserAdmin(admin)).thenReturn(true);
+  DateTime now=new DateTime();
+  TimeProvider timeProvider=mock(TimeProvider.class);
+  when(timeProvider.currentDateTime()).thenReturn(now);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Database databaseStrategyMock=mock(Database.class);
+  doThrow(new RuntimeException("Oh no!")).when(databaseStrategyMock).backup(any(File.class));
+  BackupService service=new BackupService(dataSource,artifactsDirHolder,configService,timeProvider,backupInfoRepository,systemEnvironment,serverVersion,configRepository,databaseStrategyMock);
+  service.initialize();
+  service.startBackup(admin,result);
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  String body=String.format("Backup of the Go server at '%s' has failed. The reason is: %s",ipAddress,"Oh no!");
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Failed to perform backup. Reason: Oh no!"));
+  verify(goMailSender).send(new SendEmailMessage("Server Backup Failed",body,"mail@admin.com"));
+  verifyNoMoreInteractions(goMailSender);
+  assertThat(FileUtils.listFiles(backupsDirectory,TrueFileFilter.TRUE,TrueFileFilter.TRUE).isEmpty(),is(true));
+}

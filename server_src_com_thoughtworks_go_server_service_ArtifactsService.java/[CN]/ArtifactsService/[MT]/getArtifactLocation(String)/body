@@ -1,0 +1,12 @@
+{
+  try {
+    File file=new File(artifactsDirHolder.getArtifactsDir(),path);
+    if (!FileUtil.isSubdirectoryOf(artifactsDirHolder.getArtifactsDir(),file)) {
+      throw new IllegalArtifactLocationException("Illegal artifact path " + path);
+    }
+    return file;
+  }
+ catch (  Exception e) {
+    throw new IllegalArtifactLocationException("Illegal artifact path " + path);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (configFileHelper != null) {
+    configFileHelper.onTearDown();
+  }
+  dbHelper.onTearDown();
+  pipelineFixture.onTearDown();
+  diskSpaceSimulator.onTearDown();
+  pipelineScheduleQueue.clear();
+  triggerMonitor.clear_for_test();
+  if (artifactsDir != null) {
+    FileUtil.deleteFolder(artifactsDir);
+  }
+}

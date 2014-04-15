@@ -1,0 +1,3 @@
+{
+  return getSqlMapClientTemplate().queryForList("pipelineIdsForCounters",arguments("counters",SqlUtil.joinWithQuotesForSql(counters.toArray())).and("name",pipelineName).asMap());
+}

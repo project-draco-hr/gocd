@@ -1,0 +1,4 @@
+{
+  assertThat(new JobInstanceModel(JobInstanceMother.cancelled("cruise"),JobDurationStrategy.ALWAYS_ZERO).hasAgentInfo(),is(false));
+  assertThat(new JobInstanceModel(JobInstanceMother.cancelled("cruise"),JobDurationStrategy.ALWAYS_ZERO,AgentInstanceMother.building()).hasAgentInfo(),is(true));
+}

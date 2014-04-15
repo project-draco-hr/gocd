@@ -1,0 +1,8 @@
+{
+synchronized (mutexForPipelineName(pipelineName)) {
+    if (buildCause.equals(toBeScheduled.get(pipelineName))) {
+      toBeScheduled.remove(pipelineName);
+    }
+    mostRecentScheduled.put(pipelineName,newCause);
+  }
+}

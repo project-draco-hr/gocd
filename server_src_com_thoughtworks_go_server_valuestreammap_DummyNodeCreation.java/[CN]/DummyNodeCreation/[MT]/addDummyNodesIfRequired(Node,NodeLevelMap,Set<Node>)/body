@@ -1,0 +1,16 @@
+{
+  if (visitedNodes.contains(node)) {
+    return;
+  }
+  visitedNodes.add(node);
+  for (int i=0; i < node.getChildren().size(); i++) {
+    Node currentChildNode=node.getChildren().get(i);
+    if (abs(currentChildNode.getLevel() - node.getLevel()) > 1) {
+      DummyNode dummyNode=insertDummyNode(node,currentChildNode,nodeLevelMap);
+      addDummyNodesIfRequired(dummyNode,nodeLevelMap,visitedNodes);
+    }
+ else {
+      addDummyNodesIfRequired(currentChildNode,nodeLevelMap,visitedNodes);
+    }
+  }
+}

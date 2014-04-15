@@ -1,0 +1,8 @@
+{
+  StageStatusListener stageStatusListener=mock(StageStatusListener.class);
+  JobStatusListener jobStatusListener=mock(JobStatusListener.class);
+  Pipeline pipeline=stubPipelineSaveForStatusListener(stageStatusListener,jobStatusListener);
+  service.save(pipeline);
+  verify(stageStatusListener).stageStatusChanged(any(Stage.class));
+  verify(jobStatusListener).jobStatusChanged(any(JobInstance.class));
+}

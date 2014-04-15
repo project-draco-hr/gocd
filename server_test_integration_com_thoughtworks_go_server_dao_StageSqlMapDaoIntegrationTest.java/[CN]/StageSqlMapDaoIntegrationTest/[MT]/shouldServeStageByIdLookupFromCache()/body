@@ -1,0 +1,12 @@
+{
+  Pipeline[] pipelines=pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig);
+  Stage stage=pipelines[1].getStages().get(0);
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForObject("getStageById",stage.getId())).thenReturn(stage);
+  assertThat(stageDao.stageById(stage.getId()),is(stage));
+  assertThat(stageDao.stageById(stage.getId()),is(not(sameInstance(stageDao.stageById(stage.getId())))));
+  stageDao.jobStatusChanged(stage.getFirstJob());
+  assertThat(stageDao.stageById(stage.getId()),is(stage));
+  verify(mockTemplate,times(2)).queryForObject("getStageById",stage.getId());
+}

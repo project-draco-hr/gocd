@@ -1,0 +1,8 @@
+{
+  SecurityConfig security=security(new LdapConfig(new GoCipher()),new PasswordFileConfig(),admins(user("chris")));
+  assertThat(security.isAdmin(new AdminUser(new CaseInsensitiveString("chris"))),is(true));
+  assertThat(security.isAdmin(new AdminUser(new CaseInsensitiveString("evilHacker"))),is(true));
+  security=security(null,pwordFile(),admins(user("chris")));
+  assertThat(security.isAdmin(new AdminUser(new CaseInsensitiveString("chris"))),is(true));
+  assertThat(security.isAdmin(new AdminUser(new CaseInsensitiveString("evilHacker"))),is(false));
+}

@@ -1,0 +1,11 @@
+{
+  String[] filters=filterCriteria.split(",");
+  Map<String,String> filterMap=new HashMap<String,String>();
+  for (  String filter : filters) {
+    String[] keyValue=filter.split(":");
+    if (keyValue.length == 2 && agentFiltersHas(keyValue[0].trim())) {
+      filterMap.put(keyValue[0].trim(),keyValue[1].trim());
+    }
+  }
+  return filterMap;
+}

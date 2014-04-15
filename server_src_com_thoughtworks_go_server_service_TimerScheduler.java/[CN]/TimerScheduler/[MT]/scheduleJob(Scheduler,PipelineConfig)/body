@@ -1,0 +1,18 @@
+{
+  TimerConfig timer=pipelineConfig.getTimer();
+  if (timer != null) {
+    try {
+      Trigger trigger=new CronTrigger(CaseInsensitiveString.str(pipelineConfig.name()),QUARTZ_GROUP,timer.getTimerSpec());
+      JobDetail jobDetail=new JobDetail(CaseInsensitiveString.str(pipelineConfig.name()),QUARTZ_GROUP,SchedulePipelineQuartzJob.class);
+      jobDetail.setJobDataMap(jobDataMapFor(pipelineConfig));
+      scheduler.scheduleJob(jobDetail,trigger);
+      LOG.info("Initialized timer for pipeline " + pipelineConfig.name() + " with "+ timer.getTimerSpec());
+    }
+ catch (    ParseException e) {
+      showPipelineError(pipelineConfig,e,"Bad timer specification for timer in Pipeline: " + pipelineConfig.name(),"Cannot schedule pipeline using the timer");
+    }
+catch (    SchedulerException e) {
+      showPipelineError(pipelineConfig,e,"Could not register pipeline '" + pipelineConfig.name() + "' with timer","");
+    }
+  }
+}

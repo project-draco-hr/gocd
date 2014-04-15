@@ -1,0 +1,9 @@
+{
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      materialRepository.save(pipeline1.getBuildCause().getMaterialRevisions());
+      pipelineDao.saveWithStages(pipeline1);
+    }
+  }
+);
+}

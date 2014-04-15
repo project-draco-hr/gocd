@@ -1,0 +1,11 @@
+{
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(new AgentIdentifier("remote-host","50.40.30.20","abc"),"cookie",null);
+  AgentInstance pending=AgentInstance.createFromLiveAgent(agentRuntimeInfo,new SystemEnvironment());
+  AgentConfig agentConfig=new AgentConfig("UUID2","remote-host","50.40.30.20");
+  agentConfig.disable();
+  AgentInstance fromConfigFile=AgentInstance.createFromConfig(agentConfig,new SystemEnvironment());
+  goConfigService.currentCruiseConfig().agents().add(agentConfig);
+  goConfigService.disableAgents(false,pending,fromConfigFile);
+  GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand(GoConfigFileDao.createAddAgentCommand(pending.agentConfig()),GoConfigFileDao.updateApprovalStatus("UUID2",false));
+  verify(goConfigFileDao).updateConfig(command);
+}

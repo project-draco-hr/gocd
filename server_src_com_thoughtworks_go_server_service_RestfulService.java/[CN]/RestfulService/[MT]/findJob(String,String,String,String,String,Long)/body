@@ -1,0 +1,17 @@
+{
+  JobConfigIdentifier jobConfig=goConfigService.translateToActualCase(new JobConfigIdentifier(pipelineName,stageName,buildName));
+  Pipeline pipeline=pipelineService.findPipelineByCounterOrLabel(jobConfig.getPipelineName(),counterOrLabel);
+  stageCounter=StringUtils.isEmpty(stageCounter) ? JobIdentifier.LATEST : stageCounter;
+  StageIdentifier stageIdentifier=translateStageCounter(pipeline.getIdentifier(),jobConfig.getStageName(),stageCounter);
+  JobIdentifier jobId;
+  if (buildId == null) {
+    jobId=jobResolverService.actualJobIdentifier(new JobIdentifier(stageIdentifier,jobConfig.getJobName()));
+  }
+ else {
+    jobId=new JobIdentifier(stageIdentifier,jobConfig.getJobName(),buildId);
+  }
+  if (jobId == null) {
+    throw new JobNotFoundException(pipelineName,stageName,buildName);
+  }
+  return jobId;
+}

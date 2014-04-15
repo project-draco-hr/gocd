@@ -1,0 +1,26 @@
+{
+  if (!goConfigService.hasPipelineNamed(new CaseInsensitiveString(pipelineName))) {
+    String msg=format("pipeline name %s is incorrect",pipelineName);
+    result.notFound(msg,msg,HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return false;
+  }
+  if (!securityService.hasOperatePermissionForPipeline(username.getUsername(),pipelineName)) {
+    String msg="user does not have operate permission on the pipeline";
+    result.unauthorized(msg,msg,HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return false;
+  }
+  if (!goConfigService.isLockable(pipelineName)) {
+    result.notAcceptable(format("no lock exists within the pipeline configuration for %s",pipelineName),HealthStateType.general(HealthStateScope.GLOBAL));
+    return false;
+  }
+  StageIdentifier stageIdentifier=pipelineLockService.lockedPipeline(pipelineName);
+  if (stageIdentifier == null) {
+    result.notAcceptable("lock exists within the pipeline configuration but no pipeline instance is currently in progress",HealthStateType.general(HealthStateScope.GLOBAL));
+    return false;
+  }
+  if (currentActivityService.isAnyStageActive(stageIdentifier.pipelineIdentifier())) {
+    result.notAcceptable("locked pipeline instance is currently running (one of the stages is in progress)",HealthStateType.general(HealthStateScope.GLOBAL));
+    return false;
+  }
+  return true;
+}

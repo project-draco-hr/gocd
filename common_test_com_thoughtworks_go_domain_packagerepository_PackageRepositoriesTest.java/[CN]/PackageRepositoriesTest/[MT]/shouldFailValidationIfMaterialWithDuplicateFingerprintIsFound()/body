@@ -1,0 +1,25 @@
+{
+  com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration packageConfiguration=new com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration();
+  packageConfiguration.add(new PackageMaterialProperty("k1"));
+  packageConfiguration.add(new PackageMaterialProperty("k2").with(PART_OF_IDENTITY,false));
+  PackageMetadataStore.getInstance().addMetadataFor("plugin",new PackageConfigurations(packageConfiguration));
+  String expectedErrorMessage="Cannot save package or repo, found duplicate packages. [Repo Name: 'repo-repo1', Package Name: 'pkg1'], [Repo Name: 'repo-repo1', Package Name: 'pkg3'], [Repo Name: 'repo-repo1', Package Name: 'pkg5']";
+  PackageRepository repository=PackageRepositoryMother.create("repo1");
+  PackageDefinition definition1=PackageDefinitionMother.create("1","pkg1",new Configuration(new ConfigurationProperty(new ConfigurationKey("k1"),new ConfigurationValue("v1"))),repository);
+  PackageDefinition definition2=PackageDefinitionMother.create("2","pkg2",new Configuration(new ConfigurationProperty(new ConfigurationKey("k1"),new ConfigurationValue("v2"))),repository);
+  PackageDefinition definition3=PackageDefinitionMother.create("3","pkg3",new Configuration(new ConfigurationProperty(new ConfigurationKey("k1"),new ConfigurationValue("v1"))),repository);
+  PackageDefinition definition4=PackageDefinitionMother.create("4","pkg4",new Configuration(new ConfigurationProperty(new ConfigurationKey("k1"),new ConfigurationValue("V1"))),repository);
+  PackageDefinition definition5=PackageDefinitionMother.create("5","pkg5",new Configuration(new ConfigurationProperty(new ConfigurationKey("k1"),new ConfigurationValue("v1")),new ConfigurationProperty(new ConfigurationKey("k2"),new ConfigurationValue("v2"))),repository);
+  repository.setPackages(new Packages(definition1,definition2,definition3,definition4,definition5));
+  PackageRepositories packageRepositories=new PackageRepositories(repository);
+  packageRepositories.validate(null);
+  assertThat(definition1.errors().getAllOn(PackageDefinition.ID),is(asList(expectedErrorMessage)));
+  assertThat(definition3.errors().getAllOn(PackageDefinition.ID),is(asList(expectedErrorMessage)));
+  assertThat(definition3.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER).equals(definition1.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER)),is(true));
+  assertThat(definition5.errors().getAllOn(PackageDefinition.ID),is(asList(expectedErrorMessage)));
+  assertThat(definition5.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER).equals(definition1.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER)),is(true));
+  assertThat(definition2.errors().getAllOn(PackageDefinition.ID),is(nullValue()));
+  assertThat(definition2.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER).equals(definition1.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER)),is(false));
+  assertThat(definition4.errors().getAllOn(PackageDefinition.ID),is(nullValue()));
+  assertThat(definition4.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER).equals(definition1.getFingerprint(AbstractMaterialConfig.FINGERPRINT_DELIMITER)),is(false));
+}

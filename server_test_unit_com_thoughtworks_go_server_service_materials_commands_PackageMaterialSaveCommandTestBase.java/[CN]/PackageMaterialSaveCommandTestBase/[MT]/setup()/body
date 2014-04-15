@@ -1,0 +1,10 @@
+{
+  initMocks(this);
+  cruiseConfig=GoConfigMother.configWithPackageRepo("repo1");
+  pipelineName="test";
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(pipelineName);
+  PackageDefinition packageDefinition=cruiseConfig.getPackageRepositories().get(0).getPackages().get(0);
+  pipelineConfig.materialConfigs().add(0,new PackageMaterialConfig(null,"repo1-pkg-1",packageDefinition));
+  pipelineGroup="grp1";
+  cruiseConfig.addPipeline(pipelineGroup,pipelineConfig);
+}

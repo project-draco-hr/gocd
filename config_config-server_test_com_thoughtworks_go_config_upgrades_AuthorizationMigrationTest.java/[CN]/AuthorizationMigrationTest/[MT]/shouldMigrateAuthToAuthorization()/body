@@ -1,0 +1,5 @@
+{
+  String newConfig=ConfigMigrator.migrate(CONFIG_WITH_AUTH).replace("\r\n","\n");
+  assertThat(newConfig,containsString(String.valueOf(GoConstants.CONFIG_SCHEMA_VERSION)));
+  assertThat(newConfig,containsString(NEW_AUTHORIZATION));
+}

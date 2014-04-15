@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.ONE_PIPELINE);
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  pipelineConfig.addEnvironmentVariable("name1","value1");
+  pipelineConfig.addEnvironmentVariable("name1","value1");
+  xmlWriter.write(cruiseConfig,output,true);
+  assertThat(cruiseConfig.errors().isEmpty(),is(true));
+}

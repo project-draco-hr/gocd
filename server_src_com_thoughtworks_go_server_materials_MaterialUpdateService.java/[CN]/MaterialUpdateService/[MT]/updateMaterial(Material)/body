@@ -1,0 +1,25 @@
+{
+  Date inProgressSince=inProgress.putIfAbsent(material,new Date());
+  if (inProgressSince == null || !material.isAutoUpdate()) {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(format("[Material Update] Updating material %s",material));
+    }
+    try {
+      long trackingId=mduPerformanceLogger.materialSentToUpdateQueue(material);
+      updateQueue.post(new MaterialUpdateMessage(material,trackingId));
+    }
+ catch (    RuntimeException e) {
+      inProgress.remove(material);
+      throw e;
+    }
+  }
+ else {
+    LOGGER.warn(format("[Material Update] Skipping update of material %s which has been in-progress since %s",material,inProgressSince));
+    long idleTime=getProcessManager().getIdleTimeFor(material.getFingerprint());
+    if (idleTime > getMaterialUpdateInActiveTimeoutInMillis()) {
+      HealthStateScope scope=HealthStateScope.forMaterialUpdate(material);
+      serverHealthService.removeByScope(scope);
+      serverHealthService.update(warning("Material update for " + material.getUriForDisplay() + " hung:","Material update is currently running but has not shown any activity in the last " + idleTime / 60000 + " minute(s). This may be hung. Details - " + material.getLongDescription(),general(scope)));
+    }
+  }
+}

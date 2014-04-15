@@ -1,0 +1,10 @@
+{
+  User foo=new User("foo",Arrays.asList("fOO","Foo"),"foo@cruise.com",false);
+  User bar=new User("bar",Arrays.asList("bAR","Bar"),"bar@go.com",true);
+  User quux=new User("quux",Arrays.asList("qUUX","Quux"),"quux@cruise.go",false);
+  when(userDao.allUsers()).thenReturn(new Users(Arrays.asList(foo,bar,quux)));
+  List<UserModel> models=userService.allUsersForDisplay(UserService.SortableColumn.USERNAME,UserService.SortDirection.DESC);
+  assertThat(models,is(Arrays.asList(model(quux),model(foo),model(bar))));
+  models=userService.allUsersForDisplay(UserService.SortableColumn.USERNAME,UserService.SortDirection.ASC);
+  assertThat(models,is(Arrays.asList(model(bar),model(foo),model(quux))));
+}

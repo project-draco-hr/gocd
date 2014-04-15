@@ -1,0 +1,8 @@
+{
+  String username="username";
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(userDao.deleteUser(username)).thenReturn(true);
+  userService.deleteUser(username,result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(result.hasMessage(),is(true));
+}

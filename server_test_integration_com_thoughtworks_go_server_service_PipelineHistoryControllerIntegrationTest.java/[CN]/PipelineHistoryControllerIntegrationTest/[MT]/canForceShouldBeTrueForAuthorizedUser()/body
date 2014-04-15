@@ -1,0 +1,7 @@
+{
+  configHelper.addSecurityWithAdminConfig();
+  fixture.configStageAsManualApprovalWithApprovedUsers(fixture.devStage,"userA");
+  login("userA","");
+  JsonMap jsonMap=requestPipelineHistoryPage();
+  assertThat(getItemInJson(jsonMap,"canForce"),is("true"));
+}

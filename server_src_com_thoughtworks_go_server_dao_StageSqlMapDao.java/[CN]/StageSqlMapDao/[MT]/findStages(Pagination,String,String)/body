@@ -1,0 +1,4 @@
+{
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("stageName",stageName).and("limit",pagination.getPageSize()).and("offset",pagination.getOffset()).asMap();
+  return (List<StageHistoryEntry>)getSqlMapClientTemplate().queryForList("findStageHistoryPage",args);
+}

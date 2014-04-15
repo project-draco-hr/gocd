@@ -1,0 +1,22 @@
+{
+  try {
+    File folderOne=TestFileUtil.createTempFolder("folder1");
+    FileUtils.writeStringToFile(new File(folderOne,"folder1-file1.txt"),"folder1-file1");
+    FileUtils.writeStringToFile(new File(folderOne,"folder1-file2.txt"),"folder1-file2");
+    File folderTwo=TestFileUtil.createTempFolder("folder2");
+    FileUtils.writeStringToFile(new File(folderTwo,"folder2-file1.txt"),"folder2-file1");
+    FileUtils.writeStringToFile(new File(folderTwo,"folder2-file2.txt"),"folder2-file2");
+    File targetZipFile=TestFileUtil.createTempFile("final2.zip");
+    ZipBuilder zipBuilder=zipUtil.zipContentsOfMultipleFolders(targetZipFile,false);
+    zipBuilder.add("folder-one",folderOne);
+    zipBuilder.add("folder-two",folderTwo);
+    zipBuilder.done();
+    assertContent(targetZipFile,"folder-one/folder1/folder1-file1.txt","folder1-file1");
+    assertContent(targetZipFile,"folder-one/folder1/folder1-file2.txt","folder1-file2");
+    assertContent(targetZipFile,"folder-two/folder2/folder2-file1.txt","folder2-file1");
+    assertContent(targetZipFile,"folder-two/folder2/folder2-file2.txt","folder2-file2");
+  }
+  finally {
+    TestFileUtil.cleanTempFiles();
+  }
+}

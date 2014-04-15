@@ -1,0 +1,7 @@
+{
+  Stage stageForBuild=stageService.getStageByBuild(job.getId());
+  stageForBuild.setJobInstances(new JobInstances(job));
+  Pipeline pipeline=pipelineDao.pipelineByBuildIdWithMods(job.getId());
+  pipeline.setStages(new Stages(stageForBuild));
+  return pipeline;
+}

@@ -1,0 +1,5 @@
+{
+  job=pipeline.getFirstStage().findJob(unitLinux);
+  producer.reportCompleting(AgentRuntimeInfo.fromAgent(new AgentIdentifier("localhost","127.0.0.1",job.getAgentUuid()),"cookie",null),job.getIdentifier(),JobResult.Failed);
+  producer.reportCurrentStatus(AgentRuntimeInfo.fromAgent(new AgentIdentifier("","",job.getAgentUuid()),"cookie",null),job.getIdentifier(),JobState.Completed);
+}

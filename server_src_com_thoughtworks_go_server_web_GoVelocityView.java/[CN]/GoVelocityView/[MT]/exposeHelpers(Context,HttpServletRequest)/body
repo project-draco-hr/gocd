@@ -1,0 +1,14 @@
+{
+  velocityContext.put(ADMINISTRATOR,true);
+  velocityContext.put(GROUP_ADMINISTRATOR,true);
+  velocityContext.put(TEMPLATE_ADMINISTRATOR,true);
+  velocityContext.put(VIEW_ADMINISTRATOR_RIGHTS,true);
+  velocityContext.put(USE_COMPRESS_JS,new SystemEnvironment().useCompressedJs());
+  SecurityContext securityContext=(SecurityContext)request.getSession().getAttribute(SPRING_SECURITY_CONTEXT_KEY);
+  if (securityContext == null || securityContext.getAuthentication() == null) {
+    return;
+  }
+  final Authentication authentication=securityContext.getAuthentication();
+  setPrincipal(velocityContext,authentication);
+  setAdmininstratorRole(velocityContext,authentication);
+}

@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=load();
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipeline));
+  pipelineConfig.addParam(new ParamConfig(paramName,paramValue));
+  writeConfigFile(cruiseConfig);
+}

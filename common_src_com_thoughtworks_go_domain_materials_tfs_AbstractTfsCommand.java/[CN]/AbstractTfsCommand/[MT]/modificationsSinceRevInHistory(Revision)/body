@@ -1,0 +1,19 @@
+{
+  Modification latest=latestInHistory().get(0);
+  long latestRev=Long.parseLong(latest.getRevision());
+  long sinceRev=Long.parseLong(revision.getRevision());
+  long numberOfModifications=latestRev - sinceRev;
+  List<Modification> newMods=new ArrayList<Modification>();
+  if (numberOfModifications > 0) {
+    List<Modification> history=history(latest.getRevision(),numberOfModifications);
+    for (    Modification listedMod : history) {
+      String listedRev=listedMod.getRevision();
+      long listedRevNumber=Long.parseLong(listedRev);
+      if (listedRevNumber <= sinceRev) {
+        break;
+      }
+      newMods.add(listedMod);
+    }
+  }
+  return newMods;
+}

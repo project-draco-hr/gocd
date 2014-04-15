@@ -1,0 +1,6 @@
+{
+  final CommandLine cl2=CommandLine.createCommandLine(EXEC_WITH_SPACES);
+  final String argWithMismatchedDblQuote="argMisMatch='singlequoted\"WithMismatchedDblQuote'";
+  cl2.withArg(argWithMismatchedDblQuote);
+  assertEquals("Did behavior of mismatched quotes change? Previously it would truncate args.",DBL_QUOTE + EXEC_WITH_SPACES + DBL_QUOTE+ " ",cl2.toString());
+}

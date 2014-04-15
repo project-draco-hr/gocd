@@ -1,0 +1,8 @@
+{
+  assumeArtifactsRoot(fakeRoot);
+  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  JobIdentifier oldId=new JobIdentifier("cruise",1,"1.1","dev","2","linux-firefox");
+  when(resolverService.actualJobIdentifier(oldId)).thenReturn(new JobIdentifier("cruise",2,"2.2","functional","3","windows-ie"));
+  String artifactUrl=artifactsService.findArtifactUrl(oldId);
+  assertThat(artifactUrl,is("/files/cruise/2/functional/3/windows-ie"));
+}

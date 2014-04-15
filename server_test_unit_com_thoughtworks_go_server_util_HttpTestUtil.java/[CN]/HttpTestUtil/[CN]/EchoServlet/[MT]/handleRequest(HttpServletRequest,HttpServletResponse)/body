@@ -1,0 +1,16 @@
+{
+  PrintWriter writer=resp.getWriter();
+  Request req=(Request)request;
+  writer.write(req.getScheme());
+  writer.write("://");
+  writer.write(req.getLocalName());
+  writer.write(":");
+  writer.write(String.valueOf(req.getLocalPort()));
+  writer.write(req.getContextPath());
+  writer.write(req.getPathInfo());
+  String query=req.getQueryString();
+  if (query != null) {
+    writer.write("?" + query);
+  }
+  writer.close();
+}

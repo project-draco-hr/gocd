@@ -1,0 +1,13 @@
+{
+  HealthStateType type=serverHealthState.getType();
+  if (serverHealthState.getLogLevel() == HealthStateLevel.OK) {
+    if (serverHealth.containsKey(type)) {
+      serverHealth.remove(type);
+    }
+    return null;
+  }
+ else {
+    serverHealth.put(type,serverHealthState);
+    return type;
+  }
+}

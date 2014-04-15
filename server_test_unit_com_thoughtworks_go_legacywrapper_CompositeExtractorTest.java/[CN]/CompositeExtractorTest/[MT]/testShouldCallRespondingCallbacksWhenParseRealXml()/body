@@ -1,0 +1,9 @@
+{
+  File logXml=DataUtils.getFailedBuildLbuildAsFile().getFile();
+  SAXParser parser=SAXParserFactory.newInstance().newSAXParser();
+  com.thoughtworks.go.legacywrapper.CompositeExtractor extractor=new com.thoughtworks.go.legacywrapper.CompositeExtractor(Arrays.asList(new SAXBasedExtractor[]{new ExtractorStub()}));
+  parser.parse(logXml,extractor);
+  Map result=new HashMap();
+  extractor.report(result);
+  assertTrue(((Boolean)result.get("allCallbackWereCalled")).booleanValue());
+}

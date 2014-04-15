@@ -1,0 +1,8 @@
+{
+  SlowResource resource=new SlowResource();
+  final ConsoleOutputTransmitter transmitter=new ConsoleOutputTransmitter(resource);
+  int numberToSend=4;
+  int actuallySent=transmitData(transmitter,numberToSend);
+  transmitter.stop();
+  assertThat("Send should not block.",numberToSend,lessThanOrEqualTo(actuallySent));
+}

@@ -1,0 +1,13 @@
+{
+  return new TypeSafeMatcher<File>(){
+    private File actual;
+    public boolean matchesSafely(    File file){
+      actual=file;
+      return file.exists();
+    }
+    public void describeTo(    Description description){
+      description.appendText("file exist: " + actual.getAbsolutePath());
+    }
+  }
+;
+}

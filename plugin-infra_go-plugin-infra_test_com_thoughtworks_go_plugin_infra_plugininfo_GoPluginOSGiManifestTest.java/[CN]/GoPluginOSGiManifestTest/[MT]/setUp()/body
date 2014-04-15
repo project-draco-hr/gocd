@@ -1,0 +1,9 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  bundleLocation=createPluginBundle("test-plugin-bundle");
+  manifestFile=new File(bundleLocation,"META-INF/MANIFEST.MF");
+  bundleDependencyDir=new File(bundleLocation,"lib");
+  goPluginOSGiManifestGenerator=new GoPluginOSGiManifest.DefaultGoPluginOSGiManifestCreator();
+}

@@ -1,0 +1,6 @@
+{
+  ReflectionUtil.setField(controller,AGENT_PLUGINS_CHECKSUM_FIELD,"default");
+  controller.checkAgentStatus(request,response);
+  assertEquals("default",response.getHeader(SystemEnvironment.AGENT_PLUGINS_ZIP_MD5_HEADER));
+  verify(systemEnvironment,never()).get(SystemEnvironment.ALL_PLUGINS_ZIP_PATH);
+}

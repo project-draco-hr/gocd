@@ -1,0 +1,12 @@
+{
+  WildcardScanner scanner=getArtifactSrc(rootPath);
+  File[] files=scanner.getFiles();
+  if (files.length == 0) {
+    String message="The rule [" + getSrc() + "] cannot match any resource under ["+ rootPath+ "]";
+    publisher.consumeLineWithPrefix(message);
+    throw new RuntimeException(message);
+  }
+  for (  File file : files) {
+    publishWithProperties(publisher,file,rootPath);
+  }
+}

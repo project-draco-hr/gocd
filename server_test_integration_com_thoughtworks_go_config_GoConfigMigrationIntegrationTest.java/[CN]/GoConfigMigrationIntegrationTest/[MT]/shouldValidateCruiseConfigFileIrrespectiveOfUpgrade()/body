@@ -1,0 +1,10 @@
+{
+  String configString=ConfigFileFixture.configWithEnvironments("<environments>" + "  <environment name='foo'>" + "<pipelines>"+ " <pipeline name='does_not_exist'/>"+ "</pipelines>"+ "</environment>"+ "</environments>");
+  try {
+    loadConfigFileWithContent(configString);
+    fail("Should not upgrade invalid config file");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Environment 'foo' refers to an unknown pipeline 'does_not_exist'"));
+  }
+}

@@ -1,0 +1,10 @@
+{
+  PackageRepositories packageRepositories=new PackageRepositories();
+  try {
+    packageRepositories.removePackageRepository("repo1");
+    fail();
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is(String.format("Could not find repository with id '%s'","repo1")));
+  }
+}

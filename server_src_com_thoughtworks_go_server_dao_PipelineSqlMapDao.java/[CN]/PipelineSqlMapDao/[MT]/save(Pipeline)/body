@@ -1,0 +1,18 @@
+{
+  return (Pipeline)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCommit(){
+          goCache.remove(cacheKeyForLatestPipelineIdByPipelineName(pipeline.getName()));
+          invalidateCacheConditionallyForPipelineInstancesTriggeredWithDependencyMaterial(pipeline);
+        }
+      }
+);
+      Long pipelineId=(Long)getSqlMapClientTemplate().insert("insertPipeline",pipeline);
+      savePipelineMaterialRevisions(pipeline,pipelineId);
+      environmentVariableDao.save(pipelineId,EnvironmentVariableSqlMapDao.EnvironmentVariableType.Trigger,pipeline.scheduleTimeVariables());
+      return pipeline;
+    }
+  }
+);
+}

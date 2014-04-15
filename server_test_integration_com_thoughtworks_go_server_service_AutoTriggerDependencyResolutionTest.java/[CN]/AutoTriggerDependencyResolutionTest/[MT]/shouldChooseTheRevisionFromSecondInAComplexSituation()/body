@@ -1,0 +1,24 @@
+{
+  HgMaterial hg=u.wf(new HgMaterial("hg",null),"folder1");
+  String[] hg_revs={"h1","h2"};
+  u.checkinInOrder(hg,hg_revs);
+  GitMaterial git=u.wf(new GitMaterial("git"),"folder2");
+  String[] git_revs={"g1","g2"};
+  u.checkinInOrder(git,git_revs);
+  ScheduleTestUtil.AddedPipeline first=u.saveConfigWith("first",u.m(hg));
+  ScheduleTestUtil.AddedPipeline second=u.saveConfigWith("second",u.m(git));
+  ScheduleTestUtil.AddedPipeline third=u.saveConfigWith("third",u.m(first),u.m(second));
+  ScheduleTestUtil.AddedPipeline last=u.saveConfigWith("last",u.m(hg),u.m(second),u.m(third));
+  String first_1=u.runAndPass(first,"h1");
+  String second_1=u.runAndPass(second,"g1");
+  String second_2=u.runAndPass(second,"g1");
+  String second_3=u.runAndPass(second,"g2");
+  String second_4=u.runAndPass(second,"g2");
+  String third_1=u.runAndPass(third,first_1,second_2);
+  String third_2=u.runAndPass(third,first_1,second_2);
+  String third_3=u.runAndPass(third,first_1,second_2);
+  MaterialRevisions given=u.mrs(u.mr(hg,true,hg_revs),u.mr(second,true,second_4),u.mr(third,true,third_3));
+  MaterialRevisions expected=u.mrs(u.mr(hg,true,"h1"),u.mr(second,true,second_2),u.mr(third,true,third_3));
+  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("last"));
+  assertThat(finalRevisions,is(expected));
+}

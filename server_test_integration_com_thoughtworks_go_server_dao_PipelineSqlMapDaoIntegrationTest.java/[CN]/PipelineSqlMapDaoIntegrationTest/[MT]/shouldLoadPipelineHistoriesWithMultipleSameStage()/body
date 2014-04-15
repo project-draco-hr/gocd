@@ -1,0 +1,14 @@
+{
+  String stageName="dev";
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle",stageName);
+  Pipeline mingle=schedulePipelineWithStages(mingleConfig);
+  Stage newInstance=rescheduleStage(stageName,mingleConfig,mingle);
+  PipelineInstanceModels pipelineHistories=pipelineDao.loadHistory(mingle.getName(),10,0);
+  assertThat(pipelineHistories.size(),is(1));
+  StageInstanceModels stageHistories=pipelineHistories.first().getStageHistory();
+  assertThat(stageHistories.size(),is(1));
+  StageInstanceModel history=stageHistories.first();
+  assertThat(history.getName(),is(stageName));
+  assertThat(history.getId(),is(newInstance.getId()));
+  assertThat(history.getBuildHistory().size(),is(2));
+}

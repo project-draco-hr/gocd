@@ -1,0 +1,14 @@
+{
+  Materials materials=new Materials();
+  materialExpansionService.expandForHistory(material,materials);
+  for (  Material expanded : materials) {
+    MaterialInstance expandedInstance=materialRepository.findMaterialInstance(expanded);
+    File expandedFolder=folderFor(expanded);
+    if (expandedInstance == null) {
+      addNewMaterialWithModifications(expandedFolder,expanded,updater(expanded));
+    }
+ else {
+      insertLatestOrNewModifications(expanded,expandedInstance,expandedFolder,updater(expanded));
+    }
+  }
+}

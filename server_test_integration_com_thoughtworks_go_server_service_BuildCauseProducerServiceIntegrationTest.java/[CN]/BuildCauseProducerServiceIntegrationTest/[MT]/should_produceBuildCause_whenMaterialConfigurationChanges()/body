@@ -1,0 +1,14 @@
+{
+  SvnMaterial svn1=SvnMaterial.createSvnMaterialWithMock(repository);
+  mingleConfig=configHelper.replaceMaterialForPipeline(MINGLE_PIPELINE_NAME,svn1.config());
+  runAndPassWith(svn1,"foo.c",svnRepository);
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(MINGLE_PIPELINE_NAME);
+  BuildCause mingleBuildCause=pipelineScheduleQueue.toBeScheduled().get(MINGLE_PIPELINE_NAME);
+  assertThat(mingleBuildCause,is(nullValue()));
+  svn1.setFolder("another_repo");
+  mingleConfig=configHelper.replaceMaterialForPipeline(MINGLE_PIPELINE_NAME,svn1.config());
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials(MINGLE_PIPELINE_NAME);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),hasItem(MINGLE_PIPELINE_NAME));
+  mingleBuildCause=pipelineScheduleQueue.toBeScheduled().get(MINGLE_PIPELINE_NAME);
+  verifyChanged(svn1,mingleBuildCause,false);
+}

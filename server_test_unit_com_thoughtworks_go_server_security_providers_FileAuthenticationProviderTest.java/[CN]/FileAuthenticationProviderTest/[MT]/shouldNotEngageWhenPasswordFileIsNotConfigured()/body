@@ -1,0 +1,5 @@
+{
+  FileAuthenticationProvider provider=new FileAuthenticationProvider(goConfigService,null,userService,securityService);
+  when(goConfigService.security()).thenReturn(new SecurityConfig(null,new PasswordFileConfig(),true));
+  assertThat(provider.supports(UsernamePasswordAuthenticationToken.class),is(false));
+}

@@ -1,0 +1,17 @@
+{
+  Agents configs=new Agents();
+  if (environments.isPipelineAssociatedWithAnyEnvironment(pipelineName)) {
+    EnvironmentConfig forPipeline=environments.findEnvironmentForPipeline(pipelineName);
+    for (    EnvironmentAgentConfig environmentAgentConfig : forPipeline.getAgents()) {
+      configs.add(goConfigService.agentByUuid(environmentAgentConfig.getUuid()));
+    }
+  }
+ else {
+    for (    AgentConfig agentConfig : goConfigService.agents()) {
+      if (!environments.isAgentUnderEnvironment(agentConfig.getUuid())) {
+        configs.add(agentConfig);
+      }
+    }
+  }
+  return configs;
+}

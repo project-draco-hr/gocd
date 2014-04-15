@@ -1,0 +1,12 @@
+{
+  Material material=mock(Material.class);
+  when(materialService.latestModification(material,file,null)).thenReturn(new ArrayList<Modification>());
+  when(material.toString()).thenReturn("material");
+  try {
+    checker.findLatestModification(file,material,null);
+    fail("Should have failed since the latest modification check failed");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Latest modifications check for the material 'material' returned an empty modification list. This might be because the material might be wrongly configured."));
+  }
+}

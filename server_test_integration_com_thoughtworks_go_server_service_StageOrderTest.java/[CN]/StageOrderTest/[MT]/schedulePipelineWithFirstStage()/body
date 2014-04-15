@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=preCondition.schedulePipeline();
+  pipelineDao.save(pipeline);
+  pipeline.getFirstStage().setOrderId(1000);
+  stageDao.saveWithJobs(pipeline,pipeline.getFirstStage());
+}

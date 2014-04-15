@@ -1,0 +1,10 @@
+{
+  assertThat(new ArtifactPlan(ArtifactType.file,"foo/bar","").effectiveDestinationPath(),is("bar"));
+  assertThat(new ArtifactPlan(ArtifactType.file,"foo/bar","blah/foo").effectiveDestinationPath(),is("blah/foo/bar"));
+  assertThat(new ArtifactPlan(ArtifactType.file,"foo/bar.xml","").effectiveDestinationPath(),is("bar.xml"));
+  assertThat(new ArtifactPlan(ArtifactType.file,"foo/bar/blah.xml","boo/baz").effectiveDestinationPath(),is("boo/baz/blah.xml"));
+  assertThat(new ArtifactPlan(ArtifactType.file,"foo/**/*blah.xml","boo/baz").effectiveDestinationPath(),is("boo/baz/*blah.xml"));
+  assertThat(new ArtifactPlan(ArtifactType.file,"foo/**/*.xml","boo/baz").effectiveDestinationPath(),is("boo/baz/*.xml"));
+  assertThat(new ArtifactPlan(ArtifactType.file,"foo/**/*","boo/baz").effectiveDestinationPath(),is("boo/baz/*"));
+  assertThat(new ArtifactPlan(ArtifactType.file,"foo/**/*","boo\\baz").effectiveDestinationPath(),is("boo/baz/*"));
+}

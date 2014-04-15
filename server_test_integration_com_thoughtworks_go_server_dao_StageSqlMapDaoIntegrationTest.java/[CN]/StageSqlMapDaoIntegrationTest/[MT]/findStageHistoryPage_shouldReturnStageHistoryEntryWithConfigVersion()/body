@@ -1,0 +1,13 @@
+{
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  Stage stage=StageMother.passedStageInstance("dev","java","pipeline-name");
+  stage.setApprovedBy("admin");
+  stage.setConfigVersion("md5-test");
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForObject(eq("getStageHistoryCount"),any())).thenReturn(20);
+  when(mockTemplate.queryForObject(eq("findOffsetForStage"),any())).thenReturn(10);
+  List<StageHistoryEntry> stageList=asList(new StageHistoryEntry(stage,1,10));
+  when(mockTemplate.queryForList(eq("findStageHistoryPage"),any())).thenReturn(stageList);
+  StageHistoryPage stageHistoryPage=stageDao.findStageHistoryPage(stage,10);
+  assertThat(stageHistoryPage.getStages().get(0).getConfigVersion(),is("md5-test"));
+}

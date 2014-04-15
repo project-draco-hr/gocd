@@ -1,0 +1,12 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  for (  MaterialConfig materialConfig : materialConfigs) {
+    MaterialInstance materialInstance=findMaterialInstance(materialConfig);
+    if (materialInstance != null) {
+      Modification modification=findLatestModification(materialInstance);
+      Material material=materialConfigConverter.toMaterial(materialConfig);
+      materialRevisions.addRevision(modification == null ? new MaterialRevision(material) : new MaterialRevision(material,modification));
+    }
+  }
+  return materialRevisions;
+}

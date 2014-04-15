@@ -1,0 +1,5 @@
+{
+  JobInstance scheduled=JobInstanceMother.scheduled("dev");
+  agentAssignment.jobStatusChanged(scheduled);
+  assertThat(agentAssignment.latestActiveJobOnAgent("uuid"),Is.is(nullValue()));
+}

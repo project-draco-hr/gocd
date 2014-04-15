@@ -1,0 +1,8 @@
+{
+  CommandSnippet maven=CommandSnippetMother.validSnippet("maven");
+  CommandSnippet copy=CommandSnippetMother.validSnippet("copy");
+  CommandSnippet scp=CommandSnippetMother.validSnippet("scp");
+  final List<CommandSnippet> snippets=asList(maven,copy,scp);
+  CommandSnippets actual=new CommandSnippets(snippets);
+  assertThat(actual,is(new CommandSnippets(Arrays.asList(copy,maven,scp))));
+}

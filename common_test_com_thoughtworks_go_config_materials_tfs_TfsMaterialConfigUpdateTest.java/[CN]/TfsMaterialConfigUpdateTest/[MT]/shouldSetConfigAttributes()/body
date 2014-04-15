@@ -1,0 +1,23 @@
+{
+  TfsMaterialConfig tfsMaterialConfig=new TfsMaterialConfig(new GoCipher(),new UrlArgument("http://10.4.4.101:8080/tfs/Sample"),"loser","some_domain","passwd","walk_this_path");
+  Map<String,String> map=new HashMap<String,String>();
+  map.put(ScmMaterialConfig.URL,"http://foo:8080/tfs/HelloWorld");
+  map.put(ScmMaterialConfig.USERNAME,"boozer");
+  map.put(ScmMaterialConfig.PASSWORD,"secret");
+  map.put(ScmMaterialConfig.FOLDER,"folder");
+  map.put(ScmMaterialConfig.AUTO_UPDATE,"0");
+  map.put(ScmMaterialConfig.FILTER,"/root,/**/*.help");
+  map.put(AbstractMaterialConfig.MATERIAL_NAME,"my-tfs-material-name");
+  map.put(TfsMaterialConfig.PROJECT_PATH,"/useless/project");
+  map.put(TfsMaterialConfig.DOMAIN,"CORPORATE");
+  tfsMaterialConfig.setConfigAttributes(map);
+  TfsMaterialConfig newTfsMaterialConfig=new TfsMaterialConfig(new GoCipher(),new UrlArgument("http://foo:8080/tfs/HelloWorld"),"boozer","CORPORATE","secret","/useless/project");
+  newTfsMaterialConfig.setName(new CaseInsensitiveString("my-tfs-material-name"));
+  newTfsMaterialConfig.setFolder("folder");
+  assertThat(tfsMaterialConfig,is(newTfsMaterialConfig));
+  assertThat(tfsMaterialConfig.getPassword(),is("passwd"));
+  assertThat(tfsMaterialConfig.isAutoUpdate(),is(false));
+  assertThat(tfsMaterialConfig.getDomain(),is("CORPORATE"));
+  assertThat(tfsMaterialConfig.getName(),is(new CaseInsensitiveString("my-tfs-material-name")));
+  assertThat(tfsMaterialConfig.filter(),is(new Filter(new IgnoredFiles("/root"),new IgnoredFiles("/**/*.help"))));
+}

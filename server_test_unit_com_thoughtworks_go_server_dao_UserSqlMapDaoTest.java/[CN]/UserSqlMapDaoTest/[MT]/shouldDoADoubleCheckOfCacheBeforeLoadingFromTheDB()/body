@@ -1,0 +1,11 @@
+{
+  GoCache cache=mock(GoCache.class);
+  UserSqlMapDao userSqlMapDaoSpy=spy(new UserSqlMapDao(sessionFactory,transactionTemplate,cache,transactionSynchronizationManager));
+  doReturn(mockHibernateTemplate).when(userSqlMapDaoSpy).hibernateTemplate();
+  doReturn(10).when(mockHibernateTemplate).execute(Matchers.<HibernateCallback<Object>>any());
+  Integer firstEnabledUserCount=userSqlMapDaoSpy.enabledUserCount();
+  assertThat(firstEnabledUserCount,is(10));
+  verify(mockHibernateTemplate,times(1)).execute(any(HibernateCallback.class));
+  verify(cache,times(2)).get(UserSqlMapDao.ENABLED_USER_COUNT_CACHE_KEY);
+  verify(cache,times(1)).put(UserSqlMapDao.ENABLED_USER_COUNT_CACHE_KEY,10);
+}

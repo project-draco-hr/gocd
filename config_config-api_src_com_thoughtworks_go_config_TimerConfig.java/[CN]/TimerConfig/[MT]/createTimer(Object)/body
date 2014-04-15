@@ -1,0 +1,9 @@
+{
+  Map timerConfigMap=(Map)attributes;
+  String timerSpec=(String)timerConfigMap.get(TIMER_SPEC);
+  if (timerSpec.isEmpty()) {
+    return null;
+  }
+  String onlyOnChanges=(String)timerConfigMap.get(TIMER_ONLY_ON_CHANGES);
+  return new TimerConfig(timerSpec,"1".equals(onlyOnChanges));
+}

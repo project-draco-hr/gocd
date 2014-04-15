@@ -1,0 +1,5 @@
+{
+  Pipeline scheduledPipeline=schedulePipeline(pipeline);
+  dbHelper.saveBuildingStage(scheduledPipeline.getFirstStage());
+  return pipelineDao.mostRecentPipeline(CaseInsensitiveString.str(pipeline.name()));
+}

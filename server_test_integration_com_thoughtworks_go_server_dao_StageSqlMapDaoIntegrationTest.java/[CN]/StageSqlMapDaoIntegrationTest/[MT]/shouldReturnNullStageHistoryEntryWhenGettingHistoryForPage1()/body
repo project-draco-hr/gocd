@@ -1,0 +1,20 @@
+{
+  HgMaterial hg=new HgMaterial("url",null);
+  String[] hg_revs={"h1"};
+  scheduleUtil.checkinInOrder(hg,hg_revs);
+  String pipelineName="p1";
+  String stageName="stage_name";
+  ScheduleTestUtil.AddedPipeline p1=scheduleUtil.saveConfigWith(pipelineName,stageName,scheduleUtil.m(hg));
+  for (int i=0; i < 10; i++) {
+    scheduleUtil.runAndPass(p1,"h1");
+  }
+  StageHistoryPage historyPage=stageDao.findStageHistoryPage(pipelineName,stageName,new FuncVarArg<Pagination,Object>(){
+    @Override public Pagination call(    Object... args){
+      return Pagination.pageByNumber(1,1,10);
+    }
+  }
+);
+  StageHistoryEntry topOfSecondPage=historyPage.getStages().get(0);
+  StageHistoryEntry bottomOfFirstPage=stageDao.findImmediateChronologicallyForwardStageHistoryEntry(topOfSecondPage);
+  assertThat(bottomOfFirstPage,is(Matchers.nullValue()));
+}

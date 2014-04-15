@@ -1,0 +1,15 @@
+{
+  Map<String,TreeSet<PipelineInstanceModel>> pipelineInstanceModelses=new LinkedHashMap<String,TreeSet<PipelineInstanceModel>>();
+  for (  PipelineInstanceModel dependency : dependencies) {
+    if (!pipelineInstanceModelses.containsKey(dependency.getName())) {
+      pipelineInstanceModelses.put(dependency.getName(),new TreeSet<PipelineInstanceModel>(new Comparator<PipelineInstanceModel>(){
+        public int compare(        PipelineInstanceModel me,        PipelineInstanceModel her){
+          return her.getCounter().compareTo(me.getCounter());
+        }
+      }
+));
+    }
+    pipelineInstanceModelses.get(dependency.getName()).add(dependency);
+  }
+  return pipelineInstanceModelses;
+}

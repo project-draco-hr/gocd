@@ -1,0 +1,25 @@
+{
+  CcTrayStatus status=new CcTrayStatus(materialRepo,stageDao);
+  String stageName="dev";
+  String pipelineName="cruise";
+  JobInstance job=failedJob(pipelineName,DEFAULT_LAST_BUILD_LABEL,stageName,"linux-firefox");
+  Stage stage=new Stage(stageName,new JobInstances(job),"me","manual",false,false,new TimeProvider());
+  stage.setIdentifier(new StageIdentifier(pipelineName,1,DEFAULT_LAST_BUILD_LABEL,stageName,"1"));
+  stage.calculateResult();
+  stage.setPipelineId(12l);
+  Modification losersCommit=ModificationsMother.checkinWithComment("123","comment 1","loser","loser@boozer.com",new Date(),"foo.c");
+  Modification boozersCommit=ModificationsMother.checkinWithComment("124","comment 2","boozer","boozer@loser.com",new Date(),"bar.c");
+  MaterialRevision changedRevision=new MaterialRevision(MaterialsMother.gitMaterial("foo.com"),losersCommit,boozersCommit);
+  changedRevision.markAsChanged();
+  Modification barsCommit=ModificationsMother.checkinWithComment("125","comment 1","bar","bar@loser.com",new Date(),"bar.c");
+  MaterialRevision unchangedRevision=new MaterialRevision(MaterialsMother.gitMaterial("bar.com"),barsCommit);
+  MaterialRevisions revisions=new MaterialRevisions(changedRevision,unchangedRevision);
+  when(materialRepo.findMaterialRevisionsForPipeline(12l)).thenReturn(revisions);
+  status.stageStatusChanged(stage);
+  assertThat(status.projects().size(),is(2));
+  HashSet<String> breakers=new HashSet<String>();
+  breakers.add("loser");
+  breakers.add("boozer");
+  assertThat(status.projects(),hasItem(new ProjectStatus("cruise :: dev :: linux-firefox","Sleeping","Failure",DEFAULT_LAST_BUILD_LABEL,job.getCompletedDate(),job.getIdentifier().webUrl(),breakers)));
+  assertThat(status.projects(),hasItem(new ProjectStatus("cruise :: dev","Sleeping","Failure",DEFAULT_LAST_BUILD_LABEL,job.getCompletedDate(),stage.getIdentifier().webUrl(),breakers)));
+}

@@ -1,0 +1,8 @@
+{
+  HtmlRenderer renderer=new HtmlRenderer("context");
+  DirectoryEntries directoryEntries=new DirectoryEntries();
+  directoryEntries.render(renderer);
+  Element document=getRenderedDocument(renderer);
+  assertThat(document.getChildren().size(),is(1));
+  assertThat(document.getChild("p").getTextNormalize(),Matchers.containsString("Artifacts for this job instance are unavailable as they may have been or deleted externally. Re-run the stage or job to generate them again."));
+}

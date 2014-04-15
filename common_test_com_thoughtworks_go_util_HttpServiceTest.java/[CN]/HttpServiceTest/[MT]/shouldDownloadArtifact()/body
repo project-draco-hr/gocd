@@ -1,0 +1,11 @@
+{
+  String url="http://blah";
+  FetchHandler fetchHandler=mock(FetchHandler.class);
+  GetMethod mockGetMethod=mock(GetMethod.class);
+  when(mockGetMethod.getStatusCode()).thenReturn(HttpServletResponse.SC_OK);
+  when(mockGetMethod.getResponseBodyAsStream()).thenReturn(null);
+  when(httpClientFactory.createGet(url)).thenReturn(mockGetMethod);
+  service.download(url,fetchHandler);
+  verify(httpClient).executeMethod(mockGetMethod);
+  verify(fetchHandler).handle(null);
+}

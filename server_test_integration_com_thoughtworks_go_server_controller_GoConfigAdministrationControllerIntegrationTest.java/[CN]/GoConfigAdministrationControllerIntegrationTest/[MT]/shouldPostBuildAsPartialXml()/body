@@ -1,0 +1,10 @@
+{
+  configHelper.addPipeline("pipeline","stage","build1","build2");
+  String newXml="<job name=\"build3\" />";
+  String md5=goConfigFileDao.md5OfConfigFile();
+  ModelAndView mav=controller.postBuildAsXmlPartial("pipeline","stage",0,newXml,md5,response);
+  assertThat(response.getStatus(),is(SC_OK));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  Json json=(Json)mav.getModel().get("json");
+  new JsonTester(json).shouldContain("{ 'result' : 'JobConfig changed successfully.' }");
+}

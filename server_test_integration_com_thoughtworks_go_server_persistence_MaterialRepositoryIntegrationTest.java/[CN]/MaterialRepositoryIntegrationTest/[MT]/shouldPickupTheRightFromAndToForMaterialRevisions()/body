@@ -1,0 +1,12 @@
+{
+  HgMaterial material=new HgMaterial("sdg",null);
+  MaterialRevision firstRevision=new MaterialRevision(material,new Modifications(modification("6")));
+  saveMaterialRev(firstRevision);
+  final MaterialRevision secondRevision=new MaterialRevision(material,new Modifications(modification("10"),modification("12"),modification("13")));
+  saveMaterialRev(secondRevision);
+  final Pipeline pipeline=createPipeline();
+  savePMR(secondRevision,pipeline);
+  List<Modification> modificationsSince=repo.findModificationsSince(material,firstRevision);
+  assertThat(modificationsSince.get(0).getRevision(),is("10"));
+  assertThat(modificationsSince.get(modificationsSince.size() - 1).getRevision(),is("13"));
+}

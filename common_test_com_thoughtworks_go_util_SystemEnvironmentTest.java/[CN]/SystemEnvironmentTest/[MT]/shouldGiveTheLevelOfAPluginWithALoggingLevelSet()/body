@@ -1,0 +1,11 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  System.setProperty("plugin.some-plugin-3.log.level","DEBUG");
+  System.setProperty("plugin.some-plugin-4.log.level","INFO");
+  System.setProperty("plugin.some-plugin-5.log.level","WARN");
+  System.setProperty("plugin.some-plugin-6.log.level","ERROR");
+  assertThat(systemEnvironment.pluginLoggingLevel("some-plugin-3"),is(Level.DEBUG));
+  assertThat(systemEnvironment.pluginLoggingLevel("some-plugin-4"),is(Level.INFO));
+  assertThat(systemEnvironment.pluginLoggingLevel("some-plugin-5"),is(Level.WARN));
+  assertThat(systemEnvironment.pluginLoggingLevel("some-plugin-6"),is(Level.ERROR));
+}

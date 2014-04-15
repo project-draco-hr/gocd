@@ -1,0 +1,16 @@
+{
+  TestFailureSetup.SavedStage savedStageFirst=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new Date());
+  TestFailureSetup.SavedStage savedStageSecond=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new Date());
+  TestFailureSetup.SavedStage savedStageThird=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new Date());
+  Graph graph=importer.load(savedStageSecond.stageId,graphFactory,new XSLTTransformerRegistry());
+  Pipeline pipelineSecond=savedStageSecond.pipeline;
+  assertTrue(graph.containsResourceWithURI(PipelineXmlViewModel.httpUrlForPipeline(baseUrl,pipelineSecond.getId(),pipelineSecond.getName())));
+  Pipeline pipelineFirst=savedStageFirst.pipeline;
+  assertFalse(graph.containsResourceWithURI(PipelineXmlViewModel.httpUrlForPipeline(baseUrl,pipelineFirst.getId(),pipelineFirst.getName())));
+  Pipeline pipelineThird=savedStageThird.pipeline;
+  assertFalse(graph.containsResourceWithURI(PipelineXmlViewModel.httpUrlForPipeline(baseUrl,pipelineThird.getId(),pipelineThird.getName())));
+  String askForPreviousPointer="" + "PREFIX cruise: <" + GoOntology.URI + "> "+ "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE {"+ "  [] cruise:previousPipeline [] . "+ "}";
+  assertAskIsFalse(graph,askForPreviousPointer);
+  String askForNextPointer="" + "PREFIX cruise: <" + GoOntology.URI + "> "+ "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE {"+ "  [] cruise:nextPipeline [] . "+ "}";
+  assertAskIsFalse(graph,askForNextPointer);
+}

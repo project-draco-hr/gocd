@@ -1,0 +1,8 @@
+{
+  if (files.contains(file.getName())) {
+    assertThat(FileUtils.readFileToString(file),is(fileContents));
+  }
+  if (excludeFiles.contains(file.getName())) {
+    fail(String.format("Excluded file [%s] found in directory",file.getName()));
+  }
+}

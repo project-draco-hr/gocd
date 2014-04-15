@@ -1,0 +1,7 @@
+{
+  if (loadCalled == 0) {
+    throw new RuntimeException("Load callback has not been called for this plugin");
+  }
+  System.out.println("Got the descriptor: " + descriptor);
+  System.setProperty("testplugin.descriptorValidator.setPluginDescriptor.invoked",descriptor.toString());
+}

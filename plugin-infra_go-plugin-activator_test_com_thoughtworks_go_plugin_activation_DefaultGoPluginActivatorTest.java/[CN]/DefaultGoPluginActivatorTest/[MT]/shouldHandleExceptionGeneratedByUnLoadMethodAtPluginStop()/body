@@ -1,0 +1,9 @@
+{
+  setupClassesInBundle("GoExtensionWithUnloadAnnotationMethodThrowingException.class");
+  when(bundle.loadClass(contains("GoExtensionWithUnloadAnnotationMethodThrowingException"))).thenReturn((Class)GoExtensionWithUnloadAnnotationMethodThrowingException.class);
+  activator.start(context);
+  assertThat(activator.hasErrors(),is(false));
+  activator.stop(context);
+  assertThat(activator.hasErrors(),is(true));
+  verifyErrorsReported("Invocation of unload method [public int com.thoughtworks.go.plugin.activation.GoExtensionWithUnloadAnnotationMethodThrowingException" + ".throwExceptionAgain(com.thoughtworks.go.plugin.api.info.PluginContext) " + "throws java.io.IOException]. "+ "Reason: java.io.IOException: Unload Dummy Checked Exception.");
+}

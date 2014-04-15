@@ -1,0 +1,8 @@
+{
+  JsonMap json=new JsonMap();
+  git.toJson(json,new StringRevision("123"));
+  JsonValue jsonValue=JsonUtils.from(json);
+  assertThat(jsonValue.getString("scmType"),is("Git"));
+  assertThat(new File(jsonValue.getString("location")),is(new File(git.getUrl())));
+  assertThat(jsonValue.getString("action"),is("Modified"));
+}

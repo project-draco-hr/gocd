@@ -1,0 +1,13 @@
+{
+  configHelper.addPipeline("cruise","dev",repository);
+  goConfigService.forceNotifyListeners();
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials("mingle","evolve","cruise");
+  configHelper.replaceMaterialForPipeline("cruise",svnMaterialConfig("http://new-material",null));
+  goConfigService.forceNotifyListeners();
+  try {
+    scheduleService.autoSchedulePipelinesFromRequestBuffer();
+  }
+ catch (  Exception e) {
+    fail("#2520 - should not cause an error if materials have changed");
+  }
+}

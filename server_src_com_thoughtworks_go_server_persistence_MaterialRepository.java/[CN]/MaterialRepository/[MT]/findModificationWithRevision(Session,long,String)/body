@@ -1,0 +1,18 @@
+{
+  Modification modification;
+  String key=cacheKeyForModificationWithRevision(materialId,revision);
+  modification=(Modification)goCache.get(key);
+  if (modification == null) {
+synchronized (key) {
+      modification=(Modification)goCache.get(key);
+      if (modification == null) {
+        Query query=session.createQuery("FROM Modification WHERE materialId = ? and revision = ? ORDER BY id DESC");
+        query.setLong(0,materialId);
+        query.setString(1,revision);
+        modification=(Modification)query.uniqueResult();
+        goCache.put(key,modification);
+      }
+    }
+  }
+  return modification;
+}

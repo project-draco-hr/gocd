@@ -1,0 +1,10 @@
+{
+  BundleContext installedBundledContext=bundleContext(installBundleWithClasses(ClassThatExtendsTestExtensionPoint.class,ClassThatExtendsTestExtensionPoint.ClassThatExtendsTwoGoExtensionPoint.class,TestGoPluginExtensionPoint.class));
+  ServiceReference<?>[] references=installedBundledContext.getServiceReferences(TestGoPluginExtensionPoint.class.getName(),null);
+  assertEquals(1,references.length);
+  Object testExtensionImplementation=getImplementationOfType(installedBundledContext,references,ClassThatExtendsTestExtensionPoint.ClassThatExtendsTwoGoExtensionPoint.class);
+  references=installedBundledContext.getServiceReferences(PluginDescriptorAware.class.getName(),null);
+  assertEquals(1,references.length);
+  Object descriptorAwareImplementation=getImplementationOfType(installedBundledContext,references,ClassThatExtendsTestExtensionPoint.ClassThatExtendsTwoGoExtensionPoint.class);
+  assertSame(testExtensionImplementation,descriptorAwareImplementation);
+}

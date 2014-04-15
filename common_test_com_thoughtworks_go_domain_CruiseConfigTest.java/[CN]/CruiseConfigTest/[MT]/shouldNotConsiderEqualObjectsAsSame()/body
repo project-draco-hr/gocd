@@ -1,0 +1,9 @@
+{
+  MyValidatable foo=new AlwaysEqualMyValidatable();
+  MyValidatable bar=new AlwaysEqualMyValidatable();
+  foo.innerValidatable=bar;
+  GoConfigGraphWalker.Handler handler=mock(GoConfigGraphWalker.Handler.class);
+  new GoConfigGraphWalker(foo).walk(handler);
+  verify(handler).handle(same(foo),any(ValidationContext.class));
+  verify(handler).handle(same(bar),any(ValidationContext.class));
+}

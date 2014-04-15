@@ -1,0 +1,5 @@
+{
+  File nonExistentDirectory=new File("dirDoesNotExist");
+  walker.getAllCommandSnippets(nonExistentDirectory.getPath());
+  verify(serverHealthService).update(serverHealthWarningMessageWhichContains("Failed to access command repository located in Go Server Directory at " + nonExistentDirectory.getPath() + ". The directory does not exist or Go does not have sufficient permissions to access it."));
+}

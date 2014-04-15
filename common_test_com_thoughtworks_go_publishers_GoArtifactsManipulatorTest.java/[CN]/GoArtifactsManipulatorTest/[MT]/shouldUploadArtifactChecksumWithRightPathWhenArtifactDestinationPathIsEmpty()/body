@@ -1,0 +1,9 @@
+{
+  String data="Some text whose checksum can be asserted";
+  final String md5=CachedDigestUtils.md5Hex(data);
+  FileUtils.writeStringToFile(tempFile,data);
+  Properties properties=new Properties();
+  properties.setProperty("file.txt",md5);
+  when(httpService.upload(any(String.class),eq(tempFile.length()),any(File.class),eq(properties))).thenReturn(HttpServletResponse.SC_OK);
+  goArtifactsManipulatorStub.publish(goPublisher,"",tempFile,jobIdentifier);
+}

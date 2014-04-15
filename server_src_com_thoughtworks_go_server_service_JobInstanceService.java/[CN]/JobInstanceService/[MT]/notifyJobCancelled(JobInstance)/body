@@ -1,0 +1,10 @@
+{
+  if (instance.isAssignedToAgent()) {
+    transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+      @Override public void afterCommit(){
+        jobResultTopic.post(new JobResultMessage(instance.getIdentifier(),instance.getResult(),instance.getAgentUuid()));
+      }
+    }
+);
+  }
+}

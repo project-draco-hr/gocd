@@ -1,0 +1,7 @@
+{
+  IgnoredFiles ignore=new IgnoredFiles("Test/**/*.*");
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"Test" + separator + "foo.txt"),is(true));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"Test" + separator + "subdir"+ separator+ "foo.txt"),is(true));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"Test" + separator + "subdir"+ separator+ "subdir"+ separator+ "foo.txt"),is(true));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"Test" + separator + "subdir"+ separator+ "subdir"+ separator+ "foo"),is(false));
+}

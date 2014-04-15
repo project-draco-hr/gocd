@@ -1,0 +1,13 @@
+{
+  String oldConfigWithNameInTask="<cruise schemaVersion='70'> <pipelines>" + "<pipeline name='pipeline1'>" + "    <materials>"+ "      <svn url='svnurl' username='admin' password='%s'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'><tasks>"+ "        <task name='run-curl'>"+ "          <pluginConfiguration id='plugin-id' version='1.0' />"+ "          <configuration>"+ "            <property><key>url</key><value>http://fake-yum-repo</value></property>"+ "            <property><key>username</key><value>godev</value></property>"+ "            <property><key>password</key><value>password</value></property>"+ "          </configuration>"+ "      </task> </tasks>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline></pipelines>"+ "</cruise>";
+  String newConfigWithoutNameInTask=migrateXmlString(oldConfigWithNameInTask,70);
+  assertThat(newConfigWithoutNameInTask,not(containsString("<task name")));
+  assertThat(newConfigWithoutNameInTask,containsString("<task>"));
+  CruiseConfig cruiseConfig=loadConfigFileWithContent(newConfigWithoutNameInTask);
+  PipelineConfig pipelineConfig=cruiseConfig.getAllPipelineConfigs().get(0);
+  JobConfig jobConfig=pipelineConfig.getFirstStageConfig().getJobs().get(0);
+  Configuration configuration=new Configuration(create("url",false,"http://fake-yum-repo"),create("username",false,"godev"),create("password",false,"password"));
+  Tasks tasks=jobConfig.getTasks();
+  assertThat(tasks.size(),is(1));
+  assertThat((PluggableTask)tasks.get(0),is(new PluggableTask(null,new PluginConfiguration("plugin-id","1.0"),configuration)));
+}

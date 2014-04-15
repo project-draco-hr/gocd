@@ -1,0 +1,13 @@
+{
+  PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfig("mingle","build","unit","functional");
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("mingle","build","unit");
+  Stage firstStage=pipeline.getFirstStage();
+  Stage expectedStageToBeCreated=firstStage.createClone();
+  stub(mingleConfig,pipeline,firstStage);
+  stubConfigMd5Cal("latest-md5");
+  when(instanceFactory.createStageForRerunOfJobs(eq(firstStage),eq(a("unit")),Matchers.<SchedulingContext>any(),eq(mingleConfig.first()),eq(timeProvider),eq("latest-md5"))).thenReturn(expectedStageToBeCreated);
+  Stage stage=service.rerunJobs(firstStage,a("unit"),new HttpOperationResult());
+  assertThat(stage,is(not(nullValue())));
+  verify(stageService).save(pipeline,stage);
+  verify(lockService).lockIfNeeded(pipeline);
+}

@@ -1,0 +1,11 @@
+{
+  configHelper.removePipeline(pipelineTwo.pipelineName);
+  Pipeline pipeline=pipelineOne.createdPipelineWithAllStagesPassed();
+  String groupName=configHelper.currentConfig().getGroups().findGroupNameByPipeline(new CaseInsensitiveString(pipeline.getName()));
+  configHelper.setViewPermissionForGroup(groupName,"admin");
+  PipelineInstanceModels pipelines=pipelineHistoryService.latestInstancesForConfiguredPipelines(new Username(new CaseInsensitiveString("foo")));
+  assertThat(pipelines.size(),is(0));
+  pipelines=pipelineHistoryService.latestInstancesForConfiguredPipelines(new Username(new CaseInsensitiveString("admin")));
+  assertThat(pipelines.size(),is(1));
+  assertThat(pipelines.first().getId(),is(pipeline.getId()));
+}

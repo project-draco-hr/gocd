@@ -1,0 +1,9 @@
+{
+  when(configService.hasPipelineNamed(new CaseInsensitiveString("pipeline"))).thenReturn(true);
+  when(configService.findMaterial(new CaseInsensitiveString("pipeline"),"invalid-material")).thenReturn(null);
+  HttpOperationResult result=new HttpOperationResult();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  scheduler.manualProduceBuildCauseAndSave("pipeline",Username.ANONYMOUS,new ScheduleOptions(Collections.singletonMap("invalid-material","blah-revision"),environmentVariables,new HashMap<String,String>()),result);
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.message(),is("material with fingerprint [invalid-material] not found in pipeline [pipeline]"));
+}

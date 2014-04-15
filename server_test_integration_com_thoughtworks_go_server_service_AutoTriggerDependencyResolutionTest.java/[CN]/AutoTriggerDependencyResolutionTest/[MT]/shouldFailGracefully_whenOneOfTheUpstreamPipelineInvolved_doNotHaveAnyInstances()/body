@@ -1,0 +1,23 @@
+{
+  HgMaterial hg=u.wf(new HgMaterial("hg",null),"folder1");
+  String[] hg_revs={"hg1"};
+  int i=1;
+  u.checkinInOrder(hg,u.d(i++),hg_revs);
+  ScheduleTestUtil.AddedPipeline up0=u.saveConfigWith("up0",u.m(hg));
+  ScheduleTestUtil.AddedPipeline up0_peer=u.saveConfigWith("up0-peer",u.m(hg));
+  ScheduleTestUtil.AddedPipeline up1=u.saveConfigWith("up1",u.m(up0));
+  ScheduleTestUtil.AddedPipeline current=u.saveConfigWith("current",u.m(up1),u.m(hg));
+  String up0_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(up0,u.d(i++),"hg1");
+  String up1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(up1,u.d(i),up0_1);
+  configHelper.setMaterialConfigForPipeline("up1",up0_peer.materialConfig());
+  configHelper.load();
+  MaterialRevisions given=new MaterialRevisions();
+  given.addRevision(u.mr(hg,false,"hg1"));
+  given.addRevision(u.mr(up1,true,up1_1));
+  try {
+    getRevisionsBasedOnDependencies(current,goConfigFileDao.load(),given);
+    fail("Should have detected no-compatible-revisions situation, as config has changed.");
+  }
+ catch (  NoCompatibleUpstreamRevisionsException e) {
+  }
+}

@@ -1,0 +1,6 @@
+{
+  PipelineConfig mingle=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  assertThat(pipelineDao.count(CaseInsensitiveString.str(mingle.name())),is(0));
+  dbHelper.pass(schedulePipelineWithStages(mingle));
+  assertThat(pipelineDao.count(CaseInsensitiveString.str(mingle.name())),is(1));
+}

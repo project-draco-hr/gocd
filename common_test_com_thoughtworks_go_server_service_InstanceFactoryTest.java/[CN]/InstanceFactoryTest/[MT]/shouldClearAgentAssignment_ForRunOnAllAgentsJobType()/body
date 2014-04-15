@@ -1,0 +1,21 @@
+{
+  Date old=new DateTime().minusDays(2).toDate();
+  JobInstance rails=jobInstance(old,"rails",7,10);
+  JobInstance java=jobInstance(old,"java",12,22);
+  Stage stage=stage(9,rails,java);
+  StageConfig stageConfig=StageConfigMother.custom("dev","rails","java");
+  JobConfig railsConfig=stageConfig.getJobs().getJob(new CaseInsensitiveString("rails"));
+  railsConfig.setRunOnAllAgents(true);
+  railsConfig.addResource("foobar");
+  Stage newStage=instanceFactory.createStageForRerunOfJobs(stage,a("rails"),new DefaultSchedulingContext("loser",new Agents(new AgentConfig("abcd1234","host","127.0.0.2",new Resources(new Resource("foobar"))),new AgentConfig("1234abcd","ghost","192.168.1.2",new Resources(new Resource("baz"),new Resource("foobar"))),new AgentConfig("7890abdc","lost","10.4.3.55",new Resources(new Resource("crapyagent"))))),stageConfig,new TimeProvider(),"md5");
+  assertThat(newStage.getJobInstances().size(),CoreMatchers.is(3));
+  JobInstance newRailsFirstJob=newStage.getJobInstances().getByName("rails-runOnAll-1");
+  assertNewJob(old,newRailsFirstJob);
+  assertThat(newRailsFirstJob.getAgentUuid(),CoreMatchers.is("abcd1234"));
+  JobInstance newRailsSecondJob=newStage.getJobInstances().getByName("rails-runOnAll-2");
+  assertNewJob(old,newRailsSecondJob);
+  assertThat(newRailsSecondJob.getAgentUuid(),CoreMatchers.is("1234abcd"));
+  JobInstance copiedJavaJob=newStage.getJobInstances().getByName("java");
+  assertCopiedJob(copiedJavaJob,12l);
+  assertThat(copiedJavaJob.getAgentUuid(),CoreMatchers.is(not(nullValue())));
+}

@@ -1,0 +1,11 @@
+{
+  StageInstanceModel stage=stageHistory.byName(stageName);
+  int index=stageHistory.indexOf(stage);
+  if (index == 0) {
+    return true;
+  }
+  if (index > 0) {
+    return stageHistory.get(index - 1).isScheduled();
+  }
+  return false;
+}

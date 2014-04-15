@@ -1,0 +1,11 @@
+{
+  AgentViewModel agent20=new AgentViewModel(updateIpAddress(AgentInstanceMother.disabled(),"10.12.34.20"));
+  AgentViewModel agent3=new AgentViewModel(updateIpAddress(AgentInstanceMother.disabled(),"10.12.34.3"));
+  AgentViewModel agent2_12_30=new AgentViewModel(updateIpAddress(AgentInstanceMother.disabled(),"10.2.12.30"));
+  AgentViewModel agent244_243_111=new AgentViewModel(updateIpAddress(AgentInstanceMother.disabled(),"10.244.243.111"));
+  List<AgentViewModel> sorted=sort(AgentViewModel.IP_ADDRESS_COMPARATOR,agent20,agent3,agent2_12_30,agent244_243_111);
+  assertThat(sorted.get(0),is(agent2_12_30));
+  assertThat(sorted.get(1),is(agent3));
+  assertThat(sorted.get(2),is(agent20));
+  assertThat(sorted.get(3),is(agent244_243_111));
+}

@@ -1,0 +1,33 @@
+{
+  final int MODIFICATION=0;
+  final int RELEVANT_PIPELINE_ID=1;
+  final int RELEVANT_PIPELINE_NAME=2;
+  final int MATERIAL_TYPE=3;
+  final int MATERIAL_FINGERPRINT=4;
+  return (Map<Long,List<ModificationForPipeline>>)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      if (pipelineIds.isEmpty()) {
+        return new HashMap<Long,List<ModificationForPipeline>>();
+      }
+      Map<PipelineId,Set<Long>> relevantToLookedUpMap=relevantToLookedUpDependencyMap(session,pipelineIds);
+      SQLQuery query=session.createSQLQuery("SELECT mod.*, pmr.pipelineId as pmrPipelineId, p.name as pmrPipelineName, m.type as materialType, m.fingerprint as fingerprint" + " FROM modifications mod " + "     INNER JOIN pipelineMaterialRevisions pmr ON (mod.id >= pmr.fromRevisionId AND mod.id <= pmr.toRevisionId) AND mod.materialId = pmr.materialId "+ "     INNER JOIN pipelines p ON pmr.pipelineId = p.id"+ "     INNER JOIN materials m ON mod.materialId = m.id"+ " WHERE pmr.pipelineId IN (:ids)");
+      @SuppressWarnings({"unchecked"}) List<Object[]> allModifications=query.addEntity("mod",Modification.class).addScalar("pmrPipelineId",new LongType()).addScalar("pmrPipelineName",new StringType()).addScalar("materialType",new StringType()).addScalar("fingerprint",new StringType()).setParameterList("ids",CollectionUtil.map(relevantToLookedUpMap.keySet(),PipelineId.MAP_ID)).list();
+      Map<Long,List<ModificationForPipeline>> modificationsForPipeline=new HashMap<Long,List<ModificationForPipeline>>();
+      CollectionUtil.CollectionValueMap<Long,ModificationForPipeline> modsForPipeline=CollectionUtil.collectionValMap(modificationsForPipeline,new CollectionUtil.ArrayList<ModificationForPipeline>());
+      for (      Object[] modAndPmr : allModifications) {
+        Modification mod=(Modification)modAndPmr[MODIFICATION];
+        Long relevantPipelineId=(Long)modAndPmr[RELEVANT_PIPELINE_ID];
+        String relevantPipelineName=(String)modAndPmr[RELEVANT_PIPELINE_NAME];
+        String materialType=(String)modAndPmr[MATERIAL_TYPE];
+        String materialFingerprint=(String)modAndPmr[MATERIAL_FINGERPRINT];
+        PipelineId relevantPipeline=new PipelineId(relevantPipelineName,relevantPipelineId);
+        Set<Long> longs=relevantToLookedUpMap.get(relevantPipeline);
+        for (        Long lookedUpPipeline : longs) {
+          modsForPipeline.put(lookedUpPipeline,new ModificationForPipeline(relevantPipeline,mod,materialType,materialFingerprint));
+        }
+      }
+      return modificationsForPipeline;
+    }
+  }
+);
+}

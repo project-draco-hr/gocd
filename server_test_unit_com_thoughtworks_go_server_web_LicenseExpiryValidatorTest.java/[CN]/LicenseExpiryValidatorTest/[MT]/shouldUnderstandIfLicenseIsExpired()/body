@@ -1,0 +1,5 @@
+{
+  when(goLicenseService.isLicenseExpired()).thenReturn(true).thenReturn(false);
+  assertThat(expiryValidator.isLicenseExpired(),is(true));
+  assertThat(expiryValidator.isLicenseExpired(),is(false));
+}

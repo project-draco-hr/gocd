@@ -1,0 +1,8 @@
+{
+  MaterialRevisions oneMaterialRevision=new MaterialRevisions(new MaterialRevision(material,yesterdayMod));
+  assertThat(oneMaterialRevision.getModifications(material),is(new Modifications(yesterdayMod)));
+  MaterialRevisions emptyMaterialRevision=new MaterialRevisions();
+  assertThat(emptyMaterialRevision.getModifications(material).isEmpty(),is(true));
+  MaterialRevisions differentMaterialRevision=new MaterialRevisions(new MaterialRevision(MaterialsMother.hgMaterial(),yesterdayMod));
+  assertThat(differentMaterialRevision.getModifications(material).isEmpty(),is(true));
+}

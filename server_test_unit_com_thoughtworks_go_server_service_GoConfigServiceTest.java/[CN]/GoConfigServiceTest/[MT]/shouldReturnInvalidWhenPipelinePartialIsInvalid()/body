@@ -1,0 +1,7 @@
+{
+  CruiseConfig config=configWithPipeline();
+  when(goConfigFileDao.loadForEditing()).thenReturn(config);
+  String pipelineContent="<pipeline name='pipeline'>\n" + "    <materials>\n" + "         <svn url ='svnurl' dest='a'/>\n"+ "    </materials>\n"+ "  <stage name='firstStage'>"+ "     <jobs>"+ "         <job name='jobName'/>"+ "      </jobs>"+ "  </stage>"+ "  <unknown/>"+ "</pipeline>";
+  GoConfigValidity validity=goConfigService.pipelineSaver("defaultGroup",0).saveXml(pipelineContent,"md5");
+  assertThat(validity.errorMessage(),containsString("Invalid content was found starting with element 'unknown'"));
+}

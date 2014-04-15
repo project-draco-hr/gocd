@@ -1,0 +1,7 @@
+{
+  String output="<?xml version=\"1.0\"?>\n" + "<info>\n" + "<entry\n"+ "   kind=\"dir\"\n"+ "   path=\"trunk\"\n"+ "   revision=\"8650\">\n"+ "<url>https://217.45.214.17:8443/svn/Entropy%20System/Envoy%20Enterprise/trunk</url>\n"+ "<repository>\n"+ "<root>https://217.45.214.17:8443/svn</root>\n"+ "<uuid>3ed677eb-f12f-3343-ac77-786e4d01a301</uuid>\n"+ "</repository>\n"+ "<commit\n"+ "   revision=\"8650\">\n"+ "<author>BuildServer</author>\n"+ "<date>2009-04-03 15:52:16 +0800 (Fri, 03 Apr 2009)</date>\n"+ "</commit>\n"+ "</entry>\n"+ "</info>";
+  SvnCommand.SvnInfo svnInfo=new SvnCommand.SvnInfo();
+  svnInfo.parse(output,new SAXBuilder(false));
+  assertThat(svnInfo.getUrl(),is("https://217.45.214.17:8443/svn/Entropy%20System/Envoy%20Enterprise/trunk"));
+  assertThat(svnInfo.getPath(),is("/Entropy System/Envoy Enterprise/trunk"));
+}

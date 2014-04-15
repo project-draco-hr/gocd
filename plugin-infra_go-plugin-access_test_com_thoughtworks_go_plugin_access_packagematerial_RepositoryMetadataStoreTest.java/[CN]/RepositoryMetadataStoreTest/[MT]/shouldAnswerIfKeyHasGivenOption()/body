@@ -1,0 +1,13 @@
+{
+  PackageConfigurations repositoryConfigurationPut=new PackageConfigurations();
+  repositoryConfigurationPut.add(new PackageConfiguration("key-one").with(PackageConfiguration.SECURE,true).with(PackageConfiguration.REQUIRED,true));
+  repositoryConfigurationPut.add(new PackageConfiguration("key-two"));
+  RepositoryMetadataStore metadataStore=RepositoryMetadataStore.getInstance();
+  metadataStore.addMetadataFor("plugin-id",repositoryConfigurationPut);
+  assertThat(metadataStore.hasOption("plugin-id","key-one",PackageConfiguration.SECURE),is(true));
+  assertThat(metadataStore.hasOption("plugin-id","key-one",PackageConfiguration.REQUIRED),is(true));
+  assertThat(metadataStore.hasOption("plugin-id","key-one",PackageConfiguration.PART_OF_IDENTITY),is(true));
+  assertThat(metadataStore.hasOption("plugin-id","key-two",PackageConfiguration.SECURE),is(false));
+  assertThat(metadataStore.hasOption("plugin-id","key-two",PackageConfiguration.REQUIRED),is(true));
+  assertThat(metadataStore.hasOption("plugin-id","key-two",PackageConfiguration.PART_OF_IDENTITY),is(true));
+}

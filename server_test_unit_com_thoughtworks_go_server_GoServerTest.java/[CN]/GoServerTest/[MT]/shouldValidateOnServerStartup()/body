@@ -1,0 +1,24 @@
+{
+  final SystemEnvironment systemEnvironment=context.mock(SystemEnvironment.class);
+  StubGoServer goServer=new StubGoServer(systemEnvironment,Validation.SUCCESS);
+  goServer.subprocessLogger=mock(SubprocessLogger.class);
+  final File tmpFile=TestFileUtil.createTempFile("keystore.tmp");
+  tmpFile.deleteOnExit();
+  context.checking(new Expectations(){
+{
+      allowing(systemEnvironment).getServerPort();
+      will(returnValue(9153));
+      allowing(systemEnvironment).getSslServerPort();
+      will(returnValue(9443));
+      allowing(systemEnvironment).keystore();
+      will(returnValue(tmpFile));
+      allowing(systemEnvironment).truststore();
+      will(returnValue(tmpFile));
+      allowing(systemEnvironment).agentkeystore();
+      will(returnValue(tmpFile));
+    }
+  }
+);
+  goServer.go();
+  assertThat(goServer.wasStarted(),is(true));
+}

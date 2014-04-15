@@ -1,0 +1,12 @@
+{
+  updateConfig(new NoOverwriteUpdateConfigCommand(){
+    public CruiseConfig update(    final CruiseConfig cruiseConfig){
+      cruiseConfig.setTemplates(templates);
+      return cruiseConfig;
+    }
+    public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+}

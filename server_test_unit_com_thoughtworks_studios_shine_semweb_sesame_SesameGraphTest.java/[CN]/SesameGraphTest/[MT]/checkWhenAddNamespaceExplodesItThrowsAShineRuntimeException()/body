@@ -1,0 +1,6 @@
+{
+  RepositoryConnection badConnection=mock(RepositoryConnection.class);
+  doThrow(new RepositoryException("")).when(badConnection).setNamespace("foo","http://example.org/");
+  SesameGraph badGraph=new SesameGraph(badConnection,null);
+  badGraph.addNamespace(new Namespace("foo","http://example.org/"));
+}

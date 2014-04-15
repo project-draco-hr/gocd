@@ -1,0 +1,6 @@
+{
+  ClassLoader nestedJarClassLoader=new NestedJarClassLoader(urlForSDKJar(),"javax/xml","org/apache/xerces","org/xml","log4j.properties");
+  Class<?> clazz=Class.forName("javax.xml.parsers.SAXParserFactory",true,nestedJarClassLoader);
+  SAXParserFactory saxParserFactory=(SAXParserFactory)clazz.getMethod("newInstance").invoke(clazz);
+  assertNotNull(saxParserFactory);
+}

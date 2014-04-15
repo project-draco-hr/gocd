@@ -1,0 +1,14 @@
+{
+  SqlMapClientTemplate origTemplate=pipelineDao.getSqlMapClientTemplate();
+  try {
+    SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+    when(mockTemplate.queryForList(eq("getPipelineRange"),any())).thenReturn(Arrays.asList(2L));
+    pipelineDao.setSqlMapClientTemplate(mockTemplate);
+    PipelineInstanceModels pipelineHistories=pipelineDao.loadHistory("pipelineName",1,0);
+    verify(mockTemplate,never()).queryForList(eq("getPipelineHistoryByName"),any());
+    verify(mockTemplate,times(1)).queryForList(eq("getPipelineRange"),any());
+  }
+  finally {
+    pipelineDao.setSqlMapClientTemplate(origTemplate);
+  }
+}

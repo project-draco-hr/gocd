@@ -1,0 +1,10 @@
+{
+  p4=p4Fixture.createClient("client","//depot/FolderThatDoesNotExist... //client/...");
+  try {
+    p4.checkConnection();
+  }
+ catch (  Exception e) {
+    assertThat(e,is(instanceOf(RuntimeException.class)));
+    assertThat(e.getMessage(),containsString("ERROR: //client/... - no such file(s)"));
+  }
+}

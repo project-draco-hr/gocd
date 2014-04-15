@@ -1,0 +1,30 @@
+{
+  configHelper.addPipeline("pipeline","stage");
+  configHelper.addParamToPipeline("pipeline","mingle_url","http://foo.bar");
+  String md5=goConfigService.getConfigForEditing().getMd5();
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigUpdateResponse response=goConfigService.updateConfigFromUI(new UpdateConfigFromUI(){
+    public void checkPermission(    CruiseConfig cruiseConfig,    LocalizedOperationResult result){
+    }
+    public Validatable node(    CruiseConfig cruiseConfig){
+      return cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline"));
+    }
+    public Validatable updatedNode(    CruiseConfig cruiseConfig){
+      return node(cruiseConfig);
+    }
+    public void update(    Validatable pipeline){
+      PipelineConfig pipelineConfig=(PipelineConfig)pipeline;
+      pipelineConfig.setMingleConfig(new MingleConfig("#{mingle_url}","go"));
+    }
+    public Validatable subject(    Validatable node){
+      return node;
+    }
+    public Validatable updatedSubject(    Validatable updatedNode){
+      return subject(updatedNode);
+    }
+  }
+,md5,new Username(new CaseInsensitiveString("admin")),result);
+  MingleConfig mingleConfig=((PipelineConfig)response.getNode()).getMingleConfig();
+  assertThat(mingleConfig.errors().on(MingleConfig.BASE_URL),is("Should be a URL starting with https://"));
+  assertThat(mingleConfig.getBaseUrl(),is("#{mingle_url}"));
+}

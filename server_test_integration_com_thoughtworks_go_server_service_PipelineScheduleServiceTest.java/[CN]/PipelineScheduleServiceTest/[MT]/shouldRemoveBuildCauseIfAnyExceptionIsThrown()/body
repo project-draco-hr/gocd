@@ -1,0 +1,9 @@
+{
+  configHelper.addPipeline("cruise","dev",repository);
+  goConfigService.forceNotifyListeners();
+  goConfigService.getCurrentConfig().pipelineConfigByName(new CaseInsensitiveString("cruise")).get(0).jobConfigByConfigName(new CaseInsensitiveString("unit")).setRunOnAllAgents(true);
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials("cruise");
+  goConfigService.forceNotifyListeners();
+  scheduleService.autoSchedulePipelinesFromRequestBuffer();
+  assertThat(pipelineScheduleQueue.toBeScheduled().size(),is(0));
+}

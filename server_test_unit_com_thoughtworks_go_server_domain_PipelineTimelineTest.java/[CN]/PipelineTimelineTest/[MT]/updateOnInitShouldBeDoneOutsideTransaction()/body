@@ -1,0 +1,10 @@
+{
+  PipelineTimeline timeline=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  stubPipelineRepository(timeline,true,new PipelineTimelineEntry[]{first,second});
+  timeline.updateTimelineOnInit();
+  verify(pipelineRepository).updatePipelineTimeline(timeline);
+  verifyNoMoreInteractions(transactionSynchronizationManager);
+  verifyNoMoreInteractions(transactionTemplate);
+  assertThat(timeline.maximumId(),is(2L));
+  assertThat(timeline.pipelineAfter(1L),is(2L));
+}

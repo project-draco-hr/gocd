@@ -1,0 +1,6 @@
+{
+  String xml=ConfigFileFixture.SERVER_WITH_ARTIFACTS_DIR;
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(xml))).config;
+  xmlWriter.write(cruiseConfig,output,false);
+  assertXmlEquals(xml,output.toString());
+}

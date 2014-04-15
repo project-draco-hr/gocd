@@ -1,0 +1,18 @@
+{
+  String repoId="repo1";
+  String pkgName="pkg-2";
+  HashMap<String,Serializable> params=PackageDefinitionMother.paramsForPackageMaterialCreation(repoId,pkgName);
+  PackageMaterialUpdateWithNewPackageDefinitionCommand command=new PackageMaterialUpdateWithNewPackageDefinitionCommand(packageDefinitionService,securityService,pipelineName,materialToBeUpdated,admin,params);
+  command.update(cruiseConfig);
+  assertThat(pipelineConfig.materialConfigs().first() instanceof PackageMaterialConfig,is(true));
+  PackageMaterialConfig editedMaterial=(PackageMaterialConfig)pipelineConfig.materialConfigs().first();
+  assertThat(editedMaterial,is(materialToBeUpdated));
+  assertThat(editedMaterial.getPackageDefinition(),is(notNullValue()));
+  assertThat(editedMaterial.getPackageDefinition().getId(),is(notNullValue()));
+  assertThat(editedMaterial.getPackageDefinition().getRepository().getId(),is(repoId));
+  assertThat(editedMaterial.getPackageDefinition().getName(),is(pkgName));
+  assertThat(editedMaterial.getPackageDefinition().getConfiguration().size(),is(2));
+  assertThat(editedMaterial.getPackageDefinition().getConfiguration().getProperty("key1").getConfigurationValue().getValue(),is("value1"));
+  assertThat(editedMaterial.getPackageDefinition().getConfiguration().getProperty("key2").getConfigurationValue().getValue(),is("value2"));
+  verify(packageDefinitionService,times(1)).performPluginValidationsFor(editedMaterial.getPackageDefinition());
+}

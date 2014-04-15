@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("foo-pipeline","foo-stage","foo-job");
+  DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("loser");
+  String md5="foo-md5";
+  Stage actualStage=instanceFactory.createStageInstance(pipelineConfig,new CaseInsensitiveString("foo-stage"),schedulingContext,md5,clock);
+  assertThat(actualStage.getConfigVersion(),is(md5));
+}

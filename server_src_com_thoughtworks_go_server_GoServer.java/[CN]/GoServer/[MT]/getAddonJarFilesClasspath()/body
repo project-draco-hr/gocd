@@ -1,0 +1,16 @@
+{
+  File addonsPath=new File(systemEnvironment.get(SystemEnvironment.ADDONS_PATH));
+  if (!addonsPath.exists() || !addonsPath.canRead()) {
+    return "";
+  }
+  List<File> addonJars=new ArrayList<File>(FileUtils.listFiles(addonsPath,new SuffixFileFilter("jar",IOCase.INSENSITIVE),FalseFileFilter.INSTANCE));
+  if (addonJars.size() == 0) {
+    return "";
+  }
+  StringBuilder addonJarClassPath=new StringBuilder(addonJars.get(0).getPath());
+  for (int i=1; i < addonJars.size(); i++) {
+    addonJarClassPath.append(",").append(addonJars.get(i));
+  }
+  LOG.info("Including addons: " + addonJarClassPath);
+  return addonJarClassPath.toString();
+}

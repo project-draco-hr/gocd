@@ -1,0 +1,6 @@
+{
+  pipelineScheduleQueue.schedule("mingle",BuildCause.createManualForced(modifyOneFile(mingleConfig),Username.ANONYMOUS));
+  pipelineScheduleQueue.schedule("evolve",BuildCause.createManualForced(modifyOneFile(evolveConfig),Username.ANONYMOUS));
+  scheduleService.autoSchedulePipelinesFromRequestBuffer();
+  assertThat(pipelineScheduleQueue.toBeScheduled().size(),is(0));
+}

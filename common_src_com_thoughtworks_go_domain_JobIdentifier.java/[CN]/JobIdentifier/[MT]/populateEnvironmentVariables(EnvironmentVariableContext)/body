@@ -1,0 +1,11 @@
+{
+  environmentVariableContext.setProperty("GO_PIPELINE_NAME",getPipelineName(),false);
+  environmentVariableContext.setProperty("GO_PIPELINE_COUNTER",String.valueOf(getPipelineCounter()),false);
+  environmentVariableContext.setProperty("GO_PIPELINE_LABEL",getPipelineLabel(),false);
+  environmentVariableContext.setProperty("GO_STAGE_NAME",getStageName(),false);
+  environmentVariableContext.setProperty("GO_STAGE_COUNTER",getStageCounter(),false);
+  if (getRerunOfCounter() != null) {
+    environmentVariableContext.setProperty("GO_RERUN_OF_STAGE_COUNTER",String.valueOf(getRerunOfCounter()),false);
+  }
+  environmentVariableContext.setProperty("GO_JOB_NAME",getBuildName(),false);
+}

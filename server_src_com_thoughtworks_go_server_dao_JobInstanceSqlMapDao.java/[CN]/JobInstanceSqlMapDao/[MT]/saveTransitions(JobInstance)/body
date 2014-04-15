@@ -1,0 +1,12 @@
+{
+  for (  JobStateTransition transition : jobInstance.getTransitions()) {
+    if (!transition.hasId()) {
+      saveTransition(jobInstance,transition);
+    }
+  }
+  if (jobInstance.getIdentifier() != null) {
+    String pipelineName=jobInstance.getIdentifier().getPipelineName();
+    String stageName=jobInstance.getIdentifier().getStageName();
+    cache.flushEntry(jobInstance.getBuildDurationKey(pipelineName,stageName));
+  }
+}

@@ -1,0 +1,15 @@
+{
+  Properties properties;
+  Long buildId=jobIdentifier.getBuildId();
+  if (propertyKey != null) {
+    String value=propertyDao.value(buildId,propertyKey);
+    if (value == null) {
+      return PropertyAction.propertyNotFound(propertyKey);
+    }
+    properties=new Properties(new Property(propertyKey,value));
+  }
+ else {
+    properties=propertyDao.list(jobIdentifier.getBuildId());
+  }
+  return listPropertiesAs(type,properties,jobIdentifier.getBuildName());
+}

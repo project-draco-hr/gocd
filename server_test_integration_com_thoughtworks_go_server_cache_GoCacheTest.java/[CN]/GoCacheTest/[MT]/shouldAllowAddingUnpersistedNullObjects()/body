@@ -1,0 +1,8 @@
+{
+  NullUser user=new NullUser();
+  goCache.put("loser_user",user);
+  assertThat((NullUser)goCache.get("loser_user"),is(user));
+  String allLogs=logFixture.allLogs();
+  assertThat(allLogs,not(containsString("added to cache without an id.")));
+  assertThat(allLogs,not(containsString("without an id served out of cache.")));
+}

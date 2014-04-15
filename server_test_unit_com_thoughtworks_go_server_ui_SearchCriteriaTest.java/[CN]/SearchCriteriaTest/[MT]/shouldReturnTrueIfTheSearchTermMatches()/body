@@ -1,0 +1,8 @@
+{
+  SearchCriteria criteria=new SearchCriteria("win");
+  assertThat(criteria.matches("windows"),is(true));
+  assertThat(criteria.matches("win"),is(true));
+  criteria=new SearchCriteria("windows");
+  assertThat(criteria.matches("windows"),is(true));
+  assertThat(criteria.matches("win"),is(false));
+}

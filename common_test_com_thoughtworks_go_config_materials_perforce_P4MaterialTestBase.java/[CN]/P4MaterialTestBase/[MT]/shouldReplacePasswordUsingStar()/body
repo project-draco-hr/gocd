@@ -1,0 +1,12 @@
+{
+  P4Material p4Material=new P4Material("localhost:9876","p4view");
+  p4Material.setPassword("secret");
+  p4Material.setUseTickets(true);
+  try {
+    p4Material.latestModification(clientFolder,new TestSubprocessExecutionContext());
+    fail("should throw exception because p4 server not exists.");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),not(containsString("secret")));
+  }
+}

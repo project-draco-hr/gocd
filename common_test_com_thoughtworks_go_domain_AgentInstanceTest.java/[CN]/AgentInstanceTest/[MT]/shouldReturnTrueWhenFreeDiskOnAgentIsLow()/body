@@ -1,0 +1,13 @@
+{
+  AgentInstance original=AgentInstance.createFromConfig(agentConfig,new SystemEnvironment(){
+    @Override public long getAgentSizeLimit(){
+      return 100 * 1024 * 1024;
+    }
+  }
+);
+  AgentRuntimeInfo newRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  long is90M=90 * 1024 * 1024;
+  newRuntimeInfo.setUsableSpace(is90M);
+  original.update(newRuntimeInfo);
+  assertThat(original.isLowDiskSpace(),is(true));
+}

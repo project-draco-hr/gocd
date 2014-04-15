@@ -1,0 +1,9 @@
+{
+  for (  TestSuite testSuite : anotherPipeline.failingSuites()) {
+    TestSuite currentTestSuite=getSuite(testSuite.fullName());
+    if (currentTestSuite != null) {
+      currentTestSuite.removeDuplicateTestEntries(testSuite);
+      removeIfEmpty(currentTestSuite);
+    }
+  }
+}

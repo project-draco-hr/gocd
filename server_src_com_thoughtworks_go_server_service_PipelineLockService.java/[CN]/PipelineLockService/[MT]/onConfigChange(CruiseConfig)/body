@@ -1,0 +1,7 @@
+{
+  for (  String lockedPipeline : pipelineDao.lockedPipelines()) {
+    if (!newCruiseConfig.hasPipelineNamed(new CaseInsensitiveString(lockedPipeline)) || !newCruiseConfig.isPipelineLocked(lockedPipeline)) {
+      pipelineDao.unlockPipeline(lockedPipeline);
+    }
+  }
+}

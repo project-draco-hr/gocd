@@ -1,0 +1,11 @@
+{
+  UserSqlMapDao daoSpy=spy(dao);
+  doReturn(mockHibernateTemplate).when(daoSpy).hibernateTemplate();
+  doReturn(10).when(mockHibernateTemplate).execute(Matchers.<HibernateCallback<Object>>any());
+  Integer firstEnabledUserCount=daoSpy.enabledUserCount();
+  Integer secondEnabledUserCount=daoSpy.enabledUserCount();
+  assertThat(firstEnabledUserCount,is(10));
+  assertThat(secondEnabledUserCount,is(10));
+  assertThat((Integer)goCache.get(UserSqlMapDao.ENABLED_USER_COUNT_CACHE_KEY),is(10));
+  verify(mockHibernateTemplate,times(1)).execute(any(HibernateCallback.class));
+}

@@ -1,0 +1,13 @@
+{
+  List<Modification> modificationsSince=findModificationsSince(material,materialRevision);
+  if (scmRevision == null) {
+    return modificationsSince;
+  }
+  ArrayList<Modification> modificationsUptil=new ArrayList<Modification>();
+  for (  Modification modification : modificationsSince) {
+    if (modification.getId() <= scmRevision.id) {
+      modificationsUptil.add(modification);
+    }
+  }
+  return modificationsUptil;
+}

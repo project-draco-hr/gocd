@@ -1,0 +1,5 @@
+{
+  JobInstances jobInstances=new JobInstances(failed("foo"),passed("foo"));
+  JobInstance mostRecent=jobInstances.mostRecentPassed();
+  assertThat(mostRecent,is(jobInstances.get(1)));
+}

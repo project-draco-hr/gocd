@@ -1,0 +1,6 @@
+{
+  PipelineConfig currentPipeline=pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  List<PipelineConfig> pipelinesForFetchArtifact=currentPipeline.allFirstLevelUpstreamPipelines(this);
+  pipelinesForFetchArtifact.add(currentPipeline);
+  return pipelinesForFetchArtifact;
+}

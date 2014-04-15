@@ -1,0 +1,11 @@
+{
+  fixture.createdPipelineWithAllStagesPassed();
+  final List<Exception> exceptions=new ArrayList<Exception>();
+  Thread t1=new Thread(rerunStage(exceptions,fixture.devStage));
+  Thread t2=new Thread(rerunStage(exceptions,fixture.ftStage));
+  t1.start();
+  t2.start();
+  t1.join();
+  t2.join();
+  assertThat(exceptions.size(),is(1));
+}

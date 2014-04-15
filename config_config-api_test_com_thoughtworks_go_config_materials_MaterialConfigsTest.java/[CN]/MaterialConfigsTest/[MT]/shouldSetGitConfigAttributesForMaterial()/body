@@ -1,0 +1,14 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  Map<String,String> hashMap=new HashMap<String,String>();
+  hashMap.put(GitMaterialConfig.URL,"foo");
+  hashMap.put(GitMaterialConfig.BRANCH,"master");
+  HashMap<String,Object> attributeMap=new HashMap<String,Object>();
+  attributeMap.put(AbstractMaterialConfig.MATERIAL_TYPE,GitMaterialConfig.TYPE);
+  attributeMap.put(GitMaterialConfig.TYPE,hashMap);
+  materialConfigs.setConfigAttributes(attributeMap);
+  assertThat(materialConfigs.size(),is(1));
+  GitMaterialConfig expected=new GitMaterialConfig("foo");
+  expected.setConfigAttributes(Collections.singletonMap(GitMaterialConfig.BRANCH,"master"));
+  assertThat((GitMaterialConfig)materialConfigs.first(),is(expected));
+}

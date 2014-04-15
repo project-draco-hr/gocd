@@ -1,0 +1,10 @@
+{
+  if (job.getState() == JobState.Rescheduled || job.getState() == JobState.Completed) {
+    map.remove(job.getAgentUuid());
+    LOGGER.debug(String.format("Removed agent assignment for job [%s]",job));
+  }
+  if (job.getState().isActiveOnAgent()) {
+    map.put(job.getAgentUuid(),job);
+    LOGGER.debug(String.format("Agent assignment added for job [%s]",job));
+  }
+}

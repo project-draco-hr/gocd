@@ -1,0 +1,15 @@
+{
+  Map<String,TreeSet<Long>> activePipelinesToIds=(Map<String,TreeSet<Long>>)goCache.get(activePipelinesCacheKey());
+  if (activePipelinesToIds == null) {
+    return;
+  }
+  String pipelineName=loadHistory(stage.getPipelineId()).getName();
+  try {
+    activePipelineWriteLock.lock();
+    addActiveAsLatest(stage,activePipelinesToIds,pipelineName);
+    removeCompletedIfNotLatest(stage,activePipelinesToIds,pipelineName);
+  }
+  finally {
+    activePipelineWriteLock.unlock();
+  }
+}

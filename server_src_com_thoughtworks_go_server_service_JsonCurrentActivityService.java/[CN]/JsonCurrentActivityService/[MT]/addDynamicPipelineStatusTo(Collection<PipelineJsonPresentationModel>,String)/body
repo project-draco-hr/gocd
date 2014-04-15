@@ -1,0 +1,21 @@
+{
+  for (  PipelineJsonPresentationModel pipeline : pipelines) {
+    PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipeline.getName()));
+    boolean canForce=checkerService.canManuallyTrigger(pipelineConfig,username,new ServerHealthStateOperationResult());
+    pipeline.setCanForce(canForce);
+    pipeline.setCanPause(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString(username),pipeline.getName()));
+    for (    StageJsonPresentationModel stageModel : pipeline.getStages()) {
+      boolean canCancel=securityService.hasOperatePermissionForStage(pipeline.getName(),stageModel.getName(),username);
+      stageModel.setCanCancel(canCancel);
+      if (stageModel.stageHasHistory()) {
+        String stageName=stageModel.getName();
+        PipelineIdentifier pipelineIdentifier=stageModel.getPipeline().getIdentifier();
+        boolean canRun=checkerService.canScheduleStage(pipelineIdentifier,stageName,username,new ServerHealthStateOperationResult());
+        stageModel.setCanRun(canRun);
+      }
+ else {
+        stageModel.setCanRun(false);
+      }
+    }
+  }
+}

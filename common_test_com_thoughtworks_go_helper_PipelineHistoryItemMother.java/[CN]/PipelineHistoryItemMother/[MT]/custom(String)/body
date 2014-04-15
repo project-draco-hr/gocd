@@ -1,0 +1,10 @@
+{
+  PipelineInstanceModel pipelineInstanceModel=PipelineInstanceModel.createEmptyModel();
+  pipelineInstanceModel.setStageHistory(new StageInstanceModels());
+  for (  String stageName : stageNames) {
+    StageInstanceModel stageHistoryItem=new StageInstanceModel();
+    stageHistoryItem.setName(stageName);
+    pipelineInstanceModel.getStageHistory().add(stageHistoryItem);
+  }
+  return pipelineInstanceModel;
+}

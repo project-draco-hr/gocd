@@ -1,0 +1,9 @@
+{
+  GoPluginDescriptor pluginDescriptor=mock(GoPluginDescriptor.class);
+  Bundle bundle=mock(Bundle.class);
+  when(pluginDescriptor.bundle()).thenReturn(bundle);
+  when(pluginDescriptor.isInvalid()).thenReturn(true);
+  spy.unloadPlugin(pluginDescriptor);
+  verify(bundle,atLeastOnce()).stop();
+  verify(bundle,atLeastOnce()).uninstall();
+}

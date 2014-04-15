@@ -1,0 +1,17 @@
+{
+  DirectoryEntries entries=new DirectoryEntries();
+  if (rootFolder == null) {
+    return entries;
+  }
+  File[] files=rootFolder.listFiles(VISIBLE_NON_SERIALIZED_FILES);
+  if (files == null) {
+    return entries;
+  }
+  Arrays.sort(files,new FileComparator());
+  for (  File file : files) {
+    String name=file.getName();
+    String url=getUrl(relativePath,name);
+    entries.add(file.isDirectory() ? new FolderDirectoryEntry(name,url,listEntries(file,getCurrentPath(relativePath) + name)) : new FileDirectoryEntry(name,url));
+  }
+  return entries;
+}

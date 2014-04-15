@@ -1,0 +1,9 @@
+{
+  PipelineInstanceModels history=pipelineDao.loadHistory(pipelineName,pagination.getPageSize(),pagination.getOffset());
+  PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+  for (  PipelineInstanceModel pipelineInstanceModel : history) {
+    populatePipelineInstanceModel(new Username(new CaseInsensitiveString(username)),populateCanRun,pipelineConfig,pipelineInstanceModel);
+  }
+  addEmptyPipelineInstanceIfNeeded(pipelineName,history,new Username(new CaseInsensitiveString(username)),pipelineConfig,populateCanRun);
+  return history;
+}

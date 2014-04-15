@@ -1,0 +1,14 @@
+{
+  if (loaderForJar == null) {
+    return false;
+  }
+  String classAsResourceName=name.replace('.','/') + ".class";
+  if (isExcluded(classAsResourceName)) {
+    return false;
+  }
+  URL url=loaderForJar.getResource(classAsResourceName);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(String.format("Loading %s from jar returned %s for url: %s  ",name,url != null,url));
+  }
+  return url != null;
+}

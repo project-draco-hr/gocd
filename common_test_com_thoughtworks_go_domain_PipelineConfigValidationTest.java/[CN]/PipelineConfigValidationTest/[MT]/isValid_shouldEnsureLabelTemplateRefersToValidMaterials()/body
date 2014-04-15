@@ -1,0 +1,8 @@
+{
+  pipeline.setLabelTemplate("pipeline-${COUNT}-${myGit}");
+  pipeline.validate(validationContext);
+  ConfigErrors configErrors=pipeline.errors();
+  List<String> errors=configErrors.getAllOn("labelTemplate");
+  assertThat(errors.size(),is(1));
+  assertThat(errors,hasItem("You have defined a label template in pipeline go that refers to a material called myGit, but no material with this name is defined."));
+}

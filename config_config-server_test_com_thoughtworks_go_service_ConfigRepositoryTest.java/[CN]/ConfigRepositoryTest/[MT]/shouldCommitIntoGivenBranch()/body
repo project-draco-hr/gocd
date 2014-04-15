@@ -1,0 +1,12 @@
+{
+  configRepo.checkin(goConfigRevision("something","md5-1"));
+  RevCommit revCommitOnMaster=configRepo.getCurrentRevCommit();
+  String branchName="branch1";
+  configRepo.createBranch(branchName,revCommitOnMaster);
+  String newConfigXML="config-xml";
+  GoConfigRevision configRevision=new GoConfigRevision(newConfigXML,"md5","user","version",Edition.Free,new TimeProvider());
+  RevCommit branchRevCommit=configRepo.checkinToBranch(branchName,configRevision);
+  assertThat(branchRevCommit,is(notNullValue()));
+  assertThat(getLatestConfigAt(branchName),is(newConfigXML));
+  assertThat(configRepo.getCurrentRevCommit(),is(revCommitOnMaster));
+}

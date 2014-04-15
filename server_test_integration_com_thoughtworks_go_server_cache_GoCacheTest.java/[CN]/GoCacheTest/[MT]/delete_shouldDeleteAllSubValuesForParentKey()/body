@@ -1,0 +1,8 @@
+{
+  goCache.put("foo","bar","baz");
+  goCache.put("foo","baz","quux");
+  goCache.remove("foo");
+  assertThat(goCache.get("foo","bar"),is(nullValue()));
+  assertThat(goCache.get("foo","baz"),is(nullValue()));
+  assertThat(goCache.get("foo"),is(nullValue()));
+}

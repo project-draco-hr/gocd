@@ -1,0 +1,12 @@
+{
+  this.logDir=loggingDirectory;
+  this.transformers=new ArrayList<LoggingFileTransformer>();
+  this.transformers.add(new LoggingConfUpdateTransformer("/log4j.upgrade.shine.properties"));
+  this.transformers.add(new LoggingConfUpdateTransformer("/log4j.upgrade.rails.properties"));
+  this.transformers.add(new LoggingFileTransformer(){
+    public String transform(    String contents){
+      return shouldUpdate() ? contents.replaceAll("File=go-",quoteReplacement("File=" + logDir + "/go-")) : contents;
+    }
+  }
+);
+}

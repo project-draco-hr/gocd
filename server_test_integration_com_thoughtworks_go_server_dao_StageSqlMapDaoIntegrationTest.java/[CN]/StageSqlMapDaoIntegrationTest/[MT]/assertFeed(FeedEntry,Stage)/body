@@ -1,0 +1,7 @@
+{
+  assertThat(feedEntry.getId(),is(cancelledStage.getId()));
+  assertThat(feedEntry.getEntryId(),is(transitionId(cancelledStage)));
+  StageIdentifier id=cancelledStage.getIdentifier();
+  assertThat(feedEntry.getTitle(),is(String.format("%s(%s) stage %s(%s) %s",id.getPipelineName(),id.getPipelineCounter(),id.getStageName(),id.getStageCounter(),cancelledStage.getResult())));
+  assertThat(feedEntry.getUpdatedDate(),is(cancelledStage.latestTransitionDate()));
+}

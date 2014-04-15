@@ -1,0 +1,10 @@
+{
+  truststore=new File("truststore");
+  truststore.delete();
+  AuthSSLX509TrustManagerFactory trustManagerFactory=new AuthSSLX509TrustManagerFactory(truststore,GoServerRunner.PASSWORD);
+  protocolSocketFactory=new AuthSSLProtocolSocketFactory(trustManagerFactory,null);
+  sslPort=RandomPort.find("X509CertificateTest-sslPort");
+  serverPort=RandomPort.find("X509CertificateTest-serverPort");
+  fakeGoServer=new FakeGoServer(serverPort,sslPort);
+  fakeGoServer.start();
+}

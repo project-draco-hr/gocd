@@ -1,0 +1,10 @@
+{
+  addUser(new User("name1",new String[]{"regx"},"user@mail.com",true));
+  User updatedUser=userService.findUserByName("name1");
+  updatedUser.setEmail("user2@mail.com");
+  updatedUser.setMatcher("regx2");
+  userService.saveOrUpdate(updatedUser);
+  User user=userDao.findUser("name1");
+  assertThat(user,is(updatedUser));
+  assertThat(user.getId(),is(updatedUser.getId()));
+}

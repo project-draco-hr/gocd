@@ -1,0 +1,21 @@
+{
+  Pipeline pipeline=PipelineMother.pipeline("pipeline1",StageMother.custom("stage1"));
+  AntTask antTask=new AntTask();
+  NantTask nantTask=new NantTask();
+  RakeTask rakeTask=new RakeTask();
+  PluggableTask pluggableTask=new PluggableTask();
+  Builder expectedBuilderForAntTask=myFakeBuilder();
+  Builder expectedBuilderForNantTask=myFakeBuilder();
+  Builder expectedBuilderForRakeTask=myFakeBuilder();
+  Builder expectedBuilderForPluggableTask=myFakeBuilder();
+  when(antTaskBuilder.createBuilder(builderFactory,antTask,pipeline,pipelineResolver)).thenReturn(expectedBuilderForAntTask);
+  when(nantTaskBuilder.createBuilder(builderFactory,nantTask,pipeline,pipelineResolver)).thenReturn(expectedBuilderForNantTask);
+  when(rakeTaskBuilder.createBuilder(builderFactory,rakeTask,pipeline,pipelineResolver)).thenReturn(expectedBuilderForRakeTask);
+  when(pluggableTaskBuilderCreator.createBuilder(builderFactory,pluggableTask,pipeline,pipelineResolver)).thenReturn(expectedBuilderForPluggableTask);
+  List<Builder> builders=builderFactory.buildersForTasks(pipeline,listOf(antTask,nantTask,rakeTask,pluggableTask),pipelineResolver);
+  assertThat(builders.size(),is(4));
+  assertThat(builders.get(0),is(expectedBuilderForAntTask));
+  assertThat(builders.get(1),is(expectedBuilderForNantTask));
+  assertThat(builders.get(2),is(expectedBuilderForRakeTask));
+  assertThat(builders.get(3),is(expectedBuilderForPluggableTask));
+}

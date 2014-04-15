@@ -1,0 +1,10 @@
+{
+  Element infoElement=document.getRootElement();
+  Element entryElement=infoElement.getChild("entry");
+  String encodedUrl=entryElement.getChildTextTrim("url");
+  Element repositoryElement=entryElement.getChild("repository");
+  String root=repositoryElement.getChildTextTrim("root");
+  String encodedPath=StringUtils.replace(encodedUrl,root,"");
+  this.path=URLDecoder.decode(encodedPath,ENCODING);
+  this.encodedUrl=encodedUrl;
+}

@@ -1,0 +1,10 @@
+{
+  TestFailureSetup.SavedStage savedStage=failureSetup.setupPipelineInstanceWithoutTestXmlStubbing(true,null,new Date());
+  Graph graph=importer.load(savedStage.stageId,graphFactory,new XSLTTransformerRegistry());
+  for (  Modification modification : savedStage.pipeline.getMaterialRevisions().getRevisions().get(0).getModifications()) {
+    String changeSetUri=ScmMaterial.changesetUrl(modification,baseUrl,modification.getMaterialInstance().getId());
+    assertTrue(graph.containsResourceWithURI(changeSetUri));
+    String ask="" + "PREFIX cruise: <" + GoOntology.URI + "> "+ "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE {"+ "  <"+ PipelineXmlViewModel.httpUrlForPipeline(baseUrl,savedStage.pipeline.getId(),savedStage.pipeline.getName())+ "> cruise:pipelineTrigger <"+ changeSetUri+ "> . "+ "}";
+    assertAskIsTrue(graph,ask);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  File nestedJarFile=File.createTempFile(new File(entry.getName()).getName(),".jar");
+  nestedJarFile.deleteOnExit();
+  FileOutputStream out=new FileOutputStream(nestedJarFile);
+  InputStream in=new URL("jar:file:" + urlOfJar.getFile() + "!/"+ entry).openStream();
+  IOUtils.copy(in,out);
+  out.close();
+  in.close();
+  LOGGER.info(String.format("Exploded Entry %s from to %s",entry.getName(),nestedJarFile.toURI().toURL()));
+  return nestedJarFile.toURI().toURL();
+}

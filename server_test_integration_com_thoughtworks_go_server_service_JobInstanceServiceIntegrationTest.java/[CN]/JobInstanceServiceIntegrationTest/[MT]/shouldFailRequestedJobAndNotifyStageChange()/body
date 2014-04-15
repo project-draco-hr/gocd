@@ -1,0 +1,19 @@
+{
+  PipelineConfig goConfig=PipelineMother.withSingleStageWithMaterials("go","dev",withBuildPlans("unit"));
+  Stage goDev=dbHelper.schedulePipeline(goConfig,new TimeProvider()).getStages().get(0);
+  dbHelper.buildingBuildInstance(goDev);
+  PipelineConfig mingleConfig=PipelineMother.withSingleStageWithMaterials("mingle","test",withBuildPlans("integration"));
+  Stage mingleTest=dbHelper.schedulePipeline(mingleConfig,new TimeProvider()).getStages().get(0);
+  dbHelper.buildingBuildInstance(mingleTest);
+  JobInstance jobInstance=dbHelper.newPipelineWithFirstStageScheduled(PipelineMother.withSingleStageWithMaterials("twist","acceptance",withBuildPlans("firefox"))).getStages().get(0).getJobInstances().get(0);
+  final JobInstance[] changedJobPassed=new JobInstance[1];
+  jobInstanceService.registerJobStateChangeListener(new JobStatusListener(){
+    public void jobStatusChanged(    JobInstance job){
+      changedJobPassed[0]=job;
+    }
+  }
+);
+  JobInstance jobInstance1=jobInstanceService.buildByIdWithTransitions(jobInstance.getId());
+  jobInstanceService.failJob(jobInstance1);
+  assertThat(changedJobPassed[0].isFailed(),is(true));
+}

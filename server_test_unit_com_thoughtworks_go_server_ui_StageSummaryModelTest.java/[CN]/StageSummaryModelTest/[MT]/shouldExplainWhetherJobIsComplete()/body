@@ -1,0 +1,6 @@
+{
+  JobInstance first=JobInstanceMother.completed("first",JobResult.Failed);
+  Stage stage=StageMother.custom("pipeline","stage",new JobInstances(first));
+  StageSummaryModel model=new StageSummaryModel(stage,new Stages(stage),JOB_DURATION_STRATEGY,null);
+  assertThat(model.nonPassedJobs().get(0).isCompleted(),is(true));
+}

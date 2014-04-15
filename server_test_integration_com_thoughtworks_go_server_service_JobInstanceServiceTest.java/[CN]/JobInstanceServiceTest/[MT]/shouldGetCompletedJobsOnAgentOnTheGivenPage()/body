@@ -1,0 +1,10 @@
+{
+  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  ArrayList<JobInstance> expected=new ArrayList<JobInstance>();
+  when(jobInstanceDao.totalCompletedJobsOnAgent("uuid")).thenReturn(500);
+  when(jobInstanceDao.completedJobsOnAgent("uuid",JobInstanceService.JobHistoryColumns.pipeline,SortOrder.ASC,50,50)).thenReturn(expected);
+  JobInstancesModel actualModel=jobService.completedJobsOnAgent("uuid",JobInstanceService.JobHistoryColumns.pipeline,SortOrder.ASC,2,50);
+  assertThat(actualModel,is(new JobInstancesModel(new JobInstances(expected),Pagination.pageByNumber(2,500,50))));
+  verify(jobInstanceDao).totalCompletedJobsOnAgent("uuid");
+  verify(jobInstanceDao).completedJobsOnAgent("uuid",JobInstanceService.JobHistoryColumns.pipeline,SortOrder.ASC,50,50);
+}

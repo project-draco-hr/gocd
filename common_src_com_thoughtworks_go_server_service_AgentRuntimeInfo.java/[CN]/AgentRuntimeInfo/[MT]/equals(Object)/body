@@ -1,0 +1,28 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  AgentRuntimeInfo that=(AgentRuntimeInfo)o;
+  if (buildingInfo != null ? !buildingInfo.equals(that.buildingInfo) : that.buildingInfo != null) {
+    return false;
+  }
+  if (identifier != null ? !identifier.equals(that.identifier) : that.identifier != null) {
+    return false;
+  }
+  if (location != null ? !location.equals(that.location) : that.location != null) {
+    return false;
+  }
+  if (operatingSystemName != null ? !operatingSystemName.equals(that.operatingSystemName) : that.operatingSystemName != null) {
+    return false;
+  }
+  if (hasCookie() ? !cookie.equals(that.cookie) : that.hasCookie()) {
+    return false;
+  }
+  if (runtimeStatus != that.runtimeStatus) {
+    return false;
+  }
+  return true;
+}

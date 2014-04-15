@@ -1,0 +1,7 @@
+{
+  String approvedBy="cruise";
+  if (pipelineConfig.getFirstStageConfig().getApproval().isManual()) {
+    approvedBy="test";
+  }
+  return createPipelineInstance(pipelineConfig,cause,approvedBy);
+}

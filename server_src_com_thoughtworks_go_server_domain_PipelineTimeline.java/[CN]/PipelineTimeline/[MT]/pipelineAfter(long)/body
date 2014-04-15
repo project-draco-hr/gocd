@@ -1,0 +1,20 @@
+{
+  naturalOrderLock.readLock().lock();
+  try {
+    for (    Map.Entry<CaseInsensitiveString,TreeSet<PipelineTimelineEntry>> nameToEntry : naturalOrderPmm.entrySet()) {
+      for (      PipelineTimelineEntry entry : nameToEntry.getValue()) {
+        if (entry.getId() == id) {
+          PipelineTimelineEntry timelineEntry=naturalOrderAfter(entry);
+          if (timelineEntry == null) {
+            return -1;
+          }
+          return timelineEntry.getId();
+        }
+      }
+    }
+    return -1;
+  }
+  finally {
+    naturalOrderLock.readLock().unlock();
+  }
+}

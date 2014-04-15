@@ -1,0 +1,5 @@
+{
+  configHelper.setBaseUrls(new ServerSiteUrlConfig("http://foo.com:80"),new ServerSiteUrlConfig("https://bar.com:443"));
+  assertThat(serverConfigService.siteUrlFor("https://test.host:1000/foo/bar",false),is("https://bar.com:443/foo/bar"));
+  assertThat(serverConfigService.siteUrlFor("http://test.host/foo/bar",false),is("http://foo.com:80/foo/bar"));
+}

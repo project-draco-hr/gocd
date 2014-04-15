@@ -1,0 +1,9 @@
+{
+  String content=FileUtils.readFileToString(new File("../common/test-resources/data/config/version4/cruise-config-dependency-migration.xml"));
+  CruiseConfig cruiseConfig=loadConfigFileWithContent(content);
+  MaterialConfig actual=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("depends")).materialConfigs().first();
+  assertThat(actual,instanceOf(DependencyMaterialConfig.class));
+  DependencyMaterialConfig depends=(DependencyMaterialConfig)actual;
+  assertThat(depends.getPipelineName(),is(new CaseInsensitiveString("multiple")));
+  assertThat(depends.getStageName(),is(new CaseInsensitiveString("helloworld-part2")));
+}

@@ -1,0 +1,13 @@
+{
+  EnvironmentsConfig allEnvironments=cruiseConfig.getEnvironments();
+  for (  String environment : environments.split(",")) {
+    String environmentName=environment.trim();
+    if (allEnvironments.hasEnvironmentNamed(new CaseInsensitiveString(environmentName))) {
+      allEnvironments.named(new CaseInsensitiveString(environmentName)).addAgent(uuid);
+    }
+ else {
+      LOGGER.warn(String.format("[Agent Auto Registration] Agent with uuid %s could not be assigned to environment %s as it does not exist.",uuid,environmentName));
+    }
+  }
+  return cruiseConfig;
+}

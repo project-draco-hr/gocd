@@ -1,0 +1,11 @@
+{
+  String stageXmlPartial="<stage name=\"mingle\" artifactCleanupProhibited=\"true\">\n" + "  <jobs>\n" + "    <job name=\"functional\">\n"+ "      <artifacts>\n"+ "        <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "      </artifacts>\n"+ "    </job>\n"+ "  </jobs>\n"+ "</stage>\n";
+  StageConfig stage=xmlLoader.fromXmlPartial(toInputStream(stageXmlPartial),StageConfig.class);
+  assertThat(stage.isArtifactCleanupProhibited(),is(true));
+  stageXmlPartial="<stage name=\"mingle\" artifactCleanupProhibited=\"false\">\n" + "  <jobs>\n" + "    <job name=\"functional\">\n"+ "      <artifacts>\n"+ "        <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "      </artifacts>\n"+ "    </job>\n"+ "  </jobs>\n"+ "</stage>\n";
+  stage=xmlLoader.fromXmlPartial(toInputStream(stageXmlPartial),StageConfig.class);
+  assertThat(stage.isArtifactCleanupProhibited(),is(false));
+  stageXmlPartial="<stage name=\"mingle\">\n" + "  <jobs>\n" + "    <job name=\"functional\">\n"+ "      <artifacts>\n"+ "        <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "      </artifacts>\n"+ "    </job>\n"+ "  </jobs>\n"+ "</stage>\n";
+  stage=xmlLoader.fromXmlPartial(toInputStream(stageXmlPartial),StageConfig.class);
+  assertThat(stage.isArtifactCleanupProhibited(),is(false));
+}

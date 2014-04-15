@@ -1,0 +1,18 @@
+{
+  Date timestamp=new Date();
+  PackageRevision packageRevision=new PackageRevision("revision-123",timestamp,"user");
+  String dataKey="extra_data";
+  String dataValue="value";
+  packageRevision.addData(dataKey,dataValue);
+  when(packageMaterialPoller.getLatestRevision(packageConfiguration.capture(),repositoryConfiguration.capture())).thenReturn(packageRevision);
+  HashMap<String,String> expected=new HashMap<String,String>();
+  expected.put(dataKey,dataValue);
+  List<Modification> modifications=poller.latestModification(material,null,null);
+  assertThat(modifications.get(0).getRevision(),is("revision-123"));
+  assertThat(modifications.get(0).getModifiedTime(),is(timestamp));
+  assertThat(modifications.get(0).getUserName(),is("user"));
+  assertThat(modifications.get(0).getComment(),is(notNullValue()));
+  assertThat(modifications.get(0).getAdditionalData(),is(JsonHelper.toJsonString(expected)));
+  assertConfiguration(packageConfiguration.getValue(),material.getPackageDefinition().getConfiguration());
+  assertConfiguration(repositoryConfiguration.getValue(),material.getPackageDefinition().getRepository().getConfiguration());
+}

@@ -1,0 +1,17 @@
+{
+  if ("testcase".equals(qName)) {
+    readingTestCase=true;
+    name=getAttribute(attributes,"name");
+    duration=getAttribute(attributes,"time");
+    classname=getAttribute(attributes,"classname");
+  }
+  String attributeName="message";
+  if (readingTestCase && "error".equals(qName)) {
+    readingError=true;
+    errorOrFailureMessage=getAttribute(attributes,attributeName);
+  }
+  if (readingTestCase && "failure".equals(qName)) {
+    readingFailure=true;
+    errorOrFailureMessage=getAttribute(attributes,attributeName);
+  }
+}

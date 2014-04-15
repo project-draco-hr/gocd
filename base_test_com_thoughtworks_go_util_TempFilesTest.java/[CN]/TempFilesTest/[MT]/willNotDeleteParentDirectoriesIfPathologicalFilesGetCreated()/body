@@ -1,0 +1,7 @@
+{
+  File file1=files.createFile("foo/bar/baz.zip");
+  assertThat(file1.exists(),is(true));
+  files.cleanUp();
+  assertThat(file1.exists(),is(false));
+  assertThat(new File(new File(tmpDir(),"cruise"),"foo").exists(),is(true));
+}

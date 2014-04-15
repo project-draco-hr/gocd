@@ -1,0 +1,4 @@
+{
+  dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  assertThat(stageDao.isStageActive(CaseInsensitiveString.str(mingleConfig.name()),CaseInsensitiveString.str(mingleConfig.getFirstStageConfig().name())),is(true));
+}

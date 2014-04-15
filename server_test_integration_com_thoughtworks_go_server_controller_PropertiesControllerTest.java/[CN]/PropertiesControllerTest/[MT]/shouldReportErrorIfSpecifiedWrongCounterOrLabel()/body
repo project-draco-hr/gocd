@@ -1,0 +1,5 @@
+{
+  Pipeline pipeline1=createNewPipeline();
+  controller.jobsSearch(fixture.pipelineName,fixture.devStage,PipelineWithTwoStages.JOB_FOR_DEV_STAGE,"invalid-label",null,response);
+  assertThat(response.getContentAsString(),is("The value [invalid-label] of query parameter 'limitPipeline' is neither a pipeline counter nor label"));
+}

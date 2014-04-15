@@ -1,0 +1,9 @@
+{
+  Pipeline[] pipelines=pipelineWithOnePassedAndOneCurrentlyRunning(mingleConfig);
+  Stage stage=pipelines[1].getStages().get(0);
+  long id=stage.getId();
+  Stage loadedBeforeChange=stageDao.stageById(id);
+  dbHelper.failStage(stage);
+  stageDao.stageStatusChanged(stage);
+  assertThat(stageDao.stageById(id),is(not(loadedBeforeChange)));
+}

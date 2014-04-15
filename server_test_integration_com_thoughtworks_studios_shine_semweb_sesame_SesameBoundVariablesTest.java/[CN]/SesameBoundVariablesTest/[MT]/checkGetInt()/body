@@ -1,0 +1,16 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . " + "<http://example.com/1> ex:is \"1\"^^xsd:integer . "+ "<http://example.com/2> ex:is \"2\"^^xsd:integer . ";
+  graph.addTriplesFromTurtle(turtle);
+  String sparqlSelect="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?one ?two ?three WHERE { " + "<http://example.com/1> ex:is ?one . "+ "<http://example.com/2> ex:is ?two . "+ "OPTIONAL { <http://example.com/3> ex:is ?three } "+ "}";
+  BoundVariables bv=graph.selectFirst(sparqlSelect);
+  assertEquals((Integer)1,bv.getInt("one"));
+  assertEquals((Integer)2,bv.getInt("two"));
+  assertNull(bv.getInt("three"));
+  try {
+    bv.getInt("baz");
+    fail("Illegal argument exception expected.");
+  }
+ catch (  IllegalArgumentException e) {
+    assertEquals("boundName 'baz' is not in the list of possible values ('one', 'two', 'three')",e.getMessage());
+  }
+}

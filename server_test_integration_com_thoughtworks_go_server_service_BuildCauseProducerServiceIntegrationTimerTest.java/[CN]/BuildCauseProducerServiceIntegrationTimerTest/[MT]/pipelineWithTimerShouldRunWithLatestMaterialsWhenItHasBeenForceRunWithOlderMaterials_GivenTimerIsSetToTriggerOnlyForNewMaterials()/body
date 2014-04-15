@@ -1,0 +1,16 @@
+{
+  int i=1;
+  String pipelineName="p1";
+  GitMaterial git1=u.wf(new GitMaterial("git1"),"folder");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWithTimer(pipelineName,u.timer("* * * * * ? 2000",true),u.m(git1));
+  u.checkinFile(git1,"g11",TestFileUtil.createTempFile("blah_g11"),ModifiedAction.added);
+  u.checkinFile(git1,"g12",TestFileUtil.createTempFile("blah_g12"),ModifiedAction.added);
+  Date mduTimeForG11=u.d(i++);
+  u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,mduTimeForG11,"g11");
+  u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g12");
+  u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,mduTimeForG11,"g11");
+  pipelineTimeline.update();
+  buildCauseProducerService.timerSchedulePipeline(p1.config,new ServerHealthStateOperationResult());
+  assertThat(piplineScheduleQueue.toBeScheduled().size(),is(1));
+  assertThat(piplineScheduleQueue.toBeScheduled().get(pipelineName).getMaterialRevisions(),isSameMaterialRevisionsAs(u.mrs(u.mr(git1,false,"g12"))));
+}

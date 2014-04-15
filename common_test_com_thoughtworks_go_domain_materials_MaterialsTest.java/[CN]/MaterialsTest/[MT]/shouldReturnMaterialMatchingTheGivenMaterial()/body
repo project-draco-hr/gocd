@@ -1,0 +1,15 @@
+{
+  Materials materials=new Materials();
+  HgMaterial material1=MaterialsMother.hgMaterial();
+  material1.setFilter(new Filter(new IgnoredFiles("patter")));
+  SvnMaterial material2=MaterialsMother.svnMaterial();
+  materials.add(material1);
+  materials.add(material2);
+  assertThat((HgMaterial)materials.get(MaterialsMother.hgMaterial()),is(material1));
+  try {
+    materials.get(MaterialsMother.p4Material());
+    fail("Must not have found the p4 material");
+  }
+ catch (  Exception expected) {
+  }
+}

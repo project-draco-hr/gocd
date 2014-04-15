@@ -1,0 +1,9 @@
+{
+  p4Fixture=new P4Fixture();
+  p4TestRepo=createTestRepo();
+  p4Fixture.setRepo(p4TestRepo);
+  clientFolder=TestFileUtil.createTempFolder("p4Client");
+  p4=P4Client.fromServerAndPort(null,p4Fixture.port(),"cceuser",null,DEFAULT_CLIENT_NAME,false,clientFolder,"",inMemoryConsumer(),true);
+  p4TestRepo.onSetup();
+  p4Fixture.start();
+}

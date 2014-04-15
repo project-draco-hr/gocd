@@ -1,0 +1,20 @@
+{
+  HttpMethod method=getAgentLatestStatusGetMethod();
+  try {
+    final int status=httpClient.executeMethod(method);
+    if (status != 200) {
+      LOGGER.error(String.format("[Agent Upgrade] Got status %d %s from Go",status,method.getStatusText()));
+      return;
+    }
+    validateIfLatestAgent(md5,method);
+    validateIfLatestLauncher(launcherMd5,method);
+    validateIfLatestPluginZipAvailable(agentPluginsMd5,method);
+  }
+ catch (  IOException ioe) {
+    LOGGER.error(String.format("[Agent Upgrade] Couldn't connect to: %s: %s",urlService.getAgentLatestStatusUrl(),ioe.toString()));
+    throw ioe;
+  }
+ finally {
+    method.releaseConnection();
+  }
+}

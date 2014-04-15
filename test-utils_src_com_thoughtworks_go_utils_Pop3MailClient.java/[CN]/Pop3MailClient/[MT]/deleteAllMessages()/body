@@ -1,0 +1,8 @@
+{
+  Folder folder=getInboxFolder();
+  Message[] messages=folder.getMessages();
+  for (  Message message : messages) {
+    message.setFlag(Flags.Flag.DELETED,true);
+  }
+  folder.close(true);
+}

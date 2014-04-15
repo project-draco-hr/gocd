@@ -1,0 +1,6 @@
+{
+  setupClassesInBundle("NonPublicGoExtensionClass.class");
+  when(bundle.loadClass(contains("NonPublicGoExtensionClass"))).thenReturn((Class)NonPublicGoExtensionClass.class);
+  activator.start(context);
+  verifyErrorsReported("Class [NonPublicGoExtensionClass] is annotated with @Extension but is not public.",NO_EXT_ERR_MSG);
+}

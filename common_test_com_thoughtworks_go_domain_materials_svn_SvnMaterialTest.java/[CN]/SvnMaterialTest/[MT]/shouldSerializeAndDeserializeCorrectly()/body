@@ -1,0 +1,8 @@
+{
+  final SvnMaterial material1=MaterialsMother.svnMaterial("url1","foo");
+  ByteArrayOutputStream buf=new ByteArrayOutputStream();
+  ObjectOutputStream serialized=new ObjectOutputStream(buf);
+  serialized.writeObject(material1);
+  ObjectInputStream in=new ObjectInputStream(new ByteArrayInputStream(buf.toByteArray()));
+  assertThat((SvnMaterial)in.readObject(),is(material1));
+}

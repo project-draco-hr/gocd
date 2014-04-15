@@ -1,0 +1,7 @@
+{
+  configHelper.addPipelineWithGroup("admin_only","admin_pipeline","stage","deploy");
+  configHelper.addRole(new Role(new CaseInsensitiveString("deployers"),new RoleUser(new CaseInsensitiveString("root"))));
+  configHelper.blockPipelineGroupExceptFor("admin_only","deployers");
+  assertThat(pipelineHistoryService.latest("admin_pipeline",new Username(new CaseInsensitiveString("root"))),is(not(nullValue())));
+  assertThat(pipelineHistoryService.latest("admin_pipeline",new Username(new CaseInsensitiveString("someone_else"))),is(nullValue()));
+}

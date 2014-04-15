@@ -1,0 +1,12 @@
+{
+  configHelper.addPipeline("pipeline","stage","build1","build2");
+  String md5=goConfigFileDao.md5OfConfigFile();
+  ModelAndView mav=controller.postStageAsXmlPartial("pipeline",4,NEW_STAGE,md5,response);
+  assertThat(response.getStatus(),is(SC_NOT_FOUND));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  Json json=(Json)mav.getModel().get("json");
+  JsonMap jsonMap=new JsonMap();
+  jsonMap.put("result","Stage does not exist.");
+  jsonMap.put("originalContent",NEW_STAGE);
+  assertThat(json,is((Json)jsonMap));
+}

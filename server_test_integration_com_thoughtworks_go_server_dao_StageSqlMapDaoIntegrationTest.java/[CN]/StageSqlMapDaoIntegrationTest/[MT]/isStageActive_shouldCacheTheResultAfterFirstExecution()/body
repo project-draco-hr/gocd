@@ -1,0 +1,10 @@
+{
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForObject(eq("isStageActive"),any())).thenReturn(1);
+  boolean stageActive=stageDao.isStageActive(CaseInsensitiveString.str(mingleConfig.name()),CaseInsensitiveString.str(mingleConfig.getFirstStageConfig().name()));
+  assertThat(stageActive,is(true));
+  stageActive=stageDao.isStageActive(CaseInsensitiveString.str(mingleConfig.name()),CaseInsensitiveString.str(mingleConfig.getFirstStageConfig().name()));
+  assertThat(stageActive,is(true));
+  verify(mockTemplate,times(1)).queryForObject(eq("isStageActive"),any());
+}

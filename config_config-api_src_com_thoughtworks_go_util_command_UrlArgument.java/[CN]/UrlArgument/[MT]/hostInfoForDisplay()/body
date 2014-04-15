@@ -1,0 +1,12 @@
+{
+  try {
+    URI uri=new URI(url);
+    if (uri.getUserInfo() != null) {
+      uri=new URI(uri.getScheme(),clean(uri.getUserInfo()),uri.getHost(),uri.getPort(),null,null,null);
+    }
+    return uri.toString();
+  }
+ catch (  URISyntaxException e) {
+    return url;
+  }
+}

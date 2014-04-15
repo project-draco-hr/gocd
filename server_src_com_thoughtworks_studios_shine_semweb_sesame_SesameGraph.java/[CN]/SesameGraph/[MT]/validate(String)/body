@@ -1,0 +1,15 @@
+{
+  try {
+    Query query=conn.prepareQuery(QueryLanguage.SPARQL,arq);
+    contextualize(query);
+  }
+ catch (  UnsupportedSPARQLStatementException e) {
+    throw e;
+  }
+catch (  MalformedQueryException e) {
+    throw new MalformedSPARQLException(e);
+  }
+catch (  Exception e) {
+    throw new ShineRuntimeException(e);
+  }
+}

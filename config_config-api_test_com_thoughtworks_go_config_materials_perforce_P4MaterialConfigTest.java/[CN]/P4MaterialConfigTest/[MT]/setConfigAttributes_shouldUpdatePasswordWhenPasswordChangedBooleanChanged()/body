@@ -1,0 +1,22 @@
+{
+  P4MaterialConfig materialConfig=new P4MaterialConfig("","");
+  materialConfig.setPassword("notSecret");
+  Map<String,String> map=new HashMap<String,String>();
+  map.put(P4MaterialConfig.PASSWORD,"secret");
+  map.put(P4MaterialConfig.PASSWORD_CHANGED,"1");
+  materialConfig.setConfigAttributes(map);
+  assertThat(ReflectionUtil.getField(materialConfig,"password"),is(nullValue()));
+  assertThat(materialConfig.getPassword(),is("secret"));
+  assertThat(materialConfig.getEncryptedPassword(),is(new GoCipher().encrypt("secret")));
+  map.put(SvnMaterialConfig.PASSWORD,"Hehehe");
+  map.put(SvnMaterialConfig.PASSWORD_CHANGED,"0");
+  materialConfig.setConfigAttributes(map);
+  assertThat(ReflectionUtil.getField(materialConfig,"password"),is(nullValue()));
+  assertThat(materialConfig.getPassword(),is("secret"));
+  assertThat(materialConfig.getEncryptedPassword(),is(new GoCipher().encrypt("secret")));
+  map.put(SvnMaterialConfig.PASSWORD,"");
+  map.put(SvnMaterialConfig.PASSWORD_CHANGED,"1");
+  materialConfig.setConfigAttributes(map);
+  assertThat(materialConfig.getPassword(),is(nullValue()));
+  assertThat(materialConfig.getEncryptedPassword(),is(nullValue()));
+}

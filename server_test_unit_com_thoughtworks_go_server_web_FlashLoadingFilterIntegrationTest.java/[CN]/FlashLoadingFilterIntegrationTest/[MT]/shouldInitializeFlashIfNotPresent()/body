@@ -1,0 +1,16 @@
+{
+  MockHttpServletRequest req=new MockHttpServletRequest();
+  MockHttpServletResponse res=new MockHttpServletResponse();
+  FilterChain filterChain=new MockFilterChain(){
+    @Override public void doFilter(    ServletRequest request,    ServletResponse response){
+      messageKey=service.add(new FlashMessageModel("my message","error"));
+      flash=service.get(messageKey);
+    }
+  }
+;
+  assertThat(messageKey,is(nullValue()));
+  filter.doFilter(req,res,filterChain);
+  assertThat(messageKey,not(nullValue()));
+  assertThat(flash.toString(),is("my message"));
+  assertThat(flash.getFlashClass(),is("error"));
+}

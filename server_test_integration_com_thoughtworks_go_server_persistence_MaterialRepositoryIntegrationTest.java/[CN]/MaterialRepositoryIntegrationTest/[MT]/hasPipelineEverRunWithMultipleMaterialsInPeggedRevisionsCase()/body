@@ -1,0 +1,14 @@
+{
+  HgMaterial firstMaterial=MaterialsMother.hgMaterial("first","dest");
+  MaterialRevision first1=saveOneScmModification("first1",firstMaterial,"user","file","comment");
+  MaterialRevision first2=saveOneScmModification("first2",firstMaterial,"user","file","comment");
+  HgMaterial secondMaterial=MaterialsMother.hgMaterial("second","dest");
+  MaterialRevision second1=saveOneScmModification("second1",secondMaterial,"user","file","comment");
+  MaterialRevision second2=saveOneScmModification("second2",secondMaterial,"user","file","comment");
+  MaterialRevisions firstRun=new MaterialRevisions(first1,second2);
+  MaterialRevisions secondRun=new MaterialRevisions(first2,second1);
+  PipelineConfig config=PipelineMother.createPipelineConfig("mingle",new MaterialConfigs(firstMaterial.config(),secondMaterial.config()),"dev");
+  savePipeline(instanceFactory.createPipelineInstance(config,BuildCause.createWithModifications(firstRun,"Pavan"),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider()));
+  savePipeline(instanceFactory.createPipelineInstance(config,BuildCause.createWithModifications(secondRun,"Shilpa-who-gets-along-well-with-her"),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider()));
+  assertThat(repo.hasPipelineEverRunWith("mingle",new MaterialRevisions(first2,second2)),is(true));
+}

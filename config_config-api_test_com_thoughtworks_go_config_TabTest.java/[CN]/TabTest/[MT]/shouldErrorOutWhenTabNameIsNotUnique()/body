@@ -1,0 +1,10 @@
+{
+  Tab tab=new Tab("foo","bar");
+  ArrayList<Tab> visitedTabs=new ArrayList<Tab>();
+  Tab existingTab=new Tab("foo","bar");
+  visitedTabs.add(existingTab);
+  tab.validateTabNameUniqueness(visitedTabs);
+  assertThat(tab.errors().on(Tab.NAME),is("Tab name 'foo' is not unique."));
+  assertThat(visitedTabs.get(0).errors().on(Tab.NAME),is("Tab name 'foo' is not unique."));
+  assertThat(visitedTabs.size(),is(1));
+}

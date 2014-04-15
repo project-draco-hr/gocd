@@ -1,0 +1,9 @@
+{
+  Date mostRecent=null;
+  for (  JobInstance jobInstance : this) {
+    if (mostRecent == null || jobInstance.latestTransitionDate().after(mostRecent)) {
+      mostRecent=jobInstance.latestTransitionDate();
+    }
+  }
+  return mostRecent;
+}

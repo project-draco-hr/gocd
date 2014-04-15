@@ -1,0 +1,11 @@
+{
+  Username jez=new Username(new CaseInsensitiveString("jez"));
+  setupExpectationsForAllActivePipelinesWithTwoGroups(jez);
+  List<PipelineGroupModel> groups=pipelineHistoryService.allActivePipelineInstances(jez,PipelineSelections.ALL);
+  PipelineModel secondPipelineModel=groups.get(0).getPipelineModels().get(1);
+  assertPipelineIs(secondPipelineModel,"pipeline2",true,false);
+  PipelineModel firstPipelineModel=groups.get(0).getPipelineModels().get(0);
+  assertPipelineIs(firstPipelineModel,"pipeline1",true,true);
+  PipelineModel nonOperatablePipelineModel=groups.get(1).getPipelineModels().get(0);
+  assertPipelineIs(nonOperatablePipelineModel,"non-operatable-pipeline",false,false);
+}

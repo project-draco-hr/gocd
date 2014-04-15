@@ -1,0 +1,10 @@
+{
+  assertThat(newRails.getId(),CoreMatchers.is(-1l));
+  assertThat(newRails.getTransitions().size(),CoreMatchers.is(1));
+  JobStateTransition newSchedulingTransition=newRails.getTransitions().byState(JobState.Scheduled);
+  assertThat(newSchedulingTransition.getId(),CoreMatchers.is(-1l));
+  assertThat(newRails.getResult(),CoreMatchers.is(JobResult.Unknown));
+  assertThat(newRails.getState(),CoreMatchers.is(JobState.Scheduled));
+  assertThat(newRails.isRerun(),CoreMatchers.is(true));
+  return newSchedulingTransition;
+}

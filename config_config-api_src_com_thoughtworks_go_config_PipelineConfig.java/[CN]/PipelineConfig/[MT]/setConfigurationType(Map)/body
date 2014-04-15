@@ -1,0 +1,11 @@
+{
+  String configurationType=(String)attributeMap.get(CONFIGURATION_TYPE);
+  if (configurationType.equals(CONFIGURATION_TYPE_STAGES)) {
+    return;
+  }
+  if (configurationType.equals(CONFIGURATION_TYPE_TEMPLATE)) {
+    String templateName=(String)attributeMap.get(TEMPLATE_NAME);
+    this.clear();
+    this.setTemplateName(new CaseInsensitiveString(templateName));
+  }
+}

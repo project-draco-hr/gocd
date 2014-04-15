@@ -1,0 +1,8 @@
+{
+  Pipeline pipeline=pipelineWithDepencencyMaterial("cruise","mingle",1,"label-1","dev",2);
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("mingle"),new CaseInsensitiveString("dev"),new CaseInsensitiveString("one"),"","dest");
+  FetchHandler fetchHandler=fetchTaskBuilder.getHandler(fetchTask,pipeline.getName());
+  FetchArtifactBuilder builder=(FetchArtifactBuilder)fetchTaskBuilder.createBuilder(builderFactory,fetchTask,pipeline,resolver);
+  assertThat((FileHandler)fetchHandler,is(new FileHandler(new File("pipelines/cruise/dest"),getSrc())));
+  assertThat(builder.jobLocatorForDisplay(),is("mingle/label-1/dev/2/one"));
+}

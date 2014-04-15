@@ -1,0 +1,9 @@
+{
+  PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig("package-id");
+  Map<CaseInsensitiveString,AbstractMaterialConfig> nameToMaterialMap=new HashMap<CaseInsensitiveString,AbstractMaterialConfig>();
+  nameToMaterialMap.put(new CaseInsensitiveString("repo-name:pkg-name"),new PackageMaterialConfig("package-id-new"));
+  nameToMaterialMap.put(new CaseInsensitiveString("foo"),new GitMaterialConfig("url"));
+  packageMaterialConfig.validateNameUniqueness(nameToMaterialMap);
+  assertThat(packageMaterialConfig.errors().getAll().size(),is(0));
+  assertThat(nameToMaterialMap.size(),is(3));
+}

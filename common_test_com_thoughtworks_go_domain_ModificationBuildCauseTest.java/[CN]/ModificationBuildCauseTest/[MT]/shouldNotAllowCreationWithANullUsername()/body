@@ -1,0 +1,9 @@
+{
+  try {
+    BuildCause.createManualForced(null,null);
+    Assert.fail("Expected NullPointerException to be thrown");
+  }
+ catch (  IllegalArgumentException ignore) {
+    assertThat(ignore.getMessage(),containsString("Username cannot be null"));
+  }
+}

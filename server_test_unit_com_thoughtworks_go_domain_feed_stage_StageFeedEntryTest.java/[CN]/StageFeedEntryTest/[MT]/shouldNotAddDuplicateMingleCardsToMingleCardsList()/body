@@ -1,0 +1,7 @@
+{
+  StageFeedEntry entry=new StageFeedEntry(1,1,new StageIdentifier(),1,new Date(),StageResult.Passed);
+  entry.addCard(new MingleCard(new MingleConfig("mingle-url","project-name",null),"#1234"));
+  entry.addCard(new MingleCard(new MingleConfig("mingle-url","project-name",null),"#1234"));
+  entry.addCard(new MingleCard(new MingleConfig("mingle-url","project-name-2",null),"#5678"));
+  assertThat(entry.getMingleCards().size(),is(2));
+}

@@ -1,0 +1,10 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  submoduleRepos.addSubmodule(SUBMODULE,"sub1");
+  GitCommand gitWithSubmodule=new GitCommand(null,createTempWorkingDirectory(),GitMaterialConfig.DEFAULT_BRANCH,false);
+  gitWithSubmodule.cloneFrom(inMemoryConsumer(),submoduleRepos.mainRepo().getUrl());
+  InMemoryStreamConsumer outConsumer=new InMemoryStreamConsumer();
+  gitWithSubmodule.fetchAndReset(outConsumer,new StringRevision("HEAD"));
+  Matcher matcher=Pattern.compile(".*^\\s[a-f0-9A-F]{40} sub1 \\(heads/master\\)$.*",Pattern.MULTILINE | Pattern.DOTALL).matcher(outConsumer.getAllOutput());
+  assertThat(matcher.matches(),is(true));
+}

@@ -1,0 +1,7 @@
+{
+  FileUtils.touch(LOCK_FILE);
+  Lockfile lockfile=new Lockfile(LOCK_FILE);
+  assertThat(lockfile.tryLock(),is(false));
+  lockfile.delete();
+  assertThat(LOCK_FILE.exists(),is(true));
+}

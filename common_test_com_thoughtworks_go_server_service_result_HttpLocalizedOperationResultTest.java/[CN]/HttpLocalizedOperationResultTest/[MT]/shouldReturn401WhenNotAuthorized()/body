@@ -1,0 +1,6 @@
+{
+  Localizable message=LocalizedMessage.cannotViewPipeline("whateva");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  result.unauthorized(message,HealthStateType.general(HealthStateScope.GLOBAL));
+  assertThat(result.httpCode(),is(401));
+}

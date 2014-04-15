@@ -1,0 +1,19 @@
+{
+  Approval approval=Approval.automaticApproval();
+  approval.getAuthConfig().add(new AdminUser(new CaseInsensitiveString("sachin")));
+  approval.getAuthConfig().add(new AdminRole(new CaseInsensitiveString("admin")));
+  List names=new ArrayList();
+  names.add(nameMap("awesome_shilpa"));
+  names.add(nameMap("youth"));
+  names.add(nameMap(""));
+  List roles=new ArrayList();
+  roles.add(nameMap("role1"));
+  roles.add(nameMap("role2"));
+  roles.add(nameMap(""));
+  approval.setOperatePermissions(names,roles);
+  assertThat(approval.getAuthConfig().size(),is(4));
+  assertThat(approval.getAuthConfig(),hasItem((Admin)new AdminUser(new CaseInsensitiveString("awesome_shilpa"))));
+  assertThat(approval.getAuthConfig(),hasItem((Admin)new AdminUser(new CaseInsensitiveString("youth"))));
+  assertThat(approval.getAuthConfig(),hasItem((Admin)new AdminRole(new CaseInsensitiveString("role1"))));
+  assertThat(approval.getAuthConfig(),hasItem((Admin)new AdminRole(new CaseInsensitiveString("role2"))));
+}

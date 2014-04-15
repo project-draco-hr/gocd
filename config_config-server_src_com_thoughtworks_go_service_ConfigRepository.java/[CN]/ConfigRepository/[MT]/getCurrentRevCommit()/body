@@ -1,0 +1,9 @@
+{
+  try {
+    return revisions().iterator().next();
+  }
+ catch (  GitAPIException e) {
+    LOGGER.error("[CONFIG REPOSITORY] Could not fetch latest commit id");
+    throw e;
+  }
+}

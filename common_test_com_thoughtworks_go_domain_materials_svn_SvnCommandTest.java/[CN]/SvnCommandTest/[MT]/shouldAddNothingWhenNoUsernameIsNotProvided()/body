@@ -1,0 +1,8 @@
+{
+  SvnCommand commandWithNullUsername=new SvnCommand(null,"url",null,null,false);
+  assertThat(commandWithNullUsername.buildSvnLogCommandForLatestOne().toString().contains("--password="),is(false));
+  assertThat(commandWithNullUsername.buildSvnLogCommandForLatestOne().toString().contains("--username"),is(false));
+  SvnCommand commandWithEmptyUsername=new SvnCommand(null,"url"," "," ",false);
+  assertThat(commandWithEmptyUsername.buildSvnLogCommandForLatestOne().toString().contains("--password="),is(false));
+  assertThat(commandWithEmptyUsername.buildSvnLogCommandForLatestOne().toString().contains("--username"),is(false));
+}

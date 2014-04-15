@@ -1,0 +1,12 @@
+{
+  JobInstance buildingJob=building(projectOne,new Date(1));
+  final String uuid="uuid";
+  buildingJob.setAgentUuid(uuid);
+  jobInstanceDao.save(stageId,buildingJob);
+  JobInstance completedJob=JobInstanceMother.completed("anotherBuild",JobResult.Passed);
+  completedJob.setAgentUuid(uuid);
+  jobInstanceDao.save(stageId,completedJob);
+  JobInstance jobInstance=jobInstanceDao.getLatestInProgressBuildByAgentUuid(uuid);
+  assertThat(jobInstance,hasSameId(buildingJob));
+  assertThat(jobInstance.getIdentifier(),is(jobIdentifier(jobInstance)));
+}

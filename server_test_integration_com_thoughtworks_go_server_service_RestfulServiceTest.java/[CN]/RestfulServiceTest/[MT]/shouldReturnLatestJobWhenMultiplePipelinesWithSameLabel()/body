@@ -1,0 +1,10 @@
+{
+  configHelper.setPipelineLabelTemplate(fixture.pipelineName,"label-${COUNT}");
+  Pipeline pipeline=fixture.createdPipelineWithAllStagesPassed();
+  Pipeline newPipeline=createPipelineWithSameLabelButNoCounter(pipeline);
+  Stage stage=newPipeline.getStages().byName(fixture.devStage);
+  JobInstance job=stage.getJobInstances().first();
+  JobIdentifier result=restfulService.findJob(newPipeline.getName(),newPipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter()),job.getName(),null);
+  JobIdentifier expect=new JobIdentifier(pipeline,stage,job);
+  assertThat(result,is(expect));
+}

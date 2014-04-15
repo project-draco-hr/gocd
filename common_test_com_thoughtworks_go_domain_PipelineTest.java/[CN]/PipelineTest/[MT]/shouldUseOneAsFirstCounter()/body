@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=new Pipeline();
+  pipeline.setBuildCause(ModificationsMother.modifyNoFiles(PipelineConfigMother.pipelineConfig("mingle")));
+  pipeline.updateCounter(0);
+  assertThat(pipeline.getCounter(),is(1));
+  assertThat(pipeline.getLabel(),is("1"));
+}

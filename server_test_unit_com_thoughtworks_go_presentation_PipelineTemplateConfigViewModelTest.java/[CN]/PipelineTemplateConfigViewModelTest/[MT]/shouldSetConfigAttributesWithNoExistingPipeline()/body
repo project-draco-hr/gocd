@@ -1,0 +1,12 @@
+{
+  PipelineTemplateConfigViewModel viewModel=new PipelineTemplateConfigViewModel();
+  Map m=m("template",m(PipelineTemplateConfig.NAME,"template_name"),PipelineTemplateConfigViewModel.USE_EXISTING_PIPELINE,"0",PipelineTemplateConfigViewModel.PIPELINE_NAMES,"quux");
+  viewModel.setConfigAttributes(m);
+  PipelineTemplateConfig template=viewModel.templateConfig();
+  assertThat(template.name(),is(new CaseInsensitiveString("template_name")));
+  assertThat(template.size(),is(1));
+  assertThat(template.get(0).name().toString(),is(StageConfig.DEFAULT_NAME));
+  JobConfigs jobs=template.get(0).getJobs();
+  assertThat(jobs.size(),is(1));
+  assertThat(jobs.get(0).name().toString(),is(JobConfig.DEFAULT_NAME));
+}

@@ -1,0 +1,14 @@
+{
+  if (isSecure()) {
+    try {
+      if (isEmpty(encryptedValue.getValue())) {
+        return EMPTY;
+      }
+      return cipher.decrypt(encryptedValue.getValue());
+    }
+ catch (    InvalidCipherTextException e) {
+      throw new RuntimeException(format("Could not decrypt secure configuration property value for key %s",configurationKey.getName()),e);
+    }
+  }
+  return configurationValue == null ? null : configurationValue.getValue();
+}

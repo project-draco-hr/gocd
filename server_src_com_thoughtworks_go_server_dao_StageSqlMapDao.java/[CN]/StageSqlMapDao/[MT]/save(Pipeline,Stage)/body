@@ -1,0 +1,25 @@
+{
+  return (Stage)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCommit(){
+          String pipelineName=pipeline.getName();
+          String stageName=stage.getName();
+          clearStageHistoryPageCaches(stage,pipelineName,false);
+          clearCachedStage(stage.getIdentifier());
+          clearCachedAllStages(pipelineName,pipeline.getCounter(),stageName);
+          removeFromCache(cacheKeyForStageCountForGraph(pipelineName,stageName));
+        }
+      }
+);
+      stage.setPipelineId(pipeline.getId());
+      int maxStageCounter=getMaxStageCounter(pipeline.getId(),stage.getName());
+      stage.setCounter(maxStageCounter + 1);
+      getSqlMapClientTemplate().update("markPreviousStageRunsAsNotLatest",arguments("stageName",stage.getName()).and("pipelineId",pipeline.getId()).asMap());
+      getSqlMapClientTemplate().insert("insertStage",stage);
+      stage.setIdentifier(new StageIdentifier(pipeline,stage));
+      return stage;
+    }
+  }
+);
+}

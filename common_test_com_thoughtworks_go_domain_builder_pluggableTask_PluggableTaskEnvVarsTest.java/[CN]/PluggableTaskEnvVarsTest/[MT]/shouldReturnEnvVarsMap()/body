@@ -1,0 +1,8 @@
+{
+  Map<String,String> envMap=envVars.asMap();
+  assertThat(envMap.keySet().containsAll(keys),is(true));
+  assertThat(envMap.values().containsAll(values),is(true));
+  for (int i=0; i < keys.size(); i++) {
+    assertThat(envMap.get(keys.get(i)),is(values.get(i)));
+  }
+}

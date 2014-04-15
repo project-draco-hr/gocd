@@ -1,0 +1,9 @@
+{
+  String path="../../../../../..";
+  try {
+    chooser.findArtifact(jobId,path);
+  }
+ catch (  IllegalArtifactLocationException e) {
+    assertThat(e.getMessage(),containsString("Artifact path [" + path + "] is illegal."));
+  }
+}

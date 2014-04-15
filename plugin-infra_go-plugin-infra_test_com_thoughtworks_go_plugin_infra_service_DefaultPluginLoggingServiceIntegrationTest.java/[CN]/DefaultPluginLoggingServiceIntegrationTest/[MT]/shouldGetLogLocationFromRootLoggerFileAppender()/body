@@ -1,0 +1,6 @@
+{
+  DefaultPluginLoggingService service=new DefaultPluginLoggingService(systemEnvironment);
+  DefaultPluginLoggingService spy=Mockito.spy(service);
+  spy.info(pluginID(1),"LoggingClass","message");
+  verify(spy).getCurrentLogDirectory();
+}

@@ -1,0 +1,6 @@
+{
+  assertThat(valueStreamMapService.getValueStreamMap("does_not_exist",1,username,result),is(IsNull.nullValue()));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(HttpStatus.SC_NOT_FOUND));
+  assertThat(result.message(localizer),is("Pipeline 'does_not_exist' with counter '1' not found."));
+}

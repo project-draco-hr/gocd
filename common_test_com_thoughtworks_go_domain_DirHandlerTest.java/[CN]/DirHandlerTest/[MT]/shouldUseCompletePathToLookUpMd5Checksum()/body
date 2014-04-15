@@ -1,0 +1,12 @@
+{
+  DirHandler handler=new DirHandler("server/fetch_dest",agentDest);
+  zip=createZip("under_dir");
+  handler.useArtifactMd5Checksums(checksums);
+  when(checksums.md5For("server/fetch_dest/first")).thenReturn(DigestUtils.md5Hex("First File"));
+  when(checksums.md5For("server/fetch_dest/under_dir/second")).thenReturn(DigestUtils.md5Hex("Second File"));
+  handler.handle(new FileInputStream(zip));
+  handler.handleResult(200,goPublisher);
+  assertThat(goPublisher.getMessage(),containsString(String.format("Saved artifact to [%s] after verifying the integrity of its contents.",agentDest)));
+  assertThat(goPublisher.getMessage(),not(containsString("[WARN]")));
+  assertArtifactWasSaved("under_dir");
+}

@@ -1,0 +1,11 @@
+{
+  Class<?> type=findTypeOfField();
+  if (type == null) {
+    return null;
+  }
+  ConfigTag tag=GoConfigClassLoader.configTag(type,configCache);
+  if (configUtil.optionalAndMissingTag(e,tag,findSubTag(field).optional())) {
+    return null;
+  }
+  return GoConfigClassLoader.classParser(configUtil.getChild(e,tag),type,configCache,new GoCipher(),registry,configReferenceElements).parse();
+}

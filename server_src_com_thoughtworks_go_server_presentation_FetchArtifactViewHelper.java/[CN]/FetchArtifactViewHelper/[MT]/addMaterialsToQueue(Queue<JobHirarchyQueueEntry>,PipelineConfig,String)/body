@@ -1,0 +1,8 @@
+{
+  for (  MaterialConfig mat : pipelineConfig.materialConfigs()) {
+    if (mat instanceof DependencyMaterialConfig) {
+      DependencyMaterialConfig depMat=(DependencyMaterialConfig)mat;
+      bfsQueue.add(new JobHirarchyQueueEntry(pathFromThisPipeline,depMat.getPipelineName(),depMat.getStageName()));
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  JobIdentifier jobIdentifier=null;
+  try {
+    jobIdentifier=restfulService.findJob(pipelineName,counterOrLabel,stageName,stageCounter,buildName,buildId);
+  }
+ catch (  Exception e) {
+    return buildNotFound(pipelineName,counterOrLabel,stageName,stageCounter,buildName);
+  }
+  int convertedAttempt=attempt == null ? 1 : attempt;
+  try {
+    File artifact=artifactsService.findArtifact(jobIdentifier,filePath);
+    if (artifact.exists() && artifact.isFile()) {
+      return FileModelAndView.fileAlreadyExists(filePath);
+    }
+    MultipartFile multipartFile=multipartFile(request);
+    if (multipartFile == null) {
+      return FileModelAndView.invalidUploadRequest();
+    }
+    boolean success=saveFile(convertedAttempt,artifact,multipartFile,shouldUnzipStream(multipartFile));
+    if (!success) {
+      return FileModelAndView.errorSavingFile(filePath);
+    }
+    success=updateChecksumFile(request,jobIdentifier,filePath);
+    if (!success) {
+      return FileModelAndView.errorSavingChecksumFile(filePath);
+    }
+    return FileModelAndView.fileCreated(filePath);
+  }
+ catch (  IllegalArtifactLocationException e) {
+    return FileModelAndView.forbiddenUrl(filePath);
+  }
+}

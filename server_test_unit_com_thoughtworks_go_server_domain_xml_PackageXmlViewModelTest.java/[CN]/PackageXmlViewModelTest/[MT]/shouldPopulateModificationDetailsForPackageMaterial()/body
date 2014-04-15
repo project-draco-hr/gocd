@@ -1,0 +1,18 @@
+{
+  String userName="user";
+  String comment="comments";
+  Date checkinDate=new Date(System.currentTimeMillis());
+  String revision="package-1.0.0.rpm";
+  Element modificationsTag=DocumentHelper.createDocument().addElement("modifications");
+  Modifications modifications=new Modifications(new Modification(userName,comment,null,checkinDate,revision));
+  XmlWriterContext writerContext=mock(XmlWriterContext.class);
+  when(writerContext.getBaseUrl()).thenReturn("http://someurl:8153/go");
+  new PipelineXmlViewModel.PackageXmlViewModel(MaterialsMother.packageMaterial()).populateXmlForModifications(modifications,writerContext,modificationsTag);
+  Element changeSet=modificationsTag.element("changeset");
+  assertThat(changeSet,is(not(IsNull.nullValue())));
+  assertThat(changeSet.attributeValue("changesetUri"),is("http://someurl:8153/go/api/materials/1/changeset/package-1.0.0.rpm.xml"));
+  assertThat(changeSet.element("user").getText(),is(userName));
+  assertThat(changeSet.element("revision").getText(),is(revision));
+  assertThat(changeSet.element("checkinTime").getText(),is(DateUtils.formatISO8601(checkinDate)));
+  assertThat(changeSet.element("message").getText(),is(comment));
+}

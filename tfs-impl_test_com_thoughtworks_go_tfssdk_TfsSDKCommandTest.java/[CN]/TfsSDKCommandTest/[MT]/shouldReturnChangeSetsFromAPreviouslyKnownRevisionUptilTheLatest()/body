@@ -1,0 +1,9 @@
+{
+  Changeset[] changeSets=getChangeSets(42);
+  when(client.queryHistory(eq(TFS_PROJECT),any(ChangesetVersionSpec.class),anyInt())).thenReturn(changeSets);
+  TfsSDKCommand spy=spy(tfsCommand);
+  doReturn(null).when(spy).getModifiedFiles(changeSets[0]);
+  List<Modification> modifications=spy.modificationsSince(null,new StringRevision("2"));
+  assertThat(modifications.isEmpty(),is(false));
+  verify(client,times(2)).queryHistory(eq(TFS_PROJECT),any(ChangesetVersionSpec.class),anyInt());
+}

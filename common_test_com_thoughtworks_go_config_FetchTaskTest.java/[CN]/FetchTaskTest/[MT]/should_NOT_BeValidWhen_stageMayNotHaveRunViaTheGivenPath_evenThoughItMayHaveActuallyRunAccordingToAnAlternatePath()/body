@@ -1,0 +1,14 @@
+{
+  PipelineConfig upstreamsPeer=config.pipelineConfigByName(new CaseInsensitiveString("upstreams_peer"));
+  upstreamsPeer.setMaterialConfigs(new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig("uppest_stream","uppest-stage1")));
+  upstreamsPeer.add(StageConfigMother.stageConfig("peer-stage",new JobConfigs(new JobConfig("peer-job"))));
+  downstream=config.pipelineConfigByName(new CaseInsensitiveString("downstream"));
+  downstream.setMaterialConfigs(new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig("upstream","up-stage1"),MaterialConfigsMother.dependencyMaterialConfig("upstreams_peer","peer-stage")));
+  FetchTask task=new FetchTask(new CaseInsensitiveString("uppest_stream/upstreams_peer"),new CaseInsensitiveString("uppest-stage1"),new CaseInsensitiveString("uppest-job1"),"src","dest");
+  task.validate(ValidationContext.forChain(config,new PipelineConfigs(),downstream,downstream.getStage(new CaseInsensitiveString("stage"))));
+  assertThat(task.errors().isEmpty(),is(true));
+  task=new FetchTask(new CaseInsensitiveString("uppest_stream/upstreams_peer"),new CaseInsensitiveString("uppest-stage2"),new CaseInsensitiveString("uppest-job2"),"src","dest");
+  task.validate(ValidationContext.forChain(config,new PipelineConfigs(),downstream,downstream.getStage(new CaseInsensitiveString("stage"))));
+  assertThat(task.errors().isEmpty(),is(false));
+  assertThat(task.errors().on(FetchTask.STAGE),is("Pipeline \"downstream\" tries to fetch artifact from stage \"uppest_stream :: uppest-stage2\" which does not complete before \"downstream\" pipeline's dependencies."));
+}

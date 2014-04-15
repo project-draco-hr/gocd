@@ -1,0 +1,9 @@
+{
+  if (isBlank(name)) {
+    errors().add(NAME,"Please provide name");
+  }
+ else   if (!new NameTypeValidator().isNameValid(name)) {
+    errors().add(NAME,NameTypeValidator.errorMessage("PackageRepository",name));
+  }
+  configuration.validateUniqueness(String.format("Repository '%s'",name));
+}

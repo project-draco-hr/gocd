@@ -1,0 +1,10 @@
+{
+  pipeline.setLabelTemplate("pipeline-${COUNT}-${myGit}");
+  GitMaterialConfig gitConfig=MaterialConfigsMother.gitMaterialConfig("git://url");
+  gitConfig.setName(new CaseInsensitiveString("myGit"));
+  pipeline.addMaterialConfig(gitConfig);
+  pipeline.validate(validationContext);
+  assertThat(pipeline.errors().isEmpty(),is(true));
+  List<String> errors=pipeline.errors().getAllOn("labelTemplate");
+  assertThat(errors,is(nullValue()));
+}

@@ -1,0 +1,12 @@
+{
+  LOGGER.debug("[Config Save] Updating partial");
+  org.dom4j.Document document=documentRoot();
+  Element root=document.getRootElement();
+  Element configElement=((Element)root.selectSingleNode(getXpath()));
+  List nodes=configElement.getParent().content();
+  int index=nodes.indexOf(configElement);
+  LOGGER.debug("[Config Save] Converting to object");
+  Element newConfigElement=reader.read(new StringReader(xmlPartial)).getRootElement();
+  nodes.set(index,newConfigElement);
+  return saveConfig(document.asXML(),md5);
+}

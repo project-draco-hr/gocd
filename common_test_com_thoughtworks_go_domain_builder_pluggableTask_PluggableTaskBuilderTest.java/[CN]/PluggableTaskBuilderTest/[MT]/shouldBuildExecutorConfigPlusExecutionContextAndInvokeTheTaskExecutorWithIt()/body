@@ -1,0 +1,23 @@
+{
+  Task task=mock(Task.class);
+  TaskConfig defaultTaskConfig=mock(TaskConfig.class);
+  when(task.config()).thenReturn(defaultTaskConfig);
+  final TaskConfig executorTaskConfig=mock(TaskConfig.class);
+  final TaskExecutionContext taskExecutionContext=mock(TaskExecutionContext.class);
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory"){
+    @Override protected TaskConfig buildTaskConfig(    TaskConfig config){
+      return executorTaskConfig;
+    }
+    @Override protected TaskExecutionContext buildTaskContext(    BuildLogElement buildLogElement,    DefaultGoPublisher publisher,    EnvironmentVariableContext environmentVariableContext){
+      return taskExecutionContext;
+    }
+  }
+;
+  TaskExecutor taskExecutor=mock(TaskExecutor.class);
+  when(taskExecutor.execute(executorTaskConfig,taskExecutionContext)).thenReturn(new ExecutionResult());
+  when(task.executor()).thenReturn(taskExecutor);
+  taskBuilder.executeTask(task,null,null,null);
+  verify(task).config();
+  verify(task).executor();
+  verify(taskExecutor).execute(executorTaskConfig,taskExecutionContext);
+}

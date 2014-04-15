@@ -1,0 +1,8 @@
+{
+  userDao.saveOrUpdate(user("first"));
+  User lowerFirst=userDao.findUser("first");
+  assertThat(lowerFirst.getName(),is("first"));
+  User upperFirst=userDao.findUser("FIRST");
+  assertThat(upperFirst.getName(),is("first"));
+  assertThat(upperFirst.getId(),is(lowerFirst.getId()));
+}

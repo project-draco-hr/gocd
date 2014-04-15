@@ -1,0 +1,12 @@
+{
+  List<JobPlan> jobPlans=jobInstanceDao.orderedScheduledBuilds();
+  assertThat(jobPlans.size(),is(2));
+  assertThat(jobPlans.get(0).getIdentifier().getRerunOfCounter(),is(nullValue()));
+  assertThat(jobPlans.get(1).getIdentifier().getRerunOfCounter(),is(nullValue()));
+  dbHelper.passStage(savedStage);
+  Stage stage=instanceFactory.createStageForRerunOfJobs(savedStage,a(JOB_NAME),schedulingContext,pipelineConfig.getStage(new CaseInsensitiveString(STAGE_NAME)),new TimeProvider(),"md5");
+  dbHelper.saveStage(savedPipeline,stage,stage.getOrderId() + 1);
+  jobPlans=jobInstanceDao.orderedScheduledBuilds();
+  assertThat(jobPlans.size(),is(1));
+  assertThat(jobPlans.get(0).getIdentifier().getRerunOfCounter(),is(savedStage.getCounter()));
+}

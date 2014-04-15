@@ -1,0 +1,9 @@
+{
+  Map<String,Object> model=new HashMap<String,Object>();
+  model.put("targetFile",file);
+  model.put(FileView.NEED_TO_ZIP,true);
+  view.render(model,mockRequest,mockResponse);
+  File unzipHere=TestFileUtil.createTempFolder(UUID.randomUUID().toString());
+  new ZipUtil().unzip(new ZipInputStream(new ByteArrayInputStream(mockResponse.getContentAsByteArray())),unzipHere);
+  assertEquals(FileUtils.readFileToString(new File(unzipHere,file.getName())),"hello");
+}

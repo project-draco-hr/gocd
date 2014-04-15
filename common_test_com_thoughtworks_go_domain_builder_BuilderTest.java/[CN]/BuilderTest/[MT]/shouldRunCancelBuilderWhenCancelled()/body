@@ -1,0 +1,6 @@
+{
+  StubBuilder stubBuilder=new StubBuilder();
+  CommandBuilder builder=new CommandBuilder("echo","",new File("."),new RunIfConfigs(FAILED),stubBuilder,"");
+  builder.cancel(goPublisher,environmentVariableContext);
+  assertThat(stubBuilder.wasCalled,is(true));
+}

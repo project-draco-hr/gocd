@@ -1,0 +1,21 @@
+{
+  final AuthSSLKeyManagerFactory keyManagerFactory=context.mock(AuthSSLKeyManagerFactory.class);
+  context.checking(new Expectations(){
+{
+      exactly(2).of(keyManagerFactory).keyManagers();
+      will(returnValue(null));
+    }
+  }
+);
+  AuthSSLProtocolSocketFactory factory=new AuthSSLProtocolSocketFactory(null,keyManagerFactory);
+  SSLContext oldSslContext=factory.getSSLContext();
+  context.checking(new Expectations(){
+{
+      allowing(keyManagerFactory).keyManagers();
+      will(returnValue(new KeyManager[]{}));
+    }
+  }
+);
+  SSLContext newSslContext=factory.getSSLContext();
+  assertThat(oldSslContext,not(newSslContext));
+}

@@ -1,0 +1,11 @@
+{
+  File defaultDirectory=getAFile(true);
+  when(systemEnvironment.getDefaultCommandRepository()).thenReturn(defaultDirectory);
+  doReturn(zipInputStream).when(spy).getPackagedRepositoryZipStream();
+  doReturn("13.1=  50   ").when(zipUtil).getFileContentInsideZip(zipInputStream,VERSION_FILE);
+  doReturn(new Version("  textHereDoesNotMatter = 9 ")).when(spy).getExistingVersion(defaultDirectory);
+  doNothing().when(spy).usePackagedCommandRepository(zipInputStream,defaultDirectory);
+  spy.initialize();
+  verify(spy).usePackagedCommandRepository(zipInputStream,defaultDirectory);
+  verify(spy,times(2)).getPackagedRepositoryZipStream();
+}

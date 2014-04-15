@@ -1,0 +1,14 @@
+{
+  Pipeline minglePipeline=schedulePipelineWithStages(PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","defaultStage"));
+  Pipeline twistPipeline=schedulePipelineWithStages(PipelineMother.twoBuildPlansWithResourcesAndMaterials("twist","defaultStage"));
+  pipelineDao.lockPipeline(minglePipeline);
+  pipelineDao.lockPipeline(twistPipeline);
+  List<String> lockedPipelines=pipelineDao.lockedPipelines();
+  assertThat(lockedPipelines.size(),is(2));
+  assertThat(lockedPipelines,hasItem("mingle"));
+  assertThat(lockedPipelines,hasItem("twist"));
+  pipelineDao.unlockPipeline("mingle");
+  lockedPipelines=pipelineDao.lockedPipelines();
+  assertThat(lockedPipelines.size(),is(1));
+  assertThat(lockedPipelines,hasItem("twist"));
+}

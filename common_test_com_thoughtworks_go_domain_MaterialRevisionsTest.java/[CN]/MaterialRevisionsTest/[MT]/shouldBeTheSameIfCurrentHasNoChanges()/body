@@ -1,0 +1,5 @@
+{
+  MaterialRevisions first=new MaterialRevisions(svnMaterialRevision(oneModifiedFile("svn revision 2")),hgMaterialRevision(oneModifiedFile("hg revision 1")));
+  MaterialRevisions second=new MaterialRevisions(svnMaterialRevision(false,oneModifiedFile("svn revision 2")),hgMaterialRevision(false,oneModifiedFile("hg revision 1")));
+  assertThat(first.isSameAs(second),is(true));
+}

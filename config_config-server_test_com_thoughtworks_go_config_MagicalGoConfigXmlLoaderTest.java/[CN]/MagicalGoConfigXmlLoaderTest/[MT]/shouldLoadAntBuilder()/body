@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(FileUtil.readToEnd(toInputStream(CONFIG_WITH_ANT_BUILDER))).config;
+  JobConfig plan=cruiseConfig.jobConfigByName("pipeline1","mingle","cardlist",true);
+  assertThat(plan.tasks(),sizeIs(1));
+  AntTask builder=(AntTask)plan.tasks().first();
+  assertThat(builder.getTarget(),is("all"));
+  final ArtifactPlans cardListArtifacts=cruiseConfig.jobConfigByName("pipeline1","mingle","cardlist",true).artifactPlans();
+  assertThat(cardListArtifacts.size(),is(1));
+  ArtifactPlan artifactPlan=cardListArtifacts.get(0);
+  assertThat(artifactPlan.getArtifactType(),is(ArtifactType.unit));
+}

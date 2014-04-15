@@ -1,0 +1,7 @@
+{
+  boolean isMissingElement=!hasChild(e,tag);
+  if (!optional && isMissingElement) {
+    throw bomb("Non optional tag '" + tag + "' is not in config file. Found: "+ elementOutput(e));
+  }
+  return optional && isMissingElement;
+}

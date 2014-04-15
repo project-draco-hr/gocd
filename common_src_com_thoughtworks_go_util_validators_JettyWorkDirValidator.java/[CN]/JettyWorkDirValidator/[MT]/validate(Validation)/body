@@ -1,0 +1,20 @@
+{
+  if (SystemEnvironment.getProperty("jetty.home","").equals("")) {
+    new SystemEnvironment().setProperty("jetty.home",SystemEnvironment.getProperty("user.dir"));
+  }
+  File home=new File(SystemEnvironment.getProperty("jetty.home"));
+  File work=new File(SystemEnvironment.getProperty("jetty.home"),"work");
+  if (home.exists()) {
+    if (work.exists()) {
+      try {
+        FileUtils.deleteDirectory(work);
+      }
+ catch (      IOException e) {
+        String message=format("Error trying to remove Jetty working directory {0}: {1}",work.getAbsolutePath(),e);
+        return val.addError(new RuntimeException(message));
+      }
+    }
+    work.mkdir();
+  }
+  return Validation.SUCCESS;
+}

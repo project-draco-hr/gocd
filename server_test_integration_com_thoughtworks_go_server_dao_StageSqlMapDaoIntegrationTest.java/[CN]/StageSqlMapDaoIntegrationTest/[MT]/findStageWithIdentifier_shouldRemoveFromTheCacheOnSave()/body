@@ -1,0 +1,16 @@
+{
+  SqlMapClientTemplate mockTemplate=mock(SqlMapClientTemplate.class);
+  Stage first=StageMother.passedStageInstance("pipeline","stage","job",new Date());
+  first.setCounter(1);
+  Stage second=StageMother.passedStageInstance("pipeline","stage","job",new Date());
+  second.setCounter(2);
+  stageDao.setSqlMapClientTemplate(mockTemplate);
+  when(mockTemplate.queryForObject(eq("findStageWithJobsByIdentifier"),any())).thenReturn(first);
+  Stage actual=stageDao.findStageWithIdentifier(new StageIdentifier("pipeline",1,"stage","1"));
+  assertEquals(first,actual);
+  Pipeline pipeline=new Pipeline("pipeline","label",BuildCause.createManualForced(),first);
+  pipeline.setCounter(1);
+  stageDao.save(pipeline,second);
+  stageDao.findStageWithIdentifier(new StageIdentifier("pipeline",1,"stage","1"));
+  verify(mockTemplate,times(2)).queryForObject(eq("findStageWithJobsByIdentifier"),any());
+}

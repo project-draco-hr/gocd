@@ -1,0 +1,13 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("upstream-pipeline"),new CaseInsensitiveString("blah-stage"));
+  when(mockGoConfigService.findMaterial(new CaseInsensitiveString("blahPipeline"),dependencyMaterial.getPipelineUniqueFingerprint())).thenReturn(dependencyMaterial.config());
+  when(materialConfigConverter.toMaterial(dependencyMaterial.config())).thenReturn(dependencyMaterial);
+  when(mockMaterialChecker.findSpecificRevision(dependencyMaterial,"upstream-pipeline/500/blah-stage/2")).thenThrow(new RuntimeException("revision not found"));
+  try {
+    specificMaterialRevisionFactory.create("blahPipeline",Collections.singletonMap(dependencyMaterial.getPipelineUniqueFingerprint(),"upstream-pipeline/500/blah-stage/2"));
+    fail("Should not be able to find revision");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),is("revision not found"));
+  }
+}

@@ -1,0 +1,23 @@
+{
+  MaterialRevisions uppestRevision=createHgMaterialWithMultipleRevisions(1L,first);
+  MaterialRevisions upRevision=new MaterialRevisions(dependencyMaterialRevision("up0",2,"label","stage",1,new Date()));
+  MaterialRevisions expected=new MaterialRevisions(uppestRevision.getMaterialRevision(0));
+  MaterialRevision up1Revision=dependencyMaterialRevision("up1",1,"label","stage",1,new Date());
+  up1Revision.markAsChanged();
+  expected.addRevision(up1Revision);
+  MaterialRevisions actual=createHgMaterialWithMultipleRevisions(1L,third);
+  actual.addRevision(up1Revision);
+  PipelineConfig current=createPipelineConfigWithMaterialConfig("current",actual.getMaterials().get(0).config(),new DependencyMaterialConfig(new CaseInsensitiveString("up1"),new CaseInsensitiveString("stage")));
+  PipelineConfig up1=createPipelineConfigWithMaterialConfig("up1",upRevision.getMaterials().get(0).config());
+  PipelineConfig up0=createPipelineConfigWithMaterialConfig("up0",uppestRevision.getMaterials().get(0).config());
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("up1","stage","job");
+  pipeline.setId(10);
+  Pipeline uppestPipeline=PipelineMother.passedPipelineInstance("up0","stage","job");
+  uppestPipeline.setId(5);
+  when(pipelineDao.findPipelineByNameAndCounter("up1",1)).thenReturn(pipeline);
+  when(materialRepository.findMaterialRevisionsForPipeline(10)).thenReturn(upRevision);
+  when(pipelineDao.findPipelineByNameAndCounter("up0",2)).thenReturn(uppestPipeline);
+  when(materialRepository.findMaterialRevisionsForPipeline(5)).thenReturn(uppestRevision);
+  PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1,new PipelineConfigDependencyGraph(up0)));
+  assertThat(service.getRevisionsBasedOnDependencies(dependencyGraph,actual),is(expected));
+}

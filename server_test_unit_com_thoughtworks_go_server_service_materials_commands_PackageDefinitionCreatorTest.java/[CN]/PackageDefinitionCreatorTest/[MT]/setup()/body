@@ -1,0 +1,10 @@
+{
+  packageDefinitionService=mock(PackageDefinitionService.class);
+  doNothing().when(packageDefinitionService).performPluginValidationsFor(any(PackageDefinition.class));
+  cruiseConfig=mock(CruiseConfig.class);
+  packageRepository=PackageRepositoryMother.create(repoId);
+  packageDefinition=PackageDefinitionMother.create(pkgId);
+  packageRepository.addPackage(packageDefinition);
+  when(cruiseConfig.getPackageRepositories()).thenReturn(new PackageRepositories(packageRepository));
+  doNothing().when(cruiseConfig).savePackageDefinition(any(PackageDefinition.class));
+}

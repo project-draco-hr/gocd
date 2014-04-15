@@ -1,0 +1,10 @@
+{
+  System.err.println("Deleting Old Go Jar File: " + goJarFile);
+  if (!FileUtils.deleteQuietly(goJarFile)) {
+    logToConsoleAndExit("Failed to delete go jar file: " + goJarFile);
+  }
+  System.err.println("Compressing File: " + jarExplodeDir + " in directory: "+ parent);
+  zipUtil.zipFolderContents(jarExplodeDir,new File(parent,"go.jar"));
+  System.err.println("Deleting the exploded directory: " + jarExplodeDir);
+  FileUtils.deleteDirectory(jarExplodeDir);
+}

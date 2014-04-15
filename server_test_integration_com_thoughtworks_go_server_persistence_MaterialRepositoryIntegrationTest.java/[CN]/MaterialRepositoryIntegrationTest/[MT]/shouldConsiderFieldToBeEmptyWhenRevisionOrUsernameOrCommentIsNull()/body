@@ -1,0 +1,14 @@
+{
+  ScmMaterial material=material();
+  repo.saveOrUpdate(material.createMaterialInstance());
+  MaterialRevision userIsNullRevision=saveOneScmModification("40c95a3c41f54b5fb3107982cf2acd08783f102a",material,null,"meet_you_in_hell.txt","bring it on!");
+  MaterialRevision commentIsNullRevision=saveOneScmModification("c30c471137f31a4bf735f653f888e799f6deec04",material,"turn_her","lets_party_in_hell.txt",null);
+  List<MatchedRevision> revisions=repo.findRevisionsMatching(material.config(),"bring");
+  assertThat(revisions.size(),is(1));
+  assertMatchedRevision(revisions.get(0),userIsNullRevision.getLatestShortRevision(),userIsNullRevision.getLatestRevisionString(),null,userIsNullRevision.getDateOfLatestModification(),"bring it on!");
+  revisions=repo.findRevisionsMatching(material.config(),"c04 turn");
+  assertThat(revisions.size(),is(1));
+  assertMatchedRevision(revisions.get(0),commentIsNullRevision.getLatestShortRevision(),commentIsNullRevision.getLatestRevisionString(),"turn_her",commentIsNullRevision.getDateOfLatestModification(),null);
+  revisions=repo.findRevisionsMatching(material.config(),"null");
+  assertThat(revisions.size(),is(0));
+}

@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  BuildCause cause=BuildCause.createManualForced(modifyOneFile(pipelineConfig),Username.ANONYMOUS);
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,cause,new DefaultSchedulingContext(MOD_USER),md5,new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  savePipeline(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  BuildCause buildCause=pipelineFromDB.getBuildCause();
+  assertThat(buildCause.getBuildCauseMessage(),is("Forced by " + Username.ANONYMOUS.getDisplayName()));
+}

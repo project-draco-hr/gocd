@@ -1,0 +1,19 @@
+{
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  for (int i=0; i < src.length; i++) {
+    if (isBlank(src[i])) {
+      continue;
+    }
+    ArtifactPlan plan;
+    if (StringUtils.equals(type[i],"test")) {
+      plan=new TestArtifactPlan();
+    }
+ else {
+      plan=new ArtifactPlan();
+    }
+    plan.setSrc(defaultString(src[i]));
+    plan.setDest(defaultString(dest[i]));
+    artifactPlans.add(plan);
+  }
+  return artifactPlans;
+}

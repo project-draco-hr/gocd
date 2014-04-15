@@ -1,0 +1,5 @@
+{
+  BuildAssignment buildAssignment=BuildAssignment.create(jobForPipeline("foo"),BuildCause.createManualForced(),new ArrayList<Builder>(),null);
+  buildAssignment.enhanceEnvironmentVariables(new EnvironmentVariableContext("foo","bar"));
+  assertThat(buildAssignment.initialEnvironmentVariableContext(),is(new EnvironmentVariableContext("foo","bar")));
+}

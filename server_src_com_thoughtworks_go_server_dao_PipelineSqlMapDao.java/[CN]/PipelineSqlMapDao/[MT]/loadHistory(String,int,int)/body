@@ -1,0 +1,7 @@
+{
+  List<Long> ids=findPipelineIds(pipelineName,limit,offset);
+  if (ids.size() == 1) {
+    return PipelineInstanceModels.createPipelineInstanceModels(loadHistoryByIdWithBuildCause(ids.get(0)));
+  }
+  return loadHistory(pipelineName,ids);
+}

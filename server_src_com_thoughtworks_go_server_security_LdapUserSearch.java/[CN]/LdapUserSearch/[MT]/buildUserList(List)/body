@@ -1,0 +1,12 @@
+{
+  List<User> users=new ArrayList<User>();
+  for (  Object ldapUser : ldapUserList) {
+    try {
+      users.add(toUser((BasicAttributes)ldapUser));
+    }
+ catch (    NamingException e) {
+      throw new RuntimeException("Ldap attributes configured incorrectly. Mismatch in expected attributes.",e);
+    }
+  }
+  return users;
+}

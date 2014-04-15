@@ -1,0 +1,23 @@
+{
+  super("");
+  setResizable(false);
+  addWindowListener(new SymWindow());
+  getContentPane().setLayout(new BorderLayout(15,15));
+  List<JLabel> aboutLabels=new ArrayList<JLabel>();
+  aboutLabels.add(emptyLabel());
+  aboutLabels.add(titleLabel("Go Agent"));
+  aboutLabels.add(bodyLabel("Bootstrapper Version " + getBootstrapperVersion()));
+  aboutLabels.add(emptyLabel());
+  aboutLabels.add(bodyLabel("Java Version " + System.getProperty("java.version")));
+  aboutLabels.add(bodyLabel("Copyright (C) 2013 ThoughtWorks Inc."));
+  aboutLabels.add(emptyLabel());
+  Panel textPanel2=new Panel(new GridLayout(aboutLabels.size(),1));
+  for (  JLabel aboutLabel : aboutLabels) {
+    textPanel2.add(aboutLabel);
+  }
+  getContentPane().add(textPanel2,BorderLayout.CENTER);
+  pack();
+  setLocation(FRAME_LEFT,FRAME_TOP);
+  setSize(FRAME_WIDTH,FRAME_HEIGHT);
+  setResizable(false);
+}

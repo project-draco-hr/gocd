@@ -1,0 +1,7 @@
+{
+  String smallSearchText="f";
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.search(smallSearchText,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Please use a search string that has at least two (2) letters."));
+}

@@ -1,0 +1,8 @@
+{
+  String jobWithCommand="<job name=\"functional\">\n" + "      <tasks>\n" + "        <exec command=\"c:\\program files\\cmd.exe\" args=\"arguments\" />\n"+ "      </tasks>\n"+ "    </job>\n";
+  String configWithCommand=ConfigFileFixture.withCommand(jobWithCommand);
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(toInputStream(configWithCommand)).config;
+  Task task=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).first().allBuildPlans().first().tasks().first();
+  assertThat(task,is(instanceOf(ExecTask.class)));
+  assertThat((ExecTask)task,is(new ExecTask("c:\\program files\\cmd.exe","arguments",(String)null)));
+}

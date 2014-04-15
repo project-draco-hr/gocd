@@ -1,0 +1,29 @@
+{
+  GitMaterial git1=u.wf(new GitMaterial("git1"),"folder1");
+  int i=1;
+  String[] git_revs1={"g11"};
+  u.checkinInOrder(git1,u.d(i++),git_revs1);
+  GitMaterial git2=u.wf(new GitMaterial("git2"),"folder2");
+  String[] git_revs2={"g21","g22"};
+  u.checkinInOrder(git2,u.d(i++),git_revs2);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(git1),u.m(git2));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(git1),u.m(git2));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p1),u.m(p2));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g11","g21");
+  String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),"g11","g21");
+  String p3_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p3,u.d(i++),p1_1,p2_1);
+  configHelper.setMaterialConfigForPipeline("P2",git1.config());
+  cruiseConfig=goConfigFileDao.load();
+  String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i),"g11","g22");
+  ScheduleTestUtil.AddedPipeline new_p2=new ScheduleTestUtil.AddedPipeline(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("p2")),p2.material);
+  u.scheduleWith(new_p2,"g11");
+  MaterialRevisions given=u.mrs(u.mr(p1,true,p1_2),u.mr(new_p2,false,p2_1));
+  try {
+    assertThat(getRevisionsBasedOnDependencies(p3,cruiseConfig,given),is(nullValue()));
+    fail("Should have failed. There is no compatiable revision as material configuration has changed for p2");
+  }
+ catch (  NoCompatibleUpstreamRevisionsException e) {
+    assertThat(e.getMessage(),is("Failed resolution of pipeline p3 : Cause : No valid revisions found for the upstream dependency: DependencyMaterialConfig{pipelineName='p2', stageName='s'}"));
+  }
+}

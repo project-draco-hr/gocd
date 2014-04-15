@@ -1,0 +1,14 @@
+{
+  updateConfig(new NoOverwriteUpdateConfigCommand(){
+    public CruiseConfig update(    CruiseConfig cruiseConfig){
+      PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipeline));
+      bombIf(pipelineConfig.size() <= stageIndex,"Stage " + pipeline + ":"+ stage.name()+ " does not exist in config file. "+ "Unable to update Stage.");
+      pipelineConfig.set(stageIndex,stage);
+      return cruiseConfig;
+    }
+    public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+}

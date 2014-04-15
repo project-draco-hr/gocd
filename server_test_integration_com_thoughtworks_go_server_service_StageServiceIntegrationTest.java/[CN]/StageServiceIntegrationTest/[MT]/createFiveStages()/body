@@ -1,0 +1,15 @@
+{
+  Stage[] stages=new Stage[5];
+  stages[0]=savedPipeline.getFirstStage();
+  for (int i=1; i < stages.length; i++) {
+    DefaultSchedulingContext ctx=new DefaultSchedulingContext("anonumous");
+    StageConfig stageCfg=pipelineConfig.first();
+    stages[i]=i % 2 == 0 ? instanceFactory.createStageInstance(stageCfg,ctx,md5,new TimeProvider()) : instanceFactory.createStageForRerunOfJobs(stages[i - 1],a("unit","blah"),ctx,stageCfg,new TimeProvider(),"md5");
+    stageService.save(savedPipeline,stages[i]);
+  }
+  StageHistoryEntry[] entries=new StageHistoryEntry[5];
+  for (int i=0; i < stages.length; i++) {
+    entries[i]=new StageHistoryEntry(stages[i],pipelineDao.loadHistory(savedPipeline.getId()).getNaturalOrder(),stages[i].getRerunOfCounter());
+  }
+  return entries;
+}

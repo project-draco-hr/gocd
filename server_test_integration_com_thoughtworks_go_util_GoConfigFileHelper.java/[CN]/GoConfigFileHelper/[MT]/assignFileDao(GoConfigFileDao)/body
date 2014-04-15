@@ -1,0 +1,11 @@
+{
+  this.goConfigFileDao=goConfigFileDao;
+  try {
+    Field field=GoConfigFileDao.class.getDeclaredField("cachedConfigService");
+    field.setAccessible(true);
+    this.cachedGoConfig=(CachedGoConfig)field.get(goConfigFileDao);
+  }
+ catch (  Exception e) {
+    bomb(e);
+  }
+}

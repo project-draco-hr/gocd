@@ -1,0 +1,18 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  String pluginDirName="./tmp-DPJLMT" + RANDOM.nextInt();
+  BUNDLED_PLUGIN_DIR=new File(pluginDirName);
+  recreateDirectory(BUNDLED_PLUGIN_DIR);
+  String pluginExternalDirName="./tmp-external-DPJLMT" + RANDOM.nextInt();
+  PLUGIN_EXTERNAL_DIR=new File(pluginExternalDirName);
+  recreateDirectory(PLUGIN_EXTERNAL_DIR);
+  systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.get(PLUGIN_LOCATION_MONITOR_INTERVAL_IN_SECONDS)).thenReturn(1);
+  when(systemEnvironment.get(PLUGIN_GO_PROVIDED_PATH)).thenReturn(pluginDirName);
+  when(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH)).thenReturn(pluginExternalDirName);
+  changeListener=mock(PluginJarChangeListener.class);
+  monitor=new DefaultPluginJarLocationMonitor(systemEnvironment);
+  monitor.initialize();
+}

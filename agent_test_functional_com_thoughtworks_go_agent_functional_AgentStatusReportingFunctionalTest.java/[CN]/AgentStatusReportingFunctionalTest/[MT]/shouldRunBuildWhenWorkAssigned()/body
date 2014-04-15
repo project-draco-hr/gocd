@@ -1,0 +1,6 @@
+{
+  assertWillHappen(FakeBuildRepositoryRemote.AGENT_STATUS,hasItem(Building));
+  FakeBuildRepositoryRemote.AGENT_STATUS.clear();
+  restartGoServer();
+  assertWillHappen(FakeBuildRepositoryRemote.AGENT_STATUS,firstMessageIs(AgentRuntimeStatus.Idle));
+}

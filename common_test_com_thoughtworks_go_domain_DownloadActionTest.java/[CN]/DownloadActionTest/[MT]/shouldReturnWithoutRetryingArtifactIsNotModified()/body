@@ -1,0 +1,10 @@
+{
+  fetchHandler=new FileHandler(new File(""),getSrc());
+  HttpService httpService=mock(HttpService.class);
+  StubGoPublisher goPublisher=new StubGoPublisher();
+  when(httpService.download("foo",fetchHandler)).thenReturn(SC_NOT_MODIFIED);
+  new DownloadAction(httpService,goPublisher,clock).perform("foo",fetchHandler);
+  verify(httpService).download("foo",this.fetchHandler);
+  verifyNoMoreInteractions(httpService);
+  assertThat(goPublisher.getMessage(),containsString("Artifact is not modified, skipped fetching it"));
+}

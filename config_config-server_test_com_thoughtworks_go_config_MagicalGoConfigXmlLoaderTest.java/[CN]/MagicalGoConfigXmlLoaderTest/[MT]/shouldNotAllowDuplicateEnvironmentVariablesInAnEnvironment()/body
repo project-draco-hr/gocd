@@ -1,0 +1,10 @@
+{
+  String content=ConfigFileFixture.configWithEnvironmentsAndAgents("<environments>" + "  <environment name='uat'>" + "     <environmentvariables> "+ "         <variable name='FOO'>foo</variable>"+ "         <variable name='FOO'>foo</variable>"+ "     </environmentvariables> "+ "  </environment>"+ "</environments>","<agents>" + "  <agent uuid='1' hostname='test1.com' ipaddress='192.168.0.1' isDenied='true' />" + "</agents>");
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("Should not allow duplicate variable names");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Variable name 'FOO' is not unique for environment 'uat'."));
+  }
+}

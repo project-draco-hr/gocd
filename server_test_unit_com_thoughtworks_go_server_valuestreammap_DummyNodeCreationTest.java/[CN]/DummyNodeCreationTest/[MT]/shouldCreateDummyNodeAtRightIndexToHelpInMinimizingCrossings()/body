@@ -1,0 +1,16 @@
+{
+  String currentPipeline="d5";
+  ValueStreamMap graph=new ValueStreamMap(currentPipeline,null);
+  graph.addUpstreamNode(new PipelineDependencyNode("d4","d4"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("d1","d1"),null,"d4");
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d1");
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d4");
+  graph.addUpstreamNode(new PipelineDependencyNode("d2","d2"),null,"d4");
+  graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d2");
+  NodeLevelMap nodeLevelMap=new LevelAssignment().apply(graph);
+  dummyNodeCreation.apply(graph,nodeLevelMap);
+  VSMTestHelper.assertNumberOfLevelsInGraph(nodeLevelMap,4);
+  VSMTestHelper.assertThatNodeHasChildren(graph,"d3",1,"d1","d2");
+  Node secondChildOfD3=graph.findNode("d3").getChildren().get(1);
+  assertThat(secondChildOfD3.getType(),is(DependencyNodeType.DUMMY));
+}

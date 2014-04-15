@@ -1,0 +1,9 @@
+{
+  String output="SYSOUT: Hello World!";
+  String error="SYSERR: Some error happened!";
+  CommandLine line=CommandLine.createCommandLine("ruby").withArgs(script("echo"),output,error);
+  ConsoleResult result=run(line);
+  assertThat("Errors: " + result.errorAsString(),result.returnValue(),is(0));
+  assertThat(result.output(),contains(output));
+  assertThat(result.error(),contains(error));
+}

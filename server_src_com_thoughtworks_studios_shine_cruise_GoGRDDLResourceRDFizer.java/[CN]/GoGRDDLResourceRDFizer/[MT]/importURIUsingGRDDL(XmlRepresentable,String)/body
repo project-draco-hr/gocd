@@ -1,0 +1,12 @@
+{
+  try {
+    Document doc=xmlApiService.write(xmlRepresentable,baseUri);
+    return importDocumentUsingGRDDL(doc);
+  }
+ catch (  DocumentException e) {
+    throw new GoIntegrationException(e);
+  }
+catch (  IOException e) {
+    throw new GoIntegrationException(e);
+  }
+}

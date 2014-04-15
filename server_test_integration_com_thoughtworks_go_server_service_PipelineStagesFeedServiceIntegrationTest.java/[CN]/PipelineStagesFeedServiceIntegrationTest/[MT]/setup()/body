@@ -1,0 +1,9 @@
+{
+  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configHelper.onSetUp();
+  configHelper.addPipeline("cruise","stage","unit","functional");
+  configHelper.turnOnSecurity();
+  configHelper.addAdmins("super_hero");
+  configHelper.setViewPermissionForGroup(PipelineConfigs.DEFAULT_GROUP,"sindbad");
+  goConfigService.forceNotifyListeners();
+}

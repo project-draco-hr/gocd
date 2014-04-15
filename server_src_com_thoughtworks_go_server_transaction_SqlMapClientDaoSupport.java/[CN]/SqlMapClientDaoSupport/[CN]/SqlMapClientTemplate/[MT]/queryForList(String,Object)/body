@@ -1,0 +1,8 @@
+{
+  return executeInternal(new Operation<List>(){
+    public List execute(){
+      return SqlMapClientTemplate.super.queryForList(translateStatementName(statementName),parameterObject);
+    }
+  }
+);
+}

@@ -1,0 +1,14 @@
+{
+  List<PipelineConfig> visited=new ArrayList<PipelineConfig>();
+  for (  PipelineConfigs group : this) {
+    for (    PipelineConfig pipeline : group) {
+      for (      PipelineConfig visitedPipeline : visited) {
+        if (visitedPipeline.name().equals(pipeline.name())) {
+          pipeline.addError(PipelineConfig.NAME,String.format("You have defined multiple pipelines named '%s'. Pipeline names must be unique.",pipeline.name()));
+          visitedPipeline.addError(PipelineConfig.NAME,String.format("You have defined multiple pipelines named '%s'. Pipeline names must be unique.",pipeline.name()));
+        }
+      }
+      visited.add(pipeline);
+    }
+  }
+}

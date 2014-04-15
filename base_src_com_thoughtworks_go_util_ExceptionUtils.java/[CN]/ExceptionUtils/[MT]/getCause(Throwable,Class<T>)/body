@@ -1,0 +1,10 @@
+{
+  Throwable cause;
+  while ((cause=exception.getCause()) != null) {
+    if (type.isAssignableFrom(cause.getClass())) {
+      return (T)cause;
+    }
+    exception=cause;
+  }
+  return null;
+}

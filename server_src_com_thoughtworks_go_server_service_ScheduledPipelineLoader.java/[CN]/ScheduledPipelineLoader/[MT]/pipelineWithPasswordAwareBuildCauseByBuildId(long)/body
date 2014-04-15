@@ -1,0 +1,31 @@
+{
+  Pipeline pipeline=pipelineDao.pipelineWithMaterialsAndModsByBuildId(buildId);
+  MaterialRevisions scheduledRevs=pipeline.getBuildCause().getMaterialRevisions();
+  MaterialConfigs knownMaterials=knownMaterials(scheduledRevs);
+  for (  MaterialRevision materialRevision : scheduledRevs) {
+    MaterialConfig materialConfig=materialFrom(knownMaterials,materialRevision);
+    Material usedMaterial=materialRevision.getMaterial();
+    if (materialConfig == null) {
+      final JobInstance jobInstance=jobInstanceService.buildByIdWithTransitions(buildId);
+      scheduleService.failJob(jobInstance);
+      final String message="Cannot load job '" + jobInstance.buildLocator() + "' because material "+ usedMaterial.config()+ " was not found in config.";
+      final String description="Job for pipeline '" + jobInstance.buildLocator() + "' has been failed as one or more material configurations were either changed or removed.";
+      transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCommit(){
+          final ServerHealthState error=ServerHealthState.error(message,description,HealthStateType.general(HealthStateScope.forJob(jobInstance.getPipelineName(),jobInstance.getStageName(),jobInstance.getName())));
+          error.setTimeout(Timeout.FIVE_MINUTES);
+          serverHealthService.update(error);
+          appendToConsoleLog(jobInstance,message);
+          appendToConsoleLog(jobInstance,description);
+        }
+      }
+);
+      throw new StaleMaterialsOnBuildCause(message);
+    }
+    if (materialConfig instanceof PasswordAwareMaterial) {
+      PasswordAwareMaterial configuredMaterial=(PasswordAwareMaterial)materialConfig;
+      ((PasswordAwareMaterial)usedMaterial).setPassword(configuredMaterial.getPassword());
+    }
+  }
+  return pipeline;
+}

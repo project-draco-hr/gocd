@@ -1,0 +1,9 @@
+{
+  setupAuthentication();
+  when(timeProvider.currentTimeMillis()).thenReturn(100L);
+  when(session.getAttribute(RemoveAdminPermissionFilter.SECURITY_CONFIG_LAST_CHANGE)).thenReturn(100L);
+  RemoveAdminPermissionFilter filter=new RemoveAdminPermissionFilter(goConfigService,timeProvider);
+  filter.doFilterHttp(request,response,chain);
+  verify(session).getAttribute(RemoveAdminPermissionFilter.SECURITY_CONFIG_LAST_CHANGE);
+  verifyNoMoreInteractions(session);
+}

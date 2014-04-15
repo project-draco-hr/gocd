@@ -1,0 +1,16 @@
+{
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  artifactPlans.add(new ArtifactPlan(ArtifactType.file,"logs/picture","mypic"));
+  BuildAssignment buildAssigment=createAssignment(artifactPlans,new String[]{"logs/pic-1/fail.png","logs/pic-1/pass.png","logs/pic-2/cancel.png","logs/pic-2/complete.png","README"});
+  BuildWork work=new BuildWork(buildAssigment);
+  GoArtifactsManipulatorStub manipulator=new GoArtifactsManipulatorStub();
+  BuildRepositoryRemoteStub repository=new BuildRepositoryRemoteStub();
+  AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
+  work.doWork(agentIdentifier,repository,manipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  List<UploadEntry> entries=manipulator.uploadEntries();
+  assertThat(entries.size(),is(0));
+  assertThat(repository.states,containsResult(JobState.Building));
+  assertThat(repository.states,containsResult(JobState.Completing));
+  assertThat(repository.results,containsResult(JobResult.Failed));
+  assertThat(manipulator.consoleOut(),printedRuleDoesNotMatchFailure(buildWorkingDirectory.getPath(),"logs/picture"));
+}

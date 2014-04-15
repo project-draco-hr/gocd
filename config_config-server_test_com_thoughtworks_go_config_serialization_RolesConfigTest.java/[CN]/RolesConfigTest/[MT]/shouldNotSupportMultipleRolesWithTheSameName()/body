@@ -1,0 +1,10 @@
+{
+  addRole(role("test_role"));
+  try {
+    addRole(role("test_role"));
+    fail("Role already exists");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getCause().getMessage(),is("Role names should be unique. Duplicate names found."));
+  }
+}

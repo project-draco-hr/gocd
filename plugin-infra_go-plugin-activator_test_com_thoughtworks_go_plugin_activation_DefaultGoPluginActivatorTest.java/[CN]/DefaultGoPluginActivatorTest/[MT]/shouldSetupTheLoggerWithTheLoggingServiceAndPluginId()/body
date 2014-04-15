@@ -1,0 +1,7 @@
+{
+  setupClassesInBundle();
+  activator.start(context);
+  Logger logger=Logger.getLoggerFor(DefaultGoPluginActivatorTest.class);
+  logger.info("INFO");
+  verify(loggingService).info(PLUGIN_ID,DefaultGoPluginActivatorTest.class.getName(),"INFO");
+}

@@ -1,0 +1,16 @@
+{
+  Object implementation=null;
+  try {
+    implementation=createInstance(candidateGoExtensionClass);
+  }
+ catch (  InvocationTargetException e) {
+    errors.add(String.format("Class [%s] is annotated with @Extension but cannot be constructed. Reason: %s.",candidateGoExtensionClass.getSimpleName(),e.getTargetException().toString()));
+  }
+catch (  Throwable e) {
+    errors.add(String.format("Class [%s] is annotated with @Extension but cannot be constructed. Reason: [%s].",candidateGoExtensionClass.getSimpleName(),e.getCause()));
+  }
+  if (implementation != null) {
+    validateAndLoad(candidateGoExtensionClass,implementation);
+  }
+  return implementation;
+}

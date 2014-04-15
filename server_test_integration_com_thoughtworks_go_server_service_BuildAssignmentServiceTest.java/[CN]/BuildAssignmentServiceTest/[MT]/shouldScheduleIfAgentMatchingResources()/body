@@ -1,0 +1,16 @@
+{
+  JobConfig plan=evolveConfig.findBy(new CaseInsensitiveString(STAGE_NAME)).jobConfigByInstanceName("unit",true);
+  plan.addResource("some-resource");
+  scheduleHelper.schedule(evolveConfig,modifySomeFiles(evolveConfig),DEFAULT_APPROVED_BY);
+  AgentConfig agentConfig=AgentMother.localAgent();
+  agentConfig.addResource(new Resource("some-resource"));
+  buildAssignmentService.onTimer();
+  Work work=buildAssignmentService.assignWorkToAgent(agent(agentConfig));
+  assertThat(work,is(not((Work)BuildAssignmentService.NO_WORK)));
+  Pipeline pipeline=pipelineDao.mostRecentPipeline(CaseInsensitiveString.str(evolveConfig.name()));
+  JobInstance job=pipeline.findStage(STAGE_NAME).findJob("unit");
+  JobPlan loadedPlan=jobInstanceDao.loadPlan(job.getId());
+  assertThat(loadedPlan.getResources(),is((List<Resource>)plan.resources()));
+  assertThat(job.getState(),is(JobState.Assigned));
+  assertThat(job.getAgentUuid(),is(agentConfig.getUuid()));
+}

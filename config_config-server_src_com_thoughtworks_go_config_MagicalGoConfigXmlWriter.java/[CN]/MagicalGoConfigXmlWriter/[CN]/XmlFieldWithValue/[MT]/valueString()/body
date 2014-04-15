@@ -1,0 +1,21 @@
+{
+  String valueString=null;
+  ConfigAttributeValue attributeValue=value.getClass().getAnnotation(ConfigAttributeValue.class);
+  if (attributeValue != null) {
+    try {
+      Field field=value.getClass().getDeclaredField(attributeValue.fieldName());
+      field.setAccessible(true);
+      valueString=field.get(value).toString();
+    }
+ catch (    NoSuchFieldException e) {
+      bomb(e);
+    }
+catch (    IllegalAccessException e) {
+      bomb(e);
+    }
+  }
+ else {
+    valueString=value.toString();
+  }
+  return valueString;
+}

@@ -1,0 +1,8 @@
+{
+  File serverFailurePage=job.getServerFailurePage();
+  if (serverFailurePage != null) {
+    String fullPath=serverFailurePage.getPath();
+    return getRestfulUrl(fullPath.substring(fullPath.indexOf(ArtifactLogUtil.CRUISE_OUTPUT_FOLDER)));
+  }
+  return "";
+}

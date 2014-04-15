@@ -1,0 +1,10 @@
+{
+  Date occuredFirst=new DateTime().minusDays(1).toDate();
+  Date occuredSecond=new DateTime().toDate();
+  StageInstanceModels stageInstanceModels=stagePerJob("stage",job(JobResult.Passed,occuredSecond),job(JobResult.Passed,occuredFirst));
+  NullStageHistoryItem stageHistoryItem=new NullStageHistoryItem("not_yet_run",false);
+  stageInstanceModels.add(stageHistoryItem);
+  PipelineInstanceModel instanceModel=PipelineInstanceModel.createPipeline("pipeline",-1,"label",createWithEmptyModifications(),stageInstanceModels);
+  assertThat(instanceModel.isLatestStage(stageInstanceModels.get(0)),is(true));
+  assertThat(instanceModel.isLatestStage(stageInstanceModels.get(1)),is(false));
+}

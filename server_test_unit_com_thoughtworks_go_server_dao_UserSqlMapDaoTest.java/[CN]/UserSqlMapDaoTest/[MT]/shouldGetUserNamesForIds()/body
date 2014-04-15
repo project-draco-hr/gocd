@@ -1,0 +1,12 @@
+{
+  final User foo=new User("foo");
+  foo.setId(1);
+  final User bar=new User("bar");
+  bar.setId(2);
+  final User baz=new User("baz");
+  bar.setId(3);
+  when(transactionTemplate.execute(Matchers.<TransactionCallback>any())).thenReturn(Arrays.asList(foo,bar,baz));
+  Set<String> userNames=dao.findUsernamesForIds(s(foo.getId(),bar.getId()));
+  assertThat(userNames.size(),is(2));
+  assertThat(userNames,hasItems("foo","bar"));
+}

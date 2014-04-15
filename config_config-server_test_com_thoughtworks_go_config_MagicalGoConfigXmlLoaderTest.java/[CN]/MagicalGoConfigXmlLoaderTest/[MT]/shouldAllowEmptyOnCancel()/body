@@ -1,0 +1,9 @@
+{
+  String buildXmlPartial="<jobs>\n" + "  <job name=\"functional\">\n" + "     <tasks>\n"+ "         <exec command='ls'>\n"+ "             <oncancel/>\n"+ "         </exec>\n"+ "      </tasks>\n"+ "    </job>\n"+ "</jobs>";
+  JobConfigs jobs=xmlLoader.fromXmlPartial(toInputStream(buildXmlPartial),JobConfigs.class);
+  JobConfig job=jobs.first();
+  Tasks tasks=job.tasks();
+  assertThat(tasks.size(),is(1));
+  ExecTask execTask=(ExecTask)tasks.get(0);
+  assertThat(execTask.cancelTask(),is(instanceOf(NullTask.class)));
+}

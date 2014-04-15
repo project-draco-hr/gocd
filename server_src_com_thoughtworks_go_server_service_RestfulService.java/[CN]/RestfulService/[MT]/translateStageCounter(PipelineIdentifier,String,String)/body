@@ -1,0 +1,9 @@
+{
+  if (JobIdentifier.LATEST.equalsIgnoreCase(stageCounter)) {
+    int latestCounter=stageDao.findLatestStageCounter(pipelineIdentifier,stageName);
+    return new StageIdentifier(pipelineIdentifier,stageName,String.valueOf(latestCounter));
+  }
+ else {
+    return new StageIdentifier(pipelineIdentifier,stageName,stageCounter);
+  }
+}

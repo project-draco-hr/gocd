@@ -1,0 +1,17 @@
+{
+  this.goConfigFileDao.load();
+  register(new BaseUrlChangeListener(serverConfig(),goCache));
+  File dir=artifactsDir();
+  if (!dir.exists()) {
+    boolean success=dir.mkdirs();
+    if (!success) {
+      bomb("Unable to create artifacts directory at " + dir.getAbsolutePath());
+    }
+  }
+  if (!dir.canRead()) {
+    bomb("Cruise does not have read permission on " + dir.getAbsolutePath());
+  }
+  if (!dir.canWrite()) {
+    bomb("Cruise does not have write permission on " + dir.getAbsolutePath());
+  }
+}

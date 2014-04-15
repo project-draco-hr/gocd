@@ -1,0 +1,6 @@
+{
+  StageIdentifier lastSuccessfulPipelineForStage=pipelineService.findLastSuccessfulStageIdentifier(currentPipeline.getName(),stage.getName());
+  final DurationBeans durations=stageService.getBuildDurations(currentPipeline.getName(),stage);
+  TrackingTool trackingTool=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(currentPipeline.getName())).trackingTool();
+  return new StageJsonPresentationModel(currentPipeline,stage,lastSuccessfulPipelineForStage,goConfigService.agents(),durations,trackingTool);
+}

@@ -1,0 +1,15 @@
+{
+  AgentViewModel linux=new AgentViewModel(updateOS(AgentInstanceMother.building(),"LINUX"));
+  AgentViewModel lowercaseLinux=new AgentViewModel(updateOS(AgentInstanceMother.building(),"linux"));
+  AgentViewModel sun=new AgentViewModel(updateOS(AgentInstanceMother.building(),"SUN_OS"));
+  AgentViewModel osx=new AgentViewModel(updateOS(AgentInstanceMother.building(),"OSX"));
+  AgentViewModel windows=new AgentViewModel(updateOS(AgentInstanceMother.building(),"WINDOWS"));
+  AgentViewModel unknown=new AgentViewModel(updateOS(AgentInstanceMother.building(),"UNKNOWN"));
+  List<AgentViewModel> sorted=sort(AgentViewModel.OS_COMPARATOR,osx,unknown,linux,sun,windows,lowercaseLinux);
+  assertThat(sorted.get(0),is(linux));
+  assertThat(sorted.get(1),is(lowercaseLinux));
+  assertThat(sorted.get(2),is(osx));
+  assertThat(sorted.get(3),is(sun));
+  assertThat(sorted.get(4),is(unknown));
+  assertThat(sorted.get(5),is(windows));
+}

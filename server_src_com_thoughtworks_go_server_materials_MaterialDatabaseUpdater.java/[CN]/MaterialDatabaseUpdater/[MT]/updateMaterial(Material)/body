@@ -1,0 +1,47 @@
+{
+  String cacheKeyForMaterial=DependencyMaterialUpdater.cacheKeyForDependencyMaterial(material);
+  if (thisDependencyMaterialHasAlreadyBeenProcessed(material,cacheKeyForMaterial)) {
+    return;
+  }
+  HealthStateScope scope=HealthStateScope.forMaterial(material);
+  try {
+    MaterialInstance materialInstance=materialRepository.findMaterialInstance(material);
+    if (materialInstance == null) {
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug(String.format("[Material Update] Material repository not found, creating with latest revision from %s",material));
+      }
+synchronized (cacheKeyForMaterial) {
+        if (materialRepository.findMaterialInstance(material) == null) {
+          transactionTemplate.executeWithExceptionHandling(new TransactionCallback(){
+            @Override public Object doInTransaction(            TransactionStatus status) throws Exception {
+              initializeMaterialWithLatestRevision(material);
+              return null;
+            }
+          }
+);
+        }
+      }
+    }
+ else {
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug(String.format("[Material Update] Existing material repository, fetching new revisions from %s in flyweight %s",material,materialInstance.getFlyweightName()));
+      }
+synchronized (cacheKeyForMaterial) {
+        transactionTemplate.executeWithExceptionHandling(new TransactionCallback(){
+          @Override public Object doInTransaction(          TransactionStatus status) throws Exception {
+            updateMaterialWithNewRevisions(material);
+            return null;
+          }
+        }
+);
+      }
+    }
+    healthService.removeByScope(scope);
+  }
+ catch (  Exception e) {
+    String message="Modification check failed for material: " + material.getLongDescription();
+    healthService.update(ServerHealthState.error(message,e.getMessage(),HealthStateType.general(scope)));
+    LOGGER.warn(String.format("[Material Update] %s",message),e);
+    throw e;
+  }
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    userService.saveOrUpdate(new User("username",new String[]{"committer"},"mail.com",false));
+    fail("should have thrown when email is invalid");
+  }
+ catch (  ValidationException e) {
+    assertThat(userService.findUserByName("username"),is(instanceOf(NullUser.class)));
+  }
+}

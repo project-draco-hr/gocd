@@ -1,0 +1,10 @@
+{
+  tempFolder=TestFileUtil.createTempFolder("tempCommandLineTestFolder-" + System.currentTimeMillis());
+  toDelete.add(tempFolder);
+  subFolder=new File(tempFolder,"subFolder");
+  subFolder.mkdirs();
+  File file=new File("./originalCommand");
+  file.createNewFile();
+  file.setExecutable(true);
+  toDelete.add(file);
+}

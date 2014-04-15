@@ -1,0 +1,11 @@
+{
+  if (!doesPipelineExist(pipelineName,result)) {
+    return false;
+  }
+  String groupName=findGroupNameByPipeline(new CaseInsensitiveString(pipelineName));
+  if (!isUserAdminOfGroup(username.getUsername(),groupName)) {
+    result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT_PIPELINE",pipelineName),HealthStateType.unauthorisedForPipeline(pipelineName));
+    return false;
+  }
+  return true;
+}

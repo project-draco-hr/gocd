@@ -1,0 +1,6 @@
+{
+  ConfigurationValue configurationValue=new ConfigurationValue("encrypted-value");
+  assertThat(new ConfigurationProperty(new ConfigurationKey("key"),configurationValue,null,cipher).doesNotHaveErrorsAgainstConfigurationValue(),is(true));
+  configurationValue.addError("value","some-error");
+  assertThat(new ConfigurationProperty(new ConfigurationKey("key"),configurationValue,null,cipher).doesNotHaveErrorsAgainstConfigurationValue(),is(false));
+}

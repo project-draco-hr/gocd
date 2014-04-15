@@ -1,0 +1,9 @@
+{
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    protected void doInTransactionWithoutResult(    TransactionStatus status){
+      updateStageWithoutNotifications(stage);
+      notifyStageStatusChangeListeners(stage);
+    }
+  }
+);
+}

@@ -1,0 +1,10 @@
+{
+  try {
+    ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+    getXml(cruiseConfig,buffer);
+    cachedGoConfig.save(new String(buffer.toByteArray()),false);
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}

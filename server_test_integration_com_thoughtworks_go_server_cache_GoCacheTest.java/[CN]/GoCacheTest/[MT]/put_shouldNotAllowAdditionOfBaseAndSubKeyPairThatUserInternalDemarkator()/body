@@ -1,0 +1,9 @@
+{
+  try {
+    goCache.put("foo!_#$","#_!bar","baz");
+    fail("should not have allowed use of internal key seperator");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Base and sub key concatenation(key = foo!_#$, subkey = #_!bar) must not have pattern !_#$#_!"));
+  }
+}

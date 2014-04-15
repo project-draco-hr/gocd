@@ -1,0 +1,14 @@
+{
+  Pipeline newPipeline=fixture.createPipelineWithFirstStageScheduled();
+  final Stage firstStage=newPipeline.getFirstStage();
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      stageService.cancelStage(stageService.stageById(firstStage.getId()));
+    }
+  }
+);
+  Pipeline pipelineFromDb=pipelineDao.mostRecentFullPipelineByName(newPipeline.getName());
+  JobInstance job=pipelineFromDb.getFirstStage().getJobInstances().first();
+  assertCommonBuildProperties(newPipeline,job);
+  assertThat(propertyDao.value(job.getId(),GoConstants.CRUISE_AGENT),is(""));
+}

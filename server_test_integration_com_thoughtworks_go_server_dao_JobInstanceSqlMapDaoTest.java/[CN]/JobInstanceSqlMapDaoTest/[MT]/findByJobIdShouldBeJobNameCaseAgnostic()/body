@@ -1,0 +1,4 @@
+{
+  long actual=jobInstanceDao.findOriginalJobIdentifier(new StageIdentifier(PIPELINE_NAME,null,savedPipeline.getLabel(),STAGE_NAME,String.valueOf(counter)),JOB_NAME_IN_DIFFERENT_CASE).getBuildId();
+  assertThat(actual,is(savedStage.getJobInstances().getByName(JOB_NAME).getId()));
+}

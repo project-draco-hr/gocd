@@ -1,0 +1,18 @@
+{
+  Configuration configuration=new Configuration();
+  configuration.add(ConfigurationPropertyMother.create("required",false,""));
+  configuration.add(ConfigurationPropertyMother.create("required_secure",true,""));
+  configuration.add(ConfigurationPropertyMother.create("secure",true,""));
+  configuration.add(ConfigurationPropertyMother.create("not_required_not_secure",false,""));
+  configuration.add(ConfigurationPropertyMother.create("spec",false,"xyz?"));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("1","name",configuration,packageRepository);
+  ValidationResult expectedValidationResult=new ValidationResult();
+  expectedValidationResult.addError(new ValidationError("spec","invalid spec"));
+  when(packageMaterialConfiguration.isPackageConfigurationValid(any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class))).thenReturn(expectedValidationResult);
+  service.performPluginValidationsFor(packageDefinition);
+  assertThat(packageDefinition.getConfiguration().get(0).getConfigurationValue().errors().getAllOn("value"),is(Arrays.asList("mandatory field")));
+  assertThat(packageDefinition.getConfiguration().get(1).getEncryptedValue().errors().getAllOn("value"),is(Arrays.asList("mandatory field")));
+  assertThat(packageDefinition.getConfiguration().get(2).getEncryptedValue().errors().isEmpty(),is(true));
+  assertThat(packageDefinition.getConfiguration().get(3).getConfigurationValue().errors().isEmpty(),is(true));
+  assertThat(packageDefinition.getConfiguration().get(4).getConfigurationValue().errors().getAllOn("value"),is(Arrays.asList("invalid spec")));
+}

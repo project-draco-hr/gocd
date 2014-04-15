@@ -1,0 +1,10 @@
+{
+  LOGGER.debug("[Config Save] Checking whether config should be merged");
+  if (updatingCommand instanceof NoOverwriteUpdateConfigCommand) {
+    NoOverwriteUpdateConfigCommand noOverwriteCommand=(NoOverwriteUpdateConfigCommand)updatingCommand;
+    if (!configHolder.configForEdit.getMd5().equals(noOverwriteCommand.unmodifiedMd5())) {
+      return true;
+    }
+  }
+  return false;
+}

@@ -1,0 +1,6 @@
+{
+  when(securityService.hasViewPermissionForPipeline(username,"pipeline")).thenReturn(true);
+  when(shineDao.failureDetailsForTest(jobIdentifier,"suite_name","test_name",result)).thenReturn(new FailureDetails("hi","there"));
+  assertThat(failureService.failureDetailsFor(jobIdentifier,"suite_name","test_name",username,result),is(new FailureDetails("hi","there")));
+  verify(shineDao).failureDetailsForTest(jobIdentifier,"suite_name","test_name",result);
+}

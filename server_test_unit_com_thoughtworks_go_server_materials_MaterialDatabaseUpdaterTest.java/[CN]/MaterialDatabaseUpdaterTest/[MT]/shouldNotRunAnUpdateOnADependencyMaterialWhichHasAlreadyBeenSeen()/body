@@ -1,0 +1,9 @@
+{
+  DependencyMaterial material=MaterialsMother.dependencyMaterial("pipeline1","stage1");
+  String expectedKeyToCheck=DependencyMaterialUpdater.cacheKeyForDependencyMaterial(material);
+  when(goCache.isKeyInCache(expectedKeyToCheck)).thenReturn(true);
+  materialDatabaseUpdater.updateMaterial(material);
+  verifyZeroInteractions(materialRepository,healthService,transactionTemplate,dependencyMaterialUpdater,scmMaterialUpdater);
+  verify(goCache,times(1)).isKeyInCache(expectedKeyToCheck);
+  verifyNoMoreInteractions(goCache);
+}

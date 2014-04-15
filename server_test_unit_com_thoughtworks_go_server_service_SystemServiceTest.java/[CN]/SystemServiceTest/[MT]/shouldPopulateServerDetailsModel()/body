@@ -1,0 +1,20 @@
+{
+  Mockery mockery=new Mockery();
+  final DbMetadataDao dao=mockery.mock(DbMetadataDao.class);
+  mockery.checking(new Expectations(){
+{
+      one(dao).getSchemaVersion();
+      will(returnValue(20));
+    }
+  }
+);
+  new SystemEnvironment().setProperty("java.version","1.5");
+  new SystemEnvironment().setProperty("os.name","Linux");
+  new SystemEnvironment().setProperty("os.version","2.6");
+  Map<String,Object> model=new HashMap<String,Object>();
+  new SystemService(dao,null).populateServerDetailsModel(model);
+  assertThat((String)model.get("jvm_version"),is("1.5"));
+  assertThat((String)model.get("os_info"),is("Linux 2.6"));
+  assertThat((Integer)model.get("schema_version"),is(20));
+  mockery.assertIsSatisfied();
+}

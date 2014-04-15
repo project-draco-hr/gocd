@@ -1,0 +1,10 @@
+{
+  when(dataSource.findOauthTokenByAccessToken("token-string")).thenReturn(null);
+  try {
+    provider.authenticate(new OauthAuthenticationToken("token-string"));
+    fail("should have thrown an AuthenticationException");
+  }
+ catch (  AuthenticationException e) {
+    assertThat(e.getMessage(),is("No match for OAuth token: token-string"));
+  }
+}

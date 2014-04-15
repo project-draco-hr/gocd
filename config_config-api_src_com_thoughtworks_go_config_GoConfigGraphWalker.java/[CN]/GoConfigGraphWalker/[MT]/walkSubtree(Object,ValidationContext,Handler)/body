@@ -1,0 +1,13 @@
+{
+  WalkedObject walkedObject=new WalkedObject(current);
+  if (!walkedObject.shouldWalk()) {
+    return;
+  }
+  if (canAssignToValidatableCache.valuesFor(new AbstractMap.SimpleEntry<Class,Class>(Validatable.class,current.getClass()))) {
+    Validatable validatable=(Validatable)current;
+    handler.handle(validatable,context);
+    context=context.withParent(validatable);
+  }
+  walkCollection(current,context,handler);
+  walkFields(current,context,handler);
+}

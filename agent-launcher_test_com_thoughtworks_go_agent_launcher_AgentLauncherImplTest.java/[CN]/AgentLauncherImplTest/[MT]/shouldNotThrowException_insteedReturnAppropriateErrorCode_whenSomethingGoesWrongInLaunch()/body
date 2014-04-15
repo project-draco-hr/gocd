@@ -1,0 +1,10 @@
+{
+  AgentLaunchDescriptor launchDesc=mock(AgentLaunchDescriptor.class);
+  when((String)launchDesc.context().get(AgentLaunchDescriptorKeys.HOSTNAME)).thenThrow(new RuntimeException("Ouch!"));
+  try {
+    assertThat(new AgentLauncherImpl().launch(launchDesc),is(-273));
+  }
+ catch (  Exception e) {
+    fail("should not have blown up, because it directly interfaces with bootstrapper");
+  }
+}

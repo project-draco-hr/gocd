@@ -1,0 +1,5 @@
+{
+  ServerHealthState serverHealthState=serverHealthStateOperationResult.getServerHealthState();
+  String desc=serverHealthState == null ? BLANK_STRING : serverHealthState.getDescription();
+  return StringUtil.isBlank(desc) ? message + "\n" : String.format("%s { %s }\n",message,desc);
+}

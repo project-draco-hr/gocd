@@ -1,0 +1,12 @@
+{
+  PipelineInstanceModels pipelineInstances=PipelineInstanceModels.createPipelineInstanceModels();
+  for (  PipelineConfigs group : goConfigService.currentCruiseConfig().getGroups()) {
+    for (    PipelineConfig pipelineConfig : group) {
+      PipelineInstanceModel pipelineInstanceModel=latest(CaseInsensitiveString.str(pipelineConfig.name()),username);
+      if (pipelineInstanceModel != null) {
+        pipelineInstances.add(pipelineInstanceModel);
+      }
+    }
+  }
+  return pipelineInstances;
+}

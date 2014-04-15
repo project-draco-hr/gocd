@@ -1,0 +1,5 @@
+{
+  ServerHealthState fooError=ServerHealthState.error("my message","my description",HealthStateType.general(HealthStateScope.forPipeline("foo")));
+  ServerHealthState fooErrorCopy=ServerHealthState.error("my message","my description",HealthStateType.general(HealthStateScope.forPipeline("foo")));
+  assertThat(fooError,is(fooErrorCopy));
+}

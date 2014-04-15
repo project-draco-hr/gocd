@@ -1,0 +1,17 @@
+{
+  return new TypeSafeMatcher<JsonList>(){
+    public boolean matchesSafely(    JsonList pipelineList){
+      for (      Json json : pipelineList) {
+        JsonMap map=(JsonMap)json;
+        if (map.hasEntry("name",pipeline.getName())) {
+          return true;
+        }
+      }
+      return false;
+    }
+    public void describeTo(    Description description){
+      description.appendText(pipeline.getName() + " does not exist in the json");
+    }
+  }
+;
+}

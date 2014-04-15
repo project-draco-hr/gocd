@@ -1,0 +1,22 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Pipeline pipeline=PipelineMother.pipeline("pipeline-name",StageMother.passedStageInstance("mingle","job-bar","pipeline-name"));
+  Stage spiedStage=spy(pipeline.getFirstStage());
+  long stageId=spiedStage.getId();
+  Username admin=new Username(new CaseInsensitiveString("admin"));
+  doReturn(true).when(spiedStage).isActive();
+  when(stageService.stageById(stageId)).thenReturn(spiedStage);
+  when(securityService.hasOperatePermissionForStage(pipeline.getName(),spiedStage.getName(),admin.getUsername().toString())).thenReturn(true);
+  ScheduleService spyedService=spy(service);
+  doNothing().when(spyedService).automaticallyTriggerRelevantStagesFollowingCompletionOf(spiedStage);
+  Stage resultStage=spyedService.cancelAndTriggerRelevantStages(stageId,admin,result);
+  assertThat(resultStage,is(spiedStage));
+  assertThat(result.httpCode(),is(HttpStatus.SC_OK));
+  assertThat(result.isSuccessful(),is(true));
+  when(localizer.localize("STAGE_CANCELLED_SUCCESSFULLY",new Object[]{})).thenReturn("Stage cancelled successfully.");
+  assertThat(result.message(localizer),is("Stage cancelled successfully."));
+  verify(localizer).localize("STAGE_CANCELLED_SUCCESSFULLY",new Object[]{});
+  verify(securityService).hasOperatePermissionForStage(pipeline.getName(),spiedStage.getName(),admin.getUsername().toString());
+  verify(stageService).cancelStage(spiedStage);
+  verify(spiedStage).isActive();
+}

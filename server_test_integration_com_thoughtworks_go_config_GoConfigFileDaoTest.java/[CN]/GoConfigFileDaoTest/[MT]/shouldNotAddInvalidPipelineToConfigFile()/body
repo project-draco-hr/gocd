@@ -1,0 +1,13 @@
+{
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  int oldsize=cruiseConfig.numberOfPipelines();
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("","ut","www.spring.com");
+  try {
+    goConfigFileDao.addPipeline(pipelineConfig,DEFAULT_GROUP);
+    fail();
+  }
+ catch (  Exception e) {
+  }
+  cruiseConfig=goConfigFileDao.load();
+  assertThat(cruiseConfig.numberOfPipelines(),is(oldsize));
+}

@@ -1,0 +1,23 @@
+{
+  Long limitPipelineId=null;
+  if (limitPipeline != null) {
+    Pipeline pipeline=pipelineService.findPipelineByCounterOrLabel(pipelineName,limitPipeline);
+    if (pipeline != null) {
+      limitPipelineId=pipeline.getId();
+    }
+ else {
+      return notFound(String.format("The value [%s] of query parameter 'limitPipeline' is neither a pipeline counter nor label",limitPipeline)).respond(response);
+    }
+  }
+  limitCount=limitCount == null ? 100 : limitCount;
+  try {
+    List<Properties> result=propertyService.loadHistory(pipelineName,stageName,jobName,limitPipelineId,limitCount);
+    PropertiesService.PropertyLister propertyLister=PropertiesService.asCsv(jobName);
+    return propertyLister.listPropertiesHistory(result).respond(response);
+  }
+ catch (  Exception e) {
+    String message=String.format("Error on listing properties history for job %s/%s/%s with limitPipeline=%s and limitCount=%s",pipelineName,stageName,jobName,limitPipeline,limitCount);
+    LOGGER.error(message,e);
+    return notFound(message + "\n" + e.getMessage()).respond(response);
+  }
+}

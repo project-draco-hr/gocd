@@ -1,0 +1,5 @@
+{
+  totalCount=executeScalar(connection,"SELECT COUNT(*) FROM pipelineMaterialRevisions");
+  updateStmt=connection.prepareStatement(" UPDATE pipelineMaterialRevisions pmr" + " SET actualFromRevisionId = ? " + " WHERE pmr.Id = ?");
+  nextModificationIdStmt=connection.prepareStatement(" SELECT TOP 1 id " + " FROM modifications " + " WHERE id > ? AND materialId = ?"+ " ORDER BY id");
+}

@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+  StageInstanceModel lastStage=stageHistory.last();
+  StageConfig nextStage=lastStage == null ? pipelineConfig.getFirstStageConfig() : pipelineConfig.nextStage(new CaseInsensitiveString(lastStage.getName()));
+  while (nextStage != null && !stageHistory.hasStage(CaseInsensitiveString.str(nextStage.name()))) {
+    stageHistory.addFutureStage(CaseInsensitiveString.str(nextStage.name()),!nextStage.requiresApproval());
+    nextStage=pipelineConfig.nextStage(nextStage.name());
+  }
+}

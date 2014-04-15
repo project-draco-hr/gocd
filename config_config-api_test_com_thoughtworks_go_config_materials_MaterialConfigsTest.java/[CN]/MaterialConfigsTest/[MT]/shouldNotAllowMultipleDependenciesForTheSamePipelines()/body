@@ -1,0 +1,11 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline1","pipeline2","pipeline3","go");
+  DependencyMaterialConfig dependencyMaterial=new DependencyMaterialConfig(new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage"));
+  DependencyMaterialConfig duplicateDependencyMaterial=new DependencyMaterialConfig(new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage"));
+  MaterialConfigs materialConfigs=new MaterialConfigs(dependencyMaterial,duplicateDependencyMaterial);
+  ValidationContext validationContext=ValidationContext.forChain(config);
+  materialConfigs.validate(validationContext);
+  ConfigErrors errors=duplicateDependencyMaterial.errors();
+  assertThat(errors.isEmpty(),is(false));
+  assertThat(errors.on("pipelineStageName"),is("A pipeline can depend on each upstream pipeline only once. Remove one of the occurrences of 'pipeline2' from the current pipeline dependencies."));
+}

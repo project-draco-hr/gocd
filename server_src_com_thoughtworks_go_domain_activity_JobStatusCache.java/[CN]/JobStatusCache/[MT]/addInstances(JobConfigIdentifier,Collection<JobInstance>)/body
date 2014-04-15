@@ -1,0 +1,9 @@
+{
+  List<JobInstance> found=new ArrayList<JobInstance>();
+  for (  JobInstance jobInstance : jobInstances) {
+    if (jobInstance != NEVER_RUN && jobInstance.matches(identifier)) {
+      found.add(jobInstance);
+    }
+  }
+  return found;
+}

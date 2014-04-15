@@ -1,0 +1,21 @@
+{
+  PackageDefinition definition=new PackageDefinition();
+  String pluginId="plugin";
+  Map config=createPackageDefinitionConfiguration("package-name",pluginId,new ConfigurationHolder("key1","value1"),new ConfigurationHolder("key2","value2","encrypted-value",true,"1"),new ConfigurationHolder("key3","test","encrypted-value",true,"0"));
+  PackageConfigurations metadata=new PackageConfigurations();
+  metadata.addConfiguration(new PackageConfiguration("key1"));
+  metadata.addConfiguration(new PackageConfiguration("key2").with(PackageConfiguration.SECURE,true));
+  metadata.addConfiguration(new PackageConfiguration("key3").with(PackageConfiguration.SECURE,true));
+  PackageMetadataStore.getInstance().addMetadataFor(pluginId,metadata);
+  definition.setRepository(PackageRepositoryMother.create("1"));
+  definition.setConfigAttributes(config);
+  String encryptedValue=new GoCipher().encrypt("value2");
+  assertThat(definition.getName(),is("package-name"));
+  assertThat(definition.getConfiguration().size(),is(3));
+  assertThat(definition.getConfiguration().getProperty("key1").getConfigurationValue().getValue(),is("value1"));
+  assertThat(definition.getConfiguration().getProperty("key1").getEncryptedValue(),is(nullValue()));
+  assertThat(definition.getConfiguration().getProperty("key2").getEncryptedValue().getValue(),is(encryptedValue));
+  assertThat(definition.getConfiguration().getProperty("key2").getConfigurationValue(),is(nullValue()));
+  assertThat(definition.getConfiguration().getProperty("key3").getEncryptedValue().getValue(),is("encrypted-value"));
+  assertThat(definition.getConfiguration().getProperty("key3").getConfigurationValue(),is(nullValue()));
+}

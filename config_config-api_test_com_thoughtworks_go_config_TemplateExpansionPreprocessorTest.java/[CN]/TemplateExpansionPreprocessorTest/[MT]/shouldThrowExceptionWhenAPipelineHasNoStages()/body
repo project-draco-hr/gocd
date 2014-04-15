@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfigWithNoStages=pipelineConfigWithGivenStages();
+  try {
+    preprocessor.process(new CruiseConfig(new PipelineConfigs(pipelineConfigWithGivenStages("foo"),pipelineConfigWithNoStages)));
+    fail("should fail when no stages");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),is("Pipeline 'pipeline' does not have any stages configured. A pipeline must have at least one stage."));
+  }
+}

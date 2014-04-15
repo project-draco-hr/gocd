@@ -1,0 +1,19 @@
+{
+  transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+    @Override public void afterCommit(){
+      List<JobStatusListener> listeners1;
+synchronized (LISTENERS_MODIFICATION_MUTEX) {
+        listeners1=new ArrayList<JobStatusListener>(listeners);
+      }
+      for (      JobStatusListener jobStatusListener : listeners1) {
+        try {
+          jobStatusListener.jobStatusChanged(job);
+        }
+ catch (        Exception e) {
+          LOGGER.error("error notifying listener for job " + job,e);
+        }
+      }
+    }
+  }
+);
+}

@@ -1,0 +1,13 @@
+{
+  Element root=new Element("cruise");
+  Namespace xsiNamespace=Namespace.getNamespace("xsi",XML_NS);
+  root.addNamespaceDeclaration(xsiNamespace);
+  registry.registerNamespacesInto(root);
+  root.setAttribute("noNamespaceSchemaLocation","cruise-config.xsd",xsiNamespace);
+  String xsds=registry.xsds();
+  if (!xsds.isEmpty()) {
+    root.setAttribute("schemaLocation",xsds,xsiNamespace);
+  }
+  root.setAttribute("schemaVersion",Integer.toString(GoConstants.CONFIG_SCHEMA_VERSION));
+  return new Document(root);
+}

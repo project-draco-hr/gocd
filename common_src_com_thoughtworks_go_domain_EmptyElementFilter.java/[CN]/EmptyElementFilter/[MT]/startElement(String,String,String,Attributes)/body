@@ -1,0 +1,14 @@
+{
+  if (checkingTag) {
+    cancelCheck();
+  }
+  if (localName.equals(tagName)) {
+    checkingTag=true;
+    messageUri=uri;
+    messageQName=qName;
+    messageAtts=atts;
+  }
+ else {
+    super.startElement(uri,localName,qName,atts);
+  }
+}

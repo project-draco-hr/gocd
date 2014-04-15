@@ -1,0 +1,10 @@
+{
+  String content=ConfigFileFixture.configWithTemplates("<templates>" + "  <pipeline name='erbshe'>" + "  </pipeline>"+ "</templates>");
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("should NotAllowEmptyPipelineTemplates");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("The content of element 'pipeline' is not complete. One of '{stage}' is expected"));
+  }
+}

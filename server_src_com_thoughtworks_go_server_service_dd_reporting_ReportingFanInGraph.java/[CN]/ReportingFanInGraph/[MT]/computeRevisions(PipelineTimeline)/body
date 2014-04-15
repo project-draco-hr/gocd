@@ -1,0 +1,12 @@
+{
+  Pair<List<ReportingRootFanInNode>,List<ReportingDependencyFanInNode>> scmAndDepMaterialsChildren=getScmAndDepMaterialsChildren();
+  List<ReportingDependencyFanInNode> depChildren=scmAndDepMaterialsChildren.last();
+  if (depChildren.isEmpty()) {
+    return "No Dependency Children,No Fan-in";
+  }
+  ReportingFanInGraphContext context=buildContext(pipelineTimeline);
+  initRootNode(context);
+  initChildren(depChildren,rootName,context);
+  context.out.close();
+  return context.sw.toString();
+}

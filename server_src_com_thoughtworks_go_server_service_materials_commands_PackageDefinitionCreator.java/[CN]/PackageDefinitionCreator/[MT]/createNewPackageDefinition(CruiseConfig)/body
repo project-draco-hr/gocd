@@ -1,0 +1,13 @@
+{
+  Map packageDefinitionMap=(Map)params.get(PACKAGE_DEFINITION);
+  String repositoryId=(String)packageDefinitionMap.get(REPOSITORY_ID);
+  PackageRepository packageRepository=cruiseConfig.getPackageRepositories().find(repositoryId);
+  PackageDefinition packageDefinition=new PackageDefinition();
+  packageDefinition.setRepository(packageRepository);
+  packageDefinition.setConfigAttributes(packageDefinitionMap);
+  if (packageRepository != null) {
+    validatePackageDefinition(packageDefinition);
+    cruiseConfig.savePackageDefinition(packageDefinition);
+  }
+  return packageDefinition;
+}

@@ -1,0 +1,14 @@
+{
+  String content="<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<cruise xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + "     xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\" schemaVersion=\"22\">\n"+ "<server artifactsdir='artifactsDir' />"+ "<pipelines>\n"+ "<pipeline name='framework'>\n"+ "    <params>\n"+ "      <param name='first'>foo</param>\n"+ "      <param name='second'>bar</param>\n"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "  <stage name='dist' fetchMaterials='true'>\n"+ "    <jobs>\n"+ "      <job name='package' />\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("framework"));
+  ParamsConfig params=pipelineConfig.getParams();
+  assertThat(params.getParamNamed("first"),is(new ParamConfig("first","foo")));
+  assertThat(params.getParamNamed("second"),is(new ParamConfig("second","bar")));
+  assertThat(params.getParamNamed("third"),is(nullValue()));
+  params.remove(0);
+  xmlWriter.write(cruiseConfig,out,false);
+  assertThat(out.toString(),not(containsString("<param name=\"first\">foo</param>")));
+  assertThat(out.toString(),containsString("<param name=\"second\">bar</param>"));
+}

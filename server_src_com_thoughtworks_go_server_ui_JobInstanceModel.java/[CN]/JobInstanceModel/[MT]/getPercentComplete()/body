@@ -1,0 +1,10 @@
+{
+  Duration eta=eta();
+  if (eta.getMillis() == 0) {
+    return 0;
+  }
+  if (eta.isShorterThan(getElapsedTime())) {
+    return 100;
+  }
+  return (int)((getElapsedTime().getMillis() * 100) / eta.getMillis());
+}

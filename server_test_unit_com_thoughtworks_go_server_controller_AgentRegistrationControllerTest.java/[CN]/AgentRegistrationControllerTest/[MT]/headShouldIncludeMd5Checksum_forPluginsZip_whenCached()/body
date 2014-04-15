@@ -1,0 +1,12 @@
+{
+  try {
+    ReflectionUtil.setField(controller,AGENT_PLUGINS_CHECKSUM_FIELD,null);
+    File pluginZipFile=TestFileUtil.createTempFile("plugins.zip");
+    when(systemEnvironment.get(SystemEnvironment.ALL_PLUGINS_ZIP_PATH)).thenReturn(pluginZipFile.getAbsolutePath());
+    controller.checkAgentPluginsZipStatus(request,response);
+    assertEquals(FileDigester.md5DigestOfFile(pluginZipFile),response.getHeader("Content-MD5"));
+  }
+  finally {
+    TestFileUtil.cleanTempFiles();
+  }
+}

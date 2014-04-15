@@ -1,0 +1,10 @@
+{
+  PipelineSelections pipelineSelections=new PipelineSelections();
+  long id=1L;
+  when(hibernateTemplate.get(PipelineSelections.class,id)).thenReturn(pipelineSelections);
+  when(goCache.isKeyInCache(pipelineRepository.pipelineSelectionForCookieKey(id))).thenReturn(false).thenReturn(false).thenReturn(true);
+  pipelineRepository.findPipelineSelectionsById(id);
+  pipelineRepository.findPipelineSelectionsById(id);
+  verify(hibernateTemplate).get(PipelineSelections.class,id);
+  verify(goCache).put(pipelineRepository.pipelineSelectionForCookieKey(id),pipelineSelections);
+}

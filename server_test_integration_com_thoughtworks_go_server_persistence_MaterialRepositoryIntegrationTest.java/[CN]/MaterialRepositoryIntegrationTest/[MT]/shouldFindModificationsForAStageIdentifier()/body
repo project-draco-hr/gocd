@@ -1,0 +1,19 @@
+{
+  DependencyMaterial material=new DependencyMaterial(new CaseInsensitiveString("P1"),new CaseInsensitiveString("S1"));
+  repo.saveOrUpdate(material.createMaterialInstance());
+  saveOneDependencyModification(material,"P1/1/S1/1");
+  saveOneDependencyModification(material,"P1/2/S1/1");
+  saveOneDependencyModification(material,"P1/1/S2/1");
+  saveOneDependencyModification(material,"P2/1/S1/1");
+  StageIdentifier stageIdentifier=new StageIdentifier("P1",2,"2","S1","1");
+  List<Modification> modifications=repo.modificationFor(stageIdentifier);
+  assertThat(modifications.size(),is(1));
+  assertThat(modifications.get(0).getRevision(),is("P1/2/S1/1"));
+  assertThat((List<Modification>)goCache.get(repo.cacheKeyForModificationsForStageLocator(stageIdentifier)),is(modifications));
+  StageIdentifier p2_s1_stageId=new StageIdentifier("P2",1,"S1","1");
+  List<Modification> mod_p2_s1=repo.modificationFor(p2_s1_stageId);
+  assertThat((List<Modification>)goCache.get(repo.cacheKeyForModificationsForStageLocator(p2_s1_stageId)),is(mod_p2_s1));
+  StageIdentifier p2_s1_3=new StageIdentifier("P2",1,"S1","3");
+  assertThat(repo.modificationFor(p2_s1_3).isEmpty(),is(true));
+  assertThat(goCache.get(repo.cacheKeyForModificationsForStageLocator(p2_s1_3)),is(nullValue()));
+}

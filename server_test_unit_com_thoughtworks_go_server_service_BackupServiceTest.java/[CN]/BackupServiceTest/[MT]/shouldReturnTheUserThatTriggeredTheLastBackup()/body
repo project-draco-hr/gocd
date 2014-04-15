@@ -1,0 +1,8 @@
+{
+  ServerBackupRepository repo=mock(ServerBackupRepository.class);
+  when(repo.lastBackup()).thenReturn(new ServerBackup("file_path",new Date(),"loser"));
+  BackupService backupService=new BackupService(null,null,mock(GoConfigService.class),null,repo,systemEnvironment,serverVersion,configRepo,databaseStrategy);
+  backupService.initialize();
+  String username=backupService.lastBackupUser();
+  assertThat(username,is("loser"));
+}

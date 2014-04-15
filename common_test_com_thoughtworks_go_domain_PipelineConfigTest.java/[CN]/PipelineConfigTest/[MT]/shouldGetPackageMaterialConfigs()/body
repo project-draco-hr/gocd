@@ -1,0 +1,9 @@
+{
+  SvnMaterialConfig svn=new SvnMaterialConfig("svn",false);
+  PackageMaterialConfig packageMaterialOne=new PackageMaterialConfig();
+  PackageMaterialConfig packageMaterialTwo=new PackageMaterialConfig();
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("p1",new MaterialConfigs(svn,packageMaterialOne,packageMaterialTwo));
+  List<PackageMaterialConfig> packageMaterialConfigs=pipelineConfig.packageMaterialConfigs();
+  assertThat(packageMaterialConfigs.size(),is(2));
+  assertThat(packageMaterialConfigs,hasItems(packageMaterialOne,packageMaterialTwo));
+}

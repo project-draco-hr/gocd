@@ -1,0 +1,7 @@
+{
+  URI uri=new URI("https","user:password","10.18.32.41",986,"/foo/bar/baz","a=b&c=d","some_thing");
+  setProperty("uri1",uri.toString());
+  assertValidJsonContentAndStatus(SC_CREATED,"Property 'uri1' created with value 'https://user:password@10.18.32.41:986/foo/bar/baz?a=b&c=d#some_thing'");
+  setProperty("uri2",uri.toString());
+  assertValidJsonContentAndStatus(SC_CREATED,"Property 'uri2' created with value 'https://user:password@10.18.32.41:986/foo/bar/baz?a=b&c=d#some_thing'");
+}

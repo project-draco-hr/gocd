@@ -1,0 +1,6 @@
+{
+  Process process=getMockedProcess(mock(OutputStream.class));
+  when(process.exitValue()).thenThrow(new IllegalThreadStateException());
+  ProcessWrapper processWrapper=new ProcessWrapper(process,"","",inMemoryConsumer(),null,null);
+  assertThat(processWrapper.isRunning(),is(true));
+}

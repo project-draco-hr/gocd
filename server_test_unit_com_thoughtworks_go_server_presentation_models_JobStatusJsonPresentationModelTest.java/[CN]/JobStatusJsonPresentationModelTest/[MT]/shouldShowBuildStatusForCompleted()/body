@@ -1,0 +1,6 @@
+{
+  JobInstance instance=JobInstanceMother.completed("test",JobResult.Passed);
+  JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(instance,null);
+  JsonMap json=presenter.toJsonHash();
+  new JsonTester(json).shouldContain("{ 'name' : 'test'," + " 'current_status' : 'passed' " + "}");
+}

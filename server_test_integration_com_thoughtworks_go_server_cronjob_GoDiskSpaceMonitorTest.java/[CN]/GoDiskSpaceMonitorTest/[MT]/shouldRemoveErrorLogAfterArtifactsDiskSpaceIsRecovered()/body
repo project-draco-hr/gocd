@@ -1,0 +1,14 @@
+{
+  ArtifactsDiskIsLow full=new ArtifactsDiskIsLow();
+  full.onSetUp();
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(full.getLowLimit() - 1L);
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(systemEnvironment.getDbFolder())).thenReturn(SHITLOADS_OF_DISK_SPACE);
+  goDiskSpaceMonitor.onTimer();
+  ServerHealthState logEntry=findByLogType(ArtifactsDiskSpaceFullChecker.ARTIFACTS_DISK_FULL_ID);
+  assertThat(logEntry.getLogLevel(),is(HealthStateLevel.ERROR));
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(SHITLOADS_OF_DISK_SPACE);
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(systemEnvironment.getDbFolder())).thenReturn(SHITLOADS_OF_DISK_SPACE);
+  goDiskSpaceMonitor.onTimer();
+  ServerHealthState after=findByLogType(ArtifactsDiskSpaceFullChecker.ARTIFACTS_DISK_FULL_ID);
+  assertThat(after,is(nullValue()));
+}

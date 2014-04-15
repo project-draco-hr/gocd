@@ -1,0 +1,14 @@
+{
+  SvnMaterialConfig mockMaterialConfig=mock(SvnMaterialConfig.class);
+  ConfigErrors configErrors=new ConfigErrors();
+  configErrors.add("FOO","There is an error");
+  when(mockMaterialConfig.errors()).thenReturn(configErrors);
+  String view=SimplePipelineWizardController.DUMMY_VIEW;
+  when(materialFactory.getMaterial("svn","url","username","password",false,view,null,null,null)).thenReturn(mockMaterialConfig);
+  ModelAndView modelAndView=controller.checkSCMConnection(null,"svn","url","username","password","false",null,null,view,mock(HttpServletResponse.class));
+  verify(mockMaterialConfig).errors();
+  verifyNoMoreInteractions(mockMaterialConfig);
+  Map json=(Map)modelAndView.getModelMap().get("json");
+  assertThat(json.get("isValid").toString(),is("\"false\""));
+  assertThat(json.get(GoConstants.ERROR_FOR_JSON).toString(),containsString("There is an error"));
+}

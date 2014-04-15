@@ -1,0 +1,8 @@
+{
+  pipelineDao=mock(PipelineSqlMapDao.class);
+  goConfigService=mock(GoConfigService.class);
+  currentActivityService=Mockito.mock(CachedCurrentActivityService.class);
+  securityService=Mockito.mock(SecurityService.class);
+  pipelineLockService=Mockito.mock(PipelineLockService.class);
+  pipelineUnlockApiService=new PipelineUnlockApiService(goConfigService,pipelineLockService,currentActivityService,securityService,pipelineDao);
+}

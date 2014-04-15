@@ -1,0 +1,8 @@
+{
+  RevisionAlteration revisionAlteration=alterRevision(revisionToSet,context);
+  while (revisionAlteration == NEED_MORE_REVISIONS) {
+    fillNextRevisions(context);
+    revisionAlteration=alterRevision(revisionToSet,context);
+  }
+  return revisionAlteration;
+}

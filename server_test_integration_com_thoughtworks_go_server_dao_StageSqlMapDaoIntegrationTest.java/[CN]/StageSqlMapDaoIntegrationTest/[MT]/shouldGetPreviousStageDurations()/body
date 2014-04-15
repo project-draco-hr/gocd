@@ -1,0 +1,8 @@
+{
+  Pipeline completed=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.pass(completed);
+  Pipeline scheduled=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  assignBuildInstances(pipelineAndFirstStageOf(scheduled).stage,pipelineAndFirstStageOf(completed).stage);
+  Long duration=stageDao.getDurationOfLastSuccessfulOnAgent(CaseInsensitiveString.str(mingleConfig.name()),STAGE_DEV,scheduled.getFirstStage().getJobInstances().get(0));
+  assertThat(duration,is(greaterThan(0L)));
+}

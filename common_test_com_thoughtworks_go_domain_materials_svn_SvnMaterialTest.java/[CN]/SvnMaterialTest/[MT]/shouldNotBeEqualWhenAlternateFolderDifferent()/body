@@ -1,0 +1,11 @@
+{
+  final SvnMaterial material1=MaterialsMother.svnMaterial("url1");
+  final SvnMaterial material2=MaterialsMother.svnMaterial("url1");
+  assertComplementaryEquals(material1,material2,true);
+  material1.setFolder("foo");
+  material2.setFolder(null);
+  assertComplementaryEquals(material1,material2,false);
+  material1.setFolder("foo");
+  material2.setFolder("bar");
+  assertComplementaryEquals(material1,material2,false);
+}

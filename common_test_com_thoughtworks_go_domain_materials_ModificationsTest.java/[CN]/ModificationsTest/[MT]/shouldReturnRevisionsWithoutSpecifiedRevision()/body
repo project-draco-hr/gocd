@@ -1,0 +1,10 @@
+{
+  final Modification modification1=new Modification(new Date(),"1","MOCK_LABEL-12",null);
+  final Modification modification2=new Modification(new Date(),"2","MOCK_LABEL-12",null);
+  List<Modification> modifications=new ArrayList<Modification>();
+  modifications.add(modification1);
+  modifications.add(modification2);
+  List<Modification> filtered=Modifications.filterOutRevision(modifications,new StringRevision("1"));
+  assertThat(filtered.size(),is(1));
+  assertThat(filtered.get(0),is(modification2));
+}

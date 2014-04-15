@@ -1,0 +1,10 @@
+{
+  InMemoryStreamConsumer output=ProcessOutputStreamConsumer.inMemoryConsumer();
+  assertThat(output.getStdOut(),is(""));
+  File newFile=new File(clientRepo,"test.txt");
+  assertThat(newFile.exists(),is(false));
+  Revision revision=createNewFileAndCheckIn(serverRepo);
+  hgCommand.updateTo(revision,output);
+  assertThat(output.getStdOut(),is(not("")));
+  assertThat(newFile.exists(),is(true));
+}

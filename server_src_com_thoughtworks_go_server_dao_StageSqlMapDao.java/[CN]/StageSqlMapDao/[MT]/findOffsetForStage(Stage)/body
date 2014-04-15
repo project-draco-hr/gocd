@@ -1,0 +1,10 @@
+{
+  String key=cacheKeyForStageOffset(stage);
+  Integer offset=(Integer)goCache.get(key,String.valueOf(stage.getId()));
+  if (offset == null) {
+    Map<String,Object> args=arguments("stageId",stage.getId()).and("stageName",stage.getIdentifier().getStageName()).and("pipelineName",stage.getIdentifier().getPipelineName()).asMap();
+    offset=(Integer)getSqlMapClientTemplate().queryForObject("findOffsetForStage",args);
+    goCache.put(key,String.valueOf(stage.getId()),offset);
+  }
+  return offset;
+}

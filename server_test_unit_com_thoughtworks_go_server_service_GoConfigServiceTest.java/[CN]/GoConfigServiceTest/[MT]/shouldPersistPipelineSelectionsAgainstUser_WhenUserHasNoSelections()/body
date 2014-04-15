@@ -1,0 +1,14 @@
+{
+  Date date=new DateTime(2000,1,1,1,1,1,1).toDate();
+  when(clock.currentTime()).thenReturn(date);
+  mockConfigWithSecurity();
+  User user=getUser("badger",10L);
+  Matcher<PipelineSelections> pipelineSelectionsMatcher=hasValues(Arrays.asList("pipelineX","pipeline3"),Arrays.asList("pipeline1","pipeline2"),date,user.getId());
+  when(pipelineRepository.findPipelineSelectionsByUserId(user.getId())).thenReturn(null);
+  when(pipelineRepository.saveSelectedPipelines(argThat(pipelineSelectionsMatcher))).thenReturn(2L);
+  long pipelineSelectionsId=goConfigService.persistSelectedPipelines("1",user.getId(),Arrays.asList("pipelineX","pipeline3"));
+  assertThat(pipelineSelectionsId,is(2l));
+  verify(pipelineRepository).saveSelectedPipelines(argThat(pipelineSelectionsMatcher));
+  verify(pipelineRepository).findPipelineSelectionsByUserId(user.getId());
+  verify(pipelineRepository,never()).findPipelineSelectionsById("1");
+}

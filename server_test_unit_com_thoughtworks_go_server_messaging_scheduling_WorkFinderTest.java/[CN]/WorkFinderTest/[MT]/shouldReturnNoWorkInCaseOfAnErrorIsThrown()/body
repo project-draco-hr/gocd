@@ -1,0 +1,21 @@
+{
+  WorkAssigner assigner=mock(WorkAssigner.class);
+  IdleAgentTopic idleTopic=mock(IdleAgentTopic.class);
+  WorkAssignedTopic assignedTopic=mock(WorkAssignedTopic.class);
+  WorkFinder finder=new WorkFinder(assigner,idleTopic,assignedTopic,workAssignmentPerformanceLogger);
+  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.initialState(AgentMother.approvedAgent());
+  when(assigner.assignWorkToAgent(runtimeInfo.getIdentifier())).thenThrow(new OutOfMemoryError("test error for martians"));
+  try {
+    finder.onMessage(new IdleAgentMessage(runtimeInfo));
+    fail("should have propagated error");
+  }
+ catch (  OutOfMemoryError e) {
+    String message=e.getMessage();
+    if (message != null && message.equals("test error for martians")) {
+    }
+ else {
+      throw e;
+    }
+  }
+  verify(assignedTopic).post(new WorkAssignedMessage(runtimeInfo.getIdentifier(),new NoWork()));
+}

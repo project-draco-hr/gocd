@@ -1,0 +1,14 @@
+{
+  BuildTestSuite suiteWithTwoFailures=new BuildTestSuite("",0.0f);
+  suiteWithTwoFailures.addTestCase(new BuildTestCase(null,null,null,null,null,BuildTestCaseResult.FAILED));
+  suiteWithTwoFailures.addTestCase(new BuildTestCase(null,null,null,null,null,BuildTestCaseResult.FAILED));
+  BuildTestSuite suiteWithOneFailure=new BuildTestSuite("",0.0f);
+  suiteWithOneFailure.addTestCase(new BuildTestCase(null,null,null,null,null,BuildTestCaseResult.FAILED));
+  List threeFailures=new ArrayList();
+  threeFailures.add(suiteWithTwoFailures);
+  threeFailures.add(suiteWithOneFailure);
+  Map props=new HashMap();
+  props.put("testsuites",threeFailures);
+  JobInstanceLog laterJob=new JobInstanceLog(defaultLogFile,props);
+  assertEquals(3,laterJob.getNumberOfFailures());
+}

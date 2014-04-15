@@ -1,0 +1,13 @@
+{
+  for (  Node currentNode : topologicalOrder) {
+    int nextLevel=direction.getNextLevel(currentNode);
+    List<Node> relatedNodes=direction.getRelatedNodes(currentNode);
+    if (!relatedNodes.isEmpty()) {
+      for (      Node relatedNode : relatedNodes) {
+        if (direction.canResetLevel(relatedNode,nextLevel)) {
+          relatedNode.setLevel(nextLevel);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  Pipeline pipeline=createPipelineWithStagesAndMods();
+  Pipeline actual=pipelineService.fullPipelineByCounterOrLabel(pipeline.getName(),pipeline.getCounter().toString());
+  assertThat(actual.getStages().size(),is(not(0)));
+  assertThat(actual.getBuildCause().getMaterialRevisions().getRevisions().size(),is(not(0)));
+}

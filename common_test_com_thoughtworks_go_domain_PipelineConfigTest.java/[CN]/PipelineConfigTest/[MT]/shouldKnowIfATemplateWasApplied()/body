@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline","stage","build");
+  assertThat(pipelineConfig.hasTemplateApplied(),is(false));
+  pipelineConfig.clear();
+  PipelineTemplateConfig template=new PipelineTemplateConfig();
+  template.add(StageConfigMother.stageConfig("first"));
+  pipelineConfig.usingTemplate(template);
+  assertThat(pipelineConfig.hasTemplateApplied(),is(true));
+}

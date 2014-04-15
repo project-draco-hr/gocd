@@ -1,0 +1,8 @@
+{
+  JobConfig jobConfig=getJob(identifier);
+  if (jobConfig == null) {
+    return toMillis(Long.parseLong(serverConfig().getJobTimeout()));
+  }
+  String timeout=jobConfig.getTimeout();
+  return timeout != null ? toMillis(Long.parseLong(timeout)) : toMillis(Long.parseLong(serverConfig().getJobTimeout()));
+}

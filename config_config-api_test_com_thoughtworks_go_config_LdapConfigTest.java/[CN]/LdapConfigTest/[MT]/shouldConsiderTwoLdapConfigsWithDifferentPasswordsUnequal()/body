@@ -1,0 +1,6 @@
+{
+  LdapConfig ldapConfig1=new LdapConfig("uri","managerDn","password-1",null,true,new BasesConfig(new BaseConfig("blah")),"blah");
+  LdapConfig ldapConfig2=new LdapConfig("uri","managerDn","password-2",null,true,new BasesConfig(new BaseConfig("blah")),"blah");
+  assertThat(ldapConfig1,is(Matchers.not(ldapConfig2)));
+  assertThat(ldapConfig1.hashCode(),is(Matchers.not(ldapConfig2.hashCode())));
+}

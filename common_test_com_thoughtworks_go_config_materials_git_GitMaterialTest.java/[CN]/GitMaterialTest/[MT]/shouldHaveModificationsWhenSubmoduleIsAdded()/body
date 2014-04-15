@@ -1,0 +1,11 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  submoduleRepos.addSubmodule(SUBMODULE,"sub1");
+  GitMaterial gitMaterial=new GitMaterial(submoduleRepos.mainRepo().getUrl());
+  File serverWorkingDir=TestFileUtil.createTempFolder("workingDir-" + System.currentTimeMillis());
+  List<Modification> beforeAdd=gitMaterial.latestModification(serverWorkingDir,new TestSubprocessExecutionContext());
+  submoduleRepos.addSubmodule(SUBMODULE,"new-submodule");
+  List<Modification> afterAdd=gitMaterial.modificationsSince(serverWorkingDir,new Modifications(beforeAdd).latestRevision(gitMaterial),new TestSubprocessExecutionContext());
+  assertThat(afterAdd.size(),is(1));
+  assertThat(afterAdd.get(0).getComment(),is("Added submodule new-submodule"));
+}

@@ -1,0 +1,7 @@
+{
+  CruiseConfig config=load();
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  pipelineConfig.removeMaterialConfig(materialConfig);
+  writeConfigFile(config);
+  return pipelineConfig;
+}

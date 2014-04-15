@@ -1,0 +1,83 @@
+{
+  Map newroots=new HashMap();
+  for (int i=0; i < includes.length; i++) {
+    if (FileUtil.isAbsolutePath(includes[i])) {
+      if (basedir != null && !SelectorUtils.matchPatternStart(includes[i],basedir.getAbsolutePath(),isCaseSensitive())) {
+        continue;
+      }
+    }
+ else     if (basedir == null) {
+      continue;
+    }
+    newroots.put(SelectorUtils.rtrimWildcardTokens(includes[i]),includes[i]);
+  }
+  if (newroots.containsKey("") && basedir != null) {
+    scandir(basedir,"",true);
+  }
+ else {
+    Iterator it=newroots.entrySet().iterator();
+    File canonBase=null;
+    if (basedir != null) {
+      try {
+        canonBase=basedir.getCanonicalFile();
+      }
+ catch (      IOException ex) {
+        throw new RuntimeException(ex);
+      }
+    }
+    while (it.hasNext()) {
+      Map.Entry entry=(Map.Entry)it.next();
+      String currentelement=(String)entry.getKey();
+      if (basedir == null && !FileUtil.isAbsolutePath(currentelement)) {
+        continue;
+      }
+      String originalpattern=(String)entry.getValue();
+      File myfile=new File(basedir,currentelement);
+      if (myfile.exists()) {
+        try {
+          String path=(basedir == null) ? myfile.getCanonicalPath() : FileUtil.removeLeadingPath(canonBase,myfile.getCanonicalFile());
+          if (!path.equals(currentelement)) {
+            myfile=findFile(basedir,currentelement,true);
+            if (myfile != null && basedir != null) {
+              currentelement=FileUtil.removeLeadingPath(basedir,myfile);
+            }
+          }
+        }
+ catch (        IOException ex) {
+          throw new RuntimeException(ex);
+        }
+      }
+      if ((myfile == null || !myfile.exists()) && !isCaseSensitive()) {
+        File f=findFile(basedir,currentelement,false);
+        if (f != null && f.exists()) {
+          currentelement=(basedir == null) ? f.getAbsolutePath() : FileUtil.removeLeadingPath(basedir,f);
+          myfile=f;
+        }
+      }
+      if (myfile != null && myfile.exists()) {
+        if (!followSymlinks && isSymlink(basedir,currentelement)) {
+          continue;
+        }
+        if (myfile.isDirectory()) {
+          if (isIncluded(currentelement) && currentelement.length() > 0) {
+            accountForIncludedDir(currentelement,myfile,true);
+          }
+ else {
+            if (currentelement.length() > 0) {
+              if (currentelement.charAt(currentelement.length() - 1) != File.separatorChar) {
+                currentelement=currentelement + File.separatorChar;
+              }
+            }
+            scandir(myfile,currentelement,true);
+          }
+        }
+ else {
+          boolean included=isCaseSensitive() ? originalpattern.equals(currentelement) : originalpattern.equalsIgnoreCase(currentelement);
+          if (included) {
+            accountForIncludedFile(currentelement,myfile);
+          }
+        }
+      }
+    }
+  }
+}

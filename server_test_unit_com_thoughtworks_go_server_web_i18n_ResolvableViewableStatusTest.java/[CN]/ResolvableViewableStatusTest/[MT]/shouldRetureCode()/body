@@ -1,0 +1,7 @@
+{
+  CurrentStatus currentStatus=CurrentStatus.BUILDING;
+  ResolvableViewableStatus resolvableViewableStatus=new ResolvableViewableStatus(currentStatus);
+  String expectation=ResolvableViewableStatus.CODE_PREFIX + currentStatus.getStatus().toLowerCase();
+  String real=resolvableViewableStatus.getCodes()[0];
+  assertThat(real,is(expectation));
+}

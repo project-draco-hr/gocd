@@ -1,0 +1,20 @@
+{
+  LOGGER.info(String.format("migrating %s rows",totalCount));
+  int count=0;
+  ResultSet resultSet=queryPipelineMaterialRevisions(connection);
+  while (resultSet.next()) {
+    long pmrId=resultSet.getLong("Id");
+    long fromRevision=resultSet.getLong("fromRevisionId");
+    long materialId=resultSet.getLong("materialId");
+    String materialType=resultSet.getString("materialType");
+    String pipelineName=resultSet.getString("pipelineName");
+    PMRRecord pmrRecord=new PMRRecord(materialId,pipelineName);
+    long lastSeenFromRevision=fromRevision;
+    if ("DependencyMaterial".equals(materialType) && map.containsKey(pmrRecord)) {
+      lastSeenFromRevision=nextModificationId(map.get(pmrRecord),materialId);
+    }
+    fireUpdateQuery(pmrId,lastSeenFromRevision);
+    map.put(pmrRecord,fromRevision);
+    logCount(count++);
+  }
+}

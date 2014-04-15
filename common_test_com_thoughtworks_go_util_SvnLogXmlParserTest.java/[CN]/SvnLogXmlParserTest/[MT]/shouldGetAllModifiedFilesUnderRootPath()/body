@@ -1,0 +1,13 @@
+{
+  SvnLogXmlParser parser=new SvnLogXmlParser();
+  List<Modification> materialRevisions=parser.parse(MULTIPLE_FILES,"",new SAXBuilder(false));
+  Modification mod=materialRevisions.get(0);
+  List<ModifiedFile> files=mod.getModifiedFiles();
+  assertThat(files.size(),is(2));
+  ModifiedFile file=files.get(0);
+  assertThat(file.getFileName(),is("/trunk/revision3.txt"));
+  assertThat(file.getAction(),is(ModifiedAction.added));
+  file=files.get(1);
+  assertThat(file.getFileName(),is("/branch/1.1/readme.txt"));
+  assertThat(file.getAction(),is(ModifiedAction.deleted));
+}

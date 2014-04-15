@@ -1,0 +1,6 @@
+{
+  AgentInstance instance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  instance.update(idleRuntimeInfo());
+  instance.refresh(null);
+  assertThat(instance.getStatus(),is(AgentStatus.Idle));
+}

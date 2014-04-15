@@ -1,0 +1,12 @@
+{
+  metricsProbeService=new MetricsProbeService(systemEnvironment);
+  Timer timer=((TimerProbe)metricsProbeService.getProbe(ProbeType.SAVE_CONFIG_XML_THROUGH_API)).getTimer();
+  timer.clear();
+  Context context=metricsProbeService.begin(ProbeType.SAVE_CONFIG_XML_THROUGH_API);
+  Thread.sleep(500L);
+  metricsProbeService.end(ProbeType.SAVE_CONFIG_XML_THROUGH_API,context);
+  context=metricsProbeService.begin(ProbeType.SAVE_CONFIG_XML_THROUGH_API);
+  Thread.sleep(1000L);
+  metricsProbeService.end(ProbeType.SAVE_CONFIG_XML_THROUGH_API,context);
+  assertThat(timer.count(),is(2L));
+}

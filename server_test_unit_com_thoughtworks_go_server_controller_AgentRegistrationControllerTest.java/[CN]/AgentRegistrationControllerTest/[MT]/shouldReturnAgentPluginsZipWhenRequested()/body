@@ -1,0 +1,10 @@
+{
+  File pluginZipFile=TestFileUtil.createTempFile("plugins.zip");
+  FileUtils.writeStringToFile(pluginZipFile,"content");
+  when(systemEnvironment.get(SystemEnvironment.ALL_PLUGINS_ZIP_PATH)).thenReturn(pluginZipFile.getAbsolutePath());
+  ModelAndView modelAndView=controller.downloadPluginsZip(null,null);
+  modelAndView.getView().render(null,request,response);
+  String actual=response.getContentAsString();
+  assertEquals("application/octet-stream",modelAndView.getView().getContentType());
+  assertEquals("content",actual);
+}

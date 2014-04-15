@@ -1,0 +1,11 @@
+{
+  File previous=workingDir;
+  for (int i=0; i < 30; i++) {
+    File newDir=new File(previous,"0123456789-" + i);
+    newDir.mkdir();
+    previous=newDir;
+  }
+  File textFile=new File(previous,"somefile.txt");
+  FileUtil.writeContentToFile("This is a test",textFile);
+  return textFile;
+}

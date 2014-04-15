@@ -1,0 +1,11 @@
+{
+  File dir=tempFiles.createUniqueFolder("tfs-dir");
+  TestSubprocessExecutionContext execCtx=new TestSubprocessExecutionContext();
+  TfsMaterial spy=spy(tfsMaterialFirstCollectionSecondProject);
+  TfsCommand tfsCommand=mock(TfsCommand.class);
+  when(tfsCommand.latestModification(dir)).thenReturn(new ArrayList<Modification>());
+  doReturn(tfsCommand).when(spy).tfs(execCtx);
+  List<Modification> actual=spy.latestModification(dir,execCtx);
+  assertThat((ArrayList<Modification>)actual,is(new ArrayList<Modification>()));
+  verify(tfsCommand).latestModification(dir);
+}

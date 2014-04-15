@@ -1,0 +1,7 @@
+{
+  final PipelineConfigs group=new PipelineConfigs("group1",new Authorization(new AdminsConfig(new AdminUser(new CaseInsensitiveString("anyone")))),PipelineConfigMother.pipelineConfig("pipeline1"));
+  when(securityService.hasViewPermissionForGroup("anyone","group1")).thenReturn(true);
+  when(goConfigService.rolesForUser(new CaseInsensitiveString("anyone"))).thenReturn(new ArrayList<Role>());
+  securityFilter.visit(group);
+  verify(pipelineGroupVisitor).visit(group);
+}

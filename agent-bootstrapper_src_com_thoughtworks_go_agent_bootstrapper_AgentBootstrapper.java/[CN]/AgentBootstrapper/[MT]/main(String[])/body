@@ -1,0 +1,9 @@
+{
+  BootstrapperLoggingHelper.initLog4j();
+  if (args.length < 1 || args.length > 3) {
+    System.out.println("Usage: agent-bootstrapper.jar <hostname> [port]");
+    System.exit(1);
+  }
+  int port=args.length >= 2 ? Integer.parseInt(args[1]) : DEFAULT_PORT;
+  new AgentBootstrapper().go(true,args[0],port);
+}

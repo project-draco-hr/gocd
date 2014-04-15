@@ -1,0 +1,11 @@
+{
+  JobInstances nonEmptyIndexPages=stage.getJobInstances().withNonEmptyIndexPages();
+  Map<JobInstance,String> aggregate=new LinkedHashMap<JobInstance,String>();
+  for (  JobInstance job : nonEmptyIndexPages) {
+    JobIdentifier jobIdentifier=new JobIdentifier(pipeline.getName(),pipeline.getCounter(),pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter()),job.getName(),job.getId());
+    String filePath=job.getTestIndexPage().getPath();
+    String path=FileUtil.normalizePath(filePath.substring(filePath.indexOf(TEST_OUTPUT_FOLDER)));
+    aggregate.put(job,baseArtifactUrl(jobIdentifier,path));
+  }
+  return aggregate;
+}

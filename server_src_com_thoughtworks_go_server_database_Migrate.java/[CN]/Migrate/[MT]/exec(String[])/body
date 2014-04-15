@@ -1,0 +1,18 @@
+{
+  try {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("About to execute commands:");
+      for (      String c : command) {
+        LOGGER.debug(c);
+      }
+    }
+    Process p=Runtime.getRuntime().exec(command);
+    copyInThread(p.getInputStream(),quiet ? null : sysOut);
+    copyInThread(p.getErrorStream(),quiet ? null : sysOut);
+    p.waitFor();
+    return p.exitValue();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  String content="<cruise schemaVersion='36'>\n" + "<server artifactsdir='artifacts'>" + "</server></cruise>";
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  assertThat(cruiseConfig.server().getPurgeStart(),is(nullValue()));
+  assertThat(cruiseConfig.server().getPurgeUpto(),is(nullValue()));
+}

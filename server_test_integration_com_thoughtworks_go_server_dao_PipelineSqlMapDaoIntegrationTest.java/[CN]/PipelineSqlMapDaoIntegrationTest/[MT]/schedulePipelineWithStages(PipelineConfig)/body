@@ -1,0 +1,9 @@
+{
+  BuildCause buildCause=BuildCause.createWithModifications(modifyOneFile(pipelineConfig),"");
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,buildCause,new DefaultSchedulingContext(DEFAULT_APPROVED_BY),"md5-test",new TimeProvider());
+  assertNotInserted(pipeline.getId());
+  savePipeline(pipeline);
+  long pipelineId=pipeline.getId();
+  assertIsInserted(pipelineId);
+  return pipeline;
+}

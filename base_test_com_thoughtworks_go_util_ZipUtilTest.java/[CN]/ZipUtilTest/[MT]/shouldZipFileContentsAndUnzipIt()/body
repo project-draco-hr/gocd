@@ -1,0 +1,14 @@
+{
+  zipFile=zipUtil.zip(srcDir,TestFileUtil.createUniqueTempFile(srcDir.getName()),Deflater.NO_COMPRESSION);
+  assertThat(zipFile.isFile(),is(true));
+  zipUtil.unzip(zipFile,destDir);
+  File baseDir=new File(destDir,srcDir.getName());
+  assertIsDirectory(new File(baseDir,emptyDir.getName()));
+  assertIsDirectory(new File(baseDir,childDir1.getName()));
+  File actual1=new File(baseDir,file1.getName());
+  assertThat(actual1.isFile(),is(true));
+  assertThat(fileContent(actual1),is(fileContent(file1)));
+  File actual2=new File(baseDir,childDir1.getName() + File.separator + file2.getName());
+  assertThat(actual2.isFile(),is(true));
+  assertThat(fileContent(actual2),is(fileContent(file2)));
+}

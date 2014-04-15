@@ -1,0 +1,36 @@
+{
+  if (attributeMap == null || attributeMap.isEmpty()) {
+    return;
+  }
+  if (attributeMap.containsKey(PIPELINE_NAME)) {
+    this.pipelineName=new PathFromAncestor(new CaseInsensitiveString((String)attributeMap.get(PIPELINE_NAME)));
+  }
+  if (attributeMap.containsKey(STAGE)) {
+    this.stage=new CaseInsensitiveString((String)attributeMap.get(STAGE));
+  }
+  if (attributeMap.containsKey(JOB)) {
+    String jobString=(String)attributeMap.get(JOB);
+    this.job=jobString == null ? null : new CaseInsensitiveString(jobString);
+  }
+  if (attributeMap.containsKey(SRC)) {
+    boolean isFile="1".equals(attributeMap.get(IS_SOURCE_A_FILE));
+    String fileOrDir=(String)attributeMap.get(SRC);
+    if (isFile) {
+      this.srcfile=fileOrDir.equals("") ? null : fileOrDir;
+      this.srcdir=null;
+    }
+ else {
+      this.srcdir=fileOrDir.equals("") ? null : fileOrDir;
+      this.srcfile=null;
+    }
+  }
+  if (attributeMap.containsKey(DEST)) {
+    String dest=(String)attributeMap.get(DEST);
+    if (StringUtils.isBlank(dest)) {
+      this.dest=null;
+    }
+ else {
+      this.dest=dest;
+    }
+  }
+}

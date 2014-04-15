@@ -1,0 +1,7 @@
+{
+  config.configureStageAsManualApproval(PIPELINE_NAME,FT_STAGE);
+  Stage oldFtStage=createPipelineWithFirstStageCompletedAndNextStageBuilding(StageState.Passed);
+  Pipeline newPipeline=createPipelineWithFirstStageCompleted(mingle);
+  Stage mostRecent=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(FT_STAGE)));
+  assertThat(mostRecent.getId(),is(oldFtStage.getId()));
+}

@@ -1,0 +1,5 @@
+{
+  when(localizer.localize(anyString(),anyVararg())).thenReturn("helped!");
+  String s="Help me";
+  assertThat(LocalizedMessage.string(s).localize(localizer),is("helped!"));
+}

@@ -1,0 +1,9 @@
+{
+  mockery.checking(new Expectations(){
+{
+      one(agentService).notifyJobCancelledEvent(AGENT_UUID);
+    }
+  }
+);
+  listener.onMessage(new JobResultMessage(jobIdentifier,JobResult.Cancelled,AGENT_UUID));
+}

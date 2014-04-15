@@ -1,0 +1,9 @@
+{
+  outputStreamConsumer.stdOutput("[GIT] Updating working copy to revision " + revision.getRevision());
+  String[] args=new String[]{"reset","--hard",revision.getRevision()};
+  CommandLine gitCmd=git().withArgs(args).withWorkingDir(workingDir);
+  int result=run(gitCmd,outputStreamConsumer);
+  if (result != 0) {
+    throw new RuntimeException(String.format("git reset failed for [%s]",this.workingDir));
+  }
+}

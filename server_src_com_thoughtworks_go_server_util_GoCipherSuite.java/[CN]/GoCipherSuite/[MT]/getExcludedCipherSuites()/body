@@ -1,0 +1,13 @@
+{
+  String[] supportedCipherSuites=socketFactory.getSupportedCipherSuites();
+  ArrayList<String> suitesToBeExcluded=new ArrayList<String>();
+  for (  String suite : supportedCipherSuites) {
+    if (!cipherSuitesSupportedByGo.contains(suite)) {
+      suitesToBeExcluded.add(suite);
+    }
+  }
+  if (suitesToBeExcluded.size() == supportedCipherSuites.length) {
+    return new String[0];
+  }
+  return suitesToBeExcluded.toArray(new String[suitesToBeExcluded.size()]);
+}

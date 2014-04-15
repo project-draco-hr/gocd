@@ -1,0 +1,10 @@
+{
+  SvnMaterial svnMaterial1=repo.createMaterial("multiple-materials/trunk/part1","part1");
+  SvnMaterial svnMaterial2=repo.createMaterial("multiple-materials/trunk/part2","part2");
+  Materials materials=new Materials(svnMaterial1,svnMaterial2);
+  MaterialRevisions materialRevisions=materials.latestModification(pipelineDir,new TestSubprocessExecutionContext());
+  MaterialRevision revision1=materialRevisions.getMaterialRevision(0);
+  assertThat(revision1.getRevision(),is(latestRevision(svnMaterial1,pipelineDir,new TestSubprocessExecutionContext())));
+  MaterialRevision revision2=materialRevisions.getMaterialRevision(1);
+  assertThat(revision2.getRevision(),is(latestRevision(svnMaterial2,pipelineDir,new TestSubprocessExecutionContext())));
+}

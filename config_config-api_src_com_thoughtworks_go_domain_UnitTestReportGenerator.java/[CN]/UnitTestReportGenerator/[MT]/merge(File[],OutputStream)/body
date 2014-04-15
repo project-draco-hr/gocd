@@ -1,0 +1,16 @@
+{
+  PrintStream out=new PrintStream(outputStream,true,"UTF-8");
+  out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+  out.println("<all-results>");
+  for (  File testFile : testFiles) {
+    if (testFile.isDirectory()) {
+      for (      Object file : FileUtils.listFiles(testFile,new String[]{"xml"},true)) {
+        pumpFileContentIfValid(out,(File)file);
+      }
+    }
+ else {
+      pumpFileContentIfValid(out,testFile);
+    }
+  }
+  out.println("</all-results>");
+}

@@ -1,0 +1,8 @@
+{
+  GoCipher mockGoCipher=mock(GoCipher.class);
+  when(mockGoCipher.decrypt("encrypted")).thenReturn("password");
+  P4Material p4Material=new P4Material("example.com:1818","view",mockGoCipher);
+  ReflectionUtil.setField(p4Material,"encryptedPassword","encrypted");
+  p4Material.getPassword();
+  assertThat(p4Material.getPassword(),is("password"));
+}

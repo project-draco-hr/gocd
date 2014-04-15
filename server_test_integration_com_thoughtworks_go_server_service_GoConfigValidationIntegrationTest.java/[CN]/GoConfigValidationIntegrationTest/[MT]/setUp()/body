@@ -1,0 +1,13 @@
+{
+  goCache.clear();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.onSetUp();
+  configHelper.addSecurityWithAdminConfig();
+  dbHelper.onSetUp();
+  saveAdminAndNonAdminGroups(transactionTemplate,userService);
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(PIPELINE_FOO,StageConfigMother.manualStage(STAGE_BAR));
+  configHelper.addPipelineToGroup(pipelineConfig,MY_GROUP);
+  configHelper.addRole(new Role(new CaseInsensitiveString(ADMIN_ROLE),new RoleUser(new CaseInsensitiveString(MEMBER_OF_GO_ROLE))));
+  configHelper.blockPipelineGroupExceptFor(MY_GROUP,ADMIN_ROLE);
+  configHelper.setOperatePermissionForGroup(MY_GROUP,USER_WITH_PERMISSION_TO_OPERATE_ON_GROUP);
+}

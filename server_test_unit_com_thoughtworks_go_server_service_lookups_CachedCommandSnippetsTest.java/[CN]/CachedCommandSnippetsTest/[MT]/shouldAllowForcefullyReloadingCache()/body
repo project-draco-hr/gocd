@@ -1,0 +1,7 @@
+{
+  when(goCache.get(CachedCommandSnippets.CACHE_KEY)).thenReturn(null,expectedSnippets);
+  commandSnippetsCache.snippets();
+  commandSnippetsCache.reload();
+  commandSnippetsCache.snippets();
+  verify(walker,times(2)).getAllCommandSnippets(EXPECTED_REPO_DIR);
+}

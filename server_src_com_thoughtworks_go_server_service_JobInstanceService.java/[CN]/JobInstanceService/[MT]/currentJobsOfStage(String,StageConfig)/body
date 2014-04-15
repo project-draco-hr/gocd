@@ -1,0 +1,15 @@
+{
+  JobInstances jobs=new JobInstances();
+  for (  JobConfig jobConfig : stageConfig.allBuildPlans()) {
+    JobConfigIdentifier jobConfigIdentifier=new JobConfigIdentifier(pipelineName,CaseInsensitiveString.str(stageConfig.name()),CaseInsensitiveString.str(jobConfig.name()));
+    List<JobInstance> found=jobStatusCache.currentJobs(jobConfigIdentifier);
+    if (found.isEmpty()) {
+      jobs.add(new NullJobInstance(CaseInsensitiveString.str(jobConfig.name())));
+    }
+ else {
+      jobs.addAll(found);
+    }
+  }
+  jobs.sortByName();
+  return jobs;
+}

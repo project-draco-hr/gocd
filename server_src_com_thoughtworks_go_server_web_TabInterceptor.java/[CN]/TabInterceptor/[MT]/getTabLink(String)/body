@@ -1,0 +1,9 @@
+{
+  String[] contextNames=urlToParams(requestURI);
+  for (int i=0; i < contextNames.length; i++) {
+    if ("tab".equals(contextNames[i]) && (i + 1) < contextNames.length) {
+      return contextNames[i + 1];
+    }
+  }
+  return "";
+}

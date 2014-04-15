@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=load();
+  StageConfig stageConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName)).findBy(new CaseInsensitiveString(stageName));
+  stageConfig.updateApproval(new Approval(new AuthConfig(new AdminUser(new CaseInsensitiveString(username)))));
+  writeConfigFile(cruiseConfig);
+}

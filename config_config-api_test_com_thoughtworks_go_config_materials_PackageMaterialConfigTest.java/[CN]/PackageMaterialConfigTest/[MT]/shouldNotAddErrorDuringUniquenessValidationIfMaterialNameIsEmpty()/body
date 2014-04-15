@@ -1,0 +1,7 @@
+{
+  PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig("");
+  Map<CaseInsensitiveString,AbstractMaterialConfig> nameToMaterialMap=new HashMap<CaseInsensitiveString,AbstractMaterialConfig>();
+  packageMaterialConfig.validateNameUniqueness(nameToMaterialMap);
+  assertThat(packageMaterialConfig.errors().getAll().size(),is(0));
+  assertThat(nameToMaterialMap.size(),is(0));
+}

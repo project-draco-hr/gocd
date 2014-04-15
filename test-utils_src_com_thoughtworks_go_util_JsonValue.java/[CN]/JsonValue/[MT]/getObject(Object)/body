@@ -1,0 +1,32 @@
+{
+  JsonValue current=this;
+  for (  Object key : keys) {
+    if (key instanceof String) {
+      if (!(current.jsonValue instanceof JSONObject)) {
+        throw new IllegalArgumentException(format("Key '%s' does not refer to any attribute of %s",key,current));
+      }
+      JSONValue value=((JSONObject)current.jsonValue).get((String)key);
+      if (value == null) {
+        throw new IllegalArgumentException(format("Key '%s' does not refer to any attribute of %s",key,current));
+      }
+      current=new JsonValue(value);
+    }
+ else     if (key instanceof Number) {
+      int index=((Number)key).intValue();
+      try {
+        current=current.getItem(index);
+      }
+ catch (      Exception e) {
+        String message=String.format("Can not find #%s element in %s",index,current);
+        throw new RuntimeException(message,e);
+      }
+    }
+ else {
+      throw new RuntimeException("Could not understand key " + key);
+    }
+    if (current == null) {
+      throw new RuntimeException("No such key " + key + "\n Possible keys are : "+ current);
+    }
+  }
+  return current;
+}

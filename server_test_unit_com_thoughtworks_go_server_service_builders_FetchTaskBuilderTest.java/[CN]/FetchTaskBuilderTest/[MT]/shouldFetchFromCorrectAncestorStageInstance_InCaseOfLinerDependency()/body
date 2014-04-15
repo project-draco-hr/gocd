@@ -1,0 +1,12 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("uppest/up/down"),new CaseInsensitiveString("uppest-stage"),new CaseInsensitiveString("uppest-job"),"src","dest");
+  Pipeline pipeline=pipelineWithDepencencyMaterial("downest","down",1,"down-1","down-stage",2);
+  DependencyMaterialRevision revisionOfDown=DependencyMaterialRevision.create("down/1/down-stage/2","down-1");
+  when(resolver.buildCauseFor(revisionOfDown.getPipelineName(),revisionOfDown.getPipelineCounter())).thenReturn(pipelineWithDepencencyMaterial("down","up",5,"up-5","up-stage",3).getBuildCause());
+  DependencyMaterialRevision revisionOfUp=DependencyMaterialRevision.create("up/5/up-stage/3","up-5");
+  when(resolver.buildCauseFor(revisionOfUp.getPipelineName(),revisionOfUp.getPipelineCounter())).thenReturn(pipelineWithDepencencyMaterial("up","uppest",3,"uppest-3","uppest-stage",4).getBuildCause());
+  FetchArtifactBuilder builder=(FetchArtifactBuilder)fetchTaskBuilder.createBuilder(builderFactory,fetchTask,pipeline,resolver);
+  verify(resolver).buildCauseFor(revisionOfDown.getPipelineName(),revisionOfDown.getPipelineCounter());
+  verify(resolver).buildCauseFor(revisionOfUp.getPipelineName(),revisionOfUp.getPipelineCounter());
+  assertThat(builder.getJobIdentifier(),is(new JobIdentifier("uppest",3,"uppest-3","uppest-stage","4","uppest-job",0l)));
+}

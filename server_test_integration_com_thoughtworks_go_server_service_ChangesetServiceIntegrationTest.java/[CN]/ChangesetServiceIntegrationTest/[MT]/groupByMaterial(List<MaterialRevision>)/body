@@ -1,0 +1,15 @@
+{
+  MaterialRevisions grouped=new MaterialRevisions();
+  for (  List<MaterialRevision> materialRevisions : toBeGrouped) {
+    for (    MaterialRevision materialRevision : materialRevisions) {
+      MaterialRevision revision=grouped.findRevisionFor(materialRevision.getMaterial());
+      if (revision == null) {
+        revision=new MaterialRevision(materialRevision.getMaterial(),new ArrayList<Modification>());
+        grouped.addRevision(revision);
+      }
+      revision.addModifications(materialRevision.getModifications());
+      Collections.sort(revision.getModifications(),PersistentObject.ORDER_DESCENDING_ID);
+    }
+  }
+  return grouped.getRevisions();
+}

@@ -1,0 +1,12 @@
+{
+  Session session;
+  if (username == null || password == null || username.equals("") || password.equals("")) {
+    session=Session.getInstance(props);
+  }
+ else {
+    props.put("mail.smtp.auth","true");
+    props.put("mail.smtps.auth","true");
+    session=Session.getInstance(props,new SMTPAuthenticator());
+  }
+  return session;
+}

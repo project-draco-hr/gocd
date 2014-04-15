@@ -1,0 +1,10 @@
+{
+  ensureConfigHasPipeline("pipeline");
+  ensureHasPermission(Username.ANONYMOUS,"pipeline");
+  PipelineInstanceModel instanceModel=PipelineInstanceModel.createEmptyPipelineInstanceModel("pipeline",BuildCause.createNeverRun(),new StageInstanceModels());
+  when(pipelineDao.loadHistoryByIdWithBuildCause(1L)).thenReturn(instanceModel);
+  stubConfigServiceToReturnPipeline("pipeline",config);
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.findPipelineInstance("pipeline",1,1L,Username.ANONYMOUS,new HttpOperationResult());
+  StageInstanceModels models=pipelineInstance.getStageHistory();
+  assertThat(models.size(),is(2));
+}

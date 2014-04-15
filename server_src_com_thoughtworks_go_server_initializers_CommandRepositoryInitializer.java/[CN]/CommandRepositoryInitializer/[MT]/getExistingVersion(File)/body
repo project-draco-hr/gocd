@@ -1,0 +1,7 @@
+{
+  File file=new File(defaultCommandRepositoryDirectory,systemEnvironment.get(VERSION_FILE_IN_DEFAULT_COMMAND_REPOSITORY));
+  if (!file.exists()) {
+    return Version.belowAllVersions();
+  }
+  return new Version(FileUtils.readFileToString(file));
+}

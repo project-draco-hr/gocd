@@ -1,0 +1,8 @@
+{
+  int returnCode=httpService.download(url,handler);
+  while (returnCode == HttpServletResponse.SC_ACCEPTED) {
+    clock.sleepForMillis(DOWNLOAD_SLEEP_MILLIS);
+    returnCode=httpService.download(url,handler);
+  }
+  return returnCode;
+}

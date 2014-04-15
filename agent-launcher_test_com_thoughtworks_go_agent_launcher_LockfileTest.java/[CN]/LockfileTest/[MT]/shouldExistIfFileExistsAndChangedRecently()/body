@@ -1,0 +1,8 @@
+{
+  File mockfile=mock(File.class);
+  Lockfile lockfile=new Lockfile(mockfile);
+  Lockfile spy=spy(lockfile);
+  doReturn(true).when(spy).lockFileChangedWithinMinutes(10);
+  when(lockfile.exists()).thenReturn(true);
+  assertThat(spy.exists(),Is.is(true));
+}

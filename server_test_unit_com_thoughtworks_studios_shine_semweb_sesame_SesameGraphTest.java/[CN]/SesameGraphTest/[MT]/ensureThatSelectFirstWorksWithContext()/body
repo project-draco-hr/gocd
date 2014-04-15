@@ -1,0 +1,10 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . " + "<http://example.com/1> rdf:type ex:Yadda . ";
+  contextAwareGraph.addTriplesFromTurtle(turtle);
+  String selectFirst="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?s " + "WHERE { "+ "  ?s a ex:Yadda "+ "}";
+  BoundVariables boundVariables=contextAwareGraph.selectFirst(selectFirst);
+  assertEquals("http://example.com/1",boundVariables.getURIReference("s").getURIText());
+  String selectFirstWithContext="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?s " + "FROM NAMED <http://foo.com/context> "+ "WHERE { "+ " GRAPH <http://foo.com/context> {"+ "  ?s a ex:Yadda "+ " } "+ "}";
+  boundVariables=contextUnawareGraph.selectFirst(selectFirstWithContext);
+  assertEquals("http://example.com/1",boundVariables.getURIReference("s").getURIText());
+}

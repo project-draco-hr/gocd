@@ -1,0 +1,11 @@
+{
+  assertThat(nodesAtLevel.size(),is(numberOfDummyNodes + nodeIds.length));
+  List<String> nodeIdsAtLevel=new ArrayList<String>();
+  for (  Node node : nodesAtLevel) {
+    if (!node.getType().equals(DependencyNodeType.DUMMY)) {
+      nodeIdsAtLevel.add(node.getId());
+    }
+  }
+  assertThat(nodeIdsAtLevel.size(),is(nodeIds.length));
+  assertThat(nodeIdsAtLevel,hasItems(nodeIds));
+}

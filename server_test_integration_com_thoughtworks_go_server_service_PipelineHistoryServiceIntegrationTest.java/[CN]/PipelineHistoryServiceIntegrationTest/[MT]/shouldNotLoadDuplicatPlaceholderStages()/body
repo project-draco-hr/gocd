@@ -1,0 +1,9 @@
+{
+  goConfigService.addPipeline(PipelineConfigMother.createPipelineConfig("pipeline","stage","job"),"pipeline-group");
+  PipelineInstanceModels history=pipelineHistoryService.load("pipeline",Pagination.pageStartingAt(0,1,10),"anyone",true);
+  PipelineInstanceModel instanceModel=history.first();
+  assertThat(instanceModel instanceof EmptyPipelineInstanceModel,is(true));
+  StageInstanceModels stageHistory=instanceModel.getStageHistory();
+  assertThat(stageHistory.size(),is(1));
+  assertThat(stageHistory.first() instanceof NullStageHistoryItem,is(true));
+}

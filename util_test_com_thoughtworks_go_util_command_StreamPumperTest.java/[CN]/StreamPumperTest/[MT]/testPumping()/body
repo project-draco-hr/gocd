@@ -1,0 +1,11 @@
+{
+  String line1="line1";
+  String line2="line2";
+  String lines=line1 + "\n" + line2;
+  ByteArrayInputStream inputStream=new ByteArrayInputStream(lines.getBytes());
+  TestConsumer consumer=new TestConsumer();
+  StreamPumper pumper=new StreamPumper(inputStream,consumer);
+  new Thread(pumper).start();
+  assertThat(consumer.wasLineConsumed(line1,1000),is(true));
+  assertThat(consumer.wasLineConsumed(line2,1000),is(true));
+}

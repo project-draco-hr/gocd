@@ -1,0 +1,27 @@
+{
+  CruiseConfig cruiseConfig=configFileHelper.currentConfig();
+  PipelineConfig mingleConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(PIPELINE_NAME));
+  ReflectionUtil.setField(mingleConfig.get(0),"artifactCleanupProhibited",true);
+  configFileHelper.writeConfigFile(cruiseConfig);
+  configDbStateRepository.flushConfigState();
+  Pipeline[] pipelines=new Pipeline[101];
+  for (int i=0; i < 101; i++) {
+    PipelineConfig pipelineCfg=configFileHelper.addPipeline("pipeline-" + i,"stage","job");
+    Pipeline pipeline=dbHelper.schedulePipeline(pipelineCfg,new TimeProvider());
+    dbHelper.pass(pipeline);
+    pipelines[i]=pipeline;
+  }
+  List<Stage> stages=stageService.oldestStagesWithDeletableArtifacts();
+  for (int i=0; i < 100; i++) {
+    Stage stage=stages.get(i);
+    assertThat(stage.getIdentifier(),is(pipelines[i].getFirstStage().getIdentifier()));
+    stageService.markArtifactsDeletedFor(stage);
+  }
+  assertThat(stages.size(),is(100));
+  stages=stageService.oldestStagesWithDeletableArtifacts();
+  assertThat(stages.size(),is(1));
+  Stage stage=stages.get(0);
+  assertThat(stage.getIdentifier(),is(pipelines[100].getFirstStage().getIdentifier()));
+  stageService.markArtifactsDeletedFor(stage);
+  assertThat(stageService.oldestStagesWithDeletableArtifacts().size(),is(0));
+}

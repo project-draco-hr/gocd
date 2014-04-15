@@ -1,0 +1,13 @@
+{
+  StageConfig ftStage=pipelineFixture.ftStage();
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  Stage stage=pipeline.getStages().byName(CaseInsensitiveString.str(ftStage.name()));
+  long stageId=stage.getId();
+  Stage stageLoadedBeforeJobUpdate=stageService.stageById(stageId);
+  assertThat(stageLoadedBeforeJobUpdate.getJobInstances().get(0).getState(),is(JobState.Scheduled));
+  JobInstance instance=stage.getJobInstances().get(0);
+  instance.changeState(JobState.Building,new Date());
+  jobInstanceService.updateStateAndResult(instance);
+  Stage stageLoadedAfterJobUpdate=stageService.stageById(stageId);
+  assertThat(stageLoadedAfterJobUpdate.getJobInstances().get(0).getState(),is(JobState.Building));
+}

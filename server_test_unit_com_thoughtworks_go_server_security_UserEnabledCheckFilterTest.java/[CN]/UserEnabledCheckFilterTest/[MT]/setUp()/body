@@ -1,0 +1,10 @@
+{
+  originalContext=SecurityContextHolder.getContext();
+  userService=mock(UserService.class);
+  filter=new UserEnabledCheckFilter(userService);
+  req=mock(HttpServletRequest.class);
+  res=mock(HttpServletResponse.class);
+  chain=mock(FilterChain.class);
+  session=mock(HttpSession.class);
+  when(req.getSession()).thenReturn(session);
+}

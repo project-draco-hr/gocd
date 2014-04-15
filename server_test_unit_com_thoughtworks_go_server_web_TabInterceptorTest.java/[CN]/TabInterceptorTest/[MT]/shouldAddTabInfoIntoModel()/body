@@ -1,0 +1,17 @@
+{
+  String[] cssFiles={"pipeline-tab.css"};
+  TabConfiguration tabConfiguration=new TabConfiguration();
+  tabConfiguration.setLink("pipeline");
+  String viewName="pipeline-tab";
+  tabConfiguration.setViewName(viewName);
+  tabConfiguration.setCssFiles(cssFiles);
+  tabs.add(tabConfiguration);
+  request.setRequestURI("/tab/pipeline");
+  ModelAndView modelAndView=new ModelAndView();
+  tabInterceptor.postHandle(request,null,null,modelAndView);
+  assertThat(modelAndView.getViewName(),is(viewName));
+  Map model=modelAndView.getModel();
+  assertThat((TabConfiguration)model.get("currentTab"),is(tabConfiguration));
+  assertThat((ArrayList<TabConfiguration>)model.get("tabs"),is(tabs));
+  assertThat((String[])model.get("cssFiles"),is(cssFiles));
+}

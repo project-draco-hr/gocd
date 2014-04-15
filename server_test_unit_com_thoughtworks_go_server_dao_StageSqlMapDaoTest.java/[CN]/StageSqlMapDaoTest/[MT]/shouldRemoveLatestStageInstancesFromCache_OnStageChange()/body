@@ -1,0 +1,8 @@
+{
+  when(sqlMapClientTemplate.queryForList("latestStageInstances")).thenReturn(Arrays.asList(new StageIdentity("p1","s1",10L),new StageIdentity("p2","s2",100L)));
+  String cacheKey=stageSqlMapDao.cacheKeyForLatestStageInstances();
+  List<StageIdentity> latestStageInstances=stageSqlMapDao.findLatestStageInstances();
+  assertThat((List<StageIdentity>)goCache.get(cacheKey),is(latestStageInstances));
+  stageSqlMapDao.stageStatusChanged(StageMother.custom("stage"));
+  assertThat(goCache.get(cacheKey),is(nullValue()));
+}

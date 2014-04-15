@@ -1,0 +1,18 @@
+{
+  Users allUsers=userDao.allUsers();
+  for (  String user : users) {
+    if (!allUsers.containsUserNamed(user)) {
+      result.badRequest(LocalizedMessage.string("USER_DOES_NOT_EXIST_IN_DB",user));
+      return;
+    }
+  }
+  try {
+    final GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand();
+    command.addCommand(goConfigService.modifyRolesCommand(users,roleSelections));
+    command.addCommand(goConfigService.modifyAdminPrivilegesCommand(users,adminPrivilege));
+    goConfigService.updateConfig(command);
+  }
+ catch (  Exception e) {
+    result.badRequest(LocalizedMessage.string("INVALID_ROLE_NAME",e.getMessage()));
+  }
+}

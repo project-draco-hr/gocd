@@ -1,0 +1,10 @@
+{
+  if (stageNames.size() < 1) {
+    throw new IllegalArgumentException("stageNames is empty!");
+  }
+  Stages stages=new Stages();
+  stages.add(com.thoughtworks.go.helper.StageMother.stageWithNBuildsHavingEndState(JobState.Building,null,stageNames.get(0),buildNames));
+  List<String> remainder=stageNames.subList(1,stageNames.size());
+  stages.addAll(stagesAndBuildsWithEndState(JobState.Scheduled,null,buildNames,remainder));
+  return pipeline(pipelineName,toStageArray(stages));
+}

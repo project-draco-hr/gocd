@@ -1,0 +1,16 @@
+{
+  Username foo=new Username(new CaseInsensitiveString("foo"));
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(ConfigFileFixture.CONFIG).config;
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  PipelineInstanceModels activePipelineInstances=createPipelineInstanceModels(activePipeline("pipeline1",1,1.0),activePipeline("pipeline2",1,1.0),activePipeline("pipeline4",1,1.0),activePipeline("non-operatable-pipeline",1,1.0));
+  for (  String pipeline : new String[]{"pipeline1","pipeline2","pipeline3","pipeline4","non-operatable-pipeline"}) {
+    stubPermisssionsForActivePipeline(foo,cruiseConfig,pipeline,true,true);
+    when(pipelineDao.loadHistory(pipeline,1,0)).thenReturn(createPipelineInstanceModels());
+  }
+  when(pipelineDao.loadActivePipelines()).thenReturn(activePipelineInstances);
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString(any(String.class)))).thenReturn(true);
+  List<PipelineGroupModel> groups=pipelineHistoryService.getActivePipelineInstance(foo,"pipeline1");
+  assertThat(groups.size(),is(1));
+  assertThat(groups.get(0).getName(),is("defaultGroup"));
+  assertThat(groups.get(0).containsPipeline("pipeline1"),is(true));
+}

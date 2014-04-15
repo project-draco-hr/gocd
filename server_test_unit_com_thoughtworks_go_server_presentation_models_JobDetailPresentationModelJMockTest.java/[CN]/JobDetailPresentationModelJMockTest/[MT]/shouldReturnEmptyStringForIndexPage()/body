@@ -1,0 +1,11 @@
+{
+  context.checking(new Expectations(){
+{
+      allowing(stubJobInstance).getTestIndexPage();
+      will(returnValue((File)null));
+    }
+  }
+);
+  String path=jobDetailPresenter.getIndexPageURL();
+  assertThat(path,is(""));
+}

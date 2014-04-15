@@ -1,0 +1,14 @@
+{
+  Map<String,List<Integer>> mapWithCollection=new HashMap<String,List<Integer>>();
+  CollectionUtil.CollectionValueMap<String,Integer> cVM=CollectionUtil.collectionValMap(mapWithCollection,new CollectionUtil.CollectionCreator<Integer>(){
+    public Collection<Integer> create(){
+      return new ArrayList<Integer>();
+    }
+  }
+);
+  cVM.put("foo",10);
+  cVM.put("bar",20);
+  cVM.put("foo",30);
+  assertThat(mapWithCollection.get("foo"),is(Arrays.asList(10,30)));
+  assertThat(mapWithCollection.get("bar"),is(Arrays.asList(20)));
+}

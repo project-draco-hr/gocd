@@ -1,0 +1,6 @@
+{
+  CompositeChecker checker=new CompositeChecker(successful(),successful());
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  checker.check(result);
+  assertThat(result.getServerHealthState(),Is.is(SUCCESS_SERVER_HEALTH_STATE));
+}

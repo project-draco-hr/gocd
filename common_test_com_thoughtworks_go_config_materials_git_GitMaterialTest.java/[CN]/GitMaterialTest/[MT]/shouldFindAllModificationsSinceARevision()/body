@@ -1,0 +1,12 @@
+{
+  List<Modification> modifications=git.modificationsSince(workingDir,REVISION_0,new TestSubprocessExecutionContext());
+  assertThat(modifications.size(),is(4));
+  assertThat(modifications.get(0).getRevision(),is(REVISION_4.getRevision()));
+  assertThat(modifications.get(0).getComment(),is("Added 'run-till-file-exists' ant target"));
+  assertThat(modifications.get(1).getRevision(),is(REVISION_3.getRevision()));
+  assertThat(modifications.get(1).getComment(),is("adding build.xml"));
+  assertThat(modifications.get(2).getRevision(),is(REVISION_2.getRevision()));
+  assertThat(modifications.get(2).getComment(),is("Created second.txt from first.txt"));
+  assertThat(modifications.get(3).getRevision(),is(REVISION_1.getRevision()));
+  assertThat(modifications.get(3).getComment(),is("Added second line"));
+}

@@ -1,0 +1,12 @@
+{
+  when(req.getLocale()).thenReturn(new Locale("ja"));
+  CurrentLocale.setLocaleString("en");
+  localeResolver.doFilter(req,res,new FilterChain(){
+    public void doFilter(    ServletRequest servletRequest,    ServletResponse servletResponse) throws IOException, ServletException {
+      localeInside=CurrentLocale.getLocaleString();
+    }
+  }
+);
+  assertThat(CurrentLocale.getLocaleString(),is("en"));
+  assertThat(localeInside,is("ja"));
+}

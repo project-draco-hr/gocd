@@ -1,0 +1,10 @@
+{
+  Map<String,Object> ctx=new HashMap<String,Object>();
+  PluggableViewModel viewModel=mock(PluggableViewModel.class);
+  when(viewModel.getRenderingFramework()).thenReturn("foo");
+  Renderer erbRenderer=mock(Renderer.class);
+  when(erbRenderer.render(eq(viewModel),any(Map.class))).thenReturn("hello world mates");
+  viewRenderingService.registerRenderer("foo",erbRenderer);
+  String view=viewRenderingService.render(viewModel,ctx);
+  assertThat(view,is("hello world mates"));
+}

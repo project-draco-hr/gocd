@@ -1,0 +1,8 @@
+{
+  FetchTask fetchTask=new FetchTask();
+  fetchTask.setSrcfile("a.txt");
+  Pipeline pipeline=pipeline(LABEL);
+  FetchArtifactBuilder builder=(FetchArtifactBuilder)fetchTaskBuilder.createBuilder(builderFactory,fetchTask,pipeline,resolver);
+  assertThat(builder.getJobIdentifier().getPipelineName(),is("cruise"));
+  assertThat(builder.getJobIdentifier().getPipelineLabel(),is(LABEL));
+}

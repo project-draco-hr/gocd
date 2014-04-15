@@ -1,0 +1,13 @@
+{
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      Modification modification=new Modification("user","comment","a@b.com",date,revision);
+      for (      File file : files) {
+        modification.createModifiedFile(file.getName(),file.getParent(),modifiedAction);
+      }
+      materialRepository.saveMaterialRevision(new MaterialRevision(material,modification));
+      return null;
+    }
+  }
+);
+}

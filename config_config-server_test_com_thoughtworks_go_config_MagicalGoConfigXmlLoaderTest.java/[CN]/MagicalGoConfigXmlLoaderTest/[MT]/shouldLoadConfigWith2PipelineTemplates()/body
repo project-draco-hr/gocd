@@ -1,0 +1,7 @@
+{
+  String content=ConfigFileFixture.configWithTemplates("<templates>" + "  <pipeline name='erbshe'>" + "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1' />"+ "      </jobs>"+ "    </stage>"+ "  </pipeline>"+ "  <pipeline name='erbshe2'>"+ "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1' />"+ "      </jobs>"+ "    </stage>"+ "  </pipeline>"+ "</templates>");
+  TemplatesConfig templates=ConfigMigrator.loadWithMigration(content).config.getTemplates();
+  assertThat(templates.size(),is(2));
+  assertThat(templates.get(0).name(),is(new CaseInsensitiveString("erbshe")));
+  assertThat(templates.get(1).name(),is(new CaseInsensitiveString("erbshe2")));
+}

@@ -1,0 +1,9 @@
+{
+  Pipeline pipeline=PipelineMother.passedPipelineInstance("mingle","build","unit");
+  Stage firstStage=pipeline.getFirstStage();
+  HttpOperationResult result=new HttpOperationResult();
+  Stage stage=service.rerunJobs(firstStage,null,result);
+  assertThat(stage,is(nullValue()));
+  assertThat(result.httpCode(),is(400));
+  assertThat(result.message(),is("No job was selected to re-run."));
+}

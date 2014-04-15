@@ -1,0 +1,10 @@
+{
+  try {
+    validate(user);
+  }
+ catch (  ValidationException e) {
+    result.badRequest(LocalizedMessage.string("USER_FIELD_VALIDATIONS_FAILED",e.getMessage()));
+    return true;
+  }
+  return false;
+}

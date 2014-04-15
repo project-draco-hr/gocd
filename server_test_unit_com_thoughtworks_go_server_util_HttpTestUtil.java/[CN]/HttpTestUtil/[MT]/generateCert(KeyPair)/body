@@ -1,0 +1,20 @@
+{
+  Date startDate=day(-1);
+  Date expiryDate=day(+1);
+  BigInteger serialNumber=new BigInteger("1000200030004000");
+  X509V1CertificateGenerator certGen=new X509V1CertificateGenerator();
+  X500Principal dnName=new X500Principal("CN=Test CA Certificate");
+  certGen.setSerialNumber(serialNumber);
+  certGen.setIssuerDN(dnName);
+  certGen.setNotBefore(startDate);
+  certGen.setNotAfter(expiryDate);
+  certGen.setSubjectDN(dnName);
+  certGen.setPublicKey(keyPair.getPublic());
+  certGen.setSignatureAlgorithm("SHA1WITHRSA");
+  try {
+    return certGen.generate(keyPair.getPrivate());
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

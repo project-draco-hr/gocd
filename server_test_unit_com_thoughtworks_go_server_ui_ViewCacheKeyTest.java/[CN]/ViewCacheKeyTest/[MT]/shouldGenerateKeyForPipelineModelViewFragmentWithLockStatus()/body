@@ -1,0 +1,13 @@
+{
+  PipelineModel model=new PipelineModel("pipelineName",true,true,PipelinePauseInfo.notPaused()).updateAdministrability(true);
+  StageInstanceModels stages=new StageInstanceModels();
+  stages.add(stageInstance("stageName",13,JobState.Building,JobResult.Unknown));
+  stages.add(new NullStageHistoryItem("stage2",true));
+  PipelineInstanceModel pipelineInstance=PipelineInstanceModel.createPipeline("pipelineName",10,"label-10",BuildCause.createExternal(),stages);
+  pipelineInstance.setId(12);
+  pipelineInstance.setCanUnlock(false);
+  pipelineInstance.setIsLockable(true);
+  pipelineInstance.setCurrentlyLocked(true);
+  model.addPipelineInstance(pipelineInstance);
+  assertThat(viewCacheKey.forPipelineModelBox(model),is("view_dashboardPipelineFragment_pipelineName{true|true|false}[12|stageName|13|Building|stage2|0|Unknown|]true|true|false|||true"));
+}

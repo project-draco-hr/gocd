@@ -1,0 +1,16 @@
+{
+  stubTransactionSynchronization();
+  setupTransactionTemplateStub(TransactionSynchronization.STATUS_COMMITTED,true);
+  final PipelineTimeline timeline=new PipelineTimeline(pipelineRepository,transactionTemplate,transactionSynchronizationManager);
+  stubPipelineRepository(timeline,true,first,second);
+  timeline.update();
+  setupTransactionTemplateStub(TransactionSynchronization.STATUS_ROLLED_BACK,false);
+  stubPipelineRepository(timeline,false,third,fourth);
+  timeline.update();
+  assertThat(timeline.maximumId(),is(2L));
+  assertThat(timeline.getEntriesFor("pipeline").size(),is(2));
+  assertThat(timeline.getEntriesFor("pipeline"),hasItems(first,second));
+  assertThat(timeline.instanceCount(new CaseInsensitiveString("pipeline")),is(2));
+  assertThat(timeline.instanceFor(new CaseInsensitiveString("pipeline"),0),is(first));
+  assertThat(timeline.instanceFor(new CaseInsensitiveString("pipeline"),1),is(second));
+}

@@ -1,0 +1,10 @@
+{
+  PackageRevision packageRevision=new PackageRevision("rev123",new Date(),"loser");
+  try {
+    packageRevision.addData("HEL-LO-WORLD","value");
+    fail("should have thrown exception");
+  }
+ catch (  InvalidPackageRevisionDataException e) {
+    assertThat(e.getMessage(),is("Key 'HEL-LO-WORLD' is invalid. Key names should consists of only alphanumeric characters and/or underscores."));
+  }
+}

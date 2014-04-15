@@ -1,0 +1,10 @@
+{
+  this.specifiedRevisions=specifiedRevisions;
+  this.variables=new EnvironmentVariablesConfig();
+  for (  Map.Entry<String,String> nameValue : variables.entrySet()) {
+    this.variables.add(new EnvironmentVariableConfig(nameValue.getKey(),nameValue.getValue()));
+  }
+  for (  Map.Entry<String,String> nameValue : secureVariables.entrySet()) {
+    this.variables.add(new EnvironmentVariableConfig(goCipher,nameValue.getKey(),nameValue.getValue(),true));
+  }
+}

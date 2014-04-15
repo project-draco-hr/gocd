@@ -1,0 +1,8 @@
+{
+  CONFIG_HELPER.addSecurityWithAdminConfig();
+  CONFIG_HELPER.setOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,"cruise");
+  StageConfig stage=StageConfigMother.custom("ft",new Approval(new AuthConfig(new AdminUser(new CaseInsensitiveString("cruise")))));
+  PipelineConfig pipeline=CONFIG_HELPER.addStageToPipeline(PIPELINE_NAME,stage);
+  assertThat(securityService.hasOperatePermissionForStage(CaseInsensitiveString.str(pipeline.name()),CaseInsensitiveString.str(stage.name()),"cruise"),is(true));
+  assertThat(securityService.hasOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,"anyone"),is(false));
+}

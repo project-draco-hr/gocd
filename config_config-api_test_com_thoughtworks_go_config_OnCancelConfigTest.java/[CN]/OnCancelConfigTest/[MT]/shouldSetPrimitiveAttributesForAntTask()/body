@@ -1,0 +1,17 @@
+{
+  Map hashMap=new HashMap();
+  hashMap.put(OnCancelConfig.ON_CANCEL_OPTIONS,"ant");
+  Map valueMap=new HashMap();
+  valueMap.put(BuildTask.BUILD_FILE,"build.xml");
+  valueMap.put(BuildTask.TARGET,"blah");
+  valueMap.put(BuildTask.WORKING_DIRECTORY,"pwd");
+  hashMap.put(OnCancelConfig.ANT_ON_CANCEL,valueMap);
+  hashMap.put(OnCancelConfig.EXEC_ON_CANCEL,new HashMap());
+  when(taskFactory.taskInstanceFor(new AntTask().getTaskType())).thenReturn(new AntTask());
+  OnCancelConfig cancelConfig=OnCancelConfig.create(hashMap,taskFactory);
+  AntTask expectedAntTask=new AntTask();
+  expectedAntTask.setBuildFile("build.xml");
+  expectedAntTask.setTarget("blah");
+  expectedAntTask.setWorkingDirectory("pwd");
+  assertThat((AntTask)cancelConfig.getTask(),is(expectedAntTask));
+}

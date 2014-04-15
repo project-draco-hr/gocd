@@ -1,0 +1,5 @@
+{
+  ModelAndView json=controller.validateHostname("something-to-validate");
+  assertThat(json.getView(),is(instanceOf((JsonView.class))));
+  assertThat(json.getModel().get("json"),is(instanceOf(ValidationBean.class)));
+}

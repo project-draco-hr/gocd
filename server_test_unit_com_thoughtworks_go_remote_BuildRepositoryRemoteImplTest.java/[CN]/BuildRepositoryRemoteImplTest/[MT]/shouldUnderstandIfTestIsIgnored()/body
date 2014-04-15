@@ -1,0 +1,6 @@
+{
+  JobIdentifier jobId=new JobIdentifier(new StageIdentifier("pipelineName",1,"stageName","1"),"job");
+  jobId.setBuildId(12l);
+  buildRepository.isIgnored(jobId);
+  verify(repositoryService).isCancelledOrRescheduled(jobId.getBuildId());
+}

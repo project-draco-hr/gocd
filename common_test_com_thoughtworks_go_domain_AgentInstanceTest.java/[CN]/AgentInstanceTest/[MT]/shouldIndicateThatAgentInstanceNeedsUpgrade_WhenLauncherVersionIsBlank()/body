@@ -1,0 +1,6 @@
+{
+  AgentInstance agentInstance=AgentInstanceMother.updateAgentLauncherVersion(AgentInstanceMother.building(),null);
+  assertThat(agentInstance.needsUpgrade(),is(true));
+  AgentInstanceMother.updateAgentLauncherVersion(agentInstance,"");
+  assertThat(agentInstance.needsUpgrade(),is(true));
+}

@@ -1,0 +1,9 @@
+{
+  GetMethod getMethod=new GetMethod("http://localhost:9090/go/not-found");
+  try {
+    ServerCall.invoke(getMethod);
+  }
+ catch (  Exception ex) {
+    assertThat(ex.getMessage().contains("This agent might be incompatible with your Go Server." + "Please fix the version mismatch between Go Server and Go Agent."),is(true));
+  }
+}

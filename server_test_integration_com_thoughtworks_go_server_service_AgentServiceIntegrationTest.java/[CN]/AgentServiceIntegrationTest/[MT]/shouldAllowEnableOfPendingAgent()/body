@@ -1,0 +1,12 @@
+{
+  String agentName="agentName";
+  String agentId=DatabaseAccessHelper.AGENT_UUID;
+  AgentConfig agentConfig=new AgentConfig(agentId,agentName,"50.40.30.9");
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  agentRuntimeInfo.busy(new AgentBuildingInfo("path","buildLocator"));
+  agentService.requestRegistration(agentRuntimeInfo);
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.enableAgents(USERNAME,operationResult,Arrays.asList(agentId));
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(operationResult.message(),is("Enabled 1 agent(s)"));
+}

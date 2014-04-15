@@ -1,0 +1,15 @@
+{
+  Matcher suite=suitePattern.matcher(line);
+  if (suite.matches()) {
+    inSuite=true;
+  }
+  if (!inSuite)   return;
+  Matcher results=testResultPattern.matcher(line);
+  if (results.matches()) {
+    count+=Integer.parseInt(results.group(1));
+    failures+=Integer.parseInt(results.group(2));
+    errors+=Integer.parseInt(results.group(3));
+    totalTime+=Float.parseFloat(results.group(4)) * 1000;
+    inSuite=false;
+  }
+}

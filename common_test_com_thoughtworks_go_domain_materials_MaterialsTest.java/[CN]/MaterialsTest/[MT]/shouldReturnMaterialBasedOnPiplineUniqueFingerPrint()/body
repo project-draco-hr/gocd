@@ -1,0 +1,9 @@
+{
+  Materials materials=new Materials();
+  HgMaterial expectedMaterial=MaterialsMother.hgMaterial();
+  materials.add(expectedMaterial);
+  materials.add(MaterialsMother.gitMaterial("url"));
+  materials.add(MaterialsMother.svnMaterial("url","folder"));
+  Material actualMaterial=materials.getByFingerPrint(expectedMaterial.getPipelineUniqueFingerprint());
+  assertThat((HgMaterial)actualMaterial,is(expectedMaterial));
+}

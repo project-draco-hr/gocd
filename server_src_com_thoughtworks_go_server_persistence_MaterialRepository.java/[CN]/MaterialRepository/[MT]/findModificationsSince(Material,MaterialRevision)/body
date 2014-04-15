@@ -1,0 +1,19 @@
+{
+  MaterialInstance materialInstance=findOrCreateFrom(material);
+  String cacheKey=latestMaterialModificationsKey(materialInstance);
+synchronized (cacheKey) {
+    long sinceModificationId=revision.getLatestModification().getId();
+    Modifications modifications=cachedModifications(materialInstance);
+    if (!modificationExists(sinceModificationId,modifications)) {
+      LOGGER.debug("CACHE-MISS for findModificationsSince - " + materialInstance + ": "+ revision.getLatestModification());
+      modifications=_findModificationsSince(materialInstance,sinceModificationId);
+      if (shouldCache(modifications)) {
+        goCache.put(cacheKey,modifications);
+      }
+ else {
+        goCache.remove(cacheKey);
+      }
+    }
+    return modifications.since(sinceModificationId);
+  }
+}

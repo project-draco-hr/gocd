@@ -1,0 +1,17 @@
+{
+  ValueStreamMap valueStreamMap=new ValueStreamMap("p",new PipelineRevision("p",10,"10"));
+  Stages stages=new Stages(StageMother.createPassedStage("p",10,"s2",1,"b",new Date()));
+  stages.add(StageMother.scheduledStage("p",10,"s1",1,"b"));
+  PipelineRevision pipelineRevision=(PipelineRevision)valueStreamMap.getCurrentPipeline().revisions().get(0);
+  pipelineRevision.addStages(stages);
+  CruiseConfig cruiseConfig=GoConfigMother.pipelineHavingJob("p","s1","b","filePath","dirPath");
+  PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("p"));
+  pipelineConfig.add(StageConfigMother.stageConfig("s2"));
+  pipelineConfig.add(StageConfigMother.stageConfig("s3"));
+  when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
+  unrunStagesPopulator.apply(valueStreamMap);
+  PipelineRevision revision=(PipelineRevision)valueStreamMap.getCurrentPipeline().revisions().get(0);
+  MatcherAssert.assertThat(revision.getStages(),Matchers.hasSize(2));
+  MatcherAssert.assertThat(revision.getStages().get(0).getName(),Matchers.is("s2"));
+  MatcherAssert.assertThat(revision.getStages().get(1).getName(),Matchers.is("s1"));
+}

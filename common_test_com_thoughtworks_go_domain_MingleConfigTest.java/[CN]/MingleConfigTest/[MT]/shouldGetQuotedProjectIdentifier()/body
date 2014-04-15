@@ -1,0 +1,6 @@
+{
+  MingleConfig mingleConfig=new MingleConfig("baseUrl","Ethan's_Project");
+  assertThat(mingleConfig.getQuotedProjectIdentifier(),is("\"Ethan's_Project\""));
+  mingleConfig=new MingleConfig("baseUrl","Ethan\"s_Project");
+  assertThat(mingleConfig.getQuotedProjectIdentifier(),is("\"Ethan\\\"s_Project\""));
+}

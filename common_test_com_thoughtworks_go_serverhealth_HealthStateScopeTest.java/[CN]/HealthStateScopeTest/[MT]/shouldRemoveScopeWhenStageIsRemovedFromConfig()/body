@@ -1,0 +1,8 @@
+{
+  CruiseConfig config=GoConfigMother.pipelineHavingJob("blahPipeline","blahStage","blahJob","fii","baz");
+  assertThat(HealthStateScope.forPipeline("fooPipeline").isRemovedFromConfig(config),is(true));
+  assertThat(HealthStateScope.forPipeline("blahPipeline").isRemovedFromConfig(config),is(false));
+  assertThat(HealthStateScope.forStage("fooPipeline","blahStage").isRemovedFromConfig(config),is(true));
+  assertThat(HealthStateScope.forStage("blahPipeline","blahStageRemoved").isRemovedFromConfig(config),is(true));
+  assertThat(HealthStateScope.forStage("blahPipeline","blahStage").isRemovedFromConfig(config),is(false));
+}

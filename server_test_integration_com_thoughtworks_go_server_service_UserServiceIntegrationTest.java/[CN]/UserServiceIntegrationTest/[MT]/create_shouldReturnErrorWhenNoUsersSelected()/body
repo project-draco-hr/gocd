@@ -1,0 +1,6 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.create(new ArrayList<UserSearchModel>(),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("No users selected."));
+}

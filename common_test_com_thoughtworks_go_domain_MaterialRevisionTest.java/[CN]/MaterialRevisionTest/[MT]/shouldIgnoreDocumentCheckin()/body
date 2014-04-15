@@ -1,0 +1,8 @@
+{
+  MaterialRevision previousRevision=new MaterialRevision(hgMaterial,hgMaterial.modificationsSince(workingFolder,REVISION_0,new TestSubprocessExecutionContext()));
+  Filter filter=new Filter(new IgnoredFiles("**/*.doc"));
+  hgMaterial.setFilter(filter);
+  checkInFiles(hgMaterial,"user.doc");
+  MaterialRevision newRevision=findNewRevision(previousRevision,hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  assertThat(newRevision.filter(previousRevision),is(previousRevision));
+}

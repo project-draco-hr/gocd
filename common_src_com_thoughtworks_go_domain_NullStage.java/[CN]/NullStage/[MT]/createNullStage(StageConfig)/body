@@ -1,0 +1,9 @@
+{
+  JobInstances nullBuilds=new JobInstances();
+  for (  JobConfig plan : stageConfig.allBuildPlans()) {
+    nullBuilds.add(new NullJobInstance(CaseInsensitiveString.str(plan.name())));
+  }
+  NullStage nullStage=new NullStage(CaseInsensitiveString.str(stageConfig.name()),nullBuilds);
+  nullStage.setPipelineId(10l);
+  return nullStage;
+}

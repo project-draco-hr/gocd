@@ -1,0 +1,32 @@
+{
+  final Material svn=MaterialsMother.svnMaterial("url",null,"username","password",false,null);
+  HibernateTemplate mockTemplate=mock(HibernateTemplate.class);
+  repo=new MaterialRepository(repo.getSessionFactory(),goCache,200,transactionSynchronizationManager,materialConfigConverter,materialExpansionService,databaseStrategy){
+    @Override public MaterialInstance findMaterialInstance(    Material material){
+      MaterialInstance result=super.findMaterialInstance(material);
+      TestUtils.sleepQuietly(20);
+      return result;
+    }
+    @Override public void saveOrUpdate(    MaterialInstance material){
+      material.setId(10);
+      super.saveOrUpdate(material);
+    }
+  }
+;
+  repo.setHibernateTemplate(mockTemplate);
+  List<Thread> threads=new ArrayList<Thread>();
+  for (int i=0; i < 10; i++) {
+    Thread thread=new Thread(new Runnable(){
+      public void run(){
+        repo.findOrCreateFrom(svn);
+      }
+    }
+,"thread-" + i);
+    threads.add(thread);
+    thread.start();
+  }
+  for (  Thread thread : threads) {
+    thread.join();
+  }
+  verify(mockTemplate,times(1)).saveOrUpdate(Mockito.<MaterialInstance>any());
+}

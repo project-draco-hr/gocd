@@ -1,0 +1,9 @@
+{
+  try {
+    materialService.latestModification(mock(Material.class),null,null);
+    fail("Should have thrown up");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("unknown material type null"));
+  }
+}

@@ -1,0 +1,9 @@
+{
+  type=type == null ? "csv" : type;
+  if ("csv".equalsIgnoreCase(type)) {
+    return asCsv(jobName).listProperties(properties);
+  }
+ else {
+    return asJson().listProperties(properties);
+  }
+}

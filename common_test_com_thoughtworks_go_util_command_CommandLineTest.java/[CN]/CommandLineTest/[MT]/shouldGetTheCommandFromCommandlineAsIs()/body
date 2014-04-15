@@ -1,0 +1,7 @@
+{
+  String file="originalCommand";
+  CommandLine command=CommandLine.createCommandLine(file);
+  command.setWorkingDir(new File("."));
+  String[] commandLineArgs=command.getCommandLine();
+  assertThat(commandLineArgs[0],is(file));
+}

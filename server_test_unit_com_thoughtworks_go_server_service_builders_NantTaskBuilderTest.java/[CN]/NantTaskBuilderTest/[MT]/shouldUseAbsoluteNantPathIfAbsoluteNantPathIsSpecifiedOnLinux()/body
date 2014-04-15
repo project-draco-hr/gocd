@@ -1,0 +1,6 @@
+{
+  NantTask nantTask=new NantTask();
+  nantTask.setNantPath("/usr/bin");
+  CommandBuilder builder=(CommandBuilder)nantTaskBuilder.createBuilder(builderFactory,nantTask,pipeline,resolver);
+  assertThat(new File(builder.getCommand()),is(new File("/usr/bin/nant")));
+}

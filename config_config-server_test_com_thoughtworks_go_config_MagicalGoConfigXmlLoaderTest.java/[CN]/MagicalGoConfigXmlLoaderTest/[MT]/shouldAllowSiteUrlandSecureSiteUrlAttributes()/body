@@ -1,0 +1,6 @@
+{
+  String content="<cruise schemaVersion='26'>\n" + "<server artifactsdir='artifacts' siteUrl='http://www.someurl.com/go' secureSiteUrl='https://www.someotherurl.com/go' >" + "</server></cruise>";
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
+  assertThat(cruiseConfig.server().getSiteUrl(),is(new ServerSiteUrlConfig("http://www.someurl.com/go")));
+  assertThat(cruiseConfig.server().getSecureSiteUrl(),is(new ServerSiteUrlConfig("https://www.someotherurl.com/go")));
+}

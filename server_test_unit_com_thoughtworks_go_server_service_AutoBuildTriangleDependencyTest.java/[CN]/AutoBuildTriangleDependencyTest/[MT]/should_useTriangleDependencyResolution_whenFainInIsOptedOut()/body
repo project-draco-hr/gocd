@@ -1,0 +1,27 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.enforceRevisionCompatibilityWithUpstream()).thenReturn(false);
+  String pipelineName="downstream";
+  PipelineConfigDependencyGraph dependencyGraph=mock(PipelineConfigDependencyGraph.class);
+  MaterialRevisions originalRevisions=mock(MaterialRevisions.class);
+  MaterialRevisions recomputedRevisions=mock(MaterialRevisions.class);
+  when(originalRevisions.isEmpty()).thenReturn(false);
+  when(originalRevisions.hasDependencyMaterials()).thenReturn(true);
+  when(goConfigService.upstreamDependencyGraphOf(pipelineName,cruiseConfig)).thenReturn(dependencyGraph);
+  when(pipelineService.getRevisionsBasedOnDependencies(dependencyGraph,originalRevisions)).thenReturn(recomputedRevisions);
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("pipeline"),new CaseInsensitiveString("stage"));
+  when(dependencyGraph.unsharedMaterialConfigs()).thenReturn(new MaterialConfigs(dependencyMaterial.config()));
+  when(originalRevisions.findRevisionFor(dependencyMaterial)).thenReturn(new MaterialRevision(dependencyMaterial,new Modification()));
+  AutoBuild autoBuild=new AutoBuild(goConfigService,pipelineService,pipelineName,systemEnvironment,materialChecker,serverHealthService);
+  AutoBuild spyAutoBuild=spy(autoBuild);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocation) throws Throwable {
+      return true;
+    }
+  }
+).when(spyAutoBuild).hasAnyUnsharedMaterialChanged(dependencyGraph,originalRevisions);
+  BuildCause buildCause=spyAutoBuild.onModifications(originalRevisions,false,null);
+  verify(pipelineService).getRevisionsBasedOnDependencies(dependencyGraph,originalRevisions);
+  verify(pipelineService,never()).getRevisionsBasedOnDependencies(any(MaterialRevisions.class),any(CruiseConfig.class),any(CaseInsensitiveString.class));
+  assertThat(buildCause.getMaterialRevisions(),is(recomputedRevisions));
+}

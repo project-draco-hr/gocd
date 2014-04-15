@@ -1,0 +1,22 @@
+{
+  GitMaterial g1=u.wf(new GitMaterial("g1"),"f1");
+  u.checkinInOrder(g1,"g1-1");
+  u.checkinInOrder(g1,"g1-2");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWithGroup("g1","p1",u.m(g1));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWithGroup("g1","p2",u.m(g1));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWithGroup("g2","p3",u.m(p1),u.m(p2));
+  String p1_1=u.runAndPass(p1,"g1-1");
+  String p2_1=u.runAndPass(p2,"g1-2");
+  String p3_1=u.runAndPass(p3,p1_1,p2_1);
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p3",1,username,result);
+  Node nodeForGit=graph.getNodesAtEachLevel().get(0).get(0);
+  assertThat(nodeForGit.revisions().size(),is(2));
+  Collection<String> revisionStrings=collect(nodeForGit.revisions(),new Transformer(){
+    @Override public String transform(    Object o){
+      Revision revision=(Revision)o;
+      return revision.getRevisionString();
+    }
+  }
+);
+  assertThat(revisionStrings,IsCollectionContaining.hasItems("g1-1","g1-2"));
+}

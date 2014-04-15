@@ -1,0 +1,8 @@
+{
+  bombIfNull(file,"File cannot be null");
+  File parentFile=file.getParentFile();
+  if (!parentFile.exists()) {
+    parentFile.mkdirs();
+  }
+  return new FileOutputStream(file);
+}

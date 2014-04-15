@@ -1,0 +1,15 @@
+{
+  if (!getMaterials().equals(other.getMaterials())) {
+    return false;
+  }
+  for (  MaterialRevision materialRevision : revisions) {
+    MaterialRevision peer=other.findRevisionFor(materialRevision.getMaterial());
+    if (peer == null) {
+      continue;
+    }
+    if (!materialRevision.hasSameHeadAs(peer)) {
+      return false;
+    }
+  }
+  return true;
+}

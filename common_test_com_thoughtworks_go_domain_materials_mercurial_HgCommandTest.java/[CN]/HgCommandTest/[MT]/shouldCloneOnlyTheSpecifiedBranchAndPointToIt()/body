@@ -1,0 +1,15 @@
+{
+  String branchName="second";
+  HgCommand hg=new HgCommand(null,secondBranchWorkingCopy,branchName);
+  hg.clone(outputStreamConsumer,new UrlArgument(serverRepo.getAbsolutePath() + "#" + branchName));
+  String currentBranch=hg(secondBranchWorkingCopy,"branch").runOrBomb(null).outputAsString();
+  assertThat(currentBranch,is(branchName));
+  List<String> branches=hg(secondBranchWorkingCopy,"branches").runOrBomb(null).output();
+  ArrayList<String> branchNames=new ArrayList<String>();
+  for (  String branchDetails : branches) {
+    branchNames.add(StringUtils.split(branchDetails," ")[0]);
+  }
+  assertThat(branchNames.size(),is(2));
+  assertThat(branchNames.contains(branchName),is(true));
+  assertThat(branchNames.contains("default"),is(true));
+}

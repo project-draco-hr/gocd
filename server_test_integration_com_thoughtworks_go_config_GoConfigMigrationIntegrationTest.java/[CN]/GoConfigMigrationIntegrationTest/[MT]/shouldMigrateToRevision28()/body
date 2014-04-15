@@ -1,0 +1,6 @@
+{
+  final String content=FileUtil.readToEnd(getClass().getResourceAsStream("no-tracking-tool-group-holder-config.xml"));
+  String migratedContent=migrateXmlString(content,27);
+  assertThat(migratedContent,containsString("\"http://foo.bar/baz/${ID}\""));
+  assertThat(migratedContent,containsString("\"http://hello.world/${ID}/hello\""));
+}

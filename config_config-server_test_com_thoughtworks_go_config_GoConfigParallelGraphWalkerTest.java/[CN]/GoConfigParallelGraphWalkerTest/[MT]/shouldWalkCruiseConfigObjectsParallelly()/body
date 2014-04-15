@@ -1,0 +1,7 @@
+{
+  CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("bad pipeline name");
+  CruiseConfig rawCruiseConfig=new Cloner().deepClone(cruiseConfig);
+  MagicalGoConfigXmlLoader.validate(cruiseConfig);
+  cruiseConfig.copyErrorsTo(rawCruiseConfig);
+  assertThat(rawCruiseConfig.pipelineConfigByName(new CaseInsensitiveString("bad pipeline name")).errors(),is(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("bad pipeline name")).errors()));
+}

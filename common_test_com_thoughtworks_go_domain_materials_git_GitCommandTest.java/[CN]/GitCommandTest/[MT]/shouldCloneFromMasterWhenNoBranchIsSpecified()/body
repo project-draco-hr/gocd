@@ -1,0 +1,7 @@
+{
+  InMemoryStreamConsumer output=inMemoryConsumer();
+  git.cloneFrom(output,repoUrl);
+  CommandLine commandLine=CommandLine.createCommandLine("git").withEncoding("UTF-8").withArg("branch").withWorkingDir(gitLocalRepoDir);
+  commandLine.run(output,"");
+  assertThat(output.getStdOut(),Is.is("* master"));
+}

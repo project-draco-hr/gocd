@@ -1,0 +1,10 @@
+{
+  ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+  try {
+    new ObjectOutputStream(buffer).writeObject(o);
+  }
+ catch (  IOException e) {
+    throw ExceptionUtils.bomb(e);
+  }
+  return buffer.toByteArray();
+}

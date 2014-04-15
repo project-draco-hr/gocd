@@ -1,0 +1,10 @@
+{
+  try {
+    useConfig(ConfigFileFixture.STAGE_WITH_NO_JOBS);
+    goConfigFileDao.load();
+    fail("Should throw Exception about duplicated job name");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("The content of element 'jobs' is not complete. One of '{job}' is expected"));
+  }
+}

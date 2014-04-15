@@ -1,0 +1,12 @@
+{
+  StringBuilder builder=new StringBuilder();
+  for (  LoggingEvent event : events) {
+    builder.append(event.getLevel()).append(" - ").append(event.getMessage()).append("\n");
+    if (event.getThrowableInformation() != null) {
+      for (      String s : event.getThrowableStrRep()) {
+        builder.append(s).append("\n");
+      }
+    }
+  }
+  return builder.toString();
+}

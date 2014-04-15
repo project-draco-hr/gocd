@@ -1,0 +1,30 @@
+{
+  JsonMap json=new JsonMap();
+  json.put("pipelineId",pipeline.getId());
+  json.put("pipelineName",pipeline.getName());
+  json.put("uniqueStageId",uniqueStageId());
+  json.put("buildCause",escapeHtml(pipeline.getBuildCauseMessage()));
+  json.put("materialRevisions",materialRevisionsJson());
+  json.put("stageName",stage.getName());
+  json.put("stageCounter",stage.getCounter());
+  json.put("current_label",pipeline.getLabel());
+  json.put("pipelineCounterOrLabel",pipeline.getIdentifier().instanceIdentifier());
+  if (pipeline.getCounter() != null) {
+    json.put("pipelineCounter",pipeline.getCounter());
+  }
+  json.put("id",stage.getId());
+  json.put("builds",jsonForBuildPlans());
+  json.put("current_status",currentStatus());
+  if (lastSuccessfulStage != null) {
+    json.put("last_successful_label",lastSuccessfulStage.getPipelineLabel());
+    json.put("last_successful_stage_locator",lastSuccessfulStage.getStageLocator());
+  }
+  if (stage.stageState().completed()) {
+    json.put("stage_completed_date",getStageCompletedTime());
+  }
+  json.put("getCanRun",String.valueOf(canRun));
+  json.put("getCanCancel",String.valueOf(canCancel));
+  json.put("stageLocator",UrlUtil.encodeInUtf8(stage.stageLocator()));
+  json.put("stageLocatorForDisplay",stage.stageLocatorForDisplay());
+  return json;
+}

@@ -1,0 +1,11 @@
+{
+  assertThat(pipelineRepository.findPipelineSelectionsById(null),is(nullValue()));
+  assertThat(pipelineRepository.findPipelineSelectionsById(""),is(nullValue()));
+  assertThat(pipelineRepository.findPipelineSelectionsById("123"),is(nullValue()));
+  try {
+    pipelineRepository.findPipelineSelectionsById("foo");
+    fail("should throw error");
+  }
+ catch (  NumberFormatException e) {
+  }
+}

@@ -1,0 +1,8 @@
+{
+  List<GrantedAuthority> authorities=new ArrayList<GrantedAuthority>();
+  checkAndAddSuperAdmin(username,authorities);
+  checkAndAddGroupAdmin(username,authorities);
+  checkAndAddTemplateAdmin(username,authorities);
+  authorities.add(GoAuthority.ROLE_USER.asAuthority());
+  return authorities.toArray(new GrantedAuthority[authorities.size()]);
+}

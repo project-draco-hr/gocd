@@ -1,0 +1,15 @@
+{
+  List<Modification> modifications=new ArrayList<Modification>();
+  Modification modification=ModificationsMother.oneModifiedFile(ModificationsMother.nextRevision());
+  modifications.add(modification);
+  modifications.add(new Modification(MOD_USER,MOD_COMMENT,"foo@bar.com",YESTERDAY_CHECKIN,ModificationsMother.nextRevision()));
+  SvnMaterial svnMaterial=MaterialsMother.svnMaterial();
+  MaterialRevisions revisions=new MaterialRevisions();
+  revisions.addRevision(svnMaterial,modifications);
+  Pipeline pipeline=new Pipeline("Test",BuildCause.createWithModifications(revisions,""));
+  savePipeline(pipeline);
+  Pipeline loaded=pipelineDao.loadPipeline(pipeline.getId());
+  ModificationsCollector summary=new ModificationsCollector();
+  loaded.getBuildCause().getMaterialRevisions().accept(summary);
+  assertThat(summary.numberOfModifications(),is(2));
+}

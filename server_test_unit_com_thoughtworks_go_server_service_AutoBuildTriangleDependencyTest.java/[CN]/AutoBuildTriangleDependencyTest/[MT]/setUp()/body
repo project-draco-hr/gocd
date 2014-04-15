@@ -1,0 +1,11 @@
+{
+  goConfigService=mock(GoConfigService.class);
+  cruiseConfig=mock(CruiseConfig.class);
+  pipelineService=mock(PipelineService.class);
+  materialChecker=mock(MaterialChecker.class);
+  materialRepository=mock(MaterialRepository.class);
+  pipelineTimeline=mock(PipelineTimeline.class);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(materialChecker.hasPipelineEverRunWith(any(String.class),any(MaterialRevisions.class))).thenReturn(false);
+  serverHealthService=new ServerHealthService();
+}

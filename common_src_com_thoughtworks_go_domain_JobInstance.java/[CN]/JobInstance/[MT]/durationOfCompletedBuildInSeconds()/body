@@ -1,0 +1,10 @@
+{
+  Date buildingDate=getStartedDateFor(JobState.Building);
+  Date completedDate=getCompletedDate();
+  if (buildingDate == null || completedDate == null) {
+    return 0L;
+  }
+  Long elapsed=completedDate.getTime() - buildingDate.getTime();
+  int elapsedSeconds=Math.round(elapsed / 1000);
+  return Long.valueOf(elapsedSeconds);
+}

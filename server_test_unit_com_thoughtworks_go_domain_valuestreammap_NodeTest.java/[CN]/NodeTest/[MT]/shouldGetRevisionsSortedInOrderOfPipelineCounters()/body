@@ -1,0 +1,10 @@
+{
+  Node node=new PipelineDependencyNode("p","p");
+  Revision revision_2=new PipelineRevision("p",2,"2");
+  Revision revision_1=new PipelineRevision("p",1,"1");
+  Revision revision_3=new PipelineRevision("p",3,"3");
+  node.addRevision(revision_2);
+  node.addRevision(revision_1);
+  node.addRevision(revision_3);
+  assertThat(node.revisions(),is(Arrays.asList(revision_3,revision_2,revision_1)));
+}

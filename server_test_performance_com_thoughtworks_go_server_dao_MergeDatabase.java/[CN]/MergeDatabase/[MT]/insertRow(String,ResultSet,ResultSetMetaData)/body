@@ -1,0 +1,60 @@
+{
+  String insertSql="INSERT INTO " + table + " VALUES (";
+  for (int j=1; j <= metaData.getColumnCount(); j++) {
+    insertSql=insertSql + "?";
+    if (j < metaData.getColumnCount()) {
+      insertSql=insertSql + ", ";
+    }
+  }
+  insertSql=insertSql + ")";
+  PreparedStatement ps=mergedConn.prepareStatement(insertSql);
+  try {
+    for (int j=1; j <= metaData.getColumnCount(); j++) {
+      String colName=metaData.getColumnName(j);
+      int colType=metaData.getColumnType(j);
+      String colTypeName=metaData.getColumnTypeName(j);
+      Object value=rs.getObject(j);
+      if (value == null) {
+        ps.setNull(j,Types.VARCHAR);
+      }
+ else       if (colType == Types.BINARY) {
+        ps.setNull(j,Types.BINARY);
+      }
+ else {
+        if (colName.equalsIgnoreCase("userId")) {
+          value=usernameIdMap.get(rs.getLong(j));
+        }
+ else         if (colTypeName.equalsIgnoreCase("CLOB")) {
+          BufferedReader reader=new BufferedReader(rs.getCharacterStream(j));
+          String line;
+          StringBuilder content=new StringBuilder();
+          while ((line=reader.readLine()) != null) {
+            content.append(line);
+          }
+          value=content.toString();
+        }
+ else         if (colTypeName.contains("CHAR")) {
+          String s=(String)value;
+          value=s.substring(0,Math.min(1000,s.length()));
+        }
+ else         if (colName.endsWith("ID") && !colName.endsWith("UUID") && !colName.equals("ORDERID")) {
+          Long id=rs.getLong(j);
+          id+=ID_OFFSET;
+          value=id;
+        }
+        ps.setString(j,value.toString());
+      }
+    }
+    if (!skipRow(rs,table)) {
+      int count=ps.executeUpdate();
+      if (count != 1) {
+        throw new RuntimeException("update count should be 1, got: " + count);
+      }
+    }
+  }
+ catch (  Exception e) {
+    printRow(rs);
+    if (!ignoreErrors(rs,table))     ;
+    throw e;
+  }
+}

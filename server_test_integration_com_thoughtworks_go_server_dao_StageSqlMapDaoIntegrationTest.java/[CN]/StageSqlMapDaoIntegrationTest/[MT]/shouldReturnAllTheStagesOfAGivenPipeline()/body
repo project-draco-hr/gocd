@@ -1,0 +1,11 @@
+{
+  StageConfig first=StageConfigMother.custom("first","job1");
+  StageConfig second=StageConfigMother.custom("second","job1");
+  StageConfig third=StageConfigMother.custom("third","job1");
+  Pipeline pipeline=dbHelper.newPipelineWithAllStagesPassed(PipelineConfigMother.pipelineConfig("pipeline",first,second,third));
+  Stage stage=dbHelper.scheduleStage(pipeline,second);
+  Stages stages=stageDao.findAllStagesFor("pipeline",1);
+  assertThat(stages.size(),is(4));
+  Stages pipelineStages=pipeline.getStages();
+  assertThat(stages,is(asList(stage,pipelineStages.get(0),pipelineStages.get(1),pipelineStages.get(2))));
+}

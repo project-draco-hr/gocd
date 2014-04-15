@@ -1,0 +1,9 @@
+{
+  if (hostname.matches(HOSTNAME_PATTERN)) {
+    return ValidationBean.valid();
+  }
+  if (hostname.matches(IPV6_ADDRESS_PATTERN)) {
+    return ValidationBean.valid();
+  }
+  return ValidationBean.notValid(errorMessage);
+}

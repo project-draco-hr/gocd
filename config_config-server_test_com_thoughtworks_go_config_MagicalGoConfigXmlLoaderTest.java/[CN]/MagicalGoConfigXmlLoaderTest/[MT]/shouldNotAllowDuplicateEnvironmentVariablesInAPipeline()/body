@@ -1,0 +1,10 @@
+{
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='pipeline1'>" + "      <environmentvariables>" + "         <variable name='PIPELINE_VARIABLE'>pipeline variable</variable>"+ "         <variable name='PIPELINE_VARIABLE'>pipeline variable</variable>"+ "      </environmentvariables>"+ "    <materials>"+ "      <svn url ='svnurl'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",17);
+  try {
+    ConfigMigrator.loadWithMigration(content);
+    fail("Should not allow duplicate variable names");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Variable name 'PIPELINE_VARIABLE' is not unique for pipeline 'pipeline1'."));
+  }
+}

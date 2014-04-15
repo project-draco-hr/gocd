@@ -1,0 +1,6 @@
+{
+  configHelper=new GoConfigFileHelper().usingCruiseConfigDao(configDao);
+  fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  serverHealthService.removeAllLogs();
+}

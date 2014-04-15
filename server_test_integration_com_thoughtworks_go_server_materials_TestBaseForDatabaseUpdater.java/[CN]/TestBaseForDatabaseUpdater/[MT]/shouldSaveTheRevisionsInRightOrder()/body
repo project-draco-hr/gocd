@@ -1,0 +1,15 @@
+{
+  updater.updateMaterial(material);
+  testRepo.checkInOneFile("test1.txt","This is a new checkin");
+  updater.updateMaterial(material);
+  MaterialRevisions original=materialRepository.findLatestModification(material);
+  testRepo.checkInOneFile("test2.txt","Checkin 1");
+  testRepo.checkInOneFile("test3.txt","Checkin 2");
+  testRepo.checkInOneFile("test4.txt","Checkin 3");
+  updater.updateMaterial(material);
+  List<Modification> changes=materialRepository.findModificationsSince(material,original.getMaterialRevision(0));
+  assertThat(changes.size(),is(3));
+  assertThat(changes.get(0).getComment(),is("Checkin 3"));
+  assertThat(changes.get(1).getComment(),is("Checkin 2"));
+  assertThat(changes.get(2).getComment(),is("Checkin 1"));
+}

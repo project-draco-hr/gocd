@@ -1,0 +1,9 @@
+{
+  URL[] urls=new URL[paths.length];
+  for (int i=0; i < paths.length; ++i) {
+    File file=new File(paths[i]).getCanonicalFile();
+    if (file.exists())     urls[i]=file.toURL();
+ else     throw new IOException("No file or directory with the name " + file);
+  }
+  _loader=new URLClassLoader(urls,getClass().getClassLoader());
+}

@@ -1,0 +1,9 @@
+{
+  stageFeedsReader=mock(StageAtomFeedsReader.class);
+  pipelineInstanceLoader=mock(PipelineInstanceLoader.class);
+  systemEnvironment=mock(SystemEnvironment.class);
+  backgroundStageLoader=new BackgroundStageLoader(stageFeedsReader,mock(StageResourceImporter.class),mock(StageStorage.class),pipelineInstanceLoader,mock(StageService.class),systemEnvironment);
+  listener=new BackgroundStageLoaderStageStatusListener(backgroundStageLoader,systemEnvironment);
+  stage=new Stage();
+  jobInstances=mock(JobInstances.class);
+}

@@ -1,0 +1,11 @@
+{
+  if (checkTestCases()) {
+    for (Iterator iterator=testCases.iterator(); iterator.hasNext(); ) {
+      BuildTestCase testCase=(BuildTestCase)iterator.next();
+      if (testCase.getResult().equals(BuildTestCaseResult.ERROR) || testCase.getResult().equals(BuildTestCaseResult.FAILED)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

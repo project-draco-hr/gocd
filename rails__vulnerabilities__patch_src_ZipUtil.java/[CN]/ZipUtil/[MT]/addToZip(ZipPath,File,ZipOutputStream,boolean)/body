@@ -1,0 +1,22 @@
+{
+  if (srcFile.isDirectory()) {
+    addFolderToZip(path,srcFile,zip,excludeRootDir);
+  }
+ else {
+    byte[] buff=new byte[4096];
+    BufferedInputStream inputStream=null;
+    try {
+      inputStream=new BufferedInputStream(new FileInputStream(srcFile));
+      zip.putNextEntry(path.with(srcFile).asZipEntry());
+      int len;
+      while ((len=inputStream.read(buff)) > 0) {
+        zip.write(buff,0,len);
+      }
+    }
+  finally {
+      if (inputStream != null) {
+        inputStream.close();
+      }
+    }
+  }
+}

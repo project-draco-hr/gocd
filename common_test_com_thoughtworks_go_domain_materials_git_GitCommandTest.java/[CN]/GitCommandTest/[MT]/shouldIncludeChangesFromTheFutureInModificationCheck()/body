@@ -1,0 +1,8 @@
+{
+  String originalNode=git.latestModification().getRevision();
+  File testingFile=checkInNewRemoteFileInFuture(THREE_DAYS_FROM_NOW);
+  Modification modification=git.latestModification();
+  assertThat(modification.getRevision(),is(not(originalNode)));
+  assertThat(modification.getComment(),is("New checkin of " + testingFile.getName()));
+  assertThat(modification.getModifiedTime(),is(THREE_DAYS_FROM_NOW));
+}

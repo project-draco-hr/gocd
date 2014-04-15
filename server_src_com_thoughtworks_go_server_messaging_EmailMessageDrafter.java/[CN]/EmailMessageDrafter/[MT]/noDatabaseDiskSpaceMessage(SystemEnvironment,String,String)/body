@@ -1,0 +1,4 @@
+{
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  return new SendEmailMessage("No database disk space error message from Go Server at " + ipAddress,String.format(NO_DATABASE_DISK_SPACE_EMAIL,ipAddress,systemEnvironment.getDatabaseDiskSpaceFullLimit(),targetFolder),adminMail);
+}

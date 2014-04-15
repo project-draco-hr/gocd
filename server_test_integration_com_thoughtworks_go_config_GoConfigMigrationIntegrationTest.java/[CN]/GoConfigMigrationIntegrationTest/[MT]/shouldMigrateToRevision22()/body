@@ -1,0 +1,6 @@
+{
+  final String content=FileUtil.readToEnd(getClass().getResourceAsStream("cruise-config-escaping-migration-test-fixture.xml"));
+  String migratedContent=migrateXmlString(content,21,22);
+  String expected=content.replaceAll("(?<!do_not_sub_)#","##").replace("<cruise schemaVersion=\"21\">","<cruise schemaVersion=\"22\">");
+  assertStringsIgnoringCarriageReturnAreEqual(expected,migratedContent);
+}

@@ -1,0 +1,11 @@
+{
+  String firstLine="Chris sucks.\n";
+  String secondLine="Build succeeded.";
+  prepareConsoleOut(firstLine + secondLine + "\n");
+  Stage firstStage=pipeline.getFirstStage();
+  int startLineNumber=1;
+  ModelAndView view=artifactsController.consoleout(pipeline.getName(),pipeline.getLabel(),firstStage.getName(),"build",String.valueOf(firstStage.getCounter()),startLineNumber);
+  assertThat(view.getView(),is(instanceOf(ConsoleOutView.class)));
+  assertThat(((ConsoleOutView)view.getView()).getOffset(),is(2));
+  assertThat(((ConsoleOutView)view.getView()).getContent(),containsString("Build succeeded."));
+}

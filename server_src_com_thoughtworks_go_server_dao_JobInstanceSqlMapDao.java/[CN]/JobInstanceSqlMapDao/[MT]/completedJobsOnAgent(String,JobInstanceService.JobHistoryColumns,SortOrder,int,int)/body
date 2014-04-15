@@ -1,0 +1,4 @@
+{
+  Map params=arguments("uuid",uuid).and("offset",offset).and("limit",limit).and("column",jobHistoryColumns.getColumnName()).and("order",order.toString()).asMap();
+  return (List<JobInstance>)getSqlMapClientTemplate().queryForList("completedJobsOnAgent",params);
+}

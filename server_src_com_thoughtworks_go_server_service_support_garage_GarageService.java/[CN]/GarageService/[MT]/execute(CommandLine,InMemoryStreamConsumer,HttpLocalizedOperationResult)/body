@@ -1,0 +1,17 @@
+{
+  int returnValue;
+  try {
+    returnValue=command.run(consumer,PROCESS_TAG);
+  }
+ catch (  CommandLineException e) {
+    result.badRequest(LocalizedMessage.string(LOCALIZED_KEY,e.getMessage()));
+    return false;
+  }
+  if (returnValue != 0) {
+    result.badRequest(LocalizedMessage.string(LOCALIZED_KEY,consumer.getAllOutput()));
+  }
+ else {
+    result.setMessage(LocalizedMessage.string(LOCALIZED_KEY,consumer.getAllOutput()));
+  }
+  return returnValue == 0;
+}

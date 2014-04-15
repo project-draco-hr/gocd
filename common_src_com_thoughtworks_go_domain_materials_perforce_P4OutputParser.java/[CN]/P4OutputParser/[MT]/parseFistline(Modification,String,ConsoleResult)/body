@@ -1,0 +1,18 @@
+{
+  Pattern pattern=Pattern.compile(FIRST_LINE_PATTERN);
+  Matcher matcher=pattern.matcher(line);
+  if (matcher.find()) {
+    modification.setRevision(matcher.group(1));
+    modification.setUserName(matcher.group(2));
+    try {
+      modification.setModifiedTime(new SimpleDateFormat(P4_DATE_PATTERN).parse(matcher.group(3)));
+    }
+ catch (    ParseException e) {
+      throw bomb(e);
+    }
+  }
+ else {
+    LOG.warn("Could not parse P4 describe: " + result.replaceSecretInfo(line));
+    throw new P4OutputParseException("Could not parse P4 describe: " + result.replaceSecretInfo(line));
+  }
+}

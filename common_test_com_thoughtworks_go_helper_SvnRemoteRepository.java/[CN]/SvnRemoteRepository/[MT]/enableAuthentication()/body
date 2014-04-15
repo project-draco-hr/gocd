@@ -1,0 +1,6 @@
+{
+  File confFile=new File(repo.projectRepositoryRoot(),"conf/svnserve.conf");
+  String passwd=FileUtil.readToEnd(confFile);
+  passwd="[general]\n" + "anon-access = none\n" + "auth-access = read\n"+ "auth-access = write\n"+ "password-db = passwd\n";
+  FileUtil.writeContentToFile(passwd,confFile);
+}

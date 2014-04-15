@@ -1,0 +1,18 @@
+{
+  final MaterialInstance materialInstance=savedHg();
+  final Modification mod=new Modification("loser","loser commiting a winner stroke","foo@bar.com",new Date(),"123");
+  mod.setMaterialInstance(materialInstance);
+  hibernateDaoSupport.getHibernateTemplate().save(mod);
+  ModifiedFile foo_c=mod.createModifiedFile("foo.c","src",ModifiedAction.added);
+  ModifiedFile bar_c=mod.createModifiedFile("bar.c","src",ModifiedAction.deleted);
+  ModifiedFile baz_c=mod.createModifiedFile("baz.c","src",ModifiedAction.modified);
+  assertionUtil.assertCacheBehaviourInTxn(new TransactionCacheAssertionUtil.DoInTxn(){
+    public void invoke(){
+      hibernateDaoSupport.getHibernateTemplate().update(mod);
+    }
+  }
+);
+  assertThat(mod.getId(),greaterThan(0l));
+  assertThat(foo_c.getId(),greaterThan(0l));
+  assertThat(baz_c.getId(),greaterThan(0l));
+}

@@ -1,0 +1,15 @@
+{
+  String cacheKey=activePipelinesCacheKey();
+  Map<String,TreeSet<Long>> result=(Map<String,TreeSet<Long>>)goCache.get(cacheKey);
+  if (result == null) {
+synchronized (cacheKey) {
+      result=(Map<String,TreeSet<Long>>)goCache.get(cacheKey);
+      if (result == null) {
+        List<PipelineInstanceModel> pipelines=getAllPIMs();
+        result=groupPipelineInstanceIdsByPipelineName(pipelines);
+        goCache.put(cacheKey,result);
+      }
+    }
+  }
+  return convertToPipelineInstanceModels(result);
+}

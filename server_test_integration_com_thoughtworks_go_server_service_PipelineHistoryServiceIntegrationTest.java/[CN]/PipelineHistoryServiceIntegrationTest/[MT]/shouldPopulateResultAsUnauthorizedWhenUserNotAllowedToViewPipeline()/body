@@ -1,0 +1,12 @@
+{
+  Pipeline pipeline=pipelineOne.createdPipelineWithAllStagesPassed();
+  String groupName=configHelper.currentConfig().getGroups().findGroupNameByPipeline(new CaseInsensitiveString(pipeline.getName()));
+  configHelper.setViewPermissionForGroup(groupName,"admin");
+  HttpOperationResult result=new HttpOperationResult();
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.load(pipeline.getId(),new Username(new CaseInsensitiveString("foo")),result);
+  assertThat(pipelineInstance,is(nullValue()));
+  assertThat(result.httpCode(),is(401));
+  result=new HttpOperationResult();
+  pipelineInstance=pipelineHistoryService.load(pipeline.getId(),new Username(new CaseInsensitiveString("admin")),result);
+  assertThat(pipelineInstance,is(not(nullValue())));
+}

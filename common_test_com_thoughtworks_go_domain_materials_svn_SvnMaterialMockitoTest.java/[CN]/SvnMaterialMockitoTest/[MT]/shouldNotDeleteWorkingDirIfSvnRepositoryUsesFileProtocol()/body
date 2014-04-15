@@ -1,0 +1,15 @@
+{
+  Subversion subversion=mock(Subversion.class);
+  when(subversion.getUserName()).thenReturn("");
+  when(subversion.getPassword()).thenReturn("");
+  when(subversion.isCheckExternals()).thenReturn(false);
+  File workingCopy=createSvnWorkingCopy(true);
+  when(subversion.workingRepositoryUrl(workingCopy)).thenReturn(workingCopy.getPath());
+  String url="file://" + workingCopy.getPath();
+  when(subversion.getUrl()).thenReturn(new UrlArgument(url));
+  SvnMaterial svnMaterial=SvnMaterial.createSvnMaterialWithMock(subversion);
+  svnMaterial.setUrl(url);
+  svnMaterial.updateTo(outputStreamConsumer,revision,workingCopy,new TestSubprocessExecutionContext());
+  assertThat(workingCopy.exists(),is(true));
+  verify(subversion).updateTo(outputStreamConsumer,workingCopy,revision);
+}

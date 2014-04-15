@@ -1,0 +1,14 @@
+{
+  Username user=new Username(new CaseInsensitiveString("user"));
+  when(securityService.isUserAdmin(user)).thenReturn(true);
+  PipelineTemplateConfig template=template("first_template");
+  PipelineTemplateConfig another=template("another_template");
+  PipelineConfig pipelineWithoutTemplateOne=pipelineConfig("first_without_template");
+  PipelineConfig pipelineWithoutTemplateTwo=pipelineConfig("another_without_template");
+  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(createPipelineWithTemplate("first",template),createPipelineWithTemplate("second",template),pipelineWithoutTemplateOne,pipelineWithoutTemplateTwo,createPipelineWithTemplate("fifth",another)));
+  cruiseConfig.addTemplate(template);
+  cruiseConfig.addTemplate(another);
+  when(goConfigService.getAllPipelineConfigsForEdit()).thenReturn(cruiseConfig.allPipelines());
+  List<PipelineConfig> pipelineConfigs=service.allPipelinesNotUsingTemplates(user,new HttpLocalizedOperationResult());
+  assertThat(pipelineConfigs,is(Arrays.asList(pipelineWithoutTemplateOne,pipelineWithoutTemplateTwo)));
+}

@@ -1,0 +1,6 @@
+{
+  CruiseConfig config=configWith(createGroup("group1",pipelineConfig("pipeline1"),pipelineConfig("pipeline2")),createGroup("group2",pipelineConfig("pipelineX")),createGroup("group3",pipelineConfig("pipeline3"),pipelineConfig("pipeline4")));
+  when(goConfigFileDao.load()).thenReturn(config);
+  goConfigService.persistSelectedPipelines(null,null,Arrays.asList("pipeline1","pipeline2","pipeline3"));
+  verify(pipelineRepository).saveSelectedPipelines(argThat(hasValues(Arrays.asList("pipeline1","pipeline2","pipeline3"),Arrays.asList("pipelineX","pipeline4"),clock.currentTime(),null)));
+}

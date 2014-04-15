@@ -1,0 +1,7 @@
+{
+  when(goConfigService.adminEmail()).thenReturn("admin@tw.com");
+  full.onSetUp();
+  checker.check(new ServerHealthStateOperationResult());
+  checker.check(new ServerHealthStateOperationResult());
+  verify(emailSender).sendEmail(any(SendEmailMessage.class));
+}

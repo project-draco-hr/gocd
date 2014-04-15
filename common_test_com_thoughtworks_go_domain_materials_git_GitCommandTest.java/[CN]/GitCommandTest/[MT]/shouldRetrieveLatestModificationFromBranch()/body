@@ -1,0 +1,14 @@
+{
+  GitTestRepo branchedRepo=GitTestRepo.testRepoAtBranch(GIT_FOO_BRANCH_BUNDLE,BRANCH);
+  GitCommand branchedGit=new GitCommand(null,createTempWorkingDirectory(),BRANCH,false);
+  branchedGit.cloneFrom(inMemoryConsumer(),branchedRepo.projectRepositoryUrl());
+  Modification mod=branchedGit.latestModification();
+  assertThat(mod.getUserName(),is("Chris Turner <cturner@thoughtworks.com>"));
+  assertThat(mod.getComment(),is("Started foo branch"));
+  assertThat(mod.getModifiedTime(),is(parseRFC822("Tue, 05 Feb 2009 14:28:08 -0800")));
+  assertThat(mod.getRevision(),is("b4fa7271c3cef91822f7fa502b999b2eab2a380d"));
+  List<ModifiedFile> files=mod.getModifiedFiles();
+  assertThat(files.size(),is(1));
+  assertThat(files.get(0).getFileName(),is("first.txt"));
+  assertThat(files.get(0).getAction(),is(ModifiedAction.modified));
+}

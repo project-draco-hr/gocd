@@ -1,0 +1,5 @@
+{
+  Pipeline pipeline=fixture.createPipelineWithFirstStageAssigned("uuid");
+  JobInstance expected=pipeline.getFirstStage().getJobInstances().first();
+  assertThat(agentAssignment.latestActiveJobOnAgent("uuid").getId(),Is.is(expected.getId()));
+}

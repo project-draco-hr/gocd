@@ -1,0 +1,6 @@
+{
+  CONFIG_HELPER.addSecurityWithAdminConfig();
+  StageConfig stage=StageConfigMother.custom("ft",Approval.automaticApproval());
+  PipelineConfig pipeline=CONFIG_HELPER.addStageToPipeline(PIPELINE_NAME,stage);
+  assertThat("Cruise should not have permission on ft stage unless configured with permission",securityService.hasOperatePermissionForStage(CaseInsensitiveString.str(pipeline.name()),CaseInsensitiveString.str(stage.name()),"cruise"),is(true));
+}

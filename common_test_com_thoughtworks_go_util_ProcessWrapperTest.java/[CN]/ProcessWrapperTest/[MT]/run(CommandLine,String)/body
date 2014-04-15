@@ -1,0 +1,8 @@
+{
+  InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  environmentVariableContext.setProperty("GO_DEPENDENCY_LABEL_PIPELINE_NAME","999",false);
+  line.addInput(inputs);
+  ProcessWrapper processWrapper=line.execute(outputStreamConsumer,environmentVariableContext,null);
+  return new ConsoleResult(processWrapper.waitForExit(),outputStreamConsumer.getStdLines(),outputStreamConsumer.getErrLines(),line.getArguments(),new ArrayList<SecretString>());
+}

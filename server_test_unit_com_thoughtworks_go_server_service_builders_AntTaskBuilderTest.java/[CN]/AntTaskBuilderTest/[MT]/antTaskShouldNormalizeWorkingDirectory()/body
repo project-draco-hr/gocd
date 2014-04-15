@@ -1,0 +1,6 @@
+{
+  AntTask task=new AntTask();
+  task.setWorkingDirectory("folder1\\folder2");
+  CommandBuilder commandBuilder=(CommandBuilder)antTaskBuilder.createBuilder(builderFactory,task,TasksTest.pipelineStub("label","/var/cruise-agent/pipelines/cruise"),resolver);
+  assertThat(commandBuilder.getWorkingDir().getPath(),is("/var/cruise-agent/pipelines/cruise/folder1/folder2"));
+}

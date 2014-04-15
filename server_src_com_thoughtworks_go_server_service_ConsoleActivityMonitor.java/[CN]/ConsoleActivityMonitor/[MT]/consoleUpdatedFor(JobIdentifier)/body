@@ -1,0 +1,7 @@
+{
+  long now=timeProvider.currentTimeMillis();
+  Long previously=jobLastActivityMap.replace(jobIdentifier,now);
+  if (previously != null && now - previously > warningThreshold) {
+    removeHungJobWarning(jobIdentifier);
+  }
+}

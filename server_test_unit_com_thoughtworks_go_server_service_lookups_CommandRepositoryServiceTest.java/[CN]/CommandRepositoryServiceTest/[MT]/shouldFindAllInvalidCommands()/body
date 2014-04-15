@@ -1,0 +1,5 @@
+{
+  List<CommandSnippet> invalidSnippets=Arrays.asList(CommandSnippetMother.validSnippet("maven"));
+  when(snippets.invalidSnippets()).thenReturn(invalidSnippets);
+  assertThat(commandRepositoryService.getAllInvalidCommandSnippets(),is(invalidSnippets));
+}

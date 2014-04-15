@@ -1,0 +1,8 @@
+{
+  Pipeline minglePipeline=schedulePipelineWithStages(PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","stage1","stage2"));
+  pipelineDao.lockPipeline(minglePipeline);
+  StageIdentifier locked=pipelineDao.lockedPipeline("mingle");
+  assertThat(locked,is(minglePipeline.getFirstStage().getIdentifier()));
+  locked=pipelineDao.lockedPipeline("mInGlE");
+  assertThat(locked,is(minglePipeline.getFirstStage().getIdentifier()));
+}

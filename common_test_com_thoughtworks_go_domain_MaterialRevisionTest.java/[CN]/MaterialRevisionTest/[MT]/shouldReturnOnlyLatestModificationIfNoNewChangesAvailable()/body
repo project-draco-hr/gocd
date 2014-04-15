@@ -1,0 +1,8 @@
+{
+  Modification modificationForRevisionTip=new Modification("Unknown","Unknown",null,new Date(),REVISION_2.getRevision());
+  Modification olderModification=new Modification("Unknown","Unknown",null,new Date(),REVISION_0.getRevision());
+  MaterialRevision revision=new MaterialRevision(hgMaterial,modificationForRevisionTip,olderModification);
+  MaterialRevision unchangedRevision=findNewRevision(revision,hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  assertThat(unchangedRevision.getModifications().size(),is(1));
+  assertThat(unchangedRevision.getModifications().get(0),is(modificationForRevisionTip));
+}

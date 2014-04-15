@@ -1,0 +1,9 @@
+{
+  JobInstances jobInstances=new JobInstances();
+  for (  JobInstance instance : this) {
+    if (StringUtils.isNotBlank(instance.getBuildError())) {
+      jobInstances.add(instance);
+    }
+  }
+  return jobInstances;
+}

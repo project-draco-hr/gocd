@@ -1,0 +1,7 @@
+{
+  Materials materials=new Materials(repo.createMaterial("dest1"),repo.createMaterial("dest2"));
+  repo.commitAndPushFile("SomeDocumentation.txt");
+  MaterialRevisions materialRevisions=materials.latestModification(pipelineDir,new TestSubprocessExecutionContext());
+  assertThat(materialRevisions.getRevisions().size(),is(2));
+  assertThat(materialRevisions,containsModifiedBy("SomeDocumentation.txt","user"));
+}

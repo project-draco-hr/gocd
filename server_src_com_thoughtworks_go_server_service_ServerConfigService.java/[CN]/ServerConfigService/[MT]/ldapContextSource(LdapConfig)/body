@@ -1,0 +1,12 @@
+{
+  DefaultSpringSecurityContextSource source=new DefaultSpringSecurityContextSource(ldapConfig.uri());
+  source.setBaseEnvironmentProperties(System.getProperties());
+  new LdapContextSourceConfigurator(ldapConfig).configure(source);
+  try {
+    source.afterPropertiesSet();
+  }
+ catch (  Exception e) {
+    bomb("Cannot create ldap context",e);
+  }
+  return source;
+}

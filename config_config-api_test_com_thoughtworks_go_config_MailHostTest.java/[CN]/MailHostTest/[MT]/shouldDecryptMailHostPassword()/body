@@ -1,0 +1,8 @@
+{
+  GoCipher mockGoCipher=mock(GoCipher.class);
+  when(mockGoCipher.decrypt("encrypted")).thenReturn("password");
+  MailHost mailHost=new MailHost("hostname",42,"username",null,null,true,true,"from","mail@admin.com",mockGoCipher);
+  ReflectionUtil.setField(mailHost,"encryptedPassword","encrypted");
+  mailHost.ensureEncrypted();
+  assertThat(mailHost.getPassword(),is("password"));
+}

@@ -1,0 +1,15 @@
+{
+  JSONArray revisions=buildJson();
+  assertThat(revisions.size(),is(1));
+  JSONObject jsonValue=(JSONObject)revisions.get(0);
+  assertThat(jsonValue.get("scmType").render(false),is("\"Subversion\""));
+  assertThat(jsonValue.get("location").render(false),is("\"http://url\""));
+  assertThat(jsonValue.get("folder").render(false),is("\"svn-folder\""));
+  MaterialRevision materialRevision=materialRevisions.getMaterialRevision(0);
+  String revision=materialRevision.getRevision().getRevision();
+  assertThat(jsonValue.get("revision").render(false),is("\"" + revision + "\""));
+  assertThat(jsonValue.get("action").render(false),is("\"Modified\""));
+  assertThat(jsonValue.get("user").render(false),is("\"" + ModificationsMother.MOD_USER_WITH_HTML_CHAR + "\""));
+  String date=DateUtils.formatISO8601(materialRevision.getDateOfLatestModification());
+  assertThat(jsonValue.get("date").render(false),is("\"" + date + "\""));
+}

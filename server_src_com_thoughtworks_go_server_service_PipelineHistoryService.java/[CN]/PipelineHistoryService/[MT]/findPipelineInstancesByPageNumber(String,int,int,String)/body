@@ -1,0 +1,6 @@
+{
+  Pagination pagination=Pagination.pageByNumber(pageNumber,totalCount(pipelineName),limit);
+  PipelineInstanceModels instanceModels=load(pipelineName,pagination,userName,false);
+  instanceModels.setPagination(pagination);
+  return instanceModels;
+}

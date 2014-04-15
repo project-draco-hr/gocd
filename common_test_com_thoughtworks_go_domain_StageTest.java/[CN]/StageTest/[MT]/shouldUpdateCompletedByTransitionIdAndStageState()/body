@@ -1,0 +1,10 @@
+{
+  assertThat(stage.getCompletedByTransitionId(),is(nullValue()));
+  DateTime fiveMinsForNow=new DateTime().plusMinutes(5);
+  complete(firstJob,fiveMinsForNow);
+  complete(secondJob,fiveMinsForNow);
+  JobStateTransition lastTransition=secondJob.getTransition(JobState.Completed);
+  stage.calculateResult();
+  assertThat(stage.getCompletedByTransitionId(),is(nextId));
+  assertThat(stage.getState(),is(StageState.Passed));
+}

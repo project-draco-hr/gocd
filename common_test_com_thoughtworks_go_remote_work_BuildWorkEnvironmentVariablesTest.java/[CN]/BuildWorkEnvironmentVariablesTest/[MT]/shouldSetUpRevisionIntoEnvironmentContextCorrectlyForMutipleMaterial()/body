@@ -1,0 +1,6 @@
+{
+  svnMaterial.setFolder("svn-Dir");
+  EnvironmentVariableContext environmentVariableContext=doWorkWithMaterials(new Materials(svnMaterial,hgMaterial));
+  assertThat(environmentVariableContext.getProperty("GO_REVISION_SVN_DIR"),is("3"));
+  assertThat(environmentVariableContext.getProperty("GO_REVISION_HG_DIR"),is("ca3ebb67f527c0ad7ed26b789056823d8b9af23f"));
+}

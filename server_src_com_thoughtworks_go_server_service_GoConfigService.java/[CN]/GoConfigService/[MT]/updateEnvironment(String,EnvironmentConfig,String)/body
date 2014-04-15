@@ -1,0 +1,16 @@
+{
+  return goConfigFileDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
+    public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      EnvironmentsConfig environments=cruiseConfig.getEnvironments();
+      EnvironmentConfig oldConfig=environments.named(new CaseInsensitiveString(named));
+      int index=environments.indexOf(oldConfig);
+      environments.remove(index);
+      environments.add(index,newEnvDefinition);
+      return cruiseConfig;
+    }
+    public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+}

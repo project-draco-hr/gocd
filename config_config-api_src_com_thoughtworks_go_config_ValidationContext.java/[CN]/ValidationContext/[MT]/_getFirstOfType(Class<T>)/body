@@ -1,0 +1,15 @@
+{
+  if (parentContext != null) {
+    T obj=parentContext.getFirstOfType(klass);
+    if (obj != null) {
+      return obj;
+    }
+  }
+  if (immediateParent == null) {
+    return null;
+  }
+ else   if (immediateParent.getClass().equals(klass)) {
+    return (T)immediateParent;
+  }
+  return null;
+}

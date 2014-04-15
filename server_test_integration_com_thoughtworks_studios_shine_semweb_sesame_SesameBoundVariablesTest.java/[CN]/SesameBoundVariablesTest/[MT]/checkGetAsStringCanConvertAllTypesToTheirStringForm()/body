@@ -1,0 +1,19 @@
+{
+  String turtle="@prefix ex: <http://example.com/ontology#> . " + "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . " + "<http://example.com/1> ex:is _:foo . "+ "<http://example.com/2> ex:is \"true\"^^xsd:boolean . "+ "<http://example.com/3> ex:is \"3\"^^xsd:integer . "+ "<http://example.com/4> ex:is \"ho hum\"^^xsd:string . "+ "<http://example.com/5> ex:is <http://yadda/> . ";
+  graph.addTriplesFromTurtle(turtle);
+  String sparqlSelect="PREFIX ex: <http://example.com/ontology#> " + "SELECT ?blankNode ?boolean ?int ?string ?uri ?unbound WHERE { " + "<http://example.com/1> ex:is ?blankNode . "+ "<http://example.com/2> ex:is ?boolean . "+ "<http://example.com/3> ex:is ?int . "+ "<http://example.com/4> ex:is ?string . "+ "<http://example.com/5> ex:is ?uri . "+ "OPTIONAL { <http://example.com/6> ex:is ?unbound }"+ "}";
+  BoundVariables bv=graph.selectFirst(sparqlSelect);
+  assertNotNull(bv.getAsString("blankNode"));
+  assertEquals("true",bv.getAsString("boolean"));
+  assertEquals("3",bv.getAsString("int"));
+  assertEquals("ho hum",bv.getAsString("string"));
+  assertEquals("http://yadda/",bv.getAsString("uri"));
+  assertNull(bv.getAsString("unbound"));
+  try {
+    bv.getAsString("baz");
+    fail("Illegal argument exception expected.");
+  }
+ catch (  IllegalArgumentException e) {
+    assertEquals("boundName 'baz' is not in the list of possible values ('blankNode', 'boolean', 'int', 'string', 'uri', 'unbound')",e.getMessage());
+  }
+}

@@ -1,0 +1,11 @@
+{
+  assertThat(propertyDao.value(job.getId(),GoConstants.CRUISE_PIPELINE_LABEL),is(newPipeline.getLabel()));
+  assertThat(propertyDao.value(job.getId(),GoConstants.CRUISE_PIPELINE_COUNTER),is(String.valueOf(newPipeline.getCounter())));
+  assertThat(propertyDao.value(job.getId(),GoConstants.CRUISE_JOB_DURATION),is(job.getCurrentBuildDuration()));
+  assertThat(propertyDao.value(job.getId(),GoConstants.CRUISE_RESULT),is(job.getResult().toString()));
+  assertThat(propertyDao.value(job.getId(),GoConstants.CRUISE_STAGE_COUNTER),is(job.getStageCounter()));
+  for (  JobStateTransition transition : job.getTransitions()) {
+    String transitionKey=PropertiesService.getTransitionKey(transition.getCurrentState());
+    assertThat(propertyDao.value(job.getId(),transitionKey),is(DateUtils.formatISO8601(transition.getStateChangeTime())));
+  }
+}

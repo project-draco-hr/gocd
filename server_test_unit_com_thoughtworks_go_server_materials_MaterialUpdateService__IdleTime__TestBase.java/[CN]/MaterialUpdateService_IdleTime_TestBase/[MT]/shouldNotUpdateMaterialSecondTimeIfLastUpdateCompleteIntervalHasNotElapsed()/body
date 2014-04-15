@@ -1,0 +1,10 @@
+{
+  systemEnvironment.setProperty(SystemEnvironment.MATERIAL_UPDATE_IDLE_INTERVAL_PROPERTY,"10000");
+  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  service=spy(service);
+  service.onTimer();
+  service.onMessage(new MaterialUpdateSuccessfulMessage(material(),0));
+  Thread.sleep(1000);
+  service.onTimer();
+  verify(service).updateMaterial(material());
+}

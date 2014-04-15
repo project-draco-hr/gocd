@@ -1,0 +1,12 @@
+{
+  FetchTask task=new FetchTask(new CaseInsensitiveString("upstream"),new CaseInsensitiveString("stage"),new CaseInsensitiveString("job"),"..","..");
+  ValidationContext context=ValidationContext.forChain(config,upstream,upstream.getStage(new CaseInsensitiveString("stage")));
+  task.validate(context);
+  assertThat(task.errors().isEmpty(),is(false));
+  assertThat(task.errors().on(FetchTask.SRC),is("Invalid src name '..'. It should be a valid relative path."));
+  assertThat(task.errors().on(FetchTask.DEST),is("Invalid dest name '..'. It should be a valid relative path."));
+  task.setSrcfile(null);
+  task.setSrcdir("..");
+  task.validate(context);
+  assertThat(task.errors().on(FetchTask.SRC),is("Invalid src name '..'. It should be a valid relative path."));
+}

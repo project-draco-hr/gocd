@@ -1,0 +1,5 @@
+{
+  Stage firstStage=savedPipeline.getStages().first();
+  Stage savedStage=stageService.stageById(firstStage.getId());
+  assertThat(savedStage.shouldCleanWorkingDir(),is(true));
+}

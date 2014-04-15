@@ -1,0 +1,8 @@
+{
+  HashMap<String,String> variables=new HashMap<String,String>();
+  variables.put("name","value");
+  variables.put("foo","bar");
+  ScheduleOptions scheduleOptions=new ScheduleOptions(new HashMap<String,String>(),variables,new HashMap<String,String>());
+  assertThat(scheduleOptions.getVariables().size(),is(2));
+  assertThat(scheduleOptions.getVariables(),hasItems(new EnvironmentVariableConfig("name","value"),new EnvironmentVariableConfig("foo","bar")));
+}

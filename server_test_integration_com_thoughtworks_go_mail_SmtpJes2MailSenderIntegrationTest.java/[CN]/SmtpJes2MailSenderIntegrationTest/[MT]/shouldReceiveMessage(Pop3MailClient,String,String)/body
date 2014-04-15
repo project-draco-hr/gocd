@@ -1,0 +1,11 @@
+{
+  Timeout timeout=new Timeout("Waiting for mail to arrive",50 * 1000);
+  while (timeout.check()) {
+    if (client.numberOfMessages() > 0) {
+      String content=client.findMessageFrom(from);
+      assertThat(content,containsString(body));
+      return;
+    }
+  }
+  fail("Never received a message from " + from);
+}

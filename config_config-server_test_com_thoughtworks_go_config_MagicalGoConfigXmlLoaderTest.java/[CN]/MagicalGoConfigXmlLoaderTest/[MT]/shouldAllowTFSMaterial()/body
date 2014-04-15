@@ -1,0 +1,8 @@
+{
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='some_pipeline'>" + "    <materials>" + "      <tfs url='tfsurl' username='foo' password='bar' workspace='work-space' projectPath='project-path' workspaceOwner='foo'/>"+ "    </materials>"+ "  <stage name='some_stage'>"+ "    <jobs>"+ "      <job name='some_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",46);
+  GoConfigHolder goConfigHolder=ConfigMigrator.loadWithMigration(content);
+  MaterialConfigs materialConfigs=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("some_pipeline")).materialConfigs();
+  assertThat(materialConfigs.size(),is(1));
+  TfsMaterialConfig materialConfig=(TfsMaterialConfig)materialConfigs.get(0);
+  assertThat(materialConfig,is(new TfsMaterialConfig(new GoCipher(),UrlArgument.create("tfsurl"),"foo","","bar","project-path")));
+}

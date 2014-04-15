@@ -1,0 +1,16 @@
+{
+  try {
+    p4.admin("stop");
+    try {
+      Thread.sleep(5000);
+    }
+ catch (    InterruptedException ignored) {
+    }
+  }
+ catch (  CommandLineException expected) {
+    if (isKnownWindowsError(expected)) {
+      return;
+    }
+    throw expected;
+  }
+}

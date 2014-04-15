@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=load();
+  PipelineConfigs groups=removePipeline(pipelineName,cruiseConfig);
+  if (groups.isEmpty()) {
+    cruiseConfig.getGroups().remove(groups);
+  }
+  writeConfigFile(cruiseConfig);
+}

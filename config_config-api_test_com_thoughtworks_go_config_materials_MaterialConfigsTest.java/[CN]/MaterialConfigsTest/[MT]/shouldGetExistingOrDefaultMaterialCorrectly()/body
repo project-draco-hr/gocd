@@ -1,0 +1,7 @@
+{
+  SvnMaterialConfig svn=new SvnMaterialConfig("http://test.com",false);
+  PackageMaterialConfig p1=new PackageMaterialConfig("p1");
+  PackageMaterialConfig p2=new PackageMaterialConfig("p2");
+  assertThat(new MaterialConfigs(svn,p2).getExistingOrDefaultMaterial(p1).getPackageId(),is("p2"));
+  assertThat(new MaterialConfigs(svn).getExistingOrDefaultMaterial(p1).getPackageId(),is("p1"));
+}

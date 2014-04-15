@@ -1,0 +1,16 @@
+{
+  Date old=new DateTime().minusDays(2).toDate();
+  JobInstance rails=jobInstance(old,"rails",7,10);
+  JobInstance java=jobInstance(old,"java",12,22);
+  Stage stage=stage(9,rails,java);
+  assertThat(stage.hasRerunJobs(),CoreMatchers.is(false));
+  Stage newStage=instanceFactory.createStageForRerunOfJobs(stage,a("rails"),new DefaultSchedulingContext("loser",new Agents()),StageConfigMother.custom("dev","rails","java"),new TimeProvider(),"md5");
+  assertThat(stage.hasRerunJobs(),CoreMatchers.is(false));
+  assertThat(newStage.getId(),CoreMatchers.is(-1l));
+  assertThat(newStage.getJobInstances().size(),CoreMatchers.is(2));
+  assertThat(newStage.isLatestRun(),CoreMatchers.is(true));
+  JobInstance newRails=newStage.getJobInstances().getByName("rails");
+  assertNewJob(old,newRails);
+  JobInstance newJava=newStage.getJobInstances().getByName("java");
+  assertCopiedJob(newJava,12l);
+}

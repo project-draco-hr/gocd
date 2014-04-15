@@ -1,0 +1,5 @@
+{
+  when(uuidGenerator.randomUuid()).thenReturn("foo");
+  assertThat(agentService.assignCookie(agentIdentifier),is("foo"));
+  verify(agentDao).associateCookie(eq(agentIdentifier),any(String.class));
+}

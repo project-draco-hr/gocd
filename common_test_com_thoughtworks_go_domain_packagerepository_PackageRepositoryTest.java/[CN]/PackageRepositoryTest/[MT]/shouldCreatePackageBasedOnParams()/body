@@ -1,0 +1,9 @@
+{
+  PackageRepository packageRepository=PackageRepositoryMother.create("repo-id1","packageRepository","plugin-id","1.0",null);
+  Map packageDefAttr=createPackageDefinitionConfiguration("package_name","pluginId",new ConfigurationHolder("key1","value1"),new ConfigurationHolder("key2","value2"));
+  Map map=new HashMap();
+  map.put("package_definition",packageDefAttr);
+  PackageDefinition actualPackageDefinition=packageRepository.findOrCreatePackageDefinition(map);
+  assertThat(actualPackageDefinition,is(PackageDefinitionMother.create(null,"package_name",new Configuration(create("key1",false,"value1"),create("key2",false,"value2")),packageRepository)));
+  assertThat(actualPackageDefinition.getRepository(),is(packageRepository));
+}

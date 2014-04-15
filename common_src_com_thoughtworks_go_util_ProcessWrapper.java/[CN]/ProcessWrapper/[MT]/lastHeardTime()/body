@@ -1,0 +1,12 @@
+{
+  if (processErrorStream == null & processOutputStream == null) {
+    return System.currentTimeMillis();
+  }
+  if (processErrorStream == null) {
+    return processOutputStream.getLastHeard();
+  }
+  if (processOutputStream == null) {
+    return processErrorStream.getLastHeard();
+  }
+  return processOutputStream.getLastHeard() < processErrorStream.getLastHeard() ? processOutputStream.getLastHeard() : processErrorStream.getLastHeard();
+}

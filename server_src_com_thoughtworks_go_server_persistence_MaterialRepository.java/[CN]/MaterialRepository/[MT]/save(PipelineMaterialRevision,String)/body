@@ -1,0 +1,12 @@
+{
+  getHibernateTemplate().save(pipelineMaterialRevision);
+  transactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+    @Override public void afterCommit(){
+      String key=cacheKeyForLatestPmrForPipelineKey(pipelineMaterialRevision.getMaterialId(),pipelineName.toLowerCase());
+synchronized (key) {
+        goCache.remove(key);
+      }
+    }
+  }
+);
+}

@@ -1,0 +1,7 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("blahPipeline"),new CaseInsensitiveString("blahStage"));
+  MaterialRevision originalRevision=saveOneDependencyModification(dependencyMaterial,"blahPipeline/3/blahStage/1");
+  Modification modification=repo.findModificationWithRevision(dependencyMaterial,"blahPipeline/3/blahStage/1");
+  assertThat(modification.getRevision(),is("blahPipeline/3/blahStage/1"));
+  assertEquals(originalRevision.getModification(0).getModifiedTime(),modification.getModifiedTime());
+}

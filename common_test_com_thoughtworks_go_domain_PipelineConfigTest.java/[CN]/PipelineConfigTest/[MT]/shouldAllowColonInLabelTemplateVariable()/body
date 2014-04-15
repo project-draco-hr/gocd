@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs());
+  pipelineConfig.setLabelTemplate("pipeline-${COUN_T}:${repo:package}");
+  Set<String> variables=pipelineConfig.getTemplateVariables();
+  assertThat(variables.contains("repo:package"),is(true));
+}

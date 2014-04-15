@@ -1,0 +1,8 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Date a=new Date();
+  ConfigUpdateResponse res=goConfigService.updateConfigFromUI(new ReplaceConfigCommand(numberOfNewPipelines),oldMd5,null,result);
+  Date b=new Date();
+  assertThat(result.isSuccessful(),is(true));
+  return res;
+}

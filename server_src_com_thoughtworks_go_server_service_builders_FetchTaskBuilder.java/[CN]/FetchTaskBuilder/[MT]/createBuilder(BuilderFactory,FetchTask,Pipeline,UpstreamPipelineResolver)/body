@@ -1,0 +1,5 @@
+{
+  JobIdentifier fetchFrom=resolveTargetJob(task,pipeline,resolver);
+  Builder cancelBuilder=builderFactory.builderFor(task.cancelTask(),pipeline,resolver);
+  return new FetchArtifactBuilder(task.getConditions(),cancelBuilder,task.describe(),fetchFrom,task.getSrc(),task.getDest(),getHandler(task,pipeline.getName()),getChecksumHandler(task,pipeline.getName()));
+}

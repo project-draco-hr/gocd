@@ -1,0 +1,27 @@
+{
+  List<String> tables=new ArrayList<String>();
+  tables.add("pipelines");
+  tables.add("materials");
+  tables.add("modifications");
+  tables.add("pipelineMaterialRevisions");
+  tables.add("modifiedFiles");
+  tables.add("users");
+  tables.add("stages");
+  tables.add("builds");
+  tables.add("resources");
+  tables.add("buildStateTransitions");
+  tables.add("properties");
+  tables.add("artifactPlans");
+  tables.add("artifactPropertiesGenerator");
+  tables.add("environmentVariables");
+  if (new File(PROGRESS_FILE).exists()) {
+    List<String> done=FileUtil.readLines(new FileInputStream(PROGRESS_FILE));
+    for (int i=0; i < done.size(); i++) {
+      String s=done.get(i);
+      System.out.println("skipping table: " + s);
+      tables.remove(s);
+    }
+  }
+  progress=new PrintWriter(new FileWriter(PROGRESS_FILE,true));
+  return tables;
+}

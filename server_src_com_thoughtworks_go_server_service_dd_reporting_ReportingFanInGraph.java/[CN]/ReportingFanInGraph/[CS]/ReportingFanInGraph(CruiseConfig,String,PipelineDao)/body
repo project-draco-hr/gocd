@@ -1,0 +1,8 @@
+{
+  this.cruiseConfig=cruiseConfig;
+  rootName=new CaseInsensitiveString(root);
+  this.pipelineDao=pipelineDao;
+  PipelineConfig target=cruiseConfig.pipelineConfigByName(rootName);
+  this.root=new ReportingDependencyFanInNode(new DependencyMaterialConfig(target.name(),target.get(0).name()));
+  buildGraph(target);
+}

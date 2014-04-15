@@ -1,0 +1,11 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("any-pipeline"),new CaseInsensitiveString("ft"),new CaseInsensitiveString("linux-firefox"),"","");
+  Pipeline pipeline=pipelineWithDepencencyMaterial("cruise","mingle",1,"10","dev",2);
+  try {
+    fetchTaskBuilder.createBuilder(builderFactory,fetchTask,pipeline,resolver);
+    fail("should not support fetching artifacts from a pipeline which is not dependency material");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Pipeline [cruise] tries to fetch artifact from " + "job [any-pipeline/ft/linux-firefox] which is not a dependency material"));
+  }
+}

@@ -1,0 +1,8 @@
+{
+  StageInstanceModels stagesForNonOperatablePipeline=new StageInstanceModels();
+  stagesForNonOperatablePipeline.addAll(Arrays.asList(moreStages));
+  PipelineInstanceModel nonOperatablePipeline=PipelineInstanceModel.createPipeline(pipelineName,-1,"1.0",BuildCause.createWithEmptyModifications(),stagesForNonOperatablePipeline);
+  nonOperatablePipeline.setNaturalOrder(naturalOrder);
+  nonOperatablePipeline.setCounter(pipelineCounter);
+  return nonOperatablePipeline;
+}

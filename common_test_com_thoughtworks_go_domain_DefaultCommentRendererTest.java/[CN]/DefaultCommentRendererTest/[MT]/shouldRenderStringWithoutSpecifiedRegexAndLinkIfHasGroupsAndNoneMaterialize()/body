@@ -1,0 +1,7 @@
+{
+  String link="http://mingle05/projects/cce/cards/${ID}";
+  String regex="evo-(\\d+)|evo-";
+  trackingTool=new DefaultCommentRenderer(link,regex);
+  String result=trackingTool.render("evo-abc: checkin message");
+  assertThat(result,is("evo-abc: checkin message"));
+}

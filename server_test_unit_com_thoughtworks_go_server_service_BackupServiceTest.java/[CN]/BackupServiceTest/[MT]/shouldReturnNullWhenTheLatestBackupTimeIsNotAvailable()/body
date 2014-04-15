@@ -1,0 +1,7 @@
+{
+  ServerBackupRepository repo=mock(ServerBackupRepository.class);
+  when(repo.lastBackup()).thenReturn(null);
+  BackupService backupService=new BackupService(null,null,mock(GoConfigService.class),null,repo,systemEnvironment,serverVersion,configRepo,databaseStrategy);
+  backupService.initialize();
+  assertThat(backupService.lastBackupTime(),is(nullValue()));
+}

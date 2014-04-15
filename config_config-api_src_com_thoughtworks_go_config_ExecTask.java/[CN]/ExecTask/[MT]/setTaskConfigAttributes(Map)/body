@@ -1,0 +1,26 @@
+{
+  if (attributeMap.containsKey(COMMAND)) {
+    command=(String)attributeMap.get(COMMAND);
+  }
+  if (attributeMap.containsKey(ARG_LIST_STRING)) {
+    clearCurrentArgsAndArgList();
+    String value=(String)attributeMap.get(ARG_LIST_STRING);
+    if (!StringUtil.isBlank(value)) {
+      String[] arguments=value.split("\n");
+      for (      String arg : arguments) {
+        argList.add(new Argument(arg));
+      }
+    }
+  }
+  if (attributeMap.containsKey(ARGS)) {
+    clearCurrentArgsAndArgList();
+    String val=(String)attributeMap.get(ARGS);
+    if (!StringUtil.isBlank(val)) {
+      this.args=val;
+    }
+  }
+  if (attributeMap.containsKey(WORKING_DIR)) {
+    final String newWorkingDir=(String)attributeMap.get(WORKING_DIR);
+    workingDirectory=StringUtil.isBlank(newWorkingDir) ? null : newWorkingDir;
+  }
+}

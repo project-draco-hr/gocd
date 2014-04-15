@@ -1,0 +1,5 @@
+{
+  CommandSnippet commandSnippet=xmlParser.parse("<EXEC COMMAND='NUGET'><ARG>PACK</ARG></EXEC>","nuget","/some/path/filename.xml");
+  assertThat(commandSnippet.getErrorMessage(),is("Reason: Invalid XML tag \"EXEC\" found."));
+  assertThat(commandSnippet.isValid(),is(false));
+}

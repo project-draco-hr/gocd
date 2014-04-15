@@ -1,0 +1,6 @@
+{
+  fixture.createdPipelineWithAllStagesPassed();
+  Pipeline latestPipleine=fixture.createdPipelineWithAllStagesPassed();
+  JobIdentifier jobIdentifier=restfulService.findJob(latestPipleine.getName(),JobIdentifier.LATEST,fixture.devStage,JobIdentifier.LATEST,PipelineWithTwoStages.JOB_FOR_DEV_STAGE);
+  assertThat(jobIdentifier.getPipelineLabel(),is(latestPipleine.getLabel()));
+}

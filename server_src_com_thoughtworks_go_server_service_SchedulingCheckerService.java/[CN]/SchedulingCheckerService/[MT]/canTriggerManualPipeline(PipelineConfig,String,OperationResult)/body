@@ -1,0 +1,5 @@
+{
+  CompositeChecker checker=buildScheduleCheckers(asList(manualTriggerCheckers(pipelineConfig,username),new LicenseChecker(licenseService),diskCheckers()));
+  checker.check(result);
+  return result.canContinue();
+}

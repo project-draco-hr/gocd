@@ -1,0 +1,14 @@
+{
+  DependencyMaterial material=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  repo.saveOrUpdate(material.createMaterialInstance());
+  MaterialRevision first=saveOneDependencyModification(material,"pipeline-name/1/stage-name/3","my-random-label-123");
+  MaterialRevision second=saveOneDependencyModification(material,"pipeline-name/3/stage-name/1","other-label-456");
+  List<MatchedRevision> revisions=repo.findRevisionsMatching(material.config(),"my-random");
+  assertThat(revisions.size(),is(1));
+  assertMatchedRevision(revisions.get(0),first.getLatestShortRevision(),first.getLatestRevisionString(),null,first.getDateOfLatestModification(),"my-random-label-123");
+  revisions=repo.findRevisionsMatching(material.config(),"other-label");
+  assertThat(revisions.size(),is(1));
+  assertMatchedRevision(revisions.get(0),second.getLatestShortRevision(),second.getLatestRevisionString(),null,second.getDateOfLatestModification(),"other-label-456");
+  revisions=repo.findRevisionsMatching(material.config(),"something-else");
+  assertThat(revisions.size(),is(0));
+}

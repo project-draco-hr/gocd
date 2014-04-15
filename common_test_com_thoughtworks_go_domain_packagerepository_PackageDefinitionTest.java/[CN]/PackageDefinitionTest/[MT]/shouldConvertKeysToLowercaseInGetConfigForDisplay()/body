@@ -1,0 +1,8 @@
+{
+  RepositoryMetadataStore.getInstance().addMetadataFor("some-plugin",new PackageConfigurations());
+  PackageMetadataStore.getInstance().addMetadataFor("some-plugin",new PackageConfigurations());
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo","some-plugin","version",new Configuration(create("rk1",false,"rv1")));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","name",new Configuration(create("pack_key_1",false,"pack_value_1"),create("PACK_KEY_2",false,"PACK_VALUE_2"),create("pacK_KeY3",false,"pacKValue_3")),repository);
+  packageDefinition.setRepository(repository);
+  assertThat(packageDefinition.getConfigForDisplay(),is("Repository: [rk1=rv1] - Package: [pack_key_1=pack_value_1, pack_key_2=PACK_VALUE_2, pack_key3=pacKValue_3]"));
+}

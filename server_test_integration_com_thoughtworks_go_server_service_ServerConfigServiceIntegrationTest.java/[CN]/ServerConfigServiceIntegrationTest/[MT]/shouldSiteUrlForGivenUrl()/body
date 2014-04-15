@@ -1,0 +1,5 @@
+{
+  configHelper.setBaseUrls(new ServerSiteUrlConfig("http://foo.com"),new ServerSiteUrlConfig("https://bar.com"));
+  assertThat(serverConfigService.siteUrlFor("http://test.host/foo/bar",true),is("https://bar.com/foo/bar"));
+  assertThat(serverConfigService.siteUrlFor("http://test.host/foo/bar",false),is("http://foo.com/foo/bar"));
+}

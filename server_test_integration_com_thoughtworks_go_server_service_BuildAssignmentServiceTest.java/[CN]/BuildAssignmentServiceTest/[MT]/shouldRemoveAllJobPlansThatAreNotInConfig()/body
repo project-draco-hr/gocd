@@ -1,0 +1,18 @@
+{
+  CruiseConfig oldConfig=goConfigService.getCurrentConfig();
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1","s1",u.m(new HgMaterial("hg",null)));
+  Pipeline p1_1=instanceFactory.createPipelineInstance(p1.config,modifyNoFiles(p1.config),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2","s1",u.m(new HgMaterial("hg",null)));
+  Pipeline p2_1=instanceFactory.createPipelineInstance(p2.config,modifyNoFiles(p2.config),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(p1_1);
+  dbHelper.savePipelineWithStagesAndMaterials(p2_1);
+  CruiseConfig cruiseConfig=goConfigService.getCurrentConfig();
+  buildAssignmentService.onConfigChange(cruiseConfig);
+  buildAssignmentService.onTimer();
+  List<JobPlan> plans=(List<JobPlan>)ReflectionUtil.getField(buildAssignmentService,"jobPlans");
+  assertThat(plans.isEmpty(),is(false));
+  assertThat(plans.size(),is(2));
+  configHelper.writeConfigFile(oldConfig);
+  plans=(List<JobPlan>)ReflectionUtil.getField(buildAssignmentService,"jobPlans");
+  assertThat("Actual size is " + plans.size(),plans.isEmpty(),is(true));
+}

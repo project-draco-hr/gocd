@@ -1,0 +1,10 @@
+{
+  for (  PipelineGroupModel groupModel : groupModels.asList()) {
+    if (!goConfigService.isUserAdminOfGroup(username.getUsername(),groupModel.getName())) {
+      continue;
+    }
+    for (    PipelineModel pipelineModel : groupModel.getPipelineModels()) {
+      pipelineModel.updateAdministrability(true);
+    }
+  }
+}

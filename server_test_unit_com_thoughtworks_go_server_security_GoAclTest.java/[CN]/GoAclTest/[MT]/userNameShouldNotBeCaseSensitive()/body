@@ -1,0 +1,10 @@
+{
+  GoAcl acl=new GoAcl(new ArrayList<CaseInsensitiveString>(){
+{
+      add(new CaseInsensitiveString("admin"));
+    }
+  }
+);
+  boolean granted=acl.isGranted(new CaseInsensitiveString("ADMIN"));
+  assertThat("ADMIN should be granted",granted,is(true));
+}

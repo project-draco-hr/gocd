@@ -1,0 +1,9 @@
+{
+  goConfigService=mockGoConfigServiceToHaveSiteUrl();
+  TestingEmailSender sender=new TestingEmailSender();
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  systemEnvironment.setProperty(SystemEnvironment.ARTIFACT_WARNING_SIZE_LIMIT,"1200009M");
+  ArtifactsDiskSpaceWarningChecker checker=new ArtifactsDiskSpaceWarningChecker(systemEnvironment,sender,goConfigService,new SystemDiskSpaceChecker(),serverHealthService);
+  checker.check(new ServerHealthStateOperationResult());
+  assertThat(sender.getSentMessage(),containsString(new File(".").getCanonicalPath()));
+}

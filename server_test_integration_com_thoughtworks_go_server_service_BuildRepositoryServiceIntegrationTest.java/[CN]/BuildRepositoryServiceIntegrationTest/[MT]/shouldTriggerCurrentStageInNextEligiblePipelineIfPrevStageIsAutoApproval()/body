@@ -1,0 +1,7 @@
+{
+  Stage oldFtStage=createPipelineWithFirstStageCompletedAndNextStageBuilding(StageState.Passed);
+  Pipeline newPipeline=createPipelineWithFirstStageCompleted(mingle);
+  completeStageAndTrigger(oldFtStage);
+  Stage mostRecent=stageDao.mostRecentWithBuilds(PIPELINE_NAME,mingle.findBy(new CaseInsensitiveString(FT_STAGE)));
+  assertThat(mostRecent.getPipelineId(),is(oldFtStage.getPipelineId() + 1));
+}

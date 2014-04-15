@@ -1,0 +1,13 @@
+{
+  buildWork=(BuildWork)getWork(MULTIPLE_TASKS,PIPELINE_NAME);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  String actual=artifactManipulator.consoleOut();
+  assertThat(actual,containsString("run when status is failed"));
+  assertThat(actual,printedExcRunIfInfo("command-not-found","passed"));
+  assertThat(actual,containsString("run when status is any"));
+  assertThat(actual,printedExcRunIfInfo("echo","run when status is any","failed"));
+  assertThat(actual,not(containsString("run when status is passed")));
+  assertThat(actual,not(printedExcRunIfInfo("echo","run when status is passed","failed")));
+  assertThat(actual,not(containsString("run when status is cancelled")));
+  assertThat(actual,not(printedExcRunIfInfo("echo","run when status is cancelled","failed")));
+}

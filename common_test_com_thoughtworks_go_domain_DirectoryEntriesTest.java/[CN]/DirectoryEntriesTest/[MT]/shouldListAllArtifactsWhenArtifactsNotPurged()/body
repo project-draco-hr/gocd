@@ -1,0 +1,13 @@
+{
+  HtmlRenderer renderer=new HtmlRenderer("context");
+  DirectoryEntries directoryEntries=new DirectoryEntries();
+  directoryEntries.add(new FolderDirectoryEntry("cruise-output","",new DirectoryEntries()));
+  directoryEntries.add(new FolderDirectoryEntry("some-artifact","",new DirectoryEntries()));
+  directoryEntries.render(renderer);
+  Element document=getRenderedDocument(renderer);
+  assertThat(document.getChildren().size(),is(2));
+  Element cruiseOutputElement=(Element)document.getChildren().get(0);
+  assertThat(cruiseOutputElement.getChild("div").getChild("span").getChild("a").getTextNormalize(),is("cruise-output"));
+  Element artifactElement=(Element)document.getChildren().get(1);
+  assertThat(artifactElement.getChild("div").getChild("span").getChild("a").getTextNormalize(),is("some-artifact"));
+}

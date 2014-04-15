@@ -1,0 +1,25 @@
+{
+  AgentIdentifier agentIdentifier=agentIdentifier();
+  if (LOG.isDebugEnabled()) {
+    LOG.debug(String.format("[Agent Loop] %s is checking for work from Go",agentIdentifier));
+  }
+  Work work;
+  try {
+    agentRuntimeInfo.idle();
+    work=server.getWork(agentRuntimeInfo);
+    if (!(work instanceof NoWork)) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(String.format("[Agent Loop] Got work from server: [%s]",work.description()));
+      }
+    }
+    runner=new JobRunner();
+    runner.run(work,agentIdentifier,server,manipulator,agentRuntimeInfo);
+  }
+ catch (  UnregisteredAgentException e) {
+    LOG.warn(String.format("[Agent Loop] Invalid agent certificate with fingerprint %s. Registering with server on next iteration.",e.getUuid()));
+    sslInfrastructureService.invalidateAgentCertificate();
+  }
+ finally {
+    agentRuntimeInfo.idle();
+  }
+}

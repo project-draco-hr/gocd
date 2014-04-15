@@ -1,0 +1,18 @@
+{
+  HashMap<String,String> urlToUUIDMap=new HashMap<String,String>();
+  for (  SvnMaterial svnMaterial : svnMaterials) {
+    CommandLine command=svnExecutable().withArgs("info","--xml");
+    addCredentials(command,new StringArgument(svnMaterial.getUserName()),new PasswordArgument(svnMaterial.getPassword()));
+    final String queryUrl=svnMaterial.getUrl();
+    command.withArg(queryUrl);
+    ConsoleResult consoleResult=null;
+    try {
+      consoleResult=executeCommand(command);
+      urlToUUIDMap.putAll(svnLogXmlParser.parseInfoToGetUUID(consoleResult.outputAsString(),queryUrl,getBuilder()));
+    }
+ catch (    RuntimeException e) {
+      LOG.warn("Failed to map UUID to URL. SVN post-commit will not work for materials with URL " + queryUrl,e);
+    }
+  }
+  return urlToUUIDMap;
+}

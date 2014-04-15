@@ -1,0 +1,13 @@
+{
+  StringBuilder header=new StringBuilder(CLASSPATH_PREFIX);
+  if (!dependenciesDir.exists() || !dependenciesDir.isDirectory()) {
+    return header.toString();
+  }
+  Collection<File> dependencyJars=FileUtils.listFiles(dependenciesDir,new String[]{"jar"},false);
+  for (  File dependencyJarFileName : dependencyJars) {
+    if (!ACTIVATOR_JAR_NAME.equals(dependencyJarFileName.getName())) {
+      header.append(PLUGIN_DEPS_DIR_PREFIX).append(dependencyJarFileName.getName());
+    }
+  }
+  return header.toString();
+}

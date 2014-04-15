@@ -1,0 +1,9 @@
+{
+  configHelper.setAdminPermissionForGroup(GROUP_NAME,PIPELINE_ADMIN);
+  assertThat(securityService.hasViewPermissionForGroup(PIPELINE_ADMIN,GROUP_NAME),is(true));
+  assertThat(securityService.hasOperatePermissionForGroup(new CaseInsensitiveString(PIPELINE_ADMIN),GROUP_NAME),is(true));
+  assertThat(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString(PIPELINE_ADMIN),PIPELINE_NAME),is(true));
+  assertThat(securityService.hasViewPermissionForPipeline(PIPELINE_ADMIN,PIPELINE_NAME),is(true));
+  assertThat(securityService.hasViewPermissionForPipeline(new Username(new CaseInsensitiveString(PIPELINE_ADMIN)),PIPELINE_NAME),is(true));
+  assertThat(securityService.hasOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,PIPELINE_ADMIN),is(true));
+}

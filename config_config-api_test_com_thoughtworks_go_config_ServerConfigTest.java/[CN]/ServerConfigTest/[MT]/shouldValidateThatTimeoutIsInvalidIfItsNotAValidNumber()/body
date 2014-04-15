@@ -1,0 +1,6 @@
+{
+  ServerConfig serverConfig=new ServerConfig("artifacts",new SecurityConfig(),10,20,"30M");
+  serverConfig.validate(null);
+  assertThat(serverConfig.errors().isEmpty(),is(false));
+  assertThat(serverConfig.errors().on(ServerConfig.JOB_TIMEOUT),is("Timeout should be a valid number as it represents number of minutes"));
+}

@@ -1,0 +1,8 @@
+{
+  return (String)hibernateTemplate.execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      return session.createSQLQuery("SELECT cookie from agents where uuid = 'uuid'").uniqueResult();
+    }
+  }
+);
+}

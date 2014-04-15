@@ -1,0 +1,10 @@
+{
+  JobConfig allAgentsJob=new JobConfig("job-for-all-agents");
+  allAgentsJob.setRunOnAllAgents(true);
+  JobConfigs jobs=new JobConfigs();
+  jobs.add(allAgentsJob);
+  jobs.add(new JobConfig("job"));
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("stage-name"),jobs);
+  JobConfig found=stage.jobConfigByInstanceName("job-for-all-agents-" + RunOnAllAgentsJobTypeConfig.MARKER + "-1",true);
+  assertThat(found,is(allAgentsJob));
+}

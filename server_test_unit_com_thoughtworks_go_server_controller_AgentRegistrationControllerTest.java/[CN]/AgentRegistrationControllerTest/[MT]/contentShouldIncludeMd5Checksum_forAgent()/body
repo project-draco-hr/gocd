@@ -1,0 +1,6 @@
+{
+  ModelAndView modelAndView=controller.downloadAgent(null,null);
+  modelAndView.getView().render(null,request,response);
+  String actual=response.getHeader("Content-MD5");
+  assertEquals(StringUtil.md5Digest(EXPECTED.getBytes()),actual);
+}

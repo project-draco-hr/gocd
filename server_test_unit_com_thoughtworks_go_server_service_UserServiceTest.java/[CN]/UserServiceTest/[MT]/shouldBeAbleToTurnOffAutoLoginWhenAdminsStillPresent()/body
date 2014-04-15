@@ -1,0 +1,5 @@
+{
+  when(userDao.enabledUsers()).thenReturn(Arrays.asList(new User("Jake"),new User("Pavan"),new User("Shilpa")));
+  configureAdmin("Jake",true);
+  assertThat(userService.canUserTurnOffAutoLogin(),is(true));
+}

@@ -1,0 +1,23 @@
+{
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  doThrow(new RuntimeException("This will fail with an exception, when plugin manager runs the exception handler.")).when(pluginManager).doOnAll(eq(IJobPreScheduleHook.class),jobPreScheduleActionHandlerCaptor.capture(),jobPreScheduleExceptionHandlerCaptor.capture());
+  try {
+    transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+      public void doInTransactionWithoutResult(      TransactionStatus status){
+        jobService.save(new StageIdentifier("pipelineName",1,"1","defaultStage","1"),42l,job);
+      }
+    }
+);
+    fail("Expected this to throw an exception");
+  }
+ catch (  Exception e) {
+  }
+  IJobPreScheduleHook preScheduleHook=mock(IJobPreScheduleHook.class);
+  verify(pluginManager).doOnAll(eq(IJobPreScheduleHook.class),jobPreScheduleActionHandlerCaptor.capture(),jobPreScheduleExceptionHandlerCaptor.capture());
+  try {
+    jobPreScheduleExceptionHandlerCaptor.getValue().handleException(preScheduleHook,new RuntimeException("Bundle throws exception"));
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("java.lang.RuntimeException: Bundle throws exception"));
+  }
+}

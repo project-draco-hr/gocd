@@ -1,0 +1,9 @@
+{
+synchronized (pipelines) {
+    pipelines.put(message.getPipelineName(),ScheduleCheckState.IDLE);
+    schedulingPerformanceLogger.completionMessageForScheduleCheckReceived(message.trackingId(),message.getPipelineName());
+    if (LOGGER.isTraceEnabled()) {
+      LOGGER.trace(format("marked pipeline %s as IDLE, current pipelines state: %s",message.getPipelineName(),pipelines));
+    }
+  }
+}

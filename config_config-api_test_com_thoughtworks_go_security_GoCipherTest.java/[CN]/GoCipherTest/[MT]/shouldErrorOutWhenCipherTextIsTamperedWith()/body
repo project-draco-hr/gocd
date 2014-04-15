@@ -1,0 +1,9 @@
+{
+  try {
+    goCipher.decrypt("some junk that should not decrypt to something sane. I mean, seriously, how could this make sense.");
+    fail("Should have thrown DataLengthException");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("last block incomplete in decryption"));
+  }
+}

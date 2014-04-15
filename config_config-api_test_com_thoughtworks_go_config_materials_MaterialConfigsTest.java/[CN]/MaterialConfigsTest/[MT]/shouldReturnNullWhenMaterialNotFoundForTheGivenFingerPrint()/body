@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  PipelineConfig pipeline=goConfigMother.addPipeline(cruiseConfig,"pipeline1","stage","build");
+  assertThat(pipeline.materialConfigs().getByFingerPrint("invalid"),is(nullValue()));
+}

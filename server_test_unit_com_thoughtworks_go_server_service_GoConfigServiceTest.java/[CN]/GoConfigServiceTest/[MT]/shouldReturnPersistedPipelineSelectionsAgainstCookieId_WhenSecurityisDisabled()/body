@@ -1,0 +1,7 @@
+{
+  PipelineSelections pipelineSelections=new PipelineSelections(Arrays.asList("pip1"));
+  when(pipelineRepository.findPipelineSelectionsById("123")).thenReturn(pipelineSelections);
+  assertThat(goConfigService.getSelectedPipelines("123",null),is(pipelineSelections));
+  assertThat(goConfigService.getSelectedPipelines("",null),is(PipelineSelections.ALL));
+  assertThat(goConfigService.getSelectedPipelines("345",null),is(PipelineSelections.ALL));
+}

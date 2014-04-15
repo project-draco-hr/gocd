@@ -1,0 +1,7 @@
+{
+  JobHistory history=new JobHistory();
+  for (  JobConfig jobConfig : stageConfig.allBuildPlans()) {
+    history.addJob(CaseInsensitiveString.str(jobConfig.name()),JobState.Completed,JobResult.Passed,modificationDate);
+  }
+  return history;
+}

@@ -1,0 +1,6 @@
+{
+  GoCipher cipher=mock(GoCipher.class);
+  ConfigurationProperty property=new ConfigurationProperty(new ConfigurationKey("name"),new ConfigurationValue("value"),null,cipher);
+  property.validate(ValidationContext.forChain(property));
+  assertThat(property.errors().isEmpty(),is(true));
+}

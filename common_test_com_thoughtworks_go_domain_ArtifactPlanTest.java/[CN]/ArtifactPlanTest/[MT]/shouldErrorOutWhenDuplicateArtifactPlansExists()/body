@@ -1,0 +1,13 @@
+{
+  List<ArtifactPlan> plans=new ArrayList<ArtifactPlan>();
+  ArtifactPlan existingPlan=new ArtifactPlan(ArtifactType.file,"src","dest");
+  plans.add(existingPlan);
+  ArtifactPlan artifactPlan=new ArtifactPlan(ArtifactType.file,"src","dest");
+  artifactPlan.validateUniqueness(plans);
+  assertThat(artifactPlan.errors().isEmpty(),is(false));
+  assertThat(artifactPlan.errors().on(ArtifactPlan.SRC),is("Duplicate artifacts defined."));
+  assertThat(artifactPlan.errors().on(ArtifactPlan.DEST),is("Duplicate artifacts defined."));
+  assertThat(existingPlan.errors().isEmpty(),is(false));
+  assertThat(existingPlan.errors().on(ArtifactPlan.SRC),is("Duplicate artifacts defined."));
+  assertThat(existingPlan.errors().on(ArtifactPlan.DEST),is("Duplicate artifacts defined."));
+}

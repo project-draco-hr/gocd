@@ -1,0 +1,7 @@
+{
+  String md5=setUpPipelineGroupsWithAdminPermissions();
+  controller.postBuildAsXmlPartial("go","stage",0,NEW_BUILD,md5,response);
+  assertThat(response.getStatus(),is(SC_UNAUTHORIZED));
+  controller.postBuildAsXmlPartial("bcg","stage",0,NEW_BUILD,md5,response);
+  assertThat(response.getStatus(),is(SC_OK));
+}

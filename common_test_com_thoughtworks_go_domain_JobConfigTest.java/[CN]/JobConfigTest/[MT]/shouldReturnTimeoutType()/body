@@ -1,0 +1,8 @@
+{
+  JobConfig job=new JobConfig("job");
+  assertThat(job.getTimeoutType(),is(JobConfig.DEFAULT_TIMEOUT));
+  job.setTimeout("0");
+  assertThat(job.getTimeoutType(),is(JobConfig.NEVER_TIMEOUT));
+  job.setTimeout("10");
+  assertThat(job.getTimeoutType(),is(JobConfig.OVERRIDE_TIMEOUT));
+}

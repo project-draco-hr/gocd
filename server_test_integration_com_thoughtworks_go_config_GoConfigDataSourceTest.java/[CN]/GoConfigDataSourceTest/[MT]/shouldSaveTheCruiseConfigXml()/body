@@ -1,0 +1,5 @@
+{
+  File file=dataSource.fileLocation();
+  dataSource.write(ConfigMigrator.migrate(VALID_XML_3169),false);
+  assertThat(FileUtils.readFileToString(file),containsString("http://hg-server/hg/connectfour"));
+}

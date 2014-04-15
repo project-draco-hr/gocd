@@ -1,0 +1,10 @@
+{
+  PipelineTemplateConfig emptyTemplate=template("empty_template");
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  cruiseConfig.addTemplate(emptyTemplate);
+  TemplateConfigService service=new TemplateConfigService(goConfigService,securityService);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  service.removeTemplate("not_found_template",cruiseConfig,"md5",result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(404));
+}

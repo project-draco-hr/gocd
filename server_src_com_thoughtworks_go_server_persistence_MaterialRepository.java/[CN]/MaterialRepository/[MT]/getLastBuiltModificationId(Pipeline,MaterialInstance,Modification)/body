@@ -1,0 +1,12 @@
+{
+  if (materialInstance instanceof DependencyMaterialInstance) {
+    Long id=findLastBuiltModificationId(pipeline,materialInstance);
+    if (id == null) {
+      return from.getId();
+    }
+ else {
+      return modificationAfter(id,materialInstance);
+    }
+  }
+  return from.getId();
+}

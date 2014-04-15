@@ -1,0 +1,9 @@
+{
+  User user=new User("user","my name","user2@mail.com");
+  userDao.saveOrUpdate(user);
+  final User foundUser=userDao.findUser("user");
+  assertThat(foundUser.isEnabled(),is(true));
+  foundUser.disable();
+  userDao.saveOrUpdate(foundUser);
+  assertThat(userDao.findUser("user").isEnabled(),is(false));
+}

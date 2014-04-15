@@ -1,0 +1,9 @@
+{
+  Map<String,List<Pair<PipelineConfig,PipelineConfigs>>> packageUsageInPipelines=getPackageUsageInPipelines();
+  for (  PackageDefinition packageDefinition : packageRepository.getPackages()) {
+    if (packageUsageInPipelines.containsKey(packageDefinition.getId())) {
+      return false;
+    }
+  }
+  return true;
+}

@@ -1,0 +1,9 @@
+{
+  Element element=ehCache.get(key);
+  if (element == null) {
+    return null;
+  }
+  Object value=element.getObjectValue();
+  logUnsavedPersistentObjectInteraction(value,"PersistentObject %s without an id served out of cache.");
+  return value;
+}

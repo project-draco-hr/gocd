@@ -1,0 +1,12 @@
+{
+  modification.setMaterialInstance(materialInstance);
+  try {
+    getHibernateTemplate().saveOrUpdate(modification);
+    removeLatestCachedModification(materialInstance,modification);
+  }
+ catch (  Exception e) {
+    String message="Cannot save modification " + modification;
+    LOGGER.error(message,e);
+    throw new RuntimeException(message,e);
+  }
+}

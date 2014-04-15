@@ -1,0 +1,38 @@
+{
+  final ScmMaterial material=new GitMaterial(testRepo.projectRepositoryUrl());
+  final List<Exception> threadOneExceptions=new ArrayList();
+  final List<Exception> threadTwoExceptions=new ArrayList();
+  Thread updateThread1=new Thread(){
+    @Override public void run(){
+      try {
+        updater.updateMaterial(material);
+      }
+ catch (      Exception e) {
+        threadOneExceptions.add(e);
+      }
+    }
+  }
+;
+  Thread updateThread2=new Thread(){
+    @Override public void run(){
+      try {
+        updater.updateMaterial(material);
+      }
+ catch (      Exception e) {
+        threadTwoExceptions.add(e);
+      }
+    }
+  }
+;
+  updateThread1.start();
+  updateThread2.start();
+  updateThread1.join();
+  updateThread2.join();
+  if (!threadOneExceptions.isEmpty()) {
+    throw threadOneExceptions.get(0);
+  }
+  if (!threadTwoExceptions.isEmpty()) {
+    throw threadTwoExceptions.get(0);
+  }
+  assertThat("transaction template executeWithExceptionHandling should be invoked only once",transactionTemplateWithInvocationCount.invocationCount,is(1));
+}

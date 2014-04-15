@@ -1,0 +1,7 @@
+{
+  String message="No modifications";
+  if (materialRevisions != null && !materialRevisions.isEmpty()) {
+    message=materialRevisions.buildCauseMessage();
+  }
+  return new BuildTrigger(message,false,Priority.MODIFICATION,MODIFICATION_BUILD_CAUSE);
+}

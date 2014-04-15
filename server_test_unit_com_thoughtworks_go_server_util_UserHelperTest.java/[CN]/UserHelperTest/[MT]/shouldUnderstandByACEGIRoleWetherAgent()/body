@@ -1,0 +1,10 @@
+{
+  stubSecurityContextForRole(X509AuthoritiesPopulator.ROLE_AGENT);
+  assertThat(UserHelper.isAgent(),is(true));
+  stubSecurityContextForRole("junk");
+  assertThat(UserHelper.isAgent(),is(false));
+  stubSecurityContextForRole(null);
+  assertThat(UserHelper.isAgent(),is(false));
+  stubSecurityContextForGrantedAuthorities(null);
+  assertThat(UserHelper.isAgent(),is(false));
+}

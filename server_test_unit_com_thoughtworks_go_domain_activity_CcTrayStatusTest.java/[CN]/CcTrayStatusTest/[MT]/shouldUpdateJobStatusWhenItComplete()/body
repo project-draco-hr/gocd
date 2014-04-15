@@ -1,0 +1,10 @@
+{
+  CcTrayStatus status=new CcTrayStatus(materialRepo,stageDao);
+  JobInstance job=buildingJob("cruise","label","dev","linux-firefox");
+  status.jobStatusChanged(job);
+  assertThat(status.projects().size(),is(1));
+  assertThat(status.projects(),hasItem(new ProjectStatus("cruise :: dev :: linux-firefox","Building",DEFAULT_LAST_BUILD_STATUS,DEFAULT_LAST_BUILD_LABEL,DEFAULT_LAST_BUILD_TIME,job.getIdentifier().webUrl())));
+  job=failedJob("cruise","label","dev","linux-firefox");
+  status.jobStatusChanged(job);
+  assertThat(status.projects(),hasItem(projectStatusForFailedJob(job)));
+}

@@ -1,0 +1,8 @@
+{
+  UrlArgument url=new UrlArgument("git://github.com/xli/dtr.git");
+  CommandLine commandLine=GitCommand.commandToCheckConnection(url);
+  assertThat(commandLine.getExecutable(),is("git"));
+  List<CommandArgument> arguments=commandLine.getArguments();
+  assertThat((StringArgument)arguments.get(0),is(new StringArgument("ls-remote")));
+  assertThat((UrlArgument)arguments.get(1),is(url));
+}

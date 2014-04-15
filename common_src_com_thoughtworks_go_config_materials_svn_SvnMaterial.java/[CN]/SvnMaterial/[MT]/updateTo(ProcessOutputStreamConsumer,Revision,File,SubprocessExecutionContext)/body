@@ -1,0 +1,15 @@
+{
+  File workingDir=workingdir(baseDir);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Updating to revision: " + revision + " in workingdirectory "+ workingDir);
+  }
+  outputStreamConsumer.stdOutput(format("\n[%s] Start updating %s at revision %s from %s",GoConstants.PRODUCT_NAME,updatingTarget(),revision.getRevision(),url));
+  boolean shouldDoFreshCheckout=!workingDir.isDirectory() || isRepositoryChanged(workingDir);
+  if (shouldDoFreshCheckout) {
+    freshCheckout(outputStreamConsumer,new SubversionRevision(revision),workingDir);
+  }
+ else {
+    cleanupAndUpdate(outputStreamConsumer,new SubversionRevision(revision),workingDir);
+  }
+  LOGGER.debug("done with update");
+}

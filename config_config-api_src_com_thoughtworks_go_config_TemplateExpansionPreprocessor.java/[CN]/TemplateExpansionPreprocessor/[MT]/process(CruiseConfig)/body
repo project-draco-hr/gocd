@@ -1,0 +1,20 @@
+{
+  for (  PipelineConfig pipelineConfig : cruiseConfig.getAllPipelineConfigs()) {
+    if (pipelineConfig.hasTemplate()) {
+      if (!pipelineConfig.hasTemplateApplied() && !pipelineConfig.isEmpty()) {
+        throw new RuntimeException(String.format("Pipeline '%s' must not reference a template and define stages.",pipelineConfig.name()));
+      }
+      CaseInsensitiveString templateName=pipelineConfig.getTemplateName();
+      PipelineTemplateConfig pipelineTemplate=cruiseConfig.findTemplate(templateName);
+      bombIfNull(pipelineTemplate,String.format("Pipeline '%s' refers to non-existent template '%s'.",pipelineConfig.name(),templateName));
+      if (!pipelineConfig.hasTemplateApplied()) {
+        pipelineConfig.usingTemplate(pipelineTemplate);
+      }
+    }
+ else {
+      if (pipelineConfig.isEmpty()) {
+        throw new RuntimeException("Pipeline '" + pipelineConfig.name() + "' does not have any stages configured. A pipeline must have at least one stage.");
+      }
+    }
+  }
+}

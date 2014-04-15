@@ -1,0 +1,6 @@
+{
+  String newWorkingDir=FileUtil.join(pipeline.defaultWorkingFolder(),task.workingDirectory());
+  String argument=task.arguments();
+  Builder builder=builderFactory.builderFor(task.cancelTask(),pipeline,resolver);
+  return new CommandBuilder("rake",argument,new File(newWorkingDir),task.getConditions(),builder,task.describe());
+}

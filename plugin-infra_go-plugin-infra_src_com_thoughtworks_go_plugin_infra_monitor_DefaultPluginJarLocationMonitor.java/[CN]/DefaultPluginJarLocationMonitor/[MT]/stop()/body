@@ -1,0 +1,12 @@
+{
+  if (monitorThread == null) {
+    return;
+  }
+  monitorThread.interrupt();
+  try {
+    monitorThread.join();
+  }
+ catch (  InterruptedException e) {
+  }
+  monitorThread=null;
+}

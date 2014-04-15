@@ -1,0 +1,6 @@
+{
+  Stage evolveStage=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(config.name()),config.findBy(new CaseInsensitiveString("dev")));
+  assertThat(evolveStage.getName(),is("dev"));
+  assertThat(evolveStage.getJobInstances().size(),is(1));
+  assertThat(evolveStage.getJobInstances().first().getState(),is(JobState.Scheduled));
+}

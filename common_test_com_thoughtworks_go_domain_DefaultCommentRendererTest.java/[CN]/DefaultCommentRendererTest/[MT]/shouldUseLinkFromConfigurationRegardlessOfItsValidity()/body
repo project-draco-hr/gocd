@@ -1,0 +1,7 @@
+{
+  String link="aaa${ID}";
+  String regex="\\d+";
+  trackingTool=new DefaultCommentRenderer(link,regex);
+  String result=trackingTool.render("111: checkin message");
+  assertThat(result,is("<a href=\"aaa111\" target=\"story_tracker\">111</a>: checkin message"));
+}

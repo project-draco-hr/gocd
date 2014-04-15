@@ -1,0 +1,9 @@
+{
+  CaseInsensitiveString pipelineName=new CaseInsensitiveString(pipelineTimelineEntry.getPipelineName());
+  initializedNaturalOrderCollection(pipelineName).add(pipelineTimelineEntry);
+  initializedScheduleOrderCollection(pipelineName).add(pipelineTimelineEntry);
+  pipelineTimelineEntry.setInsertedBefore(naturalOrderAfter(pipelineTimelineEntry));
+  pipelineTimelineEntry.setInsertedAfter(naturalOrderBefore(pipelineTimelineEntry));
+  pipelineTimelineEntry.updateNaturalOrder();
+  updateMaximumId(pipelineTimelineEntry.getId());
+}

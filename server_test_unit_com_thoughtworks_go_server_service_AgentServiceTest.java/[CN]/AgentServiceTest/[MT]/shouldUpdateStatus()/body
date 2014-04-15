@@ -1,0 +1,6 @@
+{
+  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier,"pavanIsGreat",null);
+  when(agentDao.cookieFor(runtimeInfo.getIdentifier())).thenReturn("pavanIsGreat");
+  agentService.updateRuntimeInfo(runtimeInfo);
+  verify(agentInstances).updateAgentRuntimeInfo(runtimeInfo);
+}

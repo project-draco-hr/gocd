@@ -1,0 +1,20 @@
+{
+  when(mockTemplate.queryForList(eq("scheduledPlanIds"))).thenReturn(Arrays.asList(1L,2L));
+  final DefaultJobPlan firstJob=jobPlan(1);
+  final DefaultJobPlan secondJob=jobPlan(2);
+  List<JobPlan> expectedPlans=new ArrayList<JobPlan>(){
+{
+      add(firstJob);
+      add(secondJob);
+    }
+  }
+;
+  when(mockTemplate.queryForObject("scheduledPlan",arguments("id",1L).asMap())).thenReturn(firstJob);
+  when(mockTemplate.queryForObject("scheduledPlan",arguments("id",2L).asMap())).thenReturn(secondJob);
+  jobInstanceDao.setSqlMapClientTemplate(mockTemplate);
+  jobInstanceDao.orderedScheduledBuilds();
+  List<JobPlan> plans=jobInstanceDao.orderedScheduledBuilds();
+  assertThat(plans,is(expectedPlans));
+  verify(mockTemplate,times(2)).queryForObject(eq("scheduledPlan"),any());
+  verify(mockTemplate,times(2)).queryForList(eq("scheduledPlanIds"));
+}

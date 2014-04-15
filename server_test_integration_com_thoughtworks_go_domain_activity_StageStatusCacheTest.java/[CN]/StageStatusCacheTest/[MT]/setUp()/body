@@ -1,0 +1,8 @@
+{
+  dbHelper.onSetUp();
+  configFileHelper.onSetUp();
+  configFileHelper.usingEmptyConfigFileWithLicenseAllowsUnlimitedAgents();
+  configFileHelper.usingCruiseConfigDao(goConfigFileDao);
+  pipelineFixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  pipelineFixture.usingConfigHelper(configFileHelper).usingDbHelper(dbHelper).onSetUp();
+}

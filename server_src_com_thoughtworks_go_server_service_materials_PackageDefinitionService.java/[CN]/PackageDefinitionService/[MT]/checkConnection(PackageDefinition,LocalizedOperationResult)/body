@@ -1,0 +1,20 @@
+{
+  try {
+    defaultPluginManager.doOn(PackageMaterialProvider.class,packageDefinition.getRepository().getPluginConfiguration().getId(),new ActionWithReturn<PackageMaterialProvider,Object>(){
+      @Override public Object execute(      PackageMaterialProvider packageMaterialProvider,      GoPluginDescriptor pluginDescriptor){
+        Result checkConnectionResult=packageMaterialProvider.getPoller().checkConnectionToPackage(buildPackageConfigurations(packageDefinition),buildRepositoryConfigurations(packageDefinition.getRepository()));
+        String messages=checkConnectionResult.getMessagesForDisplay();
+        if (!checkConnectionResult.isSuccessful()) {
+          result.connectionError(LocalizedMessage.string("PACKAGE_CHECK_FAILED",messages));
+          return result;
+        }
+        result.setMessage(LocalizedMessage.string("PACKAGE_CHECK_OK",messages));
+        return result;
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+    result.internalServerError(LocalizedMessage.string("PACKAGE_CHECK_FAILED",e.getMessage()));
+  }
+}

@@ -1,0 +1,8 @@
+{
+  if (desc == null) {
+    desc="Details not available, please check server logs.";
+  }
+  ServerHealthState serverHealthState=ServerHealthState.error(message,desc,HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+  serverHealthService.update(serverHealthState);
+  return serverHealthState;
+}

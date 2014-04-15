@@ -1,0 +1,7 @@
+{
+  String input="SYSIN: Hello World!";
+  CommandLine line=CommandLine.createCommandLine("ruby").withArgs(script("echo-input"));
+  ConsoleResult result=run(line,input);
+  assertThat(result.output(),contains(input));
+  assertThat(result.error().size(),is(0));
+}

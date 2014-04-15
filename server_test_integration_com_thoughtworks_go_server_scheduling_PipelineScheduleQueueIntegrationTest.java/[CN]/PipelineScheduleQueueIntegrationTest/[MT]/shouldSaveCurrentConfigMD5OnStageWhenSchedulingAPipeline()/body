@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipelineConfig=fixture.pipelineConfig();
+  BuildCause cause=modifySomeFilesAndTriggerAs(pipelineConfig,"cruise-developer");
+  EnvironmentVariablesConfig environmentVariablesConfig=new EnvironmentVariablesConfig();
+  environmentVariablesConfig.add(new EnvironmentVariableConfig("blahVariable","blahOverride"));
+  cause.addOverriddenVariables(environmentVariablesConfig);
+  saveRev(cause);
+  queue.schedule(fixture.pipelineName,cause);
+  Pipeline pipeline=queue.createPipeline(cause,pipelineConfig,new DefaultSchedulingContext(cause.getApprover(),new Agents()),"md5-test",new TimeProvider());
+  assertThat(pipeline.getFirstStage().getConfigVersion(),is("md5-test"));
+}

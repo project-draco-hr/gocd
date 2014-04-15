@@ -1,0 +1,19 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  UserModel userModel=(UserModel)o;
+  if (admin != userModel.admin) {
+    return false;
+  }
+  if (roles != null ? !roles.equals(userModel.roles) : userModel.roles != null) {
+    return false;
+  }
+  if (user != null ? !user.equals(userModel.user) : userModel.user != null) {
+    return false;
+  }
+  return true;
+}

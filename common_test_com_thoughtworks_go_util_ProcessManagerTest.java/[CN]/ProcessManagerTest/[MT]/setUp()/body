@@ -1,0 +1,27 @@
+{
+  processManager=new ProcessManager(){
+    @Override Process startProcess(    ProcessBuilder processBuilder,    String msgCommandInfo){
+      return processStartedByManager;
+    }
+  }
+;
+  processStartedByManager=mock(Process.class);
+  when(processStartedByManager.getInputStream()).thenReturn(mock(InputStream.class));
+  when(processStartedByManager.getErrorStream()).thenReturn(mock(InputStream.class));
+  when(processStartedByManager.getOutputStream()).thenReturn(mock(OutputStream.class));
+  processOne=mock(Process.class);
+  processTwo=mock(Process.class);
+  when(processOne.getInputStream()).thenReturn(mock(InputStream.class));
+  when(processOne.getErrorStream()).thenReturn(mock(InputStream.class));
+  when(processOne.getOutputStream()).thenReturn(mock(OutputStream.class));
+  when(processOne.exitValue()).thenThrow(new IllegalStateException());
+  when(processTwo.exitValue()).thenThrow(new IllegalStateException());
+  when(processTwo.getInputStream()).thenReturn(mock(InputStream.class));
+  when(processTwo.getErrorStream()).thenReturn(mock(InputStream.class));
+  when(processTwo.getOutputStream()).thenReturn(mock(OutputStream.class));
+  ConcurrentHashMap<Process,ProcessWrapper> processMap=processManager.getProcessMap();
+  wrapperForProcessOne=new ProcessWrapper(processOne,"tag1",null,inMemoryConsumer(),null,"ERROR: ");
+  processMap.put(processOne,wrapperForProcessOne);
+  wrapperForProcessTwo=new ProcessWrapper(processTwo,"tag2",null,inMemoryConsumer(),null,"ERROR: ");
+  processMap.put(processTwo,wrapperForProcessTwo);
+}

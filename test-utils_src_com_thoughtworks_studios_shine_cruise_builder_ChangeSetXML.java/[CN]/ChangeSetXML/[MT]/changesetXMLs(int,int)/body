@@ -1,0 +1,8 @@
+{
+  ArrayList<ChangeSetXML> result=new ArrayList<ChangeSetXML>();
+  for (int rev=from; rev <= to; rev++) {
+    String time=new DateTime(3600 * rev * 1000).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z"));
+    result.add(changesetXML("http://changeset/revision-" + rev).message("message " + rev).revision("" + rev).user("user" + rev).time(time));
+  }
+  return result.toArray(new ChangeSetXML[]{});
+}

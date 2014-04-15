@@ -1,0 +1,7 @@
+{
+  publisher.consumeLine("Environment variables: ");
+  for (  String key : environment.keySet()) {
+    boolean secure=secureEnvVarSpecifier.isSecure(key);
+    publisher.consumeLine(String.format("Name= %s  Value= %s",key,secure ? MASK_VALUE : environment.get(key)));
+  }
+}

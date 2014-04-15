@@ -1,0 +1,15 @@
+{
+  final PackageMaterialInstance packageMaterialInstance=(PackageMaterialInstance)materialInstance;
+  if (packageMaterialInstance.shouldUpgradeTo((PackageMaterialInstance)material.createMaterialInstance())) {
+    transactionTemplate.execute(new TransactionCallback(){
+      @Override public Object doInTransaction(      TransactionStatus transactionStatus){
+        PackageMaterialInstance materialInstance=(PackageMaterialInstance)materialRepository.find(packageMaterialInstance.getId());
+        materialInstance.upgradeTo((PackageMaterialInstance)material.createMaterialInstance());
+        materialRepository.saveOrUpdate(materialInstance);
+        return materialInstance;
+      }
+    }
+);
+  }
+  scmMaterialUpdater.insertLatestOrNewModifications(material,packageMaterialInstance,folder,list);
+}

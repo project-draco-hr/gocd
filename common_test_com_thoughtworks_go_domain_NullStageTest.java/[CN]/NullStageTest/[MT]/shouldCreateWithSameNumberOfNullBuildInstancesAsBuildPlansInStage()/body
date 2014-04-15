@@ -1,0 +1,7 @@
+{
+  NullStage nullPipeline=NullStage.createNullStage(twoPlanStageConfig);
+  JobInstances nullInstances=nullPipeline.getJobInstances();
+  assertThat(nullInstances.size(),is(2));
+  assertThat(nullInstances.get(0).getName(),is("WinBuild"));
+  assertThat(nullInstances.get(1).getName(),is("NixBuild"));
+}

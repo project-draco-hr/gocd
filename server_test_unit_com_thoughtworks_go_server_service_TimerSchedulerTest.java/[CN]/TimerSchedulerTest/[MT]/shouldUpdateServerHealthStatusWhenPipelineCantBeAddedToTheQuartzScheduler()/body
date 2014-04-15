@@ -1,0 +1,12 @@
+{
+  Scheduler scheduler=mock(Scheduler.class);
+  when(scheduler.scheduleJob(any(JobDetail.class),any(Trigger.class))).thenThrow(new SchedulerException("scheduling failed!"));
+  SchedulerFactory schedulerFactory=mock(SchedulerFactory.class);
+  when(schedulerFactory.getScheduler()).thenReturn(scheduler);
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  when(goConfigService.getAllPipelineConfigs()).thenReturn(asList(pipelineConfigWithTimer("uat","* * * * * ?")));
+  ServerHealthService serverHealthService=mock(ServerHealthService.class);
+  TimerScheduler timerScheduler=new TimerScheduler(schedulerFactory,goConfigService,null,serverHealthService);
+  timerScheduler.initialize();
+  verify(serverHealthService).update(ServerHealthState.error("Could not register pipeline 'uat' with timer","",HealthStateType.general(HealthStateScope.forPipeline("uat"))));
+}

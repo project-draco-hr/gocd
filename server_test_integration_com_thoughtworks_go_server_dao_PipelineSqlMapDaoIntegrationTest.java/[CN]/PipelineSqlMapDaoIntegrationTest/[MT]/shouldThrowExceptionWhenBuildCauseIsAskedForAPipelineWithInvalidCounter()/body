@@ -1,0 +1,18 @@
+{
+  String pipelineName="P1";
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages(pipelineName,"S1");
+  String username="username";
+  BuildCause manualForced=BuildCause.createManualForced(modifyOneFile(pipelineConfig),new Username(new CaseInsensitiveString(username)));
+  Pipeline pipeline=dbHelper.schedulePipeline(pipelineConfig,manualForced,username,new TimeProvider());
+  dbHelper.pass(pipeline);
+  BuildCause buildCause=pipelineDao.findBuildCauseOfPipelineByNameAndCounter(pipelineName,1);
+  assertThat(buildCause,is(notNullValue()));
+  try {
+    pipelineDao.findBuildCauseOfPipelineByNameAndCounter(pipelineName,10);
+    fail("should have thrown PipelineNotFoundException");
+  }
+ catch (  Exception e) {
+    assertThat(e instanceof PipelineNotFoundException,is(true));
+    assertThat(e.getMessage(),is("Pipeline P1 with counter 10 was not found"));
+  }
+}

@@ -1,0 +1,8 @@
+{
+  if (goConfigValidity.isMergeConflict() || goConfigValidity.isPostValidationError()) {
+    result.badRequest(LocalizedMessage.string("FLASH_MESSAGE_ON_CONFLICT"));
+  }
+ else {
+    result.internalServerError(updateFailedMessage(groupName,goConfigValidity.errorMessage()));
+  }
+}

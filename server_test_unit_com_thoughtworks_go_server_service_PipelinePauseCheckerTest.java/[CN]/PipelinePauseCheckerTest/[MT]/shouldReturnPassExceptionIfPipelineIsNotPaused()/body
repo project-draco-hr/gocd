@@ -1,0 +1,6 @@
+{
+  when(pipelinePauseService.isPaused(pipelineName)).thenReturn(false);
+  ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
+  checker.check(result);
+  assertThat(result.getServerHealthState().isSuccess(),is(true));
+}

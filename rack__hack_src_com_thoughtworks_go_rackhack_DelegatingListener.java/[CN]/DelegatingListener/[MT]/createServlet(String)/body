@@ -1,0 +1,12 @@
+{
+  HttpServlet servlet=null;
+  try {
+    Class servletKlass=Class.forName(attribute);
+    Constructor cons=servletKlass.getConstructor();
+    servlet=(HttpServlet)cons.newInstance();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+  return servlet;
+}

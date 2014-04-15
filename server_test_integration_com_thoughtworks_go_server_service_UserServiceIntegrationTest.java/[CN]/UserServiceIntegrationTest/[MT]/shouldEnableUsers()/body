@@ -1,0 +1,12 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  User user1=new User("user_one");
+  user1.disable();
+  userDao.saveOrUpdate(user1);
+  createDisabledUser("user_two");
+  userService.enable(Arrays.asList("user_one"),new HttpLocalizedOperationResult());
+  assertThat(result.isSuccessful(),is(true));
+  List<UserModel> models=userService.allUsersForDisplay(UserService.SortableColumn.USERNAME,UserService.SortDirection.ASC);
+  assertThat("user should be enabled",models.get(0).isEnabled(),is(true));
+  assertThat("user should be disabled",models.get(1).isEnabled(),is(false));
+}

@@ -1,0 +1,24 @@
+{
+  String agentUuid="special_uuid";
+  configHelper.addPipeline("existingPipeline","existingStage");
+  Long existingStage=stageWithId("existingPipeline","existingStage");
+  Long nonExistentStage=stageWithId("existingPipeline","removedStage");
+  JobInstance completedJob=completed("existingJob",JobResult.Passed,new Date(1));
+  completedJob.setAgentUuid(agentUuid);
+  jobInstanceDao.save(existingStage,completedJob);
+  JobInstance rescheduledJob=rescheduled("rescheduled",agentUuid);
+  jobInstanceDao.save(nonExistentStage,rescheduledJob);
+  jobInstanceDao.ignore(rescheduledJob);
+  Long stageFromDeletedPipeline=stageWithId("deletedPipeline","stage");
+  JobInstance cancelledJob=cancelled("job");
+  cancelledJob.setAgentUuid(agentUuid);
+  jobInstanceDao.save(stageFromDeletedPipeline,cancelledJob);
+  List<JobInstance> sortedOnCompleted=listOf(jobInstanceService.completedJobsOnAgent(agentUuid,JobInstanceService.JobHistoryColumns.job,SortOrder.ASC,1,10).iterator());
+  assertThat(sortedOnCompleted.size(),is(3));
+  assertThat(sortedOnCompleted.get(0).getName(),is("existingJob"));
+  assertThat(sortedOnCompleted.get(0).isPipelineStillConfigured(),is(true));
+  assertThat(sortedOnCompleted.get(1).getName(),is("job"));
+  assertThat(sortedOnCompleted.get(1).isPipelineStillConfigured(),is(false));
+  assertThat(sortedOnCompleted.get(2).getName(),is("rescheduled"));
+  assertThat(sortedOnCompleted.get(2).isPipelineStillConfigured(),is(true));
+}

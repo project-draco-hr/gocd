@@ -1,0 +1,9 @@
+{
+  Set<String> allFields=fields();
+  StringBuffer sb=new StringBuffer();
+  sb.append(join(allFields,",")).append("\n");
+  for (  CsvRow row : data) {
+    sb.append(row.toString(allFields)).append("\n");
+  }
+  return sb.toString();
+}

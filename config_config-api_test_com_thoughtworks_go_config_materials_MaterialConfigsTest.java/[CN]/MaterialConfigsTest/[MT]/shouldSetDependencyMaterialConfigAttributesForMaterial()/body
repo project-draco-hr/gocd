@@ -1,0 +1,12 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  Map<String,String> hashMap=new HashMap<String,String>();
+  hashMap.put(DependencyMaterialConfig.PIPELINE_STAGE_NAME,"blah [foo]");
+  Map<String,Object> attributeMap=new HashMap<String,Object>();
+  attributeMap.put(AbstractMaterialConfig.MATERIAL_TYPE,DependencyMaterialConfig.TYPE);
+  attributeMap.put(DependencyMaterialConfig.TYPE,hashMap);
+  materialConfigs.setConfigAttributes(attributeMap);
+  assertThat(materialConfigs.size(),is(1));
+  DependencyMaterialConfig expected=new DependencyMaterialConfig(new CaseInsensitiveString("blah"),new CaseInsensitiveString("foo"));
+  assertThat((DependencyMaterialConfig)materialConfigs.first(),is(expected));
+}

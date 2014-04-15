@@ -1,0 +1,13 @@
+{
+  try {
+    if (tmpDb.exists()) {
+      deleteDirectory(tmpDb);
+      tmpDb.mkdir();
+    }
+    copyDirectory(dir,new File(tmpDb,"h2db"));
+    copyDeltas();
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Could not set up database for tests",e);
+  }
+}

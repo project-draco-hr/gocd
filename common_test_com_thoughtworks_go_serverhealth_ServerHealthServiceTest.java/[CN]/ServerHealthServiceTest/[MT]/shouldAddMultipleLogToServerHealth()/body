@@ -1,0 +1,7 @@
+{
+  assertThat(serverHealthService.update(ServerHealthState.error("message","description",globalId)),is(globalId));
+  assertThat(serverHealthService.update(ServerHealthState.error("message","description",pipelineId)),is(pipelineId));
+  assertThat(serverHealthService.getAllLogs().size(),is(2));
+  assertThat(serverHealthService,ServerHealthMatcher.containsState(globalId));
+  assertThat(serverHealthService,ServerHealthMatcher.containsState(pipelineId));
+}

@@ -1,0 +1,11 @@
+{
+  String cipherText=new GoCipher().encrypt("plainText");
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='some_pipeline'>" + "<environmentvariables>\n" + "        <variable name=\"var_name\" secure=\"true\"><encryptedValue>" + cipherText + "</encryptedValue></variable>\n"+ "      </environmentvariables>"+ "    <materials>"+ "      <svn url='svnurl'/>"+ "    </materials>"+ "  <stage name='some_stage'>"+ "    <jobs>"+ "      <job name='some_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",GoConstants.CONFIG_SCHEMA_VERSION);
+  CruiseConfig config=ConfigMigrator.loadWithMigration(content).config;
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString("some_pipeline"));
+  EnvironmentVariablesConfig variables=pipelineConfig.getVariables();
+  assertThat(variables.size(),is(1));
+  EnvironmentVariableConfig environmentVariableConfig=variables.get(0);
+  assertThat(environmentVariableConfig.getEncryptedValue(),is(cipherText));
+  assertThat(environmentVariableConfig.isSecure(),is(true));
+}

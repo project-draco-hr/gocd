@@ -1,0 +1,8 @@
+{
+  final Username groupAdmin=new Username(new CaseInsensitiveString("groupAdmin"));
+  when(goConfigService.isGroupAdministrator(groupAdmin.getUsername())).thenReturn(Boolean.TRUE);
+  final Username admin=new Username(new CaseInsensitiveString("admin"));
+  when(goConfigService.isGroupAdministrator(admin.getUsername())).thenReturn(Boolean.TRUE);
+  assertThat(securityService.canCreatePipelines(new Username(new CaseInsensitiveString("groupAdmin"))),is(true));
+  assertThat(securityService.canCreatePipelines(new Username(new CaseInsensitiveString("admin"))),is(true));
+}

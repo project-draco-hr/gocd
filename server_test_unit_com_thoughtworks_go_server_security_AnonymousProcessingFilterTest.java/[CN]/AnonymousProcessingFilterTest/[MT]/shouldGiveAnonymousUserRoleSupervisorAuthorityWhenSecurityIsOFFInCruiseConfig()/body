@@ -1,0 +1,15 @@
+{
+  context.checking(new Expectations(){
+{
+      allowing(goConfigService).isSecurityEnabled();
+      will(returnValue(false));
+    }
+  }
+);
+  MockHttpServletRequest mockHttpServletRequest=new MockHttpServletRequest();
+  Authentication authentication=filter.createAuthentication(mockHttpServletRequest);
+  assertThat(authentication.getAuthorities().length,is(1));
+  final String role=authentication.getAuthorities()[0].getAuthority();
+  assertThat(role,is(GoAuthority.ROLE_SUPERVISOR.toString()));
+  assertTrue(authentication.getDetails() instanceof WebAuthenticationDetails);
+}

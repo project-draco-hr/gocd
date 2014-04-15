@@ -1,0 +1,16 @@
+{
+  if (externalPluginDirectory.exists()) {
+    return;
+  }
+  try {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Force creating the plugins jar directory as it does not exist " + externalPluginDirectory.getAbsolutePath());
+    }
+    FileUtils.forceMkdir(externalPluginDirectory);
+  }
+ catch (  IOException e) {
+    String message="Failed to create external plugins folder in location " + externalPluginDirectory.getAbsolutePath();
+    LOGGER.warn(message,e);
+    throw new RuntimeException(message,e);
+  }
+}

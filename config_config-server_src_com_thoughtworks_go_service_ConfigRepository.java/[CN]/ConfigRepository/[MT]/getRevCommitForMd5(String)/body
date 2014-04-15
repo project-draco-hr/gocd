@@ -1,0 +1,10 @@
+{
+  final String expectedPart=GoConfigRevision.Fragment.md5.represent(GoConfigRevision.esc(md5));
+  for (  RevCommit revision : revisions()) {
+    String message=revision.getFullMessage();
+    if (message.endsWith(expectedPart)) {
+      return revision;
+    }
+  }
+  throw new IllegalArgumentException(String.format("There is no config version corresponding to md5: '%s'",md5));
+}

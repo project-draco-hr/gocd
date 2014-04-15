@@ -1,0 +1,9 @@
+{
+  TestInformation testInformation1=new TestInformation("testA",TestStatus.Error);
+  testInformation1.addJob(new JobIdentifier("",-1,"","","","job-1"));
+  TestInformation testInformation2=new TestInformation("testA",TestStatus.Error);
+  testInformation2.addJob(new JobIdentifier("",-1,"","","","job-2"));
+  assertThat(testInformation1,not(testInformation2));
+  assertThat(testInformation2,not(testInformation1));
+  assertThat(Arrays.asList(testInformation1),not(hasItem(testInformation2)));
+}

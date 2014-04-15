@@ -1,0 +1,14 @@
+{
+  NewGoConfigMother mother=new NewGoConfigMother();
+  mother.addPipeline("pipeline-name","stage-name","job-name");
+  PipelineConfig pipelineConfig=mother.addPipeline("dependent","stage-name","job-name",new DependencyMaterialConfig(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name")));
+  pipelineConfig.addMaterialConfig(new P4MaterialConfig("localhost:1666","foo"));
+  ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+  CruiseConfig cruiseConfig=mother.cruiseConfig();
+  writer.write(cruiseConfig,buffer,false);
+  final ByteArrayInputStream inputStream=new ByteArrayInputStream(buffer.toByteArray());
+  CruiseConfig config=loader.loadConfigHolder(FileUtil.readToEnd(inputStream)).config;
+  MaterialConfigs materialConfigs=config.pipelineConfigByName(new CaseInsensitiveString("dependent")).materialConfigs();
+  assertThat(materialConfigs.get(0),is(instanceOf(DependencyMaterialConfig.class)));
+  assertThat(materialConfigs.get(1),is(instanceOf(P4MaterialConfig.class)));
+}

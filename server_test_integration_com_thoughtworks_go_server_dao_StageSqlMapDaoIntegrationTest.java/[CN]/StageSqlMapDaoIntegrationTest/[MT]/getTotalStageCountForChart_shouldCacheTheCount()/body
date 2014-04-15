@@ -1,0 +1,10 @@
+{
+  SqlMapClientTemplate mockClient=mock(SqlMapClientTemplate.class);
+  stageDao.setSqlMapClientTemplate(mockClient);
+  Map<String,Object> toGet=arguments("pipelineName","maar").and("stageName","khoon").asMap();
+  when(mockClient.queryForObject("getTotalStageCountForChart",toGet)).thenReturn(3);
+  assertThat(stageDao.getTotalStageCountForChart("maar","khoon"),is(3));
+  assertThat(stageDao.getTotalStageCountForChart("maar","khoon"),is(3));
+  verify(mockClient).queryForObject("getTotalStageCountForChart",toGet);
+  verifyNoMoreInteractions(mockClient);
+}

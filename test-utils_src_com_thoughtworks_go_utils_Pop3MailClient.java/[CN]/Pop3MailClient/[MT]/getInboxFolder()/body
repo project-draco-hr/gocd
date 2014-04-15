@@ -1,0 +1,12 @@
+{
+  Properties pop3Props=new Properties();
+  pop3Props.setProperty("mail.pop3.host",host);
+  Authenticator auth=new PopupAuthenticator();
+  Session session=Session.getInstance(pop3Props,auth);
+  URLName url=new URLName("pop3",host,port,"",username,password);
+  Store store=session.getStore(url);
+  store.connect();
+  Folder folder=store.getFolder("INBOX");
+  folder.open(Folder.READ_WRITE);
+  return folder;
+}

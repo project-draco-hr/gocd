@@ -1,0 +1,7 @@
+{
+  materialRevisions.getMaterialRevision(0).markAsChanged();
+  JSONArray revisions=buildJson();
+  JSONObject revision=(JSONObject)revisions.get(0);
+  JSONArray jsonArray=(JSONArray)revision.get("modifications");
+  assertAttributeInJson(revision,"changed","true");
+}

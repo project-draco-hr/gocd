@@ -1,0 +1,9 @@
+{
+  JobInstance jobInstance=scheduled(projectOne,new Date(1));
+  jobInstance.completing(JobResult.Failed,new Date(3));
+  jobInstanceDao.save(stageId,jobInstance);
+  JobInstance loaded=jobInstanceDao.buildByIdWithTransitions(jobInstance.getId());
+  JobStateTransitions actualTransitions=loaded.getTransitions();
+  assertThat(actualTransitions,sizeIs(2));
+  assertThat(actualTransitions.first().getCurrentState(),is(JobState.Scheduled));
+}

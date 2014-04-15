@@ -1,0 +1,11 @@
+{
+  return new TypeSafeMatcher<File>(){
+    public boolean matchesSafely(    File file){
+      return file.exists();
+    }
+    public void describeTo(    Description description){
+      description.appendText("file should exist but does not");
+    }
+  }
+;
+}

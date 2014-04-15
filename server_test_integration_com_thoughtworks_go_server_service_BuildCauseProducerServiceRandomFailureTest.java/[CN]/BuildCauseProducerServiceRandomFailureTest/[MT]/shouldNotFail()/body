@@ -1,0 +1,22 @@
+{
+  RunSingleMethodRunner unit4ClassRunner=new RunSingleMethodRunner(PipelineSchedulerIntegrationTest.class);
+  RunNotifier notifier=new RunNotifier();
+  final List<Failure> failures=new ArrayList<Failure>();
+  final List<Description> descriptiones=new ArrayList<Description>();
+  notifier.addListener(new RunListener(){
+    public void testStarted(    Description description) throws Exception {
+    }
+    public void testFailure(    Failure failure) throws Exception {
+      failures.add(failure);
+    }
+    public void testFinished(    Description description) throws Exception {
+      descriptiones.add(description);
+    }
+  }
+);
+  for (int i=0; i < 10; i++) {
+    unit4ClassRunner.run(notifier);
+  }
+  assertThat(descriptiones.size(),is(10));
+  assertThat(failures,is(eq((List)new ArrayList<Failure>())));
+}

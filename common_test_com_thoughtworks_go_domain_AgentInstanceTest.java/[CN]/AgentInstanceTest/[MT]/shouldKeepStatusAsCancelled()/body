@@ -1,0 +1,6 @@
+{
+  AgentInstance building=AgentInstanceMother.building("buildLocator");
+  building.cancel();
+  building.update(buildingRuntimeInfo(building.agentConfig()));
+  assertThat(building.getStatus(),is(AgentStatus.Cancelled));
+}

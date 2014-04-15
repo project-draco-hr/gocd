@@ -1,0 +1,10 @@
+{
+  allowed.add(allowedDir);
+  File parentDir=allowedDir.getParentFile();
+  if (!parentDir.equals(baseFolder) && !allowed.contains(parentDir)) {
+    if (!isContainedInOtherAllowedDirs(parentDir,allowedDirs)) {
+      check(parentDir);
+    }
+    allow(parentDir,allowedDirs);
+  }
+}

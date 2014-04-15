@@ -1,0 +1,12 @@
+{
+  System.out.println("table = " + table);
+  long offset=0;
+  while (true) {
+    System.out.println("  offset = " + offset);
+    long count=importPage(table,offset);
+    if (count == 0) {
+      break;
+    }
+    offset+=count;
+  }
+}

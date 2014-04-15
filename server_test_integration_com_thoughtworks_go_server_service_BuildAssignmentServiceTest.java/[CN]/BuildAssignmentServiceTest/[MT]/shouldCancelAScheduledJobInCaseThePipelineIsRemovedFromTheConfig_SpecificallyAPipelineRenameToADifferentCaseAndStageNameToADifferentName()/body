@@ -1,0 +1,14 @@
+{
+  Material hgMaterial=new HgMaterial("url","folder");
+  String[] hgRevs=new String[]{"h1"};
+  u.checkinInOrder(hgMaterial,hgRevs);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("PIPELINE_WHICH_WILL_EVENTUALLY_CHANGE_CASE",u.m(hgMaterial));
+  u.scheduleWith(p1,hgRevs);
+  ScheduleTestUtil.AddedPipeline renamedPipeline=u.renamePipelineAndFirstStage(p1,"pipeline_which_will_eventually_change_case","NEW_RANDOM_STAGE_NAME" + UUID.randomUUID());
+  Pipeline p1_2=u.scheduleWith(renamedPipeline,hgRevs);
+  CruiseConfig cruiseConfig=configHelper.load();
+  buildAssignmentService.onTimer();
+  buildAssignmentService.onConfigChange(cruiseConfig);
+  Stages allStages=stageDao.findAllStagesFor(p1_2.getName(),p1_2.getCounter());
+  assertThat(allStages.byName(CaseInsensitiveString.str(p1.config.first().name())).getState(),is(StageState.Cancelled));
+}

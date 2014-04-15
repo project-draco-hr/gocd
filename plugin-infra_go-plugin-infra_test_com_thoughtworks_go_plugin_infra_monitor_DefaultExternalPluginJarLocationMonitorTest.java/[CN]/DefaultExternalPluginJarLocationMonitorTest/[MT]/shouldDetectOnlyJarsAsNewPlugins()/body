@@ -1,0 +1,10 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.start();
+  copyPluginToThePluginDirectory(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-plugin.something-other-than-jar.zip");
+  waitAMoment();
+  verifyNoMoreInteractions(changeListener);
+}

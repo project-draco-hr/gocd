@@ -1,0 +1,17 @@
+{
+  Class<?> type=field.getType();
+  if (isInterface(type)) {
+    for (    Element subElement : (List<Element>)e.getChildren()) {
+      Class<?> concreteType=findConcreteTypeFrom(subElement,type);
+      if (concreteType != null) {
+        return concreteType;
+      }
+    }
+    boolean optional=annotationFor(field,ConfigSubtag.class).optional();
+    if (optional) {
+      return null;
+    }
+    throw bomb("Unable to find a tag of type '" + type.getSimpleName() + "' under element '"+ e.getName()+ "'");
+  }
+  return field.getType();
+}

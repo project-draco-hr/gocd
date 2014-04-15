@@ -1,0 +1,19 @@
+{
+  String original="first\nsecond\n";
+  String nextUpdate="1st\nsecond\n";
+  String latestUpdate="2nd\nsecond\n";
+  configRepo.checkin(goConfigRevision(original,"md5-1"));
+  configRepo.checkin(goConfigRevision(nextUpdate,"md5-2"));
+  RevCommit currentRevCommitOnMaster=configRepo.getCurrentRevCommit();
+  try {
+    configRepo.getConfigMergedWithLatestRevision(goConfigRevision(latestUpdate,"md5-3"),"md5-1");
+    fail("should have bombed for merge conflict");
+  }
+ catch (  ConfigMergeException e) {
+    assertThat(e.getMessage(),is(ConfigFileHasChangedException.CONFIG_CHANGED_PLEASE_REFRESH));
+  }
+  List<Ref> branches=getAllBranches();
+  assertThat(branches.size(),is(1));
+  assertThat(branches.get(0).getName().endsWith("master"),is(true));
+  assertThat(configRepo.getCurrentRevCommit(),is(currentRevCommitOnMaster));
+}

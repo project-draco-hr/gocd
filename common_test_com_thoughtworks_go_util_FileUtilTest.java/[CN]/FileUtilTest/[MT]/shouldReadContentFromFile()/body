@@ -1,0 +1,7 @@
+{
+  String content="content";
+  File targetFile=TestFileUtil.createTempFile("test1.txt");
+  FileUtil.writeContentToFile(content,targetFile);
+  String actual=FileUtil.readContentFromFile(targetFile);
+  assertThat(actual,is(content));
+}

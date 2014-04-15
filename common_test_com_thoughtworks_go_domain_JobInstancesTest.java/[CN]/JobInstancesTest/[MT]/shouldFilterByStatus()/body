@@ -1,0 +1,9 @@
+{
+  final JobInstance instance1=new JobInstance("test");
+  final JobInstance instance2=new JobInstance("test2");
+  instance2.setState(JobState.Assigned);
+  JobInstances instances=new JobInstances(instance1,instance2);
+  JobInstances actual=instances.filterByState(JobState.Assigned);
+  assertThat(actual.size(),is(equal(1)));
+  assertThat(actual.get(0).getState(),is(equal(JobState.Assigned)));
+}

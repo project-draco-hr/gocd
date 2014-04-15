@@ -1,0 +1,5 @@
+{
+  Set<StageResult> missingResults=new HashSet<StageResult>(asList(StageResult.values()));
+  missingResults.removeAll(testedResults);
+  assertThat("Update all tests when you add a new StageResult (missing " + missingResults + ")",missingResults.isEmpty(),is(true));
+}

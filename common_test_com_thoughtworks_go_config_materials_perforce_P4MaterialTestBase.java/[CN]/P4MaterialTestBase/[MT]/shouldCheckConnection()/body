@@ -1,0 +1,9 @@
+{
+  P4Material p4Material=new P4Material("localhost:9876","p4view");
+  p4Material.setPassword("secret");
+  p4Material.setUseTickets(false);
+  ValidationBean validation=p4Material.checkConnection(new TestSubprocessExecutionContext());
+  assertThat(validation.isValid(),is(false));
+  assertThat(validation.getError(),containsString("Unable to connect to server localhost:9876"));
+  assertThat(validation.getError(),not(containsString("secret")));
+}

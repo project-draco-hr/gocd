@@ -1,0 +1,8 @@
+{
+  File backup=new File(dbDirectory,"h2db-template-backup-" + dateString() + ".zip");
+  new ZipUtil().zip(newDb,backup,Deflater.DEFAULT_COMPRESSION);
+  deleteDirectory(newDb);
+  if (newDb.exists()) {
+    bomb("Database " + newDb + " could not be deleted.");
+  }
+}

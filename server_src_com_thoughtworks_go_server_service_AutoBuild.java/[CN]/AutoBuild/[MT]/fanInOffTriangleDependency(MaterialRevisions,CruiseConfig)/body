@@ -1,0 +1,10 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("[Revision Resolution] Triangle Resolution is active for pipeline " + pipelineName);
+  }
+  PipelineConfigDependencyGraph dependencyGraph=goConfigService.upstreamDependencyGraphOf(pipelineName,cruiseConfig);
+  if (hasAnyUnsharedMaterialChanged(dependencyGraph,originalMaterialRevisions) || dependencyGraph.isRevisionsOfSharedMaterialsIgnored(originalMaterialRevisions)) {
+    return pipelineService.getRevisionsBasedOnDependencies(dependencyGraph,originalMaterialRevisions);
+  }
+  return null;
+}

@@ -1,0 +1,10 @@
+{
+  jobInstance.setStageId(stageId);
+  getSqlMapClientTemplate().insert("insertBuild",jobInstance);
+  updateStateAndResult(jobInstance);
+  JobPlan plan=jobInstance.getPlan();
+  if (plan != null) {
+    save(jobInstance.getId(),plan);
+  }
+  return jobInstance;
+}

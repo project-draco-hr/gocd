@@ -1,0 +1,24 @@
+{
+  SomeInterface firstService=mock(SomeInterface.class);
+  SomeInterface secondService=mock(SomeInterface.class);
+  registerServices(firstService,secondService);
+  spy.start();
+  final RuntimeException expectedException=new RuntimeException("Exception Thrown By Spy Method");
+  spy.doOnWithExceptionHandling(SomeInterface.class,secondService.toString(),new Action<SomeInterface>(){
+    @Override public void execute(    SomeInterface obj,    GoPluginDescriptor pluginDescriptor){
+      assertThat(pluginDescriptor,is(descriptor));
+      obj.someMethod();
+      throw expectedException;
+    }
+  }
+,new ExceptionHandler<SomeInterface>(){
+    @Override public void handleException(    SomeInterface obj,    Throwable t){
+      assertThat((RuntimeException)t,is(expectedException));
+    }
+  }
+);
+  verify(firstService,never()).someMethodWithReturn();
+  verify(secondService,never()).someMethodWithReturn();
+  verify(secondService).someMethod();
+  verifyNoMoreInteractions(firstService,secondService);
+}

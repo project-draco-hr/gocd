@@ -1,0 +1,11 @@
+{
+  P4Material p4Material1=p4Fixture.material(VIEW_SRC,"src");
+  P4Material p4Material2=p4Fixture.material(VIEW_LIB,"lib");
+  Materials materials=new Materials(p4Material1,p4Material2);
+  p4TestRepo.checkInOneFile(p4Material1,"filename.txt");
+  p4TestRepo.checkInOneFile(p4Material2,"filename2.txt");
+  MaterialRevisions materialRevisions=materials.latestModification(clientFolder,new TestSubprocessExecutionContext());
+  assertThat(materialRevisions.getRevisions().size(),is(2));
+  assertThat(materialRevisions,containsModifiedFile("src/filename.txt"));
+  assertThat(materialRevisions,containsModifiedFile("lib/filename2.txt"));
+}

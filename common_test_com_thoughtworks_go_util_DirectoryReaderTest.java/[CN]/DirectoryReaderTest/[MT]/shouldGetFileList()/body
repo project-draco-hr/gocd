@@ -1,0 +1,9 @@
+{
+  String filename="text.html$%";
+  TestFileUtil.createTestFile(testFolder,filename);
+  DirectoryReader reader=new DirectoryReader(jobIdentifier);
+  List<DirectoryEntry> entries=reader.listEntries(testFolder,folderRoot);
+  assertThat(entries.size(),is(1));
+  assertThat(entries.get(0).getFileName(),is(filename));
+  assertThat(entries.get(0).getUrl(),is("/files/pipelineName/LATEST/stageName/LATEST/buildName" + folderRoot + "/"+ URLEncoder.encode(filename)));
+}

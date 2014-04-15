@@ -1,0 +1,10 @@
+{
+  String jezMail=prepareOneMatchedUser();
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  Stage ftStage=mockStageServiceWithStage(pipeline);
+  stageNotificationListener.onMessage(new StageResultMessage(ftStage.getIdentifier(),StageEvent.Passes,Username.BLANK));
+  String body=inMemoryEmailNotificationTopic.getBody(jezMail);
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  int port=systemEnvironment.getServerPort();
+  assertThat(body,containsString(String.format("http://%s:%s/go/pipelines/%s/%s/%s/%s",ipAddress,port,pipelineFixture.pipelineName,pipeline.getCounter(),pipelineFixture.ftStage,ftStage.getCounter())));
+}

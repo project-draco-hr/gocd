@@ -1,0 +1,7 @@
+{
+  File taskWorkingDirectory=new File(FileUtil.join(pipeline.defaultWorkingFolder(),task.workingDirectory()));
+  String command=task.command();
+  String argument=task.arguments();
+  Builder cancelBuilder=builderFactory.builderFor(task.cancelTask(),pipeline,resolver);
+  return new CommandBuilder(command,argument,taskWorkingDirectory,task.getConditions(),cancelBuilder,task.describe(),"BUILD FAILED");
+}

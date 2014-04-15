@@ -1,0 +1,9 @@
+{
+  CruiseConfig cruiseConfig=ConfigMigrator.load(ConfigFileFixture.PIPELINE_GROUPS);
+  ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+  xmlWriter.write(cruiseConfig,buffer,false);
+  final ByteArrayInputStream inputStream=new ByteArrayInputStream(buffer.toByteArray());
+  CruiseConfig config=xmlLoader.loadConfigHolder(FileUtil.readToEnd(inputStream)).config;
+  assertThat(config.getGroups().size(),is(2));
+  assertThat(config.getGroups().first().getGroup(),is("studios"));
+}

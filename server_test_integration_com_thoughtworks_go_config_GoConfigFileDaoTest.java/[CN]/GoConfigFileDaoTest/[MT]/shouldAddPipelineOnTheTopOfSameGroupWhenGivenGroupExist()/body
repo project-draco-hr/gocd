@@ -1,0 +1,9 @@
+{
+  PipelineConfig springConfig=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("spring","ut","www.spring.com");
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("mingle","ut","www.spring.com");
+  goConfigFileDao.addPipeline(springConfig,"group1");
+  goConfigFileDao.addPipeline(mingleConfig,"group1");
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  assertThat(cruiseConfig.numbersOfPipeline("group1"),is(2));
+  assertThat(cruiseConfig.find("group1",0),is(mingleConfig));
+}

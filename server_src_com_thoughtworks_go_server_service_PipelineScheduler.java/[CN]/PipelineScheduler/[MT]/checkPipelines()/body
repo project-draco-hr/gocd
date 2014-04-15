@@ -1,0 +1,19 @@
+{
+synchronized (pipelines) {
+    for (    Map.Entry<String,ScheduleCheckState> entry : pipelines.entrySet()) {
+      if (entry.getValue().equals(ScheduleCheckState.IDLE)) {
+        long trackingId=schedulingPerformanceLogger.pipelineSentToScheduleCheckQueue(entry.getKey());
+        scheduleCheckQueue.post(new ScheduleCheckMessage(entry.getKey(),trackingId));
+        pipelines.put(entry.getKey(),ScheduleCheckState.BUSY);
+        if (LOGGER.isTraceEnabled()) {
+          LOGGER.trace(String.format("try to schedule pipeline %s, current pipeline state: %s",entry.getKey(),pipelines));
+        }
+      }
+ else {
+        if (LOGGER.isTraceEnabled()) {
+          LOGGER.trace(format("skipping scheduling pipeline %s because it's busy scheduling, current pipelines state: %s",entry.getKey(),pipelines));
+        }
+      }
+    }
+  }
+}

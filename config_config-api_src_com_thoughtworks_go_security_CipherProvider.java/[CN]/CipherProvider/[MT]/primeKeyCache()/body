@@ -1,0 +1,22 @@
+{
+  if (cachedKey == null) {
+    File cipherFile=environment.getCipherFile();
+synchronized (cipherFile.getAbsolutePath().intern()) {
+      if (cachedKey == null) {
+        try {
+          if (cipherFile.exists()) {
+            cachedKey=FileUtils.readFileToByteArray(cipherFile);
+            return;
+          }
+          byte[] newKey=generateKey();
+          FileUtils.writeByteArrayToFile(cipherFile,newKey);
+          LOGGER.info("Cipher not found. Creating a new cipher file");
+          cachedKey=newKey;
+        }
+ catch (        IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  Object principal=authentication.getPrincipal();
+  if (principal instanceof LdapUserDetails) {
+    LdapUserDetails userDetails=(LdapUserDetails)principal;
+    return new Username(new CaseInsensitiveString(userDetails.getUsername()),resolveDisplayName(userDetails.getUsername(),userDetails.getDn()));
+  }
+  if (principal instanceof GoUserPrinciple) {
+    GoUserPrinciple userPrincipleDetails=(GoUserPrinciple)principal;
+    return new Username(new CaseInsensitiveString(userPrincipleDetails.getUsername()),userPrincipleDetails.getDisplayName());
+  }
+  if (principal instanceof UserDetails) {
+    UserDetails userDetails=(UserDetails)principal;
+    return new Username(new CaseInsensitiveString(userDetails.getUsername()));
+  }
+  return ANONYMOUS;
+}

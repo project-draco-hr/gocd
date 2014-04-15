@@ -1,0 +1,10 @@
+{
+  String pipelineName="P1";
+  ValueStreamMap graph=new ValueStreamMap(pipelineName,null);
+  assertThat(graph.getCurrentPipeline().getId(),is(pipelineName));
+  assertThat(graph.getCurrentPipeline().getName(),is(pipelineName));
+  assertThat(graph.getCurrentPipeline().getChildren().isEmpty(),is(true));
+  List<List<Node>> nodesAtEachLevel=graph.presentationModel().getNodesAtEachLevel();
+  assertThat(nodesAtEachLevel,hasSize(1));
+  assertThat(nodesAtEachLevel.get(0),contains(graph.getCurrentPipeline()));
+}

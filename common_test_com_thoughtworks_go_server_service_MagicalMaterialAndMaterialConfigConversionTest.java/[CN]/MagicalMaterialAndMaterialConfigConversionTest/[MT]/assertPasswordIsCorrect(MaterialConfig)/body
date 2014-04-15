@@ -1,0 +1,7 @@
+{
+  if (materialConfig instanceof PasswordAwareMaterial) {
+    assertThat("Password setting is wrong for: " + materialConfig.getClass(),((PasswordAwareMaterial)materialConfig).getPassword(),is("pass"));
+    assertThat("Password setting is wrong for: " + materialConfig.getClass(),ReflectionUtil.getField(materialConfig,"password"),is(nullValue()));
+    assertThat("Password setting is wrong for: " + materialConfig.getClass(),ReflectionUtil.getField(materialConfig,"encryptedPassword"),is(not(nullValue())));
+  }
+}

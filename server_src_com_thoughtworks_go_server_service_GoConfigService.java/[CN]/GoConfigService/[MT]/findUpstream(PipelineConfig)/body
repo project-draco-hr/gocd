@@ -1,0 +1,8 @@
+{
+  List<PipelineConfigDependencyGraph> graphs=new ArrayList<PipelineConfigDependencyGraph>();
+  for (  CaseInsensitiveString name : currentPipeline.upstreamPipelines()) {
+    PipelineConfig pipelineConfig=getCurrentConfig().pipelineConfigByName(name);
+    graphs.add(findUpstream(pipelineConfig));
+  }
+  return new PipelineConfigDependencyGraph(currentPipeline,graphs.toArray(new PipelineConfigDependencyGraph[0]));
+}

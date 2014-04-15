@@ -1,0 +1,6 @@
+{
+  IgnoredFiles ignore=new IgnoredFiles("**/*.doc");
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"a.pdf"),is(false));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"B" + separator + "a.pdf"),is(false));
+  assertThat(ignore.shouldIgnore(hgMaterialConfig,"A" + separator + "B"+ separator+ "a.pdf"),is(false));
+}

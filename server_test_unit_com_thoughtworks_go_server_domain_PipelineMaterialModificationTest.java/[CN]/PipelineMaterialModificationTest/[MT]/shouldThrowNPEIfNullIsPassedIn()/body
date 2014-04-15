@@ -1,0 +1,9 @@
+{
+  try {
+    modification(new ArrayList<String>(),1,"123").compareTo(null);
+    fail("Should throw NPE. That is the Comparable's contract.");
+  }
+ catch (  NullPointerException expected) {
+    assertThat(expected.getMessage(),is("Cannot compare this object with null"));
+  }
+}

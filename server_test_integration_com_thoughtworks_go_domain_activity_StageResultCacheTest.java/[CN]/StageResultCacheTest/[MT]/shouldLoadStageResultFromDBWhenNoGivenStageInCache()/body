@@ -1,0 +1,7 @@
+{
+  pipelineFixture.createdPipelineWithAllStagesPassed();
+  StageConfigIdentifier stage=new StageConfigIdentifier(pipelineFixture.pipelineName,pipelineFixture.ftStage);
+  stageResultCache.updateCache(stage,StageResult.Failed);
+  StageResult stageResult=stageResultCache.previousResult(stage);
+  assertThat(stageResult,is(StageResult.Passed));
+}

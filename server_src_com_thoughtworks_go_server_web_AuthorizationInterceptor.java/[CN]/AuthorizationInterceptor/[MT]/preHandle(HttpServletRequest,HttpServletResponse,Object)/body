@@ -1,0 +1,40 @@
+{
+  if (UserHelper.isAgent()) {
+    return true;
+  }
+  String pipelineName=request.getParameter("pipelineName");
+  if (pipelineName != null) {
+    String userName=CaseInsensitiveString.str(UserHelper.getUserName().getUsername());
+    if (request.getMethod().equalsIgnoreCase("get")) {
+      if (!securityService.hasViewPermissionForPipeline(userName,pipelineName)) {
+        response.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+    }
+ else     if (request.getMethod().equalsIgnoreCase("post") || request.getMethod().equalsIgnoreCase("put")) {
+      if (isEditingConfigurationRequest(request)) {
+        return true;
+      }
+      String stageName=request.getParameter("stageName");
+      if (stageName != null) {
+        if (!securityService.hasOperatePermissionForStage(pipelineName,stageName,userName)) {
+          response.sendError(SC_UNAUTHORIZED);
+          return false;
+        }
+      }
+ else {
+        if (isForcePipelineRequest(request)) {
+          if (!securityService.hasOperatePermissionForFirstStage(pipelineName,userName)) {
+            response.sendError(SC_UNAUTHORIZED);
+            return false;
+          }
+        }
+ else         if (!securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString(userName),pipelineName)) {
+          response.sendError(SC_UNAUTHORIZED);
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}

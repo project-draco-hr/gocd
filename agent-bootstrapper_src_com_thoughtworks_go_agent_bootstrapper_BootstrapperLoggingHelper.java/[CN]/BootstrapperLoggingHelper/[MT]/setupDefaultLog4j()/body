@@ -1,0 +1,19 @@
+{
+  String logFile=System.getenv("LOG_FILE");
+  System.out.println("logFile Environment Variable= " + logFile);
+  try {
+    if (logFile == null) {
+      logFile="go-agent-bootstrapper.log";
+    }
+    System.out.println("Logging to " + logFile);
+    BasicConfigurator.configure(new FileAppender(LOG4J_PATTERN,logFile));
+    Logger.getRootLogger().setLevel(Level.INFO);
+  }
+ catch (  IOException e) {
+    BasicConfigurator.configure(new ConsoleAppender(LOG4J_PATTERN));
+    Logger.getRootLogger().setLevel(Level.INFO);
+    Log LOG=LogFactory.getLog(BootstrapperLoggingHelper.class);
+    LOG.warn("Unable to initialize log4j file-appender: " + logFile,e);
+    LOG.warn("Using console-appender instead");
+  }
+}

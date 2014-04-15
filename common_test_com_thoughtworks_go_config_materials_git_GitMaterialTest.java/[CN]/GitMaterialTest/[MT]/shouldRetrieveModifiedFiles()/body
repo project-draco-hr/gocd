@@ -1,0 +1,7 @@
+{
+  List<Modification> mods=git.modificationsSince(workingDir,REVISION_0,new TestSubprocessExecutionContext());
+  List<ModifiedFile> mod1Files=mods.get(0).getModifiedFiles();
+  assertThat(mod1Files.size(),Matchers.is(1));
+  assertThat(mod1Files.get(0).getFileName(),Matchers.is("build.xml"));
+  assertThat(mod1Files.get(0).getAction(),Matchers.is(ModifiedAction.modified));
+}

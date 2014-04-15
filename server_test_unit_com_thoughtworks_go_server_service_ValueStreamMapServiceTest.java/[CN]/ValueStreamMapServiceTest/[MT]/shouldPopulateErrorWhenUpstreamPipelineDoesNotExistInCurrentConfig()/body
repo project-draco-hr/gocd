@@ -1,0 +1,17 @@
+{
+  GitMaterial git=new GitMaterial("git");
+  BuildCause p3buildCause=createBuildCause(asList("p1"),new ArrayList<GitMaterial>());
+  BuildCause p1buildCause=createBuildCause(new ArrayList<String>(),asList(git));
+  when(pipelineService.buildCauseFor("p3",1)).thenReturn(p3buildCause);
+  when(pipelineService.buildCauseFor("p1",1)).thenReturn(p1buildCause);
+  PipelineConfig p3Config=PipelineConfigMother.pipelineConfig("p3",new MaterialConfigs(new GitMaterialConfig("test")));
+  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(p3Config));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("p1"))).thenReturn(false);
+  when(pipelineService.findPipelineByCounterOrLabel("p3","1")).thenReturn(new Pipeline("p3","p3-label",p3buildCause));
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p3",1,user,result);
+  PipelineDependencyNode node=(PipelineDependencyNode)graph.getNodesAtEachLevel().get(1).get(0);
+  assertThat(node.revisions().toString(),node.revisions().isEmpty(),is(true));
+  assertThat(node.getViewType(),is(VSMViewType.DELETED));
+  assertThat((String)ReflectionUtil.getField((node.getMessage()),"key"),is("VSM_PIPELINE_DELETED"));
+}

@@ -1,0 +1,23 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("ScheduleCheckMessage for " + message.getPipelineName() + " is received");
+  }
+  try {
+    schedulingPerformanceLogger.pickedUpPipelineForScheduleCheck(message.trackingId(),message.getPipelineName());
+    producer.autoSchedulePipeline(message.getPipelineName(),new ServerHealthStateOperationResult(),message.trackingId());
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Finished checking for pipeline " + message.getPipelineName());
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.error(e);
+    throw new RuntimeException(e);
+  }
+ finally {
+    checkCompletedTopic.post(new ScheduleCheckCompletedMessage(message.getPipelineName(),message.trackingId()));
+    schedulingPerformanceLogger.postingMessageAboutScheduleCheckCompletion(message.trackingId(),message.getPipelineName());
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Finished posting materialCheckCompletedMessage for pipeline " + message.getPipelineName());
+    }
+  }
+}

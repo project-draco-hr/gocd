@@ -1,0 +1,5 @@
+{
+  FetchTask task=new FetchTask(new CaseInsensitiveString("upstream"),new CaseInsensitiveString("stage"),new CaseInsensitiveString("job"),"src","dest");
+  task.validate(ValidationContext.forChain(config,upstream,upstream.getStage(new CaseInsensitiveString("up-stage1"))));
+  assertThat(task.errors().isEmpty(),is(true));
+}

@@ -1,0 +1,14 @@
+{
+  EnvironmentVariableContext ctx=new EnvironmentVariableContext();
+  final ArrayList<Modification> modifications=new ArrayList<Modification>();
+  modifications.add(new Modification("user2","comment2","email2",new Date(),"24"));
+  modifications.add(new Modification("user1","comment1","email1",new Date(),"23"));
+  MaterialRevision materialRevision=new MaterialRevision(material,modifications);
+  assertThat(ctx.getProperty(ScmMaterial.GO_FROM_REVISION),is(nullValue()));
+  assertThat(ctx.getProperty(ScmMaterial.GO_TO_REVISION),is(nullValue()));
+  assertThat(ctx.getProperty(ScmMaterial.GO_REVISION),is(nullValue()));
+  material.populateEnvironmentContext(ctx,materialRevision,new File("."));
+  assertThat(ctx.getProperty(ScmMaterial.GO_FROM_REVISION),is("23"));
+  assertThat(ctx.getProperty(ScmMaterial.GO_TO_REVISION),is("24"));
+  assertThat(ctx.getProperty(ScmMaterial.GO_REVISION),is("24"));
+}

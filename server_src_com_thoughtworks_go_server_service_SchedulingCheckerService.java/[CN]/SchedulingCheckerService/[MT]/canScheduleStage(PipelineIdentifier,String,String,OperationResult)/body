@@ -1,0 +1,6 @@
+{
+  String pipelineName=pipelineIdentifier.getName();
+  CompositeChecker checker=buildScheduleCheckers(asList(new EnabledUsersLicenseLimitChecker(userService,licenseService,serverHealthService),new StageAuthorizationChecker(pipelineName,stageName,username,securityService),new StageLockChecker(pipelineIdentifier,pipelineLockService),new PipelinePauseChecker(pipelineName,pipelinePauseService),new PipelineActiveChecker(activityService,pipelineIdentifier),new StageActiveChecker(pipelineName,stageName,activityService),diskCheckers()));
+  checker.check(result);
+  return result.canContinue();
+}

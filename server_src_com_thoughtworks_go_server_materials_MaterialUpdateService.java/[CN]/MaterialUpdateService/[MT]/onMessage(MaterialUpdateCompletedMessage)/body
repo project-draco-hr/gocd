@@ -1,0 +1,16 @@
+{
+  try {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(format("[Material Update] Material update completed for material %s",message.getMaterial()));
+    }
+    updateLastUpdateTimeForScmMaterial(message.getMaterial());
+    Date addedOn=inProgress.remove(message.getMaterial());
+    serverHealthService.removeByScope(HealthStateScope.forMaterialUpdate(message.getMaterial()));
+    if (addedOn == null) {
+      LOGGER.warn(format("[Material Update] Material %s was not removed from those inProgress. This might result in it's pipelines not getting scheduled. in-progress: %s",message.getMaterial(),inProgress));
+    }
+  }
+  finally {
+    mduPerformanceLogger.completionMessageForMaterialReceived(message.trackingId(),message.getMaterial());
+  }
+}

@@ -1,0 +1,6 @@
+{
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("upstream"),new CaseInsensitiveString("stage"));
+  MaterialRevision materialRevision=new MaterialRevision(dependencyMaterial,new Modification(new Date(),"upstream/3/stage/1","1.3-3",null),new Modification(new Date(),"upstream/2/stage/1","1.3-2",null));
+  assertThat((DependencyMaterialRevision)materialRevision.getOldestRevision(),is(DependencyMaterialRevision.create("upstream/2/stage/1","1.3-2")));
+  assertThat((DependencyMaterialRevision)materialRevision.getRevision(),is(DependencyMaterialRevision.create("upstream/3/stage/1","1.3-3")));
+}

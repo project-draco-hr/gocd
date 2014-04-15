@@ -1,0 +1,22 @@
+{
+  ConfigurationProperty configurationProperty=new ConfigurationProperty();
+  HashMap attributes=new HashMap();
+  HashMap keyMap=new HashMap();
+  final String secureKey="fooKey";
+  keyMap.put("name",secureKey);
+  attributes.put(ConfigurationProperty.CONFIGURATION_KEY,keyMap);
+  HashMap valueMap=new HashMap();
+  valueMap.put("value","fooValue");
+  attributes.put(ConfigurationProperty.CONFIGURATION_VALUE,valueMap);
+  attributes.put(ConfigurationProperty.IS_CHANGED,"0");
+  configurationProperty.setConfigAttributes(attributes,new SecureKeyInfoProvider(){
+    @Override public boolean isSecure(    String key){
+      return secureKey.equals(key);
+    }
+  }
+);
+  String encryptedValue=new GoCipher().encrypt("fooValue");
+  assertThat(configurationProperty.getConfigurationKey().getName(),is(secureKey));
+  assertThat(configurationProperty.getConfigurationValue(),is(nullValue()));
+  assertThat(configurationProperty.getEncryptedValue().getValue(),is(encryptedValue));
+}

@@ -1,0 +1,15 @@
+{
+  OperationResult result=new DiskSpaceOperationResult(serverHealthService);
+  try {
+    boolean outOfDisk=false;
+    for (    DiskSpaceChecker checker : checkers) {
+      OperationResult callResult=checker.resultFor(result);
+      checker.check(callResult);
+      outOfDisk=outOfDisk || !result.canContinue();
+    }
+    lowOnDisk=outOfDisk;
+  }
+ catch (  Exception e) {
+    LOG.error("Error occured during checking filesystems low disk space",e);
+  }
+}

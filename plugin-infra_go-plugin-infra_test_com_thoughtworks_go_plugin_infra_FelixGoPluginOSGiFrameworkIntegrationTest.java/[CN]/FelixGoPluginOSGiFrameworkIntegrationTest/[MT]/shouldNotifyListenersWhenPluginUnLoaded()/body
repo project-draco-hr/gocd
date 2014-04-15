@@ -1,0 +1,9 @@
+{
+  PluginChangeListener pluginChangeListener=mock(PluginChangeListener.class);
+  pluginOSGiFramework.addPluginChangeListener(pluginChangeListener);
+  GoPluginDescriptor pluginDescriptor=new GoPluginDescriptor(null,null,null,null,descriptorBundleDir,true);
+  Bundle bundle=pluginOSGiFramework.loadPlugin(pluginDescriptor);
+  pluginDescriptor.setBundle(bundle);
+  pluginOSGiFramework.unloadPlugin(pluginDescriptor);
+  verify(pluginChangeListener).pluginUnLoaded(pluginDescriptor);
+}

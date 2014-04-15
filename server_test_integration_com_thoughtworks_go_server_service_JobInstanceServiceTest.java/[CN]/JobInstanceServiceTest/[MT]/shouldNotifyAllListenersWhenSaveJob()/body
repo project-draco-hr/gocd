@@ -1,0 +1,17 @@
+{
+  final JobStatusListener listener1=Mockito.mock(JobStatusListener.class,"listener1");
+  final JobStatusListener listener2=Mockito.mock(JobStatusListener.class,"listener2");
+  final Pipeline pipeline=new NullPipeline();
+  final Stage stage=new Stage();
+  stage.setId(1);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager,listener1,listener2);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      jobService.save(new StageIdentifier(pipeline.getName(),null,pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter())),stage.getId(),job);
+    }
+  }
+);
+  verify(jobInstanceDao).save(1l,job);
+  verify(listener1).jobStatusChanged(job);
+  verify(listener2).jobStatusChanged(job);
+}

@@ -1,0 +1,7 @@
+{
+  PipelineConfig config=PipelineMother.twoBuildPlansWithResourcesAndMaterials("tester","dev");
+  configHelper.addPipeline(CaseInsensitiveString.str(config.name()),CaseInsensitiveString.str(config.first().name()));
+  Pipeline pipeline=instanceFactory.createPipelineInstance(config,modifySomeFiles(config),new DefaultSchedulingContext(GoConstants.DEFAULT_APPROVED_BY),"md5-test",new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(pipeline);
+  return pipeline;
+}

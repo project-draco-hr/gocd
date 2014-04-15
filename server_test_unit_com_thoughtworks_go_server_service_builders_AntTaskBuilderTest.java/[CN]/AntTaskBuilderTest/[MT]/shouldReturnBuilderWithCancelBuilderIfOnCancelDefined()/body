@@ -1,0 +1,10 @@
+{
+  ExecTask cancelTask=new ExecTask();
+  Builder builderForCancelTask=execTaskBuilder.createBuilder(builderFactory,cancelTask,pipeline,resolver);
+  AntTask antTask=new AntTask();
+  antTask.setCancelTask(cancelTask);
+  when(builderFactory.builderFor(cancelTask,pipeline,resolver)).thenReturn(builderForCancelTask);
+  Builder expected=expectedBuilder(antTask,builderForCancelTask);
+  Builder actualBuilder=antTaskBuilder.createBuilder(builderFactory,antTask,pipeline,resolver);
+  assertThat(actualBuilder,is(expected));
+}

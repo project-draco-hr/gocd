@@ -1,0 +1,8 @@
+{
+  String currentPipeline="p5";
+  ValueStreamMap graph=new ValueStreamMap(currentPipeline,null);
+  Node p4=graph.addUpstreamNode(new PipelineDependencyNode("p4","p4"),null,currentPipeline);
+  graph.addUpstreamNode(new PipelineDependencyNode("p4","p4"),null,currentPipeline);
+  assertThat(p4.getChildren().size(),is(1));
+  VSMTestHelper.assertThatNodeHasChildren(graph,"p4",0,"p5");
+}

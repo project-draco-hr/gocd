@@ -1,0 +1,12 @@
+{
+  JsonUrl url=new JsonUrl("/foo/bar/baz");
+  mockContext.checking(new Expectations(){
+{
+      one(requestContext).getFullRequestPath();
+      will(returnValue("http://something/context"));
+    }
+  }
+);
+  String json=JsonStringRenderer.render(url,requestContext);
+  assertThat(json,is("\"http://something/context/foo/bar/baz\""));
+}

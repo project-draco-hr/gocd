@@ -1,0 +1,16 @@
+{
+  Stack<Class> classesInHierarchy=new Stack<Class>();
+  classesInHierarchy.add(candidateGoExtensionClass);
+  Set<Class> interfaces=new HashSet<Class>();
+  while (!classesInHierarchy.empty()) {
+    Class classToCheckFor=classesInHierarchy.pop();
+    if (classToCheckFor.isInterface()) {
+      interfaces.add(classToCheckFor);
+    }
+    classesInHierarchy.addAll(Arrays.asList(classToCheckFor.getInterfaces()));
+    if (classToCheckFor.getSuperclass() != null) {
+      classesInHierarchy.add(classToCheckFor.getSuperclass());
+    }
+  }
+  return interfaces;
+}

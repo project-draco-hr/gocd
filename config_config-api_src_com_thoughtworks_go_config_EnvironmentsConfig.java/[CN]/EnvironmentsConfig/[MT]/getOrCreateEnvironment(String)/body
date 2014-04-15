@@ -1,0 +1,10 @@
+{
+  for (  EnvironmentConfig config : this) {
+    if (config.hasName(new CaseInsensitiveString(environmentName))) {
+      return config;
+    }
+  }
+  EnvironmentConfig config=new EnvironmentConfig(new CaseInsensitiveString(environmentName));
+  add(config);
+  return config;
+}

@@ -1,0 +1,11 @@
+{
+  PipelineConfig superUpstream=PipelineConfigMother.createPipelineConfigWithStages("superUpstream","s1","s2","s3");
+  PipelineConfig upstream=PipelineConfigMother.createPipelineConfigWithStages("upstream","s4","s5","s6");
+  upstream.addMaterialConfig(new DependencyMaterialConfig(superUpstream.name(),new CaseInsensitiveString("s2")));
+  PipelineConfig downstream=PipelineConfigMother.createPipelineConfigWithStages("downstream","s7");
+  downstream.addMaterialConfig(new DependencyMaterialConfig(upstream.name(),new CaseInsensitiveString("s5")));
+  List<StageConfig> fetchableStages=upstream.validStagesForFetchArtifact(downstream,new CaseInsensitiveString("s7"));
+  assertThat(fetchableStages.size(),is(2));
+  assertThat(fetchableStages,hasItem(upstream.get(0)));
+  assertThat(fetchableStages,hasItem(upstream.get(1)));
+}

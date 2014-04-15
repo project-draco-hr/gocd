@@ -1,0 +1,7 @@
+{
+  doNothing().when(client).close();
+  doNothing().when(collection).close();
+  tfsCommand.destroy();
+  verify(client).close();
+  verify(collection).close();
+}

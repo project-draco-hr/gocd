@@ -1,0 +1,29 @@
+{
+  diskSpaceSimulator=new DiskSpaceSimulator();
+  new HgTestRepo("testHgRepo");
+  svnRepository=new SvnTestRepo("testSvnRepo");
+  dbHelper.onSetUp();
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  repository=new SvnCommand(null,svnRepository.projectRepositoryUrl());
+  goParentPipelineConfig=configHelper.addPipeline(GO_PIPELINE_UPSTREAM,STAGE_NAME,new MaterialConfigs(new GitMaterialConfig("foo-bar")),"unit");
+  goPipelineConfig=configHelper.addPipeline(GO_PIPELINE_NAME,STAGE_NAME,repository,"unit");
+  svnMaterialRevs=new MaterialRevisions();
+  SvnMaterial svnMaterial=SvnMaterial.createSvnMaterialWithMock(repository);
+  svnMaterialRevs.addRevision(svnMaterial,svnMaterial.latestModification(null,new ServerSubprocessExecutionContext(goConfigService)));
+  final MaterialRevisions materialRevisions=new MaterialRevisions();
+  SvnMaterial anotherSvnMaterial=SvnMaterial.createSvnMaterialWithMock(repository);
+  materialRevisions.addRevision(anotherSvnMaterial,anotherSvnMaterial.latestModification(null,subprocessExecutionContext));
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      materialRepository.save(svnMaterialRevs);
+    }
+  }
+);
+  BuildCause buildCause=BuildCause.createWithModifications(svnMaterialRevs,"");
+  mingleConfig=configHelper.addPipeline(MINGLE_PIPELINE_NAME,STAGE_NAME,repository,new Filter(new IgnoredFiles("**/*.doc")),"unit","functional");
+  latestPipeline=PipelineMother.schedule(this.mingleConfig,buildCause);
+  latestPipeline=pipelineDao.saveWithStages(latestPipeline);
+  dbHelper.passStage(latestPipeline.getStages().first());
+  pipelineScheduleQueue.clear();
+}

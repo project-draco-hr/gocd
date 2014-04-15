@@ -1,0 +1,17 @@
+{
+  final GoPluginDescriptor descriptor=mock(GoPluginDescriptor.class);
+  String pluginId="test-plugin-id";
+  when(descriptor.id()).thenReturn(pluginId);
+  final Task task=mock(Task.class);
+  TaskConfig config=new TaskConfig();
+  TaskView taskView=mock(TaskView.class);
+  when(task.config()).thenReturn(config);
+  when(task.view()).thenReturn(taskView);
+  PluggableTaskConfigStore.store().setPreferenceFor(pluginId,new TaskPreference(task));
+  PluginManager pluginManager=mock(PluginManager.class);
+  PluggableTaskPreferenceLoader pluggableTaskPreferenceLoader=new PluggableTaskPreferenceLoader(pluginManager);
+  assertThat(PluggableTaskConfigStore.store().hasPreferenceFor(pluginId),is(true));
+  pluggableTaskPreferenceLoader.pluginUnLoaded(descriptor);
+  assertThat(PluggableTaskConfigStore.store().hasPreferenceFor(pluginId),is(false));
+  verify(pluginManager).addPluginChangeListener(pluggableTaskPreferenceLoader,Task.class);
+}

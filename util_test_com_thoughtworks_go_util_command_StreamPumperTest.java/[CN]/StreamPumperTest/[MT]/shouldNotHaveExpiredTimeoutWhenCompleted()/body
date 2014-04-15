@@ -1,0 +1,13 @@
+{
+  PipedOutputStream output=new PipedOutputStream();
+  InputStream inputStream=new PipedInputStream(output);
+  TestingClock clock=new TestingClock();
+  StreamPumper pumper=new StreamPumper(inputStream,new TestConsumer(),"",null,clock);
+  new Thread(pumper).start();
+  output.write("line1\n".getBytes());
+  output.flush();
+  output.close();
+  pumper.readToEnd();
+  clock.addSeconds(2);
+  assertThat(pumper.didTimeout(1L,TimeUnit.SECONDS),is(false));
+}

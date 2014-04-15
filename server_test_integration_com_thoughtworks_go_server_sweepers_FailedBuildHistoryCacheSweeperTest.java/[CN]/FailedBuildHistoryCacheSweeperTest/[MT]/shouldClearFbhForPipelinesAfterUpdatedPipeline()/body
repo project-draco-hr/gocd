@@ -1,0 +1,10 @@
+{
+  PipelineIdentifier pipelineIdentifier=entryAfterNew.getPipelineLocator();
+  Stage stage=StageMother.cancelledStage("dev","rspec");
+  stage.setIdentifier(new StageIdentifier(pipelineIdentifier,"dev","2"));
+  String pipelineKey=key.forFbhOfStagesUnderPipeline(pipelineIdentifier);
+  String stageKey=key.forFailedBuildHistoryStage(stage,"html");
+  goCache.put(pipelineKey,stageKey,"fragment");
+  sweeper.added(newlyAddedEntry,timeline);
+  assertThat(goCache.get(pipelineKey),is(nullValue()));
+}

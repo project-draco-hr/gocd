@@ -1,0 +1,8 @@
+{
+  List<GoConfigFieldLoader> fields=new ArrayList<GoConfigFieldLoader>();
+  List<Field> allFields=configCache.getFieldCache().valuesFor(o.getClass());
+  for (  Field field : allFields) {
+    fields.add(fieldParser(e,o,field,configCache,registry,configReferenceElements));
+  }
+  return fields;
+}

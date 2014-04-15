@@ -1,0 +1,11 @@
+{
+  GoConfigFileHelper configFileHelper=new GoConfigFileHelper();
+  configFileHelper.initializeConfigFile();
+  String pipelineName="studios";
+  String firstStageName=BASE_STAGE_NAMES.get(0);
+  configFileHelper.addPipeline(pipelineName,firstStageName,(String[])BASE_BUILD_NAMES.toArray());
+  for (  String baseStageName : BASE_STAGE_NAMES.subList(1,BASE_STAGE_NAMES.size())) {
+    configFileHelper.addStageToPipeline(pipelineName,baseStageName,(String[])BASE_BUILD_NAMES.toArray());
+  }
+  FileUtils.copyFile(configFileHelper.getConfigFile(),new File("server/test/data/","4stages5builds-cruise-config.xml"));
+}

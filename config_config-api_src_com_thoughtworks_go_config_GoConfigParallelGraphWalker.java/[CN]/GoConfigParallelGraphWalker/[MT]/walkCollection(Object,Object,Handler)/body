@@ -1,0 +1,12 @@
+{
+  if (Collection.class.isAssignableFrom(raw.getClass())) {
+    Object[] rawCollection=((Collection)raw).toArray();
+    Object[] withErrorsCollection=((Collection)withErrors).toArray();
+    for (    Object rawObject : rawCollection) {
+      Object matchingObject=findMatchingObject(withErrorsCollection,rawObject);
+      if (matchingObject != null) {
+        walkSubtree(rawObject,matchingObject,handler);
+      }
+    }
+  }
+}

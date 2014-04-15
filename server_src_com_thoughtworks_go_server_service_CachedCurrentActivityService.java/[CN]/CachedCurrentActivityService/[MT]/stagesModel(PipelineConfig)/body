@@ -1,0 +1,9 @@
+{
+  List<StageJsonPresentationModel> presenters=new ArrayList<StageJsonPresentationModel>();
+  for (  StageConfig stageConfig : pipelineConfig) {
+    Stage mostRecentStage=stageService.mostRecentStageWithBuilds(CaseInsensitiveString.str(pipelineConfig.name()),stageConfig);
+    Pipeline pipeline=pipelineService.pipelineWithModsByStageId(CaseInsensitiveString.str(pipelineConfig.name()),mostRecentStage.getId());
+    presenters.add(stageModel(pipeline,mostRecentStage));
+  }
+  return presenters;
+}

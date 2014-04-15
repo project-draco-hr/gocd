@@ -1,0 +1,9 @@
+{
+  AgentViewModel agentA=new AgentViewModel(updateHostname(pending(),"A"));
+  AgentViewModel agentB=new AgentViewModel(updateHostname(pending(),"B"));
+  AgentViewModel agentLowerA=new AgentViewModel(updateHostname(pending(),"a"));
+  List<AgentViewModel> sorted=sort(AgentViewModel.HOSTNAME_COMPARATOR,agentB,agentLowerA,agentA);
+  assertThat(sorted.get(0),is(agentA));
+  assertThat(sorted.get(1),is(agentLowerA));
+  assertThat(sorted.get(2),is(agentB));
+}

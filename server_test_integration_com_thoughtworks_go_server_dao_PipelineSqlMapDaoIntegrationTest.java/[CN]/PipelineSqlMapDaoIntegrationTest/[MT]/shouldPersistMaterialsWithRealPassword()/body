@@ -1,0 +1,15 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  addRevision(materialRevisions,MaterialsMother.svnMaterial("http://username:password@localhost"));
+  addRevision(materialRevisions,MaterialsMother.hgMaterial("http://username:password@localhost"));
+  addRevision(materialRevisions,new GitMaterial("git://username:password@localhost"));
+  addRevision(materialRevisions,new P4Material("localhost:1666","view"));
+  BuildCause buildCause=BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS);
+  Pipeline pipeline=new Pipeline("Test",buildCause);
+  save(pipeline);
+  Pipeline loaded=pipelineDao.mostRecentPipeline("Test");
+  Materials materials=loaded.getMaterials();
+  for (  Material material : materials) {
+    assertThat(((ScmMaterial)material).getUrl(),not(containsString("******")));
+  }
+}

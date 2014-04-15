@@ -1,0 +1,11 @@
+{
+  SecurityContextHelper.setCurrentUser("winner");
+  Long userId=1L;
+  User user=getUser("winner",userId);
+  Authentication actual=SecurityContextHolder.getContext().getAuthentication();
+  when(session.getAttribute(USERID_ATTR)).thenReturn(userId);
+  when(userService.load(userId)).thenReturn(user);
+  filter.doFilterHttp(req,res,chain);
+  assertThat(SecurityContextHolder.getContext().getAuthentication(),is(actual));
+  verify(chain).doFilter(req,res);
+}

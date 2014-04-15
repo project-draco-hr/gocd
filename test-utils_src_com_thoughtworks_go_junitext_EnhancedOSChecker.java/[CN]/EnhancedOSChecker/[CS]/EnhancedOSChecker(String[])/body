@@ -1,0 +1,7 @@
+{
+  if (conditions.length != 2 || !(conditions[0].equals("true") || conditions[0].equals("false"))) {
+    throw new RuntimeException("Expected 2 arguments: arg1 = OS type, arg2 = 'true' or 'false'. Can be used as: @RunIf(value = EnhancedOSChecker.class, arguments = {EnhancedOSChecker.DO_NOT_RUN_ON, EnhancedOSChecker.WINDOWS})");
+  }
+  this.shouldMatch=Boolean.parseBoolean(conditions[0]);
+  this.targetOS=conditions[1];
+}

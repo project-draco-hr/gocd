@@ -1,0 +1,12 @@
+{
+  File file=new File(baseFolder,"another/another.xml");
+  file.getParentFile().mkdirs();
+  file.createNewFile();
+  String[] data={"alpha/beta/beta.xml","alpha/beta/gamma/gamma.xml","delta/delta.xml"};
+  FileUtil.createFilesByPath(getBaseDir(),data);
+  File sandbox=getBaseDir();
+  ds.setBasedir(sandbox);
+  ds.setIncludes(new String[]{new File(baseFolder,"another").getAbsolutePath() + "/**/*.xml"});
+  ds.scan();
+  compareFiles(ds,new String[]{},new String[]{});
+}

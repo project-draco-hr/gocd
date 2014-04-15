@@ -1,0 +1,7 @@
+{
+  PipelineInstanceModel pipelineInstanceModel=PipelineInstanceModel.createPipeline(pipelineName,-1,"1",BuildCause.createManualForced(),new StageInstanceModels());
+  PipelineModel pipelineModel=new PipelineModel(pipelineInstanceModel.getName(),true,true,PipelinePauseInfo.notPaused());
+  pipelineModel.addPipelineInstance(pipelineInstanceModel);
+  when(pipelineHistoryService.latestPipelineModel(new Username(new CaseInsensitiveString("Foo")),pipelineName)).thenReturn(pipelineModel);
+  return pipelineInstanceModel;
+}

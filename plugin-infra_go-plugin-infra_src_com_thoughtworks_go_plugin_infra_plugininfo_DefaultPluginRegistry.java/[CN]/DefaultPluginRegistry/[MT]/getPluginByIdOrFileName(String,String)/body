@@ -1,0 +1,15 @@
+{
+  if (pluginID != null) {
+    GoPluginDescriptor descriptor=idToDescriptorMap.get(pluginID);
+    if (descriptor != null) {
+      return descriptor;
+    }
+  }
+  return (GoPluginDescriptor)CollectionUtils.find(idToDescriptorMap.values(),new Predicate(){
+    @Override public boolean evaluate(    Object object){
+      GoPluginDescriptor descriptor=(GoPluginDescriptor)object;
+      return descriptor.fileName().equals(fileName);
+    }
+  }
+);
+}

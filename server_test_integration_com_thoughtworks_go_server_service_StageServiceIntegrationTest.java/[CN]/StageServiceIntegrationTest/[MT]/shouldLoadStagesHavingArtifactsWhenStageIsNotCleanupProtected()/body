@@ -1,0 +1,14 @@
+{
+  PipelineConfig pipelineConfig=configFileHelper.addPipeline("pipeline-1","stage-1","job-1");
+  Pipeline completed=dbHelper.schedulePipelineWithAllStages(pipelineConfig,ModificationsMother.modifySomeFiles(pipelineConfig));
+  dbHelper.pass(completed);
+  List<Stage> stages=stageService.oldestStagesWithDeletableArtifacts();
+  assertThat(stages.size(),is(1));
+  CruiseConfig cruiseConfig=configFileHelper.currentConfig();
+  pipelineConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline-1"));
+  ReflectionUtil.setField(pipelineConfig.get(0),"artifactCleanupProhibited",true);
+  configFileHelper.writeConfigFile(cruiseConfig);
+  configDbStateRepository.flushConfigState();
+  stages=stageService.oldestStagesWithDeletableArtifacts();
+  assertThat(stages.size(),is(0));
+}

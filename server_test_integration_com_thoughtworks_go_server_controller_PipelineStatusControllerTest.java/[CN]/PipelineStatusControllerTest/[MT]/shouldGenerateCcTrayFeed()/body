@@ -1,0 +1,11 @@
+{
+  pipelineFixture.createdPipelineWithAllStagesPassed();
+  ModelAndView modelAndView=pipelineStatusController.cctray(new MockHttpServletRequest());
+  Document document=(Document)modelAndView.getModel().get("document");
+  List projects=XPath.selectNodes(document,"/Projects/Project");
+  assertThat(projects.size(),Matchers.is(4));
+  assertHasProject(document,String.format("%s :: %s",pipelineFixture.pipelineName,pipelineFixture.devStage));
+  assertHasProject(document,String.format("%s :: %s",pipelineFixture.pipelineName,pipelineFixture.ftStage));
+  assertHasProject(document,String.format("%s :: %s :: %s",pipelineFixture.pipelineName,pipelineFixture.ftStage,PipelineWithTwoStages.JOB_FOR_FT_STAGE));
+  assertHasProject(document,String.format("%s :: %s :: %s",pipelineFixture.pipelineName,pipelineFixture.devStage,PipelineWithTwoStages.JOB_FOR_DEV_STAGE));
+}

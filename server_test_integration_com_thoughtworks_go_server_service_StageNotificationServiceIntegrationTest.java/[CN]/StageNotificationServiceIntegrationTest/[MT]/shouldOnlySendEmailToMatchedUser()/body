@@ -1,0 +1,11 @@
+{
+  String jezMail=prepareOneMatchedUser();
+  String chrisMail=prepareOneNotMatchedUser();
+  Pipeline pipeline=pipelineFixture.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  Stage ftStage=mockStageServiceWithStage(pipeline);
+  stageNotificationListener.onMessage(new StageResultMessage(ftStage.getIdentifier(),StageEvent.Passes,Username.BLANK));
+  String subject="Stage [" + ftStage.getIdentifier().stageLocator() + "]"+ " passed";
+  assertThat(inMemoryEmailNotificationTopic.getSubject(jezMail),is(subject));
+  assertThat(inMemoryEmailNotificationTopic.getBody(jezMail),containsString("Sent by Go on behalf of jez"));
+  assertThat(inMemoryEmailNotificationTopic.emailCount(chrisMail),is(0));
+}

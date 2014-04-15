@@ -1,0 +1,11 @@
+{
+  try {
+    addApproverToStage(MEMBER_OF_GO_ROLE);
+  }
+ catch (  Exception e) {
+    fail("should allow loser to operate on stage, as he is a member of " + ADMIN_ROLE);
+  }
+  PipelineConfig pipelineConfig=configHelper.load().pipelineConfigByName(new CaseInsensitiveString(PIPELINE_FOO));
+  StageConfig stage=pipelineConfig.getStage(new CaseInsensitiveString(STAGE_BAR));
+  assertThat(stage.getApproval().getAuthConfig().getUsers(),hasItem(new AdminUser(new CaseInsensitiveString(MEMBER_OF_GO_ROLE))));
+}

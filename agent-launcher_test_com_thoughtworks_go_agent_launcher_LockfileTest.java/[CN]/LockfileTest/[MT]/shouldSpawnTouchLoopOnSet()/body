@@ -1,0 +1,8 @@
+{
+  Lockfile lockfile=mock(Lockfile.class);
+  doCallRealMethod().when(lockfile).setHooks();
+  doNothing().when(lockfile).touch();
+  doNothing().when(lockfile).spawnTouchLoop();
+  lockfile.setHooks();
+  verify(lockfile).spawnTouchLoop();
+}

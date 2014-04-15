@@ -1,0 +1,15 @@
+{
+  AValidatableObjectWithAList badObjectWith2ObjectsInList=new AValidatableObjectWithAList();
+  SomeOtherObject soo1=new SomeOtherObject("1");
+  soo1.addError("a","b");
+  badObjectWith2ObjectsInList.add(soo1);
+  SomeOtherObject soo2=new SomeOtherObject("2");
+  soo2.addError("x","y");
+  badObjectWith2ObjectsInList.add(soo2);
+  AValidatableObjectWithAList goodObjectWith2ObjectsInList=new AValidatableObjectWithAList();
+  goodObjectWith2ObjectsInList.add(new SomeOtherObject("2"));
+  CruiseConfig.copyErrors(badObjectWith2ObjectsInList,goodObjectWith2ObjectsInList);
+  assertThat(goodObjectWith2ObjectsInList.getSomeOtherObjectList().size(),is(1));
+  assertThat(goodObjectWith2ObjectsInList.getSomeOtherObjectList().get(0).errors().getAll().size(),is(1));
+  assertThat(goodObjectWith2ObjectsInList.getSomeOtherObjectList().get(0).errors().firstError(),is("y"));
+}

@@ -1,0 +1,10 @@
+{
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Localizer localizer=mock(Localizer.class);
+  when(configRepo.configChangesFor("md5-5","md5-4")).thenThrow(new IllegalArgumentException("something"));
+  goConfigService.configChangesFor("md5-5","md5-4",result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(SC_BAD_REQUEST));
+  result.message(localizer);
+  verify(localizer).localize("CONFIG_VERSION_NOT_FOUND",new Object[]{});
+}

@@ -1,0 +1,18 @@
+{
+  PipelineInstanceModel pim=pim("blahPipeline");
+  MaterialRevisions actualRevs=ModificationsMother.multipleModifications();
+  pim.setId(23);
+  pim.setMaterialRevisionsOnBuildCause(actualRevs);
+  PipelineDependencyGraphOld expected=new PipelineDependencyGraphOld(pim,createPipelineInstanceModels());
+  when(pipelineDao.pipelineGraphByNameAndCounter("blahPipeline",12)).thenReturn(expected);
+  ensureConfigHasPipeline("blahPipeline");
+  when(goConfigService.downstreamPipelinesOf("blahPipeline")).thenReturn(new ArrayList<PipelineConfig>());
+  stubConfigServiceToReturnPipeline("blahPipeline",PipelineConfigMother.pipelineConfig("blahPipeline"));
+  when(pipelineTimeline.pipelineBefore(23)).thenReturn(1L);
+  when(pipelineDao.loadHistory(1L)).thenReturn(new PipelineInstanceModel("blahPipeline",21,"prev-label",BuildCause.createWithEmptyModifications(),new StageInstanceModels()));
+  ensureHasPermission(USERNAME,"blahPipeline");
+  PipelineDependencyGraphOld actual=pipelineHistoryService.pipelineDependencyGraph("blahPipeline",12,USERNAME,new HttpOperationResult());
+  assertThat(actual.pipeline().getPreviousLabel(),is("prev-label"));
+  assertThat(actual.pipeline().getPreviousCounter(),is(21));
+  assertThat(actual.pipeline().getCurrentRevisions(),is(actualRevs));
+}

@@ -1,0 +1,25 @@
+{
+  validateAttributes();
+  if (stageAndOrJobIsBlank()) {
+    return;
+  }
+  if (validationContext.isWithinPipelines()) {
+    PipelineConfig currentPipeline=validationContext.getPipeline();
+    CruiseConfig cruiseConfig=validationContext.getCruiseConfig();
+    if (pipelineName == null || CaseInsensitiveString.isBlank(pipelineName.getPath())) {
+      pipelineName=new PathFromAncestor(currentPipeline.name());
+    }
+    if (validateExistence(currentPipeline,cruiseConfig,validationContext)) {
+      return;
+    }
+    if (pipelineName.isAncestor()) {
+      validatePathFromAncestor(currentPipeline,cruiseConfig);
+    }
+ else     if (currentPipeline.name().equals(pipelineName.getPath())) {
+      validateStagesOfSamePipeline(validationContext,currentPipeline,cruiseConfig);
+    }
+ else {
+      validateDependencies(validationContext,currentPipeline,cruiseConfig);
+    }
+  }
+}

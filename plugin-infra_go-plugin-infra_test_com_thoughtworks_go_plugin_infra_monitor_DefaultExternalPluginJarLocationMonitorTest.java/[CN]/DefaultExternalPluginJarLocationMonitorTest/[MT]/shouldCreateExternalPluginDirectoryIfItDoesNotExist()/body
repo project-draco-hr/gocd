@@ -1,0 +1,8 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  PLUGIN_EXTERNAL_DIR.delete();
+  new DefaultPluginJarLocationMonitor(systemEnvironment).initialize();
+  assertThat(PLUGIN_EXTERNAL_DIR.exists(),is(true));
+}

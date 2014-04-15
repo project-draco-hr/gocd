@@ -1,0 +1,13 @@
+{
+  schedulingChecker.canTriggerPipelineWithTimer(PipelineConfigMother.pipelineConfig("sample"),operationResult);
+  verify(schedulingChecker).buildScheduleCheckers(argumentCaptor.capture());
+  verify(compositeChecker).check(operationResult);
+  assertFor(argumentCaptor.getValue(),EnabledUsersLicenseLimitChecker.class);
+  assertFor(argumentCaptor.getValue(),LicenseChecker.class);
+  assertFor(argumentCaptor.getValue(),AboutToBeTriggeredChecker.class);
+  assertFor(argumentCaptor.getValue(),PipelinePauseChecker.class);
+  assertFor(argumentCaptor.getValue(),StageActiveChecker.class);
+  assertFor(argumentCaptor.getValue(),PipelineLockChecker.class);
+  assertFor(argumentCaptor.getValue(),ArtifactsDiskSpaceFullChecker.class);
+  assertFor(argumentCaptor.getValue(),DatabaseDiskSpaceFullChecker.class);
+}

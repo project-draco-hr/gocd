@@ -1,0 +1,11 @@
+{
+  Agents permitted=new Agents();
+  for (  AgentConfig agent : agents) {
+    if (agent.getUuid().equals(permittedAgentUuid)) {
+      permitted.add(agent);
+    }
+  }
+  DefaultSchedulingContext context=new DefaultSchedulingContext(approvedBy,permitted);
+  context.variables=variables.overrideWith(new EnvironmentVariablesConfig());
+  return context;
+}

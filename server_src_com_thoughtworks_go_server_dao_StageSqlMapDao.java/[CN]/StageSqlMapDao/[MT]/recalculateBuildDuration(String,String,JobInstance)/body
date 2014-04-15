@@ -1,0 +1,9 @@
+{
+  Map<String,Object> toGet=arguments("buildName",job.getName()).and("agentUuid",job.getAgentUuid()).and("stageName",stageName).and("pipelineName",pipelineName).asMap();
+  Long buildId=(Long)getSqlMapClientTemplate().queryForObject("getLastSuccessfulBuildIdOnAgent",toGet);
+  if (buildId == null) {
+    return null;
+  }
+  JobInstance mostRecent=buildInstanceDao.buildByIdWithTransitions(buildId);
+  return mostRecent.durationOfCompletedBuildInSeconds();
+}

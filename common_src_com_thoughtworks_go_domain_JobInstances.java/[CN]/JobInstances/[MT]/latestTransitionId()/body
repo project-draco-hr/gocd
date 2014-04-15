@@ -1,0 +1,10 @@
+{
+  long latest=JobStateTransition.NOT_PERSISTED;
+  for (  JobInstance jobInstance : this) {
+    long id=jobInstance.latestTransitionId();
+    if (id > latest) {
+      latest=id;
+    }
+  }
+  return latest;
+}

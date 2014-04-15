@@ -1,0 +1,8 @@
+{
+  return doLocked(new ThrowingFn<GoConfigRevision,GitAPIException>(){
+    public GoConfigRevision call() throws GitAPIException {
+      return getGoConfigRevision(getRevCommitForMd5(md5));
+    }
+  }
+);
+}

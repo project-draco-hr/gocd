@@ -1,0 +1,14 @@
+{
+  for (  UnloadMethodInvoker unloadMethodInvoker : unloadMethodInvokers) {
+    try {
+      unloadMethodInvoker.invokeUnloadMethod();
+    }
+ catch (    InvocationTargetException e) {
+      errors.add(String.format("Invocation of unload method [%s]. Reason: %s.",unloadMethodInvoker.unloadMethod,e.getTargetException().toString()));
+    }
+catch (    Throwable e) {
+      errors.add(String.format("Invocation of unload method [%s]. Reason: [%s].",unloadMethodInvoker.unloadMethod,e.toString()));
+    }
+    reportErrorsToHealthService();
+  }
+}

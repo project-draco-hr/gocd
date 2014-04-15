@@ -1,0 +1,6 @@
+{
+  when(packageMaterialPoller.getLatestRevision(packageConfiguration.capture(),repositoryConfiguration.capture())).thenReturn(null);
+  List<Modification> modifications=poller.latestModification(material,null,null);
+  assertThat(modifications,is(notNullValue()));
+  assertThat(modifications.isEmpty(),is(true));
+}

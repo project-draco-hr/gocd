@@ -1,0 +1,5 @@
+{
+  configHelper.addPipelineWithGroup("group","pipeline","dev","linux");
+  controller.getGroupAsXmlPartial("group",null,response);
+  assertValidContentAndStatus(SC_OK,"text/xml","<pipelines group=\"group\">\n" + "  <pipeline name=\"pipeline\">\n" + "    <materials>\n"+ "      <svn url=\"svn:///user:pass@tmp/foo\" />\n"+ "    </materials>\n"+ "    <stage name=\"dev\">\n"+ "      <jobs>\n"+ "        <job name=\"linux\" />\n"+ "      </jobs>\n"+ "    </stage>\n"+ "  </pipeline>\n"+ "</pipelines>");
+}

@@ -1,0 +1,22 @@
+{
+  TfsMaterialConfig tfsMaterialConfig=new TfsMaterialConfig(new GoCipher(),new UrlArgument("http://10.4.4.101:8080/tfs/Sample"),"loser","CORPORATE","passwd","walk_this_path");
+  Map<String,String> map=new HashMap<String,String>();
+  map.put(TfsMaterialConfig.PASSWORD,"secret");
+  map.put(TfsMaterialConfig.PASSWORD_CHANGED,"1");
+  tfsMaterialConfig.setConfigAttributes(map);
+  tfsMaterialConfig.setConfigAttributes(map);
+  assertThat(ReflectionUtil.getField(tfsMaterialConfig,"password"),is(nullValue()));
+  assertThat(tfsMaterialConfig.getPassword(),is("secret"));
+  assertThat(tfsMaterialConfig.getEncryptedPassword(),is(new GoCipher().encrypt("secret")));
+  map.put(TfsMaterialConfig.PASSWORD,"Hehehe");
+  map.put(TfsMaterialConfig.PASSWORD_CHANGED,"0");
+  tfsMaterialConfig.setConfigAttributes(map);
+  assertThat(ReflectionUtil.getField(tfsMaterialConfig,"password"),is(nullValue()));
+  assertThat(tfsMaterialConfig.getPassword(),is("secret"));
+  assertThat(tfsMaterialConfig.getEncryptedPassword(),is(new GoCipher().encrypt("secret")));
+  map.put(TfsMaterialConfig.PASSWORD,"");
+  map.put(TfsMaterialConfig.PASSWORD_CHANGED,"1");
+  tfsMaterialConfig.setConfigAttributes(map);
+  assertThat(tfsMaterialConfig.getPassword(),is(nullValue()));
+  assertThat(tfsMaterialConfig.getEncryptedPassword(),is(nullValue()));
+}

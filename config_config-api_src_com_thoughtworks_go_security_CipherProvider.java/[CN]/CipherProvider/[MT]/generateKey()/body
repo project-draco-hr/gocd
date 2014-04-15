@@ -1,0 +1,8 @@
+{
+  SecureRandom random=new SecureRandom();
+  random.setSeed("go-server".getBytes());
+  KeyGenerationParameters generationParameters=new KeyGenerationParameters(random,DESParameters.DES_KEY_LENGTH);
+  DESKeyGenerator generator=new DESKeyGenerator();
+  generator.init(generationParameters);
+  return Hex.encode(generator.generateKey());
+}

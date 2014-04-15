@@ -1,0 +1,9 @@
+{
+  Pattern pattern=Pattern.compile("^Change (\\d+) ");
+  Matcher matcher=pattern.matcher(changeOutput);
+  if (matcher.find()) {
+    String changeNumber=matcher.group(1);
+    return Long.parseLong(changeNumber);
+  }
+  throw bomb("Unable to parse revision from change: '" + changeOutput + "'");
+}

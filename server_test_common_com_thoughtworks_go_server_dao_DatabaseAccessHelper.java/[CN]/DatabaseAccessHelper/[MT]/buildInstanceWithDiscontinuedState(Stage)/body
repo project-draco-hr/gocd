@@ -1,0 +1,11 @@
+{
+  final JobInstance first=instance.getJobInstances().get(0);
+  final JobInstance second=instance.getJobInstances().get(1);
+  first.completing(JobResult.Passed);
+  second.changeState(JobState.Discontinued);
+  second.setResult(JobResult.Passed);
+  first.completed(new Date());
+  jobInstanceDao.updateStateAndResult(first);
+  jobInstanceDao.updateStateAndResult(second);
+  updateResultInTransaction(instance,StageResult.Passed);
+}

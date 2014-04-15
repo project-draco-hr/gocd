@@ -1,0 +1,21 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git"),"folder1");
+  String[] git_revs={"g1","g2"};
+  u.checkinInOrder(git,git_revs);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(git));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(p1));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p2));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",u.m(p3));
+  ScheduleTestUtil.AddedPipeline p5=u.saveConfigWith("p5",u.m(git),u.m(p4));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String p1_1=u.runAndPass(p1,"g1");
+  String p2_1=u.runAndPass(p2,p1_1);
+  String p3_1=u.runAndPass(p3,p2_1);
+  String p4_1=u.runAndPass(p4,p3_1);
+  String p1_2=u.runAndPass(p1,"g2");
+  String p2_2=u.runAndPass(p2,p1_2);
+  MaterialRevisions given=u.mrs(u.mr(git,true,git_revs),u.mr(p4,true,p4_1));
+  MaterialRevisions expected=u.mrs(u.mr(git,true,"g1"),u.mr(p4,true,p4_1));
+  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("p5"));
+  assertThat(finalRevisions,is(expected));
+}

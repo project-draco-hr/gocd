@@ -1,0 +1,16 @@
+{
+  final MaterialInstance materialInstance=savedHg();
+  assertionUtil.assertCacheBehaviourInTxn(new TransactionCacheAssertionUtil.DoInTxn(){
+    public void invoke(){
+      hibernateDaoSupport.getHibernateTemplate().delete(materialInstance);
+    }
+  }
+);
+  try {
+    hibernateDaoSupport.getHibernateTemplate().load(MaterialInstance.class,materialInstance.getId());
+    fail("should have deleted the entity successfully");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("No row with the given identifier exists"));
+  }
+}

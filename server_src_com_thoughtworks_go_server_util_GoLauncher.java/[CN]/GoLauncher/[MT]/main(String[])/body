@@ -1,0 +1,11 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  systemEnvironment.setProperty(GoConstants.USE_COMPRESSED_JAVASCRIPT,Boolean.toString(true));
+  try {
+    new GoServer().go();
+  }
+ catch (  Exception e) {
+    System.err.println("ERROR: Failed to start Go server. Please check the logs.");
+    System.exit(1);
+  }
+}

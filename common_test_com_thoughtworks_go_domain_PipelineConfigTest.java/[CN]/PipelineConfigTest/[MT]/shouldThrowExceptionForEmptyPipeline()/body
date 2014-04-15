@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs());
+  try {
+    pipelineConfig.isFirstStageManualApproval();
+    fail("Should throw exception if pipeline has no pipeline");
+  }
+ catch (  IllegalStateException e) {
+    assertThat(e.getMessage(),containsString("Pipeline [" + pipelineConfig.name() + "] doesn't have any stage"));
+  }
+}

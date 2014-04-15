@@ -1,0 +1,10 @@
+{
+  this.process=process;
+  this.processTag=processTag;
+  this.command=command;
+  this.consumer=consumer;
+  this.startTime=System.currentTimeMillis();
+  this.processOutputStream=StreamPumper.pump(process.getInputStream(),new OutputConsumer(),"",encoding);
+  this.processErrorStream=StreamPumper.pump(process.getErrorStream(),new ErrorConsumer(),errorPrefix,encoding);
+  this.processInputStream=new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
+}

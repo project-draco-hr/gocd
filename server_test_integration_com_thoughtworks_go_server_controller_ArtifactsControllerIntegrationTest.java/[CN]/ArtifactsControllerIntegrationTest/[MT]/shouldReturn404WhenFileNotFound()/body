@@ -1,0 +1,6 @@
+{
+  ModelAndView mav=getFileAsHtml("/foo.xml");
+  assertThat(mav.getView().getContentType(),is(RESPONSE_CHARSET));
+  assertThat(mav.getView(),is(instanceOf((ResponseCodeView.class))));
+  assertThat(((ResponseCodeView)mav.getView()).getContent(),containsString("Artifact '/foo.xml' is unavailable as it may have been purged by Go or deleted externally."));
+}

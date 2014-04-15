@@ -1,0 +1,14 @@
+{
+  securityContext.setAuthentication(new TestingAuthenticationToken(new LdapUserDetailsImpl(){
+    public String getUsername(){
+      return "test1";
+    }
+    public String getDn(){
+      return "cn=Test User, ou=Beijing, ou=Employees, ou=Enterprise, ou=Principal";
+    }
+  }
+,null,null));
+  request.getSession().setAttribute(SPRING_SECURITY_CONTEXT_KEY,securityContext);
+  view.exposeHelpers(velocityContext,request);
+  assertThat((String)velocityContext.get(GoVelocityView.PRINCIPAL),is("Test User"));
+}

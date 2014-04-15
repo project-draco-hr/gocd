@@ -1,0 +1,10 @@
+{
+  String className=classFilePath.replaceFirst("^/","").replace('/','.').replaceFirst(".class$","");
+  try {
+    return bundle.loadClass(className);
+  }
+ catch (  Throwable e) {
+    errors.add(String.format("Class [%s] could not be loaded. Message: [%s].",className,e.getMessage()));
+  }
+  return null;
+}

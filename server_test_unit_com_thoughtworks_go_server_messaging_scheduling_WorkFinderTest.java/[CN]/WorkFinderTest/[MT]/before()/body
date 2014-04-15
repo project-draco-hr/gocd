@@ -1,0 +1,14 @@
+{
+  context=new ClassMockery();
+  workAssigner=context.mock(WorkAssigner.class);
+  assignedWorkTopic=context.mock(WorkAssignedTopic.class,"assignedWork");
+  idleAgentTopic=context.mock(IdleAgentTopic.class,"idleAgent");
+  workAssignmentPerformanceLogger=mock(WorkAssignmentPerformanceLogger.class);
+  context.checking(new Expectations(){
+{
+      one(idleAgentTopic).addListener(with(any(WorkFinder.class)));
+    }
+  }
+);
+  finder=new WorkFinder(workAssigner,idleAgentTopic,assignedWorkTopic,workAssignmentPerformanceLogger);
+}

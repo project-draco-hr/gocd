@@ -1,0 +1,8 @@
+{
+  for (  MaterialConfig materialConfig : pipelineConfigNamed(new CaseInsensitiveString(pipelineName)).materialConfigs()) {
+    if (materialConfig.getFingerprint().equals(fingerprint)) {
+      return materialConfig;
+    }
+  }
+  throw new RuntimeException(format("Pipeline [%s] does not have a material with fingerprint [%s]",pipelineName,fingerprint));
+}

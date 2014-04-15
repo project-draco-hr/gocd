@@ -1,0 +1,7 @@
+{
+  User user=new User("user",new String[]{"*.*,user"},"user@mail.com",true);
+  userDao.saveOrUpdate(user);
+  assertThat(userDao.enabledUserCount(),is(1));
+  userDao.saveOrUpdate(new User("loser",new String[]{"loser","user"},"loser@mail.com",true));
+  assertThat(userDao.enabledUserCount(),is(2));
+}

@@ -1,0 +1,7 @@
+{
+  StubGoPublisher goPublisher=new StubGoPublisher();
+  file.createNewFile();
+  boolean isSuccessful=checksumFileHandler.handleResult(HttpServletResponse.SC_OK,goPublisher);
+  assertThat(isSuccessful,is(true));
+  assertThat(file.exists(),is(true));
+}

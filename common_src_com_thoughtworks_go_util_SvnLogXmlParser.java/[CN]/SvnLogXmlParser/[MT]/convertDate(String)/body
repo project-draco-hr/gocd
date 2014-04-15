@@ -1,0 +1,8 @@
+{
+  final int zIndex=date.indexOf('Z');
+  if (zIndex - 3 < 0) {
+    throw new ParseException(date + " doesn't match the expected subversion date format",date.length());
+  }
+  String withoutMicroSeconds=date.substring(0,zIndex - 3);
+  return getOutDateFormatter().parse(withoutMicroSeconds);
+}

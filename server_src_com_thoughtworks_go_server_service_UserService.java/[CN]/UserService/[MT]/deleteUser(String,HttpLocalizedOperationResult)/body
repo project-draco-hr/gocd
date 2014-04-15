@@ -1,0 +1,12 @@
+{
+  try {
+    userDao.deleteUser(username);
+    result.setMessage(LocalizedMessage.string("USER_DELETE_SUCCESSFUL",username));
+  }
+ catch (  UserNotFoundException e) {
+    result.notFound(LocalizedMessage.string("USER_NOT_FOUND",username),HealthStateType.general(HealthStateScope.GLOBAL));
+  }
+catch (  UserEnabledException e) {
+    result.badRequest(LocalizedMessage.string("USER_NOT_DISABLED",username));
+  }
+}

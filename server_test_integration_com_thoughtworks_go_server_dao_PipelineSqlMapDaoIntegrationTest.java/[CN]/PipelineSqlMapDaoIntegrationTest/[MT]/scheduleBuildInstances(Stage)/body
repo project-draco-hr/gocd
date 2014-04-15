@@ -1,0 +1,10 @@
+{
+  JobInstances scheduledBuilds=scheduledInstance.getJobInstances();
+  JobInstance bi=scheduledBuilds.get(0);
+  bi.schedule();
+  jobInstanceDao.updateStateAndResult(bi);
+  bi=scheduledBuilds.get(1);
+  bi.completing(JobResult.Passed);
+  bi.completed(new Date());
+  jobInstanceDao.updateStateAndResult(bi);
+}

@@ -1,0 +1,15 @@
+{
+  String osgiFrameworkPackage=Bundle.class.getPackage().getName();
+  String goPluginApiPackage=GoPluginApiMarker.class.getPackage().getName();
+  String subPackagesOfGoPluginApiPackage=goPluginApiPackage + ".*";
+  String internalServicesPackage=PluginHealthService.class.getPackage().getName();
+  String javaxPackages="javax.*";
+  String orgXmlSaxPackages="org.xml.sax, org.xml.sax.*";
+  String orgW3cDomPackages="org.w3c.dom, org.w3c.dom.*";
+  HashMap<String,String> config=new HashMap<String,String>();
+  config.put(Constants.FRAMEWORK_BUNDLE_PARENT,Constants.FRAMEWORK_BUNDLE_PARENT_FRAMEWORK);
+  config.put(Constants.FRAMEWORK_BOOTDELEGATION,osgiFrameworkPackage + ", " + goPluginApiPackage+ ", "+ subPackagesOfGoPluginApiPackage+ ", "+ internalServicesPackage+ ", "+ javaxPackages+ ", "+ orgXmlSaxPackages+ ", "+ orgW3cDomPackages);
+  config.put(Constants.FRAMEWORK_STORAGE_CLEAN,"onFirstInit");
+  config.put(BundleCache.CACHE_LOCKING_PROP,"false");
+  return config;
+}

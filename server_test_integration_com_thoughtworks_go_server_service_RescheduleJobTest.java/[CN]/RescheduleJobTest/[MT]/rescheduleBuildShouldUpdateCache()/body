@@ -1,0 +1,12 @@
+{
+  final JobInstance hungJob=stage.getJobInstances().get(0);
+  final Pipeline pipeline=dbHelper.getPipelineDao().mostRecentPipeline(PIPELINE_NAME);
+  dbHelper.txTemplate().execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      jobInstanceService.save(new StageIdentifier(pipeline.getName(),-2,pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter())),stage.getId(),hungJob);
+    }
+  }
+);
+  scheduleService.rescheduleJob(hungJob);
+  assertThat(jobStatusCache.currentJob(hungJob.getIdentifier().jobConfigIdentifier()).getState(),is(JobState.Scheduled));
+}

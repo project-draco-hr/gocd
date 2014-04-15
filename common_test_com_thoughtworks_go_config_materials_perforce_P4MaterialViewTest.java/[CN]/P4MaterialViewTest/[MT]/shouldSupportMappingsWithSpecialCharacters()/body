@@ -1,0 +1,5 @@
+{
+  String from="//depot/dir1/old.* //cws/renamed/new.*\n" + "//depot/dir1/%1.%2 //cws/dir1/%2.%1\n" + "\t//foobar/dir1/%1.%2 //cws/dir1/%2.%1\n"+ "\"-//depot/with spaces/...\" \"//cws/with spaces/...\"\n\n";
+  String to="\n" + "\t//depot/dir1/old.* //" + CLIENT_NAME + "/renamed/new.*\n"+ "\t//depot/dir1/%1.%2 //"+ CLIENT_NAME+ "/dir1/%2.%1\n"+ "\t//foobar/dir1/%1.%2 //"+ CLIENT_NAME+ "/dir1/%2.%1\n"+ "\t\"-//depot/with spaces/...\" \"//"+ CLIENT_NAME+ "/with spaces/...\"\n\n";
+  assertMapsTo(from,to);
+}

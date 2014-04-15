@@ -1,0 +1,15 @@
+{
+  if (stage.getState() == null) {
+    stage.building();
+  }
+  stage=save(pipeline,stage);
+  clearCachedStage(new StageIdentifier(pipeline,stage));
+  JobInstances jobInstances=stage.getJobInstances();
+  for (  JobInstance job : jobInstances) {
+    buildInstanceDao.save(stage.getId(),job);
+  }
+  for (  JobInstance jobInstance : jobInstances) {
+    jobInstance.setIdentifier(new JobIdentifier(pipeline,stage,jobInstance));
+  }
+  return stage;
+}

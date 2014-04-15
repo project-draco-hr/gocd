@@ -1,0 +1,14 @@
+{
+  return convert(resources,agents,new Assigner<Resource,AgentConfig>(){
+    public boolean shouldAssociate(    AgentConfig agent,    Resource resource){
+      return agent.getResources().contains(resource);
+    }
+    public String identifier(    Resource resource){
+      return resource.getName();
+    }
+    public boolean shouldEnable(    AgentConfig agent,    Resource resource){
+      return true;
+    }
+  }
+);
+}

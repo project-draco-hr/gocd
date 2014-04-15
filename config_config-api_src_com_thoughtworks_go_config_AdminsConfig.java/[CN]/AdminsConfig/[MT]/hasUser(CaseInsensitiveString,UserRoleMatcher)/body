@@ -1,0 +1,15 @@
+{
+  for (  Admin admin : this) {
+    if (admin instanceof AdminUser) {
+      if (admin.getName().equals(username)) {
+        return true;
+      }
+    }
+ else {
+      if (userRoleMatcher.match(username,admin.getName())) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

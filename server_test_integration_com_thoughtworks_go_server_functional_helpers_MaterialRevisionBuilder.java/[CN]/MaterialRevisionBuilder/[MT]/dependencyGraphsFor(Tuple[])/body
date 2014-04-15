@@ -1,0 +1,9 @@
+{
+  List<PipelineConfigDependencyGraph> childGraphs=new ArrayList<PipelineConfigDependencyGraph>();
+  for (  Tuple tuple : buildCause) {
+    if (tuple.graph != null) {
+      childGraphs.add(tuple.graph);
+    }
+  }
+  return childGraphs.toArray(new PipelineConfigDependencyGraph[0]);
+}

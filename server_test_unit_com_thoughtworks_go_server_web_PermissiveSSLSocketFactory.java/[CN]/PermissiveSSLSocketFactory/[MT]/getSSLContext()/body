@@ -1,0 +1,14 @@
+{
+  if (this.sslcontext == null) {
+    SSLContext context;
+    try {
+      context=SSLContext.getInstance("SSL");
+      context.init(null,new TrustManager[]{new PermissiveX509TrustManager(null)},null);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException(e);
+    }
+    this.sslcontext=context;
+  }
+  return this.sslcontext;
+}

@@ -1,0 +1,13 @@
+{
+  final HashSet<Material> prunedMaterials=new HashSet<Material>();
+  if (params.containsKey(UUID)) {
+    final String targetUUID=(String)params.get(UUID);
+    final HashMap<String,String> urlToRemoteUUIDMap=createUrlToRemoteUUIDMap(materials);
+    for (    Material material : materials) {
+      if (material instanceof SvnMaterial && isQualified(targetUUID,(SvnMaterial)material,urlToRemoteUUIDMap)) {
+        prunedMaterials.add(material);
+      }
+    }
+  }
+  return prunedMaterials;
+}

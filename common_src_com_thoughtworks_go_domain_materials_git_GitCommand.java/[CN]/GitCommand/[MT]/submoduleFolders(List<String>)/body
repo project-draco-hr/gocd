@@ -1,0 +1,11 @@
+{
+  ArrayList<String> submoduleFolders=new ArrayList<String>();
+  for (  String submoduleLine : submoduleLines) {
+    Matcher m=GIT_SUBMODULE_STATUS_PATTERN.matcher(submoduleLine);
+    if (!m.find()) {
+      bomb("Unable to parse git-submodule output line: " + submoduleLine + "\n"+ "From output:\n"+ join(submoduleLines,"\n"));
+    }
+    submoduleFolders.add(m.group(1));
+  }
+  return submoduleFolders;
+}

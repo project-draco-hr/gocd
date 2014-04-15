@@ -1,0 +1,12 @@
+{
+  paramsConfig=new ParamsConfig();
+  ParamConfig one=new ParamConfig("name","value");
+  paramsConfig.add(one);
+  ParamConfig two=new ParamConfig("name","other-value");
+  paramsConfig.add(two);
+  paramsConfig.validate(context);
+  assertThat(one.errors().isEmpty(),is(false));
+  assertThat(one.errors().firstError(),contains("Param name 'name' is not unique for pipeline 'some-pipeline'."));
+  assertThat(two.errors().isEmpty(),is(false));
+  assertThat(two.errors().firstError(),contains("Param name 'name' is not unique for pipeline 'some-pipeline'."));
+}

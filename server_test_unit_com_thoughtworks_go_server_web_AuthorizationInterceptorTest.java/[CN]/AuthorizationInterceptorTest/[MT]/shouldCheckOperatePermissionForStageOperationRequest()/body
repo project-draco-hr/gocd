@@ -1,0 +1,7 @@
+{
+  request.setParameter("pipelineName","cruise");
+  request.setParameter("stageName","dev");
+  request.setMethod("post");
+  assumeUserHasOperatePermissionForStage();
+  assertThat(permissionInterceptor.preHandle(request,response,null),is(true));
+}

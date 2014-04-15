@@ -1,0 +1,13 @@
+{
+  naturalOrderLock.readLock().lock();
+  try {
+    TreeSet<PipelineTimelineEntry> tree=naturalOrderPmm.get(new CaseInsensitiveString(pipelineName));
+    if (tree == null) {
+      tree=new TreeSet<PipelineTimelineEntry>();
+    }
+    return Collections.unmodifiableCollection(cloner.deepClone(tree));
+  }
+  finally {
+    naturalOrderLock.readLock().unlock();
+  }
+}

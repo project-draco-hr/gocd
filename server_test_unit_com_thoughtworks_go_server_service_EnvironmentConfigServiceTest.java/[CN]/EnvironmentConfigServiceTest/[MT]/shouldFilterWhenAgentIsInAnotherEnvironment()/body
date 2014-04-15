@@ -1,0 +1,5 @@
+{
+  environmentConfigService.sync(environments("uat","prod"));
+  List<JobPlan> filtered=environmentConfigService.filterJobsByAgent(jobs("no-env","prod"),"uat-agent");
+  assertThat(filtered.size(),is(0));
+}

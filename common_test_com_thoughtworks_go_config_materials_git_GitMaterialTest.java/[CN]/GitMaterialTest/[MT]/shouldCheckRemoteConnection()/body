@@ -1,0 +1,9 @@
+{
+  ValidationBean validationBean=git.checkConnection(new TestSubprocessExecutionContext());
+  assertThat("Connection should be valid",validationBean.isValid(),is(true));
+  String badHost="http://nonExistantHost/git";
+  git=new GitMaterial(badHost);
+  validationBean=git.checkConnection(new TestSubprocessExecutionContext());
+  assertThat("Connection should not be valid",validationBean.isValid(),is(false));
+  assertThat(validationBean.getError(),containsString("Repository " + badHost + " not found!"));
+}

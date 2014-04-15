@@ -1,0 +1,10 @@
+{
+  User user=new User(CaseInsensitiveString.str(getUserName().getUsername()),new String[]{matchers == null ? "" : matchers},email == null ? "" : email,true);
+  try {
+    userService.validate(user);
+    return JsonAction.jsonFound(new JsonMap()).respond(response);
+  }
+ catch (  Exception e) {
+    return JsonAction.jsonConflict(JsonView.getSimpleAjaxResult("message",e.getMessage())).respond(response);
+  }
+}

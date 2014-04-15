@@ -1,0 +1,7 @@
+{
+  String cacheKey=(PipelineSqlMapDao.class + "_cacheKeyForPipelineInstancesWithDependencyMaterial_" + "p1_p_1").intern();
+  when(mockTemplate.queryForList(eq("pipelineInstancesTriggeredOutOfDependencyMaterial"),anyString())).thenReturn(new ArrayList());
+  List<PipelineIdentifier> actual=pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial("p1",new PipelineIdentifier("p",1));
+  assertThat(actual,hasSize(0));
+  assertThat((List<PipelineIdentifier>)goCache.get(cacheKey),is(actual));
+}

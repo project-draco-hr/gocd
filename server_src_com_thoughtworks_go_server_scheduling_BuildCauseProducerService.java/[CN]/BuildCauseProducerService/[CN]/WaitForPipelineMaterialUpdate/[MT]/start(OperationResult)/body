@@ -1,0 +1,22 @@
+{
+  try {
+    buildType.canProduce(pipelineConfig,schedulingChecker,serverHealthService,result);
+    if (!result.canContinue()) {
+      return;
+    }
+    if (!markPipelineAsAlreadyTriggered(pipelineConfig)) {
+      result.conflict("Failed to force pipeline: " + pipelineConfig.name(),"Pipeline already forced",HealthStateType.general(HealthStateScope.forPipeline(CaseInsensitiveString.str(pipelineConfig.name()))));
+      return;
+    }
+    materialUpdateStatusNotifier.registerListenerFor(pipelineConfig,this);
+    for (    Material material : pendingMaterials.values()) {
+      materialUpdateService.updateMaterial(material);
+    }
+    result.accepted(format("Request to schedule pipeline %s accepted",pipelineConfig.name()),"",HealthStateType.general(HealthStateScope.forPipeline(CaseInsensitiveString.str(pipelineConfig.name()))));
+  }
+ catch (  RuntimeException e) {
+    markPipelineAsCanBeTriggered(pipelineConfig);
+    materialUpdateStatusNotifier.removeListenerFor(pipelineConfig);
+    throw e;
+  }
+}

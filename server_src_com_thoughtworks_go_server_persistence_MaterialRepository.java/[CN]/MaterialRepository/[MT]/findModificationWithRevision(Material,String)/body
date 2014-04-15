@@ -1,0 +1,15 @@
+{
+  return (Modification)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      try {
+        final long materialId=findOrCreateFrom(material).getId();
+        return MaterialRepository.this.findModificationWithRevision(session,materialId,revision);
+      }
+ catch (      Exception e) {
+        LOGGER.error("Error while retrieving modification with material [" + material + "] containing revision ["+ revision+ "]",e);
+        throw e instanceof HibernateException ? (HibernateException)e : new RuntimeException(e);
+      }
+    }
+  }
+);
+}

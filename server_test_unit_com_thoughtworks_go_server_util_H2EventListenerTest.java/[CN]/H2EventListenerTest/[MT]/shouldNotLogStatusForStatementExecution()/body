@@ -1,0 +1,8 @@
+{
+  H2EventListener h2EventListener=new H2EventListener();
+  h2EventListener=Mockito.spy(h2EventListener);
+  h2EventListener.logState(DatabaseEventListener.STATE_STATEMENT_START,"xyz",0,1);
+  h2EventListener.logState(DatabaseEventListener.STATE_STATEMENT_END,"xyz",0,1);
+  h2EventListener.logState(DatabaseEventListener.STATE_STATEMENT_PROGRESS,"xyz",0,1);
+  Mockito.verify(h2EventListener,never()).log(Mockito.anyString());
+}

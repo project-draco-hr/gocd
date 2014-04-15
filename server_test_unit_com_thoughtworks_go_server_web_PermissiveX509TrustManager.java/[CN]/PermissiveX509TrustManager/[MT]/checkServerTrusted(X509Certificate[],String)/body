@@ -1,0 +1,14 @@
+{
+  if ((certificates != null) && (certificates.length == 1)) {
+    X509Certificate certificate=certificates[0];
+    try {
+      certificate.checkValidity();
+    }
+ catch (    CertificateException e) {
+      e.printStackTrace();
+    }
+  }
+ else {
+    this.standardTrustManager.checkServerTrusted(certificates,string);
+  }
+}

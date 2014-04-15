@@ -1,0 +1,10 @@
+{
+  try {
+    registry.markPluginInvalid("invalid-plugin-id",Arrays.asList("some message"));
+    fail("should have thrown exception for plugin not found ");
+  }
+ catch (  Exception e) {
+    assertThat(e instanceof RuntimeException,is(true));
+    assertThat(e.getMessage(),is("Invalid plugin identifier 'invalid-plugin-id'"));
+  }
+}

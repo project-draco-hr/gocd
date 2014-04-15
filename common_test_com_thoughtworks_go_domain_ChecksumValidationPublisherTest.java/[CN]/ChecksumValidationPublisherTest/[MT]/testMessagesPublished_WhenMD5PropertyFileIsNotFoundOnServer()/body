@@ -1,0 +1,6 @@
+{
+  checksumValidationPublisher.md5ChecksumFileNotFound();
+  checksumValidationPublisher.publish(HttpServletResponse.SC_OK,artifact,goPublisher);
+  assertThat(goPublisher.getMessage(),not(containsString(String.format("[WARN] The md5checksum value of the artifact [%s] was not found on the server. Hence, Go could not verify the integrity of its contents.",artifact))));
+  assertThat(goPublisher.getMessage(),(containsString(String.format("Saved artifact to [%s] without verifying the integrity of its contents.",artifact))));
+}

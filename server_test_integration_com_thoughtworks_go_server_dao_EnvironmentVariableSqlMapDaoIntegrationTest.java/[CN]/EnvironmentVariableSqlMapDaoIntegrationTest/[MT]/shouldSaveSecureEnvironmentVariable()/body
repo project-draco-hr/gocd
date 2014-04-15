@@ -1,0 +1,12 @@
+{
+  EnvironmentVariablesConfig variables=new EnvironmentVariablesConfig();
+  String plainText="plainText";
+  String key="key";
+  GoCipher goCipher=new GoCipher();
+  variables.add(new EnvironmentVariableConfig(goCipher,key,plainText,true));
+  dao.save(1L,Job,variables);
+  EnvironmentVariablesConfig actual=dao.load(1L,Job);
+  assertThat(actual.get(0).getName(),is(key));
+  assertThat(actual.get(0).getValue(),is(plainText));
+  assertThat(actual.get(0).isSecure(),is(true));
+}

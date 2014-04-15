@@ -1,0 +1,10 @@
+{
+  updateSchedulableMaterials(true);
+  Set<HealthStateScope> materialScopes=toHealthStateScopes(newCruiseConfig.getAllUniqueMaterials());
+  for (  ServerHealthState state : serverHealthService.getAllLogs()) {
+    HealthStateScope currentScope=state.getType().getScope();
+    if (currentScope.isForMaterial() && !materialScopes.contains(currentScope)) {
+      serverHealthService.removeByScope(currentScope);
+    }
+  }
+}

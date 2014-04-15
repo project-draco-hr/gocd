@@ -1,0 +1,14 @@
+{
+  for (  StageConfig stage : clone) {
+    for (    JobConfig job : stage.getJobs()) {
+      for (      Task task : job.getTasks()) {
+        if (task instanceof FetchTask) {
+          FetchTask fetchTask=(FetchTask)task;
+          if (this.name().equals(fetchTask.getTargetPipelineName())) {
+            fetchTask.setPipelineName(new CaseInsensitiveString(""));
+          }
+        }
+      }
+    }
+  }
+}

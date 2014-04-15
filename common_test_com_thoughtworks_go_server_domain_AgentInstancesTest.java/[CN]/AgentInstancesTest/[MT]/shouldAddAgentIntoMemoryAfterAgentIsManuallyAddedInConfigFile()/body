@@ -1,0 +1,7 @@
+{
+  AgentInstances agentInstances=new AgentInstances(null);
+  AgentConfig agentConfig=new AgentConfig("uuid20","CCeDev01","10.18.5.20");
+  agentInstances.sync(new Agents(agentConfig));
+  assertThat(agentInstances.size(),is(1));
+  assertThat(agentInstances.findAgentAndRefreshStatus("uuid20").agentConfig(),is(agentConfig));
+}

@@ -1,0 +1,21 @@
+{
+  artifactsService=context.mock(ArtifactsService.class);
+  configService=context.mock(GoConfigService.class);
+  jobInstanceDao=context.mock(JobInstanceDao.class);
+  jobDetailService=new JobDetailService(artifactsService,jobInstanceDao,configService);
+  final String jobName="jobConfig1";
+  final int id=1;
+  job=JobInstanceMother.completed(jobName,JobResult.Failed);
+  job.setId(id);
+  job.setIdentifier(new JobIdentifier("pipeline","Label:1","stage","1",jobName));
+  final Tabs tabs=new Tabs();
+  customizedTab=new Tab("myArtifacts","my/artifact/path");
+  tabs.add(customizedTab);
+  context.checking(new Expectations(){
+{
+      one(configService).getCustomizedTabs("pipeline","stage",jobName);
+      will(returnValue(tabs));
+    }
+  }
+);
+}

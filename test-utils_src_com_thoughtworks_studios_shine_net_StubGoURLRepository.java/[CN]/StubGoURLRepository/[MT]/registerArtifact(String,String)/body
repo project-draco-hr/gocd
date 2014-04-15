@@ -1,0 +1,10 @@
+{
+  File file=new File(artifactRoot,path);
+  file.getParentFile().mkdirs();
+  try {
+    FileUtils.writeStringToFile(file,content);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Could not write to file",e);
+  }
+}

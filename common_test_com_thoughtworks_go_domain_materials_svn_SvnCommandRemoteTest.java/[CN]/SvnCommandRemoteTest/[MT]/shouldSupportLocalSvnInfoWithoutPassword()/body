@@ -1,0 +1,6 @@
+{
+  command.checkoutTo(ProcessOutputStreamConsumer.inMemoryConsumer(),workingDir,new SubversionRevision(4));
+  SvnCommand commandWithoutPassword=new SvnCommand(null,repository.getUrl(),null,null,true);
+  SvnCommand.SvnInfo info=commandWithoutPassword.workingDirInfo(workingDir);
+  assertThat(info.getUrl(),is(repository.getUrl()));
+}

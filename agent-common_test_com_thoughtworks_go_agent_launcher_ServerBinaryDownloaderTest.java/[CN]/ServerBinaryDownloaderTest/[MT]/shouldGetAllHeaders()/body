@@ -1,0 +1,6 @@
+{
+  ServerBinaryDownloader downloader=new ServerBinaryDownloader(ServerUrlGeneratorMother.generatorFor("localhost",9090),DownloadableFile.AGENT);
+  Map<String,String> headers=downloader.headers();
+  assertNotNull(headers.get("Content-MD5"));
+  assertThat(headers.get("Cruise-Server-Ssl-Port"),is("9443"));
+}

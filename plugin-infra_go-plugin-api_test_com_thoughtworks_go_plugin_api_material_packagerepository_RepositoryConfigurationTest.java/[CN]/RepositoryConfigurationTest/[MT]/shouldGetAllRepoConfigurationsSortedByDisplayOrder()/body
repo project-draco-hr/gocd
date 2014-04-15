@@ -1,0 +1,12 @@
+{
+  Property c1=new PackageMaterialProperty("k1").with(Property.DISPLAY_ORDER,2);
+  Property c2=new PackageMaterialProperty("k2").with(Property.DISPLAY_ORDER,0);
+  Property c3=new PackageMaterialProperty("k3").with(Property.DISPLAY_ORDER,1);
+  RepositoryConfiguration repoConfigurations=new RepositoryConfiguration();
+  repoConfigurations.add(c1);
+  repoConfigurations.add(c2);
+  repoConfigurations.add(c3);
+  assertThat(repoConfigurations.list().get(0),is(c2));
+  assertThat(repoConfigurations.list().get(1),is(c3));
+  assertThat(repoConfigurations.list().get(2),is(c1));
+}

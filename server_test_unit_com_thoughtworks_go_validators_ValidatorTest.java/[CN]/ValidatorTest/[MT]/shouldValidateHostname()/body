@@ -1,0 +1,9 @@
+{
+  LocalizedResult result=mock(LocalizedResult.class);
+  new HostNameValidator().validate("pavan%pavan",result);
+  verify(result).invalid("INVALID_HOSTNAME","pavan%pavan");
+  new HostNameValidator().validate("hostname",result);
+  new HostNameValidator().validate("hostname_1",result);
+  new HostNameValidator().validate("hostname2-1",result);
+  verifyNoMoreInteractions(result);
+}

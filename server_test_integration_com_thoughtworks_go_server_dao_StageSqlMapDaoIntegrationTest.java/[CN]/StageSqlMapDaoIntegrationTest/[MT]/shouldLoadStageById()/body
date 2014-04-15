@@ -1,0 +1,11 @@
+{
+  Pipeline pipeline=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  Stage firstStage=pipeline.getFirstStage();
+  updateResultInTransaction(firstStage,StageResult.Passed);
+  Stage stage=stageDao.stageById(firstStage.getId());
+  assertThat(stage.getResult(),is(StageResult.Passed));
+  assertThat(stage.getIdentifier(),is(new StageIdentifier(pipeline.getName(),pipeline.getCounter(),pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter()))));
+  for (  JobInstance jobInstance : stage.getJobInstances()) {
+    assertThat(jobInstance.getIdentifier(),is(new JobIdentifier(pipeline,stage,jobInstance)));
+  }
+}

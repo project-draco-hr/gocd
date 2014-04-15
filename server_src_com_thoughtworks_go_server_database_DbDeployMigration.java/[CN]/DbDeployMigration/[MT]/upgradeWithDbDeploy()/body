@@ -1,0 +1,19 @@
+{
+  LOG.info("Upgrading database at " + dataSource + ". This might take a while depending on the size of the database.");
+  File upgradePath=env.getDBDeltasPath();
+  bombUnless(upgradePath.exists(),"Database upgrade scripts do not exist in directory " + upgradePath.getAbsolutePath());
+  InMemory dbDeploy=new InMemory(dataSource,new HsqlDbmsSyntax(),upgradePath,"DDL");
+  try {
+    String migrationSql=dbDeploy.migrationSql();
+    new JdbcTemplate(dataSource).execute(migrationSql);
+  }
+ catch (  Exception e) {
+    String message="Unable to create database upgrade script for database " + dataSource.getUrl() + ". The problem was: "+ e.getMessage();
+    if (e.getCause() != null) {
+      message+=". The cause was: " + e.getCause().getMessage();
+    }
+    LOG.error(message,e);
+    throw bomb(message,e);
+  }
+  LOG.info("Database upgraded");
+}

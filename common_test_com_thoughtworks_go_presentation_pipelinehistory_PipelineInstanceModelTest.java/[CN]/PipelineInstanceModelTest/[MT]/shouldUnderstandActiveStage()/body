@@ -1,0 +1,12 @@
+{
+  StageInstanceModels stages=new StageInstanceModels();
+  stages.addStage("unit1",JobHistory.withJob("test",JobState.Completed,JobResult.Passed,new Date()));
+  JobHistory history=new JobHistory();
+  history.add(new JobHistoryItem("test-1",JobState.Completed,JobResult.Failed,new Date()));
+  history.add(new JobHistoryItem("test-2",JobState.Building,JobResult.Unknown,new Date()));
+  StageInstanceModel activeStage=new StageInstanceModel("unit2","1",history);
+  stages.add(activeStage);
+  stages.addFutureStage("unit3",false);
+  PipelineInstanceModel model=PipelineInstanceModel.createPipeline("pipeline",-1,"label",BuildCause.createManualForced(),stages);
+  assertThat(model.activeStage(),is(activeStage));
+}

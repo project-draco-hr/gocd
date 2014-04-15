@@ -1,0 +1,22 @@
+{
+  boolean downloaded=false;
+synchronized (downloadableFile.mutex()) {
+    while (!downloaded) {
+      try {
+        PerfTimer timer=PerfTimer.start("Downloading new " + downloadableFile + " with md5 signature: "+ md5);
+        downloaded=download();
+        timer.stop();
+      }
+ catch (      Exception e) {
+        LOG.error("Couldn't update " + downloadableFile + ". Sleeping for 1m. Error: "+ e.toString());
+        try {
+          int period=Integer.parseInt(System.getProperty("sleep.for.download","60000"));
+          Thread.sleep(period);
+        }
+ catch (        InterruptedException ie) {
+        }
+      }
+    }
+  }
+  return new DownloadResult(downloaded,null,urlGenerator);
+}

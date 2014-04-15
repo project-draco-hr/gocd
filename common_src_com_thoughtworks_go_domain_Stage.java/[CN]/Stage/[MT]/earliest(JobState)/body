@@ -1,0 +1,12 @@
+{
+  Date date=null;
+  for (  JobStateTransition transition : jobInstances.stateTransitions()) {
+    if (transition.getCurrentState().equals(stage)) {
+      Date time=transition.getStateChangeTime();
+      if (date == null || time.before(date)) {
+        date=time;
+      }
+    }
+  }
+  return date;
+}

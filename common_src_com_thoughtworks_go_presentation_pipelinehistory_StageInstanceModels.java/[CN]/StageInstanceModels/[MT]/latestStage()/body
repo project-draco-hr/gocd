@@ -1,0 +1,13 @@
+{
+  if (size() == 0) {
+    return null;
+  }
+  StageInstanceModel latest=first();
+  for (int i=1; i < size(); i++) {
+    StageInstanceModel current=get(i);
+    if (!(current instanceof NullStageHistoryItem) && current.getScheduledDate().after(latest.getScheduledDate())) {
+      latest=current;
+    }
+  }
+  return latest;
+}

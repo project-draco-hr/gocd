@@ -1,0 +1,7 @@
+{
+  Pipeline pipeline=pipelineOne.createPipelineWithFirstStageScheduled(ModificationsMother.multipleModifications(pipelineOne.pipelineConfig()));
+  configHelper.setViewPermissionForGroup("group1","foo");
+  PipelineInstanceModel pipelineInstance=pipelineHistoryService.load(pipeline.getId(),new Username(new CaseInsensitiveString("foo")),new HttpOperationResult());
+  assertThat(pipelineInstance,is(not(nullValue())));
+  assertThat(pipelineInstance.hasNewRevisions(),is(false));
+}

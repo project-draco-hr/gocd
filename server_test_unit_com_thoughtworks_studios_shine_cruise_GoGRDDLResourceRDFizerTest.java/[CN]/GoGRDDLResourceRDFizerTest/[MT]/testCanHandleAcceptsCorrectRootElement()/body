@@ -1,0 +1,5 @@
+{
+  GoGRDDLResourceRDFizer rdfizer=new GoGRDDLResourceRDFizer("job","cruise/job-grddl.xsl",new InMemoryTempGraphFactory(),XSLTTransformerRegistry,null);
+  assertTrue(rdfizer.canHandle(doc("<job />")));
+  assertFalse(rdfizer.canHandle(doc("<stage />")));
+}

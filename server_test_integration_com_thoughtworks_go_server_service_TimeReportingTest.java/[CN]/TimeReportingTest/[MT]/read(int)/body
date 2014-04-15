@@ -1,0 +1,8 @@
+{
+  Date a=new Date();
+  goConfigFileDao.forceReload();
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  Date b=new Date();
+  assertThat(cruiseConfig.allPipelines().size(),is(numberOfPipelines));
+  return cruiseConfig;
+}

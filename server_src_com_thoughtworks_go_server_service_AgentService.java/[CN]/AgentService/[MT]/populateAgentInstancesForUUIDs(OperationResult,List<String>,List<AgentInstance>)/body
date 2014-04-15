@@ -1,0 +1,10 @@
+{
+  for (  String uuid : uuids) {
+    AgentInstance agentInstance=findAgentAndRefreshStatus(uuid);
+    if (isUnknownAgent(agentInstance,operationResult)) {
+      return false;
+    }
+    agents.add(agentInstance);
+  }
+  return true;
+}

@@ -1,0 +1,12 @@
+{
+  List results=(List)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session) throws HibernateException, SQLException {
+      Criteria criteria=session.createCriteria(ServerBackup.class);
+      criteria.setMaxResults(1);
+      criteria.addOrder(Order.desc("id"));
+      return criteria.list();
+    }
+  }
+);
+  return results.isEmpty() ? null : (ServerBackup)results.get(0);
+}

@@ -1,0 +1,6 @@
+{
+  Lockfile lockfile=new Lockfile(LOCK_FILE);
+  assertThat(lockfile.tryLock(),is(true));
+  lockfile.delete();
+  assertThat(LOCK_FILE.exists(),is(false));
+}

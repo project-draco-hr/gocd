@@ -1,0 +1,9 @@
+{
+  Pipeline pipeline=PipelineMother.pipeline("cruise");
+  when(pipelineDao.save(pipeline)).thenReturn(pipeline);
+  when(pipelineTimeline.pipelineBefore(anyLong())).thenReturn(9L);
+  when(pipelineTimeline.pipelineAfter(pipeline.getId())).thenReturn(-1L);
+  when(materialRepository.findMaterialRevisionsForPipeline(9L)).thenReturn(MaterialRevisions.EMPTY);
+  service.save(pipeline);
+  Mockito.verify(pipelineTimeline).update();
+}

@@ -1,0 +1,14 @@
+{
+  List<FrameworkFactory> frameworkFactories=IteratorUtils.toList(ServiceLoader.load(FrameworkFactory.class).iterator());
+  if (frameworkFactories.size() != 1) {
+    throw new RuntimeException("One OSGi framework expected. Got " + frameworkFactories.size() + ": "+ frameworkFactories);
+  }
+  try {
+    framework=getFelixFramework(frameworkFactories);
+    framework.start();
+    registerInternalServices(framework.getBundleContext());
+  }
+ catch (  BundleException e) {
+    throw new RuntimeException("Failed to initialize OSGi framework",e);
+  }
+}

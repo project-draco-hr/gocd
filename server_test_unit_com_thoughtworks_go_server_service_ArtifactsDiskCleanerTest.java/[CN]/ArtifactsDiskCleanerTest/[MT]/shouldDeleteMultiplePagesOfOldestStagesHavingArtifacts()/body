@@ -1,0 +1,41 @@
+{
+  serverConfig.setPurgeLimits(5.0,9.0);
+  final Stage stageOne=StageMother.passedStageInstance("stage","build","pipeline");
+  final Stage stageTwo=StageMother.passedStageInstance("another","job","with-pipeline");
+  final Stage stageThree=StageMother.passedStageInstance("yet-another","job1","foo-pipeline");
+  final Stage stageFour=StageMother.passedStageInstance("foo-stage","bar-job","baz-pipeline");
+  final Stage stageFive=StageMother.passedStageInstance("bar-stage","baz-job","quux-pipeline");
+  when(stageService.oldestStagesWithDeletableArtifacts()).thenReturn(Arrays.asList(stageOne,stageTwo));
+  when(diskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(4 * GoConstants.GIGA_BYTE);
+  doAnswer(new Answer<Object>(){
+    public Object answer(    InvocationOnMock invocation) throws Throwable {
+      when(stageService.oldestStagesWithDeletableArtifacts()).thenReturn(Arrays.asList(stageThree,stageFour));
+      return null;
+    }
+  }
+).when(artifactService).purgeArtifactsForStage(stageTwo);
+  doAnswer(new Answer<Object>(){
+    public Object answer(    InvocationOnMock invocation) throws Throwable {
+      when(stageService.oldestStagesWithDeletableArtifacts()).thenReturn(Arrays.asList(stageFive));
+      return null;
+    }
+  }
+).when(artifactService).purgeArtifactsForStage(stageFour);
+  doAnswer(new Answer<Object>(){
+    public Object answer(    InvocationOnMock invocation) throws Throwable {
+      when(stageService.oldestStagesWithDeletableArtifacts()).thenReturn(new ArrayList<Stage>());
+      return null;
+    }
+  }
+).when(artifactService).purgeArtifactsForStage(stageFive);
+  artifactsDiskCleaner.deleteOldArtifacts();
+  verify(artifactService).purgeArtifactsForStage(stageOne);
+  verify(artifactService).purgeArtifactsForStage(stageTwo);
+  verify(artifactService).purgeArtifactsForStage(stageThree);
+  verify(artifactService).purgeArtifactsForStage(stageFour);
+  verify(artifactService).purgeArtifactsForStage(stageFive);
+  verify(stageService,times(4)).oldestStagesWithDeletableArtifacts();
+  verify(configDbStateRepository,times(4)).flushConfigState();
+  verifyNoMoreInteractions(artifactService);
+  verifyNoMoreInteractions(stageService);
+}

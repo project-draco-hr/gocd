@@ -1,0 +1,14 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.start();
+  copyPluginToThePluginDirectory(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-plugin-2.jar");
+  waitAMoment();
+  verify(changeListener).pluginJarAdded(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-plugin-2.jar",false));
+  FileUtils.deleteQuietly(new File(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-plugin-2.jar"));
+  waitAMoment();
+  verify(changeListener).pluginJarRemoved(pluginFileDetails(PLUGIN_EXTERNAL_DIR,"descriptor-aware-test-plugin-2.jar",false));
+  verifyNoMoreInteractions(changeListener);
+}

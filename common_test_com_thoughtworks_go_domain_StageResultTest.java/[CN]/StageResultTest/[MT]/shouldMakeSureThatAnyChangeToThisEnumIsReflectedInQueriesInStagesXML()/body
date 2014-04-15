@@ -1,0 +1,9 @@
+{
+  assertThat(StageResult.values().length,is(4));
+  List<StageResult> actualStageResults=Arrays.asList(StageResult.values());
+  List<String> names=new ArrayList<String>();
+  for (  StageResult stageResult : actualStageResults) {
+    names.add(stageResult.name());
+  }
+  assertThat("If this test fails, it means that either a stage result has been added/removed or renamed.\n" + " This might cause Stage queries in Stages.xml, especially, allPassedStageAsDMRsAfter, which uses something like: stages.result <> 'Failed' AND stages.result <> 'Unknown' AND stages.result <> 'Cancelled'",names,hasItems("Passed","Cancelled","Failed","Unknown"));
+}

@@ -1,0 +1,7 @@
+{
+  if (!isUserAdminOfGroup(username.getUsername(),toGroupName)) {
+    result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT_GROUP",toGroupName),HealthStateType.unauthorised());
+    return false;
+  }
+  return true;
+}

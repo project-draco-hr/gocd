@@ -1,0 +1,8 @@
+{
+  StageConfig moveMeStage=StageConfigMother.stageConfig("move-me");
+  StageConfig dontMoveMeStage=StageConfigMother.stageConfig("dont-move-me");
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline",dontMoveMeStage,moveMeStage);
+  pipelineConfig.decrementIndex(moveMeStage);
+  assertThat(pipelineConfig.indexOf(moveMeStage),is(0));
+  assertThat(pipelineConfig.indexOf(dontMoveMeStage),is(1));
+}

@@ -1,0 +1,14 @@
+{
+  File originalFolder=artifactFolder.getRootFolder();
+  File cachedZip=cachedFile(artifactFolder);
+  File cachedTempZip=zipToTempFile(cachedZip);
+  cachedTempZip.getParentFile().mkdirs();
+  try {
+    zipUtil.zip(originalFolder,cachedTempZip,Deflater.DEFAULT_COMPRESSION);
+  }
+ catch (  IOException e) {
+    cachedTempZip.delete();
+    throw e;
+  }
+  FileUtils.moveFile(cachedTempZip,cachedZip);
+}

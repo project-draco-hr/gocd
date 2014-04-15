@@ -1,0 +1,8 @@
+{
+  PipelineConfig config=PipelineConfigMother.createPipelineConfigWithStages("pipeline","stage1","stage2");
+  config.templatize(new CaseInsensitiveString("template"));
+  assertThat(config.hasTemplate(),is(true));
+  assertThat(config.hasTemplateApplied(),is(false));
+  assertThat(config.getTemplateName(),is(new CaseInsensitiveString("template")));
+  assertThat(config.isEmpty(),is(true));
+}

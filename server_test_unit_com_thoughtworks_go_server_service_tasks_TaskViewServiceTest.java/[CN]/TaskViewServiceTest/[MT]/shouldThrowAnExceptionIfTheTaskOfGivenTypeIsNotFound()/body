@@ -1,0 +1,14 @@
+{
+  ConfigElementImplementationRegistry registry=this.registry;
+  List<Class<? extends Task>> taskClasses=new ArrayList<Class<? extends Task>>();
+  taskClasses.add(AntTask.class);
+  when(registry.implementersOf(Task.class)).thenReturn(taskClasses);
+  TaskViewService service=new TaskViewService(registry,mock(PluginManager.class));
+  try {
+    service.taskInstanceFor("Unknown");
+    fail("Should have failed since the given task is not available in the registry");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Could not find any task of type: Unknown"));
+  }
+}

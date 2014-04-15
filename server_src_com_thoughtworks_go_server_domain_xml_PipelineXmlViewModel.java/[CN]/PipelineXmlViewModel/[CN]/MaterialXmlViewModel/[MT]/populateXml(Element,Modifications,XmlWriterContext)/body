@@ -1,0 +1,11 @@
+{
+  Element materialElement=materials.addElement("material");
+  materialElement.addAttribute("materialUri",writerContext.getBaseUrl() + "/api/materials/" + material.getId()+ ".xml");
+  for (  Map.Entry<String,Object> criterion : material.getAttributesForXml().entrySet()) {
+    if (criterion.getValue() != null) {
+      materialElement.addAttribute(criterion.getKey(),criterion.getValue().toString());
+    }
+  }
+  Element modificationsTag=materialElement.addElement("modifications");
+  populateXmlForModifications(modifications,writerContext,modificationsTag);
+}

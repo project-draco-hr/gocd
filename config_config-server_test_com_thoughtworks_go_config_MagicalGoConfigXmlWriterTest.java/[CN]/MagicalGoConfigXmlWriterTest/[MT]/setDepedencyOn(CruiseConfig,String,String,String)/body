@@ -1,0 +1,5 @@
+{
+  PipelineConfig targetPipeline=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(toPipeline));
+  targetPipeline.materialConfigs().clear();
+  targetPipeline.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString(upstreamPipeline),new CaseInsensitiveString(upstreamStage)));
+}

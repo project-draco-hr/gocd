@@ -1,0 +1,12 @@
+{
+  CommandSnippets snippets;
+  LOG.info("[Command Repository] Reloading command snippets.");
+  lastCacheReloadTime=new Date().getTime();
+synchronized (this) {
+    previousRepositoryDirectory=getRepositoryDirectory();
+    snippets=commandRepositoryDirectoryWalker.getAllCommandSnippets(previousRepositoryDirectory);
+  }
+  goCache.put(CACHE_KEY,snippets);
+  LOG.debug("[Command Repository] Reloaded command snippets.");
+  return snippets;
+}

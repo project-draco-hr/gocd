@@ -1,0 +1,17 @@
+{
+  BufferedReader reader=null;
+  StringBuffer sb=new StringBuffer();
+  try {
+    reader=new BufferedReader(new FileReader(file));
+    String line;
+    while ((line=reader.readLine()) != null) {
+      sb.append(line);
+    }
+  }
+  finally {
+    if (reader != null) {
+      reader.close();
+    }
+  }
+  return sb.toString();
+}

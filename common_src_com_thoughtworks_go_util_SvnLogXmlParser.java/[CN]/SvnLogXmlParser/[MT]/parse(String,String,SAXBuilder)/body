@@ -1,0 +1,9 @@
+{
+  try {
+    Document document=builder.build(new StringReader(svnLogOutput));
+    return parseDOMTree(document,path);
+  }
+ catch (  Exception e) {
+    throw bomb("Unable to parse svn log output: " + svnLogOutput,e);
+  }
+}

@@ -1,0 +1,28 @@
+{
+  Tasks tasks=new Tasks();
+  if ("ant".equals(builder)) {
+    AntTask antTask=new AntTask();
+    antTask.setTarget(this.target);
+    antTask.setBuildFile(defaultString(StringUtils.isBlank(this.buildfile) ? "build.xml" : this.buildfile));
+    tasks.add(antTask);
+  }
+ else   if ("nant".equals(builder)) {
+    NantTask nantTask=new NantTask();
+    nantTask.setTarget(this.target);
+    nantTask.setBuildFile(defaultString(StringUtils.isBlank(this.buildfile) ? "default.build" : this.buildfile));
+    tasks.add(nantTask);
+  }
+ else   if ("rake".equals(builder)) {
+    RakeTask rakeTask=new RakeTask();
+    rakeTask.setTarget(this.target);
+    rakeTask.setBuildFile(StringUtils.isBlank(this.buildfile) ? null : this.buildfile);
+    tasks.add(rakeTask);
+  }
+ else   if ("exec".equals(builder)) {
+    String trimmedCommand=StringUtils.defaultString(this.command).trim();
+    String trimmedArguments=StringUtils.defaultString(this.arguments).trim();
+    ExecTask execTask=new ExecTask(trimmedCommand,trimmedArguments,(String)null);
+    tasks.add(execTask);
+  }
+  return tasks;
+}

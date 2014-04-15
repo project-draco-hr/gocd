@@ -1,0 +1,20 @@
+{
+  MaterialConfig materialConfig=materialFactory.getMaterial(scm,url,username,decryptPasswordIfRequired(password,isEncrypted),false,view,null,projectPath,domain);
+  if (pipelineName != null) {
+    CruiseConfig config=new Cloner().deepClone(goConfigService.getConfigForEditing());
+    PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+    pipelineConfig.addMaterialConfig(materialConfig);
+    MagicalGoConfigXmlLoader.preprocess(config);
+  }
+  JsonAction jsonAction;
+  ConfigErrors errors=materialConfig.errors();
+  if (!errors.isEmpty()) {
+    List<String> all=errors.getAll();
+    jsonAction=JsonAction.jsonFound(ValidationBean.notValid("There were errors while processing the material configuration. " + all));
+  }
+ else {
+    JsonAware jsonAware=materialConnectivityService.checkConnection(materialConfig,executionConstant);
+    jsonAction=JsonAction.jsonFound(jsonAware);
+  }
+  return jsonAction.respond(response);
+}

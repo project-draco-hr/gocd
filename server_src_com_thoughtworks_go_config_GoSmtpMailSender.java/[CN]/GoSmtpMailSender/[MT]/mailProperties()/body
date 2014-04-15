@@ -1,0 +1,17 @@
+{
+  Properties props=new Properties();
+  props.put("mail.from",from);
+  if (!System.getProperties().containsKey("mail.smtp.connectiontimeout")) {
+    props.put("mail.smtp.connectiontimeout",DEFAULT_TIMEOUT);
+  }
+  if (!System.getProperties().containsKey("mail.smtp.timeout")) {
+    props.put("mail.smtp.timeout",DEFAULT_TIMEOUT);
+  }
+  if (tls) {
+    props.put("mail.transport.protocol","smtps");
+  }
+ else {
+    props.put("mail.transport.protocol","smtp");
+  }
+  return props;
+}

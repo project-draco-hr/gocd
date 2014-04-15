@@ -1,0 +1,7 @@
+{
+  Revision revision=mock(Revision.class);
+  MaterialService spy=spy(materialService);
+  doReturn(data.klass).when(spy).getMaterialClass(data.material);
+  List<Modification> actual=spy.modificationsSince(data.material,null,revision,null);
+  assertThat(actual,is(MODIFICATIONS));
+}

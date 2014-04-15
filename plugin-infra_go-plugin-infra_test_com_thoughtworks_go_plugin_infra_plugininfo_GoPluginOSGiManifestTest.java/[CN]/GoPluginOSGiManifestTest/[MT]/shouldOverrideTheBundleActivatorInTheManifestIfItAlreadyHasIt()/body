@@ -1,0 +1,11 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  addHeaderToManifest(BUNDLE_ACTIVATOR,"Dummy Value");
+  assertThat(valueFor(BUNDLE_ACTIVATOR),is(not(nullValue())));
+  GoPluginDescriptor descriptor=GoPluginDescriptor.usingId("pluginId","some-plugin.jar",bundleLocation,true);
+  goPluginOSGiManifestGenerator.updateManifestOf(descriptor);
+  assertThat(valueFor(BUNDLE_ACTIVATOR),is(DefaultGoPluginActivator.class.getCanonicalName()));
+  assertThat(descriptor.isInvalid(),is(false));
+}

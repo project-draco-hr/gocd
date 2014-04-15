@@ -1,0 +1,10 @@
+{
+  PipelineInstanceModel pipeline=new PipelineInstanceModel("pipeline",-2,"label",BuildCause.createManualForced(),new StageInstanceModels());
+  when(mockTemplate.queryForObject(eq("getPipelineHistoryById"),any())).thenReturn(pipeline);
+  PipelineInstanceModel loaded;
+  loaded=pipelineDao.loadHistory(99);
+  changeStageStatus();
+  loaded=pipelineDao.loadHistory(99);
+  assertTrue(EqualsBuilder.reflectionEquals(loaded,pipeline));
+  verify(mockTemplate,times(2)).queryForObject(eq("getPipelineHistoryById"),any());
+}

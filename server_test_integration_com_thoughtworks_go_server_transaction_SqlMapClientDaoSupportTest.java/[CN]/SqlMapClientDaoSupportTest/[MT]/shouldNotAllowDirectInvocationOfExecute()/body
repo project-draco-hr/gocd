@@ -1,0 +1,25 @@
+{
+  User loser=new User("loser");
+  userDao.saveOrUpdate(loser);
+  final User[] loadedUser=new User[1];
+  try {
+    assertionUtil.doInTxnWithCachePut(new TransactionCacheAssertionUtil.DoInTxn(){
+      public void invoke(){
+        daoSupport.getSqlMapClientTemplate().execute(new SqlMapClientCallback(){
+          public Object doInSqlMapClient(          SqlMapExecutor executor) throws SQLException {
+            loadedUser[0]=userDao.allUsers().get(0);
+            return null;
+          }
+        }
+);
+      }
+    }
+);
+    fail("should not have allowed direct execute invocation");
+  }
+ catch (  Exception e) {
+    assertThat(e,is(instanceOf(UnsupportedOperationException.class)));
+    assertThat(e.getMessage(),is("Please call one of the supported methods. Refer " + SqlMapClientDaoSupport.SqlMapClientTemplate.class.getCanonicalName() + " for details. This is to ensure read consistency during transactions."));
+  }
+  assertThat(loadedUser[0],is(nullValue()));
+}

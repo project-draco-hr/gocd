@@ -1,0 +1,7 @@
+{
+  SecurityContext securityContext=SecurityContextHolder.getContext();
+  if (securityContext != null && securityContext.getAuthentication() != null) {
+    return getUserName(securityContext.getAuthentication());
+  }
+  return ANONYMOUS;
+}

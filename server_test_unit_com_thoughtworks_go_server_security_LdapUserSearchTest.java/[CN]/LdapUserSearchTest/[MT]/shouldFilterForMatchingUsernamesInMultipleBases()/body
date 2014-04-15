@@ -1,0 +1,9 @@
+{
+  AttributesMapperCallbackHandler handler=mock(AttributesMapperCallbackHandler.class);
+  doReturn(handler).when(spy).getAttributesMapperCallbackHandler();
+  when(handler.getList()).thenReturn(Arrays.asList());
+  spy.search("username",ldapConfig(new BasesConfig(new BaseConfig("base1"),new BaseConfig("base2"))));
+  verify(handler).getList();
+  verify(ldapTemplate).search(argThat(is("base1")),anyString(),any(SearchControls.class),eq(handler));
+  verify(ldapTemplate).search(argThat(is("base2")),anyString(),any(SearchControls.class),eq(handler));
+}

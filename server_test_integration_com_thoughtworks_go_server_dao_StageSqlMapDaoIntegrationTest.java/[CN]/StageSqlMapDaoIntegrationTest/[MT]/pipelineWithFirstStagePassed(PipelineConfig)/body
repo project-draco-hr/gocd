@@ -1,0 +1,6 @@
+{
+  Pipeline completed=dbHelper.schedulePipeline(pipelineConfig,new TimeProvider());
+  assertThat(dbHelper.updateNaturalOrder(completed.getId(),1.0),is(1));
+  dbHelper.pass(completed);
+  return completed;
+}

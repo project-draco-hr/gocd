@@ -1,0 +1,5 @@
+{
+  when(cipher.decrypt("encrypted-value")).thenReturn("decrypted-value");
+  ConfigurationProperty configurationProperty=new ConfigurationProperty(new ConfigurationKey("key"),null,new EncryptedConfigurationValue("encrypted-value"),cipher);
+  assertThat(configurationProperty.getValue(),is("decrypted-value"));
+}

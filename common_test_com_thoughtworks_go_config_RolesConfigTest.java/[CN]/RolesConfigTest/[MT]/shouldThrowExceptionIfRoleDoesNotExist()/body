@@ -1,0 +1,9 @@
+{
+  RolesConfig rolesConfig=new RolesConfig(new Role(new CaseInsensitiveString("role1"),new RoleUser(new CaseInsensitiveString("user1"))));
+  try {
+    rolesConfig.isUserMemberOfRole(new CaseInsensitiveString("anyone"),new CaseInsensitiveString("invalid-role-name"));
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Role \"invalid-role-name\" does not exist!"));
+  }
+}

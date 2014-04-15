@@ -1,0 +1,8 @@
+{
+  AgentLaunchDescriptor launchDescriptor=mock(AgentLaunchDescriptor.class);
+  Map contextMap=new ConcurrentHashMap();
+  contextMap.put(AgentLaunchDescriptorKeys.HOSTNAME,"localhost");
+  contextMap.put(AgentLaunchDescriptorKeys.PORT,9090);
+  when(launchDescriptor.context()).thenReturn(contextMap);
+  return launchDescriptor;
+}

@@ -1,0 +1,20 @@
+{
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  final File src1=TestFileUtil.createTestFolder(workingFolder,"src1");
+  final File testFile1=TestFileUtil.createTestFile(src1,"test1.txt");
+  final File testFile2=TestFileUtil.createTestFile(src1,"test2.txt");
+  final File testFile3=TestFileUtil.createTestFile(src1,"readme.pdf");
+  artifactPlans.add(new ArtifactPlan(ArtifactType.file,src1.getName() + "/*","dest"));
+  StubGoPublisher publisher=new StubGoPublisher();
+  DefaultJobPlan plan=new DefaultJobPlan(new Resources(),artifactPlans,new ArtifactPropertiesGenerators(),-1,null);
+  plan.publishArtifacts(publisher,workingFolder);
+  Map<File,String> expectedFiles=new HashMap<File,String>(){
+{
+      put(testFile1,"dest");
+      put(testFile2,"dest");
+      put(testFile3,"dest");
+    }
+  }
+;
+  assertThat(publisher.publishedFiles(),is(expectedFiles));
+}

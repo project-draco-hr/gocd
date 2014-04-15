@@ -1,0 +1,22 @@
+{
+  this.pipelineNames=pipelineNames;
+  this.baseStageNames=baseStageNames;
+  this.baseBuildNames=baseBuildNames;
+  File configXml=DataUtils.getConfigXmlOfWebApp();
+  File srcFile;
+  if (overrideConfigFilePath == null) {
+    srcFile=DataUtils.getConfigXmlAsFile();
+  }
+ else {
+    srcFile=new File(overrideConfigFilePath);
+  }
+  FileUtils.copyFile(srcFile,configXml);
+  new SystemEnvironment().setProperty(SystemEnvironment.CONFIG_FILE_PROPERTY,configXml.getAbsolutePath());
+  new SystemEnvironment().setProperty("jdbc.port","9003");
+  server=new Server(port);
+  WebAppContext context=new WebAppContext("webapp","/go");
+  context.setConfigurationClasses(new String[]{"org.mortbay.jetty.webapp.WebInfConfiguration","org.mortbay.jetty.webapp.WebXmlConfiguration","org.mortbay.jetty.webapp.JettyWebXmlConfiguration"});
+  context.setDefaultsDescriptor("webapp/WEB-INF/webdefault.xml");
+  server.addHandler(context);
+  this.setCookieExpireIn6Months(context);
+}

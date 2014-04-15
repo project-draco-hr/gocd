@@ -1,0 +1,17 @@
+{
+  final PipelineConfig pipelineConfig=PipelineMother.createPipelineConfig("mingle",new MaterialConfigs(materialConfig),"dev");
+  final MaterialRevisions materialRevisions=ModificationsMother.modifyOneFile(pipelineConfig);
+  MaterialRevision materialRevision=materialRevisions.getMaterialRevision(0);
+  final Pipeline[] pipeline=new Pipeline[1];
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      repo.save(materialRevisions);
+      PipelineConfig config=PipelineMother.withTwoStagesOneBuildEach("pipeline-name","stage-1","stage-2");
+      config.setMaterialConfigs(materialRevisions.getMaterials().convertToConfigs());
+      pipeline[0]=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(materialRevisions,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+      pipelineSqlMapDao.save(pipeline[0]);
+    }
+  }
+);
+  assertMaterialRevisions(materialRevision,pipeline[0]);
+}

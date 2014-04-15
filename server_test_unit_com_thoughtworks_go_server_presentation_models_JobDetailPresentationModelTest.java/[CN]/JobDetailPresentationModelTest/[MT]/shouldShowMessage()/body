@@ -1,0 +1,11 @@
+{
+  DirectoryReader directoryReader=mock(DirectoryReader.class);
+  JobInstance jobInstance=JobInstanceMother.completed("job-1");
+  Stage stage=new Stage();
+  stage.setArtifactsDeleted(true);
+  DirectoryEntries directoryEntries=new DirectoryEntries();
+  when(directoryReader.listEntries(any(File.class),any(String.class))).thenReturn(directoryEntries);
+  JobDetailPresentationModel jobDetailPresentationModel=new JobDetailPresentationModel(jobInstance,null,null,null,null,null,mock(ArtifactsService.class),null,stage);
+  jobDetailPresentationModel.getArtifactFiles(directoryReader);
+  assertThat(directoryEntries.isArtifactsDeleted(),is(true));
+}

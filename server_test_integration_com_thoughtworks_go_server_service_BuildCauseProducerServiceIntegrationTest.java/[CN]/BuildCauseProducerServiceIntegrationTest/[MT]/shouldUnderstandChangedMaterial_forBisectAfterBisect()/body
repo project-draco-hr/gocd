@@ -1,0 +1,17 @@
+{
+  SvnMaterial svn=SvnMaterial.createSvnMaterialWithMock(repository);
+  runAndPassWith(svn,"foo.c",svnRepository);
+  MaterialRevisions revsAfterFoo=checkinFile(svn,"foo_other.c",svnRepository);
+  runAndPassWith(svn,"bar.c",revsAfterFoo,svnRepository);
+  MaterialRevisions revsAfterBar=checkinFile(svn,"bar_other.c",svnRepository);
+  runAndPassWith(svn,"baz.c",revsAfterBar,svnRepository);
+  runAndPass(revsAfterFoo);
+  String revisionForFingerPrint=revsAfterBar.findRevisionForFingerPrint(svn.getFingerprint()).getRevision().getRevision();
+  scheduleHelper.manuallySchedulePipelineWithRealMaterials(MINGLE_PIPELINE_NAME,new Username(new CaseInsensitiveString("loser")),m(mingleConfig.materialConfigs().get(0).getPipelineUniqueFingerprint(),revisionForFingerPrint));
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),hasItem(MINGLE_PIPELINE_NAME));
+  BuildCause bisectAfterBisectBuildCause=pipelineScheduleQueue.toBeScheduled().get(MINGLE_PIPELINE_NAME);
+  for (  MaterialRevision materialRevision : bisectAfterBisectBuildCause.getMaterialRevisions()) {
+    assertThat("material revision " + materialRevision + " should have been considered not changed.",materialRevision.isChanged(),is(false));
+  }
+  assertThat(bisectAfterBisectBuildCause.getMaterialRevisions().getRevisions().size(),is(1));
+}

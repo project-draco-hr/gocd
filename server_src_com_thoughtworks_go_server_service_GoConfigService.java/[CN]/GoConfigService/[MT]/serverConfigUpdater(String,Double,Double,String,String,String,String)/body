@@ -1,0 +1,15 @@
+{
+  return new UpdateConfigCommand(){
+    public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      ServerConfig server=cruiseConfig.server();
+      server.setArtifactsDir(artifactsDir);
+      server.setPurgeLimits(purgeStart,purgeUpto);
+      server.setJobTimeout(jobTimeout);
+      server.setSiteUrl(siteUrl);
+      server.setSecureSiteUrl(secureSiteUrl);
+      server.setCommandRepositoryLocation(taskRepositoryLocation);
+      return cruiseConfig;
+    }
+  }
+;
+}

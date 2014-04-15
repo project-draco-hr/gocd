@@ -1,0 +1,8 @@
+{
+  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  JobStatusListener listener=mock(JobStatusListener.class);
+  jobService.registerJobStateChangeListener(listener);
+  jobService.updateStateAndResult(job);
+  verify(jobInstanceDao).updateStateAndResult(job);
+  verify(listener).jobStatusChanged(job);
+}

@@ -1,0 +1,8 @@
+{
+  String userName="user1";
+  User user=new User(userName);
+  user.disable();
+  userDao.saveOrUpdate(user);
+  boolean result=userDao.deleteUser(userName);
+  assertThat(result,is(true));
+}

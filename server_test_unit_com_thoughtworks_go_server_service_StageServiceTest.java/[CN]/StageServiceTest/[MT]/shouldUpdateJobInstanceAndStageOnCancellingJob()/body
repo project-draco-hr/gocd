@@ -1,0 +1,22 @@
+{
+  JobInstance job=new JobInstance("job");
+  job.setIdentifier(new JobIdentifier("pipeline",10,"label",STAGE_NAME,"5","job"));
+  TransactionSynchronizationManager transactionSynchronizationManager=mock(TransactionSynchronizationManager.class);
+  StageService service=new StageService(stageDao,jobInstanceService,null,null,null,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  JobInstance foundJob=new JobInstance("job");
+  foundJob.setState(JobState.Scheduled);
+  foundJob.setResult(JobResult.Unknown);
+  JobInstances foundJobInstances=new JobInstances(foundJob);
+  Stage foundStage=new Stage(STAGE_NAME,foundJobInstances,"jez","manual",new TimeProvider());
+  foundStage.calculateResult();
+  assertThat(foundStage.getState(),is(not(StageState.Cancelled)));
+  assertThat(foundStage.getResult(),is(not(StageResult.Cancelled)));
+  foundJob.setState(JobState.Completed);
+  foundJob.setResult(JobResult.Cancelled);
+  when(stageDao.findStageWithIdentifier(job.getIdentifier().getStageIdentifier())).thenReturn(foundStage);
+  service.cancelJob(job);
+  assertThat(foundStage.getState(),is(StageState.Cancelled));
+  assertThat(foundStage.getResult(),is(StageResult.Cancelled));
+  verify(jobInstanceService).cancelJob(job);
+  verify(stageDao).updateResult(foundStage,StageResult.Cancelled);
+}

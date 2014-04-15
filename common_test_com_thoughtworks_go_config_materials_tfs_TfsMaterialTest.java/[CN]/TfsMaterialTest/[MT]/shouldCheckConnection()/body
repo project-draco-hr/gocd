@@ -1,0 +1,9 @@
+{
+  TestSubprocessExecutionContext execCtx=new TestSubprocessExecutionContext();
+  TfsCommand tfsCommand=mock(TfsCommand.class);
+  doNothing().when(tfsCommand).checkConnection();
+  TfsMaterial spy=spy(tfsMaterialFirstCollectionFirstProject);
+  doReturn(tfsCommand).when(spy).tfs(execCtx);
+  assertThat(spy.checkConnection(execCtx),Is.is(ValidationBean.valid()));
+  verify(tfsCommand,times(1)).checkConnection();
+}

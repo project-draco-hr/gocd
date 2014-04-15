@@ -1,0 +1,6 @@
+{
+  JobInstance job=oldFtStage.getJobInstances().first();
+  buildRepositoryService.completing(job.getIdentifier(),JobResult.Passed,AGENT_UUID);
+  reportJobPassed(job);
+  return jobInstanceService.buildByIdWithTransitions(job.getId());
+}

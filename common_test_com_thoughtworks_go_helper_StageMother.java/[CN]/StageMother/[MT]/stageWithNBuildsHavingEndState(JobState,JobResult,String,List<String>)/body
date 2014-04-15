@@ -1,0 +1,10 @@
+{
+  JobInstances builds=new JobInstances();
+  for (  String buildName : buildNames) {
+    builds.add(JobInstanceMother.buildEndingWithState(endState,result,buildName));
+  }
+  Stage stage=new Stage(stageName,builds,DEFAULT_APPROVED_BY,null,new TimeProvider());
+  stage.calculateResult();
+  stage.setCompletedByTransitionId(stage.getJobInstances().last().getTransitions().latestTransitionId());
+  return stage;
+}

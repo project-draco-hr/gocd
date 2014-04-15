@@ -1,0 +1,13 @@
+{
+  final File workingCopy=createSvnWorkingCopy(true);
+  context.checking(new Expectations(){
+{
+      one(subversion).workingRepositoryUrl(workingCopy);
+      will(returnValue(URL));
+      one(subversion).cleanupAndRevert(outputStreamConsumer,workingCopy);
+      one(subversion).updateTo(outputStreamConsumer,workingCopy,revision);
+    }
+  }
+);
+  svnMaterial.updateTo(outputStreamConsumer,revision,workingCopy,new TestSubprocessExecutionContext());
+}

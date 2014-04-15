@@ -1,0 +1,7 @@
+{
+  AgentConfig agentConfig=agentInstance.agentConfig();
+  AgentRuntimeInfo newRuntimeInfo=AgentRuntimeInfo.fromServer(agentConfig,true,agentInstance.getLocation(),agentInstance.getUsableSpace(),operatingSystem);
+  newRuntimeInfo.setStatus(agentInstance.getStatus());
+  agentInstance.update(newRuntimeInfo);
+  return agentInstance;
+}

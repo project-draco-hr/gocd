@@ -1,0 +1,6 @@
+{
+  FeedResolver feedResolver=new PipelineStagesFeedService(stageService,securityService).feedResolverFor("cruise");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  feedResolver.feed(new Username(new CaseInsensitiveString("evil_hacker")),result);
+  assertThat(result.message(localizer),is("User 'evil_hacker' does not have view permission on pipeline 'cruise'"));
+}

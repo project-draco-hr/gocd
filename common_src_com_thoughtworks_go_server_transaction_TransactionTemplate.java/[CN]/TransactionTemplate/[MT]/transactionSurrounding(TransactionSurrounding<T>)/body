@@ -1,0 +1,9 @@
+{
+  txnCtx().surroundingPushed();
+  try {
+    return surrounding.surrounding();
+  }
+  finally {
+    txnCtx().surroundingPopped();
+  }
+}

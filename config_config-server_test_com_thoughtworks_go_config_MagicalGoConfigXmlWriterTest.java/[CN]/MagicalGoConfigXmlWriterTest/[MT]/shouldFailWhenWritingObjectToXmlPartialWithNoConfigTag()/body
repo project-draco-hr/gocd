@@ -1,0 +1,10 @@
+{
+  Object badObject="foo";
+  try {
+    xmlWriter.toXmlPartial(badObject);
+    fail("Should not be able to write a non ConfigTag enabled object");
+  }
+ catch (  RuntimeException expected) {
+    assertThat(expected.getMessage(),is("Object " + badObject + " does not have a ConfigTag"));
+  }
+}

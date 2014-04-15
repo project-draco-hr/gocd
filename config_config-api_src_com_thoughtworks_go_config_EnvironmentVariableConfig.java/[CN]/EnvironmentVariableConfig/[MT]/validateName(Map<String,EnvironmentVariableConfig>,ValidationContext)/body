@@ -1,0 +1,17 @@
+{
+  String currentVariableName=name.toLowerCase();
+  String parentDisplayName=validationContext.getParentDisplayName();
+  CaseInsensitiveString parentName=getParentNameFrom(validationContext);
+  if (StringUtil.isBlank(currentVariableName)) {
+    configErrors.add(NAME,String.format("Environment Variable cannot have an empty name for %s '%s'.",parentDisplayName,parentName));
+    return;
+  }
+  EnvironmentVariableConfig configWithSameName=variableConfigMap.get(currentVariableName);
+  if (configWithSameName == null) {
+    variableConfigMap.put(currentVariableName,this);
+  }
+ else {
+    configWithSameName.addNameConflictError(parentDisplayName,parentName);
+    this.addNameConflictError(parentDisplayName,parentName);
+  }
+}

@@ -1,0 +1,18 @@
+{
+  Csv csv=new Csv();
+  String[] lines=csvContent.split("\n");
+  if (lines.length > 1) {
+    String header=lines[0];
+    String[] columns=header.split(",");
+    for (int i=1; i < lines.length; i++) {
+      String line=lines[i];
+      CsvRow row=csv.newRow();
+      String[] strings=line.split(",");
+      for (int j=0; j < strings.length; j++) {
+        String string=strings[j];
+        row.put(columns[j],string);
+      }
+    }
+  }
+  return csv;
+}

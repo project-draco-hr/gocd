@@ -1,0 +1,10 @@
+{
+  List<Modification> modifications=new ArrayList<Modification>();
+  Element rootElement=document.getRootElement();
+  List logEntries=rootElement.getChildren("logentry");
+  for (Iterator iterator=logEntries.iterator(); iterator.hasNext(); ) {
+    Element logEntry=(Element)iterator.next();
+    modifications.add(parseLogEntry(logEntry,path));
+  }
+  return modifications;
+}

@@ -1,0 +1,8 @@
+{
+  AgentInstance idle=AgentInstanceMother.idle();
+  AgentInstanceMother.updateAgentLauncherVersion(idle,"12.4");
+  AgentInstance building=AgentInstanceMother.building();
+  AgentInstanceMother.updateAgentLauncherVersion(building,"12.3");
+  AgentsViewModel agentsViewModel=new AgentsViewModel(new AgentViewModel(building),new AgentViewModel(idle),new AgentViewModel(AgentInstanceMother.missing()));
+  assertThat(agentsViewModel.hasAgentsThatNeedUpgrade(),is(false));
+}

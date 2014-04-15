@@ -1,0 +1,9 @@
+{
+  Pipeline pipeline=pipelineService.findPipelineByCounterOrLabel(pipelineName,counterOrLabel);
+  if (pipeline == null) {
+    throw bomb(String.format("Job %s/%s/%s/%s/%s not found",pipelineName,counterOrLabel,stageName,stageCounter,jobName));
+  }
+  StageIdentifier stageIdentifier=restfulService.translateStageCounter(pipeline.getIdentifier(),stageName,stageCounter);
+  JobInstance instance=jobDetailService.findMostRecentBuild(new JobIdentifier(stageIdentifier,jobName));
+  return getModelAndView(instance);
+}

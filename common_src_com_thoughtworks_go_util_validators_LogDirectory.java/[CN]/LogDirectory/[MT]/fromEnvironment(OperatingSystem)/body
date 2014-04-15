@@ -1,0 +1,14 @@
+{
+  if (LINUX.equals(os)) {
+    return new LogDirectory("/var/log/go-server");
+  }
+ else   if (SUN_OS.equals(os)) {
+    return new LogDirectory("/var/log/cruise-server");
+  }
+ else   if (OSX.equals(os)) {
+    return new LogDirectory("/Library/Logs/GoServer");
+  }
+ else {
+    return LogDirectory.CURRENT;
+  }
+}

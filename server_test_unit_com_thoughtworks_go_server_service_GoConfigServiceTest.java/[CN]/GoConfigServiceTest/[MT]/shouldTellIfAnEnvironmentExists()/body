@@ -1,0 +1,12 @@
+{
+  EnvironmentConfig first=new EnvironmentConfig(new CaseInsensitiveString("first"));
+  EnvironmentConfig second=new EnvironmentConfig(new CaseInsensitiveString("second"));
+  CruiseConfig config=new CruiseConfig();
+  config.addEnvironment(first);
+  config.addEnvironment(second);
+  expectLoad(config);
+  assertThat(goConfigService.hasEnvironmentNamed(new CaseInsensitiveString("first")),is(true));
+  assertThat(goConfigService.hasEnvironmentNamed(new CaseInsensitiveString("second")),is(true));
+  assertThat(goConfigService.hasEnvironmentNamed(new CaseInsensitiveString("SECOND")),is(true));
+  assertThat(goConfigService.hasEnvironmentNamed(new CaseInsensitiveString("fourth")),is(false));
+}

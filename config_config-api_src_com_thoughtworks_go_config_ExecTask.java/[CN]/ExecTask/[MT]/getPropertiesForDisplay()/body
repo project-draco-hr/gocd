@@ -1,0 +1,15 @@
+{
+  ArrayList<TaskProperty> taskProperties=new ArrayList<TaskProperty>();
+  taskProperties.add(new TaskProperty("COMMAND",command));
+  String arguments=arguments();
+  if (!arguments.isEmpty()) {
+    taskProperties.add(new TaskProperty("ARGUMENTS",arguments));
+  }
+  if (workingDirectory != null) {
+    taskProperties.add(new TaskProperty("WORKING_DIR",workingDirectory));
+  }
+  if (!(timeout == null || timeout.equals(NO_TIMEOUT_FOR_COMMANDLINE))) {
+    taskProperties.add(new TaskProperty("TIMEOUT",timeout.toString()));
+  }
+  return taskProperties;
+}

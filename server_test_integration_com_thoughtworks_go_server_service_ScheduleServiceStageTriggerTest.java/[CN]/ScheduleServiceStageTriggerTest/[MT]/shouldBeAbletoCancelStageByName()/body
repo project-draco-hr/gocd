@@ -1,0 +1,13 @@
+{
+  Pipeline oldest=preCondition.createPipelineWithFirstStagePassedAndSecondStageRunning();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  preCondition.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
+  Stage stage=oldest.getStages().byName(preCondition.ftStage);
+  StageIdentifier identifier=stage.getIdentifier();
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  Stage cancelledStage=scheduleService.cancelAndTriggerRelevantStages(stage.getId(),null,result);
+  Pipeline mostRecent=pipelineService.mostRecentFullPipelineByName(preCondition.pipelineName);
+  assertThat(cancelledStage.stageState(),is(StageState.Cancelled));
+  assertThat(mostRecent.getStages().byName(preCondition.ftStage).stageState(),is(StageState.Building));
+  assertThat(result.message(localizer),is("Stage cancelled successfully."));
+}

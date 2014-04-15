@@ -1,0 +1,11 @@
+{
+  ServerHealthState nullError=null;
+  try {
+    nullError=ServerHealthState.error(null,"some desc",HealthStateType.general(HealthStateScope.forPipeline("foo")));
+    fail("should have bombed as message given is null");
+  }
+ catch (  Exception e) {
+    assertThat(nullError,is(nullValue()));
+    assertThat(e.getMessage(),is("message cannot be null"));
+  }
+}

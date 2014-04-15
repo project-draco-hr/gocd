@@ -1,0 +1,15 @@
+{
+  new SystemEnvironment().setProperty("agent.connection.timeout","-1");
+  CONFIG_HELPER.addMailHost(new MailHost("ghost.name",25,"loser","boozer",true,false,"go@foo.mail.com","admin@foo.mail.com"));
+  Date date=new Date(70,1,1,1,1,1);
+  AgentInstance instance=AgentInstanceMother.idle(date,"CCeDev01");
+  ((AgentRuntimeInfo)ReflectionUtil.getField(instance,"agentRuntimeInfo")).setOperatingSystem("Minix");
+  EmailSender mailSender=mock(EmailSender.class);
+  AgentService agentService=new AgentService(agentConfigService,new SystemEnvironment(),environmentConfigService,goConfigService,securityService,agentDao,new UuidGenerator(),serverHealthService,mailSender);
+  AgentInstances agentInstances=(AgentInstances)ReflectionUtil.getField(agentService,"agentInstances");
+  agentInstances.add(instance);
+  AgentInstances agents=agentService.findRegisteredAgents();
+  assertThat(agents.size(),is(1));
+  AgentInstance agentInstance=agents.findAgentAndRefreshStatus(instance.agentConfig().getUuid());
+  assertThat(agentInstance.getStatus(),is(AgentStatus.LostContact));
+}

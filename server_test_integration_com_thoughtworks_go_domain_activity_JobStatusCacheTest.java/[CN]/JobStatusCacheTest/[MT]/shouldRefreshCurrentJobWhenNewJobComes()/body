@@ -1,0 +1,9 @@
+{
+  JobInstance job=JobInstanceMother.buildingInstance("cruise","dev","linux-firefox","1");
+  jobStatusCache.jobStatusChanged(job);
+  assertThat(jobStatusCache.currentJob(job.getIdentifier().jobConfigIdentifier()).getState(),is(JobState.Building));
+  JobInstance passing=job.clone();
+  passing.changeState(JobState.Completed);
+  jobStatusCache.jobStatusChanged(passing);
+  assertThat(jobStatusCache.currentJob(passing.getIdentifier().jobConfigIdentifier()).getState(),is(JobState.Completed));
+}

@@ -1,0 +1,8 @@
+{
+  final Foo object=new Foo();
+  final GoConfigFieldWriter field=new GoConfigFieldWriter(Foo.class.getDeclaredField("number"),object,configCache,null);
+  final Element element=new Element("foo");
+  element.setAttribute("number","100");
+  field.setValueIfNotNull(element,object);
+  assertThat(object.number,is(100L));
+}

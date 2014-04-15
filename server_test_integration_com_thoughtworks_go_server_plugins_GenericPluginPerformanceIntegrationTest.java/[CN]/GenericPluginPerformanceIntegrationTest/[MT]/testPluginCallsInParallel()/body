@@ -1,0 +1,13 @@
+{
+  String pathToPluginJar="/home/godev/Downloads/yum-repo-exec-poller.jar";
+  int totalNumberOfRequests=100;
+  int concurrencyLevel=10;
+  int numberOfDifferentIndexes=20;
+  defaultPluginManager.startPluginInfrastructure();
+  pluginJarChangeListener.pluginJarAdded(new PluginFileDetails(new File(pathToPluginJar),true));
+  List<Callable<Object>> operations=new ArrayList<Callable<Object>>();
+  for (int i=0; i < totalNumberOfRequests; i++) {
+    operations.add(operation(i % numberOfDifferentIndexes));
+  }
+  runInParallel(concurrencyLevel,operations);
+}

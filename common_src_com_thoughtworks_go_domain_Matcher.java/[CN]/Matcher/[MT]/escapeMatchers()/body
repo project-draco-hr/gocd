@@ -1,0 +1,10 @@
+{
+  List<String> escapedMatchers=new ArrayList<String>();
+  for (  String matcher : matchers) {
+    for (    String specialChar : SPECIAL_CHARS) {
+      matcher=StringUtils.replace(matcher,specialChar,"\\" + specialChar);
+    }
+    escapedMatchers.add(matcher);
+  }
+  return escapedMatchers;
+}

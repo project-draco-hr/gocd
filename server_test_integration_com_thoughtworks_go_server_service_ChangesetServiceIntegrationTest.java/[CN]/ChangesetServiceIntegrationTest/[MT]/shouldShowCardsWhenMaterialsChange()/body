@@ -1,0 +1,16 @@
+{
+  Username loser=new Username(new CaseInsensitiveString("loser"));
+  ManualBuild build=new ManualBuild(loser);
+  Pipeline pipelineFrom=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("abcd","Commit made against no card number - foo",new Date())));
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("8923","hg commit for card #2750 and #3400",new Date())));
+  CruiseConfig config=configHelper.load();
+  pipelineConfig=config.pipelineConfigByName(pipelineConfig.name());
+  pipelineConfig.materialConfigs().clear();
+  pipelineConfig.addMaterialConfig(git.config());
+  configHelper.writeConfigFile(config);
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(git,checkinWithComment("1234abcd","commit affecting #10",new Date())));
+  Pipeline pipelineTo=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(git,checkinWithComment("9876dcba","card #199",new Date())));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<String> cardsInBetween=changesetService.getCardNumbersBetween(CaseInsensitiveString.str(pipelineConfig.name()),pipelineFrom.getCounter(),pipelineTo.getCounter(),loser,result,false);
+  assertThat(cardsInBetween,is(Arrays.asList("199","10","2750","3400")));
+}

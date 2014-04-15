@@ -1,0 +1,11 @@
+{
+  MaterialRevisions materialRevisions=new MaterialRevisions();
+  for (  DependencyMaterialDetail dependencyMaterial : dependencyMaterials) {
+    String label=String.format("LABEL-%s-%d",dependencyMaterial.pipelineName,dependencyMaterial.pipelineCounter);
+    materialRevisions.addRevision(ModificationsMother.dependencyMaterialRevision(dependencyMaterial.pipelineName,dependencyMaterial.pipelineCounter,label,"s1",1,null));
+  }
+  for (  GitMaterial gitMaterial : gitMaterials) {
+    materialRevisions.addRevision(new MaterialRevision(gitMaterial,modifications));
+  }
+  return BuildCause.createWithModifications(materialRevisions,"");
+}

@@ -1,0 +1,10 @@
+{
+  PipelineSelections pipelineSelections=null;
+  if (isSecurityEnabled()) {
+    pipelineSelections=pipelineRepository.findPipelineSelectionsByUserId(userId);
+  }
+  if (pipelineSelections == null) {
+    pipelineSelections=pipelineRepository.findPipelineSelectionsById(id);
+  }
+  return pipelineSelections;
+}

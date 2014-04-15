@@ -1,0 +1,12 @@
+{
+  TestResultsStubbing resultStubbing=new TestResultsStubbing(){
+    public void stub(    Stage stage){
+      JunitXML junit1=junitXML("testSuite1",2).errored(2).failed(1);
+      junit1.registerStubContent(goURLRepository,"pipelines/" + stage.getJobInstances().get(0).getIdentifier().artifactLocator("junit") + "/junit/");
+      JunitXML junit2=junitXML("testSuite1",1).failed(1);
+      junit2.registerStubContent(goURLRepository,"pipelines/" + stage.getJobInstances().get(1).getIdentifier().artifactLocator("junit") + "/junit/");
+    }
+  }
+;
+  return setupPipelineInstance(failStage,overriddenLabel,resultStubbing,new Date());
+}

@@ -1,0 +1,8 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  AgentInstance agent=AgentInstance.create(new AgentConfig("uuid20","CCeDev01","10.18.5.20"),false,systemEnvironment);
+  AgentInstance duplicatedAgent=AgentInstance.create(new AgentConfig("uuid21","CCeDev01","10.18.5.20"),false,systemEnvironment);
+  AgentInstances agentInstances=new AgentInstances(null,agent,duplicatedAgent);
+  AgentInstance byHostname=agentInstances.findFirstByHostname("CCeDev01");
+  assertThat(byHostname,is(agent));
+}

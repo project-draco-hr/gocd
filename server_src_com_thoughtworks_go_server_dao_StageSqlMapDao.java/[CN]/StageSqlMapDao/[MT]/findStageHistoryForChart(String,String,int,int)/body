@@ -1,0 +1,4 @@
+{
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("stageName",stageName).and("offset",offset).and("limit",pageSize).asMap();
+  return new Stages((List<Stage>)getSqlMapClientTemplate().queryForList("findStageHistoryForChartPerPipeline",args));
+}

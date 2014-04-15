@@ -1,0 +1,26 @@
+{
+  JobResult result=JobResult.Passed;
+  for (  Builder builder : builders) {
+    if (cancelStarted) {
+      return JobResult.Cancelled;
+    }
+synchronized (this) {
+      currentBuilder=builder;
+    }
+    BuildLogElement buildLogElement=new BuildLogElement();
+    try {
+      builder.build(buildLogElement,RunIfConfig.fromJobResult(result.toLowerCase()),goPublisher,environmentVariableContext);
+    }
+ catch (    Exception e) {
+      result=JobResult.Failed;
+    }
+    buildLog.addContent(buildLogElement.getElement());
+  }
+synchronized (this) {
+    currentBuilder=new NullBuilder();
+  }
+  if (cancelStarted) {
+    return JobResult.Cancelled;
+  }
+  return result;
+}

@@ -1,0 +1,10 @@
+{
+  File folder=new File(getArtifactFolder(),ArtifactLogUtil.CRUISE_OUTPUT_FOLDER);
+  if (folder.exists()) {
+    File serverFailurePage=new File(folder,ArtifactLogUtil.SERVER_FAILURE_PAGE);
+    if (serverFailurePage.exists()) {
+      return serverFailurePage;
+    }
+  }
+  return null;
+}

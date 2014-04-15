@@ -1,0 +1,8 @@
+{
+  if (!isCompleted()) {
+    return RunDuration.IN_PROGRESS_DURATION;
+  }
+  Date scheduleStartTime=getStartedDateFor(JobState.Scheduled);
+  Date completedTime=getCompletedDate();
+  return new RunDuration.ActualDuration(new Duration(completedTime.getTime() - scheduleStartTime.getTime()));
+}

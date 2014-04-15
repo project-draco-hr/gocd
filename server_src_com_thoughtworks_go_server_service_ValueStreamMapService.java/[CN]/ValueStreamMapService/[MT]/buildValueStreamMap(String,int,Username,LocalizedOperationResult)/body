@@ -1,0 +1,25 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.currentCruiseConfig();
+  BuildCause buildCauseForPipeline;
+  try {
+    pipelineName=pipelineNameWithSameCaseAsConfig(pipelineName,cruiseConfig);
+    buildCauseForPipeline=pipelineService.buildCauseFor(pipelineName,counter);
+  }
+ catch (  PipelineNotFoundException e) {
+    result.notFound(LocalizedMessage.string("PIPELINE_WITH_COUNTER_NOT_FOUND",pipelineName,counter),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+    return null;
+  }
+  String label=pipelineService.findPipelineByCounterOrLabel(pipelineName,String.valueOf(counter)).getLabel();
+  ValueStreamMap valueStreamMap=new ValueStreamMap(pipelineName,new PipelineRevision(pipelineName,counter,label));
+  Map<String,List<PipelineConfig>> pipelineToDownstreamMap=cruiseConfig.generatePipelineVsDownstreamMap();
+  traverseDownstream(pipelineName,pipelineToDownstreamMap,valueStreamMap,new ArrayList<PipelineConfig>());
+  traverseUpstream(pipelineName,buildCauseForPipeline,valueStreamMap,new ArrayList<MaterialRevision>());
+  if (valueStreamMap.hasCycle()) {
+    result.notImplemented(LocalizedMessage.string("VSM_CYCLIC_DEPENDENCY",pipelineName,counter));
+    LOGGER.error(String.format("[Value Stream Map] Cyclic dependency for pipeline %s with counter %s. Graph is %s",pipelineName,counter,valueStreamMap));
+    return null;
+  }
+  addInstanceInformationToTheGraph(valueStreamMap);
+  removeRevisionsBasedOnPermissionAndCurrentConfig(valueStreamMap,username);
+  return valueStreamMap;
+}

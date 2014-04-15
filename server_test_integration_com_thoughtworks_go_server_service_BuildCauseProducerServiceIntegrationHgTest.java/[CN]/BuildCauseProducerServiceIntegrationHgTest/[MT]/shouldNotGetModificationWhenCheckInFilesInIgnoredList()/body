@@ -1,0 +1,8 @@
+{
+  prepareAPipelineWithHistory();
+  checkInFiles("helper/resources/images/cruise/StageActivity.png","helper/topics/upgrading_go.xml","helper/topics/whats_new_in_go.xml");
+  Map<String,BuildCause> beforeLoad=pipelineScheduleQueue.toBeScheduled();
+  scheduleHelper.autoSchedulePipelinesWithRealMaterials();
+  Map<String,BuildCause> afterLoad=pipelineScheduleQueue.toBeScheduled();
+  assertThat(afterLoad.size(),is(beforeLoad.size()));
+}

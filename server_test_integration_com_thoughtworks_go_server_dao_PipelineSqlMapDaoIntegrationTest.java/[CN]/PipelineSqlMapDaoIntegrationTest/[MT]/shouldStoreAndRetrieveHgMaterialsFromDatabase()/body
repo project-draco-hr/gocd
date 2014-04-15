@@ -1,0 +1,13 @@
+{
+  Materials materials=MaterialsMother.hgMaterials("hgUrl","hgdir");
+  PipelineConfig pipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  pipelineConfig.setMaterialConfigs(materials.convertToConfigs());
+  final MaterialRevisions originalMaterialRevision=multipleModificationsInHg(pipelineConfig);
+  Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,BuildCause.createManualForced(originalMaterialRevision,Username.ANONYMOUS),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
+  save(pipeline);
+  Pipeline pipelineFromDB=pipelineDao.loadPipeline(pipeline.getId());
+  final MaterialRevisions materialRevisions=pipelineFromDB.getBuildCause().getMaterialRevisions();
+  assertEquals(originalMaterialRevision,materialRevisions);
+  assertThat(materialRevisions.getMaterialRevision(0).getRevision().getRevision(),is("9fdcf27f16eadc362733328dd481d8a2c29915e1"));
+  assertThat(pipelineFromDB.getMaterials(),is(materials));
+}

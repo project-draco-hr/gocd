@@ -1,0 +1,28 @@
+{
+  final TransactionTemplate template=new TransactionTemplate(transactionTemplate);
+  String returnVal=null;
+  try {
+    returnVal=(String)template.transactionSurrounding(new TransactionTemplate.TransactionSurrounding<RuntimeException>(){
+      public Object surrounding(){
+        template.execute(new org.springframework.transaction.support.TransactionCallback(){
+          public Object doInTransaction(          TransactionStatus status){
+            return "foo";
+          }
+        }
+);
+        return template.execute(new org.springframework.transaction.support.TransactionCallback(){
+          public Object doInTransaction(          TransactionStatus status){
+            return "bar";
+          }
+        }
+);
+      }
+    }
+);
+    fail("should not have allowed multiple top-level transactions");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Multiple independent transactions are not permitted inside single transaction surrounding."));
+  }
+  assertThat(returnVal,nullValue());
+}

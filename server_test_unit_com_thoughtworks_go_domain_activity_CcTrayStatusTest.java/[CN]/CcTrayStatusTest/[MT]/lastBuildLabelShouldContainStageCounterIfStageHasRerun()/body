@@ -1,0 +1,8 @@
+{
+  CcTrayStatus status=new CcTrayStatus(materialRepo,stageDao);
+  Stage stage=failedStage("cruise","label","dev","2","linux-firefox");
+  JobInstance job=stage.getJobInstances().first();
+  status.stageStatusChanged(stage);
+  assertThat(status.projects(),hasItem(projectStatusForFailedStage(stage)));
+  assertThat(status.projects(),hasItem(projectStatusForFailedJob(job)));
+}

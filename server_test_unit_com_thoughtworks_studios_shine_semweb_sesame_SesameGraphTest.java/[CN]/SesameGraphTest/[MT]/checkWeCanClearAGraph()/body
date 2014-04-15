@@ -1,0 +1,9 @@
+{
+  String turtle1="@prefix ex: <http://example.com/ontology#> . " + "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . " + "<http://example.com/1> ex:foo \"Yadda\"^^xsd:string . ";
+  contextAwareGraph.addTriplesFromTurtle(turtle1);
+  assertEquals(1,contextAwareGraph.size());
+  assertEquals(1,contextUnawareGraph.size());
+  contextAwareGraph.clearAllTriples();
+  assertEquals(0,contextAwareGraph.size());
+  assertEquals(0,contextUnawareGraph.size());
+}

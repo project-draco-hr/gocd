@@ -1,0 +1,7 @@
+{
+  Set<PluginFileDetails> currentPluginFileDetails=new HashSet<PluginFileDetails>();
+  for (  Object fileOfPlugin : FileUtils.listFiles(directory,new String[]{"jar"},false)) {
+    currentPluginFileDetails.add(new PluginFileDetails((File)fileOfPlugin,isBundledPluginsLocation));
+  }
+  return currentPluginFileDetails;
+}

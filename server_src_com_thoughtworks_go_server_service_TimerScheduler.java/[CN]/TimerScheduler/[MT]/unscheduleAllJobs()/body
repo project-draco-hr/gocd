@@ -1,0 +1,12 @@
+{
+  try {
+    String[] jobNames=quartzScheduler.getJobNames(QUARTZ_GROUP);
+    for (    String jobName : jobNames) {
+      quartzScheduler.unscheduleJob(jobName,QUARTZ_GROUP);
+      quartzScheduler.deleteJob(jobName,QUARTZ_GROUP);
+    }
+  }
+ catch (  SchedulerException e) {
+    LOG.error("Could not unschedule quartz jobs",e);
+  }
+}

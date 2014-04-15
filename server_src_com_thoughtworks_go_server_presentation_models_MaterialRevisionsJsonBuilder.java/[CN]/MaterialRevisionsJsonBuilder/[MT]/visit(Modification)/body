@@ -1,0 +1,14 @@
+{
+  modifiedFilesJson=new JsonList();
+  JsonMap jsonMap=new JsonMap();
+  jsonMap.put("user",escapeHtml(modification.getUserDisplayName()));
+  jsonMap.put("revision",modification.getRevision());
+  jsonMap.put("date",DateUtils.formatISO8601(modification.getModifiedTime()));
+  String comment=modification.getComment();
+  if (!revision.getMaterial().getType().equals(PackageMaterial.TYPE)) {
+    comment=commentRenderer.render(comment);
+  }
+  jsonMap.put("comment",comment);
+  jsonMap.put("modifiedFiles",modifiedFilesJson);
+  modificationsJson.add(jsonMap);
+}

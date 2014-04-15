@@ -1,0 +1,11 @@
+{
+  File bundleWithActivator=createBundleWithActivator(BUNDLE_DIR_WHICH_HAS_PROPER_ACTIVATOR,DummyPluginAwareExtension.class);
+  File sourceClassFile=new File(bundleWithActivator,"com/thoughtworks/go/plugin/activation/test/DummyPluginAwareExtension.class");
+  File destinationFile=new File(bundleWithActivator,"META-INF/com/thoughtworks/go/plugin/activation/test/");
+  FileUtils.moveFileToDirectory(sourceClassFile,destinationFile,true);
+  Bundle bundle=installBundleFoundInDirectory(bundleWithActivator);
+  assertThat(bundle.getState(),is(Bundle.UNINSTALLED));
+  GoPluginDescriptor descriptor=registry.getPlugin(GO_TEST_DUMMY_SYMBOLIC_NAME);
+  assertThat(descriptor.isInvalid(),is(true));
+  assertThat(descriptor.getStatus().getMessages().contains(NO_EXT_ERR_MSG),is(true));
+}

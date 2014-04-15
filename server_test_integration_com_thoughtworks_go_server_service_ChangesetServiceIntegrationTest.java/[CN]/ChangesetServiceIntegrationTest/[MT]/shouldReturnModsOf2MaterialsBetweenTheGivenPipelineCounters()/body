@@ -1,0 +1,16 @@
+{
+  List<MaterialRevision> revisionsForPipeline1=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForPipeline1,hg);
+  addRevisionWith2Mods(revisionsForPipeline1,git);
+  Username username=new Username(new CaseInsensitiveString("user1"));
+  Pipeline pipelineOne=dbHelper.checkinRevisionsToBuild(new ManualBuild(username),pipelineConfigWithTwoMaterials,revisionsForPipeline1);
+  List<MaterialRevision> revisionsForPipeline2=new ArrayList<MaterialRevision>();
+  addRevisionWith2Mods(revisionsForPipeline2,hg);
+  addRevisionWith2Mods(revisionsForPipeline2,git);
+  Pipeline pipelineTwo=dbHelper.checkinRevisionsToBuild(new ManualBuild(username),pipelineConfigWithTwoMaterials,revisionsForPipeline2);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<MaterialRevision> actual=changesetService.revisionsBetween(CaseInsensitiveString.str(pipelineConfigWithTwoMaterials.name()),pipelineOne.getCounter(),pipelineTwo.getCounter(),username,result,true,false);
+  List<MaterialRevision> expectedRevisions=groupByMaterial(revisionsForPipeline2);
+  assertMaterialRevisions(expectedRevisions,actual);
+  assertThat(result.isSuccessful(),is(true));
+}

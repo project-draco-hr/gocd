@@ -1,0 +1,14 @@
+{
+  JobPlan jobPlan=mock(JobPlan.class);
+  when(jobPlan.shouldFetchMaterials()).thenThrow(new RuntimeException());
+  when(jobPlan.getIdentifier()).thenReturn(JOB_IDENTIFIER);
+  createBuildWorkWithJobPlan(jobPlan);
+  try {
+    buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+    fail("Should have thrown an assertion error");
+  }
+ catch (  AssertionError e) {
+    assertThat(buildRepository.results.isEmpty(),is(false));
+    assertThat(buildRepository.results.get(0),is(JobResult.Failed));
+  }
+}

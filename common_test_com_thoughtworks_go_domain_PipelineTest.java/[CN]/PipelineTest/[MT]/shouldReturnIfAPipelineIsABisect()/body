@@ -1,0 +1,13 @@
+{
+  Pipeline pipeline=new Pipeline();
+  pipeline.setNaturalOrder(1.0);
+  assertThat(pipeline.isBisect(),is(false));
+  pipeline.setNaturalOrder(5.0);
+  assertThat(pipeline.isBisect(),is(false));
+  pipeline.setNaturalOrder(1.5);
+  assertThat(pipeline.isBisect(),is(true));
+  pipeline.setNaturalOrder(5.0625);
+  assertThat(pipeline.isBisect(),is(true));
+  pipeline.setNaturalOrder(5.000030517578125);
+  assertThat(pipeline.isBisect(),is(true));
+}

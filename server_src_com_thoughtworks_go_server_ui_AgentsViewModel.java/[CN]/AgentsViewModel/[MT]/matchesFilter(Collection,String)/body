@@ -1,0 +1,9 @@
+{
+  final SearchCriteria criteria=new SearchCriteria(searchCriteria);
+  return CollectionUtils.exists(collection,new Predicate(){
+    public boolean evaluate(    Object o){
+      return criteria.matches((String)o);
+    }
+  }
+);
+}

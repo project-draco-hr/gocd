@@ -1,0 +1,5 @@
+{
+  CheckedTestUpdateCommand command=new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(),true);
+  goConfigFileDao.updateConfig(command);
+  assertThat(command.wasUpdated,is(true));
+}

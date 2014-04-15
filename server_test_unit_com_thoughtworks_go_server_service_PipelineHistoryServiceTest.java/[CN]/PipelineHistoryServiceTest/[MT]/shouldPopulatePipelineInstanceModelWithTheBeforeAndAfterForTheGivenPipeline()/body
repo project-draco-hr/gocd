@@ -1,0 +1,18 @@
+{
+  DateTime now=new DateTime();
+  PipelineTimelineEntry first=PipelineMaterialModificationMother.modification(Arrays.asList("first"),1,"123",now);
+  PipelineTimelineEntry second=PipelineMaterialModificationMother.modification(Arrays.asList("first"),1,"123",now);
+  when(pipelineTimeline.runBefore(1,new CaseInsensitiveString("pipeline"))).thenReturn(first);
+  when(pipelineTimeline.runAfter(1,new CaseInsensitiveString("pipeline"))).thenReturn(second);
+  PipelineInstanceModel expected=PipelineHistoryMother.pipelineHistoryItemWithOneStage("pipeline","auto",now.toDate());
+  expected.setId(1);
+  when(pipelineDao.loadHistory(1)).thenReturn(expected);
+  when(goConfigService.currentCruiseConfig()).thenReturn(CRUISE_CONFIG);
+  when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("pipeline"))).thenReturn(config);
+  when(securityService.hasOperatePermissionForStage("pipeline","auto",CaseInsensitiveString.str(Username.ANONYMOUS.getUsername()))).thenReturn(true);
+  ensureHasPermission(Username.ANONYMOUS,"pipeline");
+  PipelineInstanceModel model=pipelineHistoryService.load(1,Username.ANONYMOUS,new HttpOperationResult());
+  assertThat(model.getPipelineBefore(),is(first));
+  assertThat(model.getPipelineAfter(),is(second));
+  assertThat(model.stage("auto").hasOperatePermission(),is(true));
+}

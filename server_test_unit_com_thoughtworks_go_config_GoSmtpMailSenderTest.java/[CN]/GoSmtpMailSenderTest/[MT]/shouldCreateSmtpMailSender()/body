@@ -1,0 +1,8 @@
+{
+  String hostName="smtp.company.com";
+  MailHost mailHost=new MailHost(hostName,25,"smtpuser","password",true,true,"cruise@me.com","jez@me.com");
+  GoMailSender sender=GoSmtpMailSender.createSender(mailHost);
+  GoMailSender goSmtpMailSender=new GoSmtpMailSender(hostName,25,"smtpuser","password",true,"cruise@me.com","jez@me.com");
+  GoMailSender backgroundSender=new BackgroundMailSender(goSmtpMailSender);
+  assertThat(sender,is(backgroundSender));
+}

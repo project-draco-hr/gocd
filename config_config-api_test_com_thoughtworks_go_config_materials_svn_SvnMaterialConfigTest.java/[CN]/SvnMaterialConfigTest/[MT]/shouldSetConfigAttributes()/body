@@ -1,0 +1,19 @@
+{
+  SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig("","","",false);
+  Map<String,String> map=new HashMap<String,String>();
+  map.put(SvnMaterialConfig.URL,"url");
+  map.put(SvnMaterialConfig.USERNAME,"username");
+  map.put(SvnMaterialConfig.CHECK_EXTERNALS,"true");
+  map.put(ScmMaterialConfig.FOLDER,"folder");
+  map.put(ScmMaterialConfig.AUTO_UPDATE,"0");
+  map.put(ScmMaterialConfig.FILTER,"/root,/**/*.help");
+  map.put(AbstractMaterialConfig.MATERIAL_NAME,"material-name");
+  svnMaterialConfig.setConfigAttributes(map);
+  assertThat(svnMaterialConfig.getUrl(),is("url"));
+  assertThat(svnMaterialConfig.getUserName(),is("username"));
+  assertThat(svnMaterialConfig.isCheckExternals(),is(true));
+  assertThat(svnMaterialConfig.getFolder(),is("folder"));
+  assertThat(svnMaterialConfig.getName(),is(new CaseInsensitiveString("material-name")));
+  assertThat(svnMaterialConfig.isAutoUpdate(),is(false));
+  assertThat(svnMaterialConfig.filter(),is(new Filter(new IgnoredFiles("/root"),new IgnoredFiles("/**/*.help"))));
+}

@@ -1,0 +1,8 @@
+{
+  tempFiles.cleanUp();
+  dbHelper.onTearDown();
+  cleanupBackups();
+  FileUtil.writeContentToFile(goConfigService.xml(),new File(systemEnvironment.getConfigDir(),"cruise-config.xml"));
+  FileUtil.writeContentToFile(originalCipher,systemEnvironment.getCipherFile());
+  configHelper.onTearDown();
+}

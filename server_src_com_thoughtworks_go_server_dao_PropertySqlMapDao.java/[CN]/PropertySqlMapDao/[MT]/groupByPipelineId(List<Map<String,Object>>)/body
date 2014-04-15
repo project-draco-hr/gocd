@@ -1,0 +1,7 @@
+{
+  LinkedHashMap<String,Properties> propHistory=new LinkedHashMap<String,Properties>();
+  for (  Map<String,Object> flatMap : flatHistory) {
+    addToHistory(propHistory,sanitize(flatMap));
+  }
+  return new ArrayList<Properties>(propHistory.values());
+}

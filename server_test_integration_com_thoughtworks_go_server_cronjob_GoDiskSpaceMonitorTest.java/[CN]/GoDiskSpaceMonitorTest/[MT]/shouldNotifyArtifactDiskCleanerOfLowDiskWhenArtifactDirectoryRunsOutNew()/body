@@ -1,0 +1,11 @@
+{
+  ArtifactsDiskIsLow full=new ArtifactsDiskIsLow();
+  full.onSetUp();
+  goConfigService.getCurrentConfig().server().setPurgeLimits(1.0,0.0);
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(full.getLowLimit() + 1L);
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(systemEnvironment.getDbFolder())).thenReturn(SHITLOADS_OF_DISK_SPACE);
+  goDiskSpaceMonitor.onTimer();
+  verify(configDbStateRepository,times(1)).flushConfigState();
+  verify(stageService,times(1)).oldestStagesWithDeletableArtifacts();
+  verifyNoMoreInteractions(stageService,configDbStateRepository);
+}

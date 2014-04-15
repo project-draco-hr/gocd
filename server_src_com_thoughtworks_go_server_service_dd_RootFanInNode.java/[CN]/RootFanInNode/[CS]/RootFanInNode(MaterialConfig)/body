@@ -1,0 +1,9 @@
+{
+  super(material);
+  for (  Class<? extends MaterialConfig> clazz : ROOT_NODE_TYPES) {
+    if (clazz.isAssignableFrom(material.getClass())) {
+      return;
+    }
+  }
+  throw new RuntimeException("Not a valid root node material type");
+}

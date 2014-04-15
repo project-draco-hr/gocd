@@ -1,0 +1,11 @@
+{
+  createFile(artifactRootForJob,"dir/foo");
+  ModelAndView mav=postFile("/dir/bar.xml");
+  assertThat(file(artifactRootForJob,"dir/bar.xml"),exists());
+  assertThat(file(artifactRootForJob,"dir/bar.xml"),is(not(directory())));
+  assertStatus(mav,SC_CREATED);
+  mav=postFile("/notexists/quux.txt");
+  assertThat(file(artifactRootForJob,"notexists/quux.txt"),exists());
+  assertThat(file(artifactRootForJob,"notexists/quux.txt"),is(not(directory())));
+  assertStatus(mav,SC_CREATED);
+}

@@ -1,0 +1,29 @@
+{
+  int i=1;
+  GitMaterial git1=u.wf(new GitMaterial("git1"),"folder1");
+  String[] git_revs1={"g11"};
+  u.checkinInOrder(git1,u.d(i++),git_revs1);
+  GitMaterial git2=u.wf(new GitMaterial("git2"),"folder2");
+  String[] git_revs2={"g21","g22"};
+  u.checkinInOrder(git2,u.d(i++),git_revs2);
+  ScheduleTestUtil.AddedPipeline c1=u.saveConfigWith("c1",u.m(git1),u.m(git2));
+  ScheduleTestUtil.AddedPipeline c2=u.saveConfigWith("c2",u.m(git1));
+  ScheduleTestUtil.AddedPipeline c3=u.saveConfigWith("c3",u.m(git1),u.m(c1),u.m(c2));
+  ScheduleTestUtil.AddedPipeline c4=u.saveConfigWith("c4",u.m(c1),u.m(c2),u.m(c3));
+  ScheduleTestUtil.AddedPipeline c5=u.saveConfigWith("c5",u.m(git2));
+  ScheduleTestUtil.AddedPipeline c6=u.saveConfigWith("c6",u.m(git1),u.m(c1),u.m(c4),u.m(c5));
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String c1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c1,u.d(i++),"g11","g21");
+  String c2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c2,u.d(i++),"g11");
+  String c3_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c3,u.d(i++),"g11",c1_1,c2_1);
+  String c4_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c4,u.d(i++),c1_1,c2_1,c3_1);
+  String c5_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c5,u.d(i++),"g21");
+  String c6_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c6,u.d(i++),"g11",c1_1,c4_1,c5_1);
+  String c1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c1,u.d(i++),"g11","g22");
+  String c5_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c5,u.d(i++),"g22");
+  String c4_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(c4,u.d(i++),c1_2,c2_1,c3_1);
+  MaterialRevisions given=u.mrs(u.mr(git1,false,"g11"),u.mr(c1,true,c1_2),u.mr(c4,true,c4_2),u.mr(c5,true,c5_2));
+  MaterialRevisions expected=u.mrs(u.mr(git1,false,"g11"),u.mr(c1,true,c1_1),u.mr(c4,true,c4_1),u.mr(c5,true,c5_1));
+  MaterialRevisions actual=getRevisionsBasedOnDependencies(c6,cruiseConfig,given);
+  assertThat(actual,is(expected));
+}

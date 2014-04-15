@@ -1,0 +1,20 @@
+{
+  String current="p3";
+  Node p1=new PipelineDependencyNode("p1","p1");
+  Node p2=new PipelineDependencyNode("p2","p2");
+  Node gitNode=new SCMDependencyNode("git","g","git");
+  ValueStreamMap valueStreamMap=new ValueStreamMap(current,new PipelineRevision(current,1,"1"));
+  valueStreamMap.addUpstreamNode(p1,new PipelineRevision("p1",1,"1"),current);
+  valueStreamMap.addUpstreamNode(p2,new PipelineRevision("p2",1,"1"),current);
+  valueStreamMap.addUpstreamMaterialNode(gitNode,new CaseInsensitiveString("trunk"),new Modifications(ModificationsMother.aCheckIn("1")),"p1");
+  valueStreamMap.addUpstreamMaterialNode(gitNode,new CaseInsensitiveString("main-branch"),new Modifications(ModificationsMother.aCheckIn("1")),"p3");
+  valueStreamMap.addUpstreamMaterialNode(gitNode,new CaseInsensitiveString("main-branch"),new Modifications(ModificationsMother.aCheckIn("1")),"p2");
+  NodeLevelMap levelToNodeMap=new LevelAssignment().apply(valueStreamMap);
+  assertThat(valueStreamMap.getCurrentPipeline().getLevel(),is(0));
+  assertThat(p1.getLevel(),is(-1));
+  assertThat(p2.getLevel(),is(-1));
+  assertThat(gitNode.getLevel(),is(-2));
+  assertThat(levelToNodeMap.get(0),contains(valueStreamMap.getCurrentPipeline()));
+  assertThat(levelToNodeMap.get(-1),containsInAnyOrder(p1,p2));
+  assertThat(levelToNodeMap.get(-2),contains(gitNode));
+}

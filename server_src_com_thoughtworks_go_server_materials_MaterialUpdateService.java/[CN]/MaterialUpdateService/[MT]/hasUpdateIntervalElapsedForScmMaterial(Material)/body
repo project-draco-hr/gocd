@@ -1,0 +1,11 @@
+{
+  if (materialLastUpdateTimeMap.containsKey(material)) {
+    Long lastMaterialUpdateTime=materialLastUpdateTimeMap.get(material);
+    boolean shouldUpdateMaterial=(System.currentTimeMillis() - lastMaterialUpdateTime) >= materialUpdateInterval;
+    if (LOGGER.isDebugEnabled() && !shouldUpdateMaterial) {
+      LOGGER.debug(format("[Material Update] Skipping update of material %s which has been last updated at %s",material,new Date(lastMaterialUpdateTime)));
+    }
+    return shouldUpdateMaterial;
+  }
+  return true;
+}

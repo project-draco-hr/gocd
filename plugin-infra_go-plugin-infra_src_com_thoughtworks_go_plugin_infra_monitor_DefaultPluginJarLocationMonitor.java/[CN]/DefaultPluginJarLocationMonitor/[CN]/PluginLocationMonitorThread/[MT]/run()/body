@@ -1,0 +1,12 @@
+{
+  do {
+    knownBundledPluginFileDetails=loadAndNotifyPluginsFrom(bundledPluginDirectory,knownBundledPluginFileDetails,true);
+    knownExternalPluginFileDetails=loadAndNotifyPluginsFrom(externalPluginDirectory,knownExternalPluginFileDetails,false);
+    int interval=systemEnvironment.get(PLUGIN_LOCATION_MONITOR_INTERVAL_IN_SECONDS);
+    if (interval <= 0) {
+      break;
+    }
+    waitForMonitorInterval(interval);
+  }
+ while (!Thread.currentThread().isInterrupted());
+}

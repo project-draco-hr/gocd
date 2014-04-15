@@ -1,0 +1,9 @@
+{
+  if (!manifestFile.exists()) {
+    return null;
+  }
+  FileInputStream manifestInputStream=new FileInputStream(manifestFile);
+  Manifest manifest=new Manifest(manifestInputStream);
+  Attributes entries=manifest.getMainAttributes();
+  return entries.getValue(prefix);
+}

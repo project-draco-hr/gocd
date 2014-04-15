@@ -1,0 +1,6 @@
+{
+  MaterialRevisions first=new MaterialRevisions(new MaterialRevision(MaterialsMother.svnMaterial(),oneModifiedFile("revision1")));
+  BuildCause buildCause=BuildCause.createManualForced();
+  buildCause.setMaterialRevisions(first);
+  assertThat(buildCause.getBuildCauseMessage(),is("Forced by anonymous"));
+}

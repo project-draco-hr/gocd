@@ -1,0 +1,8 @@
+{
+  expectLoadForEditing(configWith(createPipelineConfig("pipeline","stage","build")));
+  GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(false);
+  String configContent="<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<cruise xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\" schemaVersion=\"" + GoConstants.CONFIG_SCHEMA_VERSION + "\">\n"+ "<server artifactsdir='artifactsDir></cruise>";
+  GoConfigValidity validity=saver.saveXml(configContent,"junk_md5");
+  assertThat(validity.isValid(),is(false));
+  assertThat(validity.errorMessage(),is("Invalid Configuration - Error on line 3: The value of attribute \"artifactsdir\" associated with an element type \"server\" must not contain the '<' character."));
+}

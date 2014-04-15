@@ -1,0 +1,16 @@
+{
+  if (isSecure) {
+    if (configurationValue != null) {
+      try {
+        encryptedValue=new EncryptedConfigurationValue(isEmpty(configurationValue.getValue()) ? "" : cipher.encrypt(configurationValue.getValue()));
+      }
+ catch (      InvalidCipherTextException e) {
+        throw new RuntimeException(e);
+      }
+      configurationValue=null;
+    }
+  }
+ else {
+    encryptedValue=null;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  String groupName="non-existent-group_name";
+  Localizer localizer=mock(Localizer.class);
+  when(localizer.localize("PIPELINE_GROUP_NOT_FOUND",groupName)).thenReturn("Not found");
+  when(securityService.isUserAdminOfGroup(validUser.getUsername(),groupName)).thenThrow(new PipelineGroupNotFoundException());
+  when(goConfigService.configFileMd5()).thenReturn("md5");
+  GoConfigOperationalResponse<PipelineConfigs> actual=service.updateXml(groupName,"","md5",validUser,result);
+  PipelineConfigs configs=actual.getConfigElement();
+  GoConfigValidity validity=actual.getValidity();
+  assertThat(configs,is(nullValue()));
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Not found"));
+  assertThat(validity.isValid(),is(true));
+  verify(securityService,times(1)).isUserAdminOfGroup(validUser.getUsername(),groupName);
+}

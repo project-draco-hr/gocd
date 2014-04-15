@@ -1,0 +1,14 @@
+{
+  boolean isMingleConfigEmpty=(mingleConfig.equals(new MingleConfig()) && mingleConfig.errors().isEmpty());
+  boolean isTrackingToolEmpty=(trackingTool == null || (trackingTool.equals(new TrackingTool()) && trackingTool.errors().isEmpty()));
+  if (isMingleConfigEmpty && isTrackingToolEmpty) {
+    return INTEGRATION_TYPE_NONE;
+  }
+  if (!isTrackingToolEmpty && isMingleConfigEmpty) {
+    return INTEGRATION_TYPE_TRACKING_TOOL;
+  }
+  if (!isMingleConfigEmpty && isTrackingToolEmpty) {
+    return INTEGRATION_TYPE_MINGLE;
+  }
+  throw new RuntimeException("Cannot have both tracking tool and mingle config specified");
+}

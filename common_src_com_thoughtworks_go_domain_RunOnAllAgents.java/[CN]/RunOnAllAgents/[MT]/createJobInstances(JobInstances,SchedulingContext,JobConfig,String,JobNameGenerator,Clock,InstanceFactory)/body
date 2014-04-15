@@ -1,0 +1,10 @@
+{
+  Collection<AgentConfig> agents=context.findAgentsMatching(config.resources());
+  int counter=0;
+  for (  AgentConfig agent : agents) {
+    instanceFactory.reallyCreateJobInstance(config,jobs,agent.getUuid(),nameGenerator.generateName(++counter),true,context,clock);
+  }
+  if (counter == 0) {
+    throw new CannotScheduleException(String.format("Could not find matching agents to run job [%s] of stage [%s].",config.name(),stageName),stageName);
+  }
+}

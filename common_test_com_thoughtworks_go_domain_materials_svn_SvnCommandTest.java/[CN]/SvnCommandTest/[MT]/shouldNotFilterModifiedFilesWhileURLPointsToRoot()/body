@@ -1,0 +1,6 @@
+{
+  subversion=new SvnCommand(null,testRepo.end2endRepositoryUrl(),"user","pass",false);
+  List list=subversion.modificationsSince(new SubversionRevision(0));
+  Modification modification=(Modification)list.get(list.size() - 1);
+  assertThat(modification.getModifiedFiles().size(),is(7));
+}

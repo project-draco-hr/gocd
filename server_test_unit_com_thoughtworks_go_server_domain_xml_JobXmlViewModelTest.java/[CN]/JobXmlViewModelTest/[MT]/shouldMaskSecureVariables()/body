@@ -1,0 +1,10 @@
+{
+  EnvironmentVariableConfig envVariable=new EnvironmentVariableConfig(null,"stdVariable","value1",false);
+  EnvironmentVariableConfig secureEnvVariable=new EnvironmentVariableConfig(new GoCipher(),"secureVariable","value2",true);
+  EnvironmentVariablesConfig environmentVariablesConfig=new EnvironmentVariablesConfig();
+  environmentVariablesConfig.add(envVariable);
+  environmentVariablesConfig.add(secureEnvVariable);
+  when(jobPlan.getVariables()).thenReturn(environmentVariablesConfig);
+  DOMDocument document=(DOMDocument)jobXmlViewModel.toXml(xmlWriterContext);
+  Assert.assertThat(document.asXML(),containsString("<environmentvariables><variable name=\"stdVariable\"><![CDATA[value1]]></variable><variable name=\"secureVariable\"><![CDATA[****]]></variable></environmentvariables>"));
+}

@@ -1,0 +1,25 @@
+{
+  DefaultPluginJarChangeListener spy=spy(listener);
+  String pluginId="plugin-id";
+  String pluginJarFileName="descriptor-aware-test-plugin.jar";
+  File pluginFile=new File(PLUGIN_DIR,pluginJarFileName);
+  copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
+  File expectedBundleDirectoryForInvalidPlugin=new File(TEST_BUNDLES_DIR,pluginJarFileName);
+  File bundleDirectoryForOldPlugin=new File(TEST_BUNDLES_DIR,"descriptor-aware-test-plugin-old.jar");
+  FileUtils.forceMkdir(bundleDirectoryForOldPlugin);
+  GoPluginDescriptor descriptorForInvalidPlugin=GoPluginDescriptor.usingId("testplugin.descriptorValidator",pluginFile.getAbsolutePath(),expectedBundleDirectoryForInvalidPlugin,true).markAsInvalid(asList("For a test"),null);
+  Bundle oldBundle=mock(Bundle.class);
+  GoPluginDescriptor oldPluginDescriptor=GoPluginDescriptor.usingId("some.old.id","some/path/to/plugin.jar",bundleDirectoryForOldPlugin,true).setBundle(oldBundle);
+  when(goPluginDescriptorBuilder.build(pluginFile,true)).thenReturn(descriptorForInvalidPlugin);
+  when(registry.getPlugin(pluginId)).thenReturn(oldPluginDescriptor);
+  when(registry.unloadPlugin(descriptorForInvalidPlugin)).thenReturn(oldPluginDescriptor);
+  doNothing().when(registry).loadPlugin(descriptorForInvalidPlugin);
+  spy.pluginJarUpdated(new PluginFileDetails(pluginFile,true));
+  assertThat(expectedBundleDirectoryForInvalidPlugin.exists(),CoreMatchers.is(true));
+  assertThat(bundleDirectoryForOldPlugin.exists(),CoreMatchers.is(false));
+  verify(registry).unloadPlugin(descriptorForInvalidPlugin);
+  verify(osgiFramework).unloadPlugin(oldPluginDescriptor);
+  verify(registry).loadPlugin(descriptorForInvalidPlugin);
+  verifyNoMoreInteractions(osgiManifestGenerator);
+  verifyNoMoreInteractions(osgiFramework);
+}

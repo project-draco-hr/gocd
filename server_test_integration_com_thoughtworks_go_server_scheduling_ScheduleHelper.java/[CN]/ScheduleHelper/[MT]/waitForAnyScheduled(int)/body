@@ -1,0 +1,17 @@
+{
+  int count=0;
+  Map<String,BuildCause> afterLoad=pipelineScheduleQueue.toBeScheduled();
+  while (afterLoad.isEmpty()) {
+    try {
+      Thread.sleep(1000);
+    }
+ catch (    InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+    afterLoad=pipelineScheduleQueue.toBeScheduled();
+    if (count++ > seconds) {
+      fail("Never scheduled");
+    }
+  }
+  return afterLoad;
+}

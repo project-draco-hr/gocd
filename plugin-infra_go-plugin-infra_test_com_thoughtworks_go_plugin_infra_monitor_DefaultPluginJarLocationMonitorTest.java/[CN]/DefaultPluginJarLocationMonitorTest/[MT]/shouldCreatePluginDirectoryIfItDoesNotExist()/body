@@ -1,0 +1,8 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  BUNDLED_PLUGIN_DIR.delete();
+  new DefaultPluginJarLocationMonitor(systemEnvironment).initialize();
+  assertThat(BUNDLED_PLUGIN_DIR.exists(),is(true));
+}

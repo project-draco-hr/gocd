@@ -1,0 +1,12 @@
+{
+  final File file=new File("home" + File.separator + "user"+ File.separator+ ArtifactLogUtil.CRUISE_OUTPUT_FOLDER+ File.separator+ ArtifactLogUtil.SERVER_FAILURE_PAGE);
+  context.checking(new Expectations(){
+{
+      allowing(stubJobInstance).getServerFailurePage();
+      will(returnValue(file));
+    }
+  }
+);
+  String path=jobDetailPresenter.getServerFailurePageURL();
+  assertThat(path,is("files/pipeline/1/stageName/0/build/" + ArtifactLogUtil.CRUISE_OUTPUT_FOLDER + "/"+ ArtifactLogUtil.SERVER_FAILURE_PAGE));
+}

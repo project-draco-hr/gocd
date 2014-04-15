@@ -1,0 +1,24 @@
+{
+  List<Criterion> criterions=new ArrayList<Criterion>();
+  for (  PipelineMaterialRevision pmr : pmrs) {
+    if (goCache.get(pmrModificationsKey(pmr)) != null) {
+      continue;
+    }
+    final Criterion modificationClause=Restrictions.between("id",pmr.getFromModification().getId(),pmr.getToModification().getId());
+    final SimpleExpression idClause=Restrictions.eq("materialInstance",pmr.getMaterialInstance());
+    criterions.add(Restrictions.and(idClause,modificationClause));
+  }
+  List<Modification> modifications=getHibernateTemplate().findByCriteria(buildModificationDetachedQuery(criterions));
+  sortPersistentObjectsById(modifications,false);
+  for (  Modification modification : modifications) {
+    List<String> cacheKeys=pmrModificationsKey(modification,pmrs);
+    for (    String cacheKey : cacheKeys) {
+      List<Modification> modificationList=(List<Modification>)goCache.get(cacheKey);
+      if (modificationList == null) {
+        modificationList=new ArrayList<Modification>();
+        goCache.put(cacheKey,modificationList);
+      }
+      modificationList.add(modification);
+    }
+  }
+}

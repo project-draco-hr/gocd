@@ -1,0 +1,5 @@
+{
+  when(pipelineDao.lockedPipeline("mingle")).thenReturn(new StageIdentifier("mingle",1,"1","stage","1"));
+  assertThat(pipelineLockService.isLocked("mingle"),is(true));
+  assertThat(pipelineLockService.isLocked("twist"),is(false));
+}

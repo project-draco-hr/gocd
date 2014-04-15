@@ -1,0 +1,6 @@
+{
+  String content=ConfigFileFixture.configWithEnvironments("<environments>" + "  <environment name='uat'>" + "    <pipelines>"+ "      <pipeline name='piPeline1'/>"+ "    </pipelines>"+ "  </environment>"+ "</environments>");
+  EnvironmentsConfig environmentsConfig=ConfigMigrator.loadWithMigration(content).config.getEnvironments();
+  EnvironmentPipelineMatcher matcher=environmentsConfig.matchersForPipeline("pipeline1");
+  assertThat(matcher,is(new EnvironmentPipelineMatcher(new CaseInsensitiveString("uat"),new ArrayList<String>(),new EnvironmentPipelinesConfig(new CaseInsensitiveString("piPeline1")))));
+}

@@ -1,0 +1,20 @@
+{
+  File jarFile=new File(goJarPath);
+  if (!jarFile.exists()) {
+    logToConsoleAndExit("Jar File does not exist: " + goJarPath);
+  }
+  if (!jarFile.isFile()) {
+    logToConsoleAndExit("Jar File is not a valid file: " + goJarPath);
+  }
+  if (!jarFile.canRead() || !jarFile.canWrite()) {
+    logToConsoleAndExit("Jar File is not readable or writable: " + goJarPath);
+  }
+  File parent=jarFile.getParentFile();
+  if (parent == null) {
+    parent=new File(".");
+  }
+  if (!parent.canRead() || !parent.canWrite()) {
+    logToConsoleAndExit("Jar File's parent directory is not readable or writable: " + parent.getAbsolutePath());
+  }
+  return jarFile;
+}

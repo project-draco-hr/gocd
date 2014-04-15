@@ -1,0 +1,13 @@
+{
+  this.clear();
+  if (attributes != null) {
+    for (    Map attributeMap : (List<Map>)attributes) {
+      String tabName=(String)attributeMap.get(Tab.NAME);
+      String path=(String)attributeMap.get(Tab.PATH);
+      if (StringUtil.isBlank(tabName) && StringUtil.isBlank(path)) {
+        continue;
+      }
+      this.add(new Tab(tabName,path));
+    }
+  }
+}

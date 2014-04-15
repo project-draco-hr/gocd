@@ -1,0 +1,17 @@
+{
+  ConfigurationProperty one=new ConfigurationProperty(new ConfigurationKey("one"),new ConfigurationValue("value1"));
+  ConfigurationProperty duplicate1=new ConfigurationProperty(new ConfigurationKey("ONE"),new ConfigurationValue("value2"));
+  ConfigurationProperty duplicate2=new ConfigurationProperty(new ConfigurationKey("ONE"),new ConfigurationValue("value3"));
+  ConfigurationProperty two=new ConfigurationProperty(new ConfigurationKey("two"),new ConfigurationValue());
+  PackageDefinition packageDefinition=new PackageDefinition();
+  packageDefinition.setConfiguration(new Configuration(one,duplicate1,duplicate2,two));
+  packageDefinition.setName("go-server");
+  packageDefinition.validate(null);
+  assertThat(one.errors().isEmpty(),is(false));
+  assertThat(one.errors().getAllOn(ConfigurationProperty.CONFIGURATION_KEY).contains("Duplicate key 'ONE' found for Package 'go-server'"),is(true));
+  assertThat(duplicate1.errors().isEmpty(),is(false));
+  assertThat(one.errors().getAllOn(ConfigurationProperty.CONFIGURATION_KEY).contains("Duplicate key 'ONE' found for Package 'go-server'"),is(true));
+  assertThat(duplicate2.errors().isEmpty(),is(false));
+  assertThat(one.errors().getAllOn(ConfigurationProperty.CONFIGURATION_KEY).contains("Duplicate key 'ONE' found for Package 'go-server'"),is(true));
+  assertThat(two.errors().isEmpty(),is(true));
+}

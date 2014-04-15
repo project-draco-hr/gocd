@@ -1,0 +1,20 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug("Enumerating jar: " + urlOfJar);
+  }
+  List<URL> urls=new ArrayList<URL>();
+  urls.add(urlOfJar);
+  try {
+    JarInputStream jarStream=new JarInputStream(urlOfJar.openStream());
+    JarEntry entry;
+    while ((entry=jarStream.getNextJarEntry()) != null) {
+      if (!entry.isDirectory() && entry.getName().endsWith(".jar")) {
+        urls.add(expandJarAndReturnURL(urlOfJar,entry));
+      }
+    }
+  }
+ catch (  IOException e) {
+    LOGGER.error("Failed to enumerate jar " + urlOfJar,e);
+  }
+  return urls.toArray(new URL[0]);
+}

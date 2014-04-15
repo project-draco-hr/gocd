@@ -1,0 +1,29 @@
+{
+  DOMElement root=new DOMElement("pipeline");
+  root.addAttribute("name",pipeline.getName()).addAttribute("counter",String.valueOf(pipeline.getCounter())).addAttribute("label",pipeline.getLabel());
+  Document document=new DOMDocument(root);
+  String baseUrl=writerContext.getBaseUrl();
+  root.addElement("link").addAttribute("rel","self").addAttribute("href",httpUrl(baseUrl));
+  root.addElement("id").addCDATA(pipeline.getPipelineIdentifier().asURN());
+  PipelineTimelineEntry pipelineAfter=pipeline.getPipelineAfter();
+  if (pipelineAfter != null) {
+    addTimelineLink(root,baseUrl,"insertedBefore",pipelineAfter);
+  }
+  PipelineTimelineEntry pipelineBefore=pipeline.getPipelineBefore();
+  if (pipelineBefore != null) {
+    addTimelineLink(root,baseUrl,"insertedAfter",pipelineBefore);
+  }
+  root.addElement("scheduleTime").addText(DateUtils.formatISO8601(pipeline.getScheduledDate()));
+  Element materials=root.addElement("materials");
+  for (  MaterialRevision materialRevision : pipeline.getCurrentRevisions()) {
+    populateXml(materials,materialRevision,writerContext);
+  }
+  Element stages=root.addElement("stages");
+  for (  StageInstanceModel stage : pipeline.getStageHistory()) {
+    if (!(stage instanceof NullStageHistoryItem)) {
+      stages.addElement("stage").addAttribute("href",StageXmlViewModel.httpUrlFor(writerContext.getBaseUrl(),stage.getId()));
+    }
+  }
+  root.addElement("approvedBy").addCDATA(pipeline.getApprovedBy());
+  return document;
+}

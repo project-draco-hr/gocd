@@ -1,0 +1,18 @@
+{
+  List<PipelineMaterialRevision> pmrs=getHibernateTemplate().findByCriteria(buildPMRDetachedQuery(pipelineIds));
+  sortPersistentObjectsById(pmrs,true);
+  final Set<PipelineMaterialRevision> uniquePmrs=new HashSet<PipelineMaterialRevision>();
+  for (  PipelineMaterialRevision pmr : pmrs) {
+    String cacheKey=pipelinePmrsKey(pmr.getPipelineId());
+    List<PipelineMaterialRevision> pmrsForId=(List<PipelineMaterialRevision>)goCache.get(cacheKey);
+    if (pmrsForId == null) {
+      pmrsForId=new ArrayList<PipelineMaterialRevision>();
+      goCache.put(cacheKey,pmrsForId);
+    }
+    pmrsForId.add(pmr);
+    putMaterialInstanceIntoCache(pmr.getToModification().getMaterialInstance());
+    uniquePmrs.add(pmr);
+  }
+  loadModificationsIntoCache(uniquePmrs);
+  return;
+}

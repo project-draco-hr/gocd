@@ -1,0 +1,13 @@
+{
+  String repoId="deleted-repo";
+  String pkgId="pkg-2";
+  HashMap<String,Serializable> params=PackageDefinitionMother.paramsForPackageMaterialAssociation(repoId,pkgId);
+  PackageMaterialUpdateWithExistingPackageDefinitionCommand command=new PackageMaterialUpdateWithExistingPackageDefinitionCommand(packageDefinitionService,securityService,pipelineName,materialToBeUpdated,admin,params);
+  command.update(cruiseConfig);
+  assertThat(pipelineConfig.materialConfigs().first() instanceof PackageMaterialConfig,is(true));
+  PackageMaterialConfig editedMaterial=(PackageMaterialConfig)pipelineConfig.materialConfigs().first();
+  assertThat(editedMaterial,is(materialToBeUpdated));
+  assertThat(editedMaterial.getPackageDefinition(),is(nullValue()));
+  assertThat(editedMaterial.getPackageId(),is(nullValue()));
+  verify(packageDefinitionService,never()).performPluginValidationsFor(Matchers.<PackageDefinition>any());
+}

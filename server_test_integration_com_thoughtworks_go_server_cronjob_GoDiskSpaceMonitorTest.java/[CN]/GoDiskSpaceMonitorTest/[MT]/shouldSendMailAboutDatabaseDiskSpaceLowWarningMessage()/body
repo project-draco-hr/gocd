@@ -1,0 +1,13 @@
+{
+  DatabaseDiskIsLow low=new DatabaseDiskIsLow();
+  low.onSetUp();
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(goConfigService.artifactsDir())).thenReturn(SHITLOADS_OF_DISK_SPACE);
+  Mockito.when(mockDiskSpaceChecker.getUsableSpace(systemEnvironment.getDbFolder())).thenReturn(low.getLowLimit() + 1L);
+  try {
+    goDiskSpaceMonitor.onTimer();
+    emailSender.assertHasMessageContaining("Low database disk space warning message from Go Server");
+  }
+  finally {
+    low.onTearDown();
+  }
+}

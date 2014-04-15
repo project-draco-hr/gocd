@@ -1,0 +1,9 @@
+{
+  try {
+    writeToFile(SystemEnvironment.AGENT_LAUNCHER_JAR_PATH);
+    assertThat(FileUtil.readToEnd(agentService.agentLauncherJarInputStream()),is(SystemEnvironment.AGENT_LAUNCHER_JAR_PATH));
+  }
+  finally {
+    new File(SystemEnvironment.AGENT_LAUNCHER_JAR_PATH).delete();
+  }
+}

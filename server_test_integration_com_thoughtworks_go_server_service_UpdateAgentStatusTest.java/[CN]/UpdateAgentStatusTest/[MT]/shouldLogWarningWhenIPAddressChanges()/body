@@ -1,0 +1,10 @@
+{
+  AgentIdentifier agentIdentifier1=new AgentIdentifier("localhost","10.18.3.95","uuid");
+  AgentRuntimeInfo agentRuntimeInfo1=AgentRuntimeInfo.fromAgent(agentIdentifier1,"cookie",null);
+  agentRuntimeInfo1.busy(new AgentBuildingInfo("building","buildLocator"));
+  agentRuntimeInfo1.setLocation("/myDirectory");
+  LogFixture logging=LogFixture.startListening();
+  agentService.updateRuntimeInfo(agentRuntimeInfo1);
+  assertThat(logging.getLog(),containsString("Agent with UUID [uuid] changed IP Address from [10.81.2.1] to [10.18.3.95]"));
+  logging.stopListening();
+}

@@ -1,0 +1,8 @@
+{
+  Authentication authentication=setupAuthentication();
+  RemoveAdminPermissionFilter filter=new RemoveAdminPermissionFilter(goConfigService,timeProvider);
+  filter.doFilterHttp(request,response,chain);
+  modifyArtifactRoot();
+  filter.doFilterHttp(request,response,chain);
+  assertThat(authentication.isAuthenticated(),is(true));
+}

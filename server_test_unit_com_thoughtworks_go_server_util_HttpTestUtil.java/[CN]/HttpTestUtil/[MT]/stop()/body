@@ -1,0 +1,12 @@
+{
+  if (blocker == null)   throw new IllegalStateException("Aborting server stop, it seems there is no server running.");
+  try {
+    server.stop();
+    blocker.interrupt();
+    blocker.join();
+    blocker=null;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

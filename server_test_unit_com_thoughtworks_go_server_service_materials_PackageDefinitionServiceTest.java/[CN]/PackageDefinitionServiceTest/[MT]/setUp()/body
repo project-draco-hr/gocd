@@ -1,0 +1,16 @@
+{
+  initMocks(this);
+  when(packageMaterialProvider.getConfig()).thenReturn(packageMaterialConfiguration);
+  pluginManager=dummyPluginManager(packageMaterialProvider);
+  service=new PackageDefinitionService(pluginManager,localizer);
+  when(localizer.localize(eq("MANDATORY_CONFIGURATION_FIELD_WITH_NAME"),anyString())).thenReturn("mandatory field");
+  PackageConfigurations configurations=new PackageConfigurations();
+  configurations.add(new PackageConfiguration("required").with(PackageConfiguration.REQUIRED,true));
+  configurations.add(new PackageConfiguration("required_secure").with(PackageConfiguration.REQUIRED,true).with(PackageConfiguration.SECURE,true));
+  configurations.add(new PackageConfiguration("secure").with(PackageConfiguration.SECURE,true).with(PackageConfiguration.REQUIRED,false));
+  configurations.add(new PackageConfiguration("not_required_not_secure").with(PackageConfiguration.REQUIRED,false));
+  configurations.add(new PackageConfiguration("spec"));
+  String pluginId="yum";
+  PackageMetadataStore.getInstance().addMetadataFor(pluginId,configurations);
+  packageRepository=PackageRepositoryMother.create("1","repo",pluginId,"1",new Configuration());
+}

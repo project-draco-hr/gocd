@@ -1,0 +1,12 @@
+{
+  String name=configurationKey.getName().toLowerCase();
+  ConfigurationProperty propertyWithSameKey=map.get(name);
+  if (propertyWithSameKey == null) {
+    map.put(name,this);
+  }
+ else {
+    String errorMessage=format("Duplicate key '%s' found for %s",configurationKey.getName(),entity);
+    propertyWithSameKey.addError(ConfigurationProperty.CONFIGURATION_KEY,errorMessage);
+    addError(ConfigurationProperty.CONFIGURATION_KEY,errorMessage);
+  }
+}

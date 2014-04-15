@@ -1,0 +1,11 @@
+{
+  PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfig("mingle","stage","job");
+  goConfigService.addPipeline(mingleConfig,"pipeline-group");
+  Pipeline instance1=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.cancelStage(instance1.getStages().get(0));
+  Pipeline instance2=dbHelper.schedulePipeline(mingleConfig,new TimeProvider());
+  dbHelper.passStage(instance2.getStages().get(0));
+  HttpOperationResult operationResult=new HttpOperationResult();
+  assertPipeline(pipelineHistoryService.findPipelineInstance("mingle",1,new Username(new CaseInsensitiveString("doesnotmatter")),operationResult),instance1,operationResult);
+  assertPipeline(pipelineHistoryService.findPipelineInstance("mingle",2,new Username(new CaseInsensitiveString("doesnotmatter")),operationResult),instance2,operationResult);
+}

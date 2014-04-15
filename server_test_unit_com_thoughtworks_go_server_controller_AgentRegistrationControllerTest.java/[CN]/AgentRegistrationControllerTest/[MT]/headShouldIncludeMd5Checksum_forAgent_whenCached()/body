@@ -1,0 +1,5 @@
+{
+  ReflectionUtil.setField(controller,AGENT_CHECKSUM_FIELD,EXPECTED_MD5);
+  controller.checkAgentVersion(request,response);
+  assertEquals(EXPECTED_MD5,response.getHeader("Content-MD5"));
+}

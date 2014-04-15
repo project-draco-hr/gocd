@@ -1,0 +1,7 @@
+{
+  Approval approval=stage.getApproval();
+  for (  String role : roles) {
+    approval.getAuthConfig().add(new AdminRole(new CaseInsensitiveString(role)));
+  }
+  stage.updateApproval(approval);
+}

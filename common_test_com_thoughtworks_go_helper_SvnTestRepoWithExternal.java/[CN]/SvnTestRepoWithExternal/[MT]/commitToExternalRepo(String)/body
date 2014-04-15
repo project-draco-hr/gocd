@@ -1,0 +1,12 @@
+{
+  File folder=TestFileUtil.createTempFolder("testSvnExternalWorkingCopy");
+  try {
+    SvnCommand repository=getSvnExternalCommand(externalUrl,false);
+    repository.checkoutTo(outputStreamConsumer,folder,SubversionRevision.HEAD);
+    repository.propset(folder,"newPropetyForExternal","any value");
+    repository.commit(inMemoryConsumer(),folder,"make change");
+  }
+  finally {
+    FileUtil.deleteFolder(folder);
+  }
+}

@@ -1,0 +1,4 @@
+{
+  Map<String,Object> map=arguments("name",name).and("counter",counter).asMap();
+  return (Pipeline)getSqlMapClientTemplate().queryForObject("findPipelineByNameAndCounter",map);
+}

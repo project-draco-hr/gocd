@@ -1,0 +1,11 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.start();
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin.jar");
+  waitAMoment();
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin.jar",true));
+  verifyNoMoreInteractions(changeListener);
+}

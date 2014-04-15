@@ -1,0 +1,9 @@
+{
+  final Pipeline pipeline=PipelineMother.pipeline("mingle");
+  when(mockTemplate.queryForObject("lockedPipeline","mingle")).thenReturn(pipeline.getFirstStage().getIdentifier());
+  pipelineDao.lockedPipeline("mingle");
+  pipelineDao.lockPipeline(pipeline);
+  pipelineDao.lockedPipeline("mingle");
+  verify(mockTemplate,times(2)).queryForObject("lockedPipeline","mingle");
+  verify(mockTemplate,times(1)).update("lockPipeline",pipeline.getId());
+}

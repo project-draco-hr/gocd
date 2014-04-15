@@ -1,0 +1,19 @@
+{
+  if (!OS_CHECKER.satisfy()) {
+    File agentJar=null;
+    File agentLauncher=null;
+    try {
+      agentLauncher=new File(Downloader.AGENT_LAUNCHER);
+      FileUtils.copyFile(new File("testdata/agent-launcher.jar"),agentLauncher);
+      FileUtils.copyFile(new File("testdata/test-agent.jar"),new File(Downloader.AGENT_BINARY));
+      new File(Downloader.AGENT_BINARY).setLastModified(System.currentTimeMillis() - 10 * 1000);
+      long lastModifiedAt=new File(Downloader.AGENT_BINARY).lastModified();
+      agentJar=new File(Downloader.AGENT_BINARY);
+      new AgentLauncherImpl().launch(launchDescriptor());
+      assertThat(agentJar.lastModified(),is(lastModifiedAt));
+    }
+  finally {
+      delete(agentJar,agentLauncher);
+    }
+  }
+}

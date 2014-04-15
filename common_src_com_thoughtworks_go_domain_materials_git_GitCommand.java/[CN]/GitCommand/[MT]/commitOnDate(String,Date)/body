@@ -1,0 +1,6 @@
+{
+  HashMap<String,String> env=new HashMap<String,String>();
+  env.put("GIT_AUTHOR_DATE",formatRFC822(commitDate));
+  CommandLine gitCmd=git().withArgs("commit","-m",message).withEnv(env).withWorkingDir(workingDir);
+  runOrBomb(gitCmd);
+}

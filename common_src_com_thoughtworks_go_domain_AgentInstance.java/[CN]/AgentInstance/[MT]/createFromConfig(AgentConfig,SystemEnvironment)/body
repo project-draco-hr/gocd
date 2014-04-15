@@ -1,0 +1,6 @@
+{
+  AgentType type=agentInConfig.isFromLocalHost() ? AgentType.LOCAL : AgentType.REMOTE;
+  AgentInstance result=new AgentInstance(agentInConfig,type,systemEnvironment);
+  result.agentConfigStatus=agentInConfig.isDisabled() ? AgentConfigStatus.Disabled : AgentConfigStatus.Enabled;
+  return result;
+}

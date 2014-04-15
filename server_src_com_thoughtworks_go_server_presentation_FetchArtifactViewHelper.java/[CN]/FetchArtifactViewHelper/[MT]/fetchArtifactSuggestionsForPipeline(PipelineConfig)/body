@@ -1,0 +1,9 @@
+{
+  FetchSuggestionHirarchy hirarchy=new FetchSuggestionHirarchy();
+  Queue<JobHirarchyQueueEntry> bfsQueue=new ArrayDeque<JobHirarchyQueueEntry>();
+  addLocalUpstreamStages(hirarchy,pipelineConfig);
+  HashSet<DependencyMaterialConfig> handled=new HashSet<DependencyMaterialConfig>();
+  addMaterialsToQueue(bfsQueue,pipelineConfig,"");
+  hirarchy.populateFetchableJobHirarchyFor(bfsQueue,cruiseConfig);
+  return hirarchy;
+}

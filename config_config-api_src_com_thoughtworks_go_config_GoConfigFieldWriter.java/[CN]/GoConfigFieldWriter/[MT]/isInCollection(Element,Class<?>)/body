@@ -1,0 +1,10 @@
+{
+  if (type.isInterface() && type.isAnnotationPresent(ConfigInterface.class)) {
+    for (    Class<?> implementation : registry.implementersOf(type)) {
+      if (configTag(implementation).equals(e.getName())) {
+        return true;
+      }
+    }
+  }
+  return configTag(type).equals(e.getName());
+}

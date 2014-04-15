@@ -1,0 +1,10 @@
+{
+  MockHttpServletRequest request=new MockHttpServletRequest();
+  request.setContextPath("/go");
+  request.setRequestURI("/go/tab/cruise/cctray.xml");
+  assertThat(pipelineStatusController.getFullContextPath(request),is("http://localhost:80/go"));
+  request.setServerName("go-server");
+  request.setServerPort(8153);
+  request.setRequestURI("/go/cctray.xml");
+  assertThat(pipelineStatusController.getFullContextPath(request),is("http://go-server:8153/go"));
+}

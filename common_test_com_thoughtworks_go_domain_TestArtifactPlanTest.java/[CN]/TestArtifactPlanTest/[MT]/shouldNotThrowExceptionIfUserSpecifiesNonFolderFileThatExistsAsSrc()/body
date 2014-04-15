@@ -1,0 +1,6 @@
+{
+  final File nonFolderFileThatExists=TestFileUtil.createTestFile(TestFileUtil.createTempFolder("tempFolder"),"nonFolderFileThatExists");
+  final TestArtifactPlan compositeTestArtifact=new TestArtifactPlan(new ArtifactPlan(ArtifactType.unit,nonFolderFileThatExists.getPath(),"testoutput"));
+  compositeTestArtifact.publish(mockArtifactPublisher,rootPath);
+  doNothing().when(mockArtifactPublisher).upload(any(File.class),any(String.class));
+}

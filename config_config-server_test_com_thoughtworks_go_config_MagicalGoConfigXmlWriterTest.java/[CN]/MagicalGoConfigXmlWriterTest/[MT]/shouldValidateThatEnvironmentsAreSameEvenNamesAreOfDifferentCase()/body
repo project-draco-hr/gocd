@@ -1,0 +1,10 @@
+{
+  String xml=ConfigFileFixture.WITH_DUPLICATE_ENVIRONMENTS;
+  try {
+    ConfigMigrator.loadWithMigration(IOUtils.toInputStream(xml));
+    fail("Should not be able to save config when 2 environments have the same name with different case");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("Environment with name 'FOO' already exists."));
+  }
+}

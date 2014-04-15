@@ -1,0 +1,13 @@
+{
+  PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev");
+  mingleConfig.setLabelTemplate("LABEL:${COUNT}");
+  Pipeline pipeline1=schedulePipelineWithStages(mingleConfig);
+  Pipeline pipeline2=schedulePipelineWithStages(mingleConfig);
+  Pipeline pipeline3=schedulePipelineWithStages(mingleConfig);
+  Pipeline pipeline4=schedulePipelineWithStages(mingleConfig);
+  Pipeline pipeline5=schedulePipelineWithStages(mingleConfig);
+  PipelineInstanceModels pipelineHistories=pipelineDao.loadHistory(pipeline1.getName(),2,"latest");
+  assertThat(pipelineHistories.size(),is(2));
+  assertThat(pipelineHistories.get(0).getLabel(),is(pipeline5.getLabel()));
+  assertThat(pipelineHistories.get(1).getLabel(),is(pipeline4.getLabel()));
+}

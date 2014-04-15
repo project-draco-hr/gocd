@@ -1,0 +1,9 @@
+{
+  try {
+    String urlPart=urlFor(String.format("/projects/%s/cards/",projectIdentifier));
+    return new DefaultCommentRenderer(urlPart + "${ID}","#(\\d+)").render(text);
+  }
+ catch (  URIException e) {
+    throw new RuntimeException("Could not construct the URL to generate the link.",e);
+  }
+}

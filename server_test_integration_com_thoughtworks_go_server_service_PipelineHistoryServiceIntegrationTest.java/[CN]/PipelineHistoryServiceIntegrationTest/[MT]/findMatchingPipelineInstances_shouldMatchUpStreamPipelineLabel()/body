@@ -1,0 +1,20 @@
+{
+  final int limit=3;
+  PipelineConfig upstreamConfig=PipelineConfigMother.createPipelineConfig("upstream","stage","job");
+  upstreamConfig.setLabelTemplate("${COUNT}-hello-world-${COUNT}");
+  PipelineConfig downstreamConfig=PipelineConfigMother.createPipelineConfig("downstream","stage","job");
+  downstreamConfig.materialConfigs().clear();
+  DependencyMaterial dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("upstream"),new CaseInsensitiveString("stage"));
+  downstreamConfig.addMaterialConfig(dependencyMaterial.config());
+  goConfigService.addPipeline(upstreamConfig,"pipeline-group");
+  goConfigService.addPipeline(downstreamConfig,"pipeline-group");
+  Pipeline upstreamPipeline=dbHelper.schedulePipeline(upstreamConfig,new TimeProvider());
+  dbHelper.passStage(upstreamPipeline.getStages().get(0));
+  Modification modification=new Modification(new Date(),DependencyMaterialRevision.create("upstream",1,"1","stage",1).getRevision(),"1",upstreamPipeline.getId());
+  MaterialRevisions materialRevisions=new MaterialRevisions(new MaterialRevision(dependencyMaterial,modification));
+  Pipeline downstreamPipeline=dbHelper.schedulePipeline(downstreamConfig,BuildCause.createWithModifications(materialRevisions,"cruise"),new TimeProvider());
+  dbHelper.passStage(downstreamPipeline.getStages().get(0));
+  PipelineInstanceModels actual=pipelineHistoryService.findMatchingPipelineInstances("downstream","hello-world",limit,new Username(new CaseInsensitiveString("user")),new HttpLocalizedOperationResult());
+  assertThat(actual.size(),is(1));
+  assertThat(actual.get(0).getCounter(),is(downstreamPipeline.getCounter()));
+}

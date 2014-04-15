@@ -1,0 +1,16 @@
+{
+  Date date=new Date();
+  MaterialRevisionBuilder builder=new MaterialRevisionBuilder(pipelineDao,materialRepository);
+  PipelineConfigDependencyGraph graph=builder.depInstance("last",1,date,builder.depInstance("second",4,date,builder.svnInstance("2",date)),builder.depInstance("third",3,date,builder.depInstance("second",2,date,builder.svnInstance("1",date)))).getGraph();
+  MaterialRevisions actual=new MaterialRevisions();
+  actual.addRevision(builder.lookingAtDep("second",4,date).markAsChanged().revision());
+  actual.addRevision(builder.lookingAtDep("third",3,date).revision());
+  MaterialRevisions expected=new MaterialRevisions();
+  expected.addRevision(builder.depInstance("second",4,date).getRevision());
+  expected.addRevision(builder.depInstance("third",3,date).getRevision());
+  MaterialRevisions finalRevisions=service.getRevisionsBasedOnDependencies(graph,actual);
+  assertThat(finalRevisions,is(expected));
+  for (int i=0; i < expected.numberOfRevisions(); i++) {
+    assertTrue(finalRevisions.getMaterialRevision(i) == actual.getMaterialRevision(i));
+  }
+}

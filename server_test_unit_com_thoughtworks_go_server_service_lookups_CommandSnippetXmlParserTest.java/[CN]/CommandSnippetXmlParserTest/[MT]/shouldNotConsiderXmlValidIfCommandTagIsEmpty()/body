@@ -1,0 +1,5 @@
+{
+  CommandSnippet commandSnippet=xmlParser.parse("<exec command=' ' ><arg>pack</arg><arg>component.nuspec</arg></exec>","nuget","/some/path/filename.xml");
+  assertThat(commandSnippet.getErrorMessage(),is("Reason: Command attribute cannot be blank in a command snippet."));
+  assertThat(commandSnippet.isValid(),is(false));
+}

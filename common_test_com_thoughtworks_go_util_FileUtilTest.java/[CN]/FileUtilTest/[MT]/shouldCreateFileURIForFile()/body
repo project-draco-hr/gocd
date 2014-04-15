@@ -1,0 +1,5 @@
+{
+  assertThat(FileUtil.toFileURI(new File("/var/lib/foo/")),is("file:///var/lib/foo"));
+  assertThat(FileUtil.toFileURI(new File("/var/a dir with spaces/foo")),is("file:///var/a%20dir%20with%20spaces/foo"));
+  assertThat(FileUtil.toFileURI(new File("/var/???????????????/foo")),is("file:///var/%E5%8F%B8%E5%BE%92%E7%A9%BA%E5%9C%A8%E6%AD%A4/foo"));
+}

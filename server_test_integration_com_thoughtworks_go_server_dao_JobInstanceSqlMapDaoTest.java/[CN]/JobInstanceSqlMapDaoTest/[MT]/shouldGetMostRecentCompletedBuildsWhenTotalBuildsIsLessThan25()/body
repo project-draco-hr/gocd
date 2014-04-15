@@ -1,0 +1,7 @@
+{
+  JobInstance jobInstance=JobInstanceMother.completed("shouldnotload",JobResult.Passed);
+  jobInstanceDao.save(stageId,jobInstance);
+  createSomeJobs(JOB_NAME,3);
+  JobInstances instances=jobInstanceDao.latestCompletedJobs(PIPELINE_NAME,STAGE_NAME,JOB_NAME,25);
+  assertThat(instances.size(),is(3));
+}

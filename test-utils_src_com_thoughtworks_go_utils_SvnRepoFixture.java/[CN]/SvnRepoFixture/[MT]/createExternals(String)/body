@@ -1,0 +1,5 @@
+{
+  File workspace=workspaceOf(svnRepoUrl);
+  exec(workspace,"svn","propset","svn:externals","external " + getExternalRepoUrl(),".");
+  exec(workspace,"svn","ci","-m","created svn externals");
+}

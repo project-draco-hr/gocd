@@ -1,0 +1,7 @@
+{
+  if (!cruiseConfig.hasPipelineGroup(groupName)) {
+    result.notFound(LocalizedMessage.string("PIPELINE_GROUP_NOT_FOUND",groupName),HealthStateType.general(HealthStateScope.forGroup(groupName)));
+    return false;
+  }
+  return true;
+}

@@ -1,0 +1,20 @@
+{
+  String header=request.getHeader(AUTHORIZATION);
+  if (header != null) {
+    logger.debug("Oauth authorization header: " + header);
+    Matcher matcher=OAUTH_TOKEN_PATTERN.matcher(header);
+    if (matcher.matches()) {
+      String token=matcher.group(1);
+      OauthAuthenticationToken authenticationToken=new OauthAuthenticationToken(token);
+      try {
+        Authentication authResult=authenticationManager.authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+      }
+ catch (      AuthenticationException e) {
+        logger.debug("Oauth authentication request for token: " + token + " failed: "+ e.toString());
+        SecurityContextHolder.getContext().setAuthentication(null);
+      }
+    }
+  }
+  chain.doFilter(request,response);
+}

@@ -1,0 +1,9 @@
+{
+  Pipeline expected=PipelineMother.pipeline("pipeline");
+  expected.setId(1);
+  when(mockTemplate.queryForObject("getPipelineByStageId",1L)).thenReturn(expected);
+  Pipeline actual=pipelineDao.pipelineWithModsByStageId("pipeline",1L);
+  assertSame(expected,actual);
+  pipelineDao.pipelineWithModsByStageId("pipeline",1L);
+  verify(mockTemplate,times(1)).queryForObject("getPipelineByStageId",1L);
+}

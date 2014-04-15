@@ -1,0 +1,14 @@
+{
+  HgMaterialConfig materialOne=new HgMaterialConfig("http://url1",null);
+  materialOne.setAutoUpdate(true);
+  HgMaterialConfig materialTwo=new HgMaterialConfig("http://url1",null);
+  materialTwo.setAutoUpdate(true);
+  CruiseConfig config=GoConfigMother.configWithPipelines("one","two","three");
+  PipelineConfig pipelineOne=config.pipelineConfigByName(new CaseInsensitiveString("one"));
+  pipelineOne.setMaterialConfigs(new MaterialConfigs(materialOne));
+  PipelineConfig pipelineTwo=config.pipelineConfigByName(new CaseInsensitiveString("two"));
+  pipelineTwo.setMaterialConfigs(new MaterialConfigs(materialTwo));
+  pipelineOne.materialConfigs().validate(ValidationContext.forChain(config));
+  assertThat(pipelineOne.materialConfigs().get(0).errors().isEmpty(),is(true));
+  assertThat(pipelineTwo.materialConfigs().get(0).errors().isEmpty(),is(true));
+}

@@ -1,0 +1,9 @@
+{
+  if (!securityService.hasViewPermissionForPipeline(user,pipelineName)) {
+    result.unauthorized(LocalizedMessage.cannotViewPipeline(pipelineName),HealthStateType.unauthorisedForPipeline(pipelineName));
+    return null;
+  }
+  PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+  MingleConfig mingleConfig=pipelineConfig.getMingleConfig();
+  return mingleConfig.equals(new MingleConfig()) ? null : mingleConfig;
+}

@@ -1,0 +1,11 @@
+{
+  for (  SchedulingChecker checker : value) {
+    if (checker instanceof CompositeChecker) {
+      List<SchedulingChecker> schedulingCheckers=Arrays.asList(((CompositeChecker)checker).getCheckers());
+      flatten(schedulingCheckers,containerForAllCheckers);
+    }
+ else {
+      containerForAllCheckers.add(checker);
+    }
+  }
+}

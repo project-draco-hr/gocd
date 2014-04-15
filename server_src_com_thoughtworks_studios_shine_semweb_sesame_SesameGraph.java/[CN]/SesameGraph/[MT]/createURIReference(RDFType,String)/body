@@ -1,0 +1,13 @@
+{
+  ArgumentUtil.guaranteeNotNull(type,"Type may not be null.");
+  ArgumentUtil.guaranteeNotNull(uri,"URI may not be null.");
+  ArgumentUtil.guaranteeFalse("URI may not be a blank node!",uri.startsWith("_:"));
+  URI sesameNativeURI=conn.getValueFactory().createURI(uri);
+  try {
+    conn.add(sesameNativeURI,RDF.TYPE,conn.getValueFactory().createURI(type.getURIText()),contextResource);
+  }
+ catch (  RepositoryException e) {
+    throw new ShineRuntimeException(e);
+  }
+  return new SesameURIReference(sesameNativeURI);
+}

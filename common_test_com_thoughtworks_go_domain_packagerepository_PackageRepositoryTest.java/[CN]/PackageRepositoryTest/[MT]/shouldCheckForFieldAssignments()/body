@@ -1,0 +1,9 @@
+{
+  Configuration configuration=new Configuration();
+  Packages packages=new Packages(new PackageDefinition());
+  PackageRepository packageRepository=createPackageRepository("plugin-id","version","id","name",configuration,packages);
+  assertThat(packageRepository.getPluginConfiguration().getId(),is("plugin-id"));
+  assertThat(packageRepository.getPluginConfiguration().getVersion(),is("version"));
+  assertThat(packageRepository.getId(),is("id"));
+  assertThat(packageRepository.getName(),is("name"));
+}

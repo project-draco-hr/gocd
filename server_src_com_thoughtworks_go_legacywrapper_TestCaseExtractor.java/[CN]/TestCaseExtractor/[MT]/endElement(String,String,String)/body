@@ -1,0 +1,14 @@
+{
+  if (readingError || readingFailure) {
+    testcase=new BuildTestCase(name,duration,classname,errorOrFailureMessage,errorOrFailureDetail,readingError ? BuildTestCaseResult.ERROR : BuildTestCaseResult.FAILED);
+  }
+  if ("testcase".equals(qName)) {
+    if (!(readingError || readingFailure)) {
+      testcase=new BuildTestCase(name,duration,classname,"","",BuildTestCaseResult.PASSED);
+    }
+    readingTestCase=false;
+    readingError=false;
+    readingFailure=false;
+    errorOrFailureDetail="";
+  }
+}

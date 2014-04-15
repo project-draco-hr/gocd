@@ -1,0 +1,10 @@
+{
+  UserLicenseEnforcementProvider licenseEnforcementProvider=(UserLicenseEnforcementProvider)factory.getObject();
+  AuthenticationProvider underlyingProvider=mock(AuthenticationProvider.class);
+  licenseEnforcementProvider.setProvider(underlyingProvider);
+  UsernamePasswordAuthenticationToken auth=new UsernamePasswordAuthenticationToken("foo","bar");
+  UsernamePasswordAuthenticationToken resultantAuthorization=new UsernamePasswordAuthenticationToken(new org.springframework.security.userdetails.User("foo-user","pass",true,true,true,true,new GrantedAuthority[]{GoAuthority.ROLE_USER.asAuthority()}),"bar");
+  when(underlyingProvider.authenticate(auth)).thenReturn(resultantAuthorization);
+  licenseEnforcementProvider.authenticate(auth);
+  verify(userService).addUserIfDoesNotExist(UserHelper.getUserName(resultantAuthorization));
+}

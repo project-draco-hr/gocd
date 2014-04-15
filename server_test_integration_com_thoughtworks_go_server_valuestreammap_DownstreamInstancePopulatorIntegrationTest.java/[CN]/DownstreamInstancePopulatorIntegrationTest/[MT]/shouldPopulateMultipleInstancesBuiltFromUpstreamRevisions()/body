@@ -1,0 +1,24 @@
+{
+  ValueStreamMap valueStreamMap=new ValueStreamMap("p",new PipelineRevision("p",1,"13.1.1"));
+  Node nodep2=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p2","p2"),"p");
+  Node nodep3=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p3","p3"),"p2");
+  Node nodep4=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p4","p4"),"p3");
+  valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p4","p4"),"p2");
+  valueStreamMap.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),new Modifications(ModificationsMother.multipleModificationList()),"p");
+  GitMaterial g1=u.wf(new GitMaterial("g1"),"folder3");
+  u.checkinInOrder(g1,"g_1");
+  ScheduleTestUtil.AddedPipeline p=u.saveConfigWith("p",u.m(g1));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(p));
+  ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p2));
+  ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",u.m(p2),u.m(p3));
+  String p_1=u.runAndPass(p,"g_1");
+  String p2_1=u.runAndPass(p2,p_1);
+  String p2_2=u.runAndPass(p2,p_1);
+  String p3_1=u.runAndPass(p3,p2_2);
+  String p4_1=u.runAndPass(p4,p2_1,p3_1);
+  String p4_2=u.runAndPass(p4,p2_2,p3_1);
+  downstreamInstancePopulator.apply(valueStreamMap);
+  assertInstances(nodep2,"p2",1,2);
+  assertInstances(nodep3,"p3",1);
+  assertInstances(nodep4,"p4",1,2);
+}

@@ -1,0 +1,4 @@
+{
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("stageName",stageName).and("fromNaturalOrder",fromNaturalOrder).and("toNaturalOrder",toNaturalOrder).asMap();
+  return (List<StageIdentifier>)getSqlMapClientTemplate().queryForList("findFailedStagesBetween",args);
+}

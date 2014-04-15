@@ -1,0 +1,25 @@
+{
+  User foo=new User("foo",new ArrayList<String>(),"foo@cruise.com",false);
+  User bar=new User("bar",new ArrayList<String>(),"zooboo@go.com",false);
+  User quux=new User("quux",new ArrayList<String>(),"quux@cruise.go",false);
+  User baaz=new User("baaz",new ArrayList<String>(),"baaz@cruise.go",false);
+  when(userDao.allUsers()).thenReturn(new Users(Arrays.asList(quux,foo,bar,baaz)));
+  when(securityService.isUserAdmin(new Username(new CaseInsensitiveString("foo")))).thenReturn(false);
+  when(securityService.isUserAdmin(new Username(new CaseInsensitiveString("bar")))).thenReturn(true);
+  when(securityService.isUserAdmin(new Username(new CaseInsensitiveString("quux")))).thenReturn(false);
+  when(securityService.isUserAdmin(new Username(new CaseInsensitiveString("baaz")))).thenReturn(true);
+  List<UserModel> models=userService.allUsersForDisplay(UserService.SortableColumn.IS_ADMIN,UserService.SortDirection.DESC);
+  assertThat(models.size(),is(4));
+  assertThat(models.get(2),anyOf(is(model(quux,false)),is(model(foo,false))));
+  assertThat(models.get(3),anyOf(is(model(quux,false)),is(model(foo,false))));
+  assertThat(models.get(0),anyOf(is(model(bar,true)),is(model(baaz,true))));
+  assertThat(models.get(1),anyOf(is(model(bar,true)),is(model(baaz,true))));
+  assertThat(models,hasItems(model(bar,true),model(baaz,true),model(foo,false),model(quux,false)));
+  models=userService.allUsersForDisplay(UserService.SortableColumn.IS_ADMIN,UserService.SortDirection.ASC);
+  assertThat(models.size(),is(4));
+  assertThat(models.get(0),anyOf(is(model(quux,false)),is(model(foo,false))));
+  assertThat(models.get(1),anyOf(is(model(quux,false)),is(model(foo,false))));
+  assertThat(models.get(2),anyOf(is(model(bar,true)),is(model(baaz,true))));
+  assertThat(models.get(3),anyOf(is(model(bar,true)),is(model(baaz,true))));
+  assertThat(models,hasItems(model(bar,true),model(baaz,true),model(foo,false),model(quux,false)));
+}

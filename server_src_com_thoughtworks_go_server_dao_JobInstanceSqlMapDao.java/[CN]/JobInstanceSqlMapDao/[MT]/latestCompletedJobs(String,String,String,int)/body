@@ -1,0 +1,9 @@
+{
+  Map params=new HashMap();
+  params.put("pipelineName",pipelineName);
+  params.put("stageName",stageName);
+  params.put("jobConfigName",jobConfigName);
+  params.put("count",count);
+  List<JobInstance> results=(List<JobInstance>)getSqlMapClientTemplate().queryForList("latestCompletedJobs",params);
+  return new JobInstances(results);
+}

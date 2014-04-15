@@ -1,0 +1,11 @@
+{
+  GoCipher mockGoCipher=mock(GoCipher.class);
+  when(mockGoCipher.encrypt("password")).thenThrow(new InvalidCipherTextException("exception"));
+  try {
+    new SvnMaterial("/foo","username","password",false,mockGoCipher);
+    fail("Should have thrown up");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Password encryption failed. Please verify your cipher key."));
+  }
+}

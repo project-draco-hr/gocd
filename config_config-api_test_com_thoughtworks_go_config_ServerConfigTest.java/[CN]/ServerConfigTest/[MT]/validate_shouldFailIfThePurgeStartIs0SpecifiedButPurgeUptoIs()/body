@@ -1,0 +1,6 @@
+{
+  ServerConfig serverConfig=new ServerConfig("artifacts",new SecurityConfig(),0,20.05,"30");
+  serverConfig.validate(null);
+  assertThat(serverConfig.errors().isEmpty(),is(false));
+  assertThat(serverConfig.errors().on(ServerConfig.PURGE_START),is("Error in artifact cleanup values. The trigger value is has to be specified when a goal is set"));
+}

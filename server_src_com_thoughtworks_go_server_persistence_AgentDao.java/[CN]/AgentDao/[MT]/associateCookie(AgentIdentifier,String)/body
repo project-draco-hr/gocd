@@ -1,0 +1,24 @@
+{
+  final String key=agentCacheKey(agentIdentifier);
+synchronized (key) {
+    transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+      @Override protected void doInTransactionWithoutResult(      TransactionStatus status){
+        AgentCookie agentCookie=findAgentCookieByUuid(agentIdentifier);
+        if (agentCookie == null) {
+          agentCookie=new AgentCookie(agentIdentifier.getUuid(),cookie);
+        }
+ else {
+          agentCookie.updateCookie(cookie);
+        }
+        getHibernateTemplate().saveOrUpdate(agentCookie);
+        synchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+          @Override public void afterCommit(){
+            cache.remove(key);
+          }
+        }
+);
+      }
+    }
+);
+  }
+}

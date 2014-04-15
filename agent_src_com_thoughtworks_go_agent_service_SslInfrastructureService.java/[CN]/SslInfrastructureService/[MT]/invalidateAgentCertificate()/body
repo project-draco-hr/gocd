@@ -1,0 +1,11 @@
+{
+  resetHttpConnectionManager();
+  try {
+    keyStoreManager.deleteEntry(CHAIN_ALIAS,AGENT_CERTIFICATE_FILE,AGENT_STORE_PASSWORD);
+    keyStoreManager.deleteEntry(CRUISE_SERVER,AGENT_TRUST_FILE,AGENT_STORE_PASSWORD);
+  }
+ catch (  Exception e) {
+    LOGGER.fatal("[Agent Registration] Error while deleting key from key store",e);
+    deleteKeyStores();
+  }
+}

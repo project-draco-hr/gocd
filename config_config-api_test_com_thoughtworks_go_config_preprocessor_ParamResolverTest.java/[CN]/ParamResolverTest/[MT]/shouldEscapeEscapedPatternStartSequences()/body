@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("cruise","dev","ant");
+  pipelineConfig.setLabelTemplate("2.1-${COUNT}-#######{foo}-bar-####{bar}");
+  new ParamResolver(new ParamSubstitutionHandlerFactory(params(param("foo","pavan"),param("bar","jj"))),fieldCache).resolve(pipelineConfig);
+  assertThat(pipelineConfig.getLabelTemplate(),is("2.1-${COUNT}-###pavan-bar-##{bar}"));
+}

@@ -1,0 +1,11 @@
+{
+  boolean administrator=false;
+  for (  GrantedAuthority authority : authorities) {
+    if (isAdministrator(authority)) {
+      administrator=true;
+    }
+  }
+  if (!administrator) {
+    velocityContext.remove(ADMINISTRATOR);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  service=spy(service);
+  when(service.hasUpdateIntervalElapsedForScmMaterial(material())).thenReturn(true);
+  service.onTimer();
+  service.onMessage(new MaterialUpdateSuccessfulMessage(material(),0));
+  service.onTimer();
+  Mockito.verify(queue,new Times(2)).post(MaterialUpdateMessageMatcher.matchMaterialUpdateMessage(material()));
+}

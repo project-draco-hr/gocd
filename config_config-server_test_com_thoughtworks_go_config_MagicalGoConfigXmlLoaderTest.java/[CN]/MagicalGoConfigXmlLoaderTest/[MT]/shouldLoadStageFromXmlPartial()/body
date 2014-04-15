@@ -1,0 +1,7 @@
+{
+  String stageXmlPartial="<stage name=\"mingle\">\n" + "  <jobs>\n" + "    <job name=\"functional\">\n"+ "      <artifacts>\n"+ "        <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "      </artifacts>\n"+ "    </job>\n"+ "  </jobs>\n"+ "</stage>\n";
+  StageConfig stage=xmlLoader.fromXmlPartial(toInputStream(stageXmlPartial),StageConfig.class);
+  assertThat(stage.name(),is(new CaseInsensitiveString("mingle")));
+  assertThat(stage.allBuildPlans().size(),is(1));
+  assertThat(stage.jobConfigByInstanceName("functional",true),is(notNullValue()));
+}

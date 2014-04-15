@@ -1,0 +1,11 @@
+{
+  SvnMaterial svn=svnMaterial(svnRepo.projectRepositoryUrl(),"mainRepo","user1","pass1",true,"*.doc");
+  SvnMaterial expectedExternalSvnMaterial=new SvnMaterial(svnRepo.externalRepositoryUrl(),"user1","pass1",true,"mainRepo/" + svnRepo.externalMaterial().getFolder());
+  expectedExternalSvnMaterial.setFilter(FilterMother.filterFor("*.doc"));
+  when(materialConfigConverter.toMaterials(new MaterialConfigs(svn.config(),expectedExternalSvnMaterial.config()))).thenReturn(new Materials(svn,expectedExternalSvnMaterial));
+  Materials materials=new Materials();
+  materialExpansionService.expandForScheduling(svn,materials);
+  assertThat(materials.size(),is(2));
+  assertThat((SvnMaterial)materials.get(0),is(svn));
+  assertThat(((SvnMaterial)materials.get(1)).getUrl(),endsWith("end2end/"));
+}

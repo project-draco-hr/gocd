@@ -1,0 +1,5 @@
+{
+  String sqlValue=SqlUtil.joinWithQuotesForSql(localAgentIds.toArray());
+  Integer count=(Integer)getSqlMapClientTemplate().queryForObject("getNumberOfActiveBuildsOnRemoteAgent",arguments("localAgentIds",sqlValue).asMap());
+  return count;
+}

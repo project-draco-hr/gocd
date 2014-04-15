@@ -1,0 +1,14 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  when(systemEnvironment.get(PLUGIN_LOCATION_MONITOR_INTERVAL_IN_SECONDS)).thenReturn(-1);
+  monitor.addPluginJarChangeListener(changeListener);
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin.jar");
+  monitor.start();
+  waitAMoment();
+  FileUtils.deleteQuietly(new File(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin.jar"));
+  waitAMoment();
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,"descriptor-aware-test-plugin.jar",true));
+  verifyNoMoreInteractions(changeListener);
+}

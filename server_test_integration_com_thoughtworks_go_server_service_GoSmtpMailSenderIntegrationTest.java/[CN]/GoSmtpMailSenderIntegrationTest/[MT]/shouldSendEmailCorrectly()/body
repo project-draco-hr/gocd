@@ -1,0 +1,9 @@
+{
+  String from="cruise2@cruise.com";
+  String to="cruise2@cruise.com";
+  GoSmtpMailSender sender=new GoSmtpMailSender(hostName,10025,username,password,false,from,to);
+  ValidationBean validationBean=sender.send(TEST_EMAIL_SUBJECT,GoSmtpMailSender.emailBody(),to);
+  assertThat(validationBean.isValid(),is(true));
+  assertWillHappen(pop3MailClient,emailContentContains(GoSmtpMailSender.emailBody()));
+  assertWillHappen(pop3MailClient,emailSubjectContains(TEST_EMAIL_SUBJECT));
+}

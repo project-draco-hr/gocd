@@ -1,0 +1,25 @@
+{
+  if (!pluginJarFile.exists()) {
+    throw new RuntimeException(String.format("Plugin jar does not exist: %s",pluginJarFile.getAbsoluteFile()));
+  }
+  InputStream pluginXMLStream=null;
+  JarFile jarFile=null;
+  try {
+    jarFile=new JarFile(pluginJarFile);
+    ZipEntry entry=jarFile.getEntry(PLUGIN_XML);
+    if (entry == null) {
+      return GoPluginDescriptor.usingId(pluginJarFile.getName(),pluginJarFile.getAbsolutePath(),getBundleLocation(bundlePathLocation,pluginJarFile.getName()),isBundledPlugin);
+    }
+    pluginXMLStream=jarFile.getInputStream(entry);
+    return GoPluginDescriptorParser.parseXML(pluginXMLStream,pluginJarFile.getAbsolutePath(),getBundleLocation(bundlePathLocation,pluginJarFile.getName()),isBundledPlugin);
+  }
+ catch (  Exception e) {
+    LOGGER.warn("Could not load plugin with jar filename:" + pluginJarFile.getName(),e);
+    String cause=e.getCause() != null ? String.format("%s. Cause: %s",e.getMessage(),e.getCause().getMessage()) : e.getMessage();
+    return GoPluginDescriptor.usingId(pluginJarFile.getName(),pluginJarFile.getAbsolutePath(),getBundleLocation(bundlePathLocation,pluginJarFile.getName()),isBundledPlugin).markAsInvalid(Arrays.asList(String.format("Plugin with ID (%s) is not valid: %s",pluginJarFile.getName(),cause)),e);
+  }
+ finally {
+    IOUtils.closeQuietly(pluginXMLStream);
+    closeQuietly(jarFile);
+  }
+}

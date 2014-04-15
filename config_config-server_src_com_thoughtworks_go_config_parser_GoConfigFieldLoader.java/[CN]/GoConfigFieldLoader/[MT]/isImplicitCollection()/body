@@ -1,0 +1,6 @@
+{
+  if (!implicts.containsKey(field)) {
+    implicts.put(field,ConfigCache.isAnnotationPresent(field,ConfigSubtag.class) && GoConfigClassLoader.isImplicitCollection(field.getType(),configCache));
+  }
+  return implicts.get(field);
+}

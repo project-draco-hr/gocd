@@ -1,0 +1,7 @@
+{
+  testRepo=new SvnTestRepo();
+  svnRepositoryUrl=testRepo.projectRepositoryUrl();
+  subversion=new SvnCommand(null,svnRepositoryUrl,"user","pass",false);
+  outputStreamConsumer=inMemoryConsumer();
+  checkoutFolder=TestFileUtil.createUniqueTempFile("workingcopy" + System.currentTimeMillis());
+}

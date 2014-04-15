@@ -1,0 +1,9 @@
+{
+  BuildCause buildCause=pipeline.getBuildCause();
+  for (  MaterialRevision materialRevision : buildCause.getMaterialRevisions()) {
+    if (DependencyMaterial.TYPE.equals(materialRevision.getMaterial().getType())) {
+      DependencyMaterialRevision dependencyMaterialRevision=(DependencyMaterialRevision)materialRevision.getRevision();
+      goCache.remove(cacheKeyForPipelineInstancesTriggeredWithDependencyMaterial(pipeline.getName(),dependencyMaterialRevision.getPipelineName(),dependencyMaterialRevision.getPipelineCounter()));
+    }
+  }
+}

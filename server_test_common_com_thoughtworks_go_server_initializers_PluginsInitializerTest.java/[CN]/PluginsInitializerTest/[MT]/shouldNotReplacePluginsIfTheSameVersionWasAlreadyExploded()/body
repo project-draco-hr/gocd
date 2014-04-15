@@ -1,0 +1,10 @@
+{
+  String version="13.3.0(17222-4c7fabcb9c9e9c)";
+  File versionFile=FileSystemUtils.createFile("version.txt",goPluginsDir);
+  FileUtils.writeStringToFile(versionFile,version);
+  when(serverVersion.version()).thenReturn(version);
+  pluginsInitializer.initialize();
+  Collection collection=FileUtils.listFiles(goPluginsDir,null,true);
+  assertThat(collection.size(),is(1));
+  assertThat(collection.contains(versionFile),is(true));
+}

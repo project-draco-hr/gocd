@@ -1,0 +1,9 @@
+{
+  LogManager.getLogger("httpclient.wire").setLevel(Level.INFO);
+  if (!isLog4jExist()) {
+    File log4j=new File(log4jLocation);
+    FileUtils.writeStringToFile(log4j,DEFAULT_LOG4J);
+    Log4jConfigurer.initLogging(log4j.getAbsolutePath(),refreshInterval);
+    Logger.getLogger(Log4jDirectConfigurer.class).info("created log4j file at [" + log4j.getAbsolutePath() + "]");
+  }
+}

@@ -1,0 +1,9 @@
+{
+  SAXParser saxParser=SAXParserFactory.newInstance().newSAXParser();
+  try {
+    saxParser.parse(logFileInputStream,compositeExtractor);
+  }
+ catch (  ShouldStopParsingException e) {
+    LOGGER.trace("Intentionally throwing exception to stop parsing.");
+  }
+}

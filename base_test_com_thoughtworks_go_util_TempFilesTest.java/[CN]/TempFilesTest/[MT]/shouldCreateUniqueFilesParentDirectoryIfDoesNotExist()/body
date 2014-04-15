@@ -1,0 +1,6 @@
+{
+  String tmpDir=original + "/" + UUID.randomUUID();
+  System.setProperty("java.io.tmpdir",tmpDir);
+  File file=files.createUniqueFile("foo");
+  assertThat(file.getParentFile().exists(),is(true));
+}

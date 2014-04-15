@@ -1,0 +1,5 @@
+{
+  Configuration configuration=new Configuration(create("key1",false,"value1"),create("key2",true,"value2"),create("key3",false,"value3"));
+  PackageRepository repository=PackageRepositoryMother.create("repo1","repo1-name","some-plugin-which-does-not-exist","1",configuration);
+  assertThat(repository.getConfigForDisplay(),is("WARNING! Plugin missing for Repository: [key1=value1, key3=value3]"));
+}

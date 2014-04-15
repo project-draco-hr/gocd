@@ -1,0 +1,21 @@
+{
+  if (!OS_CHECKER.satisfy()) {
+    PrintStream err=System.err;
+    try {
+      ByteArrayOutputStream os=new ByteArrayOutputStream();
+      System.setErr(new PrintStream(os));
+      File agentJar=new File("agent.jar");
+      agentJar.delete();
+      new AgentBootstrapper(){
+        @Override void jvmExit(        int returnValue){
+        }
+      }
+.go(false,"localhost",9090);
+      agentJar.delete();
+      assertThat(new String(os.toByteArray()),is("Hello World Fellas!"));
+    }
+  finally {
+      System.setErr(err);
+    }
+  }
+}

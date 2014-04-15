@@ -1,0 +1,11 @@
+{
+  dbHelper.onSetUp();
+  CONFIG_HELPER.onSetUp();
+  CONFIG_HELPER.usingCruiseConfigDao(goConfigFileDao);
+  CONFIG_HELPER.initializeConfigFile();
+  TestRepo svnTestRepo=new SvnTestRepo("testsvnrepo");
+  svnRepo=new SvnCommand(null,svnTestRepo.projectRepositoryUrl());
+  CONFIG_HELPER.addPipeline(PIPELINE_NAME,DEV_STAGE,svnRepo,"foo");
+  mingle=CONFIG_HELPER.addStageToPipeline(PIPELINE_NAME,FT_STAGE,"bar");
+  CONFIG_HELPER.addAgent(HOSTNAME,AGENT_UUID);
+}

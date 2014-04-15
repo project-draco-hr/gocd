@@ -1,0 +1,4 @@
+{
+  when(userDao.enabledUsers()).thenReturn(Arrays.asList(new User("Jake"),new User("Pavan"),new User("Shilpa")));
+  assertThat(userService.canUserTurnOffAutoLogin(),is(false));
+}

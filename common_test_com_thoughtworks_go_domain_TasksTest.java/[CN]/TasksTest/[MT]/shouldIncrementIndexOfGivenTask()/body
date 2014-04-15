@@ -1,0 +1,13 @@
+{
+  Tasks tasks=new Tasks();
+  AntTask task1=antTask("b1","t1","w1");
+  tasks.add(task1);
+  AntTask task2=antTask("b2","t2","w2");
+  tasks.add(task2);
+  AntTask task3=antTask("b3","t3","w3");
+  tasks.add(task3);
+  tasks.incrementIndex(0);
+  assertThat((AntTask)tasks.get(0),is(task2));
+  assertThat((AntTask)tasks.get(1),is(task1));
+  assertThat((AntTask)tasks.get(2),is(task3));
+}

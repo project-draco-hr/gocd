@@ -1,0 +1,39 @@
+{
+  if (o == null) {
+    throw new NullPointerException("Cannot compare this object with null");
+  }
+  if (o.getClass() != this.getClass()) {
+    throw new RuntimeException("Cannot compare '" + o + "' with '"+ this+ "'");
+  }
+  if (this.equals(o)) {
+    return 0;
+  }
+  PipelineTimelineEntry that=(PipelineTimelineEntry)o;
+  Map<Date,TreeSet<Integer>> earlierMods=new HashMap<Date,TreeSet<Integer>>();
+  for (  String materialFlyweight : revisions.keySet()) {
+    List<Revision> thisRevs=this.revisions.get(materialFlyweight);
+    List<Revision> thatRevs=that.revisions.get(materialFlyweight);
+    if (thisRevs == null || thatRevs == null) {
+      continue;
+    }
+    Revision thisRevision=thisRevs.get(0);
+    Revision thatRevision=thatRevs.get(0);
+    if (thisRevision == null || thatRevision == null) {
+      continue;
+    }
+    Date thisDate=thisRevision.date;
+    Date thatDate=thatRevision.date;
+    if (thisDate.equals(thatDate)) {
+      continue;
+    }
+    populateEarlierModification(earlierMods,thisDate,thatDate);
+  }
+  if (earlierMods.isEmpty()) {
+    return counter < that.counter ? -1 : 1;
+  }
+  TreeSet<Date> sortedModDate=new TreeSet<Date>(earlierMods.keySet());
+  if (hasContentionOnEarliestMod(earlierMods,sortedModDate.first())) {
+    return counter < that.counter ? -1 : 1;
+  }
+  return earlierMods.get(sortedModDate.first()).first();
+}

@@ -1,0 +1,8 @@
+{
+  GitCommand remoteGit=new GitCommand(null,repoLocation,GitMaterialConfig.DEFAULT_BRANCH,false);
+  File testingFile=new File(repoLocation,"testing-file" + System.currentTimeMillis() + ".txt");
+  testingFile.createNewFile();
+  remoteGit.add(testingFile);
+  remoteGit.commitOnDate("New checkin of " + testingFile.getName(),checkinDate);
+  return testingFile;
+}

@@ -1,0 +1,5 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline","stage","job");
+  pipelineConfig.setMingleConfig(new MingleConfig("https://foo.com","go","status > In Dev"));
+  assertThat(changesetService.mingleConfigMatches(pipelineConfig,new MingleConfig("https://foo.com","go","status > Something Else")),is(true));
+}

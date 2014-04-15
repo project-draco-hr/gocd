@@ -1,0 +1,9 @@
+{
+  JobInstance job=scheduledJob();
+  JobPlan oldPlan=loadJobPlan(job);
+  scheduleService.rescheduleJob(job);
+  JobPlan newPlan=dbHelper.getBuildInstanceDao().orderedScheduledBuilds().get(0);
+  assertThat(newPlan.getResources(),is(oldPlan.getResources()));
+  assertThat(newPlan.getPropertyGenerators(),is(oldPlan.getPropertyGenerators()));
+  assertThat(newPlan.getArtifactPlans(),is(oldPlan.getArtifactPlans()));
+}

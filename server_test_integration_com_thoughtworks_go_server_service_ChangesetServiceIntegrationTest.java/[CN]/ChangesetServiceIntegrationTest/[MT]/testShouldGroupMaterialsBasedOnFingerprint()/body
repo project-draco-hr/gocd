@@ -1,0 +1,10 @@
+{
+  SvnMaterial first=new SvnMaterial("url","user1","password",false);
+  Modification mod1=new Modification("user1","comment","email",new Date(),"revision");
+  mod1.setMaterialInstance(new SvnMaterialInstance("url","user1","flyweight1",false));
+  Modification mod2=new Modification("user1","comment","email",new Date(),"revision");
+  mod2.setMaterialInstance(new SvnMaterialInstance("url","user1","flyweight1",false));
+  Map<Material,Modifications> map=changesetService.groupModsByMaterial(Arrays.asList(mod1,mod2));
+  assertThat(map.size(),is(1));
+  assertThat(map.get(first),is(new Modifications(mod1,mod2)));
+}

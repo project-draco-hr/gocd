@@ -1,0 +1,15 @@
+{
+  configHelper.addPipeline(mingleConfig);
+  configHelper.turnOffSecurity();
+  List<Pipeline> completedPipelines=new ArrayList<Pipeline>();
+  Pipeline pipeline;
+  for (int i=0; i < 3; i++) {
+    pipeline=dbHelper.schedulePipelineWithAllStages(mingleConfig,ModificationsMother.modifySomeFiles(mingleConfig));
+    dbHelper.pass(pipeline);
+    completedPipelines.add(pipeline);
+  }
+  assertThat(stageDao.getTotalStageCountForChart(mingleConfig.name().toString(),mingleConfig.first().name().toString()),is(3));
+  pipeline=dbHelper.schedulePipelineWithAllStages(mingleConfig,ModificationsMother.modifySomeFiles(mingleConfig));
+  dbHelper.cancelStage(pipeline.getFirstStage());
+  assertThat(stageDao.getTotalStageCountForChart(mingleConfig.name().toString(),mingleConfig.first().name().toString()),is(3));
+}

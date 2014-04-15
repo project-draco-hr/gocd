@@ -1,0 +1,18 @@
+{
+  jobInstanceService=mock(JobInstanceService.class);
+  goConfigService=mock(GoConfigService.class);
+  environmentConfigService=mock(EnvironmentConfigService.class);
+  serverHealthService=mock(ServerHealthService.class);
+  final TestTransactionSynchronizationManager synchronizationManager=new TestTransactionSynchronizationManager();
+  schedulingChecker=mock(SchedulingCheckerService.class);
+  pipelineScheduleQueue=mock(PipelineScheduleQueue.class);
+  pipelineService=mock(PipelineService.class);
+  stageService=mock(StageService.class);
+  securityService=mock(SecurityService.class);
+  lockService=mock(PipelineLockService.class);
+  txnTemplate=new TestTransactionTemplate(synchronizationManager);
+  timeProvider=new TimeProvider();
+  instanceFactory=mock(InstanceFactory.class);
+  schedulingPerformanceLogger=mock(SchedulingPerformanceLogger.class);
+  service=new ScheduleService(goConfigService,pipelineService,stageService,schedulingChecker,mock(PipelineScheduledTopic.class),mock(PipelineDao.class),mock(StageDao.class),mock(StageOrderService.class),securityService,pipelineScheduleQueue,jobInstanceService,mock(JobInstanceDao.class),mock(AgentAssignment.class),environmentConfigService,lockService,serverHealthService,txnTemplate,mock(AgentService.class),synchronizationManager,timeProvider,null,null,instanceFactory,schedulingPerformanceLogger);
+}

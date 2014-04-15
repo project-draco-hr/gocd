@@ -1,0 +1,6 @@
+{
+  configRepo.checkin(goConfigRevision("something","md5-1"));
+  RevCommit firstCommit=configRepo.revisions().iterator().next();
+  String actual=configRepo.findDiffBetweenTwoRevisions(firstCommit,null);
+  assertThat(actual,is(nullValue()));
+}

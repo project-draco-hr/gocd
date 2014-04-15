@@ -1,0 +1,10 @@
+{
+  when(serverConfig.getCommandRepositoryLocation()).thenReturn(repoLocation);
+  try {
+    validator.validate(cruiseConfig);
+    fail("should have thrown :" + message);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),Is.is(message));
+  }
+}

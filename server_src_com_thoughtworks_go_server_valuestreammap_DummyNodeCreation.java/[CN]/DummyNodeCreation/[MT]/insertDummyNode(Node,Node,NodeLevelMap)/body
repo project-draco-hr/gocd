@@ -1,0 +1,11 @@
+{
+  String dummyNodeId=UUID.randomUUID().toString();
+  DummyNode dummyNode=new DummyNode(dummyNodeId,"dummy-" + dummyNodeId);
+  dummyNode.setLevel(node.getLevel() + 1);
+  nodeLevelMap.add(dummyNode);
+  dummyNode.addParentIfAbsent(node);
+  dummyNode.addChildIfAbsent(currentChildNode);
+  node.replaceChildWith(currentChildNode,dummyNode);
+  currentChildNode.replaceParentWith(node,dummyNode);
+  return dummyNode;
+}

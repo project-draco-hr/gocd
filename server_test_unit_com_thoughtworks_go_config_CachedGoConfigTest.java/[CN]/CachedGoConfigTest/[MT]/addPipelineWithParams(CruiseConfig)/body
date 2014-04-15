@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("mingle","dev","ant");
+  pipelineConfig.addParam(new ParamConfig("foo","hg-server"));
+  pipelineConfig.addParam(new ParamConfig("bar","repo-name"));
+  pipelineConfig.addMaterialConfig(MaterialConfigsMother.hgMaterialConfig("http://#{foo}/#{bar}","folder"));
+  cruiseConfig.addPipeline("another",pipelineConfig);
+}

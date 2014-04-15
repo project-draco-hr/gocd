@@ -1,0 +1,15 @@
+{
+  List<Pipeline> completedPipelines=createFourPipelines();
+  Stages stages=stageDao.getPassedStagesByName(CaseInsensitiveString.str(mingleConfig.name()),STAGE_DEV,2,0);
+  Stage firstStage=stages.first();
+  Pipeline firstPipeline=completedPipelines.get(0);
+  assertThat(firstStage.getPipelineId(),is(firstPipeline.getId()));
+  assertThat(firstStage.getIdentifier(),is(new StageIdentifier(firstPipeline,firstStage)));
+  assertThat(firstStage.getJobInstances().get(0).getName(),is("NixBuild"));
+  assertThat(stages.size(),is(2));
+  assertThat(stages.last().getPipelineId(),is(completedPipelines.get(1).getId()));
+  stages=stageDao.getPassedStagesByName(CaseInsensitiveString.str(mingleConfig.name()),STAGE_DEV,2,2);
+  assertThat(stages.size(),is(2));
+  assertThat(stages.first().getPipelineId(),is(completedPipelines.get(2).getId()));
+  assertThat(stages.last().getPipelineId(),is(completedPipelines.get(3).getId()));
+}

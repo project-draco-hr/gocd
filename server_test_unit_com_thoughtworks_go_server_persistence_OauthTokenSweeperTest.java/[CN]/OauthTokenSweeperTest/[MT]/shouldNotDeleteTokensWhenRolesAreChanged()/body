@@ -1,0 +1,7 @@
+{
+  oauthTokenSweeper.onConfigChange(configWithoutSecurity());
+  CruiseConfig newConfig=configWithoutSecurity();
+  newConfig.server().security().addRole(new Role(new CaseInsensitiveString("viewer")));
+  oauthTokenSweeper.onConfigChange(newConfig);
+  verifyNoMoreInteractions(mockRepo);
+}

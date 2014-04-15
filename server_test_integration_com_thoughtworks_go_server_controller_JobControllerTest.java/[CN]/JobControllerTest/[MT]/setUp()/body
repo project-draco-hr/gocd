@@ -1,0 +1,9 @@
+{
+  request=new MockHttpServletRequest();
+  response=new MockHttpServletResponse();
+  configHelper=new GoConfigFileHelper();
+  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
+  fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
+  controller=new JobController(jobInstanceService,jobDetailService,goConfigService,pipelineService,restfulService,artifactService,propertiesService,stageService,localizer);
+}

@@ -1,0 +1,8 @@
+{
+  String schema=resolveSchemaFile(version);
+  URL resource=GoConfigSchema.class.getResource(schema);
+  if (resource == null) {
+    throw bomb("Unable to find resource for " + schema);
+  }
+  return resource;
+}

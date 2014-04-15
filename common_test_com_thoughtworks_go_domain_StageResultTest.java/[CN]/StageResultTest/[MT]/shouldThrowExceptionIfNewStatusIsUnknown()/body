@@ -1,0 +1,9 @@
+{
+  try {
+    StageResult.Unknown.describeChangeEvent(StageResult.Passed);
+    fail("shouldThrowExceptionIfNewStatusIsUnknown");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Current result can not be Unknown"));
+  }
+}

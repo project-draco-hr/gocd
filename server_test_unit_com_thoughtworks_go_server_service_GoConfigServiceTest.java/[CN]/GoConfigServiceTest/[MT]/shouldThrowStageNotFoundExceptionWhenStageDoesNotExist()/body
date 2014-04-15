@@ -1,0 +1,11 @@
+{
+  expectLoad(unchangedConfig());
+  try {
+    goConfigService.translateToActualCase(new JobConfigIdentifier(PIPELINE,"invalid-stage",JOB));
+    fail("should throw exception if stage does not exist");
+  }
+ catch (  Exception e) {
+    assertThat(e,instanceOf(StageNotFoundException.class));
+    assertThat(e.getMessage(),containsString("invalid-stage"));
+  }
+}

@@ -1,0 +1,8 @@
+{
+  AgentInstance agentA=new AgentInstance(new AgentConfig("UUID","A","127.0.0.1"),LOCAL,systemEnvironment);
+  AgentInstance copyOfAgentA=new AgentInstance(new AgentConfig("UUID","A","127.0.0.1"),LOCAL,systemEnvironment);
+  AgentInstance agentB=new AgentInstance(new AgentConfig("UUID","B","127.0.0.2"),LOCAL,systemEnvironment);
+  assertThat(agentA,is(not(agentB)));
+  assertThat(agentB,is(not(agentA)));
+  assertThat(agentA,is(copyOfAgentA));
+}

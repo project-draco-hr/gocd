@@ -1,0 +1,12 @@
+{
+  Set<JobConfigIdentifier> cachedIds=new HashSet<JobConfigIdentifier>(jobs.keySet());
+  for (  JobConfigIdentifier cachedId : cachedIds) {
+    JobInstance originalCached=jobs.get(cachedId);
+    if ((originalCached == NEVER_RUN && !newJob.getIdentifier().jobConfigIdentifier().equals(cachedId))) {
+      continue;
+    }
+    if (shouldBeCleared(newJob,originalCached)) {
+      jobs.remove(cachedId,originalCached);
+    }
+  }
+}

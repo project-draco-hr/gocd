@@ -1,0 +1,7 @@
+{
+  ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
+  MagicalGoConfigXmlLoader xmlLoader=new MagicalGoConfigXmlLoader(new ConfigCache(),registry,metricsProbeService);
+  String pipelineXmlPartial="<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<cruise " + "        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "+ "        xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\" "+ "        schemaVersion=\"" + GoConstants.CONFIG_SCHEMA_VERSION + "\">\n"+ "  <server artifactsdir=\"logs\">\n"+ "  </server>\n"+ "  <pipelines>"+ "<pipeline name=\"pipeline\">\n"+ materials+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <artifacts>\n"+ "          <artifact src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "        </artifacts>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n"+ "</pipelines>"+ "</cruise>\n";
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(FileUtil.readToEnd(toInputStream(pipelineXmlPartial))).config;
+  return cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline")).materialConfigs();
+}

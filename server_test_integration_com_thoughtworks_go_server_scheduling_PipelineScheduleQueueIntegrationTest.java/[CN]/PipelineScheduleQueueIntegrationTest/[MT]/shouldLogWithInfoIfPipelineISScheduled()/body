@@ -1,0 +1,19 @@
+{
+  LogFixture logging=LogFixture.startListening();
+  JobConfigs jobConfigs=new JobConfigs();
+  Resources resources=new Resources(new Resource("resource1"));
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  ArtifactPropertiesGenerators generators=new ArtifactPropertiesGenerators();
+  generators.add(new ArtifactPropertiesGenerator("property-name","artifact-path","artifact-xpath"));
+  JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("test-job"),resources,artifactPlans,generators);
+  jobConfigs.add(jobConfig);
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("test-stage"),jobConfigs);
+  MaterialConfigs materialConfigs=new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig());
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("test-pipeline"),materialConfigs,stage);
+  configFileEditor.addPipeline(CaseInsensitiveString.str(pipelineConfig.name()),CaseInsensitiveString.str(stage.name()));
+  BuildCause cause=modifySomeFiles(pipelineConfig,ModificationsMother.nextRevision());
+  saveRev(cause);
+  queue.createPipeline(cause,pipelineConfig,new DefaultSchedulingContext(cause.getApprover(),new Agents()),"md5-test",new TimeProvider());
+  assertThat(logging.getLog(),containsString("[Pipeline Schedule] Successfully scheduled pipeline test-pipeline, buildCause:[ModificationBuildCause: triggered by " + cause.getMaterialRevisions().latestRevision() + "]"));
+  logging.stopListening();
+}

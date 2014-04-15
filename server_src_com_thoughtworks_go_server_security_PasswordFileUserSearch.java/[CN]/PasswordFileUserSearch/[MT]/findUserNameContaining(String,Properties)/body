@@ -1,0 +1,10 @@
+{
+  List<User> users=new ArrayList<User>();
+  for (Iterator iter=properties.keySet().iterator(); iter.hasNext(); ) {
+    String username=(String)iter.next();
+    if (username.toLowerCase().contains(searchText.toLowerCase())) {
+      users.add(new User(username));
+    }
+  }
+  return users;
+}

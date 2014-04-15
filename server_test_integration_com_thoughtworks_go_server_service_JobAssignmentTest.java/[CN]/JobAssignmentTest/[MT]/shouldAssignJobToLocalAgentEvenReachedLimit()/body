@@ -1,0 +1,9 @@
+{
+  AgentInstance local=setupLocalAgent();
+  AgentInstance remote=setupRemoteAgent();
+  fixture.createPipelineWithFirstStageScheduled();
+  assignmentService.onTimer();
+  assignmentService.assignWorkToAgent(remote);
+  Work work=assignmentService.assignWorkToAgent(local);
+  assertThat(work,instanceOf(BuildWork.class));
+}

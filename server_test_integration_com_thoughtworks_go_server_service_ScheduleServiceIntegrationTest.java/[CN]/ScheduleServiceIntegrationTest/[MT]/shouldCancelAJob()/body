@@ -1,0 +1,12 @@
+{
+  String pipelineName="cruise";
+  String firstStageName=JOB_NAME;
+  PipelineConfig pipelineConfig=configHelper.addPipeline(pipelineName,firstStageName);
+  Pipeline pipeline=PipelineMother.building(pipelineConfig);
+  saveRev(pipeline);
+  JobInstance firstJob=pipeline.findStage(firstStageName).getFirstJob();
+  scheduleService.cancelJob(firstJob);
+  JobInstance instance=jobInstanceService.buildById(firstJob.getId());
+  assertThat(instance.getState(),is(JobState.Completed));
+  assertThat(instance.getResult(),is(JobResult.Cancelled));
+}

@@ -1,0 +1,22 @@
+{
+  SystemEnvironment env=mock(SystemEnvironment.class);
+  when(env.enforceRevisionCompatibilityWithUpstream()).thenReturn(false);
+  GitMaterial git1=u.wf(new GitMaterial("git"),"folder");
+  GitMaterial git2=u.wf(new GitMaterial("git"),"folder");
+  u.checkinFile(git1,"g1_1",new File("some_file.txt"),ModifiedAction.modified);
+  u.checkinFile(git1,"g1_2",new File("some_file.txt"),ModifiedAction.modified);
+  u.checkinFile(git2,"g2_1",new File("some_file.txt"),ModifiedAction.modified);
+  u.checkinFile(git2,"g2_2",new File("some_file.txt"),ModifiedAction.modified);
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git1));
+  ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(p1),u.m(git2));
+  String p1_1=u.runAndPass(p1,"g1_1");
+  String p2_1=u.runAndPass(p2,p1_1,"g2_1");
+  String p1_2=u.runAndPass(p1,"g1_2");
+  MaterialRevisions given=u.mrs(new MaterialRevision[]{u.mr(p1,false,p1_2),u.mr(git2,true,"g2_2")});
+  MaterialRevisions previous=u.mrs(new MaterialRevision[]{u.mr(p1,false,p1_1),u.mr(git2,true,"g2_1")});
+  AutoBuild autoBuild=new AutoBuild(goConfigService,pipelineService,p2.config.name().toString(),env,materialChecker,serverHealthService);
+  pipelineTimeline.update();
+  BuildCause buildCause=autoBuild.onModifications(given,false,previous);
+  assertThat(buildCause,is(notNullValue()));
+  assertThat(buildCause.getMaterialRevisions(),is(given));
+}

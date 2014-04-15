@@ -1,0 +1,14 @@
+{
+  ArtifactPlans artifactPlans=new ArtifactPlans();
+  artifactPlans.add(new ArtifactPlan(ArtifactType.file,"**/*","mypic"));
+  BuildAssignment buildAssigment=createAssignment(artifactPlans,new String[]{"logs/pic/fail.png","logs/pic/pass.png","README"});
+  BuildWork work=new BuildWork(buildAssigment);
+  GoArtifactsManipulatorStub manipulator=new GoArtifactsManipulatorStub();
+  AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
+  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),manipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  List<UploadEntry> entries=manipulator.uploadEntries();
+  assertThat(entries,not(uploadFileToDestination(new File(buildWorkingDirectory.getPath() + "/logs/pic/fail.png"),"mypic/logs/pic")));
+  assertThat(entries,not(uploadFileToDestination(new File(buildWorkingDirectory.getPath() + "/logs/pic/pass.png"),"mypic/logs/pic")));
+  assertThat(entries,uploadFileToDestination(new File(buildWorkingDirectory.getPath() + "/logs/pic"),"mypic/logs"));
+  assertThat(entries,uploadFileToDestination(new File(buildWorkingDirectory.getPath() + "/README"),"mypic"));
+}

@@ -1,0 +1,7 @@
+{
+  BuildCause buildCause=BuildCause.createWithEmptyModifications();
+  queue.schedule("cruise",buildCause);
+  queue.finishSchedule("cruise",buildCause,newCause);
+  assertThat(queue.mostRecentScheduled("cruise"),is(buildCause));
+  assertThat(queue.toBeScheduled().size(),is(0));
+}

@@ -1,0 +1,12 @@
+{
+  schedulingChecker.canTriggerPipelineWithTimer(pipelineConfig,operationResult);
+  if (!operationResult.canContinue()) {
+    ServerHealthState serverHealthState=operationResult.getServerHealthState();
+    LOGGER.info(String.format("'%s'  because '%s'",serverHealthState.getMessage(),serverHealthState.getDescription()));
+  }
+ else {
+    TimerConfig timer=pipelineConfig.getTimer();
+    String timerSpec=timer == null ? "Missing timer spec" : timer.getTimerSpec();
+    LOGGER.info(String.format("Timer scheduling pipeline '%s' using spec '%s'",pipelineConfig.name(),timerSpec));
+  }
+}

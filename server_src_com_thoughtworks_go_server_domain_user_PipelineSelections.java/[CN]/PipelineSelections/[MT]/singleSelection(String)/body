@@ -1,0 +1,17 @@
+{
+  return new PipelineSelections(){
+    @Override public boolean includesPipeline(    PipelineConfig pipeline){
+      return compare(pipelineName,CaseInsensitiveString.str(pipeline.name()));
+    }
+    @Override public boolean includesPipeline(    String pipeline){
+      return compare(pipelineName,pipeline);
+    }
+    @Override public boolean includesGroup(    PipelineConfigs group){
+      return true;
+    }
+    private boolean compare(    String pipelineName,    String name){
+      return name.equalsIgnoreCase(pipelineName);
+    }
+  }
+;
+}

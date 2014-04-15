@@ -1,0 +1,6 @@
+{
+  PipelineConfig config=PipelineMother.twoBuildPlansWithResourcesAndMaterials(pipelineName,"cruiseStage");
+  config.materialConfigs().clear();
+  config.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString(dependentOnPipeline),new CaseInsensitiveString(dependentOnStage)));
+  return config;
+}

@@ -1,0 +1,10 @@
+{
+  GoConfigRevision goConfigRevision=null;
+  try {
+    goConfigRevision=configRepository.getRevision(version);
+  }
+ catch (  Exception e) {
+    LOGGER.info("[Go Config Service] Could not fetch cruise config xml at version=" + version,e);
+  }
+  return goConfigRevision;
+}

@@ -1,0 +1,11 @@
+{
+  return argThat(new BaseMatcher<ServerHealthState>(){
+    @Override public boolean matches(    Object o){
+      return ((ServerHealthState)o).isRealSuccess();
+    }
+    @Override public void describeTo(    Description description){
+      description.appendText("Expected success health message.");
+    }
+  }
+);
+}

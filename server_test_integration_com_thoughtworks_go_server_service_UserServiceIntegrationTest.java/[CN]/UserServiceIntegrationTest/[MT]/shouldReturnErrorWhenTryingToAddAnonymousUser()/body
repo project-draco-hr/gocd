@@ -1,0 +1,7 @@
+{
+  UserSearchModel anonymous=new UserSearchModel(new User(CaseInsensitiveString.str(Username.ANONYMOUS.getUsername()),"Mr. Anonymous","anon@cruise.com"),UserSourceType.LDAP);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.create(Arrays.asList(anonymous),result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is("Failed to add user. Username 'anonymous' is not permitted."));
+}

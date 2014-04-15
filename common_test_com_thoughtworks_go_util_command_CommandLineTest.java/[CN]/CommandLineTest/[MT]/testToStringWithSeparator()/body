@@ -1,0 +1,7 @@
+{
+  final String separator="], [";
+  assertEquals("",CommandLine.toString(null,false,separator));
+  assertEquals(ARG_SPACES_NOQUOTES,CommandLine.toString(new String[]{ARG_SPACES_NOQUOTES},false,separator));
+  assertEquals(ARG_SPACES_NOQUOTES + separator + ARG_NOSPACES,CommandLine.toString(new String[]{ARG_SPACES_NOQUOTES,ARG_NOSPACES},false,separator));
+  assertEquals(ARG_SPACES_NOQUOTES + separator + ARG_NOSPACES+ separator+ ARG_SPACES,CommandLine.toString(new String[]{ARG_SPACES_NOQUOTES,ARG_NOSPACES,ARG_SPACES},false,separator));
+}

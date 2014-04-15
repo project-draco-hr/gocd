@@ -1,0 +1,11 @@
+{
+  userDao.saveOrUpdate(user("first"));
+  userDao.saveOrUpdate(user("second"));
+  User disabled=user("disabled");
+  disabled.disable();
+  userDao.saveOrUpdate(disabled);
+  List<User> enabledUsers=userDao.enabledUsers();
+  assertThat(enabledUsers.size(),is(2));
+  assertThat(enabledUsers,hasItem(user("first")));
+  assertThat(enabledUsers,hasItem(user("second")));
+}

@@ -1,0 +1,6 @@
+{
+  scheduler.onConfigChange(configWithPipelines("cruise"));
+  scheduler.checkPipelines();
+  scheduler.checkPipelines();
+  verify(queue).post(ScheduleCheckMessageMatcher.matchScheduleCheckMessage("cruise"));
+}

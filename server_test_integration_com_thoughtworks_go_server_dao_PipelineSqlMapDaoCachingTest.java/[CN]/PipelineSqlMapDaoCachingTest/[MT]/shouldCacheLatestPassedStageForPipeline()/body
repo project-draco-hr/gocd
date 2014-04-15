@@ -1,0 +1,11 @@
+{
+  StageIdentifier identifier=new StageIdentifier();
+  long pipelineId=10;
+  String stage="stage";
+  Map<String,Object> args=arguments("id",pipelineId).and("stage",stage).asMap();
+  when(mockTemplate.queryForObject("latestPassedStageForPipelineId",args)).thenReturn(identifier);
+  pipelineDao.latestPassedStageIdentifier(pipelineId,stage);
+  StageIdentifier actual=pipelineDao.latestPassedStageIdentifier(pipelineId,stage);
+  assertThat(actual,is(identifier));
+  verify(mockTemplate,times(1)).queryForObject("latestPassedStageForPipelineId",args);
+}

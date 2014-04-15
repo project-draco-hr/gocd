@@ -1,0 +1,12 @@
+{
+  GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand();
+  for (  AgentInstance agentInstance : agents) {
+    String uuid=agentInstance.getUuid();
+    if (this.agents().hasAgentIdentifiedWith(uuid)) {
+      for (      TriStateSelection selection : selections) {
+        command.addCommand(new GoConfigFileDao.ModifyEnvironmentCommand(uuid,selection.getValue(),selection.getAction()));
+      }
+    }
+  }
+  updateConfig(command);
+}

@@ -1,0 +1,13 @@
+{
+  if (type.isInterface() && isAnnotationPresent(type,ConfigInterface.class)) {
+    for (    Class<?> implementation : registry.implementersOf(type)) {
+      if (compare(e,implementation,configCache)) {
+        return implementation;
+      }
+    }
+  }
+ else   if (compare(e,type,configCache)) {
+    return type;
+  }
+  return null;
+}

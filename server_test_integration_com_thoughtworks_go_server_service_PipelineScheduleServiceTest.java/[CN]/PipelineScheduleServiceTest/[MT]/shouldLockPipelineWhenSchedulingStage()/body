@@ -1,0 +1,8 @@
+{
+  scheduleAndCompleteInitialPipelines();
+  Pipeline pipeline=pipelineDao.mostRecentPipeline("mingle");
+  configHelper.lockPipeline("mingle");
+  assertThat(pipelineLockService.isLocked("mingle"),is(false));
+  scheduleService.scheduleStage(pipeline,STAGE_NAME,"anonymous",new ScheduleService.NewStageInstanceCreator(goConfigService),new ScheduleService.ExceptioningErrorHandler());
+  assertThat(pipelineLockService.isLocked("mingle"),is(true));
+}

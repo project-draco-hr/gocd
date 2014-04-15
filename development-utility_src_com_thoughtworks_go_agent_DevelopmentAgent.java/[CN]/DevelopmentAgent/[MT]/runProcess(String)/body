@@ -1,0 +1,8 @@
+{
+  System.out.println("Trying to run command: " + Arrays.toString(command));
+  ProcessBuilder builder=new ProcessBuilder(command);
+  Process process=builder.start();
+  int exitCode=process.waitFor();
+  System.out.println("Finished command: " + Arrays.toString(command) + ". Exit code: "+ exitCode);
+  if (exitCode != 0)   throw new RuntimeException(String.format("Command exited with code %s. \n Exception: %s",exitCode,IOUtils.toString(process.getErrorStream())));
+}

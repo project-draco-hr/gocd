@@ -1,0 +1,5 @@
+{
+  AbstractMaterialConfig material=new TestMaterialConfig("test");
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("blah"),"${COUNT}-${test}-test","",false,(MaterialConfigs)null,new BaseCollection<StageConfig>());
+  assertThat(material.isUsedInLabelTemplate(pipelineConfig),is(false));
+}

@@ -1,0 +1,6 @@
+{
+  Pipeline oldPipeline=createPipelineWithJobProperty(PIPELINE1,property("key1","value1"));
+  Pipeline newPipeline=createPipelineWithJobProperty(PIPELINE1,property("key2","value2"));
+  List<Properties> history=propertyDao.loadHistory(PIPELINE1,STAGE1,PLAN1,null,Integer.MAX_VALUE);
+  assertThat(history.size(),is(2));
+}

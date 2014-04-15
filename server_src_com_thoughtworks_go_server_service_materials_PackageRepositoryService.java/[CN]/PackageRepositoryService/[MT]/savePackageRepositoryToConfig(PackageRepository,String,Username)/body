@@ -1,0 +1,17 @@
+{
+  performPluginValidationsFor(packageRepository);
+  UpdateConfigFromUI updateCommand=getPackageRepositoryUpdateCommand(packageRepository,username);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ConfigUpdateResponse configUpdateResponse=goConfigService.updateConfigFromUI(updateCommand,md5,username,result);
+  if (result.isSuccessful()) {
+    ConfigUpdateAjaxResponse response=ConfigUpdateAjaxResponse.success(packageRepository.getId(),result.httpCode(),configUpdateResponse.wasMerged() ? localizer.localize("CONFIG_MERGED") : localizer.localize("SAVED_CONFIGURATION_SUCCESSFULLY"));
+    return response;
+  }
+ else {
+    List<String> globalErrors=globalErrors(configUpdateResponse.getCruiseConfig().getAllErrorsExceptFor(configUpdateResponse.getSubject()));
+    HashMap<String,List<String>> fieldErrors=fieldErrors(configUpdateResponse.getSubject(),"package_repository");
+    String message=result.message(localizer);
+    ConfigUpdateAjaxResponse response=ConfigUpdateAjaxResponse.failure(packageRepository.getId(),result.httpCode(),message,fieldErrors,globalErrors);
+    return response;
+  }
+}

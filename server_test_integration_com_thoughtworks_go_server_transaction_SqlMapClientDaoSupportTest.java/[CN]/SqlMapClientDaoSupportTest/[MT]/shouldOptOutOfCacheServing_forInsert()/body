@@ -1,0 +1,9 @@
+{
+  assertionUtil.assertCacheBehaviourInTxn(new TransactionCacheAssertionUtil.DoInTxn(){
+    public void invoke(){
+      userDao.saveOrUpdate(new User("loser","Massive Loser","boozer@loser.com"));
+    }
+  }
+);
+  assertThat(userDao.findUser("loser").getEmail(),is("boozer@loser.com"));
+}
