@@ -1,0 +1,11 @@
+{
+  String nonUTF8FileName="??????.txt";
+  String comment="pushing non UTF8 file with name ??????.txt";
+  gitTestRepo.checkInOneFile(nonUTF8FileName,comment);
+  Material gitMaterial=gitTestRepo.material();
+  updater.updateMaterial(gitMaterial);
+  MaterialRevisions revisions=materialRepository.findLatestModification(gitMaterial);
+  Modifications modifications=revisions.getModifications(gitMaterial);
+  assertThat(modifications.size(),Matchers.is(1));
+  assertThat(modifications.first().getComment(),is(comment));
+}
