@@ -1,0 +1,9 @@
+{
+  runtime.getLoadService().require("json/common");
+  RuntimeInfo info=RuntimeInfo.initRuntime(runtime);
+  info.jsonModule=new WeakReference<RubyModule>(runtime.defineModule("JSON"));
+  RubyModule jsonExtModule=info.jsonModule.get().defineModuleUnder("Ext");
+  RubyClass parserClass=jsonExtModule.defineClassUnder("Parser",runtime.getObject(),Parser.ALLOCATOR);
+  parserClass.defineAnnotatedMethods(Parser.class);
+  return true;
+}

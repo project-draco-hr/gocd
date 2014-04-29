@@ -1,0 +1,11 @@
+{
+  String name=vName.asJavaString();
+  String nameWriter=name + "=";
+  if (getMetaClass().isMethodBound(nameWriter,true)) {
+    return send(context,context.getRuntime().newString(nameWriter),value,Block.NULL_BLOCK);
+  }
+ else {
+    getInstanceVariables().setInstanceVariable("@" + name,value);
+  }
+  return context.getRuntime().getNil();
+}

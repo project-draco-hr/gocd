@@ -1,0 +1,10 @@
+{
+  if (safeStatePrototype == null) {
+    IRubyObject value=jsonModule.get().getConstant("SAFE_STATE_PROTOTYPE");
+    if (!(value instanceof GeneratorState)) {
+      throw context.getRuntime().newTypeError(value,generatorStateClass.get());
+    }
+    safeStatePrototype=new WeakReference<GeneratorState>((GeneratorState)value);
+  }
+  return safeStatePrototype.get();
+}

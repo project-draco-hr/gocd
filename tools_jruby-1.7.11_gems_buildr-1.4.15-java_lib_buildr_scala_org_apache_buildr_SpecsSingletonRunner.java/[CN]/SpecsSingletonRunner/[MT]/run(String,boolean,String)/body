@@ -1,0 +1,15 @@
+{
+  try {
+    File parent=new File(path);
+    URL specURL=new File(parent,spec.replace('.','/') + ".class").toURL();
+    URLClassLoader loader=new URLClassLoader(new URL[]{specURL},Thread.currentThread().getContextClassLoader());
+    Class clazz=loader.loadClass(spec);
+    Object instance=clazz.getField("MODULE$").get(null);
+    Method main=clazz.getMethod("main",String[].class);
+    String[] args=colors ? new String[]{"-c"} : new String[]{};
+    main.invoke(instance,new Object[]{args});
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

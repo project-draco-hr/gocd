@@ -1,0 +1,13 @@
+{
+  defineMethods(module,"Array",RbArray.class);
+  defineMethods(module,"FalseClass",RbFalse.class);
+  defineMethods(module,"Float",RbFloat.class);
+  defineMethods(module,"Hash",RbHash.class);
+  defineMethods(module,"Integer",RbInteger.class);
+  defineMethods(module,"NilClass",RbNil.class);
+  defineMethods(module,"Object",RbObject.class);
+  defineMethods(module,"String",RbString.class);
+  defineMethods(module,"TrueClass",RbTrue.class);
+  info.stringExtendModule=new WeakReference<RubyModule>(module.defineModuleUnder("String").defineModuleUnder("Extend"));
+  info.stringExtendModule.get().defineAnnotatedMethods(StringExtend.class);
+}

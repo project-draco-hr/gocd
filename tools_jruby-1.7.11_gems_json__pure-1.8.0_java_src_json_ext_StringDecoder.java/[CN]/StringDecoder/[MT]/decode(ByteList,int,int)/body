@@ -1,0 +1,10 @@
+{
+  ByteList out=new ByteList(end - start);
+  out.setEncoding(src.getEncoding());
+  init(src,start,end,out);
+  while (hasNext()) {
+    handleChar(readUtf8Char());
+  }
+  quoteStop(pos);
+  return out;
+}

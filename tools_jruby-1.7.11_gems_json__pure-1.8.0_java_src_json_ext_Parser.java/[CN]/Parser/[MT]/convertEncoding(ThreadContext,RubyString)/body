@@ -1,0 +1,20 @@
+{
+  ByteList bl=source.getByteList();
+  int len=bl.length();
+  if (len < 2) {
+    throw Utils.newException(context,Utils.M_PARSER_ERROR,"A JSON text must at least contain two octets!");
+  }
+  if (info.encodingsSupported()) {
+    RubyEncoding encoding=(RubyEncoding)source.encoding(context);
+    if (encoding != info.ascii8bit.get()) {
+      return (RubyString)source.encode(context,info.utf8.get());
+    }
+    String sniffedEncoding=sniffByteList(bl);
+    if (sniffedEncoding == null)     return source;
+    return reinterpretEncoding(context,source,sniffedEncoding);
+  }
+  String sniffedEncoding=sniffByteList(bl);
+  if (sniffedEncoding == null)   return source;
+  Ruby runtime=context.getRuntime();
+  return (RubyString)info.jsonModule.get().callMethod(context,"iconv",new IRubyObject[]{runtime.newString("utf-8"),runtime.newString(sniffedEncoding),source});
+}

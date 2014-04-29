@@ -1,0 +1,12 @@
+{
+  RubyString result;
+  ByteList buffer=new ByteList(guessSize(session,object));
+  generate(session,object,buffer);
+  result=RubyString.newString(session.getRuntime(),buffer);
+  ThreadContext context=session.getContext();
+  RuntimeInfo info=session.getInfo();
+  if (info.encodingsSupported()) {
+    result.force_encoding(context,info.utf8.get());
+  }
+  return result;
+}
