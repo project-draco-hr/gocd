@@ -1,27 +1,3 @@
 {
-  copyDbFiles();
-  copyScss();
-  File webapp=new File("webapp");
-  if (!webapp.exists()) {
-    throw new RuntimeException("No webapp found in " + webapp.getAbsolutePath());
-  }
-  copyActivatorJarToClassPath();
-  SystemEnvironment systemEnvironment=new SystemEnvironment();
-  systemEnvironment.setProperty(SystemEnvironment.PARENT_LOADER_PRIORITY,"true");
-  systemEnvironment.setProperty(SystemEnvironment.CRUISE_SERVER_WAR_PROPERTY,webapp.getAbsolutePath());
-  systemEnvironment.set(SystemEnvironment.DEFAULT_PLUGINS_ZIP,"/plugins.zip");
-  systemEnvironment.setProperty(GoConstants.I18N_CACHE_LIFE,"0");
-  File pluginsDist=new File("../tw-go-plugins/dist/");
-  if (pluginsDist.exists()) {
-    new ZipUtil().zipFolderContents(pluginsDist,new File(classpath(),"plugins.zip"));
-  }
-  GoServer server=new GoServer();
-  systemEnvironment.setProperty(GoConstants.USE_COMPRESSED_JAVASCRIPT,Boolean.toString(false));
-  try {
-    server.startServer();
-  }
- catch (  Exception e) {
-    System.err.println("Failed to start Go server. Exception:");
-    e.printStackTrace();
-  }
+  startWith(false,"./jruby_jars/jruby-1.5.0/jruby-complete-1.5.0.jar,./jruby_jars/jruby-1.5.0/jruby-rack-0.9.6-b6d3d45.jar");
 }

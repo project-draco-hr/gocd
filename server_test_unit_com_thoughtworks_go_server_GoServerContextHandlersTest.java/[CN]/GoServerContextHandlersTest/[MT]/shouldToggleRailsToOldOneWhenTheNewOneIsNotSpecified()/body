@@ -1,0 +1,12 @@
+{
+  File oldJruby=TestFileUtil.createTempFile("old-jruby-dir/jruby-old.jar");
+  File oldJrubyRack=TestFileUtil.createTempFile("old-jruby-dir/jruby-rack-old.jar");
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.get(SystemEnvironment.ADDONS_PATH)).thenReturn("some-non-existent-directory");
+  when(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)).thenReturn(false);
+  when(systemEnvironment.get(SystemEnvironment.JRUBY_OLD_PATH)).thenReturn(oldJruby.getAbsolutePath() + "," + oldJrubyRack.getAbsolutePath());
+  GoServer goServer=new GoServer(systemEnvironment,new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
+  WebAppContext webApp=goServer.webApp();
+  assertExtraClasspath(webApp,oldJruby.getAbsolutePath(),oldJrubyRack.getAbsolutePath());
+  assertThat(webApp.getInitParameter("rails.root"),is("/WEB-INF/rails"));
+}

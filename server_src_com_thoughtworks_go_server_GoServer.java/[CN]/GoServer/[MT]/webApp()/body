@@ -5,9 +5,10 @@
   wac.setConfigurationClasses(new String[]{"org.mortbay.jetty.webapp.WebInfConfiguration","org.mortbay.jetty.webapp.WebXmlConfiguration","org.mortbay.jetty.webapp.JettyWebXmlConfiguration"});
   wac.setContextPath(new SystemEnvironment().getWebappContextPath());
   wac.setWar(getWarFile());
-  setCookieExpireIn2Weeks(wac);
   wac.setParentLoaderPriority(new SystemEnvironment().getParentLoaderPriority());
-  wac.setExtraClasspath(getAddonJarFilesClasspath());
+  setCookieExpireIn2Weeks(wac);
+  addExtraJarsToClasspath(wac);
+  addJRubyContextInitParams(wac);
   addStopServlet(wac);
   return wac;
 }
