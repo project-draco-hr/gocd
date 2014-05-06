@@ -1,6 +1,6 @@
 {
   List<String> actualExtraClassPath=Arrays.asList(context.getExtraClasspath().split(","));
-  assertEquals("Number of addons wrong. Expected: " + Arrays.asList(expectedClassPathJars) + ". Actual: "+ actualExtraClassPath,expectedClassPathJars.length,actualExtraClassPath.size());
+  assertEquals("Number of jars wrong. Expected: " + Arrays.asList(expectedClassPathJars) + ". Actual: "+ actualExtraClassPath,expectedClassPathJars.length,actualExtraClassPath.size());
   for (  String expectedClassPathJar : expectedClassPathJars) {
     String platformIndependantNameOfExpectedJar=expectedClassPathJar.replace("/",File.separator);
     assertTrue("Expected " + context.getExtraClasspath() + " to contain: "+ platformIndependantNameOfExpectedJar,actualExtraClassPath.contains(platformIndependantNameOfExpectedJar));

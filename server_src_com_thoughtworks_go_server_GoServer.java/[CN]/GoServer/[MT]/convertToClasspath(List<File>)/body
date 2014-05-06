@@ -1,0 +1,10 @@
+{
+  if (addonJars.size() == 0) {
+    return "";
+  }
+  StringBuilder addonJarClassPath=new StringBuilder(addonJars.get(0).getPath());
+  for (int i=1; i < addonJars.size(); i++) {
+    addonJarClassPath.append(",").append(addonJars.get(i));
+  }
+  return addonJarClassPath.toString();
+}

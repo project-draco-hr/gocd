@@ -1,0 +1,12 @@
+{
+  File newJruby=TestFileUtil.createTempFile("new-jruby-dir/jruby-new.jar");
+  File newJrubyRack=TestFileUtil.createTempFile("new-jruby-dir/jruby-rack-new.jar");
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.get(SystemEnvironment.ADDONS_PATH)).thenReturn("some-non-existent-directory");
+  when(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)).thenReturn(true);
+  when(systemEnvironment.get(SystemEnvironment.JRUBY_NEW_PATH)).thenReturn(newJruby.getAbsolutePath() + "," + newJrubyRack.getAbsolutePath());
+  GoServer goServer=new GoServer(systemEnvironment,new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
+  WebAppContext webApp=goServer.webApp();
+  assertExtraClasspath(webApp,newJruby.getAbsolutePath(),newJrubyRack.getAbsolutePath());
+  assertThat(webApp.getInitParameter("rails.root"),is("/WEB-INF/rails.new"));
+}

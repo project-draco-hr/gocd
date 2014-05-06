@@ -1,0 +1,8 @@
+{
+  return map.computeIfAbsent(key,new ConcurrentHashMap.Fun<IRubyObject,IRubyObject>(){
+    @Override public IRubyObject apply(    IRubyObject key){
+      return block.yieldSpecific(context);
+    }
+  }
+);
+}

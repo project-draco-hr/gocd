@@ -1,0 +1,7 @@
+{
+  File addonsPath=new File(systemEnvironment.get(SystemEnvironment.ADDONS_PATH));
+  if (!addonsPath.exists() || !addonsPath.canRead()) {
+    return new ArrayList<File>();
+  }
+  return new ArrayList<File>(FileUtils.listFiles(addonsPath,new SuffixFileFilter("jar",IOCase.INSENSITIVE),FalseFileFilter.INSTANCE));
+}

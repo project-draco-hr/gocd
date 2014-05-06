@@ -1,0 +1,8 @@
+{
+  Map existingParams=wac.getInitParams();
+  existingParams.put("rails.root","/WEB-INF/rails");
+  if (systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)) {
+    existingParams.put("rails.root","/WEB-INF/rails.new");
+  }
+  wac.setInitParams(existingParams);
+}

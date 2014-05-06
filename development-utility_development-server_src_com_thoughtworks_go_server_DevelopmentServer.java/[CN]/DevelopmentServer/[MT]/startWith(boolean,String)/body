@@ -1,0 +1,29 @@
+{
+  copyDbFiles();
+  copyScss();
+  File webApp=new File("webapp");
+  if (!webApp.exists()) {
+    throw new RuntimeException("No webapp found in " + webApp.getAbsolutePath());
+  }
+  copyActivatorJarToClassPath();
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  systemEnvironment.setProperty(SystemEnvironment.PARENT_LOADER_PRIORITY,"true");
+  systemEnvironment.setProperty(SystemEnvironment.CRUISE_SERVER_WAR_PROPERTY,webApp.getAbsolutePath());
+  systemEnvironment.set(SystemEnvironment.USE_NEW_RAILS,useNewRails);
+  systemEnvironment.set(useNewRails ? SystemEnvironment.JRUBY_NEW_PATH : SystemEnvironment.JRUBY_OLD_PATH,jrubyPath);
+  systemEnvironment.set(SystemEnvironment.DEFAULT_PLUGINS_ZIP,"/plugins.zip");
+  systemEnvironment.setProperty(GoConstants.I18N_CACHE_LIFE,"0");
+  File pluginsDist=new File("../tw-go-plugins/dist/");
+  if (pluginsDist.exists()) {
+    new ZipUtil().zipFolderContents(pluginsDist,new File(classpath(),"plugins.zip"));
+  }
+  GoServer server=new GoServer();
+  systemEnvironment.setProperty(GoConstants.USE_COMPRESSED_JAVASCRIPT,Boolean.toString(false));
+  try {
+    server.startServer();
+  }
+ catch (  Exception e) {
+    System.err.println("Failed to start Go server. Exception:");
+    e.printStackTrace();
+  }
+}

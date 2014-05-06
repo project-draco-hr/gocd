@@ -1,0 +1,16 @@
+{
+  ArrayList<File> jRubyJars=new ArrayList<File>();
+  SystemEnvironment.GoSystemProperty<String> propertForJRubyJars=SystemEnvironment.JRUBY_OLD_PATH;
+  if (systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)) {
+    propertForJRubyJars=SystemEnvironment.JRUBY_NEW_PATH;
+  }
+  String[] jars=systemEnvironment.get(propertForJRubyJars).split(",");
+  for (  String jar : jars) {
+    File jarFile=new File(jar);
+    if (!jarFile.exists()) {
+      throw new RuntimeException("Failed to find extra classpath JAR: " + jarFile.getAbsolutePath());
+    }
+    jRubyJars.add(jarFile);
+  }
+  return jRubyJars;
+}
