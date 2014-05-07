@@ -1,0 +1,13 @@
+{
+  Ruby runtime=context.getRuntime();
+  if (!options.isNil() && options.respondsTo("[]")) {
+    IRubyObject rInitialCapacity=options.callMethod(context,"[]",runtime.newSymbol("initial_capacity"));
+    IRubyObject rLoadFactor=options.callMethod(context,"[]",runtime.newSymbol("load_factor"));
+    int initialCapacity=!rInitialCapacity.isNil() ? RubyNumeric.num2int(rInitialCapacity.convertToInteger()) : DEFAULT_INITIAL_CAPACITY;
+    float loadFactor=!rLoadFactor.isNil() ? (float)RubyNumeric.num2dbl(rLoadFactor.convertToFloat()) : DEFAULT_LOAD_FACTOR;
+    return newCHM(initialCapacity,loadFactor);
+  }
+ else {
+    return newCHM();
+  }
+}
