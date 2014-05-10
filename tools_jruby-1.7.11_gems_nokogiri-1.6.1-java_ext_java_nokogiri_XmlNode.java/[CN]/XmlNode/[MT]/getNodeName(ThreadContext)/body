@@ -1,0 +1,11 @@
+{
+  if (name != null)   return name;
+  String str=null;
+  if (this.name == null && node != null) {
+    str=node.getNodeName();
+    str=NokogiriHelpers.getLocalPart(str);
+  }
+  if (str == null)   str="";
+  name=NokogiriHelpers.stringOrBlank(context.getRuntime(),str);
+  return name;
+}

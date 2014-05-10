@@ -1,0 +1,11 @@
+{
+  Node nextNode=node.getNextSibling();
+  Ruby ruby=context.getRuntime();
+  if (nextNode == null)   return ruby.getNil();
+  if (nextNode instanceof Element) {
+    return getCachedNodeOrCreate(context.getRuntime(),nextNode);
+  }
+  Node deeper=nextNode.getNextSibling();
+  if (deeper == null)   return ruby.getNil();
+  return getCachedNodeOrCreate(context.getRuntime(),deeper);
+}

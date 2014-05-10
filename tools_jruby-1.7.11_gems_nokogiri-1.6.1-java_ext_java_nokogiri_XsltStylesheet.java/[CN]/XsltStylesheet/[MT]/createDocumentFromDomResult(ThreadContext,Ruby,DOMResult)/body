@@ -1,0 +1,12 @@
+{
+  if ("html".equals(domResult.getNode().getFirstChild().getNodeName())) {
+    HtmlDocument htmlDocument=(HtmlDocument)getNokogiriClass(runtime,"Nokogiri::HTML::Document").allocate();
+    htmlDocument.setDocumentNode(context,(Document)domResult.getNode());
+    return htmlDocument;
+  }
+ else {
+    XmlDocument xmlDocument=(XmlDocument)NokogiriService.XML_DOCUMENT_ALLOCATOR.allocate(runtime,getNokogiriClass(runtime,"Nokogiri::XML::Document"));
+    xmlDocument.setDocumentNode(context,(Document)domResult.getNode());
+    return xmlDocument;
+  }
+}

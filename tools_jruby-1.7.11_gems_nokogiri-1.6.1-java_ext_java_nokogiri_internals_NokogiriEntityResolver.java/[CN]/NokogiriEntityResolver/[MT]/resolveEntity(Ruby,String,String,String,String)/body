@@ -1,0 +1,41 @@
+{
+  InputSource s=new InputSource();
+  if (name.equals("[dtd]") && !shouldLoadDtd()) {
+    return emptyInputSource(s);
+  }
+ else   if (!name.equals("[dtd]") && !options.noEnt) {
+    return emptyInputSource(s);
+  }
+  String adjustedSystemId;
+  URI uri=URI.create(systemId);
+  if (options.noNet && uri.getHost() != null) {
+    addError("Attempt to load network entity " + systemId);
+    return emptyInputSource(s);
+  }
+  if (uri.isAbsolute() && !uri.isOpaque()) {
+    adjustedSystemId=uri.toURL().toString();
+  }
+ else   if (new File(uri.getPath()).isAbsolute()) {
+    adjustedSystemId=uri.getPath();
+  }
+ else   if (baseURI != null) {
+    URI baseuri=URI.create(baseURI);
+    if (options.noNet && baseuri.getHost() != null) {
+      addError("Attempt to load network entity " + systemId);
+      return emptyInputSource(s);
+    }
+    if (baseuri.getHost() == null) {
+      adjustedSystemId=join(baseuri.getPath(),uri.getPath()).getCanonicalPath();
+    }
+ else {
+      adjustedSystemId=baseuri.resolve(systemId).toURL().toString();
+    }
+  }
+ else {
+    String pwd=runtime.getCurrentDirectory();
+    adjustedSystemId=join(pwd,uri.getPath()).getCanonicalPath();
+  }
+  s.setSystemId(adjustedSystemId);
+  s.setPublicId(publicId);
+  return s;
+}

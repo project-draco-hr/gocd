@@ -1,0 +1,19 @@
+{
+  if (iter.isNull())   return;
+  Element elem=(Element)iter.current();
+  if (isGroup(elem) && iter.hasChildren()) {
+    iter.firstChild();
+    applyGroup(runtime,klass,doc,iter);
+    iter.parent();
+  }
+ else   if (isElement(elem)) {
+    name=elem.getAttribute("name");
+    type=Type.ELEMENT;
+  }
+  iter.nextSibling();
+  if (iter.isNull())   return;
+  if (isOccurrence(iter.current())) {
+    setOccur(((Element)iter.current()).getAttribute("type"));
+    iter.nextSibling();
+  }
+}

@@ -1,0 +1,17 @@
+{
+  if (futureTask == null || stream == null) {
+    stream=new NokogiriBlockingQueueInputStream();
+    parserTask=new ParserTask(context,saxParser);
+    futureTask=new FutureTask<XmlSaxParserContext>(parserTask);
+    executor=Executors.newSingleThreadExecutor(new ThreadFactory(){
+      @Override public Thread newThread(      Runnable r){
+        Thread t=new Thread(r);
+        t.setName("XmlSaxPushParser");
+        t.setDaemon(true);
+        return t;
+      }
+    }
+);
+    executor.submit(futureTask);
+  }
+}

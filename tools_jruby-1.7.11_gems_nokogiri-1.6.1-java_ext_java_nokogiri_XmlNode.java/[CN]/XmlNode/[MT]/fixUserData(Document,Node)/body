@@ -1,0 +1,8 @@
+{
+  String key=NokogiriHelpers.ENCODED_STRING;
+  for (Node child=ret.getFirstChild(); child != null; child=child.getNextSibling()) {
+    CoreDocumentImpl previousDocument=(CoreDocumentImpl)previous;
+    child.setUserData(key,previousDocument.getUserData(child,key),null);
+    fixUserData(previous,child);
+  }
+}

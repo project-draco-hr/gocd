@@ -1,0 +1,16 @@
+{
+  XmlNodeSet result=null;
+  try {
+    result=tryGetNodeSet(thread_context,xpathExpression);
+    return result;
+  }
+ catch (  XPathExpressionException xpee) {
+    try {
+      return tryGetOpaqueValue(xpathExpression);
+    }
+ catch (    XPathExpressionException xpee_opaque) {
+      RubyException e=XmlSyntaxError.createXPathSyntaxError(getRuntime(),xpee_opaque);
+      throw new RaiseException(e);
+    }
+  }
+}

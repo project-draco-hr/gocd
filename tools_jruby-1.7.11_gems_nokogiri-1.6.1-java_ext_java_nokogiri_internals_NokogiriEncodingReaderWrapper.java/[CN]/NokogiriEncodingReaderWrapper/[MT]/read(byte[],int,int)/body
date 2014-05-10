@@ -1,0 +1,24 @@
+{
+  if (b == null) {
+    throw new NullPointerException();
+  }
+ else   if (off < 0 || len < 0 || len > b.length - off) {
+    throw new IndexOutOfBoundsException();
+  }
+ else   if (len == 0) {
+    return 0;
+  }
+  int copyLength=Math.min(firstChunkLength - firstChunkOff,len);
+  if (copyLength > 0) {
+    System.arraycopy(firstChunk,firstChunkOff,b,off,copyLength);
+    len-=copyLength;
+    firstChunkOff+=copyLength;
+  }
+  if (len <= 0)   return copyLength;
+  IRubyObject returnValue=encodingReader.callMethod(context,"read",ruby.newFixnum(len));
+  if (returnValue.isNil())   return -1;
+  ByteList bytes=returnValue.asString().getByteList();
+  int length=bytes.length();
+  System.arraycopy(bytes.unsafeBytes(),bytes.getBegin(),b,off + copyLength,length);
+  return length + copyLength;
+}

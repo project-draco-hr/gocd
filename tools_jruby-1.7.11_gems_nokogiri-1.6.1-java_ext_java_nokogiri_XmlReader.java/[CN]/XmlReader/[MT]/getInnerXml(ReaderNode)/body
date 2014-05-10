@@ -1,0 +1,9 @@
+{
+  if (current.depth < 0)   return null;
+  if (!current.hasChildren)   return null;
+  StringBuffer sb=new StringBuffer();
+  for (int i=current.startOffset + 1; i <= current.endOffset - 1; i++) {
+    sb.append(nodeQueue.get(i).getString());
+  }
+  return new String(sb);
+}

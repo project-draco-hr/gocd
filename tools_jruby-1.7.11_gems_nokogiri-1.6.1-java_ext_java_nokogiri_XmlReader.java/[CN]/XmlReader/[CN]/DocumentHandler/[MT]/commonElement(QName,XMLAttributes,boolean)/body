@@ -1,0 +1,22 @@
+{
+  String qName=element.rawname;
+  String uri=element.uri;
+  String localName=element.localpart;
+  ReaderNode readerNode=ReaderNode.createElementNode(ruby,uri,localName,qName,attrs,depth,langStack,xmlBaseStack);
+  if (!elementStack.isEmpty()) {
+    ElementNode parent=elementStack.peek();
+    parent.hasChildren=true;
+  }
+  nodeQueue.add(readerNode);
+  readerNode.startOffset=nodeQueue.size() - 1;
+  if (!isEmpty) {
+    depth++;
+    if (readerNode.lang != null)     langStack.push(readerNode.lang);
+    if (readerNode.xmlBase != null)     xmlBaseStack.push(readerNode.xmlBase);
+    elementStack.push((ReaderNode.ElementNode)readerNode);
+  }
+ else {
+    readerNode.endOffset=readerNode.startOffset;
+    readerNode.hasChildren=false;
+  }
+}

@@ -1,0 +1,10 @@
+{
+  IRubyObject doc=args[0];
+  IRubyObject target=args[1];
+  IRubyObject data=args[2];
+  Document document=((XmlNode)doc).getOwnerDocument();
+  Node node=document.createProcessingInstruction(rubyStringToString(target),rubyStringToString(data));
+  XmlProcessingInstruction self=new XmlProcessingInstruction(context.getRuntime(),(RubyClass)klazz,node);
+  RuntimeHelpers.invoke(context,self,"initialize",args);
+  return self;
+}

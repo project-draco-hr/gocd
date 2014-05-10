@@ -1,0 +1,13 @@
+{
+  if (!(doc instanceof HtmlDocument))   return thing;
+  String parsed_encoding=((HtmlDocument)doc).getPraedEncoding();
+  if (parsed_encoding == null)   return thing;
+  String ruby_encoding=rubyStringToString(doc.getEncoding());
+  if (ruby_encoding == null)   return thing;
+  if (Charset.forName(parsed_encoding).compareTo(Charset.forName(ruby_encoding)) == 0) {
+    return thing;
+  }
+ else {
+    return NokogiriHelpers.nkf(runtime,ruby_encoding,thing);
+  }
+}

@@ -1,0 +1,12 @@
+{
+  if (parent.getNodeType() == Node.DOCUMENT_NODE && otherNode.getNodeType() == Node.TEXT_NODE) {
+    Element e=((Document)parent).createElement("nokogiri_text_wrapper");
+    e.appendChild(otherNode);
+    otherNode=e;
+  }
+  addNamespaceURIIfNeeded(otherNode);
+  parent.appendChild(otherNode);
+  Node[] nodes=new Node[1];
+  nodes[0]=otherNode;
+  return nodes;
+}

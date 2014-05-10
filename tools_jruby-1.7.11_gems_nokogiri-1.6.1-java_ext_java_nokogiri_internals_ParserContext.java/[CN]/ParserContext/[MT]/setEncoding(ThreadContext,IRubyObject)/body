@@ -1,0 +1,12 @@
+{
+  if (data.getType().respondsTo("detect_encoding")) {
+    NokogiriEncodingReaderWrapper reader=new NokogiriEncodingReaderWrapper(context,(RubyObject)data);
+    source.setByteStream(reader);
+    if (reader.detectEncoding()) {
+      detected_encoding=reader.getEncoding();
+      source.setEncoding(detected_encoding.asJavaString());
+    }
+    return true;
+  }
+  return false;
+}

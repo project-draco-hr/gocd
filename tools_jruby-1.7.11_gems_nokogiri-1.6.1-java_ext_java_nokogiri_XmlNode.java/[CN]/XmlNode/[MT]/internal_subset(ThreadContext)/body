@@ -1,0 +1,9 @@
+{
+  Document document=getOwnerDocument();
+  if (document == null) {
+    return context.getRuntime().getNil();
+  }
+  XmlDocument xdoc=(XmlDocument)getCachedNodeOrCreate(context.getRuntime(),document);
+  IRubyObject xdtd=xdoc.getInternalSubset(context);
+  return xdtd;
+}

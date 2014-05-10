@@ -1,0 +1,12 @@
+{
+  RubyArray parentNamespaces;
+  RubyArray namespaces=(RubyArray)namespace_definitions(context);
+  IRubyObject parent=parent(context);
+  if (!parent.isNil()) {
+    parentNamespaces=(RubyArray)((XmlNode)parent).namespace_scopes(context);
+  }
+ else {
+    parentNamespaces=getRuntime().newEmptyArray();
+  }
+  return parentNamespaces.op_plus(namespaces);
+}

@@ -1,0 +1,23 @@
+{
+  if (newRoot_ instanceof RubyNil) {
+    getDocument().getDocumentElement().setUserData(NokogiriHelpers.VALID_ROOT_NODE,false,null);
+    return newRoot_;
+  }
+  XmlNode newRoot=asXmlNode(context,newRoot_);
+  IRubyObject root=root(context);
+  if (root.isNil()) {
+    Node newRootNode;
+    if (getDocument() == newRoot.getOwnerDocument()) {
+      newRootNode=newRoot.node;
+    }
+ else {
+      newRootNode=getDocument().importNode(newRoot.node,true);
+    }
+    add_child_node(context,getCachedNodeOrCreate(context.getRuntime(),newRootNode));
+  }
+ else {
+    Node rootNode=asXmlNode(context,root).node;
+    ((XmlNode)getCachedNodeOrCreate(context.getRuntime(),rootNode)).replace_node(context,newRoot);
+  }
+  return newRoot;
+}

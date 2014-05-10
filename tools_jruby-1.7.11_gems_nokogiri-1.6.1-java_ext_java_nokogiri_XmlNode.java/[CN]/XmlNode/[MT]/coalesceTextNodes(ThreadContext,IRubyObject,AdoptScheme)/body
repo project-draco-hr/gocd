@@ -1,0 +1,21 @@
+{
+  XmlNode xa=asXmlNode(context,anchorNode);
+  XmlNode xp=asXmlNodeOrNull(context,xa.previous_sibling(context));
+  XmlNode xn=asXmlNodeOrNull(context,xa.next_sibling(context));
+  Node p=xp == null ? null : xp.node;
+  Node a=xa.node;
+  Node n=xn == null ? null : xn.node;
+  Node parent=a.getParentNode();
+  boolean shouldMergeP=scheme == AdoptScheme.NEXT_SIBLING || scheme == AdoptScheme.CHILD || scheme == AdoptScheme.REPLACEMENT;
+  boolean shouldMergeN=scheme == AdoptScheme.PREV_SIBLING || scheme == AdoptScheme.REPLACEMENT;
+  if (shouldMergeN && n != null && n.getNodeType() == Node.TEXT_NODE) {
+    xa.setContent(a.getNodeValue() + n.getNodeValue());
+    parent.removeChild(n);
+    xn.assimilateXmlNode(context,xa);
+  }
+  if (shouldMergeP && p != null && p.getNodeType() == Node.TEXT_NODE) {
+    xp.setContent(p.getNodeValue() + a.getNodeValue());
+    parent.removeChild(a);
+    xa.assimilateXmlNode(context,xp);
+  }
+}

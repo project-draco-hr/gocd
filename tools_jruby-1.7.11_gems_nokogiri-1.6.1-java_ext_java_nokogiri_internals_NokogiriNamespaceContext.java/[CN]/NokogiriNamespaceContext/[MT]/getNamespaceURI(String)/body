@@ -1,0 +1,14 @@
+{
+  if (prefix == null) {
+    throw new IllegalArgumentException();
+  }
+  String uri=this.register.get(prefix);
+  if (uri != null) {
+    return uri;
+  }
+  if (prefix.equals(XMLConstants.XMLNS_ATTRIBUTE)) {
+    uri=this.register.get(XMLConstants.XMLNS_ATTRIBUTE);
+    return (uri == null) ? XMLConstants.XMLNS_ATTRIBUTE_NS_URI : uri;
+  }
+  return XMLConstants.NULL_NS_URI;
+}

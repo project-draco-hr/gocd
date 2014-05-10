@@ -1,0 +1,12 @@
+{
+  Ruby ruby=context.getRuntime();
+  XmlNodeSet children=(XmlNodeSet)child.children(context);
+  long length=children.length();
+  RubyArray childrenArray=children.convertToArray();
+  if (length != 0) {
+    for (int i=0; i < length; i++) {
+      XmlNode item=(XmlNode)((XmlNode)childrenArray.aref(ruby.newFixnum(i))).dup_implementation(context,true);
+      add_child(context,item);
+    }
+  }
+}

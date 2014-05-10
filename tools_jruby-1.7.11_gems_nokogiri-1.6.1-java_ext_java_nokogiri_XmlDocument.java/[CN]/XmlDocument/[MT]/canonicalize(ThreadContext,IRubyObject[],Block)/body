@@ -1,0 +1,27 @@
+{
+  XmlNode startingNode=getStartingNode(block);
+  int canonicalOpts=1;
+  int mode=0;
+  if (args.length == 3) {
+    mode=(Integer)(args[0].isNil() ? 0 : args[0].toJava(Integer.class));
+    if (mode == 1)     canonicalOpts=canonicalOpts | 16;
+    canonicalOpts=args[2].isTrue() ? (canonicalOpts | 4) : canonicalOpts;
+  }
+  if (startingNode != this)   canonicalOpts=canonicalOpts | 8;
+  SaveContextVisitor visitor=new SaveContextVisitor(38,null,"UTF-8",false,false,canonicalOpts);
+  if (args.length == 3 && !args[1].isNil()) {
+    visitor.setC14nExclusiveInclusivePrefixes((List<String>)NokogiriHelpers.rubyStringArrayToJavaList((RubyArray)args[1]));
+  }
+  startingNode.accept(context,visitor);
+  Ruby runtime=context.getRuntime();
+  IRubyObject result=runtime.getTrue();
+  if (block.isGiven()) {
+    List<Node> list=visitor.getC14nNodeList();
+    for (    Node n : list) {
+      IRubyObject currentNode=getCachedNodeOrCreate(runtime,n);
+      IRubyObject parentNode=getCachedNodeOrCreate(runtime,n.getParentNode());
+      result=block.call(context,currentNode,parentNode);
+    }
+  }
+  return result.isTrue() ? stringOrNil(runtime,visitor.toString()) : RubyString.newEmptyString(runtime);
+}

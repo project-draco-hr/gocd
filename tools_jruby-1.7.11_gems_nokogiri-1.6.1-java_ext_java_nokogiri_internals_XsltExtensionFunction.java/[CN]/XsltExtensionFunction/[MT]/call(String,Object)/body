@@ -1,0 +1,9 @@
+{
+  if (XsltStylesheet.getRegistry() == null)   return null;
+  ThreadContext context=(ThreadContext)XsltStylesheet.getRegistry().get("context");
+  IRubyObject receiver=(IRubyObject)XsltStylesheet.getRegistry().get("receiver");
+  if (context == null || receiver == null)   return null;
+  IRubyObject arg0=JavaUtil.convertJavaToUsableRubyObject(context.getRuntime(),arg);
+  IRubyObject result=RuntimeHelpers.invoke(context,receiver,method,arg0);
+  return result.toJava(Object.class);
+}

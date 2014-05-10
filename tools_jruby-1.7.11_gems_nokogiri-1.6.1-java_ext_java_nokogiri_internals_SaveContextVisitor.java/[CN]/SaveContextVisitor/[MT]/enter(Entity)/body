@@ -1,0 +1,24 @@
+{
+  String name=entity.getNodeName();
+  String pubId=entity.getPublicId();
+  String sysId=entity.getSystemId();
+  String notation=entity.getNotationName();
+  buffer.append("<!ENTITY ");
+  buffer.append(name);
+  if (pubId != null) {
+    buffer.append(" PUBLIC \"");
+    buffer.append(pubId);
+    buffer.append("\"");
+  }
+  if (sysId != null) {
+    buffer.append(" SYSTEM \"");
+    buffer.append(sysId);
+    buffer.append("\"");
+  }
+  if (notation != null) {
+    buffer.append(" NDATA ");
+    buffer.append(notation);
+  }
+  buffer.append(">");
+  return true;
+}

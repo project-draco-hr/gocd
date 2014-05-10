@@ -1,0 +1,13 @@
+{
+  XmlNode clone;
+  try {
+    clone=(XmlNode)clone();
+  }
+ catch (  CloneNotSupportedException e) {
+    throw context.getRuntime().newRuntimeError(e.toString());
+  }
+  if (node == null)   throw context.getRuntime().newRuntimeError("FFFFFFFFFUUUUUUU");
+  Node newNode=node.cloneNode(deep);
+  clone.node=newNode;
+  return clone;
+}

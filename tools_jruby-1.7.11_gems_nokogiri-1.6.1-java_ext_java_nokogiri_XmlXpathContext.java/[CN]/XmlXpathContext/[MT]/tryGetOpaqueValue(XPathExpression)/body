@@ -1,0 +1,9 @@
+{
+  String string=(String)xpathExpression.evaluate(context.node,XPathConstants.STRING);
+  Double value=null;
+  if ((value=getDoubleValue(string)) != null) {
+    return new RubyFloat(getRuntime(),value);
+  }
+  if (doesMatch(boolean_pattern,string.toLowerCase()))   return RubyBoolean.newBoolean(getRuntime(),Boolean.parseBoolean(string));
+  return RubyString.newString(getRuntime(),string);
+}

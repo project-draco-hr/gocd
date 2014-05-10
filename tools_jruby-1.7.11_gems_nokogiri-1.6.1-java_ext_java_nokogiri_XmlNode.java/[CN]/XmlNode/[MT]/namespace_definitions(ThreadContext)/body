@@ -1,0 +1,11 @@
+{
+  Ruby ruby=context.getRuntime();
+  RubyArray namespace_definitions=ruby.newArray();
+  if (doc == null)   return namespace_definitions;
+  if (doc instanceof HtmlDocument)   return namespace_definitions;
+  List<XmlNamespace> namespaces=((XmlDocument)doc).getNamespaceCache().get(node);
+  for (  XmlNamespace namespace : namespaces) {
+    namespace_definitions.append(namespace);
+  }
+  return namespace_definitions;
+}

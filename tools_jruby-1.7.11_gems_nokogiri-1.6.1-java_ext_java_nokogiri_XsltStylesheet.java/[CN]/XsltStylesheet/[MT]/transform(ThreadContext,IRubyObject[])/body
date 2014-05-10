@@ -1,0 +1,36 @@
+{
+  Ruby runtime=context.getRuntime();
+  argumentTypeCheck(runtime,args[0]);
+  NokogiriXsltErrorListener elistener=new NokogiriXsltErrorListener();
+  DOMSource domSource=new DOMSource(((XmlDocument)args[0]).getDocument());
+  DOMResult result=null;
+  String stringResult=null;
+  try {
+    result=tryXsltTransformation(context,args,domSource,elistener);
+    if (result.getNode().getFirstChild() == null) {
+      stringResult=retryXsltTransformation(context,args,domSource,elistener);
+    }
+  }
+ catch (  TransformerConfigurationException ex) {
+    throw runtime.newRuntimeError(ex.getMessage());
+  }
+catch (  TransformerException ex) {
+    throw runtime.newRuntimeError(ex.getMessage());
+  }
+catch (  IOException ex) {
+    throw runtime.newRuntimeError(ex.getMessage());
+  }
+switch (elistener.getErrorType()) {
+case ERROR:
+case FATAL:
+    throw runtime.newRuntimeError(elistener.getErrorMessage());
+case WARNING:
+default :
+}
+if (stringResult == null) {
+  return createDocumentFromDomResult(context,runtime,result);
+}
+ else {
+  return createDocumentFromString(context,runtime,stringResult);
+}
+}

@@ -1,0 +1,7 @@
+{
+  this.exception=exception;
+  setInstanceVariable("@level",runtime.newFixnum(level));
+  setInstanceVariable("@line",runtime.newFixnum(((SAXParseException)exception).getLineNumber()));
+  setInstanceVariable("@column",runtime.newFixnum(((SAXParseException)exception).getColumnNumber()));
+  setInstanceVariable("@file",stringOrNil(runtime,((SAXParseException)exception).getSystemId()));
+}

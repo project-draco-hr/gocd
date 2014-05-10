@@ -1,0 +1,26 @@
+{
+  String path=rubyStringToString(url);
+  if (path != null) {
+    try {
+      URI uri=URI.create(path);
+      source.setSystemId(uri.toURL().toString());
+    }
+ catch (    Exception ex) {
+      File file=new File(path);
+      if (file.isAbsolute()) {
+        source.setSystemId(path);
+      }
+ else {
+        String pwd=context.getRuntime().getCurrentDirectory();
+        String absolutePath;
+        try {
+          absolutePath=new File(pwd,path).getCanonicalPath();
+        }
+ catch (        IOException e) {
+          absolutePath=new File(pwd,path).getAbsolutePath();
+        }
+        source.setSystemId(absolutePath);
+      }
+    }
+  }
+}
