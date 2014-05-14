@@ -24,7 +24,7 @@
     }
     try {
       LOG.info("Starting h2 server in debug mode : " + "port=" + configuration.getPort() + " baseDir="+ systemEnvironment.getDbPath().getCanonicalPath());
-      String[] args={"-tcp","-tcpAllowOthers","-tcpPort",configuration.getPort(),"-baseDir",systemEnvironment.getDbPath().getCanonicalPath()};
+      String[] args={"-tcp","-tcpAllowOthers","-tcpPort",String.valueOf(configuration.getPort()),"-baseDir",systemEnvironment.getDbPath().getCanonicalPath()};
       tcpServer=Server.createTcpServer(args);
       tcpServer.start();
     }
