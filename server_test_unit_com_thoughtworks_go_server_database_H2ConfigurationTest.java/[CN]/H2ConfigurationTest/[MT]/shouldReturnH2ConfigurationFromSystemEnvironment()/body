@@ -1,0 +1,30 @@
+{
+  String host="host";
+  int port=1234;
+  String name="name";
+  String user="user";
+  String password="password";
+  int maxIdle=42;
+  int maxActive=4242;
+  when(systemEnvironment.get(SystemEnvironment.GO_DATABASE_HOST)).thenReturn(host);
+  when(systemEnvironment.getDatabaseSeverPort()).thenReturn(port);
+  when(systemEnvironment.get(SystemEnvironment.GO_DATABASE_NAME)).thenReturn(name);
+  when(systemEnvironment.get(SystemEnvironment.GO_DATABASE_USER)).thenReturn(user);
+  when(systemEnvironment.get(SystemEnvironment.GO_DATABASE_PASSWORD)).thenReturn(password);
+  when(systemEnvironment.get(SystemEnvironment.GO_DATABASE_MAX_IDLE)).thenReturn(maxIdle);
+  when(systemEnvironment.get(SystemEnvironment.GO_DATABASE_MAX_ACTIVE)).thenReturn(maxActive);
+  assertThat(configuration.getHost(),is(host));
+  assertThat(configuration.getPort(),is(port));
+  assertThat(configuration.getName(),is(name));
+  assertThat(configuration.getUser(),is(user));
+  assertThat(configuration.getPassword(),is(password));
+  assertThat(configuration.getMaxIdle(),is(maxIdle));
+  assertThat(configuration.getMaxActive(),is(maxActive));
+  verify(systemEnvironment).get(SystemEnvironment.GO_DATABASE_HOST);
+  verify(systemEnvironment).getDatabaseSeverPort();
+  verify(systemEnvironment).get(SystemEnvironment.GO_DATABASE_NAME);
+  verify(systemEnvironment).get(SystemEnvironment.GO_DATABASE_USER);
+  verify(systemEnvironment).get(SystemEnvironment.GO_DATABASE_PASSWORD);
+  verify(systemEnvironment).get(SystemEnvironment.GO_DATABASE_MAX_ACTIVE);
+  verify(systemEnvironment).get(SystemEnvironment.GO_DATABASE_MAX_IDLE);
+}
