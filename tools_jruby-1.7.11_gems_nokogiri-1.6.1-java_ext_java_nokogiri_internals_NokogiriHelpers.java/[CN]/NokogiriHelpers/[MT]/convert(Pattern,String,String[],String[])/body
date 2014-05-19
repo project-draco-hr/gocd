@@ -1,0 +1,19 @@
+{
+  Matcher matcher=ptn.matcher(input);
+  boolean result=matcher.find();
+  StringBuffer sb=new StringBuffer();
+  while (result) {
+    String matched=matcher.group();
+    String replacement="";
+    for (int i=0; i < oldChars.length; i++) {
+      if (matched.contains(oldChars[i])) {
+        replacement=matched.replace(oldChars[i],newChars[i]);
+        break;
+      }
+    }
+    matcher.appendReplacement(sb,replacement);
+    result=matcher.find();
+  }
+  matcher.appendTail(sb);
+  return sb.toString();
+}

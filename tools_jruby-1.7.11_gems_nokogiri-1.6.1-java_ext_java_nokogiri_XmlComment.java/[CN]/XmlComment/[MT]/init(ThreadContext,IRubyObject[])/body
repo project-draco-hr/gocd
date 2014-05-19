@@ -1,0 +1,18 @@
+{
+  if (args.length < 2)   throw getRuntime().newArgumentError(args.length,2);
+  IRubyObject doc=args[0];
+  IRubyObject text=args[1];
+  XmlDocument xmlDoc=null;
+  if (doc instanceof XmlDocument) {
+    xmlDoc=(XmlDocument)doc;
+  }
+ else   if (doc instanceof XmlNode) {
+    XmlNode xmlNode=(XmlNode)doc;
+    xmlDoc=(XmlDocument)xmlNode.document(context);
+  }
+  if (xmlDoc != null) {
+    Document document=xmlDoc.getDocument();
+    Node node=document.createComment(rubyStringToString(text));
+    setNode(context,node);
+  }
+}

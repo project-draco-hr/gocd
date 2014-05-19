@@ -1,0 +1,10 @@
+{
+  super.setNode(context,node);
+  Ruby runtime=context.getRuntime();
+  if (node != null) {
+    Document document=(Document)node;
+    document.normalize();
+    stabilzeAttrValue(document.getDocumentElement());
+  }
+  setInstanceVariable("@decorators",runtime.getNil());
+}

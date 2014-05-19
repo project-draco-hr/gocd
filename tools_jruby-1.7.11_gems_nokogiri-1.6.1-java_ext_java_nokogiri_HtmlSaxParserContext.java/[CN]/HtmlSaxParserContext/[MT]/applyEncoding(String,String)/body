@@ -1,0 +1,18 @@
+{
+  String str=input.toLowerCase();
+  int start_pos=0;
+  int end_pos=0;
+  if (input.contains("meta") && input.contains("charset")) {
+    Pattern p=Pattern.compile("charset(()|\\s)=(()|\\s)([a-z]|-|_|\\d)+");
+    Matcher m=p.matcher(str);
+    while (m.find()) {
+      start_pos=m.start();
+      end_pos=m.end();
+    }
+  }
+  if (start_pos != end_pos) {
+    String substr=input.substring(start_pos,end_pos);
+    input=input.replace(substr,"charset=" + enc);
+  }
+  return input;
+}

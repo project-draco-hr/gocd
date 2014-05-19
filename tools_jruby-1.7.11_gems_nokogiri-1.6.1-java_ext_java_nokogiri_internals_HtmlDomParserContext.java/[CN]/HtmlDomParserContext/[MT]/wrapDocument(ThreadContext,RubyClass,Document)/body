@@ -1,0 +1,16 @@
+{
+  HtmlDocument htmlDocument=(HtmlDocument)NokogiriService.HTML_DOCUMENT_ALLOCATOR.allocate(context.getRuntime(),klazz);
+  htmlDocument.setDocumentNode(context,document);
+  if (ruby_encoding.isNil()) {
+    if (detected_encoding != null && !detected_encoding.isNil()) {
+      ruby_encoding=detected_encoding;
+    }
+ else {
+      String charset=tryGetCharsetFromHtml5MetaTag(document);
+      ruby_encoding=stringOrNil(context.getRuntime(),charset);
+    }
+  }
+  htmlDocument.setEncoding(ruby_encoding);
+  htmlDocument.setParsedEncoding(java_encoding);
+  return htmlDocument;
+}

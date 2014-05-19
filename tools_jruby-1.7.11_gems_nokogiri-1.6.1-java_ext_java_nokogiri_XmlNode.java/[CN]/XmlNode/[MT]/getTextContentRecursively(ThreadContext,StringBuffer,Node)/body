@@ -1,0 +1,10 @@
+{
+  String textContent=currentNode.getNodeValue();
+  if (textContent != null && NokogiriHelpers.shouldDecode(currentNode))   textContent=NokogiriHelpers.decodeJavaString(textContent);
+  if (textContent != null)   buffer.append(textContent);
+  NodeList children=currentNode.getChildNodes();
+  for (int i=0; i < children.getLength(); i++) {
+    Node child=children.item(i);
+    if (hasTextContent(child))     getTextContentRecursively(context,buffer,child);
+  }
+}

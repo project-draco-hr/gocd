@@ -1,0 +1,12 @@
+{
+  IRubyObject result;
+  if (nodes == null)   return context.getRuntime().getNil();
+  if (context.getRuntime().is1_9()) {
+    result=nodes.aref19(start,length);
+  }
+ else {
+    result=nodes.aref(start,length);
+  }
+  if (result instanceof RubyArray)   return newXmlNodeSet(context,(RubyArray)result);
+ else   return context.getRuntime().getNil();
+}

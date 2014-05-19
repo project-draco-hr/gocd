@@ -1,0 +1,17 @@
+{
+  try {
+    parser.parse(getInputSource());
+  }
+ catch (  NullPointerException ex) {
+  }
+  if (options.noBlanks) {
+    List<Node> emptyNodes=new ArrayList<Node>();
+    findEmptyTexts(parser.getDocument(),emptyNodes);
+    if (emptyNodes.size() > 0) {
+      for (      Node node : emptyNodes) {
+        node.getParentNode().removeChild(node);
+      }
+    }
+  }
+  return parser.getDocument();
+}

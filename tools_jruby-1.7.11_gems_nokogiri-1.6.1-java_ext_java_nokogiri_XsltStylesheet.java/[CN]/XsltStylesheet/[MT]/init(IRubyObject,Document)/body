@@ -1,0 +1,7 @@
+{
+  this.stylesheet=stylesheet;
+  if (factory == null)   factory=TransformerFactory.newInstance();
+  NokogiriXsltErrorListener elistener=new NokogiriXsltErrorListener();
+  factory.setErrorListener(elistener);
+  sheet=factory.newTemplates(new DOMSource(document));
+}

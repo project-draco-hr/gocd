@@ -1,0 +1,13 @@
+{
+  IRubyObject subset=internal_subset(context);
+  if (!subset.isNil()) {
+    throw context.getRuntime().newRuntimeError("Document already has internal subset");
+  }
+  Document document=getOwnerDocument();
+  if (document == null) {
+    return context.getRuntime().getNil();
+  }
+  XmlDocument xdoc=(XmlDocument)getCachedNodeOrCreate(context.getRuntime(),document);
+  IRubyObject xdtd=xdoc.createInternalSubset(context,name,external_id,system_id);
+  return xdtd;
+}

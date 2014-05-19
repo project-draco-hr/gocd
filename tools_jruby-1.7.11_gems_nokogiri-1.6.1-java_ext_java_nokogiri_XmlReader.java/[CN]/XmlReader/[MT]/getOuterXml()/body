@@ -1,0 +1,12 @@
+{
+  ReaderNode current=currentNode();
+  if (current.depth < 0)   return null;
+  if (current instanceof ClosingNode) {
+    return "<" + current.name + "/>";
+  }
+  StringBuffer sb=new StringBuffer();
+  for (int i=position; i <= current.endOffset; i++) {
+    sb.append(nodeQueue.get(i).getString());
+  }
+  return new String(sb);
+}

@@ -1,0 +1,13 @@
+{
+  if (xpathFunction == null)   xpathFunction=new NokogiriXPathFunction();
+  try {
+    NokogiriXPathFunction clone=(NokogiriXPathFunction)xpathFunction.clone();
+    clone.init(handler,name,arity);
+    return clone;
+  }
+ catch (  CloneNotSupportedException e) {
+    NokogiriXPathFunction freshXpathFunction=new NokogiriXPathFunction();
+    freshXpathFunction.init(handler,name,arity);
+    return freshXpathFunction;
+  }
+}

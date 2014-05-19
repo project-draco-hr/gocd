@@ -1,0 +1,13 @@
+{
+  if (object != null && object instanceof RubyObject) {
+    RubyObject rubyObj=(RubyObject)object;
+    IRubyObject document=rubyObj.getInstanceVariable("@document");
+    if (document != null) {
+      String name=document.getMetaClass().getName();
+      if ("Nokogiri::XML::FragmentHandler".equals(name)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

@@ -1,0 +1,7 @@
+{
+  if (content != null && !content.isNil())   return content;
+  if (node == null)   return context.getRuntime().getNil();
+  String attrValue=((Attr)node).getValue();
+  if (attrValue == null)   return context.getRuntime().getNil();
+  return RubyString.newString(context.getRuntime(),attrValue);
+}

@@ -1,0 +1,7 @@
+{
+  if (nodes == null)   return context.getRuntime().getNil();
+  if (node_or_namespace instanceof XmlNamespace) {
+    ((XmlNamespace)node_or_namespace).deleteHref();
+  }
+  return nodes.delete(context,asXmlNodeOrNamespace(context,node_or_namespace),Block.NULL_BLOCK);
+}

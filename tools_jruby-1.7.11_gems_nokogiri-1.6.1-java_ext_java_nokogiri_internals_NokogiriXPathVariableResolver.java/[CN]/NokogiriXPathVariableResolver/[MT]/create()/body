@@ -1,0 +1,11 @@
+{
+  if (resolver == null)   resolver=new NokogiriXPathVariableResolver();
+  try {
+    NokogiriXPathVariableResolver clone=(NokogiriXPathVariableResolver)resolver.clone();
+    return clone;
+  }
+ catch (  CloneNotSupportedException e) {
+    NokogiriXPathVariableResolver freshResolver=new NokogiriXPathVariableResolver();
+    return freshResolver;
+  }
+}

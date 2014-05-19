@@ -1,0 +1,8 @@
+{
+  if (node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.CDATA_SECTION_NODE) {
+    String data=node.getTextContent();
+    if (data == null)     return context.getRuntime().getTrue();
+    if ("".equals(data.trim()))     return context.getRuntime().getTrue();
+  }
+  return context.getRuntime().getFalse();
+}
