@@ -1,0 +1,12 @@
+{
+  when(systemEnvironment.getDatabaseProvider()).thenReturn("some.random.provider");
+  try {
+    new DatabaseStrategy(systemEnvironment);
+    fail("Should have thrown exception");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Failed loading database provider [some.random.provider]"));
+    assertThat(e.getCause(),is(instanceOf(ClassNotFoundException.class)));
+    assertThat(e.getCause().getMessage(),is("some.random.provider"));
+  }
+}
