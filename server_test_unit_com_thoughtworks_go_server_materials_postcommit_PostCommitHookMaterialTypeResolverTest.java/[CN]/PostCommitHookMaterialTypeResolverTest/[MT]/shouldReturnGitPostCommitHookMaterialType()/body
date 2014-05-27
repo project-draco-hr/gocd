@@ -1,0 +1,7 @@
+{
+  final PostCommitHookMaterialType materialType=resolver.toType("GIT");
+  assertThat(materialType instanceof PostCommitHookMaterialTypeResolver.GitPostCommitHookMaterialType,is(true));
+  assertThat(materialType.isKnown(),is(true));
+  assertThat(materialType.isValid("GIT"),is(true));
+  assertThat(materialType.getImplementer() instanceof GitPostCommitHookImplementer,is(true));
+}

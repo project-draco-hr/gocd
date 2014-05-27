@@ -1,0 +1,17 @@
+{
+  HashSet<Material> prunedCollection=new HashSet<Material>();
+  if (params.containsKey(REPO_URL_PARAM_KEY)) {
+    String paramRepoUrl=(String)params.get(REPO_URL_PARAM_KEY);
+    if (StringUtils.isNotBlank(paramRepoUrl)) {
+      for (      Material material : materials) {
+        if (material instanceof GitMaterial && isUrlEqual(paramRepoUrl,(GitMaterial)material)) {
+          prunedCollection.add(material);
+        }
+      }
+    }
+    return prunedCollection;
+  }
+ else {
+    return prunedCollection;
+  }
+}

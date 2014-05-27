@@ -1,0 +1,10 @@
+{
+  GitMaterial material1=mock(GitMaterial.class);
+  when(material1.getUrlArgument()).thenReturn(new UrlArgument("https://machine.local.git"));
+  Set<Material> materials=new HashSet<Material>(Arrays.asList(material1));
+  HashMap params=new HashMap();
+  params.put(GitPostCommitHookImplementer.REPO_URL_PARAM_KEY,"");
+  Set<Material> actual=implementer.prune(materials,params);
+  assertThat(actual.size(),is(0));
+  verifyNoMoreInteractions(material1);
+}
