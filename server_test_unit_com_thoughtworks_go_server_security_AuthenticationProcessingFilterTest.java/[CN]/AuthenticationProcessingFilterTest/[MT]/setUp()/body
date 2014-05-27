@@ -2,13 +2,6 @@
   request=new MockHttpServletRequest();
   session=new MockHttpSession();
   request.setSession(session);
-  goLicenseService=mock(GoLicenseService.class);
-  timeProvider=mock(TimeProvider.class);
-  UserService userService=mock(UserService.class);
-  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
-  user=setCurrentUser("foo");
-  when(userService.findUserByName("foo")).thenReturn(user);
-  when(systemEnvironment.getLicenseExpiryWarningTime()).thenReturn(SystemEnvironment.NUMBER_OF_DAYS_TO_EXPIRY);
   localizer=mock(Localizer.class);
-  filter=new AuthenticationProcessingFilter(mock(GoConfigService.class),goLicenseService,userService,timeProvider,systemEnvironment,localizer);
+  filter=new AuthenticationProcessingFilter(mock(GoConfigService.class),localizer);
 }
