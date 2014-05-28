@@ -1,0 +1,9 @@
+{
+  Matcher userNameAuthMatcher=URL_WITH_USERNAME_AUTH_PATTERN.matcher(materialUrl);
+  if (userNameAuthMatcher.matches()) {
+    String protocolField=userNameAuthMatcher.group(1);
+    String urlField=userNameAuthMatcher.group(3);
+    return String.format("%s%s",protocolField,urlField).equalsIgnoreCase(paramRepoUrl);
+  }
+  return false;
+}

@@ -1,0 +1,21 @@
+{
+  GitMaterial material1=mock(GitMaterial.class);
+  when(material1.getUrlArgument()).thenReturn(new UrlArgument("https://other_repo.local.git"));
+  GitMaterial material2=mock(GitMaterial.class);
+  when(material2.getUrlArgument()).thenReturn(new UrlArgument("https://other_repo.local.git"));
+  GitMaterial material3=mock(GitMaterial.class);
+  when(material3.getUrlArgument()).thenReturn(new UrlArgument("https://machine.local.git"));
+  GitMaterial material4=mock(GitMaterial.class);
+  when(material4.getUrlArgument()).thenReturn(new UrlArgument("https://machine.local.git"));
+  Set<Material> materials=new HashSet<Material>(Arrays.asList(material1,material2,material3,material4));
+  HashMap params=new HashMap();
+  params.put(GitPostCommitHookImplementer.REPO_URL_PARAM_KEY,"https://machine.local.git");
+  Set<Material> actual=implementer.prune(materials,params);
+  assertThat(actual.size(),is(2));
+  assertThat(actual,hasItem(material3));
+  assertThat(actual,hasItem(material4));
+  verify(material1).getUrlArgument();
+  verify(material2).getUrlArgument();
+  verify(material3).getUrlArgument();
+  verify(material4).getUrlArgument();
+}
