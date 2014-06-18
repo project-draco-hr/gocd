@@ -1,0 +1,11 @@
+{
+  InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  String submoduleNameInGitModulesFile="some-submodule-name";
+  String submoduleDirectoryName="some-submodule-path";
+  submoduleRepos.addSubmodule(SUBMODULE,submoduleNameInGitModulesFile,submoduleDirectoryName);
+  File cloneDirectory=createTempWorkingDirectory();
+  GitCommand clonedCopy=new GitCommand(null,cloneDirectory,GitMaterialConfig.DEFAULT_BRANCH,false);
+  clonedCopy.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
+  clonedCopy.fetchAndReset(outputStreamConsumer,new StringRevision("HEAD"));
+}
