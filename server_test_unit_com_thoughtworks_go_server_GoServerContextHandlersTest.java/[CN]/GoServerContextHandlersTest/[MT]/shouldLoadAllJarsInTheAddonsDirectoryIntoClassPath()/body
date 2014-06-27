@@ -1,5 +1,4 @@
 {
-  File jrubyJar=TestFileUtil.createTempFile("jruby.jar");
   File addonsDirectory=createInAddonDir("some-addon-dir");
   FileSystemUtils.createFile("addon-1.JAR",addonsDirectory);
   FileSystemUtils.createFile("addon-2.jar",addonsDirectory);
@@ -8,12 +7,12 @@
   File oneAddonDirectory=createInAddonDir("one-addon-dir");
   FileSystemUtils.createFile("addon-1.jar",oneAddonDirectory);
   File noAddonDirectory=createInAddonDir("no-addon-dir");
-  GoServer goServerWithMultipleAddons=new GoServer(setJRubyJarsTo(setAddonsPathTo(addonsDirectory),jrubyJar.getAbsolutePath()),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
-  assertExtraClasspath(goServerWithMultipleAddons.webApp(),"test-addons/some-addon-dir/addon-1.JAR","test-addons/some-addon-dir/addon-2.jar","test-addons/some-addon-dir/addon-3.jAR",jrubyJar.getAbsolutePath());
-  GoServer goServerWithOneAddon=new GoServer(setJRubyJarsTo(setAddonsPathTo(oneAddonDirectory),jrubyJar.getAbsolutePath()),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
-  assertExtraClasspath(goServerWithOneAddon.webApp(),"test-addons/one-addon-dir/addon-1.jar",jrubyJar.getAbsolutePath());
-  GoServer goServerWithNoAddon=new GoServer(setJRubyJarsTo(setAddonsPathTo(noAddonDirectory),jrubyJar.getAbsolutePath()),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
-  assertThat(goServerWithNoAddon.webApp().getExtraClasspath(),is(jrubyJar.getAbsolutePath()));
-  GoServer goServerWithInaccessibleAddonDir=new GoServer(setJRubyJarsTo(setAddonsPathTo(new File("non-existent-directory")),jrubyJar.getAbsolutePath()),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
-  assertThat(goServerWithInaccessibleAddonDir.webApp().getExtraClasspath(),is(jrubyJar.getAbsolutePath()));
+  GoServer goServerWithMultipleAddons=new GoServer(setJRubyJarsTo(setAddonsPathTo(addonsDirectory)),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
+  assertExtraClasspath(goServerWithMultipleAddons.webApp(),"test-addons/some-addon-dir/addon-1.JAR","test-addons/some-addon-dir/addon-2.jar","test-addons/some-addon-dir/addon-3.jAR");
+  GoServer goServerWithOneAddon=new GoServer(setJRubyJarsTo(setAddonsPathTo(oneAddonDirectory)),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
+  assertExtraClasspath(goServerWithOneAddon.webApp(),"test-addons/one-addon-dir/addon-1.jar");
+  GoServer goServerWithNoAddon=new GoServer(setJRubyJarsTo(setAddonsPathTo(noAddonDirectory)),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
+  assertThat(goServerWithNoAddon.webApp().getExtraClasspath(),is(""));
+  GoServer goServerWithInaccessibleAddonDir=new GoServer(setJRubyJarsTo(setAddonsPathTo(new File("non-existent-directory"))),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
+  assertThat(goServerWithInaccessibleAddonDir.webApp().getExtraClasspath(),is(""));
 }
