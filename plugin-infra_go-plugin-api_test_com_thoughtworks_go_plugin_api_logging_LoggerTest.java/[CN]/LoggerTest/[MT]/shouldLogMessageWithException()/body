@@ -1,0 +1,8 @@
+{
+  LoggingService loggingService=mock(LoggingService.class);
+  Logger.initialize(loggingService);
+  Logger logger=Logger.getLoggerFor(this.getClass());
+  RuntimeException exception=new RuntimeException("error");
+  logger.error("message",exception);
+  verify(loggingService).error(anyString(),eq(this.getClass().getName()),eq("message"),eq(exception));
+}
