@@ -1,3 +1,8 @@
 {
-  return (Integer)getSqlMapClientTemplate().queryForObject("getSchemaVersion");
+  return (Integer)getHibernateTemplate().execute(new HibernateCallback(){
+    public Object doInHibernate(    Session session){
+      return session.createSQLQuery("select max(change_number) from changelog").uniqueResult();
+    }
+  }
+);
 }
