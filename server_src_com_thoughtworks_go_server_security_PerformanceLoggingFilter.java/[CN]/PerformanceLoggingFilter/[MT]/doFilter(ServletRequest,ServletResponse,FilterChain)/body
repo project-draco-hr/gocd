@@ -4,6 +4,14 @@
     filterChain.doFilter(servletRequest,servletResponse);
   }
   finally {
-    if (logRequestTimings)     LOGGER.warn(((HttpServletRequest)servletRequest).getRequestURI() + " took: " + (System.currentTimeMillis() - start)+ " ms");
+    if (logRequestTimings) {
+      long amountOfTimeItTookInMilliseconds=System.currentTimeMillis() - start;
+      String requestURI=((HttpServletRequest)servletRequest).getRequestURI();
+      String requestor=servletRequest.getRemoteAddr();
+      int status=((Response)servletResponse).getStatus();
+      long contentCount=((Response)servletResponse).getContentCount();
+      webRequestPerformanceLogger.logRequest(requestURI,requestor,status,contentCount,amountOfTimeItTookInMilliseconds);
+      LOGGER.warn(requestURI + " took: " + amountOfTimeItTookInMilliseconds+ " ms");
+    }
   }
 }
