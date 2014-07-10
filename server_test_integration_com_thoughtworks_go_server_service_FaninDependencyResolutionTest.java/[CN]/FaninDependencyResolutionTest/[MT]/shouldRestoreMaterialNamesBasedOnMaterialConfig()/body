@@ -1,0 +1,24 @@
+{
+  GitMaterial git=u.wf(new GitMaterial("git"),"folder1");
+  u.checkinInOrder(git,"g1");
+  ScheduleTestUtil.AddedPipeline up=u.saveConfigWith("up",u.m(git));
+  ScheduleTestUtil.MaterialDeclaration upForMid=u.m(up);
+  ((DependencyMaterial)upForMid.material).setName(new CaseInsensitiveString("up-for-mid"));
+  ScheduleTestUtil.AddedPipeline mid=u.saveConfigWith("mid",upForMid);
+  ScheduleTestUtil.MaterialDeclaration upForDown=u.m(up);
+  ((DependencyMaterial)upForDown.material).setName(new CaseInsensitiveString("up-for-down"));
+  ScheduleTestUtil.AddedPipeline down=u.saveConfigWith("down",u.m(mid),upForDown);
+  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  String up_1=u.runAndPass(up,"g1");
+  String mid_1=u.runAndPass(mid,up_1);
+  String down_1=u.runAndPass(down,mid_1,up_1);
+  MaterialRevisions given=u.mrs(u.mr(mid,false,mid_1),u.mr(up,false,up_1));
+  MaterialRevisions revisionsBasedOnDependencies=getRevisionsBasedOnDependencies(down,cruiseConfig,given);
+  for (  MaterialRevision revisionsBasedOnDependency : revisionsBasedOnDependencies) {
+    DependencyMaterial dependencyPipeline=(DependencyMaterial)revisionsBasedOnDependency.getMaterial();
+    if (dependencyPipeline.getPipelineName().equals(new CaseInsensitiveString("up"))) {
+      assertThat(dependencyPipeline.getName(),is(new CaseInsensitiveString("up-for-down")));
+    }
+  }
+  assertThat(revisionsBasedOnDependencies,is(given));
+}
