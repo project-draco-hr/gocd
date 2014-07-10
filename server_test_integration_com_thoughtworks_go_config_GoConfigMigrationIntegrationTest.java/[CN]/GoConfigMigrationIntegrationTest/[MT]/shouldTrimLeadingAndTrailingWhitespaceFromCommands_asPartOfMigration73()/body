@@ -1,0 +1,7 @@
+{
+  String configXml="<cruise schemaVersion='72'>" + "  <pipelines group='first'>" + "    <pipeline name='Test'>"+ "      <materials>"+ "        <hg url='../manual-testing/ant_hg/dummy' />"+ "      </materials>"+ "      <stage name='Functional'>"+ "        <jobs>"+ "          <job name='Functional'>"+ "            <tasks>"+ "              <exec command='  c:\\program files\\cmd.exe    ' args='arguments' />"+ "            </tasks>"+ "           </job>"+ "        </jobs>"+ "      </stage>"+ "    </pipeline>"+ "  </pipelines>"+ "</cruise>";
+  CruiseConfig migratedConfig=migrateConfigAndLoadTheNewConfig(configXml,72);
+  Task task=migratedConfig.tasksForJob("Test","Functional","Functional").get(0);
+  assertThat(task,is(instanceOf(ExecTask.class)));
+  assertThat((ExecTask)task,is(new ExecTask("c:\\program files\\cmd.exe","arguments",(String)null)));
+}
