@@ -1,0 +1,7 @@
+{
+  String fileContent=FileUtils.readFileToString(pluginLogFile);
+  if (fileContent.matches(String.format("^.*%s\\s\\[main\\]\\s%s:.*\\s-\\s%s[\\s\\S]*%s",loggingLevel,loggerName,message,stackTracePattern))) {
+    return;
+  }
+  fail(String.format("Message not found in log file. File content is: %s",fileContent));
+}

@@ -1,0 +1,6 @@
+{
+  Throwable throwable=new RuntimeException("oops");
+  throwable.setStackTrace(new StackTraceElement[]{new StackTraceElement("class","method","field",20)});
+  pluginLoggingService.error(pluginID(1),"LoggingClass","error",throwable);
+  assertMessageInLog(pluginLog(1),"ERROR","LoggingClass","error","java\\.lang\\.RuntimeException:\\soops[\\s\\S]*at\\sclass\\.method\\(field:20\\)[\\s\\S]*$");
+}

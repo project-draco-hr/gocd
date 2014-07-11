@@ -1,0 +1,9 @@
+{
+  MaterialRevisions orderedComputedRevisions=new MaterialRevisions();
+  for (  MaterialRevision actualRevision : actualRevisions) {
+    MaterialRevision revisionForMaterial=computedRevisions.findRevisionUsingMaterialFingerprintFor(actualRevision.getMaterial());
+    MaterialRevision materialRevisionWithRestoredMaterialConfig=new MaterialRevision(actualRevision.getMaterial(),revisionForMaterial.isChanged(),revisionForMaterial.getModifications());
+    orderedComputedRevisions.addRevision(materialRevisionWithRestoredMaterialConfig);
+  }
+  return orderedComputedRevisions;
+}
