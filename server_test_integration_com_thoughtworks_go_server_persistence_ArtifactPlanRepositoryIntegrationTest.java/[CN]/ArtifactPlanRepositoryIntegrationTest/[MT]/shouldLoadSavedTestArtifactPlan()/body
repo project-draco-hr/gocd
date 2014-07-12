@@ -1,0 +1,10 @@
+{
+  JobInstance jobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME));
+  ArtifactPlan savedArtifactPlan=new TestArtifactPlan();
+  savedArtifactPlan.setBuildId(jobInstance.getId());
+  artifactPlanRepository.save(savedArtifactPlan);
+  List<ArtifactPlan> artifactPlanList=artifactPlanRepository.findByBuildId(jobInstance.getId());
+  assertThat(artifactPlanList.size(),is(1));
+  ArtifactPlan loadedArtifactPlan=artifactPlanList.get(0);
+  assertThat(loadedArtifactPlan,is(savedArtifactPlan));
+}
