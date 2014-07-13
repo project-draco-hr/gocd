@@ -5,7 +5,7 @@
   }
   for (  ArtifactPropertiesGenerator generator : plan.getPropertyGenerators()) {
     generator.setJobId(jobId);
-    getSqlMapClientTemplate().insert("insertArtifactPropertiesGenerator",generator);
+    artifactPropertiesGeneratorRepository.save(generator);
   }
   for (  ArtifactPlan artifactPlan : plan.getArtifactPlans()) {
     artifactPlan.setBuildId(jobId);

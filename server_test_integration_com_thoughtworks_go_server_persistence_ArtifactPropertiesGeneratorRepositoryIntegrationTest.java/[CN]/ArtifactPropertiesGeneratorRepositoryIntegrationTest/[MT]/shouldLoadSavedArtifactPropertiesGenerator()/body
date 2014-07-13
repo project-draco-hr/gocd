@@ -1,0 +1,9 @@
+{
+  JobInstance jobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME));
+  ArtifactPropertiesGenerator savedArtifactPropertiesGenerator=new ArtifactPropertiesGenerator("test","src","//xpath");
+  savedArtifactPropertiesGenerator.setJobId(jobInstance.getId());
+  artifactPropertiesGeneratorRepository.save(savedArtifactPropertiesGenerator);
+  List<ArtifactPropertiesGenerator> artifactPropertiesGeneratorList=artifactPropertiesGeneratorRepository.findByBuildId(jobInstance.getId());
+  assertThat(artifactPropertiesGeneratorList.size(),is(1));
+  assertThat(artifactPropertiesGeneratorList.get(0),is(savedArtifactPropertiesGenerator));
+}
