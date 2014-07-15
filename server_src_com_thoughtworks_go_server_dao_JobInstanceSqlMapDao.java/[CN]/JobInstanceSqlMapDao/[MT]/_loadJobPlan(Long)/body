@@ -1,8 +1,8 @@
 {
-  JobPlan jobPlan=(JobPlan)getSqlMapClientTemplate().queryForObject("scheduledPlan",arguments("id",jobId).asMap());
+  DefaultJobPlan jobPlan=(DefaultJobPlan)getSqlMapClientTemplate().queryForObject("scheduledPlan",arguments("id",jobId).asMap());
   if (jobPlan == null) {
     return null;
   }
-  loadVariables(jobPlan);
+  loadVariablesAndResources(jobPlan);
   return jobPlan;
 }

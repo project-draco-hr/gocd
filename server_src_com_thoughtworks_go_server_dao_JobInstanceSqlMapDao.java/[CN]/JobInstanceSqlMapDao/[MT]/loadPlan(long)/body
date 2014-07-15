@@ -1,5 +1,5 @@
 {
-  JobPlan plan=(JobPlan)getSqlMapClientTemplate().queryForObject("select-job-plan",jobId);
-  loadVariables(plan);
+  DefaultJobPlan plan=(DefaultJobPlan)getSqlMapClientTemplate().queryForObject("select-job-plan",jobId);
+  loadVariablesAndResources(plan);
   return plan;
 }
