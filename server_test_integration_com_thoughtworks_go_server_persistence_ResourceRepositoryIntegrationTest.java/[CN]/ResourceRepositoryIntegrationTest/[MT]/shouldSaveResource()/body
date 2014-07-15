@@ -1,0 +1,7 @@
+{
+  JobInstance jobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME));
+  Resource resource=new Resource("something");
+  resource.setBuildId(jobInstance.getId());
+  resourceRepository.save(resource);
+  assertThat(resource.getId(),is(not(nullValue())));
+}

@@ -1,0 +1,9 @@
+{
+  JobInstance jobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME));
+  Resource savedResource=new Resource("something");
+  savedResource.setBuildId(jobInstance.getId());
+  resourceRepository.save(savedResource);
+  List<Resource> resourceList=resourceRepository.findByBuildId(jobInstance.getId());
+  assertThat(resourceList.size(),is(1));
+  assertThat(resourceList.get(0),is(savedResource));
+}

@@ -1,7 +1,7 @@
 {
   for (  Resource resource : plan.getResources()) {
     resource.setBuildId(jobId);
-    getSqlMapClientTemplate().insert("insertResource",resource);
+    resourceRepository.save(resource);
   }
   for (  ArtifactPropertiesGenerator generator : plan.getPropertyGenerators()) {
     generator.setJobId(jobId);
