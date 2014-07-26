@@ -1,0 +1,6 @@
+{
+  HttpOperationResult result=new HttpOperationResult();
+  PipelineInstanceModels pipelineInstanceModels=pipelineHistoryService.loadMinimalData("unknown",Pagination.pageFor(0,0,10),"looser",result);
+  assertThat(pipelineInstanceModels,is(nullValue()));
+  assertThat(result.httpCode(),is(404));
+}
