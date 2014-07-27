@@ -1,0 +1,7 @@
+{
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("stageName",stageName).and("limit",pagination.getPageSize()).and("offset",pagination.getOffset()).asMap();
+  List<StageInstanceModel> detailedStageHistory=(List<StageInstanceModel>)getSqlMapClientTemplate().queryForList("getDetailedStageHistory",args);
+  StageInstanceModels stageInstanceModels=new StageInstanceModels();
+  stageInstanceModels.addAll(detailedStageHistory);
+  return stageInstanceModels;
+}
