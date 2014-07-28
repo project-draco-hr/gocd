@@ -1,0 +1,20 @@
+{
+  return doLocked(new ThrowingFn<GoConfigRevisions,RuntimeException>(){
+    public GoConfigRevisions call(){
+      GoConfigRevisions goConfigRevisions=new GoConfigRevisions();
+      try {
+        LogCommand command=git.log().setMaxCount(pageSize).setSkip(offset);
+        Iterable<RevCommit> revisions=command.call();
+        for (        RevCommit revision : revisions) {
+          GoConfigRevision goConfigRevision=new GoConfigRevision(null,revision.getFullMessage());
+          goConfigRevision.setCommitSHA(revision.name());
+          goConfigRevisions.add(goConfigRevision);
+        }
+      }
+ catch (      Exception e) {
+      }
+      return goConfigRevisions;
+    }
+  }
+);
+}
