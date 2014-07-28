@@ -3,7 +3,11 @@
     public void customize(    Context ctx) throws Exception {
       wac=mock(WebApplicationContext.class);
       ctx.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,wac);
-      ctx.setBaseResource(Resource.newResource(new File(getClass().getClassLoader().getResource("WEB-INF/urlrewrite.xml").getFile()).getParent()));
+      URL resource=getClass().getClassLoader().getResource("WEB-INF/urlrewrite.xml");
+      if (resource == null) {
+        throw new RuntimeException("Cannot load WEB-INF/urlrewrite.xml");
+      }
+      ctx.setBaseResource(Resource.newResource(new File(resource.getFile()).getParent()));
       ctx.addFilter(UrlRewriteFilter.class,"/*",1).setInitParameter("confPath","/urlrewrite.xml");
       ctx.addServlet(HttpTestUtil.EchoServlet.class,"/*");
     }

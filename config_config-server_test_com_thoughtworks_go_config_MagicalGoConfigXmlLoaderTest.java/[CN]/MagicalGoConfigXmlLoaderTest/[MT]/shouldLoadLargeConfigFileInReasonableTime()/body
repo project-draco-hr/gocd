@@ -1,6 +1,5 @@
 {
   String content=FileUtil.readToEnd(getClass().getResourceAsStream("/data/big-cruise-config.xml"));
-  long start=System.currentTimeMillis();
   GoConfigHolder configHolder=ConfigMigrator.loadWithMigration(content);
   assertThat(configHolder.config.schemaVersion(),is(GoConstants.CONFIG_SCHEMA_VERSION));
 }

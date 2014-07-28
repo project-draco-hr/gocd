@@ -13,7 +13,7 @@
 );
   useConfiguredUrls=assertion.useConfiguredUrls;
   HttpClient httpClient=new HttpClient(new HttpClientParams());
-  HttpMethod httpMethod=null;
+  HttpMethod httpMethod;
   if (assertion.method == METHOD.GET) {
     httpMethod=new GetMethod(assertion.requestedUrl);
   }
@@ -22,6 +22,9 @@
   }
  else   if (assertion.method == METHOD.PUT) {
     httpMethod=new PutMethod(assertion.requestedUrl);
+  }
+ else {
+    throw new RuntimeException("Method has to be one of GET, POST and PUT. Was: " + assertion.method);
   }
   if (assertion.referrer != null) {
     httpMethod.setRequestHeader(new Header("Referer",assertion.referrer));

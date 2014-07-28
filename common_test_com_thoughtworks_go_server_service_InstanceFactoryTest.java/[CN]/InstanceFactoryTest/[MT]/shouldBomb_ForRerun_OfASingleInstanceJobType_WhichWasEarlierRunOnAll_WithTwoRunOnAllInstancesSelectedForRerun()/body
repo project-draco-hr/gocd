@@ -17,7 +17,7 @@
   railsConfig.setRunOnAllAgents(false);
   try {
     instanceFactory.createStageForRerunOfJobs(stage,a("rails-runOnAll-1","rails-runOnAll-2"),schedulingContext,stageConfig,new TimeProvider(),"md5");
-    Assert.fail("should have failed when multiple run on all agents jobs are selected when job-config does not have run on all flag anymore");
+    fail("should have failed when multiple run on all agents jobs are selected when job-config does not have run on all flag anymore");
   }
  catch (  IllegalArgumentException e) {
     assertThat(e.getMessage(),CoreMatchers.is("Cannot schedule multiple instances of job named 'rails'."));

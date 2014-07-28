@@ -4,7 +4,7 @@
   ServletContextEvent evt=new ServletContextEvent(ctx);
   DelegatingListener listener=new DelegatingListener();
   listener.contextInitialized(evt);
-  assertThat((DummyServlet)ctx.getAttribute(DelegatingListener.DELEGATE_SERVLET),is(DummyServlet.class));
+  assertThat((DummyServlet)ctx.getAttribute(DelegatingListener.DELEGATE_SERVLET),isA(DummyServlet.class));
   DelegatingServlet servlet=new DelegatingServlet();
   servlet.init(new MockServletConfig(ctx));
   Request request=new Request(){
