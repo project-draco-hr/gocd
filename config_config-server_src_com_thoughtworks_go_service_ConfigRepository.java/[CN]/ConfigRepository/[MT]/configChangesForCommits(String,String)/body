@@ -1,0 +1,16 @@
+{
+  return doLocked(new ThrowingFn<String,GitAPIException>(){
+    public String call() throws GitAPIException {
+      RevCommit laterCommit=null;
+      RevCommit earlierCommit=null;
+      if (!StringUtil.isBlank(fromRevision)) {
+        laterCommit=getRevCommitForCommitSHA(fromRevision);
+      }
+      if (!StringUtil.isBlank(toRevision)) {
+        earlierCommit=getRevCommitForCommitSHA(toRevision);
+      }
+      return findDiffBetweenTwoRevisions(laterCommit,earlierCommit);
+    }
+  }
+);
+}
