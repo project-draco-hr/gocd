@@ -1,0 +1,14 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  List<String> groupNames=goConfigService.allGroups();
+  for (  String groupName : groupNames) {
+    if (securityService.hasViewPermissionForGroup(username,groupName)) {
+      PipelineConfigs pipelinesInGroup=goConfigService.getAllPipelinesInGroup(groupName);
+      for (      PipelineConfig pipelineConfig : pipelinesInGroup) {
+        MaterialConfigs materialsForPipeline=pipelineConfig.materialConfigs();
+        materialConfigs.addAll(materialsForPipeline);
+      }
+    }
+  }
+  return materialConfigs;
+}
