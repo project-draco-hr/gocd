@@ -1,0 +1,14 @@
+{
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  PipelineConfig pipelineConfig=new PipelineConfig();
+  when(cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("pipeline-name"))).thenReturn(pipelineConfig);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(securityService.hasViewPermissionForPipeline("user-name","pipeline-name")).thenReturn(true);
+  when(pipelinePauseService.isPaused("pipeline-name")).thenReturn(true);
+  when(pipelineLockService.isLocked("pipeline-name")).thenReturn(true);
+  when(schedulingCheckerService.canManuallyTrigger(pipelineConfig,"user-name",new ServerHealthStateOperationResult())).thenReturn(true);
+  PipelineStatusModel pipelineStatus=pipelineHistoryService.getPipelineStatus("pipeline-name","user-name",new HttpOperationResult());
+  assertThat(pipelineStatus.isPaused(),is(true));
+  assertThat(pipelineStatus.isLocked(),is(true));
+  assertThat(pipelineStatus.isSchedulable(),is(true));
+}
