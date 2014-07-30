@@ -1,4 +1,4 @@
 {
-  realConfigDir=SystemEnvironment.getProperty("cruise.config.dir");
-  new SystemEnvironment().setProperty("cruise.config.dir",SystemEnvironment.getProperty("java.io.tmpdir"));
+  realConfigDir=new SystemEnvironment().getPropertyImpl("cruise.config.dir");
+  new SystemEnvironment().setProperty("cruise.config.dir",new SystemEnvironment().getPropertyImpl("java.io.tmpdir"));
 }

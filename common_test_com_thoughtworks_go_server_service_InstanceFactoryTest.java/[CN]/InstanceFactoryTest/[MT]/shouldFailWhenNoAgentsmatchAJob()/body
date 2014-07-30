@@ -5,7 +5,7 @@
   StageConfig stageConfig=new StageConfig(new CaseInsensitiveString("blah-stage"),new JobConfigs(fooJob,new JobConfig(new CaseInsensitiveString("bar"),new Resources(),new ArtifactPlans())));
   try {
     instanceFactory.createStageInstance(stageConfig,context,"md5",new TimeProvider());
-    Assert.fail("expected exception but not thrown");
+    fail("expected exception but not thrown");
   }
  catch (  Exception e) {
     assertThat(e.getMessage(),is("Could not find matching agents to run job [foo] of stage [blah-stage]."));

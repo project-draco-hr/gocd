@@ -1,7 +1,7 @@
 {
   ConfigElementImplementationRegistry registry=new ConfigElementImplementationRegistry(pluginExtns);
-  registry.xsdFor(PluginTestUtil.bundleCtxWithHeaders(m(PluginNamespace.XSD_NAMESPACE_PREFIX,"something",PluginNamespace.XSD_NAMESPACE_URI,"uri")),new File("file:///tmp/foo").toURL());
-  registry.xsdFor(PluginTestUtil.bundleCtxWithHeaders(m(PluginNamespace.XSD_NAMESPACE_PREFIX,"second",PluginNamespace.XSD_NAMESPACE_URI,"uri-1")),new File("file:///tmp/foo1").toURL());
+  registry.xsdFor(PluginTestUtil.bundleCtxWithHeaders(m(PluginNamespace.XSD_NAMESPACE_PREFIX,"something",PluginNamespace.XSD_NAMESPACE_URI,"uri")),new File("file:///tmp/foo").toURI().toURL());
+  registry.xsdFor(PluginTestUtil.bundleCtxWithHeaders(m(PluginNamespace.XSD_NAMESPACE_PREFIX,"second",PluginNamespace.XSD_NAMESPACE_URI,"uri-1")),new File("file:///tmp/foo1").toURI().toURL());
   Element foo=new Element("foo");
   registry.registerNamespacesInto(foo);
   assertThat(foo.getNamespace("something"),is(Namespace.getNamespace("something","uri")));
