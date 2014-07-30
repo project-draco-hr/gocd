@@ -1,0 +1,14 @@
+{
+  OauthClient oauthClient=new OauthClient();
+  if (attributes.containsKey(PARAM_ID)) {
+    Object value=attributes.get(PARAM_ID);
+    if (StringUtils.isNotBlank(String.valueOf(value))) {
+      Long aLong=(Long)attributes.get(PARAM_ID);
+      if (aLong != null && aLong > 0) {
+        oauthClient=persistenceHelper.loadDomainEntity(OauthClient.class,aLong);
+      }
+    }
+  }
+  oauthClient.setAttributes(attributes);
+  return persistenceHelper.saveOrUpdateEntity(oauthClient);
+}
