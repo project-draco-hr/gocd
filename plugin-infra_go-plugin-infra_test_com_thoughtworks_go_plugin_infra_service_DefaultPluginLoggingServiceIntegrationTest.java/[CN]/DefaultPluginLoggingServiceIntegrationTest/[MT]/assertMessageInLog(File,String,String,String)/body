@@ -1,0 +1,9 @@
+{
+  List linesInLog=FileUtils.readLines(pluginLogFile);
+  for (  Object line : linesInLog) {
+    if (((String)line).matches(String.format("^.*%s \\[main\\] %s:.* - %s$",expectedLoggingLevel,loggerName,expectedLogMessage))) {
+      return;
+    }
+  }
+  fail(String.format("None of the lines matched level:%s message:'%s'. Lines were: %s",expectedLoggingLevel,expectedLogMessage,linesInLog));
+}

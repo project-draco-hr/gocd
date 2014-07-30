@@ -9,7 +9,7 @@
   try {
     RunOnAllAgents.CounterBasedJobNameGenerator jobNameGenerator=new RunOnAllAgents.CounterBasedJobNameGenerator(CaseInsensitiveString.str(jobConfig.name()));
     instanceFactory.createJobInstance(new CaseInsensitiveString("myStage"),jobConfig,new DefaultSchedulingContext(),new TimeProvider(),jobNameGenerator);
-    Assert.fail("should have failed as no agents matched");
+    fail("should have failed as no agents matched");
   }
  catch (  Exception e) {
     assertThat(e.getMessage(),is("Could not find matching agents to run job [foo] of stage [myStage]."));

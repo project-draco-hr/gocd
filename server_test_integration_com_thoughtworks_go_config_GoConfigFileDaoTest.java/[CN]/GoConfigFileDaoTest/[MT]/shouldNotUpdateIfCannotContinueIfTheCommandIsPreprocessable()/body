@@ -4,7 +4,7 @@
     goConfigFileDao.updateConfig(command);
     fail("should have failed as check returned false");
   }
- catch (  ConfigUpdateCheckFailedException expected) {
+ catch (  ConfigUpdateCheckFailedException ignored) {
   }
   assertThat(command.wasUpdated,is(false));
   assertThat(command.after,not(nullValue()));

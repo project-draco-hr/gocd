@@ -1,13 +1,12 @@
 {
   String content=ConfigFileFixture.configWithPipeline("<pipeline name='some_pipeline'>" + "    <materials>" + "      <tfs url='tfsurl' username='foo' password='bar' workspace='0123456789012345678901234567890' projectPath='project-path' />"+ "    </materials>"+ "  <stage name='some_stage'>"+ "    <jobs>"+ "      <job name='some_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",46);
-  GoConfigHolder goConfigHolder=null;
   Exception ex=null;
   try {
-    goConfigHolder=ConfigMigrator.loadWithMigration(content);
+    ConfigMigrator.loadWithMigration(content);
+    fail("Should have failed!");
   }
  catch (  Exception e) {
     ex=e;
   }
-  assertThat(goConfigHolder,is(nullValue()));
   assertThat(ex.getMessage(),containsString("Value '0123456789012345678901234567890' with length = '31' is not facet-valid with respect to maxLength '30' for type 'tfsWorkspaceType'"));
 }

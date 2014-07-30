@@ -18,7 +18,7 @@
   CannotRerunJobException exception=null;
   try {
     newStage=instanceFactory.createStageForRerunOfJobs(stage,a("rails-runOnAll-1"),new DefaultSchedulingContext("loser",new Agents()),StageConfigMother.custom("dev","java"),new TimeProvider(),"md5");
-    Assert.fail("should not schedule when job config does not exist anymore");
+    fail("should not schedule when job config does not exist anymore");
   }
  catch (  CannotRerunJobException e) {
     exception=e;

@@ -1,13 +1,3 @@
 {
-  final StringBuilder sb=new StringBuilder();
-  sb.append("ResponseAssertion");
-  sb.append("{requestedUrl='").append(requestedUrl).append('\'');
-  sb.append(", servedUrl='").append(servedUrl).append('\'');
-  sb.append(", useConfiguredUrls=").append(useConfiguredUrls);
-  sb.append(", responseHeaders=").append(responseHeaders);
-  sb.append(", backupInProgress=").append(serverBackupRunningSince);
-  sb.append(", referrer=").append(referrer);
-  sb.append(", responseCode=").append(responseCode);
-  sb.append('}');
-  return sb.toString();
+  return String.format("ResponseAssertion{requestedUrl='%s', servedUrl='%s', useConfiguredUrls=%s, responseHeaders=%s, backupInProgress=%s, referrer=%s, responseCode=%d}",requestedUrl,servedUrl,useConfiguredUrls,responseHeaders,serverBackupRunningSince,referrer,responseCode);
 }
