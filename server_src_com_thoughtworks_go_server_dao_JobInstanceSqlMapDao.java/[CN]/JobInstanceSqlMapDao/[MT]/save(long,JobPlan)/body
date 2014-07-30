@@ -9,7 +9,7 @@
   }
   for (  ArtifactPlan artifactPlan : plan.getArtifactPlans()) {
     artifactPlan.setBuildId(jobId);
-    getSqlMapClientTemplate().insert("insertArtifactPlan",artifactPlan);
+    artifactPlanRepository.save(artifactPlan);
   }
   environmentVariableDao.save(jobId,EnvironmentVariableSqlMapDao.EnvironmentVariableType.Job,plan.getVariables());
 }
