@@ -1,0 +1,8 @@
+{
+  XMLRDFizer handler=mock(XMLRDFizer.class);
+  when(handler.canHandle(any(Document.class))).thenReturn(false);
+  XMLArtifactImporter artifactImporter=new XMLArtifactImporter();
+  artifactImporter.registerHandler(handler);
+  artifactImporter.importFile(null,null,toInputStream(SAMPLE_TEST_ARTIFACT));
+  verify(handler).canHandle(any(Document.class));
+}
