@@ -1,0 +1,11 @@
+{
+  PipelineConfigs pipelineConfigs=new PipelineConfigs();
+  List<String> groupNames=goConfigService.allGroups();
+  for (  String groupName : groupNames) {
+    if (securityService.hasViewPermissionForGroup(userName,groupName)) {
+      PipelineConfigs pipelinesInGroup=goConfigService.getAllPipelinesInGroup(groupName);
+      pipelineConfigs.addAll(pipelinesInGroup);
+    }
+  }
+  return pipelineConfigs;
+}
