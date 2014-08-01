@@ -1,7 +1,7 @@
 {
   Clock.fakeNowUTC(2008,1,20,0,0,1);
   when(xmlApiService.write(any(JobXmlViewModel.class),eq(baseUri))).thenReturn(docFor(jobWithArtifactsMissing));
-  JobResourceImporter rdfImporter=new JobResourceImporter("test/data/cruise/artifacts",new InMemoryTempGraphFactory(),transformerRegistry,xmlApiService);
+  JobResourceImporter rdfImporter=new JobResourceImporter("test/data/cruise/artifacts",new InMemoryTempGraphFactory(),transformerRegistry,xmlApiService,systemEnvironment);
   Graph jobGraph=rdfImporter.importJob(JobInstanceMother.passed("foo"),"https://localhost:8154/go");
   String ask="PREFIX xunit: <" + XUnitOntology.URI + "> ASK WHERE { [] a xunit:TestCase }";
   assertAskIsFalse(jobGraph,ask);
