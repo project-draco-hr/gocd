@@ -1,6 +1,13 @@
 {
   try {
-    Document doc=new SAXReader().read(in);
+    SAXReader saxReader=new SAXReader();
+    if (systemEnvironment.get(SystemEnvironment.SHOULD_VALIDATE_XML_AGAINST_DTD)) {
+      saxReader.setValidation(true);
+    }
+ else {
+      saxReader.setEntityResolver(getCustomEntityResolver());
+    }
+    Document doc=saxReader.read(in);
     importXML(graph,parentJob,doc);
   }
  catch (  DocumentException e) {
