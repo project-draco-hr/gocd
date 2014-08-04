@@ -1,5 +1,5 @@
 {
-  JobResourceImporter importer=new JobResourceImporter(artifactsBaseDir,stageGraph,transformerRegistry,xmlApiService);
+  JobResourceImporter importer=new JobResourceImporter(artifactsBaseDir,stageGraph,transformerRegistry,xmlApiService,systemEnvironment);
   for (  JobInstance instance : stage.getJobInstances()) {
     stageGraph.addTriplesFromGraph(importer.importJob(instance,baseUri));
   }

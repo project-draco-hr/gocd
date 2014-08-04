@@ -3,6 +3,6 @@
   configHelper.usingCruiseConfigDao(goConfigFileDao);
   configHelper.onSetUp();
   graphFactory=new InMemoryTempGraphFactory();
-  importer=new StageResourceImporter("test/data/cruise/artifacts",xmlApiService,stageService,pipelineHistoryService);
+  importer=new StageResourceImporter("test/data/cruise/artifacts",xmlApiService,stageService,pipelineHistoryService,systemEnvironment);
   failureSetup=new TestFailureSetup(materialRepository,dbHelper,pipelineTimeline,configHelper,transactionTemplate);
 }
