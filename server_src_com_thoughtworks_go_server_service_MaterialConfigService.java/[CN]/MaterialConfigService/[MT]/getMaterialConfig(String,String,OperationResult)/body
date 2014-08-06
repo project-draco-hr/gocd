@@ -1,0 +1,22 @@
+{
+  MaterialConfig materialConfig=null;
+  List<String> groupNames=goConfigService.allGroups();
+  for (  String groupName : groupNames) {
+    if (securityService.hasViewPermissionForGroup(username,groupName)) {
+      PipelineConfigs pipelinesInGroup=goConfigService.getAllPipelinesInGroup(groupName);
+      for (      PipelineConfig pipelineConfig : pipelinesInGroup) {
+        MaterialConfigs materialsForPipeline=pipelineConfig.materialConfigs();
+        for (        MaterialConfig currentMaterialConfig : materialsForPipeline) {
+          if (currentMaterialConfig.getFingerprint().equals(materialFingerprint)) {
+            materialConfig=currentMaterialConfig;
+            break;
+          }
+        }
+      }
+    }
+  }
+  if (materialConfig == null) {
+    result.notFound("Not Found","Material not found",HealthStateType.general(HealthStateScope.GLOBAL));
+  }
+  return materialConfig;
+}

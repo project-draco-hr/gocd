@@ -1,0 +1,11 @@
+{
+  GitMaterialConfig materialConfig=new GitMaterialConfig("http://test.com");
+  GitMaterialInstance gitMaterialInstance=new GitMaterialInstance("http://test.com",null,null,"flyweight");
+  Pagination pagination=Pagination.pageStartingAt(0,10,10);
+  Modifications modifications=new Modifications();
+  modifications.add(new Modification("user","comment","email",new Date(),"revision"));
+  when(materialRepository.findMaterialInstance(materialConfig)).thenReturn(gitMaterialInstance);
+  when(materialRepository.getModificationsFor(gitMaterialInstance,pagination)).thenReturn(modifications);
+  Modifications gotModifications=materialService.getModificationsFor(materialConfig,pagination);
+  assertThat(gotModifications,is(modifications));
+}
