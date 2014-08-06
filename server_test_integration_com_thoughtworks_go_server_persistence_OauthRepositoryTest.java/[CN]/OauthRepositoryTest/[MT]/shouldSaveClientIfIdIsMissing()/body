@@ -1,0 +1,15 @@
+{
+  String name="oauth";
+  String clientId="client_id";
+  String clientSecret="client_secret";
+  String redirectUri="http://something";
+  Map<String,String> map=m("id","","name",name,"client_id",clientId,"client_secret",clientSecret,"redirect_uri",redirectUri);
+  repo.saveClient(map);
+  OauthClient client=(OauthClient)template.find("from OauthClient where clientSecret = '" + clientSecret + "'").get(0);
+  OauthDataSource.OauthClientDTO dto=client.getDTO();
+  assertThat(dto.getName(),is(name));
+  assertThat(dto.getClientId(),is(clientId));
+  assertThat(dto.getClientSecret(),is(clientSecret));
+  assertThat(dto.getRedirectUri(),is(redirectUri));
+  assertThat(dto.getId(),is(not(PersistentObject.NOT_PERSISTED)));
+}
