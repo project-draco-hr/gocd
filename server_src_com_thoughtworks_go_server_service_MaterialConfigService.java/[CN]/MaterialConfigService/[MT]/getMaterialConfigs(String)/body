@@ -1,10 +1,15 @@
 {
   MaterialConfigs materialConfigs=new MaterialConfigs();
+  Set<String> materialFingerprints=new HashSet<String>();
   for (  PipelineConfigs pipelineGroup : goConfigService.groups()) {
     if (securityService.hasViewPermissionForGroup(username,pipelineGroup.getGroup())) {
       for (      PipelineConfig pipelineConfig : pipelineGroup) {
-        MaterialConfigs materialsForPipeline=pipelineConfig.materialConfigs();
-        materialConfigs.addAll(materialsForPipeline);
+        for (        MaterialConfig currentMaterialConfig : pipelineConfig.materialConfigs()) {
+          if (!materialFingerprints.contains(currentMaterialConfig.getFingerprint())) {
+            materialConfigs.add(currentMaterialConfig);
+            materialFingerprints.add(currentMaterialConfig.getFingerprint());
+          }
+        }
       }
     }
   }

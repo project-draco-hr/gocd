@@ -3,8 +3,7 @@
   for (  PipelineConfigs pipelineGroup : goConfigService.groups()) {
     if (securityService.hasViewPermissionForGroup(username,pipelineGroup.getGroup())) {
       for (      PipelineConfig pipelineConfig : pipelineGroup) {
-        MaterialConfigs materialsForPipeline=pipelineConfig.materialConfigs();
-        for (        MaterialConfig currentMaterialConfig : materialsForPipeline) {
+        for (        MaterialConfig currentMaterialConfig : pipelineConfig.materialConfigs()) {
           if (currentMaterialConfig.getFingerprint().equals(materialFingerprint)) {
             materialConfig=currentMaterialConfig;
             break;
