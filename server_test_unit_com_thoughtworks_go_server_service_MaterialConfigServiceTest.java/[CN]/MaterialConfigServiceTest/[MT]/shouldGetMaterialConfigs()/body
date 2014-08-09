@@ -1,20 +1,6 @@
 {
-  when(goConfigService.allGroups()).thenReturn(Arrays.asList("group1","group2"));
-  String user="looser";
-  when(securityService.hasViewPermissionForGroup(user,"group1")).thenReturn(false);
-  when(securityService.hasViewPermissionForGroup(user,"group2")).thenReturn(true);
-  PipelineConfigs pipelineConfigs=new PipelineConfigs();
-  PipelineConfig pipelineConfig=new PipelineConfig();
-  GitMaterialConfig gitMaterialConfig1=new GitMaterialConfig("http://test.com");
-  GitMaterialConfig getMaterialConfig2=new GitMaterialConfig("http://crap.com");
-  pipelineConfig.addMaterialConfig(gitMaterialConfig1);
-  pipelineConfig.addMaterialConfig(getMaterialConfig2);
-  pipelineConfigs.add(pipelineConfig);
-  when(goConfigService.getAllPipelinesInGroup("group2")).thenReturn(pipelineConfigs);
-  MaterialConfigService materialConfigService=new MaterialConfigService(goConfigService,securityService);
   MaterialConfigs materialConfigs=materialConfigService.getMaterialConfigs(user);
-  verify(goConfigService,never()).getAllPipelinesInGroup("group1");
   assertThat(materialConfigs.size(),is(2));
-  assertThat(materialConfigs.get(0),is((MaterialConfig)gitMaterialConfig1));
-  assertThat(materialConfigs.get(1),is((MaterialConfig)getMaterialConfig2));
+  assertThat(materialConfigs.get(0),is((MaterialConfig)new GitMaterialConfig("http://test.com")));
+  assertThat(materialConfigs.get(1),is((MaterialConfig)new GitMaterialConfig("http://crap.com")));
 }

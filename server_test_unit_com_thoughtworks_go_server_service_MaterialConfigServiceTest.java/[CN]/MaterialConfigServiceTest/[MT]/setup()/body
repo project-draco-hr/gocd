@@ -1,3 +1,23 @@
 {
   initMocks(this);
+  user="looser";
+  when(securityService.hasViewPermissionForGroup(user,"group1")).thenReturn(true);
+  when(securityService.hasViewPermissionForGroup(user,"group2")).thenReturn(false);
+  PipelineConfigs pipelineGroup1=new PipelineConfigs();
+  pipelineGroup1.setGroup("group1");
+  PipelineConfig pipelineConfig1=new PipelineConfig();
+  GitMaterialConfig gitMaterialConfig1=new GitMaterialConfig("http://test.com");
+  pipelineConfig1.addMaterialConfig(gitMaterialConfig1);
+  GitMaterialConfig getMaterialConfig2=new GitMaterialConfig("http://crap.com");
+  pipelineConfig1.addMaterialConfig(getMaterialConfig2);
+  pipelineGroup1.add(pipelineConfig1);
+  PipelineConfigs pipelineGroup2=new PipelineConfigs();
+  pipelineGroup2.setGroup("group2");
+  PipelineConfig pipelineConfig2=new PipelineConfig();
+  GitMaterialConfig gitMaterialConfig3=new GitMaterialConfig("http://another.com");
+  pipelineConfig2.addMaterialConfig(gitMaterialConfig3);
+  pipelineGroup2.add(pipelineConfig2);
+  PipelineGroups pipelineGroups=new PipelineGroups(pipelineGroup1,pipelineGroup2);
+  when(goConfigService.groups()).thenReturn(pipelineGroups);
+  materialConfigService=new MaterialConfigService(goConfigService,securityService);
 }
