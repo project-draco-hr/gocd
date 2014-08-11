@@ -1,0 +1,27 @@
+{
+  AgentConfig linux=agent("uuid1","linux");
+  AgentConfig windows=agent("uuid2","windows");
+  windows.disable();
+  Agents matchingAgents=new Agents(linux,windows);
+  EnvironmentVariablesConfig existing=new EnvironmentVariablesConfig();
+  existing.add("firstVar","firstVal");
+  existing.add("overriddenVar","originalVal");
+  SchedulingContext schedulingContext=new DefaultSchedulingContext("approver",matchingAgents);
+  schedulingContext=schedulingContext.overrideEnvironmentVariables(existing);
+  EnvironmentVariablesConfig stageLevel=new EnvironmentVariablesConfig();
+  stageLevel.add("stageVar","stageVal");
+  stageLevel.add("overriddenVar","overriddenVal");
+  StageConfig config=StageConfigMother.custom("test",Approval.automaticApproval());
+  config.setVariables(stageLevel);
+  SchedulingContext context=schedulingContext.overrideEnvironmentVariables(config.getVariables());
+  SchedulingContext rerunContext=context.rerunContext();
+  assertThat(rerunContext.isRerun(),is(true));
+  assertThat(rerunContext.getApprovedBy(),is("approver"));
+  Agents agents=(Agents)ReflectionUtil.getField(rerunContext,"agents");
+  assertThat(agents,is(matchingAgents));
+  EnvironmentVariablesConfig environmentVariablesUsed=rerunContext.getEnvironmentVariablesConfig();
+  assertThat(environmentVariablesUsed.size(),is(3));
+  assertThat(environmentVariablesUsed,hasItem(new EnvironmentVariableConfig("firstVar","firstVal")));
+  assertThat(environmentVariablesUsed,hasItem(new EnvironmentVariableConfig("overriddenVar","overriddenVal")));
+  assertThat(environmentVariablesUsed,hasItem(new EnvironmentVariableConfig("stageVar","stageVal")));
+}

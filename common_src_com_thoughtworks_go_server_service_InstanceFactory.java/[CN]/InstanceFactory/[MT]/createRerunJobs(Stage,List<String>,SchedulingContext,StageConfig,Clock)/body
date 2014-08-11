@@ -3,6 +3,6 @@
     JobInstances jobInstances=newStage.getJobInstances();
     JobInstance oldJob=jobInstances.getByName(jobName);
     jobInstances.remove(oldJob);
-    createJobType(oldJob.isRunOnAllAgents()).createRerunInstances(oldJob,jobInstances,context,stageConfig,clock,this);
+    createJobType(oldJob.isRunOnAllAgents(),oldJob.isRunMultipleInstance()).createRerunInstances(oldJob,jobInstances,context,stageConfig,clock,this);
   }
 }

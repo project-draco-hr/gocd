@@ -1,0 +1,10 @@
+{
+  JobInstance jobInstance=new JobInstance();
+  jobInstance.setRunOnAllAgents(true);
+  assertThat(jobInstance.jobType(),instanceOf(RunOnAllAgents.class));
+  jobInstance=new JobInstance();
+  jobInstance.setRunMultipleInstance(true);
+  assertThat(jobInstance.jobType(),instanceOf(RunMultipleInstance.class));
+  jobInstance=new JobInstance();
+  assertThat(jobInstance.jobType(),instanceOf(SingleJobInstance.class));
+}
