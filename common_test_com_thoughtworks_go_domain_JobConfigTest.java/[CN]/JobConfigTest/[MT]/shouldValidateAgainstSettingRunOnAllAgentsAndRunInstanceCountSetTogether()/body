@@ -1,0 +1,9 @@
+{
+  JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("test"));
+  jobConfig.setRunOnAllAgents(true);
+  jobConfig.setRunInstanceCount(10);
+  jobConfig.validate(ValidationContext.forChain(new CruiseConfig()));
+  ConfigErrors configErrors=jobConfig.errors();
+  assertThat(configErrors.isEmpty(),is(false));
+  assertThat(configErrors.on(JobConfig.RUN_INSTANCE_COUNT),is("Job cannot be 'run on all agents' type and 'run multiple instance' type together."));
+}

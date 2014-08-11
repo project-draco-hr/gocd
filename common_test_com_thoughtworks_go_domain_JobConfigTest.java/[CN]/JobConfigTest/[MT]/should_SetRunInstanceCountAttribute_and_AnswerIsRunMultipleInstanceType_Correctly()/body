@@ -1,0 +1,12 @@
+{
+  HashMap map=new HashMap();
+  map.put(JobConfig.RUN_INSTANCE_COUNT,"10");
+  JobConfig jobConfig1=new JobConfig();
+  jobConfig1.setConfigAttributes(map);
+  assertThat(jobConfig1.getRunInstanceCount(),is(10));
+  assertThat(jobConfig1.isRunMultipleInstanceType(),is(true));
+  JobConfig jobConfig2=new JobConfig();
+  jobConfig2.setConfigAttributes(new HashMap());
+  assertThat(jobConfig2.getRunInstanceCount(),is(nullValue()));
+  assertThat(jobConfig2.isRunMultipleInstanceType(),is(false));
+}
