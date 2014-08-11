@@ -1,0 +1,7 @@
+{
+  JobInstance jobInstance=scheduled(projectOne);
+  jobInstance.setRunMultipleInstance(true);
+  jobInstanceDao.save(stageId,jobInstance);
+  JobInstance reloaded=jobInstanceDao.buildByIdWithTransitions(jobInstance.getId());
+  assertThat(reloaded.isRunMultipleInstance(),is(true));
+}
