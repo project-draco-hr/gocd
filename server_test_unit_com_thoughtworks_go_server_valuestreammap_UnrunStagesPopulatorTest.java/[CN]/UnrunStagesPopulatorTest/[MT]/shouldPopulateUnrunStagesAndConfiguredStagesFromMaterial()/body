@@ -1,9 +1,12 @@
 {
-  ValueStreamMap graph=new ValueStreamMap("p",revision("p",1));
-  Node p1_node=graph.addDownstreamNode(new PipelineDependencyNode("p1","p1"),"p");
+  GitMaterial gitMaterial=new GitMaterial("url");
+  ValueStreamMap graph=new ValueStreamMap(gitMaterial,null,ModificationsMother.aCheckIn("r1"));
+  Node git_node=graph.getCurrentMaterial();
+  Node p1_node=graph.addDownstreamNode(new PipelineDependencyNode("p1","p1"),git_node.getId());
   Node p2_node=graph.addDownstreamNode(new PipelineDependencyNode("p2","p2"),"p1");
-  Node p3_node=graph.addDownstreamNode(new PipelineDependencyNode("p3","p3"),"p");
+  Node p3_node=graph.addDownstreamNode(new PipelineDependencyNode("p3","p3"),git_node.getId());
   addRevisions(p1_node);
+  addRevisions(p3_node);
   CruiseConfig cruiseConfig=new CruiseConfig();
   String group="first";
   cruiseConfig.addPipeline(group,pipelineConfig("p"));
@@ -12,6 +15,7 @@
   cruiseConfig.addPipeline(group,pipelineConfig("p3"));
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
   unrunStagesPopulator.apply(graph);
+  assertStages(p1_node);
+  assertStages(p3_node);
   assertUnrunPipeline(p2_node,"p2");
-  assertUnrunPipeline(p3_node,"p3");
 }
