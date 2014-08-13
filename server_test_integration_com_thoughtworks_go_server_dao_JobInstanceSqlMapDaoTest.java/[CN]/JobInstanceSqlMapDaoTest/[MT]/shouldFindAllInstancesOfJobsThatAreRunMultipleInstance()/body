@@ -1,12 +1,10 @@
 {
   List<JobInstance> before=stageDao.mostRecentJobsForStage(PIPELINE_NAME,STAGE_NAME);
-  String uuid1=UUID.randomUUID().toString();
-  String uuid2=UUID.randomUUID().toString();
-  JobInstance instance1=savedJobForAgent(JOB_NAME + "-" + uuid1,uuid1,true,false);
-  JobInstance instance2=savedJobForAgent(JOB_NAME + "-" + uuid2,uuid2,true,false);
+  JobInstance instance1=savedJobForAgent(RunMultipleInstance.CounterBasedJobNameGenerator.appendMarker("job",1),null,false,true);
+  JobInstance instance2=savedJobForAgent(RunMultipleInstance.CounterBasedJobNameGenerator.appendMarker("job",2),null,false,true);
   List<JobInstance> after=stageDao.mostRecentJobsForStage(PIPELINE_NAME,STAGE_NAME);
   after.removeAll(before);
+  assertThat("Expected 2 but got " + after,after.size(),is(2));
   assertThat(after.toArray(),hasItemInArray(hasProperty("name",is(instance1.getName()))));
   assertThat(after.toArray(),hasItemInArray(hasProperty("name",is(instance2.getName()))));
-  assertThat("Expected 2 but got " + after,after.size(),is(2));
 }
