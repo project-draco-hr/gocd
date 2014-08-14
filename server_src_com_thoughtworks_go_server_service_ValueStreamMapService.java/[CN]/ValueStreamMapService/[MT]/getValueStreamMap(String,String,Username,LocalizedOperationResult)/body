@@ -1,0 +1,49 @@
+{
+  try {
+    MaterialConfig materialConfig=null;
+    boolean hasViewPermissionForMaterial=false;
+    List<PipelineConfig> downstreamPipelines=new ArrayList<PipelineConfig>();
+    for (    PipelineConfigs pipelineGroup : goConfigService.groups()) {
+      boolean hasViewPermissionForGroup=securityService.hasViewPermissionForGroup(CaseInsensitiveString.str(username.getUsername()),pipelineGroup.getGroup());
+      for (      PipelineConfig pipelineConfig : pipelineGroup) {
+        for (        MaterialConfig currentMaterialConfig : pipelineConfig.materialConfigs()) {
+          if (currentMaterialConfig.getFingerprint().equals(materialFingerprint)) {
+            materialConfig=currentMaterialConfig;
+            if (hasViewPermissionForGroup) {
+              hasViewPermissionForMaterial=true;
+            }
+            downstreamPipelines.add(pipelineConfig);
+          }
+        }
+      }
+    }
+    if (materialConfig == null) {
+      result.notFound(LocalizedMessage.string("MATERIAL_CONFIG_WITH_FINGERPRINT_NOT_FOUND",materialFingerprint),HealthStateType.general(HealthStateScope.GLOBAL));
+      return null;
+    }
+    if (!hasViewPermissionForMaterial) {
+      result.unauthorized(LocalizedMessage.cannotViewMaterial(materialFingerprint),HealthStateType.general(HealthStateScope.forMaterialConfig(materialConfig)));
+      return null;
+    }
+    MaterialInstance materialInstance=materialRepository.findMaterialInstance(materialConfig);
+    if (materialInstance == null) {
+      result.notFound(LocalizedMessage.string("MATERIAL_INSTANCE_WITH_FINGERPRINT_NOT_FOUND",materialFingerprint),HealthStateType.general(HealthStateScope.forMaterialConfig(materialConfig)));
+      return null;
+    }
+    Modification modification=materialRepository.getModificationFor(materialInstance,revision);
+    if (modification == null) {
+      result.notFound(LocalizedMessage.string("MATERIAL_MODIFICATION_NOT_FOUND",materialFingerprint,revision),HealthStateType.general(HealthStateScope.forMaterialConfig(materialConfig)));
+      return null;
+    }
+    ValueStreamMap valueStreamMap=buildValueStreamMap(materialConfig,materialInstance,modification,downstreamPipelines,username);
+    if (valueStreamMap == null) {
+      return null;
+    }
+    return valueStreamMap.presentationModel();
+  }
+ catch (  Exception e) {
+    result.internalServerError(LocalizedMessage.string("VSM_INTERNAL_SERVER_ERROR_FOR_MATERIAL",materialFingerprint,revision));
+    LOGGER.error(String.format("[Value Stream Map] Material %s with revision %s could not be rendered.",materialFingerprint,revision),e);
+    return null;
+  }
+}

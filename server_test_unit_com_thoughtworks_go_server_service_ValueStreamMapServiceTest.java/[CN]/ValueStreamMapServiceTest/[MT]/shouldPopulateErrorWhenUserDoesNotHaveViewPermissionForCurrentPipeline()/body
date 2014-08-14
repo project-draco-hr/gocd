@@ -9,7 +9,5 @@
   Username newUser=new Username(new CaseInsensitiveString("looser"));
   when(securityService.hasViewPermissionForPipeline(newUser,pipelineName)).thenReturn(false);
   valueStreamMapService.getValueStreamMap(pipelineName,1,newUser,result);
-  assertThat(result.isSuccessful(),is(false));
-  assertThat(result.httpCode(),is(HttpStatus.SC_UNAUTHORIZED));
-  assertThat((String)ReflectionUtil.getField((result.localizable()),"key"),is("PIPELINE_CANNOT_VIEW"));
+  assertResult(HttpStatus.SC_UNAUTHORIZED,"PIPELINE_CANNOT_VIEW");
 }
