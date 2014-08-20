@@ -13,4 +13,7 @@
   when(servletRequest.getSession()).thenReturn(mock(HttpSession.class));
   view.exposeHelpers(velocityContext,servletRequest);
   assertThat((String)velocityContext.get(GoVelocityView.COMPRESSED_JAVASCRIPT_FILE_PATH),is("assets/application-bfdbd4fff63b0cd45c50ce7a79fe0f53.js"));
+  assertThat((String)velocityContext.get(GoVelocityView.COMPRESSED_APPLICATION_CSS_FILE_PATH),is("assets/application-4b25c82f986c0bef78151a4ab277c3e4.css"));
+  assertThat((String)velocityContext.get(GoVelocityView.COMPRESSED_VM_CSS_FILE_PATH),is("assets/vm/application-4b25c82f986c0bef78151a4ab277c3f5.css"));
+  assertThat((String)velocityContext.get(GoVelocityView.COMPRESSED_CSS_CSS_FILE_PATH),is("assets/css/application-4b25c82f986c0bef78151a4ab277c3g6.css"));
 }
