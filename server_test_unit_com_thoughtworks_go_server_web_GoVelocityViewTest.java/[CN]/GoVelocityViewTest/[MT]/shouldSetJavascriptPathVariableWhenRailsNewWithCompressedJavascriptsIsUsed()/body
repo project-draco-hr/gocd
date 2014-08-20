@@ -1,0 +1,16 @@
+{
+  File assetsDir=FileUtil.createTempFolder("assets-" + UUID.randomUUID().toString());
+  FileUtil.writeContentToFile(json,new File(assetsDir,"manifest-digest.json"));
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)).thenReturn(true);
+  when(systemEnvironment.useCompressedJs()).thenReturn(true);
+  GoVelocityView view=new GoVelocityView(systemEnvironment);
+  Request servletRequest=mock(Request.class);
+  ContextHandler.SContext context=mock(ContextHandler.SContext.class);
+  when(context.getInitParameter("rails.root")).thenReturn("");
+  when(context.getRealPath(Matchers.<String>any())).thenReturn(assetsDir.getAbsolutePath());
+  when(servletRequest.getContext()).thenReturn(context);
+  when(servletRequest.getSession()).thenReturn(mock(HttpSession.class));
+  view.exposeHelpers(velocityContext,servletRequest);
+  assertThat((String)velocityContext.get(GoVelocityView.COMPRESSED_JAVASCRIPT_FILE_PATH),is("assets/application-bfdbd4fff63b0cd45c50ce7a79fe0f53.js"));
+}

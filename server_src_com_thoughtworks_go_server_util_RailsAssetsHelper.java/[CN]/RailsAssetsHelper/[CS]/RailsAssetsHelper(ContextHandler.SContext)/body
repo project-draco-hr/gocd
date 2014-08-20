@@ -1,0 +1,18 @@
+{
+  String assetsDirPath=context.getRealPath(context.getInitParameter("rails.root") + "/public/assets/");
+  File assetsDir=new File(assetsDirPath);
+  if (!assetsDir.exists())   throw new RuntimeException(String.format("Assets directory does not exist %s",assetsDirPath));
+  File manifestFile=null;
+  Iterator iterator=FileUtils.iterateFiles(assetsDir,new String[]{"json"},false);
+  while (iterator.hasNext()) {
+    File next=(File)iterator.next();
+    if (MANIFEST_FILE_PATTERN.matcher(next.getName()).matches()) {
+      manifestFile=next;
+      break;
+    }
+  }
+  if (manifestFile == null)   throw new RuntimeException(String.format("Manifest json file was not found at %s",assetsDirPath));
+  String manifest=FileUtil.readContentFromFile(manifestFile);
+  Gson gson=new Gson();
+  railsAssetsManifest=gson.fromJson(manifest,RailsAssetsManifest.class);
+}
