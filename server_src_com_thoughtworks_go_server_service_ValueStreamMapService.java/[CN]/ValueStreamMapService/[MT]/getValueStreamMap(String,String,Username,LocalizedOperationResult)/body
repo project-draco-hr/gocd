@@ -30,12 +30,13 @@
       result.notFound(LocalizedMessage.string("MATERIAL_INSTANCE_WITH_FINGERPRINT_NOT_FOUND",materialFingerprint),HealthStateType.general(HealthStateScope.forMaterialConfig(materialConfig)));
       return null;
     }
-    Modification modification=materialRepository.getModificationFor(materialInstance,revision);
+    Material material=new MaterialConfigConverter().toMaterial(materialConfig);
+    Modification modification=materialRepository.findModificationWithRevision(material,revision);
     if (modification == null) {
       result.notFound(LocalizedMessage.string("MATERIAL_MODIFICATION_NOT_FOUND",materialFingerprint,revision),HealthStateType.general(HealthStateScope.forMaterialConfig(materialConfig)));
       return null;
     }
-    ValueStreamMap valueStreamMap=buildValueStreamMap(materialConfig,materialInstance,modification,downstreamPipelines,username);
+    ValueStreamMap valueStreamMap=buildValueStreamMap(material,materialInstance,modification,downstreamPipelines,username);
     if (valueStreamMap == null) {
       return null;
     }

@@ -19,7 +19,7 @@
   valueStreamMapService.getValueStreamMap(gitMaterial.getFingerprint(),"r1",new Username(new CaseInsensitiveString(userName)),result);
   assertResult(HttpStatus.SC_NOT_FOUND,"MATERIAL_INSTANCE_WITH_FINGERPRINT_NOT_FOUND");
   when(materialRepository.findMaterialInstance(gitConfig)).thenReturn(gitMaterialInstance);
-  when(materialRepository.getModificationFor(gitMaterialInstance,"r1")).thenReturn(null);
+  when(materialRepository.findModificationWithRevision(gitMaterial,"r1")).thenReturn(null);
   valueStreamMapService.getValueStreamMap(gitMaterial.getFingerprint(),"r1",new Username(new CaseInsensitiveString(userName)),result);
   assertResult(HttpStatus.SC_NOT_FOUND,"MATERIAL_MODIFICATION_NOT_FOUND");
   when(goConfigService.groups()).thenThrow(new RuntimeException("just for fun"));
