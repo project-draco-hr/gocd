@@ -1,0 +1,19 @@
+{
+  String noAccessUserName="foo";
+  String withAccessUserName="admin";
+  String pipelineName="no-access-pipeline";
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString(pipelineName))).thenReturn(true);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(securityService.hasViewPermissionForPipeline(noAccessUserName,pipelineName)).thenReturn(false);
+  when(securityService.hasViewPermissionForPipeline(withAccessUserName,pipelineName)).thenReturn(true);
+  when(pipelineDao.loadHistory(pipelineName,10,0)).thenReturn(PipelineInstanceModels.createPipelineInstanceModels());
+  HttpOperationResult result=new HttpOperationResult();
+  PipelineInstanceModels pipelineInstanceModels=pipelineHistoryService.loadMinimalData(pipelineName,Pagination.pageFor(0,1,10),noAccessUserName,result);
+  assertThat(pipelineInstanceModels,is(nullValue()));
+  assertThat(result.httpCode(),is(401));
+  result=new HttpOperationResult();
+  pipelineInstanceModels=pipelineHistoryService.loadMinimalData(pipelineName,Pagination.pageFor(0,1,10),withAccessUserName,result);
+  assertThat(pipelineInstanceModels,is(not(nullValue())));
+  assertThat(result.canContinue(),is(true));
+}
