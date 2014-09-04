@@ -1,0 +1,8 @@
+{
+  GitMaterialInstance materialInstance=new GitMaterialInstance("url","branch","submodule","flyweight");
+  String cacheKey=pipelineDao.cacheKeyForPipelineInstancesTriggeredWithDependencyMaterial("p1",materialInstance.getFingerprint(),"r1");
+  when(mockTemplate.queryForList(eq("pipelineInstancesTriggeredOffOfMaterialRevision"),anyString())).thenReturn(new ArrayList());
+  List<PipelineIdentifier> actual=pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial("p1",materialInstance,"r1");
+  assertThat(actual,hasSize(0));
+  assertThat((List<PipelineIdentifier>)goCache.get(cacheKey),is(actual));
+}

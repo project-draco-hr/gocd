@@ -1,0 +1,11 @@
+{
+  for (  PipelineConfig downstreamPipeline : downstreamPipelines) {
+    String downstreamPipelineName=downstreamPipeline.name().toString();
+    graph.addDownstreamNode(new PipelineDependencyNode(downstreamPipelineName,downstreamPipelineName),materialId);
+    if (visitedNodes.contains(downstreamPipeline)) {
+      continue;
+    }
+    visitedNodes.add(downstreamPipeline);
+    traverseDownstream(downstreamPipelineName,pipelineToDownstreamMap,graph,visitedNodes);
+  }
+}

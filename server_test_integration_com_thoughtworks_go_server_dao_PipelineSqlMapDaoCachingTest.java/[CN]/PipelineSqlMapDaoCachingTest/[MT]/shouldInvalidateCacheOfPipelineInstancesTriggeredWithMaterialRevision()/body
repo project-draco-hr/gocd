@@ -1,0 +1,13 @@
+{
+  GitMaterialInstance materialInstance=new GitMaterialInstance("url","branch","submodule","flyweight");
+  String cacheKey=pipelineDao.cacheKeyForPipelineInstancesTriggeredWithDependencyMaterial("p1",materialInstance.getFingerprint(),"r1");
+  List<PipelineIdentifier> result=Arrays.asList(new PipelineIdentifier("p1",1,"1"));
+  when(mockTemplate.queryForList(eq("pipelineInstancesTriggeredOffOfMaterialRevision"),anyString())).thenReturn(result);
+  List<PipelineIdentifier> actual=pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial("p1",materialInstance,"r1");
+  assertThat(actual,hasSize(1));
+  assertThat((List<PipelineIdentifier>)goCache.get(cacheKey),hasSize(1));
+  MaterialRevisions materialRevisions=new MaterialRevisions(new MaterialRevision(new GitMaterial("url","branch"),new Modification("user","comment","email",new Date(),"r1")));
+  Pipeline pipeline=new Pipeline("p1",BuildCause.createWithModifications(materialRevisions,""));
+  pipelineDao.save(pipeline);
+  assertThat(goCache.get(cacheKey),is(Matchers.nullValue()));
+}

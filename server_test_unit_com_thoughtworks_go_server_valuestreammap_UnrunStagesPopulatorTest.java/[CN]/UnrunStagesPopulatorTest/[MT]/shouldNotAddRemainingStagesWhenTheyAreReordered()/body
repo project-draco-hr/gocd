@@ -11,7 +11,7 @@
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
   unrunStagesPopulator.apply(valueStreamMap);
   PipelineRevision revision=(PipelineRevision)valueStreamMap.getCurrentPipeline().revisions().get(0);
-  MatcherAssert.assertThat(revision.getStages(),Matchers.hasSize(2));
-  MatcherAssert.assertThat(revision.getStages().get(0).getName(),Matchers.is("s2"));
-  MatcherAssert.assertThat(revision.getStages().get(1).getName(),Matchers.is("s1"));
+  assertThat(revision.getStages(),hasSize(2));
+  assertThat(revision.getStages().get(0).getName(),is("s2"));
+  assertThat(revision.getStages().get(1).getName(),is("s1"));
 }
