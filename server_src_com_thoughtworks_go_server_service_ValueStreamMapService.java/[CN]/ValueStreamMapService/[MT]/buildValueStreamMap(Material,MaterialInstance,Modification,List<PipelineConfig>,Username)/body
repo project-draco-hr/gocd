@@ -1,0 +1,9 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.currentCruiseConfig();
+  ValueStreamMap valueStreamMap=new ValueStreamMap(material,materialInstance,modification);
+  Map<String,List<PipelineConfig>> pipelineToDownstreamMap=cruiseConfig.generatePipelineVsDownstreamMap();
+  traverseDownstream(material.getFingerprint(),downstreamPipelines,pipelineToDownstreamMap,valueStreamMap,new ArrayList<PipelineConfig>());
+  addInstanceInformationToTheGraph(valueStreamMap);
+  removeRevisionsBasedOnPermissionAndCurrentConfig(valueStreamMap,username);
+  return valueStreamMap;
+}

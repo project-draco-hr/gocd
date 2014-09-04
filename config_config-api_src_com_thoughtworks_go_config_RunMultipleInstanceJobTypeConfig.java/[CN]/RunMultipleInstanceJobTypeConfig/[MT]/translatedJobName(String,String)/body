@@ -1,0 +1,10 @@
+{
+  Matcher matcher=MARKER_PATTERN.matcher(jobInstanceName);
+  if (matcher.find()) {
+    String uuid=matcher.group();
+    return jobConfigName + uuid;
+  }
+ else {
+    return jobConfigName;
+  }
+}

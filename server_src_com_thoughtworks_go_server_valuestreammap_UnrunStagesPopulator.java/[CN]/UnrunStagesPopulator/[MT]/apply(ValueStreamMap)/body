@@ -1,4 +1,13 @@
 {
-  Node currentPipeline=valueStreamMap.getCurrentPipeline();
-  getUnrunStagesForDownstreamGraphStartingFrom(currentPipeline,new HashSet<Node>());
+  if (valueStreamMap.getCurrentPipeline() != null) {
+    Node currentPipeline=valueStreamMap.getCurrentPipeline();
+    getUnrunStagesForDownstreamGraphStartingFrom(currentPipeline,new HashSet<Node>());
+  }
+ else {
+    List<Node> downstreamPipelines=valueStreamMap.getCurrentMaterial().getChildren();
+    HashSet<Node> visitedNodes=new HashSet<Node>();
+    for (    Node downstreamPipeline : downstreamPipelines) {
+      getUnrunStagesForDownstreamGraphStartingFrom(downstreamPipeline,visitedNodes);
+    }
+  }
 }

@@ -1,0 +1,28 @@
+{
+  String groupName="g1";
+  String pipelineName="p1";
+  String userName="looser";
+  GitMaterial gitMaterial=new GitMaterial("git");
+  MaterialConfig gitConfig=gitMaterial.config();
+  GitMaterialInstance gitMaterialInstance=new GitMaterialInstance("url","branch","submodule","flyweight");
+  PipelineConfigs groups=new PipelineConfigs(groupName,new Authorization(),PipelineConfigMother.pipelineConfig(pipelineName,new MaterialConfigs(gitConfig)));
+  CruiseConfig cruiseConfig=new CruiseConfig(groups);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(goConfigService.groups()).thenReturn(new PipelineGroups(groups));
+  when(securityService.hasViewPermissionForGroup(userName,groupName)).thenReturn(false);
+  valueStreamMapService.getValueStreamMap("unknown-material","r1",new Username(new CaseInsensitiveString(userName)),result);
+  assertResult(HttpStatus.SC_NOT_FOUND,"MATERIAL_CONFIG_WITH_FINGERPRINT_NOT_FOUND");
+  valueStreamMapService.getValueStreamMap(gitMaterial.getFingerprint(),"r1",new Username(new CaseInsensitiveString(userName)),result);
+  assertResult(HttpStatus.SC_UNAUTHORIZED,"MATERIAL_CANNOT_VIEW");
+  when(securityService.hasViewPermissionForGroup(userName,groupName)).thenReturn(true);
+  when(materialRepository.findMaterialInstance(gitConfig)).thenReturn(null);
+  valueStreamMapService.getValueStreamMap(gitMaterial.getFingerprint(),"r1",new Username(new CaseInsensitiveString(userName)),result);
+  assertResult(HttpStatus.SC_NOT_FOUND,"MATERIAL_INSTANCE_WITH_FINGERPRINT_NOT_FOUND");
+  when(materialRepository.findMaterialInstance(gitConfig)).thenReturn(gitMaterialInstance);
+  when(materialRepository.findModificationWithRevision(gitMaterial,"r1")).thenReturn(null);
+  valueStreamMapService.getValueStreamMap(gitMaterial.getFingerprint(),"r1",new Username(new CaseInsensitiveString(userName)),result);
+  assertResult(HttpStatus.SC_NOT_FOUND,"MATERIAL_MODIFICATION_NOT_FOUND");
+  when(goConfigService.groups()).thenThrow(new RuntimeException("just for fun"));
+  valueStreamMapService.getValueStreamMap(gitMaterial.getFingerprint(),"r1",new Username(new CaseInsensitiveString(userName)),result);
+  assertResult(HttpStatus.SC_INTERNAL_SERVER_ERROR,"VSM_INTERNAL_SERVER_ERROR_FOR_MATERIAL");
+}
