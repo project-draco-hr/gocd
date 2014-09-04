@@ -5,11 +5,11 @@
   }
   for (  ArtifactPropertiesGenerator generator : plan.getPropertyGenerators()) {
     generator.setJobId(jobId);
-    getSqlMapClientTemplate().insert("insertArtifactPropertiesGenerator",generator);
+    artifactPropertiesGeneratorRepository.save(generator);
   }
   for (  ArtifactPlan artifactPlan : plan.getArtifactPlans()) {
     artifactPlan.setBuildId(jobId);
-    getSqlMapClientTemplate().insert("insertArtifactPlan",artifactPlan);
+    artifactPlanRepository.save(artifactPlan);
   }
   environmentVariableDao.save(jobId,EnvironmentVariableSqlMapDao.EnvironmentVariableType.Job,plan.getVariables());
 }

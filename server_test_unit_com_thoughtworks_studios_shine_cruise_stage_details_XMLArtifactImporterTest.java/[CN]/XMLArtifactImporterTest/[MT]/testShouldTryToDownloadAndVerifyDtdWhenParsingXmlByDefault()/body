@@ -1,0 +1,13 @@
+{
+  try {
+    new SystemEnvironment().set(SystemEnvironment.SHOULD_VALIDATE_XML_AGAINST_DTD,true);
+    XMLRDFizer handler=mock(XMLRDFizer.class);
+    when(handler.canHandle(any(Document.class))).thenReturn(false);
+    artifactImporter.registerHandler(handler);
+    artifactImporter.importFile(null,null,toInputStream(SAMPLE_TEST_ARTIFACT));
+    verify(handler,never()).canHandle(any(Document.class));
+  }
+  finally {
+    new SystemEnvironment().set(SystemEnvironment.SHOULD_VALIDATE_XML_AGAINST_DTD,false);
+  }
+}

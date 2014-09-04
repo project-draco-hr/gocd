@@ -1,6 +1,6 @@
 {
   httpUtil.start();
-  Protocol.registerProtocol("https",new Protocol("https",new PermissiveSSLSocketFactory(),HTTPS));
+  Protocol.registerProtocol("https",new Protocol("https",(ProtocolSocketFactory)new PermissiveSSLSocketFactory(),HTTPS));
   originalSslPort=System.getProperty(SystemEnvironment.CRUISE_SERVER_SSL_PORT);
   System.setProperty(SystemEnvironment.CRUISE_SERVER_SSL_PORT,String.valueOf(9071));
 }

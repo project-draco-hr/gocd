@@ -4,7 +4,7 @@
   Document document=docFor(happyJobResourceXML);
   document.selectSingleNode("//link[@rel='self']/@href").setText(new JobXmlViewModel(failedJob).httpUrl(baseUri));
   when(xmlApiService.write(any(JobXmlViewModel.class),eq(baseUri))).thenReturn(document);
-  JobResourceImporter rdfImporter=new JobResourceImporter("test/data/cruise/artifacts",new InMemoryTempGraphFactory(),transformerRegistry,xmlApiService);
+  JobResourceImporter rdfImporter=new JobResourceImporter("test/data/cruise/artifacts",new InMemoryTempGraphFactory(),transformerRegistry,xmlApiService,systemEnvironment);
   Graph graph=rdfImporter.importJob(failedJob,baseUri);
   String testCountSelect="PREFIX xunit: <" + XUnitOntology.URI + "> SELECT ?testcase WHERE { ?testCase a xunit:TestCase }";
   assertEquals(5,graph.select(testCountSelect).size());

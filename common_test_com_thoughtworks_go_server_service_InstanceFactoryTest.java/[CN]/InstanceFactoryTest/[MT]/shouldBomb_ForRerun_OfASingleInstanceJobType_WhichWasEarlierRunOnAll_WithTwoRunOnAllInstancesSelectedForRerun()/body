@@ -7,17 +7,11 @@
   DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("loser",new Agents(new AgentConfig("abcd1234","host","127.0.0.2",new Resources(new Resource("foobar"))),new AgentConfig("1234abcd","ghost","192.168.1.2",new Resources(new Resource("baz"),new Resource("foobar"))),new AgentConfig("7890abdc","lost","10.4.3.55",new Resources(new Resource("crapyagent")))));
   RunOnAllAgents.CounterBasedJobNameGenerator jobNameGenerator=new RunOnAllAgents.CounterBasedJobNameGenerator(CaseInsensitiveString.str(railsConfig.name()));
   JobInstances jobs=instanceFactory.createJobInstance(new CaseInsensitiveString("dev"),railsConfig,schedulingContext,new TimeProvider(),jobNameGenerator);
-  int jobId=100;
-  for (  JobInstance job : jobs) {
-    passJob(new Date(),++jobId,jobId * 10,job);
-  }
-  JobInstance java=jobInstance(old,"java",12,22);
-  jobs.add(java);
-  Stage stage=stage(9,jobs.toArray(new JobInstance[0]));
+  Stage stage=createStageInstance(old,jobs);
   railsConfig.setRunOnAllAgents(false);
   try {
     instanceFactory.createStageForRerunOfJobs(stage,a("rails-runOnAll-1","rails-runOnAll-2"),schedulingContext,stageConfig,new TimeProvider(),"md5");
-    Assert.fail("should have failed when multiple run on all agents jobs are selected when job-config does not have run on all flag anymore");
+    fail("should have failed when multiple run on all agents jobs are selected when job-config does not have run on all flag anymore");
   }
  catch (  IllegalArgumentException e) {
     assertThat(e.getMessage(),CoreMatchers.is("Cannot schedule multiple instances of job named 'rails'."));

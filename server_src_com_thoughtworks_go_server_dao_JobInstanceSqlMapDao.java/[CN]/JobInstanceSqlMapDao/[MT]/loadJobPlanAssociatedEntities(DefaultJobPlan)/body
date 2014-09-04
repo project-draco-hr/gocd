@@ -1,0 +1,7 @@
+{
+  plan.setPlans(artifactPlanRepository.findByBuildId(plan.getJobId()));
+  plan.setGenerators(artifactPropertiesGeneratorRepository.findByBuildId(plan.getJobId()));
+  plan.setResources(resourceRepository.findByBuildId(plan.getJobId()));
+  plan.setVariables(environmentVariableDao.load(plan.getJobId(),EnvironmentVariableSqlMapDao.EnvironmentVariableType.Job));
+  plan.setTriggerVariables(environmentVariableDao.load(plan.getPipelineId(),EnvironmentVariableSqlMapDao.EnvironmentVariableType.Trigger));
+}

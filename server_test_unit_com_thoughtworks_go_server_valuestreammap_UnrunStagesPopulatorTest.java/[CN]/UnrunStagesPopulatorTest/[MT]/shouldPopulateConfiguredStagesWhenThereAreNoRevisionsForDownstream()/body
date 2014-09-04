@@ -12,12 +12,6 @@
   cruiseConfig.addPipeline(group,pipelineConfig("p3"));
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
   unrunStagesPopulator.apply(graph);
-  assertThat(p2_node.revisions(),hasSize(1));
-  PipelineRevision empty_p2_revision=(PipelineRevision)p2_node.revisions().get(0);
-  assertThat(empty_p2_revision.getPipelineIdentifier(),Matchers.is(new UnrunPipelineRevision("p2").getPipelineIdentifier()));
-  assertThat(empty_p2_revision.getStages(),is(new Stages(new NullStage("s1"),new NullStage("s2"),new NullStage("s3"),new NullStage("s4"))));
-  assertThat(p3_node.revisions(),hasSize(1));
-  PipelineRevision empty_p3_revision=(PipelineRevision)p3_node.revisions().get(0);
-  assertThat(empty_p2_revision.getPipelineIdentifier(),is(new UnrunPipelineRevision("p2").getPipelineIdentifier()));
-  assertThat(empty_p3_revision.getStages(),is(new Stages(new NullStage("s1"),new NullStage("s2"),new NullStage("s3"),new NullStage("s4"))));
+  assertUnrunPipeline(p2_node,"p2");
+  assertUnrunPipeline(p3_node,"p3");
 }

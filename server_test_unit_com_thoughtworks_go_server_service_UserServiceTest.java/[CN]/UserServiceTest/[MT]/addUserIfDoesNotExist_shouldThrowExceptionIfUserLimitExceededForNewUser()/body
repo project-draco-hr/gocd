@@ -6,7 +6,7 @@
   when(userDao.enabledUserCount()).thenReturn(2);
   try {
     userService.addUserIfDoesNotExist(user);
-    Assert.fail();
+    fail();
   }
  catch (  UserLicenseLimitExceededException e) {
     assertThat(e.getMessage(),is("User license limit exceeded, please contact the administrator"));

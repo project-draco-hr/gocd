@@ -6,9 +6,7 @@
     visitedRevisions.add(revision);
     for (    Node child : node.getChildren()) {
       List<PipelineIdentifier> pipelineIdentifiers=pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial(child.getName(),((PipelineRevision)revision).getPipelineIdentifier());
-      for (      PipelineIdentifier pipelineIdentifier : pipelineIdentifiers) {
-        child.addRevision(new PipelineRevision(pipelineIdentifier));
-      }
+      addRevisionsToNode(child,pipelineIdentifiers);
       populateRevisionsForAllChildrenOf(child,visitedRevisions);
     }
   }

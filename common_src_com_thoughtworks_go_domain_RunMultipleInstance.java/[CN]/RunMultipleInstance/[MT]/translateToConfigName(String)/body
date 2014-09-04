@@ -1,0 +1,9 @@
+{
+  Matcher matcher=CONFIG_NAME_PATTERN.matcher(jobName);
+  if (matcher.matches()) {
+    return matcher.group(1);
+  }
+ else {
+    throw new IllegalArgumentException(String.format("Job name '%s' does not match the pattern for 'run multiple instance' job",jobName));
+  }
+}
