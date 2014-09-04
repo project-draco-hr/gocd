@@ -1,0 +1,7 @@
+{
+  CruiseConfig cruiseConfig=loadJobWithRunMultipleInstance("10");
+  JobConfig job=cruiseConfig.findJob("pipeline1","mingle","do-something");
+  JobConfig jobConfig=new JobConfig("do-something");
+  jobConfig.setRunInstanceCount(10);
+  assertThat(job,is(jobConfig));
+}
