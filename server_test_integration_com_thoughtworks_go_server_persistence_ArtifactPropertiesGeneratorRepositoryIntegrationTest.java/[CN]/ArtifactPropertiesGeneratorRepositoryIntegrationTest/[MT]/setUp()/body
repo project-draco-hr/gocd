@@ -1,0 +1,9 @@
+{
+  dbHelper.onSetUp();
+  PipelineConfig pipelineConfig=PipelineMother.withSingleStageWithMaterials(PIPELINE_NAME,STAGE_NAME,BuildPlanMother.withBuildPlans(JOB_NAME,OTHER_JOB_NAME));
+  DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext(DEFAULT_APPROVED_BY);
+  Pipeline savedPipeline=instanceFactory.createPipelineInstance(pipelineConfig,modifySomeFiles(pipelineConfig),schedulingContext,"md5-test",new TimeProvider());
+  dbHelper.savePipelineWithStagesAndMaterials(savedPipeline);
+  Stage savedStage=savedPipeline.getFirstStage();
+  stageId=savedStage.getId();
+}
