@@ -1,3 +1,8 @@
 {
-  git(workingDir).cloneFrom(inMemoryConsumer(),from.getAbsolutePath());
+  GitCommand git=git(workingDir);
+  InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  int returnValue=git.cloneFrom(outputStreamConsumer,from.getAbsolutePath());
+  if (returnValue != 0) {
+    throw new RuntimeException(String.format("[ERROR] Failed to clone. URL [%s] exit value [%d] output [%s]",git.workingRepositoryUrl(),returnValue,outputStreamConsumer.getAllOutput()));
+  }
 }
