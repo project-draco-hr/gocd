@@ -1,0 +1,21 @@
+{
+  Date old=new DateTime().minusDays(2).toDate();
+  StageConfig stageConfig=StageConfigMother.custom("dev","rails","java");
+  JobConfig railsConfig=stageConfig.getJobs().getJob(new CaseInsensitiveString("rails"));
+  DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("loser",new Agents());
+  JobInstances jobs=instanceFactory.createJobInstance(new CaseInsensitiveString("dev"),railsConfig,schedulingContext,new TimeProvider(),null);
+  Stage stage=createStageInstance(old,jobs);
+  Stage newStage=null;
+  railsConfig.setRunInstanceCount(10);
+  CannotRerunJobException exception=null;
+  try {
+    newStage=instanceFactory.createStageForRerunOfJobs(stage,a("rails"),schedulingContext,stageConfig,new TimeProvider(),"md5");
+    fail("should not schedule since job config changed to run multiple instance");
+  }
+ catch (  CannotRerunJobException e) {
+    exception=e;
+  }
+  assertThat(exception.getJobName(),is("rails"));
+  assertThat(exception.getInformation(),is("Run configuration for job has been changed to 'run multiple instance'."));
+  assertThat(newStage,is(nullValue()));
+}

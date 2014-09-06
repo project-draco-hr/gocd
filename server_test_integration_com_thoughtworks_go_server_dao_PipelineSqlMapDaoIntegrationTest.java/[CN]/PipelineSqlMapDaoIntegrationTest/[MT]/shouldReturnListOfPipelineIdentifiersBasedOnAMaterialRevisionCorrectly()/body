@@ -1,0 +1,14 @@
+{
+  GitMaterial g1=u.wf(new GitMaterial("g1"),"folder3");
+  u.checkinInOrder(g1,"g_1","g_2","g_3");
+  ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(g1));
+  String p1_1=u.runAndPass(p1,"g_2");
+  String p1_2=u.runAndPass(p1,"g_3");
+  String p1_3=u.runAndPass(p1,"g_2");
+  MaterialInstance g1Instance=materialRepository.findMaterialInstance(g1);
+  List<PipelineIdentifier> pipelineIdentifiers=pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial(p1.config.name().toString(),g1Instance,"g_2");
+  assertThat(pipelineIdentifiers.size(),is(2));
+  assertThat(pipelineIdentifiers,contains(new PipelineIdentifier(p1.config.name().toString(),3,"3"),new PipelineIdentifier(p1.config.name().toString(),1,"1")));
+  pipelineIdentifiers=pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial(p1.config.name().toString(),g1Instance,"g_1");
+  assertThat(pipelineIdentifiers,is(Matchers.empty()));
+}

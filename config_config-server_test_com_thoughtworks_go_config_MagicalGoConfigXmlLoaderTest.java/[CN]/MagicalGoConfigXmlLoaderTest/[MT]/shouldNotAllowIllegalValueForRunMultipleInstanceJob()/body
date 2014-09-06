@@ -1,0 +1,16 @@
+{
+  try {
+    loadJobWithRunMultipleInstance("-1");
+    fail("should have failed as runOnAllAgents' value is not valid(boolean)");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("'-1' is not facet-valid with respect to minInclusive '1' for type 'positiveInteger'"));
+  }
+  try {
+    loadJobWithRunMultipleInstance("abcd");
+    fail("should have failed as runOnAllAgents' value is not valid(boolean)");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("'abcd' is not a valid value for 'integer'"));
+  }
+}
