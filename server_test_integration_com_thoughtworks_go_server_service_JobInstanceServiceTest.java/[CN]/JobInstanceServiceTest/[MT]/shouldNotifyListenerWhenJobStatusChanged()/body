@@ -1,6 +1,6 @@
 {
   final JobStatusListener listener=Mockito.mock(JobStatusListener.class);
-  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager,listener);
+  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager,listener);
   jobService.updateStateAndResult(job);
   verify(jobInstanceDao).updateStateAndResult(job);
   verify(listener).jobStatusChanged(job);

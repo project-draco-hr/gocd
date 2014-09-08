@@ -1,0 +1,17 @@
+{
+  String mutex=mutexForStageHistory(pipelineName,stageName);
+  readWriteLock.acquireReadLock(mutex);
+  try {
+    String subKey=String.format("%s-%s",pagination.getCurrentPage(),pagination.getPageSize());
+    String key=cacheKeyForDetailedStageHistories(pipelineName,stageName);
+    StageInstanceModels stageInstanceModels=(StageInstanceModels)goCache.get(key,subKey);
+    if (stageInstanceModels == null) {
+      stageInstanceModels=findDetailedStageHistory(pipelineName,stageName,pagination);
+      goCache.put(key,subKey,stageInstanceModels);
+    }
+    return cloner.deepClone(stageInstanceModels);
+  }
+  finally {
+    readWriteLock.releaseReadLock(mutex);
+  }
+}

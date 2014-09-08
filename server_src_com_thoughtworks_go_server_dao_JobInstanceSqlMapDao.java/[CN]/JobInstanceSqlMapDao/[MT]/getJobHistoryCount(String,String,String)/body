@@ -1,0 +1,5 @@
+{
+  Map<String,Object> toGet=arguments("pipelineName",pipelineName).and("stageName",stageName).and("jobConfigName",jobName).asMap();
+  Integer count=(Integer)getSqlMapClientTemplate().queryForObject("getJobHistoryCount",toGet);
+  return count;
+}

@@ -1,0 +1,21 @@
+{
+  String key=materialModificationCountKey(materialInstance);
+  Long totalCount=(Long)goCache.get(key);
+  if (totalCount == null || totalCount == 0) {
+synchronized (key) {
+      totalCount=(Long)goCache.get(key);
+      if (totalCount == null || totalCount == 0) {
+        totalCount=(Long)getHibernateTemplate().execute(new HibernateCallback(){
+          public Object doInHibernate(          Session session) throws HibernateException, SQLException {
+            Query q=session.createQuery("select count(*) FROM Modification WHERE materialId = ?");
+            q.setLong(0,materialInstance.getId());
+            return q.uniqueResult();
+          }
+        }
+);
+        goCache.put(key,totalCount);
+      }
+    }
+  }
+  return totalCount;
+}

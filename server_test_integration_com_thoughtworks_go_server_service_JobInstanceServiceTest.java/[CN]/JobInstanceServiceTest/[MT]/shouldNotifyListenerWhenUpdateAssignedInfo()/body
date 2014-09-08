@@ -1,7 +1,7 @@
 {
   final JobStatusListener listener1=Mockito.mock(JobStatusListener.class,"listener1");
   final JobStatusListener listener2=Mockito.mock(JobStatusListener.class,"listener2");
-  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager,listener1,listener2);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager,listener1,listener2);
   transactionTemplate.execute(new TransactionCallbackWithoutResult(){
     @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
       jobService.updateAssignedInfo(job);

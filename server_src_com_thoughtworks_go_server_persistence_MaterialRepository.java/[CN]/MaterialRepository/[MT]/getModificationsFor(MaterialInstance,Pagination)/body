@@ -1,0 +1,27 @@
+{
+  String key=materialModificationsWithPaginationKey(materialInstance);
+  String subKey=materialModificationsWithPaginationSubKey(pagination);
+  Modifications modifications=(Modifications)goCache.get(key,subKey);
+  if (modifications == null) {
+synchronized (key) {
+      modifications=(Modifications)goCache.get(key,subKey);
+      if (modifications == null) {
+        List<Modification> modificationsList=getHibernateTemplate().executeFind(new HibernateCallback(){
+          public Object doInHibernate(          Session session) throws HibernateException, SQLException {
+            Query q=session.createQuery("FROM Modification WHERE materialId = ? ORDER BY id DESC");
+            q.setFirstResult(pagination.getOffset());
+            q.setMaxResults(pagination.getPageSize());
+            q.setLong(0,materialInstance.getId());
+            return q.list();
+          }
+        }
+);
+        if (!modificationsList.isEmpty()) {
+          modifications=new Modifications(modificationsList);
+          goCache.put(key,subKey,modifications);
+        }
+      }
+    }
+  }
+  return modifications;
+}

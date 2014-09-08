@@ -1,0 +1,9 @@
+{
+  List<PipelineConfigs> pipelineGroups=new ArrayList<PipelineConfigs>();
+  for (  PipelineConfigs pipelineGroup : goConfigService.groups()) {
+    if (securityService.hasViewPermissionForGroup(userName,pipelineGroup.getGroup())) {
+      pipelineGroups.add(pipelineGroup);
+    }
+  }
+  return pipelineGroups;
+}
