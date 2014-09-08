@@ -1,0 +1,6 @@
+{
+  NotificationFilter filter=new NotificationFilter(GoConstants.ANY_PIPELINE,"dev",StageEvent.Breaks,false);
+  assertThat(filter.appliesTo("cruise1","dev"),is(true));
+  assertThat(filter.appliesTo("cruise2","dev"),is(true));
+  assertThat(filter.appliesTo("cruise2","not-dev"),is(false));
+}
