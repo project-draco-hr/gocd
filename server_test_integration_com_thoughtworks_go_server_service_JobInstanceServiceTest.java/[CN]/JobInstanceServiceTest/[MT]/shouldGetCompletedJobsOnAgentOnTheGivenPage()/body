@@ -1,5 +1,5 @@
 {
-  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager);
   ArrayList<JobInstance> expected=new ArrayList<JobInstance>();
   when(jobInstanceDao.totalCompletedJobsOnAgent("uuid")).thenReturn(500);
   when(jobInstanceDao.completedJobsOnAgent("uuid",JobInstanceService.JobHistoryColumns.pipeline,SortOrder.ASC,50,50)).thenReturn(expected);

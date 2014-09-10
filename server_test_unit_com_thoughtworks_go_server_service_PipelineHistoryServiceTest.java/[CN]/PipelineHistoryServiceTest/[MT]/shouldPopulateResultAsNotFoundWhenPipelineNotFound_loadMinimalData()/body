@@ -1,0 +1,11 @@
+{
+  String pipelineName="unknown-pipeline";
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString(pipelineName))).thenReturn(false);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  HttpOperationResult result=new HttpOperationResult();
+  PipelineInstanceModels pipelineInstanceModels=pipelineHistoryService.loadMinimalData(pipelineName,Pagination.pageFor(0,0,10),"looser",result);
+  assertThat(pipelineInstanceModels,is(nullValue()));
+  assertThat(result.httpCode(),is(404));
+  assertThat(result.detailedMessage(),is("Not Found { Pipeline " + pipelineName + " not found }\n"));
+}

@@ -1,7 +1,7 @@
 {
   final JobInstance scheduledJob=scheduled("dev");
   scheduledJob.setId(10);
-  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager);
   when(jobInstanceDao.buildByIdWithTransitions(scheduledJob.getId())).thenReturn(scheduledJob);
   transactionTemplate.execute(new TransactionCallbackWithoutResult(){
     @Override protected void doInTransactionWithoutResult(    TransactionStatus status){

@@ -1,0 +1,9 @@
+{
+  when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipeline"))).thenReturn(true);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(securityService.hasViewPermissionForPipeline("looser","pipeline")).thenReturn(true);
+  final StageService stageService=new StageService(stageDao,jobInstanceService,mock(StageStatusTopic.class),mock(StageStatusCache.class),securityService,pipelineDao,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  Pagination pagination=Pagination.pageStartingAt(1,1,1);
+  stageService.findDetailedStageHistoryByOffset("pipeline","stage",pagination,"looser",new HttpOperationResult());
+  verify(stageDao).findDetailedStageHistoryByOffset("pipeline","stage",pagination);
+}

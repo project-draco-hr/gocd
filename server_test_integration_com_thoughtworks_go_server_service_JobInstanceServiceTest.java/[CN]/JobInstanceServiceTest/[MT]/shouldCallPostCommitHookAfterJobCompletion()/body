@@ -2,7 +2,7 @@
   JobInstance completedJob=completed("dev");
   IJobPostCompletionHook jobPostCompletionHook=mock(IJobPostCompletionHook.class);
   when(jobPostCompletionHook.call(any(JobContext.class))).thenReturn(new ResponseContext(ResponseContext.ResponseCode.SUCCESS,"success"));
-  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager);
   jobService.updateStateAndResult(completedJob);
   verify(pluginManager).doOnAll(eq(IJobPostCompletionHook.class),jobPostCompletionActionHandlerCaptor.capture(),jobPostCompletionExceptionHandlerCaptor.capture());
   jobPostCompletionActionHandlerCaptor.getValue().execute(jobPostCompletionHook,null);

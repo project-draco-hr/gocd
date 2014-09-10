@@ -1,0 +1,7 @@
+{
+  HttpOperationResult result=new HttpOperationResult();
+  GitMaterialConfig gitMaterialConfig=new GitMaterialConfig("http://crap.com");
+  MaterialConfig materialConfig=materialConfigService.getMaterialConfig(user,gitMaterialConfig.getFingerprint(),result);
+  assertThat(materialConfig,is((MaterialConfig)gitMaterialConfig));
+  assertThat(result.canContinue(),is(true));
+}

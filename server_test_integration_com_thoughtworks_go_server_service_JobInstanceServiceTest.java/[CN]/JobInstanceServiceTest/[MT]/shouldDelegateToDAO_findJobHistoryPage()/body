@@ -1,0 +1,9 @@
+{
+  when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipeline"))).thenReturn(true);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(securityService.hasViewPermissionForPipeline("looser","pipeline")).thenReturn(true);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,securityService,pluginManager);
+  Pagination pagination=Pagination.pageStartingAt(1,1,1);
+  jobService.findJobHistoryPage("pipeline","stage","job",pagination,"looser",new HttpOperationResult());
+  verify(jobInstanceDao).findJobHistoryPage("pipeline","stage","job",pagination.getPageSize(),pagination.getOffset());
+}

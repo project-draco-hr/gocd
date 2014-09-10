@@ -1,0 +1,6 @@
+{
+  HttpOperationResult result=new HttpOperationResult();
+  MaterialConfig materialConfig=materialConfigService.getMaterialConfig(user,"unknown-fingerprint",result);
+  assertThat(materialConfig,is(nullValue()));
+  assertThat(result.httpCode(),is(404));
+}

@@ -1,6 +1,6 @@
 {
   JobResolverService resolver=mock(JobResolverService.class);
-  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,resolver,null,goConfigService,pluginManager);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,resolver,null,goConfigService,null,pluginManager);
   DefaultJobPlan expectedPlan=new DefaultJobPlan(new Resources(),new ArtifactPlans(),new ArtifactPropertiesGenerators(),7,new JobIdentifier());
   when(jobInstanceDao.loadPlan(7l)).thenReturn(expectedPlan);
   JobIdentifier givenId=new JobIdentifier("pipeline-name",9,"label-9","stage-name","2","job-name",10l);
