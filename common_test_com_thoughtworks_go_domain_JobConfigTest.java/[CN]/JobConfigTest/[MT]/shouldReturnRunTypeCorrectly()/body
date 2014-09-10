@@ -1,0 +1,9 @@
+{
+  JobConfig job=new JobConfig("job");
+  assertThat(job.getRunType(),is(JobConfig.RUN_SINGLE_INSTANCE));
+  job.setRunOnAllAgents(true);
+  assertThat(job.getRunType(),is(JobConfig.RUN_ON_ALL_AGENTS));
+  job.setRunOnAllAgents(false);
+  job.setRunInstanceCount(10);
+  assertThat(job.getRunType(),is(JobConfig.RUN_MULTIPLE_INSTANCE));
+}

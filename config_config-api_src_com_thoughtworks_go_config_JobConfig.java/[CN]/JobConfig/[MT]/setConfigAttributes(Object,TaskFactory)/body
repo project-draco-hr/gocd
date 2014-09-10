@@ -1,16 +1,5 @@
 {
   Map attributesMap=(Map)attributes;
-  if (attributesMap.containsKey(RUN_ON_ALL_AGENTS)) {
-    runOnAllAgents="1".equals(attributesMap.get(RUN_ON_ALL_AGENTS));
-  }
-  if (attributesMap.containsKey(RUN_INSTANCE_COUNT)) {
-    if (StringUtil.isBlank((String)attributesMap.get(RUN_INSTANCE_COUNT))) {
-      this.runInstanceCount=null;
-    }
- else {
-      this.runInstanceCount=(String)attributesMap.get(RUN_INSTANCE_COUNT);
-    }
-  }
   if (attributesMap.containsKey(NAME)) {
     String nameString=(String)attributesMap.get(NAME);
     jobName=nameString == null ? null : new CaseInsensitiveString(nameString);
@@ -31,4 +20,5 @@
     artifactPlans.setConfigAttributes(attributesMap.get(ARTIFACT_PLANS));
   }
   setTimeoutAttribute(attributesMap);
+  setJobRunTypeAttribute(attributesMap);
 }

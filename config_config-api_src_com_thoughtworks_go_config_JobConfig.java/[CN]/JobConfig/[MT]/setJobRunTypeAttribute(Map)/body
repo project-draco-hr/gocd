@@ -1,0 +1,19 @@
+{
+  this.runOnAllAgents=false;
+  this.runInstanceCount=null;
+  if (attributesMap.containsKey(RUN_TYPE)) {
+    String jobRunType=(String)attributesMap.get(RUN_TYPE);
+    if (RUN_ON_ALL_AGENTS.equals(jobRunType)) {
+      this.runOnAllAgents=true;
+    }
+ else     if (RUN_MULTIPLE_INSTANCE.equals(jobRunType)) {
+      String runInstanceCount=(String)attributesMap.get(RUN_INSTANCE_COUNT);
+      if (StringUtil.isBlank(runInstanceCount)) {
+        this.runInstanceCount=null;
+      }
+ else {
+        this.runInstanceCount=runInstanceCount;
+      }
+    }
+  }
+}
