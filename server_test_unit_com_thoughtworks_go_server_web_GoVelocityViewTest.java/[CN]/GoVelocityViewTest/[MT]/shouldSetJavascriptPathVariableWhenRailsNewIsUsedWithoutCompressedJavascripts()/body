@@ -1,9 +1,0 @@
-{
-  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
-  when(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)).thenReturn(true);
-  when(systemEnvironment.useCompressedJs()).thenReturn(false);
-  GoVelocityView view=new GoVelocityView(systemEnvironment);
-  view.exposeHelpers(velocityContext,request);
-  assertThat((String)velocityContext.get(GoVelocityView.JAVASCRIPTS_PATH_IN_DEV_ENV),is("assets"));
-  assertThat(velocityContext.get(GoVelocityView.COMPRESSED_JAVASCRIPT_FILE_PATH),is(nullValue()));
-}

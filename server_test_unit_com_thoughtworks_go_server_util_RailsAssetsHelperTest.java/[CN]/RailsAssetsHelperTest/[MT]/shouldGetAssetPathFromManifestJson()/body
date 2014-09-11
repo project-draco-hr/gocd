@@ -1,9 +1,0 @@
-{
-  ContextHandler.SContext context=mock(ContextHandler.SContext.class);
-  FileUtil.writeContentToFile(json,new File(assetsDir,"manifest-digest.json"));
-  when(context.getInitParameter("rails.root")).thenReturn("");
-  when(context.getRealPath(Matchers.<String>any())).thenReturn(assetsDir.getAbsolutePath());
-  RailsAssetsHelper helper=new RailsAssetsHelper(context);
-  assertThat(helper.getAssetPath("application.js"),is("assets/application-bfdbd4fff63b0cd45c50ce7a79fe0f53.js"));
-  assertThat(helper.getAssetPath("junk.js"),is(nullValue()));
-}
