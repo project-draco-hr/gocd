@@ -1,0 +1,17 @@
+{
+  new SystemEnvironment().set(SystemEnvironment.USE_NEW_RAILS,true);
+  HashMap map1=new HashMap();
+  map1.put(JobConfig.RUN_TYPE,JobConfig.RUN_MULTIPLE_INSTANCE);
+  map1.put(JobConfig.RUN_INSTANCE_COUNT,"10");
+  JobConfig jobConfig=new JobConfig();
+  jobConfig.setConfigAttributes(map1);
+  assertThat(jobConfig.getRunInstanceCountValue(),is(10));
+  assertThat(jobConfig.isRunMultipleInstanceType(),is(true));
+  assertThat(jobConfig.isRunOnAllAgents(),is(false));
+  HashMap map2=new HashMap();
+  map2.put(JobConfig.RUN_TYPE,JobConfig.RUN_SINGLE_INSTANCE);
+  jobConfig.setConfigAttributes(map2);
+  assertThat(jobConfig.isRunMultipleInstanceType(),is(false));
+  assertThat(jobConfig.getRunInstanceCount(),is(nullValue()));
+  assertThat(jobConfig.isRunOnAllAgents(),is(false));
+}

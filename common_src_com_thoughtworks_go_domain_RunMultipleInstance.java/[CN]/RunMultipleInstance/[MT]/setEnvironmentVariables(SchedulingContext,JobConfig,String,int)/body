@@ -1,0 +1,8 @@
+{
+  EnvironmentVariablesConfig environmentVariablesConfig=new EnvironmentVariablesConfig();
+  int index=context.isRerun() ? getOldJobIndex(jobName) : counter;
+  environmentVariablesConfig.add(new EnvironmentVariableConfig("GO_JOB_RUN_INDEX",Integer.toString(index)));
+  environmentVariablesConfig.add(new EnvironmentVariableConfig("GO_JOB_RUN_COUNT",Integer.toString(config.getRunInstanceCountValue())));
+  context=context.overrideEnvironmentVariables(environmentVariablesConfig);
+  return context;
+}

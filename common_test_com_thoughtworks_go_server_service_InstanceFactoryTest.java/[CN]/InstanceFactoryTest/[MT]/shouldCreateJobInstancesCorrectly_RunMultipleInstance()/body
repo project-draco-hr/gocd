@@ -6,6 +6,15 @@
   DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("loser",new Agents());
   RunMultipleInstance.CounterBasedJobNameGenerator jobNameGenerator=new RunMultipleInstance.CounterBasedJobNameGenerator(CaseInsensitiveString.str(railsConfig.name()));
   JobInstances jobs=instanceFactory.createJobInstance(new CaseInsensitiveString("dev"),railsConfig,schedulingContext,new TimeProvider(),jobNameGenerator);
+  assertThat(jobs.get(0).getName(),is("rails-runInstance-1"));
+  assertEnvironmentVariable(jobs.get(0),0,"GO_JOB_RUN_INDEX","1");
+  assertEnvironmentVariable(jobs.get(0),1,"GO_JOB_RUN_COUNT","3");
+  assertThat(jobs.get(1).getName(),is("rails-runInstance-2"));
+  assertEnvironmentVariable(jobs.get(1),0,"GO_JOB_RUN_INDEX","2");
+  assertEnvironmentVariable(jobs.get(1),1,"GO_JOB_RUN_COUNT","3");
+  assertThat(jobs.get(2).getName(),is("rails-runInstance-3"));
+  assertEnvironmentVariable(jobs.get(2),0,"GO_JOB_RUN_INDEX","3");
+  assertEnvironmentVariable(jobs.get(2),1,"GO_JOB_RUN_COUNT","3");
   Stage stage=createStageInstance(old,jobs);
   JobInstances jobInstances=stage.getJobInstances();
   assertThat(jobInstances.size(),is(4));
