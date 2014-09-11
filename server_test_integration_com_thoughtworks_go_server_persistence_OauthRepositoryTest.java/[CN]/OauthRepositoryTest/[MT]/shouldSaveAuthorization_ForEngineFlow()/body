@@ -1,0 +1,13 @@
+{
+  OauthClient client=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(client);
+  long expiresAt=new Date().getTime();
+  Map<String,String> attributes=m("authenticity_token","eJkmGwpHh045A/h5uhme+4Pqdr+E8b+jgRq1+vt/s6M=","authorize","Yes","client_id",String.valueOf(client.getDTO().getId()),"redirect_uri","https://mingle05.thoughtworks.com/gadgets/oauthcallback","response_type","code","state","eyJvYXV0aF9hdXRob3JpemVfdXJsIjoiaHR0cHM6Ly8xOTIuMTY4Ljk5LjU5\nOjgxNTQvZ28vYWRtaW4vb2F1dGgvYXV0aG9yaXplIn0=","code","ABCD","expires_at",expiresAt,"user_id","1");
+  OauthDataSource.OauthAuthorizationDTO dto=repo.saveAuthorization(attributes);
+  assertThat(dto.getId(),is(not(Matchers.nullValue())));
+  assertThat(dto.getClientId(),is(String.valueOf(client.getDTO().getId())));
+  assertThat(dto.getExpiresAt(),is(expiresAt));
+  assertThat(dto.getCode(),is("ABCD"));
+  assertThat(dto.getOauthClientId(),is(String.valueOf(client.getDTO().getId())));
+  assertThat(dto.getUserId(),is("1"));
+}
