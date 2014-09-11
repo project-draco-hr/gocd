@@ -1,0 +1,10 @@
+{
+  OauthClient client=new OauthClient("mingle09","client_id","client_secret","http://something");
+  template.save(client);
+  String accessToken=UUID.randomUUID().toString();
+  String refreshToken=UUID.randomUUID().toString();
+  long expiresAt=new Date().getTime();
+  Map<String,String> attributes=m("user_id","1","client_id",String.valueOf(client.getDTO().getId()),"access_token",accessToken,"refresh_token",refreshToken,"expires_at",expiresAt);
+  OauthDataSource.OauthTokenDTO dto=repo.saveToken(attributes);
+  assertThat(dto.getUserId(),is("1"));
+}
