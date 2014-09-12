@@ -1,0 +1,18 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)).thenReturn(true);
+  when(systemEnvironment.useCompressedJs()).thenReturn(true);
+  when(railsAssetsService.getAssetPath("application.js")).thenReturn("assets/application-digest.js");
+  when(railsAssetsService.getAssetPath("application.css")).thenReturn("assets/application-digest.css");
+  when(railsAssetsService.getAssetPath("vm/application.css")).thenReturn("assets/vm/application-digest.css");
+  when(railsAssetsService.getAssetPath("css/application.css")).thenReturn("assets/css/application-digest.css");
+  GoVelocityView view=spy(new GoVelocityView(systemEnvironment));
+  doReturn(railsAssetsService).when(view).getRailsAssetsService();
+  Request servletRequest=mock(Request.class);
+  when(servletRequest.getSession()).thenReturn(mock(HttpSession.class));
+  view.exposeHelpers(velocityContext,servletRequest);
+  assertThat((String)velocityContext.get(GoVelocityView.CONCATENATED_JAVASCRIPT_FILE_PATH),is("assets/application-digest.js"));
+  assertThat((String)velocityContext.get(GoVelocityView.CONCATENATED_APPLICATION_CSS_FILE_PATH),is("assets/application-digest.css"));
+  assertThat((String)velocityContext.get(GoVelocityView.CONCATENATED_VM_APPLICATION_CSS_FILE_PATH),is("assets/vm/application-digest.css"));
+  assertThat((String)velocityContext.get(GoVelocityView.CONCATENATED_CSS_APPLICATION_CSS_FILE_PATH),is("assets/css/application-digest.css"));
+}
