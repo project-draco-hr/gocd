@@ -3,6 +3,7 @@
   systemEnvironment=mock(SystemEnvironment.class);
   when(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)).thenReturn(true);
   when(systemEnvironment.useCompressedJs()).thenReturn(true);
-  railsAssetsService=new RailsAssetsService(context,systemEnvironment);
+  railsAssetsService=new RailsAssetsService(systemEnvironment);
+  railsAssetsService.setServletContext(context);
   assetsDir=FileUtil.createTempFolder("assets-" + UUID.randomUUID().toString());
 }
