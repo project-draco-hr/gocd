@@ -7,18 +7,11 @@
   if (!assetsDir.exists()) {
     throw new RuntimeException(String.format("Assets directory does not exist %s",assetsDirPath));
   }
-  File manifestFile=null;
-  Iterator iterator=FileUtils.iterateFiles(assetsDir,new String[]{"json"},false);
-  while (iterator.hasNext()) {
-    File next=(File)iterator.next();
-    if (MANIFEST_FILE_PATTERN.matcher(next.getName()).matches()) {
-      manifestFile=next;
-      break;
-    }
-  }
-  if (manifestFile == null) {
+  Collection files=FileUtils.listFiles(assetsDir,new RegexFileFilter(MANIFEST_FILE_PATTERN),null);
+  if (files.isEmpty()) {
     throw new RuntimeException(String.format("Manifest json file was not found at %s",assetsDirPath));
   }
+  File manifestFile=(File)files.iterator().next();
   LOG.info(String.format("Found rails assets manifest file named %s ",manifestFile.getName()));
   String manifest=FileUtil.readContentFromFile(manifestFile);
   Gson gson=new Gson();
