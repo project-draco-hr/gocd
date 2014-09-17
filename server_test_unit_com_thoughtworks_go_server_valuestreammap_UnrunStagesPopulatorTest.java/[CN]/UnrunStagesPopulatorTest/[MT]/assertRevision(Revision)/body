@@ -1,8 +1,8 @@
 {
   PipelineRevision pipelineRevision=(PipelineRevision)revision;
-  MatcherAssert.assertThat(pipelineRevision.getStages(),Matchers.hasSize(3));
-  MatcherAssert.assertThat(pipelineRevision.getStages().get(0).getName(),Matchers.is("s1"));
-  MatcherAssert.assertThat(pipelineRevision.getStages().get(1).getName(),Matchers.is("s3"));
-  MatcherAssert.assertThat(pipelineRevision.getStages().get(2).getName(),Matchers.is("s4"));
-  MatcherAssert.assertThat(pipelineRevision.getStages().get(2).getState(),Matchers.is(StageState.Unknown));
+  assertThat(pipelineRevision.getStages(),hasSize(3));
+  assertThat(pipelineRevision.getStages().get(0).getName(),is("s1"));
+  assertThat(pipelineRevision.getStages().get(1).getName(),is("s3"));
+  assertThat(pipelineRevision.getStages().get(2).getName(),is("s4"));
+  assertThat(pipelineRevision.getStages().get(2).getState(),is(StageState.Unknown));
 }

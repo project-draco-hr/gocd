@@ -1,0 +1,5 @@
+{
+  when(systemEnvironment.useCompressedJs()).thenReturn(false);
+  railsAssetsService.initialize();
+  assertThat(railsAssetsService.getAssetPath("junk.js"),is("assets/junk.js"));
+}

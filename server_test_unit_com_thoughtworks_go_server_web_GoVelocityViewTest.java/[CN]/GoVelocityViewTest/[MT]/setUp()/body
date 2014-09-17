@@ -1,5 +1,7 @@
 {
-  view=new GoVelocityView();
+  railsAssetsService=mock(RailsAssetsService.class);
+  view=spy(new GoVelocityView());
+  doReturn(railsAssetsService).when(view).getRailsAssetsService();
   request=new MockHttpServletRequest();
   velocityContext=new VelocityContext();
   securityContext=new SecurityContextImpl();

@@ -1,0 +1,20 @@
+{
+  if (!(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS) && systemEnvironment.useCompressedJs())) {
+    return;
+  }
+  String assetsDirPath=servletContext.getRealPath(servletContext.getInitParameter("rails.root") + "/public/assets/");
+  File assetsDir=new File(assetsDirPath);
+  if (!assetsDir.exists()) {
+    throw new RuntimeException(String.format("Assets directory does not exist %s",assetsDirPath));
+  }
+  Collection files=FileUtils.listFiles(assetsDir,new RegexFileFilter(MANIFEST_FILE_PATTERN),null);
+  if (files.isEmpty()) {
+    throw new RuntimeException(String.format("Manifest json file was not found at %s",assetsDirPath));
+  }
+  File manifestFile=(File)files.iterator().next();
+  LOG.info(String.format("Found rails assets manifest file named %s ",manifestFile.getName()));
+  String manifest=FileUtil.readContentFromFile(manifestFile);
+  Gson gson=new Gson();
+  railsAssetsManifest=gson.fromJson(manifest,RailsAssetsManifest.class);
+  LOG.info(String.format("Successfully read rails assets manifest file located at %s",manifestFile.getAbsolutePath()));
+}

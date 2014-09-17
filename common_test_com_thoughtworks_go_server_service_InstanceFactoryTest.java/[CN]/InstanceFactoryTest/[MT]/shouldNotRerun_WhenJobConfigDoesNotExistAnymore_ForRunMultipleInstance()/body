@@ -1,0 +1,22 @@
+{
+  Date old=new DateTime().minusDays(2).toDate();
+  StageConfig stageConfig=StageConfigMother.custom("dev","rails","java");
+  JobConfig railsConfig=stageConfig.getJobs().getJob(new CaseInsensitiveString("rails"));
+  railsConfig.setRunInstanceCount(3);
+  DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("loser",new Agents());
+  RunMultipleInstance.CounterBasedJobNameGenerator jobNameGenerator=new RunMultipleInstance.CounterBasedJobNameGenerator(CaseInsensitiveString.str(railsConfig.name()));
+  JobInstances jobs=instanceFactory.createJobInstance(new CaseInsensitiveString("dev"),railsConfig,schedulingContext,new TimeProvider(),jobNameGenerator);
+  Stage stage=createStageInstance(old,jobs);
+  Stage newStage=null;
+  CannotRerunJobException exception=null;
+  try {
+    newStage=instanceFactory.createStageForRerunOfJobs(stage,a("rails-runInstance-1"),schedulingContext,StageConfigMother.custom("dev","java"),new TimeProvider(),"md5");
+    fail("should not schedule when job config does not exist anymore");
+  }
+ catch (  CannotRerunJobException e) {
+    exception=e;
+  }
+  assertThat(exception.getJobName(),is("rails"));
+  assertThat(exception.getInformation(),is("Configuration for job doesn't exist."));
+  assertThat(newStage,is(nullValue()));
+}

@@ -1,0 +1,11 @@
+{
+  when(context.getInitParameter("rails.root")).thenReturn("");
+  when(context.getRealPath(Matchers.<String>any())).thenReturn("DoesNotExist");
+  try {
+    railsAssetsService.initialize();
+    fail("Expected exception to be thrown");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Assets directory does not exist DoesNotExist"));
+  }
+}

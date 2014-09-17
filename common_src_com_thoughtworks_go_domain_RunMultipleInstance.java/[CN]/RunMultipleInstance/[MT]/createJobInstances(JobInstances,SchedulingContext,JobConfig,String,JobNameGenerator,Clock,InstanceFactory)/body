@@ -1,0 +1,8 @@
+{
+  Integer totalInstances=context.isRerun() ? 1 : config.getRunInstanceCountValue();
+  for (int counter=1; counter <= totalInstances; counter++) {
+    String jobName=nameGenerator.generateName(counter);
+    context=setEnvironmentVariables(context,config,jobName,counter);
+    instanceFactory.reallyCreateJobInstance(config,jobs,null,jobName,false,true,context,clock);
+  }
+}

@@ -3,6 +3,8 @@
   try {
     getHibernateTemplate().saveOrUpdate(modification);
     removeLatestCachedModification(materialInstance,modification);
+    removeCachedModificationCountFor(materialInstance);
+    removeCachedModificationsFor(materialInstance);
   }
  catch (  Exception e) {
     String message="Cannot save modification " + modification;

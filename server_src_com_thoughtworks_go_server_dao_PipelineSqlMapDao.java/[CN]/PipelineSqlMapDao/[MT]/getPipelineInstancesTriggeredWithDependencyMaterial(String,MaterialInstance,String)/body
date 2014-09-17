@@ -1,0 +1,14 @@
+{
+  String cacheKey=cacheKeyForPipelineInstancesTriggeredWithDependencyMaterial(pipelineName,materialInstance.getFingerprint(),revision);
+  List<PipelineIdentifier> pipelineIdentifiers=(List<PipelineIdentifier>)goCache.get(cacheKey);
+  if (pipelineIdentifiers == null) {
+synchronized (cacheKey) {
+      pipelineIdentifiers=(List<PipelineIdentifier>)goCache.get(cacheKey);
+      if (pipelineIdentifiers == null) {
+        pipelineIdentifiers=(List<PipelineIdentifier>)getSqlMapClientTemplate().queryForList("pipelineInstancesTriggeredOffOfMaterialRevision",arguments("pipelineName",pipelineName).and("materialId",materialInstance.getId()).and("materialRevision",revision).asMap());
+        goCache.put(cacheKey,pipelineIdentifiers);
+      }
+    }
+  }
+  return pipelineIdentifiers;
+}

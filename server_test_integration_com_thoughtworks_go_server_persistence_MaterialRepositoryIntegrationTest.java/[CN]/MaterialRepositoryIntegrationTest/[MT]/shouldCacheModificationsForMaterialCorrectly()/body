@@ -1,0 +1,22 @@
+{
+  final ScmMaterial material=material();
+  MaterialInstance materialInstance=material.createMaterialInstance();
+  repo.saveOrUpdate(materialInstance);
+  saveOneScmModification("1",material,"user1","1.txt","comment1");
+  saveOneScmModification("2",material,"user2","2.txt","comment2");
+  saveOneScmModification("3",material,"user3","3.txt","comment3");
+  saveOneScmModification("4",material,"user4","4.txt","comment4");
+  saveOneScmModification("5",material,"user5","5.txt","comment5");
+  Long totalCount=repo.getTotalModificationsFor(materialInstance);
+  totalCount=(Long)goCache.get(repo.materialModificationCountKey(materialInstance));
+  final Modification modOne=new Modification("user","comment","email@gmail.com",new Date(),"123");
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      MaterialInstance foo=repo.findOrCreateFrom(material);
+      repo.saveModifications(foo,Arrays.asList(modOne));
+    }
+  }
+);
+  totalCount=(Long)goCache.get(repo.materialModificationCountKey(materialInstance));
+  assertThat(totalCount,is(nullValue()));
+}

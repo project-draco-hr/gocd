@@ -1,0 +1,20 @@
+{
+  StageConfig stageConfig=StageConfigMother.custom("dev","rails","java","html");
+  JobConfig railsConfig=stageConfig.getJobs().getJob(new CaseInsensitiveString("rails"));
+  railsConfig.setRunOnAllAgents(true);
+  railsConfig.addResource("foobar");
+  JobConfig javaConfig=stageConfig.getJobs().getJob(new CaseInsensitiveString("java"));
+  javaConfig.setRunInstanceCount(2);
+  AgentConfig agent1=new AgentConfig("abcd1234","host","127.0.0.2",new Resources(new Resource("foobar")));
+  AgentConfig agent2=new AgentConfig("1234abcd","ghost","192.168.1.2",new Resources(new Resource("baz"),new Resource("foobar")));
+  AgentConfig agent3=new AgentConfig("7890abdc","lost","10.4.3.55",new Resources(new Resource("crapyagent")));
+  DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("loser",new Agents(agent1,agent2,agent3));
+  Stage stageInstance=instanceFactory.createStageInstance(stageConfig,schedulingContext,"md5",clock);
+  JobInstances jobInstances=stageInstance.getJobInstances();
+  assertThat(jobInstances.size(),is(5));
+  assertRunOnAllAgentsJobInstance(jobInstances.get(0),"rails-runOnAll-1");
+  assertRunOnAllAgentsJobInstance(jobInstances.get(1),"rails-runOnAll-2");
+  assertRunMultipleJobInstance(jobInstances.get(2),"java-runInstance-1");
+  assertRunMultipleJobInstance(jobInstances.get(3),"java-runInstance-2");
+  assertSimpleJobInstance(jobInstances.get(4),"html");
+}

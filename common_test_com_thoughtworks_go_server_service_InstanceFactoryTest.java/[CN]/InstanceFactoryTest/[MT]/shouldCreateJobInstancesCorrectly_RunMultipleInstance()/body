@@ -1,0 +1,25 @@
+{
+  Date old=new DateTime().minusDays(2).toDate();
+  StageConfig stageConfig=StageConfigMother.custom("dev","rails","java");
+  JobConfig railsConfig=stageConfig.getJobs().getJob(new CaseInsensitiveString("rails"));
+  railsConfig.setRunInstanceCount(3);
+  DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("loser",new Agents());
+  RunMultipleInstance.CounterBasedJobNameGenerator jobNameGenerator=new RunMultipleInstance.CounterBasedJobNameGenerator(CaseInsensitiveString.str(railsConfig.name()));
+  JobInstances jobs=instanceFactory.createJobInstance(new CaseInsensitiveString("dev"),railsConfig,schedulingContext,new TimeProvider(),jobNameGenerator);
+  assertThat(jobs.get(0).getName(),is("rails-runInstance-1"));
+  assertEnvironmentVariable(jobs.get(0),0,"GO_JOB_RUN_INDEX","1");
+  assertEnvironmentVariable(jobs.get(0),1,"GO_JOB_RUN_COUNT","3");
+  assertThat(jobs.get(1).getName(),is("rails-runInstance-2"));
+  assertEnvironmentVariable(jobs.get(1),0,"GO_JOB_RUN_INDEX","2");
+  assertEnvironmentVariable(jobs.get(1),1,"GO_JOB_RUN_COUNT","3");
+  assertThat(jobs.get(2).getName(),is("rails-runInstance-3"));
+  assertEnvironmentVariable(jobs.get(2),0,"GO_JOB_RUN_INDEX","3");
+  assertEnvironmentVariable(jobs.get(2),1,"GO_JOB_RUN_COUNT","3");
+  Stage stage=createStageInstance(old,jobs);
+  JobInstances jobInstances=stage.getJobInstances();
+  assertThat(jobInstances.size(),is(4));
+  assertRunMultipleJobInstance(jobInstances.get(0),"rails-runInstance-1");
+  assertRunMultipleJobInstance(jobInstances.get(1),"rails-runInstance-2");
+  assertRunMultipleJobInstance(jobInstances.get(2),"rails-runInstance-3");
+  assertThat(jobInstances.get(3).getName(),is("java"));
+}

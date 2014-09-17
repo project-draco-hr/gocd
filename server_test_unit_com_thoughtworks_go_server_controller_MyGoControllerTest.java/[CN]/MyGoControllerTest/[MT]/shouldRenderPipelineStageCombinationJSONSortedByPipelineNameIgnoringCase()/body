@@ -15,5 +15,5 @@
   assertThat((Boolean)modelAndView.getModel().get("emailMe"),is(true));
   assertThat((List<NotificationFilter>)modelAndView.getModel().get("notificationFilters"),is(user.getNotificationFilters()));
   assertThat((Localizer)modelAndView.getModel().get("l"),is(localizer));
-  assertThat((String)modelAndView.getModel().get("pipelines"),is("[{\"name\":\"pipeline1-1\",\"stages\":[{\"stageName\":\"stage1-1\"},{\"stageName\":\"stage1-2\"}]}," + "{\"name\":\"PIPELINE2-1\",\"stages\":[{\"stageName\":\"stage2-1\"}]}," + "{\"name\":\"pipeline3-1\",\"stages\":[{\"stageName\":\"stage3-1\"}]}]"));
+  assertThat((String)modelAndView.getModel().get("pipelines"),is("[{\"name\":\"" + GoConstants.ANY_PIPELINE + "\",\"stages\":[{\"stageName\":\""+ GoConstants.ANY_STAGE+ "\"}]},"+ "{\"name\":\"pipeline1-1\",\"stages\":[{\"stageName\":\""+ GoConstants.ANY_STAGE+ "\"},{\"stageName\":\"stage1-1\"},{\"stageName\":\"stage1-2\"}]},"+ "{\"name\":\"PIPELINE2-1\",\"stages\":[{\"stageName\":\""+ GoConstants.ANY_STAGE+ "\"},{\"stageName\":\"stage2-1\"}]},"+ "{\"name\":\"pipeline3-1\",\"stages\":[{\"stageName\":\""+ GoConstants.ANY_STAGE+ "\"},{\"stageName\":\"stage3-1\"}]}]"));
 }

@@ -1,0 +1,5 @@
+{
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager);
+  jobService.getJobHistoryCount("pipeline","stage","job");
+  verify(jobInstanceDao).getJobHistoryCount("pipeline","stage","job");
+}

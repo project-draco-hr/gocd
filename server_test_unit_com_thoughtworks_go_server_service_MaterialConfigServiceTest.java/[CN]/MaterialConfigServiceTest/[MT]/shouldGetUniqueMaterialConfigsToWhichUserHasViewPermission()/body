@@ -1,0 +1,6 @@
+{
+  MaterialConfigs materialConfigs=materialConfigService.getMaterialConfigs(user);
+  assertThat(materialConfigs.size(),is(2));
+  assertThat(materialConfigs.get(0),is((MaterialConfig)new GitMaterialConfig("http://test.com")));
+  assertThat(materialConfigs.get(1),is((MaterialConfig)new GitMaterialConfig("http://crap.com")));
+}

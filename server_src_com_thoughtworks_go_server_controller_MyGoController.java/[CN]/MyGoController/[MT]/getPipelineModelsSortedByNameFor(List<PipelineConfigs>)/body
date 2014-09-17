@@ -1,5 +1,8 @@
 {
   List<PipelineViewModel> pipelineModels=new ArrayList<PipelineViewModel>();
+  List<PipelineViewModel.StageViewModel> anyPipelineStageModels=new ArrayList<PipelineViewModel.StageViewModel>();
+  anyPipelineStageModels.add(new PipelineViewModel.StageViewModel(GoConstants.ANY_STAGE));
+  pipelineModels.add(new PipelineViewModel(GoConstants.ANY_PIPELINE,anyPipelineStageModels));
   for (  PipelineConfigs group : groups) {
     for (    PipelineConfig pipelineConfig : group) {
       pipelineModels.add(new PipelineViewModel(CaseInsensitiveString.str(pipelineConfig.name()),getStagesModelsFor(pipelineConfig)));

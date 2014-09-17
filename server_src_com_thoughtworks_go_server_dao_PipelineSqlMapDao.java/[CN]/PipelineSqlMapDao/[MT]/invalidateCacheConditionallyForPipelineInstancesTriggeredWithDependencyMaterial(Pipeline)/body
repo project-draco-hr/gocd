@@ -5,5 +5,8 @@
       DependencyMaterialRevision dependencyMaterialRevision=(DependencyMaterialRevision)materialRevision.getRevision();
       goCache.remove(cacheKeyForPipelineInstancesTriggeredWithDependencyMaterial(pipeline.getName(),dependencyMaterialRevision.getPipelineName(),dependencyMaterialRevision.getPipelineCounter()));
     }
+ else {
+      goCache.remove(cacheKeyForPipelineInstancesTriggeredWithDependencyMaterial(pipeline.getName(),materialRevision.getMaterial().getFingerprint(),materialRevision.getRevision().getRevision()));
+    }
   }
 }

@@ -1,5 +1,11 @@
 {
-  Node currentPipeline=valueStreamMap.getCurrentPipeline();
-  Set<Revision> visitedRevisions=new HashSet<Revision>();
-  populateRevisionsForAllChildrenOf(currentPipeline,visitedRevisions);
+  if (valueStreamMap.getCurrentPipeline() != null) {
+    Node currentPipeline=valueStreamMap.getCurrentPipeline();
+    populateRevisionsForAllChildrenOf(currentPipeline,new HashSet<Revision>());
+  }
+ else {
+    Node currentMaterial=valueStreamMap.getCurrentMaterial();
+    MaterialInstance currentMaterialInstance=valueStreamMap.getCurrentMaterialInstance();
+    populateRevisionsFor(currentMaterial,currentMaterialInstance,new HashSet<Revision>());
+  }
 }

@@ -3,7 +3,11 @@
   String configName=translateToConfigName(oldJob.getName());
   JobConfig jobConfig=stageConfig.jobConfigByConfigName(new CaseInsensitiveString(configName));
   if (jobConfig == null) {
-    throw new CannotRerunJobException(configName);
+    throw new CannotRerunJobException(configName,"Configuration for job doesn't exist.");
+  }
+  if (jobConfig.isRunMultipleInstanceType()) {
+    String runType="'run multiple instance'";
+    throw new CannotRerunJobException(configName,"Run configuration for job has been changed to " + runType + ".");
   }
   String newJobName=jobConfig.isRunOnAllAgents() ? oldJob.getName() : CaseInsensitiveString.str(jobConfig.name());
   JobInstances instances=instanceFactory.createJobInstance(stageConfig.name(),jobConfig,context,clock,new IdentityNameGenerator(newJobName));

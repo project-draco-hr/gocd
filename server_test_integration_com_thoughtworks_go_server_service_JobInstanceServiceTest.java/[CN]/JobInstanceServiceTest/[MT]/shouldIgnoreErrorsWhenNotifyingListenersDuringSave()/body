@@ -5,7 +5,7 @@
   final Pipeline pipeline=new NullPipeline();
   final Stage stage=new Stage();
   stage.setId(1);
-  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager,failingListener,passingListener);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager,failingListener,passingListener);
   transactionTemplate.execute(new TransactionCallbackWithoutResult(){
     public void doInTransactionWithoutResult(    TransactionStatus status){
       jobService.save(new StageIdentifier(pipeline.getName(),null,pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter())),stage.getId(),job);

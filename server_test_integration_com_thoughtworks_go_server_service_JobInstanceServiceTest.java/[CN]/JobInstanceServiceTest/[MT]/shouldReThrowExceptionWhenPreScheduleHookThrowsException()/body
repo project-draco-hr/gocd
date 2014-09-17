@@ -1,5 +1,5 @@
 {
-  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager);
   doThrow(new RuntimeException("This will fail with an exception, when plugin manager runs the exception handler.")).when(pluginManager).doOnAll(eq(IJobPreScheduleHook.class),jobPreScheduleActionHandlerCaptor.capture(),jobPreScheduleExceptionHandlerCaptor.capture());
   try {
     transactionTemplate.execute(new TransactionCallbackWithoutResult(){

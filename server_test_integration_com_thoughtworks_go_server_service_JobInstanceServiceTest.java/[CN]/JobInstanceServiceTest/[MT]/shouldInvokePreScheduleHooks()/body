@@ -1,5 +1,5 @@
 {
-  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,pluginManager);
+  final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,null,null,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,null,pluginManager);
   transactionTemplate.execute(new TransactionCallbackWithoutResult(){
     public void doInTransactionWithoutResult(    TransactionStatus status){
       jobService.save(new StageIdentifier("pipelineName",1,"1","defaultStage","1"),42l,job);

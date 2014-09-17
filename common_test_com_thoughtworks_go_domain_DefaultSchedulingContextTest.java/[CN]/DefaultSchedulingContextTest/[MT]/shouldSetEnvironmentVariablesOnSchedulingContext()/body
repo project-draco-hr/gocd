@@ -9,7 +9,9 @@
   stageLevel.add("overriddenVar","overriddenVal");
   StageConfig config=StageConfigMother.custom("test",Approval.automaticApproval());
   config.setVariables(stageLevel);
+  ReflectionUtil.setField(schedulingContext,"rerun",true);
   SchedulingContext context=schedulingContext.overrideEnvironmentVariables(config.getVariables());
+  assertThat(context.isRerun(),is(true));
   EnvironmentVariablesConfig environmentVariablesUsed=context.getEnvironmentVariablesConfig();
   assertThat(environmentVariablesUsed.size(),is(3));
   assertThat(environmentVariablesUsed,hasItem(new EnvironmentVariableConfig("firstVar","firstVal")));

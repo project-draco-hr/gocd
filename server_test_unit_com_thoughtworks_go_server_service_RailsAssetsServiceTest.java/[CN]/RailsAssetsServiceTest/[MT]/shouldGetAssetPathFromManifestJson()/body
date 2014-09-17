@@ -1,0 +1,8 @@
+{
+  FileUtil.writeContentToFile(json,new File(assetsDir,"manifest-digest.json"));
+  when(context.getInitParameter("rails.root")).thenReturn("");
+  when(context.getRealPath(Matchers.<String>any())).thenReturn(assetsDir.getAbsolutePath());
+  railsAssetsService.initialize();
+  assertThat(railsAssetsService.getAssetPath("application.js"),is("assets/application-bfdbd4fff63b0cd45c50ce7a79fe0f53.js"));
+  assertThat(railsAssetsService.getAssetPath("junk.js"),is(nullValue()));
+}

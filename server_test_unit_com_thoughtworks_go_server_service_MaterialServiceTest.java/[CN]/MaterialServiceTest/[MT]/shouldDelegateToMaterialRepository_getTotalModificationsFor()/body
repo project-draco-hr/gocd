@@ -1,0 +1,8 @@
+{
+  GitMaterialConfig materialConfig=new GitMaterialConfig("http://test.com");
+  GitMaterialInstance gitMaterialInstance=new GitMaterialInstance("http://test.com",null,null,"flyweight");
+  when(materialRepository.findMaterialInstance(materialConfig)).thenReturn(gitMaterialInstance);
+  when(materialRepository.getTotalModificationsFor(gitMaterialInstance)).thenReturn(1L);
+  Long totalCount=materialService.getTotalModificationsFor(materialConfig);
+  assertThat(totalCount,is(1L));
+}
