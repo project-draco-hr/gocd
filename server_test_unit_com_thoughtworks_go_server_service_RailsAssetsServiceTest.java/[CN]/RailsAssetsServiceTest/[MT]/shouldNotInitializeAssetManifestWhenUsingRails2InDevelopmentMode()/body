@@ -1,0 +1,8 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)).thenReturn(false);
+  when(systemEnvironment.useCompressedJs()).thenReturn(false);
+  railsAssetsService=new RailsAssetsService(systemEnvironment);
+  railsAssetsService.setServletContext(context);
+  railsAssetsService.initialize();
+  assertThat(railsAssetsService.getRailsAssetsManifest(),is(nullValue()));
+}
