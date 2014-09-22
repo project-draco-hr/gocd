@@ -6,7 +6,7 @@
     }
   }
  catch (  Exception e) {
-    throw new RuntimeException(outputStreamConsumer.getStdError(),e);
+    throw new RuntimeException(String.format("Working directory: %s\n%s",workingDir,outputStreamConsumer.getStdError()),e);
   }
   CommandLine gitCmd=git().withArg("log").withArgs(args).withWorkingDir(workingDir);
   ConsoleResult result=runOrBomb(gitCmd);
