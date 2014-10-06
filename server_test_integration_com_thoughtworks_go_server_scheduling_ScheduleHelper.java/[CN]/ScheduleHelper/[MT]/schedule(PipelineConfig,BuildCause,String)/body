@@ -1,11 +1,3 @@
 {
-  return (Pipeline)transactionTemplate.execute(new TransactionCallback(){
-    public Object doInTransaction(    TransactionStatus status){
-      materialRepository.save(buildCause.getMaterialRevisions());
-      Pipeline pipeline=instanceFactory.createPipelineInstance(pipelineConfig,buildCause,new DefaultSchedulingContext(approvedBy),"md5-test",new TimeProvider());
-      pipeline=pipelineService.save(pipeline);
-      return pipeline;
-    }
-  }
-);
+  return schedule(pipelineConfig,buildCause,approvedBy,new DefaultSchedulingContext(approvedBy));
 }

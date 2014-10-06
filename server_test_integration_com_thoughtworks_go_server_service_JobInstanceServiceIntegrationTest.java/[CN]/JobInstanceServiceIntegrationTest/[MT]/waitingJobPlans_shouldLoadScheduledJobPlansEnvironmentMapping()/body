@@ -4,7 +4,7 @@
   configHelper.addPipeline("go","dev");
   configHelper.addEnvironments("newEnv");
   configHelper.addPipelineToEnvironment("newEnv","go");
-  scheduleHelper.schedule(pipelineConfig,BuildCause.createWithModifications(modifyOneFile(pipelineConfig),""),GoConstants.DEFAULT_APPROVED_BY);
+  scheduleHelper.schedule(pipelineConfig,BuildCause.createWithModifications(modifyOneFile(pipelineConfig),""),DEFAULT_APPROVED_BY);
   List<JobPlan> jobPlans=jobInstanceService.orderedScheduledBuilds();
   List<WaitingJobPlan> waitingJobPlans=jobInstanceService.waitingJobPlans();
   assertThat(waitingJobPlans.size(),is(1));

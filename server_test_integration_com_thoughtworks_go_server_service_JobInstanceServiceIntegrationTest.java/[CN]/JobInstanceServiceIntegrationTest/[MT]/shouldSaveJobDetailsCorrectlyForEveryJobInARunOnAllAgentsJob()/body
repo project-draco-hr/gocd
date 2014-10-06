@@ -1,0 +1,15 @@
+{
+  PipelineConfig pipelineConfig=PipelineMother.withSingleStageWithMaterials("go","dev",withBuildPlans("unit"));
+  JobConfig jobConfig=pipelineConfig.getFirstStageConfig().getJobs().get(0);
+  jobConfig.setRunOnAllAgents(true);
+  jobConfig.addResource("blah");
+  configHelper.addPipeline("go","dev");
+  DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("anyone",new Agents(localAgentWithResources("blah"),localAgentWithResources("blah")));
+  scheduleHelper.schedule(pipelineConfig,BuildCause.createWithModifications(modifyOneFile(pipelineConfig),""),DEFAULT_APPROVED_BY,schedulingContext);
+  List<JobPlan> jobPlans=jobInstanceService.orderedScheduledBuilds();
+  assertThat(jobPlans.size(),is(2));
+  assertThat(jobPlans.get(0).getResources().size(),is(1));
+  assertThat(jobPlans.get(0).getResources().get(0).getName(),is("blah"));
+  assertThat(jobPlans.get(1).getResources().size(),is(1));
+  assertThat(jobPlans.get(1).getResources().get(0).getName(),is("blah"));
+}
