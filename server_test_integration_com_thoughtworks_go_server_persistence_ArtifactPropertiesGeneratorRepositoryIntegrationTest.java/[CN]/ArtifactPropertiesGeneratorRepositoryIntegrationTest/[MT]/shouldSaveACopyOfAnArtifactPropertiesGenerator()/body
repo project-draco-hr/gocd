@@ -1,0 +1,17 @@
+{
+  JobInstance firstJobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME + "1"));
+  JobInstance secondJobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME + "2"));
+  ArtifactPropertiesGenerator generator=new ArtifactPropertiesGenerator("test","src","//xpath");
+  generator.setJobId(firstJobInstance.getId());
+  ArtifactPropertiesGenerator generatorOfFirstJob=artifactPropertiesGeneratorRepository.saveCopyOf(generator);
+  generator.setJobId(secondJobInstance.getId());
+  ArtifactPropertiesGenerator generatorOfSecondJob=artifactPropertiesGeneratorRepository.saveCopyOf(generator);
+  List<ArtifactPropertiesGenerator> firstJobGenerators=artifactPropertiesGeneratorRepository.findByBuildId(firstJobInstance.getId());
+  assertThat(firstJobGenerators.size(),is(1));
+  assertThat(firstJobGenerators.get(0).getId(),equalTo(generatorOfFirstJob.getId()));
+  assertThat(firstJobGenerators,hasItem(generatorOfFirstJob));
+  List<ArtifactPropertiesGenerator> secondJobGenerators=artifactPropertiesGeneratorRepository.findByBuildId(secondJobInstance.getId());
+  assertThat(secondJobGenerators.size(),is(1));
+  assertThat(secondJobGenerators,hasItem(generatorOfSecondJob));
+  assertThat(generatorOfFirstJob.getId(),not(equalTo(generatorOfSecondJob.getId())));
+}
