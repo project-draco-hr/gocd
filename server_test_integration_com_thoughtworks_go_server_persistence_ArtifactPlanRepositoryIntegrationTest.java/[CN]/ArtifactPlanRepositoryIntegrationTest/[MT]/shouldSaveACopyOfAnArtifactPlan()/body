@@ -1,0 +1,20 @@
+{
+  JobInstance firstJobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME + "1"));
+  JobInstance secondJobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME + "2"));
+  ArtifactPlan artifactPlan=new ArtifactPlan(ArtifactType.file,"src","dest");
+  artifactPlan.setBuildId(firstJobInstance.getId());
+  ArtifactPlan artifactPlanOfFirstJob=artifactPlanRepository.saveCopyOf(artifactPlan);
+  artifactPlan.setBuildId(secondJobInstance.getId());
+  ArtifactPlan artifactPlanOfSecondJob=artifactPlanRepository.saveCopyOf(artifactPlan);
+  List<ArtifactPlan> firstJobArtifactPlans=artifactPlanRepository.findByBuildId(firstJobInstance.getId());
+  assertThat(firstJobArtifactPlans.size(),is(1));
+  assertThat(firstJobArtifactPlans.get(0).getId(),equalTo(artifactPlanOfFirstJob.getId()));
+  assertThat(firstJobArtifactPlans,hasItem(artifactPlanOfFirstJob));
+  assertThat(artifactPlan.getId(),is(not(nullValue())));
+  List<ArtifactPlan> secondJobArtifactPlans=artifactPlanRepository.findByBuildId(secondJobInstance.getId());
+  assertThat(secondJobArtifactPlans.size(),is(1));
+  assertThat(secondJobArtifactPlans.get(0).getId(),equalTo(artifactPlanOfSecondJob.getId()));
+  assertThat(secondJobArtifactPlans,hasItem(artifactPlanOfSecondJob));
+  assertThat(artifactPlan.getId(),is(not(nullValue())));
+  assertThat(artifactPlanOfFirstJob.getId(),not(equalTo(artifactPlanOfSecondJob.getId())));
+}
