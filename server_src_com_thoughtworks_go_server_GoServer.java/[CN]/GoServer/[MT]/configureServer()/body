@@ -5,7 +5,9 @@
   server.addConnector(sslConnector());
   server.addHandler(welcomeFileHandler());
   server.addHandler(legacyRequestHandler());
-  server.addWebAppHandler(webApp());
+  WebAppContext webAppContext=webApp();
+  addResourceHandler(server,webAppContext);
+  server.addWebAppHandler(webAppContext);
   performCustomConfiguration(server);
   server.setStopAtShutdown(true);
   return server;
