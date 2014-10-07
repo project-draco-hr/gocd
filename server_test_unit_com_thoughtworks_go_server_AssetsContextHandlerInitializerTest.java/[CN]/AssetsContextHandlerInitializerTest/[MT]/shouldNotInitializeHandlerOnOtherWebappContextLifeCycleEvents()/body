@@ -1,0 +1,7 @@
+{
+  AssetsContextHandler handler=mock(AssetsContextHandler.class);
+  WebAppContext webAppContext=mock(WebAppContext.class);
+  AssetsContextHandlerInitializer initializer=new AssetsContextHandlerInitializer(handler,webAppContext);
+  initializer.lifeCycleStarting(null);
+  verify(handler,never()).init(webAppContext);
+}
