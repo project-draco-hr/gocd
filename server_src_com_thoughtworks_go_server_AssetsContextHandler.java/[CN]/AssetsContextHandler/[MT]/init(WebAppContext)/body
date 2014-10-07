@@ -1,0 +1,8 @@
+{
+  ResourceHandler resourceHandler=new ResourceHandler();
+  String railsRootDirName=webAppContext.getInitParameter("rails.root").replaceAll("/WEB-INF/","");
+  String assetsDir=webAppContext.getWebInf().addPath(String.format("%s/public/assets/",railsRootDirName)).getName();
+  resourceHandler.setResourceBase(assetsDir);
+  resourceHandler.setCacheControl("max-age=31536000,public");
+  this.setHandler(resourceHandler);
+}
