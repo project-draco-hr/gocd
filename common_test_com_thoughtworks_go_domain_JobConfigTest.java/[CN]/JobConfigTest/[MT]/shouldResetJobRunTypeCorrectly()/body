@@ -9,8 +9,13 @@
   assertThat(jobConfig.isRunMultipleInstanceType(),is(true));
   assertThat(jobConfig.isRunOnAllAgents(),is(false));
   HashMap map2=new HashMap();
-  map2.put(JobConfig.RUN_TYPE,JobConfig.RUN_SINGLE_INSTANCE);
   jobConfig.setConfigAttributes(map2);
+  assertThat(jobConfig.getRunInstanceCountValue(),is(10));
+  assertThat(jobConfig.isRunMultipleInstanceType(),is(true));
+  assertThat(jobConfig.isRunOnAllAgents(),is(false));
+  HashMap map3=new HashMap();
+  map3.put(JobConfig.RUN_TYPE,JobConfig.RUN_SINGLE_INSTANCE);
+  jobConfig.setConfigAttributes(map3);
   assertThat(jobConfig.isRunMultipleInstanceType(),is(false));
   assertThat(jobConfig.getRunInstanceCount(),is(nullValue()));
   assertThat(jobConfig.isRunOnAllAgents(),is(false));
