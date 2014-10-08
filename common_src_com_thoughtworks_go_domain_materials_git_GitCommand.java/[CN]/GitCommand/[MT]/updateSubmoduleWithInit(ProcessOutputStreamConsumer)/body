@@ -3,9 +3,13 @@
     return;
   }
   outputStreamConsumer.stdOutput("[GIT] Updating git sub-modules");
-  String[] args=new String[]{"submodule","update","--init"};
-  CommandLine gitCmd=git().withArgs(args).withWorkingDir(workingDir);
-  runOrBomb(gitCmd);
+  String[] initArgs=new String[]{"submodule","init"};
+  CommandLine initCmd=git().withArgs(initArgs).withWorkingDir(workingDir);
+  runOrBomb(initCmd);
+  submoduleSync();
+  String[] updateArgs=new String[]{"submodule","update"};
+  CommandLine updateCmd=git().withArgs(updateArgs).withWorkingDir(workingDir);
+  runOrBomb(updateCmd);
   outputStreamConsumer.stdOutput("[GIT] Cleaning unversioned files and sub-modules");
   printSubmoduleStatus(outputStreamConsumer);
 }
