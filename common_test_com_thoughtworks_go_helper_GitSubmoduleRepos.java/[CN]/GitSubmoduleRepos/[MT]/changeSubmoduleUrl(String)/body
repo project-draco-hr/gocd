@@ -1,0 +1,11 @@
+{
+  File newSubmodule=createRepo("new-submodule");
+  addAndCommitNewFile(newSubmodule,"new","make a commit");
+  git(remoteRepoDir).changeSubmoduleUrl(submoduleName,newSubmodule.getAbsolutePath());
+  git(remoteRepoDir).submoduleSync();
+  git(new File(remoteRepoDir,"local-submodule")).fetch(inMemoryConsumer());
+  git(new File(remoteRepoDir,"local-submodule")).resetHard(inMemoryConsumer(),new StringRevision("origin/master"));
+  git(remoteRepoDir).add(new File(".gitmodules"));
+  git(remoteRepoDir).add(new File("local-submodule"));
+  git(remoteRepoDir).commit("change submodule url");
+}
