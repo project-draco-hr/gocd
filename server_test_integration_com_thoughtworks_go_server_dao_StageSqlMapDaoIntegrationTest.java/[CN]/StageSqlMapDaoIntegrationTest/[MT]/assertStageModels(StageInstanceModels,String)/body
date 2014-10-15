@@ -1,0 +1,7 @@
+{
+  String message="Expected: " + stageInstanceModels + " to match: "+ Arrays.asList(runIdentifiers);
+  assertThat(message,stageInstanceModels.size(),is(runIdentifiers.length));
+  for (int i=0; i < runIdentifiers.length; i++) {
+    assertThat(message + ". Failed at index: " + i,stageInstanceModels.get(i).getIdentifier().getStageLocator(),is(runIdentifiers[i]));
+  }
+}
