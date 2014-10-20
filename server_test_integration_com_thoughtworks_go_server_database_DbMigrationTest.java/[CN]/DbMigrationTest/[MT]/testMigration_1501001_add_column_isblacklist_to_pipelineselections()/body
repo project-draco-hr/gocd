@@ -1,0 +1,11 @@
+{
+  dbFixture.copyDeltas();
+  dbFixture.copyH2Db("with-usernames-in-different-cases.zip");
+  h2Database=new H2Database(dbFixture.env());
+  h2Database.startDatabase();
+  doesNotHaveColumn("PIPELINESELECTIONS","ISBLACKLIST");
+  h2Database.upgrade();
+  hasColumn("PIPELINESELECTIONS","ISBLACKLIST");
+  columnHasType("PIPELINESELECTIONS","ISBLACKLIST","BOOLEAN");
+  columnHasDefault("PIPELINESELECTIONS","ISBLACKLIST","TRUE");
+}
