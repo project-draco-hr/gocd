@@ -1,7 +1,7 @@
 {
   Date date=new Date();
   List<String> unSelected=Arrays.asList("pipeline1","pipeline2");
-  long id=pipelineRepository.saveSelectedPipelines(new PipelineSelections(unSelected,date,null));
+  long id=pipelineRepository.saveSelectedPipelines(new PipelineSelections(unSelected,date,null,true));
   PipelineSelections found=pipelineRepository.findPipelineSelectionsById(id);
   assertHasPipelines(found,new String[]{"pipeline3","pipeline4"});
   assertHasPipelines(found,new String[]{"pipeline1","pipeline2"},false);

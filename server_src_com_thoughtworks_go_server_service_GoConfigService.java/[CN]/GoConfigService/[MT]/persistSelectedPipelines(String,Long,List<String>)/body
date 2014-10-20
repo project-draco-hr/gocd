@@ -1,4 +1,11 @@
 {
-  List<String> unselectedPipelines=getUnselectedPipelines(selectedPipelines);
-  return pipelineRepository.saveSelectedPipelines(getPipelineSelections(id,userId,unselectedPipelines));
+  PipelineSelections pipelineSelections=findOrCreateCurrentPipelineSelectionsFor(id,userId);
+  if (pipelineSelections.isBlacklist()) {
+    List<String> unselectedPipelines=invertSelections(selectedPipelines);
+    pipelineSelections.update(unselectedPipelines,clock.currentTime(),userId);
+  }
+ else {
+    pipelineSelections.update(selectedPipelines,clock.currentTime(),userId);
+  }
+  return pipelineRepository.saveSelectedPipelines(pipelineSelections);
 }

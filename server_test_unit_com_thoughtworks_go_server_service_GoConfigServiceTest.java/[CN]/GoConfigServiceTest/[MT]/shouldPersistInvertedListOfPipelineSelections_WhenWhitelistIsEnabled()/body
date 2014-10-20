@@ -1,0 +1,10 @@
+{
+  Date date=new DateTime(2000,1,1,1,1,1,1).toDate();
+  when(clock.currentTime()).thenReturn(date);
+  mockConfigWithSecurity();
+  User user=getUser("badger",10L);
+  PipelineSelections whitelistPipelineSelections=new PipelineSelections(new ArrayList<String>(),date,user.getId(),false);
+  when(pipelineRepository.findPipelineSelectionsByUserId(user.getId())).thenReturn(whitelistPipelineSelections);
+  goConfigService.persistSelectedPipelines(null,user.getId(),Arrays.asList("pipelineX","pipeline3"));
+  verify(pipelineRepository).saveSelectedPipelines(argThat(isAPipelineSelectionsInstanceWith(false,"pipelineX","pipeline3")));
+}

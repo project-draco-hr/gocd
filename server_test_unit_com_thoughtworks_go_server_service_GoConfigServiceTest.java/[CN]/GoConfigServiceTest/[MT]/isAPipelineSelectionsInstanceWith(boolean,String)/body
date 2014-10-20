@@ -1,0 +1,14 @@
+{
+  return new BaseMatcher<PipelineSelections>(){
+    public boolean matches(    Object o){
+      PipelineSelections pipelineSelections=(PipelineSelections)o;
+      assertThat(pipelineSelections.isBlacklist(),is(isBlacklist));
+      List<String> expectedSelectionsAsList=Arrays.asList(pipelineSelectionsInInstance);
+      assertEquals(pipelineSelections.getSelections(),ListUtil.join(expectedSelectionsAsList,","));
+      return true;
+    }
+    public void describeTo(    Description description){
+    }
+  }
+;
+}
