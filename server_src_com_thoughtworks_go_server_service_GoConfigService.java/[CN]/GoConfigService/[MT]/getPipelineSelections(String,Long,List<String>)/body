@@ -1,8 +1,0 @@
-{
-  PipelineSelections pipelineSelections=isSecurityEnabled() ? pipelineRepository.findPipelineSelectionsByUserId(userId) : pipelineRepository.findPipelineSelectionsById(id);
-  if (pipelineSelections == null) {
-    return new PipelineSelections(unselectedPipelines,clock.currentTime(),userId,true);
-  }
-  pipelineSelections.update(unselectedPipelines,clock.currentTime(),userId);
-  return pipelineSelections;
-}

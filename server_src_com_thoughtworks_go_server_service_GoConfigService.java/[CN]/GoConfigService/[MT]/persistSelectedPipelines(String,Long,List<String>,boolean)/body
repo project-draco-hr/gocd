@@ -1,11 +1,11 @@
 {
   PipelineSelections pipelineSelections=findOrCreateCurrentPipelineSelectionsFor(id,userId);
-  if (pipelineSelections.isBlacklist()) {
+  if (isBlacklist) {
     List<String> unselectedPipelines=invertSelections(selectedPipelines);
-    pipelineSelections.update(unselectedPipelines,clock.currentTime(),userId);
+    pipelineSelections.update(unselectedPipelines,clock.currentTime(),userId,isBlacklist);
   }
  else {
-    pipelineSelections.update(selectedPipelines,clock.currentTime(),userId);
+    pipelineSelections.update(selectedPipelines,clock.currentTime(),userId,isBlacklist);
   }
   return pipelineRepository.saveSelectedPipelines(pipelineSelections);
 }
