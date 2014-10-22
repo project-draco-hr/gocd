@@ -3,7 +3,7 @@
   int noDiskSpaceSize=100;
   new SystemEnvironment().setProperty(SystemEnvironment.ARTIFACT_WARNING_SIZE_LIMIT,size);
   String email="admin@mail.com";
-  SendEmailMessage message=EmailMessageDrafter.lowArtifactsDiskSpaceMessage(new SystemEnvironment(),email,artifactRoot,"http://test.host/go/help/installing_go_server.html");
+  SendEmailMessage message=EmailMessageDrafter.lowArtifactsDiskSpaceMessage(new SystemEnvironment(),email,artifactRoot);
   String ip=SystemUtil.getFirstLocalNonLoopbackIpAddress();
-  assertThat(message,is(new SendEmailMessage("Low artifacts disk space warning message from Go Server at " + ip,lowArtifactDiskSpaceEmail(ip,size,noDiskSpaceSize,"test.host"),email)));
+  assertThat(message,is(new SendEmailMessage("Low artifacts disk space warning message from Go Server at " + ip,lowArtifactDiskSpaceEmail(ip,size,noDiskSpaceSize),email)));
 }
