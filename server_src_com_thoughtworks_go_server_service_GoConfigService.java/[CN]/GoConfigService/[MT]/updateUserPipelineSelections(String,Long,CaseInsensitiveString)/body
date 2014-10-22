@@ -1,0 +1,7 @@
+{
+  PipelineSelections currentSelections=findOrCreateCurrentPipelineSelectionsFor(id,userId);
+  if (!currentSelections.isBlacklist()) {
+    currentSelections.addPipelineToSelections(pipelineToAdd);
+    pipelineRepository.saveSelectedPipelines(currentSelections);
+  }
+}

@@ -1,0 +1,7 @@
+{
+  mockConfigWithSecurity();
+  when(pipelineRepository.findPipelineSelectionsByUserId(1L)).thenReturn(new PipelineSelections(Arrays.asList("pipeline1","pipeline2"),null,null,false));
+  goConfigService.updateUserPipelineSelections(null,1L,new CaseInsensitiveString("pipelineNew"));
+  verify(pipelineRepository).findPipelineSelectionsByUserId(1L);
+  verify(pipelineRepository,times(1)).saveSelectedPipelines(argThat(isAPipelineSelectionsInstanceWith(false,"pipeline1","pipeline2","pipelineNew")));
+}
