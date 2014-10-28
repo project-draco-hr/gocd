@@ -2,7 +2,7 @@
   String size="2345";
   new SystemEnvironment().setProperty(SystemEnvironment.ARTIFACT_FULL_SIZE_LIMIT,size);
   String email="admin@mail.com";
-  SendEmailMessage message=EmailMessageDrafter.noArtifactsDiskSpaceMessage(new SystemEnvironment(),email,artifactRoot,"http://test.host/go/help/installing_go_server.html");
+  SendEmailMessage message=EmailMessageDrafter.noArtifactsDiskSpaceMessage(new SystemEnvironment(),email,artifactRoot);
   String ip=SystemUtil.getFirstLocalNonLoopbackIpAddress();
-  assertThat(message,is(new SendEmailMessage("No artifacts disk space error message from Go Server at " + ip,noArtifactDiskSpaceEmail(ip,size,"test.host"),email)));
+  assertThat(message,is(new SendEmailMessage("No artifacts disk space error message from Go Server at " + ip,noArtifactDiskSpaceEmail(ip,size),email)));
 }

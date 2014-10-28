@@ -1,0 +1,4 @@
+{
+  String ipAddress=SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  return new SendEmailMessage("Low artifacts disk space warning message from Go Server at " + ipAddress,String.format(LOW_ARTIFACTS_DISK_SPACE_EMAIL,ipAddress,systemEnvironment.getArtifactReposiotryWarningLimit(),targetFolder,systemEnvironment.getArtifactReposiotryFullLimit()),adminMail);
+}
