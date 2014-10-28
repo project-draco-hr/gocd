@@ -1,0 +1,7 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  MaterialConfig materialConfig=AutoTriggerDependencyResolutionTest.CLONER.deepClone(materialDeclaration.material.config());
+  materialConfigs.add(materialConfig);
+  PipelineConfig cfg=configHelper.addPipelineWithGroup(DEFAULT_GROUP,pipelineName,materialConfigs,stageName,builds);
+  return new AddedPipeline(cfg,new DependencyMaterial(str(pipelineName),str(stageName)));
+}
