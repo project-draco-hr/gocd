@@ -16,19 +16,13 @@
   assertThat(stageInstanceModels.get(0).getIdentifier().getPipelineCounter(),is(3));
   assertThat(stageInstanceModels.get(0).getIdentifier().getStageName(),is(stageName));
   assertThat(stageInstanceModels.get(0).getIdentifier().getStageCounter(),is("1"));
-  assertThat(stageInstanceModels.get(0).getBuildHistory().get(0).getName(),is("job1"));
-  assertThat(stageInstanceModels.get(0).getBuildHistory().get(0).getResult(),is(JobResult.Passed));
-  assertThat(stageInstanceModels.get(0).getBuildHistory().get(1).getName(),is("job2"));
-  assertThat(stageInstanceModels.get(0).getBuildHistory().get(1).getResult(),is(JobResult.Passed));
+  assertJobDetails(stageInstanceModels.get(0).getBuildHistory());
   assertThat(stageInstanceModels.get(1).getResult(),is(StageResult.Passed));
   assertThat(stageInstanceModels.get(1).getIdentifier().getPipelineName(),is(pipelineName));
   assertThat(stageInstanceModels.get(1).getIdentifier().getPipelineCounter(),is(2));
   assertThat(stageInstanceModels.get(1).getIdentifier().getStageName(),is(stageName));
   assertThat(stageInstanceModels.get(1).getIdentifier().getStageCounter(),is("1"));
-  assertThat(stageInstanceModels.get(1).getBuildHistory().get(0).getName(),is("job1"));
-  assertThat(stageInstanceModels.get(1).getBuildHistory().get(0).getResult(),is(JobResult.Passed));
-  assertThat(stageInstanceModels.get(1).getBuildHistory().get(1).getName(),is("job2"));
-  assertThat(stageInstanceModels.get(1).getBuildHistory().get(1).getResult(),is(JobResult.Passed));
+  assertJobDetails(stageInstanceModels.get(1).getBuildHistory());
   pagination=Pagination.pageStartingAt(2,3,2);
   stageInstanceModels=stageDao.findDetailedStageHistoryByOffset(pipelineName,stageName,pagination);
   assertThat(stageInstanceModels.size(),is(1));
@@ -37,8 +31,5 @@
   assertThat(stageInstanceModels.get(0).getIdentifier().getPipelineCounter(),is(1));
   assertThat(stageInstanceModels.get(0).getIdentifier().getStageName(),is(stageName));
   assertThat(stageInstanceModels.get(0).getIdentifier().getStageCounter(),is("1"));
-  assertThat(stageInstanceModels.get(0).getBuildHistory().get(0).getName(),is("job1"));
-  assertThat(stageInstanceModels.get(0).getBuildHistory().get(0).getResult(),is(JobResult.Passed));
-  assertThat(stageInstanceModels.get(0).getBuildHistory().get(1).getName(),is("job2"));
-  assertThat(stageInstanceModels.get(0).getBuildHistory().get(1).getResult(),is(JobResult.Passed));
+  assertJobDetails(stageInstanceModels.get(0).getBuildHistory());
 }

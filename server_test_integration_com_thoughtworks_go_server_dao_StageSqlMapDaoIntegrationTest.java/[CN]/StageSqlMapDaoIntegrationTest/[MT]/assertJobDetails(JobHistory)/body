@@ -1,0 +1,7 @@
+{
+  assertThat(buildHistory.size(),is(2));
+  Set<String> jobNames=new HashSet<String>(Arrays.asList(buildHistory.get(0).getName(),buildHistory.get(1).getName()));
+  assertThat(jobNames,hasItems("job2","job1"));
+  assertThat(buildHistory.get(0).getResult(),is(JobResult.Passed));
+  assertThat(buildHistory.get(1).getResult(),is(JobResult.Passed));
+}
