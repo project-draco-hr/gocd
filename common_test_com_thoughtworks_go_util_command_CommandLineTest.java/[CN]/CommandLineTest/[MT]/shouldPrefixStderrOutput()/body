@@ -1,0 +1,7 @@
+{
+  CommandLine line=CommandLine.createCommandLine("rmdir").withArg("/a/directory/that/does/not/exist");
+  InMemoryStreamConsumer output=new InMemoryStreamConsumer();
+  ProcessWrapper processWrapper=line.execute(output,new EnvironmentVariableContext(),null);
+  processWrapper.waitForExit();
+  assertThat(output.getAllOutput(),containsString("STDERR: "));
+}
