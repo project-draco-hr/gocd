@@ -3,6 +3,10 @@
   int pipelineCounter=42;
   String comment="This song is from the 90s.";
   Map<String,Object> args=arguments("pipelineName",pipelineName).and("pipelineCounter",pipelineCounter).and("comment",comment).asMap();
+  Pipeline expected=mock(Pipeline.class);
+  when(sqlMapClientTemplate.queryForObject("findPipelineByNameAndCounter",arguments("name",pipelineName).and("counter",pipelineCounter).asMap())).thenReturn(expected);
+  when(expected.getId()).thenReturn(102413L);
   pipelineSqlMapDao.updateComment(pipelineName,pipelineCounter,comment);
   verify(sqlMapClientTemplate,times(1)).update("updatePipelineComment",args);
+  verify(goCache,times(1)).remove("com.thoughtworks.go.server.dao.PipelineSqlMapDao_pipelineHistory_102413");
 }
