@@ -1,0 +1,9 @@
+{
+  CaseInsensitiveString unauthorizedUser=new CaseInsensitiveString("cannot-access");
+  String pipelineName="pipeline_name";
+  when(securityService.hasOperatePermissionForPipeline(unauthorizedUser,pipelineName)).thenReturn(false);
+  HttpLocalizedOperationResult result=mock(HttpLocalizedOperationResult.class);
+  pipelineHistoryService.updateComment(pipelineName,1,"test comment",new Username(unauthorizedUser),result);
+  verify(pipelineDao,never()).updateComment(pipelineName,1,"test comment");
+  verify(result,times(1)).unauthorized(LocalizedMessage.cannotViewPipeline(pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+}
