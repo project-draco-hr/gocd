@@ -1,7 +1,7 @@
 {
   PipelineSelections pipelineSelections=new PipelineSelections();
   pipelineSelections.setId(1);
-  pipelineSelections.update(new ArrayList<String>(),new Date(),2L);
+  pipelineSelections.update(new ArrayList<String>(),new Date(),2L,true);
   pipelineRepository.saveSelectedPipelines(pipelineSelections);
   verify(goCache).remove(pipelineRepository.pipelineSelectionForCookieKey(1L));
   verify(goCache).remove(pipelineRepository.pipelineSelectionForUserIdKey(2L));

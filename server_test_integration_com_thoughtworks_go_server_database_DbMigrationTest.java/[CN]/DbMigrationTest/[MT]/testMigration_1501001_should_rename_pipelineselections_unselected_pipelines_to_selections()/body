@@ -1,0 +1,9 @@
+{
+  dbFixture.copyDeltas();
+  dbFixture.copyH2Db("with-usernames-in-different-cases.zip");
+  h2Database=new H2Database(dbFixture.env());
+  h2Database.startDatabase();
+  h2Database.upgrade();
+  doesNotHaveColumn("PIPELINESELECTIONS","UNSELECTEDPIPELINES");
+  hasColumn("PIPELINESELECTIONS","SELECTIONS");
+}

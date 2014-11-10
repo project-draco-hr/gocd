@@ -5,7 +5,7 @@
   PipelineSelections pipelineSelections=new PipelineSelections(Arrays.asList("pip1"));
   when(pipelineRepository.findPipelineSelectionsById("123")).thenReturn(pipelineSelections);
   List<String> newPipelines=Arrays.asList("pipeline1","pipeline2");
-  goConfigService.persistSelectedPipelines("123",null,newPipelines);
+  goConfigService.persistSelectedPipelines("123",null,newPipelines,true);
   assertHasSelected(pipelineSelections,newPipelines);
   assertThat(pipelineSelections.lastUpdated(),is(date));
   verify(pipelineRepository).findPipelineSelectionsById("123");

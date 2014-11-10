@@ -1,0 +1,6 @@
+{
+  when(pipelineRepository.findPipelineSelectionsById("1")).thenReturn(new PipelineSelections(Arrays.asList("pipeline1","pipeline2"),null,null,true));
+  goConfigService.updateUserPipelineSelections("1",null,new CaseInsensitiveString("pipelineNew"));
+  verify(pipelineRepository).findPipelineSelectionsById("1");
+  verify(pipelineRepository,times(0)).saveSelectedPipelines(argThat(Matchers.any(PipelineSelections.class)));
+}

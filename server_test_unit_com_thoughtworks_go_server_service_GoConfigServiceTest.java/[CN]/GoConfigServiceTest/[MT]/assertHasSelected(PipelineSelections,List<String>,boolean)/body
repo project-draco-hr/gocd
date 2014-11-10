@@ -1,5 +1,6 @@
 {
+  String message="Expected: " + pipelines + " to include "+ pipelineSelections+ ": ("+ has+ ").";
   for (  String pipeline : pipelines) {
-    assertThat(pipelineSelections.includesPipeline(pipelineConfig(pipeline)),is(has));
+    assertThat(message + ". Failed to find: " + pipeline,pipelineSelections.includesPipeline(pipelineConfig(pipeline)),is(has));
   }
 }
