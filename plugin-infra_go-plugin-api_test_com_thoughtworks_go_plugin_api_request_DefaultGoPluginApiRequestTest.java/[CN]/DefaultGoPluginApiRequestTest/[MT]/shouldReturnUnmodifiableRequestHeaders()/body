@@ -1,0 +1,16 @@
+{
+  DefaultGoPluginApiRequest request=new DefaultGoPluginApiRequest("extension","1.0","request-name");
+  Map<String,String> requestHeaders=request.requestHeaders();
+  try {
+    requestHeaders.put("new-key","new-value");
+    fail("Should not allow modification of request headers");
+  }
+ catch (  UnsupportedOperationException e) {
+  }
+  try {
+    requestHeaders.remove("key");
+    fail("Should not allow modification of request headers");
+  }
+ catch (  UnsupportedOperationException e) {
+  }
+}

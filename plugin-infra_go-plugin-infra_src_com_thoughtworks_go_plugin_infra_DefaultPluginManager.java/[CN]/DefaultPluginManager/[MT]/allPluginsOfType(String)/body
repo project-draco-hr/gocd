@@ -1,0 +1,13 @@
+{
+  final List<GoPluginIdentifier> list=new ArrayList<GoPluginIdentifier>();
+  goPluginOSGiFramework.doOnAll(GoPlugin.class,new Action<GoPlugin>(){
+    @Override public void execute(    GoPlugin plugin,    GoPluginDescriptor pluginDescriptor){
+      GoPluginIdentifier goPluginIdentifier=plugin.pluginIdentifier();
+      if (extension.equals(goPluginIdentifier.getExtension())) {
+        list.add(goPluginIdentifier);
+      }
+    }
+  }
+);
+  return list;
+}
