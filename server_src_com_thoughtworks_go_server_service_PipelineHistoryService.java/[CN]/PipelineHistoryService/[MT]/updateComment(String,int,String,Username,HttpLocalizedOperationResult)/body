@@ -1,0 +1,8 @@
+{
+  if (securityService.hasOperatePermissionForPipeline(username.getUsername(),pipelineName)) {
+    pipelineDao.updateComment(pipelineName,pipelineCounter,comment);
+  }
+ else {
+    result.unauthorized(LocalizedMessage.cannotOperatePipeline(pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
+  }
+}

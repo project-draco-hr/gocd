@@ -1,0 +1,7 @@
+{
+  CaseInsensitiveString authorizedUser=new CaseInsensitiveString("can-access");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  when(securityService.hasOperatePermissionForPipeline(authorizedUser,"pipeline_name")).thenReturn(true);
+  pipelineHistoryService.updateComment("pipeline_name",1,"test comment",new Username(authorizedUser),result);
+  verify(pipelineDao,times(1)).updateComment("pipeline_name",1,"test comment");
+}
