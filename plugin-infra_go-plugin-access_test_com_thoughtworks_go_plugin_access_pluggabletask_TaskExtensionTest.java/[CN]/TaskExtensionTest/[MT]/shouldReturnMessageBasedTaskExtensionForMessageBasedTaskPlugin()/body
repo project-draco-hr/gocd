@@ -1,0 +1,8 @@
+{
+  PluginManager pluginManager=mock(PluginManager.class);
+  String messageBasedPluginId="messageBased-task";
+  TaskExtension taskExtension=new TaskExtension(pluginManager);
+  when(pluginManager.hasReferenceFor(Task.class,messageBasedPluginId)).thenReturn(false);
+  when(pluginManager.hasReferenceFor(GoPlugin.class,messageBasedPluginId)).thenReturn(true);
+  Assert.assertTrue(taskExtension.getImpl(messageBasedPluginId) instanceof MessageBasedTaskExtension);
+}

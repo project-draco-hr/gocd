@@ -1,7 +1,8 @@
 {
   ExecutionResult executionResult=null;
   try {
-    executionResult=pluginManager().doOn(Task.class,pluginId,new ActionWithReturn<Task,ExecutionResult>(){
+    TaskExtension taskExtension=new TaskExtension(pluginManager());
+    executionResult=taskExtension.execute(pluginId,new ActionWithReturn<Task,ExecutionResult>(){
       @Override public ExecutionResult execute(      Task task,      GoPluginDescriptor pluginDescriptor){
         return executeTask(task,buildLogElement,publisher,environmentVariableContext);
       }
