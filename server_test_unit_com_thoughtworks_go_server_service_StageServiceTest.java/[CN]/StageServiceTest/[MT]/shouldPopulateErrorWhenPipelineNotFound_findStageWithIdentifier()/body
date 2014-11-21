@@ -1,0 +1,10 @@
+{
+  when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipeline"))).thenReturn(false);
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  when(securityService.hasViewPermissionForPipeline("looser","pipeline")).thenReturn(true);
+  final StageService stageService=new StageService(stageDao,jobInstanceService,mock(StageStatusTopic.class),mock(StageStatusCache.class),securityService,pipelineDao,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
+  HttpOperationResult result=new HttpOperationResult();
+  Stage stage=stageService.findStageWithIdentifier("pipeline",1,"stage","1","looser",result);
+  assertThat(stage,is(Matchers.nullValue()));
+  assertThat(result.httpCode(),is(404));
+}
