@@ -1,0 +1,11 @@
+{
+  final List<RepositoryConfiguration> returnValue=new ArrayList<RepositoryConfiguration>();
+  Action<PackageMaterialProvider> action=new Action<PackageMaterialProvider>(){
+    @Override public void execute(    PackageMaterialProvider packageRepositoryMaterial,    GoPluginDescriptor pluginDescriptor){
+      returnValue.add(packageRepositoryMaterial.getConfig().getRepositoryConfiguration());
+    }
+  }
+;
+  pluginManager.doOnIfHasReference(PackageMaterialProvider.class,pluginId,action);
+  return returnValue.isEmpty() ? null : returnValue.get(0);
+}

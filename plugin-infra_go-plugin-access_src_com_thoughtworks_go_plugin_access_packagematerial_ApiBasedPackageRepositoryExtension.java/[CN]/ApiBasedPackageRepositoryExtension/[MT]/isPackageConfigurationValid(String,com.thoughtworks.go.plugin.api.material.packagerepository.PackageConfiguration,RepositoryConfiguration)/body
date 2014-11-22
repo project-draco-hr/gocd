@@ -1,0 +1,8 @@
+{
+  return pluginManager.doOn(PackageMaterialProvider.class,pluginId,new ActionWithReturn<PackageMaterialProvider,ValidationResult>(){
+    @Override public ValidationResult execute(    PackageMaterialProvider packageMaterialProvider,    GoPluginDescriptor pluginDescriptor){
+      return packageMaterialProvider.getConfig().isPackageConfigurationValid(packageConfiguration,repositoryConfiguration);
+    }
+  }
+);
+}

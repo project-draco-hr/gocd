@@ -1,0 +1,8 @@
+{
+  String expectedRequestBody="{\"repository-configuration\":[{\"key-one\":\"value-one\"},{\"key-two\":\"value-two\"}]," + "\"package-configuration\":[{\"key-three\":\"value-three\"},{\"key-four\":\"value-four\"}]}";
+  String expectedResponseBody="{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"user\":\"some-user\",\"revisionComment\":\"comment\"," + "\"trackbackUrl\":\"http:\\\\localhost:9999\",\"data\":{\"data-key-one\":\"data-value-one\",\"data-key-two\":\"data-value-two\"}}";
+  when(pluginManager.submitTo(eq(PLUGIN_ID),requestArgumentCaptor.capture())).thenReturn(DefaultGoPluginApiResponse.success(expectedResponseBody));
+  PackageRevision packageRevision=jsonBasedPackageRepositoryExtension.getLatestRevision(PLUGIN_ID,packageConfiguration,repositoryConfiguration);
+  assertRequest(requestArgumentCaptor.getValue(),EXTENSION_NAME,"1.0",JsonBasedPackageRepositoryExtension.REQUEST_LATEST_REVISION,expectedRequestBody);
+  assertPackageRevision(packageRevision,"abc.rpm","some-user","2011-07-14T19:43:37.100Z","comment","http:\\localhost:9999");
+}

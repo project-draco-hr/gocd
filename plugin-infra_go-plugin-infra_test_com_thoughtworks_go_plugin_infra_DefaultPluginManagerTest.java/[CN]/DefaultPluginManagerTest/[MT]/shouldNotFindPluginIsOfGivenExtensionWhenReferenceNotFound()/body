@@ -1,0 +1,8 @@
+{
+  String pluginId="plugin-id";
+  GoPlugin goPlugin=mock(GoPlugin.class);
+  GoPlugginOSGiFrameworkStub osGiFrameworkStub=new GoPlugginOSGiFrameworkStub(goPlugin);
+  osGiFrameworkStub.addHasReferenceFor(GoPlugin.class,pluginId,false);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,osGiFrameworkStub,jarChangeListener,applicationAccessor,systemEnvironment);
+  assertThat(pluginManager.isPluginOfType("sample-extension",pluginId),is(false));
+}

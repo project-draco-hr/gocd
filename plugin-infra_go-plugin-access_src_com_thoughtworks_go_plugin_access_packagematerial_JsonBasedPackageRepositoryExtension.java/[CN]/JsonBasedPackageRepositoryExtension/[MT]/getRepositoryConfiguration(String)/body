@@ -1,0 +1,11 @@
+{
+  return submitRequest(pluginId,REQUEST_REPOSITORY_CONFIGURATION,new PluginInteractionCallback<RepositoryConfiguration>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public RepositoryConfiguration onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForRepositoryConfiguration(responseBody);
+    }
+  }
+);
+}

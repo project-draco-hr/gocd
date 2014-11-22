@@ -1,0 +1,7 @@
+{
+  PackageConfiguration packageConfiguration=new PackageConfiguration();
+  RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
+  PackageRevision packageRevision=new PackageRevision("r1",null,"user");
+  when(packageMaterialPoller.getLatestRevision(packageConfiguration,repositoryConfiguration)).thenReturn(packageRevision);
+  assertThat(extension.getLatestRevision(PLUGIN_ID,packageConfiguration,repositoryConfiguration),is(packageRevision));
+}

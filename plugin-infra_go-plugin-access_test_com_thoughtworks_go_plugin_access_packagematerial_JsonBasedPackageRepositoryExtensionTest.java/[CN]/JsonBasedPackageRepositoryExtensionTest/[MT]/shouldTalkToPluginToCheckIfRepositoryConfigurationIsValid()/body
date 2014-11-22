@@ -1,0 +1,9 @@
+{
+  String expectedRequestBody="{\"repository-configuration\":[{\"key-one\":\"value-one\"},{\"key-two\":\"value-two\"}]}";
+  String expectedResponseBody="[{\"key\":\"key-one\",\"message\":\"incorrect value\"},{\"message\":\"general error\"}]";
+  when(pluginManager.submitTo(eq(PLUGIN_ID),requestArgumentCaptor.capture())).thenReturn(DefaultGoPluginApiResponse.success(expectedResponseBody));
+  ValidationResult validationResult=jsonBasedPackageRepositoryExtension.isRepositoryConfigurationValid(PLUGIN_ID,repositoryConfiguration);
+  assertRequest(requestArgumentCaptor.getValue(),EXTENSION_NAME,"1.0",JsonBasedPackageRepositoryExtension.REQUEST_VALIDATE_REPOSITORY_CONFIGURATION,expectedRequestBody);
+  assertValidationError(validationResult.getErrors().get(0),"key-one","incorrect value");
+  assertValidationError(validationResult.getErrors().get(1),"","general error");
+}

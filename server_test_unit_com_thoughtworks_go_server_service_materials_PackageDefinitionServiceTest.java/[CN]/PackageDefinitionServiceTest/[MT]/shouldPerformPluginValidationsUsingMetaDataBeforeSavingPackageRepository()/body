@@ -8,7 +8,7 @@
   PackageDefinition packageDefinition=PackageDefinitionMother.create("1","name",configuration,packageRepository);
   ValidationResult expectedValidationResult=new ValidationResult();
   expectedValidationResult.addError(new ValidationError("spec","invalid spec"));
-  when(packageMaterialConfiguration.isPackageConfigurationValid(any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class))).thenReturn(expectedValidationResult);
+  when(packageAsRepositoryExtension.isPackageConfigurationValid(eq(packageRepository.getPluginConfiguration().getId()),any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class))).thenReturn(expectedValidationResult);
   service.performPluginValidationsFor(packageDefinition);
   assertThat(packageDefinition.getConfiguration().get(0).getConfigurationValue().errors().getAllOn("value"),is(Arrays.asList("mandatory field")));
   assertThat(packageDefinition.getConfiguration().get(1).getEncryptedValue().errors().getAllOn("value"),is(Arrays.asList("mandatory field")));

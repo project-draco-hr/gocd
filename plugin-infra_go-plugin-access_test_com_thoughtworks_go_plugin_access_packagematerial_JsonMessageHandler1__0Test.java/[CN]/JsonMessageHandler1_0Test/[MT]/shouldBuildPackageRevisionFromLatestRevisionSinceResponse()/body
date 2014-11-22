@@ -1,0 +1,5 @@
+{
+  String responseBody="{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"user\":\"some-user\",\"revisionComment\":\"comment\"," + "\"trackbackUrl\":\"http:\\\\localhost:9999\",\"data\":{\"data-key-one\":\"data-value-one\",\"data-key-two\":\"data-value-two\"}}";
+  PackageRevision packageRevision=messageHandler.responseMessageForLatestRevisionSince(responseBody);
+  assertPackageRevision(packageRevision,"abc.rpm","some-user","2011-07-14T19:43:37.100Z","comment","http:\\localhost:9999");
+}

@@ -4,14 +4,12 @@
   RepositoryMetadataStore.getInstance().addMetadataFor(pluginId,new PackageConfigurations());
   packageRepository.setPluginConfiguration(new PluginConfiguration(pluginId,"1.0"));
   packageRepository.getConfiguration().add(ConfigurationPropertyMother.create("url",false,"junk-url"));
-  PackageMaterialProvider packageMaterialProvider=mock(PackageMaterialProvider.class);
-  PackageMaterialConfiguration packageMaterialConfiguration=mock(PackageMaterialConfiguration.class);
   ArgumentCaptor<RepositoryConfiguration> packageConfigurationsArgumentCaptor=new ArgumentCaptor<RepositoryConfiguration>();
-  when(packageMaterialProvider.getConfig()).thenReturn(packageMaterialConfiguration);
   ValidationResult expectedValidationResult=new ValidationResult();
   expectedValidationResult.addError(new ValidationError("url","url format incorrect"));
-  when(packageMaterialConfiguration.isRepositoryConfigurationValid(packageConfigurationsArgumentCaptor.capture())).thenReturn(expectedValidationResult);
-  service=new PackageRepositoryService(dummyPluginManager(packageMaterialProvider),goConfigService,securityService,mock(Localizer.class));
+  when(pluginManager.getPluginDescriptorFor(pluginId)).thenReturn(new GoPluginDescriptor("yum","1.0",null,null,null,true));
+  when(packageAsRepositoryExtension.isRepositoryConfigurationValid(eq(pluginId),packageConfigurationsArgumentCaptor.capture())).thenReturn(expectedValidationResult);
+  service=new PackageRepositoryService(pluginManager,packageAsRepositoryExtension,goConfigService,securityService,mock(Localizer.class));
   service.performPluginValidationsFor(packageRepository);
   assertThat(packageRepository.getConfiguration().get(0).getConfigurationValue().errors().getAllOn("value"),is(Arrays.asList("url format incorrect")));
 }

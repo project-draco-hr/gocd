@@ -1,0 +1,9 @@
+{
+  ActionWithReturn<PackageMaterialProvider,PackageRevision> action=new ActionWithReturn<PackageMaterialProvider,PackageRevision>(){
+    @Override public PackageRevision execute(    PackageMaterialProvider packageRepositoryMaterial,    GoPluginDescriptor pluginDescriptor){
+      return packageRepositoryMaterial.getPoller().getLatestRevision(packageConfiguration,repositoryConfiguration);
+    }
+  }
+;
+  return pluginManager.doOn(PackageMaterialProvider.class,pluginId,action);
+}

@@ -4,7 +4,7 @@
   String dataKey="extra_data";
   String dataValue="value";
   packageRevision.addData(dataKey,dataValue);
-  when(packageMaterialPoller.getLatestRevision(packageConfiguration.capture(),repositoryConfiguration.capture())).thenReturn(packageRevision);
+  when(packageAsRepositoryExtension.getLatestRevision(eq(material.getPluginId()),packageConfiguration.capture(),repositoryConfiguration.capture())).thenReturn(packageRevision);
   HashMap<String,String> expected=new HashMap<String,String>();
   expected.put(dataKey,dataValue);
   List<Modification> modifications=poller.latestModification(material,null,null);

@@ -1,15 +1,9 @@
 {
   String pluginId=packageDefinition.getRepository().getPluginConfiguration().getId();
-  defaultPluginManager.doOn(PackageMaterialProvider.class,pluginId,new ActionWithReturn<PackageMaterialProvider,Object>(){
-    @Override public Object execute(    PackageMaterialProvider packageMaterialProvider,    GoPluginDescriptor pluginDescriptor){
-      ValidationResult validationResult=packageMaterialProvider.getConfig().isPackageConfigurationValid(buildPackageConfigurations(packageDefinition),buildRepositoryConfigurations(packageDefinition.getRepository()));
-      for (      ValidationError error : validationResult.getErrors()) {
-        packageDefinition.addConfigurationErrorFor(error.getKey(),error.getMessage());
-      }
-      return null;
-    }
+  ValidationResult validationResult=packageAsRepositoryExtension.isPackageConfigurationValid(pluginId,buildPackageConfigurations(packageDefinition),buildRepositoryConfigurations(packageDefinition.getRepository()));
+  for (  ValidationError error : validationResult.getErrors()) {
+    packageDefinition.addConfigurationErrorFor(error.getKey(),error.getMessage());
   }
-);
   for (  ConfigurationProperty configurationProperty : packageDefinition.getConfiguration()) {
     String key=configurationProperty.getConfigurationKey().getName();
     if (PackageMetadataStore.getInstance().hasOption(packageDefinition.getRepository().getPluginConfiguration().getId(),key,PackageConfiguration.REQUIRED)) {

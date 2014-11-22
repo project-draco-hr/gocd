@@ -12,6 +12,7 @@
   packageRepository.getConfiguration().add(ConfigurationPropertyMother.create("required_secure",true,""));
   packageRepository.getConfiguration().add(ConfigurationPropertyMother.create("secure",true,""));
   packageRepository.getConfiguration().add(ConfigurationPropertyMother.create("not_required_not_secure",false,""));
+  when(packageAsRepositoryExtension.isRepositoryConfigurationValid(eq(pluginId),any(RepositoryConfiguration.class))).thenReturn(new ValidationResult());
   when(pluginManager.getPluginDescriptorFor(pluginId)).thenReturn(new GoPluginDescriptor(pluginId,"1.0",null,null,null,true));
   when(localizer.localize("MANDATORY_CONFIGURATION_FIELD")).thenReturn("mandatory field");
   service.performPluginValidationsFor(packageRepository);

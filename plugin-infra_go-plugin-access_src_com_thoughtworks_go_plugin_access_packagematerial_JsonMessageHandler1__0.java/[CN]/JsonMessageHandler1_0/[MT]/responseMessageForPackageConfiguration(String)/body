@@ -1,0 +1,8 @@
+{
+  com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration packageConfiguration=new com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration();
+  List<Map> configurations=parseResponseToList(responseBody);
+  for (  Map configuration : configurations) {
+    packageConfiguration.add(toPackageMaterialProperty(configuration));
+  }
+  return packageConfiguration;
+}

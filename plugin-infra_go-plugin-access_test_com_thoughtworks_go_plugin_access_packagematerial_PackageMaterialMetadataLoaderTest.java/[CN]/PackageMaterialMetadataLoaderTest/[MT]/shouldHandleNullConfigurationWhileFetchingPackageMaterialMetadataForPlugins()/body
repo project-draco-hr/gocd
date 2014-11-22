@@ -1,0 +1,7 @@
+{
+  when(packageAsRepositoryExtension.getRepositoryConfiguration(pluginDescriptor.id())).thenReturn(null);
+  when(packageAsRepositoryExtension.getPackageConfiguration(pluginDescriptor.id())).thenReturn(null);
+  metadataLoader.fetchRepositoryAndPackageMetaData(pluginDescriptor);
+  assertThat(RepositoryMetadataStore.getInstance().getMetadata(pluginDescriptor.id()),nullValue());
+  assertThat(PackageMetadataStore.getInstance().getMetadata(pluginDescriptor.id()),nullValue());
+}

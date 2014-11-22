@@ -1,0 +1,29 @@
+{
+  String key=(String)configuration.get("key");
+  String defaultValue=(String)configuration.get("default-value");
+  Boolean partOfIdentity=(Boolean)configuration.get("part-of-identity");
+  Boolean isSecure=(Boolean)configuration.get("secure");
+  Boolean required=(Boolean)configuration.get("required");
+  String displayName=(String)configuration.get("display-name");
+  Integer displayOrder=configuration.get("display-order") == null ? null : Integer.parseInt((String)configuration.get("display-order"));
+  PackageMaterialProperty packageMaterialProperty=new PackageMaterialProperty(key);
+  if (!isEmpty(defaultValue)) {
+    packageMaterialProperty.withDefault(defaultValue);
+  }
+  if (partOfIdentity != null) {
+    packageMaterialProperty.with(Property.PART_OF_IDENTITY,partOfIdentity);
+  }
+  if (isSecure != null) {
+    packageMaterialProperty.with(Property.SECURE,isSecure);
+  }
+  if (required != null) {
+    packageMaterialProperty.with(Property.REQUIRED,required);
+  }
+  if (!isEmpty(displayName)) {
+    packageMaterialProperty.with(Property.DISPLAY_NAME,displayName);
+  }
+  if (displayOrder != null) {
+    packageMaterialProperty.with(Property.DISPLAY_ORDER,displayOrder);
+  }
+  return packageMaterialProperty;
+}

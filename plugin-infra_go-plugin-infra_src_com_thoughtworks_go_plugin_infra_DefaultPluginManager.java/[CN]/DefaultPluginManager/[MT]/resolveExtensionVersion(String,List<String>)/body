@@ -1,0 +1,19 @@
+{
+  String resolvedExtensionVersion=doOn(GoPlugin.class,pluginId,new ActionWithReturn<GoPlugin,String>(){
+    @Override public String execute(    GoPlugin goPlugin,    GoPluginDescriptor pluginDescriptor){
+      List<String> pluginSupportedVersions=goPlugin.pluginIdentifier().getSupportedExtensionVersions();
+      String currentMaxVersion="0";
+      for (      String pluginSupportedVersion : pluginSupportedVersions) {
+        if (goSupportedExtensionVersions.contains(pluginSupportedVersion) && parseDouble(currentMaxVersion) < parseDouble(pluginSupportedVersion)) {
+          currentMaxVersion=pluginSupportedVersion;
+        }
+      }
+      return currentMaxVersion;
+    }
+  }
+);
+  if ("0".equals(resolvedExtensionVersion)) {
+    throw new RuntimeException(String.format("Could not find matching extension version between Plugin[%s] and Go",pluginId));
+  }
+  return resolvedExtensionVersion;
+}

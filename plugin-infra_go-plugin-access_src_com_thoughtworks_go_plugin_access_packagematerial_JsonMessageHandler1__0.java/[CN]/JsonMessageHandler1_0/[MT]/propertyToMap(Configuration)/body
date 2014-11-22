@@ -1,0 +1,9 @@
+{
+  List<Map> configuredValuesForRepo=new ArrayList<Map>();
+  for (  Property property : configuration.list()) {
+    Map map=new TreeMap();
+    map.put(property.getKey(),property.getValue());
+    configuredValuesForRepo.add(map);
+  }
+  return configuredValuesForRepo;
+}

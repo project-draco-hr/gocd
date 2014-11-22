@@ -1,0 +1,7 @@
+{
+  String responseBody="[" + "{\"key\":\"key-one\"}," + "{\"key\":\"key-two\",\"default-value\":\"two\",\"part-of-identity\":true,\"secure\":true,\"required\":true,\"display-name\":\"display-two\",\"display-order\":\"1\"},"+ "{\"key\":\"key-three\",\"default-value\":\"three\",\"part-of-identity\":false,\"secure\":false,\"required\":false,\"display-name\":\"display-three\",\"display-order\":\"2\"}"+ "]";
+  RepositoryConfiguration repositoryConfiguration=messageHandler.responseMessageForRepositoryConfiguration(responseBody);
+  assertPropertyConfiguration((PackageMaterialProperty)repositoryConfiguration.get("key-one"),"key-one",null,true,true,false,"",0);
+  assertPropertyConfiguration((PackageMaterialProperty)repositoryConfiguration.get("key-two"),"key-two","two",true,true,true,"display-two",1);
+  assertPropertyConfiguration((PackageMaterialProperty)repositoryConfiguration.get("key-three"),"key-three","three",false,false,false,"display-three",2);
+}

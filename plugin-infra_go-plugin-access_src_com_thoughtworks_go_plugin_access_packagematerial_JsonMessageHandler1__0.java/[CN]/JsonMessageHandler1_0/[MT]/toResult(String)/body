@@ -1,0 +1,13 @@
+{
+  Map map=parseResponseToMap(responseBody);
+  String status=(String)map.get("status");
+  List<String> messages=(List<String>)map.get("messages");
+  Result result=new Result();
+  if ("success".equals(status)) {
+    result.withSuccessMessages(messages);
+  }
+ else {
+    result.withErrorMessages(messages);
+  }
+  return result;
+}

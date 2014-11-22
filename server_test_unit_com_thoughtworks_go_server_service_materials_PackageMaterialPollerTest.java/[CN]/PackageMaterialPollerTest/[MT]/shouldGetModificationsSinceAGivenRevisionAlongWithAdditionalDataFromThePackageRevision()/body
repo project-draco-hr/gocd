@@ -9,7 +9,7 @@
   String dataKey="2";
   String dataValue="two";
   latestRevision.addData(dataKey,dataValue);
-  when(packageMaterialPoller.latestModificationSince(packageConfiguration.capture(),repositoryConfiguration.capture(),knownPackageRevision.capture())).thenReturn(latestRevision);
+  when(packageAsRepositoryExtension.latestModificationSince(eq(material.getPluginId()),packageConfiguration.capture(),repositoryConfiguration.capture(),knownPackageRevision.capture())).thenReturn(latestRevision);
   List<Modification> modifications=poller.modificationsSince(material,null,knownRevision,null);
   assertThat(knownPackageRevision.getValue().getRevision(),is(previousRevision));
   assertThat(knownPackageRevision.getValue().getTimestamp(),is(timestamp));

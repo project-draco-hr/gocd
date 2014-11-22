@@ -1,0 +1,10 @@
+{
+  final List<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration> returnValue=new ArrayList<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>();
+  pluginManager.doOnIfHasReference(PackageMaterialProvider.class,pluginId,new Action<PackageMaterialProvider>(){
+    @Override public void execute(    PackageMaterialProvider packageRepositoryMaterial,    GoPluginDescriptor pluginDescriptor){
+      returnValue.add(packageRepositoryMaterial.getConfig().getPackageConfiguration());
+    }
+  }
+);
+  return returnValue.isEmpty() ? null : returnValue.get(0);
+}

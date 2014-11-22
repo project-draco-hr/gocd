@@ -1,0 +1,6 @@
+{
+  pluginManager=mock(PluginManager.class);
+  packageAsRepositoryExtension=spy(new PackageAsRepositoryExtension(pluginManager));
+  contract=mock(PackageAsRepositoryExtensionContract.class);
+  doReturn(contract).when(packageAsRepositoryExtension).resolveBy(PLUGIN_ID);
+}

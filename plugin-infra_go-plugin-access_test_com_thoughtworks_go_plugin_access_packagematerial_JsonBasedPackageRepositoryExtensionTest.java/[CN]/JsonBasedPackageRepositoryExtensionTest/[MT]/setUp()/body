@@ -1,0 +1,12 @@
+{
+  pluginManager=Mockito.mock(PluginManager.class);
+  jsonBasedPackageRepositoryExtension=new JsonBasedPackageRepositoryExtension(pluginManager);
+  repositoryConfiguration=new RepositoryConfiguration();
+  repositoryConfiguration.add(new PackageMaterialProperty("key-one","value-one"));
+  repositoryConfiguration.add(new PackageMaterialProperty("key-two","value-two"));
+  packageConfiguration=new PackageConfiguration();
+  packageConfiguration.add(new PackageMaterialProperty("key-three","value-three"));
+  packageConfiguration.add(new PackageMaterialProperty("key-four","value-four"));
+  requestArgumentCaptor=ArgumentCaptor.forClass(GoPluginApiRequest.class);
+  when(pluginManager.resolveExtensionVersion(PLUGIN_ID,asList("1.0"))).thenReturn("1.0");
+}

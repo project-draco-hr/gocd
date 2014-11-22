@@ -1,0 +1,9 @@
+{
+  Date timestamp=new SimpleDateFormat(DATE_FORMAT).parse("2011-07-13T19:43:37.100Z");
+  Map data=new LinkedHashMap();
+  data.put("data-key-one","data-value-one");
+  data.put("data-key-two","data-value-two");
+  PackageRevision previouslyKnownRevision=new PackageRevision("abc.rpm",timestamp,"someuser","comment",null,data);
+  String requestBody=messageHandler.requestMessageForLatestRevisionSince(packageConfiguration,repositoryConfiguration,previouslyKnownRevision);
+  assertThat(requestBody,is("{\"repository-configuration\":[{\"key-one\":\"value-one\"},{\"key-two\":\"value-two\"}]," + "\"package-configuration\":[{\"key-three\":\"value-three\"},{\"key-four\":\"value-four\"}]," + "\"previous-revision\":{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-13T19:43:37.100Z\",\"data\":{\"data-key-one\":\"data-value-one\",\"data-key-two\":\"data-value-two\"}}}"));
+}

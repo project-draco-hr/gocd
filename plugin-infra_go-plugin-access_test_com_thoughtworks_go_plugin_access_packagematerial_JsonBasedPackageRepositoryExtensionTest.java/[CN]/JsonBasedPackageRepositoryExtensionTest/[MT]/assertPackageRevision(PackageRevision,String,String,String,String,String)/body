@@ -1,0 +1,10 @@
+{
+  assertThat(packageRevision.getRevision(),is(revision));
+  assertThat(packageRevision.getUser(),is(user));
+  assertThat(packageRevision.getTimestamp(),is(new SimpleDateFormat(DATE_FORMAT).parse(timestamp)));
+  assertThat(packageRevision.getRevisionComment(),is(comment));
+  assertThat(packageRevision.getTrackbackUrl(),is(trackbackUrl));
+  assertThat(packageRevision.getData().size(),is(2));
+  assertThat(packageRevision.getDataFor("data-key-one"),is("data-value-one"));
+  assertThat(packageRevision.getDataFor("data-key-two"),is("data-value-two"));
+}
