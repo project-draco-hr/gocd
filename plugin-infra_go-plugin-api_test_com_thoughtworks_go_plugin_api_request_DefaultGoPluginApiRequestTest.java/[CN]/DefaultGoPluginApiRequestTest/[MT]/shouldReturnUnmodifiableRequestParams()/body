@@ -1,0 +1,16 @@
+{
+  DefaultGoPluginApiRequest request=new DefaultGoPluginApiRequest("extension","1.0","request-name");
+  Map<String,String> requestParameters=request.requestParameters();
+  try {
+    requestParameters.put("new-key","new-value");
+    fail("Should not allow modification of request params");
+  }
+ catch (  UnsupportedOperationException e) {
+  }
+  try {
+    requestParameters.remove("key");
+    fail("Should not allow modification of request params");
+  }
+ catch (  UnsupportedOperationException e) {
+  }
+}

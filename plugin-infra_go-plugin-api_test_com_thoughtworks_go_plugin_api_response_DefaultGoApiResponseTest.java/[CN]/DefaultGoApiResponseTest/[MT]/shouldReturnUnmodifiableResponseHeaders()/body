@@ -1,0 +1,16 @@
+{
+  DefaultGoApiResponse response=new DefaultGoApiResponse(0);
+  Map<String,String> headers=response.responseHeaders();
+  try {
+    headers.put("new-key","new-value");
+    fail("Should not allow modification of response headers");
+  }
+ catch (  UnsupportedOperationException e) {
+  }
+  try {
+    headers.remove("key");
+    fail("Should not allow modification of response headers");
+  }
+ catch (  UnsupportedOperationException e) {
+  }
+}
