@@ -1,4 +1,6 @@
 {
-  repositoryMetadataStore.removeMetadata(pluginDescriptor.id());
-  packageMetadataStore.removeMetadata(pluginDescriptor.id());
+  if (packageAsRepositoryExtension.isPackageRepositoryPlugin(pluginDescriptor.id())) {
+    repositoryMetadataStore.removeMetadata(pluginDescriptor.id());
+    packageMetadataStore.removeMetadata(pluginDescriptor.id());
+  }
 }

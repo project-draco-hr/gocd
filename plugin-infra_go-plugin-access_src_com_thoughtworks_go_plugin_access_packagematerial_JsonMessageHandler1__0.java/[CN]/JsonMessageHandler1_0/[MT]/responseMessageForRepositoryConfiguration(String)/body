@@ -1,8 +1,8 @@
 {
   RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
-  List<Map> configurations=parseResponseToList(responseBody);
-  for (  Map configuration : configurations) {
-    repositoryConfiguration.add(toPackageMaterialProperty(configuration));
+  Map<String,Map> configurations=parseResponseToMap(responseBody);
+  for (  String key : configurations.keySet()) {
+    repositoryConfiguration.add(toPackageMaterialProperty(key,configurations.get(key)));
   }
   return repositoryConfiguration;
 }

@@ -1,7 +1,11 @@
 {
   when(packageAsRepositoryExtension.getRepositoryConfiguration(pluginDescriptor.id())).thenReturn(null);
-  when(packageAsRepositoryExtension.getPackageConfiguration(pluginDescriptor.id())).thenReturn(null);
-  metadataLoader.fetchRepositoryAndPackageMetaData(pluginDescriptor);
+  try {
+    metadataLoader.fetchRepositoryAndPackageMetaData(pluginDescriptor);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Plugin[plugin-id] returned null repository configuration"));
+  }
   assertThat(RepositoryMetadataStore.getInstance().getMetadata(pluginDescriptor.id()),nullValue());
   assertThat(PackageMetadataStore.getInstance().getMetadata(pluginDescriptor.id()),nullValue());
 }
