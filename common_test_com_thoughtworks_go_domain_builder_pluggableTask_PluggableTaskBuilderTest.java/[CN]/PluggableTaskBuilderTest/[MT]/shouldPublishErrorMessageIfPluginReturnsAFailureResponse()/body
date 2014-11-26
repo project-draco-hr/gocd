@@ -1,7 +1,7 @@
 {
   PluggableTask task=mock(PluggableTask.class);
   when(task.getPluginConfiguration()).thenReturn(new PluginConfiguration());
-  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory"){
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory",taskExtension){
     @Override protected ExecutionResult executeTask(    Task task,    BuildLogElement buildLogElement,    DefaultGoPublisher publisher,    EnvironmentVariableContext environmentVariableContext){
       return ExecutionResult.failure("err");
     }

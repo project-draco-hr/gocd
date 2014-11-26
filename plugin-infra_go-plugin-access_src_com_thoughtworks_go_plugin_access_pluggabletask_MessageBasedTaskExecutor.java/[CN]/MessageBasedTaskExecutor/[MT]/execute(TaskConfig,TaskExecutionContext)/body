@@ -1,0 +1,16 @@
+{
+  final DefaultGoPluginApiRequest request=new DefaultGoPluginApiRequest(PluggableJsonBasedTask.TASK_EXTENSION,PluggableJsonBasedTask.VERSION_1,PluggableJsonBasedTask.EXECUTION_REQUEST);
+  request.addRequestParameter("taskExecutionContext",taskExecutionContext);
+  GoPluginApiResponse response=pluginManager.submitTo(pluginId,request);
+  Map result=(Map)new GsonBuilder().create().fromJson(response.responseBody(),Object.class);
+  if ((Boolean)result.get("success")) {
+    ExecutionResult executionResult=new ExecutionResult();
+    executionResult.withSuccessMessages((List<String>)result.get("messages"));
+    return executionResult;
+  }
+ else {
+    ExecutionResult executionResult=new ExecutionResult();
+    executionResult.withErrorMessages((List<String>)result.get("messages"));
+    return executionResult;
+  }
+}

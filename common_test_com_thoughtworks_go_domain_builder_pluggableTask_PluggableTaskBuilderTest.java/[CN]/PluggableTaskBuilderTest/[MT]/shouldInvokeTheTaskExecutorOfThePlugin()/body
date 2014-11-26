@@ -1,6 +1,6 @@
 {
   final int[] executeTaskCalled=new int[1];
-  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory"){
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory",taskExtension){
     @Override protected ExecutionResult executeTask(    Task task,    BuildLogElement buildLogElement,    DefaultGoPublisher publisher,    EnvironmentVariableContext environmentVariableContext){
       executeTaskCalled[0]++;
       return ExecutionResult.success("Test succeeded");

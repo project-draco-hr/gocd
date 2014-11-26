@@ -1,0 +1,12 @@
+{
+  PluginManager pluginManager=mock(PluginManager.class);
+  String pluginId="APIBased-task";
+  TaskExtension taskExtension=new TaskExtension(pluginManager);
+  when(pluginManager.hasReferenceFor(Task.class,pluginId)).thenReturn(true);
+  when(pluginManager.hasReferenceFor(PluggableJsonBasedTask.TASK_EXTENSION,pluginId)).thenReturn(false);
+  ActionWithReturn actionWithReturn=mock(ActionWithReturn.class);
+  when(pluginManager.doOn(Task.class,pluginId,actionWithReturn)).thenReturn(ExecutionResult.success("success"));
+  ExecutionResult result=taskExtension.execute(pluginId,actionWithReturn);
+  verify(pluginManager).doOn(Task.class,pluginId,actionWithReturn);
+  assertThat(result.getMessagesForDisplay(),is("success"));
+}

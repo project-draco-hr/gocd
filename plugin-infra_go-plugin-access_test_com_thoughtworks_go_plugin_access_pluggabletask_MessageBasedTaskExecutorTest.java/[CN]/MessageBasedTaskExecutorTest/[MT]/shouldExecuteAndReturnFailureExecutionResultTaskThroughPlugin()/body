@@ -1,0 +1,11 @@
+{
+  TaskExecutionContext context=mock(TaskExecutionContext.class);
+  PluginManager pluginManager=mock(PluginManager.class);
+  String pluginId="pluginId";
+  GoPluginApiResponse response=mock(GoPluginApiResponse.class);
+  when(pluginManager.submitTo(eq(pluginId),any(GoPluginApiRequest.class))).thenReturn(response);
+  when(response.responseBody()).thenReturn("{\"success\":false,\"messages\":[\"error1\",\"error2\"]}");
+  ExecutionResult result=new MessageBasedTaskExecutor(pluginId,pluginManager).execute(config(),context);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.getMessagesForDisplay(),is("error1\nerror2"));
+}

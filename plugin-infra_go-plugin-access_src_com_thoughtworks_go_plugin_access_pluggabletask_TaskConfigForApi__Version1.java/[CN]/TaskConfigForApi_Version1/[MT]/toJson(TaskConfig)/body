@@ -1,0 +1,14 @@
+{
+  ArrayList<Map> properties=new ArrayList<Map>();
+  for (  Property property : taskConfig.list()) {
+    HashMap prop=new HashMap();
+    prop.put("key",property.getKey());
+    prop.put("value",property.getValue());
+    prop.put("secure",property.getOption(Property.SECURE));
+    prop.put("required",property.getOption(Property.REQUIRED));
+    prop.put("display-name",property.getOption(Property.DISPLAY_NAME));
+    prop.put("display-order",property.getOption(Property.DISPLAY_ORDER).toString());
+    properties.add(prop);
+  }
+  return new Gson().toJson(properties);
+}

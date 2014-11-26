@@ -4,7 +4,7 @@
   when(task.config()).thenReturn(defaultTaskConfig);
   final TaskConfig executorTaskConfig=mock(TaskConfig.class);
   final TaskExecutionContext taskExecutionContext=mock(TaskExecutionContext.class);
-  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory"){
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory",taskExtension){
     @Override protected TaskConfig buildTaskConfig(    TaskConfig config){
       return executorTaskConfig;
     }

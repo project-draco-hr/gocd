@@ -1,0 +1,16 @@
+{
+  TaskExecutionContext context=mock(TaskExecutionContext.class);
+  PluginManager pluginManager=mock(PluginManager.class);
+  String pluginId="pluginId";
+  GoPluginApiResponse response=mock(GoPluginApiResponse.class);
+  when(pluginManager.submitTo(eq(pluginId),any(GoPluginApiRequest.class))).thenReturn(response);
+  when(response.responseBody()).thenReturn("{\"success\":true,\"messages\":[\"message1\",\"message2\"]}");
+  ExecutionResult result=new MessageBasedTaskExecutor(pluginId,pluginManager).execute(config(),context);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(result.getMessagesForDisplay(),is("message1\nmessage2"));
+  ArgumentCaptor<GoPluginApiRequest> argument=ArgumentCaptor.forClass(GoPluginApiRequest.class);
+  verify(pluginManager).submitTo(eq(pluginId),argument.capture());
+  assertThat(argument.getValue().extension(),is(PluggableJsonBasedTask.TASK_EXTENSION));
+  assertThat(argument.getValue().extensionVersion(),is(PluggableJsonBasedTask.VERSION_1));
+  assertThat(argument.getValue().requestName(),is(PluggableJsonBasedTask.EXECUTION_REQUEST));
+}

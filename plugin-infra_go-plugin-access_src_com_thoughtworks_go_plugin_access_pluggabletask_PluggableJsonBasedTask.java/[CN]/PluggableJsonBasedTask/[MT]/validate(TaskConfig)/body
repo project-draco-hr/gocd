@@ -1,0 +1,12 @@
+{
+  DefaultGoPluginApiRequest request=new DefaultGoPluginApiRequest(TASK_EXTENSION,VERSION_1,VALIDATION_REQUEST);
+  request.addRequestParameter("config",new TaskConfigForApi_Version1().toJson(configuration));
+  ValidationResult validationResult=new ValidationResult();
+  GoPluginApiResponse response=pluginManager.submitTo(pluginId,request);
+  Map result=(Map)new GsonBuilder().create().fromJson(response.responseBody(),Object.class);
+  List<Map> errors=(List<Map>)result.get("errors");
+  for (  Map error : errors) {
+    validationResult.addError(new ValidationError((String)error.get("key"),(String)error.get("message")));
+  }
+  return validationResult;
+}

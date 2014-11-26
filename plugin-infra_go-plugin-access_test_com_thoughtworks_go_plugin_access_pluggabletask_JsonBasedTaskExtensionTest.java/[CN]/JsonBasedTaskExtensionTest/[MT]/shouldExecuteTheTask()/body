@@ -1,0 +1,11 @@
+{
+  ActionWithReturn actionWithReturn=mock(ActionWithReturn.class);
+  PluginManager pluginManager=mock(PluginManager.class);
+  JsonBasedTaskExtension extension=new JsonBasedTaskExtension(pluginManager);
+  String pluginId="plugin-id";
+  when(actionWithReturn.execute(any(PluggableJsonBasedTask.class),any(GoPluginDescriptor.class))).thenReturn(ExecutionResult.success("yay"));
+  ExecutionResult executionResult=extension.execute(pluginId,actionWithReturn);
+  verify(actionWithReturn).execute(any(PluggableJsonBasedTask.class),any(GoPluginDescriptor.class));
+  assertThat(executionResult.getMessagesForDisplay(),is("yay"));
+  assertTrue(executionResult.isSuccessful());
+}

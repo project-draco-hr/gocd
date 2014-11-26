@@ -1,0 +1,26 @@
+{
+  final GoPluginDescriptor descriptor=mock(GoPluginDescriptor.class);
+  String pluginId="test-plugin-id";
+  when(descriptor.id()).thenReturn(pluginId);
+  final Task task=mock(Task.class);
+  TaskConfig config=new TaskConfig();
+  TaskView taskView=mock(TaskView.class);
+  when(task.config()).thenReturn(config);
+  when(task.view()).thenReturn(taskView);
+  PluginManager pluginManager=mock(PluginManager.class);
+  when(pluginManager.hasReferenceFor(Task.class,pluginId)).thenReturn(false);
+  when(pluginManager.hasReferenceFor("task-plugin",pluginId)).thenReturn(false);
+  final TaskExtension taskExtension=mock(TaskExtension.class);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      final Action<Task> action=(Action<Task>)invocationOnMock.getArguments()[1];
+      action.execute(task,descriptor);
+      return null;
+    }
+  }
+).when(taskExtension).doOnTask(eq(pluginId),any(Action.class));
+  PluggableTaskPreferenceLoader pluggableTaskPreferenceLoader=new PluggableTaskPreferenceLoader(pluginManager,taskExtension);
+  pluggableTaskPreferenceLoader.pluginLoaded(descriptor);
+  assertThat(PluggableTaskConfigStore.store().hasPreferenceFor(pluginId),is(false));
+  verify(pluginManager).addPluginChangeListener(pluggableTaskPreferenceLoader,Task.class);
+}

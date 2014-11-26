@@ -1,0 +1,16 @@
+{
+  List<Map> list=(List<Map>)new GsonBuilder().create().fromJson(configJson,Object.class);
+  TaskConfig taskConfig=new TaskConfig();
+  for (  Map map : list) {
+    TaskConfigProperty property=new TaskConfigProperty((String)map.get("key"),null);
+    property.withDefault((String)map.get("default-value"));
+    property.with(Property.SECURE,(Boolean)map.get("secure"));
+    property.with(Property.REQUIRED,(Boolean)map.get("required"));
+    property.with(Property.DISPLAY_NAME,(String)map.get("display-name"));
+    if (!StringUtil.isBlank((String)map.get("display-order"))) {
+      property.with(Property.DISPLAY_ORDER,Integer.parseInt((String)map.get("display-order")));
+    }
+    taskConfig.add(property);
+  }
+  return taskConfig;
+}
