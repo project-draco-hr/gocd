@@ -3,7 +3,7 @@
   GoPlugin goPlugin=mock(GoPlugin.class);
   GoPlugginOSGiFrameworkStub osGiFrameworkStub=new GoPlugginOSGiFrameworkStub(goPlugin);
   osGiFrameworkStub.addHasReferenceFor(GoPlugin.class,pluginId,true);
-  when(goPlugin.pluginIdentifier()).thenReturn(new GoPluginIdentifier("id","sample-extension",asList("1.0","2.0")));
+  when(goPlugin.pluginIdentifier()).thenReturn(new GoPluginIdentifier("sample-extension",asList("1.0","2.0")));
   DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,osGiFrameworkStub,jarChangeListener,applicationAccessor,systemEnvironment);
   try {
     pluginManager.resolveExtensionVersion(pluginId,asList("3.0","4.0"));
