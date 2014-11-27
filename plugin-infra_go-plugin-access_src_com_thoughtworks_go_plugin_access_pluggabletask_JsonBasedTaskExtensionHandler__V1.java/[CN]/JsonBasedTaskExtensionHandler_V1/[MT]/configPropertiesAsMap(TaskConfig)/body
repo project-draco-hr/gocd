@@ -1,0 +1,13 @@
+{
+  HashMap properties=new HashMap();
+  for (  Property property : taskConfig.list()) {
+    final HashMap propertyValue=new HashMap();
+    propertyValue.put("value",property.getValue());
+    propertyValue.put("secure",property.getOption(Property.SECURE));
+    propertyValue.put("required",property.getOption(Property.REQUIRED));
+    propertyValue.put("display-name",property.getOption(Property.DISPLAY_NAME));
+    propertyValue.put("display-order",property.getOption(Property.DISPLAY_ORDER).toString());
+    properties.put(property.getKey(),propertyValue);
+  }
+  return properties;
+}

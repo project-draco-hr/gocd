@@ -1,14 +1,15 @@
 {
-  List<Map> list=(List<Map>)new GsonBuilder().create().fromJson(configJson,Object.class);
+  Map<String,Object> configMap=(Map)new GsonBuilder().create().fromJson(configJson,Object.class);
   TaskConfig taskConfig=new TaskConfig();
-  for (  Map map : list) {
-    TaskConfigProperty property=new TaskConfigProperty((String)map.get("key"),null);
-    property.withDefault((String)map.get("default-value"));
-    property.with(Property.SECURE,(Boolean)map.get("secure"));
-    property.with(Property.REQUIRED,(Boolean)map.get("required"));
-    property.with(Property.DISPLAY_NAME,(String)map.get("display-name"));
-    if (!StringUtil.isBlank((String)map.get("display-order"))) {
-      property.with(Property.DISPLAY_ORDER,Integer.parseInt((String)map.get("display-order")));
+  for (  Map.Entry<String,Object> entry : configMap.entrySet()) {
+    TaskConfigProperty property=new TaskConfigProperty(entry.getKey(),null);
+    Map propertyValue=(Map)entry.getValue();
+    property.withDefault((String)propertyValue.get("default-value"));
+    property.with(Property.SECURE,(Boolean)propertyValue.get("secure"));
+    property.with(Property.REQUIRED,(Boolean)propertyValue.get("required"));
+    property.with(Property.DISPLAY_NAME,(String)propertyValue.get("display-name"));
+    if (!StringUtil.isBlank((String)propertyValue.get("display-order"))) {
+      property.with(Property.DISPLAY_ORDER,Integer.parseInt((String)propertyValue.get("display-order")));
     }
     taskConfig.add(property);
   }

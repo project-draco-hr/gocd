@@ -1,13 +1,13 @@
 {
   String jsonResponse="{\"errors\":[{\"key\":\"key1\", \"message\":\"err1\"},{\"key\":\"key1\", \"message\":\"err2\"},{\"key\":\"key2\", \"message\":\"err3\"}]}";
   TaskConfig configuration=new TaskConfig();
-  final TaskConfigProperty property=new TaskConfigProperty("URL","http://foo");
+  TaskConfigProperty property=new TaskConfigProperty("URL","http://foo");
   property.with(Property.SECURE,false);
   property.with(Property.REQUIRED,true);
   property.with(Property.DISPLAY_NAME,"URL");
   property.with(Property.DISPLAY_ORDER,0);
   configuration.add(property);
-  final GoPluginApiResponse response=mock(GoPluginApiResponse.class);
+  GoPluginApiResponse response=mock(GoPluginApiResponse.class);
   when(response.responseBody()).thenReturn(jsonResponse);
   ValidationResult result=new JsonBasedTaskExtensionHandler_V1().toValidationResult(response);
   Assert.assertThat(result.isSuccessful(),CoreMatchers.is(false));

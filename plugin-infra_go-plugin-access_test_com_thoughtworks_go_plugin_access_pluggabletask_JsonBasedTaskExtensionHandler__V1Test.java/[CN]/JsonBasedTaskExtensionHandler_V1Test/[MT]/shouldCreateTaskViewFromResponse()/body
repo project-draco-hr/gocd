@@ -1,8 +1,8 @@
 {
   String jsonResponse="{\"displayValue\":\"MyTaskPlugin\", \"template\":\"<html>junk</html>\"}";
-  final GoPluginApiResponse response=mock(GoPluginApiResponse.class);
+  GoPluginApiResponse response=mock(GoPluginApiResponse.class);
   when(response.responseBody()).thenReturn(jsonResponse);
-  final TaskView view=new JsonBasedTaskExtensionHandler_V1().toTaskView(response);
+  TaskView view=new JsonBasedTaskExtensionHandler_V1().toTaskView(response);
   Assert.assertThat(view.displayValue(),CoreMatchers.is("MyTaskPlugin"));
   Assert.assertThat(view.template(),CoreMatchers.is("<html>junk</html>"));
 }

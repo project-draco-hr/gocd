@@ -1,0 +1,9 @@
+{
+  Map requestBody=new HashMap();
+  Map contextMap=new HashMap();
+  contextMap.put("environmentVariables",taskExecutionContext.environment().asMap());
+  contextMap.put("workingDirectory",taskExecutionContext.workingDir());
+  requestBody.put("context",contextMap);
+  requestBody.put("config",configPropertiesAsMap(config));
+  return new Gson().toJson(requestBody);
+}
