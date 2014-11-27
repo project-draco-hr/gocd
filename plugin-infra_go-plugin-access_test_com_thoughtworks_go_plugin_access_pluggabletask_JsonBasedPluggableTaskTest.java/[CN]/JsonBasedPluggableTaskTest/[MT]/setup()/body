@@ -1,0 +1,7 @@
+{
+  pluginManager=mock(PluginManager.class);
+  pluginId="plugin-id";
+  task=new JsonBasedPluggableTask(pluginManager,pluginId,new JsonBasedTaskExtensionHandler_V1());
+  goPluginApiResponse=mock(GoPluginApiResponse.class);
+  when(pluginManager.submitTo(eq(pluginId),any(GoPluginApiRequest.class))).thenReturn(goPluginApiResponse);
+}

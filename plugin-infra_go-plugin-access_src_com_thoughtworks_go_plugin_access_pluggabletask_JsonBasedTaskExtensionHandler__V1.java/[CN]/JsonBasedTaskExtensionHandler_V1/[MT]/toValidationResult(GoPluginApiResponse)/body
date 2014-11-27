@@ -1,0 +1,9 @@
+{
+  ValidationResult validationResult=new ValidationResult();
+  Map result=(Map)new GsonBuilder().create().fromJson(response.responseBody(),Object.class);
+  List<Map> errors=(List<Map>)result.get("errors");
+  for (  Map error : errors) {
+    validationResult.addError(new ValidationError((String)error.get("key"),(String)error.get("message")));
+  }
+  return validationResult;
+}

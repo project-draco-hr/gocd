@@ -1,10 +1,7 @@
 {
   Action action=mock(Action.class);
-  PluginManager pluginManager=mock(PluginManager.class);
-  JsonBasedTaskExtension extension=new JsonBasedTaskExtension(pluginManager);
-  String pluginId="plugin-id";
   final GoPluginDescriptor descriptor=mock(GoPluginDescriptor.class);
   when(pluginManager.getPluginDescriptorFor(pluginId)).thenReturn(descriptor);
   extension.doOnTask(pluginId,action);
-  verify(action).execute(any(PluggableJsonBasedTask.class),eq(descriptor));
+  verify(action).execute(any(JsonBasedPluggableTask.class),eq(descriptor));
 }

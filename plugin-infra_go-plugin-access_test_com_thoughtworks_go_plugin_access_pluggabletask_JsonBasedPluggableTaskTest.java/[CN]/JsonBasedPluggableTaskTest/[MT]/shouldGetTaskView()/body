@@ -1,0 +1,12 @@
+{
+  String jsonResponse="{\"displayValue\":\"MyTaskPlugin\", \"template\":\"<html>junk</html>\"}";
+  when(goPluginApiResponse.responseBody()).thenReturn(jsonResponse);
+  TaskView view=task.view();
+  assertThat(view.displayValue(),is("MyTaskPlugin"));
+  assertThat(view.template(),is("<html>junk</html>"));
+  ArgumentCaptor<GoPluginApiRequest> argument=ArgumentCaptor.forClass(GoPluginApiRequest.class);
+  verify(pluginManager).submitTo(eq(pluginId),argument.capture());
+  MatcherAssert.assertThat(argument.getValue().extension(),Matchers.is(JsonBasedTaskExtension.TASK_EXTENSION));
+  MatcherAssert.assertThat(argument.getValue().extensionVersion(),Matchers.is(JsonBasedTaskExtensionHandler_V1.VERSION));
+  MatcherAssert.assertThat(argument.getValue().requestName(),Matchers.is(JsonBasedTaskExtension.TASK_VIEW_REQUEST));
+}

@@ -3,6 +3,6 @@
   String messageBasedPluginId="messageBased-task";
   TaskExtension taskExtension=new TaskExtension(pluginManager);
   when(pluginManager.hasReferenceFor(Task.class,messageBasedPluginId)).thenReturn(false);
-  when(pluginManager.hasReferenceFor(PluggableJsonBasedTask.TASK_EXTENSION,messageBasedPluginId)).thenReturn(true);
+  when(pluginManager.isPluginOfType(JsonBasedTaskExtension.TASK_EXTENSION,messageBasedPluginId)).thenReturn(true);
   Assert.assertTrue(taskExtension.getExtension(messageBasedPluginId) instanceof JsonBasedTaskExtension);
 }

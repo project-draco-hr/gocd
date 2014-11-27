@@ -1,0 +1,7 @@
+{
+  GoPluginApiResponse response=mock(GoPluginApiResponse.class);
+  when(response.responseBody()).thenReturn("{\"success\":false,\"messages\":[\"error1\",\"error2\"]}");
+  final ExecutionResult result=new JsonBasedTaskExtensionHandler_V1().toExecutionResult(response);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.getMessagesForDisplay(),is("error1\nerror2"));
+}
