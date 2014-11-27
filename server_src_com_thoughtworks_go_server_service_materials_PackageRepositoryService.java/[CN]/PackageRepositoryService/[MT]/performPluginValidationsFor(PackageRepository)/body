@@ -11,14 +11,8 @@
       }
     }
   }
-  pluginManager.doOn(PackageMaterialProvider.class,packageRepository.getPluginConfiguration().getId(),new ActionWithReturn<PackageMaterialProvider,Object>(){
-    @Override public Object execute(    PackageMaterialProvider packageMaterialProvider,    GoPluginDescriptor pluginDescriptor){
-      ValidationResult validationResult=packageMaterialProvider.getConfig().isRepositoryConfigurationValid(populateConfiguration(packageRepository.getConfiguration()));
-      for (      ValidationError error : validationResult.getErrors()) {
-        packageRepository.addConfigurationErrorFor(error.getKey(),error.getMessage());
-      }
-      return null;
-    }
+  ValidationResult validationResult=packageAsRepositoryExtension.isRepositoryConfigurationValid(packageRepository.getPluginConfiguration().getId(),populateConfiguration(packageRepository.getConfiguration()));
+  for (  ValidationError error : validationResult.getErrors()) {
+    packageRepository.addConfigurationErrorFor(error.getKey(),error.getMessage());
   }
-);
 }

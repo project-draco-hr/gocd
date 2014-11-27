@@ -1,0 +1,6 @@
+{
+  RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
+  ValidationResult validationResult=new ValidationResult();
+  when(packageMaterialConfiguration.isRepositoryConfigurationValid(repositoryConfiguration)).thenReturn(validationResult);
+  assertThat(extension.isRepositoryConfigurationValid(PLUGIN_ID,repositoryConfiguration),is(validationResult));
+}

@@ -7,19 +7,15 @@
   configuration.add(ConfigurationPropertyMother.create("spec",false,"xyz?"));
   PackageDefinition packageDefinition=PackageDefinitionMother.create("1","name",configuration,packageRepository);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  PackageMaterialProvider packageMaterialProvider=mock(PackageMaterialProvider.class);
-  PluginManager pluginManager=dummyPluginManager(packageMaterialProvider);
-  PackageDefinitionService service=new PackageDefinitionService(pluginManager,localizer);
-  PackageMaterialPoller poller=mock(PackageMaterialPoller.class);
-  when(packageMaterialProvider.getPoller()).thenReturn(poller);
+  PackageDefinitionService service=new PackageDefinitionService(packageAsRepositoryExtension,localizer);
   ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration> packageConfigurationsCaptor=new ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>();
   ArgumentCaptor<RepositoryConfiguration> packageRepositoryConfigurationsCaptor=new ArgumentCaptor<RepositoryConfiguration>();
-  when(poller.checkConnectionToPackage(packageConfigurationsCaptor.capture(),packageRepositoryConfigurationsCaptor.capture())).thenReturn(new Result().withErrorMessages("Package not available","Repo not available"));
+  when(packageAsRepositoryExtension.checkConnectionToPackage(eq(packageRepository.getPluginConfiguration().getId()),packageConfigurationsCaptor.capture(),packageRepositoryConfigurationsCaptor.capture())).thenReturn(new Result().withErrorMessages("Package not available","Repo not available"));
   service.checkConnection(packageDefinition,result);
   assertPackageConfiguration(packageConfigurationsCaptor.getValue().list(),packageDefinition.getConfiguration());
   assertPackageConfiguration(packageRepositoryConfigurationsCaptor.getValue().list(),packageRepository.getConfiguration());
   assertThat(result.isSuccessful(),Is.is(false));
   when(localizer.localize("PACKAGE_CHECK_FAILED","Package not available\nRepo not available")).thenReturn("error_msg");
   assertThat(result.message(localizer),Is.is("error_msg"));
-  verify(poller).checkConnectionToPackage(any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class));
+  verify(packageAsRepositoryExtension).checkConnectionToPackage(anyString(),any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class));
 }

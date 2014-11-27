@@ -1,9 +1,7 @@
 {
   initMocks(this);
-  when(packageMaterialProvider.getConfig()).thenReturn(packageMaterialConfiguration);
-  pluginManager=dummyPluginManager(packageMaterialProvider);
-  service=new PackageDefinitionService(pluginManager,localizer);
   when(localizer.localize(eq("MANDATORY_CONFIGURATION_FIELD_WITH_NAME"),anyString())).thenReturn("mandatory field");
+  service=new PackageDefinitionService(packageAsRepositoryExtension,localizer);
   PackageConfigurations configurations=new PackageConfigurations();
   configurations.add(new PackageConfiguration("required").with(PackageConfiguration.REQUIRED,true));
   configurations.add(new PackageConfiguration("required_secure").with(PackageConfiguration.REQUIRED,true).with(PackageConfiguration.SECURE,true));

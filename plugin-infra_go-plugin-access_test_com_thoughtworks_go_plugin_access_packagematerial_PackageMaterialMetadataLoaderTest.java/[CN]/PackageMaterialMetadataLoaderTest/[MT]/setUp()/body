@@ -1,9 +1,8 @@
 {
-  PackageMaterialProvider packageMaterialProvider=mock(PackageMaterialProvider.class);
-  packageMaterialConfiguration=mock(PackageMaterialConfiguration.class);
-  when(packageMaterialProvider.getConfig()).thenReturn(packageMaterialConfiguration);
   pluginDescriptor=new GoPluginDescriptor("plugin-id","1.0",null,null,null,true);
+  pluginManager=mock(PluginManager.class);
+  packageAsRepositoryExtension=mock(PackageAsRepositoryExtension.class);
+  metadataLoader=new PackageMaterialMetadataLoader(pluginManager,packageAsRepositoryExtension);
   RepositoryMetadataStore.getInstance().removeMetadata(pluginDescriptor.id());
   PackageMetadataStore.getInstance().removeMetadata(pluginDescriptor.id());
-  metadataLoader=new PackageMaterialMetadataLoader(dummyPluginManager(packageMaterialProvider,pluginDescriptor));
 }

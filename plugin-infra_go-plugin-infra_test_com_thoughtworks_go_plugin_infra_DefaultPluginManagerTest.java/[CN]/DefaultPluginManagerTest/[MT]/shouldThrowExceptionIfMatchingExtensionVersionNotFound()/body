@@ -1,0 +1,15 @@
+{
+  String pluginId="plugin-id";
+  GoPlugin goPlugin=mock(GoPlugin.class);
+  GoPlugginOSGiFrameworkStub osGiFrameworkStub=new GoPlugginOSGiFrameworkStub(goPlugin);
+  osGiFrameworkStub.addHasReferenceFor(GoPlugin.class,pluginId,true);
+  when(goPlugin.pluginIdentifier()).thenReturn(new GoPluginIdentifier("sample-extension",asList("1.0","2.0")));
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,osGiFrameworkStub,jarChangeListener,applicationAccessor,systemEnvironment);
+  try {
+    pluginManager.resolveExtensionVersion(pluginId,asList("3.0","4.0"));
+    fail("should have thrown exception for not finding matching extension version");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Could not find matching extension version between Plugin[plugin-id] and Go"));
+  }
+}

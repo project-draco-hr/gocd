@@ -1,0 +1,14 @@
+{
+  if (goPluginOSGiFramework.hasReferenceFor(GoPlugin.class,pluginId)) {
+    GoPluginIdentifier goPluginIdentifier=doOn(GoPlugin.class,pluginId,new ActionWithReturn<GoPlugin,GoPluginIdentifier>(){
+      @Override public GoPluginIdentifier execute(      GoPlugin goPlugin,      GoPluginDescriptor pluginDescriptor){
+        return goPlugin.pluginIdentifier();
+      }
+    }
+);
+    if (extension.equals(goPluginIdentifier.getExtension())) {
+      return true;
+    }
+  }
+  return false;
+}

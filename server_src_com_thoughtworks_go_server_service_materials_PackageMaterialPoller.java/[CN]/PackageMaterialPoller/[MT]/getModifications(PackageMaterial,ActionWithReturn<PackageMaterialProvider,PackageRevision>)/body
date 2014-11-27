@@ -1,7 +1,0 @@
-{
-  PackageRevision packageRevision=pluginManager.doOn(PackageMaterialProvider.class,material.getPluginId(),action);
-  if (packageRevision == null) {
-    return new Modifications();
-  }
-  return new Modifications(new Modification(packageRevision.getUser(),JsonHelper.toJsonString(getCommentParameters(packageRevision)),null,packageRevision.getTimestamp(),packageRevision.getRevision(),JsonHelper.toJsonString(packageRevision.getData())));
-}

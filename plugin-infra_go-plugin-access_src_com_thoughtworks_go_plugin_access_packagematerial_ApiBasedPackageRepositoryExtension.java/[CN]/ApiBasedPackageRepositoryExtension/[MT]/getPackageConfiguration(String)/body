@@ -1,0 +1,9 @@
+{
+  ActionWithReturn<PackageMaterialProvider,com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration> action=new ActionWithReturn<PackageMaterialProvider,com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>(){
+    @Override public com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration execute(    PackageMaterialProvider packageRepositoryMaterial,    GoPluginDescriptor pluginDescriptor){
+      return packageRepositoryMaterial.getConfig().getPackageConfiguration();
+    }
+  }
+;
+  return pluginManager.doOn(PackageMaterialProvider.class,pluginId,action);
+}

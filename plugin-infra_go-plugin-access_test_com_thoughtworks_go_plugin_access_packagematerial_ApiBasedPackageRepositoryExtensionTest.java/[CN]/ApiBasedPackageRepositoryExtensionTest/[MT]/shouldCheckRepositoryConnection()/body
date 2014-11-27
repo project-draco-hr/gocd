@@ -1,0 +1,6 @@
+{
+  RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
+  Result result=new Result();
+  when(packageMaterialPoller.checkConnectionToRepository(repositoryConfiguration)).thenReturn(result);
+  assertThat(extension.checkConnectionToRepository(PLUGIN_ID,repositoryConfiguration),is(result));
+}

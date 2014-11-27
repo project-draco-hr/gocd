@@ -1,13 +1,8 @@
 {
-  ActionWithReturn<PackageMaterialProvider,PackageRevision> action=new ActionWithReturn<PackageMaterialProvider,PackageRevision>(){
-    @Override public PackageRevision execute(    PackageMaterialProvider packageRepositoryMaterial,    GoPluginDescriptor pluginDescriptor){
-      PackageMaterialRevision packageMaterialRevision=(PackageMaterialRevision)revision;
-      PackageConfiguration packageConfiguration=buildPackageConfigurations(material.getPackageDefinition());
-      RepositoryConfiguration repositoryConfiguration=buildRepositoryConfigurations(material.getPackageDefinition().getRepository());
-      PackageRevision previouslyKnownRevision=new PackageRevision(packageMaterialRevision.getRevision(),packageMaterialRevision.getTimestamp(),null,packageMaterialRevision.getData());
-      return packageRepositoryMaterial.getPoller().latestModificationSince(packageConfiguration,repositoryConfiguration,previouslyKnownRevision);
-    }
-  }
-;
-  return getModifications(material,action);
+  PackageMaterialRevision packageMaterialRevision=(PackageMaterialRevision)revision;
+  PackageRevision previouslyKnownRevision=new PackageRevision(packageMaterialRevision.getRevision(),packageMaterialRevision.getTimestamp(),null,packageMaterialRevision.getData());
+  PackageConfiguration packageConfiguration=buildPackageConfigurations(material.getPackageDefinition());
+  RepositoryConfiguration repositoryConfiguration=buildRepositoryConfigurations(material.getPackageDefinition().getRepository());
+  PackageRevision packageRevision=packageAsRepositoryExtension.latestModificationSince(material.getPluginId(),packageConfiguration,repositoryConfiguration,previouslyKnownRevision);
+  return getModifications(packageRevision);
 }

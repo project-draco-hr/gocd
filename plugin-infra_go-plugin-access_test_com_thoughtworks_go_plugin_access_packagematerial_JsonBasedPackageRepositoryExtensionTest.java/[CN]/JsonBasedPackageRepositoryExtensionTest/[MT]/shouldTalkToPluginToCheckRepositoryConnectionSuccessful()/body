@@ -1,0 +1,8 @@
+{
+  String expectedRequestBody="{\"repository-configuration\":{\"key-one\":{\"value\":\"value-one\"},\"key-two\":{\"value\":\"value-two\"}}}";
+  String expectedResponseBody="{\"status\":\"success\",messages=[\"message-one\",\"message-two\"]}";
+  when(pluginManager.submitTo(eq(PLUGIN_ID),requestArgumentCaptor.capture())).thenReturn(DefaultGoPluginApiResponse.success(expectedResponseBody));
+  Result result=jsonBasedPackageRepositoryExtension.checkConnectionToRepository(PLUGIN_ID,repositoryConfiguration);
+  assertRequest(requestArgumentCaptor.getValue(),EXTENSION_NAME,"1.0",JsonBasedPackageRepositoryExtension.REQUEST_CHECK_REPOSITORY_CONNECTION,expectedRequestBody);
+  assertSuccessResult(result,asList("message-one","message-two"));
+}

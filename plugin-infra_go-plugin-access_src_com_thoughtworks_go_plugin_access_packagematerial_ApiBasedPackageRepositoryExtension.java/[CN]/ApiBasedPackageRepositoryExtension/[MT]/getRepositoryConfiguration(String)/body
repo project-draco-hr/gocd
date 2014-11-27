@@ -1,0 +1,9 @@
+{
+  ActionWithReturn<PackageMaterialProvider,RepositoryConfiguration> action=new ActionWithReturn<PackageMaterialProvider,RepositoryConfiguration>(){
+    @Override public RepositoryConfiguration execute(    PackageMaterialProvider packageRepositoryMaterial,    GoPluginDescriptor pluginDescriptor){
+      return packageRepositoryMaterial.getConfig().getRepositoryConfiguration();
+    }
+  }
+;
+  return pluginManager.doOn(PackageMaterialProvider.class,pluginId,action);
+}

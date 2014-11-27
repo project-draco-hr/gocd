@@ -1,14 +1,17 @@
 {
   try {
-    pluginManager.doOnIfHasReference(PackageMaterialProvider.class,pluginDescriptor.id(),new Action<PackageMaterialProvider>(){
-      @Override public void execute(      PackageMaterialProvider packageRepositoryMaterial,      GoPluginDescriptor pluginDescriptor){
-        repositoryMetadataStore.addMetadataFor(pluginDescriptor.id(),new PackageConfigurations(packageRepositoryMaterial.getConfig().getRepositoryConfiguration()));
-        packageMetadataStore.addMetadataFor(pluginDescriptor.id(),new PackageConfigurations(packageRepositoryMaterial.getConfig().getPackageConfiguration()));
-      }
+    RepositoryConfiguration repositoryConfiguration=packageAsRepositoryExtension.getRepositoryConfiguration(pluginDescriptor.id());
+    com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration packageConfiguration=packageAsRepositoryExtension.getPackageConfiguration(pluginDescriptor.id());
+    if (repositoryConfiguration == null) {
+      throw new RuntimeException(format("Plugin[%s] returned null repository configuration",pluginDescriptor.id()));
     }
-);
+    if (packageConfiguration == null) {
+      throw new RuntimeException(format("Plugin[%s] returned null package configuration",pluginDescriptor.id()));
+    }
+    repositoryMetadataStore.addMetadataFor(pluginDescriptor.id(),new PackageConfigurations(repositoryConfiguration));
+    packageMetadataStore.addMetadataFor(pluginDescriptor.id(),new PackageConfigurations(packageConfiguration));
   }
  catch (  GoPluginFrameworkException e) {
-    LOGGER.error(String.format("Failed to fetch package metadata for plugin : %s",pluginDescriptor.id()),e);
+    LOGGER.error(format("Failed to fetch package metadata for plugin : %s",pluginDescriptor.id()),e);
   }
 }

@@ -1,0 +1,8 @@
+{
+  RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
+  Map<String,Map> configurations=parseResponseToMap(responseBody);
+  for (  String key : configurations.keySet()) {
+    repositoryConfiguration.add(toPackageMaterialProperty(key,configurations.get(key)));
+  }
+  return repositoryConfiguration;
+}

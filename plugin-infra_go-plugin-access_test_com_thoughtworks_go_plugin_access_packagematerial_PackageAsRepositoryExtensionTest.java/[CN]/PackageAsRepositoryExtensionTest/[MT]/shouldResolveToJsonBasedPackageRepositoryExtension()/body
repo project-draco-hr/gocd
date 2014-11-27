@@ -1,0 +1,7 @@
+{
+  String pluginId="plugin-id";
+  when(pluginManager.hasReference(PackageMaterialProvider.class,pluginId)).thenReturn(false);
+  packageAsRepositoryExtension=new PackageAsRepositoryExtension(pluginManager);
+  PackageAsRepositoryExtensionContract contract=packageAsRepositoryExtension.resolveBy(pluginId);
+  assertThat(contract,IsInstanceOf.instanceOf(JsonBasedPackageRepositoryExtension.class));
+}

@@ -2,7 +2,7 @@
   PackageMaterial material=new PackageMaterial();
   PackageDefinition packageDefinition=create("id","package",new Configuration(),PackageRepositoryMother.create("id","name","plugin-id","plugin-version",new Configuration()));
   material.setPackageDefinition(packageDefinition);
-  when(pluginManager.doOn(eq(PackageMaterialProvider.class),eq("plugin-id"),any(ActionWithReturn.class))).thenReturn(new PackageRevision("new-revision-456",new Date(),"user"));
+  when(packageAsRepositoryExtension.latestModificationSince(eq("plugin-id"),any(PackageConfiguration.class),any(RepositoryConfiguration.class),any(PackageRevision.class))).thenReturn(new PackageRevision("new-revision-456",new Date(),"user"));
   List<Modification> modifications=materialService.modificationsSince(material,null,new PackageMaterialRevision("revision-124",new Date()),null);
   assertThat(modifications.get(0).getRevision(),is("new-revision-456"));
 }

@@ -1,0 +1,8 @@
+{
+  PackageMaterialProvider packageMaterialProvider=mock(PackageMaterialProvider.class);
+  packageMaterialConfiguration=mock(PackageMaterialConfiguration.class);
+  when(packageMaterialProvider.getConfig()).thenReturn(packageMaterialConfiguration);
+  packageMaterialPoller=mock(PackageMaterialPoller.class);
+  when(packageMaterialProvider.getPoller()).thenReturn(packageMaterialPoller);
+  extension=new ApiBasedPackageRepositoryExtension(dummyPluginManager(packageMaterialProvider));
+}

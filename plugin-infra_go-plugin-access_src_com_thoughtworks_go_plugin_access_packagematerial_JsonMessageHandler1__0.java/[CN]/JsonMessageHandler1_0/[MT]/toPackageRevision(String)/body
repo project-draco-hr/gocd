@@ -1,0 +1,17 @@
+{
+  try {
+    Map map=parseResponseToMap(responseBody);
+    String revision=(String)map.get("revision");
+    String revisionComment=(String)map.get("revisionComment");
+    String user=(String)map.get("user");
+    String timestampString=(String)map.get("timestamp");
+    String trackbackUrl=(String)map.get("trackbackUrl");
+    Map data=(Map)map.get("data");
+    Date timestamp=new SimpleDateFormat(DATE_PATTERN).parse(timestampString);
+    PackageRevision packageRevision=new PackageRevision(revision,timestamp,user,revisionComment,trackbackUrl,data);
+    return packageRevision;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("could not parse response to package revision",e);
+  }
+}

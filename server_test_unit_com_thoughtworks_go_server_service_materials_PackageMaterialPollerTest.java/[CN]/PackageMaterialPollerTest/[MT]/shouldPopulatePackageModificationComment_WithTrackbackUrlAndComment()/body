@@ -1,6 +1,7 @@
 {
   PackageRevision packageRevision=new PackageRevision(null,null,null,"Built on host1","http://google.com");
-  when(packageMaterialPoller.getLatestRevision(any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class))).thenReturn(packageRevision);
-  List<Modification> modifications=poller.latestModification(MaterialsMother.packageMaterial(),null,null);
+  PackageMaterial packageMaterial=MaterialsMother.packageMaterial();
+  when(packageAsRepositoryExtension.getLatestRevision(eq(packageMaterial.getPluginId()),any(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class),any(RepositoryConfiguration.class))).thenReturn(packageRevision);
+  List<Modification> modifications=poller.latestModification(packageMaterial,null,null);
   assertThat(modifications.get(0).getComment(),is("{\"COMMENT\":\"Built on host1\",\"TRACKBACK_URL\":\"http://google.com\",\"TYPE\":\"PACKAGE_MATERIAL\"}"));
 }

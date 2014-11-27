@@ -1,0 +1,8 @@
+{
+  return pluginManager.doOn(PackageMaterialProvider.class,pluginId,new ActionWithReturn<PackageMaterialProvider,Result>(){
+    @Override public Result execute(    PackageMaterialProvider packageMaterialProvider,    GoPluginDescriptor pluginDescriptor){
+      return packageMaterialProvider.getPoller().checkConnectionToPackage(packageConfiguration,repositoryConfiguration);
+    }
+  }
+);
+}
