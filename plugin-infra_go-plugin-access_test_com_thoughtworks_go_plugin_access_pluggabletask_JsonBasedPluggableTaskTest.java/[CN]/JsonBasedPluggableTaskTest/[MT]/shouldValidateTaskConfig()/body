@@ -1,6 +1,6 @@
 {
   String jsonResponse="{\"errors\":[{\"key\":\"key1\", \"message\":\"err1\"},{\"key\":\"key1\", \"message\":\"err2\"},{\"key\":\"key2\", \"message\":\"err3\"}]}";
-  String config="[{\"display-name\":\"URL\",\"secure\":false,\"value\":\"http://foo\",\"display-order\":\"0\",\"required\":true,\"key\":\"URL\"}]";
+  String config="{\"URL\":{\"display-name\":\"URL\",\"secure\":false,\"value\":\"http://foo\",\"display-order\":\"0\",\"required\":true}}";
   when(goPluginApiResponse.responseBody()).thenReturn(jsonResponse);
   TaskConfig configuration=new TaskConfig();
   final TaskConfigProperty property=new TaskConfigProperty("URL","http://foo");

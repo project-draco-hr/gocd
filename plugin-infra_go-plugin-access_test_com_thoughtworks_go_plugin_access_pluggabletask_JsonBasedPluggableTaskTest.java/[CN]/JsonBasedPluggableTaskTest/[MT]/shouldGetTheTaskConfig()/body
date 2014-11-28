@@ -1,5 +1,5 @@
 {
-  String jsonResponse="[" + "{\"key\":\"URL\",\"default-value\":\"\",\"secure\":false,\"required\":true,\"display-name\":\"URL\",\"display-order\":\"0\"}," + "{\"key\":\"USER\",\"default-value\":\"foo\",\"secure\":true,\"required\":true,\"display-name\":\"User\",\"display-order\":\"1\"},"+ "{\"key\":\"PASSWORD\"}"+ "]";
+  String jsonResponse="{" + "\"URL\":{\"default-value\":\"\",\"secure\":false,\"required\":true,\"display-name\":\"URL\",\"display-order\":\"0\"}," + "\"USER\":{\"default-value\":\"foo\",\"secure\":true,\"required\":true,\"display-name\":\"User\",\"display-order\":\"1\"},"+ "\"PASSWORD\":{}"+ "}";
   when(goPluginApiResponse.responseBody()).thenReturn(jsonResponse);
   TaskConfig config=task.config();
   Property url=config.get("URL");
