@@ -1,7 +1,4 @@
 {
-  PluginManager pluginManager=mock(PluginManager.class);
-  ApiBasedTaskExtension extension=new ApiBasedTaskExtension(pluginManager);
-  String pluginId="plugin-id";
   final ActionWithReturn actionWithReturn=mock(ActionWithReturn.class);
   when(pluginManager.doOn(Task.class,pluginId,actionWithReturn)).thenReturn(ExecutionResult.failure("failed"));
   ExecutionResult executionResult=extension.execute(pluginId,actionWithReturn);

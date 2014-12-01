@@ -1,0 +1,9 @@
+{
+  return ListUtil.find(result.getErrors(),new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      ValidationError e=(ValidationError)item;
+      return e.getKey().equals(key);
+    }
+  }
+);
+}

@@ -1,0 +1,17 @@
+{
+  final Task task=mock(Task.class);
+  final TaskConfig taskConfig=mock(TaskConfig.class);
+  final ValidationResult validationResult=new ValidationResult();
+  when(task.validate(taskConfig)).thenReturn(validationResult);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      final ActionWithReturn<Task,Object> actionWithReturn=(ActionWithReturn<Task,Object>)invocationOnMock.getArguments()[2];
+      return actionWithReturn.execute(task,null);
+    }
+  }
+).when(pluginManager).doOn(eq(Task.class),eq(pluginId),any(ActionWithReturn.class));
+  final ValidationResult result=extension.validate(pluginId,taskConfig);
+  assertThat(result,is(validationResult));
+  verify(task).validate(taskConfig);
+  verify(pluginManager).doOn(eq(Task.class),eq(pluginId),any(ActionWithReturn.class));
+}

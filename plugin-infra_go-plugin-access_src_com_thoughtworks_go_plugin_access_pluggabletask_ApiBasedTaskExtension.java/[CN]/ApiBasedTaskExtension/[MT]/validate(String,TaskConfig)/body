@@ -1,0 +1,8 @@
+{
+  return (ValidationResult)pluginManager.doOn(Task.class,pluginId,new ActionWithReturn<Task,Object>(){
+    @Override public Object execute(    Task task,    GoPluginDescriptor pluginDescriptor){
+      return task.validate(taskConfig);
+    }
+  }
+);
+}
