@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)getWork(WILL_FAIL,PIPELINE_NAME);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
   assertThat(buildRepository.states,containsState(Preparing));
   assertThat(buildRepository.states,containsState(Building));
   assertThat(buildRepository.states,containsState(Completing));

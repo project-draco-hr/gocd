@@ -6,7 +6,7 @@
   EnvironmentVariableContext environmentVariableContext=mock(EnvironmentVariableContext.class);
   long before=getSystemTime();
   Builder builder=new KillAllChildProcessTaskBuilder().createBuilder(builderFactory,new KillAllChildProcessTask(),null,null);
-  builder.build(log,publisher,environmentVariableContext);
+  builder.build(log,publisher,environmentVariableContext,null);
   assertThat(processWrapper.waitForExit(),is(greaterThan(0)));
   assertThat(getSystemTime() - before,is(lessThan(10 * 60 * 1000* 1000* 1000L)));
 }

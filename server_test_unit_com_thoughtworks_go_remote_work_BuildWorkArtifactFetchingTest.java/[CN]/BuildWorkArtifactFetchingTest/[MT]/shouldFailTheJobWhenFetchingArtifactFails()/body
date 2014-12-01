@@ -1,7 +1,7 @@
 {
   buildWork=(BuildWork)BuildWorkTest.getWork(WITH_FETCH_FILE,PIPELINE_NAME);
   com.thoughtworks.go.remote.work.FailedToDownloadPublisherStub stubPublisher=new com.thoughtworks.go.remote.work.FailedToDownloadPublisherStub();
-  buildWork.doWork(agentIdentifier,buildRepository,stubPublisher,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  buildWork.doWork(agentIdentifier,buildRepository,stubPublisher,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),null);
   assertThat(stubPublisher.consoleOut(),containsString("[go] Current job status: passed.\n\n[go] Start to execute task: <fetchartifact pipeline=\"pipeline1\" stage=\"pre-mingle\" job=\"" + JOB_NAME + "\" srcfile=\"lib/hello.jar\" dest=\"lib\" />."));
   assertThat(buildRepository.results,not(containsResult(Passed)));
   assertThat(buildRepository.results,containsResult(Failed));

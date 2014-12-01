@@ -1,6 +1,6 @@
 {
   final int[] executeTaskCalled=new int[1];
-  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory",taskExtension){
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,TEST_PLUGIN_ID,"test-directory"){
     @Override protected ExecutionResult executeTask(    Task task,    BuildLogElement buildLogElement,    DefaultGoPublisher publisher,    EnvironmentVariableContext environmentVariableContext){
       executeTaskCalled[0]++;
       return ExecutionResult.success("Test succeeded");
@@ -14,7 +14,7 @@
     }
   }
 );
-  taskBuilder.build(buildLogElement,goPublisher,variableContext);
+  taskBuilder.build(buildLogElement,goPublisher,variableContext,taskExtension);
   assertThat(executeTaskCalled[0],is(1));
   verify(pluginManager).doOn(eq(Task.class),eq(TEST_PLUGIN_ID),any(ActionWithReturn.class));
 }

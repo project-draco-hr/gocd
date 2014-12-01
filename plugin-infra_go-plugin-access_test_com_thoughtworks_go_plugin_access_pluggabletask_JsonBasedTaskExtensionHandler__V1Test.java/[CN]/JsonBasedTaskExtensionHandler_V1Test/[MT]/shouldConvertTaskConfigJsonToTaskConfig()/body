@@ -1,5 +1,5 @@
 {
-  String json="{\"URL\":{\"default-value\":\"\",\"secure\":false,\"required\":true,\"display-name\":\"URL\",\"display-order\":\"0\"}," + "\"USER\":{\"default-value\":\"foo\",\"secure\":true,\"required\":true,\"display-name\":\"User\",\"display-order\":\"1\"}," + "\"PASSWORD\":{}"+ "}";
+  String json="{\"URL\":{\"default-value\":\"\",\"secure\":false,\"required\":true,\"display-name\":\"URL\",\"display-order\":\"0\"}," + "\"USER\":{\"default-value\":\"foo\",\"secure\":true,\"required\":true,\"display-name\":\"User\",\"display-order\":\"1\"}," + "\"PASSWORD\":{},"+ "\"FOO\":null"+ "}";
   TaskConfig config=new JsonBasedTaskExtensionHandler_V1().convertJsonToTaskConfig(json);
   Property url=config.get("URL");
   assertThat(url.getOption(Property.REQUIRED),is(true));
@@ -16,4 +16,9 @@
   assertThat(password.getOption(Property.SECURE),is(false));
   assertThat(password.getOption(Property.DISPLAY_ORDER),is(0));
   assertThat(password.getOption(Property.DISPLAY_NAME),is(""));
+  Property foo=config.get("FOO");
+  assertThat(foo.getOption(Property.REQUIRED),is(true));
+  assertThat(foo.getOption(Property.SECURE),is(false));
+  assertThat(foo.getOption(Property.DISPLAY_ORDER),is(0));
+  assertThat(foo.getOption(Property.DISPLAY_NAME),is(""));
 }

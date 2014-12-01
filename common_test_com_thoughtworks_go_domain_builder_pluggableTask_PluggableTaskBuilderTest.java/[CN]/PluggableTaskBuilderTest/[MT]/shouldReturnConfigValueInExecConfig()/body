@@ -9,7 +9,7 @@
   PluggableTask task=mock(PluggableTask.class);
   when(task.getPluginConfiguration()).thenReturn(new PluginConfiguration());
   when(task.configAsMap()).thenReturn(configMap);
-  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,task,TEST_PLUGIN_ID,"test-directory",taskExtension);
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,task,TEST_PLUGIN_ID,"test-directory");
   defaultTaskConfig.addProperty(propertyName).withDefault(defaultValue);
   TaskConfig config=taskBuilder.buildTaskConfig(defaultTaskConfig);
   assertThat(config.getValue(propertyName),is(configValue.get("value")));

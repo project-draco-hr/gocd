@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)getWork(WILL_PASS,PIPELINE_NAME,true,false);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
   assertThat(artifactManipulator.consoleOut(),containsString("Start to prepare"));
   assertThat(buildRepository.states.contains(JobState.Preparing),is(true));
 }

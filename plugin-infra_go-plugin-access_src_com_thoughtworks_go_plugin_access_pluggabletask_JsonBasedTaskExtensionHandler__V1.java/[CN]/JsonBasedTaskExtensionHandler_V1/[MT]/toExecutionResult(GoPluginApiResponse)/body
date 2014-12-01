@@ -2,12 +2,12 @@
   Map result=(Map)new GsonBuilder().create().fromJson(response.responseBody(),Object.class);
   if ((Boolean)result.get("success")) {
     ExecutionResult executionResult=new ExecutionResult();
-    executionResult.withSuccessMessages((List<String>)result.get("messages"));
+    executionResult.withSuccessMessages((String)result.get("message"));
     return executionResult;
   }
  else {
     ExecutionResult executionResult=new ExecutionResult();
-    executionResult.withErrorMessages((List<String>)result.get("messages"));
+    executionResult.withErrorMessages((String)result.get("message"));
     return executionResult;
   }
 }

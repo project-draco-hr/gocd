@@ -2,7 +2,7 @@
   PluggableTask task=mock(PluggableTask.class);
   when(task.getPluginConfiguration()).thenReturn(new PluginConfiguration());
   String workingDir="test-directory";
-  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,task,TEST_PLUGIN_ID,workingDir,taskExtension);
+  PluggableTaskBuilder taskBuilder=new PluggableTaskBuilder(runIfConfigs,cancelBuilder,task,TEST_PLUGIN_ID,workingDir);
   TaskExecutionContext taskExecutionContext=taskBuilder.buildTaskContext(buildLogElement,goPublisher,variableContext);
   assertThat(taskExecutionContext instanceof PluggableTaskContext,is(true));
   assertThat(taskExecutionContext.workingDir(),is(workingDir));

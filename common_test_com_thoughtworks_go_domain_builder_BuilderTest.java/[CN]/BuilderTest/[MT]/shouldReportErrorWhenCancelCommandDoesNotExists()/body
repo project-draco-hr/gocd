@@ -2,6 +2,6 @@
   StubBuilder stubBuilder=new StubBuilder();
   CommandBuilder cancelBuilder=new CommandBuilder("echo2","cancel task",new File("."),new RunIfConfigs(FAILED),stubBuilder,"");
   CommandBuilder builder=new CommandBuilder("echo","normal task",new File("."),new RunIfConfigs(FAILED),cancelBuilder,"");
-  builder.cancel(goPublisher,new EnvironmentVariableContext());
+  builder.cancel(goPublisher,new EnvironmentVariableContext(),null);
   assertThat(goPublisher.getMessage(),containsString("Error happened while attempting to execute 'echo2 cancel task'"));
 }

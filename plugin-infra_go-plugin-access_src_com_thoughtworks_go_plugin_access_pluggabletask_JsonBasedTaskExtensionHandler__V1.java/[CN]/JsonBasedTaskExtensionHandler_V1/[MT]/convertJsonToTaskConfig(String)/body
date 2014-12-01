@@ -4,12 +4,14 @@
   for (  Map.Entry<String,Object> entry : configMap.entrySet()) {
     TaskConfigProperty property=new TaskConfigProperty(entry.getKey(),null);
     Map propertyValue=(Map)entry.getValue();
-    property.withDefault((String)propertyValue.get("default-value"));
-    property.with(Property.SECURE,(Boolean)propertyValue.get("secure"));
-    property.with(Property.REQUIRED,(Boolean)propertyValue.get("required"));
-    property.with(Property.DISPLAY_NAME,(String)propertyValue.get("display-name"));
-    if (!StringUtil.isBlank((String)propertyValue.get("display-order"))) {
-      property.with(Property.DISPLAY_ORDER,Integer.parseInt((String)propertyValue.get("display-order")));
+    if (propertyValue != null) {
+      property.withDefault((String)propertyValue.get("default-value"));
+      property.with(Property.SECURE,(Boolean)propertyValue.get("secure"));
+      property.with(Property.REQUIRED,(Boolean)propertyValue.get("required"));
+      property.with(Property.DISPLAY_NAME,(String)propertyValue.get("display-name"));
+      if (!StringUtil.isBlank((String)propertyValue.get("display-order"))) {
+        property.with(Property.DISPLAY_ORDER,Integer.parseInt((String)propertyValue.get("display-order")));
+      }
     }
     taskConfig.add(property);
   }

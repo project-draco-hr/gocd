@@ -5,7 +5,7 @@
   BuildWork work=new BuildWork(buildAssigment);
   GoArtifactsManipulatorStub manipulator=new GoArtifactsManipulatorStub(new ArrayList<Property>(),new ArrayList<String>(),new HttpServiceStub(),new URLService(),new ZipUtilThatRunsOutOfMemory());
   AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
-  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),manipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),manipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
   List<UploadEntry> entries=manipulator.uploadEntries();
   System.out.println(entries);
   assertThat(entries.isEmpty(),is(true));
