@@ -1,0 +1,7 @@
+{
+  List<FeatureToggle> existingToggles=Arrays.asList(new FeatureToggle("key1","description1",true),new FeatureToggle("key2","description2",false));
+  when(repository.allToggles()).thenReturn(existingToggles);
+  FeatureToggleService service=new FeatureToggleService(repository);
+  assertThat(service.isToggleOn("key1"),is(true));
+  assertThat(service.isToggleOn("key2"),is(false));
+}
