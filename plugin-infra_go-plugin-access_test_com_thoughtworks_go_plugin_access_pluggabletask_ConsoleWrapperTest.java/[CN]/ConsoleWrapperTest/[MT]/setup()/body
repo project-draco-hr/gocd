@@ -1,0 +1,8 @@
+{
+  taskExecutionContext=mock(TaskExecutionContext.class);
+  mockedConsole=mock(com.thoughtworks.go.plugin.api.task.Console.class);
+  when(taskExecutionContext.console()).thenReturn(mockedConsole);
+  environment=mock(EnvironmentVariables.class);
+  when(taskExecutionContext.environment()).thenReturn(environment);
+  consoleWrapper=new ConsoleWrapper(taskExecutionContext);
+}
