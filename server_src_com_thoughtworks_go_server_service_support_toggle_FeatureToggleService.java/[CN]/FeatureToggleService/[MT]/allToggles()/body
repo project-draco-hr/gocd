@@ -1,3 +1,5 @@
 {
-  return repository.allToggles();
+  FeatureToggles availableToggles=repository.availableToggles();
+  FeatureToggles userToggles=repository.userToggles();
+  return availableToggles.mergeMatchingOnesWithValuesFrom(userToggles);
 }

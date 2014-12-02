@@ -1,0 +1,11 @@
+{
+  try {
+    String existingToggleJSONContent=FileUtils.readFileToString(new File(filePathOfToggles));
+    FeatureToggleFileContentRepresentation toggleContent=new Gson().fromJson(existingToggleJSONContent,FeatureToggleFileContentRepresentation.class);
+    return new FeatureToggles(toggleContent.toggles);
+  }
+ catch (  Exception e) {
+    LOGGER.warn("Failed to read toggles from " + filePathOfToggles + ". Saying there are none.",e);
+    return new FeatureToggles();
+  }
+}

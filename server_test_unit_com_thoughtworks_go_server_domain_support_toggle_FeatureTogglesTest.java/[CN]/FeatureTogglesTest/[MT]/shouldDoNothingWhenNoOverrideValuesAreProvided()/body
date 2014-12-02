@@ -1,0 +1,6 @@
+{
+  FeatureToggles nonEmptyAvailableToggles=new FeatureToggles(new FeatureToggle("key1","desc1",true));
+  FeatureToggles emptyOverridingToggles=new FeatureToggles();
+  FeatureToggles actual=nonEmptyAvailableToggles.mergeMatchingOnesWithValuesFrom(emptyOverridingToggles);
+  assertThat(actual,is(new FeatureToggles(new FeatureToggle("key1","desc1",true))));
+}
