@@ -1,0 +1,10 @@
+{
+  when(repository.availableToggles()).thenReturn(new FeatureToggles(new FeatureToggle("key1","desc1",true)));
+  when(repository.userToggles()).thenReturn(new FeatureToggles());
+  FeatureToggleService service=new FeatureToggleService(repository,new StubGoCache(new TestTransactionSynchronizationManager()));
+  service.allToggles();
+  service.allToggles();
+  service.isToggleOn("key1");
+  service.isToggleOn("someOtherKey");
+  verify(repository,times(1)).availableToggles();
+}

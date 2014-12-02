@@ -6,7 +6,7 @@
   FeatureToggle userToggle1=new FeatureToggle("key1","NEW_desc1_WITH_NO_change_to_value",true);
   FeatureToggle userToggle2=new FeatureToggle("key2","NEW_desc2_WITH_CHANGE_TO_VALUE",false);
   when(repository.userToggles()).thenReturn(new FeatureToggles(userToggle1,userToggle2));
-  FeatureToggleService service=new FeatureToggleService(repository);
+  FeatureToggleService service=new FeatureToggleService(repository,goCache);
   FeatureToggles toggles=service.allToggles();
   assertThat(toggles.all().size(),is(3));
   assertThat(toggles.all().get(0),is(new FeatureToggle("key1","NEW_desc1_WITH_NO_change_to_value",true).withValueHasBeenChangedFlag(false)));

@@ -1,5 +1,13 @@
 {
-  FeatureToggles availableToggles=repository.availableToggles();
-  FeatureToggles userToggles=repository.userToggles();
-  return availableToggles.overrideWithTogglesIn(userToggles);
+synchronized (USER_TOGGLES_CACHE_KEY) {
+    FeatureToggles allToggles=(FeatureToggles)goCache.get(USER_TOGGLES_CACHE_KEY);
+    if (allToggles != null) {
+      return allToggles;
+    }
+    FeatureToggles availableToggles=repository.availableToggles();
+    FeatureToggles userToggles=repository.userToggles();
+    allToggles=availableToggles.overrideWithTogglesIn(userToggles);
+    goCache.put(USER_TOGGLES_CACHE_KEY,allToggles);
+    return allToggles;
+  }
 }
