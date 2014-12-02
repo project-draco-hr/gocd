@@ -1,0 +1,10 @@
+{
+  FeatureToggles existingToggles=new FeatureToggles(new FeatureToggle("key1","desc1",true),new FeatureToggle("key2","desc2",false));
+  FeatureToggles newToggles=existingToggles.changeToggleValue("key2",true);
+  assertThat(existingToggles.all().size(),is(2));
+  assertThat(existingToggles.all().get(0),is(new FeatureToggle("key1","desc1",true)));
+  assertThat(existingToggles.all().get(1),is(new FeatureToggle("key2","desc2",false)));
+  assertThat(newToggles.all().size(),is(2));
+  assertThat(newToggles.all().get(0),is(new FeatureToggle("key1","desc1",true)));
+  assertThat(newToggles.all().get(1),is(new FeatureToggle("key2","desc2",true)));
+}

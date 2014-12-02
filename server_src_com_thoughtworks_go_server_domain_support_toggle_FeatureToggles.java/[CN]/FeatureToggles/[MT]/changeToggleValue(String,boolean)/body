@@ -1,0 +1,16 @@
+{
+  List<FeatureToggle> newTogglesList=new ArrayList<FeatureToggle>();
+  boolean toggleHasBeenFound=false;
+  for (  FeatureToggle existingToggle : toggles) {
+    FeatureToggle toggleToAdd=existingToggle;
+    if (existingToggle.hasSameKeyAs(key)) {
+      toggleToAdd=new FeatureToggle(existingToggle).withValue(newValue);
+      toggleHasBeenFound=true;
+    }
+    newTogglesList.add(toggleToAdd);
+  }
+  if (!toggleHasBeenFound) {
+    newTogglesList.add(new FeatureToggle(key,null,newValue));
+  }
+  return new FeatureToggles(newTogglesList);
+}

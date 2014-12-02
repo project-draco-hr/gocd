@@ -1,6 +1,6 @@
 {
   FeatureToggles availableToggles=new FeatureToggles(new FeatureToggle("key1","desc1",true));
   FeatureToggles overridingToggles=new FeatureToggles(new FeatureToggle("key1",null,false));
-  FeatureToggles actual=availableToggles.mergeMatchingOnesWithValuesFrom(overridingToggles);
-  assertThat(actual,is(new FeatureToggles(new FeatureToggle("key1","desc1",false).withValueChanged(true))));
+  FeatureToggles actual=availableToggles.overrideWithTogglesIn(overridingToggles);
+  assertThat(actual,is(new FeatureToggles(new FeatureToggle("key1","desc1",false).withValueHasBeenChangedFlag(true))));
 }

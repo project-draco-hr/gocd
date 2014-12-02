@@ -1,0 +1,10 @@
+{
+  File togglesDir=TestFileUtil.createTempFolder("toggles.dir");
+  File nonExistentUserToggleFile=new File(togglesDir,"a-non-existent-file");
+  setupUserToggleFileAs(nonExistentUserToggleFile);
+  setupAvailableToggles(new FeatureToggle("key1","desc1",true));
+  FeatureToggleRepository repository=new FeatureToggleRepository(environment);
+  repository.changeValueOfToggle("key1",false);
+  assertThat(repository.availableToggles(),is(new FeatureToggles(new FeatureToggle("key1","desc1",true))));
+  assertThat(repository.userToggles(),is(new FeatureToggles(new FeatureToggle("key1",null,false))));
+}

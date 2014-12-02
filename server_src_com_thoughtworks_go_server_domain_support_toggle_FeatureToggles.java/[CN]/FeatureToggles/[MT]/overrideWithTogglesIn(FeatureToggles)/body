@@ -4,10 +4,10 @@
     FeatureToggle toggleToAdd=availableToggle;
     FeatureToggle overriddenToggle=overridingToggles.find(availableToggle.key());
     if (overriddenToggle != null) {
-      toggleToAdd=overriddenToggle.withValueChanged(!overriddenToggle.hasSameValueAs(availableToggle));
+      toggleToAdd=overriddenToggle.withValueHasBeenChangedFlag(!overriddenToggle.hasSameValueAs(availableToggle));
     }
     if (toggleToAdd.description() == null) {
-      toggleToAdd=toggleToAdd.withDescriptionChanged(availableToggle.description());
+      toggleToAdd=toggleToAdd.withDescription(availableToggle.description());
     }
     mergedToggles.add(toggleToAdd);
   }

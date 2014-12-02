@@ -1,0 +1,8 @@
+{
+  FeatureToggle availableToggle1=new FeatureToggle("key1","desc1",true);
+  when(repository.availableToggles()).thenReturn(new FeatureToggles(availableToggle1));
+  when(repository.userToggles()).thenReturn(new FeatureToggles());
+  FeatureToggleService service=new FeatureToggleService(repository);
+  service.changeValueOfToggle("key1",false);
+  verify(repository).changeValueOfToggle("key1",false);
+}
