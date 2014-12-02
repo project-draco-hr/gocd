@@ -1,7 +1,7 @@
 {
   try {
     String existingToggleJSONContent=FileUtils.readFileToString(new File(filePathOfToggles));
-    FeatureToggleFileContentRepresentation toggleContent=new Gson().fromJson(existingToggleJSONContent,FeatureToggleFileContentRepresentation.class);
+    FeatureToggleFileContentRepresentation toggleContent=gson.fromJson(existingToggleJSONContent,FeatureToggleFileContentRepresentation.class);
     return new FeatureToggles(toggleContent.toggles);
   }
  catch (  Exception e) {
