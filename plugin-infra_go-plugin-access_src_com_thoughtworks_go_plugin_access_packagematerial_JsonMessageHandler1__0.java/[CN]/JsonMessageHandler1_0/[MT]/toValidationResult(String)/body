@@ -1,6 +1,7 @@
 {
   List<Map> errors=parseResponseToList(responseBody);
   ValidationResult validationResult=new ValidationResult();
+  if (isEmpty(responseBody))   return validationResult;
   for (  Map error : errors) {
     String key=(String)error.get("key");
     String message=(String)error.get("message");
