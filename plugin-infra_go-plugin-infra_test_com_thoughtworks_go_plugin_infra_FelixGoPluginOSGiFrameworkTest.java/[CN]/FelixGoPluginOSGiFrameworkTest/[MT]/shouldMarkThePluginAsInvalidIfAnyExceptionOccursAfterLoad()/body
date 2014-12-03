@@ -1,0 +1,21 @@
+{
+  final Bundle bundle=mock(Bundle.class);
+  spy.addPluginChangeListener(new PluginChangeListener(){
+    @Override public void pluginLoaded(    GoPluginDescriptor pluginDescriptor){
+      throw new RuntimeException("some error");
+    }
+    @Override public void pluginUnLoaded(    GoPluginDescriptor pluginDescriptor){
+    }
+  }
+);
+  when(bundleContext.installBundle(any(String.class))).thenReturn(bundle);
+  final GoPluginDescriptor goPluginDescriptor=new GoPluginDescriptor(TEST_SYMBOLIC_NAME,"1.0",null,"location",new File(""),false);
+  spy.start();
+  try {
+    spy.loadPlugin(goPluginDescriptor);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertTrue(goPluginDescriptor.getStatus().isInvalid());
+  }
+}
