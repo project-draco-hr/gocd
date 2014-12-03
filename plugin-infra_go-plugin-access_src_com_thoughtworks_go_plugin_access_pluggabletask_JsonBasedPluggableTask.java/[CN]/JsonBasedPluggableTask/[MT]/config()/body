@@ -1,4 +1,14 @@
 {
-  GoPluginApiResponse response=pluginManager.submitTo(pluginId,new DefaultGoPluginApiRequest(JsonBasedTaskExtension.TASK_EXTENSION,extensionVersionHandler.version(),JsonBasedTaskExtension.CONFIGURATION_REQUEST));
-  return extensionVersionHandler.convertJsonToTaskConfig(response.responseBody());
+  return pluginRequestHelper.submitRequest(pluginId,JsonBasedTaskExtension.CONFIGURATION_REQUEST,new PluginInteractionCallback<TaskConfig>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public Map<String,Object> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public TaskConfig onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return handlerMap.get(resolvedExtensionVersion).convertJsonToTaskConfig(responseBody);
+    }
+  }
+);
 }

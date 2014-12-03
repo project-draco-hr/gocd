@@ -1,6 +1,14 @@
 {
-  DefaultGoPluginApiRequest request=new DefaultGoPluginApiRequest(JsonBasedTaskExtension.TASK_EXTENSION,extensionVersionHandler.version(),JsonBasedTaskExtension.VALIDATION_REQUEST);
-  request.setRequestBody(extensionVersionHandler.convertTaskConfigToJson(configuration));
-  GoPluginApiResponse response=pluginManager.submitTo(pluginId,request);
-  return extensionVersionHandler.toValidationResult(response);
+  return pluginRequestHelper.submitRequest(pluginId,JsonBasedTaskExtension.VALIDATION_REQUEST,new PluginInteractionCallback<ValidationResult>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return handlerMap.get(resolvedExtensionVersion).convertTaskConfigToJson(configuration);
+    }
+    @Override public Map<String,Object> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public ValidationResult onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return handlerMap.get(resolvedExtensionVersion).toValidationResult(responseBody);
+    }
+  }
+);
 }

@@ -1,12 +1,12 @@
 {
   when(pluginManager.submitTo(eq(pluginId),any(GoPluginApiRequest.class))).thenReturn(response);
-  when(handler.toExecutionResult(response)).thenReturn(ExecutionResult.success("message1"));
-  ExecutionResult result=new JsonBasedTaskExecutor(pluginId,pluginManager,handler).execute(config(),context);
+  when(handler.toExecutionResult(response.responseBody())).thenReturn(ExecutionResult.success("message1"));
+  ExecutionResult result=new JsonBasedTaskExecutor(pluginId,pluginRequestHelper,handlerHashMap).execute(config(),context);
   assertThat(result.isSuccessful(),is(true));
   assertThat(result.getMessagesForDisplay(),is("message1"));
   ArgumentCaptor<GoPluginApiRequest> argument=ArgumentCaptor.forClass(GoPluginApiRequest.class);
   verify(pluginManager).submitTo(eq(pluginId),argument.capture());
   assertThat(argument.getValue().extension(),is(JsonBasedTaskExtension.TASK_EXTENSION));
-  assertThat(argument.getValue().extensionVersion(),is(handler.version()));
+  assertThat(argument.getValue().extensionVersion(),is(extensionVersion));
   assertThat(argument.getValue().requestName(),is(JsonBasedTaskExtension.EXECUTION_REQUEST));
 }

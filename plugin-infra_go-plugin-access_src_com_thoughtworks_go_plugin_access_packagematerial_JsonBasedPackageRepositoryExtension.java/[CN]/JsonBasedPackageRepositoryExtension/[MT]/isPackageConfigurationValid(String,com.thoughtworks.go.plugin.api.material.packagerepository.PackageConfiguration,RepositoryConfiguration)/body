@@ -1,7 +1,10 @@
 {
-  return submitRequest(pluginId,REQUEST_VALIDATE_PACKAGE_CONFIGURATION,new PluginInteractionCallback<ValidationResult>(){
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_VALIDATE_PACKAGE_CONFIGURATION,new PluginInteractionCallback<ValidationResult>(){
     @Override public String requestBody(    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForIsPackageConfigurationValid(packageConfiguration,repositoryConfiguration);
+    }
+    @Override public Map<String,Object> requestParams(    String resolvedExtensionVersion){
+      return null;
     }
     @Override public ValidationResult onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForIsPackageConfigurationValid(responseBody);

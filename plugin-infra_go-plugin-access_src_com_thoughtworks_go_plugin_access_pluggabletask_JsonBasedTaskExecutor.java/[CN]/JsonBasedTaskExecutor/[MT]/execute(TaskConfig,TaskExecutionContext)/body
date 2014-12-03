@@ -1,7 +1,16 @@
 {
-  final DefaultGoPluginApiRequest request=new DefaultGoPluginApiRequest(JsonBasedTaskExtension.TASK_EXTENSION,handler.version(),JsonBasedTaskExtension.EXECUTION_REQUEST);
-  request.setRequestBody(handler.getTaskExecutionBody(config,taskExecutionContext));
-  request.addRequestParameter("console",new ConsoleWrapper(taskExecutionContext));
-  GoPluginApiResponse response=pluginManager.submitTo(pluginId,request);
-  return handler.toExecutionResult(response);
+  return pluginRequestHelper.submitRequest(pluginId,JsonBasedTaskExtension.EXECUTION_REQUEST,new PluginInteractionCallback<ExecutionResult>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return handlerMap.get(resolvedExtensionVersion).getTaskExecutionBody(config,taskExecutionContext);
+    }
+    @Override public Map<String,Object> requestParams(    String resolvedExtensionVersion){
+      final LinkedHashMap params=new LinkedHashMap();
+      params.put("console",new ConsoleWrapper(taskExecutionContext));
+      return params;
+    }
+    @Override public ExecutionResult onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return handlerMap.get(resolvedExtensionVersion).toExecutionResult(responseBody);
+    }
+  }
+);
 }

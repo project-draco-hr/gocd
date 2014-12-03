@@ -1,0 +1,28 @@
+{
+  final String requestBody="request_body";
+  when(response.responseCode()).thenReturn(DefaultGoApiResponse.SUCCESS_RESPONSE_CODE);
+  final GoPluginApiRequest[] generatedRequest={null};
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      generatedRequest[0]=(GoPluginApiRequest)invocationOnMock.getArguments()[1];
+      return response;
+    }
+  }
+).when(pluginManager).submitTo(eq(pluginId),any(GoPluginApiRequest.class));
+  helper.submitRequest(pluginId,requestName,new PluginInteractionCallback<Object>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return requestBody;
+    }
+    @Override public Map<String,Object> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public Object onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return null;
+    }
+  }
+);
+  assertThat(generatedRequest[0].requestBody(),is(requestBody));
+  assertThat(generatedRequest[0].extension(),is(extensionName));
+  assertThat(generatedRequest[0].requestName(),is(requestName));
+  assertTrue(generatedRequest[0].requestParameters().isEmpty());
+}

@@ -4,4 +4,9 @@
   pluginId="pluginId";
   response=mock(GoPluginApiResponse.class);
   handler=mock(JsonBasedTaskExtensionHandler.class);
+  handlerHashMap.put("1.0",handler);
+  final List<String> goSupportedVersions=asList("1.0");
+  pluginRequestHelper=new PluginRequestHelper(pluginManager,goSupportedVersions,JsonBasedTaskExtension.TASK_EXTENSION);
+  when(pluginManager.resolveExtensionVersion(pluginId,goSupportedVersions)).thenReturn(extensionVersion);
+  when(response.responseCode()).thenReturn(DefaultGoApiResponse.SUCCESS_RESPONSE_CODE);
 }

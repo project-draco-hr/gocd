@@ -16,7 +16,8 @@
   }
 ).when(pluginManager).submitTo(eq(pluginId),any(GoPluginApiRequest.class));
   handler=new JsonBasedTaskExtensionHandler_V1();
-  new JsonBasedTaskExecutor(pluginId,pluginManager,handler).execute(config(),context);
+  handlerHashMap.put("1.0",handler);
+  new JsonBasedTaskExecutor(pluginId,pluginRequestHelper,handlerHashMap).execute(config(),context);
   assertTrue(executionRequest.length == 1);
   Map result=(Map)new GsonBuilder().create().fromJson(executionRequest[0].requestBody(),Object.class);
   Map context=(Map)result.get("context");

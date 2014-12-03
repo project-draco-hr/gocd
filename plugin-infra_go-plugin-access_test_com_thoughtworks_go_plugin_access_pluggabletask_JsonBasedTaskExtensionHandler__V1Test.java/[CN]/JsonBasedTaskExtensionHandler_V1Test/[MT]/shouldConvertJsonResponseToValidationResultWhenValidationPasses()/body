@@ -7,8 +7,6 @@
   property.with(Property.DISPLAY_NAME,"URL");
   property.with(Property.DISPLAY_ORDER,0);
   configuration.add(property);
-  GoPluginApiResponse response=mock(GoPluginApiResponse.class);
-  when(response.responseBody()).thenReturn(jsonResponse);
-  ValidationResult result=new JsonBasedTaskExtensionHandler_V1().toValidationResult(response);
+  ValidationResult result=new JsonBasedTaskExtensionHandler_V1().toValidationResult(jsonResponse);
   Assert.assertThat(result.isSuccessful(),CoreMatchers.is(true));
 }
