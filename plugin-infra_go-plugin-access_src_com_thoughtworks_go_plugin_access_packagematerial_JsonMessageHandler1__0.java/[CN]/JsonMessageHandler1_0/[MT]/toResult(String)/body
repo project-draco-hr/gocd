@@ -1,7 +1,10 @@
 {
   Map map=parseResponseToMap(responseBody);
   String status=(String)map.get("status");
-  List<String> messages=(List<String>)map.get("messages");
+  List<String> messages=new ArrayList<String>();
+  if (map.containsKey("messages") && map.get("messages") != null) {
+    messages=(List<String>)map.get("messages");
+  }
   Result result=new Result();
   if ("success".equalsIgnoreCase(status)) {
     result.withSuccessMessages(messages);
