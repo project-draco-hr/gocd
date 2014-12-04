@@ -1,0 +1,10 @@
+{
+  when(pluginManager.isPluginOfType(JsonBasedPackageRepositoryExtension.EXTENSION_NAME,PLUGIN_ID)).thenReturn(true);
+  when(pluginManager.submitTo(eq(PLUGIN_ID),requestArgumentCaptor.capture())).thenThrow(new RuntimeException("exception-from-plugin"));
+  try {
+    jsonBasedPackageRepositoryExtension.checkConnectionToPackage(PLUGIN_ID,packageConfiguration,repositoryConfiguration);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Exception while interacting with plugin id 'plugin-id', extension 'package-repository', request 'check-package-connection'. Reason, [exception-from-plugin]"));
+  }
+}

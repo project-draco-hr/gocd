@@ -6,6 +6,7 @@
   data.put("data-key-one","data-value-one");
   data.put("data-key-two","data-value-two");
   PackageRevision previouslyKnownRevision=new PackageRevision("abc.rpm",timestamp,"someuser","comment",null,data);
+  when(pluginManager.isPluginOfType(JsonBasedPackageRepositoryExtension.EXTENSION_NAME,PLUGIN_ID)).thenReturn(true);
   when(pluginManager.submitTo(eq(PLUGIN_ID),requestArgumentCaptor.capture())).thenReturn(DefaultGoPluginApiResponse.success(expectedResponseBody));
   PackageRevision packageRevision=jsonBasedPackageRepositoryExtension.latestModificationSince(PLUGIN_ID,packageConfiguration,repositoryConfiguration,previouslyKnownRevision);
   assertRequest(requestArgumentCaptor.getValue(),EXTENSION_NAME,"1.0",JsonBasedPackageRepositoryExtension.REQUEST_LATEST_REVISION_SINCE,expectedRequestBody);
