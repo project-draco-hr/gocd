@@ -1,6 +1,7 @@
 {
   String expectedRequestBody=null;
   String expectedResponseBody="{" + "\"key-one\":{}," + "\"key-two\":{\"default-value\":\"two\",\"part-of-identity\":true,\"secure\":true,\"required\":true,\"display-name\":\"display-two\",\"display-order\":\"1\"},"+ "\"key-three\":{\"default-value\":\"three\",\"part-of-identity\":false,\"secure\":false,\"required\":false,\"display-name\":\"display-three\",\"display-order\":\"2\"}"+ "}";
+  when(pluginManager.isPluginOfType(JsonBasedPackageRepositoryExtension.EXTENSION_NAME,PLUGIN_ID)).thenReturn(true);
   when(pluginManager.submitTo(eq(PLUGIN_ID),requestArgumentCaptor.capture())).thenReturn(DefaultGoPluginApiResponse.success(expectedResponseBody));
   RepositoryConfiguration repositoryConfiguration=jsonBasedPackageRepositoryExtension.getRepositoryConfiguration(PLUGIN_ID);
   assertRequest(requestArgumentCaptor.getValue(),EXTENSION_NAME,"1.0",JsonBasedPackageRepositoryExtension.REQUEST_REPOSITORY_CONFIGURATION,expectedRequestBody);
