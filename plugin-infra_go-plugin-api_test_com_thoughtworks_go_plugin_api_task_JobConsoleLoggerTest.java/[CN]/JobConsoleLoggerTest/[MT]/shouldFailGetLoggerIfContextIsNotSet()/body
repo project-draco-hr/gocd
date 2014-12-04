@@ -1,5 +1,5 @@
 {
-  JobConsoleLogger.unsetContext();
+  ReflectionUtil.setStaticField(JobConsoleLogger.class,"context",null);
   try {
     JobConsoleLogger.getConsoleLogger();
     fail("expected this to fail");

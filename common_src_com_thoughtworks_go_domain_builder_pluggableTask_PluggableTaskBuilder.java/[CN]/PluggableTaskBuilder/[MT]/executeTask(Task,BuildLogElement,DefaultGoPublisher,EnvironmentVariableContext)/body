@@ -1,6 +1,6 @@
 {
   final TaskExecutionContext taskExecutionContext=buildTaskContext(buildLogElement,publisher,environmentVariableContext);
-  JobConsoleLogger.setContext(taskExecutionContext);
+  JobConsoleLoggerInternal.setContext(taskExecutionContext);
   TaskConfig config=buildTaskConfig(task.config());
   return task.executor().execute(config,taskExecutionContext);
 }

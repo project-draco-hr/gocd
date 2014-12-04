@@ -4,6 +4,6 @@
   when(taskExecutionContext.console()).thenReturn(mockedConsole);
   environment=mock(EnvironmentVariables.class);
   when(taskExecutionContext.environment()).thenReturn(environment);
-  JobConsoleLogger.setContext(taskExecutionContext);
+  ReflectionUtil.setStaticField(JobConsoleLogger.class,"context",taskExecutionContext);
   consoleLogger=JobConsoleLogger.getConsoleLogger();
 }
