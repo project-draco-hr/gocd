@@ -20,4 +20,5 @@
   verify(task).config();
   verify(task).executor();
   verify(taskExecutor).execute(executorTaskConfig,taskExecutionContext);
+  assertThat(ReflectionUtil.getStaticField(JobConsoleLogger.class,"context"),is(not(nullValue())));
 }

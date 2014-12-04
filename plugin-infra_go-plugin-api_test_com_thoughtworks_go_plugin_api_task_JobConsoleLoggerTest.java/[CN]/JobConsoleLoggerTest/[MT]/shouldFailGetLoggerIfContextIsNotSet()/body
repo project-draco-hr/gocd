@@ -1,0 +1,10 @@
+{
+  JobConsoleLogger.unsetContext();
+  try {
+    JobConsoleLogger.getConsoleLogger();
+    fail("expected this to fail");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("context is null"));
+  }
+}

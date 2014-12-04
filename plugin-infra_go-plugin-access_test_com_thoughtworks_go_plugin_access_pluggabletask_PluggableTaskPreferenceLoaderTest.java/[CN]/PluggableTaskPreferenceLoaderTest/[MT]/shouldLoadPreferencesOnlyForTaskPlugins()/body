@@ -22,5 +22,5 @@
   PluggableTaskPreferenceLoader pluggableTaskPreferenceLoader=new PluggableTaskPreferenceLoader(pluginManager,taskExtension);
   pluggableTaskPreferenceLoader.pluginLoaded(descriptor);
   assertThat(PluggableTaskConfigStore.store().hasPreferenceFor(pluginId),is(false));
-  verify(pluginManager).addPluginChangeListener(pluggableTaskPreferenceLoader,Task.class);
+  verify(pluginManager).addPluginChangeListener(pluggableTaskPreferenceLoader,Task.class,GoPlugin.class);
 }

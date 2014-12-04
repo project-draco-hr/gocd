@@ -11,6 +11,9 @@
  catch (  Exception e) {
     logException(publisher,e);
   }
+ finally {
+    JobConsoleLogger.unsetContext();
+  }
   if (executionResult == null) {
     logError(publisher,"ExecutionResult cannot be null. Please return a success or a failure response.");
   }

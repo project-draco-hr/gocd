@@ -1,0 +1,7 @@
+{
+  final PluggableTaskBuilder builder=spy(new PluggableTaskBuilder(runIfConfigs,cancelBuilder,pluggableTask,"",""));
+  taskExtension=mock(TaskExtension.class);
+  when(taskExtension.execute(eq(TEST_PLUGIN_ID),any(ActionWithReturn.class))).thenReturn(ExecutionResult.success("yay"));
+  builder.build(buildLogElement,goPublisher,variableContext,taskExtension);
+  assertThat(ReflectionUtil.getStaticField(JobConsoleLogger.class,"context"),is(nullValue()));
+}

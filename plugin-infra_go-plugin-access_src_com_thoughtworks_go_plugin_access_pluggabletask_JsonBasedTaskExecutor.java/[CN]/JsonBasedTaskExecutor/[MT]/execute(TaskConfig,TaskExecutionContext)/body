@@ -4,9 +4,7 @@
       return handlerMap.get(resolvedExtensionVersion).getTaskExecutionBody(config,taskExecutionContext);
     }
     @Override public Map<String,Object> requestParams(    String resolvedExtensionVersion){
-      final LinkedHashMap params=new LinkedHashMap();
-      params.put("console",new ConsoleWrapper(taskExecutionContext));
-      return params;
+      return null;
     }
     @Override public ExecutionResult onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return handlerMap.get(resolvedExtensionVersion).toExecutionResult(responseBody);
