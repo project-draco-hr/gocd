@@ -1,13 +1,11 @@
 {
   String jsonResponse="{\"errors\":{\"key1\":\"err1\",\"key2\":\"err3\"}}";
-  String config="{\"URL\":{\"display-name\":\"URL\",\"secure\":false,\"value\":\"http://foo\",\"display-order\":\"0\",\"required\":true}}";
+  String config="{\"URL\":{\"secure\":false,\"value\":\"http://foo\",\"required\":true}}";
   when(goPluginApiResponse.responseBody()).thenReturn(jsonResponse);
   TaskConfig configuration=new TaskConfig();
   final TaskConfigProperty property=new TaskConfigProperty("URL","http://foo");
   property.with(Property.SECURE,false);
   property.with(Property.REQUIRED,true);
-  property.with(Property.DISPLAY_NAME,"URL");
-  property.with(Property.DISPLAY_ORDER,0);
   configuration.add(property);
   ValidationResult result=task.validate(configuration);
   assertThat(result.isSuccessful(),is(false));

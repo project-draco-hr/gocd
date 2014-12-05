@@ -4,8 +4,6 @@
   TaskConfigProperty property=new TaskConfigProperty("URL","http://foo");
   property.with(Property.SECURE,false);
   property.with(Property.REQUIRED,true);
-  property.with(Property.DISPLAY_NAME,"URL");
-  property.with(Property.DISPLAY_ORDER,0);
   configuration.add(property);
   ValidationResult result=new JsonBasedTaskExtensionHandler_V1().toValidationResult(jsonResponse);
   Assert.assertThat(result.isSuccessful(),CoreMatchers.is(false));

@@ -1,15 +1,10 @@
 {
   TaskConfig taskConfig=new TaskConfig();
   TaskConfigProperty p1=new TaskConfigProperty("k1","value1");
-  p1.with(Property.DISPLAY_ORDER,10);
   p1.with(Property.SECURE,true);
-  p1.with(Property.DISPLAY_NAME,"display name for k1");
   p1.with(Property.REQUIRED,true);
   TaskConfigProperty p2=new TaskConfigProperty("k2","value2");
-  p2.with(Property.DISPLAY_ORDER,1);
   p2.with(Property.SECURE,false);
-  p2.with(Property.DISPLAY_NAME,"display name for k2");
-  p2.with(Property.REQUIRED,true);
   p2.with(Property.REQUIRED,true);
   taskConfig.add(p1);
   taskConfig.add(p2);
@@ -17,14 +12,10 @@
   Map taskConfigMap=(Map)new GsonBuilder().create().fromJson(json,Object.class);
   Map property1=(Map)taskConfigMap.get("k1");
   assertThat(property1.get("value").toString(),is("value1"));
-  assertThat(property1.get("display-name").toString(),is("display name for k1"));
   assertThat((Boolean)property1.get("secure"),is(true));
-  assertThat(property1.get("display-order").toString(),is("10"));
   assertThat((Boolean)property1.get("required"),is(true));
   Map property2=(Map)taskConfigMap.get("k2");
   assertThat(property2.get("value").toString(),is("value2"));
-  assertThat(property2.get("display-name").toString(),is("display name for k2"));
   assertThat((Boolean)property2.get("secure"),is(false));
-  assertThat(property2.get("display-order").toString(),is("1"));
   assertThat((Boolean)property2.get("required"),is(true));
 }

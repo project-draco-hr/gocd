@@ -1,22 +1,16 @@
 {
-  String jsonResponse="{" + "\"URL\":{\"default-value\":\"\",\"secure\":false,\"required\":true,\"display-name\":\"URL\",\"display-order\":\"0\"}," + "\"USER\":{\"default-value\":\"foo\",\"secure\":true,\"required\":true,\"display-name\":\"User\",\"display-order\":\"1\"},"+ "\"PASSWORD\":{}"+ "}";
+  String jsonResponse="{" + "\"URL\":{\"default-value\":\"\",\"secure\":false,\"required\":true}," + "\"USER\":{\"default-value\":\"foo\",\"secure\":true,\"required\":true},"+ "\"PASSWORD\":{}"+ "}";
   when(goPluginApiResponse.responseBody()).thenReturn(jsonResponse);
   TaskConfig config=task.config();
   Property url=config.get("URL");
   assertThat(url.getOption(Property.REQUIRED),is(true));
   assertThat(url.getOption(Property.SECURE),is(false));
-  assertThat(url.getOption(Property.DISPLAY_NAME),is("URL"));
-  assertThat(url.getOption(Property.DISPLAY_ORDER),is(0));
   Property user=config.get("USER");
   assertThat(user.getOption(Property.REQUIRED),is(true));
   assertThat(user.getOption(Property.SECURE),is(true));
-  assertThat(user.getOption(Property.DISPLAY_NAME),is("User"));
-  assertThat(user.getOption(Property.DISPLAY_ORDER),is(1));
   Property password=config.get("PASSWORD");
   assertThat(password.getOption(Property.REQUIRED),is(true));
   assertThat(password.getOption(Property.SECURE),is(false));
-  assertThat(password.getOption(Property.DISPLAY_ORDER),is(0));
-  assertThat(password.getOption(Property.DISPLAY_NAME),is(""));
   ArgumentCaptor<GoPluginApiRequest> argument=ArgumentCaptor.forClass(GoPluginApiRequest.class);
   verify(pluginManager).submitTo(eq(pluginId),argument.capture());
   MatcherAssert.assertThat(argument.getValue().extension(),Matchers.is(JsonBasedTaskExtension.TASK_EXTENSION));
