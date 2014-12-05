@@ -5,6 +5,6 @@
   agentController.init();
   agentController.ping();
   agentController.retrieveWork();
-  verify(work).doWork(eq(agentIdentifier),eq(loopServer),eq(artifactsManipulator),any(EnvironmentVariableContext.class),any(AgentRuntimeInfo.class),taskExtension);
+  verify(work).doWork(eq(agentIdentifier),eq(loopServer),eq(artifactsManipulator),any(EnvironmentVariableContext.class),any(AgentRuntimeInfo.class),eq(taskExtension));
   verify(sslInfrastructureService).createSslInfrastructure();
 }
