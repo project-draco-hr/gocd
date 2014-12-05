@@ -2,7 +2,13 @@
   return goPluginOSGiFramework.doOn(GoPlugin.class,pluginId,new ActionWithReturn<GoPlugin,GoPluginApiResponse>(){
     @Override public GoPluginApiResponse execute(    GoPlugin plugin,    GoPluginDescriptor pluginDescriptor){
       plugin.initializeGoApplicationAccessor(goApplicationAccessor);
-      return plugin.handle(apiRequest);
+      try {
+        return plugin.handle(apiRequest);
+      }
+ catch (      UnhandledRequestTypeException e) {
+        LOGGER.error(e.getMessage());
+        throw new RuntimeException(e);
+      }
     }
   }
 );

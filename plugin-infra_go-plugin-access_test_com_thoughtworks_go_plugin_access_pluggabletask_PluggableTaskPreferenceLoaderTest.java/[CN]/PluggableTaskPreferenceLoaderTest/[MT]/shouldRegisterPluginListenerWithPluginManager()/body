@@ -1,5 +1,5 @@
 {
   PluginManager pluginManager=mock(PluginManager.class);
-  PluggableTaskPreferenceLoader pluggableTaskPreferenceLoader=new PluggableTaskPreferenceLoader(pluginManager);
-  verify(pluginManager).addPluginChangeListener(pluggableTaskPreferenceLoader,Task.class);
+  PluggableTaskPreferenceLoader pluggableTaskPreferenceLoader=new PluggableTaskPreferenceLoader(pluginManager,taskExtension);
+  verify(pluginManager).addPluginChangeListener(pluggableTaskPreferenceLoader,Task.class,GoPlugin.class);
 }

@@ -1,5 +1,5 @@
 {
-  when(pluginManager.hasReference(PackageMaterialProvider.class,"plugin-one")).thenReturn(false);
+  when(pluginManager.hasReferenceFor(PackageMaterialProvider.class,"plugin-one")).thenReturn(false);
   when(pluginManager.isPluginOfType(JsonBasedPackageRepositoryExtension.EXTENSION_NAME,"plugin-two")).thenReturn(false);
   assertThat(packageAsRepositoryExtension.isPackageRepositoryPlugin("plugin-one"),is(false));
   assertThat(packageAsRepositoryExtension.isPackageRepositoryPlugin("plugin-two"),is(false));

@@ -1,0 +1,9 @@
+{
+  plan=assignment.getPlan();
+  agentRuntimeInfo.busy(new AgentBuildingInfo(plan.getIdentifier().buildLocatorForDisplay(),plan.getIdentifier().buildLocator()));
+  workingDirectory=assignment.getWorkingDirectory();
+  materialRevisions=assignment.materialRevisions();
+  buildLog=new GoControlLog(this.workingDirectory + "/cruise-output");
+  goPublisher=new DefaultGoPublisher(goArtifactsManipulator,plan.getIdentifier(),remoteBuildRepository,agentRuntimeInfo);
+  builders=new Builders(assignment.getBuilders(),goPublisher,buildLog,taskExtension);
+}

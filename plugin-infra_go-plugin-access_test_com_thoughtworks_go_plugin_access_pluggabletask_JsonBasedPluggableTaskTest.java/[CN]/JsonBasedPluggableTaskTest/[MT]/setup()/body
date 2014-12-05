@@ -1,0 +1,13 @@
+{
+  pluginManager=mock(PluginManager.class);
+  pluginId="plugin-id";
+  final List<String> goSupportedVersions=asList("1.0");
+  final HashMap<String,JsonBasedTaskExtensionHandler> handlerMap=new HashMap<String,JsonBasedTaskExtensionHandler>();
+  handlerMap.put("1.0",new JsonBasedTaskExtensionHandler_V1());
+  task=new JsonBasedPluggableTask(pluginId,new PluginRequestHelper(pluginManager,goSupportedVersions,JsonBasedTaskExtension.TASK_EXTENSION),handlerMap);
+  goPluginApiResponse=mock(GoPluginApiResponse.class);
+  when(pluginManager.submitTo(eq(pluginId),any(GoPluginApiRequest.class))).thenReturn(goPluginApiResponse);
+  when(pluginManager.resolveExtensionVersion(pluginId,goSupportedVersions)).thenReturn("1.0");
+  when(goPluginApiResponse.responseCode()).thenReturn(DefaultGoApiResponse.SUCCESS_RESPONSE_CODE);
+  when(pluginManager.isPluginOfType(JsonBasedTaskExtension.TASK_EXTENSION,pluginId)).thenReturn(true);
+}

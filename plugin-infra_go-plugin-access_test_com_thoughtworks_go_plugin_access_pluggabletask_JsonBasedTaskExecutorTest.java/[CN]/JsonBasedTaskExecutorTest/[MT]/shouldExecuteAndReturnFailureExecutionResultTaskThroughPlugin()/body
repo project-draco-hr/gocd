@@ -1,0 +1,7 @@
+{
+  when(pluginManager.submitTo(eq(pluginId),any(GoPluginApiRequest.class))).thenReturn(response);
+  when(handler.toExecutionResult(response.responseBody())).thenReturn(ExecutionResult.failure("error1"));
+  ExecutionResult result=new JsonBasedTaskExecutor(pluginId,pluginRequestHelper,handlerHashMap).execute(config(),context);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.getMessagesForDisplay(),is("error1"));
+}

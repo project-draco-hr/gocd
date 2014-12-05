@@ -1,0 +1,8 @@
+{
+  final ActionWithReturn actionWithReturn=mock(ActionWithReturn.class);
+  when(pluginManager.doOn(Task.class,pluginId,actionWithReturn)).thenReturn(ExecutionResult.failure("failed"));
+  ExecutionResult executionResult=extension.execute(pluginId,actionWithReturn);
+  verify(pluginManager).doOn(Task.class,pluginId,actionWithReturn);
+  assertThat(executionResult.getMessagesForDisplay(),is("failed"));
+  assertFalse(executionResult.isSuccessful());
+}

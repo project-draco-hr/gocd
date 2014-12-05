@@ -1,0 +1,17 @@
+{
+  String pluginId="plugin-id";
+  GoPluginIdentifier pluginIdentifier=new GoPluginIdentifier("sample-extension",asList("1.0"));
+  final GoPlugin goPlugin=mock(GoPlugin.class);
+  final GoPluginDescriptor descriptor=mock(GoPluginDescriptor.class);
+  when(goPluginOSGiFramework.hasReferenceFor(GoPlugin.class,pluginId)).thenReturn(true);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      ActionWithReturn<GoPlugin,GoPluginApiResponse> action=(ActionWithReturn<GoPlugin,GoPluginApiResponse>)invocationOnMock.getArguments()[2];
+      return action.execute(goPlugin,descriptor);
+    }
+  }
+).when(goPluginOSGiFramework).doOn(eq(GoPlugin.class),eq(pluginId),any(ActionWithReturn.class));
+  when(goPlugin.pluginIdentifier()).thenReturn(pluginIdentifier);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,systemEnvironment);
+  assertTrue(pluginManager.isPluginOfType("sample-extension",pluginId));
+}

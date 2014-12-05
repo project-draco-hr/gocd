@@ -1,0 +1,16 @@
+{
+  String jsonResponse="{\"errors\":{\"key1\":\"err1\",\"key2\":\"err2\"}}";
+  TaskConfig configuration=new TaskConfig();
+  TaskConfigProperty property=new TaskConfigProperty("URL","http://foo");
+  property.with(Property.SECURE,false);
+  property.with(Property.REQUIRED,true);
+  configuration.add(property);
+  ValidationResult result=new JsonBasedTaskExtensionHandler_V1().toValidationResult(jsonResponse);
+  Assert.assertThat(result.isSuccessful(),CoreMatchers.is(false));
+  ValidationError error1=findErrorOn(result,"key1");
+  ValidationError error2=findErrorOn(result,"key2");
+  Assert.assertThat(error1.getKey(),CoreMatchers.is("key1"));
+  Assert.assertThat(error1.getMessage(),CoreMatchers.is("err1"));
+  Assert.assertThat(error2.getKey(),CoreMatchers.is("key2"));
+  Assert.assertThat(error2.getMessage(),CoreMatchers.is("err2"));
+}

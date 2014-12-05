@@ -1,0 +1,14 @@
+{
+  return pluginRequestHelper.submitRequest(pluginId,JsonBasedTaskExtension.CONFIGURATION_REQUEST,new PluginInteractionCallback<TaskConfig>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public TaskConfig onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return handlerMap.get(resolvedExtensionVersion).convertJsonToTaskConfig(responseBody);
+    }
+  }
+);
+}

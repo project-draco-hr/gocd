@@ -1,0 +1,9 @@
+{
+  TaskExtension taskExtension=spy(new TaskExtension(mock(PluginManager.class)));
+  TaskExtensionContract actualImpl=mock(TaskExtensionContract.class);
+  String pluginId="pluginId";
+  doReturn(actualImpl).when(taskExtension).getExtension(pluginId);
+  Action action=mock(Action.class);
+  taskExtension.doOnTask(pluginId,action);
+  verify(actualImpl).doOnTask(pluginId,action);
+}

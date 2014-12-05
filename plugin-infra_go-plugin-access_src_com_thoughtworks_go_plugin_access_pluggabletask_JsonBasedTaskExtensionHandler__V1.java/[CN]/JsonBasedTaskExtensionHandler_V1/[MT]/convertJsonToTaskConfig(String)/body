@@ -1,0 +1,15 @@
+{
+  Map<String,Object> configMap=(Map)new GsonBuilder().create().fromJson(configJson,Object.class);
+  TaskConfig taskConfig=new TaskConfig();
+  for (  Map.Entry<String,Object> entry : configMap.entrySet()) {
+    TaskConfigProperty property=new TaskConfigProperty(entry.getKey(),null);
+    Map propertyValue=(Map)entry.getValue();
+    if (propertyValue != null) {
+      property.withDefault((String)propertyValue.get("default-value"));
+      property.with(Property.SECURE,(Boolean)propertyValue.get("secure"));
+      property.with(Property.REQUIRED,(Boolean)propertyValue.get("required"));
+    }
+    taskConfig.add(property);
+  }
+  return taskConfig;
+}

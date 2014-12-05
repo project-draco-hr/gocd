@@ -1,10 +1,11 @@
 {
   Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"));
-  PluggableTask task=new PluggableTask("abc",new PluginConfiguration("abc.def","1"),configuration);
+  PluggableTask modifiedTask=new PluggableTask("abc",new PluginConfiguration("abc.def","1"),configuration);
   ValidationResult validationResult=new ValidationResult();
   validationResult.addError(new ValidationError("KEY1","error message"));
-  when(pluginManager.doOn(eq(Task.class),eq(task.getPluginConfiguration().getId()),any(ActionWithReturn.class))).thenReturn(validationResult);
-  pluggableTaskService.validate(task);
-  assertThat(task.getConfiguration().getProperty("KEY1").errors().isEmpty(),is(false));
-  assertThat(task.getConfiguration().getProperty("KEY1").errors().firstError(),is("error message"));
+  when(taskExtension.validate(eq(modifiedTask.getPluginConfiguration().getId()),any(TaskConfig.class))).thenReturn(validationResult);
+  pluggableTaskService.validate(modifiedTask);
+  assertThat(modifiedTask.getConfiguration().getProperty("KEY1").errors().isEmpty(),is(false));
+  assertThat(modifiedTask.getConfiguration().getProperty("KEY1").errors().firstError(),is("error message"));
+  verify(taskExtension).validate(eq(modifiedTask.getPluginConfiguration().getId()),any(TaskConfig.class));
 }

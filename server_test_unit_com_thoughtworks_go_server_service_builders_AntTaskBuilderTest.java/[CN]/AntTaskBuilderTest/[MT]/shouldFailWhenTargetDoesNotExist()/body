@@ -6,7 +6,7 @@
   Builder builder=antTaskBuilder.createBuilder(builderFactory,antTask,TasksTest.pipelineStub(PIPELINE_LABEL,"."),resolver);
   BuildLogElement element=new BuildLogElement();
   try {
-    builder.build(element,RunIfConfig.PASSED,new StubGoPublisher(),new EnvironmentVariableContext());
+    builder.build(element,RunIfConfig.PASSED,new StubGoPublisher(),new EnvironmentVariableContext(),taskEntension);
   }
  catch (  CruiseControlException e) {
     assertThat(e.getMessage(),containsString("Build failed. Command ant reported [BUILD FAILED]."));

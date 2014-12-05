@@ -12,6 +12,7 @@
     return bundle;
   }
  catch (  Exception e) {
+    pluginDescriptor.markAsInvalid(asList(e.getMessage()),e);
     LOGGER.error("Failed to load plugin: " + bundleLocation,e);
     stopAndUninstallBundle(bundle,bundleLocation);
     throw new RuntimeException("Failed to load plugin: " + bundleLocation,e);

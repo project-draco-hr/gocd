@@ -1,7 +1,10 @@
 {
-  return submitRequest(pluginId,REQUEST_CHECK_REPOSITORY_CONNECTION,new PluginInteractionCallback<Result>(){
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_CHECK_REPOSITORY_CONNECTION,new PluginInteractionCallback<Result>(){
     @Override public String requestBody(    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForCheckConnectionToRepository(repositoryConfiguration);
+    }
+    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
+      return null;
     }
     @Override public Result onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForCheckConnectionToRepository(responseBody);

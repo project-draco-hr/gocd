@@ -1,0 +1,10 @@
+{
+  String jsonResponse="{}";
+  TaskConfig configuration=new TaskConfig();
+  TaskConfigProperty property=new TaskConfigProperty("URL","http://foo");
+  property.with(Property.SECURE,false);
+  property.with(Property.REQUIRED,true);
+  configuration.add(property);
+  ValidationResult result=new JsonBasedTaskExtensionHandler_V1().toValidationResult(jsonResponse);
+  Assert.assertThat(result.isSuccessful(),CoreMatchers.is(true));
+}

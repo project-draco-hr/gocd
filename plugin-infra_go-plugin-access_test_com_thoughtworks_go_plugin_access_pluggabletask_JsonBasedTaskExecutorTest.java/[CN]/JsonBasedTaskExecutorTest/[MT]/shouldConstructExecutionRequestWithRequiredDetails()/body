@@ -1,0 +1,30 @@
+{
+  String workingDir="working-dir";
+  com.thoughtworks.go.plugin.api.task.Console console=mock(com.thoughtworks.go.plugin.api.task.Console.class);
+  when(context.workingDir()).thenReturn(workingDir);
+  EnvironmentVariables environment=getEnvironmentVariables();
+  when(context.environment()).thenReturn(environment);
+  when(context.console()).thenReturn(console);
+  final GoPluginApiRequest[] executionRequest=new GoPluginApiRequest[1];
+  when(response.responseBody()).thenReturn("{\"success\":true,\"messages\":[\"message1\",\"message2\"]}");
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      GoPluginApiRequest request=(GoPluginApiRequest)invocationOnMock.getArguments()[1];
+      executionRequest[0]=request;
+      return response;
+    }
+  }
+).when(pluginManager).submitTo(eq(pluginId),any(GoPluginApiRequest.class));
+  handler=new JsonBasedTaskExtensionHandler_V1();
+  handlerHashMap.put("1.0",handler);
+  new JsonBasedTaskExecutor(pluginId,pluginRequestHelper,handlerHashMap).execute(config(),context);
+  assertTrue(executionRequest.length == 1);
+  Map result=(Map)new GsonBuilder().create().fromJson(executionRequest[0].requestBody(),Object.class);
+  Map context=(Map)result.get("context");
+  assertThat((String)context.get("workingDirectory"),is(workingDir));
+  Map environmentVariables=(Map)context.get("environmentVariables");
+  assertThat(environmentVariables.size(),is(2));
+  assertThat(environmentVariables.get("ENV1").toString(),is("VAL1"));
+  assertThat(environmentVariables.get("ENV2").toString(),is("VAL2"));
+  assertThat(executionRequest[0].requestParameters().size(),is(0));
+}

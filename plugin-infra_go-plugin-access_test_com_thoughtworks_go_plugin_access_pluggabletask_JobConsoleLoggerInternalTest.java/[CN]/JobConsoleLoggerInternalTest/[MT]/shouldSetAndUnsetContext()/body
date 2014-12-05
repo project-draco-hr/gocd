@@ -1,0 +1,7 @@
+{
+  final TaskExecutionContext context=mock(TaskExecutionContext.class);
+  JobConsoleLoggerInternal.setContext(context);
+  assertThat((TaskExecutionContext)ReflectionUtil.getStaticField(JobConsoleLogger.class,"context"),is(context));
+  JobConsoleLoggerInternal.unsetContext();
+  assertThat(ReflectionUtil.getStaticField(JobConsoleLogger.class,"context"),is(nullValue()));
+}

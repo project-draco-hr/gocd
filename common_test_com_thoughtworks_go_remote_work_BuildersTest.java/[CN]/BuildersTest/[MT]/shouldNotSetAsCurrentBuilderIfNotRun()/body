@@ -1,9 +1,9 @@
 {
   Builder builder=new CommandBuilder("echo","",new File("."),new RunIfConfigs(FAILED),null,"");
-  Builders builders=new Builders(Arrays.asList(builder),null,null);
+  Builders builders=new Builders(Arrays.asList(builder),null,null,null);
   builders.setIsCancelled(true);
   builders.build(environmentVariableContext);
-  Builders expected=new Builders(Arrays.asList(builder),null,null);
+  Builders expected=new Builders(Arrays.asList(builder),null,null,null);
   expected.setIsCancelled(true);
   assertThat(builders,is(expected));
 }

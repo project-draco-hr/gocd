@@ -1,0 +1,23 @@
+{
+  ExecutionResult executionResult=null;
+  try {
+    executionResult=taskExtension.execute(pluginId,new ActionWithReturn<Task,ExecutionResult>(){
+      @Override public ExecutionResult execute(      Task task,      GoPluginDescriptor pluginDescriptor){
+        return executeTask(task,buildLogElement,publisher,environmentVariableContext);
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+    logException(publisher,e);
+  }
+ finally {
+    JobConsoleLoggerInternal.unsetContext();
+  }
+  if (executionResult == null) {
+    logError(publisher,"ExecutionResult cannot be null. Please return a success or a failure response.");
+  }
+  if (!executionResult.isSuccessful()) {
+    logError(publisher,executionResult.getMessagesForDisplay());
+  }
+}

@@ -1,7 +1,10 @@
 {
-  return submitRequest(pluginId,REQUEST_LATEST_REVISION_SINCE,new PluginInteractionCallback<PackageRevision>(){
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_LATEST_REVISION_SINCE,new PluginInteractionCallback<PackageRevision>(){
     @Override public String requestBody(    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForLatestRevisionSince(packageConfiguration,repositoryConfiguration,previouslyKnownRevision);
+    }
+    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
+      return null;
     }
     @Override public PackageRevision onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForLatestRevisionSince(responseBody);

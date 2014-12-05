@@ -1,0 +1,26 @@
+{
+  when(response.responseCode()).thenReturn(DefaultGoApiResponse.INTERNAL_ERROR);
+  when(pluginManager.submitTo(eq(pluginId),any(GoPluginApiRequest.class))).thenReturn(response);
+  try {
+    helper.submitRequest(pluginId,requestName,new PluginInteractionCallback<Object>(){
+      @Override public String requestBody(      String resolvedExtensionVersion){
+        return null;
+      }
+      @Override public Map<String,String> requestParams(      String resolvedExtensionVersion){
+        return null;
+      }
+      @Override public Object onSuccess(      String responseBody,      String resolvedExtensionVersion){
+        isSuccessInvoked[0]=true;
+        return null;
+      }
+    }
+);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Exception while interacting with plugin id 'pid', extension 'some-extension', request 'req'. Reason, [Unsuccessful response code from plugin '500' with body 'null']"));
+    assertThat(e.getCause().getMessage(),is("Unsuccessful response code from plugin '500' with body 'null'"));
+    assertFalse(isSuccessInvoked[0]);
+    verify(pluginManager).submitTo(eq(pluginId),any(GoPluginApiRequest.class));
+  }
+}

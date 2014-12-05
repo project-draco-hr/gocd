@@ -1,0 +1,14 @@
+{
+  PluginManager pluginManager=mock(PluginManager.class);
+  String pluginId="messageBased-task";
+  when(pluginManager.hasReferenceFor(Task.class,pluginId)).thenReturn(false);
+  when(pluginManager.isPluginOfType(JsonBasedTaskExtension.TASK_EXTENSION,pluginId)).thenReturn(false);
+  TaskExtension taskExtension=new TaskExtension(pluginManager);
+  try {
+    taskExtension.getExtension(pluginId);
+    fail("Should throw exception");
+  }
+ catch (  Exception e) {
+    assertTrue(e.getMessage().equals("Plugin should use either message-based or api-based extension. Plugin-id: " + pluginId));
+  }
+}

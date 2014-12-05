@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)BuildWorkTest.getWork(WITH_FETCH_FOLDER,PIPELINE_NAME);
   GoArtifactsManipulatorStub stubManipulator=new GoArtifactsManipulatorStub();
-  buildWork.doWork(agentIdentifier,buildRepository,stubManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  buildWork.doWork(agentIdentifier,buildRepository,stubManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),null);
   assertThat((DirHandler)stubManipulator.artifact().get(0),is(new DirHandler("lib",new File("pipelines" + File.separator + PIPELINE_NAME+ File.separator+ DEST))));
 }

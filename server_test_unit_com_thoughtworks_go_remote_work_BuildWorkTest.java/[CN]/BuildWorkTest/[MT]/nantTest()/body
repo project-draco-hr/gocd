@@ -1,5 +1,5 @@
 {
   buildWork=(BuildWork)getWork(NANT,PIPELINE_NAME);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
   assertThat(artifactManipulator.consoleOut(),containsString("Usage : NAnt [options] <target> <target> ..."));
 }

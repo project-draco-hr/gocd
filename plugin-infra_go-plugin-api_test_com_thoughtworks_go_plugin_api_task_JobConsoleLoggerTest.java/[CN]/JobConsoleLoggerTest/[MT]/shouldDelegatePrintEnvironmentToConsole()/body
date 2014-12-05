@@ -1,0 +1,7 @@
+{
+  com.thoughtworks.go.plugin.api.task.Console.SecureEnvVarSpecifier secureEnvVarSpecifier=mock(com.thoughtworks.go.plugin.api.task.Console.SecureEnvVarSpecifier.class);
+  when(environment.secureEnvSpecifier()).thenReturn(secureEnvVarSpecifier);
+  HashMap<String,String> environmentVariablesMap=new HashMap<String,String>();
+  consoleLogger.printEnvironment(environmentVariablesMap);
+  verify(mockedConsole).printEnvironment(environmentVariablesMap,secureEnvVarSpecifier);
+}

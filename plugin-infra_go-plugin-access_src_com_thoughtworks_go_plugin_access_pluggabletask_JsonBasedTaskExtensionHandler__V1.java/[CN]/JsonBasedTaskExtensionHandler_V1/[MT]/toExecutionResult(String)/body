@@ -1,0 +1,13 @@
+{
+  Map result=(Map)new GsonBuilder().create().fromJson(responseBody,Object.class);
+  if ((Boolean)result.get("success")) {
+    ExecutionResult executionResult=new ExecutionResult();
+    executionResult.withSuccessMessages((String)result.get("message"));
+    return executionResult;
+  }
+ else {
+    ExecutionResult executionResult=new ExecutionResult();
+    executionResult.withErrorMessages((String)result.get("message"));
+    return executionResult;
+  }
+}

@@ -9,9 +9,9 @@
   when(task.view()).thenReturn(taskView);
   PluggableTaskConfigStore.store().setPreferenceFor(pluginId,new TaskPreference(task));
   PluginManager pluginManager=mock(PluginManager.class);
-  PluggableTaskPreferenceLoader pluggableTaskPreferenceLoader=new PluggableTaskPreferenceLoader(pluginManager);
+  PluggableTaskPreferenceLoader pluggableTaskPreferenceLoader=new PluggableTaskPreferenceLoader(pluginManager,taskExtension);
   assertThat(PluggableTaskConfigStore.store().hasPreferenceFor(pluginId),is(true));
   pluggableTaskPreferenceLoader.pluginUnLoaded(descriptor);
   assertThat(PluggableTaskConfigStore.store().hasPreferenceFor(pluginId),is(false));
-  verify(pluginManager).addPluginChangeListener(pluggableTaskPreferenceLoader,Task.class);
+  verify(pluginManager).addPluginChangeListener(pluggableTaskPreferenceLoader,Task.class,GoPlugin.class);
 }

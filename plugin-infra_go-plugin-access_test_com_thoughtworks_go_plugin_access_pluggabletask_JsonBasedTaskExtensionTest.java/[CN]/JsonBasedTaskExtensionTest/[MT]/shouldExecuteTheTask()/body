@@ -1,0 +1,8 @@
+{
+  ActionWithReturn actionWithReturn=mock(ActionWithReturn.class);
+  when(actionWithReturn.execute(any(JsonBasedPluggableTask.class),any(GoPluginDescriptor.class))).thenReturn(ExecutionResult.success("yay"));
+  ExecutionResult executionResult=extension.execute(pluginId,actionWithReturn);
+  verify(actionWithReturn).execute(any(JsonBasedPluggableTask.class),any(GoPluginDescriptor.class));
+  assertThat(executionResult.getMessagesForDisplay(),is("yay"));
+  assertTrue(executionResult.isSuccessful());
+}
