@@ -4,7 +4,6 @@
     instanceModels=PipelineInstanceModels.createPipelineInstanceModels((List<PipelineInstanceModel>)getSqlMapClientTemplate().queryForList("pipelineAndItsDepedenciesByNameAndCounter",arguments("pipelineName",pipelineName).and("pipelineCounter",pipelineCounter).and("stageLocator",pipelineName + "/" + pipelineCounter+ "/%/%").asMap()));
   }
  catch (  Exception e) {
-    e.printStackTrace();
     throw new RuntimeException(e);
   }
   if (instanceModels.isEmpty()) {
