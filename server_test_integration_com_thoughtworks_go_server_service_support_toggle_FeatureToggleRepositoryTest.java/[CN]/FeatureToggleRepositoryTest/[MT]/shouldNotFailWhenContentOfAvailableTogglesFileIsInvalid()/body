@@ -1,7 +1,6 @@
 {
-  File toggleFile=TestFileUtil.createTempFile("available.toggle.test");
-  FileUtils.writeStringToFile(toggleFile,"SOME-INVALID-CONTENT");
-  setupAvailableToggleFileAs(toggleFile);
+  setupAvailableToggleFileAs(TEST_AVAILABLE_TOGGLES_PATH);
+  FileUtils.writeStringToFile(availableTogglesFile(),"SOME-INVALID-CONTENT");
   FeatureToggleRepository repository=new FeatureToggleRepository(environment);
   assertThat(repository.availableToggles(),is(new FeatureToggles()));
 }

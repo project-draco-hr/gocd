@@ -3,6 +3,5 @@
   for (  FeatureToggle toggle : toggles) {
     jsonContentForEachToggle.add(MessageFormat.format("'{'\"key\": \"{0}\", \"description\": \"{1}\", \"value\": {2}'}'",toggle.key(),toggle.description(),String.valueOf(toggle.isOn())));
   }
-  String jsonContent="{ \"version\": \"1\", \"toggles\": [" + ListUtil.join(jsonContentForEachToggle,",").trim() + "]}";
-  FileUtils.writeStringToFile(toggleFile,jsonContent);
+  return "{ \"version\": \"1\", \"toggles\": [" + ListUtil.join(jsonContentForEachToggle,",").trim() + "]}";
 }

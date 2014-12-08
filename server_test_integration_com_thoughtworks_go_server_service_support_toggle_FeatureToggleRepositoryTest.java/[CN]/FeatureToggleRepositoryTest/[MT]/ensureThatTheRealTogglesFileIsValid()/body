@@ -1,0 +1,11 @@
+{
+  String realAvailableTogglesFilePath=new SystemEnvironment().get(SystemEnvironment.AVAILABLE_FEATURE_TOGGLES_FILE_PATH);
+  File realAvailableTogglesFile=new File(getClass().getResource(realAvailableTogglesFilePath).toURI());
+  String currentContentOfRealAvailableTogglesFile=FileUtils.readFileToString(realAvailableTogglesFile);
+  try {
+    new Gson().fromJson(currentContentOfRealAvailableTogglesFile,FeatureToggleRepository.FeatureToggleFileContentRepresentation.class);
+  }
+ catch (  Exception e) {
+    fail("Check contents of " + realAvailableTogglesFilePath + ". Contents should be valid and be equivalent"+ " to FeatureToggleRepository.FeatureToggleFileContentRepresentation.class. Contents were:\n"+ currentContentOfRealAvailableTogglesFile+ "\n. Exception was: "+ e.getMessage());
+  }
+}
