@@ -13,7 +13,7 @@
     fail("should throw exception");
   }
  catch (  Exception e) {
-    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain 'displayValue'."));
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain a not-null 'displayValue' of type String."));
   }
   String jsonResponse3="{\"displayValue\":\"MyTaskPlugin\"}";
   try {
@@ -21,7 +21,7 @@
     fail("should throw exception");
   }
  catch (  Exception e) {
-    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain 'template'."));
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain a not-null 'template' of type String."));
   }
   String jsonResponse4="{\"displayValue\":null, \"template\":\"<html>junk</html>\"}";
   try {

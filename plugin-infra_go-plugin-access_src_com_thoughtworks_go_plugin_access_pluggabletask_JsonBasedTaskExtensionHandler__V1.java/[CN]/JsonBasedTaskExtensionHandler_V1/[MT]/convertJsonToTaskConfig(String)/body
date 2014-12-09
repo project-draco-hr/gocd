@@ -10,26 +10,23 @@
       TaskConfigProperty property=new TaskConfigProperty(entry.getKey(),null);
       Map propertyValue=(Map)entry.getValue();
       if (propertyValue != null) {
-        Object defaultValue=propertyValue.get("default-value");
-        if (propertyValue.containsKey("default-value") && !(defaultValue instanceof String)) {
+        if (propertyValue.containsKey("default-value") && !(propertyValue.get("default-value") instanceof String)) {
           exceptions.add(String.format("Key: '%s' - The Json for Task Config should contain a not-null 'default-value' of type String",entry.getKey()));
         }
  else {
-          property.withDefault((String)defaultValue);
+          property.withDefault((String)propertyValue.get("default-value"));
         }
-        Object secure=propertyValue.get("secure");
-        if (propertyValue.containsKey("secure") && !(secure instanceof Boolean)) {
+        if (propertyValue.containsKey("secure") && !(propertyValue.get("secure") instanceof Boolean)) {
           exceptions.add(String.format("Key: '%s' - The Json for Task Config should contain a 'secure' field of type Boolean",entry.getKey()));
         }
  else {
-          property.with(Property.SECURE,(Boolean)secure);
+          property.with(Property.SECURE,(Boolean)propertyValue.get("secure"));
         }
-        Object required=propertyValue.get("required");
-        if (propertyValue.containsKey("required") && !(required instanceof Boolean)) {
+        if (propertyValue.containsKey("required") && !(propertyValue.get("required") instanceof Boolean)) {
           exceptions.add(String.format("Key: '%s' - The Json for Task Config should contain a 'required' field of type Boolean",entry.getKey()));
         }
  else {
-          property.with(Property.REQUIRED,(Boolean)required);
+          property.with(Property.REQUIRED,(Boolean)propertyValue.get("required"));
         }
       }
       taskConfig.add(property);

@@ -3,11 +3,8 @@
   ArrayList<String> exceptions=new ArrayList<String>();
   try {
     Map result=(Map)new GsonBuilder().create().fromJson(responseBody,Object.class);
-    if (!result.containsKey("success")) {
-      exceptions.add("The execution result must have a success status");
-    }
- else     if (!(result.get("success") instanceof Boolean)) {
-      exceptions.add("The success status must be a boolean value");
+    if (!(result.containsKey("success") && result.get("success") instanceof Boolean)) {
+      exceptions.add("The Json for Execution Result must contain a not-null 'success' field of type Boolean");
     }
     if (result.containsKey("message") && (!(result.get("message") instanceof String))) {
       exceptions.add("If the 'message' key is present in the Json for Execution Result, it must contain a not-null message of type String");

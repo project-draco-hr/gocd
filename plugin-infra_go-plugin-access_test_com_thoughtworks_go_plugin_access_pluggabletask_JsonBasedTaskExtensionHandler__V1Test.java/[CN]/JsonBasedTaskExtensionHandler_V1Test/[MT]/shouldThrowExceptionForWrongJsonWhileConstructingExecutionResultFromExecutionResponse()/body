@@ -5,7 +5,7 @@
     fail("should throw exception");
   }
  catch (  Exception e) {
-    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The execution result must have a success status."));
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The Json for Execution Result must contain a not-null 'success' field of type Boolean."));
   }
   String json2="{\"success\":\"yay\",\"message\":\"error1\"}";
   try {
@@ -13,7 +13,7 @@
     fail("should throw exception");
   }
  catch (  Exception e) {
-    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The success status must be a boolean value."));
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The Json for Execution Result must contain a not-null 'success' field of type Boolean."));
   }
   String json3="{\"success\":false,\"message\":true}";
   try {
@@ -29,6 +29,6 @@
     fail("should throw exception");
   }
  catch (  Exception e) {
-    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The execution result must have a success status, If the 'message' key is present in the Json for Execution Result, it must contain a not-null message of type String."));
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The Json for Execution Result must contain a not-null 'success' field of type Boolean, If the 'message' key is present in the Json for Execution Result, it must contain a not-null message of type String."));
   }
 }
