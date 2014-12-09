@@ -1,0 +1,17 @@
+{
+  ProcessBuilder curl=createCurlCommandWithOptions(taskContext,taskConfig);
+  Console console=taskContext.console();
+  console.printLine("Launching command: " + curl.command());
+  EnvironmentVariables environment=taskContext.environment();
+  curl.environment().putAll(environment.asMap());
+  console.printEnvironment(curl.environment(),environment.secureEnvSpecifier());
+  Process curlProcess=curl.start();
+  console.readErrorOf(curlProcess.getErrorStream());
+  console.readOutputOf(curlProcess.getInputStream());
+  int exitCode=curlProcess.waitFor();
+  curlProcess.destroy();
+  if (exitCode != 0) {
+    return ExecutionResult.failure("Failed downloading file. Please check the output");
+  }
+  return ExecutionResult.success("Downloaded file: " + CURLED_FILE);
+}
