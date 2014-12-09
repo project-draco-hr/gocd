@@ -1,12 +1,41 @@
 {
-  final Map map=(Map)new GsonBuilder().create().fromJson(responseBody,Object.class);
-  return new TaskView(){
-    @Override public String displayValue(){
-      return (String)map.get("displayValue");
+  ArrayList<String> exceptions=new ArrayList<String>();
+  try {
+    final Map map=(Map)new GsonBuilder().create().fromJson(responseBody,Object.class);
+    final Object displayValue=map.get("displayValue");
+    final Object template=map.get("template");
+    if (map.isEmpty()) {
+      exceptions.add("The Json for Task View cannot be empty");
     }
-    @Override public String template(){
-      return (String)map.get("template");
+ else {
+      if (!map.containsKey("displayValue")) {
+        exceptions.add("The Json for Task View must contain 'displayValue'");
+      }
+ else       if (!(displayValue instanceof String)) {
+        exceptions.add("The Json for Task View must contain a not-null 'displayValue' of type String");
+      }
+      if (!map.containsKey("template")) {
+        exceptions.add("The Json for Task View must contain 'template'");
+      }
+ else       if (!(template instanceof String)) {
+        exceptions.add("The Json for Task View must contain a not-null 'template' of type String");
+      }
     }
-  }
+    if (!exceptions.isEmpty()) {
+      throw new RuntimeException(ListUtil.join(exceptions));
+    }
+    return new TaskView(){
+      @Override public String displayValue(){
+        return (String)displayValue;
+      }
+      @Override public String template(){
+        return (String)template;
+      }
+    }
 ;
+  }
+ catch (  Exception e) {
+    LOGGER.error(String.format("Error occurred while converting the Json to Task View. Error: %s. The Json received was '%s'.",e.getMessage(),responseBody));
+    throw new RuntimeException(String.format("Error occurred while converting the Json to Task View. Error: %s.",e.getMessage()));
+  }
 }

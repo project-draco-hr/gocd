@@ -1,15 +1,46 @@
 {
-  Map<String,Object> configMap=(Map)new GsonBuilder().create().fromJson(configJson,Object.class);
   TaskConfig taskConfig=new TaskConfig();
-  for (  Map.Entry<String,Object> entry : configMap.entrySet()) {
-    TaskConfigProperty property=new TaskConfigProperty(entry.getKey(),null);
-    Map propertyValue=(Map)entry.getValue();
-    if (propertyValue != null) {
-      property.withDefault((String)propertyValue.get("default-value"));
-      property.with(Property.SECURE,(Boolean)propertyValue.get("secure"));
-      property.with(Property.REQUIRED,(Boolean)propertyValue.get("required"));
+  ArrayList<String> exceptions=new ArrayList<String>();
+  try {
+    Map<String,Object> configMap=(Map)new GsonBuilder().create().fromJson(configJson,Object.class);
+    if (configMap.isEmpty()) {
+      exceptions.add("The Json for Task Config cannot be empty");
     }
-    taskConfig.add(property);
+    for (    Map.Entry<String,Object> entry : configMap.entrySet()) {
+      TaskConfigProperty property=new TaskConfigProperty(entry.getKey(),null);
+      Map propertyValue=(Map)entry.getValue();
+      if (propertyValue != null) {
+        Object defaultValue=propertyValue.get("default-value");
+        if (propertyValue.containsKey("default-value") && !(defaultValue instanceof String)) {
+          exceptions.add(String.format("Key: '%s' - The Json for Task Config should contain a not-null 'default-value' of type String",entry.getKey()));
+        }
+ else {
+          property.withDefault((String)defaultValue);
+        }
+        Object secure=propertyValue.get("secure");
+        if (propertyValue.containsKey("secure") && !(secure instanceof Boolean)) {
+          exceptions.add(String.format("Key: '%s' - The Json for Task Config should contain a 'secure' field of type Boolean",entry.getKey()));
+        }
+ else {
+          property.with(Property.SECURE,(Boolean)secure);
+        }
+        Object required=propertyValue.get("required");
+        if (propertyValue.containsKey("required") && !(required instanceof Boolean)) {
+          exceptions.add(String.format("Key: '%s' - The Json for Task Config should contain a 'required' field of type Boolean",entry.getKey()));
+        }
+ else {
+          property.with(Property.REQUIRED,(Boolean)required);
+        }
+      }
+      taskConfig.add(property);
+    }
+    if (!exceptions.isEmpty()) {
+      throw new RuntimeException(ListUtil.join(exceptions));
+    }
+    return taskConfig;
   }
-  return taskConfig;
+ catch (  Exception e) {
+    LOGGER.error(String.format("Error occurred while converting the Json to Task Config. Error: %s. The Json received was '%s'.",e.getMessage(),configJson));
+    throw new RuntimeException(String.format("Error occurred while converting the Json to Task Config. Error: %s.",e.getMessage()));
+  }
 }

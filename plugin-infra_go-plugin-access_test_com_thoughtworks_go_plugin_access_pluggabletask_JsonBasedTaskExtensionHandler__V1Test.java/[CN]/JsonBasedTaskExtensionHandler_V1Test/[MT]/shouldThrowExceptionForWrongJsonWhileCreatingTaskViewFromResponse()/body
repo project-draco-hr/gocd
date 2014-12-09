@@ -1,0 +1,50 @@
+{
+  String jsonResponse1="{}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toTaskView(jsonResponse1);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View cannot be empty."));
+  }
+  String jsonResponse2="{\"template\":\"<html>junk</html>\"}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toTaskView(jsonResponse2);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain 'displayValue'."));
+  }
+  String jsonResponse3="{\"displayValue\":\"MyTaskPlugin\"}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toTaskView(jsonResponse3);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain 'template'."));
+  }
+  String jsonResponse4="{\"displayValue\":null, \"template\":\"<html>junk</html>\"}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toTaskView(jsonResponse4);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain a not-null 'displayValue' of type String."));
+  }
+  String jsonResponse5="{\"displayValue\":\"MyTaskPlugin\", \"template\":true}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toTaskView(jsonResponse5);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain a not-null 'template' of type String."));
+  }
+  String jsonResponse6="{\"displayValue\":true, \"template\":null}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toTaskView(jsonResponse6);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task View. Error: The Json for Task View must contain a not-null 'displayValue' of type String, The Json for Task View must contain a not-null 'template' of type String."));
+  }
+}
