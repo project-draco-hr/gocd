@@ -1,17 +1,56 @@
 {
   try {
-    Map map=parseResponseToMap(responseBody);
-    String revision=(String)map.get("revision");
-    String revisionComment=(String)map.get("revisionComment");
-    String user=(String)map.get("user");
-    String timestampString=(String)map.get("timestamp");
-    String trackbackUrl=(String)map.get("trackbackUrl");
+    Map map;
+    try {
+      map=parseResponseToMap(responseBody);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Package revision should be returned as a map");
+    }
+    if (map == null || map.isEmpty()) {
+      throw new RuntimeException("Empty response body");
+    }
+    String revision;
+    try {
+      revision=(String)map.get("revision");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Package revision should be of type string");
+    }
+    String revisionComment;
+    try {
+      revisionComment=(String)map.get("revisionComment");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Package revision comment should be of type string");
+    }
+    String user;
+    try {
+      user=(String)map.get("user");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Package revision user should be of type string");
+    }
+    String trackbackUrl;
+    try {
+      trackbackUrl=(String)map.get("trackbackUrl");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Package revision trackbackUrl should be of type string");
+    }
+    Date timestamp;
+    try {
+      String timestampString=(String)map.get("timestamp");
+      timestamp=new SimpleDateFormat(DATE_PATTERN).parse(timestampString);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Package revision timestamp should be of type string with format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    }
     Map data=(Map)map.get("data");
-    Date timestamp=new SimpleDateFormat(DATE_PATTERN).parse(timestampString);
     PackageRevision packageRevision=new PackageRevision(revision,timestamp,user,revisionComment,trackbackUrl,data);
     return packageRevision;
   }
  catch (  Exception e) {
-    throw new RuntimeException("could not parse response to package revision",e);
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
   }
 }

@@ -1,10 +1,46 @@
 {
-  String defaultValue=(String)configuration.get("default-value");
-  Boolean partOfIdentity=(Boolean)configuration.get("part-of-identity");
-  Boolean isSecure=(Boolean)configuration.get("secure");
-  Boolean required=(Boolean)configuration.get("required");
-  String displayName=(String)configuration.get("display-name");
-  Integer displayOrder=configuration.get("display-order") == null ? null : Integer.parseInt((String)configuration.get("display-order"));
+  String defaultValue;
+  try {
+    defaultValue=(String)configuration.get("default-value");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("'default-value' property for key '%s' should be of tye string",key));
+  }
+  Boolean partOfIdentity;
+  try {
+    partOfIdentity=(Boolean)configuration.get("part-of-identity");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("'part-of-identity' property for key '%s' should be of tye boolean",key));
+  }
+  Boolean isSecure;
+  try {
+    isSecure=(Boolean)configuration.get("secure");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("'secure' property for key '%s' should be of tye boolean",key));
+  }
+  Boolean required;
+  try {
+    required=(Boolean)configuration.get("required");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("'required' property for key '%s' should be of tye boolean",key));
+  }
+  String displayName;
+  try {
+    displayName=(String)configuration.get("display-name");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("'display-name' property for key '%s' should be of tye string",key));
+  }
+  Integer displayOrder;
+  try {
+    displayOrder=configuration.get("display-order") == null ? null : Integer.parseInt((String)configuration.get("display-order"));
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("'display-order' property for key '%s' should be of tye integer",key));
+  }
   PackageMaterialProperty packageMaterialProperty=new PackageMaterialProperty(key);
   if (!isEmpty(defaultValue)) {
     packageMaterialProperty.withDefault(defaultValue);

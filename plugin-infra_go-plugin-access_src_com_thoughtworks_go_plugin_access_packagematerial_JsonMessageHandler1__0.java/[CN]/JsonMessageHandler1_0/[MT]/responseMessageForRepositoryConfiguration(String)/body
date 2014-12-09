@@ -1,8 +1,28 @@
 {
-  RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
-  Map<String,Map> configurations=parseResponseToMap(responseBody);
-  for (  String key : configurations.keySet()) {
-    repositoryConfiguration.add(toPackageMaterialProperty(key,configurations.get(key)));
+  try {
+    RepositoryConfiguration repositoryConfiguration=new RepositoryConfiguration();
+    Map<String,Map> configurations;
+    try {
+      configurations=parseResponseToMap(responseBody);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Repository configuration should be returned as a map");
+    }
+    if (configurations == null || configurations.isEmpty()) {
+      throw new RuntimeException("Empty response body");
+    }
+    for (    String key : configurations.keySet()) {
+      if (isEmpty(key)) {
+        throw new RuntimeException("Repository configuration key cannot be empty");
+      }
+      if (!(configurations.get(key) instanceof Map)) {
+        throw new RuntimeException(format("Repository configuration properties for key '%s' should be represented as a Map",key));
+      }
+      repositoryConfiguration.add(toPackageMaterialProperty(key,configurations.get(key)));
+    }
+    return repositoryConfiguration;
   }
-  return repositoryConfiguration;
+ catch (  Exception e) {
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
+  }
 }

@@ -1,16 +1,43 @@
 {
-  List<Map> errors=parseResponseToList(responseBody);
-  ValidationResult validationResult=new ValidationResult();
-  if (isEmpty(responseBody))   return validationResult;
-  for (  Map error : errors) {
-    String key=(String)error.get("key");
-    String message=(String)error.get("message");
-    if (isEmpty(key)) {
-      validationResult.addError(new ValidationError(message));
+  try {
+    ValidationResult validationResult=new ValidationResult();
+    if (isEmpty(responseBody))     return validationResult;
+    List<Map> errors;
+    try {
+      errors=parseResponseToList(responseBody);
     }
+ catch (    Exception e) {
+      throw new RuntimeException("Validation errors should be returned as list or errors, with  each error represented as a map");
+    }
+    for (    Object item : errors) {
+      if (!(item instanceof Map)) {
+        throw new RuntimeException("Each validation error should be represented as a map");
+      }
+      Map error=(Map)item;
+      String key;
+      try {
+        key=(String)error.get("key");
+      }
+ catch (      Exception e) {
+        throw new RuntimeException("Validation error key should be of type string");
+      }
+      String message;
+      try {
+        message=(String)error.get("message");
+      }
+ catch (      Exception e) {
+        throw new RuntimeException("Validation message should be of type string");
+      }
+      if (isEmpty(key)) {
+        validationResult.addError(new ValidationError(message));
+      }
  else {
-      validationResult.addError(new ValidationError(key,message));
+        validationResult.addError(new ValidationError(key,message));
+      }
     }
+    return validationResult;
   }
-  return validationResult;
+ catch (  Exception e) {
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
+  }
 }
