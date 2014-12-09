@@ -1,0 +1,34 @@
+{
+  String json1="{}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toExecutionResult(json1);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The Json for Execution Result must contain a not-null 'success' field of type Boolean."));
+  }
+  String json2="{\"success\":\"yay\",\"message\":\"error1\"}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toExecutionResult(json2);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The Json for Execution Result must contain a not-null 'success' field of type Boolean."));
+  }
+  String json3="{\"success\":false,\"message\":true}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toExecutionResult(json3);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: If the 'message' key is present in the Json for Execution Result, it must contain a not-null message of type String."));
+  }
+  String json4="{\"message\":null}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().toExecutionResult(json4);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Execution Result. Error: The Json for Execution Result must contain a not-null 'success' field of type Boolean, If the 'message' key is present in the Json for Execution Result, it must contain a not-null message of type String."));
+  }
+}

@@ -1,0 +1,42 @@
+{
+  String json1="{}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().convertJsonToTaskConfig(json1);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task Config. Error: The Json for Task Config cannot be empty."));
+  }
+  String json2="{\"URL\":{\"default-value\":true,\"secure\":false,\"required\":true}}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().convertJsonToTaskConfig(json2);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task Config. Error: Key: 'URL' - The Json for Task Config should contain a not-null 'default-value' of type String."));
+  }
+  String json3="{\"URL\":{\"default-value\":\"some value\",\"secure\":\"string\",\"required\":true}}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().convertJsonToTaskConfig(json3);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task Config. Error: Key: 'URL' - The Json for Task Config should contain a 'secure' field of type Boolean."));
+  }
+  String json4="{\"URL\":{\"default-value\":\"some value\",\"secure\":false,\"required\":\"string\"}}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().convertJsonToTaskConfig(json4);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task Config. Error: Key: 'URL' - The Json for Task Config should contain a 'required' field of type Boolean."));
+  }
+  String json5="{\"URL1\":{\"default-value\":true,\"secure\":null,\"required\":true}," + "\"URL2\":{\"default-value\":\"some value\",\"secure\":\"some-string\",\"required\":false}," + "\"URL3\":{\"default-value\":\"some value\",\"secure\":true,\"required\":\"some-string\"}}";
+  try {
+    new JsonBasedTaskExtensionHandler_V1().convertJsonToTaskConfig(json5);
+    fail("should throw exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Error occurred while converting the Json to Task Config. Error: Key: 'URL1' - The Json for Task Config should contain a not-null 'default-value' of type String, Key: 'URL1' - The Json for Task Config should contain a 'secure' field of type Boolean, Key: 'URL2' - The Json for Task Config should contain a 'secure' field of type Boolean, Key: 'URL3' - The Json for Task Config should contain a 'required' field of type Boolean."));
+  }
+}

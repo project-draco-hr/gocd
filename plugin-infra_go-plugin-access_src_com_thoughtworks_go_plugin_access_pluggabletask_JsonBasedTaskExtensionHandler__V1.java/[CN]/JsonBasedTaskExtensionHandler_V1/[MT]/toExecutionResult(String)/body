@@ -1,13 +1,27 @@
 {
-  Map result=(Map)new GsonBuilder().create().fromJson(responseBody,Object.class);
-  if ((Boolean)result.get("success")) {
-    ExecutionResult executionResult=new ExecutionResult();
-    executionResult.withSuccessMessages((String)result.get("message"));
+  ExecutionResult executionResult=new ExecutionResult();
+  ArrayList<String> exceptions=new ArrayList<String>();
+  try {
+    Map result=(Map)new GsonBuilder().create().fromJson(responseBody,Object.class);
+    if (!(result.containsKey("success") && result.get("success") instanceof Boolean)) {
+      exceptions.add("The Json for Execution Result must contain a not-null 'success' field of type Boolean");
+    }
+    if (result.containsKey("message") && (!(result.get("message") instanceof String))) {
+      exceptions.add("If the 'message' key is present in the Json for Execution Result, it must contain a not-null message of type String");
+    }
+    if (!exceptions.isEmpty()) {
+      throw new RuntimeException(ListUtil.join(exceptions));
+    }
+    if ((Boolean)result.get("success")) {
+      executionResult.withSuccessMessages((String)result.get("message"));
+    }
+ else {
+      executionResult.withErrorMessages((String)result.get("message"));
+    }
     return executionResult;
   }
- else {
-    ExecutionResult executionResult=new ExecutionResult();
-    executionResult.withErrorMessages((String)result.get("message"));
-    return executionResult;
+ catch (  Exception e) {
+    LOGGER.error(String.format("Error occurred while converting the Json to Execution Result. Error: %s. The Json received was '%s'.",e.getMessage(),responseBody));
+    throw new RuntimeException(String.format("Error occurred while converting the Json to Execution Result. Error: %s.",e.getMessage()));
   }
 }
