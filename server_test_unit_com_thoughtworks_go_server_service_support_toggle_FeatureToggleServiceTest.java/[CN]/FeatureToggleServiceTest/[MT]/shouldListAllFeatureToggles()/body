@@ -1,0 +1,7 @@
+{
+  FeatureToggles existingToggles=new FeatureToggles(new FeatureToggle("key1","description1",true),new FeatureToggle("key2","description2",false));
+  when(repository.availableToggles()).thenReturn(existingToggles);
+  when(repository.userToggles()).thenReturn(new FeatureToggles());
+  FeatureToggleService service=new FeatureToggleService(repository,goCache);
+  assertThat(service.allToggles(),is(existingToggles));
+}

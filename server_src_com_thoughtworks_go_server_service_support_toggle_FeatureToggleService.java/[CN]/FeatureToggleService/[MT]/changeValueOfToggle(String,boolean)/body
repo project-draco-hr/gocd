@@ -1,0 +1,9 @@
+{
+  if (allToggles().find(key) == null) {
+    throw new RuntimeException(MessageFormat.format("Feature toggle: ''{0}'' is not valid.",key));
+  }
+synchronized (USER_TOGGLES_CACHE_KEY) {
+    repository.changeValueOfToggle(key,newValue);
+    goCache.remove(USER_TOGGLES_CACHE_KEY);
+  }
+}

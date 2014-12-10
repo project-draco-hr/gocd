@@ -1,0 +1,9 @@
+{
+  String availableTogglesResourcePath=environment.get(AVAILABLE_FEATURE_TOGGLES_FILE_PATH);
+  InputStream streamForAvailableToggles=getClass().getResourceAsStream(availableTogglesResourcePath);
+  if (streamForAvailableToggles == null) {
+    LOGGER.error("Failed to read toggles from " + availableTogglesResourcePath + ". Saying there are no toggles.");
+    return new FeatureToggles();
+  }
+  return readTogglesFromStream(streamForAvailableToggles,"available");
+}

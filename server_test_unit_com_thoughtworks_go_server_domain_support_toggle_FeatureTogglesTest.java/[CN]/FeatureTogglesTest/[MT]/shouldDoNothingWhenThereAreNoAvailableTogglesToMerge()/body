@@ -1,0 +1,6 @@
+{
+  FeatureToggles emptyAvailableToggles=new FeatureToggles();
+  FeatureToggles nonEmptyOverridingToggles=new FeatureToggles(new FeatureToggle("key1","desc1",true));
+  FeatureToggles actual=emptyAvailableToggles.overrideWithTogglesIn(nonEmptyOverridingToggles);
+  assertThat(actual,is(new FeatureToggles()));
+}

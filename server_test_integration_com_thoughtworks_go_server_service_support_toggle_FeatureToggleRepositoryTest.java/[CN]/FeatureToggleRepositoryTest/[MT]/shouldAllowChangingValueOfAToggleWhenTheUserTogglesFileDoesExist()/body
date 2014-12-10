@@ -1,0 +1,8 @@
+{
+  setupAvailableToggles(new FeatureToggle("key1","desc1",true),new FeatureToggle("key2","desc2",true));
+  setupUserToggles(new FeatureToggle("key1","desc1",true));
+  FeatureToggleRepository repository=new FeatureToggleRepository(environment);
+  repository.changeValueOfToggle("key1",false);
+  assertThat(repository.availableToggles(),is(new FeatureToggles(new FeatureToggle("key1","desc1",true),new FeatureToggle("key2","desc2",true))));
+  assertThat(repository.userToggles(),is(new FeatureToggles(new FeatureToggle("key1","desc1",false))));
+}

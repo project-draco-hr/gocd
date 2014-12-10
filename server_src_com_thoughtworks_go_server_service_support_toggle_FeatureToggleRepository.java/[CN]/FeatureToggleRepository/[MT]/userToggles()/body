@@ -1,0 +1,14 @@
+{
+  String userTogglesPath=userTogglesFile().getAbsolutePath();
+  if (!new File(userTogglesPath).exists()) {
+    LOGGER.warn("Toggles file, " + userTogglesPath + " does not exist. Saying there are no toggles.");
+    return new FeatureToggles();
+  }
+  try {
+    return readTogglesFromStream(new FileInputStream(userTogglesPath),"user");
+  }
+ catch (  FileNotFoundException e) {
+    LOGGER.warn("Toggles file, " + userTogglesPath + " does not exist. Saying there are no toggles.");
+    return new FeatureToggles();
+  }
+}

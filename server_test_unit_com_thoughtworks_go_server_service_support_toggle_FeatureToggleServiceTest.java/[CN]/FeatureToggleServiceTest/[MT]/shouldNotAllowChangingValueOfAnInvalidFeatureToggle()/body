@@ -1,0 +1,13 @@
+{
+  FeatureToggle availableToggle1=new FeatureToggle("key1","desc1",true);
+  when(repository.availableToggles()).thenReturn(new FeatureToggles(availableToggle1));
+  when(repository.userToggles()).thenReturn(new FeatureToggles());
+  FeatureToggleService service=new FeatureToggleService(repository,goCache);
+  try {
+    service.changeValueOfToggle("keyNOTVALID",true);
+    fail("This should have failed with an exception, since the feature toggle is invalid.");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Feature toggle: 'keyNOTVALID' is not valid."));
+  }
+}

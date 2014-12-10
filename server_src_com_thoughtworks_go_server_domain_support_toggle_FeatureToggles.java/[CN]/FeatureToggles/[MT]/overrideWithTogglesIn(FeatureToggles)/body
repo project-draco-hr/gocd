@@ -1,0 +1,15 @@
+{
+  List<FeatureToggle> mergedToggles=new ArrayList<FeatureToggle>();
+  for (  FeatureToggle availableToggle : toggles) {
+    FeatureToggle toggleToAdd=availableToggle;
+    FeatureToggle overriddenToggle=overridingToggles.find(availableToggle.key());
+    if (overriddenToggle != null) {
+      toggleToAdd=overriddenToggle.withValueHasBeenChangedFlag(!overriddenToggle.hasSameValueAs(availableToggle));
+    }
+    if (toggleToAdd.description() == null) {
+      toggleToAdd=toggleToAdd.withDescription(availableToggle.description());
+    }
+    mergedToggles.add(toggleToAdd);
+  }
+  return new FeatureToggles(mergedToggles);
+}
