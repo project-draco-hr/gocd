@@ -1,0 +1,9 @@
+{
+  if (key == null || key.isEmpty()) {
+    throw new InvalidPackageRevisionDataException(DATA_KEY_EMPTY_MESSAGE);
+  }
+  Matcher matcher=DATA_KEY_PATTERN.matcher(key);
+  if (!matcher.matches()) {
+    throw new InvalidPackageRevisionDataException(dataKeyInvalidMessage(key));
+  }
+}

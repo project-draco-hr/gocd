@@ -1,8 +1,28 @@
 {
-  com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration packageConfiguration=new com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration();
-  Map<String,Map> configurations=parseResponseToMap(responseBody);
-  for (  String key : configurations.keySet()) {
-    packageConfiguration.add(toPackageMaterialProperty(key,configurations.get(key)));
+  try {
+    PackageConfiguration packageConfiguration=new PackageConfiguration();
+    Map<String,Map> configurations;
+    try {
+      configurations=parseResponseToMap(responseBody);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Package configuration should be returned as a map");
+    }
+    if (configurations == null || configurations.isEmpty()) {
+      throw new RuntimeException("Empty response body");
+    }
+    for (    String key : configurations.keySet()) {
+      if (isEmpty(key)) {
+        throw new RuntimeException("Package configuration key cannot be empty");
+      }
+      if (!(configurations.get(key) instanceof Map)) {
+        throw new RuntimeException(format("Package configuration properties for key '%s' should be represented as a Map",key));
+      }
+      packageConfiguration.add(toPackageMaterialProperty(key,configurations.get(key)));
+    }
+    return packageConfiguration;
   }
-  return packageConfiguration;
+ catch (  RuntimeException e) {
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
+  }
 }

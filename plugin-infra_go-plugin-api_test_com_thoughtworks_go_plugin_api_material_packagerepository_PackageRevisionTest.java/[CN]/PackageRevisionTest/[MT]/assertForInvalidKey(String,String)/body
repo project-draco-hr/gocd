@@ -1,0 +1,11 @@
+{
+  HashMap<String,String> data=new HashMap<String,String>();
+  data.put(key,"value");
+  try {
+    new PackageRevision(null,null,null,data);
+    fail("should have thrown exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is(expectedMessage));
+  }
+}
