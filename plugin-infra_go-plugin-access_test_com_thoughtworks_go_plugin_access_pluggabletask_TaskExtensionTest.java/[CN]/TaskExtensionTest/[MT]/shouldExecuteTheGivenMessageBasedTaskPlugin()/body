@@ -1,11 +1,8 @@
 {
   final Boolean[] executed={false};
-  PluginManager pluginManager=mock(PluginManager.class);
-  String messageBasedPluginId="messageBased-task";
-  TaskExtension taskExtension=new TaskExtension(pluginManager);
-  when(pluginManager.hasReferenceFor(Task.class,messageBasedPluginId)).thenReturn(false);
-  when(pluginManager.isPluginOfType(JsonBasedTaskExtension.TASK_EXTENSION,messageBasedPluginId)).thenReturn(true);
-  taskExtension.execute(messageBasedPluginId,new ActionWithReturn<Task,ExecutionResult>(){
+  when(pluginManager.hasReferenceFor(Task.class,messageBasedPlugin)).thenReturn(false);
+  when(pluginManager.isPluginOfType(JsonBasedTaskExtension.TASK_EXTENSION,messageBasedPlugin)).thenReturn(true);
+  taskExtension.execute(messageBasedPlugin,new ActionWithReturn<Task,ExecutionResult>(){
     @Override public ExecutionResult execute(    Task task,    GoPluginDescriptor pluginDescriptor){
       executed[0]=true;
       return null;

@@ -1,0 +1,11 @@
+{
+  TaskExtensionContract extension=null;
+  if (pluginManager.hasReferenceFor(Task.class,pluginId)) {
+    extension=map.get(API_BASED);
+  }
+ else   if (pluginManager.isPluginOfType(JsonBasedTaskExtension.TASK_EXTENSION,pluginId)) {
+    extension=map.get(MESSAGE_BASED);
+  }
+  if (extension != null)   return extension;
+  throw new RuntimeException(String.format("Plugin should use either message-based or api-based extension. Plugin-id: %s",pluginId));
+}

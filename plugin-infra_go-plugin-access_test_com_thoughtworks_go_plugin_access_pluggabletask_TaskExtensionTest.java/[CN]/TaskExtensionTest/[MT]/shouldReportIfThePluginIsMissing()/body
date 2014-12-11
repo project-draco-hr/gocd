@@ -1,0 +1,16 @@
+{
+  try {
+    taskExtension.execute("junk",null);
+    fail("expected exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Associated plugin 'junk' not found. Please contact the Go admin to install the plugin."));
+  }
+  try {
+    taskExtension.validate("junk",null);
+    fail("expected exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Associated plugin 'junk' not found. Please contact the Go admin to install the plugin."));
+  }
+}

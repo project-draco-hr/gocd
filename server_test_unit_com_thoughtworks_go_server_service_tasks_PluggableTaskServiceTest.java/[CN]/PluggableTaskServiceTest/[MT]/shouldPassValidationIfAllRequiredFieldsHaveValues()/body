@@ -1,11 +1,10 @@
 {
   Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"));
+  configuration.getProperty("KEY1").setConfigurationValue(new ConfigurationValue("junk"));
   PluggableTask modifiedTask=new PluggableTask("abc",new PluginConfiguration(pluginId,"1"),configuration);
   ValidationResult validationResult=new ValidationResult();
-  validationResult.addError(new ValidationError("KEY1","error message"));
   when(taskExtension.validate(eq(modifiedTask.getPluginConfiguration().getId()),any(TaskConfig.class))).thenReturn(validationResult);
   pluggableTaskService.validate(modifiedTask);
-  assertThat(modifiedTask.getConfiguration().getProperty("KEY1").errors().isEmpty(),is(false));
-  assertThat(modifiedTask.getConfiguration().getProperty("KEY1").errors().firstError(),is("error message"));
-  verify(taskExtension).validate(eq(modifiedTask.getPluginConfiguration().getId()),any(TaskConfig.class));
+  final List<ValidationError> validationErrors=validationResult.getErrors();
+  assertTrue(validationErrors.isEmpty());
 }

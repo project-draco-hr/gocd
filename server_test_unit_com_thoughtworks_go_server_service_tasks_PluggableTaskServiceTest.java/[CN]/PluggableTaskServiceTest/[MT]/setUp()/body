@@ -1,5 +1,12 @@
 {
-  pluginManager=mock(PluginManager.class);
   taskExtension=mock(TaskExtension.class);
-  pluggableTaskService=new PluggableTaskService(pluginManager,taskExtension);
+  localizer=mock(Localizer.class);
+  pluggableTaskService=new PluggableTaskService(taskExtension,localizer);
+  final TaskPreference preference=mock(TaskPreference.class);
+  final TaskConfig taskConfig=new TaskConfig();
+  final TaskConfigProperty key1=taskConfig.addProperty("KEY1");
+  key1.with(Property.REQUIRED,true);
+  taskConfig.addProperty("KEY2");
+  when(preference.getConfig()).thenReturn(taskConfig);
+  PluggableTaskConfigStore.store().setPreferenceFor(pluginId,preference);
 }
