@@ -13,4 +13,6 @@
   pipelineOne.configStageAsManualApprovalWithApprovedUsers(pipelineOne.stageName(2),"jez");
   configHelper.addSecurityWithAdminConfig();
   configHelper.setOperatePermissionForGroup("group1","jez");
+  pipelineCommentFeatureToggleState=featureToggleService.isToggleOn(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY);
+  featureToggleService.changeValueOfToggle(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY,true);
 }

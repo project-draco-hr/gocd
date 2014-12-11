@@ -1,0 +1,6 @@
+{
+  Request servletRequest=mock(Request.class);
+  when(servletRequest.getSession()).thenReturn(mock(HttpSession.class));
+  view.exposeHelpers(velocityContext,servletRequest);
+  assertThat((Boolean)velocityContext.get(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY),is(true));
+}

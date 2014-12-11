@@ -1,14 +1,7 @@
 {
-  pipelineDao=mock(PipelineDao.class);
-  goConfigService=mock(GoConfigService.class);
-  securityService=mock(SecurityService.class);
-  scheduleService=mock(ScheduleService.class);
-  pipelineLockService=mock(PipelineLockService.class);
-  pipelineTimeline=mock(PipelineTimeline.class);
-  pipelineUnlockService=mock(PipelineUnlockApiService.class);
-  schedulingCheckerService=mock(SchedulingCheckerService.class);
-  pipelinePauseService=mock(PipelinePauseService.class);
-  stageDao=mock(StageDao.class);
+  initMocks(this);
+  when(featureToggleService.isToggleOn(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY)).thenReturn(true);
+  Toggles.initializeWith(featureToggleService);
   pipelineHistoryService=new PipelineHistoryService(pipelineDao,stageDao,goConfigService,securityService,scheduleService,mock(MaterialRepository.class),JobDurationStrategy.ALWAYS_ZERO,mock(TriggerMonitor.class),pipelineTimeline,pipelineUnlockService,schedulingCheckerService,pipelineLockService,pipelinePauseService);
   config=CRUISE_CONFIG.pipelineConfigByName(new CaseInsensitiveString("pipeline"));
 }
