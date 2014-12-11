@@ -1,0 +1,10 @@
+{
+  Toggles.initializeWith(null);
+  try {
+    Toggles.isToggleOn(FEATURE_TOGGLE_KEY);
+    fail("Should have bombed!");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Toggles not initialized with feature toggle service"));
+  }
+}

@@ -1,0 +1,11 @@
+{
+  when(featureToggleService.isToggleOn(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY)).thenReturn(false);
+  Toggles.initializeWith(featureToggleService);
+  CaseInsensitiveString unauthorizedUser=new CaseInsensitiveString("cannot-access");
+  String pipelineName="pipeline_name";
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  pipelineHistoryService.updateComment(pipelineName,1,"test comment",new Username(unauthorizedUser),result);
+  assertThat(result.httpCode(),is(HttpStatus.SC_NOT_IMPLEMENTED));
+  assertThat((Localizable.CurryableLocalizable)result.localizable(),is(LocalizedMessage.string("FEATURE_NOT_AVAILABLE","Pipeline Comment")));
+  verify(pipelineDao,never()).updateComment(pipelineName,1,"test comment");
+}

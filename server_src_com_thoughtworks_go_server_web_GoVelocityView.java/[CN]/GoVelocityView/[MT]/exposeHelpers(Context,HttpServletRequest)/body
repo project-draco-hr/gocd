@@ -7,6 +7,7 @@
   velocityContext.put(USE_COMPRESS_JS,systemEnvironment.useCompressedJs());
   Boolean useNewRails=systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS);
   velocityContext.put(USE_NEW_RAILS,useNewRails);
+  velocityContext.put(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY,Toggles.isToggleOn(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY));
   if (useNewRails) {
     velocityContext.put(CONCATENATED_JAVASCRIPT_FILE_PATH,railsAssetsService.getAssetPath("application.js"));
     velocityContext.put(CONCATENATED_APPLICATION_CSS_FILE_PATH,railsAssetsService.getAssetPath("application.css"));
