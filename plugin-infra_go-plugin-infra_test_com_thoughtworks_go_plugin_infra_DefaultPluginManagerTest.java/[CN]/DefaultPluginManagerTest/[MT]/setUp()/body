@@ -1,5 +1,8 @@
 {
   BUNDLE_DIR=new File(TEST_PLUGIN_BUNDLE_PATH);
+  String pluginExternalDirName="./tmp-external-DPJLMT" + new Random().nextInt();
+  PLUGIN_EXTERNAL_DIR=new File(pluginExternalDirName);
+  PLUGIN_EXTERNAL_DIR.mkdirs();
   monitor=mock(DefaultPluginJarLocationMonitor.class);
   registry=mock(DefaultPluginRegistry.class);
   goPluginOSGiFramework=mock(GoPluginOSGiFramework.class);
@@ -8,4 +11,5 @@
   applicationAccessor=mock(GoApplicationAccessor.class);
   when(systemEnvironment.get(PLUGIN_BUNDLE_PATH)).thenReturn(TEST_PLUGIN_BUNDLE_PATH);
   when(systemEnvironment.get(PLUGIN_FRAMEWORK_ENABLED)).thenReturn(Boolean.TRUE);
+  when(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH)).thenReturn(pluginExternalDirName);
 }
