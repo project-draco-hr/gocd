@@ -1,0 +1,7 @@
+{
+  String json="{\"URL\":{\"default-value\":\"\",\"secure\":false,\"required\":true,\"display-name\":\"Url\",\"display-order\":\"0\"}," + "\"PASSWORD\":{\"display-order\":\"2\"}," + "\"USER\":{\"default-value\":\"foo\",\"secure\":true,\"required\":false,\"display-order\":\"1\"}"+ "}";
+  TaskConfig config=new JsonBasedTaskExtensionHandler_V1().convertJsonToTaskConfig(json);
+  assertThat(config.list().get(0).getKey(),is("URL"));
+  assertThat(config.list().get(1).getKey(),is("USER"));
+  assertThat(config.list().get(2).getKey(),is("PASSWORD"));
+}
