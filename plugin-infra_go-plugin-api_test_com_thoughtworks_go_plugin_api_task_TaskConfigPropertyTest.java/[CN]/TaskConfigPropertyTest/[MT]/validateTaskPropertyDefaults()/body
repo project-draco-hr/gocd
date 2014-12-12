@@ -1,10 +1,11 @@
 {
   TaskConfigProperty taskConfigProperty=new TaskConfigProperty("Test-Property");
-  assertThat(taskConfigProperty.getOptions().size(),is(2));
-  assertThat(taskConfigProperty.getOption(Property.REQUIRED),is(true));
+  assertThat(taskConfigProperty.getOptions().size(),is(4));
+  assertThat(taskConfigProperty.getOption(Property.REQUIRED),is(false));
   assertThat(taskConfigProperty.getOption(Property.SECURE),is(false));
   taskConfigProperty=new TaskConfigProperty("Test-Property","Dummy Value");
-  assertThat(taskConfigProperty.getOptions().size(),is(2));
+  taskConfigProperty.with(Property.REQUIRED,true);
+  assertThat(taskConfigProperty.getOptions().size(),is(4));
   assertThat(taskConfigProperty.getOption(Property.REQUIRED),is(true));
   assertThat(taskConfigProperty.getOption(Property.SECURE),is(false));
 }

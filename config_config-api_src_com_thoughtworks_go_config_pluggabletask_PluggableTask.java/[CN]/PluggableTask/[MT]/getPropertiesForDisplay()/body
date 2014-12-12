@@ -1,5 +1,14 @@
 {
   ArrayList<TaskProperty> taskProperties=new ArrayList<TaskProperty>();
+  if (PluggableTaskConfigStore.store().hasPreferenceFor(pluginConfiguration.getId())) {
+    TaskPreference preference=PluggableTaskConfigStore.store().preferenceFor(pluginConfiguration.getId());
+    List<? extends Property> propertyDefinitions=preference.getConfig().list();
+    for (    Property propertyDefinition : propertyDefinitions) {
+      ConfigurationProperty configuredProperty=configuration.getProperty(propertyDefinition.getKey());
+      taskProperties.add(new TaskProperty(propertyDefinition.getOption(Property.DISPLAY_NAME),configuredProperty.getDisplayValue(),configuredProperty.getConfigKeyName()));
+    }
+    return taskProperties;
+  }
   for (  ConfigurationProperty property : configuration) {
     taskProperties.add(new TaskProperty(property.getConfigKeyName(),property.getDisplayValue()));
   }
