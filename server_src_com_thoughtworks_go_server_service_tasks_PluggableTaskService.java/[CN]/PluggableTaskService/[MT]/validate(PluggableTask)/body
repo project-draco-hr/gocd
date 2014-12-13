@@ -3,7 +3,19 @@
   for (  ConfigurationProperty configurationProperty : modifiedTask.getConfiguration()) {
     configuration.add(new TaskConfigProperty(configurationProperty.getConfigurationKey().getName(),configurationProperty.getValue()));
   }
-  ValidationResult validationResult=taskExtension.validate(modifiedTask.getPluginConfiguration().getId(),configuration);
+  final String pluginId=modifiedTask.getPluginConfiguration().getId();
+  ValidationResult validationResult=taskExtension.validate(pluginId,configuration);
+  final TaskPreference preference=PluggableTaskConfigStore.store().preferenceFor(pluginId);
+  if (PluggableTaskConfigStore.store().hasPreferenceFor(pluginId)) {
+    for (    ConfigurationProperty configurationProperty : modifiedTask.getConfiguration()) {
+      String key=configurationProperty.getConfigurationKey().getName();
+      final Property property=preference.getConfig().get(key);
+      if (property != null) {
+        final Boolean required=property.getOption(Property.REQUIRED);
+        if (required && StringUtil.isBlank(configurationProperty.getConfigValue()))         validationResult.addError(new ValidationError(property.getKey(),localizer.localize("MANDATORY_CONFIGURATION_FIELD")));
+      }
+    }
+  }
   for (  ValidationError validationError : validationResult.getErrors()) {
     modifiedTask.getConfiguration().getProperty(validationError.getKey()).addError(validationError.getKey(),validationError.getMessage());
   }

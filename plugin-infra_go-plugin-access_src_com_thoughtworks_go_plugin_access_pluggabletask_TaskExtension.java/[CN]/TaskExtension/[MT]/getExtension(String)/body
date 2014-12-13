@@ -1,11 +1,6 @@
 {
-  TaskExtensionContract extension=null;
-  if (pluginManager.hasReferenceFor(Task.class,pluginId)) {
-    extension=map.get(API_BASED);
+  if (pluginManager.getPluginDescriptorFor(pluginId) == null) {
+    throw new RuntimeException(String.format("Associated plugin '%s' not found. Please contact the Go admin to install the plugin.",pluginId));
   }
- else   if (pluginManager.isPluginOfType(JsonBasedTaskExtension.TASK_EXTENSION,pluginId)) {
-    extension=map.get(MESSAGE_BASED);
-  }
-  if (extension != null)   return extension;
-  throw new RuntimeException(String.format("Plugin should use either message-based or api-based extension. Plugin-id: %s",pluginId));
+  return getTaskExtensionContract(pluginId);
 }

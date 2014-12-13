@@ -1,5 +1,7 @@
 {
-  railsAssetsService=mock(RailsAssetsService.class);
+  initMocks(this);
+  when(featureToggleService.isToggleOn(anyString())).thenReturn(true);
+  Toggles.initializeWith(featureToggleService);
   view=spy(new GoVelocityView());
   doReturn(railsAssetsService).when(view).getRailsAssetsService();
   request=new MockHttpServletRequest();

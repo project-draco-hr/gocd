@@ -15,6 +15,9 @@
     ++currentCount;
   }
  else {
+    Collection disjunctionWithConfig=CollectionUtils.disjunction(currentScmFingerprint,commonMaterials);
+    Collection disjunctionWithInstance=CollectionUtils.disjunction(scmMaterialsFingerprint,commonMaterials);
+    LOGGER.warn(String.format("[Fan-in] - Incompatible materials for %s. Config: %s. Instance: %s.",stageIdentifierScmPair.first().getStageLocator(),disjunctionWithConfig,disjunctionWithInstance));
     totalInstanceCount=currentCount;
   }
 }

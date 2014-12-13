@@ -1,0 +1,9 @@
+{
+  try {
+    taskExtension.doOnTask("junk",null);
+    fail("expected exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Plugin should use either message-based or api-based extension. Plugin-id: junk"));
+  }
+}

@@ -1,4 +1,8 @@
 {
+  if (!Toggles.isToggleOn(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY)) {
+    result.notImplemented(LocalizedMessage.string("FEATURE_NOT_AVAILABLE","Pipeline Comment"));
+    return;
+  }
   if (securityService.hasOperatePermissionForPipeline(username.getUsername(),pipelineName)) {
     pipelineDao.updateComment(pipelineName,pipelineCounter,comment);
   }

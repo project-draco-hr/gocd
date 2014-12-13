@@ -1,5 +1,5 @@
 {
-  TaskConfig taskConfig=new TaskConfig();
+  final TaskConfig taskConfig=new TaskConfig();
   ArrayList<String> exceptions=new ArrayList<String>();
   try {
     Map<String,Object> configMap=(Map)new GsonBuilder().create().fromJson(configJson,Object.class);
@@ -8,6 +8,7 @@
     }
     for (    Map.Entry<String,Object> entry : configMap.entrySet()) {
       TaskConfigProperty property=new TaskConfigProperty(entry.getKey(),null);
+      property.with(Property.REQUIRED,true);
       Map propertyValue=(Map)entry.getValue();
       if (propertyValue != null) {
         if (propertyValue.containsKey("default-value")) {
@@ -16,6 +17,22 @@
           }
  else {
             property.withDefault((String)propertyValue.get("default-value"));
+          }
+        }
+        if (propertyValue.containsKey("display-name")) {
+          if (!(propertyValue.get("display-name") instanceof String)) {
+            exceptions.add(String.format("Key: '%s' - 'display-name' should be of type String",entry.getKey()));
+          }
+ else {
+            property.with(Property.DISPLAY_NAME,(String)propertyValue.get("display-name"));
+          }
+        }
+        if (propertyValue.containsKey("display-order")) {
+          if (!(propertyValue.get("display-order") instanceof String && StringUtil.isInteger((String)propertyValue.get("display-order")))) {
+            exceptions.add(String.format("Key: '%s' - 'display-order' should be a String containing a numerical value",entry.getKey()));
+          }
+ else {
+            property.with(Property.DISPLAY_ORDER,Integer.parseInt((String)propertyValue.get("display-order")));
           }
         }
         if (propertyValue.containsKey("secure")) {
