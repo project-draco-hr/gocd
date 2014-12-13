@@ -1,0 +1,9 @@
+{
+  java.util.regex.Matcher fullAuthMatcher=URL_WITH_FULL_AUTH_PATTERN.matcher(materialUrl);
+  if (fullAuthMatcher.matches()) {
+    String protocolField=fullAuthMatcher.group(1);
+    String urlField=fullAuthMatcher.group(4);
+    return String.format("%s%s",protocolField,urlField).equalsIgnoreCase(paramRepoUrl);
+  }
+  return false;
+}

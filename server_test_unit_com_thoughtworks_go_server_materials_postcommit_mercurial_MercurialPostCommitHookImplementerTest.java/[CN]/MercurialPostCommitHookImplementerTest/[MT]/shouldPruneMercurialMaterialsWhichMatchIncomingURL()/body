@@ -1,0 +1,21 @@
+{
+  HgMaterial material1=mock(HgMaterial.class);
+  when(material1.getUrlArgument()).thenReturn(new UrlArgument("http://repo1.something.local"));
+  HgMaterial material2=mock(HgMaterial.class);
+  when(material2.getUrlArgument()).thenReturn(new UrlArgument("http://repo1.something.local"));
+  HgMaterial material3=mock(HgMaterial.class);
+  when(material3.getUrlArgument()).thenReturn(new UrlArgument("ssh://repo1.something.local"));
+  GitMaterial material4=mock(GitMaterial.class);
+  when(material4.getUrlArgument()).thenReturn(new UrlArgument("http://repo1.something.local"));
+  Set<Material> materials=new HashSet<Material>(Arrays.asList(material1,material2,material3,material4));
+  Map params=new HashMap();
+  params.put(MercurialPostCommitHookImplementer.REPO_URL_PARAM_KEY,"http://repo1.something.local");
+  Set<Material> actual=implementer.prune(materials,params);
+  assertThat(actual.size(),is(2));
+  assertThat(actual,hasItem(material1));
+  assertThat(actual,hasItem(material2));
+  verify(material1).getUrlArgument();
+  verify(material2).getUrlArgument();
+  verify(material3).getUrlArgument();
+  verify(material4,times(0)).getUrlArgument();
+}

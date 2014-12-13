@@ -1,0 +1,9 @@
+{
+  java.util.regex.Matcher urlMatcher=URL_WITH_NO_AUTH_PATTERN.matcher(materialUrl);
+  if (urlMatcher.matches()) {
+    String protocolField=urlMatcher.group(1);
+    String urlField=urlMatcher.group(2);
+    return String.format("%s%s",protocolField,urlField).equalsIgnoreCase(paramRepoUrl);
+  }
+  return false;
+}
