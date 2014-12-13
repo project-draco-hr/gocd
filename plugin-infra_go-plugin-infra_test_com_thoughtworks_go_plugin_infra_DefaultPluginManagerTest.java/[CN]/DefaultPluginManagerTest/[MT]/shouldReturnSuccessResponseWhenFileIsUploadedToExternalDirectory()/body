@@ -1,5 +1,6 @@
 {
   NEW_JAR_FILE.createNewFile();
   DefaultPluginManager defaultPluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,systemEnvironment);
-  assertTrue(defaultPluginManager.addPlugin(NEW_JAR_FILE,NEW_JAR_FILE.getName()));
+  PluginUploadResponse response=defaultPluginManager.addPlugin(NEW_JAR_FILE,NEW_JAR_FILE.getName());
+  assertFalse(response.success().isEmpty());
 }
