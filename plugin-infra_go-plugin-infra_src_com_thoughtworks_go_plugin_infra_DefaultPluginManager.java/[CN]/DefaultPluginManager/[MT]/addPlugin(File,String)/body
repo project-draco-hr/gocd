@@ -1,5 +1,10 @@
 {
   File addedExternalPluginLocation=new File(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH) + "/" + name);
+  if (!validateJar(name)) {
+    Map<Integer,String> errors=new HashMap<Integer,String>();
+    errors.put(HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE,"Please upload a jar.");
+    return PluginUploadResponse.create(false,null,errors);
+  }
   try {
     FileUtils.copyFile(uploadedPlugin,addedExternalPluginLocation);
     return PluginUploadResponse.create(true,"Your file is saved!",null);
