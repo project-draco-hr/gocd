@@ -11,7 +11,9 @@
     validateIfLatestPluginZipAvailable(agentPluginsMd5,method);
   }
  catch (  IOException ioe) {
-    LOGGER.error(String.format("[Agent Upgrade] Couldn't connect to: %s: %s",urlService.getAgentLatestStatusUrl(),ioe.toString()));
+    String message=String.format("[Agent Upgrade] Couldn't connect to: %s: %s",urlService.getAgentLatestStatusUrl(),ioe.toString());
+    LOGGER.error(message);
+    LOGGER.debug(message,ioe);
     throw ioe;
   }
  finally {
