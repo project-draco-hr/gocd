@@ -7,7 +7,7 @@
   }
  catch (  Exception e) {
     String currentBranch=git.getRepository().getBranch();
-    LOGGER.error(format("Error while trying to clean up config repository, CurrentBranch: %s \n : \n Message: %s \n StackTrace: %s",currentBranch,e.getMessage(),e.getStackTrace()));
+    LOGGER.error(format("Error while trying to clean up config repository, CurrentBranch: %s \n : \n Message: %s",currentBranch,e.getMessage(),e.getStackTrace()),e);
     throw new RuntimeException(e);
   }
 }
