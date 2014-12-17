@@ -1,6 +1,6 @@
 {
   when(systemEnvironment.get(PLUGIN_FRAMEWORK_ENABLED)).thenReturn(Boolean.FALSE);
-  new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,systemEnvironment);
+  new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment);
   verifyZeroInteractions(goPluginOSGiFramework);
   verifyZeroInteractions(monitor);
 }

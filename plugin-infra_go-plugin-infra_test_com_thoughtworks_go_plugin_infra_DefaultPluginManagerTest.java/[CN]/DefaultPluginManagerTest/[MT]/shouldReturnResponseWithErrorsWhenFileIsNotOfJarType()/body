@@ -1,8 +1,0 @@
-{
-  NON_JAR_FILE.createNewFile();
-  DefaultPluginManager defaultPluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,systemEnvironment);
-  PluginUploadResponse response=defaultPluginManager.addPlugin(NON_JAR_FILE,"not a jar");
-  assertThat(response.success(),isEmptyString());
-  assertFalse(response.isSuccess());
-  assertTrue(response.errors().containsValue("Please upload a jar."));
-}
