@@ -13,7 +13,9 @@
 ;
   ExceptionHandler<IJobPreScheduleHook> exceptionHandler=new ExceptionHandler<IJobPreScheduleHook>(){
     @Override public void handleException(    IJobPreScheduleHook preScheduleHook,    Throwable t){
-      LOGGER.error(String.format("[JOB PRE ASSIGNMENT HOOK] Hook %s resulted in an exception %s",preScheduleHook,t.getMessage()),t);
+      String message=String.format("[JOB PRE ASSIGNMENT HOOK] Hook %s resulted in an exception %s",preScheduleHook,t.getMessage());
+      LOGGER.error(message,t);
+      LOGGER.debug(message,t);
       throw new RuntimeException(t);
     }
   }

@@ -3,7 +3,9 @@
     svn().cleanupAndRevert(outputStreamConsumer,workingFolder);
   }
  catch (  Exception e) {
-    LOGGER.error("Failed to do cleanup and revert in " + workingFolder.getAbsolutePath(),e);
+    String message="Failed to do cleanup and revert in " + workingFolder.getAbsolutePath();
+    LOGGER.error(message);
+    LOGGER.debug(message,e);
   }
   if (LOGGER.isTraceEnabled()) {
     LOGGER.trace("Updating to revision " + revision + " on "+ workingFolder);

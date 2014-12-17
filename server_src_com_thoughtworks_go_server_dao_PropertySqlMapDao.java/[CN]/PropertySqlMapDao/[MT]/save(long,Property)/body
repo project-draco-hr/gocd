@@ -6,7 +6,9 @@
     return true;
   }
  catch (  DataAccessException e) {
-    LOGGER.error("Error saving property '" + propertyName + "' = '"+ property.getValue()+ "' on instanceId '"+ (Long)instanceId+ "'",e);
+    String message="Error saving property '" + propertyName + "' = '"+ property.getValue()+ "' on instanceId '"+ (Long)instanceId+ "'";
+    LOGGER.error(message,e);
+    LOGGER.debug(message,e);
     return false;
   }
 }

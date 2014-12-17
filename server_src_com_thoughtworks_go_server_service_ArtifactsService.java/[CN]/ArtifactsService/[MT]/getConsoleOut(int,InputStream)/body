@@ -13,7 +13,9 @@
     }
   }
  catch (  FileNotFoundException ex) {
-    LOGGER.error("Could not read console out: " + ex.getMessage(),ex);
+    String message="Could not read console out: " + ex.getMessage();
+    LOGGER.error(message);
+    LOGGER.trace(message,ex);
   }
  finally {
     inputStream.close();
