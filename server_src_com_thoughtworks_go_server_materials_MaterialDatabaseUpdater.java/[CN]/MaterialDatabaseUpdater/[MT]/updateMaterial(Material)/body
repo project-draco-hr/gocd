@@ -40,7 +40,8 @@ synchronized (cacheKeyForMaterial) {
   }
  catch (  Exception e) {
     String message="Modification check failed for material: " + material.getLongDescription();
-    healthService.update(ServerHealthState.error(message,e.getMessage(),HealthStateType.general(scope)));
+    String errorDescription=e.getMessage() == null ? "Unknown error" : e.getMessage();
+    healthService.update(ServerHealthState.error(message,errorDescription,HealthStateType.general(scope)));
     LOGGER.warn(String.format("[Material Update] %s",message),e);
     throw e;
   }
