@@ -1,0 +1,7 @@
+{
+  final PostCommitHookMaterialType materialType=resolver.toType("HG");
+  assertThat(materialType instanceof PostCommitHookMaterialTypeResolver.MercurialPostCommitHookMaterialType,is(true));
+  assertThat(materialType.isKnown(),is(true));
+  assertThat(materialType.isValid("hg"),is(true));
+  assertThat(materialType.getImplementer() instanceof MercurialPostCommitHookImplementer,is(true));
+}

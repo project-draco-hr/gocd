@@ -1,0 +1,7 @@
+{
+  HgMaterial material=mock(HgMaterial.class);
+  HashSet<Material> materials=new HashSet<Material>(Arrays.asList(material));
+  Set<Material> actual=implementer.prune(materials,new HashMap());
+  assertThat(actual.size(),is(0));
+  verify(material,times(0)).getUrlArgument();
+}
