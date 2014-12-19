@@ -1,0 +1,6 @@
+{
+  when(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH)).thenReturn(EXTERNAL_DIRECTORY_PATH);
+  PluginUploadResponse response=pluginWriter.addPlugin(SRC_FILE,SRC_FILE.getName());
+  assertTrue(response.isSuccess());
+  assertThat(response.success(),is("Your file is saved!"));
+}

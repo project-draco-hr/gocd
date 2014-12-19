@@ -1,6 +1,6 @@
 {
   String pluginId="plugin-id";
   when(goPluginOSGiFramework.hasReferenceFor(GoPlugin.class,pluginId)).thenReturn(true);
-  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,systemEnvironment);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment);
   assertThat(pluginManager.hasReferenceFor(GoPlugin.class,pluginId),is(true));
 }

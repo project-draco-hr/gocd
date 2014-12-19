@@ -13,7 +13,7 @@
   }
 ).when(goPluginOSGiFramework).doOnAll(eq(GoPlugin.class),any(Action.class));
   when(goPlugin.pluginIdentifier()).thenReturn(pluginIdentifier).thenReturn(anotherPluginIdentifier);
-  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,systemEnvironment);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment);
   List<GoPluginIdentifier> pluginIdentifiers=pluginManager.allPluginsOfType("extension-type");
   assertThat(pluginIdentifiers.size(),is(1));
   assertThat(pluginIdentifiers.get(0),is(pluginIdentifier));

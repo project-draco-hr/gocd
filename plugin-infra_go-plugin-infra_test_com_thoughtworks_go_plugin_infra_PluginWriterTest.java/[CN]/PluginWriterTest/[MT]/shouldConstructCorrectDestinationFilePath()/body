@@ -1,0 +1,9 @@
+{
+  when(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH)).thenReturn(EXTERNAL_DIRECTORY_PATH);
+  pluginWriter.addPlugin(SRC_FILE,SRC_FILE.getName());
+  ArgumentCaptor<File> srcfileArgumentCaptor=ArgumentCaptor.forClass(File.class);
+  ArgumentCaptor<File> destfileArgumentCaptor=ArgumentCaptor.forClass(File.class);
+  verify(goFileSystem).copyFile(srcfileArgumentCaptor.capture(),destfileArgumentCaptor.capture());
+  assertThat(srcfileArgumentCaptor.getValue(),is(SRC_FILE));
+  assertThat(destfileArgumentCaptor.getValue().getName(),is(new File(EXTERNAL_DIRECTORY_PATH + "/" + SRC_FILE.getName()).getName()));
+}
