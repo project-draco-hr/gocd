@@ -1,8 +1,0 @@
-{
-  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
-  when(systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)).thenReturn(false);
-  GoVelocityView view=spy(new GoVelocityView(systemEnvironment));
-  doReturn(railsAssetsService).when(view).getRailsAssetsService();
-  view.exposeHelpers(velocityContext,request);
-  assertThat((String)velocityContext.get(GoVelocityView.CONCATENATED_JAVASCRIPT_FILE_PATH),is("compressed/all.js?#include(\"admin/admin_version.txt.vm\")"));
-}

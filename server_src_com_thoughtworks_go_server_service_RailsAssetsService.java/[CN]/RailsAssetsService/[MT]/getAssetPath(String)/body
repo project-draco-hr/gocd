@@ -1,7 +1,4 @@
 {
-  if (!systemEnvironment.get(SystemEnvironment.USE_NEW_RAILS)) {
-    throw new RuntimeException("This service does not cater to Rails2");
-  }
   String assetFileName=systemEnvironment.useCompressedJs() ? railsAssetsManifest.getAssetWithDigest(asset) : asset;
   return StringUtil.isBlank(assetFileName) ? null : String.format("assets/%s",assetFileName);
 }

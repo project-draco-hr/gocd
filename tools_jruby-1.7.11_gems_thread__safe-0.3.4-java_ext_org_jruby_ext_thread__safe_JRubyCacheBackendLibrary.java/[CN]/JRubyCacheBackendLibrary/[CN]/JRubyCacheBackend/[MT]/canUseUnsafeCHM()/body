@@ -1,0 +1,12 @@
+{
+  try {
+    new org.jruby.ext.thread_safe.jsr166e.ConcurrentHashMapV8();
+    return true;
+  }
+ catch (  Throwable t) {
+    if (t.getMessage().contains("Could not initialize intrinsics") || isCausedBySecurityException(t)) {
+      return false;
+    }
+    throw (t instanceof RuntimeException ? (RuntimeException)t : new RuntimeException(t));
+  }
+}
