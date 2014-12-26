@@ -1,0 +1,17 @@
+{
+  ConfigurationProperty one=create("one",false,"value1");
+  ConfigurationProperty duplicate1=create("ONE",false,"value2");
+  ConfigurationProperty duplicate2=create("ONE",false,"value3");
+  ConfigurationProperty two=create("two",false,null);
+  SCM scm=new SCM();
+  scm.setConfiguration(new Configuration(one,duplicate1,duplicate2,two));
+  scm.setName("git");
+  scm.validate(null);
+  assertThat(one.errors().isEmpty(),is(false));
+  assertThat(one.errors().getAllOn(ConfigurationProperty.CONFIGURATION_KEY).contains("Duplicate key 'ONE' found for SCM 'git'"),is(true));
+  assertThat(duplicate1.errors().isEmpty(),is(false));
+  assertThat(one.errors().getAllOn(ConfigurationProperty.CONFIGURATION_KEY).contains("Duplicate key 'ONE' found for SCM 'git'"),is(true));
+  assertThat(duplicate2.errors().isEmpty(),is(false));
+  assertThat(one.errors().getAllOn(ConfigurationProperty.CONFIGURATION_KEY).contains("Duplicate key 'ONE' found for SCM 'git'"),is(true));
+  assertThat(two.errors().isEmpty(),is(true));
+}

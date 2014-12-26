@@ -1,0 +1,6 @@
+{
+  SCMConfigurations scmConfigurations=new SCMConfigurations();
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",scmConfigurations);
+  assertThat(SCMMetadataStore.getInstance().hasPlugin("plugin-id"),is(true));
+  assertThat(SCMMetadataStore.getInstance().hasPlugin("some-plugin-which-does-not-exist"),is(false));
+}

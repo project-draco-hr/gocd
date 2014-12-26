@@ -1,0 +1,15 @@
+{
+  CruiseConfig configToSave=new CruiseConfig();
+  String scmId="does-not-exist";
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(scmId);
+  SCM scm=SCMMother.create("scm-id","scm-name","pluginid","1.0",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  configToSave.getSCMs().add(scm);
+  configToSave.addPipeline("default",PipelineConfigMother.pipelineConfig("test",new MaterialConfigs(pluggableSCMMaterialConfig),new JobConfigs(new JobConfig("ls"))));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not allow this");
+  }
+ catch (  XsdValidationException exception) {
+    assertThat(exception.getMessage(),is("Key 'scmIdReferredByMaterial' with value 'does-not-exist' not found for identity constraint of element 'cruise'."));
+  }
+}

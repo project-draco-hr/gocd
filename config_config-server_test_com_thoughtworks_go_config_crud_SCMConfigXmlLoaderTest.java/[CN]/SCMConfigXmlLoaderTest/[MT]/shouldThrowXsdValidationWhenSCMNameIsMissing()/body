@@ -1,0 +1,10 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'><scms>\n"+ SCM_WITH_MISSING_NAME+ " </scms></cruise>";
+  try {
+    xmlLoader.loadConfigHolder(xml);
+    fail("should have thrown XsdValidationException");
+  }
+ catch (  XsdValidationException e) {
+    assertThat(e.getMessage(),is("\"Name\" is required for Scm"));
+  }
+}

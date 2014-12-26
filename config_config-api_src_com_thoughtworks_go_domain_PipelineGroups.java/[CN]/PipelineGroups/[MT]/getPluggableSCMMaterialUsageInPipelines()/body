@@ -1,0 +1,21 @@
+{
+  if (pluggableSCMMaterialToPipelineMap == null) {
+synchronized (this) {
+      if (pluggableSCMMaterialToPipelineMap == null) {
+        pluggableSCMMaterialToPipelineMap=new HashMap<String,List<Pair<PipelineConfig,PipelineConfigs>>>();
+        for (        PipelineConfigs pipelineConfigs : this) {
+          for (          PipelineConfig pipelineConfig : pipelineConfigs) {
+            for (            PluggableSCMMaterialConfig pluggableSCMMaterialConfig : pipelineConfig.pluggableSCMMaterialConfigs()) {
+              String scmId=pluggableSCMMaterialConfig.getSCMId();
+              if (!pluggableSCMMaterialToPipelineMap.containsKey(scmId)) {
+                pluggableSCMMaterialToPipelineMap.put(scmId,new ArrayList<Pair<PipelineConfig,PipelineConfigs>>());
+              }
+              pluggableSCMMaterialToPipelineMap.get(scmId).add(new Pair<PipelineConfig,PipelineConfigs>(pipelineConfig,pipelineConfigs));
+            }
+          }
+        }
+      }
+    }
+  }
+  return pluggableSCMMaterialToPipelineMap;
+}

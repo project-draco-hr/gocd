@@ -1,0 +1,9 @@
+{
+  Configuration configuration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig cruiseConfig=new CruiseConfig();
+  SCM scm=createSCM("id","name","plugin-id","1.0",configuration);
+  scm.setAutoUpdate(false);
+  cruiseConfig.setSCMs(new SCMs(scm));
+  xmlWriter.write(cruiseConfig,output,false);
+  assertThat(output.toString().contains("autoUpdate=\"false\""),is(true));
+}

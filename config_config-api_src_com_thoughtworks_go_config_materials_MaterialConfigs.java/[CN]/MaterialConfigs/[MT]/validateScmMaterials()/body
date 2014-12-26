@@ -1,16 +1,17 @@
 {
   List<ScmMaterialConfig> scmMaterials=filterScmMaterials();
-  int numberOfMaterials=scmMaterials.size();
-  for (  ScmMaterialConfig material : scmMaterials) {
-    if (numberOfMaterials > 1) {
+  List<PluggableSCMMaterialConfig> pluggableSCMMaterials=filterPluggableSCMMaterials();
+  if (scmMaterials.size() + pluggableSCMMaterials.size() > 1) {
+    List<MaterialConfig> allSCMMaterials=new ArrayList<MaterialConfig>();
+    allSCMMaterials.addAll(scmMaterials);
+    allSCMMaterials.addAll(pluggableSCMMaterials);
+    for (    MaterialConfig material : allSCMMaterials) {
       if (StringUtil.isBlank(material.getFolder())) {
-        material.setDestinationFolderError("Destination directory is required when specifying multiple scm materials");
+        String fieldName=material instanceof ScmMaterialConfig ? ScmMaterialConfig.FOLDER : PluggableSCMMaterialConfig.FOLDER;
+        material.addError(fieldName,"Destination directory is required when specifying multiple scm materials");
       }
-      for (      ScmMaterialConfig otherMaterial : scmMaterials) {
-        if (otherMaterial != material) {
-          otherMaterial.validateNotSubdirectoryOf(material);
-          otherMaterial.validateDestinationDirectoryName(material);
-        }
+ else {
+        validateDestinationFolder(allSCMMaterials,material);
       }
     }
   }

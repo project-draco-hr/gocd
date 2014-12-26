@@ -1,0 +1,11 @@
+{
+  GoCipher goCipher=new GoCipher();
+  ConfigurationProperty secureProperty=new ConfigurationProperty(new ConfigurationKey("key1"),null,new EncryptedConfigurationValue("value"),goCipher);
+  ConfigurationProperty nonSecureProperty=new ConfigurationProperty(new ConfigurationKey("key2"),new ConfigurationValue("value1"),null,goCipher);
+  SCM scm=SCMMother.create("scm-id","scm-name","plugin-id","version",new Configuration(secureProperty,nonSecureProperty));
+  scm.applyPluginMetadata();
+  assertThat(secureProperty.getEncryptedValue(),is(notNullValue()));
+  assertThat(secureProperty.getConfigurationValue(),is(nullValue()));
+  assertThat(nonSecureProperty.getConfigurationValue(),is(notNullValue()));
+  assertThat(nonSecureProperty.getEncryptedValue(),is(nullValue()));
+}

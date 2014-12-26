@@ -1,0 +1,8 @@
+{
+  if (StringUtils.isBlank(folder)) {
+    return;
+  }
+  if (!new FilePathTypeValidator().isPathValid(folder)) {
+    addError(FOLDER,FilePathTypeValidator.errorMessage("directory",getFolder()));
+  }
+}

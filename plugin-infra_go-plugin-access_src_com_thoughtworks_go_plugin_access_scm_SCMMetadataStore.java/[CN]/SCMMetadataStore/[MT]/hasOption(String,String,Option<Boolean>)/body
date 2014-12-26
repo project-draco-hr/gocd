@@ -1,0 +1,10 @@
+{
+  if (!isEmpty(pluginId) && hasPreferenceFor(pluginId)) {
+    SCMConfigurations configurations=preferenceFor(pluginId);
+    SCMConfiguration scmConfiguration=configurations.get(key);
+    if (scmConfiguration != null) {
+      return scmConfiguration.hasOption(option);
+    }
+  }
+  return option.getValue();
+}

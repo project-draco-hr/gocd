@@ -1,0 +1,32 @@
+{
+  String pluginId="plugin-id";
+  SCMConfigurations scmConfiguration=new SCMConfigurations();
+  scmConfiguration.add(new SCMConfiguration("url"));
+  scmConfiguration.add(new SCMConfiguration("username"));
+  scmConfiguration.add(new SCMConfiguration("password").with(SECURE,true));
+  scmConfiguration.add(new SCMConfiguration("secureKeyNotChanged").with(SECURE,true));
+  SCMMetadataStore.getInstance().addMetadataFor(pluginId,scmConfiguration);
+  String scmId="scm-id";
+  String name="scm-name";
+  ConfigurationHolder url=new ConfigurationHolder("url","http://test.com");
+  ConfigurationHolder username=new ConfigurationHolder("username","user");
+  String oldEncryptedValue="oldEncryptedValue";
+  ConfigurationHolder password=new ConfigurationHolder("password","pass",oldEncryptedValue,true,"1");
+  ConfigurationHolder secureKeyNotChanged=new ConfigurationHolder("secureKeyNotChanged","pass",oldEncryptedValue,true,"0");
+  Map attributes=createSCMConfiguration(scmId,name,pluginId,url,username,password,secureKeyNotChanged);
+  SCM scm=new SCM();
+  scm.setConfigAttributes(attributes);
+  assertThat(scm.getId(),is(scmId));
+  assertThat(scm.getName(),is(name));
+  assertThat(scm.getPluginConfiguration().getId(),is(pluginId));
+  assertThat(scm.getConfiguration().get(0).getConfigurationKey().getName(),is(url.name));
+  assertThat(scm.getConfiguration().get(0).getConfigurationValue().getValue(),is(url.value));
+  assertThat(scm.getConfiguration().get(1).getConfigurationKey().getName(),is(username.name));
+  assertThat(scm.getConfiguration().get(1).getConfigurationValue().getValue(),is(username.value));
+  assertThat(scm.getConfiguration().get(2).getConfigurationKey().getName(),is(password.name));
+  assertThat(scm.getConfiguration().get(2).getEncryptedValue().getValue(),is(new GoCipher().encrypt(password.value)));
+  assertThat(scm.getConfiguration().get(2).getConfigurationValue(),is(nullValue()));
+  assertThat(scm.getConfiguration().get(3).getConfigurationKey().getName(),is(secureKeyNotChanged.name));
+  assertThat(scm.getConfiguration().get(3).getEncryptedValue().getValue(),is(oldEncryptedValue));
+  assertThat(scm.getConfiguration().get(3).getConfigurationValue(),is(nullValue()));
+}

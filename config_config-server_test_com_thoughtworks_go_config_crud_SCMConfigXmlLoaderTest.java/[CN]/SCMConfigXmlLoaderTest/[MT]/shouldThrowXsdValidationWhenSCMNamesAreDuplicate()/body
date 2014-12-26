@@ -1,0 +1,10 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'><scms>\n"+ format(VALID_SCM_WITH_ID_NAME,"1","scm-name")+ format(VALID_SCM_WITH_ID_NAME,"2","scm-name")+ " </scms></cruise>";
+  try {
+    xmlLoader.loadConfigHolder(xml);
+    fail("should have thrown XsdValidationException");
+  }
+ catch (  XsdValidationException e) {
+    assertThat(e.getMessage(),is("Duplicate unique value [scm-name] declared for identity constraint \"uniqueSCMName\" of element \"scms\"."));
+  }
+}

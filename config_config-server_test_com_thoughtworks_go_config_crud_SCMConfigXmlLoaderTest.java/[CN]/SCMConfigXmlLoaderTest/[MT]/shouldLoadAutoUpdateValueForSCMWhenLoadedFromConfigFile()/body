@@ -1,0 +1,11 @@
+{
+  String configTemplate="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>"+ "<scms>"+ "	<scm id='2ef830d7-dd66-42d6-b393-64a84646e557' name='scm-name' autoUpdate='%s' >"+ "		<pluginConfiguration id='yum' version='1' />"+ "       <configuration>"+ "           <property>"+ "               <key>SCM_URL</key>"+ "               <value>http://fake-scm/git/go-cd</value>"+ "               </property>"+ "       </configuration>"+ "   </scm>"+ "</scms>"+ "</cruise>";
+  String configContent=String.format(configTemplate,false);
+  GoConfigHolder holder=xmlLoader.loadConfigHolder(configContent);
+  SCM scm=holder.config.getSCMs().find("2ef830d7-dd66-42d6-b393-64a84646e557");
+  assertThat(scm.isAutoUpdate(),is(false));
+  configContent=String.format(configTemplate,true);
+  holder=xmlLoader.loadConfigHolder(configContent);
+  scm=holder.config.getSCMs().find("2ef830d7-dd66-42d6-b393-64a84646e557");
+  assertThat(scm.isAutoUpdate(),is(true));
+}
