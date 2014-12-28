@@ -1,0 +1,6 @@
+{
+  SCMMetadataStore.getInstance().addMetadataFor(pluginDescriptor.id(),new SCMConfigurations());
+  when(scmExtension.isSCMPlugin(pluginDescriptor.id())).thenReturn(true);
+  metadataLoader.pluginUnLoaded(pluginDescriptor);
+  assertThat(SCMMetadataStore.getInstance().getMetadata(pluginDescriptor.id()),is(nullValue()));
+}

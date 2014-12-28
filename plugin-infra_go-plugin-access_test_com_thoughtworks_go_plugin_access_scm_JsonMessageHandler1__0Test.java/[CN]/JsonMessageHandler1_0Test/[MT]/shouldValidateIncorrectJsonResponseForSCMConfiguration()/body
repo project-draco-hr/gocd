@@ -1,0 +1,21 @@
+{
+  assertThat(errorMessageForSCMConfiguration(""),is("Unable to de-serialize json response. Empty response body"));
+  assertThat(errorMessageForSCMConfiguration(null),is("Unable to de-serialize json response. Empty response body"));
+  assertThat(errorMessageForSCMConfiguration("[{\"key-one\":\"value\"},{\"key-two\":\"value\"}]"),is("Unable to de-serialize json response. SCM configuration should be returned as a map"));
+  assertThat(errorMessageForSCMConfiguration("{\"\":{}}"),is("Unable to de-serialize json response. SCM configuration key cannot be empty"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":[{}]}"),is("Unable to de-serialize json response. SCM configuration properties for key 'key' should be represented as a Map"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"part-of-identity\":\"true\"}}"),is("Unable to de-serialize json response. 'part-of-identity' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"part-of-identity\":100}}"),is("Unable to de-serialize json response. 'part-of-identity' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"part-of-identity\":\"\"}}"),is("Unable to de-serialize json response. 'part-of-identity' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"secure\":\"true\"}}"),is("Unable to de-serialize json response. 'secure' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"secure\":100}}"),is("Unable to de-serialize json response. 'secure' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"secure\":\"\"}}"),is("Unable to de-serialize json response. 'secure' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"required\":\"true\"}}"),is("Unable to de-serialize json response. 'required' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"required\":100}}"),is("Unable to de-serialize json response. 'required' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"required\":\"\"}}"),is("Unable to de-serialize json response. 'required' property for key 'key' should be of type boolean"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"display-name\":true}}"),is("Unable to de-serialize json response. 'display-name' property for key 'key' should be of type string"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"display-name\":100}}"),is("Unable to de-serialize json response. 'display-name' property for key 'key' should be of type string"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"display-order\":true}}"),is("Unable to de-serialize json response. 'display-order' property for key 'key' should be of type integer"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"display-order\":10.0}}"),is("Unable to de-serialize json response. 'display-order' property for key 'key' should be of type integer"));
+  assertThat(errorMessageForSCMConfiguration("{\"key\":{\"display-order\":\"\"}}"),is("Unable to de-serialize json response. 'display-order' property for key 'key' should be of type integer"));
+}

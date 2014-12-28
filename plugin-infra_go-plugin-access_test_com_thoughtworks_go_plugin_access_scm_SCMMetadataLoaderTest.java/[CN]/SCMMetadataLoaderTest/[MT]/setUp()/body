@@ -1,0 +1,7 @@
+{
+  pluginDescriptor=new GoPluginDescriptor("plugin-id","1.0",null,null,null,true);
+  pluginManager=mock(PluginManager.class);
+  scmExtension=mock(SCMExtension.class);
+  metadataLoader=new SCMMetadataLoader(scmExtension,pluginManager);
+  SCMMetadataStore.getInstance().removeMetadata(pluginDescriptor.id());
+}

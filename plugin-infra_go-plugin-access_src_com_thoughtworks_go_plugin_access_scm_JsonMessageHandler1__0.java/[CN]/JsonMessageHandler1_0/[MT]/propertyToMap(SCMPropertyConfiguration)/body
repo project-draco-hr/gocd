@@ -1,0 +1,9 @@
+{
+  Map configuredValuesForSCM=new LinkedHashMap();
+  for (  Property property : configuration.list()) {
+    Map map=new LinkedHashMap();
+    map.put("value",property.getValue());
+    configuredValuesForSCM.put(property.getKey(),map);
+  }
+  return configuredValuesForSCM;
+}

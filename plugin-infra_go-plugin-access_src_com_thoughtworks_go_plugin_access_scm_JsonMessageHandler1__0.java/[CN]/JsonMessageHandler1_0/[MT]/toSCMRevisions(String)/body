@@ -1,0 +1,40 @@
+{
+  try {
+    List<SCMRevision> scmRevisions=new ArrayList<SCMRevision>();
+    Map map;
+    try {
+      map=parseResponseToMap(responseBody);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("SCM revisions should be returned as a map");
+    }
+    if (map == null || map.isEmpty()) {
+      throw new RuntimeException("Empty response body");
+    }
+    if (map.containsKey("revisions") && map.get("revisions") != null) {
+      List revisionMaps=null;
+      try {
+        revisionMaps=(List)map.get("revisions");
+      }
+ catch (      Exception e) {
+        throw new RuntimeException("'revisions' should be of type list of map");
+      }
+      if (!revisionMaps.isEmpty()) {
+        for (        Object revision : revisionMaps) {
+          if (!(revision instanceof Map)) {
+            throw new RuntimeException("SCM revision should be of type map");
+          }
+        }
+        for (        Object revisionObj : revisionMaps) {
+          Map revisionMap=(Map)revisionObj;
+          SCMRevision scmRevision=getScmRevisionFromMap(revisionMap);
+          scmRevisions.add(scmRevision);
+        }
+      }
+    }
+    return scmRevisions;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
+  }
+}

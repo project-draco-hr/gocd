@@ -1,0 +1,10 @@
+{
+  Date timestamp=new SimpleDateFormat(DATE_FORMAT).parse("2011-07-13T19:43:37.100Z");
+  Map data=new LinkedHashMap();
+  data.put("dataKeyOne","data-value-one");
+  data.put("dataKeyTwo","data-value-two");
+  SCMRevision previouslyKnownRevision=new SCMRevision("abc.rpm",timestamp,"someuser","comment",data,null);
+  String requestBody=messageHandler.requestMessageForLatestRevisionsSince(scmPropertyConfiguration,"flyweight",previouslyKnownRevision);
+  String expectedValue="{\"scm-configuration\":{\"key-one\":{\"value\":\"value-one\"},\"key-two\":{\"value\":\"value-two\"}},\"flyweight-folder\":\"flyweight\"," + "\"previous-revision\":{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-13T19:43:37.100Z\",\"data\":{\"dataKeyOne\":\"data-value-one\",\"dataKeyTwo\":\"data-value-two\"}}}";
+  assertThat(requestBody,is(expectedValue));
+}

@@ -1,0 +1,14 @@
+{
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_LATEST_REVISIONS_SINCE,new PluginInteractionCallback<List<SCMRevision>>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForLatestRevisionsSince(scmConfiguration,flyweightFolder,previouslyKnownRevision);
+    }
+    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public List<SCMRevision> onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForLatestRevisionsSince(responseBody);
+    }
+  }
+);
+}

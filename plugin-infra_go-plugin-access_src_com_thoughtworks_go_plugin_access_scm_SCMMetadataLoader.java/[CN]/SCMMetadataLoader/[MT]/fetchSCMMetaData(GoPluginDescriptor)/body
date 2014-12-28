@@ -1,0 +1,12 @@
+{
+  try {
+    SCMPropertyConfiguration scmConfiguration=scmExtension.getSCMConfiguration(pluginDescriptor.id());
+    if (scmConfiguration == null) {
+      throw new RuntimeException(format("Plugin[%s] returned null SCM configuration",pluginDescriptor.id()));
+    }
+    scmMetadataStore.addMetadataFor(pluginDescriptor.id(),new SCMConfigurations(scmConfiguration));
+  }
+ catch (  GoPluginFrameworkException e) {
+    LOGGER.error(format("Failed to fetch SCM metadata for plugin : %s",pluginDescriptor.id()),e);
+  }
+}

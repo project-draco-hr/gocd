@@ -1,0 +1,8 @@
+{
+  assertThat(errorMessageForCheckConnectionResult(""),is("Unable to de-serialize json response. Empty response body"));
+  assertThat(errorMessageForCheckConnectionResult("[{\"result\":\"success\"}]"),is("Unable to de-serialize json response. Check connection result should be returned as map, with key represented as string and messages represented as list"));
+  assertThat(errorMessageForCheckConnectionResult("{\"status\":true}"),is("Unable to de-serialize json response. Check connection 'status' should be of type string"));
+  assertThat(errorMessageForCheckConnectionResult("{\"result\":true}"),is("Unable to de-serialize json response. Check connection 'status' is a required field"));
+  assertThat(errorMessageForCheckConnectionResult("{\"status\":\"success\",\"messages\":{}}"),is("Unable to de-serialize json response. Check connection 'messages' should be of type list of string"));
+  assertThat(errorMessageForCheckConnectionResult("{\"status\":\"success\",\"messages\":[{},{}]}"),is("Unable to de-serialize json response. Check connection 'message' should be of type string"));
+}

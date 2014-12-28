@@ -1,0 +1,15 @@
+{
+  SCMRevision scmRevision=new SCMRevision("rev123",new Date(),"loser",null,null,null);
+  try {
+    scmRevision.addData(null,"value");
+  }
+ catch (  InvalidSCMRevisionDataException e) {
+    assertThat(e.getMessage(),is("Key names cannot be null or empty."));
+  }
+  try {
+    scmRevision.addData("","value");
+  }
+ catch (  InvalidSCMRevisionDataException e) {
+    assertThat(e.getMessage(),is("Key names cannot be null or empty."));
+  }
+}
