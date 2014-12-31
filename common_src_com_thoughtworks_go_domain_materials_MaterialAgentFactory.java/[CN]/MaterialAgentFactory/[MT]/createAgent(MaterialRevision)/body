@@ -6,6 +6,9 @@
  else   if (material instanceof PackageMaterial) {
     return new PackageMaterialAgent();
   }
+ else   if (material instanceof PluggableSCMMaterial) {
+    return new PluggableSCMMaterialAgent();
+  }
  else   if (material instanceof ScmMaterial) {
     String destFolderPath=((ScmMaterial)material).workingdir(workingDirectory).getAbsolutePath();
     return new AbstractMaterialAgent(revision,consumer,workingDirectory,new AgentSubprocessExecutionContext(agentIdentifier,destFolderPath));

@@ -1,0 +1,15 @@
+{
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"v1");
+  ConfigurationProperty k2=ConfigurationPropertyMother.create("scm-secure",true,"value");
+  SCM scmConfig=SCMMother.create("scm-id","tw-dev","pluginid","version",new Configuration(k1,k2));
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  material.setName(new CaseInsensitiveString("tw-dev:go-agent"));
+  Modifications modifications=new Modifications(new Modification(null,null,null,new Date(),"revision-123"));
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  material.populateEnvironmentContext(environmentVariableContext,new MaterialRevision(material,modifications),null);
+  assertThat(environmentVariableContext.getProperty("GO_SCM_TW_DEV_GO_AGENT_K1"),is("v1"));
+  assertThat(environmentVariableContext.getProperty("GO_SCM_TW_DEV_GO_AGENT_SCM_SECURE"),is("value"));
+  assertThat(environmentVariableContext.getPropertyForDisplay("GO_SCM_TW_DEV_GO_AGENT_SCM_SECURE"),is(EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE));
+  assertThat(environmentVariableContext.getProperty("GO_SCM_TW_DEV_GO_AGENT_LABEL"),is("revision-123"));
+}

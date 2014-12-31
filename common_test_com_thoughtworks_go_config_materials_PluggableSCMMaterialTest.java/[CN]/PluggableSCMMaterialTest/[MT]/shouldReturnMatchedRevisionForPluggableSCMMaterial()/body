@@ -1,0 +1,13 @@
+{
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"v1");
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","pluginid","version",new Configuration(k1));
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  Date timestamp=new Date();
+  MatchedRevision matchedRevision=material.createMatchedRevision(new Modification("go","comment",null,timestamp,"rev123"),"rev");
+  assertThat(matchedRevision.getShortRevision(),is("rev123"));
+  assertThat(matchedRevision.getLongRevision(),is("rev123"));
+  assertThat(matchedRevision.getCheckinTime(),is(timestamp));
+  assertThat(matchedRevision.getUser(),is("go"));
+  assertThat(matchedRevision.getComment(),is("comment"));
+}

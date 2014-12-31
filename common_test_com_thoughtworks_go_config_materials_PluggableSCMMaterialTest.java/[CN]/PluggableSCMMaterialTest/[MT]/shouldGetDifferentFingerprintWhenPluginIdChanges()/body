@@ -1,0 +1,9 @@
+{
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","plugin-1","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  SCM anotherSCMConfig=SCMMother.create("scm-id","scm-name","plugin-2","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  PluggableSCMMaterial anotherMaterial=new PluggableSCMMaterial();
+  anotherMaterial.setSCMConfig(anotherSCMConfig);
+  assertThat(material.getFingerprint().equals(anotherMaterial.getFingerprint()),is(false));
+}

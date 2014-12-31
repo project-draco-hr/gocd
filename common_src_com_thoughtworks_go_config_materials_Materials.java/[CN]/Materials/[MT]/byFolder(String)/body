@@ -1,6 +1,6 @@
 {
   for (  Material material : this) {
-    if (material instanceof ScmMaterial && ObjectUtil.nullSafeEquals(folder,material.getFolder())) {
+    if ((material instanceof ScmMaterial || material instanceof PluggableSCMMaterial) && ObjectUtil.nullSafeEquals(folder,material.getFolder())) {
       return material;
     }
   }

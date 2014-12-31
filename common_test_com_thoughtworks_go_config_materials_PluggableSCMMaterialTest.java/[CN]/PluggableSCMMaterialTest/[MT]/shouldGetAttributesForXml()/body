@@ -1,0 +1,9 @@
+{
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"v1");
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","pluginid","version",new Configuration(k1));
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  Map<String,Object> attributesForXml=material.getAttributesForXml();
+  assertThat(attributesForXml.get("type").toString(),is(PluggableSCMMaterial.class.getSimpleName()));
+  assertThat(attributesForXml.get("scmName").toString(),is("scm-name"));
+}

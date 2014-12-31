@@ -1,0 +1,14 @@
+{
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"v1");
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","pluginid","version",new Configuration(k1));
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  material.setFolder("folder");
+  JsonMap jsonMap=new JsonMap();
+  material.toJson(jsonMap,new PluggableSCMMaterialRevision("rev123",new Date()));
+  assertThat(jsonMap.hasEntry("scmType","SCM"),is(true));
+  assertThat(jsonMap.hasEntry("materialName","scm-name"),is(true));
+  assertThat(jsonMap.hasEntry("location",material.getUriForDisplay()),is(true));
+  assertThat(jsonMap.hasEntry("folder","folder"),is(true));
+  assertThat(jsonMap.hasEntry("action","Modified"),is(true));
+}
