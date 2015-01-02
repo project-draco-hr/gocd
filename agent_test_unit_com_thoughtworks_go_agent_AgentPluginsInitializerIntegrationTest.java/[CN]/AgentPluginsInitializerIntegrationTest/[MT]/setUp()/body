@@ -1,0 +1,6 @@
+{
+  initMocks(this);
+  agentPluginsInitializer=new AgentPluginsInitializer(pluginManager,pluginJarLocationMonitor,new ZipUtil(),systemEnvironment);
+  directoryForUnzippedPlugins=setupUnzippedPluginsDirectoryStructure();
+  when(systemEnvironment.get(SystemEnvironment.AGENT_PLUGINS_PATH)).thenReturn(directoryForUnzippedPlugins.getAbsolutePath());
+}

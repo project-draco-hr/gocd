@@ -1,0 +1,8 @@
+{
+  File bundledPlugin=new File(directoryForUnzippedPlugins,"bundled/plugin-1.jar");
+  setupAgentsPluginFile().withBundledPlugin("plugin-1.jar","SOME-NEW-CONTENT").done();
+  FileUtils.writeStringToFile(bundledPlugin,"OLD-CONTENT");
+  agentPluginsInitializer.onApplicationEvent(null);
+  assertThat(bundledPlugin.exists(),is(true));
+  assertThat(FileUtils.readFileToString(bundledPlugin),is("SOME-NEW-CONTENT"));
+}
