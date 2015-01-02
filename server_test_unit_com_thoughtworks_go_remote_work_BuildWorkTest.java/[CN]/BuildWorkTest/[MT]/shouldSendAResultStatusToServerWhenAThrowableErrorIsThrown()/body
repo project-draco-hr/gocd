@@ -4,7 +4,7 @@
   when(jobPlan.getIdentifier()).thenReturn(JOB_IDENTIFIER);
   createBuildWorkWithJobPlan(jobPlan);
   try {
-    buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
+    buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
     fail("Should have thrown an assertion error");
   }
  catch (  AssertionError e) {

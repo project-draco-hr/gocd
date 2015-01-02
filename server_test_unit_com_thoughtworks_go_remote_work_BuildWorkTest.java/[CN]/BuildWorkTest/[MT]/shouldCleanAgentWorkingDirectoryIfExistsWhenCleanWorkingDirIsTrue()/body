@@ -8,7 +8,7 @@
   createDummyFilesAndDirectories(workingdir);
   assertThat(workingdir.listFiles().length,is(2));
   buildWork=(BuildWork)getWork(WILL_PASS,pipelineName,false,true);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   assertThat(artifactManipulator.consoleOut(),containsString("Cleaning working directory \"" + workingdir.getAbsolutePath()));
   assertThat(buildRepository.results.contains(Passed),is(true));
   assertThat(workingdir.exists(),is(true));

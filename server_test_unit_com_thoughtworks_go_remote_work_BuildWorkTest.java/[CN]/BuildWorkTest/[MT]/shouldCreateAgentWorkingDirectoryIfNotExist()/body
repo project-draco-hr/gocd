@@ -6,7 +6,7 @@
   }
   assertThat(workingdir.exists(),is(false));
   buildWork=(BuildWork)getWork(WILL_PASS,pipelineName);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   assertThat(artifactManipulator.consoleOut(),not(containsString("Working directory \"" + workingdir.getAbsolutePath() + "\" is not a directory")));
   assertThat(buildRepository.results.contains(Passed),is(true));
   assertThat(workingdir.exists(),is(true));

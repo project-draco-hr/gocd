@@ -1,9 +1,8 @@
 {
+  initMocks(this);
   agentIdentifier=new AgentIdentifier("localhost","127.0.0.1","uuid");
   environmentVariableContext=new EnvironmentVariableContext();
   artifactManipulator=new GoArtifactsManipulatorStub();
   new SystemEnvironment().setProperty("serviceUrl",SERVER_URL);
   buildRepository=new com.thoughtworks.go.remote.work.BuildRepositoryRemoteStub();
-  resolver=mock(UpstreamPipelineResolver.class);
-  taskExtension=mock(TaskExtension.class);
 }
