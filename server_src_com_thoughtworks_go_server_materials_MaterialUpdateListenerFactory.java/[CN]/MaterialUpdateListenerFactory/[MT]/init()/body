@@ -1,7 +1,7 @@
 {
   int numberOfListeners=systemEnvironment.getNumberOfMaterialCheckListener();
   for (int i=0; i < numberOfListeners; i++) {
-    MaterialDatabaseUpdater updater=new MaterialDatabaseUpdater(materialRepository,serverHealthService,transactionTemplate,goCache,dependencyMaterialUpdater,scmMaterialUpdater,packageMaterialUpdater,materialExpansionService);
+    MaterialDatabaseUpdater updater=new MaterialDatabaseUpdater(materialRepository,serverHealthService,transactionTemplate,goCache,dependencyMaterialUpdater,scmMaterialUpdater,packageMaterialUpdater,pluggableSCMMaterialUpdater,materialExpansionService);
     queue.addListener(new MaterialUpdateListener(topic,updater,mduPerformanceLogger,diskSpaceMonitor));
   }
 }

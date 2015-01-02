@@ -1,0 +1,10 @@
+{
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"v1");
+  ConfigurationProperty k2=ConfigurationPropertyMother.create("k2",true,"v2");
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","plugin-id","1.0",new Configuration(k1,k2));
+  material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  scmExtension=mock(SCMExtension.class);
+  poller=new PluggableSCMMaterialPoller(scmExtension);
+  scmConfiguration=new ArgumentCaptor<SCMPropertyConfiguration>();
+}

@@ -1,0 +1,12 @@
+{
+  Date timestamp=new Date();
+  SCMRevision scmRevision=new SCMRevision("revision-123",timestamp,"user","comment",null,null);
+  when(scmExtension.getLatestRevision(eq(material.getPluginId()),scmConfiguration.capture(),eq("/tmp/flyweight"))).thenReturn(scmRevision);
+  List<Modification> modifications=poller.latestModification(material,new File("/tmp/flyweight"),null);
+  assertThat(modifications.get(0).getRevision(),is("revision-123"));
+  assertThat(modifications.get(0).getModifiedTime(),is(timestamp));
+  assertThat(modifications.get(0).getUserName(),is("user"));
+  assertThat(modifications.get(0).getComment(),is("comment"));
+  assertConfiguration(scmConfiguration.getValue(),"k1","v1");
+  assertConfiguration(scmConfiguration.getValue(),"k2","v2");
+}
