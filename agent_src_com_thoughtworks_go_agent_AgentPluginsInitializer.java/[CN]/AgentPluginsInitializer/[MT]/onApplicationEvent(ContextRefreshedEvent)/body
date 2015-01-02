@@ -1,7 +1,7 @@
 {
   try {
     File agentPluginsZip=new File(DownloadableFile.AGENT_PLUGINS.getLocalFileName());
-    File pluginsFolder=new File(SystemEnvironment.PLUGINS_PATH);
+    File pluginsFolder=new File(systemEnvironment.get(SystemEnvironment.AGENT_PLUGINS_PATH));
     zipUtil.unzip(agentPluginsZip,pluginsFolder);
     defaultPluginJarLocationMonitor.initialize();
     pluginManager.startPluginInfrastructure();
