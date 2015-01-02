@@ -1,10 +1,6 @@
 {
-  List<ScmMaterialConfig> scmMaterials=filterScmMaterials();
-  List<PluggableSCMMaterialConfig> pluggableSCMMaterials=filterPluggableSCMMaterials();
-  if (scmMaterials.size() + pluggableSCMMaterials.size() > 1) {
-    List<MaterialConfig> allSCMMaterials=new ArrayList<MaterialConfig>();
-    allSCMMaterials.addAll(scmMaterials);
-    allSCMMaterials.addAll(pluggableSCMMaterials);
+  List<MaterialConfig> allSCMMaterials=getSCMAndPluggableSCMConfigs();
+  if (allSCMMaterials.size() > 1) {
     for (    MaterialConfig material : allSCMMaterials) {
       if (StringUtil.isBlank(material.getFolder())) {
         String fieldName=material instanceof ScmMaterialConfig ? ScmMaterialConfig.FOLDER : PluggableSCMMaterialConfig.FOLDER;
