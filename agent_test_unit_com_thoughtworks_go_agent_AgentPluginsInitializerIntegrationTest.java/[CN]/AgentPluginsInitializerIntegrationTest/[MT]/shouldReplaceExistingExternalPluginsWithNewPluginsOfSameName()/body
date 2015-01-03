@@ -1,0 +1,8 @@
+{
+  File externalPlugin=new File(directoryForUnzippedPlugins,"external/plugin-1.jar");
+  setupAgentsPluginFile().withExternalPlugin("plugin-1.jar","SOME-NEW-CONTENT").done();
+  FileUtils.writeStringToFile(externalPlugin,"OLD-CONTENT");
+  agentPluginsInitializer.onApplicationEvent(null);
+  assertThat(externalPlugin.exists(),is(true));
+  assertThat(FileUtils.readFileToString(externalPlugin),is("SOME-NEW-CONTENT"));
+}
