@@ -1,0 +1,14 @@
+{
+  when(taskPreference.getView()).thenReturn(new TaskView(){
+    @Override public String displayValue(){
+      return "view";
+    }
+    @Override public String template(){
+      return String.format("classpath:%s",filePath);
+    }
+  }
+);
+  PluggableTask pluggableTask=new PluggableTask("",new PluginConfiguration("plugin-1","2"),new Configuration());
+  PluggableTaskViewModelFactory factory=new PluggableTaskViewModelFactory();
+  return factory.viewModelFor(pluggableTask,"new");
+}

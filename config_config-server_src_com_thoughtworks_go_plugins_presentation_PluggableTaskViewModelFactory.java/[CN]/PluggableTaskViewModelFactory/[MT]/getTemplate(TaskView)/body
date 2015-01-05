@@ -1,0 +1,8 @@
+{
+  final String templateString=view.template();
+  final Matcher matcher=CLASSPATH_MATCHER_PATTERN.matcher(templateString);
+  if (matcher.matches()) {
+    return loadTemplateFromClasspath(matcher.group(1),view);
+  }
+ else   return templateString;
+}
