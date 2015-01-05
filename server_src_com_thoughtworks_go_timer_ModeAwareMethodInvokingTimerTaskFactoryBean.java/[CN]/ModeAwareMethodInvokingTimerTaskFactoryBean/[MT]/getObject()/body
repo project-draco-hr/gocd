@@ -1,0 +1,10 @@
+{
+  final TimerTask originalTimerTask=super.getObject();
+  return new TimerTask(){
+    @Override public void run(){
+      LOGGER.info("Running: " + getTargetClass() + "#"+ getTargetMethod());
+      originalTimerTask.run();
+    }
+  }
+;
+}
