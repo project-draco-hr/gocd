@@ -1,0 +1,6 @@
+{
+  when(systemEnvironment.getNumberOfPluginNotificationListener()).thenReturn(3);
+  PluginNotificationListenerFactory pluginNotificationListenerFactory=new PluginNotificationListenerFactory(pluginNotificationQueue,systemEnvironment,notificationExtension,serverHealthService);
+  pluginNotificationListenerFactory.init();
+  verify(pluginNotificationQueue,times(3)).addListener(any(PluginNotificationListener.class));
+}

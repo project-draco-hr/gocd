@@ -1,0 +1,15 @@
+{
+  NotificationPluginRegistry.getInstance().registerPluginInterests(PLUGIN_ID_1,Arrays.asList(new String[]{PIPELINE_STATUS}));
+  NotificationPluginRegistry.getInstance().registerPluginInterests(PLUGIN_ID_2,Arrays.asList(new String[]{PIPELINE_STATUS}));
+  NotificationPluginRegistry.getInstance().registerPluginInterests(PLUGIN_ID_3,Arrays.asList(new String[]{STAGE_STATUS}));
+  Result result=new Result();
+  result.withSuccessMessages(Arrays.asList("success message"));
+  when(notificationExtension.notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY)).thenReturn(result);
+  when(notificationExtension.notify(PLUGIN_ID_2,PIPELINE_STATUS,REQUEST_BODY)).thenReturn(result);
+  PluginNotificationService pluginNotificationService=new PluginNotificationService(notificationExtension,serverHealthService);
+  pluginNotificationService.notifyPlugins(new PluginNotificationMessage(PIPELINE_STATUS,new JSONMessageHandler(requestBodyDataMap())));
+  verify(notificationExtension).notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY);
+  verify(notificationExtension).notify(PLUGIN_ID_2,PIPELINE_STATUS,REQUEST_BODY);
+  verify(notificationExtension,never()).notify(PLUGIN_ID_3,PIPELINE_STATUS,REQUEST_BODY);
+  verify(serverHealthService,times(2)).removeByScope(any(HealthStateScope.class));
+}
