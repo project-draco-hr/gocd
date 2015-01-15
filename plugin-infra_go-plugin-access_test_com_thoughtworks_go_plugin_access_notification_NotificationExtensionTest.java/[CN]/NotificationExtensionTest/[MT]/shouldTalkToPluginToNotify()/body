@@ -1,0 +1,9 @@
+{
+  Result response=new Result();
+  when(jsonMessageHandler.responseMessageForNotify(RESPONSE_BODY)).thenReturn(response);
+  String notificationName="notification-name";
+  Result deserializedResponse=notificationExtension.notify(PLUGIN_ID,notificationName,REQUEST_BODY);
+  assertRequest(requestArgumentCaptor.getValue(),NotificationExtension.EXTENSION_NAME,"1.0",notificationName,REQUEST_BODY);
+  verify(jsonMessageHandler).responseMessageForNotify(RESPONSE_BODY);
+  assertSame(response,deserializedResponse);
+}

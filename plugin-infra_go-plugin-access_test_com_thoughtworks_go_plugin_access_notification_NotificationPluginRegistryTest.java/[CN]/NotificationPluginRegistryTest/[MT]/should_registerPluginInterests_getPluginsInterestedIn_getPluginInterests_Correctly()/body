@@ -1,0 +1,13 @@
+{
+  NotificationPluginRegistry.getInstance().registerPluginInterests(PLUGIN_ID_1,Arrays.asList(new String[]{PIPELINE_STATUS,STAGE_STATUS,JOB_STATUS}));
+  NotificationPluginRegistry.getInstance().registerPluginInterests(PLUGIN_ID_2,Arrays.asList(new String[]{PIPELINE_STATUS}));
+  NotificationPluginRegistry.getInstance().registerPluginInterests(PLUGIN_ID_3,Arrays.asList(new String[]{STAGE_STATUS}));
+  assertThat(NotificationPluginRegistry.getInstance().getPluginsInterestedIn(PIPELINE_STATUS),containsInAnyOrder(PLUGIN_ID_1,PLUGIN_ID_2));
+  assertThat(NotificationPluginRegistry.getInstance().getPluginsInterestedIn(STAGE_STATUS),containsInAnyOrder(PLUGIN_ID_1,PLUGIN_ID_3));
+  assertThat(NotificationPluginRegistry.getInstance().getPluginsInterestedIn(JOB_STATUS),containsInAnyOrder(PLUGIN_ID_1));
+  assertThat(NotificationPluginRegistry.getInstance().getPluginsInterestedIn(UNKNOWN_NOTIFICATION),containsInAnyOrder());
+  assertThat(NotificationPluginRegistry.getInstance().getPluginInterests(PLUGIN_ID_1),containsInAnyOrder(PIPELINE_STATUS,STAGE_STATUS,JOB_STATUS));
+  assertThat(NotificationPluginRegistry.getInstance().getPluginInterests(PLUGIN_ID_2),containsInAnyOrder(PIPELINE_STATUS));
+  assertThat(NotificationPluginRegistry.getInstance().getPluginInterests(PLUGIN_ID_3),containsInAnyOrder(STAGE_STATUS));
+  assertThat(NotificationPluginRegistry.getInstance().getPluginInterests(PLUGIN_ID_4),containsInAnyOrder());
+}

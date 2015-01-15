@@ -1,0 +1,8 @@
+{
+  assertThat(errorMessageForNotifyResult(""),is("Unable to de-serialize json response. Empty response body"));
+  assertThat(errorMessageForNotifyResult("[{\"result\":\"success\"}]"),is("Unable to de-serialize json response. Notify result should be returned as map, with key represented as string and messages represented as list"));
+  assertThat(errorMessageForNotifyResult("{\"status\":true}"),is("Unable to de-serialize json response. Notify result 'status' should be of type string"));
+  assertThat(errorMessageForNotifyResult("{\"result\":true}"),is("Unable to de-serialize json response. Notify result 'status' is a required field"));
+  assertThat(errorMessageForNotifyResult("{\"status\":\"success\",\"messages\":{}}"),is("Unable to de-serialize json response. Notify result 'messages' should be of type list of string"));
+  assertThat(errorMessageForNotifyResult("{\"status\":\"success\",\"messages\":[{},{}]}"),is("Unable to de-serialize json response. Notify result 'message' should be of type string"));
+}
