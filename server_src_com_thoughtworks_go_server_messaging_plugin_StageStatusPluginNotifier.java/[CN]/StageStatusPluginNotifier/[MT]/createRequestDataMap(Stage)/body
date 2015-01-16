@@ -1,0 +1,12 @@
+{
+  Map data=new LinkedHashMap();
+  data.put("pipeline-name",stage.getIdentifier().getPipelineName());
+  data.put("pipeline-counter",stage.getIdentifier().getPipelineCounter());
+  data.put("stage-name",stage.getIdentifier().getStageName());
+  data.put("stage-counter",stage.getIdentifier().getStageCounter());
+  data.put("stage-state",stage.getState());
+  data.put("stage-result",stage.getResult());
+  data.put("create-time",timestampToString(stage.getCreatedTime()));
+  data.put("last-transition-time",timestampToString(stage.getLastTransitionedTime()));
+  return data;
+}

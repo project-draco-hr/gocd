@@ -1,7 +1,7 @@
 {
   return pluginRequestHelper.submitRequest(pluginId,requestName,new PluginInteractionCallback<Result>(){
     @Override public String requestBody(    String resolvedExtensionVersion){
-      return requestBody;
+      return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForNotify(requestName,requestMap);
     }
     @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
       return null;

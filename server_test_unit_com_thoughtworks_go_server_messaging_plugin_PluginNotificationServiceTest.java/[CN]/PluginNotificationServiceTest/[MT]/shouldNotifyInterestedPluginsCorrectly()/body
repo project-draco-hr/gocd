@@ -7,7 +7,7 @@
   when(notificationExtension.notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY)).thenReturn(result);
   when(notificationExtension.notify(PLUGIN_ID_2,PIPELINE_STATUS,REQUEST_BODY)).thenReturn(result);
   PluginNotificationService pluginNotificationService=new PluginNotificationService(notificationExtension,serverHealthService);
-  pluginNotificationService.notifyPlugins(new PluginNotificationMessage(PIPELINE_STATUS,new JSONMessageHandler(requestBodyDataMap())));
+  pluginNotificationService.notifyPlugins(new PluginNotificationMessage(PIPELINE_STATUS,REQUEST_BODY));
   verify(notificationExtension).notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY);
   verify(notificationExtension).notify(PLUGIN_ID_2,PIPELINE_STATUS,REQUEST_BODY);
   verify(notificationExtension,never()).notify(PLUGIN_ID_3,PIPELINE_STATUS,REQUEST_BODY);
