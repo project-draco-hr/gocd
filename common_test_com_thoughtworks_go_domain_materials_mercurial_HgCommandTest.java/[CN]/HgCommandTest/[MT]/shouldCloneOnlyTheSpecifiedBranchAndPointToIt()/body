@@ -1,6 +1,6 @@
 {
   String branchName="second";
-  HgCommand hg=new HgCommand(null,secondBranchWorkingCopy,branchName);
+  HgCommand hg=new HgCommand(null,secondBranchWorkingCopy,branchName,serverRepo.getAbsolutePath());
   hg.clone(outputStreamConsumer,new UrlArgument(serverRepo.getAbsolutePath() + "#" + branchName));
   String currentBranch=hg(secondBranchWorkingCopy,"branch").runOrBomb(null).outputAsString();
   assertThat(currentBranch,is(branchName));
