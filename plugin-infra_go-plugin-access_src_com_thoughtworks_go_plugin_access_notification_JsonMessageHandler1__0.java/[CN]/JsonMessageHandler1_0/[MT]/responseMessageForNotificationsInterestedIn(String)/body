@@ -1,0 +1,31 @@
+{
+  try {
+    Map map;
+    try {
+      map=parseResponseToMap(responseBody);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Notifications interested in should be returned as map, with key represented as string and notification names represented as list");
+    }
+    if (map == null || map.isEmpty()) {
+      throw new RuntimeException("Empty response body");
+    }
+    List<String> notificationNames=new ArrayList<String>();
+    if (map.containsKey("notifications") && map.get("notifications") != null) {
+      Object notificationsObj=map.get("notifications");
+      if (!(notificationsObj instanceof List)) {
+        throw new RuntimeException("'notifications' should be of type list of string");
+      }
+      notificationNames=(List)notificationsObj;
+      for (      Object message : notificationNames) {
+        if (!(message instanceof String)) {
+          throw new RuntimeException("Notification 'name' should be of type string");
+        }
+      }
+    }
+    return notificationNames;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
+  }
+}

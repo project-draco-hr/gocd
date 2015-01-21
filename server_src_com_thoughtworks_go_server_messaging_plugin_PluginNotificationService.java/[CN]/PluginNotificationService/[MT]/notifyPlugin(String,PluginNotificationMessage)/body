@@ -1,0 +1,17 @@
+{
+  HealthStateScope scope=HealthStateScope.forPlugin(pluginId);
+  try {
+    Result result=notificationExtension.notify(pluginId,pluginNotificationMessage.getRequestName(),pluginNotificationMessage.getRequestData());
+    if (result.isSuccessful()) {
+      serverHealthService.removeByScope(scope);
+    }
+ else {
+      String errorDescription=result.getMessages() == null ? null : ListUtil.join(result.getMessages());
+      handlePluginNotifyError(pluginId,scope,errorDescription,null);
+    }
+  }
+ catch (  Exception e) {
+    String errorDescription=e.getMessage() == null ? "Unknown error" : e.getMessage();
+    handlePluginNotifyError(pluginId,scope,errorDescription,e);
+  }
+}

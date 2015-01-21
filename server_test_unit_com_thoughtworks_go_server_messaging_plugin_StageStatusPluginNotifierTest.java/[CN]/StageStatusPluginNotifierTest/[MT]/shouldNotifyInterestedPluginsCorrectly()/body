@@ -1,0 +1,16 @@
+{
+  doNothing().when(pluginNotificationQueue).post(pluginNotificationMessage.capture());
+  StageStatusPluginNotifier stageStatusPluginNotifier=new StageStatusPluginNotifier(pluginNotificationQueue);
+  Stage stage=new Stage();
+  stage.setIdentifier(new StageIdentifier("pipeline-name",1,"stage-name","1"));
+  ReflectionUtil.setField(stage,"state",StageState.Failed);
+  ReflectionUtil.setField(stage,"result",StageResult.Failed);
+  Date createDate=new SimpleDateFormat(StageStatusPluginNotifier.DATE_PATTERN).parse("2011-07-13T19:43:37.100Z");
+  stage.setCreatedTime(new Timestamp(createDate.getTime()));
+  Date lastTransitionedDate=new SimpleDateFormat(StageStatusPluginNotifier.DATE_PATTERN).parse("2011-07-13T19:43:38.100Z");
+  stage.setLastTransitionedTime(new Timestamp(lastTransitionedDate.getTime()));
+  stageStatusPluginNotifier.stageStatusChanged(stage);
+  PluginNotificationMessage message=pluginNotificationMessage.getValue();
+  assertThat(message.getRequestName(),is("stage-status"));
+  assertThat(message.getRequestData(),is(stageStatusPluginNotifier.createRequestDataMap(stage)));
+}
