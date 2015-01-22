@@ -1,0 +1,14 @@
+{
+  final String sanitizedUrl=sanitizeUrl();
+  try {
+    URI uri=new URI(sanitizedUrl);
+    if (uri.getUserInfo() != null) {
+      uri=new URI(uri.getScheme(),removePassword(uri.getUserInfo()),uri.getHost(),uri.getPort(),uri.getPath(),uri.getQuery(),uri.getFragment());
+      return uri.toString();
+    }
+  }
+ catch (  URISyntaxException e) {
+    throw new RuntimeException(e);
+  }
+  return sanitizedUrl;
+}
