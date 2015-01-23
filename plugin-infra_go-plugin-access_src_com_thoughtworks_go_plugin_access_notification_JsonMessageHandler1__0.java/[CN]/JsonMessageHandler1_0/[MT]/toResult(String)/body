@@ -1,0 +1,48 @@
+{
+  try {
+    Map map;
+    try {
+      map=parseResponseToMap(responseBody);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Notify result should be returned as map, with key represented as string and messages represented as list");
+    }
+    if (map == null || map.isEmpty()) {
+      throw new RuntimeException("Empty response body");
+    }
+    String status;
+    try {
+      status=(String)map.get("status");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Notify result 'status' should be of type string");
+    }
+    if (isEmpty(status)) {
+      throw new RuntimeException("Notify result 'status' is a required field");
+    }
+    List messages=new ArrayList<String>();
+    if (map.containsKey("messages") && map.get("messages") != null) {
+      Object messagesObj=map.get("messages");
+      if (!(messagesObj instanceof List)) {
+        throw new RuntimeException("Notify result 'messages' should be of type list of string");
+      }
+      messages=(List)messagesObj;
+      for (      Object message : messages) {
+        if (!(message instanceof String)) {
+          throw new RuntimeException("Notify result 'message' should be of type string");
+        }
+      }
+    }
+    Result result=new Result();
+    if ("success".equalsIgnoreCase(status)) {
+      result.withSuccessMessages(messages);
+    }
+ else {
+      result.withErrorMessages(messages);
+    }
+    return result;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
+  }
+}
