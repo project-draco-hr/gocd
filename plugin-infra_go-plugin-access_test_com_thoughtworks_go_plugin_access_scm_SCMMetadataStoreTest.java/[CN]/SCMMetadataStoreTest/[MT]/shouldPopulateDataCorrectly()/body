@@ -1,5 +1,13 @@
 {
   SCMConfigurations scmConfigurations=new SCMConfigurations();
-  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",scmConfigurations);
-  assertThat(SCMMetadataStore.getInstance().getMetadata("plugin-id"),is(scmConfigurations));
+  SCMView scmView=createSCMView("display-value","template");
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",scmConfigurations,scmView);
+  assertThat(SCMMetadataStore.getInstance().getConfigurationMetadata("plugin-id"),is(scmConfigurations));
+  assertThat(SCMMetadataStore.getInstance().getViewMetadata("plugin-id"),is(scmView));
+  assertThat(SCMMetadataStore.getInstance().displayValue("plugin-id"),is("display-value"));
+  assertThat(SCMMetadataStore.getInstance().template("plugin-id"),is("template"));
+  assertThat(SCMMetadataStore.getInstance().getConfigurationMetadata("some-plugin-which-does-not-exist"),is(nullValue()));
+  assertThat(SCMMetadataStore.getInstance().getViewMetadata("some-plugin-which-does-not-exist"),is(nullValue()));
+  assertThat(SCMMetadataStore.getInstance().displayValue("some-plugin-which-does-not-exist"),is(nullValue()));
+  assertThat(SCMMetadataStore.getInstance().template("some-plugin-which-does-not-exist"),is(nullValue()));
 }

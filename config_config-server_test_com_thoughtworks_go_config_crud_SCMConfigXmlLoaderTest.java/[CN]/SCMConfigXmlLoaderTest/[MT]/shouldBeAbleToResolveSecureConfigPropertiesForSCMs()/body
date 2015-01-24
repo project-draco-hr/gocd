@@ -5,7 +5,7 @@
   scmConfiguration.add(new SCMProperty("plain"));
   scmConfiguration.add(new SCMProperty("secure-one").with(SCMConfiguration.SECURE,true));
   scmConfiguration.add(new SCMProperty("secure-two").with(SCMConfiguration.SECURE,true));
-  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",new SCMConfigurations(scmConfiguration));
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",new SCMConfigurations(scmConfiguration),null);
   GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(xml);
   SCM scmConfig=goConfigHolder.config.getSCMs().first();
   PipelineConfig pipelineConfig=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("new_name"));

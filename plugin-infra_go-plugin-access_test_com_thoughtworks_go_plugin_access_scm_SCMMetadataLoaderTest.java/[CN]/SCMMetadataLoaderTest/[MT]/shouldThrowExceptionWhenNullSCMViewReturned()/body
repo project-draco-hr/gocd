@@ -1,0 +1,11 @@
+{
+  when(scmExtension.getSCMConfiguration(pluginDescriptor.id())).thenReturn(new SCMPropertyConfiguration());
+  when(scmExtension.getSCMView(pluginDescriptor.id())).thenReturn(null);
+  try {
+    metadataLoader.fetchSCMMetaData(pluginDescriptor);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is("Plugin[plugin-id] returned null SCM view"));
+  }
+  assertThat(SCMMetadataStore.getInstance().getConfigurationMetadata(pluginDescriptor.id()),nullValue());
+}

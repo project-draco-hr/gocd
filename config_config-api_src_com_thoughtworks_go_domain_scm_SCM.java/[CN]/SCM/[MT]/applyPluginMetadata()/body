@@ -2,7 +2,7 @@
   String pluginId=getPluginId();
   for (  ConfigurationProperty configurationProperty : configuration) {
     SCMMetadataStore scmMetadataStore=SCMMetadataStore.getInstance();
-    if (scmMetadataStore.getMetadata(pluginId) != null) {
+    if (scmMetadataStore.getConfigurationMetadata(pluginId) != null) {
       boolean isSecureProperty=scmMetadataStore.hasOption(pluginId,configurationProperty.getConfigurationKey().getName(),SCMConfiguration.SECURE);
       configurationProperty.handleSecureValueConfiguration(isSecureProperty);
     }

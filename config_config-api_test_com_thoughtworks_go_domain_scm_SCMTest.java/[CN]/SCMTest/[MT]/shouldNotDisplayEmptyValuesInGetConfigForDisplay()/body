@@ -1,5 +1,5 @@
 {
-  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",new SCMConfigurations());
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",new SCMConfigurations(),null);
   Configuration configuration=new Configuration(create("rk1",false,""),create("rk2",false,"some-non-empty-value"),create("rk3",false,null));
   SCM scm=SCMMother.create("scm","scm-name","plugin-id","1.0",configuration);
   assertThat(scm.getConfigForDisplay(),is("SCM: [rk2=some-non-empty-value]"));

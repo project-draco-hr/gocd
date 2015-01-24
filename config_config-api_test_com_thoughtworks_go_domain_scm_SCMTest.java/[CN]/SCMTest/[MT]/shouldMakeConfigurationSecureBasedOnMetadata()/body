@@ -3,7 +3,7 @@
   SCMConfigurations scmConfiguration=new SCMConfigurations();
   scmConfiguration.add(new SCMConfiguration("key1").with(SECURE,true));
   scmConfiguration.add(new SCMConfiguration("key2").with(SECURE,false));
-  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",scmConfiguration);
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",scmConfiguration,null);
   ConfigurationProperty secureProperty=new ConfigurationProperty(new ConfigurationKey("key1"),new ConfigurationValue("value1"),null,goCipher);
   ConfigurationProperty nonSecureProperty=new ConfigurationProperty(new ConfigurationKey("key2"),new ConfigurationValue("value2"),null,goCipher);
   SCM scm=SCMMother.create("scm-id","scm-name","plugin-id","1.0",new Configuration(secureProperty,nonSecureProperty));

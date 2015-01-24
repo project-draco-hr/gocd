@@ -3,7 +3,7 @@
   scmConfiguration.add(new SCMProperty("SCM-KEY1"));
   scmConfiguration.add(new SCMProperty("SCM-KEY2").with(REQUIRED,false).with(PART_OF_IDENTITY,false));
   scmConfiguration.add(new SCMProperty("SCM-KEY3").with(REQUIRED,false).with(PART_OF_IDENTITY,false).with(SECURE,true));
-  SCMMetadataStore.getInstance().addMetadataFor("plugin-1",new SCMConfigurations(scmConfiguration));
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-1",new SCMConfigurations(scmConfiguration),null);
   String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<scms>\n"+ "    <scm id='scm-id-1' name='name-1'>\n"+ "		<pluginConfiguration id='plugin-1' version='1.0'/>\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>SCM-KEY1</key>\n"+ "          <value>scm-key1</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>SCM-KEY2</key>\n"+ "          <value>scm-key2</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>SCM-KEY3</key>\n"+ "          <value>scm-key3</value>\n"+ "        </property>\n"+ "      </configuration>\n"+ "    </scm>\n"+ "    <scm id='scm-id-2' name='name-2'>\n"+ "		<pluginConfiguration id='plugin-1' version='1.0'/>\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>SCM-KEY1</key>\n"+ "          <value>scm-key1</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>SCM-KEY2</key>\n"+ "          <value>another-scm-key2</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>SCM-KEY3</key>\n"+ "          <value>another-scm-key3</value>\n"+ "        </property>\n"+ "      </configuration>\n"+ "    </scm>\n"+ "  </scms>"+ "</cruise>";
   try {
     xmlLoader.loadConfigHolder(xml);
