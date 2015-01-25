@@ -5,7 +5,7 @@
   attributes.put(PluggableSCMMaterialConfig.FILTER,"/foo/**.*,/another/**.*,bar");
   PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig();
   pluggableSCMMaterialConfig.setConfigAttributes(attributes);
-  assertThat(pluggableSCMMaterialConfig.getSCMId(),is("scm-id"));
+  assertThat(pluggableSCMMaterialConfig.getScmId(),is("scm-id"));
   assertThat(pluggableSCMMaterialConfig.getFolder(),is("dest"));
   assertThat(pluggableSCMMaterialConfig.filter(),is(new Filter(new IgnoredFiles("/foo/**.*"),new IgnoredFiles("/another/**.*"),new IgnoredFiles("bar"))));
 }
