@@ -1,0 +1,12 @@
+{
+  SCMConfigurations scmConfigurations=SCMMetadataStore.getInstance().getConfigurationMetadata(pluginConfiguration.getId());
+  for (  SCMConfiguration scmConfiguration : scmConfigurations.list()) {
+    String key=scmConfiguration.getKey();
+    if (attributes.containsKey(key)) {
+      if (configuration.getProperty(key) == null) {
+        configuration.addNewConfiguration(scmConfiguration.getKey(),scmConfiguration.getOption(Property.SECURE));
+      }
+      configuration.getProperty(key).setConfigurationValue(new ConfigurationValue((String)attributes.get(key)));
+    }
+  }
+}

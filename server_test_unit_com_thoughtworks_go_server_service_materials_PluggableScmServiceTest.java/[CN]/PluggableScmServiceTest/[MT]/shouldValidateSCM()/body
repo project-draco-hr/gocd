@@ -1,0 +1,11 @@
+{
+  Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"));
+  SCM modifiedSCM=new SCM("scm-id",new PluginConfiguration(pluginId,"1"),configuration);
+  ValidationResult validationResult=new ValidationResult();
+  validationResult.addError(new ValidationError("KEY1","error message"));
+  when(scmExtension.isSCMConfigurationValid(eq(modifiedSCM.getPluginConfiguration().getId()),any(SCMPropertyConfiguration.class))).thenReturn(validationResult);
+  pluggableScmService.validate(modifiedSCM);
+  assertFalse(modifiedSCM.getConfiguration().getProperty("KEY1").errors().isEmpty());
+  assertThat(modifiedSCM.getConfiguration().getProperty("KEY1").errors().firstError(),is("error message"));
+  verify(scmExtension).isSCMConfigurationValid(eq(modifiedSCM.getPluginConfiguration().getId()),any(SCMPropertyConfiguration.class));
+}

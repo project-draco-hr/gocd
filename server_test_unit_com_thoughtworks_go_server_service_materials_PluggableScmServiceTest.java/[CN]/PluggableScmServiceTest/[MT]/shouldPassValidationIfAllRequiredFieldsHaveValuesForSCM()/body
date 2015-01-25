@@ -1,0 +1,9 @@
+{
+  Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"));
+  configuration.getProperty("KEY1").setConfigurationValue(new ConfigurationValue("junk"));
+  SCM modifiedSCM=new SCM("scm-id",new PluginConfiguration(pluginId,"1"),configuration);
+  ValidationResult validationResult=new ValidationResult();
+  when(scmExtension.isSCMConfigurationValid(eq(modifiedSCM.getPluginConfiguration().getId()),any(SCMPropertyConfiguration.class))).thenReturn(validationResult);
+  pluggableScmService.validate(modifiedSCM);
+  assertTrue(validationResult.getErrors().isEmpty());
+}
