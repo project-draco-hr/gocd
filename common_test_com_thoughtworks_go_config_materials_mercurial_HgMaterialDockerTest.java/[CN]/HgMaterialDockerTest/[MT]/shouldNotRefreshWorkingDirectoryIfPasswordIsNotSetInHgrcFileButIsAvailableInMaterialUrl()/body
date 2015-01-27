@@ -1,0 +1,9 @@
+{
+  HgMaterial material=new HgMaterial("http://user1:password@localhost:9999",null);
+  final List<Modification> modifications=material.latestModification(workingFolder,new TestSubprocessExecutionContext());
+  final File unversionedFile=new File(workingFolder,"unversioned.txt");
+  FileUtil.writeContentToFile("something",unversionedFile);
+  assertTrue(unversionedFile.exists());
+  material.modificationsSince(workingFolder,new StringRevision(modifications.get(0).getRevision()),new TestSubprocessExecutionContext());
+  assertTrue(unversionedFile.exists());
+}
