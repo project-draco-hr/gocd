@@ -1,0 +1,6 @@
+{
+  String output=FileUtils.readFileToString(new ClassPathResource("/data/BIG_P4_OUTPUT.txt").getFile());
+  Modification modification=parser.modificationFromDescription(output,new ConsoleResult(0,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<CommandArgument>(),new ArrayList<SecretString>()));
+  assertThat(modification.getModifiedFiles().size(),is(1304));
+  assertThat(modification.getModifiedFiles().get(0).getFileName(),is("Internal Projects/ABC/Customers3/ABC/RIP/SomeProject/data/main/config/lib/java/AdvJDBCColumnHandler.jar"));
+}
