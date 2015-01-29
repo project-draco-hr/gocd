@@ -1,0 +1,11 @@
+{
+  CcTrayActivityListener listener=new CcTrayActivityListener(jobStatusChangeHandler,stageStatusChangeHandler,configChangeHandler);
+  listener.startQueueProcessor();
+  try {
+    listener.startQueueProcessor();
+    fail("Should have failed to start queue processor a second time.");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Cannot start queue processor multiple times."));
+  }
+}
