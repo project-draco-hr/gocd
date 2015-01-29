@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)BuildWorkTest.getWork(WITH_FETCH_FILE,PIPELINE_NAME);
   com.thoughtworks.go.remote.work.FailedToDownloadPublisherStub stubPublisher=new FailedToDownloadPublisherStub();
-  buildWork.doWork(agentIdentifier,buildRepository,stubPublisher,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),null);
+  buildWork.doWork(agentIdentifier,buildRepository,stubPublisher,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),null,null,null);
   assertThat(stubPublisher.consoleOut(),containsString("[go] Current job status: failed.\n\n[go] Start to execute task: <ant target=\"--help\" />."));
 }

@@ -1,0 +1,10 @@
+{
+  when(jsonMessageHandler.requestMessageForIsSCMConfigurationValid(scmPropertyConfiguration)).thenReturn(requestBody);
+  ValidationResult deserializedResponse=new ValidationResult();
+  when(jsonMessageHandler.responseMessageForIsSCMConfigurationValid(responseBody)).thenReturn(deserializedResponse);
+  ValidationResult response=scmExtension.isSCMConfigurationValid(PLUGIN_ID,scmPropertyConfiguration);
+  assertRequest(requestArgumentCaptor.getValue(),SCMExtension.EXTENSION_NAME,"1.0",SCMExtension.REQUEST_VALIDATE_SCM_CONFIGURATION,requestBody);
+  verify(jsonMessageHandler).requestMessageForIsSCMConfigurationValid(scmPropertyConfiguration);
+  verify(jsonMessageHandler).responseMessageForIsSCMConfigurationValid(responseBody);
+  assertSame(response,deserializedResponse);
+}

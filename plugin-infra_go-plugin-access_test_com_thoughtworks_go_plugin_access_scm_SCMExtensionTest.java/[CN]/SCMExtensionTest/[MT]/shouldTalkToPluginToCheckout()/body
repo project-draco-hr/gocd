@@ -1,0 +1,12 @@
+{
+  String destination="destination";
+  SCMRevision revision=new SCMRevision();
+  when(jsonMessageHandler.requestMessageForCheckout(scmPropertyConfiguration,destination,revision)).thenReturn(requestBody);
+  Result deserializedResponse=new Result();
+  when(jsonMessageHandler.responseMessageForCheckout(responseBody)).thenReturn(deserializedResponse);
+  Result response=scmExtension.checkout(PLUGIN_ID,scmPropertyConfiguration,destination,revision);
+  assertRequest(requestArgumentCaptor.getValue(),SCMExtension.EXTENSION_NAME,"1.0",SCMExtension.REQUEST_CHECKOUT,requestBody);
+  verify(jsonMessageHandler).requestMessageForCheckout(scmPropertyConfiguration,destination,revision);
+  verify(jsonMessageHandler).responseMessageForCheckout(responseBody);
+  assertSame(response,deserializedResponse);
+}

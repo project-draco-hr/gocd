@@ -1,0 +1,17 @@
+{
+  initialize(remoteBuildRepository,goArtifactsManipulator,agentRuntimeInfo,taskExtension);
+  environmentVariableContext.addAll(assignment.initialEnvironmentVariableContext());
+  try {
+    JobResult result=build(environmentVariableContext,agentIdentifier,packageAsRepositoryExtension,scmExtension);
+    reportCompletion(result);
+  }
+ catch (  InvalidAgentException e) {
+    LOGGER.error("Agent UUID changed in the middle of the build.",e);
+  }
+catch (  Exception e) {
+    reportFailure(e);
+  }
+ finally {
+    goPublisher.stop();
+  }
+}

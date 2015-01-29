@@ -1,0 +1,14 @@
+{
+  Configuration configuration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig configToSave=new CruiseConfig();
+  SCM scm1=createSCM("id","name1","plugin-id-1","1.0",configuration);
+  SCM scm2=createSCM("id","name2","plugin-id-2","1.0",configuration);
+  configToSave.setSCMs(new SCMs(scm1,scm2));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not have allowed two SCMs with same id");
+  }
+ catch (  XsdValidationException e) {
+    assertThat(e.getMessage(),is("Duplicate unique value [id] declared for identity constraint \"uniqueSCMId\" of element \"cruise\"."));
+  }
+}

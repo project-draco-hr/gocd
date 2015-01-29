@@ -1,0 +1,10 @@
+{
+  SCMMetadataStore.getInstance().addMetadataFor("some-plugin",new SCMConfigurations(),null);
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"scm-v1");
+  ConfigurationProperty k2=ConfigurationPropertyMother.create("k2",false,"scm-v2");
+  Configuration configuration=new Configuration(k1,k2);
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","some-plugin","version",configuration);
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  assertThat(material.getUriForDisplay(),is("SCM: [k1=scm-v1, k2=scm-v2]"));
+}

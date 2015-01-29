@@ -1,7 +1,7 @@
 {
   final CountDownLatch latch=new CountDownLatch(1);
   final boolean[] flag=new boolean[]{false};
-  updater=new MaterialDatabaseUpdater(materialRepository,healthService,transactionTemplate,goCache,dependencyMaterialUpdater,scmMaterialUpdater,null,materialExpansionService){
+  updater=new MaterialDatabaseUpdater(materialRepository,healthService,transactionTemplate,goCache,dependencyMaterialUpdater,scmMaterialUpdater,null,null,materialExpansionService){
     @Override void updateMaterialWithNewRevisions(    Material material){
       try {
         flag[0]=true;

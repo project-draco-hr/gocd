@@ -1,0 +1,7 @@
+{
+  assertThat(errorMessageForSCMView("{\"template\":\"<html>junk</html>\"}"),is("Unable to de-serialize json response. Error: SCM View's 'displayValue' is a required field."));
+  assertThat(errorMessageForSCMView("{\"displayValue\":\"MySCMPlugin\"}"),is("Unable to de-serialize json response. Error: SCM View's 'template' is a required field."));
+  assertThat(errorMessageForSCMView("{\"displayValue\":null, \"template\":\"<html>junk</html>\"}"),is("Unable to de-serialize json response. Error: SCM View's 'displayValue' is a required field."));
+  assertThat(errorMessageForSCMView("{\"displayValue\":true, \"template\":null}"),is("Unable to de-serialize json response. Error: SCM View's 'displayValue' should be of type string."));
+  assertThat(errorMessageForSCMView("{\"displayValue\":\"MySCMPlugin\", \"template\":true}"),is("Unable to de-serialize json response. Error: SCM View's 'template' should be of type string."));
+}

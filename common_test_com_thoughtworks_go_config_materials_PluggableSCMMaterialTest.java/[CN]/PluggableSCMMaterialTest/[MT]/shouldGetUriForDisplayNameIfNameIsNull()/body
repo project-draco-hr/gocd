@@ -1,0 +1,8 @@
+{
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"scm-v1");
+  ConfigurationProperty k2=ConfigurationPropertyMother.create("k2",false,"scm-v2");
+  SCM scmConfig=SCMMother.create("scm-id",null,"pluginid","version",new Configuration(k1,k2));
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  assertThat(material.getDisplayName(),is(material.getUriForDisplay()));
+}

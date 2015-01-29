@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)getWork(CMD_NOT_EXIST,PIPELINE_NAME);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   assertThat(artifactManipulator.consoleOut(),printedAppsMissingInfoOnWindows(SOMETHING_NOT_EXIST));
   assertThat(buildRepository.results,containsResult(Failed));
 }

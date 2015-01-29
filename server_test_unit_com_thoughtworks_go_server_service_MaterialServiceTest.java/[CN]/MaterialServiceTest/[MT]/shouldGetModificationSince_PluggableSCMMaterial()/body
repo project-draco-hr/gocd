@@ -1,0 +1,7 @@
+{
+  PluggableSCMMaterial pluggableSCMMaterial=MaterialsMother.pluggableSCMMaterial();
+  when(scmExtension.latestModificationSince(any(String.class),any(SCMPropertyConfiguration.class),any(String.class),any(SCMRevision.class))).thenReturn(asList(new SCMRevision("new-revision-456",new Date(),"user","comment",null,null)));
+  PluggableSCMMaterialRevision previouslyKnownRevision=new PluggableSCMMaterialRevision("revision-124",new Date());
+  List<Modification> modifications=materialService.modificationsSince(pluggableSCMMaterial,new File("/tmp/flyweight"),previouslyKnownRevision,null);
+  assertThat(modifications.get(0).getRevision(),is("new-revision-456"));
+}

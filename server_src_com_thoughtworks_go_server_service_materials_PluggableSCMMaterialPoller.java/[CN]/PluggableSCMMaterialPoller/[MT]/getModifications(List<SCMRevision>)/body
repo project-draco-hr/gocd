@@ -1,0 +1,10 @@
+{
+  Modifications modifications=new Modifications();
+  if (scmRevisions == null || scmRevisions.isEmpty()) {
+    return modifications;
+  }
+  for (  SCMRevision scmRevision : scmRevisions) {
+    modifications.add(getModification(scmRevision));
+  }
+  return modifications;
+}

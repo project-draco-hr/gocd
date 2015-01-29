@@ -1,0 +1,10 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'><scms>\n"+ SCM_WITH_INVALID_ID+ " </scms></cruise>";
+  try {
+    xmlLoader.loadConfigHolder(xml);
+    fail("should have thrown XsdValidationException");
+  }
+ catch (  XsdValidationException e) {
+    assertThat(e.getMessage(),is("Scm id is invalid. \"id with space\" should conform to the pattern - [a-zA-Z0-9_\\-]{1}[a-zA-Z0-9_\\-.]*"));
+  }
+}

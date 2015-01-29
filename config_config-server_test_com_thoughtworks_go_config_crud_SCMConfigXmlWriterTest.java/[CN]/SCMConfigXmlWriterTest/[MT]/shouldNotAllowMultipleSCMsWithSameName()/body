@@ -1,0 +1,14 @@
+{
+  Configuration scmConfiguration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig configToSave=new CruiseConfig();
+  SCM scm1=createSCM("id1","scm-name-1","plugin-id","1.0",scmConfiguration);
+  SCM scm2=createSCM("id2","scm-name-2","plugin-id","1.0",scmConfiguration);
+  configToSave.setSCMs(new SCMs(scm1,scm2));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not have allowed two SCMs with same id");
+  }
+ catch (  GoConfigInvalidException e) {
+    assertThat(e.getMessage(),is("Cannot save SCM, found duplicate SCMs. scm-name-1, scm-name-2"));
+  }
+}

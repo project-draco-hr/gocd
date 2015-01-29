@@ -1,0 +1,10 @@
+{
+  SCM scmConfigOne=SCMMother.create("scm-id-1");
+  SCM scmConfigTwo=SCMMother.create("scm-id-2");
+  cruiseConfig.getSCMs().addAll(Arrays.asList(scmConfigOne,scmConfigTwo));
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfig("pipeline");
+  pipeline.addMaterialConfig(new PluggableSCMMaterialConfig(null,scmConfigOne,null,null));
+  cruiseConfig.addPipeline("existing_group",pipeline);
+  assertThat(cruiseConfig.canDeletePluggableSCMMaterial(scmConfigOne),is(false));
+  assertThat(cruiseConfig.canDeletePluggableSCMMaterial(scmConfigTwo),is(true));
+}

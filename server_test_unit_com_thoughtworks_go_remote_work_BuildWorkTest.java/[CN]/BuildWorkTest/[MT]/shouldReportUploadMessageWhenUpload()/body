@@ -4,7 +4,7 @@
   buildWork=(BuildWork)getWork(willUploadToDest("cruise-output/log.xml",destFolder),PIPELINE_NAME);
   com.thoughtworks.go.remote.work.HttpServiceStub httpService=new com.thoughtworks.go.remote.work.HttpServiceStub(HttpServletResponse.SC_OK);
   artifactManipulator=new GoArtifactsManipulatorStub(httpService);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   String actual=artifactManipulator.consoleOut();
   artifactManipulator.printConsoleOut();
   File basedir=new File("pipelines/pipeline1");

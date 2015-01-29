@@ -1,0 +1,10 @@
+{
+  SCMRevision scmRevision=new SCMRevision("rev123",new Date(),"loser",null,null,null);
+  try {
+    scmRevision.addData("HEL-LO-WORLD","value");
+    fail("should have thrown exception");
+  }
+ catch (  InvalidSCMRevisionDataException e) {
+    assertThat(e.getMessage(),is("Key 'HEL-LO-WORLD' is invalid. Key names should consists of only alphanumeric characters and/or underscores."));
+  }
+}

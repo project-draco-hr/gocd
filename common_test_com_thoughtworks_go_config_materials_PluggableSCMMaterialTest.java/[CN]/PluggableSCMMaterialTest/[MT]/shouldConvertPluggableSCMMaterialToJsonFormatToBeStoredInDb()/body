@@ -1,0 +1,12 @@
+{
+  GoCipher cipher=new GoCipher();
+  ConfigurationProperty secureSCMProperty=new ConfigurationProperty(new ConfigurationKey("secure-key"),null,new EncryptedConfigurationValue("hnfcyX5dAvd82AWUyjfKCQ\u003d\u003d"),cipher);
+  ConfigurationProperty scmProperty=new ConfigurationProperty(new ConfigurationKey("non-secure-key"),new ConfigurationValue("value"),null,cipher);
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","plugin-id","1.0",new Configuration(secureSCMProperty,scmProperty));
+  PluggableSCMMaterial pluggableSCMMaterial=new PluggableSCMMaterial();
+  pluggableSCMMaterial.setSCMConfig(scmConfig);
+  String json=JsonHelper.toJsonString(pluggableSCMMaterial);
+  String expected="{\"scm\":{\"plugin\":{\"id\":\"plugin-id\",\"version\":\"1.0\"},\"config\":[{\"configKey\":{\"name\":\"secure-key\"},\"encryptedConfigValue\":{\"value\":\"hnfcyX5dAvd82AWUyjfKCQ\\u003d\\u003d\"}},{\"configKey\":{\"name\":\"non-secure-key\"},\"configValue\":{\"value\":\"value\"}}]}}";
+  assertThat(json,is(expected));
+  assertThat(JsonHelper.fromJson(expected,PluggableSCMMaterial.class),is(pluggableSCMMaterial));
+}

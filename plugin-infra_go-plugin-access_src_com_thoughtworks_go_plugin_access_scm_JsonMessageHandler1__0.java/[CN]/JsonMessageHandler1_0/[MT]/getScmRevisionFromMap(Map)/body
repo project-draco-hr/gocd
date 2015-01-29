@@ -1,0 +1,81 @@
+{
+  String revision;
+  try {
+    revision=(String)map.get("revision");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("SCM revision should be of type string");
+  }
+  if (isEmpty(revision)) {
+    throw new RuntimeException("SCM revision's 'revision' is a required field");
+  }
+  Date timestamp;
+  try {
+    String timestampString=(String)map.get("timestamp");
+    timestamp=new SimpleDateFormat(DATE_PATTERN).parse(timestampString);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("SCM revision timestamp should be of type string with format yyyy-MM-dd'T'HH:mm:ss.SSS'Z' and cannot be empty");
+  }
+  String revisionComment;
+  try {
+    revisionComment=(String)map.get("revisionComment");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("SCM revision comment should be of type string");
+  }
+  String user;
+  try {
+    user=(String)map.get("user");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("SCM revision user should be of type string");
+  }
+  Map data=(Map)map.get("data");
+  List<ModifiedFile> modifiedFiles=new ArrayList<ModifiedFile>();
+  if (map.containsKey("modifiedFiles") && map.get("modifiedFiles") != null) {
+    List modifiedFileMaps=null;
+    try {
+      modifiedFileMaps=(List)map.get("modifiedFiles");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("SCM revision 'modifiedFiles' should be of type list of map");
+    }
+    if (!modifiedFileMaps.isEmpty()) {
+      for (      Object message : modifiedFileMaps) {
+        if (!(message instanceof Map)) {
+          throw new RuntimeException("SCM revision 'modified file' should be of type map");
+        }
+      }
+      for (      Object modifiedFileObj : modifiedFileMaps) {
+        Map modifiedFileMap=(Map)modifiedFileObj;
+        String fileName;
+        try {
+          fileName=(String)modifiedFileMap.get("fileName");
+        }
+ catch (        Exception e) {
+          throw new RuntimeException("modified file 'fileName' should be of type string");
+        }
+        if (isEmpty(fileName)) {
+          throw new RuntimeException("modified file 'fileName' is a required field");
+        }
+        String actionStr=null;
+        ModifiedAction action;
+        try {
+          actionStr=(String)modifiedFileMap.get("action");
+        }
+ catch (        Exception e) {
+          throw new RuntimeException("modified file 'action' should be of type string");
+        }
+        try {
+          action=ModifiedAction.valueOf(actionStr);
+        }
+ catch (        Exception e) {
+          throw new RuntimeException(String.format("modified file 'action' can only be %s, %s, %s",ModifiedAction.added,ModifiedAction.modified,ModifiedAction.deleted));
+        }
+        modifiedFiles.add(new ModifiedFile(fileName,action));
+      }
+    }
+  }
+  return new SCMRevision(revision,timestamp,user,revisionComment,data,modifiedFiles);
+}

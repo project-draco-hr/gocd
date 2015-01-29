@@ -1,0 +1,6 @@
+{
+  String jsonResponse="{\"displayValue\":\"MySCMPlugin\", \"template\":\"<html>junk</html>\"}";
+  SCMView view=messageHandler.responseMessageForSCMView(jsonResponse);
+  assertThat(view.displayValue(),is("MySCMPlugin"));
+  assertThat(view.template(),is("<html>junk</html>"));
+}

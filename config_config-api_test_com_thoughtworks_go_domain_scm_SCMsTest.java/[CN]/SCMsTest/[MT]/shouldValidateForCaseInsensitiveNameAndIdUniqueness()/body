@@ -1,0 +1,12 @@
+{
+  SCM duplicate1=SCMMother.create("scm-id1");
+  SCM duplicate2=SCMMother.create("SCM-ID1");
+  SCM unique=SCMMother.create("unique");
+  SCMs scms=new SCMs(duplicate1,duplicate2,unique);
+  scms.validate(null);
+  assertThat(duplicate1.errors().isEmpty(),is(false));
+  assertThat(duplicate1.errors().getAllOn(SCM.NAME).contains(String.format("Cannot save SCM, found multiple SCMs called '%s'. SCM names are case-insensitive and must be unique.",duplicate1.getName())),is(true));
+  assertThat(duplicate2.errors().isEmpty(),is(false));
+  assertThat(duplicate2.errors().getAllOn(SCM.NAME).contains(String.format("Cannot save SCM, found multiple SCMs called '%s'. SCM names are case-insensitive and must be unique.",duplicate2.getName())),is(true));
+  assertThat(unique.errors().getAllOn(SCM.NAME),is(nullValue()));
+}

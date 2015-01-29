@@ -1,0 +1,5 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'><scms>\n"+ SCM_WITH_MISSING_ID+ " </scms></cruise>";
+  GoConfigHolder configHolder=xmlLoader.loadConfigHolder(xml);
+  assertThat(configHolder.config.getSCMs().get(0).getId(),is(notNullValue()));
+}

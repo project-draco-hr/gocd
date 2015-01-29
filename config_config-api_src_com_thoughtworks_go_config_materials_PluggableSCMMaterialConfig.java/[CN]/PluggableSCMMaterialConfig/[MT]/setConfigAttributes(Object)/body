@@ -1,0 +1,24 @@
+{
+  if (attributes == null) {
+    return;
+  }
+  super.setConfigAttributes(attributes);
+  Map map=(Map)attributes;
+  this.scmId=(String)map.get(SCM_ID);
+  if (map.containsKey(FOLDER)) {
+    String folder=(String)map.get(FOLDER);
+    if (StringUtils.isBlank(folder)) {
+      folder=null;
+    }
+    this.folder=folder;
+  }
+  if (map.containsKey(FILTER)) {
+    String pattern=(String)map.get(FILTER);
+    if (!StringUtil.isBlank(pattern)) {
+      this.setFilter(Filter.fromDisplayString(pattern));
+    }
+ else {
+      this.setFilter(null);
+    }
+  }
+}

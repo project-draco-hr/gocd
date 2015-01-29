@@ -1,0 +1,17 @@
+{
+  assertThat(errorMessageForSCMRevision(""),is("Unable to de-serialize json response. Empty response body"));
+  assertThat(errorMessageForSCMRevision("[{\"revision\":\"abc.rpm\"}]"),is("Unable to de-serialize json response. SCM revision should be returned as a map"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":{}}"),is("Unable to de-serialize json response. SCM revision should be of type string"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"\"}"),is("Unable to de-serialize json response. SCM revision's 'revision' is a required field"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":{}}"),is("Unable to de-serialize json response. SCM revision timestamp should be of type string with format yyyy-MM-dd'T'HH:mm:ss.SSS'Z' and cannot be empty"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"\"}"),is("Unable to de-serialize json response. SCM revision timestamp should be of type string with format yyyy-MM-dd'T'HH:mm:ss.SSS'Z' and cannot be empty"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"12-01-2014\"}"),is("Unable to de-serialize json response. SCM revision timestamp should be of type string with format yyyy-MM-dd'T'HH:mm:ss.SSS'Z' and cannot be empty"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"revisionComment\":{}}"),is("Unable to de-serialize json response. SCM revision comment should be of type string"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"user\":{}}"),is("Unable to de-serialize json response. SCM revision user should be of type string"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":{}}"),is("Unable to de-serialize json response. SCM revision 'modifiedFiles' should be of type list of map"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[\"crap\"]}"),is("Unable to de-serialize json response. SCM revision 'modified file' should be of type map"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[{\"fileName\":{}}]}"),is("Unable to de-serialize json response. modified file 'fileName' should be of type string"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[{\"fileName\":\"\"}]}"),is("Unable to de-serialize json response. modified file 'fileName' is a required field"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[{\"fileName\":\"f1\",\"action\":{}}]}"),is("Unable to de-serialize json response. modified file 'action' should be of type string"));
+  assertThat(errorMessageForSCMRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[{\"fileName\":\"f1\",\"action\":\"crap\"}]}"),is("Unable to de-serialize json response. modified file 'action' can only be added, modified, deleted"));
+}
