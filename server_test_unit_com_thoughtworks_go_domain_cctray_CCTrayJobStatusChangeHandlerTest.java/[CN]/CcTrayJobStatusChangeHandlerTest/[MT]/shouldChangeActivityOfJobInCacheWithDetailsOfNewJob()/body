@@ -1,0 +1,5 @@
+{
+  Pair<ProjectStatus,ProjectStatus> oldAndNewStatuses=simulateJobStatusChangedToBuilding("job1");
+  ProjectStatus newStatusInCache=oldAndNewStatuses.last();
+  assertThat(activityOf(newStatusInCache),is("Building"));
+}

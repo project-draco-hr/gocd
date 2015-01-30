@@ -1,0 +1,9 @@
+{
+  Pair<ProjectStatus,ProjectStatus> oldAndNewStatuses=simulateJobStatusChangedToCompleted("job1");
+  ProjectStatus newStatusInCache=oldAndNewStatuses.last();
+  assertThat(activityOf(newStatusInCache),is("Sleeping"));
+  assertThat(newStatusInCache.getLastBuildStatus(),is("Success"));
+  assertThat(newStatusInCache.getLastBuildLabel(),is("label-1"));
+  assertThat(newStatusInCache.getBreakers(),is(Collections.<String>emptySet()));
+  assertThat(webUrlOf(newStatusInCache),is(webUrlFor("job1")));
+}
