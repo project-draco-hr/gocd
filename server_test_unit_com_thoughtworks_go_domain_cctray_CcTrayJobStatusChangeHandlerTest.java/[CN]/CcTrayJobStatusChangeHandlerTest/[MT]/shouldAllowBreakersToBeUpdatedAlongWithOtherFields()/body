@@ -4,7 +4,6 @@
   breakers.add("abc");
   breakers.add("def");
   CcTrayJobStatusChangeHandler handler=new CcTrayJobStatusChangeHandler(cache);
-  handler.updateForJob(JobInstanceMother.completed(jobName),breakers);
-  verify(cache).replace(eq(projectNameFor(jobName)),statusCaptor.capture());
-  assertThat(statusCaptor.getValue().getBreakers(),is(breakers));
+  ProjectStatus newStatus=handler.statusFor(JobInstanceMother.completed(jobName),breakers);
+  assertThat(newStatus.getBreakers(),is(breakers));
 }

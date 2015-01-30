@@ -1,7 +1,0 @@
-{
-  ProjectStatus existingProjectStatus=setupJobStatusInCache(jobName);
-  CcTrayJobStatusChangeHandler handler=new CcTrayJobStatusChangeHandler(cache);
-  handler.call(JobInstanceMother.building(jobName));
-  verify(cache).replace(eq(projectNameFor(jobName)),statusCaptor.capture());
-  return new Pair<ProjectStatus,ProjectStatus>(existingProjectStatus,statusCaptor.getValue());
-}
