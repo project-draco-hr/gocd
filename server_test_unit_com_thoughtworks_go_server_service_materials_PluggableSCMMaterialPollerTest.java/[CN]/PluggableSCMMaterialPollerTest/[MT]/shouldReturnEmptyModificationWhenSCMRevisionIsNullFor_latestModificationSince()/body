@@ -1,8 +1,8 @@
 {
   PluggableSCMMaterialRevision knownRevision=new PluggableSCMMaterialRevision("rev-122",new Date());
   ArgumentCaptor<SCMRevision> knownSCMRevision=new ArgumentCaptor<SCMRevision>();
-  when(scmExtension.latestModificationSince(eq(material.getPluginId()),scmConfiguration.capture(),eq("/tmp/flyweight"),knownSCMRevision.capture())).thenReturn(null);
-  List<Modification> modifications=poller.modificationsSince(material,new File("/tmp/flyweight"),knownRevision,null);
+  when(scmExtension.latestModificationSince(eq(material.getPluginId()),scmConfiguration.capture(),eq(flyweightFolderPath),knownSCMRevision.capture())).thenReturn(null);
+  List<Modification> modifications=poller.modificationsSince(material,new File(flyweightFolderPath),knownRevision,null);
   assertThat(modifications,is(notNullValue()));
   assertThat(modifications.isEmpty(),is(true));
 }

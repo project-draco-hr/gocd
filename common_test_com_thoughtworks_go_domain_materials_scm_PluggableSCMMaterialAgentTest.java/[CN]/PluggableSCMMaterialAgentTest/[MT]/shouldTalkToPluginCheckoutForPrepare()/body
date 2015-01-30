@@ -7,8 +7,10 @@
   additionalData.put("a2","v2");
   modification.setAdditionalData(new Gson().toJson(additionalData));
   MaterialRevision revision=new MaterialRevision(pluggableSCMMaterial,modification);
-  PluggableSCMMaterialAgent pluggableSCMMaterialAgent=new PluggableSCMMaterialAgent(scmExtension,revision,new File("/tmp/pipelines/pipeline"));
-  when(scmExtension.checkout(eq("pluginid"),scmConfiguration.capture(),eq("/tmp/pipelines/pipeline/destination-folder"),scmRevision.capture())).thenReturn(new Result());
+  String pipelineFolder=new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
+  String destinationFolder=new File(pipelineFolder,"destination-folder").getAbsolutePath();
+  PluggableSCMMaterialAgent pluggableSCMMaterialAgent=new PluggableSCMMaterialAgent(scmExtension,revision,new File(pipelineFolder));
+  when(scmExtension.checkout(eq("pluginid"),scmConfiguration.capture(),eq(destinationFolder),scmRevision.capture())).thenReturn(new Result());
   pluggableSCMMaterialAgent.prepare();
   verify(scmExtension).checkout(any(String.class),any(SCMPropertyConfiguration.class),any(String.class),any(SCMRevision.class));
   assertThat(scmConfiguration.getValue().size(),is(2));
