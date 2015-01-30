@@ -1,0 +1,10 @@
+{
+  CCTrayStageStatusChangeHandler handler=new CCTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
+  JobInstance firstJob=JobInstanceMother.building("job1");
+  JobInstance secondJob=JobInstanceMother.completed("job2");
+  Stage stage=StageMother.custom("stage1",firstJob,secondJob);
+  handler.call(stage);
+  verify(cache).replace(eq("pipeline :: stage1"),Matchers.<ProjectStatus>any());
+  verify(jobStatusChangeHandler).updateForJob(eq(firstJob),Matchers.<Set<String>>any());
+  verify(jobStatusChangeHandler).updateForJob(eq(secondJob),Matchers.<Set<String>>any());
+}

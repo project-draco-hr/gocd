@@ -1,5 +1,3 @@
 {
-  String projectName=job.getIdentifier().ccProjectName();
-  ProjectStatus existingStatusOfThisJobInCache=projectByName(projectName);
-  cache.replace(projectName,new ProjectStatus(projectName,job.getState().cctrayActivity(),lastBuildStatus(existingStatusOfThisJobInCache,job),lastBuildLabel(existingStatusOfThisJobInCache,job),lastBuildTime(existingStatusOfThisJobInCache,job),job.getIdentifier().webUrl(),new HashSet<String>()));
+  updateForJob(job,new HashSet<String>());
 }

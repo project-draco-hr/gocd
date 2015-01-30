@@ -1,0 +1,8 @@
+{
+  CCTrayStageStatusChangeHandler handler=new CCTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
+  Stage stage=StageMother.custom("stage1",JobInstanceMother.building("job1"));
+  handler.call(stage);
+  verify(cache).replace(eq("pipeline :: stage1"),statusCaptor.capture());
+  assertThat(activityOf(statusCaptor.getValue()),is("Building"));
+  assertThat(webUrlOf(statusCaptor.getValue()),is(webUrlFor("stage1")));
+}

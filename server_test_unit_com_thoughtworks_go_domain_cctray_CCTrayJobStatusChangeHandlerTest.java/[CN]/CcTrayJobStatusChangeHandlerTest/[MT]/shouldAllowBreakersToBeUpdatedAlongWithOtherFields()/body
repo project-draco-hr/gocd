@@ -1,0 +1,10 @@
+{
+  String jobName="job1";
+  Set<String> breakers=new HashSet<String>();
+  breakers.add("abc");
+  breakers.add("def");
+  CcTrayJobStatusChangeHandler handler=new CcTrayJobStatusChangeHandler(cache);
+  handler.updateForJob(JobInstanceMother.completed(jobName),breakers);
+  verify(cache).replace(eq(projectNameFor(jobName)),statusCaptor.capture());
+  assertThat(statusCaptor.getValue().getBreakers(),is(breakers));
+}

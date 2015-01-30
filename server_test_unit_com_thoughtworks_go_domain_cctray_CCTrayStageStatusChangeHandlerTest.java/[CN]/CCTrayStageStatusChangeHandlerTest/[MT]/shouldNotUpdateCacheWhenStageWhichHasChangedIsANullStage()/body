@@ -1,0 +1,7 @@
+{
+  CCTrayStageStatusChangeHandler handler=new CCTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
+  handler.call(new NullStage("some-name"));
+  verifyZeroInteractions(cache);
+  verifyZeroInteractions(breakersCalculator);
+  verifyZeroInteractions(jobStatusChangeHandler);
+}
