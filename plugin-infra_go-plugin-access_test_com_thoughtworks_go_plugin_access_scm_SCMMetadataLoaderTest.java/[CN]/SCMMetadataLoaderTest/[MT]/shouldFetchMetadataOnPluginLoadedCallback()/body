@@ -1,0 +1,7 @@
+{
+  SCMMetadataLoader spy=spy(metadataLoader);
+  doNothing().when(spy).fetchSCMMetaData(pluginDescriptor);
+  when(scmExtension.isSCMPlugin(pluginDescriptor.id())).thenReturn(true);
+  spy.pluginLoaded(pluginDescriptor);
+  verify(spy).fetchSCMMetaData(pluginDescriptor);
+}

@@ -1,0 +1,10 @@
+{
+  SCMs scms=new SCMs();
+  try {
+    scms.removeSCM("id1");
+    fail();
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is(String.format("Could not find SCM with id '%s'","id1")));
+  }
+}

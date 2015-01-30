@@ -1,0 +1,9 @@
+{
+  PluggableSCMMaterial material=MaterialsMother.pluggableSCMMaterial();
+  MaterialInstance materialInstance=material.createMaterialInstance();
+  File file=new File("random");
+  Modifications modifications=new Modifications();
+  materialUpdater.insertLatestOrNewModifications(material,materialInstance,file,modifications);
+  verify(materialRepository,never()).saveOrUpdate(Matchers.<MaterialInstance>any());
+  verify(scmMaterialUpdater).insertLatestOrNewModifications(material,materialInstance,file,modifications);
+}

@@ -1,5 +1,5 @@
 {
-  if (material instanceof ScmMaterial)   return new ScmXmlViewModel(material);
+  if (material instanceof ScmMaterial || material instanceof PluggableSCMMaterial)   return new ScmXmlViewModel(material);
   if (material instanceof DependencyMaterial)   return new DependencyXmlViewModel(material);
   if (material instanceof PackageMaterial)   return new PackageXmlViewModel(material);
   throw new RuntimeException("Unknown material type");

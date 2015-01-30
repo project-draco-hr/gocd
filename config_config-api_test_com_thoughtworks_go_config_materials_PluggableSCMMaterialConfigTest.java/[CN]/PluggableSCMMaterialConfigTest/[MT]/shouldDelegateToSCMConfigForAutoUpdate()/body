@@ -1,0 +1,7 @@
+{
+  SCM scm=mock(SCM.class);
+  when(scm.isAutoUpdate()).thenReturn(false);
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(new CaseInsensitiveString("scm-name"),scm,null,null);
+  assertThat(pluggableSCMMaterialConfig.isAutoUpdate(),is(false));
+  verify(scm).isAutoUpdate();
+}

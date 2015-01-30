@@ -1,0 +1,13 @@
+{
+  Configuration configuration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig configToSave=new CruiseConfig();
+  SCM scm=createSCM("id wth space","name","plugin-id","1.0",configuration);
+  configToSave.setSCMs(new SCMs(scm));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not have allowed two SCMs with same id");
+  }
+ catch (  XsdValidationException e) {
+    assertThat(e.getMessage(),is("Scm id is invalid. \"id wth space\" should conform to the pattern - [a-zA-Z0-9_\\-]{1}[a-zA-Z0-9_\\-.]*"));
+  }
+}

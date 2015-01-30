@@ -1,0 +1,40 @@
+{
+  try {
+    final Map map=parseResponseToMap(responseBody);
+    if (map.isEmpty()) {
+      throw new RuntimeException("The JSON for SCM View cannot be empty");
+    }
+    final String displayValue;
+    try {
+      displayValue=(String)map.get("displayValue");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("SCM View's 'displayValue' should be of type string");
+    }
+    if (isEmpty(displayValue)) {
+      throw new RuntimeException("SCM View's 'displayValue' is a required field");
+    }
+    final String template;
+    try {
+      template=(String)map.get("template");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("SCM View's 'template' should be of type string");
+    }
+    if (isEmpty(template)) {
+      throw new RuntimeException("SCM View's 'template' is a required field");
+    }
+    return new SCMView(){
+      @Override public String displayValue(){
+        return displayValue;
+      }
+      @Override public String template(){
+        return template;
+      }
+    }
+;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(String.format("Unable to de-serialize json response. Error: %s.",e.getMessage()));
+  }
+}

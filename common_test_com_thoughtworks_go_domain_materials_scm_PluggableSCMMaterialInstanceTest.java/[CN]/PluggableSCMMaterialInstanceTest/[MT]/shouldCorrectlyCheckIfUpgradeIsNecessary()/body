@@ -1,0 +1,10 @@
+{
+  PluggableSCMMaterial material=MaterialsMother.pluggableSCMMaterial("scm-id","scm-name",ConfigurationPropertyMother.create("key1",false,"value1"));
+  PluggableSCMMaterialInstance materialInstance=(PluggableSCMMaterialInstance)material.createMaterialInstance();
+  materialInstance.setId(10L);
+  PluggableSCMMaterialInstance materialInstanceCopy=(PluggableSCMMaterialInstance)material.createMaterialInstance();
+  material.getScmConfig().getConfiguration().add(ConfigurationPropertyMother.create("key2",false,"value2"));
+  PluggableSCMMaterialInstance newMaterialInstance=(PluggableSCMMaterialInstance)material.createMaterialInstance();
+  assertThat(materialInstance.shouldUpgradeTo(materialInstanceCopy),is(false));
+  assertThat(materialInstance.shouldUpgradeTo(newMaterialInstance),is(true));
+}

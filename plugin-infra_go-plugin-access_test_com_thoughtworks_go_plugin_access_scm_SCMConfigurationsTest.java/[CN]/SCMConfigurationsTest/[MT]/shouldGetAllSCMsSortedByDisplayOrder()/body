@@ -1,0 +1,13 @@
+{
+  SCMConfiguration c1=new SCMConfiguration("k1").with(SCMConfiguration.DISPLAY_ORDER,2);
+  SCMConfiguration c2=new SCMConfiguration("k2").with(SCMConfiguration.DISPLAY_ORDER,0);
+  SCMConfiguration c3=new SCMConfiguration("k3").with(SCMConfiguration.DISPLAY_ORDER,1);
+  SCMConfigurations scmConfigurations=new SCMConfigurations();
+  scmConfigurations.add(c1);
+  scmConfigurations.add(c2);
+  scmConfigurations.add(c3);
+  List<SCMConfiguration> scmConfigurationList=scmConfigurations.list();
+  assertThat(scmConfigurationList.get(0),is(c2));
+  assertThat(scmConfigurationList.get(1),is(c3));
+  assertThat(scmConfigurationList.get(2),is(c1));
+}

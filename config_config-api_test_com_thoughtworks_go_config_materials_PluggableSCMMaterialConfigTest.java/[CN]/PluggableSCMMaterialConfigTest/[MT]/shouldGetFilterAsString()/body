@@ -1,0 +1,7 @@
+{
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig();
+  pluggableSCMMaterialConfig.setFilter(new Filter(new IgnoredFiles("/foo/**.*"),new IgnoredFiles("/another/**.*"),new IgnoredFiles("bar")));
+  assertThat(pluggableSCMMaterialConfig.getFilterAsString(),is("/foo/**.*,/another/**.*,bar"));
+  pluggableSCMMaterialConfig.setFilter(new Filter());
+  assertThat(pluggableSCMMaterialConfig.getFilterAsString(),is(""));
+}

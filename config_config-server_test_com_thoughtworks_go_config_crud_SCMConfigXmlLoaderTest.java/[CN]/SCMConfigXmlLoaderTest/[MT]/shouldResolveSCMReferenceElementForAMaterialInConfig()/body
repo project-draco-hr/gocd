@@ -1,0 +1,9 @@
+{
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<scms>\n"+ "    <scm id='scm-id' name='scm-name'>\n"+ "		<pluginConfiguration id='plugin-id' version='1.0'/>\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>url</key>\n"+ "          <value>http://go</value>\n"+ "        </property>\n"+ "      </configuration>\n"+ "    </scm>\n"+ "  </scms>"+ "<pipelines group=\"group_name\">\n"+ "  <pipeline name=\"new_name\">\n"+ "    <materials>\n"+ "      <scm ref='scm-id' />\n"+ "    </materials>\n"+ "    <stage name=\"stage_name\">\n"+ "      <jobs>\n"+ "        <job name=\"job_name\" />\n"+ "      </jobs>\n"+ "    </stage>\n"+ "  </pipeline>\n"+ "</pipelines></cruise>";
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(xml);
+  PipelineConfig pipelineConfig=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("new_name"));
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=(PluggableSCMMaterialConfig)pipelineConfig.materialConfigs().get(0);
+  assertThat(pluggableSCMMaterialConfig.getSCMConfig(),is(goConfigHolder.config.getSCMs().get(0)));
+  assertThat(pluggableSCMMaterialConfig.getFolder(),is(nullValue()));
+  assertThat(pluggableSCMMaterialConfig.filter(),is(new Filter()));
+}

@@ -1,0 +1,9 @@
+{
+  Configuration configuration=new Configuration();
+  SCM scm=SCMMother.create("id","name","plugin-id","version",configuration);
+  assertThat(scm.getId(),is("id"));
+  assertThat(scm.getName(),is("name"));
+  assertThat(scm.getPluginConfiguration().getId(),is("plugin-id"));
+  assertThat(scm.getPluginConfiguration().getVersion(),is("version"));
+  assertThat(scm.getConfiguration().listOfConfigKeys().isEmpty(),is(true));
+}

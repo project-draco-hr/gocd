@@ -1,0 +1,10 @@
+{
+  assertThat(scmRevision.getRevision(),is(revision));
+  assertThat(scmRevision.getUser(),is(user));
+  assertThat(scmRevision.getTimestamp(),is(new SimpleDateFormat(DATE_FORMAT).parse(timestamp)));
+  assertThat(scmRevision.getRevisionComment(),is(comment));
+  assertThat(scmRevision.getData().size(),is(2));
+  assertThat(scmRevision.getDataFor("dataKeyOne"),is("data-value-one"));
+  assertThat(scmRevision.getDataFor("dataKeyTwo"),is("data-value-two"));
+  assertThat(scmRevision.getModifiedFiles(),is(modifiedFiles));
+}

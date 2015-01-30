@@ -1,0 +1,18 @@
+{
+  HashMap<String,SCMs> map=new HashMap<String,SCMs>();
+  for (  SCM scm : this) {
+    String name=scm.getName().toLowerCase();
+    if (!map.containsKey(name)) {
+      map.put(name,new SCMs());
+    }
+    map.get(name).add(scm);
+  }
+  for (  String name : map.keySet()) {
+    SCMs scmsWithSameName=map.get(name);
+    if (scmsWithSameName.size() > 1) {
+      for (      SCM scm : scmsWithSameName) {
+        scm.addError(SCM.NAME,String.format("Cannot save SCM, found multiple SCMs called '%s'. SCM names are case-insensitive and must be unique.",scm.getName()));
+      }
+    }
+  }
+}

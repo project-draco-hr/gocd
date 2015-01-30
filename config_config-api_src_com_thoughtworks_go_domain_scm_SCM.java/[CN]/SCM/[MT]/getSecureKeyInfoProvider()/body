@@ -1,0 +1,14 @@
+{
+  final SCMMetadataStore scmMetadataStore=SCMMetadataStore.getInstance();
+  final SCMConfigurations metadata=scmMetadataStore.getConfigurationMetadata(getPluginId());
+  if (metadata == null) {
+    return null;
+  }
+  return new SecureKeyInfoProvider(){
+    @Override public boolean isSecure(    String key){
+      SCMConfiguration configuration=metadata.get(key);
+      return configuration.getOption(SCMConfiguration.SECURE);
+    }
+  }
+;
+}

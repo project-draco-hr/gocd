@@ -1,0 +1,8 @@
+{
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  Map<String,Object> criteria=material.getSqlCriteria();
+  assertThat((String)criteria.get("type"),is(PluggableSCMMaterial.class.getSimpleName()));
+  assertThat((String)criteria.get("fingerprint"),is(material.getFingerprint()));
+}

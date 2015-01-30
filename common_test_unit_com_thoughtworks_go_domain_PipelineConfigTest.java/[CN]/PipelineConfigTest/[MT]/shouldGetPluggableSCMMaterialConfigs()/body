@@ -1,0 +1,9 @@
+{
+  SvnMaterialConfig svn=new SvnMaterialConfig("svn",false);
+  PluggableSCMMaterialConfig pluggableSCMMaterialOne=new PluggableSCMMaterialConfig("scm-id-1");
+  PluggableSCMMaterialConfig pluggableSCMMaterialTwo=new PluggableSCMMaterialConfig("scm-id-2");
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("p1",new MaterialConfigs(svn,pluggableSCMMaterialOne,pluggableSCMMaterialTwo));
+  List<PluggableSCMMaterialConfig> pluggableSCMMaterialConfigs=pipelineConfig.pluggableSCMMaterialConfigs();
+  assertThat(pluggableSCMMaterialConfigs.size(),is(2));
+  assertThat(pluggableSCMMaterialConfigs,hasItems(pluggableSCMMaterialOne,pluggableSCMMaterialTwo));
+}

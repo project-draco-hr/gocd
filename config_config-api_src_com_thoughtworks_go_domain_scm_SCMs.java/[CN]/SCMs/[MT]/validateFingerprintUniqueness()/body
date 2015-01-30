@@ -1,0 +1,22 @@
+{
+  HashMap<String,SCMs> map=new HashMap<String,SCMs>();
+  for (  SCM scm : this) {
+    String fingerprint=scm.getFingerprint();
+    if (!map.containsKey(fingerprint)) {
+      map.put(fingerprint,new SCMs());
+    }
+    map.get(fingerprint).add(scm);
+  }
+  for (  String fingerprint : map.keySet()) {
+    SCMs scmsWithSameFingerprint=map.get(fingerprint);
+    if (scmsWithSameFingerprint.size() > 1) {
+      List<String> scmNames=new ArrayList<String>();
+      for (      SCM scm : scmsWithSameFingerprint) {
+        scmNames.add(scm.getName());
+      }
+      for (      SCM scm : scmsWithSameFingerprint) {
+        scm.addError(SCM.SCM_ID,String.format("Cannot save SCM, found duplicate SCMs. %s",join(scmNames)));
+      }
+    }
+  }
+}

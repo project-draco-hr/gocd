@@ -1,0 +1,13 @@
+{
+  PipelineConfig pipeline1=pipelineWithManyMaterials(false);
+  PluggableSCMMaterialConfig autoUpdateMaterialConfig=new PluggableSCMMaterialConfig(null,SCMMother.create("scm-id-1"),null,null);
+  pipeline1.addMaterialConfig(autoUpdateMaterialConfig);
+  PluggableSCMMaterialConfig nonAutoUpdateMaterialConfig=new PluggableSCMMaterialConfig(null,SCMMother.create("scm-id-2"),null,null);
+  nonAutoUpdateMaterialConfig.getSCMConfig().setAutoUpdate(false);
+  pipeline1.addMaterialConfig(nonAutoUpdateMaterialConfig);
+  pipeline1.add(new StageConfig(new CaseInsensitiveString("manual-stage"),new JobConfigs(),new Approval()));
+  CruiseConfig config=new CruiseConfig(new PipelineConfigs(pipeline1));
+  Set<MaterialConfig> materialsBelongingToAutoPipelines=config.getAllUniqueMaterialsBelongingToAutoPipelines();
+  assertThat(materialsBelongingToAutoPipelines.size(),is(4));
+  assertThat(materialsBelongingToAutoPipelines,containsInAnyOrder(pipeline1.materialConfigs().get(1),pipeline1.materialConfigs().get(2),pipeline1.materialConfigs().get(3),pipeline1.materialConfigs().get(4)));
+}

@@ -1,0 +1,13 @@
+{
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig("scm-id");
+  Map<CaseInsensitiveString,AbstractMaterialConfig> nameToMaterialMap=new HashMap<CaseInsensitiveString,AbstractMaterialConfig>();
+  PluggableSCMMaterialConfig existingMaterial=new PluggableSCMMaterialConfig("scm-id");
+  nameToMaterialMap.put(new CaseInsensitiveString("scm-id"),existingMaterial);
+  nameToMaterialMap.put(new CaseInsensitiveString("foo"),new GitMaterialConfig("url"));
+  pluggableSCMMaterialConfig.validateNameUniqueness(nameToMaterialMap);
+  assertThat(pluggableSCMMaterialConfig.errors().getAll().size(),is(1));
+  assertThat(pluggableSCMMaterialConfig.errors().on(PluggableSCMMaterialConfig.SCM_ID),is("Duplicate SCM material detected!"));
+  assertThat(existingMaterial.errors().getAll().size(),is(1));
+  assertThat(existingMaterial.errors().on(PluggableSCMMaterialConfig.SCM_ID),is("Duplicate SCM material detected!"));
+  assertThat(nameToMaterialMap.size(),is(2));
+}

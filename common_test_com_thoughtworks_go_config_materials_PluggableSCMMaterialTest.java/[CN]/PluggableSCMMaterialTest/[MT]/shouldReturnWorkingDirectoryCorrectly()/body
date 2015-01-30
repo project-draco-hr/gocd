@@ -1,0 +1,7 @@
+{
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  material.setFolder("dest");
+  assertThat(material.workingDirectory(new File("/tmp")).getAbsolutePath(),is("/tmp/dest"));
+  material.setFolder(null);
+  assertThat(material.workingDirectory(new File("/tmp")).getAbsolutePath(),is("/tmp"));
+}

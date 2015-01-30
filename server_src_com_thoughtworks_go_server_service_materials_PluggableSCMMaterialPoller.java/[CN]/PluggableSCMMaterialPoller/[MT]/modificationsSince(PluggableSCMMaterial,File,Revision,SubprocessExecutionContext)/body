@@ -1,0 +1,7 @@
+{
+  SCMPropertyConfiguration scmPropertyConfiguration=buildSCMPropertyConfigurations(material.getScmConfig());
+  PluggableSCMMaterialRevision pluggableSCMMaterialRevision=(PluggableSCMMaterialRevision)revision;
+  SCMRevision previouslyKnownRevision=new SCMRevision(pluggableSCMMaterialRevision.getRevision(),pluggableSCMMaterialRevision.getTimestamp(),null,null,pluggableSCMMaterialRevision.getData(),null);
+  List<SCMRevision> scmRevisions=scmExtension.latestModificationSince(material.getPluginId(),scmPropertyConfiguration,baseDir.getAbsolutePath(),previouslyKnownRevision);
+  return getModifications(scmRevisions);
+}

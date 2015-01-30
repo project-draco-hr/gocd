@@ -1,0 +1,14 @@
+{
+  SCM scmConfig=mock(SCM.class);
+  when(scmConfig.getName()).thenReturn("scm-name");
+  when(scmConfig.getConfigForDisplay()).thenReturn("k1:v1");
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(null,scmConfig,null,null);
+  assertThat(pluggableSCMMaterialConfig.getName(),is(new CaseInsensitiveString("scm-name")));
+  assertThat(pluggableSCMMaterialConfig.getDisplayName(),is("scm-name"));
+  assertThat(pluggableSCMMaterialConfig.getLongDescription(),is("k1:v1"));
+  assertThat(pluggableSCMMaterialConfig.getUriForDisplay(),is("k1:v1"));
+  when(scmConfig.getName()).thenReturn(null);
+  pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(null,scmConfig,null,null);
+  assertThat(pluggableSCMMaterialConfig.getName(),is(nullValue()));
+  assertThat(pluggableSCMMaterialConfig.getDisplayName(),is("k1:v1"));
+}

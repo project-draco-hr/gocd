@@ -1,0 +1,17 @@
+{
+  String revisionString="123";
+  Date timestamp=new Date();
+  HashMap<String,String> data=new HashMap<String,String>();
+  data.put("1","one");
+  data.put("2","two");
+  Modification modification=new Modification(null,null,null,timestamp,revisionString,JsonHelper.toJsonString(data));
+  Modifications modifications=new Modifications(modification);
+  Revision revision=modifications.latestRevision(new PluggableSCMMaterial());
+  assertThat(revision instanceof PluggableSCMMaterialRevision,is(true));
+  PluggableSCMMaterialRevision pluggableSCMMaterialRevision=(PluggableSCMMaterialRevision)revision;
+  assertThat(pluggableSCMMaterialRevision.getRevision(),is(revisionString));
+  assertThat(pluggableSCMMaterialRevision.getTimestamp(),is(timestamp));
+  assertThat(pluggableSCMMaterialRevision.getData().size(),is(data.size()));
+  assertThat(pluggableSCMMaterialRevision.getData().get("1"),is(data.get("1")));
+  assertThat(pluggableSCMMaterialRevision.getData().get("2"),is(data.get("2")));
+}

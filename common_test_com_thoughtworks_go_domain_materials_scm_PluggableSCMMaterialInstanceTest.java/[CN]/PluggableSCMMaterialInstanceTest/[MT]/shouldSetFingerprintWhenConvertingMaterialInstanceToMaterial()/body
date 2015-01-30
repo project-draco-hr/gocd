@@ -1,0 +1,9 @@
+{
+  String fingerprint="fingerprint";
+  PluggableSCMMaterial material=MaterialsMother.pluggableSCMMaterial();
+  PluggableSCMMaterialInstance materialInstance=new PluggableSCMMaterialInstance(JsonHelper.toJsonString(material),"flyweight");
+  ReflectionUtil.setField(materialInstance,"fingerprint",fingerprint);
+  materialInstance.setId(1L);
+  PluggableSCMMaterial constructedMaterial=(PluggableSCMMaterial)materialInstance.toOldMaterial(null,null,null);
+  assertThat(constructedMaterial.getFingerprint(),is(fingerprint));
+}

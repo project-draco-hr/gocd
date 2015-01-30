@@ -12,5 +12,9 @@
     Modification latestModification=this.get(0);
     return new PackageMaterialRevision(latestModification.getRevision(),latestModification.getModifiedTime(),latestModification.getAdditionalDataMap());
   }
+  if (material instanceof PluggableSCMMaterial) {
+    Modification latestModification=this.get(0);
+    return new PluggableSCMMaterialRevision(latestModification.getRevision(),latestModification.getModifiedTime(),latestModification.getAdditionalDataMap());
+  }
   return Modification.latestRevision(this);
 }

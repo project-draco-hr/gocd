@@ -1,0 +1,9 @@
+{
+  Modification modification=new Modification(scmRevision.getUser(),scmRevision.getRevisionComment(),null,scmRevision.getTimestamp(),scmRevision.getRevision(),JsonHelper.toJsonString(scmRevision.getData()));
+  if (scmRevision.getModifiedFiles() != null && !scmRevision.getModifiedFiles().isEmpty()) {
+    for (    ModifiedFile modifiedFile : scmRevision.getModifiedFiles()) {
+      modification.createModifiedFile(modifiedFile.getFileName(),null,convertAction(modifiedFile.getAction()));
+    }
+  }
+  return modification;
+}

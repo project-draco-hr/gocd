@@ -1,0 +1,8 @@
+{
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig();
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","plugin-id","1.0",new Configuration(create("k1",false,"v1")));
+  pluggableSCMMaterialConfig.setSCMConfig(scmConfig);
+  assertThat(pluggableSCMMaterialConfig.getName().toString(),is("scm-name"));
+  pluggableSCMMaterialConfig.setSCMConfig(null);
+  assertThat(pluggableSCMMaterialConfig.getName(),is(nullValue()));
+}

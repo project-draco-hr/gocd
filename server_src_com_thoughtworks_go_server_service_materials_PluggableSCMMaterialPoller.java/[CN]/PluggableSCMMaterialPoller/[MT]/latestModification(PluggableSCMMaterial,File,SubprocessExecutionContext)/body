@@ -1,0 +1,5 @@
+{
+  SCMPropertyConfiguration scmPropertyConfiguration=buildSCMPropertyConfigurations(material.getScmConfig());
+  SCMRevision scmRevision=scmExtension.getLatestRevision(material.getPluginId(),scmPropertyConfiguration,baseDir.getAbsolutePath());
+  return scmRevision == null ? new Modifications() : new Modifications(getModification(scmRevision));
+}

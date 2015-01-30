@@ -1,0 +1,9 @@
+{
+  Materials materials=new Materials();
+  PluggableSCMMaterial material1=new PluggableSCMMaterial("scm-id");
+  material1.setFolder("folder");
+  Material material2=new HgMaterial("","folder");
+  materials.add(material1);
+  materials.add(material2);
+  assertThat(materials.byFolder("folder"),is((Material)material1));
+}

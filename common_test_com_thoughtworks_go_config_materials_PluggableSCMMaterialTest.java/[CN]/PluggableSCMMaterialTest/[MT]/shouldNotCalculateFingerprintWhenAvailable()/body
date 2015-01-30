@@ -1,0 +1,9 @@
+{
+  String fingerprint="fingerprint";
+  SCM scmConfig=mock(SCM.class);
+  PluggableSCMMaterial pluggableSCMMaterial=new PluggableSCMMaterial();
+  pluggableSCMMaterial.setSCMConfig(scmConfig);
+  pluggableSCMMaterial.setFingerprint(fingerprint);
+  assertThat(pluggableSCMMaterial.getFingerprint(),is(fingerprint));
+  verify(scmConfig,never()).getFingerprint();
+}
