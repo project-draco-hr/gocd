@@ -2,11 +2,5 @@
   if (stage instanceof NullStage) {
     return;
   }
-  String projectName=stage.getIdentifier().ccProjectName();
-  Set<String> breakers=breakersCalculator.calculateFor(stage);
-  cacheStage(stage,projectName,breakers);
-  for (  JobInstance jobInstance : stage.getJobInstances()) {
-    Set<String> jobBreakers=jobInstance.getResult() == JobResult.Failed ? breakers : new HashSet<String>();
-    jobStatusChangeHandler.updateForJob(jobInstance,jobBreakers);
-  }
+  cache.replaceAll(statusesOfStageAndItsJobsFor(stage));
 }

@@ -1,0 +1,9 @@
+{
+  JobInstance job1_building=JobInstanceMother.building("job1");
+  JobInstance job2_failed=JobInstanceMother.failed("job2");
+  Stage stage=StageMother.custom("stage1",job1_building,job2_failed);
+  when(breakersCalculator.calculateFor(stage)).thenReturn(s("breaker1","breaker2"));
+  handler.statusesOfStageAndItsJobsFor(stage);
+  verify(jobStatusChangeHandler).statusFor(job1_building,new HashSet<String>());
+  verify(jobStatusChangeHandler).statusFor(job2_failed,s("breaker1","breaker2"));
+}

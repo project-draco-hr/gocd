@@ -1,8 +1,0 @@
-{
-  CcTrayStageStatusChangeHandler handler=new CcTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
-  Stage stage=StageMother.custom("stage1",JobInstanceMother.building("job1"),JobInstanceMother.failed("job2"));
-  when(breakersCalculator.calculateFor(stage)).thenReturn(s("breaker1","breaker2"));
-  handler.call(stage);
-  verify(jobStatusChangeHandler).updateForJob(eq(stage.getJobInstances().get(0)),eq(Collections.<String>emptySet()));
-  verify(jobStatusChangeHandler).updateForJob(eq(stage.getJobInstances().get(1)),eq(s("breaker1","breaker2")));
-}
