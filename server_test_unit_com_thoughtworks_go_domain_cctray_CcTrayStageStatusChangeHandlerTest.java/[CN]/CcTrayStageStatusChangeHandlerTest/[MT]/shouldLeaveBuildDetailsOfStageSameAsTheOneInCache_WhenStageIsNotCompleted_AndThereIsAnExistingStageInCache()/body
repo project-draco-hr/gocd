@@ -3,7 +3,7 @@
   ProjectStatus existingStageStatus=new ProjectStatus(projectName,"OldActivity","OldStatus","OldLabel",new Date(),webUrlFor("stage1"));
   when(cache.get(projectName)).thenReturn(existingStageStatus);
   Stage stage=StageMother.custom("stage1",JobInstanceMother.building("job1"));
-  CCTrayStageStatusChangeHandler handler=new CCTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
+  CcTrayStageStatusChangeHandler handler=new CcTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
   handler.call(stage);
   verify(cache).replace(eq(projectName),statusCaptor.capture());
   assertThat(stage.getState().completed(),is(not(true)));

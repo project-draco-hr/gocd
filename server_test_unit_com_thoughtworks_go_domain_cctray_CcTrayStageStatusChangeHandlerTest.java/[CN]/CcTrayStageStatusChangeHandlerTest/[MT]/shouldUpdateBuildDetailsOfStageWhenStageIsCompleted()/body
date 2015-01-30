@@ -2,7 +2,7 @@
   String projectName="pipeline :: stage1";
   Stage completedStage=StageMother.createPassedStage("pipeline",1,"stage1",1,"job1",new Date());
   completedStage.setCompletedByTransitionId(1L);
-  CCTrayStageStatusChangeHandler handler=new CCTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
+  CcTrayStageStatusChangeHandler handler=new CcTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
   handler.call(completedStage);
   verify(cache).replace(eq(projectName),statusCaptor.capture());
   assertThat(completedStage.isCompleted(),is(true));

@@ -2,7 +2,7 @@
   String projectName="pipeline :: stage1";
   ProjectStatus.NullProjectStatus defaultStatus=new ProjectStatus.NullProjectStatus(projectName);
   Stage stage=StageMother.custom("stage1",JobInstanceMother.building("job1"));
-  CCTrayStageStatusChangeHandler handler=new CCTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
+  CcTrayStageStatusChangeHandler handler=new CcTrayStageStatusChangeHandler(cache,jobStatusChangeHandler,breakersCalculator);
   handler.call(stage);
   verify(cache).replace(eq(projectName),statusCaptor.capture());
   assertThat(stage.getState().completed(),is(not(true)));
