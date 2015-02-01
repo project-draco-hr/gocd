@@ -1,9 +1,6 @@
 {
-  final SCMPropertyConfiguration configuration=new SCMPropertyConfiguration();
-  for (  ConfigurationProperty configurationProperty : scmConfig.getConfiguration()) {
-    configuration.add(new SCMProperty(configurationProperty.getConfigurationKey().getName(),configurationProperty.getValue()));
-  }
   final String pluginId=scmConfig.getPluginConfiguration().getId();
+  final SCMPropertyConfiguration configuration=getScmPropertyConfiguration(scmConfig);
   ValidationResult validationResult=scmExtension.isSCMConfigurationValid(pluginId,configuration);
   if (SCMMetadataStore.getInstance().hasPreferenceFor(pluginId)) {
     SCMConfigurations configurationMetadata=SCMMetadataStore.getInstance().getConfigurationMetadata(pluginId);

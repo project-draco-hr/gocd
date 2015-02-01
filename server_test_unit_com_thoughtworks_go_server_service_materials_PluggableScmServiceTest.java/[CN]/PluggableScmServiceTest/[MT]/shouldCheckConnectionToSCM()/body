@@ -1,0 +1,10 @@
+{
+  Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"));
+  SCM modifiedSCM=new SCM("scm-id",new PluginConfiguration(pluginId,"1"),configuration);
+  Result expectedResult=new Result();
+  expectedResult.withSuccessMessages(Arrays.asList("message"));
+  when(scmExtension.checkConnectionToSCM(eq(modifiedSCM.getPluginConfiguration().getId()),any(SCMPropertyConfiguration.class))).thenReturn(expectedResult);
+  Result gotResult=pluggableScmService.checkConnection(modifiedSCM);
+  verify(scmExtension).checkConnectionToSCM(eq(modifiedSCM.getPluginConfiguration().getId()),any(SCMPropertyConfiguration.class));
+  assertSame(expectedResult,gotResult);
+}
