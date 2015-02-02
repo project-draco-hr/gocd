@@ -1,8 +1,7 @@
 {
-  NotificationPluginRegistry.getInstance().registerPluginInterests(PLUGIN_ID_1,Arrays.asList(new String[]{PIPELINE_STATUS}));
   when(notificationExtension.notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY)).thenThrow(new RuntimeException("crap!"));
   when(serverHealthService.update(serverHealthState.capture())).thenReturn(null);
-  PluginNotificationService pluginNotificationService=new PluginNotificationService(notificationExtension,serverHealthService);
+  PluginNotificationService pluginNotificationService=new PluginNotificationService(notificationExtension,notificationPluginRegistry,serverHealthService);
   pluginNotificationService.notifyPlugins(new PluginNotificationMessage(PIPELINE_STATUS,REQUEST_BODY));
   verify(notificationExtension).notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY);
   assertThat(serverHealthState.getValue().getMessage(),is("Notification update failed for plugin: plugin-id-1"));

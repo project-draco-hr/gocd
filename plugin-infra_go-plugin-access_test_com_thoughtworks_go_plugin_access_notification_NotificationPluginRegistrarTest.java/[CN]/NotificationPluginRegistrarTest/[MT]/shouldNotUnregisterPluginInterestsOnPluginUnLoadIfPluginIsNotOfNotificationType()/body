@@ -1,0 +1,5 @@
+{
+  NotificationPluginRegistrar notificationPluginRegistrar=new NotificationPluginRegistrar(pluginManager,notificationExtension,notificationPluginRegistry);
+  notificationPluginRegistrar.pluginUnLoaded(new GoPluginDescriptor(PLUGIN_ID_4,null,null,null,null,true));
+  verify(notificationPluginRegistry,never()).removePluginInterests(PLUGIN_ID_4);
+}
