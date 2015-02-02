@@ -1,0 +1,7 @@
+{
+  ProjectStatus firstStatus=new ProjectStatus("item1","Sleeping 1","last-build-status 1","last-build-label 1",new Date(),"web-url 1");
+  ProjectStatus nextStatus=new ProjectStatus("item1","Sleeping 2","last-build-status 2","last-build-label 2",new Date(),"web-url 2");
+  cache.put(firstStatus);
+  cache.put(nextStatus);
+  assertThat(cache.get("item1"),is(nextStatus));
+}
