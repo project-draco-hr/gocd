@@ -1,0 +1,5 @@
+{
+  setupStagesInDB(new StageIdentity("pipeline1","stage1",12L),new StageIdentity("pipeline2","stage2",14L));
+  List<ProjectStatus> actualStatuses=loader.getStatusesForStageAndJobsOf(pipelineConfigFor("pipeline1"),stageConfigFor("non-existent-stage"));
+  assertThat(actualStatuses,is(Collections.<ProjectStatus>emptyList()));
+}
