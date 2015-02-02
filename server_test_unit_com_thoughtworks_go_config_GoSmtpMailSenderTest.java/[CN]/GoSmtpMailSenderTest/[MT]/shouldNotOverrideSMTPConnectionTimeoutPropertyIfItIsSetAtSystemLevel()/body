@@ -1,0 +1,8 @@
+{
+  FakeMailSession mailSession=FakeMailSession.setupFor(username,password,from,to,subject,body);
+  GoSmtpMailSender sender=new GoSmtpMailSender(hostName,port,username,password,true,from,to);
+  sendMailWithPropertySetTo(sender,SMTP_CONNECTIONTIMEOUT_PROPERTY,"12345");
+  mailSession.verifyMessageWasSent();
+  mailSession.verifyPropertyDoesNotExist(SMTP_CONNECTIONTIMEOUT_PROPERTY);
+  mailSession.verifyProperty(SMTP_TIMEOUT_PROPERTY,GoConstants.DEFAULT_TIMEOUT);
+}

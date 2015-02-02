@@ -1,0 +1,7 @@
+{
+  FakeMailSession mailSession=FakeMailSession.setupFor(username,password,from,to,subject,body);
+  GoSmtpMailSender sender=new GoSmtpMailSender(hostName,port,username,password,false,from,to);
+  sendMailWithPropertySetTo(sender,MAIL_SMTP_STARTTLS_PROPERTY,"any-non-null-value");
+  mailSession.verifyMessageWasSent();
+  mailSession.verifyProperty(MAIL_SMTP_STARTTLS_PROPERTY,"true");
+}

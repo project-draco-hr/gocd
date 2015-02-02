@@ -6,7 +6,7 @@
  else {
     props.put("mail.smtp.auth","true");
     props.put("mail.smtps.auth","true");
-    session=Session.getInstance(props,new SMTPAuthenticator());
+    session=Session.getInstance(props,new SMTPAuthenticator(username,password));
   }
   return session;
 }

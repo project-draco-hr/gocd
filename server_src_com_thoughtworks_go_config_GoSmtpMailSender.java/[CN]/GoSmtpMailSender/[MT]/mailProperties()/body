@@ -7,11 +7,10 @@
   if (!System.getProperties().containsKey("mail.smtp.timeout")) {
     props.put("mail.smtp.timeout",DEFAULT_TIMEOUT);
   }
-  if (tls) {
-    props.put("mail.transport.protocol","smtps");
+  if (System.getProperties().containsKey("mail.smtp.starttls.enable")) {
+    props.put("mail.smtp.starttls.enable","true");
   }
- else {
-    props.put("mail.transport.protocol","smtp");
-  }
+  String mailProtocol=tls ? "smtps" : "smtp";
+  props.put("mail.transport.protocol",mailProtocol);
   return props;
 }
