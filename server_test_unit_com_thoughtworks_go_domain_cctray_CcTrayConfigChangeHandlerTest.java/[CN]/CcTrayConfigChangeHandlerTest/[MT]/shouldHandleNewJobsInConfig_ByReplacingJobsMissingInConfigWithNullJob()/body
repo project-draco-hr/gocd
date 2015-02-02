@@ -1,0 +1,17 @@
+{
+  String stage1ProjectName="pipeline1 :: stage1";
+  String job1ProjectName="pipeline1 :: stage1 :: job1";
+  String projectNameOfNewJob="pipeline1 :: stage1 :: NEW_JOB_IN_CONFIG";
+  ProjectStatus statusOfStage1InCache=new ProjectStatus(stage1ProjectName,"OldActivity","OldStatus","OldLabel",new Date(),"stage-url");
+  ProjectStatus statusOfJob1InCache=new ProjectStatus(job1ProjectName,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"job1-url");
+  when(cache.get(stage1ProjectName)).thenReturn(statusOfStage1InCache);
+  when(cache.get(job1ProjectName)).thenReturn(statusOfJob1InCache);
+  when(cache.get(projectNameOfNewJob)).thenReturn(null);
+  GoConfigMother goConfigMother=new GoConfigMother();
+  CruiseConfig config=new CruiseConfig();
+  goConfigMother.addPipeline(config,"pipeline1","stage1","job1","NEW_JOB_IN_CONFIG");
+  handler.call(config);
+  ProjectStatus expectedNullStatusForNewJob=new ProjectStatus.NullProjectStatus(projectNameOfNewJob);
+  verify(cache).replaceAllEntriesInCacheWith(eq(asList(statusOfStage1InCache,statusOfJob1InCache,expectedNullStatusForNewJob)));
+  verifyZeroInteractions(stageStatusLoader);
+}

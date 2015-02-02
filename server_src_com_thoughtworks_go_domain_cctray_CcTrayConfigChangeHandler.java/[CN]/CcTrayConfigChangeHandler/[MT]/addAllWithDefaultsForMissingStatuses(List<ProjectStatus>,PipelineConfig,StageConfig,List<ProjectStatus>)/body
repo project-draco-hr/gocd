@@ -1,0 +1,8 @@
+{
+  String stageProjectName=stageProjectName(pipelineConfig,stageConfig);
+  allStatuses.add(findOrDefault(stageProjectName,statusesAvailableForThisStage));
+  for (  JobConfig jobConfig : stageConfig.getJobs()) {
+    String jobProjectName=jobProjectName(stageProjectName,jobConfig);
+    allStatuses.add(findOrDefault(jobProjectName,statusesAvailableForThisStage));
+  }
+}

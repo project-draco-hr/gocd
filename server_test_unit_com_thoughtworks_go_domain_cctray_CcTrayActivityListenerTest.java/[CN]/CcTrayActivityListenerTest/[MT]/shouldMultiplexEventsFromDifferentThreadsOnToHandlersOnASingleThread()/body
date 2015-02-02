@@ -10,7 +10,7 @@
   t1.join();
   t2.join();
   t3.join();
-  Thread.sleep(1000);
+  waitForProcessingToHappen();
   assertThat(jobStatusChangeHandler.threadOfCall,is(not(nullValue())));
   assertThat(jobStatusChangeHandler.threadOfCall,is(not(Thread.currentThread())));
   assertThat(jobStatusChangeHandler.threadOfCall,is(not(t1)));

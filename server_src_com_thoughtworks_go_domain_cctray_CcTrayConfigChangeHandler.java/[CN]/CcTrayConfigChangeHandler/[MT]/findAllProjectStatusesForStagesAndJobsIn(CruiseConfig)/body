@@ -1,0 +1,20 @@
+{
+  final List<ProjectStatus> projectStatuses=new ArrayList<ProjectStatus>();
+  config.accept(new PiplineConfigVisitor(){
+    public void visit(    PipelineConfig pipelineConfig){
+      for (      StageConfig stageConfig : pipelineConfig) {
+        String stageProjectName=stageProjectName(pipelineConfig,stageConfig);
+        if (cache.get(stageProjectName) != null) {
+          List<ProjectStatus> statusesInCache=findStageAndStatusesFromCache(pipelineConfig,stageConfig);
+          addAllWithDefaultsForMissingStatuses(projectStatuses,pipelineConfig,stageConfig,statusesInCache);
+        }
+ else {
+          List<ProjectStatus> statusesInDB=findStageAndStatusesFromDB(pipelineConfig,stageConfig);
+          addAllWithDefaultsForMissingStatuses(projectStatuses,pipelineConfig,stageConfig,statusesInDB);
+        }
+      }
+    }
+  }
+);
+  return projectStatuses;
+}

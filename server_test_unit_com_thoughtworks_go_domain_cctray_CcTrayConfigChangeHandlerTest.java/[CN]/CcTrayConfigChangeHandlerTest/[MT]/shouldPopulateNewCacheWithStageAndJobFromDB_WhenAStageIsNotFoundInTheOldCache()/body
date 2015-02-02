@@ -1,0 +1,11 @@
+{
+  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline1");
+  String stageProjectName="pipeline1 :: stage";
+  String jobProjectName="pipeline1 :: stage :: job";
+  ProjectStatus statusOfStageInDB=new ProjectStatus(stageProjectName,"OldActivity","OldStatus","OldLabel",new Date(),"stage-url");
+  ProjectStatus statusOfJobInDB=new ProjectStatus(jobProjectName,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"job-url");
+  when(cache.get(stageProjectName)).thenReturn(null);
+  when(stageStatusLoader.getStatusesForStageAndJobsOf(pipelineConfigFor(config,"pipeline1"),stageConfigFor(config,"pipeline1","stage"))).thenReturn(asList(statusOfStageInDB,statusOfJobInDB));
+  handler.call(config);
+  verify(cache).replaceAllEntriesInCacheWith(eq(asList(statusOfStageInDB,statusOfJobInDB)));
+}
