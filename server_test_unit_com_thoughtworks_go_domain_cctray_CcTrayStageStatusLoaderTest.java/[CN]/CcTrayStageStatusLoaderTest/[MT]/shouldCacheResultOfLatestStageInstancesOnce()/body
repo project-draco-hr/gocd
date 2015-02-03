@@ -3,5 +3,5 @@
   loader.getStatusesForStageAndJobsOf(pipelineConfigFor("pipeline1"),stageConfigFor("stage1"));
   loader.getStatusesForStageAndJobsOf(pipelineConfigFor("pipeline1"),stageConfigFor("stage2"));
   loader.getStatusesForStageAndJobsOf(pipelineConfigFor("pipeline1"),stageConfigFor("stage-some-nonexistent-one"));
-  verify(stageService,times(1)).findLatestStageInstances();
+  verify(stageDao,times(1)).findLatestStageInstances();
 }
