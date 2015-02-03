@@ -8,7 +8,6 @@
   when(cache.get(stage1ProjectName)).thenReturn(statusOfStage1InCache);
   when(cache.get(job1ProjectName)).thenReturn(statusOfJob1InCache);
   when(cache.get(projectNameOfJobWhichWillBeRemoved)).thenReturn(statusOfOldJobInCache);
-  GoConfigMother goConfigMother=new GoConfigMother();
   CruiseConfig config=new CruiseConfig();
   goConfigMother.addPipeline(config,"pipeline1","stage1","job1");
   handler.call(config);

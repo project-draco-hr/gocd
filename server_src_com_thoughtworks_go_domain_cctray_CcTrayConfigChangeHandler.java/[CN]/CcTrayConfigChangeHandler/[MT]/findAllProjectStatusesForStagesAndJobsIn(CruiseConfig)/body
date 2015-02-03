@@ -1,17 +1,24 @@
 {
   final List<ProjectStatus> projectStatuses=new ArrayList<ProjectStatus>();
-  config.accept(new PiplineConfigVisitor(){
-    public void visit(    PipelineConfig pipelineConfig){
-      for (      StageConfig stageConfig : pipelineConfig) {
-        String stageProjectName=stageProjectName(pipelineConfig,stageConfig);
-        if (cache.get(stageProjectName) != null) {
-          List<ProjectStatus> statusesInCache=findStageAndStatusesFromCache(pipelineConfig,stageConfig);
-          addAllWithDefaultsForMissingStatuses(projectStatuses,pipelineConfig,stageConfig,statusesInCache);
+  final Map<String,Set<String>> groupsAndTheirViewers=ccTrayViewAuthority.groupsAndTheirViewers();
+  config.accept(new PipelineGroupVisitor(){
+    @Override public void visit(    PipelineConfigs pipelineConfigs){
+      Set<String> usersWithViewPermissionsOfThisGroup=groupsAndTheirViewers.get(pipelineConfigs.getGroup());
+      for (      PipelineConfig pipelineConfig : pipelineConfigs) {
+        for (        StageConfig stageConfig : pipelineConfig) {
+          List<ProjectStatus> statusesInCacheOrDB=findExistingStatuses(pipelineConfig,stageConfig);
+          List<ProjectStatus> statuses=getStatusesForCurrentProjectsWithDefaultsForMissingOnes(pipelineConfig,stageConfig,statusesInCacheOrDB);
+          updateStatusesWithUsersHavingViewPermission(statuses,usersWithViewPermissionsOfThisGroup);
+          projectStatuses.addAll(statuses);
         }
+      }
+    }
+    private List<ProjectStatus> findExistingStatuses(    PipelineConfig pipelineConfig,    StageConfig stageConfig){
+      if (cache.get(stageProjectName(pipelineConfig,stageConfig)) != null) {
+        return findStageAndStatusesFromCache(pipelineConfig,stageConfig);
+      }
  else {
-          List<ProjectStatus> statusesInDB=findStageAndStatusesFromDB(pipelineConfig,stageConfig);
-          addAllWithDefaultsForMissingStatuses(projectStatuses,pipelineConfig,stageConfig,statusesInDB);
-        }
+        return findStageAndStatusesFromDB(pipelineConfig,stageConfig);
       }
     }
   }
