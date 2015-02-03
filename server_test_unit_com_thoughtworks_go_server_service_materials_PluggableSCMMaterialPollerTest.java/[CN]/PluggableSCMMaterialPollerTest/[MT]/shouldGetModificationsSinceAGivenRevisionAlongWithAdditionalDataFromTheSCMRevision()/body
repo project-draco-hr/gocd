@@ -10,8 +10,8 @@
   String dataValue="two";
   data.put(dataKey,dataValue);
   SCMRevision latestRevision=new SCMRevision("rev-123",timestamp,"user","comment-123",data,null);
-  when(scmExtension.latestModificationSince(eq(material.getPluginId()),scmConfiguration.capture(),eq("/tmp/flyweight"),knownSCMRevision.capture())).thenReturn(asList(latestRevision));
-  List<Modification> modifications=poller.modificationsSince(material,new File("/tmp/flyweight"),knownRevision,null);
+  when(scmExtension.latestModificationSince(eq(material.getPluginId()),scmConfiguration.capture(),eq(flyweightFolderPath),knownSCMRevision.capture())).thenReturn(asList(latestRevision));
+  List<Modification> modifications=poller.modificationsSince(material,new File(flyweightFolderPath),knownRevision,null);
   assertThat(knownSCMRevision.getValue().getRevision(),is(previousRevision));
   assertThat(knownSCMRevision.getValue().getTimestamp(),is(timestamp));
   assertThat(knownSCMRevision.getValue().getData(),is(notNullValue()));

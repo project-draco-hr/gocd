@@ -1,6 +1,6 @@
 {
-  when(scmExtension.getLatestRevision(eq(material.getPluginId()),scmConfiguration.capture(),eq(""))).thenReturn(null);
-  List<Modification> modifications=poller.latestModification(material,new File("/tmp/flyweight"),null);
+  when(scmExtension.getLatestRevision(eq(material.getPluginId()),scmConfiguration.capture(),eq(flyweightFolderPath))).thenReturn(null);
+  List<Modification> modifications=poller.latestModification(material,new File(flyweightFolderPath),null);
   assertThat(modifications,is(notNullValue()));
   assertThat(modifications.isEmpty(),is(true));
 }

@@ -1,0 +1,6 @@
+{
+  MailSession.fakeSessionJustForTestsSinceSessionClassIsFinal=session;
+  when(session.getTransport()).thenReturn(transport);
+  when(session.createWith(any(Properties.class),eq(username),eq(password))).thenReturn(session);
+  when(session.createMessage(from,to,subject,body)).thenReturn(message);
+}

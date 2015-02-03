@@ -6,8 +6,8 @@
   data.put(dataKey,dataValue);
   List<ModifiedFile> modifiedFiles=new ArrayList<ModifiedFile>(asList(new ModifiedFile("f1",ModifiedAction.added),new ModifiedFile("f2",ModifiedAction.modified),new ModifiedFile("f3",ModifiedAction.deleted)));
   SCMRevision scmRevision=new SCMRevision("revision-123",timestamp,"user","comment",data,modifiedFiles);
-  when(scmExtension.getLatestRevision(eq(material.getPluginId()),scmConfiguration.capture(),eq("/tmp/flyweight-folder"))).thenReturn(scmRevision);
-  List<Modification> modifications=poller.latestModification(material,new File("/tmp/flyweight-folder"),null);
+  when(scmExtension.getLatestRevision(eq(material.getPluginId()),scmConfiguration.capture(),eq(flyweightFolderPath))).thenReturn(scmRevision);
+  List<Modification> modifications=poller.latestModification(material,new File(flyweightFolderPath),null);
   assertThat(modifications.get(0).getRevision(),is("revision-123"));
   assertThat(modifications.get(0).getModifiedTime(),is(timestamp));
   assertThat(modifications.get(0).getUserName(),is("user"));
