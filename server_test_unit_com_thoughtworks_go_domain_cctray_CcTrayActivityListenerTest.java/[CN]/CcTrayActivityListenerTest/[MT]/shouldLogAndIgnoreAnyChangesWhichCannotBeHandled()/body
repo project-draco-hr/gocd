@@ -2,7 +2,7 @@
   CcTrayStageStatusChangeHandler normalStageStatusChangeHandler=mock(CcTrayStageStatusChangeHandler.class);
   CcTrayJobStatusChangeHandler failingJobStatusChangeHandler=mock(CcTrayJobStatusChangeHandler.class);
   doThrow(new RuntimeException("Ouch. Failed.")).when(failingJobStatusChangeHandler).call(any(JobInstance.class));
-  CcTrayActivityListener listener=new CcTrayActivityListener(failingJobStatusChangeHandler,normalStageStatusChangeHandler,configChangeHandler);
+  CcTrayActivityListener listener=new CcTrayActivityListener(goConfigService,failingJobStatusChangeHandler,normalStageStatusChangeHandler,configChangeHandler);
   listener.startQueueProcessor();
   listener.jobStatusChanged(JobInstanceMother.passed("some-job-this-should-fail"));
   listener.stageStatusChanged(StageMother.unrunStage("some-stage"));
