@@ -1,3 +1,6 @@
 {
-  return new ProjectStatus(projectName,stage.stageState().cctrayActivity(),lastBuildStatus(projectName,stage),lastBuildLabel(projectName,stage),lastBuildTime(projectName,stage),stage.getIdentifier().webUrl(),breakers);
+  ProjectStatus existingStatus=projectByName(projectName);
+  ProjectStatus newStatus=new ProjectStatus(projectName,stage.stageState().cctrayActivity(),lastBuildStatus(stage,existingStatus),lastBuildLabel(stage,existingStatus),lastBuildTime(stage,existingStatus),stage.getIdentifier().webUrl(),breakers);
+  newStatus.updateViewers(existingStatus.viewers());
+  return newStatus;
 }
