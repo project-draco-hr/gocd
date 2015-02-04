@@ -1,8 +1,8 @@
 {
   CcTrayActivityListener listener=new CcTrayActivityListener(goConfigService,jobStatusChangeHandler,stageStatusChangeHandler,configChangeHandler);
-  listener.startQueueProcessor();
+  listener.initialize();
   try {
-    listener.startQueueProcessor();
+    listener.initialize();
     fail("Should have failed to start queue processor a second time.");
   }
  catch (  RuntimeException e) {

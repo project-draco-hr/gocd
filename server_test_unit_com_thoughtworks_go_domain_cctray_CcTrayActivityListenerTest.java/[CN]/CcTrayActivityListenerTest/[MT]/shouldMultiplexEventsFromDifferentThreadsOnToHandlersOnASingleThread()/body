@@ -1,6 +1,6 @@
 {
   CcTrayActivityListener listener=new CcTrayActivityListener(goConfigService,jobStatusChangeHandler,stageStatusChangeHandler,configChangeHandler);
-  listener.startQueueProcessor();
+  listener.initialize();
   Thread t1=callJobStatusChangeInNewThread(listener);
   Thread t2=callStageStatusChangeInNewThread(listener);
   Thread t3=callConfigChangeInNewThread(listener);
