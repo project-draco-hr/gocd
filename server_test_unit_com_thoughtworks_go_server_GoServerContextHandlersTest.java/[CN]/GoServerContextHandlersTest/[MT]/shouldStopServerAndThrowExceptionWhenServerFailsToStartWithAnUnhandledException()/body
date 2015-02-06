@@ -1,7 +1,7 @@
 {
   final JettyServer server=mock(JettyServer.class);
   final WebAppContext webAppContext=mock(WebAppContext.class);
-  when(server.getContainer()).thenReturn(new Container());
+  when(server.getContainer()).thenReturn(new ServletContextHandler());
   when(server.getServer()).thenReturn(mock(Server.class));
   GoServer goServer=new GoServer(){
     @Override WebAppContext webApp() throws IOException, SAXException, ClassNotFoundException, UnavailableException {

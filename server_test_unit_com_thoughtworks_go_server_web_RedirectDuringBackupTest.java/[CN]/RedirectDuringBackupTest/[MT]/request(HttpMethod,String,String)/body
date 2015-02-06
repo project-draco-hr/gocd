@@ -1,0 +1,14 @@
+{
+  Request request=new Request(mock(HttpChannel.class),mock(HttpInput.class)){
+    @Override public String getHeader(    String name){
+      if (name.equals("Referer")) {
+        return referer;
+      }
+      return super.getHeader(name);
+    }
+  }
+;
+  request.setMethod(method,method.asString());
+  request.setUri(new HttpURI(uri));
+  return request;
+}

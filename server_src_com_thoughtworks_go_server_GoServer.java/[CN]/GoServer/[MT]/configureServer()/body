@@ -1,13 +1,16 @@
 {
   JettyServer server=createServer();
   server.getContainer().addEventListener(mbeans());
-  server.addConnector(selectChannelConnector());
-  server.addConnector(sslConnector());
-  server.addHandler(welcomeFileHandler());
-  server.addHandler(legacyRequestHandler());
+  server.addConnector(plainConnector(server));
+  server.addConnector(sslConnector(server));
+  HandlerCollection handlers=new HandlerCollection();
+  handlers.addHandler(welcomeFileHandler());
+  handlers.addHandler(legacyRequestHandler());
   WebAppContext webAppContext=webApp();
-  addResourceHandler(server,webAppContext);
-  server.addWebAppHandler(webAppContext);
+  handlers.addHandler(webAppContext);
+  addResourceHandler(handlers,webAppContext);
+  server.setWebAppContext(webAppContext);
+  server.setHandler(handlers);
   performCustomConfiguration(server);
   server.setStopAtShutdown(true);
   return server;

@@ -1,8 +1,7 @@
 {
   WebAppContext wac=new WebAppContext();
-  configuration.setWebAppContext(wac);
-  configuration.initialize(getWarFile());
-  wac.setConfigurationClasses(new String[]{"org.mortbay.jetty.webapp.WebInfConfiguration","org.mortbay.jetty.webapp.WebXmlConfiguration","org.mortbay.jetty.webapp.JettyWebXmlConfiguration"});
+  wac.setDefaultsDescriptor(GoWebXmlConfiguration.configuration(getWarFile()));
+  wac.setConfigurationClasses(new String[]{WebInfConfiguration.class.getCanonicalName(),WebXmlConfiguration.class.getCanonicalName(),JettyWebXmlConfiguration.class.getCanonicalName()});
   wac.setContextPath(new SystemEnvironment().getWebappContextPath());
   wac.setWar(getWarFile());
   wac.setParentLoaderPriority(new SystemEnvironment().getParentLoaderPriority());
