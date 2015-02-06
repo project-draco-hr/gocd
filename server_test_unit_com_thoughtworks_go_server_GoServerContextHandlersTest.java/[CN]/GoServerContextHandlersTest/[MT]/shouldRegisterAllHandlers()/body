@@ -1,6 +1,6 @@
 {
   final JettyServer server=mock(JettyServer.class);
-  when(server.getContainer()).thenReturn(new Container());
+  when(server.getContainer()).thenReturn(new ServletContextHandler());
   when(server.getServer()).thenReturn(mock(Server.class));
   SystemEnvironment environment=spy(new SystemEnvironment());
   final WebAppContext mainWebapp=mock(WebAppContext.class);
@@ -25,7 +25,7 @@
   }
 ;
   assertThat(goServer.configureServer(),sameInstance(server));
-  verify(server).addHandler(welcomeHandler);
-  verify(server).addHandler(legacyRequestHandler);
-  verify(server).addWebAppHandler(mainWebapp);
+  verify(server).setHandler(welcomeHandler);
+  verify(server).setHandler(legacyRequestHandler);
+  verify(server).setHandler(mainWebapp);
 }

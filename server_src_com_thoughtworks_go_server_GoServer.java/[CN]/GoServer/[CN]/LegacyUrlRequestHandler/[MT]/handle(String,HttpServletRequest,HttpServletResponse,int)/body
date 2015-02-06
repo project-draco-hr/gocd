@@ -2,10 +2,10 @@
   if (target.startsWith(GoConstants.OLD_URL_CONTEXT + "/") || target.equals(GoConstants.OLD_URL_CONTEXT)) {
     if (shouldRedirect(request)) {
       response.setHeader("Location",target.replaceFirst(GoConstants.OLD_URL_CONTEXT,GoConstants.GO_URL_CONTEXT));
-      response.setStatus(HttpStatus.ORDINAL_301_Moved_Permanently);
+      response.setStatus(HttpStatus.MOVED_PERMANENTLY_301);
     }
  else {
-      response.setStatus(HttpStatus.ORDINAL_404_Not_Found);
+      response.setStatus(HttpStatus.NOT_FOUND_404);
     }
     response.setHeader("Content-Type","text/plain");
     PrintWriter writer=response.getWriter();

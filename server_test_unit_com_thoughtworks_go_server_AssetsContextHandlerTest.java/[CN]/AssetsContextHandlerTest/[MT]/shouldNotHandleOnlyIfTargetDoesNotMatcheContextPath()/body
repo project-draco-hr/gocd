@@ -11,5 +11,5 @@
   HttpServletResponse response=mock(HttpServletResponse.class);
   when(request.isHandled()).thenReturn(false);
   handler.handle("/junk",request,response,1);
-  verify(handler,never()).superDotHandle("/junk",request,response,1);
+  verify(handler,never()).superDotHandle("/junk",any(Request.class),request,response);
 }
