@@ -3,7 +3,7 @@
   if (LOGGER.isDebugEnabled()) {
     LOGGER.debug("[TFS] Updating to revision: " + revision + " in workingdirectory "+ workingDir);
   }
-  outputStreamConsumer.stdOutput(format("\n[cruise] Start updating %s at revision %s from %s",updatingTarget(),revision.getRevision(),url));
+  outputStreamConsumer.stdOutput(format("[%s] Start updating %s at revision %s from %s",GoConstants.PRODUCT_NAME,updatingTarget(),revision.getRevision(),url));
   tfs(execCtx).checkout(workingDir,revision);
   if (LOGGER.isDebugEnabled()) {
     LOGGER.debug("[TFS] done with update");
