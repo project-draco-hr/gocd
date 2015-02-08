@@ -1,10 +1,11 @@
 {
-  GoServer goServer=new GoServer(new SystemEnvironment(),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
-  Handler welcomeHandler=goServer.welcomeFileHandler();
+  ContextHandler welcomeFileHandler=new GoServer(new SystemEnvironment(),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class)).welcomeFileHandler();
+  welcomeFileHandler.setServer(mock(Server.class));
+  welcomeFileHandler.start();
   HttpServletResponse response=mock(HttpServletResponse.class);
   ByteArrayOutputStream output=new ByteArrayOutputStream();
   when(response.getWriter()).thenReturn(new PrintWriter(output));
-  welcomeHandler.handle("/",mock(Request.class),mock(HttpServletRequest.class),response);
+  welcomeFileHandler.handle("/",mock(Request.class),mock(HttpServletRequest.class),response);
   String responseBody=new String(output.toByteArray());
   assertThat(responseBody,is("redirecting.."));
   verify(response).setHeader("Location","/go/home");

@@ -1,14 +1,14 @@
 {
-  final JettyServer server=mock(JettyServer.class);
-  when(server.getContainer()).thenReturn(new ServletContextHandler());
-  when(server.getServer()).thenReturn(mock(Server.class));
+  final JettyServer jettyServer=mock(JettyServer.class);
+  when(jettyServer.getContainer()).thenReturn(new ServletContextHandler());
+  when(jettyServer.getServer()).thenReturn(mock(Server.class));
   SystemEnvironment environment=spy(new SystemEnvironment());
   final WebAppContext mainWebapp=mock(WebAppContext.class);
   final GoServer.GoServerWelcomeFileHandler welcomeHandler=mock(GoServer.GoServerWelcomeFileHandler.class);
   final GoServer.LegacyUrlRequestHandler legacyRequestHandler=mock(GoServer.LegacyUrlRequestHandler.class);
   GoServer goServer=new GoServer(environment,new GoCipherSuite(sslSocketFactory),null){
     @Override JettyServer createServer(){
-      return server;
+      return jettyServer;
     }
     @Override WebAppContext webApp() throws IOException, SAXException, ClassNotFoundException, UnavailableException {
       return mainWebapp;
@@ -16,7 +16,7 @@
     @Override ContextHandler welcomeFileHandler(){
       return welcomeHandler;
     }
-    @Override public ContextHandler legacyRequestHandler(){
+    @Override public Handler legacyRequestHandler(){
       return legacyRequestHandler;
     }
     @Override Validation validate(){
@@ -24,8 +24,12 @@
     }
   }
 ;
-  assertThat(goServer.configureServer(),sameInstance(server));
-  verify(server).setHandler(welcomeHandler);
-  verify(server).setHandler(legacyRequestHandler);
-  verify(server).setHandler(mainWebapp);
+  assertThat(goServer.configureServer(),sameInstance(jettyServer));
+  ArgumentCaptor<HandlerCollection> captor=ArgumentCaptor.forClass(HandlerCollection.class);
+  verify(jettyServer).setHandler(captor.capture());
+  HandlerCollection handlerCollection=captor.getValue();
+  List<Handler> handlers=ArrayUtil.asList(handlerCollection.getHandlers());
+  assertThat(handlers.contains(welcomeHandler),is(true));
+  assertThat(handlers.contains(legacyRequestHandler),is(true));
+  assertThat(handlers.contains(mainWebapp),is(true));
 }

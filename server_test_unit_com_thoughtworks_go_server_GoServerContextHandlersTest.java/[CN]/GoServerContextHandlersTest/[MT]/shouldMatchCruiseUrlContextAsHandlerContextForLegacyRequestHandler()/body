@@ -1,5 +1,9 @@
 {
   GoServer goServer=new GoServer(new SystemEnvironment(),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
-  ContextHandler handler=goServer.legacyRequestHandler();
-  assertThat(handler.getContextPath(),is("/cruise"));
+  GoServer.LegacyUrlRequestHandler handler=(GoServer.LegacyUrlRequestHandler)goServer.legacyRequestHandler();
+  assertThat(handler.getHandler() instanceof MovedContextHandler,is(true));
+  MovedContextHandler movedContextHandler=(MovedContextHandler)handler.getHandler();
+  assertThat(movedContextHandler.getContextPath(),is("/cruise"));
+  assertThat(movedContextHandler.getNewContextURL(),is("/go"));
+  assertThat(movedContextHandler.isPermanent(),is(true));
 }
