@@ -7,8 +7,8 @@
   handlers.addHandler(welcomeFileHandler());
   handlers.addHandler(legacyRequestHandler());
   WebAppContext webAppContext=webApp();
-  handlers.addHandler(webAppContext);
   addResourceHandler(handlers,webAppContext);
+  handlers.addHandler(webAppContext);
   server.setWebAppContext(webAppContext);
   server.setHandler(handlers);
   performCustomConfiguration(server);

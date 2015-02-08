@@ -1,3 +1,7 @@
 {
-  super(GoConstants.OLD_URL_CONTEXT);
+  MovedContextHandler movedContextHandler=new MovedContextHandler();
+  movedContextHandler.setContextPath(oldContextUrl);
+  movedContextHandler.setNewContextURL(newContextUrl);
+  movedContextHandler.setPermanent(true);
+  setHandler(movedContextHandler);
 }
