@@ -3,6 +3,6 @@
   transmitter.consumeLine("second line");
   transmitter.flushToServer();
   verify(consoleAppender).append(any(String.class));
-  assertTrue(requestArgumentCaptor.getValue().contains("first line\n"));
-  assertTrue(requestArgumentCaptor.getValue().contains("second line\n"));
+  assertThat(requestArgumentCaptor.getValue(),containsString("first line\n"));
+  assertThat(requestArgumentCaptor.getValue(),containsString("second line\n"));
 }
