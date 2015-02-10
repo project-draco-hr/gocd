@@ -1,7 +1,7 @@
 {
   final JettyServer jettyServer=mock(JettyServer.class);
   when(jettyServer.getContainer()).thenReturn(new ServletContextHandler());
-  when(jettyServer.getServer()).thenReturn(mock(Server.class));
+  when(jettyServer.getServer()).thenReturn(new Server());
   SystemEnvironment environment=spy(new SystemEnvironment());
   final WebAppContext mainWebapp=mock(WebAppContext.class);
   final GoServer.GoServerWelcomeFileHandler welcomeHandler=mock(GoServer.GoServerWelcomeFileHandler.class);
