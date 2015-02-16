@@ -1,0 +1,19 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  goConfigMother.addPipeline(config,"pipeline1","stage1","job1");
+  goConfigMother.addStageToPipeline(config,"pipeline1","stage2","job2");
+  String stage1ProjectName="pipeline1 :: stage1";
+  String job1ProjectName="pipeline1 :: stage1 :: job1";
+  String stage2ProjectName="pipeline1 :: stage2";
+  String job2ProjectName="pipeline1 :: stage2 :: job2";
+  ProjectStatus statusOfStage1InCache=new ProjectStatus(stage1ProjectName,"OldActivity","OldStatus","OldLabel",new Date(),"stage-url");
+  ProjectStatus statusOfJob1InCache=new ProjectStatus(job1ProjectName,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"job1-url");
+  when(cache.get(stage1ProjectName)).thenReturn(statusOfStage1InCache);
+  when(cache.get(job1ProjectName)).thenReturn(statusOfJob1InCache);
+  when(cache.get(stage2ProjectName)).thenReturn(null);
+  when(stageStatusLoader.getStatusesForStageAndJobsOf(pipelineConfigFor(config,"pipeline1"),stageConfigFor(config,"pipeline1","stage2"))).thenReturn(Collections.<ProjectStatus>emptyList());
+  handler.call(config);
+  ProjectStatus expectedNullStatusForStage2=new ProjectStatus.NullProjectStatus(stage2ProjectName);
+  ProjectStatus expectedNullStatusForJob2=new ProjectStatus.NullProjectStatus(job2ProjectName);
+  verify(cache).replaceAllEntriesInCacheWith(eq(asList(statusOfStage1InCache,statusOfJob1InCache,expectedNullStatusForStage2,expectedNullStatusForJob2)));
+}

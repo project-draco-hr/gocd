@@ -6,7 +6,7 @@
   CaseInsensitiveString templateAdminName=new CaseInsensitiveString("templateAdmin");
   CaseInsensitiveString secondTemplateAdminName=new CaseInsensitiveString("secondTemplateAdmin");
   GoConfigMother.enableSecurityWithPasswordFile(config);
-  GoConfigMother.enableSuperAdminForConfig(config,theSuperAdmin);
+  GoConfigMother.addUserAsSuperAdmin(config,theSuperAdmin);
   config.addTemplate(createTemplate(templateName,new Authorization(new AdminsConfig(new AdminUser(templateAdminName)))));
   config.addTemplate(createTemplate(secondTemplateName,new Authorization(new AdminsConfig(new AdminUser(secondTemplateAdminName)))));
   when(goConfigService.getCurrentConfig()).thenReturn(config);

@@ -1,0 +1,16 @@
+{
+  String stage1ProjectName="pipeline1 :: stage1";
+  String job1ProjectName="pipeline1 :: stage1 :: job1";
+  String projectNameOfJobWhichWillBeRemoved="pipeline1 :: stage1 :: JOB_IN_OLD_CONFIG";
+  ProjectStatus statusOfStage1InCache=new ProjectStatus(stage1ProjectName,"OldActivity","OldStatus","OldLabel",new Date(),"stage-url");
+  ProjectStatus statusOfJob1InCache=new ProjectStatus(job1ProjectName,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"job1-url");
+  ProjectStatus statusOfOldJobInCache=new ProjectStatus(projectNameOfJobWhichWillBeRemoved,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"job2-url");
+  when(cache.get(stage1ProjectName)).thenReturn(statusOfStage1InCache);
+  when(cache.get(job1ProjectName)).thenReturn(statusOfJob1InCache);
+  when(cache.get(projectNameOfJobWhichWillBeRemoved)).thenReturn(statusOfOldJobInCache);
+  CruiseConfig config=new CruiseConfig();
+  goConfigMother.addPipeline(config,"pipeline1","stage1","job1");
+  handler.call(config);
+  verify(cache).replaceAllEntriesInCacheWith(eq(asList(statusOfStage1InCache,statusOfJob1InCache)));
+  verifyZeroInteractions(stageStatusLoader);
+}

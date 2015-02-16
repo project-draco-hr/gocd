@@ -1,0 +1,7 @@
+{
+  Map<String,Set<String>> rolesToUsers=new HashMap<String,Set<String>>();
+  for (  Role role : securityConfig.getRoles()) {
+    rolesToUsers.put(role.getName().toString(),role.usersOfRole());
+  }
+  return rolesToUsers;
+}

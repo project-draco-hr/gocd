@@ -1,0 +1,4 @@
+{
+  ProjectStatus status=new ProjectStatus("name","activity1","build-status-1","build-label-1",DateUtils.parseYYYYMMDD("2010-05-23"),"web-url",s("breaker1","breaker2"));
+  assertThat(status.xmlRepresentation(),is("<Project name=\"name\" activity=\"activity1\" lastBuildStatus=\"build-status-1\" lastBuildLabel=\"build-label-1\" " + "lastBuildTime=\"2010-05-23T00:00:00\" webUrl=\"__SITE_URL_PREFIX__/web-url\">" + "<messages><message text=\"breaker1, breaker2\" kind=\"Breakers\" /></messages></Project>"));
+}

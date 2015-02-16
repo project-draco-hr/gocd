@@ -1,0 +1,13 @@
+{
+  Modification user1Commit=ModificationsMother.checkinWithComment("123","comment 1","user1","user1@domain1.com",new Date(),"foo.c");
+  Modification user2Commit=ModificationsMother.checkinWithComment("124","comment 2","user2","user2@domain2.com",new Date(),"bar.c");
+  MaterialRevision changedRevision=new MaterialRevision(MaterialsMother.gitMaterial("foo.com"),user1Commit,user2Commit);
+  changedRevision.markAsChanged();
+  Modification user3CommitForUnchangedRevision=ModificationsMother.checkinWithComment("125","comment 1","user3","user3@domain2.com",new Date(),"bar.c");
+  MaterialRevision unchangedRevision=new MaterialRevision(MaterialsMother.gitMaterial("bar.com"),user3CommitForUnchangedRevision);
+  MaterialRevisions revisions=new MaterialRevisions(changedRevision,unchangedRevision);
+  when(materialRepo.findMaterialRevisionsForPipeline(12l)).thenReturn(revisions);
+  CcTrayBreakersCalculator status=new CcTrayBreakersCalculator(materialRepo);
+  Set<String> actualBreakers=status.calculateFor(failedStage());
+  assertThat(actualBreakers,is(s("user1","user2")));
+}

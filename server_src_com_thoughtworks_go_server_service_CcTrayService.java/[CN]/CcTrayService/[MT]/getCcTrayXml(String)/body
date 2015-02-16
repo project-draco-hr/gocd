@@ -1,0 +1,15 @@
+{
+  String userName=CaseInsensitiveString.str(UserHelper.getUserName().getUsername());
+  boolean isSecurityEnabled=goConfigService.isSecurityEnabled();
+  List<ProjectStatus> statuses=ccTrayCache.allEntriesInOrder();
+  StringBuilder xml=new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Projects>\n");
+  for (  ProjectStatus status : statuses) {
+    if (!isSecurityEnabled || status.canBeViewedBy(userName)) {
+      String xmlRepresentation=status.xmlRepresentation();
+      if (!StringUtil.isBlank(xmlRepresentation)) {
+        xml.append("  ").append(xmlRepresentation).append("\n");
+      }
+    }
+  }
+  return xml.append("</Projects>").toString().replaceAll(ProjectStatus.SITE_URL_PREFIX,siteUrlPrefix);
+}

@@ -1,0 +1,10 @@
+{
+  if (stageIdentifiers == null) {
+    stageIdentifiers=stageDao.findLatestStageInstances();
+  }
+  Long stageId=findStageIdOf(pipelineConfig,stageConfig);
+  if (stageId == null) {
+    return new ArrayList<ProjectStatus>();
+  }
+  return stageChangeHandler.statusesOfStageAndItsJobsFor(stageDao.stageById(stageId));
+}

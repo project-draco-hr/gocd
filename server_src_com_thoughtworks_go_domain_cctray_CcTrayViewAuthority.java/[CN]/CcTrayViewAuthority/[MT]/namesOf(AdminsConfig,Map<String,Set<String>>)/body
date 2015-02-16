@@ -1,0 +1,11 @@
+{
+  List<AdminUser> superAdmins=adminsConfig.getUsers();
+  Set<String> superAdminNames=new HashSet<String>();
+  for (  AdminUser superAdminUser : superAdmins) {
+    superAdminNames.add(superAdminUser.getName().toString());
+  }
+  for (  AdminRole superAdminRole : adminsConfig.getRoles()) {
+    superAdminNames.addAll(rolesToUsers.get(superAdminRole.getName().toString()));
+  }
+  return superAdminNames;
+}
