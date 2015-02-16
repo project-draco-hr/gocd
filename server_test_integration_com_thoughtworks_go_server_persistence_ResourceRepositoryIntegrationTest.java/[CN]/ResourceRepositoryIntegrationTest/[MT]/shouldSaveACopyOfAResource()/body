@@ -2,10 +2,8 @@
   JobInstance firstJobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME + "1"));
   JobInstance secondJobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME + "2"));
   Resource resource=new Resource("something");
-  resource.setBuildId(firstJobInstance.getId());
-  Resource resourceOfFirstJob=resourceRepository.saveCopyOf(resource);
-  resource.setBuildId(secondJobInstance.getId());
-  Resource resourceOfSecondJob=resourceRepository.saveCopyOf(resource);
+  Resource resourceOfFirstJob=resourceRepository.saveCopyOf(firstJobInstance.getId(),resource);
+  Resource resourceOfSecondJob=resourceRepository.saveCopyOf(secondJobInstance.getId(),resource);
   List<Resource> firstJobResources=resourceRepository.findByBuildId(firstJobInstance.getId());
   assertThat(firstJobResources.size(),is(1));
   assertThat(firstJobResources.get(0).getId(),equalTo(resourceOfFirstJob.getId()));
