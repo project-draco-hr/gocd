@@ -2,6 +2,7 @@
   if (goPublisher.isIgnored()) {
     return;
   }
+  goPublisher.consumeLineWithPrefix(format("Current job status: %s.\n",RunIfConfig.fromJobResult(result.toLowerCase())));
   goPublisher.reportCurrentStatus(JobState.Completing);
   goPublisher.reportAction("Start to create properties");
   harvestProperties(goPublisher);
