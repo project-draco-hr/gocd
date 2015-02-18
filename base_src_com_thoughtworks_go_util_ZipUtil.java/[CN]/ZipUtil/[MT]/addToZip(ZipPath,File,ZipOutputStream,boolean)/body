@@ -7,7 +7,9 @@
     BufferedInputStream inputStream=null;
     try {
       inputStream=new BufferedInputStream(new FileInputStream(srcFile));
-      zip.putNextEntry(path.with(srcFile).asZipEntry());
+      ZipEntry zipEntry=path.with(srcFile).asZipEntry();
+      zipEntry.setTime(srcFile.lastModified());
+      zip.putNextEntry(zipEntry);
       int len;
       while ((len=inputStream.read(buff)) > 0) {
         zip.write(buff,0,len);
