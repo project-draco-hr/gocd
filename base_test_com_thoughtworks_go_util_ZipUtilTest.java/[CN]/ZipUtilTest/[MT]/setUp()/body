@@ -1,6 +1,7 @@
 {
-  srcDir=TestFileUtil.createTempFolder("_test1");
-  destDir=TestFileUtil.createTempFolder("_test2");
+  temporaryFolder.create();
+  srcDir=temporaryFolder.newFolder("_test1");
+  destDir=temporaryFolder.newFolder("_test2");
   emptyDir=new File(srcDir,"_emptyDir");
   emptyDir.mkdir();
   childDir1=new File(srcDir,"_child1");
@@ -10,5 +11,4 @@
   file2=new File(childDir1,"_file2");
   FileUtils.writeStringToFile(file2,"_file2");
   zipUtil=new ZipUtil();
-  temporaryFolder.create();
 }

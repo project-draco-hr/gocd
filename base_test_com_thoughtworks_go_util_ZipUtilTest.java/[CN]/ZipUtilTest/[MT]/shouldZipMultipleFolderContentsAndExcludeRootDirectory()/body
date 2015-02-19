@@ -1,22 +1,17 @@
 {
-  try {
-    File folderOne=TestFileUtil.createTempFolder("a-folder1");
-    FileUtils.writeStringToFile(new File(folderOne,"folder1-file1.txt"),"folder1-file1");
-    FileUtils.writeStringToFile(new File(folderOne,"folder1-file2.txt"),"folder1-file2");
-    File folderTwo=TestFileUtil.createTempFolder("a-folder2");
-    FileUtils.writeStringToFile(new File(folderTwo,"folder2-file1.txt"),"folder2-file1");
-    FileUtils.writeStringToFile(new File(folderTwo,"folder2-file2.txt"),"folder2-file2");
-    File targetZipFile=TestFileUtil.createTempFile("final1.zip");
-    ZipBuilder zipBuilder=zipUtil.zipContentsOfMultipleFolders(targetZipFile,true);
-    zipBuilder.add("folder-one",folderOne);
-    zipBuilder.add("folder-two",folderTwo);
-    zipBuilder.done();
-    assertContent(targetZipFile,"folder-one/folder1-file1.txt","folder1-file1");
-    assertContent(targetZipFile,"folder-one/folder1-file2.txt","folder1-file2");
-    assertContent(targetZipFile,"folder-two/folder2-file1.txt","folder2-file1");
-    assertContent(targetZipFile,"folder-two/folder2-file2.txt","folder2-file2");
-  }
-  finally {
-    TestFileUtil.cleanTempFiles();
-  }
+  File folderOne=temporaryFolder.newFolder("a-folder1");
+  FileUtils.writeStringToFile(new File(folderOne,"folder1-file1.txt"),"folder1-file1");
+  FileUtils.writeStringToFile(new File(folderOne,"folder1-file2.txt"),"folder1-file2");
+  File folderTwo=temporaryFolder.newFolder("a-folder2");
+  FileUtils.writeStringToFile(new File(folderTwo,"folder2-file1.txt"),"folder2-file1");
+  FileUtils.writeStringToFile(new File(folderTwo,"folder2-file2.txt"),"folder2-file2");
+  File targetZipFile=temporaryFolder.newFile("final1.zip");
+  ZipBuilder zipBuilder=zipUtil.zipContentsOfMultipleFolders(targetZipFile,true);
+  zipBuilder.add("folder-one",folderOne);
+  zipBuilder.add("folder-two",folderTwo);
+  zipBuilder.done();
+  assertContent(targetZipFile,"folder-one/folder1-file1.txt","folder1-file1");
+  assertContent(targetZipFile,"folder-one/folder1-file2.txt","folder1-file2");
+  assertContent(targetZipFile,"folder-two/folder2-file1.txt","folder2-file1");
+  assertContent(targetZipFile,"folder-two/folder2-file2.txt","folder2-file2");
 }
