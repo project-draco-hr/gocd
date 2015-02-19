@@ -9,7 +9,7 @@
   when(systemEnvironment.get(PLUGIN_GO_PROVIDED_PATH)).thenReturn(bundledPluginsDir.getAbsolutePath());
   when(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH)).thenReturn(externalPluginsDir.getAbsolutePath());
   when(systemEnvironment.get(ALL_PLUGINS_ZIP_PATH)).thenReturn(expectedZipPath);
-  pluginsZipInitializer.initialize();
+  pluginsZip.create();
   assertThat(expectedZipPath + " should exist",new File(expectedZipPath).exists(),is(true));
   assertThat(new ZipFile(expectedZipPath).getEntry("bundled/bundled1.jar"),is(notNullValue()));
   assertThat(new ZipFile(expectedZipPath).getEntry("bundled/bundled2.jar"),is(notNullValue()));
