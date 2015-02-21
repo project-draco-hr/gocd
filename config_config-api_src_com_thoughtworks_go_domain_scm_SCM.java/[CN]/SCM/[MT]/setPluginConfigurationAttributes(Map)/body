@@ -7,6 +7,7 @@
         configuration.addNewConfiguration(scmConfiguration.getKey(),scmConfiguration.getOption(Property.SECURE));
       }
       configuration.getProperty(key).setConfigurationValue(new ConfigurationValue((String)attributes.get(key)));
+      configuration.getProperty(key).handleSecureValueConfiguration(scmConfiguration.getOption(Property.SECURE));
     }
   }
 }
