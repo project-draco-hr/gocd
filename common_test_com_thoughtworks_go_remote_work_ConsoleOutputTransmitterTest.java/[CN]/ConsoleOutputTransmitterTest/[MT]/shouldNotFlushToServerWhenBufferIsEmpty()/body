@@ -1,9 +1,4 @@
 {
-  mockery.checking(new Expectations(){
-{
-      never(consoleAppender).append("");
-    }
-  }
-);
   transmitter.flushToServer();
+  verify(consoleAppender,never()).append(any(String.class));
 }

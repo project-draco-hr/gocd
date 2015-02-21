@@ -1,0 +1,16 @@
+{
+  Set<String> breakersForChangedMaterials=new HashSet<String>();
+  Set<String> breakersForMaterialsWithNoChange=new HashSet<String>();
+  if (stage.getResult() == StageResult.Failed) {
+    MaterialRevisions materialRevisions=materialRepository.findMaterialRevisionsForPipeline(stage.getPipelineId());
+    for (    MaterialRevision materialRevision : materialRevisions) {
+      if (materialRevision.isChanged()) {
+        addToBreakers(breakersForChangedMaterials,materialRevision);
+      }
+ else {
+        addToBreakers(breakersForMaterialsWithNoChange,materialRevision);
+      }
+    }
+  }
+  return breakersForChangedMaterials.isEmpty() ? breakersForMaterialsWithNoChange : breakersForChangedMaterials;
+}

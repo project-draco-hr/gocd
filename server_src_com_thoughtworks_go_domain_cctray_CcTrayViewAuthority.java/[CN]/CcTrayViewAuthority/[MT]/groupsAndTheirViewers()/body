@@ -1,0 +1,17 @@
+{
+  final Map<String,Set<String>> pipelinesAndViewers=new HashMap<String,Set<String>>();
+  SecurityConfig security=goConfigService.security();
+  final Map<String,Set<String>> rolesToUsers=rolesToUsers(security);
+  final Set<String> superAdmins=namesOf(security.adminsConfig(),rolesToUsers);
+  goConfigService.groups().accept(new PipelineGroupVisitor(){
+    @Override public void visit(    PipelineConfigs pipelineConfigs){
+      Set<String> pipelineGroupAdmins=namesOf(pipelineConfigs.getAuthorization().getAdminsConfig(),rolesToUsers);
+      Set<String> pipelineGroupViewers=namesOf(pipelineConfigs.getAuthorization().getViewConfig(),rolesToUsers);
+      addAsViewers(pipelinesAndViewers,pipelineConfigs.getGroup(),superAdmins);
+      addAsViewers(pipelinesAndViewers,pipelineConfigs.getGroup(),pipelineGroupAdmins);
+      addAsViewers(pipelinesAndViewers,pipelineConfigs.getGroup(),pipelineGroupViewers);
+    }
+  }
+);
+  return pipelinesAndViewers;
+}

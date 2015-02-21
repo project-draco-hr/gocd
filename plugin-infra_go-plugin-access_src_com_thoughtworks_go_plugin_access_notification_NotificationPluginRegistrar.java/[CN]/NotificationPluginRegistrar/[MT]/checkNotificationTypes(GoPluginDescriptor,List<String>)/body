@@ -1,0 +1,7 @@
+{
+  for (  String notificationType : notificationsInterestedIn) {
+    if (!NotificationExtension.VALID_NOTIFICATION_TYPES.contains(notificationType)) {
+      LOGGER.warn(String.format("Plugin '%s' is trying to register for '%s' which is not a valid notification type. Valid notification types are: %s",pluginDescriptor.id(),notificationType,NotificationExtension.VALID_NOTIFICATION_TYPES));
+    }
+  }
+}

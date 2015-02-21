@@ -5,10 +5,10 @@
       LOGGER.debug(String.format("Sending email [%s] to [%s]",subject,to));
     }
     Properties props=mailProperties();
-    Session session=createSession(props);
+    MailSession session=MailSession.getInstance().createWith(props,username,password);
     transport=session.getTransport();
     transport.connect(host,port,nullIfEmpty(username),nullIfEmpty(password));
-    MimeMessage msg=createMessage(subject,body,session,to);
+    MimeMessage msg=session.createMessage(from,to,subject,body);
     transport.sendMessage(msg,msg.getRecipients(TO));
     return ValidationBean.valid();
   }

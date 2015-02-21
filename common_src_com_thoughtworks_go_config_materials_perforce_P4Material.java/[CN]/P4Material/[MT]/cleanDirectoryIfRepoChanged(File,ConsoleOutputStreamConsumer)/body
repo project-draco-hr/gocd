@@ -9,7 +9,7 @@
     }
     String existingRepoId=FileUtils.readFileToString(file);
     if (!p4RepoId.equals(existingRepoId)) {
-      outputConsumer.stdOutput(String.format("\n[%s] Working directory has changed. Deleting and re-creating it.",GoConstants.PRODUCT_NAME));
+      outputConsumer.stdOutput(String.format("[%s] Working directory has changed. Deleting and re-creating it.",GoConstants.PRODUCT_NAME));
       FileUtils.deleteDirectory(workingDirectory);
       workingDirectory.mkdirs();
       FileUtils.writeStringToFile(file,p4RepoId);

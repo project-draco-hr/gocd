@@ -1,0 +1,7 @@
+{
+  Stage stage=StageMother.custom("stage1",JobInstanceMother.building("job1"));
+  List<ProjectStatus> statuses=handler.statusesOfStageAndItsJobsFor(stage);
+  ProjectStatus statusOfStage=statuses.get(0);
+  assertThat(activityOf(statusOfStage),is("Building"));
+  assertThat(webUrlOf(statusOfStage),is(webUrlFor("stage1")));
+}

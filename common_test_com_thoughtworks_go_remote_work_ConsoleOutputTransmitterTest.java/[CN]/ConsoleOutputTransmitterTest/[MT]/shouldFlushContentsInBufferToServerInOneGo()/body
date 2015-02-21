@@ -1,11 +1,8 @@
 {
   transmitter.consumeLine("first line");
   transmitter.consumeLine("second line");
-  mockery.checking(new Expectations(){
-{
-      one(consoleAppender).append("first line\nsecond line\n");
-    }
-  }
-);
   transmitter.flushToServer();
+  verify(consoleAppender).append(any(String.class));
+  assertThat(requestArgumentCaptor.getValue(),containsString("first line\n"));
+  assertThat(requestArgumentCaptor.getValue(),containsString("second line\n"));
 }

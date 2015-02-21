@@ -1,0 +1,14 @@
+{
+  CruiseConfig config=new CruiseConfig();
+  goConfigMother.addPipeline(config,"pipeline1","stage1","job1","NEW_JOB_IN_CONFIG");
+  String stage1ProjectName="pipeline1 :: stage1";
+  String job1ProjectName="pipeline1 :: stage1 :: job1";
+  String projectNameOfNewJob="pipeline1 :: stage1 :: NEW_JOB_IN_CONFIG";
+  ProjectStatus statusOfStage1InDB=new ProjectStatus(stage1ProjectName,"OldActivity","OldStatus","OldLabel",new Date(),"stage-url");
+  ProjectStatus statusOfJob1InDB=new ProjectStatus(job1ProjectName,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"job1-url");
+  when(cache.get(stage1ProjectName)).thenReturn(null);
+  when(stageStatusLoader.getStatusesForStageAndJobsOf(pipelineConfigFor(config,"pipeline1"),stageConfigFor(config,"pipeline1","stage1"))).thenReturn(asList(statusOfStage1InDB,statusOfJob1InDB));
+  handler.call(config);
+  ProjectStatus expectedNullStatusForNewJob=new ProjectStatus.NullProjectStatus(projectNameOfNewJob);
+  verify(cache).replaceAllEntriesInCacheWith(eq(asList(statusOfStage1InDB,statusOfJob1InDB,expectedNullStatusForNewJob)));
+}
