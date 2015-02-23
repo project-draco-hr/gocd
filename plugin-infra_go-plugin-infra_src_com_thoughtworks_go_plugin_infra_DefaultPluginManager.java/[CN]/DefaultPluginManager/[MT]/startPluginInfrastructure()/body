@@ -4,6 +4,7 @@
   }
   removeBundleDirectory();
   goPluginOSGiFramework.start();
-  monitor.addPluginJarChangeListener(listener);
+  monitor.addPluginJarChangeListener(defaultPluginJarChangeListener);
+  monitor.addPluginJarChangeListener(pluginsZipCreator);
   monitor.start();
 }

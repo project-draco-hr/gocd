@@ -5,6 +5,6 @@
   when(agentService.agentJarInputStream()).thenReturn(new ByteArrayInputStream(EXPECTED.getBytes()));
   when(agentService.agentLauncherJarInputStream()).thenReturn(new ByteArrayInputStream(EXPECTED_LAUNCHER.getBytes()));
   when(systemEnvironment.getSslServerPort()).thenReturn(8443);
-  controller=new AgentRegistrationController(agentService,goConfigService,systemEnvironment);
-  ReflectionUtil.setField(controller,AGENT_PLUGINS_CHECKSUM_FIELD,"default");
+  pluginsZip=mock(PluginsZip.class);
+  controller=new AgentRegistrationController(agentService,goConfigService,systemEnvironment,pluginsZip);
 }

@@ -1,0 +1,8 @@
+{
+  populateAgentChecksum();
+  response.setHeader(SystemEnvironment.AGENT_CONTENT_MD5_HEADER,agentChecksum);
+  populateLauncherChecksum();
+  response.setHeader(SystemEnvironment.AGENT_LAUNCHER_CONTENT_MD5_HEADER,agentLauncherChecksum);
+  response.setHeader(SystemEnvironment.AGENT_PLUGINS_ZIP_MD5_HEADER,pluginsZip.md5());
+  setOtherHeaders(response);
+}

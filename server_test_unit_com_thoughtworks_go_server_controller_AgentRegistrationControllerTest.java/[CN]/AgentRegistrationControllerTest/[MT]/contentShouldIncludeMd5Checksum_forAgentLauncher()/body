@@ -1,5 +1,5 @@
 {
-  ModelAndView modelAndView=controller.downloadAgentLauncher(null,null);
+  ModelAndView modelAndView=controller.downloadAgentLauncher();
   modelAndView.getView().render(null,request,response);
   String actual=response.getHeader("Content-MD5");
   assertEquals(StringUtil.md5Digest(EXPECTED_LAUNCHER.getBytes()),actual);

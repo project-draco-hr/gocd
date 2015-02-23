@@ -1,0 +1,13 @@
+{
+  if (!pluginsEnabled) {
+    return;
+  }
+  try {
+    ZipBuilder zipBuilder=zipUtil.zipContentsOfMultipleFolders(destZipFile,true);
+    zipBuilder.add("bundled",bundledPlugins).add("external",externalPlugins).done();
+    md5DigestOfFile=md5DigestOfFile(destZipFile);
+  }
+ catch (  Exception e) {
+    LOG.error("Could not create zip of plugins for agent to download.",e);
+  }
+}
