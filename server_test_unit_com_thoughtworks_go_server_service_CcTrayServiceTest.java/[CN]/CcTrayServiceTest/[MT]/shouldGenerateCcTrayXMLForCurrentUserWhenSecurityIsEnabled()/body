@@ -1,0 +1,10 @@
+{
+  when(goConfigService.isSecurityEnabled()).thenReturn(true);
+  when(ccTrayCache.allEntriesInOrder()).thenReturn(asList(statusFor("proj1","user1"),statusFor("proj2","user2")));
+  login("USER1","password");
+  String xml=ccTrayService.getCcTrayXml("some-prefix");
+  assertCcTrayXmlFor(xml,"some-prefix","proj1");
+  login("uSEr2","password");
+  xml=ccTrayService.getCcTrayXml("some-prefix");
+  assertCcTrayXmlFor(xml,"some-prefix","proj2");
+}

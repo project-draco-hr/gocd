@@ -1,0 +1,12 @@
+{
+  Modification user1Commit=ModificationsMother.checkinWithComment("123","comment 1","user1","user1@domain1.com",new Date(),"foo.c");
+  MaterialRevision changedRevision=new MaterialRevision(MaterialsMother.gitMaterial("foo.com"),user1Commit);
+  changedRevision.markAsChanged();
+  MaterialRevision depMaterialRevision=ModificationsMother.dependencyMaterialRevision("dep-pipe",1,"pipe-1","dep-stage",1,new Date());
+  depMaterialRevision.markAsChanged();
+  MaterialRevisions revisions=new MaterialRevisions(changedRevision,depMaterialRevision);
+  when(materialRepo.findMaterialRevisionsForPipeline(12l)).thenReturn(revisions);
+  CcTrayBreakersCalculator status=new CcTrayBreakersCalculator(materialRepo);
+  Set<String> actualBreakers=status.calculateFor(failedStage());
+  assertThat(actualBreakers,is(s("user1")));
+}

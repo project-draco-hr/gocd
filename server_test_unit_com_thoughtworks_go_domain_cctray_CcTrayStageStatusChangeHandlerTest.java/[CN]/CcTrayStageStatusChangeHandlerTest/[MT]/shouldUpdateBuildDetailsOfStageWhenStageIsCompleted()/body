@@ -1,0 +1,10 @@
+{
+  Stage completedStage=StageMother.createPassedStage("pipeline",1,"stage1",1,"job1",new Date());
+  completedStage.setCompletedByTransitionId(1L);
+  List<ProjectStatus> statuses=handler.statusesOfStageAndItsJobsFor(completedStage);
+  ProjectStatus statusOfStage=statuses.get(0);
+  assertThat(completedStage.isCompleted(),is(true));
+  assertThat(statusOfStage.getLastBuildStatus(),is("Success"));
+  assertThat(statusOfStage.getLastBuildTime(),is(completedStage.completedDate()));
+  assertThat(statusOfStage.getLastBuildLabel(),is("LABEL-1"));
+}

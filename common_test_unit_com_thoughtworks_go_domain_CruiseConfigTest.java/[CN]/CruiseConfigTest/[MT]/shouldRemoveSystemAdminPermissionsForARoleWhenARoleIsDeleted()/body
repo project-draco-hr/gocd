@@ -3,7 +3,7 @@
   Role adminRole=new Role(new CaseInsensitiveString(adminRoleName));
   adminRole.addUser(new RoleUser(new CaseInsensitiveString("admin")));
   goConfigMother.addRole(cruiseConfig,adminRole);
-  goConfigMother.addRoleAsSuperAdminOfGo(cruiseConfig,adminRoleName);
+  goConfigMother.addRoleAsSuperAdmin(cruiseConfig,adminRoleName);
   assertThat(cruiseConfig.doesAdminConfigContainRole(adminRoleName),is(true));
   assertThat(cruiseConfig.server().security().getRoles().contains(adminRole),is(true));
   cruiseConfig.removeRole(adminRole);

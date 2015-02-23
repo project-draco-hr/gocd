@@ -1,0 +1,19 @@
+{
+  CcTrayActivityListener listener=new CcTrayActivityListener(goConfigService,jobStatusChangeHandler,stageStatusChangeHandler,configChangeHandler);
+  listener.initialize();
+  Thread t1=callJobStatusChangeInNewThread(listener);
+  Thread t2=callStageStatusChangeInNewThread(listener);
+  Thread t3=callConfigChangeInNewThread(listener);
+  t1.start();
+  t2.start();
+  t3.start();
+  t1.join();
+  t2.join();
+  t3.join();
+  waitForProcessingToHappen();
+  assertThat(jobStatusChangeHandler.threadOfCall,is(not(nullValue())));
+  assertThat(jobStatusChangeHandler.threadOfCall,is(not(Thread.currentThread())));
+  assertThat(jobStatusChangeHandler.threadOfCall,is(not(t1)));
+  assertThat(jobStatusChangeHandler.threadOfCall,is(stageStatusChangeHandler.threadOfCall));
+  assertThat(stageStatusChangeHandler.threadOfCall,is(configChangeHandler.threadOfCall));
+}

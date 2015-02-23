@@ -1,0 +1,9 @@
+{
+  ProjectStatus status1=new ProjectStatus("item1","Sleeping","last-build-status","last-build-label",new Date(),"web-url");
+  ProjectStatus status2=new ProjectStatus("item2","Sleeping","last-build-status","last-build-label",new Date(),"web-url");
+  ProjectStatus status3=new ProjectStatus("item3","Sleeping","last-build-status","last-build-label",new Date(),"web-url");
+  cache.putAll(asList(status1,status2,status3));
+  assertThat(cache.get("item1"),is(status1));
+  assertThat(cache.get("item2"),is(status2));
+  assertThat(cache.get("item3"),is(status3));
+}

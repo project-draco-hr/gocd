@@ -1,0 +1,11 @@
+{
+  String projectName="pipeline :: stage1";
+  ProjectStatus.NullProjectStatus defaultStatus=new ProjectStatus.NullProjectStatus(projectName);
+  Stage stage=StageMother.custom("stage1",JobInstanceMother.building("job1"));
+  List<ProjectStatus> statuses=handler.statusesOfStageAndItsJobsFor(stage);
+  ProjectStatus statusOfStage=statuses.get(0);
+  assertThat(stage.getState().completed(),is(not(true)));
+  assertThat(statusOfStage.getLastBuildStatus(),is(defaultStatus.getLastBuildStatus()));
+  assertThat(statusOfStage.getLastBuildTime(),is(defaultStatus.getLastBuildTime()));
+  assertThat(statusOfStage.getLastBuildLabel(),is(defaultStatus.getLastBuildLabel()));
+}

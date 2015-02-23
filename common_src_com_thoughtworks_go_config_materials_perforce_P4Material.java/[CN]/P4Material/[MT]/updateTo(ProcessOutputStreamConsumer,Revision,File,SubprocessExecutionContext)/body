@@ -1,8 +1,9 @@
 {
   boolean cleaned=cleanDirectoryIfRepoChanged(workingdir(baseDir),outputConsumer);
   try {
-    outputConsumer.stdOutput(format("\n[%s] Start updating %s at revision %s from %s",GoConstants.PRODUCT_NAME,updatingTarget(),revision.getRevision(),serverAndPort));
+    outputConsumer.stdOutput(format("[%s] Start updating %s at revision %s from %s",GoConstants.PRODUCT_NAME,updatingTarget(),revision.getRevision(),serverAndPort));
     p4(baseDir,outputConsumer).sync(parseLong(revision.getRevision()),cleaned,outputConsumer);
+    outputConsumer.stdOutput(format("[%s] Done.\n",GoConstants.PRODUCT_NAME));
   }
  catch (  Exception e) {
     bomb(e);

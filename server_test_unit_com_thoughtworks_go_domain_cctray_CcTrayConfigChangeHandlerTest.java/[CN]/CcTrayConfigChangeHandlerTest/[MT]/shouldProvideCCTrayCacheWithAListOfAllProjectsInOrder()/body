@@ -1,0 +1,13 @@
+{
+  ProjectStatus pipeline1_stage1=new ProjectStatus("pipeline1 :: stage","Activity1","Status1","Label1",new Date(),"stage1-url");
+  ProjectStatus pipeline1_stage1_job=new ProjectStatus("pipeline1 :: stage :: job","Activity1-Job","Status1-Job","Label1-Job",new Date(),"job1-url");
+  ProjectStatus pipeline2_stage1=new ProjectStatus("pipeline2 :: stage","Activity2","Status2","Label2",new Date(),"stage2-url");
+  ProjectStatus pipeline2_stage1_job=new ProjectStatus("pipeline2 :: stage :: job","Activity2-Job","Status2-Job","Label2-Job",new Date(),"job2-url");
+  when(cache.get("pipeline1 :: stage")).thenReturn(pipeline1_stage1);
+  when(cache.get("pipeline1 :: stage :: job")).thenReturn(pipeline1_stage1_job);
+  when(cache.get("pipeline2 :: stage")).thenReturn(pipeline2_stage1);
+  when(cache.get("pipeline2 :: stage :: job")).thenReturn(pipeline2_stage1_job);
+  handler.call(GoConfigMother.configWithPipelines("pipeline2","pipeline1"));
+  verify(cache).replaceAllEntriesInCacheWith(eq(asList(pipeline1_stage1,pipeline1_stage1_job,pipeline2_stage1,pipeline2_stage1_job)));
+  verifyZeroInteractions(stageStatusLoader);
+}

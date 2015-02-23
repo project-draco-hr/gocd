@@ -1,0 +1,7 @@
+{
+  setupStagesInDB(new StageIdentity("pipeline1","stage1",12L),new StageIdentity("pipeline2","stage2",14L));
+  loader.getStatusesForStageAndJobsOf(pipelineConfigFor("pipeline1"),stageConfigFor("stage1"));
+  loader.getStatusesForStageAndJobsOf(pipelineConfigFor("pipeline1"),stageConfigFor("stage2"));
+  loader.getStatusesForStageAndJobsOf(pipelineConfigFor("pipeline1"),stageConfigFor("stage-some-nonexistent-one"));
+  verify(stageDao,times(1)).findLatestStageInstances();
+}

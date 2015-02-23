@@ -1,0 +1,11 @@
+{
+  ProjectStatus oldStatusInCache=new ProjectStatus(projectNameFor("job1"),"OldActivity","OldStatus","OldLabel",new Date(),webUrlFor("job1"));
+  when(cache.get(projectNameFor("job1"))).thenReturn(oldStatusInCache);
+  CcTrayJobStatusChangeHandler handler=new CcTrayJobStatusChangeHandler(cache);
+  ProjectStatus newStatus=handler.statusFor(JobInstanceMother.completed("job1"),new HashSet<String>());
+  assertThat(activityOf(newStatus),is("Sleeping"));
+  assertThat(newStatus.getLastBuildStatus(),is("Success"));
+  assertThat(newStatus.getLastBuildLabel(),is("label-1"));
+  assertThat(newStatus.getBreakers(),is(Collections.<String>emptySet()));
+  assertThat(webUrlOf(newStatus),is(webUrlFor("job1")));
+}
