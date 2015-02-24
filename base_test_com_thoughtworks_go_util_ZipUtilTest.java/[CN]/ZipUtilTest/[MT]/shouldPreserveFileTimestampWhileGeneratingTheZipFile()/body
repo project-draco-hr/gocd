@@ -1,0 +1,8 @@
+{
+  File file=temporaryFolder.newFile("foo.txt");
+  file.setLastModified(1297989100000L);
+  File zip=zipUtil.zip(file,temporaryFolder.newFile("foo.zip"),Deflater.DEFAULT_COMPRESSION);
+  ZipFile actualZip=new ZipFile(zip.getAbsolutePath());
+  ZipEntry entry=actualZip.getEntry(file.getName());
+  assertThat(entry.getTime(),is(file.lastModified()));
+}

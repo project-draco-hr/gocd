@@ -1,5 +1,5 @@
 {
-  zipFile=zipUtil.zipFolderContents(srcDir,TestFileUtil.createUniqueTempFile(srcDir.getName()),Deflater.NO_COMPRESSION);
+  zipFile=zipUtil.zipFolderContents(srcDir,temporaryFolder.newFile(),Deflater.NO_COMPRESSION);
   assertThat(zipFile.isFile(),is(true));
   zipUtil.unzip(zipFile,destDir);
   assertIsDirectory(new File(destDir,emptyDir.getName()));
