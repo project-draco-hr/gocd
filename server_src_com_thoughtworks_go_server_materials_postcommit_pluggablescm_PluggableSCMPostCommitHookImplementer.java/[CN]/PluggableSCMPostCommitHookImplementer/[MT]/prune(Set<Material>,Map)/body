@@ -1,0 +1,12 @@
+{
+  HashSet<Material> prunedCollection=new HashSet<Material>();
+  String paramSCMName=(String)params.get(SCM_NAME);
+  if (StringUtils.isNotBlank(paramSCMName)) {
+    for (    Material material : materials) {
+      if (material instanceof PluggableSCMMaterial && paramSCMName.equalsIgnoreCase(((PluggableSCMMaterial)material).getScmConfig().getName())) {
+        prunedCollection.add(material);
+      }
+    }
+  }
+  return prunedCollection;
+}

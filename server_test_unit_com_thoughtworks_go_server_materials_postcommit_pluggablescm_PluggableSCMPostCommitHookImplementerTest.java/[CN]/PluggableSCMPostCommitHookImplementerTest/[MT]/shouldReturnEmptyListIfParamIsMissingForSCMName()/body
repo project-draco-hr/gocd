@@ -1,0 +1,7 @@
+{
+  PluggableSCMMaterial material1=mock(PluggableSCMMaterial.class);
+  Set<Material> materials=new HashSet<Material>(Arrays.asList(material1));
+  Set<Material> actual=implementer.prune(materials,new HashMap());
+  assertThat(actual.size(),is(0));
+  verifyNoMoreInteractions(material1);
+}

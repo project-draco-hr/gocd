@@ -1,0 +1,7 @@
+{
+  final PostCommitHookMaterialType materialType=resolver.toType("SCM");
+  assertThat(materialType instanceof PostCommitHookMaterialTypeResolver.PluggableSCMPostCommitHookMaterialType,is(true));
+  assertThat(materialType.isKnown(),is(true));
+  assertThat(materialType.isValid("scm"),is(true));
+  assertThat(materialType.getImplementer() instanceof PluggableSCMPostCommitHookImplementer,is(true));
+}
