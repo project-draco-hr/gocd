@@ -1,0 +1,13 @@
+{
+  gitRepo=new GitTestRepo();
+  gitLocalRepoDir=createTempWorkingDirectory();
+  git=new GitCommand(null,gitLocalRepoDir,GitMaterialConfig.DEFAULT_BRANCH,false);
+  repoLocation=gitRepo.gitRepository();
+  repoUrl=gitRepo.projectRepositoryUrl();
+  InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  int returnCode=git.cloneFrom(outputStreamConsumer,repoUrl);
+  if (returnCode > 0) {
+    fail(outputStreamConsumer.getAllOutput());
+  }
+  gitFooBranchBundleabsolutePath=new ClassPathResource(GIT_FOO_BRANCH_BUNDLE).getFile().getAbsolutePath();
+}

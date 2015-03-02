@@ -1,0 +1,9 @@
+{
+  serverRepo=createTmpFolder("testHgServerRepo");
+  clientRepo=createTmpFolder("testHgClientRepo");
+  secondBranchWorkingCopy=createTmpFolder("second");
+  setUpServerRepoFromHgBundle(serverRepo,new ClassPathResource("./data/hgrepo.hgbundle").getFile());
+  workingDirectory=new File(clientRepo.getPath());
+  hgCommand=new HgCommand(null,workingDirectory,"default",serverRepo.getAbsolutePath());
+  hgCommand.clone(outputStreamConsumer,new UrlArgument(serverRepo.getAbsolutePath()));
+}

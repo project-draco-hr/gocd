@@ -1,0 +1,14 @@
+{
+  initMocks(this);
+  dir=new File("someFolder");
+  environmentVariableContext=new EnvironmentVariableContext();
+  svnRepoFixture=new SvnRepoFixture(new ClassPathResource("/data/svnrepo").getFile().getAbsolutePath());
+  svnRepoFixture.createRepository();
+  command=new SvnCommand(null,svnRepoFixture.getEnd2EndRepoUrl());
+  pipelineConfig=PipelineConfigMother.createPipelineConfig(PIPELINE_NAME,STAGE_NAME,JOB_NAME);
+  svnMaterial=SvnMaterial.createSvnMaterialWithMock(command);
+  dependencyMaterial=new DependencyMaterial(new CaseInsensitiveString("upstream1"),new CaseInsensitiveString(STAGE_NAME));
+  dependencyMaterialWithName=new DependencyMaterial(new CaseInsensitiveString("upstream2"),new CaseInsensitiveString(STAGE_NAME));
+  dependencyMaterialWithName.setName(new CaseInsensitiveString("dependency_material_name"));
+  setupHgRepo();
+}

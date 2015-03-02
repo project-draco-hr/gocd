@@ -1,0 +1,8 @@
+{
+  GitTestRepo gitRepo=new GitTestRepo();
+  outputStreamConsumer=inMemoryConsumer();
+  workingDir=TestFileUtil.createTempFolder("workingDir-" + System.currentTimeMillis());
+  repositoryUrl=gitRepo.projectRepositoryUrl();
+  git=new GitMaterial(repositoryUrl);
+  gitFooBranchBundleAbsolutePath=new ClassPathResource(GitTestRepo.GIT_FOO_BRANCH_BUNDLE).getFile().getAbsolutePath();
+}
