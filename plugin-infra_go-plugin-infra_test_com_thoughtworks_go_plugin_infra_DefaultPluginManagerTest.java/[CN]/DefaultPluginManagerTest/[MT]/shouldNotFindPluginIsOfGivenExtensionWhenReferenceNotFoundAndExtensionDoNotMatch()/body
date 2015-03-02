@@ -12,7 +12,7 @@
   }
 ).when(goPluginOSGiFramework).doOn(eq(GoPlugin.class),eq(pluginThatDoesNotImplement),any(ActionWithReturn.class));
   when(goPlugin.pluginIdentifier()).thenReturn(pluginIdentifier);
-  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipCreator);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater);
   assertFalse(pluginManager.isPluginOfType("extension-type",pluginThatDoesNotImplement));
   verify(goPluginOSGiFramework).doOn(eq(GoPlugin.class),eq(pluginThatDoesNotImplement),any(ActionWithReturn.class));
 }
