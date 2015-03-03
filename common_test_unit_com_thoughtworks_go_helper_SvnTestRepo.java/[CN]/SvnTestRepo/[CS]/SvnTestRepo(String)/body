@@ -2,7 +2,7 @@
   tempRepo=TestFileUtil.createUniqueTempFolder(tempFolderName);
   tmpFolders.add(tempRepo);
   try {
-    copyDirectory(new ClassPathResource(REPO_TEST_DATA_FOLDER).getFile(),tempRepo);
+    copyDirectory(new File(REPO_TEST_DATA_FOLDER),tempRepo);
   }
  catch (  IOException e) {
     Assert.fail("Could not copy test repo [" + REPO_TEST_DATA_FOLDER + "] into ["+ tempRepo+ "] beacuse of "+ e.getMessage());
