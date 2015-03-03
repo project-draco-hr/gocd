@@ -9,7 +9,7 @@
     }
   }
 );
-  copyAndClose(sourcePath("TestReport-Integration.xml"),targetPath("test-result1.xml"));
-  copyAndClose(new FileInputStream(new ClassPathResource("/data/TestReport-Unit.xml").getFile()),new FileOutputStream(testFolder.getAbsolutePath() + FileUtil.fileseparator() + "test-result2.xml"));
+  copyAndClose(source("TestReport-Integration.xml"),target("test-result1.xml"));
+  copyAndClose(source("TestReport-Unit.xml"),target("test-result2.xml"));
   generator.generate(testFolder.listFiles());
 }

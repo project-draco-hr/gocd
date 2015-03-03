@@ -14,8 +14,8 @@
   reports.mkdir();
   File module=new File(reports,"module");
   module.mkdir();
-  copyAndClose(sourcePath("xml_samples/Coverage.xml"),targetPath("reports/module/Coverage.xml"));
-  copyAndClose(sourcePath("xml_samples/TestResult.xml"),targetPath("reports/TestResult.xml"));
+  copyAndClose(source("xml_samples/Coverage.xml"),target("reports/module/Coverage.xml"));
+  copyAndClose(source("xml_samples/TestResult.xml"),target("reports/TestResult.xml"));
   suppressConsoleOutput();
   generator.generate(testFolder.listFiles());
   restoreConsoleOutput();
