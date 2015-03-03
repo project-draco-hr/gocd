@@ -1,0 +1,8 @@
+{
+  ServerConnector connector=(ServerConnector)sslSocketConnector.getConnector();
+  Collection<ConnectionFactory> connectionFactories=connector.getConnectionFactories();
+  SslContextFactory sslContextFactory=findSslContextFactory(connectionFactories);
+  assertThat(sslContextFactory.getKeyStorePath(),is(keystore.getAbsolutePath()));
+  assertThat(sslContextFactory.getTrustStore(),is(truststore.getAbsolutePath()));
+  assertThat(sslContextFactory.getWantClientAuth(),is(true));
+}

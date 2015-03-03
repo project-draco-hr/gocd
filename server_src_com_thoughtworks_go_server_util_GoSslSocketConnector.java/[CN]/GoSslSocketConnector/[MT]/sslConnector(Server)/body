@@ -12,8 +12,8 @@
   sslContextFactory.setTrustStorePath(truststore.getPath());
   sslContextFactory.setTrustStorePassword(password);
   sslContextFactory.setWantClientAuth(true);
-  sslContextFactory.setExcludeCipherSuites(goCipherSuite.getExcludedCipherSuites());
-  ServerConnector https=new ServerConnector(server,new SslConnectionFactory(sslContextFactory,"http/1.1"),new HttpConnectionFactory(httpsConfig));
+  sslContextFactory.setIncludeCipherSuites(goCipherSuite.getCipherSuitsToBeIncluded());
+  ServerConnector https=new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(httpsConfig));
   https.setPort(sslPort);
   https.setIdleTimeout(MAX_IDLE_TIME);
   return https;
