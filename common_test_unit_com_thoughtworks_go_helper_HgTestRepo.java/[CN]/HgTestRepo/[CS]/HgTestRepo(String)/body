@@ -3,7 +3,7 @@
   remoteRepo=new File(tempFolder,"remote-repo");
   remoteRepo.mkdirs();
   File bundleToExtract=new File(tempFolder,"repo.bundle");
-  FileUtils.copyFile(new ClassPathResource(HG_BUNDLE_FILE).getFile(),bundleToExtract);
+  FileUtils.copyFile(new File(HG_BUNDLE_FILE),bundleToExtract);
   setUpServerRepoFromHgBundle(remoteRepo,bundleToExtract);
   File workingCopy=new File(tempFolder,workingCopyName);
   hgCommand=new HgCommand(null,workingCopy,"default",remoteRepo.getAbsolutePath());
