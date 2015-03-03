@@ -2,7 +2,7 @@
   initMocks(this);
   dir=new File("someFolder");
   environmentVariableContext=new EnvironmentVariableContext();
-  svnRepoFixture=new SvnRepoFixture(new ClassPathResource("/data/svnrepo").getFile().getAbsolutePath());
+  svnRepoFixture=new SvnRepoFixture("../common/test-resources/unit/data/svnrepo");
   svnRepoFixture.createRepository();
   command=new SvnCommand(null,svnRepoFixture.getEnd2EndRepoUrl());
   pipelineConfig=PipelineConfigMother.createPipelineConfig(PIPELINE_NAME,STAGE_NAME,JOB_NAME);
