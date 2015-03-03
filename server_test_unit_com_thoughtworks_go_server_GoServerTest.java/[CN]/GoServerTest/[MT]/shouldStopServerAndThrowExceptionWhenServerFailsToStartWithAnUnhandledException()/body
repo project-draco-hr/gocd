@@ -1,0 +1,23 @@
+{
+  final AppServer server=mock(AppServer.class);
+  when(server.getUnavailableException()).thenReturn(new RuntimeException("Some unhandled server startup exception"));
+  GoServer goServer=new GoServer(){
+    @Override AppServer configureServer() throws Exception {
+      return server;
+    }
+  }
+;
+  doNothing().when(server).start();
+  doNothing().when(server).stop();
+  try {
+    goServer.startServer();
+    fail("Should have thrown an exception");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is("Failed to start Go server."));
+    assertThat(e.getCause().getMessage(),is("Some unhandled server startup exception"));
+  }
+  verify(server).start();
+  verify(server).getUnavailableException();
+  verify(server).stop();
+}

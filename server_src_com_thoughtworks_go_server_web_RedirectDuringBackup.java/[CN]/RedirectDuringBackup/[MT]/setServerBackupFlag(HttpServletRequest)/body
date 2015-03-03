@@ -1,10 +1,11 @@
 {
+  servletHelper=ServletHelper.getServerHelper(new SystemEnvironment().usingJetty9());
   BackupStatusProvider backupStatusProvider=getBackupStatusProvider(req);
   boolean backingUp=backupStatusProvider.isBackingUp();
   req.setAttribute(BACKUP_IN_PROGRESS,String.valueOf(backingUp));
   if (backingUp) {
-    req.setAttribute("redirected_from",UrlEncoded.encodeString(getRedirectUri((Request)req)));
-    req.setAttribute("backup_started_at",UrlEncoded.encodeString(backupStatusProvider.backupRunningSinceISO8601()));
-    req.setAttribute("backup_started_by",UrlEncoded.encodeString(backupStatusProvider.backupStartedBy()));
+    req.setAttribute("redirected_from",servletHelper.encodeString(getRedirectUri(req)));
+    req.setAttribute("backup_started_at",servletHelper.encodeString(backupStatusProvider.backupRunningSinceISO8601()));
+    req.setAttribute("backup_started_by",servletHelper.encodeString(backupStatusProvider.backupStartedBy()));
   }
 }

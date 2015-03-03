@@ -1,0 +1,14 @@
+{
+  server.addEventListener(mbeans());
+  server.addConnector(plainConnector());
+  server.addConnector(sslConnector());
+  HandlerCollection handlers=new HandlerCollection();
+  handlers.addHandler(welcomeFileHandler());
+  handlers.addHandler(legacyRequestHandler());
+  createWebAppContext();
+  addResourceHandler(handlers,webAppContext);
+  handlers.addHandler(webAppContext);
+  server.setHandler(handlers);
+  performCustomConfiguration();
+  server.setStopAtShutdown(true);
+}

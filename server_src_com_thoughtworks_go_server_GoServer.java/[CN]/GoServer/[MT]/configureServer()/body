@@ -1,17 +1,10 @@
 {
-  JettyServer server=createServer();
-  server.getContainer().addEventListener(mbeans());
-  server.addConnector(plainConnector(server));
-  server.addConnector(sslConnector(server));
-  HandlerCollection handlers=new HandlerCollection();
-  handlers.addHandler(welcomeFileHandler());
-  handlers.addHandler(legacyRequestHandler());
-  WebAppContext webAppContext=webApp();
-  addResourceHandler(handlers,webAppContext);
-  handlers.addHandler(webAppContext);
-  server.setWebAppContext(webAppContext);
-  server.setHandler(handlers);
-  performCustomConfiguration(server);
-  server.setStopAtShutdown(true);
+  Constructor<?> constructor=Class.forName(systemEnvironment.get(SystemEnvironment.APP_SERVER)).getConstructor(SystemEnvironment.class,String.class,SSLSocketFactory.class);
+  AppServer server=((AppServer)constructor.newInstance(systemEnvironment,password,sslSocketFactory));
+  server.configure();
+  server.addExtraJarsToClasspath(getExtraJarsToBeAddedToClasspath());
+  server.setCookieExpirePeriod(twoWeeks());
+  server.setInitParameter("rails.root","/WEB-INF/rails.new");
+  server.addStopServlet();
   return server;
 }
