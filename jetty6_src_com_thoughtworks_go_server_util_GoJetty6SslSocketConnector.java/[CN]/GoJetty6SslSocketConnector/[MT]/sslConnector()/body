@@ -1,0 +1,35 @@
+{
+  if (!keystore.exists()) {
+    storeX509Certificate();
+  }
+  if (systemEnvironment.useNioSslSocket()) {
+    LOGGER.info(String.format("Using SSL socket selector SslSelectChannelConnector (NIO) with maxIdleTime=%s",MAX_IDLE_TIME));
+    SslSelectChannelConnector nioConnector=new SslSelectChannelConnector();
+    nioConnector.setPort(sslPort);
+    nioConnector.setHost(systemEnvironment.getListenHost());
+    nioConnector.setMaxIdleTime(MAX_IDLE_TIME);
+    nioConnector.setKeystore(keystore.getPath());
+    nioConnector.setPassword(password);
+    nioConnector.setKeyPassword(password);
+    nioConnector.setTruststore(truststore.getPath());
+    nioConnector.setTrustPassword(password);
+    nioConnector.setWantClientAuth(true);
+    nioConnector.setExcludeCipherSuites(goCipherSuite.getExcludedCipherSuites());
+    return nioConnector;
+  }
+ else {
+    LOGGER.info(String.format("Using SSL socket selector SslSocketConnector (NOT NIO) with maxIdleTime=%s",MAX_IDLE_TIME));
+    SslSocketConnector socketConnector=new SslSocketConnector();
+    socketConnector.setPort(sslPort);
+    socketConnector.setHost(systemEnvironment.getListenHost());
+    socketConnector.setMaxIdleTime(MAX_IDLE_TIME);
+    socketConnector.setKeystore(keystore.getPath());
+    socketConnector.setPassword(password);
+    socketConnector.setKeyPassword(password);
+    socketConnector.setTruststore(truststore.getPath());
+    socketConnector.setTrustPassword(password);
+    socketConnector.setWantClientAuth(true);
+    socketConnector.setExcludeCipherSuites(goCipherSuite.getExcludedCipherSuites());
+    return socketConnector;
+  }
+}
