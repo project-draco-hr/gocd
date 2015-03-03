@@ -1,0 +1,8 @@
+{
+  HttpConfiguration httpConfig=new HttpConfiguration();
+  httpConfig.setOutputBufferSize(RESPONSE_BUFFER_SIZE);
+  ServerConnector httpConnector=new ServerConnector(server.getServer(),new HttpConnectionFactory(httpConfig));
+  httpConnector.setPort(plainPort);
+  httpConnector.setIdleTimeout(MAX_IDLE_TIME);
+  return httpConnector;
+}
