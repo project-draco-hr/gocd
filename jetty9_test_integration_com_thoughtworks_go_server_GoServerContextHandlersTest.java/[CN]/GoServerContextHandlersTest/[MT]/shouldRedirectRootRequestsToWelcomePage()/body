@@ -1,0 +1,16 @@
+{
+  ContextHandler welcomeFileHandler=new Jetty9Server(new SystemEnvironment(),"",mock(SSLSocketFactory.class)).welcomeFileHandler();
+  welcomeFileHandler.setServer(mock(Server.class));
+  welcomeFileHandler.start();
+  HttpServletResponse response=mock(HttpServletResponse.class);
+  ByteArrayOutputStream output=new ByteArrayOutputStream();
+  when(response.getWriter()).thenReturn(new PrintWriter(output));
+  welcomeFileHandler.handle("/",mock(Request.class),mock(HttpServletRequest.class),response);
+  String responseBody=new String(output.toByteArray());
+  assertThat(responseBody,is("redirecting.."));
+  verify(response).setHeader("Location","/go/home");
+  verify(response).setStatus(HttpStatus.MOVED_PERMANENTLY_301);
+  verify(response).setHeader(HttpHeader.CONTENT_TYPE.asString(),"text/html");
+  verify(response).getWriter();
+  verifyNoMoreInteractions(response);
+}

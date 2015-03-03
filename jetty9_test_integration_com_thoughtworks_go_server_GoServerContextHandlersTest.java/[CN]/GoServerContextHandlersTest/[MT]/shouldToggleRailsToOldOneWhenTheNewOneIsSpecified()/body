@@ -1,0 +1,14 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.getCruiseWar()).thenReturn("webapp");
+  when(systemEnvironment.get(SystemEnvironment.ADDONS_PATH)).thenReturn("some-non-existent-directory");
+  when(systemEnvironment.keystore()).thenReturn(temporaryFolder.newFolder());
+  when(systemEnvironment.truststore()).thenReturn(temporaryFolder.newFolder());
+  when(systemEnvironment.getJettyConfigFile()).thenReturn(new File("junk"));
+  SSLSocketFactory socketFactory=mock(SSLSocketFactory.class);
+  when(socketFactory.getSupportedCipherSuites()).thenReturn(new String[]{});
+  Jetty9Server jetty9Server=new Jetty9Server(systemEnvironment,"password",socketFactory);
+  jetty9Server.configure();
+  jetty9Server.setInitParameter("name","value");
+  assertThat(getWebAppContext(jetty9Server).getInitParameter("name"),is("value"));
+}

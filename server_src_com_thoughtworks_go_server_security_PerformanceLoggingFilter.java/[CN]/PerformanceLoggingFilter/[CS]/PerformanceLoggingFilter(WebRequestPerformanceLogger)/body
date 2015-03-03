@@ -1,4 +1,6 @@
 {
   this.webRequestPerformanceLogger=webRequestPerformanceLogger;
-  logRequestTimings=new SystemEnvironment().getEnableRequestTimeLogging();
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  logRequestTimings=systemEnvironment.getEnableRequestTimeLogging();
+  usingJetty9=systemEnvironment.usingJetty9();
 }

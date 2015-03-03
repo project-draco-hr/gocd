@@ -1,0 +1,15 @@
+{
+  SystemEnvironment environment=spy(new SystemEnvironment());
+  final Jetty9Server jettyServer=spy(new Jetty9Server(environment,"password",mock(SSLSocketFactory.class)));
+  final WebAppContext mainWebapp=mock(WebAppContext.class);
+  final Jetty9Server.GoServerWelcomeFileHandler welcomeHandler=mock(Jetty9Server.GoServerWelcomeFileHandler.class);
+  final Jetty9Server.LegacyUrlRequestHandler legacyRequestHandler=mock(Jetty9Server.LegacyUrlRequestHandler.class);
+  jettyServer.configure();
+  ArgumentCaptor<HandlerCollection> captor=ArgumentCaptor.forClass(HandlerCollection.class);
+  verify(jettyServer).setHandler(captor.capture());
+  HandlerCollection handlerCollection=captor.getValue();
+  List<Handler> handlers=ArrayUtil.asList(handlerCollection.getHandlers());
+  assertThat(handlers.contains(welcomeHandler),is(true));
+  assertThat(handlers.contains(legacyRequestHandler),is(true));
+  assertThat(handlers.contains(mainWebapp),is(true));
+}

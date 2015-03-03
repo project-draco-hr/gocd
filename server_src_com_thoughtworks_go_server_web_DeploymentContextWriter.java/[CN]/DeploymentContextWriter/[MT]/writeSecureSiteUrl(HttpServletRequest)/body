@@ -3,9 +3,8 @@
   if (provider == null) {
     throw new RuntimeException("Could not generate url. ServerConfigService not yet loaded.");
   }
-  Request request=(Request)req;
-  HttpURI uri=request.getUri();
-  String url=request.getRootURL().append(uri.toString()).toString();
+  ServletRequest request=ServletHelper.getServerHelper(env().usingJetty9()).getRequest(req);
+  String url=request.getUrl();
   if (provider.hasAnyUrlConfigured()) {
     try {
       String newUrl=provider.siteUrlFor(url,true);

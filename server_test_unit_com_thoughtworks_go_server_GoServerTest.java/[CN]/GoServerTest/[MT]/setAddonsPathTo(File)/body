@@ -1,0 +1,6 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.get(SystemEnvironment.APP_SERVER)).thenReturn(AppServerStub.class.getCanonicalName());
+  doReturn(path.getPath()).when(systemEnvironment).get(SystemEnvironment.ADDONS_PATH);
+  return systemEnvironment;
+}

@@ -1,0 +1,7 @@
+{
+  Jetty9Server jetty9Server=new Jetty9Server(new SystemEnvironment(),null,mock(SSLSocketFactory.class));
+  Handler welcomeHandler=jetty9Server.welcomeFileHandler();
+  HttpServletResponse response=mock(HttpServletResponse.class);
+  welcomeHandler.handle("/foo",mock(Request.class),mock(HttpServletRequest.class),response);
+  verifyNoMoreInteractions(response);
+}
