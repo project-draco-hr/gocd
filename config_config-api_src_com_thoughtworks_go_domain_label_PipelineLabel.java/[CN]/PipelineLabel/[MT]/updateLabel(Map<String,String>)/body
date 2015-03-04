@@ -1,7 +1,3 @@
 {
-  for (  Map.Entry<String,String> namedRevision : namedRevisions.entrySet()) {
-    String revision=namedRevision.getValue();
-    label=label.replaceAll("(?i)\\$\\{" + namedRevision.getKey() + "\\}",revision);
-  }
-  label=StringUtils.substring(label,0,255);
+  this.label=replaceRevisionsInLabel(this.label,namedRevisions);
 }
