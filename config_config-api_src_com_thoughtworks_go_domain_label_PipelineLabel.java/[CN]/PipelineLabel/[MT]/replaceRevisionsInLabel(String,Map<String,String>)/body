@@ -1,8 +1,10 @@
 {
-  String label=new String(labelTemplate);
-  for (  Map.Entry<String,String> namedRevision : namedRevisions.entrySet()) {
-    String revision=namedRevision.getValue();
-    label=label.replaceAll("(?i)\\$\\{" + namedRevision.getKey() + "\\}",revision);
+  final Matcher matcher=PATTERN.matcher(labelTemplate);
+  final StringBuffer buffer=new StringBuffer();
+  while (matcher.find()) {
+    final String revision=lookupMaterialRevision(matcher,materialRevisions);
+    matcher.appendReplacement(buffer,revision);
   }
-  return label;
+  matcher.appendTail(buffer);
+  return buffer.toString();
 }

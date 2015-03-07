@@ -1,0 +1,15 @@
+{
+  final String material=matcher.group(1);
+  if (!materialRevisions.containsKey(material)) {
+    return "\\" + matcher.group(0);
+  }
+  String revision=materialRevisions.get(material);
+  final String truncationLengthLiteral=matcher.group(3);
+  if (truncationLengthLiteral != null) {
+    int truncationLength=Integer.parseInt(truncationLengthLiteral);
+    if (revision.length() > truncationLength) {
+      revision=revision.substring(0,truncationLength);
+    }
+  }
+  return revision;
+}

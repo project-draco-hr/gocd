@@ -1,0 +1,15 @@
+{
+  Matcher matcher=PipelineLabel.PATTERN.matcher(labelTemplate);
+  for (  String[] groups : expectedGroups) {
+    assertThat(matcher.find(),is(true));
+    final String truncationLengthLiteral=matcher.group(3);
+    if (groups.length != 2) {
+      assertNull(truncationLengthLiteral);
+    }
+ else {
+      assertThat(truncationLengthLiteral,is(groups[1]));
+    }
+  }
+  final boolean actual=matcher.find();
+  assertThat(actual,is(false));
+}
