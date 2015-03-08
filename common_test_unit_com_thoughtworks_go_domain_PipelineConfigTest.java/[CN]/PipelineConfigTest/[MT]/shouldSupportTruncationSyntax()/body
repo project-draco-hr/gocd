@@ -1,6 +1,7 @@
 {
   PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs());
-  pipelineConfig.setLabelTemplate("pipeline-${COUN_T}-${my-material}${h.i}${**}");
+  pipelineConfig.setLabelTemplate("pipeline-${COUNT}-${git[:7]}-alpha");
   Set<String> variables=pipelineConfig.getTemplateVariables();
-  assertThat(variables,contains("COUN_T","my-material","h.i","**"));
+  assertThat(variables,contains("COUNT","git"));
+  assertThat(variables.size(),is(2));
 }
