@@ -1,0 +1,5 @@
+{
+  String labelFormat="pipeline-${COUNT}-${NoSuchMaterial}";
+  PipelineConfig pipelineConfig=createAndValidatePipelineLabel(labelFormat);
+  assertThat(pipelineConfig.errors().on(PipelineConfig.LABEL_TEMPLATE),is("You have defined a label template in pipeline cruise that refers to a material called NoSuchMaterial, but no material with this name is defined."));
+}

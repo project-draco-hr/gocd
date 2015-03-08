@@ -1,0 +1,14 @@
+{
+  GitMaterialConfig git=new GitMaterialConfig("git@github.com:gocd/gocd.git");
+  git.setName(new CaseInsensitiveString("git"));
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs(git));
+  pipelineConfig.setLabelTemplate(labelFormat);
+  final HashMap map=new HashMap();
+  final HashMap valueHashMap=new HashMap();
+  valueHashMap.put("param-name","param_foo");
+  valueHashMap.put("param-value","BAR");
+  map.put(PipelineConfig.PARAMS,Collections.singletonList(valueHashMap));
+  pipelineConfig.setConfigAttributes(map);
+  pipelineConfig.validate(null);
+  return pipelineConfig;
+}
