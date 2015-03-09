@@ -1,0 +1,11 @@
+{
+  ArgumentCaptor<Connector> captor=ArgumentCaptor.forClass(Connector.class);
+  jetty6Server.configure();
+  verify(server,times(2)).addConnector(captor.capture());
+  List<Connector> connectors=captor.getAllValues();
+  Connector plainConnector=connectors.get(0);
+  assertThat(plainConnector instanceof SelectChannelConnector,is(true));
+  SelectChannelConnector connector=(SelectChannelConnector)plainConnector;
+  assertThat(connector.getPort(),is(1234));
+  assertThat(connector.getHost(),is("localhost"));
+}

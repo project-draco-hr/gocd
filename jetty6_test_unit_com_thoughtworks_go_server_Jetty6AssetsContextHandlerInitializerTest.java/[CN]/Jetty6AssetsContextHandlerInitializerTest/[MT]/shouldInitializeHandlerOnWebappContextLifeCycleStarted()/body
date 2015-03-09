@@ -1,0 +1,7 @@
+{
+  Jetty6AssetsContextHandler handler=mock(Jetty6AssetsContextHandler.class);
+  WebAppContext webAppContext=mock(WebAppContext.class);
+  Jetty6AssetsContextHandlerInitializer initializer=new Jetty6AssetsContextHandlerInitializer(handler,webAppContext);
+  initializer.lifeCycleStarted(null);
+  verify(handler,times(1)).init(webAppContext);
+}

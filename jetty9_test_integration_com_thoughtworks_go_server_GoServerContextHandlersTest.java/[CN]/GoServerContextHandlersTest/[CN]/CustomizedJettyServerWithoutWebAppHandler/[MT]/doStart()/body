@@ -1,0 +1,12 @@
+{
+  isStarted=true;
+  HandlerCollection handlerCollection=(HandlerCollection)getHandler();
+  WebAppContext webAppContext=(WebAppContext)ListUtil.find(ArrayUtil.asList(handlerCollection.getHandlers()),new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      return item instanceof WebAppContext;
+    }
+  }
+);
+  handlerCollection.removeHandler(webAppContext);
+  handlerCollection.start();
+}

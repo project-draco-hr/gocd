@@ -1,0 +1,14 @@
+{
+  ArgumentCaptor<Connector> captor=ArgumentCaptor.forClass(Connector.class);
+  jetty6Server.configure();
+  verify(server,times(2)).addConnector(captor.capture());
+  List<Connector> connectors=captor.getAllValues();
+  Connector sslConnector=connectors.get(1);
+  assertThat(sslConnector instanceof SslSelectChannelConnector,is(true));
+  SslSelectChannelConnector connector=(SslSelectChannelConnector)sslConnector;
+  assertThat(connector.getPort(),is(4567));
+  assertThat(connector.getHost(),is("localhost"));
+  assertThat(connector.getMaxIdleTime(),is(30000));
+  assertThat(connector.getWantClientAuth(),is(true));
+  assertThat(connector.getExcludeCipherSuites(),is(new String[]{"CS1","CS2"}));
+}
