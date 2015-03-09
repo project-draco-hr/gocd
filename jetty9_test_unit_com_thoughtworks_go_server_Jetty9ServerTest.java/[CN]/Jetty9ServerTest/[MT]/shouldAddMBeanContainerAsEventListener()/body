@@ -1,0 +1,7 @@
+{
+  ArgumentCaptor<MBeanContainer> captor=ArgumentCaptor.forClass(MBeanContainer.class);
+  jetty9Server.configure();
+  verify(server).addEventListener(captor.capture());
+  MBeanContainer mBeanContainer=captor.getValue();
+  assertThat(mBeanContainer.getMBeanServer(),is(not(nullValue())));
+}

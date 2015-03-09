@@ -1,5 +1,5 @@
 {
-  ContextHandler welcomeFileHandler=new Jetty9Server(new SystemEnvironment(),"",mock(SSLSocketFactory.class)).welcomeFileHandler();
+  ContextHandler welcomeFileHandler=jetty9Server.welcomeFileHandler();
   welcomeFileHandler.setServer(mock(Server.class));
   welcomeFileHandler.start();
   HttpServletResponse response=mock(HttpServletResponse.class);
