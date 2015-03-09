@@ -6,8 +6,7 @@
     RandomAccessFile randomAccessFile=new RandomAccessFile(fileLocation(),"rw");
     channel=randomAccessFile.getChannel();
     lock=channel.lock();
-    CruiseConfig modified=getModifiedConfig(updatingCommand,configHolder);
-    String configAsXml=configAsXml(modified);
+    String configAsXml=getModifiedConfig(updatingCommand,configHolder);
     randomAccessFile.seek(0);
     randomAccessFile.setLength(0);
     outputStream=new FileOutputStream(randomAccessFile.getFD());
