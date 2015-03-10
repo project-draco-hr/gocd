@@ -1,6 +1,7 @@
 {
-  String digest1=FileDigester.md5DigestOfFile(createFileWithSampleData());
+  File fileWithSampleData=createFileWithSampleData();
+  String digest1=FileDigester.md5DigestOfFile(fileWithSampleData);
   assertThat("md5 should not be empty",digest1.length() > 0,is(true));
-  String digest2=FileDigester.md5DigestOfFile(createFileWithSampleData());
+  String digest2=FileDigester.md5DigestOfFile(fileWithSampleData);
   assertThat(digest1,is(digest2));
 }

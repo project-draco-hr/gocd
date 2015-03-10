@@ -1,6 +1,6 @@
 {
-  expectedException.expect(FileNotFoundException.class);
-  expectedException.expectMessage(containsString("go-plugins-all.zip (No such file or directory)"));
+  expectedException.expect(RuntimeException.class);
+  expectedException.expectMessage(containsString("Could not compute md5 of plugins. Exception occurred:"));
   temporaryFolder.delete();
   pluginsZip.md5();
 }
