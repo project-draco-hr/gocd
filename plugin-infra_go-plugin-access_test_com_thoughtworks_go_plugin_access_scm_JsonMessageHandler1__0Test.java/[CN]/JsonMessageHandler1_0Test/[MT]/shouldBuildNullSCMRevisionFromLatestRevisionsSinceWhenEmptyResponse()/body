@@ -1,4 +1,8 @@
 {
-  assertThat(messageHandler.responseMessageForLatestRevisionsSince(""),nullValue());
-  assertThat(messageHandler.responseMessageForLatestRevisionsSince(null),nullValue());
+  MaterialPollResult pollResult=messageHandler.responseMessageForLatestRevisionsSince("");
+  assertThat(pollResult.getRevisions(),nullValue());
+  assertThat(pollResult.getMaterialData(),nullValue());
+  pollResult=messageHandler.responseMessageForLatestRevisionsSince(null);
+  assertThat(pollResult.getRevisions(),nullValue());
+  assertThat(pollResult.getMaterialData(),nullValue());
 }

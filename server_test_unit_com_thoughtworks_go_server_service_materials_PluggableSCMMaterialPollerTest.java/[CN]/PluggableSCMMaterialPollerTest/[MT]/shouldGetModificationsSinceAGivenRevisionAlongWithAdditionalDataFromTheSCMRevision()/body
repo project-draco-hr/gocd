@@ -1,16 +1,17 @@
 {
   String previousRevision="rev-122";
   Date timestamp=new Date();
-  HashMap<String,String> dataInPreviousRevision=new HashMap<String,String>();
+  Map<String,String> dataInPreviousRevision=new HashMap<String,String>();
   dataInPreviousRevision.put("1","one");
   PluggableSCMMaterialRevision knownRevision=new PluggableSCMMaterialRevision(previousRevision,timestamp,dataInPreviousRevision);
-  ArgumentCaptor<SCMRevision> knownSCMRevision=new ArgumentCaptor<SCMRevision>();
+  ArgumentCaptor<SCMRevision> knownSCMRevision=ArgumentCaptor.forClass(SCMRevision.class);
   Map<String,String> data=new HashMap<String,String>();
   String dataKey="2";
   String dataValue="two";
   data.put(dataKey,dataValue);
   SCMRevision latestRevision=new SCMRevision("rev-123",timestamp,"user","comment-123",data,null);
-  when(scmExtension.latestModificationSince(eq(material.getPluginId()),scmConfiguration.capture(),eq(flyweightFolderPath),knownSCMRevision.capture())).thenReturn(asList(latestRevision));
+  MaterialPollResult materialPollResult=new MaterialPollResult(null,asList(latestRevision));
+  when(scmExtension.latestModificationSince(eq(material.getPluginId()),scmConfiguration.capture(),materialData.capture(),eq(flyweightFolderPath),knownSCMRevision.capture())).thenReturn(materialPollResult);
   List<Modification> modifications=poller.modificationsSince(material,new File(flyweightFolderPath),knownRevision,null);
   assertThat(knownSCMRevision.getValue().getRevision(),is(previousRevision));
   assertThat(knownSCMRevision.getValue().getTimestamp(),is(timestamp));
@@ -26,4 +27,6 @@
   assertThat(firstModification.getComment(),is("comment-123"));
   assertThat(firstModification.getAdditionalData(),is(JsonHelper.toJsonString(expected)));
   assertThat(firstModification.getModifiedFiles().isEmpty(),is(true));
+  assertThat(materialData.getValue().size(),is(1));
+  assertThat((String)materialData.getValue().get("mk-1"),is("mv-1"));
 }

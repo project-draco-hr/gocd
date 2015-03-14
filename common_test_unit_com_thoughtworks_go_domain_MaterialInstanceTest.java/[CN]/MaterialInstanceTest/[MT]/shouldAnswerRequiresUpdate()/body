@@ -1,6 +1,6 @@
 {
   PluggableSCMMaterial material=MaterialsMother.pluggableSCMMaterial();
-  MaterialInstance materialInstance=new PluggableSCMMaterialInstance(JsonHelper.toJsonString(material),"flyweight");
+  MaterialInstance materialInstance=material.createMaterialInstance();
   materialInstance.setAdditionalData(null);
   assertThat(materialInstance.requiresUpdate(null),is(false));
   assertThat(materialInstance.requiresUpdate(new HashMap<String,String>()),is(false));

@@ -10,7 +10,17 @@
     if (map == null || map.isEmpty()) {
       throw new RuntimeException("Empty response body");
     }
-    return getScmRevisionFromMap(map);
+    if (!map.containsKey("revision") || map.get("revision") == null) {
+      throw new RuntimeException("SCM revision cannot be empty");
+    }
+    Map revisionMap=null;
+    try {
+      revisionMap=(Map)map.get("revision");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("SCM revision should be of type map");
+    }
+    return getScmRevisionFromMap(revisionMap);
   }
  catch (  Exception e) {
     throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));

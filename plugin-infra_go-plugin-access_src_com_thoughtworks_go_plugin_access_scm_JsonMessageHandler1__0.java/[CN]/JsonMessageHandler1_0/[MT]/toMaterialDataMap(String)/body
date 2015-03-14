@@ -1,0 +1,25 @@
+{
+  try {
+    Map map;
+    try {
+      map=parseResponseToMap(responseBody);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("SCM revision should be returned as a map");
+    }
+    if (map == null || map.isEmpty()) {
+      return null;
+    }
+    Map scmData=null;
+    try {
+      scmData=(Map)map.get("scm-data");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("SCM data should be of type map");
+    }
+    return scmData;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
+  }
+}
