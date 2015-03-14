@@ -1,0 +1,23 @@
+{
+  PluggableSCMMaterial material=MaterialsMother.pluggableSCMMaterial();
+  MaterialInstance materialInstance=new PluggableSCMMaterialInstance(JsonHelper.toJsonString(material),"flyweight");
+  materialInstance.setAdditionalData(null);
+  assertThat(materialInstance.requiresUpdate(null),is(false));
+  assertThat(materialInstance.requiresUpdate(new HashMap<String,String>()),is(false));
+  materialInstance.setAdditionalData(JsonHelper.toJsonString(new HashMap<String,String>()));
+  assertThat(materialInstance.requiresUpdate(null),is(false));
+  assertThat(materialInstance.requiresUpdate(new HashMap<String,String>()),is(false));
+  Map<String,String> data=new HashMap<String,String>();
+  data.put("k1","v1");
+  data.put("k2","v2");
+  materialInstance.setAdditionalData(JsonHelper.toJsonString(data));
+  assertThat(materialInstance.requiresUpdate(null),is(true));
+  assertThat(materialInstance.requiresUpdate(new HashMap<String,String>()),is(true));
+  assertThat(materialInstance.requiresUpdate(data),is(false));
+  Map<String,String> dataWithMissingKey=new HashMap<String,String>(data);
+  dataWithMissingKey.remove("k1");
+  assertThat(materialInstance.requiresUpdate(dataWithMissingKey),is(true));
+  Map<String,String> dataWithExtraKey=new HashMap<String,String>(data);
+  dataWithExtraKey.put("k3","v3");
+  assertThat(materialInstance.requiresUpdate(dataWithExtraKey),is(true));
+}
