@@ -1,6 +1,6 @@
 {
   NEW_JAR_FILE.createNewFile();
-  DefaultPluginManager defaultPluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater);
+  DefaultPluginManager defaultPluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment,pluginsZipListener);
   when(pluginValidator.namecheckForJar(NEW_JAR_FILE.getName())).thenReturn(true);
   defaultPluginManager.addPlugin(NEW_JAR_FILE,NEW_JAR_FILE.getName());
   ArgumentCaptor<File> fileArgumentCaptor=ArgumentCaptor.forClass(File.class);

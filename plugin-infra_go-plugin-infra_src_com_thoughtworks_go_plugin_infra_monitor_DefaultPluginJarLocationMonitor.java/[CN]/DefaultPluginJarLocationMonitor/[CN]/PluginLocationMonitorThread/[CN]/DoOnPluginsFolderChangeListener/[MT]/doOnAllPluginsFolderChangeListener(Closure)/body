@@ -1,0 +1,14 @@
+{
+  for (  WeakReference<PluginsFolderChangeListener> listener : listeners) {
+    PluginsFolderChangeListener changeListener=listener.get();
+    if (changeListener == null) {
+      continue;
+    }
+    try {
+      closure.execute(changeListener);
+    }
+ catch (    Exception e) {
+      LOGGER.warn("Plugin listener failed",e);
+    }
+  }
+}

@@ -11,7 +11,7 @@
     }
   }
 ).when(goPluginOSGiFramework).doOn(eq(GoPlugin.class),eq("plugin-id"),any(ActionWithReturn.class));
-  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipListener);
   GoPluginApiResponse actualResponse=pluginManager.submitTo("plugin-id",request);
   assertThat(actualResponse,is(expectedResponse));
   verify(goPlugin).initializeGoApplicationAccessor(applicationAccessor);
