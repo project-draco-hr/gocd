@@ -1,9 +1,0 @@
-{
-  Jetty9Server jetty9Server=new Jetty9Server(new SystemEnvironment(),null,mock(SSLSocketFactory.class));
-  Jetty9Server.LegacyUrlRequestHandler handler=(Jetty9Server.LegacyUrlRequestHandler)jetty9Server.legacyRequestHandler();
-  assertThat(handler.getHandler() instanceof MovedContextHandler,is(true));
-  MovedContextHandler movedContextHandler=(MovedContextHandler)handler.getHandler();
-  assertThat(movedContextHandler.getContextPath(),is("/cruise"));
-  assertThat(movedContextHandler.getNewContextURL(),is("/go"));
-  assertThat(movedContextHandler.isPermanent(),is(true));
-}
