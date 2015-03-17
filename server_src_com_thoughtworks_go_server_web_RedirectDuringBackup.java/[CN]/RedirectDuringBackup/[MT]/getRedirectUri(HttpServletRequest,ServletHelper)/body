@@ -1,0 +1,7 @@
+{
+  ServletRequest request=servletHelper.getRequest(req);
+  if (isMessagesJson(request) || isMethod(req,"post") || isMethod(req,"put")|| isMethod(req,"delete")) {
+    return getReferer(req);
+  }
+  return request.getUriAsString();
+}

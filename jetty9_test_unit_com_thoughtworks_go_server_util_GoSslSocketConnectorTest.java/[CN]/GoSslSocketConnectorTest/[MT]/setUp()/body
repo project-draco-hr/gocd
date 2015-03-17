@@ -1,0 +1,17 @@
+{
+  keystore=folder.newFile("keystore");
+  truststore=folder.newFile("truststore");
+  GoCipherSuite cipherSuite=mock(GoCipherSuite.class);
+  String[] cipherSuitesToBeIncluded={"FOO"};
+  when(cipherSuite.getCipherSuitsToBeIncluded()).thenReturn(cipherSuitesToBeIncluded);
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.getSslServerPort()).thenReturn(1234);
+  when(systemEnvironment.keystore()).thenReturn(keystore);
+  when(systemEnvironment.truststore()).thenReturn(truststore);
+  when(systemEnvironment.get(SystemEnvironment.RESPONSE_BUFFER_SIZE)).thenReturn(100);
+  when(systemEnvironment.get(SystemEnvironment.IDLE_TIMEOUT)).thenReturn(200);
+  when(systemEnvironment.getListenHost()).thenReturn("foo");
+  Jetty9Server jettyServer=mock(Jetty9Server.class);
+  when(jettyServer.getServer()).thenReturn(new Server());
+  sslSocketConnector=new GoSslSocketConnector(jettyServer,"password",systemEnvironment,cipherSuite);
+}
