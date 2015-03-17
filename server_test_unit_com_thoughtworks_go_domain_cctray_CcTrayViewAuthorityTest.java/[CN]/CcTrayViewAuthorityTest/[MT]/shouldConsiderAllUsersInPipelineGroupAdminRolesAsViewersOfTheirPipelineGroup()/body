@@ -1,6 +1,7 @@
 {
   configMother.addPipelineWithGroup(config,"group1","pipeline1","stage1A","job1A1","job1A2");
   configMother.addPipelineWithGroup(config,"group2","pipeline1","stage1A","job1A1","job1A2");
+  configMother.addUserAsViewerOfPipelineGroup(config,"viewer1","group2");
   configMother.addRole(config,configMother.createRole("group1_admin_role1","groupadmin1","groupadmin2"));
   configMother.addRole(config,configMother.createRole("group1_admin_role2","groupadmin2","groupadmin3"));
   configMother.addAdminRoleForPipelineGroup(config,"group1_admin_role1","group1");
@@ -8,5 +9,5 @@
   Map<String,Viewers> pipelinesAndTheirViewers=getGroupsAndTheirViewers();
   assertThat(pipelinesAndTheirViewers.size(),is(2));
   assertThat(pipelinesAndTheirViewers.get("group1"),is(viewers("groupadmin1","groupadmin2","groupadmin3")));
-  assertThat(pipelinesAndTheirViewers.get("group2"),is(viewers()));
+  assertThat(pipelinesAndTheirViewers.get("group2"),is(viewers("viewer1")));
 }

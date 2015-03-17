@@ -5,6 +5,10 @@
   final Set<String> superAdmins=namesOf(security.adminsConfig(),rolesToUsers);
   goConfigService.groups().accept(new PipelineGroupVisitor(){
     @Override public void visit(    PipelineConfigs pipelineConfigs){
+      if (!pipelineConfigs.hasAuthorizationDefined()) {
+        pipelinesAndViewers.put(pipelineConfigs.getGroup(),Everyone.INSTANCE);
+        return;
+      }
       Set<String> pipelineGroupAdmins=namesOf(pipelineConfigs.getAuthorization().getAdminsConfig(),rolesToUsers);
       Set<String> pipelineGroupViewers=namesOf(pipelineConfigs.getAuthorization().getViewConfig(),rolesToUsers);
       Set<String> viewers=new HashSet<String>();
