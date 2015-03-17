@@ -1,16 +1,6 @@
 {
   try {
-    Map map;
-    try {
-      map=parseResponseToMap(responseBody);
-    }
- catch (    Exception e) {
-      throw new RuntimeException("SCM revision should be returned as a map");
-    }
-    if (map == null || map.isEmpty()) {
-      throw new RuntimeException("Empty response body");
-    }
-    if (!map.containsKey("revision") || map.get("revision") == null) {
+    if (map == null || map.get("revision") == null) {
       throw new RuntimeException("SCM revision cannot be empty");
     }
     Map revisionMap=null;

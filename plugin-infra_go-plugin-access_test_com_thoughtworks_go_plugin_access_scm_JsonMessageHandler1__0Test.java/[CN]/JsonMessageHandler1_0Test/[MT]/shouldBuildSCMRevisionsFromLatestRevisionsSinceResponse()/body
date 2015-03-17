@@ -8,10 +8,4 @@
   assertThat(scmRevisions.size(),is(2));
   assertSCMRevision(scmRevisions.get(0),"r1","some-user","2011-07-14T19:43:37.100Z","comment",asList(new ModifiedFile("f1",ModifiedAction.added),new ModifiedFile("f2",ModifiedAction.modified),new ModifiedFile("f3",ModifiedAction.deleted)));
   assertSCMRevision(scmRevisions.get(1),"r2","new-user","2011-07-14T19:43:37.101Z","comment",asList(new ModifiedFile("f1",ModifiedAction.added)));
-  String responseBodyWithSCMData="{\"revisions\":[],\"scm-data\":{\"key-one\":\"value-one\"}}";
-  pollResult=messageHandler.responseMessageForLatestRevisionsSince(responseBodyWithSCMData);
-  Map<String,String> scmData=new HashMap<String,String>();
-  scmData.put("key-one","value-one");
-  assertThat(pollResult.getMaterialData(),is(scmData));
-  assertThat(pollResult.getRevisions().isEmpty(),is(true));
 }

@@ -1,4 +1,5 @@
 {
   if (isEmpty(responseBody))   return new MaterialPollResult();
-  return new MaterialPollResult(toMaterialDataMap(responseBody),toSCMRevisions(responseBody));
+  Map responseBodyMap=getResponseMap(responseBody);
+  return new MaterialPollResult(toMaterialDataMap(responseBodyMap),toSCMRevisions(responseBodyMap));
 }

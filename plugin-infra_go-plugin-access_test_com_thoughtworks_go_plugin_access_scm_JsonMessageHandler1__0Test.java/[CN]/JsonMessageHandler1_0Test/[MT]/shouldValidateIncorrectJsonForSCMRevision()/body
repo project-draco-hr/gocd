@@ -1,6 +1,5 @@
 {
-  assertThat(errorMessageForSCMRevision(""),is("Unable to de-serialize json response. Empty response body"));
-  assertThat(errorMessageForSCMRevision("[]"),is("Unable to de-serialize json response. SCM revision should be returned as a map"));
+  assertThat(errorMessageForSCMRevision(""),is("Unable to de-serialize json response. SCM revision cannot be empty"));
   assertThat(errorMessageForSCMRevision("{\"revision\":[]}"),is("Unable to de-serialize json response. SCM revision should be of type map"));
   assertThat(errorMessageForSCMRevision("{\"crap\":{}}"),is("Unable to de-serialize json response. SCM revision cannot be empty"));
 }
