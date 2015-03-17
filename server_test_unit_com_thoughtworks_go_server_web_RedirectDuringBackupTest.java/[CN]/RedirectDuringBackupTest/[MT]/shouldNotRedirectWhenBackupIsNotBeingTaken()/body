@@ -1,6 +1,6 @@
 {
   when(provider.isBackingUp()).thenReturn(false);
-  Request request=request(HttpMethod.GET,"","/go/agents");
+  Request request=request("get","","/go/agents");
   redirectDuringBackup.setServerBackupFlag(request);
   assertThat((String)request.getAttribute("backupInProgress"),is(String.valueOf(false)));
   assertThat(request.getAttribute("redirected_from"),is(nullValue()));

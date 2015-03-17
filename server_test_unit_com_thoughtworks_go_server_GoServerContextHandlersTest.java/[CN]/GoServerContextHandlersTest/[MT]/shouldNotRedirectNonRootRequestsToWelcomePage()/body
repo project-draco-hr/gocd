@@ -1,0 +1,7 @@
+{
+  GoServer goServer=new GoServer(new SystemEnvironment(),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
+  Handler welcomeHandler=goServer.welcomeFileHandler();
+  HttpServletResponse response=mock(HttpServletResponse.class);
+  welcomeHandler.handle("/foo",mock(HttpServletRequest.class),response,Handler.REQUEST);
+  verifyNoMoreInteractions(response);
+}

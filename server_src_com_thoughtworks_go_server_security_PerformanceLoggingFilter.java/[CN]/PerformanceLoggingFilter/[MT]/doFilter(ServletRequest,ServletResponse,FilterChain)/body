@@ -8,9 +8,8 @@
       long amountOfTimeItTookInMilliseconds=System.currentTimeMillis() - start;
       String requestURI=((HttpServletRequest)servletRequest).getRequestURI();
       String requestor=servletRequest.getRemoteAddr();
-      com.thoughtworks.go.server.util.ServletResponse response=ServletHelper.getInstance().getResponse(servletResponse);
-      int status=response.getStatus();
-      long contentCount=response.getContentCount();
+      int status=((Response)servletResponse).getStatus();
+      long contentCount=((Response)servletResponse).getContentCount();
       webRequestPerformanceLogger.logRequest(requestURI,requestor,status,contentCount,amountOfTimeItTookInMilliseconds);
       LOGGER.warn(requestURI + " took: " + amountOfTimeItTookInMilliseconds+ " ms");
     }

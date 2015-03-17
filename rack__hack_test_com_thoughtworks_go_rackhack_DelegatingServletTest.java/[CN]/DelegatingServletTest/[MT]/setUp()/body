@@ -1,8 +1,0 @@
-{
-  ServletHelper servletHelper=mock(ServletHelper.class);
-  ReflectionUtil.setStaticField(ServletHelper.class,"instance",servletHelper);
-  servletRequestWrapper=mock(com.thoughtworks.go.server.util.ServletRequest.class);
-  httpServletRequest=mock(HttpServletRequest.class);
-  when(httpServletRequest.getRequestURI()).thenReturn("/go/rails/stuff/action");
-  when(servletHelper.getRequest(httpServletRequest)).thenReturn(servletRequestWrapper);
-}

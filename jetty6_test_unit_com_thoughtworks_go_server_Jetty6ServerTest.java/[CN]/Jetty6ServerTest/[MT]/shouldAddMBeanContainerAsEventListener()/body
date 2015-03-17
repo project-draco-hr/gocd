@@ -1,7 +1,0 @@
-{
-  ArgumentCaptor<MBeanContainer> captor=ArgumentCaptor.forClass(MBeanContainer.class);
-  jetty6Server.configure();
-  verify(container).addEventListener(captor.capture());
-  MBeanContainer mBeanContainer=captor.getValue();
-  assertThat(mBeanContainer.getMBeanServer(),is(not(nullValue())));
-}

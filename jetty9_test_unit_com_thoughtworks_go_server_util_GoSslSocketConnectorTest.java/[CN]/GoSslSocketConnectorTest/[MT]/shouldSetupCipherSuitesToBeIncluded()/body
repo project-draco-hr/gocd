@@ -1,8 +1,0 @@
-{
-  ServerConnector connector=(ServerConnector)sslSocketConnector.getConnector();
-  Collection<ConnectionFactory> connectionFactories=connector.getConnectionFactories();
-  SslContextFactory sslContextFactory=findSslContextFactory(connectionFactories);
-  List<String> includedCipherSuites=ArrayUtil.asList(sslContextFactory.getIncludeCipherSuites());
-  assertThat(includedCipherSuites.size(),is(1));
-  assertThat(includedCipherSuites.contains("FOO"),is(true));
-}

@@ -15,8 +15,8 @@
   new SystemEnvironment().setProperty("jdbc.port","9003");
   server=new Server(port);
   WebAppContext context=new WebAppContext("webapp","/go");
-  context.setConfigurationClasses(new String[]{WebInfConfiguration.class.getCanonicalName(),WebXmlConfiguration.class.getCanonicalName(),JettyWebXmlConfiguration.class.getCanonicalName()});
+  context.setConfigurationClasses(new String[]{"org.mortbay.jetty.webapp.WebInfConfiguration","org.mortbay.jetty.webapp.WebXmlConfiguration","org.mortbay.jetty.webapp.JettyWebXmlConfiguration"});
   context.setDefaultsDescriptor("webapp/WEB-INF/webdefault.xml");
-  server.setHandler(context);
+  server.addHandler(context);
   this.setCookieExpireIn6Months(context);
 }

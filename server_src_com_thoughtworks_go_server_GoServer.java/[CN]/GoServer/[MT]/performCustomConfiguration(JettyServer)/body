@@ -1,0 +1,13 @@
+{
+  File jettyConfig=systemEnvironment.getJettyConfigFile();
+  if (jettyConfig.exists()) {
+    LOG.info("Configuring Jetty using " + jettyConfig.getAbsolutePath());
+    FileInputStream serverConfiguration=new FileInputStream(jettyConfig);
+    XmlConfiguration configuration=new XmlConfiguration(serverConfiguration);
+    configuration.configure(server.getServer());
+  }
+ else {
+    String message=String.format("No custom jetty configuration (%s) found, using defaults.",jettyConfig.getAbsolutePath());
+    LOG.info(message);
+  }
+}

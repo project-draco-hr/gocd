@@ -1,9 +1,0 @@
-{
-  HttpConfiguration httpConfig=new HttpConfiguration();
-  httpConfig.setOutputBufferSize(systemEnvironment.get(SystemEnvironment.RESPONSE_BUFFER_SIZE));
-  ServerConnector httpConnector=new ServerConnector(server.getServer(),new HttpConnectionFactory(httpConfig));
-  httpConnector.setHost(systemEnvironment.getListenHost());
-  httpConnector.setPort(systemEnvironment.getServerPort());
-  httpConnector.setIdleTimeout(systemEnvironment.get(SystemEnvironment.IDLE_TIMEOUT));
-  return httpConnector;
-}

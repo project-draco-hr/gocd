@@ -1,0 +1,12 @@
+{
+  GoServer goServer=new GoServer(new SystemEnvironment(),new GoCipherSuite(sslSocketFactory),mock(GoWebXmlConfiguration.class));
+  Handler legacyRequestHandler=goServer.legacyRequestHandler();
+  HttpServletResponse response=mock(HttpServletResponse.class);
+  when(response.getWriter()).thenReturn(new PrintWriter(new ByteArrayOutputStream()));
+  HttpServletRequest req=mock(HttpServletRequest.class);
+  when(req.getMethod()).thenReturn(HttpMethods.GET);
+  legacyRequestHandler.handle("/cruise_but_not_quite",req,response,Handler.REQUEST);
+  verifyNoMoreInteractions(response);
+  legacyRequestHandler.handle("/something_totally_different",req,response,Handler.REQUEST);
+  verifyNoMoreInteractions(response);
+}

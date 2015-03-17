@@ -1,0 +1,15 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.useCompressedJs()).thenReturn(true);
+  when(systemEnvironment.getWebappContextPath()).thenReturn("/go");
+  WebAppContext webAppContext=mock(WebAppContext.class);
+  when(webAppContext.getInitParameter("rails.root")).thenReturn("rails.root");
+  when(webAppContext.getWebInf()).thenReturn(Resource.newResource("WEB-INF"));
+  AssetsContextHandler handler=spy(new AssetsContextHandler(systemEnvironment));
+  handler.init(webAppContext);
+  Request request=mock(Request.class);
+  HttpServletResponse response=mock(HttpServletResponse.class);
+  when(request.isHandled()).thenReturn(false);
+  handler.handle("/junk",request,response,1);
+  verify(handler,never()).superDotHandle("/junk",request,response,1);
+}

@@ -1,9 +1,0 @@
-{
-  systemEnvironment=mock(SystemEnvironment.class);
-  when(systemEnvironment.getWebappContextPath()).thenReturn("/go");
-  WebAppContext webAppContext=mock(WebAppContext.class);
-  when(webAppContext.getInitParameter("rails.root")).thenReturn("/rails.root");
-  when(webAppContext.getWebInf()).thenReturn(Resource.newResource("WEB-INF"));
-  handler=new AssetsContextHandler(systemEnvironment);
-  handler.init(webAppContext);
-}
