@@ -7,6 +7,20 @@
   assertThat((DummyServlet)ctx.getAttribute(DelegatingListener.DELEGATE_SERVLET),isA(DummyServlet.class));
   DelegatingServlet servlet=new DelegatingServlet();
   servlet.init(new MockServletConfig(ctx));
-  servlet.service(httpServletRequest,new MockHttpServletResponse());
-  verify(servletRequestWrapper).setRequestURI("/go/stuff/action");
+  Request request=new Request(){
+    @Override public String getRequestURI(){
+      return uri;
+    }
+    @Override public void setRequestURI(    String newUri){
+      uri=newUri;
+    }
+    @Override public void setAttribute(    String name,    Object value){
+      attrName=name;
+      attrValue=value.toString();
+    }
+  }
+;
+  servlet.service(request,new MockHttpServletResponse());
+  assertThat(attrName,is(DummyServlet.URI_ATTRIBUTE));
+  assertThat(attrValue,is("/go/stuff/action"));
 }

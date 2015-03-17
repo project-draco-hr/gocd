@@ -1,9 +1,0 @@
-{
-  String extraJars=(String)appServer.calls.get("addExtraJarsToClasspath");
-  List<String> actualExtraClassPath=Arrays.asList(extraJars.split(","));
-  assertEquals("Number of jars wrong. Expected: " + Arrays.asList(expectedClassPathJars) + ". Actual: "+ actualExtraClassPath,expectedClassPathJars.length,actualExtraClassPath.size());
-  for (  String expectedClassPathJar : expectedClassPathJars) {
-    String platformIndependantNameOfExpectedJar=expectedClassPathJar.replace("/",File.separator);
-    assertTrue("Expected " + extraJars + " to contain: "+ platformIndependantNameOfExpectedJar,actualExtraClassPath.contains(platformIndependantNameOfExpectedJar));
-  }
-}

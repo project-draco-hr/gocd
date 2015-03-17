@@ -1,9 +1,15 @@
 {
-  systemEnvironment.setProperty("jetty.home",homeDir.getAbsolutePath());
+  String testHomeDir=SystemEnvironment.getProperty("java.io.tmpdir") + "/test.jetty.home.dir";
+  File testHome=new File(testHomeDir);
+  testHome.mkdir();
+  testHome.deleteOnExit();
+  new SystemEnvironment().setProperty("jetty.home",testHomeDir);
   JettyWorkDirValidator jettyWorkDirValidator=new JettyWorkDirValidator();
   Validation val=new Validation();
   jettyWorkDirValidator.validate(val);
   assertThat(val.isSuccessful(),is(true));
-  File work=new File(homeDir,"work");
+  assertThat(SystemEnvironment.getProperty("jetty.home"),is(testHomeDir));
+  File work=new File(testHomeDir,"work");
   assertThat(work.exists(),is(true));
+  work.delete();
 }
