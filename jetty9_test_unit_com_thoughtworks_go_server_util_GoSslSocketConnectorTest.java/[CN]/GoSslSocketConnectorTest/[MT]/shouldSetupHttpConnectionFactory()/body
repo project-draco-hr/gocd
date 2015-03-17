@@ -8,7 +8,7 @@
     }
   }
 );
-  assertThat(httpConnectionFactory.getHttpConfiguration().getOutputBufferSize(),is(GoSslSocketConnector.RESPONSE_BUFFER_SIZE));
+  assertThat(httpConnectionFactory.getHttpConfiguration().getOutputBufferSize(),is(100));
   assertThat(httpConnectionFactory.getHttpConfiguration().getCustomizers().size(),is(1));
   assertThat(httpConnectionFactory.getHttpConfiguration().getCustomizers().get(0) instanceof SecureRequestCustomizer,is(true));
 }
