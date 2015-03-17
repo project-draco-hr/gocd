@@ -1,11 +1,4 @@
 {
-  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
-  when(systemEnvironment.getWebappContextPath()).thenReturn("/go");
-  WebAppContext webAppContext=mock(WebAppContext.class);
-  when(webAppContext.getInitParameter("rails.root")).thenReturn("/rails.root");
-  when(webAppContext.getWebInf()).thenReturn(Resource.newResource("WEB-INF"));
-  AssetsContextHandler handler=new AssetsContextHandler(systemEnvironment);
-  handler.init(webAppContext);
   assertThat(handler.getContextPath(),is("/go/assets"));
   assertThat(handler.getHandler() instanceof AssetsContextHandler.AssetsHandler,is(true));
   AssetsContextHandler.AssetsHandler assetsHandler=(AssetsContextHandler.AssetsHandler)handler.getHandler();
