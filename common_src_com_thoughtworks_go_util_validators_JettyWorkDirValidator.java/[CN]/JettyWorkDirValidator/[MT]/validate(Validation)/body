@@ -1,10 +1,11 @@
 {
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
   if (SystemEnvironment.getProperty("jetty.home","").equals("")) {
-    new SystemEnvironment().setProperty("jetty.home",new SystemEnvironment().getPropertyImpl("user.dir"));
-    new SystemEnvironment().setProperty("jetty.base",new SystemEnvironment().getPropertyImpl("user.dir"));
+    systemEnvironment.setProperty("jetty.home",systemEnvironment.getPropertyImpl("user.dir"));
   }
-  File home=new File(new SystemEnvironment().getPropertyImpl("jetty.home"));
-  File work=new File(new SystemEnvironment().getPropertyImpl("jetty.home"),"work");
+  systemEnvironment.setProperty("jetty.base",systemEnvironment.getPropertyImpl("jetty.home"));
+  File home=new File(systemEnvironment.getPropertyImpl("jetty.home"));
+  File work=new File(systemEnvironment.getPropertyImpl("jetty.home"),"work");
   if (home.exists()) {
     if (work.exists()) {
       try {
