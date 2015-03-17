@@ -3,7 +3,7 @@
   configMother.addUserAsSuperAdmin(config,"superadmin1");
   configMother.addRole(config,configMother.createRole("superadminrole1","superadmin1","superadmin2"));
   configMother.addRoleAsSuperAdmin(config,"superadminrole1");
-  Map<String,Set<String>> pipelinesAndTheirViewers=getGroupsAndTheirViewers();
+  Map<String,Viewers> pipelinesAndTheirViewers=getGroupsAndTheirViewers();
   assertThat(pipelinesAndTheirViewers.size(),is(1));
-  assertThat(pipelinesAndTheirViewers.get("group1"),is(s("superadmin1","superadmin2")));
+  assertThat(pipelinesAndTheirViewers.get("group1"),is(viewers("superadmin1","superadmin2")));
 }

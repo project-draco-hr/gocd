@@ -7,7 +7,7 @@
   when(cache.get("pipeline1 :: stage1 :: job1")).thenReturn(pipeline1_stage1_job);
   when(cache.get("pipeline2 :: stage2")).thenReturn(pipeline2_stage2);
   when(cache.get("pipeline2 :: stage2 :: job2")).thenReturn(pipeline2_stage2_job);
-  when(ccTrayViewAuthority.groupsAndTheirViewers()).thenReturn(m("group1",s("user1","user2"),"group2",s("user3")));
+  when(ccTrayViewAuthority.groupsAndTheirViewers()).thenReturn(m("group1",viewers("user1","user2"),"group2",viewers("user3")));
   CruiseConfig config=GoConfigMother.defaultCruiseConfig();
   goConfigMother.addPipelineWithGroup(config,"group2","pipeline2","stage2","job2");
   goConfigMother.addPipelineWithGroup(config,"group1","pipeline1","stage1","job1");

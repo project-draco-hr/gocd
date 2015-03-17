@@ -5,8 +5,8 @@
   configMother.addRole(config,configMother.createRole("group1_admin_role2","groupadmin2","groupadmin3"));
   configMother.addAdminRoleForPipelineGroup(config,"group1_admin_role1","group1");
   configMother.addAdminRoleForPipelineGroup(config,"group1_admin_role2","group1");
-  Map<String,Set<String>> pipelinesAndTheirViewers=getGroupsAndTheirViewers();
+  Map<String,Viewers> pipelinesAndTheirViewers=getGroupsAndTheirViewers();
   assertThat(pipelinesAndTheirViewers.size(),is(2));
-  assertThat(pipelinesAndTheirViewers.get("group1"),is(s("groupadmin1","groupadmin2","groupadmin3")));
-  assertThat(pipelinesAndTheirViewers.get("group2"),is(Collections.<String>emptySet()));
+  assertThat(pipelinesAndTheirViewers.get("group1"),is(viewers("groupadmin1","groupadmin2","groupadmin3")));
+  assertThat(pipelinesAndTheirViewers.get("group2"),is(viewers()));
 }

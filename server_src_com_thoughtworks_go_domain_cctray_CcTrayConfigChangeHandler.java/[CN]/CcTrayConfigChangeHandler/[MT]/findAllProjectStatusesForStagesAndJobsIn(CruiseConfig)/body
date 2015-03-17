@@ -1,9 +1,9 @@
 {
   final List<ProjectStatus> projectStatuses=new ArrayList<ProjectStatus>();
-  final Map<String,Set<String>> groupsAndTheirViewers=ccTrayViewAuthority.groupsAndTheirViewers();
+  final Map<String,Viewers> groupsAndTheirViewers=ccTrayViewAuthority.groupsAndTheirViewers();
   config.accept(new PipelineGroupVisitor(){
     @Override public void visit(    PipelineConfigs pipelineConfigs){
-      Set<String> usersWithViewPermissionsOfThisGroup=groupsAndTheirViewers.get(pipelineConfigs.getGroup());
+      Viewers usersWithViewPermissionsOfThisGroup=groupsAndTheirViewers.get(pipelineConfigs.getGroup());
       for (      PipelineConfig pipelineConfig : pipelineConfigs) {
         for (        StageConfig stageConfig : pipelineConfig) {
           List<ProjectStatus> statusesInCacheOrDB=findExistingStatuses(pipelineConfig,stageConfig);
