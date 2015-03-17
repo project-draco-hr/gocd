@@ -1,5 +1,7 @@
 {
   PluggableSCMMaterial pluggableSCMMaterial=MaterialsMother.pluggableSCMMaterial();
+  MaterialInstance materialInstance=pluggableSCMMaterial.createMaterialInstance();
+  when(materialRepository.findMaterialInstance(any(Material.class))).thenReturn(materialInstance);
   MaterialPollResult materialPollResult=new MaterialPollResult(null,asList(new SCMRevision("new-revision-456",new Date(),"user","comment",null,null)));
   when(scmExtension.latestModificationSince(any(String.class),any(SCMPropertyConfiguration.class),any(Map.class),any(String.class),any(SCMRevision.class))).thenReturn(materialPollResult);
   PluggableSCMMaterialRevision previouslyKnownRevision=new PluggableSCMMaterialRevision("revision-124",new Date());
