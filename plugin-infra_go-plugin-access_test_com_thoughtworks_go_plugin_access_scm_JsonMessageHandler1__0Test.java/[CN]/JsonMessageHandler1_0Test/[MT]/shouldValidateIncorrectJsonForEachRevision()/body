@@ -1,0 +1,15 @@
+{
+  assertThat(errorMessageForEachRevision("{\"revision\":{}}"),is("SCM revision should be of type string"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"\"}"),is("SCM revision's 'revision' is a required field"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":{}}"),is("SCM revision timestamp should be of type string with format yyyy-MM-dd'T'HH:mm:ss.SSS'Z' and cannot be empty"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"\"}"),is("SCM revision timestamp should be of type string with format yyyy-MM-dd'T'HH:mm:ss.SSS'Z' and cannot be empty"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"12-01-2014\"}"),is("SCM revision timestamp should be of type string with format yyyy-MM-dd'T'HH:mm:ss.SSS'Z' and cannot be empty"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"revisionComment\":{}}"),is("SCM revision comment should be of type string"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"user\":{}}"),is("SCM revision user should be of type string"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":{}}"),is("SCM revision 'modifiedFiles' should be of type list of map"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[\"crap\"]}"),is("SCM revision 'modified file' should be of type map"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[{\"fileName\":{}}]}"),is("modified file 'fileName' should be of type string"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[{\"fileName\":\"\"}]}"),is("modified file 'fileName' is a required field"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[{\"fileName\":\"f1\",\"action\":{}}]}"),is("modified file 'action' should be of type string"));
+  assertThat(errorMessageForEachRevision("{\"revision\":\"abc.rpm\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"modifiedFiles\":[{\"fileName\":\"f1\",\"action\":\"crap\"}]}"),is("modified file 'action' can only be added, modified, deleted"));
+}

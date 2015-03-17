@@ -1,0 +1,11 @@
+{
+  try {
+    Map dataMap=(Map)new GsonBuilder().create().fromJson(message,Object.class);
+    messageHandler.toMaterialDataMap(dataMap);
+    fail("should have thrown exception");
+  }
+ catch (  Exception e) {
+    return e.getMessage();
+  }
+  return null;
+}
