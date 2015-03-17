@@ -1,10 +1,5 @@
 {
   String url=request.getRequestURI().replaceAll("^/go/rails/","/go/");
-  try {
-    invoke(request,"setRequestURI",url);
-  }
- catch (  Exception e) {
-    throw new RuntimeException(e);
-  }
+  servletHelper.getRequest(request).setRequestURI(url);
   rackServlet.service(request,response);
 }
