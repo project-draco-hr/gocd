@@ -3,7 +3,7 @@
     storeX509Certificate();
   }
   HttpConfiguration httpsConfig=new HttpConfiguration();
-  httpsConfig.setOutputBufferSize(RESPONSE_BUFFER_SIZE);
+  httpsConfig.setOutputBufferSize(systemEnvironment.get(SystemEnvironment.RESPONSE_BUFFER_SIZE));
   httpsConfig.addCustomizer(new SecureRequestCustomizer());
   SslContextFactory sslContextFactory=new SslContextFactory();
   sslContextFactory.setKeyStorePath(keystore.getPath());
@@ -14,7 +14,8 @@
   sslContextFactory.setWantClientAuth(true);
   sslContextFactory.setIncludeCipherSuites(goCipherSuite.getCipherSuitsToBeIncluded());
   ServerConnector https=new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(httpsConfig));
-  https.setPort(sslPort);
-  https.setIdleTimeout(MAX_IDLE_TIME);
+  https.setHost(systemEnvironment.getListenHost());
+  https.setPort(systemEnvironment.getSslServerPort());
+  https.setIdleTimeout(systemEnvironment.get(SystemEnvironment.IDLE_TIMEOUT));
   return https;
 }

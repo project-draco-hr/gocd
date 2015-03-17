@@ -2,5 +2,6 @@
   assertThat(sslSocketConnector.getConnector() instanceof ServerConnector,is(true));
   ServerConnector connector=(ServerConnector)sslSocketConnector.getConnector();
   assertThat(connector.getPort(),is(1234));
-  assertThat(connector.getIdleTimeout(),is(GoSslSocketConnector.MAX_IDLE_TIME));
+  assertThat(connector.getHost(),is("foo"));
+  assertThat(connector.getIdleTimeout(),is(200l));
 }
