@@ -1,4 +1,6 @@
 {
-  Map data=createRequestDataMap(stage);
-  pluginNotificationQueue.post(new PluginNotificationMessage(NotificationExtension.STAGE_STATUS_CHANGE_NOTIFICATION,data));
+  if (notificationPluginRegistry.isAnyPluginInterestedIn(NotificationExtension.STAGE_STATUS_CHANGE_NOTIFICATION)) {
+    Map data=createRequestDataMap(stage);
+    pluginNotificationQueue.post(new PluginNotificationMessage(NotificationExtension.STAGE_STATUS_CHANGE_NOTIFICATION,data));
+  }
 }
