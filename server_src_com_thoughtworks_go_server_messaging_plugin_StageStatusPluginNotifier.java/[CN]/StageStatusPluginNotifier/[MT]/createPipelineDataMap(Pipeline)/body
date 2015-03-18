@@ -1,0 +1,15 @@
+{
+  Map<String,Object> pipelineMap=new LinkedHashMap<String,Object>();
+  pipelineMap.put("name",pipeline.getName());
+  pipelineMap.put("counter",new Integer(pipeline.getCounter()).toString());
+  pipelineMap.put("label",pipeline.getLabel());
+  List<Map> materialRevisionList=createBuildCauseDataMap(pipeline.getMaterialRevisions());
+  pipelineMap.put("build-cause",materialRevisionList);
+  List<Map> stageList=new ArrayList<Map>();
+  for (  Stage currentStage : pipeline.getStages()) {
+    Map<String,Object> stageMap=createStageDataMap(currentStage);
+    stageList.add(stageMap);
+  }
+  pipelineMap.put("stages",stageList);
+  return pipelineMap;
+}

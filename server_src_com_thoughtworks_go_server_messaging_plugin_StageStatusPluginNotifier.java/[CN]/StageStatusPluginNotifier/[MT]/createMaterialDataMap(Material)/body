@@ -1,0 +1,51 @@
+{
+  Map<String,Object> materialMap=new LinkedHashMap<String,Object>();
+  if (material instanceof GitMaterial) {
+    materialMap.put("type","git");
+    Map<String,Object> gitMap=getGitDataMap((GitMaterial)material);
+    materialMap.put("git-configuration",gitMap);
+  }
+ else   if (material instanceof HgMaterial) {
+    materialMap.put("type","mercurial");
+    Map<String,Object> mercurialMap=createMercurialDataMap((HgMaterial)material);
+    materialMap.put("mercurial-configuration",mercurialMap);
+  }
+ else   if (material instanceof SvnMaterial) {
+    materialMap.put("type","svn");
+    Map<String,Object> svnMap=createSVNDataMap((SvnMaterial)material);
+    materialMap.put("svn-configuration",svnMap);
+  }
+ else   if (material instanceof TfsMaterial) {
+    materialMap.put("type","tfs");
+    Map<String,Object> tfsMap=createTFSDataMap((TfsMaterial)material);
+    materialMap.put("tfs-configuration",tfsMap);
+  }
+ else   if (material instanceof P4Material) {
+    materialMap.put("type","perforce");
+    Map<String,Object> perforceMap=createPerforceDataMap((P4Material)material);
+    materialMap.put("perforce-configuration",perforceMap);
+  }
+ else   if (material instanceof DependencyMaterial) {
+    materialMap.put("type","pipeline");
+    Map<String,Object> pipelineMap=createPipelineMaterialDataMap((DependencyMaterial)material);
+    materialMap.put("pipeline-configuration",pipelineMap);
+  }
+ else   if (material instanceof PackageMaterial) {
+    PackageDefinition packageConfig=((PackageMaterial)material).getPackageDefinition();
+    PackageRepository repositoryConfig=packageConfig.getRepository();
+    materialMap.put("type","package");
+    materialMap.put("plugin-id",repositoryConfig.getPluginConfiguration().getId());
+    Map<String,Object> repositoryConfigurationMap=createConfigurationDataMap(repositoryConfig.getConfiguration());
+    materialMap.put("repository-configuration",repositoryConfigurationMap);
+    Map<String,Object> packageConfigurationMap=createConfigurationDataMap(packageConfig.getConfiguration());
+    materialMap.put("package-configuration",packageConfigurationMap);
+  }
+ else   if (material instanceof PluggableSCMMaterial) {
+    SCM scmConfig=((PluggableSCMMaterial)material).getScmConfig();
+    materialMap.put("type","scm");
+    materialMap.put("plugin-id",scmConfig.getPluginConfiguration().getId());
+    Map<String,Object> configurationMap=createConfigurationDataMap(scmConfig.getConfiguration());
+    materialMap.put("scm-configuration",configurationMap);
+  }
+  return materialMap;
+}

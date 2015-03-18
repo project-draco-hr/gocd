@@ -1,0 +1,12 @@
+{
+  GitMaterial gitMaterial=MaterialsMother.gitMaterial("url",null,"branch");
+  HgMaterial hgMaterial=MaterialsMother.hgMaterial("url");
+  SvnMaterial svnMaterial=MaterialsMother.svnMaterial("url",null,"username","password",false,null);
+  TfsMaterial tfsMaterial=MaterialsMother.tfsMaterial();
+  P4Material p4Material=MaterialsMother.p4Material("url","username","password","view",false);
+  DependencyMaterial dependencyMaterial=MaterialsMother.dependencyMaterial();
+  PackageMaterial packageMaterial=MaterialsMother.packageMaterial();
+  PluggableSCMMaterial pluggableSCMMaterial=MaterialsMother.pluggableSCMMaterial();
+  Materials materials=new Materials(gitMaterial,hgMaterial,svnMaterial,tfsMaterial,p4Material,dependencyMaterial,packageMaterial,pluggableSCMMaterial);
+  return new Pipeline(pipelineName,BuildCause.createWithModifications(ModificationsMother.modifyOneFile(materials,ModificationsMother.nextRevision()),""),StageMother.passedStageInstance(stageName,jobName,pipelineName));
+}

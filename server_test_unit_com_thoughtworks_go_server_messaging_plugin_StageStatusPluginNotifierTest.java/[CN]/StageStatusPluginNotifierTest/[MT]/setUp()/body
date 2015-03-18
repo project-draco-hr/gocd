@@ -1,4 +1,5 @@
 {
   initMocks(this);
-  pluginNotificationMessage=new ArgumentCaptor<PluginNotificationMessage>();
+  pluginNotificationMessage=ArgumentCaptor.forClass(PluginNotificationMessage.class);
+  stageStatusPluginNotifier=new StageStatusPluginNotifier(notificationPluginRegistry,pipelineService,pluginNotificationQueue);
 }

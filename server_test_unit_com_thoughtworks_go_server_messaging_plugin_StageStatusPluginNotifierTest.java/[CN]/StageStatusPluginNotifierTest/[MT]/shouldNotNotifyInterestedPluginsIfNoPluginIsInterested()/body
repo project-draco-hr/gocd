@@ -1,0 +1,5 @@
+{
+  when(notificationPluginRegistry.isAnyPluginInterestedIn(NotificationExtension.STAGE_STATUS_CHANGE_NOTIFICATION)).thenReturn(false);
+  stageStatusPluginNotifier.stageStatusChanged(stage);
+  verify(pluginNotificationQueue,never()).post(any(PluginNotificationMessage.class));
+}

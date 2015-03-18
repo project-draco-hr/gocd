@@ -1,12 +1,13 @@
 {
-  Map data=new LinkedHashMap();
+  Map<String,Object> data=new LinkedHashMap<String,Object>();
   data.put("pipeline-name",stage.getIdentifier().getPipelineName());
-  data.put("pipeline-counter",stage.getIdentifier().getPipelineCounter());
+  data.put("pipeline-counter",new Integer(stage.getIdentifier().getPipelineCounter()).toString());
   data.put("stage-name",stage.getIdentifier().getStageName());
   data.put("stage-counter",stage.getIdentifier().getStageCounter());
-  data.put("stage-state",stage.getState());
-  data.put("stage-result",stage.getResult());
-  data.put("create-time",timestampToString(stage.getCreatedTime()));
-  data.put("last-transition-time",timestampToString(stage.getLastTransitionedTime()));
+  data.put("stage-state",stage.getState().toString());
+  data.put("stage-result",stage.getResult().toString());
+  Pipeline pipeline=pipelineService.fullPipelineById(stage.getPipelineId());
+  Map<String,Object> pipelineMap=createPipelineDataMap(pipeline);
+  data.put("pipeline",pipelineMap);
   return data;
 }
