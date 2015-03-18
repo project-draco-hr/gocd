@@ -3,6 +3,7 @@
   scmExtension=new SCMExtension(pluginManager);
   scmExtension.getMessageHandlerMap().put("1.0",jsonMessageHandler);
   scmPropertyConfiguration=new SCMPropertyConfiguration();
+  materialData=new HashMap<String,String>();
   requestArgumentCaptor=ArgumentCaptor.forClass(GoPluginApiRequest.class);
   when(pluginManager.resolveExtensionVersion(PLUGIN_ID,asList("1.0"))).thenReturn("1.0");
   when(pluginManager.isPluginOfType(SCMExtension.EXTENSION_NAME,PLUGIN_ID)).thenReturn(true);

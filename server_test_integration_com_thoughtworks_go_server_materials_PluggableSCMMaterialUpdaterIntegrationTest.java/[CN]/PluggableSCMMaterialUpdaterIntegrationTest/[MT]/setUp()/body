@@ -1,5 +1,7 @@
 {
   dbHelper.onSetUp();
-  scmMaterialUpdater=Mockito.mock(ScmMaterialUpdater.class);
+  scmExtension=mock(SCMExtension.class);
+  subprocessExecutionContext=mock(SubprocessExecutionContext.class);
+  scmMaterialUpdater=mock(ScmMaterialUpdater.class);
   pluggableSCMMaterialUpdater=new PluggableSCMMaterialUpdater(materialRepository,scmMaterialUpdater,transactionTemplate);
 }

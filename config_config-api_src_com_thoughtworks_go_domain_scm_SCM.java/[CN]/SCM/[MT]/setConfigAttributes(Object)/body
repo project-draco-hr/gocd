@@ -1,16 +1,14 @@
 {
   Map attributesMap=(Map)attributes;
-  if (attributesMap.containsKey(NAME)) {
-    name=((String)attributesMap.get(NAME));
-  }
   if (attributesMap.containsKey(SCM_ID)) {
     id=((String)attributesMap.get(SCM_ID));
   }
+  if (attributesMap.containsKey(NAME)) {
+    name=((String)attributesMap.get(NAME));
+  }
+  this.setAutoUpdate("true".equals(attributesMap.get(AUTO_UPDATE)));
   if (attributesMap.containsKey(PLUGIN_CONFIGURATION)) {
     pluginConfiguration.setConfigAttributes(attributesMap.get(PLUGIN_CONFIGURATION));
   }
-  if (attributesMap.containsKey(Configuration.CONFIGURATION)) {
-    configuration.clear();
-    configuration.setConfigAttributes(attributesMap.get(Configuration.CONFIGURATION),getSecureKeyInfoProvider());
-  }
+  setPluginConfigurationAttributes(attributesMap);
 }

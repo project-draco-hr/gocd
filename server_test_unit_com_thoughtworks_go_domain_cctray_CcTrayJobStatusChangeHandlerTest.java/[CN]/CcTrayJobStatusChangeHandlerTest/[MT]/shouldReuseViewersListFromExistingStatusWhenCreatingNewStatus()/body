@@ -1,5 +1,5 @@
 {
-  Set<String> viewers=s("viewer1","viewer2");
+  Viewers viewers=new AllowedViewers(s("viewer1","viewer2"));
   ProjectStatus oldStatusInCache=new ProjectStatus(projectNameFor("job1"),"OldActivity","OldStatus","OldLabel",new Date(),webUrlFor("job1"));
   oldStatusInCache.updateViewers(viewers);
   when(cache.get(projectNameFor("job1"))).thenReturn(oldStatusInCache);

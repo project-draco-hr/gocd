@@ -1,0 +1,14 @@
+{
+  File tempFolder=TestFileUtil.createUniqueTempFolder("HgTestRepo");
+  remoteRepo=new File(tempFolder,"remote-repo");
+  remoteRepo.mkdirs();
+  File bundleToExtract=new File(tempFolder,"repo.bundle");
+  FileUtils.copyFile(new File(HG_BUNDLE_FILE),bundleToExtract);
+  setUpServerRepoFromHgBundle(remoteRepo,bundleToExtract);
+  File workingCopy=new File(tempFolder,workingCopyName);
+  hgCommand=new HgCommand(null,workingCopy,"default",remoteRepo.getAbsolutePath());
+  InMemoryStreamConsumer output=inMemoryConsumer();
+  if (hgCommand.clone(output,new UrlArgument(remoteRepo.getAbsolutePath())) != 0) {
+    fail("Error creating repository\n" + output.getAllOutput());
+  }
+}

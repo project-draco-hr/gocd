@@ -1,0 +1,10 @@
+{
+  configMother.addPipelineWithGroup(config,"group1","pipeline1","stage1A","job1A1","job1A2");
+  configMother.addAdminUserForPipelineGroup(config,"groupadmin1","group1");
+  PipelineConfigs group=config.findGroup("group1");
+  assertThat(group.getAuthorization(),is(not(new Authorization())));
+  Viewers viewersOfGroup1=getGroupsAndTheirViewers().get("group1");
+  assertThat(viewersOfGroup1.contains("groupadmin1"),is(true));
+  assertThat(viewersOfGroup1.contains("some-user"),is(false));
+  assertThat(viewersOfGroup1.contains("some-other-user"),is(false));
+}

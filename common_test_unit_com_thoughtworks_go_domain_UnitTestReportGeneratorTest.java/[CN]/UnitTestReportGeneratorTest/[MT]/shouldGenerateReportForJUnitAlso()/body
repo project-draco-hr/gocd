@@ -1,0 +1,14 @@
+{
+  context.checking(new Expectations(){
+{
+      one(publisher).upload(with(any(File.class)),with(any(String.class)));
+      one(publisher).setProperty(new Property(TOTAL_TEST_COUNT,"1"));
+      one(publisher).setProperty(new Property(FAILED_TEST_COUNT,"0"));
+      one(publisher).setProperty(new Property(IGNORED_TEST_COUNT,"0"));
+      one(publisher).setProperty(new Property(TEST_TIME,"0.456"));
+    }
+  }
+);
+  copyAndClose(source("SerializableProjectConfigUtilTest.xml"),target("AgentTest.xml"));
+  generator.generate(testFolder.listFiles());
+}

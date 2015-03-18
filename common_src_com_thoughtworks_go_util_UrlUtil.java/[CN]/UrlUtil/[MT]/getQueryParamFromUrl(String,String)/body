@@ -1,0 +1,15 @@
+{
+  try {
+    String query=new URI(url,false).getQuery();
+    List<QueryTuple> parse=QueryTuple.parse(query);
+    for (    QueryTuple queryTuple : parse) {
+      if (queryTuple.key.equals(paramName)) {
+        return queryTuple.val;
+      }
+    }
+    return StringUtils.EMPTY;
+  }
+ catch (  URIException e) {
+    return StringUtils.EMPTY;
+  }
+}

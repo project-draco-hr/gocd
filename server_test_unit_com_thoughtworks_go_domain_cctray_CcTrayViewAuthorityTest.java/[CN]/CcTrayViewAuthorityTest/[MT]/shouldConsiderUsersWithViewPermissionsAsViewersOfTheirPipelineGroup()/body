@@ -3,8 +3,9 @@
   configMother.addPipelineWithGroup(config,"group2","pipeline1","stage1A","job1A1","job1A2");
   configMother.addUserAsViewerOfPipelineGroup(config,"viewer1","group1");
   configMother.addUserAsViewerOfPipelineGroup(config,"viewer2","group1");
-  Map<String,Set<String>> pipelinesAndTheirViewers=getGroupsAndTheirViewers();
+  configMother.addUserAsViewerOfPipelineGroup(config,"viewer3","group2");
+  Map<String,Viewers> pipelinesAndTheirViewers=getGroupsAndTheirViewers();
   assertThat(pipelinesAndTheirViewers.size(),is(2));
-  assertThat(pipelinesAndTheirViewers.get("group1"),is(s("viewer1","viewer2")));
-  assertThat(pipelinesAndTheirViewers.get("group2"),is(Collections.<String>emptySet()));
+  assertThat(pipelinesAndTheirViewers.get("group1"),is(viewers("viewer1","viewer2")));
+  assertThat(pipelinesAndTheirViewers.get("group2"),is(viewers("viewer3")));
 }
