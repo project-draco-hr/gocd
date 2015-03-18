@@ -1,7 +1,7 @@
 {
-  String pipelineName="upstream";
+  CaseInsensitiveString pipelineName=new CaseInsensitiveString("upstream");
   String pipelineLabel="1.3.0-1234";
-  MaterialRevision materialRevision=ModificationsMother.dependencyMaterialRevision(pipelineName,2,pipelineLabel,"dev",1,new Date());
+  MaterialRevision materialRevision=ModificationsMother.dependencyMaterialRevision(pipelineName.toString(),2,pipelineLabel,"dev",1,new Date());
   MaterialRevisions materialRevisions=new MaterialRevisions(materialRevision);
   Map<CaseInsensitiveString,String> namedRevisions=materialRevisions.getNamedRevisions();
   assertThat(namedRevisions.get(pipelineName),is(pipelineLabel));
