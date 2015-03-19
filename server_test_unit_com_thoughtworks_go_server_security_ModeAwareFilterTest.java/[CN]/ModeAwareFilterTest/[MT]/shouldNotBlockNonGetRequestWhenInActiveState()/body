@@ -1,0 +1,9 @@
+{
+  when(request.getMethod()).thenReturn("get").thenReturn("post").thenReturn("put").thenReturn("delete");
+  when(systemEnvironment.isServerActive()).thenReturn(true);
+  filter.doFilter(request,response,filterChain);
+  filter.doFilter(request,response,filterChain);
+  filter.doFilter(request,response,filterChain);
+  filter.doFilter(request,response,filterChain);
+  verify(filterChain,times(4)).doFilter(request,response);
+}
