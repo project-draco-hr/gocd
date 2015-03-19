@@ -6,8 +6,8 @@
   data.put("stage-counter",stage.getIdentifier().getStageCounter());
   data.put("stage-state",stage.getState().toString());
   data.put("stage-result",stage.getResult().toString());
-  Pipeline pipeline=pipelineSqlMapDao.loadPipeline(stage.getPipelineId());
-  Map<String,Object> pipelineMap=createPipelineDataMap(pipeline);
+  Pipeline pipeline=pipelineSqlMapDao.pipelineWithModsByStageId(stage.getIdentifier().getPipelineName(),stage.getId());
+  Map<String,Object> pipelineMap=createPipelineDataMap(pipeline,stage);
   data.put("pipeline",pipelineMap);
   return data;
 }

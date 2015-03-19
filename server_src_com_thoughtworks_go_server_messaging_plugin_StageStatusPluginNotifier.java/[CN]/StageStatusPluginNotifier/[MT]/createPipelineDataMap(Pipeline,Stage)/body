@@ -5,11 +5,7 @@
   pipelineMap.put("label",pipeline.getLabel());
   List<Map> materialRevisionList=createBuildCauseDataMap(pipeline.getMaterialRevisions());
   pipelineMap.put("build-cause",materialRevisionList);
-  List<Map> stageList=new ArrayList<Map>();
-  for (  Stage currentStage : pipeline.getStages()) {
-    Map<String,Object> stageMap=createStageDataMap(currentStage);
-    stageList.add(stageMap);
-  }
-  pipelineMap.put("stages",stageList);
+  Map<String,Object> stageMap=createStageDataMap(stage);
+  pipelineMap.put("stage",stageMap);
   return pipelineMap;
 }
