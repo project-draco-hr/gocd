@@ -6,7 +6,7 @@
   data.put("stage-counter",stage.getIdentifier().getStageCounter());
   data.put("stage-state",stage.getState().toString());
   data.put("stage-result",stage.getResult().toString());
-  Pipeline pipeline=pipelineService.fullPipelineById(stage.getPipelineId());
+  Pipeline pipeline=pipelineSqlMapDao.loadPipeline(stage.getPipelineId());
   Map<String,Object> pipelineMap=createPipelineDataMap(pipeline);
   data.put("pipeline",pipelineMap);
   return data;

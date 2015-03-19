@@ -2,7 +2,7 @@
   when(notificationPluginRegistry.isAnyPluginInterestedIn(NotificationExtension.STAGE_STATUS_CHANGE_NOTIFICATION)).thenReturn(true);
   doNothing().when(pluginNotificationQueue).post(pluginNotificationMessage.capture());
   Pipeline pipeline=PipelineMother.pipelineWithAllTypesOfMaterials("pipeline-name","stage-name","job-name");
-  when(pipelineService.fullPipelineById(1L)).thenReturn(pipeline);
+  when(pipelineSqlMapDao.loadPipeline(1L)).thenReturn(pipeline);
   Stage stage=pipeline.getFirstStage();
   stage.setPipelineId(1L);
   stage.setCreatedTime(new Timestamp(getFixedDate().getTime()));
