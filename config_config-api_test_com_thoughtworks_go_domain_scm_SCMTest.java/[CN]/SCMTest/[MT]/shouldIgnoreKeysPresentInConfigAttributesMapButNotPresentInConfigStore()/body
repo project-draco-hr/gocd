@@ -1,0 +1,13 @@
+{
+  SCMConfigurations scmConfigurations=new SCMConfigurations();
+  scmConfigurations.add(new SCMConfiguration("KEY1"));
+  SCMPreference scmPreference=mock(SCMPreference.class);
+  when(scmPreference.getScmConfigurations()).thenReturn(scmConfigurations);
+  SCMMetadataStore.getInstance().setPreferenceFor("plugin-id",scmPreference);
+  Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"));
+  SCM scm=new SCM("scm-id",new PluginConfiguration("plugin-id","1"),configuration);
+  Map<String,String> attributeMap=DataStructureUtils.m("KEY1","value1","Key2","value2");
+  scm.setConfigAttributes(attributeMap);
+  assertThat(scm.getConfigAsMap().get("KEY1").get(SCM.VALUE_KEY),is("value1"));
+  assertFalse(scm.getConfigAsMap().containsKey("Key2"));
+}

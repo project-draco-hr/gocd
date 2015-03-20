@@ -1,0 +1,18 @@
+{
+  String encryptedValue=new GoCipher().encrypt("secure-two");
+  String xml="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<scms>\n"+ "    <scm id='scm-id' name='name'>\n"+ "		<pluginConfiguration id='plugin-id' version='1.0'/>\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>plain</key>\n"+ "          <value>value</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>secure-one</key>\n"+ "          <value>secure-value</value>\n"+ "        </property>\n"+ "        <property>\n"+ "          <key>secure-two</key>\n"+ "          <encryptedValue>"+ encryptedValue+ "</encryptedValue>\n"+ "        </property>\n"+ "      </configuration>\n"+ "    </scm>\n"+ "  </scms>"+ "<pipelines group=\"group_name\">\n"+ "  <pipeline name=\"new_name\">\n"+ "    <materials>\n"+ "      <scm ref='scm-id' />\n"+ "    </materials>\n"+ "    <stage name=\"stage_name\">\n"+ "      <jobs>\n"+ "        <job name=\"job_name\" />\n"+ "      </jobs>\n"+ "    </stage>\n"+ "  </pipeline>\n"+ "</pipelines></cruise>";
+  SCMPropertyConfiguration scmConfiguration=new SCMPropertyConfiguration();
+  scmConfiguration.add(new SCMProperty("plain"));
+  scmConfiguration.add(new SCMProperty("secure-one").with(SCMConfiguration.SECURE,true));
+  scmConfiguration.add(new SCMProperty("secure-two").with(SCMConfiguration.SECURE,true));
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",new SCMConfigurations(scmConfiguration),null);
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(xml);
+  SCM scmConfig=goConfigHolder.config.getSCMs().first();
+  PipelineConfig pipelineConfig=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("new_name"));
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=(PluggableSCMMaterialConfig)pipelineConfig.materialConfigs().get(0);
+  assertThat(pluggableSCMMaterialConfig.getSCMConfig(),is(scmConfig));
+  Configuration configuration=pluggableSCMMaterialConfig.getSCMConfig().getConfiguration();
+  assertThat(configuration.get(0).getConfigurationValue().getValue(),is("value"));
+  assertThat(configuration.get(1).getEncryptedValue().getValue(),is(new GoCipher().encrypt("secure-value")));
+  assertThat(configuration.get(2).getEncryptedValue().getValue(),is(encryptedValue));
+}

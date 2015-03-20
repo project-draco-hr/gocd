@@ -1,0 +1,13 @@
+{
+  if (StringUtils.isBlank(scmId)) {
+    return;
+  }
+  if (map.containsKey(new CaseInsensitiveString(scmId))) {
+    AbstractMaterialConfig material=map.get(new CaseInsensitiveString(scmId));
+    material.addError(SCM_ID,"Duplicate SCM material detected!");
+    addError(SCM_ID,"Duplicate SCM material detected!");
+  }
+ else {
+    map.put(new CaseInsensitiveString(scmId),this);
+  }
+}

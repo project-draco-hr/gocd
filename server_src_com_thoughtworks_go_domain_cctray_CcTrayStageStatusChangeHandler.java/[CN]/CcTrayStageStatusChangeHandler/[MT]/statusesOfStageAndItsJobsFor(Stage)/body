@@ -1,0 +1,11 @@
+{
+  ArrayList<ProjectStatus> statuses=new ArrayList<ProjectStatus>();
+  String projectName=stage.getIdentifier().ccProjectName();
+  Set<String> breakers=breakersCalculator.calculateFor(stage);
+  statuses.add(getStageStatus(stage,projectName,breakers));
+  for (  JobInstance jobInstance : stage.getJobInstances()) {
+    Set<String> jobBreakers=jobInstance.getResult() == JobResult.Failed ? breakers : new HashSet<String>();
+    statuses.add(jobStatusChangeHandler.statusFor(jobInstance,jobBreakers));
+  }
+  return statuses;
+}

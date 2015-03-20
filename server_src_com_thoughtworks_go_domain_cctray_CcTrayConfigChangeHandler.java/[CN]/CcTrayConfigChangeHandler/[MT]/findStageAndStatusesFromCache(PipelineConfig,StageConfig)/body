@@ -1,0 +1,12 @@
+{
+  List<ProjectStatus> projectStatuses=new ArrayList<ProjectStatus>();
+  String stageProjectName=stageProjectName(pipelineConfig,stageConfig);
+  projectStatuses.add(cache.get(stageProjectName));
+  for (  JobConfig jobConfig : stageConfig.getJobs()) {
+    ProjectStatus jobStatus=cache.get(jobProjectName(stageProjectName,jobConfig));
+    if (jobStatus != null) {
+      projectStatuses.add(jobStatus);
+    }
+  }
+  return projectStatuses;
+}

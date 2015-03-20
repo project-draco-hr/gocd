@@ -1,0 +1,19 @@
+{
+  Date timestamp=new Date();
+  PluggableSCMMaterialRevision knownRevision=new PluggableSCMMaterialRevision("rev-122",timestamp);
+  ArgumentCaptor<SCMRevision> knownSCMRevision=ArgumentCaptor.forClass(SCMRevision.class);
+  SCMRevision latestRevision=new SCMRevision("rev-123",timestamp,"user",null,null,null);
+  MaterialPollResult materialPollResult=new MaterialPollResult(null,asList(latestRevision));
+  when(scmExtension.latestModificationSince(eq(material.getPluginId()),scmConfiguration.capture(),materialData.capture(),eq(flyweightFolderPath),knownSCMRevision.capture())).thenReturn(materialPollResult);
+  List<Modification> modifications=poller.modificationsSince(material,new File(flyweightFolderPath),knownRevision,null);
+  assertThat(modifications.get(0).getRevision(),is("rev-123"));
+  assertThat(modifications.get(0).getModifiedTime(),is(timestamp));
+  assertThat(modifications.get(0).getUserName(),is("user"));
+  assertThat(modifications.get(0).getComment(),is(nullValue()));
+  assertConfiguration(scmConfiguration.getValue(),"k1","v1");
+  assertConfiguration(scmConfiguration.getValue(),"k2","v2");
+  assertThat(knownSCMRevision.getValue().getRevision(),is("rev-122"));
+  assertThat(knownSCMRevision.getValue().getTimestamp(),is(timestamp));
+  assertThat(materialData.getValue().size(),is(1));
+  assertThat((String)materialData.getValue().get("mk-1"),is("mv-1"));
+}

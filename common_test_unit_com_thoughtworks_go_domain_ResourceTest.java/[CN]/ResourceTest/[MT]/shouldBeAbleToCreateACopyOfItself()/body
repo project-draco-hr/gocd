@@ -1,0 +1,8 @@
+{
+  Resource existingResource=new Resource("some-name");
+  existingResource.setId(2);
+  existingResource.setBuildId(10);
+  existingResource.addError("abc","def");
+  assertThat(existingResource,equalTo(new Resource(existingResource)));
+  assertThat(existingResource,equalTo(new Cloner().deepClone(existingResource)));
+}

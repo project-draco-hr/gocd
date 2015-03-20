@@ -1,0 +1,10 @@
+{
+  when(jsonMessageHandler.requestMessageForCheckConnectionToSCM(scmPropertyConfiguration)).thenReturn(requestBody);
+  Result deserializedResponse=new Result();
+  when(jsonMessageHandler.responseMessageForCheckConnectionToSCM(responseBody)).thenReturn(deserializedResponse);
+  Result response=scmExtension.checkConnectionToSCM(PLUGIN_ID,scmPropertyConfiguration);
+  assertRequest(requestArgumentCaptor.getValue(),SCMExtension.EXTENSION_NAME,"1.0",SCMExtension.REQUEST_CHECK_SCM_CONNECTION,requestBody);
+  verify(jsonMessageHandler).requestMessageForCheckConnectionToSCM(scmPropertyConfiguration);
+  verify(jsonMessageHandler).responseMessageForCheckConnectionToSCM(responseBody);
+  assertSame(response,deserializedResponse);
+}

@@ -1,0 +1,10 @@
+{
+  String additionalData=(scmRevision.getData() == null || scmRevision.getData().isEmpty()) ? null : JsonHelper.toJsonString(scmRevision.getData());
+  Modification modification=new Modification(scmRevision.getUser(),scmRevision.getRevisionComment(),null,scmRevision.getTimestamp(),scmRevision.getRevision(),additionalData);
+  if (scmRevision.getModifiedFiles() != null && !scmRevision.getModifiedFiles().isEmpty()) {
+    for (    ModifiedFile modifiedFile : scmRevision.getModifiedFiles()) {
+      modification.createModifiedFile(modifiedFile.getFileName(),null,convertAction(modifiedFile.getAction()));
+    }
+  }
+  return modification;
+}

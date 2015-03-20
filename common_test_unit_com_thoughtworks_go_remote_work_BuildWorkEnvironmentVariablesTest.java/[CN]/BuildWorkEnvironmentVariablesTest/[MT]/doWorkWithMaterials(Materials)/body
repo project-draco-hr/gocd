@@ -1,0 +1,9 @@
+{
+  pipelineConfig.setMaterialConfigs(materials.convertToConfigs());
+  BuildAssignment buildAssigment=createAssignment();
+  BuildWork work=new BuildWork(buildAssigment);
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
+  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),new GoArtifactsManipulatorStub(),environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  return environmentVariableContext;
+}

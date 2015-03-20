@@ -1,0 +1,11 @@
+{
+  SCMPropertyConfiguration scmPropertyConfiguration=buildSCMPropertyConfigurations(material.getScmConfig());
+  final MaterialInstance materialInstance=materialRepository.findMaterialInstance(material);
+  MaterialPollResult pollResult=scmExtension.getLatestRevision(material.getPluginId(),scmPropertyConfiguration,materialInstance.getAdditionalDataMap(),baseDir.getAbsolutePath());
+  final Map<String,String> materialData=pollResult.getMaterialData();
+  if (materialInstance.requiresUpdate(materialData)) {
+    updateAdditionalData(materialInstance.getId(),materialData);
+  }
+  SCMRevision scmRevision=pollResult.getLatestRevision();
+  return scmRevision == null ? new Modifications() : new Modifications(getModification(scmRevision));
+}

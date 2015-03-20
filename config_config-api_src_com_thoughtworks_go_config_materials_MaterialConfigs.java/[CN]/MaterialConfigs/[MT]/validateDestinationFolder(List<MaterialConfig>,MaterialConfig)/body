@@ -1,0 +1,15 @@
+{
+  String materialFolder=material.getFolder();
+  for (  MaterialConfig otherMaterial : allSCMMaterials) {
+    if (otherMaterial != material) {
+      if (otherMaterial instanceof ScmMaterialConfig) {
+        ((ScmMaterialConfig)otherMaterial).validateNotSubdirectoryOf(materialFolder);
+        ((ScmMaterialConfig)otherMaterial).validateDestinationDirectoryName(materialFolder);
+      }
+ else {
+        ((PluggableSCMMaterialConfig)otherMaterial).validateNotSubdirectoryOf(materialFolder);
+        ((PluggableSCMMaterialConfig)otherMaterial).validateDestinationDirectoryName(materialFolder);
+      }
+    }
+  }
+}

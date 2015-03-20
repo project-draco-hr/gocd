@@ -1,0 +1,7 @@
+{
+  List<String> list=new ArrayList<String>();
+  list.add(format("%s=%s","plugin-id",getPluginId()));
+  handleSCMProperties(list);
+  String fingerprint=join(list,AbstractMaterialConfig.FINGERPRINT_DELIMITER);
+  return CachedDigestUtils.sha256Hex(fingerprint);
+}

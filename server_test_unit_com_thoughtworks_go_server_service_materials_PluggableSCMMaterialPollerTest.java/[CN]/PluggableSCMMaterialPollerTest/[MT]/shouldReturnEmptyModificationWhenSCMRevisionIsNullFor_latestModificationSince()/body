@@ -1,0 +1,8 @@
+{
+  PluggableSCMMaterialRevision knownRevision=new PluggableSCMMaterialRevision("rev-122",new Date());
+  ArgumentCaptor<SCMRevision> knownSCMRevision=ArgumentCaptor.forClass(SCMRevision.class);
+  when(scmExtension.latestModificationSince(eq(material.getPluginId()),scmConfiguration.capture(),materialData.capture(),eq(flyweightFolderPath),knownSCMRevision.capture())).thenReturn(new MaterialPollResult());
+  List<Modification> modifications=poller.modificationsSince(material,new File(flyweightFolderPath),knownRevision,null);
+  assertThat(modifications,is(notNullValue()));
+  assertThat(modifications.isEmpty(),is(true));
+}

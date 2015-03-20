@@ -1,7 +1,4 @@
 {
-  materialRepository=mock(MaterialRepository.class);
-  goConfigService=mock(GoConfigService.class);
-  securityService=mock(SecurityService.class);
-  packageAsRepositoryExtension=mock(PackageAsRepositoryExtension.class);
-  materialService=new MaterialService(materialRepository,goConfigService,securityService,packageAsRepositoryExtension);
+  initMocks(this);
+  materialService=new MaterialService(materialRepository,goConfigService,securityService,packageAsRepositoryExtension,scmExtension,transactionTemplate);
 }

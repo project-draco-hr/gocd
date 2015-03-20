@@ -1,0 +1,12 @@
+{
+  String scmId="scm-id";
+  Map<String,String> hashMap=new HashMap<String,String>();
+  hashMap.put(PluggableSCMMaterialConfig.SCM_ID,scmId);
+  Map<String,Object> attributeMap=new HashMap<String,Object>();
+  attributeMap.put(AbstractMaterialConfig.MATERIAL_TYPE,PluggableSCMMaterialConfig.TYPE);
+  attributeMap.put(PluggableSCMMaterialConfig.TYPE,hashMap);
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  materialConfigs.setConfigAttributes(attributeMap);
+  assertThat(materialConfigs.size(),is(1));
+  assertThat(((PluggableSCMMaterialConfig)materialConfigs.first()).getScmId(),is(scmId));
+}

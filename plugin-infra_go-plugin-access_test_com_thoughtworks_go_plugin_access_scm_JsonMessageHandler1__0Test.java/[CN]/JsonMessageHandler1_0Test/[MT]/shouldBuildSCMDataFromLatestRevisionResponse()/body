@@ -1,0 +1,8 @@
+{
+  String responseBodyWithSCMData="{\"revision\":{\"revision\":\"r1\",\"timestamp\":\"2011-07-14T19:43:37.100Z\"},\"scm-data\":{\"key-one\":\"value-one\"}}";
+  MaterialPollResult pollResult=messageHandler.responseMessageForLatestRevision(responseBodyWithSCMData);
+  Map<String,String> scmData=new HashMap<String,String>();
+  scmData.put("key-one","value-one");
+  assertThat(pollResult.getMaterialData(),is(scmData));
+  assertThat(pollResult.getRevisions().get(0).getRevision(),is("r1"));
+}

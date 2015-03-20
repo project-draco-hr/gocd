@@ -1,0 +1,28 @@
+{
+  try {
+    SCMPropertyConfiguration scmConfiguration=new SCMPropertyConfiguration();
+    Map<String,Map> configurations;
+    try {
+      configurations=parseResponseToMap(responseBody);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("SCM configuration should be returned as a map");
+    }
+    if (configurations == null || configurations.isEmpty()) {
+      throw new RuntimeException("Empty response body");
+    }
+    for (    String key : configurations.keySet()) {
+      if (isEmpty(key)) {
+        throw new RuntimeException("SCM configuration key cannot be empty");
+      }
+      if (!(configurations.get(key) instanceof Map)) {
+        throw new RuntimeException(format("SCM configuration properties for key '%s' should be represented as a Map",key));
+      }
+      scmConfiguration.add(toSCMProperty(key,configurations.get(key)));
+    }
+    return scmConfiguration;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(format("Unable to de-serialize json response. %s",e.getMessage()));
+  }
+}

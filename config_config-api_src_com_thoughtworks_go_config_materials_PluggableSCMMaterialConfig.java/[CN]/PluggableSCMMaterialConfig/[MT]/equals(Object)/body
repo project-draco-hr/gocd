@@ -1,0 +1,16 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  PluggableSCMMaterialConfig that=(PluggableSCMMaterialConfig)o;
+  if (folder != null ? !folder.equals(that.folder) : that.folder != null) {
+    return false;
+  }
+  if (scmConfig == null || that.scmConfig == null) {
+    return false;
+  }
+  return this.getFingerprint().equals(that.getFingerprint());
+}

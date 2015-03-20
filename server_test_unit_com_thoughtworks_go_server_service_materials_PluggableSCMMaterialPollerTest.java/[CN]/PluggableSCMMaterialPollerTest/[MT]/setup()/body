@@ -1,0 +1,17 @@
+{
+  initMocks(this);
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"v1");
+  ConfigurationProperty k2=ConfigurationPropertyMother.create("k2",true,"v2");
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","plugin-id","1.0",new Configuration(k1,k2));
+  material=new PluggableSCMMaterial();
+  material.setSCMConfig(scmConfig);
+  MaterialInstance materialInstance=material.createMaterialInstance();
+  Map<String,String> data=new HashMap<String,String>();
+  data.put("mk-1","mv-1");
+  materialInstance.setAdditionalData(JsonHelper.toJsonString(data));
+  when(materialRepository.findMaterialInstance(material)).thenReturn(materialInstance);
+  poller=new PluggableSCMMaterialPoller(materialRepository,scmExtension,transactionTemplate);
+  scmConfiguration=ArgumentCaptor.forClass(SCMPropertyConfiguration.class);
+  materialData=ArgumentCaptor.forClass(Map.class);
+  flyweightFolderPath=new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
+}

@@ -1,0 +1,11 @@
+{
+  configMother.addPipelineWithGroup(config,"group1","pipeline1","stage1A","job1A1","job1A2");
+  configMother.addUserAsSuperAdmin(config,"superadmin1");
+  PipelineConfigs group=config.findGroup("group1");
+  assertThat(group.getAuthorization(),is(new Authorization()));
+  Viewers viewersOfGroup1=getGroupsAndTheirViewers().get("group1");
+  assertThat(viewersOfGroup1.contains("superadmin1"),is(true));
+  assertThat(viewersOfGroup1.contains("some-user"),is(true));
+  assertThat(viewersOfGroup1.contains("some-other-user"),is(true));
+  assertThat(viewersOfGroup1.contains("any-random-user"),is(true));
+}

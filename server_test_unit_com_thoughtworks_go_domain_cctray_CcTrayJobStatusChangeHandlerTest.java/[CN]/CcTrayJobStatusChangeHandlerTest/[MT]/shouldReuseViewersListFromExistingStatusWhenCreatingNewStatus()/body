@@ -1,0 +1,9 @@
+{
+  Viewers viewers=new AllowedViewers(s("viewer1","viewer2"));
+  ProjectStatus oldStatusInCache=new ProjectStatus(projectNameFor("job1"),"OldActivity","OldStatus","OldLabel",new Date(),webUrlFor("job1"));
+  oldStatusInCache.updateViewers(viewers);
+  when(cache.get(projectNameFor("job1"))).thenReturn(oldStatusInCache);
+  CcTrayJobStatusChangeHandler handler=new CcTrayJobStatusChangeHandler(cache);
+  ProjectStatus newStatus=handler.statusFor(JobInstanceMother.building("job1"),new HashSet<String>());
+  assertThat(newStatus.viewers(),is(viewers));
+}

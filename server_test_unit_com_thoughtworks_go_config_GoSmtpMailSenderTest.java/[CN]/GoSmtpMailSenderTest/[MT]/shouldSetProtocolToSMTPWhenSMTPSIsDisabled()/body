@@ -1,0 +1,9 @@
+{
+  FakeMailSession mailSession=FakeMailSession.setupFor(username,password,from,to,subject,body);
+  boolean isSMTPSEnabled=false;
+  GoSmtpMailSender sender=new GoSmtpMailSender(hostName,port,username,password,isSMTPSEnabled,from,to);
+  ValidationBean bean=sender.send(subject,body,to);
+  assertThat(bean,is(ValidationBean.valid()));
+  mailSession.verifyMessageWasSent();
+  mailSession.verifyProperty(MAIL_TRANSPORT_PROTOCOL_PROPERTY,"smtp");
+}

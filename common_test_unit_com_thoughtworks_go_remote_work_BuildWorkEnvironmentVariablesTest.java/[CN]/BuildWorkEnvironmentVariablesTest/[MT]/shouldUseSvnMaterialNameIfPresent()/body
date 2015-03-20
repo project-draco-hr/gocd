@@ -1,0 +1,11 @@
+{
+  svnMaterial.setName(new CaseInsensitiveString("Cruise"));
+  pipelineConfig.setMaterialConfigs(new MaterialConfigs(svnMaterial.config()));
+  BuildAssignment buildAssigment=createAssignment();
+  BuildWork work=new BuildWork(buildAssigment);
+  EnvironmentVariableContext environmentVariableContext=new EnvironmentVariableContext();
+  new SystemEnvironment().setProperty("serviceUrl","some_random_place");
+  AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
+  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),new GoArtifactsManipulatorStub(),environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  assertThat(environmentVariableContext.getProperty("GO_REVISION_CRUISE"),is("3"));
+}

@@ -1,0 +1,5 @@
+{
+  String responseBody="{notifications=[\"pipeline-status\",\"stage-status\"]}";
+  List<String> notificationsInterestedIn=messageHandler.responseMessageForNotificationsInterestedIn(responseBody);
+  assertThat(notificationsInterestedIn,is(Arrays.asList("pipeline-status","stage-status")));
+}

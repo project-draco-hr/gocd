@@ -1,0 +1,22 @@
+{
+  CruiseConfig configToSave=new CruiseConfig();
+  SCM scm=new SCM();
+  String scmId="scm-id";
+  scm.setId(scmId);
+  scm.setName("name");
+  scm.setPluginConfiguration(new PluginConfiguration("plugin-id","1.0"));
+  scm.setConfiguration(new Configuration(getConfigurationProperty("url",false,"http://go")));
+  configToSave.getSCMs().add(scm);
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(scmId);
+  pluggableSCMMaterialConfig.setSCMConfig(scm);
+  configToSave.addPipeline("default",PipelineConfigMother.pipelineConfig("test",new MaterialConfigs(pluggableSCMMaterialConfig),new JobConfigs(new JobConfig("ls"))));
+  xmlWriter.write(configToSave,output,false);
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(output.toString());
+  PipelineConfig pipelineConfig=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("test"));
+  MaterialConfig materialConfig=pipelineConfig.materialConfigs().get(0);
+  assertThat(materialConfig instanceof PluggableSCMMaterialConfig,is(true));
+  assertThat(((PluggableSCMMaterialConfig)materialConfig).getScmId(),is(scmId));
+  assertThat(((PluggableSCMMaterialConfig)materialConfig).getSCMConfig(),is(scm));
+  assertThat(materialConfig.getFolder(),is(nullValue()));
+  assertThat(materialConfig.filter(),is(new Filter()));
+}

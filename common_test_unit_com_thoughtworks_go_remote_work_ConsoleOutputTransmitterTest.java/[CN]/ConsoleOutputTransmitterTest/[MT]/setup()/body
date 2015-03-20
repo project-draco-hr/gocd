@@ -1,0 +1,7 @@
+{
+  initMocks(this);
+  new SystemEnvironment().setProperty(SystemEnvironment.INTERVAL,"60");
+  requestArgumentCaptor=ArgumentCaptor.forClass(String.class);
+  doNothing().when(consoleAppender).append(requestArgumentCaptor.capture());
+  transmitter=new ConsoleOutputTransmitter(consoleAppender);
+}

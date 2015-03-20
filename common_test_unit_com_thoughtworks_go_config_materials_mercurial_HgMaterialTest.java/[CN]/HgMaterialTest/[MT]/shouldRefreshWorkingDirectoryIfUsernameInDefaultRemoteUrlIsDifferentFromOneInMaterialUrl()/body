@@ -1,0 +1,8 @@
+{
+  final HgMaterial material=new HgMaterial("http://some_new_user:pwd@domain:9999/path",null);
+  final HgCommand hgCommand=mock(HgCommand.class);
+  final ConsoleResult consoleResult=mock(ConsoleResult.class);
+  when(consoleResult.outputAsString()).thenReturn("http://user:pwd@domain:9999/path");
+  when(hgCommand.workingRepositoryUrl()).thenReturn(consoleResult);
+  assertTrue((Boolean)ReflectionUtil.invoke(material,"isRepositoryChanged",hgCommand));
+}

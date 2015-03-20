@@ -1,0 +1,14 @@
+{
+  if (notificationExtension.isNotificationPlugin(pluginDescriptor.id())) {
+    try {
+      List<String> notificationsInterestedIn=notificationExtension.getNotificationsOfInterestFor(pluginDescriptor.id());
+      if (notificationsInterestedIn != null && !notificationsInterestedIn.isEmpty()) {
+        checkNotificationTypes(pluginDescriptor,notificationsInterestedIn);
+        notificationPluginRegistry.registerPluginInterests(pluginDescriptor.id(),notificationsInterestedIn);
+      }
+    }
+ catch (    Exception e) {
+      LOGGER.warn("Error occurred during plugin notification interest registration.",e);
+    }
+  }
+}

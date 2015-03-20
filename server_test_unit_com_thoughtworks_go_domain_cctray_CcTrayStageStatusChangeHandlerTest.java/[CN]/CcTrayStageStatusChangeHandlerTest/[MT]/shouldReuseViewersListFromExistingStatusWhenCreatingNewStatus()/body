@@ -1,0 +1,11 @@
+{
+  Viewers viewers=viewers("viewer1","viewer2");
+  String projectName="pipeline :: stage1";
+  ProjectStatus existingStageStatus=new ProjectStatus(projectName,"OldActivity","OldStatus","OldLabel",new Date(),webUrlFor("stage1"));
+  existingStageStatus.updateViewers(viewers);
+  when(cache.get(projectName)).thenReturn(existingStageStatus);
+  Stage stage=StageMother.custom("stage1",JobInstanceMother.building("job1"));
+  List<ProjectStatus> statuses=handler.statusesOfStageAndItsJobsFor(stage);
+  ProjectStatus statusOfStage=statuses.get(0);
+  assertThat(statusOfStage.viewers(),is(viewers));
+}

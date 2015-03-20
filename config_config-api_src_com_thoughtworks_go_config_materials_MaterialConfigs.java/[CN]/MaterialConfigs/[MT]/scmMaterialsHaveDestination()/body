@@ -1,6 +1,7 @@
 {
-  for (  ScmMaterialConfig scmMaterial : filterScmMaterials()) {
-    if (!scmMaterial.hasDestination()) {
+  for (  MaterialConfig scmMaterial : getSCMAndPluggableSCMConfigs()) {
+    String destination=scmMaterial.getFolder();
+    if (StringUtil.isBlank(destination)) {
       return false;
     }
   }

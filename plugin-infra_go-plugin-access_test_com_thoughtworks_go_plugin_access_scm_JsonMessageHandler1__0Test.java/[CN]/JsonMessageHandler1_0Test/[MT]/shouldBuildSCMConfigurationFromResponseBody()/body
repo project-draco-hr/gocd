@@ -1,0 +1,7 @@
+{
+  String responseBody="{" + "\"key-one\":{}," + "\"key-two\":{\"default-value\":\"two\",\"part-of-identity\":true,\"secure\":true,\"required\":true,\"display-name\":\"display-two\",\"display-order\":\"1\"},"+ "\"key-three\":{\"default-value\":\"three\",\"part-of-identity\":false,\"secure\":false,\"required\":false,\"display-name\":\"display-three\",\"display-order\":\"2\"}"+ "}";
+  SCMPropertyConfiguration scmConfiguration=messageHandler.responseMessageForSCMConfiguration(responseBody);
+  assertPropertyConfiguration((SCMProperty)scmConfiguration.get("key-one"),"key-one",null,true,true,false,"",0);
+  assertPropertyConfiguration((SCMProperty)scmConfiguration.get("key-two"),"key-two","two",true,true,true,"display-two",1);
+  assertPropertyConfiguration((SCMProperty)scmConfiguration.get("key-three"),"key-three","three",false,false,false,"display-three",2);
+}

@@ -1,0 +1,6 @@
+{
+  Stage stage=StageMother.custom("stage1",JobInstanceMother.building("job1"));
+  when(breakersCalculator.calculateFor(stage)).thenReturn(s("breaker1","breaker2"));
+  List<ProjectStatus> statuses=handler.statusesOfStageAndItsJobsFor(stage);
+  assertThat(statuses.get(0).getBreakers(),is(s("breaker1","breaker2")));
+}

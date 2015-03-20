@@ -1,0 +1,20 @@
+{
+  final PluggableSCMMaterial material=MaterialsMother.pluggableSCMMaterial();
+  final MaterialInstance materialInstance=material.createMaterialInstance();
+  materialRepository.saveOrUpdate(materialInstance);
+  Map<String,String> data=new HashMap<String,String>();
+  data.put("k1","v1");
+  when(scmExtension.getLatestRevision(any(String.class),any(SCMPropertyConfiguration.class),any(Map.class),any(String.class))).thenReturn(new MaterialPollResult(data,new SCMRevision()));
+  mockSCMExtensionInPoller();
+  scmMaterialUpdater=new ScmMaterialUpdater(materialRepository,materialChecker,subprocessExecutionContext,materialService);
+  pluggableSCMMaterialUpdater=new PluggableSCMMaterialUpdater(materialRepository,scmMaterialUpdater,transactionTemplate);
+  transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus transactionStatus){
+      pluggableSCMMaterialUpdater.insertLatestOrNewModifications(material,materialInstance,new File(""),new Modifications());
+      return null;
+    }
+  }
+);
+  MaterialInstance actualInstance=materialRepository.findMaterialInstance(material);
+  assertThat(actualInstance.getAdditionalDataMap(),is(data));
+}

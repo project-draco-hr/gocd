@@ -1,0 +1,34 @@
+{
+  ProjectStatus pipeline1_stage1=new ProjectStatus("pipeline1 :: stage","Activity1","Status1","Label1",new Date(),"stage1-url");
+  ProjectStatus pipeline1_stage1_job=new ProjectStatus("pipeline1 :: stage :: job","Activity1-Job","Status1-Job","Label1-Job",new Date(),"job1-url");
+  ProjectStatus pipeline2_stage2=new ProjectStatus("pipeline2 :: stage","Activity2","Status2","Label2",new Date(),"stage2-url");
+  ProjectStatus pipeline2_stage2_job=new ProjectStatus("pipeline2 :: stage :: job","Activity2-Job","Status2-Job","Label2-Job",new Date(),"job2-url");
+  when(cache.get("pipeline1 :: stage1")).thenReturn(pipeline1_stage1);
+  when(cache.get("pipeline1 :: stage1 :: job1")).thenReturn(pipeline1_stage1_job);
+  when(cache.get("pipeline2 :: stage2")).thenReturn(pipeline2_stage2);
+  when(cache.get("pipeline2 :: stage2 :: job2")).thenReturn(pipeline2_stage2_job);
+  when(ccTrayViewAuthority.groupsAndTheirViewers()).thenReturn(m("group1",viewers("user1","user2"),"group2",viewers("user3")));
+  CruiseConfig config=GoConfigMother.defaultCruiseConfig();
+  goConfigMother.addPipelineWithGroup(config,"group2","pipeline2","stage2","job2");
+  goConfigMother.addPipelineWithGroup(config,"group1","pipeline1","stage1","job1");
+  handler.call(config);
+  verify(cache).replaceAllEntriesInCacheWith(statusesCaptor.capture());
+  List<ProjectStatus> statuses=statusesCaptor.getValue();
+  assertThat(statuses.size(),is(4));
+  assertThat(statuses.get(0).name(),is("pipeline1 :: stage1"));
+  assertThat(statuses.get(0).canBeViewedBy("user1"),is(true));
+  assertThat(statuses.get(0).canBeViewedBy("user2"),is(true));
+  assertThat(statuses.get(0).canBeViewedBy("user3"),is(false));
+  assertThat(statuses.get(1).name(),is("pipeline1 :: stage1 :: job1"));
+  assertThat(statuses.get(1).canBeViewedBy("user1"),is(true));
+  assertThat(statuses.get(1).canBeViewedBy("user2"),is(true));
+  assertThat(statuses.get(1).canBeViewedBy("user3"),is(false));
+  assertThat(statuses.get(2).name(),is("pipeline2 :: stage2"));
+  assertThat(statuses.get(2).canBeViewedBy("user1"),is(false));
+  assertThat(statuses.get(2).canBeViewedBy("user2"),is(false));
+  assertThat(statuses.get(2).canBeViewedBy("user3"),is(true));
+  assertThat(statuses.get(3).name(),is("pipeline2 :: stage2 :: job2"));
+  assertThat(statuses.get(3).canBeViewedBy("user1"),is(false));
+  assertThat(statuses.get(3).canBeViewedBy("user2"),is(false));
+  assertThat(statuses.get(3).canBeViewedBy("user3"),is(true));
+}

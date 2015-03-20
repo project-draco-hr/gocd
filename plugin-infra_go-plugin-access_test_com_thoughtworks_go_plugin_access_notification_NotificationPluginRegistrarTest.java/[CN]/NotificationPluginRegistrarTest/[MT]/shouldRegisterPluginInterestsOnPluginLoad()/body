@@ -1,0 +1,9 @@
+{
+  NotificationPluginRegistrar notificationPluginRegistrar=new NotificationPluginRegistrar(pluginManager,notificationExtension,notificationPluginRegistry);
+  notificationPluginRegistrar.pluginLoaded(new GoPluginDescriptor(PLUGIN_ID_1,null,null,null,null,true));
+  verify(notificationPluginRegistry).registerPluginInterests(PLUGIN_ID_1,asList(PIPELINE_STATUS,STAGE_STATUS,JOB_STATUS));
+  notificationPluginRegistrar.pluginLoaded(new GoPluginDescriptor(PLUGIN_ID_2,null,null,null,null,true));
+  verify(notificationPluginRegistry).registerPluginInterests(PLUGIN_ID_2,asList(PIPELINE_STATUS));
+  notificationPluginRegistrar.pluginLoaded(new GoPluginDescriptor(PLUGIN_ID_3,null,null,null,null,true));
+  verify(notificationPluginRegistry).registerPluginInterests(PLUGIN_ID_3,asList(STAGE_STATUS));
+}

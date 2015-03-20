@@ -1,0 +1,19 @@
+{
+  SCMConfigurations scmConfigurations=new SCMConfigurations();
+  scmConfigurations.add(new SCMConfiguration("url"));
+  scmConfigurations.add(new SCMConfiguration("username"));
+  scmConfigurations.add(new SCMConfiguration("password").with(SECURE,true));
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",scmConfigurations,null);
+  Map<String,String> attributeMap=DataStructureUtils.m(SCM.SCM_ID,"scm-id",SCM.NAME,"scm-name",SCM.AUTO_UPDATE,"false","url","http://localhost","username","user","password","pass");
+  SCM scm=new SCM(null,new PluginConfiguration("plugin-id","1"),new Configuration());
+  scm.setConfigAttributes(attributeMap);
+  assertThat(scm.getId(),is("scm-id"));
+  assertThat(scm.getName(),is("scm-name"));
+  assertThat(scm.isAutoUpdate(),is(false));
+  assertThat(scm.getPluginConfiguration().getId(),is("plugin-id"));
+  assertThat(scm.getConfigAsMap().get("url").get(SCM.VALUE_KEY),is("http://localhost"));
+  assertThat(scm.getConfigAsMap().get("username").get(SCM.VALUE_KEY),is("user"));
+  assertThat(scm.getConfigAsMap().get("password").get(SCM.VALUE_KEY),is("pass"));
+  assertThat(scm.getConfiguration().getProperty("password").getConfigurationValue(),is(nullValue()));
+  assertThat(scm.getConfiguration().getProperty("password").getEncryptedValue(),is(not(nullValue())));
+}

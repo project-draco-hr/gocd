@@ -1,0 +1,10 @@
+{
+  File workingDirectory=new File("/tmp/workingDirectory");
+  MaterialRevision revision=new MaterialRevision(new PluggableSCMMaterial(),new Modifications());
+  MaterialAgentFactory factory=new MaterialAgentFactory(null,workingDirectory,null,packageAsRepositoryExtension,scmExtension);
+  MaterialAgent agent=factory.createAgent(revision);
+  assertThat(agent instanceof PluggableSCMMaterialAgent,is(true));
+  assertThat((SCMExtension)ReflectionUtil.getField(agent,"scmExtension"),is(scmExtension));
+  assertThat((MaterialRevision)ReflectionUtil.getField(agent,"revision"),is(revision));
+  assertThat((File)ReflectionUtil.getField(agent,"workingDirectory"),is(workingDirectory));
+}

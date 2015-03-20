@@ -1,0 +1,12 @@
+{
+  JobInstance firstJob=JobInstanceMother.building("job1");
+  JobInstance secondJob=JobInstanceMother.completed("job2");
+  Stage stage=StageMother.custom("stage1",firstJob,secondJob);
+  when(jobStatusChangeHandler.statusFor(firstJob,new HashSet<String>())).thenReturn(new ProjectStatus("job1_name",null,null,null,null,null));
+  when(jobStatusChangeHandler.statusFor(secondJob,new HashSet<String>())).thenReturn(new ProjectStatus("job2_name",null,null,null,null,null));
+  List<ProjectStatus> statuses=handler.statusesOfStageAndItsJobsFor(stage);
+  assertThat(statuses.size(),is(3));
+  assertThat(statuses.get(0).name(),is("pipeline :: stage1"));
+  assertThat(statuses.get(1).name(),is("job1_name"));
+  assertThat(statuses.get(2).name(),is("job2_name"));
+}

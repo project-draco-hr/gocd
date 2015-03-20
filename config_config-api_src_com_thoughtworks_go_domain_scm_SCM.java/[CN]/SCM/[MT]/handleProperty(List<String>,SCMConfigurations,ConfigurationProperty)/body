@@ -1,0 +1,9 @@
+{
+  SCMConfiguration scmConfiguration=null;
+  if (metadata != null) {
+    scmConfiguration=metadata.get(configurationProperty.getConfigurationKey().getName());
+  }
+  if (scmConfiguration == null || scmConfiguration.getOption(SCMConfiguration.PART_OF_IDENTITY)) {
+    list.add(configurationProperty.forFingerprint());
+  }
+}

@@ -1,0 +1,5 @@
+{
+  Map<Class,MaterialPoller> materialPollerMap=(Map<Class,MaterialPoller>)ReflectionUtil.getField(materialService,"materialPollerMap");
+  materialPollerMap.put(PluggableSCMMaterial.class,new PluggableSCMMaterialPoller(materialRepository,scmExtension,transactionTemplate));
+  ReflectionUtil.setField(materialService,"materialPollerMap",materialPollerMap);
+}

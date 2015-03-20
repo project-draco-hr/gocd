@@ -1,0 +1,11 @@
+{
+  PluggableSCMMaterial material=new PluggableSCMMaterial();
+  ConfigurationProperty k1=ConfigurationPropertyMother.create("k1",false,"v1");
+  ConfigurationProperty k2=ConfigurationPropertyMother.create("k2",true,"v2");
+  material.setSCMConfig(SCMMother.create("scm-id","scm-name","plugin-id","1.0",new Configuration(k1,k2)));
+  PluggableSCMMaterialInstance savedMaterialInstance=(PluggableSCMMaterialInstance)repo.findOrCreateFrom(material);
+  assertThat(savedMaterialInstance.getId() > 0,is(true));
+  assertThat(savedMaterialInstance.getFingerprint(),is(material.getFingerprint()));
+  assertThat(JsonHelper.fromJson(savedMaterialInstance.getConfiguration(),PluggableSCMMaterial.class).getScmConfig().getConfiguration(),is(material.getScmConfig().getConfiguration()));
+  assertThat(JsonHelper.fromJson(savedMaterialInstance.getConfiguration(),PluggableSCMMaterial.class).getScmConfig().getPluginConfiguration().getId(),is(material.getScmConfig().getPluginConfiguration().getId()));
+}

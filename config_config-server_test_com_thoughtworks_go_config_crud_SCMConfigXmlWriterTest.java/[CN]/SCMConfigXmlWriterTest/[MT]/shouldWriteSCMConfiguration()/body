@@ -1,0 +1,17 @@
+{
+  CruiseConfig configToSave=new CruiseConfig();
+  SCM scm=new SCM();
+  scm.setId("id");
+  scm.setName("name");
+  scm.setPluginConfiguration(new PluginConfiguration("plugin-id","1.0"));
+  scm.setConfiguration(new Configuration(getConfigurationProperty("url",false,"http://go"),getConfigurationProperty("secure",true,"secure")));
+  configToSave.getSCMs().add(scm);
+  xmlWriter.write(configToSave,output,false);
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(output.toString());
+  SCMs scms=goConfigHolder.config.getSCMs();
+  assertThat(scms,is(configToSave.getSCMs()));
+  assertThat(scms.get(0).getConfiguration().first().getConfigurationValue().getValue(),is("http://go"));
+  assertThat(scms.get(0).getConfiguration().first().getEncryptedValue(),is(nullValue()));
+  assertThat(scms.get(0).getConfiguration().last().getEncryptedValue().getValue(),is(new GoCipher().encrypt("secure")));
+  assertThat(scms.get(0).getConfiguration().last().getConfigurationValue(),is(nullValue()));
+}

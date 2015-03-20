@@ -1,0 +1,10 @@
+{
+  File workingDirectory=new File("/tmp/workingDirectory");
+  MaterialRevision revision=new MaterialRevision(new PackageMaterial(),new Modifications());
+  MaterialAgentFactory factory=new MaterialAgentFactory(null,workingDirectory,null,packageAsRepositoryExtension,scmExtension);
+  MaterialAgent agent=factory.createAgent(revision);
+  assertThat(agent instanceof PackageMaterialAgent,is(true));
+  assertThat((PackageAsRepositoryExtension)ReflectionUtil.getField(agent,"packageAsRepositoryExtension"),is(packageAsRepositoryExtension));
+  assertThat((MaterialRevision)ReflectionUtil.getField(agent,"revision"),is(revision));
+  assertThat((File)ReflectionUtil.getField(agent,"workingDirectory"),is(workingDirectory));
+}

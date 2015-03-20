@@ -1,0 +1,12 @@
+{
+  String flyweight="flyweight";
+  SCMRevision previouslyKnownRevision=new SCMRevision();
+  when(jsonMessageHandler.requestMessageForLatestRevisionsSince(scmPropertyConfiguration,materialData,flyweight,previouslyKnownRevision)).thenReturn(requestBody);
+  MaterialPollResult deserializedResponse=new MaterialPollResult();
+  when(jsonMessageHandler.responseMessageForLatestRevisionsSince(responseBody)).thenReturn(deserializedResponse);
+  MaterialPollResult response=scmExtension.latestModificationSince(PLUGIN_ID,scmPropertyConfiguration,materialData,flyweight,previouslyKnownRevision);
+  assertRequest(requestArgumentCaptor.getValue(),SCMExtension.EXTENSION_NAME,"1.0",SCMExtension.REQUEST_LATEST_REVISIONS_SINCE,requestBody);
+  verify(jsonMessageHandler).requestMessageForLatestRevisionsSince(scmPropertyConfiguration,materialData,flyweight,previouslyKnownRevision);
+  verify(jsonMessageHandler).responseMessageForLatestRevisionsSince(responseBody);
+  assertSame(response,deserializedResponse);
+}

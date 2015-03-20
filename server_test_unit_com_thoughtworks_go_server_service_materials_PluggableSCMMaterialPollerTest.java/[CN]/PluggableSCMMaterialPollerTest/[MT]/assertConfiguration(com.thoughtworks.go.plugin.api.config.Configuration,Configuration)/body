@@ -1,0 +1,7 @@
+{
+  assertThat(configurationsSentToPlugin.size(),is(configurationInMaterial.size()));
+  for (  ConfigurationProperty property : configurationInMaterial) {
+    Property configuration=configurationsSentToPlugin.get(property.getConfigurationKey().getName());
+    assertThat(configuration.getValue(),is(property.getValue()));
+  }
+}

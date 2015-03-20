@@ -1,0 +1,8 @@
+{
+  ArtifactPropertiesGenerator existingGenerator=new ArtifactPropertiesGenerator("prop1","props.xml","//some_xpath");
+  existingGenerator.setId(2);
+  existingGenerator.setJobId(10);
+  existingGenerator.addError("abc","def");
+  assertThat(existingGenerator,equalTo(new ArtifactPropertiesGenerator(existingGenerator)));
+  assertThat(existingGenerator,equalTo(new Cloner().deepClone(existingGenerator)));
+}

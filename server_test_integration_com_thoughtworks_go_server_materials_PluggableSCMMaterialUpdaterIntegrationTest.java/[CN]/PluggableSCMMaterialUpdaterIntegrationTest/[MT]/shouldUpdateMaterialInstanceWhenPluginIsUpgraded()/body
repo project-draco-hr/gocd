@@ -1,0 +1,18 @@
+{
+  final PluggableSCMMaterial material=MaterialsMother.pluggableSCMMaterial();
+  final MaterialInstance materialInstance=material.createMaterialInstance();
+  materialRepository.saveOrUpdate(materialInstance);
+  addMetadata(material,"fieldX",false);
+  material.getScmConfig().getConfiguration().addNewConfiguration("fieldX",true);
+  final List<Modification> modifications=ModificationsMother.multipleModificationList();
+  doNothing().when(scmMaterialUpdater).insertLatestOrNewModifications(material,materialInstance,new File(""),new Modifications(modifications));
+  transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus transactionStatus){
+      pluggableSCMMaterialUpdater.insertLatestOrNewModifications(material,materialInstance,new File(""),new Modifications(modifications));
+      return null;
+    }
+  }
+);
+  MaterialInstance actualInstance=materialRepository.findMaterialInstance(material);
+  assertThat(actualInstance.getConfiguration(),is(material.createMaterialInstance().getConfiguration()));
+}

@@ -1,0 +1,10 @@
+{
+  PluggableSCMMaterial material=MaterialsMother.pluggableSCMMaterial();
+  SCM scmConfig=material.getScmConfig();
+  PluggableSCMMaterialInstance materialInstance=new PluggableSCMMaterialInstance(JsonHelper.toJsonString(material),"flyweight");
+  materialInstance.setId(1L);
+  PluggableSCMMaterial constructedMaterial=(PluggableSCMMaterial)materialInstance.toOldMaterial(null,null,null);
+  assertThat(constructedMaterial.getId(),is(1L));
+  assertThat(constructedMaterial.getScmConfig().getPluginConfiguration().getId(),is(scmConfig.getPluginConfiguration().getId()));
+  assertThat(constructedMaterial.getScmConfig().getConfiguration(),is(scmConfig.getConfiguration()));
+}

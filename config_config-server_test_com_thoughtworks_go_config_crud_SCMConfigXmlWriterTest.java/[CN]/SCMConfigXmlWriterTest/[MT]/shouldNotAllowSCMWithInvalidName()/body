@@ -1,0 +1,13 @@
+{
+  Configuration configuration=new Configuration(getConfigurationProperty("url",false,"http://go"));
+  CruiseConfig configToSave=new CruiseConfig();
+  SCM scm=createSCM("id","name with space","plugin-id","1.0",configuration);
+  configToSave.setSCMs(new SCMs(scm));
+  try {
+    xmlWriter.write(configToSave,output,false);
+    fail("should not have allowed two SCMs with same id");
+  }
+ catch (  GoConfigInvalidException e) {
+    assertThat(e.getMessage(),is("Invalid SCM name 'name with space'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
+  }
+}

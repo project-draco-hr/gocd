@@ -1,0 +1,16 @@
+{
+  goPublisher.reportAction("Start to prepare");
+  goPublisher.reportCurrentStatus(JobState.Preparing);
+  createWorkingDirectoryIfNotExist(workingDirectory);
+  if (!plan.shouldFetchMaterials()) {
+    goPublisher.consumeLineWithPrefix("Skipping material update since stage is configured not to fetch materials");
+    return;
+  }
+  ProcessOutputStreamConsumer<GoPublisher,GoPublisher> consumer=new ProcessOutputStreamConsumer<GoPublisher,GoPublisher>(goPublisher,goPublisher);
+  MaterialAgentFactory materialAgentFactory=new MaterialAgentFactory(consumer,workingDirectory,agentIdentifier,packageAsRepositoryExtension,scmExtension);
+  materialRevisions.getMaterials().cleanUp(workingDirectory,consumer);
+  goPublisher.consumeLineWithPrefix("Start to update materials.\n");
+  for (  MaterialRevision revision : materialRevisions.getRevisions()) {
+    materialAgentFactory.createAgent(revision).prepare();
+  }
+}

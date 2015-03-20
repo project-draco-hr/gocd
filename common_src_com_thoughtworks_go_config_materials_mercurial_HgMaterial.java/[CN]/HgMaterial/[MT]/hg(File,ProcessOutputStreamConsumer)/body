@@ -1,9 +1,9 @@
 {
   File workingFolder=workingdir(baseDir);
-  HgCommand hgCommand=new HgCommand(getFingerprint(),workingFolder,getBranch());
-  if (!isHgRepository(workingFolder) || isRepositoryChanged(hgCommand,workingFolder)) {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Invalid hg working copy or repository changed. Delete folder: " + workingFolder);
+  HgCommand hgCommand=new HgCommand(getFingerprint(),workingFolder,getBranch(),getUrl());
+  if (!isHgRepository(workingFolder) || isRepositoryChanged(hgCommand)) {
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Invalid hg working copy or repository changed. Delete folder: " + workingFolder);
     }
     FileUtil.deleteFolder(workingFolder);
   }

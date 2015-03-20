@@ -1,0 +1,6 @@
+{
+  SCMMetadataStore.getInstance().addMetadataFor("plugin-id",new SCMConfigurations(),null);
+  Configuration configuration=new Configuration(create("kEY1",false,"vALue1"),create("KEY_MORE_2",false,"VALUE_2"),create("key_3",false,"value3"));
+  SCM scm=SCMMother.create("scm","scm-name","plugin-id","1.0",configuration);
+  assertThat(scm.getConfigForDisplay(),is("SCM: [key1=vALue1, key_more_2=VALUE_2, key_3=value3]"));
+}

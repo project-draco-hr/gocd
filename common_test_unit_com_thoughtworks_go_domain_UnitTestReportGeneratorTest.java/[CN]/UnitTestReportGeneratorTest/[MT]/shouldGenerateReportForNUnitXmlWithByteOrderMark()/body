@@ -1,0 +1,15 @@
+{
+  context.checking(new Expectations(){
+{
+      one(publisher).upload(with(any(File.class)),with(any(String.class)));
+      one(publisher).setProperty(new Property(TOTAL_TEST_COUNT,"18"));
+      one(publisher).setProperty(new Property(FAILED_TEST_COUNT,"0"));
+      one(publisher).setProperty(new Property(IGNORED_TEST_COUNT,"0"));
+      one(publisher).setProperty(new Property(TEST_TIME,"1.570"));
+    }
+  }
+);
+  copyAndClose(source("NunitTestResultWithByteOrderMark.xml"),target("test-result.xml"));
+  generator.generate(testFolder.listFiles());
+  assertThat(testFolder.listFiles().length,is(2));
+}

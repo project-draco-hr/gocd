@@ -1,0 +1,9 @@
+{
+  gitLocalRepoDir=createTempWorkingDirectory();
+  git=new GitCommand(null,gitLocalRepoDir,BRANCH,false);
+  GitCommand branchedGit=new GitCommand(null,gitLocalRepoDir,BRANCH,false);
+  branchedGit.cloneFrom(inMemoryConsumer(),gitFooBranchBundle.projectRepositoryUrl());
+  InMemoryStreamConsumer output=inMemoryConsumer();
+  CommandLine.createCommandLine("git").withEncoding("UTF-8").withArg("branch").withWorkingDir(gitLocalRepoDir).run(output,"");
+  assertThat(output.getStdOut(),Is.is("* foo"));
+}

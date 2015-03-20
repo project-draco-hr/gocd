@@ -1,0 +1,8 @@
+{
+  transmitter.consumeLine("first line");
+  transmitter.consumeLine("second line");
+  transmitter.flushToServer();
+  verify(consoleAppender).append(any(String.class));
+  assertThat(requestArgumentCaptor.getValue(),containsString("first line\n"));
+  assertThat(requestArgumentCaptor.getValue(),containsString("second line\n"));
+}

@@ -1,0 +1,10 @@
+{
+  new HgCommand(null,workingFolder,"default",hgTestRepo.url().forCommandline()).clone(inMemoryConsumer(),hgTestRepo.url());
+  File testFile=createNewFileInWorkingFolder();
+  HgTestRepo hgTestRepo2=new HgTestRepo("hgTestRepo2");
+  hgMaterial=MaterialsMother.hgMaterial(hgTestRepo2.projectRepositoryUrl());
+  hgMaterial.latestModification(workingFolder,new TestSubprocessExecutionContext());
+  String workingUrl=new HgCommand(null,workingFolder,"default",hgTestRepo.url().forCommandline()).workingRepositoryUrl().outputAsString();
+  assertThat(workingUrl,is(hgTestRepo2.projectRepositoryUrl()));
+  assertThat(testFile.exists(),is(false));
+}

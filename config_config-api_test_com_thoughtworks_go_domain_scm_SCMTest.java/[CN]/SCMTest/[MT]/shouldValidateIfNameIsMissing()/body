@@ -1,0 +1,5 @@
+{
+  SCM scm=new SCM();
+  scm.validate(new ValidationContext(new CruiseConfig(),null));
+  assertThat(scm.errors().getAllOn(SCM.NAME),is(asList("Please provide name")));
+}

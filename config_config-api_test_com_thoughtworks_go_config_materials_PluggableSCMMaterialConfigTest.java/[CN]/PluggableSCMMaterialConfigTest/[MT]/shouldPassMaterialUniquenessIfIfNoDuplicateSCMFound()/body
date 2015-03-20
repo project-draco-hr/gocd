@@ -1,0 +1,9 @@
+{
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig("scm-id");
+  Map<CaseInsensitiveString,AbstractMaterialConfig> nameToMaterialMap=new HashMap<CaseInsensitiveString,AbstractMaterialConfig>();
+  nameToMaterialMap.put(new CaseInsensitiveString("scm-id-new"),new PluggableSCMMaterialConfig("scm-id-new"));
+  nameToMaterialMap.put(new CaseInsensitiveString("foo"),new GitMaterialConfig("url"));
+  pluggableSCMMaterialConfig.validateNameUniqueness(nameToMaterialMap);
+  assertThat(pluggableSCMMaterialConfig.errors().getAll().size(),is(0));
+  assertThat(nameToMaterialMap.size(),is(3));
+}

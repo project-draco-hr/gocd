@@ -1,0 +1,14 @@
+{
+  Stage completedStage=StageMother.createPassedStage("pipeline",1,"stage1",1,"job1",new Date());
+  ProjectStatus jobStatus=new ProjectStatus("job1_name","activity1","lastBuildStatus1","lastBuildLabel1",new Date(),"webUrl1");
+  when(jobStatusChangeHandler.statusFor(completedStage.getJobInstances().first(),new HashSet<String>())).thenReturn(jobStatus);
+  handler.call(completedStage);
+  verify(breakersCalculator).calculateFor(completedStage);
+  verify(cache).putAll(statusesCaptor.capture());
+  List<ProjectStatus> statusesWhichWereCached=statusesCaptor.getValue();
+  assertThat(statusesWhichWereCached.size(),is(2));
+  assertThat(statusesWhichWereCached.get(0).name(),is("pipeline :: stage1"));
+  assertThat(statusesWhichWereCached.get(0).getLastBuildStatus(),is("Success"));
+  assertThat(activityOf(statusesWhichWereCached.get(0)),is("Sleeping"));
+  assertThat(statusesWhichWereCached.get(1),is(jobStatus));
+}

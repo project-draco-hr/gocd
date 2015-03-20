@@ -1,0 +1,11 @@
+{
+  String stageProjectName="pipeline1 :: stage";
+  String jobProjectName="pipeline1 :: stage :: job";
+  ProjectStatus existingStageStatus=new ProjectStatus(stageProjectName,"OldActivity","OldStatus","OldLabel",new Date(),"stage-url");
+  when(cache.get(stageProjectName)).thenReturn(existingStageStatus);
+  ProjectStatus existingJobStatus=new ProjectStatus(jobProjectName,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"job-url");
+  when(cache.get(jobProjectName)).thenReturn(existingJobStatus);
+  handler.call(GoConfigMother.configWithPipelines("pipeline1"));
+  verify(cache).replaceAllEntriesInCacheWith(eq(asList(existingStageStatus,existingJobStatus)));
+  verifyZeroInteractions(stageStatusLoader);
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    Map revisionMap=(Map)new GsonBuilder().create().fromJson(message,Object.class);
+    messageHandler.toSCMRevision(revisionMap);
+    fail("should have thrown exception");
+  }
+ catch (  Exception e) {
+    return e.getMessage();
+  }
+  return null;
+}

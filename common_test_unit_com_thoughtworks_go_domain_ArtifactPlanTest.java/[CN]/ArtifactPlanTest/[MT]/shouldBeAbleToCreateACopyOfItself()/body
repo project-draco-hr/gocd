@@ -1,0 +1,8 @@
+{
+  ArtifactPlan existingPlan=new ArtifactPlan(ArtifactType.file,"src1","dest1");
+  existingPlan.setId(2);
+  existingPlan.setBuildId(10);
+  existingPlan.addError("abc","def");
+  assertThat(existingPlan,equalTo(new ArtifactPlan(existingPlan)));
+  assertThat(existingPlan,equalTo(new Cloner().deepClone(existingPlan)));
+}

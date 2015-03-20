@@ -1,0 +1,19 @@
+{
+  SCM scmConfig=SCMMother.create("scm-id","scm-name","plugin-id","1.0",new Configuration(create("k1",false,"v1")));
+  PluggableSCMMaterialConfig p1=new PluggableSCMMaterialConfig();
+  p1.setSCMConfig(scmConfig);
+  PluggableSCMMaterialConfig p2=new PluggableSCMMaterialConfig();
+  p2.setSCMConfig(scmConfig);
+  assertThat(p1.equals(p2),is(true));
+  p2.setFolder("dest");
+  assertThat(p1.equals(p2),is(false));
+  p1=new PluggableSCMMaterialConfig();
+  p2=new PluggableSCMMaterialConfig();
+  assertThat(p1.equals(p2),is(false));
+  p2.setSCMConfig(scmConfig);
+  assertThat(p1.equals(p2),is(false));
+  p1.setSCMConfig(scmConfig);
+  p2=new PluggableSCMMaterialConfig();
+  assertThat(p1.equals(p2),is(false));
+  assertThat(p1.equals(null),is(false));
+}

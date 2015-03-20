@@ -1,0 +1,16 @@
+{
+  ProjectStatus status1=new ProjectStatus("item1","Sleeping 1","last-build-status 1","last-build-label 1",new Date(),"web-url 1");
+  ProjectStatus status2=new ProjectStatus("item2","Sleeping 2","last-build-status 2","last-build-label 2",new Date(),"web-url 2");
+  ProjectStatus status3=new ProjectStatus("item3","Sleeping 3","last-build-status 3","last-build-label 3",new Date(),"web-url 3");
+  ProjectStatus status4=new ProjectStatus("item4","Sleeping 4","last-build-status 4","last-build-label 4",new Date(),"web-url 4");
+  ProjectStatus status5=new ProjectStatus("item5","Sleeping 5","last-build-status 5","last-build-label 5",new Date(),"web-url 5");
+  cache.put(status1);
+  cache.put(status2);
+  cache.put(status3);
+  cache.replaceAllEntriesInCacheWith(asList(status3,status4,status5));
+  assertThat(cache.get("item1"),is(nullValue()));
+  assertThat(cache.get("item2"),is(nullValue()));
+  assertThat(cache.get("item3"),is(status3));
+  assertThat(cache.get("item4"),is(status4));
+  assertThat(cache.get("item5"),is(status5));
+}

@@ -1,0 +1,7 @@
+{
+  String revisionJSON="{\"revision\":\"r1\",\"timestamp\":\"2011-07-14T19:43:37.100Z\",\"user\":\"some-user\",\"revisionComment\":\"comment\",\"data\":{\"dataKeyTwo\":\"data-value-two\",\"dataKeyOne\":\"data-value-one\"}," + "\"modifiedFiles\":[{\"fileName\":\"f1\",\"action\":\"added\"},{\"fileName\":\"f2\",\"action\":\"modified\"},{\"fileName\":\"f3\",\"action\":\"deleted\"}]}";
+  String responseBody="{\"revision\": " + revisionJSON + "}";
+  MaterialPollResult pollResult=messageHandler.responseMessageForLatestRevision(responseBody);
+  assertThat(pollResult.getMaterialData(),is(nullValue()));
+  assertSCMRevision(pollResult.getLatestRevision(),"r1","some-user","2011-07-14T19:43:37.100Z","comment",asList(new ModifiedFile("f1",ModifiedAction.added),new ModifiedFile("f2",ModifiedAction.modified),new ModifiedFile("f3",ModifiedAction.deleted)));
+}
