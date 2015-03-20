@@ -1,6 +1,6 @@
 {
   if (shouldBlockRequest((HttpServletRequest)servletRequest)) {
-    LOGGER.info("Got a non-GET request: " + servletRequest);
+    LOGGER.warn("Got a non-GET request: " + servletRequest);
     ((HttpServletResponse)servletResponse).setStatus(HttpServletResponse.SC_FORBIDDEN);
     servletResponse.getWriter().write("");
   }
