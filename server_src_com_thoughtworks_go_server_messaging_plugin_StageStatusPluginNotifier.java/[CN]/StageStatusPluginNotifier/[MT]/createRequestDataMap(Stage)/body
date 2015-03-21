@@ -2,6 +2,8 @@
   Map<String,Object> data=new LinkedHashMap<String,Object>();
   String pipelineName=stage.getIdentifier().getPipelineName();
   Integer pipelineCounter=new Integer(stage.getIdentifier().getPipelineCounter());
+  String pipelineGroup=goConfigService.findGroupNameByPipeline(new CaseInsensitiveString(pipelineName));
+  data.put("pipeline-group",pipelineGroup);
   data.put("pipeline-name",pipelineName);
   data.put("pipeline-counter",pipelineCounter.toString());
   data.put("stage-name",stage.getIdentifier().getStageName());
