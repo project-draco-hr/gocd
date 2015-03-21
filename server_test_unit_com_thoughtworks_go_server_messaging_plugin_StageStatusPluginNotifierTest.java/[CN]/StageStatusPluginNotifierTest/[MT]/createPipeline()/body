@@ -1,5 +1,12 @@
 {
   Pipeline pipeline=PipelineMother.pipelineWithAllTypesOfMaterials("pipeline-name","stage-name","job-name");
+  List<MaterialRevision> materialRevisions=pipeline.getMaterialRevisions().getRevisions();
+  PackageDefinition packageDefinition=((PackageMaterial)materialRevisions.get(6).getMaterial()).getPackageDefinition();
+  packageDefinition.getRepository().getConfiguration().get(1).handleSecureValueConfiguration(true);
+  packageDefinition.getConfiguration().addNewConfigurationWithValue("k4","package-v2",false);
+  packageDefinition.getConfiguration().get(1).handleSecureValueConfiguration(true);
+  SCM scm=((PluggableSCMMaterial)materialRevisions.get(7).getMaterial()).getScmConfig();
+  scm.getConfiguration().get(1).handleSecureValueConfiguration(true);
   Stage stage=pipeline.getFirstStage();
   stage.setId(1L);
   stage.setPipelineId(1L);

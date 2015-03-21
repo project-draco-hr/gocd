@@ -1,0 +1,7 @@
+{
+  DependencyMaterial material=new DependencyMaterial(new CaseInsensitiveString("pipeline-name"),new CaseInsensitiveString("stage-name"));
+  Map<String,Object> attributesWithSecureFields=material.getAttributes(true);
+  assertAttributes(attributesWithSecureFields);
+  Map<String,Object> attributesWithoutSecureFields=material.getAttributes(false);
+  assertAttributes(attributesWithoutSecureFields);
+}
