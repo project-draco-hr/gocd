@@ -1,0 +1,12 @@
+{
+  Pipeline pipeline=PipelineMother.pipelineWithAllTypesOfMaterials("pipeline-name","stage-name","job-name");
+  Stage stage=pipeline.getFirstStage();
+  stage.setId(1L);
+  stage.setPipelineId(1L);
+  stage.setCreatedTime(new Timestamp(getFixedDate().getTime()));
+  stage.setLastTransitionedTime(new Timestamp(getFixedDate().getTime()));
+  JobInstance job=stage.getJobInstances().get(0);
+  job.setScheduledDate(getFixedDate());
+  job.getTransition(JobState.Completed).setStateChangeTime(getFixedDate());
+  return pipeline;
+}
