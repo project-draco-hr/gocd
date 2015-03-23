@@ -1,4 +1,6 @@
 {
   assertLabelGroupsMatching(labelTemplate,expectedGroups);
-  return PipelineLabel.replaceRevisionsInLabel(labelTemplate,MATERIAL_REVISIONS);
+  PipelineLabel label=new PipelineLabel(labelTemplate);
+  label.updateLabel(MATERIAL_REVISIONS);
+  return label.toString();
 }
