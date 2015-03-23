@@ -14,6 +14,8 @@
   when(systemEnvironment.useNioSslSocket()).thenReturn(true);
   when(systemEnvironment.getListenHost()).thenReturn("localhost");
   when(systemEnvironment.getParentLoaderPriority()).thenReturn(false);
+  when(systemEnvironment.get(SystemEnvironment.RESPONSE_BUFFER_SIZE)).thenReturn(1000);
+  when(systemEnvironment.get(SystemEnvironment.IDLE_TIMEOUT)).thenReturn(2000);
   sslSocketFactory=mock(SSLSocketFactory.class);
   when(sslSocketFactory.getSupportedCipherSuites()).thenReturn(new String[]{});
   goJetty6CipherSuite=mock(GoJetty6CipherSuite.class);

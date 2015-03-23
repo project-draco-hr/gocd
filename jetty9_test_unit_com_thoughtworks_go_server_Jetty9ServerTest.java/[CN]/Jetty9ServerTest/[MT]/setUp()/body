@@ -8,6 +8,8 @@
   when(systemEnvironment.getCruiseWar()).thenReturn("cruise.war");
   when(systemEnvironment.getParentLoaderPriority()).thenReturn(true);
   when(systemEnvironment.useCompressedJs()).thenReturn(true);
+  when(systemEnvironment.get(SystemEnvironment.RESPONSE_BUFFER_SIZE)).thenReturn(1000);
+  when(systemEnvironment.get(SystemEnvironment.IDLE_TIMEOUT)).thenReturn(2000);
   sslSocketFactory=mock(SSLSocketFactory.class);
   when(sslSocketFactory.getSupportedCipherSuites()).thenReturn(new String[]{});
   jetty9Server=new Jetty9Server(systemEnvironment,"pwd",sslSocketFactory,server);
