@@ -1,20 +1,13 @@
 {
-  String testHomeDir=SystemEnvironment.getProperty("java.io.tmpdir") + "/test.jetty.home.dir";
-  File testHome=new File(testHomeDir);
-  testHome.mkdir();
-  testHome.deleteOnExit();
-  File work=new File(testHome,"work");
-  work.mkdir();
-  File oldFile=new File(work,"oldfile");
-  work.deleteOnExit();
-  oldFile.createNewFile();
-  oldFile.deleteOnExit();
-  new SystemEnvironment().setProperty("jetty.home",testHomeDir);
+  File oldWorkDir=new File(homeDir,"work");
+  oldWorkDir.mkdir();
+  new File(oldWorkDir,"junk.txt").createNewFile();
+  systemEnvironment.setProperty("jetty.home",homeDir.getAbsolutePath());
   JettyWorkDirValidator jettyWorkDirValidator=new JettyWorkDirValidator();
   Validation val=new Validation();
   jettyWorkDirValidator.validate(val);
   assertThat(val.isSuccessful(),is(true));
-  File recreatedWorkDir=new File(testHomeDir,"work");
+  File recreatedWorkDir=new File(homeDir,"work");
   assertThat(recreatedWorkDir.exists(),is(true));
   assertThat(recreatedWorkDir.listFiles().length,is(0));
 }

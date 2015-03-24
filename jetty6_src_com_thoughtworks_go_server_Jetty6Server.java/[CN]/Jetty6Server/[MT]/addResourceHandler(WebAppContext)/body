@@ -1,0 +1,6 @@
+{
+  if (!systemEnvironment.useCompressedJs())   return;
+  Jetty6AssetsContextHandler handler=new Jetty6AssetsContextHandler(systemEnvironment);
+  server.addHandler(handler);
+  webAppContext.addLifeCycleListener(new Jetty6AssetsContextHandlerInitializer(handler,webAppContext));
+}

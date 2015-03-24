@@ -1,0 +1,10 @@
+{
+  if (target.equals("/")) {
+    response.setHeader("Location",GoConstants.GO_URL_CONTEXT + "/home");
+    response.setStatus(301);
+    response.setHeader("Content-Type","text/html");
+    PrintWriter writer=response.getWriter();
+    writer.write("redirecting..");
+    writer.close();
+  }
+}
