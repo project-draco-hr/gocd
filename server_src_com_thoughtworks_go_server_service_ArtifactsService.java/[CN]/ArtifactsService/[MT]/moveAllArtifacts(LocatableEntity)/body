@@ -1,0 +1,10 @@
+{
+  try {
+    File from=temporaryArtifactRootDirectory(locatableEntity);
+    File to=chooser.preferredRoot(locatableEntity).getParentFile();
+    FileUtils.moveDirectoryToDirectory(from,to,true);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+}

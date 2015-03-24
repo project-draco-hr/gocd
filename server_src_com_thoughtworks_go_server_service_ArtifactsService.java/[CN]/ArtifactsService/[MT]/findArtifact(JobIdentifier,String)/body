@@ -1,3 +1,7 @@
 {
-  return chooser.findArtifact(identifier,path);
+  File file=temporaryArtifactDirectory(identifier,path);
+  if (!file.exists()) {
+    file=chooser.findArtifact(identifier,path);
+  }
+  return file;
 }
