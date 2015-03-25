@@ -1,6 +1,6 @@
 {
   try {
-    response.setHeader("Content-MD5",new String(new Base64().encode(MessageDigest.getInstance("MD5").digest(getAgentAsByteStream()))));
+    response.setHeader("Content-MD5",md5DigestOfStream(new FileInputStream(file)));
     response.setHeader("Cruise-Server-Ssl-Port","9443");
   }
  catch (  Exception e) {
