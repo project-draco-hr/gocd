@@ -1,5 +1,5 @@
 {
   Configuration configuration=new Configuration(create("key1",false,"value1"),create("key2",true,"value2"),create("key3",false,"value3"));
   SCM scm=SCMMother.create("scm","scm-name","some-plugin-which-does-not-exist","1.0",configuration);
-  assertThat(scm.getConfigForDisplay(),is("WARNING! Plugin missing for SCM: [key1=value1, key3=value3]"));
+  assertThat(scm.getConfigForDisplay(),is("WARNING! Plugin missing. [key1=value1, key3=value3]"));
 }
