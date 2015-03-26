@@ -1,0 +1,7 @@
+{
+  ArtifactsService service=mock(ArtifactsService.class);
+  ConsoleLogArtifactHandler handler=new ConsoleLogArtifactHandler(service);
+  JobInstance jobInstance=JobInstanceMother.completed("job");
+  handler.jobStatusChanged(jobInstance);
+  verify(service).moveConsoleArtifacts(jobInstance.getIdentifier());
+}

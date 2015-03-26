@@ -2,9 +2,7 @@
   int startLine=start == null ? 0 : start;
   try {
     JobIdentifier identifier=restfulService.findJob(pipelineName,counterOrLabel,stageName,stageCounter,buildName);
-    String consoleOutPath=ArtifactLogUtil.CRUISE_OUTPUT_FOLDER + '/' + ArtifactLogUtil.CONSOLE_LOG_FILE_NAME;
-    File artifact=artifactsService.findArtifact(identifier,consoleOutPath);
-    ConsoleOut consoleOut=artifactsService.getConsoleOut(artifact,startLine);
+    ConsoleOut consoleOut=artifactsService.getConsoleOut(identifier,startLine);
     return new ModelAndView(new ConsoleOutView(consoleOut.calculateNextStart(),consoleOut.output()));
   }
  catch (  FileNotFoundException e) {

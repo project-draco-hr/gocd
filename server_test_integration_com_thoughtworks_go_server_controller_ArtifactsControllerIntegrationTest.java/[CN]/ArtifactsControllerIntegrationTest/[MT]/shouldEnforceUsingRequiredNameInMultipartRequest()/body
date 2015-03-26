@@ -1,6 +1,6 @@
 {
   ModelAndView mav=postFile("/foo/bar.txt","badname");
-  assertThat(file(artifactRootForJob,"foo/bar.txt"),not(exists()));
-  assertThat(file(artifactRootForJob,"notfoo/bar.txt"),not(exists()));
+  assertThat(file(artifactsRoot,"foo/bar.txt"),not(exists()));
+  assertThat(file(artifactsRoot,"notfoo/bar.txt"),not(exists()));
   assertStatus(mav,SC_BAD_REQUEST);
 }

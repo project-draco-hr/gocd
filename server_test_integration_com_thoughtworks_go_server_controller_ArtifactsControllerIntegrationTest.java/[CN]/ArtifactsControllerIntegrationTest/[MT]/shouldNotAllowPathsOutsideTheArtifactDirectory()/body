@@ -1,6 +1,6 @@
 {
   ModelAndView mav=postFile("/dir/../../foo/bar.txt");
-  assertThat(file(artifactRootForJob,"foo/bar.txt"),not(exists()));
-  assertThat(file(artifactRootForJob,"dir"),not(exists()));
+  assertThat(file(artifactsRoot,"foo/bar.txt"),not(exists()));
+  assertThat(file(artifactsRoot,"dir"),not(exists()));
   assertStatus(mav,SC_FORBIDDEN);
 }

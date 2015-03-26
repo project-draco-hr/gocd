@@ -1,5 +1,5 @@
 {
-  File artifact=artifactsService.temporaryArtifactDirectory(jobIdentifier,filePath);
+  File artifact=artifactsService.findArtifact(jobIdentifier,filePath);
   if (artifactsService.saveOrAppendFile(artifact,inputStream)) {
     return FileModelAndView.fileAppended(filePath);
   }

@@ -1,0 +1,10 @@
+{
+  try {
+    File from=chooser.temporaryConsoleDirectory(locatableEntity);
+    File to=chooser.preferredRoot(locatableEntity).getParentFile();
+    FileUtils.moveDirectoryToDirectory(from,to,true);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+}

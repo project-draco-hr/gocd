@@ -5,7 +5,7 @@
   String invalidXml="<xml></wrongClosingTag>";
   FileUtils.writeStringToFile(logFile.getFile(),invalidXml);
   assumeArtifactsRoot(new File("logs"));
-  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   try {
     artifactsService.parseLogFile(logFile,true);
     fail();

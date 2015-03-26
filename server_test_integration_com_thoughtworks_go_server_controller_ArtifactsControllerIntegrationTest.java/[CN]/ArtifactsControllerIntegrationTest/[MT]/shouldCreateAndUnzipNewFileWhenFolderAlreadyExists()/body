@@ -1,12 +1,12 @@
 {
-  artifactRootForJob.mkdir();
-  createFile(artifactRootForJob,"dir/foo");
-  createTmpFile(artifactRootForJob,"dir/bar.xml");
-  createTmpFile(artifactRootForJob,"dir/quux.txt");
-  ModelAndView view=postZipFolderFromTmp(artifactRootForJob,"/dir/");
+  artifactsRoot.mkdir();
+  createFile(artifactsRoot,"dir/foo");
+  createTmpFile(artifactsRoot,"dir/bar.xml");
+  createTmpFile(artifactsRoot,"dir/quux.txt");
+  ModelAndView view=postZipFolderFromTmp(artifactsRoot,"/dir/");
   assertStatus(view,SC_CREATED);
-  assertThat(file(artifactRootForJob,"dir/bar.xml"),exists());
-  assertThat(file(artifactRootForJob,"dir/bar.xml"),is(not(directory())));
-  assertThat(file(artifactRootForJob,"dir/quux.txt"),exists());
-  assertThat(file(artifactRootForJob,"dir/quux.txt"),is(not(directory())));
+  assertThat(file(artifactsRoot,"dir/bar.xml"),exists());
+  assertThat(file(artifactsRoot,"dir/bar.xml"),is(not(directory())));
+  assertThat(file(artifactsRoot,"dir/quux.txt"),exists());
+  assertThat(file(artifactsRoot,"dir/quux.txt"),is(not(directory())));
 }

@@ -2,7 +2,7 @@
   File artifactsRoot=new File("artifact-root");
   assumeArtifactsRoot(artifactsRoot);
   willCleanUp(artifactsRoot);
-  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   artifactsService.initialize();
   Stage stage=StageMother.createPassedStage("pipeline",10,"stage",20,"job1",new Date());
   File job1Dir=createJobArtifactFolder("artifact-root/pipelines/pipeline/10/stage/20/job1");

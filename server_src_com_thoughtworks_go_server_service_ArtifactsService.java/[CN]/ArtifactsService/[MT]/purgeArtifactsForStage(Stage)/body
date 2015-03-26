@@ -12,7 +12,7 @@
  catch (  Exception e) {
     LOGGER.error(String.format("Error occurred while clearing artifacts for '%s'. Error: '%s'",stageIdentifier.entityLocator(),e.getMessage()),e);
   }
-  stageService.markArtifactsDeletedFor(stage);
+  stageDao.markArtifactsDeletedFor(stage);
   if (LOGGER.isDebugEnabled()) {
     LOGGER.debug(String.format("Marked stage '%s' as artifacts deleted.",stageIdentifier.entityLocator()));
   }
