@@ -1,3 +1,4 @@
 {
-  return toSCMRevision(responseBody);
+  Map responseBodyMap=getResponseMap(responseBody);
+  return new MaterialPollResult(toMaterialDataMap(responseBodyMap),toSCMRevision(responseBodyMap));
 }

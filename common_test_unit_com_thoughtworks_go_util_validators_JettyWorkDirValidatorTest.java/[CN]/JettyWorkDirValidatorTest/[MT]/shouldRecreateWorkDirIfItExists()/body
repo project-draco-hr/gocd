@@ -1,0 +1,13 @@
+{
+  File oldWorkDir=new File(homeDir,"work");
+  oldWorkDir.mkdir();
+  new File(oldWorkDir,"junk.txt").createNewFile();
+  systemEnvironment.setProperty("jetty.home",homeDir.getAbsolutePath());
+  JettyWorkDirValidator jettyWorkDirValidator=new JettyWorkDirValidator();
+  Validation val=new Validation();
+  jettyWorkDirValidator.validate(val);
+  assertThat(val.isSuccessful(),is(true));
+  File recreatedWorkDir=new File(homeDir,"work");
+  assertThat(recreatedWorkDir.exists(),is(true));
+  assertThat(recreatedWorkDir.listFiles().length,is(0));
+}

@@ -1,0 +1,8 @@
+{
+  GitTestRepo gitRepo=new GitTestRepo();
+  outputStreamConsumer=inMemoryConsumer();
+  workingDir=TestFileUtil.createTempFolder("workingDir-" + System.currentTimeMillis());
+  repositoryUrl=gitRepo.projectRepositoryUrl();
+  git=new GitMaterial(repositoryUrl);
+  gitFooBranchBundle=GitTestRepo.testRepoAtBranch(GIT_FOO_BRANCH_BUNDLE,BRANCH);
+}

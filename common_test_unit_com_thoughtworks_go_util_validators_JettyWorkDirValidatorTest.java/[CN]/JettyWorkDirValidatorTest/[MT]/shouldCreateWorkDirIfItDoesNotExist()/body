@@ -1,0 +1,9 @@
+{
+  systemEnvironment.setProperty("jetty.home",homeDir.getAbsolutePath());
+  JettyWorkDirValidator jettyWorkDirValidator=new JettyWorkDirValidator();
+  Validation val=new Validation();
+  jettyWorkDirValidator.validate(val);
+  assertThat(val.isSuccessful(),is(true));
+  File work=new File(homeDir,"work");
+  assertThat(work.exists(),is(true));
+}

@@ -1,0 +1,11 @@
+{
+  String jettyHome="home_dir";
+  systemEnvironment.setProperty("jetty.home",jettyHome);
+  JettyWorkDirValidator jettyWorkDirValidator=new JettyWorkDirValidator();
+  Validation val=new Validation();
+  jettyWorkDirValidator.validate(val);
+  assertThat(val.isSuccessful(),is(true));
+  assertThat(systemEnvironment.getPropertyImpl("jetty.home"),is(jettyHome));
+  assertThat(systemEnvironment.getPropertyImpl("jetty.base"),is(jettyHome));
+  assertThat(new File(jettyHome).exists(),is(false));
+}

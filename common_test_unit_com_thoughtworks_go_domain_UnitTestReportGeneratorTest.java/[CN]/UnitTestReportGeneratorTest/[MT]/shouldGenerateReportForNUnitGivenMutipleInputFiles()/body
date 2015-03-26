@@ -1,0 +1,15 @@
+{
+  context.checking(new Expectations(){
+{
+      one(publisher).upload(with(any(File.class)),with(any(String.class)));
+      one(publisher).setProperty(new Property(TOTAL_TEST_COUNT,"2762"));
+      one(publisher).setProperty(new Property(FAILED_TEST_COUNT,"0"));
+      one(publisher).setProperty(new Property(IGNORED_TEST_COUNT,"120"));
+      one(publisher).setProperty(new Property(TEST_TIME,"221.766"));
+    }
+  }
+);
+  copyAndClose(source("TestReport-Integration.xml"),target("test-result1.xml"));
+  copyAndClose(source("TestReport-Unit.xml"),target("test-result2.xml"));
+  generator.generate(testFolder.listFiles());
+}

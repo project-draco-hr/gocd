@@ -1,7 +1,13 @@
 {
   SCMPropertyConfiguration scmPropertyConfiguration=buildSCMPropertyConfigurations(material.getScmConfig());
+  MaterialInstance materialInstance=materialRepository.findMaterialInstance(material);
   PluggableSCMMaterialRevision pluggableSCMMaterialRevision=(PluggableSCMMaterialRevision)revision;
   SCMRevision previouslyKnownRevision=new SCMRevision(pluggableSCMMaterialRevision.getRevision(),pluggableSCMMaterialRevision.getTimestamp(),null,null,pluggableSCMMaterialRevision.getData(),null);
-  List<SCMRevision> scmRevisions=scmExtension.latestModificationSince(material.getPluginId(),scmPropertyConfiguration,baseDir.getAbsolutePath(),previouslyKnownRevision);
+  MaterialPollResult pollResult=scmExtension.latestModificationSince(material.getPluginId(),scmPropertyConfiguration,materialInstance.getAdditionalDataMap(),baseDir.getAbsolutePath(),previouslyKnownRevision);
+  final Map<String,String> materialData=pollResult.getMaterialData();
+  if (materialInstance.requiresUpdate(materialData)) {
+    updateAdditionalData(materialInstance.getId(),materialData);
+  }
+  List<SCMRevision> scmRevisions=pollResult.getRevisions();
   return getModifications(scmRevisions);
 }

@@ -1,0 +1,12 @@
+{
+  git=new GitMaterial(gitFooBranchBundle.projectRepositoryUrl());
+  git.latestModification(workingDir,new TestSubprocessExecutionContext());
+  InMemoryStreamConsumer output=inMemoryConsumer();
+  CommandLine.createCommandLine("git").withEncoding("UTF-8").withArg("branch").withWorkingDir(workingDir).run(output,"");
+  assertThat(output.getStdOut(),Is.is("* master"));
+  git=new GitMaterial(gitFooBranchBundle.projectRepositoryUrl(),"foo");
+  git.latestModification(workingDir,new TestSubprocessExecutionContext());
+  output=inMemoryConsumer();
+  CommandLine.createCommandLine("git").withEncoding("UTF-8").withArg("branch").withWorkingDir(workingDir).run(output,"");
+  assertThat(output.getStdOut(),Is.is("* foo"));
+}

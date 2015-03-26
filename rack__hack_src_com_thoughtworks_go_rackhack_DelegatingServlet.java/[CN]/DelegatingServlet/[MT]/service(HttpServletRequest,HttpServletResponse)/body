@@ -1,5 +1,5 @@
 {
-  Request req=(Request)request;
-  req.setRequestURI(req.getRequestURI().replaceAll("^/go/rails/","/go/"));
+  String url=request.getRequestURI().replaceAll("^/go/rails/","/go/");
+  servletHelper.getRequest(request).setRequestURI(url);
   rackServlet.service(request,response);
 }

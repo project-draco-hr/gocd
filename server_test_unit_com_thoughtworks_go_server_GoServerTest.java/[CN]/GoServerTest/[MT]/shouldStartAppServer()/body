@@ -1,0 +1,19 @@
+{
+  SystemEnvironment systemEnvironment=new SystemEnvironment();
+  systemEnvironment.set(SystemEnvironment.APP_SERVER,AppServerStub.class.getCanonicalName());
+  GoServer goServer=new GoServer();
+  goServer.startServer();
+  AppServer appServer=(AppServer)com.thoughtworks.go.util.ReflectionUtil.getField(goServer,"server");
+  assertThat(appServer instanceof AppServerStub,is(true));
+  AppServerStub appServerStub=(AppServerStub)appServer;
+  assertThat((String)appServerStub.calls.get("addExtraJarsToClasspath"),is(""));
+  assertThat((Integer)appServerStub.calls.get("setCookieExpirePeriod"),is(1209600));
+  assertThat(appServerStub.initparams.get("rails.root"),is("/WEB-INF/rails.new"));
+  assertThat((Boolean)appServerStub.calls.get("addStopServlet"),is(true));
+  assertThat((Boolean)appServerStub.calls.get("getUnavailableException"),is(true));
+  assertThat((Boolean)appServerStub.calls.get("configure"),is(true));
+  assertThat((Boolean)appServerStub.calls.get("start"),is(true));
+  assertThat(appServerStub.calls.get("stop"),is(CoreMatchers.nullValue()));
+  goServer.stop();
+  assertThat((Boolean)appServerStub.calls.get("stop"),is(true));
+}

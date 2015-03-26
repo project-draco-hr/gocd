@@ -1,0 +1,18 @@
+{
+  ArgumentCaptor<ContextHandler> captor=ArgumentCaptor.forClass(ContextHandler.class);
+  jetty6Server.configure();
+  verify(server,times(4)).addHandler(captor.capture());
+  List<ContextHandler> handlers=captor.getAllValues();
+  assertThat(handlers.size(),is(4));
+  ContextHandler handler=handlers.get(3);
+  assertThat(handler instanceof WebAppContext,is(true));
+  WebAppContext webAppContext=(WebAppContext)handler;
+  List<String> configClasses=ArrayUtil.asList(webAppContext.getConfigurationClasses());
+  assertThat(configClasses.contains(WebInfConfiguration.class.getCanonicalName()),is(true));
+  assertThat(configClasses.contains(WebXmlConfiguration.class.getCanonicalName()),is(true));
+  assertThat(configClasses.contains(JettyWebXmlConfiguration.class.getCanonicalName()),is(true));
+  assertThat(webAppContext.getContextPath(),is("context"));
+  assertThat(webAppContext.getWar(),is("cruise.war"));
+  assertThat(webAppContext.isParentLoaderPriority(),is(false));
+  assertThat(webAppContext.getDefaultsDescriptor(),is("org/mortbay/jetty/webapp/webdefault.xml"));
+}

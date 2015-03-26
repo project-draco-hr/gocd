@@ -1,0 +1,14 @@
+{
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_LATEST_REVISION,new PluginInteractionCallback<MaterialPollResult>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForLatestRevision(scmConfiguration,materialData,flyweightFolder);
+    }
+    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public MaterialPollResult onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForLatestRevision(responseBody);
+    }
+  }
+);
+}

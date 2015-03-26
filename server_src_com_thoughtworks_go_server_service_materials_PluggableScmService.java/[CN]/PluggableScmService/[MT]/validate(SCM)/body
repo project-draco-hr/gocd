@@ -1,0 +1,23 @@
+{
+  final String pluginId=scmConfig.getPluginConfiguration().getId();
+  final SCMPropertyConfiguration configuration=getScmPropertyConfiguration(scmConfig);
+  ValidationResult validationResult=scmExtension.isSCMConfigurationValid(pluginId,configuration);
+  if (SCMMetadataStore.getInstance().hasPreferenceFor(pluginId)) {
+    SCMConfigurations configurationMetadata=SCMMetadataStore.getInstance().getConfigurationMetadata(pluginId);
+    for (    SCMConfiguration scmConfiguration : configurationMetadata.list()) {
+      String key=scmConfiguration.getKey();
+      boolean isRequired=SCMMetadataStore.getInstance().hasOption(pluginId,key,Property.REQUIRED);
+      ConfigurationProperty property=scmConfig.getConfiguration().getProperty(key);
+      String configValue=property == null ? null : property.getValue();
+      if (isRequired && StringUtil.isBlank(configValue)) {
+        validationResult.addError(new ValidationError(key,localizer.localize("MANDATORY_CONFIGURATION_FIELD")));
+      }
+    }
+  }
+  for (  ValidationError validationError : validationResult.getErrors()) {
+    ConfigurationProperty property=scmConfig.getConfiguration().getProperty(validationError.getKey());
+    if (property != null) {
+      property.addError(validationError.getKey(),validationError.getMessage());
+    }
+  }
+}

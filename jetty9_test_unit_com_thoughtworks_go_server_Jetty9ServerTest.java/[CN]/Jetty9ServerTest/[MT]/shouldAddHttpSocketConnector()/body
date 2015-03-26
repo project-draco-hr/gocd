@@ -1,0 +1,13 @@
+{
+  ArgumentCaptor<Connector> captor=ArgumentCaptor.forClass(Connector.class);
+  jetty9Server.configure();
+  verify(server,times(2)).addConnector(captor.capture());
+  List<Connector> connectors=captor.getAllValues();
+  Connector plainConnector=connectors.get(0);
+  assertThat(plainConnector instanceof ServerConnector,is(true));
+  ServerConnector connector=(ServerConnector)plainConnector;
+  assertThat(connector.getServer(),is(server));
+  assertThat(connector.getConnectionFactories().size(),is(1));
+  ConnectionFactory connectionFactory=connector.getConnectionFactories().iterator().next();
+  assertThat(connectionFactory instanceof HttpConnectionFactory,is(true));
+}

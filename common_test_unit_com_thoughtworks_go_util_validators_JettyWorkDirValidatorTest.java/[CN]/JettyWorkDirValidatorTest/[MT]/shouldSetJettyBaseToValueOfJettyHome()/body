@@ -1,0 +1,9 @@
+{
+  systemEnvironment.setProperty("jetty.home","foo");
+  systemEnvironment.clearProperty("jetty.base");
+  JettyWorkDirValidator jettyWorkDirValidator=new JettyWorkDirValidator();
+  Validation val=new Validation();
+  jettyWorkDirValidator.validate(val);
+  assertThat(val.isSuccessful(),is(true));
+  assertThat(systemEnvironment.getPropertyImpl("jetty.base"),is("foo"));
+}

@@ -1,7 +1,8 @@
 {
   Date timestamp=new Date();
   SCMRevision scmRevision=new SCMRevision("revision-123",timestamp,"user","comment",null,null);
-  when(scmExtension.getLatestRevision(eq(material.getPluginId()),scmConfiguration.capture(),eq(flyweightFolderPath))).thenReturn(scmRevision);
+  MaterialPollResult materialPollResult=new MaterialPollResult(null,scmRevision);
+  when(scmExtension.getLatestRevision(eq(material.getPluginId()),scmConfiguration.capture(),materialData.capture(),eq(flyweightFolderPath))).thenReturn(materialPollResult);
   List<Modification> modifications=poller.latestModification(material,new File(flyweightFolderPath),null);
   assertThat(modifications.get(0).getRevision(),is("revision-123"));
   assertThat(modifications.get(0).getModifiedTime(),is(timestamp));
@@ -9,4 +10,6 @@
   assertThat(modifications.get(0).getComment(),is("comment"));
   assertConfiguration(scmConfiguration.getValue(),"k1","v1");
   assertConfiguration(scmConfiguration.getValue(),"k2","v2");
+  assertThat(materialData.getValue().size(),is(1));
+  assertThat((String)materialData.getValue().get("mk-1"),is("mv-1"));
 }

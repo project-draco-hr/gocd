@@ -1,0 +1,8 @@
+{
+  assertThat(handler.getContextPath(),is("/go/assets"));
+  assertThat(handler.getHandler() instanceof AssetsContextHandler.AssetsHandler,is(true));
+  AssetsContextHandler.AssetsHandler assetsHandler=(AssetsContextHandler.AssetsHandler)handler.getHandler();
+  ResourceHandler resourceHandler=(ResourceHandler)ReflectionUtil.getField(assetsHandler,"resourceHandler");
+  assertThat(resourceHandler.getCacheControl(),is("max-age=31536000,public"));
+  assertThat(resourceHandler.getResourceBase(),isSameFileAs(new File("WEB-INF/rails.root/public/assets").toURI().toString()));
+}
