@@ -1,0 +1,12 @@
+{
+  assertPipelineLabelTemplate("1.3.0");
+  assertPipelineLabelTemplate("1.3.0-{COUNT}");
+  assertPipelineLabelTemplate("1.3.0-$COUNT}");
+  assertPipelineLabelTemplate("1.3.0-${COUNT");
+  assertPipelineLabelTemplate("1.3.0-${}");
+  assertPipelineLabelTemplate("1.3.0-${COUNT}-${git:7]}");
+  assertPipelineLabelTemplate("1.3.0-${COUNT}-${git[:7}");
+  assertPipelineLabelTemplate("1.3.0-${COUNT}-${git[7]}");
+  assertPipelineLabelTemplate("1.3.0-${COUNT}-${git[:]}");
+  assertPipelineLabelTemplate("1.3.0-${COUNT}-${git[:-1]}");
+}
