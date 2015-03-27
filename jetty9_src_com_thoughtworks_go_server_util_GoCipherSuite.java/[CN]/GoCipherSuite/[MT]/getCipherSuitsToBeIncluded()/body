@@ -1,0 +1,13 @@
+{
+  String[] supportedCipherSuites=socketFactory.getSupportedCipherSuites();
+  ArrayList<String> suitesToBeIncluded=new ArrayList<String>();
+  for (  String suite : supportedCipherSuites) {
+    if (cipherSuitesSupportedByGo.contains(suite)) {
+      suitesToBeIncluded.add(suite);
+    }
+  }
+  if (suitesToBeIncluded.size() == 0) {
+    return supportedCipherSuites;
+  }
+  return cipherSuitesSupportedByGo.toArray(new String[cipherSuitesSupportedByGo.size()]);
+}

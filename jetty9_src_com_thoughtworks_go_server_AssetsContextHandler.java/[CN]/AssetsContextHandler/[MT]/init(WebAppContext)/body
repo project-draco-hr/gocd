@@ -1,0 +1,5 @@
+{
+  String railsRootDirName=webAppContext.getInitParameter("rails.root").replaceAll("/WEB-INF/","");
+  String assetsDir=webAppContext.getWebInf().addPath(String.format("%s/public/assets/",railsRootDirName)).getName();
+  handler.setAssetsDir(assetsDir);
+}

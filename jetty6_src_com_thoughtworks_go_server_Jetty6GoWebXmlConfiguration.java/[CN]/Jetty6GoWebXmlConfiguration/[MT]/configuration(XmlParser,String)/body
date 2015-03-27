@@ -1,0 +1,14 @@
+{
+  XmlParser.Node node;
+  if (new File(warFile).isDirectory()) {
+    FileInputStream in=new FileInputStream(new File(warFile,webdefaultXml));
+    node=parser.parse(in);
+    in.close();
+  }
+ else {
+    ZipFile file=new ZipFile(warFile);
+    node=parser.parse(file.getInputStream(new ZipEntry(webdefaultXml)));
+    file.close();
+  }
+  return node;
+}

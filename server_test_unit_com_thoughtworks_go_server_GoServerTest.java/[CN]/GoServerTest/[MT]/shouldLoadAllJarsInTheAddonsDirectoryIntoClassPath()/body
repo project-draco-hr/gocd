@@ -1,0 +1,28 @@
+{
+  File addonsDirectory=createInAddonDir("some-addon-dir");
+  FileSystemUtils.createFile("addon-1.JAR",addonsDirectory);
+  FileSystemUtils.createFile("addon-2.jar",addonsDirectory);
+  FileSystemUtils.createFile("addon-3.jAR",addonsDirectory);
+  FileSystemUtils.createFile("some-file-which-does-not-end-with-dot-jar.txt",addonsDirectory);
+  File oneAddonDirectory=createInAddonDir("one-addon-dir");
+  FileSystemUtils.createFile("addon-1.jar",oneAddonDirectory);
+  File noAddonDirectory=createInAddonDir("no-addon-dir");
+  SSLSocketFactory sslSocketFactory=mock(SSLSocketFactory.class);
+  when(sslSocketFactory.getSupportedCipherSuites()).thenReturn(new String[0]);
+  GoServer goServerWithMultipleAddons=new GoServer(setAddonsPathTo(addonsDirectory),sslSocketFactory);
+  goServerWithMultipleAddons.startServer();
+  AppServerStub appServer=(AppServerStub)com.thoughtworks.go.util.ReflectionUtil.getField(goServerWithMultipleAddons,"server");
+  assertExtraClasspath(appServer,"test-addons/some-addon-dir/addon-1.JAR","test-addons/some-addon-dir/addon-2.jar","test-addons/some-addon-dir/addon-3.jAR");
+  GoServer goServerWithOneAddon=new GoServer(setAddonsPathTo(oneAddonDirectory),sslSocketFactory);
+  goServerWithOneAddon.startServer();
+  appServer=(AppServerStub)com.thoughtworks.go.util.ReflectionUtil.getField(goServerWithOneAddon,"server");
+  assertExtraClasspath(appServer,"test-addons/one-addon-dir/addon-1.jar");
+  GoServer goServerWithNoAddon=new GoServer(setAddonsPathTo(noAddonDirectory),sslSocketFactory);
+  goServerWithNoAddon.startServer();
+  appServer=(AppServerStub)com.thoughtworks.go.util.ReflectionUtil.getField(goServerWithNoAddon,"server");
+  assertExtraClasspath(appServer,"");
+  GoServer goServerWithInaccessibleAddonDir=new GoServer(setAddonsPathTo(new File("non-existent-directory")),sslSocketFactory);
+  goServerWithInaccessibleAddonDir.startServer();
+  appServer=(AppServerStub)com.thoughtworks.go.util.ReflectionUtil.getField(goServerWithNoAddon,"server");
+  assertExtraClasspath(appServer,"");
+}

@@ -1,0 +1,8 @@
+{
+  GitMaterialConfig git=new GitMaterialConfig("git@github.com:gocd/gocd.git");
+  git.setName(new CaseInsensitiveString("git"));
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs(git));
+  pipelineConfig.setLabelTemplate(labelFormat);
+  pipelineConfig.validate(null);
+  return pipelineConfig;
+}

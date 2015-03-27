@@ -1,6 +1,6 @@
 {
   if (XmlUtils.doesNotMatchUsingXsdRegex(LABEL_TEMPLATE_FORMAT_REGEX,labelTemplate)) {
-    addError("labelTemplate","Invalid label. Label should be composed of alphanumeric text, it should contain material revision or ${COUNT}, or use params as #{<param-name>}.");
+    addError("labelTemplate",LABEL_TEMPLATE_ERROR_MESSAGE);
     return;
   }
   Set<String> templateVariables=getTemplateVariables();

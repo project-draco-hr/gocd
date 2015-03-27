@@ -1,11 +1,16 @@
 {
-  SslSocketConnector sslSocketConnector=new SslSocketConnector();
-  sslSocketConnector.setPort(sslPort);
-  sslSocketConnector.setMaxIdleTime(30000);
-  sslSocketConnector.setKeystore(keystore.getAbsolutePath());
-  sslSocketConnector.setPassword(PASSWORD);
-  sslSocketConnector.setKeyPassword(PASSWORD);
-  sslSocketConnector.setTruststore(truststore.getAbsolutePath());
-  sslSocketConnector.setTrustPassword(PASSWORD);
-  return sslSocketConnector;
+  HttpConfiguration httpsConfig=new HttpConfiguration();
+  httpsConfig.setOutputBufferSize(RESPONSE_BUFFER_SIZE);
+  httpsConfig.addCustomizer(new SecureRequestCustomizer());
+  SslContextFactory sslContextFactory=new SslContextFactory();
+  sslContextFactory.setKeyStorePath(keystore.getAbsolutePath());
+  sslContextFactory.setKeyStorePassword(PASSWORD);
+  sslContextFactory.setKeyManagerPassword(PASSWORD);
+  sslContextFactory.setTrustStorePath(truststore.getAbsolutePath());
+  sslContextFactory.setTrustStorePassword(PASSWORD);
+  sslContextFactory.setWantClientAuth(true);
+  ServerConnector https=new ServerConnector(server,new SslConnectionFactory(sslContextFactory,"http/1.1"),new HttpConnectionFactory(httpsConfig));
+  https.setPort(sslPort);
+  https.setIdleTimeout(MAX_IDLE_TIME);
+  return https;
 }

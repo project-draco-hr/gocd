@@ -1,7 +1,7 @@
 {
   server=configureServer();
   server.start();
-  Throwable exceptionAtServerStart=server.webAppContext().getUnavailableException();
+  Throwable exceptionAtServerStart=server.getUnavailableException();
   if (exceptionAtServerStart != null) {
     server.stop();
     LOG.error("ERROR: Failed to start Go server.",exceptionAtServerStart);

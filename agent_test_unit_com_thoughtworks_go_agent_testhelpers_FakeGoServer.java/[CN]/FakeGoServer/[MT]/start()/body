@@ -6,11 +6,11 @@
   createX509Certificate(keystore,truststore,agentKeystore);
   server.addConnector(sslConnector(keystore,truststore,sslPort));
   WebAppContext wac=new WebAppContext("testdata/goserverstub","/go");
-  wac.setConfigurationClasses(new String[]{"org.mortbay.jetty.webapp.WebInfConfiguration","org.mortbay.jetty.webapp.WebXmlConfiguration","org.mortbay.jetty.webapp.JettyWebXmlConfiguration"});
+  wac.setConfigurationClasses(new String[]{WebInfConfiguration.class.getCanonicalName(),WebXmlConfiguration.class.getCanonicalName(),JettyWebXmlConfiguration.class.getCanonicalName()});
   addStopServlet(server,wac);
   addFakeArtifactiPublisherServlet(wac);
   addFakeAgentCertificateServlet(wac);
-  server.addHandler(wac);
+  server.setHandler(wac);
   server.setStopAtShutdown(true);
   server.start();
 }

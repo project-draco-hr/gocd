@@ -5,5 +5,5 @@
   assertThat(configErrors.isEmpty(),is(false));
   List<String> errors=configErrors.getAllOn("labelTemplate");
   assertThat(errors.size(),is(1));
-  assertThat(errors,hasItem("Invalid label. Label should be composed of alphanumeric text, it should contain material revision or ${COUNT}, or use params as #{<param-name>}."));
+  assertThat(errors.get(0),startsWith("Invalid label"));
 }
