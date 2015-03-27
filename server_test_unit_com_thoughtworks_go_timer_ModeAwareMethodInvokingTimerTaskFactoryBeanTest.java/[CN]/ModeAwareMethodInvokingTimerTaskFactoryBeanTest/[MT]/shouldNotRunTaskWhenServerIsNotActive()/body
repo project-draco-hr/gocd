@@ -1,0 +1,7 @@
+{
+  doReturn(targetTimeTask).when(bean).getTargetTimerTask();
+  when(systemEnvironment.isServerActive()).thenReturn(false);
+  TimerTask task=bean.getObject();
+  task.run();
+  verify(targetTimeTask,never()).run();
+}

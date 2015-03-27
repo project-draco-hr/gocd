@@ -1,0 +1,20 @@
+{
+  final TimerTask originalTimerTask=getTargetTimerTask();
+  final SystemEnvironment systemEnvironment=applicationContext.getBean(SystemEnvironment.class);
+  return new TimerTask(){
+    @Override public void run(){
+      if (systemEnvironment.isServerActive()) {
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug(String.format("Server is in active state, Running: %s#%s",getTargetClass(),getTargetMethod()));
+        }
+        originalTimerTask.run();
+      }
+ else {
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug(String.format("Server is not in active state, Skipping: %s#%s",getTargetClass(),getTargetMethod()));
+        }
+      }
+    }
+  }
+;
+}
