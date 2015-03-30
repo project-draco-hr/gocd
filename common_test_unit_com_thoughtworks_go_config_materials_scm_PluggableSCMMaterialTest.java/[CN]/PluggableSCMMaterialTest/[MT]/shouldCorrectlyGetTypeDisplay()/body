@@ -1,0 +1,12 @@
+{
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig("scm-id");
+  assertThat(pluggableSCMMaterialConfig.getTypeForDisplay(),is("SCM"));
+  pluggableSCMMaterialConfig.setSCMConfig(SCMMother.create("scm-id"));
+  assertThat(pluggableSCMMaterialConfig.getTypeForDisplay(),is("SCM"));
+  SCMMetadataStore.getInstance().addMetadataFor("plugin",null,null);
+  assertThat(pluggableSCMMaterialConfig.getTypeForDisplay(),is("SCM"));
+  SCMView scmView=mock(SCMView.class);
+  when(scmView.displayValue()).thenReturn("scm-name");
+  SCMMetadataStore.getInstance().addMetadataFor("plugin",null,scmView);
+  assertThat(pluggableSCMMaterialConfig.getTypeForDisplay(),is("scm-name"));
+}
