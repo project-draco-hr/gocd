@@ -1,10 +1,8 @@
 {
-  while (!isStopped) {
-    try {
-      Thread.sleep(sleepInSeconds * 1000);
-    }
- catch (    InterruptedException ignore) {
-    }
+  try {
     flushToServer();
+  }
+ catch (  Throwable e) {
+    LOGGER.warn("Could not send console output to server",e);
   }
 }
