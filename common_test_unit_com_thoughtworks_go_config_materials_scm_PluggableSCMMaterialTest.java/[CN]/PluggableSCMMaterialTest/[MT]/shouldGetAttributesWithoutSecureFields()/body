@@ -1,0 +1,9 @@
+{
+  PluggableSCMMaterial material=createPluggableSCMMaterialWithSecureConfiguration();
+  Map<String,Object> attributes=material.getAttributes(false);
+  assertThat((String)attributes.get("type"),is("scm"));
+  assertThat((String)attributes.get("plugin-id"),is("pluginid"));
+  Map<String,Object> configuration=(Map<String,Object>)attributes.get("scm-configuration");
+  assertThat((String)configuration.get("k1"),is("v1"));
+  assertThat(configuration.get("k2"),is(nullValue()));
+}

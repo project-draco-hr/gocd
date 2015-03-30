@@ -1,0 +1,14 @@
+{
+  Map<String,Object> materialMap=new HashMap<String,Object>();
+  materialMap.put("type","perforce");
+  Map<String,Object> configurationMap=new HashMap<String,Object>();
+  configurationMap.put("url",serverAndPort);
+  configurationMap.put("username",userName);
+  if (addSecureFields) {
+    configurationMap.put("password",getPassword());
+  }
+  configurationMap.put("view",getView());
+  configurationMap.put("use-tickets",useTickets);
+  materialMap.put("perforce-configuration",configurationMap);
+  return materialMap;
+}

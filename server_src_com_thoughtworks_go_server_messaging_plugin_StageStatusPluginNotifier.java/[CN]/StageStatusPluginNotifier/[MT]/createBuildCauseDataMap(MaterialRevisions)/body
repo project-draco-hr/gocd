@@ -1,0 +1,16 @@
+{
+  List<Map> materialRevisionList=new ArrayList<Map>();
+  for (  MaterialRevision currentRevision : materialRevisions) {
+    Map<String,Object> materialRevisionMap=new LinkedHashMap<String,Object>();
+    materialRevisionMap.put("material",currentRevision.getMaterial().getAttributes(false));
+    materialRevisionMap.put("changed",currentRevision.isChanged());
+    List<Map> modificationList=new ArrayList<Map>();
+    for (    Modification modification : currentRevision.getModifications()) {
+      Map<String,Object> modificationMap=createModificationDataMap(modification);
+      modificationList.add(modificationMap);
+    }
+    materialRevisionMap.put("modifications",modificationList);
+    materialRevisionList.add(materialRevisionMap);
+  }
+  return materialRevisionList;
+}

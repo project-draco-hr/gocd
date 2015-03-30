@@ -1,0 +1,13 @@
+{
+  Map<String,Object> pipelineMap=new LinkedHashMap<String,Object>();
+  pipelineMap.put("name",pipelineName);
+  pipelineMap.put("counter",pipelineCounter.toString());
+  String pipelineGroup=goConfigService.findGroupNameByPipeline(new CaseInsensitiveString(pipelineName));
+  pipelineMap.put("group",pipelineGroup);
+  BuildCause buildCause=pipelineSqlMapDao.findBuildCauseOfPipelineByNameAndCounter(pipelineName,pipelineCounter);
+  List<Map> materialRevisionList=createBuildCauseDataMap(buildCause.getMaterialRevisions());
+  pipelineMap.put("build-cause",materialRevisionList);
+  Map<String,Object> stageMap=createStageDataMap(stage);
+  pipelineMap.put("stage",stageMap);
+  return pipelineMap;
+}
