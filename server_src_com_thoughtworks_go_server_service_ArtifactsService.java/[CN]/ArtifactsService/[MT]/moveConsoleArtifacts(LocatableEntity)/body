@@ -1,11 +1,14 @@
 {
   try {
-    File from=chooser.temporaryConsoleDirectory(locatableEntity);
-    File to=chooser.preferredRoot(locatableEntity).getParentFile();
-    FileUtils.copyDirectoryToDirectory(from,to);
-    FileUtils.deleteQuietly(from);
+    File from=chooser.temporaryConsoleFile(locatableEntity);
+    File to=chooser.findArtifact(locatableEntity,getConsoleOutputFolderAndFileName());
+    FileUtils.copyFile(from,to,true);
+    FileUtils.deleteQuietly(chooser.temporaryConsoleFile(locatableEntity));
   }
  catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+catch (  IllegalArtifactLocationException e) {
     throw new RuntimeException(e);
   }
 }
