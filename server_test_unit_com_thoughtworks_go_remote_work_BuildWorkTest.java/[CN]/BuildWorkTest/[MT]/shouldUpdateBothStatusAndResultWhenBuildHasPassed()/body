@@ -3,5 +3,4 @@
   buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   assertThat(buildRepository.results,containsResult(JobResult.Passed));
   assertThat(buildRepository.states,containsResult(JobState.Completed));
-  assertThat(artifactManipulator.consoleOut(),printedJobCompletedInfo(JOB_IDENTIFIER.buildLocator()));
 }
