@@ -1,5 +1,5 @@
 {
-  if (notificationPluginRegistry.isAnyPluginInterestedIn(NotificationExtension.STAGE_STATUS_CHANGE_NOTIFICATION)) {
+  if (isAnyPluginInterestedInStageStatus() && isStageStateScheduledOrCompleted(stage)) {
     Map data=createRequestDataMap(stage);
     pluginNotificationQueue.post(new PluginNotificationMessage(NotificationExtension.STAGE_STATUS_CHANGE_NOTIFICATION,data));
   }
