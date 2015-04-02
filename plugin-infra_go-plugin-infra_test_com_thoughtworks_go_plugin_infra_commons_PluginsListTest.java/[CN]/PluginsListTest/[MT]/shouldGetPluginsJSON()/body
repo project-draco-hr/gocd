@@ -1,0 +1,7 @@
+{
+  pluginsList.updatePluginsList();
+  assertThat(ReflectionUtil.getField(pluginsList,"pluginsJSON"),is(nullValue()));
+  String allPluginsJSON=pluginsList.getPluginsJSON();
+  assertThat(ReflectionUtil.getField(pluginsList,"pluginsJSON"),is(notNullValue()));
+  assertThat(allPluginsJSON,is("{\"bundled\":{\"yum.jar\":\"LAVBbwaDykricDnAP57klg\\u003d\\u003d\"},\"external\":{\"external1.jar\":\"+yWDK4+tYQtfqyh3tmT95A\\u003d\\u003d\",\"external2.jar\":\"DS/Oa0vv5URteXfzSU7mvQ\\u003d\\u003d\",\"external3.jar\":\"OQV644wsBJgbtQWR+L3UXA\\u003d\\u003d\"}}"));
+}

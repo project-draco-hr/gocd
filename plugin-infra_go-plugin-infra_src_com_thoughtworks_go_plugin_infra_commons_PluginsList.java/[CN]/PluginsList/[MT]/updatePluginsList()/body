@@ -1,0 +1,12 @@
+{
+  try {
+    File bundledPlugins=new File(systemEnvironment.get(SystemEnvironment.PLUGIN_GO_PROVIDED_PATH));
+    fillDetailsOfPluginsInDirectory(bundledPlugins,bundledPluginsMap);
+    File externalPlugins=new File(systemEnvironment.get(SystemEnvironment.PLUGIN_EXTERNAL_PROVIDED_PATH));
+    fillDetailsOfPluginsInDirectory(externalPlugins,externalPluginsMap);
+    clearPluginsJSON();
+  }
+ catch (  Exception e) {
+    LOG.warn("Error occurred while generating plugin map.",e);
+  }
+}

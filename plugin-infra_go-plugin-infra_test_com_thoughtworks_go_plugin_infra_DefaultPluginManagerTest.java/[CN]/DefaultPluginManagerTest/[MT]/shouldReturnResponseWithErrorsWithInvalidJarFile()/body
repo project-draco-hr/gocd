@@ -1,6 +1,6 @@
 {
   NON_JAR_FILE.createNewFile();
-  DefaultPluginManager defaultPluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater);
+  DefaultPluginManager defaultPluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener);
   when(pluginValidator.namecheckForJar(NON_JAR_FILE.getName())).thenReturn(false);
   PluginUploadResponse response=defaultPluginManager.addPlugin(NON_JAR_FILE,"not a jar");
   assertThat(response.success(),isEmptyString());
