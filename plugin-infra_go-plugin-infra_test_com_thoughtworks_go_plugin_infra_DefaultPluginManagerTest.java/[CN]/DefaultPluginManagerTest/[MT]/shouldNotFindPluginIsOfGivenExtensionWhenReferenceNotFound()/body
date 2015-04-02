@@ -1,7 +1,7 @@
 {
   final String pluginThatDoesNotImplement="plugin-that-does-not-implement";
   when(goPluginOSGiFramework.hasReferenceFor(GoPlugin.class,pluginThatDoesNotImplement)).thenReturn(false);
-  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater);
   assertFalse(pluginManager.isPluginOfType("extension-type",pluginThatDoesNotImplement));
   verify(goPluginOSGiFramework).hasReferenceFor(GoPlugin.class,pluginThatDoesNotImplement);
   verify(goPluginOSGiFramework,never()).doOn(eq(GoPlugin.class),eq(pluginThatDoesNotImplement),any(ActionWithReturn.class));

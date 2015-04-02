@@ -1,0 +1,7 @@
+{
+  pluginsZip.create();
+  String oldMd5=pluginsZip.md5();
+  FileUtils.writeStringToFile(new File(externalPluginsDir,"external3.jar"),"External3");
+  pluginsZip.create();
+  assertThat(pluginsZip.md5(),is(not(oldMd5)));
+}

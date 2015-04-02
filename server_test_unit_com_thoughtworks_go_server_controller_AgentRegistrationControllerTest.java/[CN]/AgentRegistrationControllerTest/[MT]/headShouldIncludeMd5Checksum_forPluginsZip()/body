@@ -1,0 +1,6 @@
+{
+  when(pluginsZip.md5()).thenReturn("md5");
+  controller.checkAgentPluginsZipStatus(response);
+  assertEquals("md5",response.getHeader("Content-MD5"));
+  verify(pluginsZip).md5();
+}

@@ -1,0 +1,11 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.addPluginsFolderChangeListener(pluginsFolderChangeListener);
+  monitor.start();
+  waitAMoment();
+  verify(pluginsFolderChangeListener,never()).handle();
+  verifyNoMoreInteractions(pluginsFolderChangeListener);
+}

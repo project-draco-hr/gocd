@@ -1,0 +1,6 @@
+{
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,mock(GoPluginOSGiFramework.class),jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater);
+  pluginManager.startInfrastructure();
+  InOrder inOrder=inOrder(monitor);
+  inOrder.verify(monitor).addPluginJarChangeListener(jarChangeListener);
+}

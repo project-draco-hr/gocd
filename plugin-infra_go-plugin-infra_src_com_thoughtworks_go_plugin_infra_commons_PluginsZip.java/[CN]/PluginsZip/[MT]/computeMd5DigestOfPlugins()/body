@@ -1,0 +1,11 @@
+{
+  try {
+    String digestOfBundledFolder=md5DigestOfFolderContent(bundledPlugins);
+    String digestOfExternalFolder=md5DigestOfFolderContent(externalPlugins);
+    String digestOfPlugins=digestOfBundledFolder + digestOfExternalFolder;
+    return DigestUtils.md5Hex(digestOfPlugins);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(String.format("Could not compute md5 of plugins. Exception occurred: %s",e.getStackTrace()));
+  }
+}

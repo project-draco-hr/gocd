@@ -1,7 +1,8 @@
 {
   ReflectionUtil.setField(controller,AGENT_CHECKSUM_FIELD,"foo");
   ReflectionUtil.setField(controller,AGENT_LAUNCHER_CHECKSUM_FIELD,"bar");
-  controller.latestAgentStatus(request,response);
+  when(pluginsZip.md5()).thenReturn("md5");
+  controller.latestAgentStatus(response);
   assertEquals("foo",response.getHeader(SystemEnvironment.AGENT_CONTENT_MD5_HEADER));
   assertEquals("bar",response.getHeader(SystemEnvironment.AGENT_LAUNCHER_CONTENT_MD5_HEADER));
   assertEquals("8443",response.getHeader("Cruise-Server-Ssl-Port"));
