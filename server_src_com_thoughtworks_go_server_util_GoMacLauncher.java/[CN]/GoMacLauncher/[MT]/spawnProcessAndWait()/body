@@ -1,6 +1,8 @@
 {
   int exitValue=0;
-  String java=System.getProperty("java.home") + System.getProperty("file.separator") + "bin"+ System.getProperty("file.separator")+ "java";
+  String sep=System.getProperty("file.separator");
+  String defaultJava=System.getProperty("java.home") + sep + "bin"+ sep+ "java";
+  String java=System.getProperty("go.java.to.use",defaultJava);
   String startMem=System.getProperty("cruise.server.mem","512");
   String maxMem=System.getProperty("cruise.server.maxmem","1024");
   String perm=System.getProperty("cruise.server.permgen","128");
@@ -8,8 +10,27 @@
   String lang=System.getProperty("cruise.server.lang","en");
   String country=System.getProperty("cruise.server.country","US");
   boolean dbDebugMode=System.getProperty("cruise.server.db_debug_mode") != null;
-  final String[] args=new String[]{java,"-Xms" + startMem + "m","-Xmx" + maxMem + "m","-XX:PermSize=" + perm + "m","-XX:MaxPermSize=" + maxPerm + "m",dbDebugMode ? "-DDB_DEBUG_MODE=true" : "-Dignored=true","-Duser.language=" + lang,"-Duser.country=" + country,"-Dcruise.config.file=" + GO_CONFIG_DIRECTORY_PATH + "cruise-config.xml","-Dcruise.config.dir=" + GO_CONFIG_DIRECTORY_PATH,"-Dcruise.server.port=8153","-Dcruise.server.ssl.port=8154","-jar",new File("go.jar").getAbsolutePath()};
-  LOG.info("Running server as: " + asList(args));
+  final java.util.List<String> arguments=new ArrayList<String>();
+  arguments.add(java);
+  arguments.add("-Xms" + startMem + "m");
+  arguments.add("-Xmx" + maxMem + "m");
+  arguments.add("-XX:PermSize=" + perm + "m");
+  arguments.add("-XX:MaxPermSize=" + maxPerm + "m");
+  if (dbDebugMode) {
+    arguments.add("-DDB_DEBUG_MODE=true");
+  }
+  arguments.add("-Dapple.awt.UIElement=true");
+  arguments.add("-Duser.language=" + lang);
+  arguments.add("-Duser.country=" + country);
+  arguments.add("-Dcruise.config.file=" + GO_CONFIG_DIRECTORY_PATH + "cruise-config.xml");
+  arguments.add("-Dcruise.config.dir=" + GO_CONFIG_DIRECTORY_PATH);
+  arguments.add("-Dcruise.server.port=" + System.getProperty("cruise.server.port","8153"));
+  arguments.add("-Dcruise.server.ssl.port=" + System.getProperty("cruise.server.ssl.port","8154"));
+  addOtherArguments(arguments);
+  arguments.add("-jar");
+  arguments.add(new File(System.getProperty("go.server.mac.go.jar.dir","."),"go.jar").getAbsolutePath());
+  LOG.info("Running server as: " + arguments);
+  String[] args=arguments.toArray(new String[arguments.size()]);
   try {
     setUpApplicationSupport();
     final Process server=Runtime.getRuntime().exec(args,null,new File(APPLICATION_SUPPORT_PATHNAME));
@@ -26,7 +47,7 @@
  catch (        InterruptedException e) {
         }
 catch (        IOException e) {
-          LOG.severe("Exception while executing command: " + asList(args) + " - "+ e.toString());
+          LOG.severe("Exception while executing command: " + arguments + " - "+ e.toString());
         }
       }
     }
