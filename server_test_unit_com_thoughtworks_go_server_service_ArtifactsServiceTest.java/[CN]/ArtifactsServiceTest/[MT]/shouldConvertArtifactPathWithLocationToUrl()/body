@@ -3,6 +3,6 @@
   ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   JobIdentifier identifier=JobIdentifierMother.jobIdentifier("p",1,"s","2","j");
   when(resolverService.actualJobIdentifier(identifier)).thenReturn(identifier);
-  String url=artifactsService.findArtifactUrl(identifier);
-  assertThat(url,is("/files/p/1/s/2/j"));
+  String url=artifactsService.findArtifactUrl(identifier,"console.log");
+  assertThat(url,is("/files/p/1/s/2/j/console.log"));
 }
