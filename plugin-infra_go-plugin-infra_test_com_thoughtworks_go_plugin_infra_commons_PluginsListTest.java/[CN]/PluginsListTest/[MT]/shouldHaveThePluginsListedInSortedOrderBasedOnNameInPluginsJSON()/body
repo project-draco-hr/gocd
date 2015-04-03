@@ -1,0 +1,13 @@
+{
+  FileUtils.cleanDirectory(externalPluginsDir);
+  FileUtil.createFilesByPath(externalPluginsDir,"foo","bar","baz","ano");
+  pluginsList.update();
+  String pluginsJSON=pluginsList.getPluginsJSON();
+  PluginsList deserialized=JsonHelper.fromJson(pluginsJSON,PluginsList.class);
+  PluginsList.PluginEntries externalPlugins=(PluginsList.PluginEntries)ReflectionUtil.getField(deserialized,"external");
+  assertThat(externalPlugins.size(),is(4));
+  assertThat(externalPlugins.get(0).getName(),is("ano"));
+  assertThat(externalPlugins.get(1).getName(),is("bar"));
+  assertThat(externalPlugins.get(2).getName(),is("baz"));
+  assertThat(externalPlugins.get(3).getName(),is("foo"));
+}
