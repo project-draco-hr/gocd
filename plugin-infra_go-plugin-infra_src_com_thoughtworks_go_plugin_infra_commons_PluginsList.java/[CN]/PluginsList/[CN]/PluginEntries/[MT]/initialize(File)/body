@@ -1,0 +1,10 @@
+{
+  clear();
+  File[] pluginJars=parent.exists() ? parent.listFiles() : null;
+  if (pluginJars != null && pluginJars.length != 0) {
+    for (    File pluginJar : pluginJars) {
+      add(new PluginEntry(pluginJar));
+    }
+  }
+  Collections.sort(this);
+}

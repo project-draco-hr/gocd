@@ -1,0 +1,17 @@
+{
+  initMocks(this);
+  temporaryFolder.create();
+  bundledPluginsDir=temporaryFolder.newFolder("bundled");
+  externalPluginsDir=temporaryFolder.newFolder("external");
+  File bundledYumPlugin=new File(bundledPluginsDir,"yum.jar");
+  File externalPlugin1=new File(externalPluginsDir,"external1.jar");
+  File externalPlugin2=new File(externalPluginsDir,"external2.jar");
+  File externalPlugin3=new File(externalPluginsDir,"external3.jar");
+  FileUtils.writeStringToFile(bundledYumPlugin,bundledYumPlugin.getName());
+  FileUtils.writeStringToFile(externalPlugin1,externalPlugin1.getName());
+  FileUtils.writeStringToFile(externalPlugin2,externalPlugin2.getName());
+  FileUtils.writeStringToFile(externalPlugin3,externalPlugin3.getName());
+  when(systemEnvironment.getBundledPluginAbsolutePath()).thenReturn(bundledPluginsDir.getAbsolutePath());
+  when(systemEnvironment.getExternalPluginAbsolutePath()).thenReturn(externalPluginsDir.getAbsolutePath());
+  pluginsList=new PluginsList(systemEnvironment);
+}

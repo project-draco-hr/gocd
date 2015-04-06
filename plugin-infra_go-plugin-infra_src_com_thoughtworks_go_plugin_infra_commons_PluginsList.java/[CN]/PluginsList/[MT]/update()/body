@@ -1,0 +1,10 @@
+{
+  try {
+    bundled.initialize(new File(systemEnvironment.getBundledPluginAbsolutePath()));
+    external.initialize(new File(systemEnvironment.getExternalPluginAbsolutePath()));
+    clearPluginsJSON();
+  }
+ catch (  Exception e) {
+    LOG.warn("Error occurred while generating plugin map.",e);
+  }
+}

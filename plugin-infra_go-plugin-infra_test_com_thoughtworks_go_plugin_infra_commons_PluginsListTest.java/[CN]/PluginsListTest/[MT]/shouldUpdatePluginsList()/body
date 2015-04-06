@@ -1,0 +1,15 @@
+{
+  pluginsList.update();
+  PluginsList.PluginEntries bundled=(PluginsList.PluginEntries)ReflectionUtil.getField(pluginsList,"bundled");
+  PluginsList.PluginEntries external=(PluginsList.PluginEntries)ReflectionUtil.getField(pluginsList,"external");
+  assertThat(bundled.size(),is(1));
+  assertThat(bundled.get(0).getName(),is("yum.jar"));
+  assertThat(bundled.get(0).getMd5(),is("LAVBbwaDykricDnAP57klg=="));
+  assertThat(external.size(),is(3));
+  assertThat(external.get(0).getName(),is("external1.jar"));
+  assertThat(external.get(0).getMd5(),is("+yWDK4+tYQtfqyh3tmT95A=="));
+  assertThat(external.get(1).getName(),is("external2.jar"));
+  assertThat(external.get(1).getMd5(),is("DS/Oa0vv5URteXfzSU7mvQ=="));
+  assertThat(external.get(2).getName(),is("external3.jar"));
+  assertThat(external.get(2).getMd5(),is("OQV644wsBJgbtQWR+L3UXA=="));
+}
