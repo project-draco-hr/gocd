@@ -1,7 +1,7 @@
 {
   try {
-    bundled.initialize(new File(systemEnvironment.get(SystemEnvironment.PLUGIN_GO_PROVIDED_PATH)));
-    external.initialize(new File(systemEnvironment.get(SystemEnvironment.PLUGIN_EXTERNAL_PROVIDED_PATH)));
+    bundled.initialize(new File(systemEnvironment.getBundledPluginAbsolutePath()));
+    external.initialize(new File(systemEnvironment.getExternalPluginAbsolutePath()));
     clearPluginsJSON();
   }
  catch (  Exception e) {
