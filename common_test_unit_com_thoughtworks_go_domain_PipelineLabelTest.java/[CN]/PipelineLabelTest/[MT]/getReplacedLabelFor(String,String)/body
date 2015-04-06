@@ -1,0 +1,7 @@
+{
+  MaterialRevisions materialRevisions=ModificationsMother.oneUserOneFile();
+  PipelineLabel label=PipelineLabel.create(labelFormat);
+  ((SvnMaterial)materialRevisions.getRevisions().get(0).getMaterial()).setName(new CaseInsensitiveString(name));
+  label.updateLabel(materialRevisions.getNamedRevisions());
+  return label;
+}
