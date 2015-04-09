@@ -1,0 +1,17 @@
+{
+  if (WINDOWS.satisfy()) {
+    return;
+  }
+  monitor.addPluginJarChangeListener(changeListener);
+  monitor.addPluginsFolderChangeListener(pluginsFolderChangeListener);
+  monitor.start();
+  String pluginJar="descriptor-aware-test-plugin.jar";
+  copyPluginToThePluginDirectory(BUNDLED_PLUGIN_DIR,pluginJar);
+  waitAMoment();
+  verify(changeListener).pluginJarAdded(pluginFileDetails(BUNDLED_PLUGIN_DIR,pluginJar,true));
+  FileUtils.deleteQuietly(new File(BUNDLED_PLUGIN_DIR,pluginJar));
+  waitAMoment();
+  verify(changeListener).pluginJarRemoved(pluginFileDetails(BUNDLED_PLUGIN_DIR,pluginJar,true));
+  verify(pluginsFolderChangeListener,atLeast(1)).handle();
+  verifyNoMoreInteractions(pluginsFolderChangeListener);
+}

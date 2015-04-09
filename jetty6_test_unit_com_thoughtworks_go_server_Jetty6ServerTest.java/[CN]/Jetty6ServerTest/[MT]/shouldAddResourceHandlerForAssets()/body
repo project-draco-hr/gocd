@@ -1,0 +1,11 @@
+{
+  ArgumentCaptor<ContextHandler> captor=ArgumentCaptor.forClass(ContextHandler.class);
+  jetty6Server.configure();
+  verify(server,times(4)).addHandler(captor.capture());
+  List<ContextHandler> handlers=captor.getAllValues();
+  assertThat(handlers.size(),is(4));
+  ContextHandler handler=handlers.get(2);
+  assertThat(handler instanceof Jetty6AssetsContextHandler,is(true));
+  Jetty6AssetsContextHandler assetsContextHandler=(Jetty6AssetsContextHandler)handler;
+  assertThat(assetsContextHandler.getContextPath(),is("context/assets"));
+}

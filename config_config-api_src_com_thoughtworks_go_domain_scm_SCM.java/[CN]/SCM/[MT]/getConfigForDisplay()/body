@@ -2,6 +2,6 @@
   String pluginId=getPluginId();
   SCMMetadataStore metadataStore=SCMMetadataStore.getInstance();
   List<ConfigurationProperty> propertiesToBeUsedForDisplay=ConfigurationDisplayUtil.getConfigurationPropertiesToBeUsedForDisplay(metadataStore,pluginId,configuration);
-  String prefix=metadataStore.hasPlugin(pluginId) ? "" : "WARNING! Plugin missing for ";
-  return prefix + "SCM: " + configuration.forDisplay(propertiesToBeUsedForDisplay);
+  String prefix=metadataStore.hasPlugin(pluginId) ? "" : "WARNING! Plugin missing. ";
+  return prefix + configuration.forDisplay(propertiesToBeUsedForDisplay);
 }

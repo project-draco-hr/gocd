@@ -1,0 +1,14 @@
+{
+  Jetty6Server.LegacyUrlRequestHandler legacyUrlRequestHandler=(Jetty6Server.LegacyUrlRequestHandler)jetty6Server.legacyRequestHandler();
+  HttpServletResponse response=mock(HttpServletResponse.class);
+  PrintWriter writer=mock(PrintWriter.class);
+  when(response.getWriter()).thenReturn(writer);
+  HttpServletRequest request=mock(HttpServletRequest.class);
+  when(request.getMethod()).thenReturn(HttpMethods.GET);
+  legacyUrlRequestHandler.handle("/cruise/foo",request,response,1);
+  verify(response).setHeader("Location","/go/foo");
+  verify(response).setStatus(HttpStatus.ORDINAL_301_Moved_Permanently);
+  verify(response).setHeader("Content-Type","text/plain");
+  verify(writer).write(String.format("Url(s) starting in '/cruise' have been permanently moved to '/go', please use the new path."));
+  verify(writer).close();
+}

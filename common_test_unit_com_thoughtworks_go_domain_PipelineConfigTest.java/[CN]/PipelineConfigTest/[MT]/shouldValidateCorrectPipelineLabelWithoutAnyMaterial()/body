@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs());
+  pipelineConfig.setLabelTemplate("pipeline-${COUNT}-alpha");
+  pipelineConfig.validate(null);
+  assertThat(pipelineConfig.errors().isEmpty(),is(true));
+  assertThat(pipelineConfig.errors().on(PipelineConfig.LABEL_TEMPLATE),is(nullValue()));
+}

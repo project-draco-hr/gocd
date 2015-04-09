@@ -1,0 +1,18 @@
+{
+  ArgumentCaptor<Connector> captor=ArgumentCaptor.forClass(Connector.class);
+  jetty9Server.configure();
+  verify(server,times(2)).addConnector(captor.capture());
+  List<Connector> connectors=captor.getAllValues();
+  Connector sslConnector=connectors.get(1);
+  assertThat(sslConnector instanceof ServerConnector,is(true));
+  ServerConnector connector=(ServerConnector)sslConnector;
+  assertThat(connector.getServer(),is(server));
+  assertThat(connector.getConnectionFactories().size(),is(2));
+  Iterator<ConnectionFactory> iterator=connector.getConnectionFactories().iterator();
+  ConnectionFactory first=iterator.next();
+  ConnectionFactory second=iterator.next();
+  assertThat(first instanceof SslConnectionFactory,is(true));
+  SslConnectionFactory sslConnectionFactory=(SslConnectionFactory)first;
+  assertThat(sslConnectionFactory.getProtocol(),is("SSL-HTTP/1.1"));
+  assertThat(second instanceof HttpConnectionFactory,is(true));
+}

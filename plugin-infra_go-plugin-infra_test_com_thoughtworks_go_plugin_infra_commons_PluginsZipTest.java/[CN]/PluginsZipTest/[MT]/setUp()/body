@@ -1,0 +1,16 @@
+{
+  temporaryFolder.create();
+  systemEnvironment=mock(SystemEnvironment.class);
+  File bundledPluginsDir=temporaryFolder.newFolder("plugins-bundled");
+  expectedZipPath=temporaryFolder.newFile("go-plugins-all.zip").getAbsolutePath();
+  externalPluginsDir=temporaryFolder.newFolder("plugins-external");
+  when(systemEnvironment.get(SystemEnvironment.PLUGIN_FRAMEWORK_ENABLED)).thenReturn(true);
+  when(systemEnvironment.get(PLUGIN_GO_PROVIDED_PATH)).thenReturn(bundledPluginsDir.getAbsolutePath());
+  when(systemEnvironment.get(PLUGIN_EXTERNAL_PROVIDED_PATH)).thenReturn(externalPluginsDir.getAbsolutePath());
+  when(systemEnvironment.get(ALL_PLUGINS_ZIP_PATH)).thenReturn(expectedZipPath);
+  pluginsZip=new PluginsZip(systemEnvironment,new ZipUtil());
+  FileUtils.writeStringToFile(new File(bundledPluginsDir,"bundled1.jar"),"Bundled1");
+  FileUtils.writeStringToFile(new File(bundledPluginsDir,"bundled2.jar"),"Bundled2");
+  FileUtils.writeStringToFile(new File(externalPluginsDir,"external1.jar"),"External1");
+  FileUtils.writeStringToFile(new File(externalPluginsDir,"external2.jar"),"External2");
+}

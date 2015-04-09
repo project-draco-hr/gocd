@@ -1,0 +1,9 @@
+{
+  if (!systemEnvironment.get(PLUGIN_FRAMEWORK_ENABLED)) {
+    return;
+  }
+  removeBundleDirectory();
+  goPluginOSGiFramework.start();
+  monitor.addPluginJarChangeListener(defaultPluginJarChangeListener);
+  monitor.start();
+}

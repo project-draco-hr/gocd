@@ -1,0 +1,11 @@
+{
+  assertThat(connector.sslConnector() instanceof SslSelectChannelConnector,is(true));
+  SslSelectChannelConnector sslConnector=(SslSelectChannelConnector)connector.sslConnector();
+  assertThat(sslConnector.getPort(),is(4567));
+  assertThat(sslConnector.getHost(),is("localhost"));
+  assertThat(sslConnector.getMaxIdleTime(),is(30000));
+  assertThat(sslConnector.getWantClientAuth(),is(true));
+  assertThat(FileUtil.isChildOf(temporaryFolder.getRoot(),new File(sslConnector.getKeystore())),is(true));
+  assertThat(FileUtil.isChildOf(temporaryFolder.getRoot(),new File(sslConnector.getTruststore())),is(true));
+  assertThat(sslConnector.getExcludeCipherSuites(),is(new String[]{"CS1","CS2"}));
+}

@@ -1,0 +1,8 @@
+{
+  assertThat((Boolean)revisionMap.get("changed"),is(true));
+  List modificationList=(List)revisionMap.get("modifications");
+  Map modificationMap=(Map)modificationList.get(0);
+  assertThat((String)modificationMap.get("revision"),is(revision));
+  assertThat(modificationMap.get("modified-time"),is(notNullValue()));
+  assertThat(modificationMap.get("data"),is(notNullValue()));
+}

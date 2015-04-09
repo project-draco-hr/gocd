@@ -1,0 +1,10 @@
+{
+  File[] files=directory.listFiles();
+  Arrays.sort(files,NameFileComparator.NAME_COMPARATOR);
+  StringBuilder md5=new StringBuilder();
+  for (  File file : files) {
+    if (file.isDirectory())     md5.append(md5DigestOfFolderContent(file));
+ else     md5.append(md5DigestOfFile(file));
+  }
+  return md5DigestOfStream(new ByteArrayInputStream(md5.toString().getBytes(CharEncoding.UTF_8)));
+}

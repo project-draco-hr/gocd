@@ -1,0 +1,13 @@
+{
+  Map<String,Object> materialMap=new HashMap<String,Object>();
+  materialMap.put("type","mercurial");
+  Map<String,Object> configurationMap=new HashMap<String,Object>();
+  if (addSecureFields) {
+    configurationMap.put("url",url.forCommandline());
+  }
+ else {
+    configurationMap.put("url",url.forDisplay());
+  }
+  materialMap.put("mercurial-configuration",configurationMap);
+  return materialMap;
+}

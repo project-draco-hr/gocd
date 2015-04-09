@@ -1,0 +1,9 @@
+{
+  Iterator<WeakReference<PluginsFolderChangeListener>> iterator=pluginsFolderChangeListener.iterator();
+  while (iterator.hasNext()) {
+    WeakReference<PluginsFolderChangeListener> next=iterator.next();
+    if (next.get() == null) {
+      iterator.remove();
+    }
+  }
+}

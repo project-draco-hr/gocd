@@ -1,5 +1,5 @@
 {
-  Object referenceOfListenerToBeRemoved=CollectionUtils.find(listeners,new Predicate(){
+  Object referenceOfListenerToBeRemoved=CollectionUtils.find(pluginJarChangeListener,new Predicate(){
     @Override public boolean evaluate(    Object object){
       WeakReference<PluginJarChangeListener> listenerWeakReference=(WeakReference<PluginJarChangeListener>)object;
       PluginJarChangeListener registeredListener=listenerWeakReference.get();
@@ -7,6 +7,6 @@
     }
   }
 );
-  listeners.remove(referenceOfListenerToBeRemoved);
+  pluginJarChangeListener.remove(referenceOfListenerToBeRemoved);
   removeClearedWeakReferences();
 }

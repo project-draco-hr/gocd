@@ -1,0 +1,10 @@
+{
+  if (shouldBlockRequest((HttpServletRequest)servletRequest)) {
+    LOGGER.warn("Got a non-GET request: " + servletRequest);
+    ((HttpServletResponse)servletResponse).setStatus(HttpServletResponse.SC_FORBIDDEN);
+    servletResponse.getWriter().write("");
+  }
+ else {
+    filterChain.doFilter(servletRequest,servletResponse);
+  }
+}

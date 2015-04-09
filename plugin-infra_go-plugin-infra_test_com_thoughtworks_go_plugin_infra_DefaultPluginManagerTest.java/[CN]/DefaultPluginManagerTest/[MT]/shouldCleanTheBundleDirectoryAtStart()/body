@@ -1,6 +1,6 @@
 {
   String pluginJarFile="descriptor-aware-test-plugin.should.be.deleted.jar";
   copyPluginToTheDirectory(BUNDLE_DIR,pluginJarFile);
-  new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment).startPluginInfrastructure();
+  new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener).startInfrastructure();
   assertThat(BUNDLE_DIR.exists(),is(false));
 }

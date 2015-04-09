@@ -1,0 +1,8 @@
+{
+  pluginsZip.create();
+  assertThat(expectedZipPath + " should exist",new File(expectedZipPath).exists(),is(true));
+  assertThat(new ZipFile(expectedZipPath).getEntry("bundled/bundled1.jar"),is(notNullValue()));
+  assertThat(new ZipFile(expectedZipPath).getEntry("bundled/bundled2.jar"),is(notNullValue()));
+  assertThat(new ZipFile(expectedZipPath).getEntry("external/external1.jar"),is(notNullValue()));
+  assertThat(new ZipFile(expectedZipPath).getEntry("external/external2.jar"),is(notNullValue()));
+}

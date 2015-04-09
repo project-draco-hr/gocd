@@ -1,0 +1,12 @@
+{
+  PluggableSCMMaterial material1=new PluggableSCMMaterial(MaterialConfigsMother.pluggableSCMMaterialConfig("material-1",null,null));
+  PluggableSCMMaterial material2=new PluggableSCMMaterial(MaterialConfigsMother.pluggableSCMMaterialConfig("material-2",null,null));
+  PluggableSCMMaterial material3=new PluggableSCMMaterial(MaterialConfigsMother.pluggableSCMMaterialConfig("material-3",null,null));
+  PluggableSCMMaterial material4=new PluggableSCMMaterial(MaterialConfigsMother.pluggableSCMMaterialConfig("material-4",null,null));
+  Set<Material> materials=new HashSet<Material>(Arrays.asList(material1,material2,material3,material4));
+  Map params=new HashMap();
+  params.put(PluggableSCMPostCommitHookImplementer.SCM_NAME,"SCM-MATERIAL-1");
+  Set<Material> actual=implementer.prune(materials,params);
+  assertThat(actual.size(),is(1));
+  assertThat(actual,hasItem(material1));
+}

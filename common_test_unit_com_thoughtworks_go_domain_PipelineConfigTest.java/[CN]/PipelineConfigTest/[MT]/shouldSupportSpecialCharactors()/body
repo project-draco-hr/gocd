@@ -2,8 +2,5 @@
   PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs());
   pipelineConfig.setLabelTemplate("pipeline-${COUN_T}-${my-material}${h.i}${**}");
   Set<String> variables=pipelineConfig.getTemplateVariables();
-  assertThat(variables.contains("COUN_T"),is(true));
-  assertThat(variables.contains("my-material"),is(true));
-  assertThat(variables.contains("h.i"),is(true));
-  assertThat(variables.contains("**"),is(true));
+  assertThat(variables,contains("COUN_T","my-material","h.i","**"));
 }

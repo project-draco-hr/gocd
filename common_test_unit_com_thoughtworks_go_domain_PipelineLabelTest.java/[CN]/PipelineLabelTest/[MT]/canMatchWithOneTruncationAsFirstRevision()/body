@@ -1,0 +1,5 @@
+{
+  final String[][] expectedGroups={{"git","4"},{"svn"}};
+  String res=assertLabelGroupsMatchingAndReplace("release-${git[:4]}-${svn}",expectedGroups);
+  assertThat(res,is("release-" + GIT_REVISION.substring(0,4) + "-"+ SVN_REVISION));
+}

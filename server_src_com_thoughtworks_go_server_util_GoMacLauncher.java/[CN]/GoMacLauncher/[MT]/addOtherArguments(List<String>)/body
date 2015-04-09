@@ -1,0 +1,10 @@
+{
+  Properties properties=System.getProperties();
+  for (  Map.Entry<Object,Object> entry : properties.entrySet()) {
+    String key=String.valueOf(entry.getKey());
+    if (key.startsWith("GO_")) {
+      String value=String.valueOf(entry.getValue());
+      currentArguments.add("-D" + key.substring(3) + "="+ value);
+    }
+  }
+}

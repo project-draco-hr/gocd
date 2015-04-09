@@ -1,0 +1,6 @@
+{
+  ApplicationContext context=mock(ApplicationContext.class);
+  when(contextRefreshedEvent.getApplicationContext()).thenReturn(context);
+  when(context.getParent()).thenReturn(null);
+  initializer.onApplicationEvent(contextRefreshedEvent);
+}

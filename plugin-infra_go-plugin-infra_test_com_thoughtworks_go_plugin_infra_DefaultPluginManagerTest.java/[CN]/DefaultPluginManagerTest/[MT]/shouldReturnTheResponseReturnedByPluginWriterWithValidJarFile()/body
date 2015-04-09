@@ -1,6 +1,6 @@
 {
   NEW_JAR_FILE.createNewFile();
-  DefaultPluginManager defaultPluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment);
+  DefaultPluginManager defaultPluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,null,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener);
   when(pluginValidator.namecheckForJar(NEW_JAR_FILE.getName())).thenReturn(true);
   PluginUploadResponse expectedResponse=PluginUploadResponse.create(true,"successful!",null);
   when(pluginWriter.addPlugin(NEW_JAR_FILE,NEW_JAR_FILE.getName())).thenReturn(expectedResponse);

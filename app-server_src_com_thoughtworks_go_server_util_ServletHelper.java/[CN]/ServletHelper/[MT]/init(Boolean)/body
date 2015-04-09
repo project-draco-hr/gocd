@@ -1,0 +1,13 @@
+{
+  try {
+    if (usingJetty9) {
+      instance=getAppServerHelper("com.thoughtworks.go.server.util.Jetty9ServletHelper");
+    }
+ else {
+      instance=getAppServerHelper("com.thoughtworks.go.server.util.Jetty6ServletHelper");
+    }
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

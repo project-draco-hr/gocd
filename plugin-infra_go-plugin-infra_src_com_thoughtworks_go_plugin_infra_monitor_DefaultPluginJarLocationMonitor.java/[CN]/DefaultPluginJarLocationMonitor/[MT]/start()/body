@@ -2,7 +2,7 @@
   if (monitorThread != null) {
     throw new IllegalStateException("Cannot start the monitor multiple times.");
   }
-  monitorThread=new PluginLocationMonitorThread(bundledPluginDirectory,externalPluginDirectory,listeners,systemEnvironment);
+  monitorThread=new PluginLocationMonitorThread(bundledPluginDirectory,externalPluginDirectory,pluginJarChangeListener,pluginsFolderChangeListener,systemEnvironment);
   monitorThread.setDaemon(true);
   monitorThread.start();
 }
