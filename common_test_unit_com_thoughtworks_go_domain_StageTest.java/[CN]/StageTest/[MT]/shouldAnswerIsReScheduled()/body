@@ -1,0 +1,16 @@
+{
+  stage.setRerunOfCounter(null);
+  assertThat(stage.isReScheduled(),is(false));
+  stage.setRerunOfCounter(1);
+  firstJob.setRerun(true);
+  firstJob.setState(JobState.Scheduled);
+  secondJob.setRerun(false);
+  secondJob.setState(JobState.Completed);
+  assertThat(stage.isReScheduled(),is(true));
+  stage.setRerunOfCounter(1);
+  firstJob.setRerun(true);
+  firstJob.setState(JobState.Building);
+  secondJob.setRerun(false);
+  secondJob.setState(JobState.Completed);
+  assertThat(stage.isReScheduled(),is(false));
+}
