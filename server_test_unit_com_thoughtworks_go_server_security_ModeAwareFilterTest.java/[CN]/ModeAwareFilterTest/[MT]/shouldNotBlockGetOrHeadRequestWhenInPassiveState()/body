@@ -1,0 +1,7 @@
+{
+  when(request.getMethod()).thenReturn("get").thenReturn("head");
+  when(systemEnvironment.isServerActive()).thenReturn(false);
+  filter.doFilter(request,response,filterChain);
+  filter.doFilter(request,response,filterChain);
+  verify(filterChain,times(2)).doFilter(request,response);
+}
