@@ -5,7 +5,7 @@
   final File destFile=new File(logsDir,buildInstanceId + File.separator + "generated"+ File.separator+ LOG_XML_NAME);
   final IOException ioException=new IOException();
   Mockito.doThrow(ioException).when(zipUtil).unzip(any(ZipInputStream.class),any(File.class));
-  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   artifactsService.saveFile(destFile,stream,true,PUBLISH_MAX_RETRIES);
   assertThat(logFixture.allLogs(),containsString("Failed to save the file to:"));
 }

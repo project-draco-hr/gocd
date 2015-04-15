@@ -5,7 +5,7 @@
   final File destFile=new File(logsDir,buildInstanceId + File.separator + "generated"+ File.separator+ LOG_XML_NAME);
   assumeArtifactsRoot(logsDir);
   String fileName="generated" + File.separator + LOG_XML_NAME;
-  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   artifactsService.saveFile(destFile,stream,false,1);
   Mockito.verify(systemService).streamToFile(eq(stream),eq(destFile));
 }

@@ -1,8 +1,8 @@
 {
-  assertThat(file(artifactRootForJob,"foo/bar.txt"),not(exists()));
+  assertThat(file(artifactsRoot,"foo/bar.txt"),not(exists()));
   putFile("/foo/bar.txt");
-  assertThat(file(artifactRootForJob,"foo/bar.txt"),exists());
-  String original=readFileToString(file(artifactRootForJob,"foo/bar.txt"));
+  assertThat(file(artifactsRoot,"foo/bar.txt"),exists());
+  String original=readFileToString(file(artifactsRoot,"foo/bar.txt"));
   putFile("/foo/bar.txt");
-  assertThat(original.length(),is(lessThan(readFileToString(file(artifactRootForJob,"foo/bar.txt")).length())));
+  assertThat(original.length(),is(lessThan(readFileToString(file(artifactsRoot,"foo/bar.txt")).length())));
 }

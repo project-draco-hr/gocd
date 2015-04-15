@@ -1,0 +1,13 @@
+{
+  try {
+    File from=chooser.temporaryConsoleFile(locatableEntity);
+    File to=chooser.findArtifact(locatableEntity,getConsoleOutputFolderAndFileName());
+    FileUtils.moveFile(from,to);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+catch (  IllegalArtifactLocationException e) {
+    throw new RuntimeException(e);
+  }
+}

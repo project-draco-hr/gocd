@@ -16,7 +16,7 @@
   FileUtil.writeContentToFile("Build Logs",consoleLog);
   File checksumFile=new File(cruiseOutputDir,"md5.checksum");
   FileUtil.writeContentToFile("foo:25463254625346",checksumFile);
-  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   artifactsService.initialize();
   Stage stage=StageMother.createPassedStage("pipeline",10,"stage",20,"job",new Date());
   artifactsService.purgeArtifactsForStage(stage);

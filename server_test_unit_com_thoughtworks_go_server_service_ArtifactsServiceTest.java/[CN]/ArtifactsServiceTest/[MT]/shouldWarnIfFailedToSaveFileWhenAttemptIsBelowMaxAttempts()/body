@@ -6,7 +6,7 @@
   final IOException ioException=new IOException();
   assumeArtifactsRoot(logsDir);
   doThrow(ioException).when(zipUtil).unzip(Mockito.any(ZipInputStream.class),Mockito.any(File.class));
-  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   artifactsService.saveFile(destFile,stream,true,1);
   assertThat(logFixture.allLogs(),containsString("Failed to save the file to:"));
 }

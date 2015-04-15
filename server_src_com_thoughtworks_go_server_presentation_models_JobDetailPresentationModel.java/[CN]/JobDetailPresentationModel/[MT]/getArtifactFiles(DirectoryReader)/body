@@ -1,6 +1,12 @@
 {
-  File artifact=artifactsService.findArtifact(jobIdentifier,"");
-  DirectoryEntries directoryEntries=directoryReader.listEntries(artifact,"");
-  directoryEntries.setIsArtifactsDeleted(stage.isArtifactsDeleted());
-  return directoryEntries;
+  return new DirectoryEntries(){
+{
+      if (!job.isCompleted()) {
+        addFolder(CRUISE_OUTPUT_FOLDER).addFile(CONSOLE_LOG_FILE_NAME,artifactsService.findArtifactUrl(jobIdentifier,getConsoleOutputFolderAndFileName()));
+      }
+      addAll(directoryReader.listEntries(artifactsService.findArtifact(jobIdentifier,""),""));
+      setIsArtifactsDeleted(stage.isArtifactsDeleted());
+    }
+  }
+;
 }

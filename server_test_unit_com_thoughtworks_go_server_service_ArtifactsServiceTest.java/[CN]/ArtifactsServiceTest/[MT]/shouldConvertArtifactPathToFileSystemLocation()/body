@@ -1,6 +1,6 @@
 {
   assumeArtifactsRoot(new File("artifact-root"));
-  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   File location=artifactsService.getArtifactLocation("foo/bar/baz");
   assertThat(location,is(new File("artifact-root/foo/bar/baz")));
 }

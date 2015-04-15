@@ -1,0 +1,6 @@
+{
+  DirectoryEntries subDirectory=new DirectoryEntries();
+  FolderDirectoryEntry entry=new FolderDirectoryEntry("file","url",subDirectory);
+  entry.addFile("file","path");
+  assertThat(subDirectory,hasItem(new FileDirectoryEntry("file","path")));
+}

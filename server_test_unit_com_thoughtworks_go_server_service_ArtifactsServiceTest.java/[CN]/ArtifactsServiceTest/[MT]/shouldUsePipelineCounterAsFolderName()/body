@@ -1,6 +1,6 @@
 {
   assumeArtifactsRoot(new File("artifact-root"));
-  ArtifactsService artifactsService=new ArtifactsService(systemService,artifactsDirHolder,zipUtil,resolverService,stageService);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService);
   artifactsService.initialize();
   File artifact=artifactsService.findArtifact(new JobIdentifier("cruise",1,"1.1","dev","2","linux-firefox",null),"pkg.zip");
   assertThat(artifact,is(new File("artifact-root/pipelines/cruise/1/dev/2/linux-firefox/pkg.zip")));

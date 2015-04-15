@@ -13,7 +13,9 @@
   job=stage.getJobInstances().getByName("build");
   buildId=job.getId();
   JobIdentifier jobId=new JobIdentifier(pipeline.getName(),-2,pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter()),job.getName(),job.getId());
-  artifactRootForJob=artifactService.findArtifact(jobId,"");
-  deleteDirectory(artifactRootForJob);
-  artifactRootForJob.mkdirs();
+  artifactsRoot=artifactService.findArtifact(jobId,"");
+  consoleArtifactFile=artifactService.temporaryConsoleFile(jobId);
+  deleteDirectory(consoleArtifactFile.getParentFile());
+  deleteDirectory(artifactsRoot);
+  artifactsRoot.mkdirs();
 }
