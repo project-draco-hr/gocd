@@ -5,6 +5,6 @@
   DirectoryEntries directoryEntries=new DirectoryEntries();
   when(directoryReader.listEntries(any(File.class),any(String.class))).thenReturn(directoryEntries);
   JobDetailPresentationModel jobDetailPresentationModel=new JobDetailPresentationModel(jobInstance,null,null,null,null,null,artifactsService,null,stage);
-  jobDetailPresentationModel.getArtifactFiles(directoryReader);
-  assertThat(directoryEntries.isArtifactsDeleted(),is(true));
+  DirectoryEntries artifactFiles=jobDetailPresentationModel.getArtifactFiles(directoryReader);
+  assertThat(artifactFiles.isArtifactsDeleted(),is(true));
 }
