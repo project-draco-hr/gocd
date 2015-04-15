@@ -13,6 +13,7 @@
   when(registry.getViewModelFor(expectedPluggableTaskForPlugin2,"new")).thenReturn(viewModel(expectedPluggableTaskForPlugin2));
   List<PluggableViewModel> viewModels=taskViewService.getTaskViewModels();
   assertThat(viewModels.size(),is(3));
+  assertThat(viewModels.get(0).getModel(),instanceOf(ExecTask.class));
   assertThat(viewModels.get(1).getModel(),instanceOf(PluggableTask.class));
   assertThat(viewModels.get(2).getModel(),instanceOf(PluggableTask.class));
   assertThat((PluggableTask)viewModels.get(1).getModel(),is(expectedPluggableTaskForPlugin1));
