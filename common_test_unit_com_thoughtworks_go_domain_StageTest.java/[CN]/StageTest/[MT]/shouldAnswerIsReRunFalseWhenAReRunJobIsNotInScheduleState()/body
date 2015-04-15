@@ -1,0 +1,9 @@
+{
+  stage.setCounter(2);
+  stage.setRerunOfCounter(1);
+  firstJob.setRerun(true);
+  firstJob.setState(JobState.Building);
+  secondJob.setRerun(false);
+  secondJob.setState(JobState.Completed);
+  assertThat(stage.isReRun(),is(false));
+}

@@ -1,0 +1,8 @@
+{
+  for (  JobInstance instance : jobInstances) {
+    if (instance.isRerun() && instance.getState() != JobState.Scheduled) {
+      return false;
+    }
+  }
+  return true;
+}
