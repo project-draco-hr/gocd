@@ -1,0 +1,8 @@
+{
+  when(request.getMethod()).thenReturn("post");
+  when(systemEnvironment.isServerActive()).thenReturn(false);
+  when(systemEnvironment.getWebappContextPath()).thenReturn("/go");
+  filter.doFilter(request,response,filterChain);
+  verify(filterChain,never()).doFilter(request,response);
+  verify(response).sendRedirect("/go/errors/inactive");
+}

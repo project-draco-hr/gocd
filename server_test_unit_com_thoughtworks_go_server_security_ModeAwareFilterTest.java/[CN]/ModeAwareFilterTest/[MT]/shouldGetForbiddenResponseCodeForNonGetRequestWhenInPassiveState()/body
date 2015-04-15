@@ -1,8 +1,0 @@
-{
-  when(request.getMethod()).thenReturn("post");
-  when(systemEnvironment.isServerActive()).thenReturn(false);
-  MockHttpServletResponse servletResponse=new MockHttpServletResponse();
-  filter.doFilter(request,servletResponse,filterChain);
-  assertThat(servletResponse.getStatus(),is(HttpServletResponse.SC_FORBIDDEN));
-  assertThat(servletResponse.getContentAsString(),is(""));
-}
