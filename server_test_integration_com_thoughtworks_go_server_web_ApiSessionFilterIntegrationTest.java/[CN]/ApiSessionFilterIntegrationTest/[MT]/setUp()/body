@@ -1,0 +1,10 @@
+{
+  WebApplicationContext wac=mock(WebApplicationContext.class);
+  when(wac.getBean("filterChainProxy",javax.servlet.Filter.class)).thenReturn(filterChainProxy);
+  when(wac.getBean("backupService")).thenReturn(mock(BackupService.class));
+  filterChainProxy.init(new MockFilterConfig());
+  servletContext=new MockServletContext();
+  servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,wac);
+  proxy=new DelegatingFilterProxy("filterChainProxy",wac);
+  proxy.setServletContext(servletContext);
+}
