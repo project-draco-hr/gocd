@@ -1,0 +1,14 @@
+{
+  JobIdentifier jobIdentifier=JobIdentifierMother.anyBuildIdentifier();
+  File consoleFile=mock(File.class);
+  when(chooser.temporaryConsoleFile(jobIdentifier)).thenReturn(consoleFile);
+  when(consoleFile.exists()).thenReturn(false);
+  File finalConsoleFile=mock(File.class);
+  when(chooser.findArtifact(jobIdentifier,getConsoleOutputFolderAndFileName())).thenReturn(finalConsoleFile);
+  when(finalConsoleFile.exists()).thenReturn(false);
+  ArtifactsService service=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService,chooser);
+  File file=service.temporaryConsoleFile(jobIdentifier);
+  assertThat(file,is(consoleFile));
+  verify(chooser).temporaryConsoleFile(jobIdentifier);
+  verify(chooser).findArtifact(jobIdentifier,getConsoleOutputFolderAndFileName());
+}
