@@ -1,3 +1,9 @@
 {
-  return chooser.temporaryConsoleFile(jobIdentifier);
+  File file=chooser.temporaryConsoleFile(jobIdentifier);
+  if (file.exists()) {
+    return file;
+  }
+  File finalConsole=chooser.findArtifact(jobIdentifier,getConsoleOutputFolderAndFileName());
+  if (finalConsole.exists())   return finalConsole;
+  return file;
 }
