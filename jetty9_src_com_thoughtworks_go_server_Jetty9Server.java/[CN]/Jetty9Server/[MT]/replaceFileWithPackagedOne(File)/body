@@ -1,0 +1,18 @@
+{
+  String srcDir="/defaultFiles/config";
+  String fileName=jettyConfig.getName();
+  File destinationFile=new File(systemEnvironment.getConfigDir(),fileName);
+  InputStream inputStream=getClass().getResourceAsStream(srcDir + "/" + fileName);
+  try {
+    if (inputStream == null) {
+      throw new RuntimeException(format("Resource {0}/{1} does not exist in the classpath",srcDir,fileName));
+    }
+    FileUtil.writeToFile(inputStream,destinationFile);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+ finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+}
