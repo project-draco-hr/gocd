@@ -9,7 +9,7 @@
     builder.append(str);
   }
   ModelAndView mav=putConsoleLogContent("cruise-output/console.log",builder.toString());
-  String consoleLogContent=FileUtils.readFileToString(file(consoleArtifactFile));
+  String consoleLogContent=FileUtils.readFileToString(file(consoleLogFile));
   String[] lines=consoleLogContent.split("\n");
   assertThat(lines.length,is(2 * numberOfLines));
   String hundredThLine=null;

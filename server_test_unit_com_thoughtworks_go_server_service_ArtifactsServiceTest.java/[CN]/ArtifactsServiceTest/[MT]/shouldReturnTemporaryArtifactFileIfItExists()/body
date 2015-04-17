@@ -4,7 +4,7 @@
   when(chooser.temporaryConsoleFile(jobIdentifier)).thenReturn(consoleFile);
   when(consoleFile.exists()).thenReturn(true);
   ArtifactsService service=new ArtifactsService(resolverService,stageService,artifactsDirHolder,zipUtil,systemService,chooser);
-  File file=service.temporaryConsoleFile(jobIdentifier);
+  File file=service.consoleLogFile(jobIdentifier);
   assertThat(file,is(consoleFile));
   verify(chooser).temporaryConsoleFile(jobIdentifier);
   verify(chooser,never()).findArtifact(any(LocatableEntity.class),anyString());

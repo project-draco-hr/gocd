@@ -14,8 +14,8 @@
   buildId=job.getId();
   JobIdentifier jobId=new JobIdentifier(pipeline.getName(),-2,pipeline.getLabel(),stage.getName(),String.valueOf(stage.getCounter()),job.getName(),job.getId());
   artifactsRoot=artifactService.findArtifact(jobId,"");
-  consoleArtifactFile=artifactService.temporaryConsoleFile(jobId);
-  deleteDirectory(consoleArtifactFile.getParentFile());
+  consoleLogFile=artifactService.consoleLogFile(jobId);
+  deleteDirectory(consoleLogFile.getParentFile());
   deleteDirectory(artifactsRoot);
   artifactsRoot.mkdirs();
 }
