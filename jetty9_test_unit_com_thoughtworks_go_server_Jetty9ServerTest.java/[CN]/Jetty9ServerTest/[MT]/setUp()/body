@@ -15,4 +15,5 @@
   sslSocketFactory=mock(SSLSocketFactory.class);
   when(sslSocketFactory.getSupportedCipherSuites()).thenReturn(new String[]{});
   jetty9Server=new Jetty9Server(systemEnvironment,"pwd",sslSocketFactory,server);
+  ReflectionUtil.setStaticField(Jetty9Server.class,"JETTY_XML_LOCATION_IN_JAR","config");
 }
