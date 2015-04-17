@@ -1,0 +1,16 @@
+{
+  InputStream inputStream=null;
+  try {
+    inputStream=getClass().getResourceAsStream(JETTY_XML_LOCATION_IN_JAR + "/" + jettyConfig.getName());
+    if (inputStream == null) {
+      throw new RuntimeException(format("Resource {0}/{1} does not exist in the classpath",JETTY_XML_LOCATION_IN_JAR,jettyConfig.getName()));
+    }
+    FileUtil.writeToFile(inputStream,systemEnvironment.getJettyConfigFile());
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+ finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+}

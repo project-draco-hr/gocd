@@ -1,6 +1,7 @@
 {
-  File jettyConfig=new File(systemEnvironment.getConfigDir(),"jetty.xml");
+  File jettyConfig=systemEnvironment.getJettyConfigFile();
   if (jettyConfig.exists()) {
+    replaceJettyXmlIfItBelongsToADifferentVersion(jettyConfig);
     LOG.info("Configuring Jetty using " + jettyConfig.getAbsolutePath());
     FileInputStream serverConfiguration=new FileInputStream(jettyConfig);
     XmlConfiguration configuration=new XmlConfiguration(serverConfiguration);

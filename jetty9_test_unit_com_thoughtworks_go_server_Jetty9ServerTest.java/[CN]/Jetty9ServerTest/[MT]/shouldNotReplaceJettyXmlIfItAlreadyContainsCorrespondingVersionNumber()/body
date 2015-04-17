@@ -1,0 +1,8 @@
+{
+  File jettyXml=temporaryFolder.newFile("jetty.xml");
+  when(systemEnvironment.getJettyConfigFile()).thenReturn(jettyXml);
+  String originalContent="jetty-v9.2.3\nsome other local changes";
+  FileUtil.writeContentToFile(originalContent,jettyXml);
+  jetty9Server.replaceJettyXmlIfItBelongsToADifferentVersion(systemEnvironment.getJettyConfigFile());
+  assertThat(FileUtil.readContentFromFile(systemEnvironment.getJettyConfigFile()),is(originalContent));
+}

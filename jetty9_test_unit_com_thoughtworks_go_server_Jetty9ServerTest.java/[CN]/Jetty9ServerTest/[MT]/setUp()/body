@@ -11,7 +11,9 @@
   when(systemEnvironment.get(SystemEnvironment.RESPONSE_BUFFER_SIZE)).thenReturn(1000);
   when(systemEnvironment.get(SystemEnvironment.IDLE_TIMEOUT)).thenReturn(2000);
   when(systemEnvironment.configDir()).thenReturn(configDir=temporaryFolder.newFile());
+  when(systemEnvironment.getJettyConfigFile()).thenReturn(new File("foo"));
   sslSocketFactory=mock(SSLSocketFactory.class);
   when(sslSocketFactory.getSupportedCipherSuites()).thenReturn(new String[]{});
   jetty9Server=new Jetty9Server(systemEnvironment,"pwd",sslSocketFactory,server);
+  ReflectionUtil.setStaticField(Jetty9Server.class,"JETTY_XML_LOCATION_IN_JAR","config");
 }
