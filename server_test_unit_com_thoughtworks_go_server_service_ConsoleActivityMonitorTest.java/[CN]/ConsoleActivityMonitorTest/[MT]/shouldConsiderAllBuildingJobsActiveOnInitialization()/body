@@ -5,7 +5,7 @@
   JobIdentifier secondJob=new JobIdentifier("pipeline-bar",12,"bar-12","stage-baz","15","quux");
   JobInstanceService jobInstanceService=mock(JobInstanceService.class);
   when(jobInstanceService.allBuildingJobs()).thenReturn(Arrays.asList(firstJob,secondJob));
-  consoleActivityMonitor=new ConsoleActivityMonitor(timeProvider,systemEnvironment,jobInstanceService,serverHealthService,goConfigService,artifactService);
+  consoleActivityMonitor=new ConsoleActivityMonitor(timeProvider,systemEnvironment,jobInstanceService,serverHealthService,goConfigService,consoleService);
   consoleActivityMonitor.populateActivityMap();
   stubInitializerCallsForActivityMonitor(jobInstanceService);
   consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);

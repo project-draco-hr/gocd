@@ -6,7 +6,7 @@
     if (shouldCancelHungJob(jobIdentifier,difference)) {
       scheduleService.cancelJob(jobIdentifier);
       try {
-        artifactService.appendToConsoleLog(jobIdentifier,String.format("Go cancelled this job as it has not generated any console output for more than %s minute(s)",inMinutes(jobTerminationThreshold(jobIdentifier))));
+        consoleService.appendToConsoleLog(jobIdentifier,String.format("Go cancelled this job as it has not generated any console output for more than %s minute(s)",inMinutes(jobTerminationThreshold(jobIdentifier))));
       }
  catch (      Exception e) {
         LOGGER.error(String.format("Failed to update console log with reason for cancelling hung job '%s'",jobIdentifier.buildLocator()),e);

@@ -5,5 +5,5 @@
   consoleActivityMonitor.consoleUpdatedFor(unresponsiveJob);
   when(timeProvider.currentTimeMillis()).thenReturn(new DateTime(1972,1,1,1,1,0,0).getMillis());
   consoleActivityMonitor.cancelUnresponsiveJobs(scheduleService);
-  verify(artifactService).appendToConsoleLog(unresponsiveJob,"Go cancelled this job as it has not generated any console output for more than 5 minute(s)");
+  verify(consoleService).appendToConsoleLog(unresponsiveJob,"Go cancelled this job as it has not generated any console output for more than 5 minute(s)");
 }

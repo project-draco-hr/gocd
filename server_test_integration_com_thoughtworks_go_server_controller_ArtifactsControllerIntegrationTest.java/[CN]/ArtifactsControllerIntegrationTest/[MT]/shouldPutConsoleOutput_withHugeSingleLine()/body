@@ -1,7 +1,7 @@
 {
   StringBuilder builder=new StringBuilder();
   String str="a ";
-  int numberOfChars=ArtifactsService.DEFAULT_CONSOLE_LOG_LINE_BUFFER_SIZE * 4;
+  int numberOfChars=ConsoleService.DEFAULT_CONSOLE_LOG_LINE_BUFFER_SIZE * 4;
   StringBuilder longLine=new StringBuilder();
   for (int i=0; i < numberOfChars; i++) {
     longLine.append(str);
@@ -11,7 +11,7 @@
   builder.append("\nTesting:\n");
   builder.append(longLineStr);
   ModelAndView mav=putConsoleLogContent("cruise-output/console.log",builder.toString());
-  String consoleLogContent=FileUtils.readFileToString(file(consoleArtifactFile));
+  String consoleLogContent=FileUtils.readFileToString(file(consoleLogFile));
   String[] lines=consoleLogContent.split("\n");
   assertThat(lines.length,is(3));
   assertThat(lines[0],is(longLineStr));
