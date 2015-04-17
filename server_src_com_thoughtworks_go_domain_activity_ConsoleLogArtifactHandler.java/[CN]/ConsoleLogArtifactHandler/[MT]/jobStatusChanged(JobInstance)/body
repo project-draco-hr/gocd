@@ -2,8 +2,8 @@
   if (job.getState().isCompleted()) {
     try {
       JobIdentifier identifier=job.getIdentifier();
-      service.moveConsoleArtifacts(identifier);
-      service.appendToConsoleLog(identifier,format("[%s] %s %s",GoConstants.PRODUCT_NAME,"Job Completed",identifier.buildLocatorForDisplay()));
+      consoleService.moveConsoleArtifacts(identifier);
+      consoleService.appendToConsoleLog(identifier,format("[%s] %s %s",GoConstants.PRODUCT_NAME,"Job Completed",identifier.buildLocatorForDisplay()));
     }
  catch (    Exception e) {
       throw new RuntimeException(e);

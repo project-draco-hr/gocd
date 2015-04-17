@@ -1,0 +1,13 @@
+{
+  String separator=getProperty("line.separator");
+  String output="line1" + separator + "line2"+ separator+ "line3";
+  ByteArrayInputStream stream=new ByteArrayInputStream(output.getBytes());
+  ConsoleOut consoleOut=service.getConsoleOut(0,stream);
+  assertThat(consoleOut.output(),is(output + separator));
+  assertThat(consoleOut.calculateNextStart(),is(3));
+  output+=separator + "line4" + separator+ "line5";
+  stream=new ByteArrayInputStream(output.getBytes());
+  consoleOut=service.getConsoleOut(3,stream);
+  assertThat(consoleOut.output(),is("line4" + separator + "line5"+ separator));
+  assertThat(consoleOut.calculateNextStart(),is(5));
+}

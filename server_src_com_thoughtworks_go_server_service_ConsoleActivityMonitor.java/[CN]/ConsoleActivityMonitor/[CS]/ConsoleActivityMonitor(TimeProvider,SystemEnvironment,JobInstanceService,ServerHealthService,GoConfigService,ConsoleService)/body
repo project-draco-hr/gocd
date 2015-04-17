@@ -1,0 +1,10 @@
+{
+  this.timeProvider=timeProvider;
+  this.jobInstanceService=jobInstanceService;
+  this.serverHealthService=serverHealthService;
+  this.goConfigService=goConfigService;
+  this.consoleService=consoleService;
+  this.jobLastActivityMap=new ConcurrentHashMap<JobIdentifier,Long>();
+  warningThreshold=systemEnvironment.getUnresponsiveJobWarningThreshold();
+  jobInstanceService.registerJobStateChangeListener(new ActiveJobListener(this));
+}

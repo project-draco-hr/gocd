@@ -1,5 +1,5 @@
 {
-  File file=isConsoleOutput(filePath) ? artifactsService.findConsoleArtifact(translatedId) : artifactsService.findArtifact(translatedId,filePath);
+  File file=isConsoleOutput(filePath) ? consoleService.findConsoleArtifact(translatedId) : artifactsService.findArtifact(translatedId,filePath);
   if (file.exists() && file.isFile()) {
     return FileModelAndView.createFileView(file,sha);
   }

@@ -1,6 +1,6 @@
 {
-  File consoleLogFile=artifactsService.consoleLogFile(jobIdentifier);
-  boolean updated=artifactsService.updateConsoleLog(consoleLogFile,inputStream,ArtifactsService.LineListener.NO_OP_LINE_LISTENER);
+  File consoleLogFile=consoleService.consoleLogFile(jobIdentifier);
+  boolean updated=consoleService.updateConsoleLog(consoleLogFile,inputStream,ConsoleService.LineListener.NO_OP_LINE_LISTENER);
   if (updated) {
     consoleActivityMonitor.consoleUpdatedFor(jobIdentifier);
     return FileModelAndView.fileAppended(consoleLogFile.getPath());
