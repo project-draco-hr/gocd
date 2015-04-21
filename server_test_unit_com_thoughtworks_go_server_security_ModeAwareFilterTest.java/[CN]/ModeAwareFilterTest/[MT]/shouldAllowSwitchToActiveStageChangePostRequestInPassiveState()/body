@@ -1,0 +1,8 @@
+{
+  when(request.getMethod()).thenReturn("post");
+  when(systemEnvironment.isServerActive()).thenReturn(false);
+  when(systemEnvironment.getWebappContextPath()).thenReturn("/go");
+  when(request.getRequestURI()).thenReturn("/go/api/state/active");
+  filter.doFilter(request,response,filterChain);
+  verify(filterChain).doFilter(request,response);
+}
