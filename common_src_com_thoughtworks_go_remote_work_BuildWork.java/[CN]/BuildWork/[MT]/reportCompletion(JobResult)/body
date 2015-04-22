@@ -1,9 +1,9 @@
 {
   try {
     builders.waitForCancelTasks();
-    goPublisher.stop();
     if (result == null) {
       goPublisher.reportCurrentStatus(JobState.Completed);
+      goPublisher.reportCompletedAction();
     }
  else {
       goPublisher.reportCompleted(result);
