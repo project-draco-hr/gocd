@@ -2,25 +2,41 @@
   ThreadSafetyChecker threadSafetyChecker=new ThreadSafetyChecker(5000);
   threadSafetyChecker.addOperation(new ThreadSafetyChecker.Operation(){
     @Override public void execute(    int runIndex){
+      StopWatch stopWatch=new StopWatch("enabledUserCount");
+      stopWatch.start("enabledUserCount");
       userDao.enabledUserCount();
+      stopWatch.stop();
+      System.out.println(stopWatch.shortSummary());
     }
   }
 );
   threadSafetyChecker.addOperation(new ThreadSafetyChecker.Operation(){
     @Override public void execute(    int runIndex){
+      StopWatch stopWatch=new StopWatch("deleteAll");
+      stopWatch.start("deleteAll");
       userDao.deleteAll();
+      stopWatch.stop();
+      System.out.println(stopWatch.shortSummary());
     }
   }
 );
   threadSafetyChecker.addOperation(new ThreadSafetyChecker.Operation(){
     @Override public void execute(    int runIndex){
+      StopWatch stopWatch=new StopWatch("saveOrUpdate");
+      stopWatch.start("saveOrUpdate");
       userDao.saveOrUpdate(new User("some-random-user " + runIndex));
+      stopWatch.stop();
+      System.out.println(stopWatch.shortSummary());
     }
   }
 );
   threadSafetyChecker.addOperation(new ThreadSafetyChecker.Operation(){
     @Override public void execute(    int runIndex){
+      StopWatch stopWatch=new StopWatch("enableUsers");
+      stopWatch.start("enableUsers");
       userDao.enableUsers(Arrays.asList("some-random-user " + runIndex));
+      stopWatch.stop();
+      System.out.println(stopWatch.shortSummary());
     }
   }
 );
