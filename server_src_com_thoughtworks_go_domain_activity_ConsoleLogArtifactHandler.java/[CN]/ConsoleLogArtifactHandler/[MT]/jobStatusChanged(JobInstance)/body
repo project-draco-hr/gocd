@@ -1,5 +1,5 @@
 {
-  if (job.getState().isCompleted()) {
+  if (!job.isCopy() && job.isCompleted()) {
     try {
       JobIdentifier identifier=job.getIdentifier();
       consoleService.moveConsoleArtifacts(identifier);
