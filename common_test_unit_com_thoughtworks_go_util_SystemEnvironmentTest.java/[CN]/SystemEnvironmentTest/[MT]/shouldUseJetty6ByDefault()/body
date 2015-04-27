@@ -1,12 +1,7 @@
 {
   SystemEnvironment systemEnvironment=new SystemEnvironment();
-  try {
-    assertThat(systemEnvironment.get(SystemEnvironment.APP_SERVER),is(SystemEnvironment.JETTY6));
-    assertThat(systemEnvironment.usingJetty9(),is(false));
-    systemEnvironment.set(SystemEnvironment.APP_SERVER,SystemEnvironment.JETTY9);
-    assertThat(systemEnvironment.usingJetty9(),is(true));
-  }
-  finally {
-    systemEnvironment.set(SystemEnvironment.APP_SERVER,SystemEnvironment.JETTY6);
-  }
+  assertThat(systemEnvironment.get(SystemEnvironment.APP_SERVER),is(SystemEnvironment.JETTY6));
+  assertThat(systemEnvironment.usingJetty9(),is(false));
+  systemEnvironment.set(SystemEnvironment.APP_SERVER,SystemEnvironment.JETTY9);
+  assertThat(systemEnvironment.usingJetty9(),is(true));
 }
