@@ -1,7 +1,7 @@
 {
   try {
     File from=chooser.temporaryConsoleFile(locatableEntity);
-    from.createNewFile();
+    FileUtils.touch(from);
     File to=chooser.findArtifact(locatableEntity,getConsoleOutputFolderAndFileName());
     FileUtils.moveFile(from,to);
   }
