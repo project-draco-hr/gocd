@@ -6,6 +6,6 @@
   redirectDuringBackup.setServerBackupFlag(request);
   assertThat((String)request.getAttribute("backupInProgress"),is("true"));
   assertThat((String)request.getAttribute("redirected_from"),is(encode(responseAssertion.expectedRedirectedFrom,"UTF-8")));
-  assertThat((String)request.getAttribute("backup_started_at"),is(UrlEncoded.encodeString(responseAssertion.backupStartedAt)));
+  assertThat((String)request.getAttribute("backup_started_at"),is(encode(responseAssertion.backupStartedAt,"UTF-8")));
   assertThat((String)request.getAttribute("backup_started_by"),is(responseAssertion.backupStartedBy));
 }
