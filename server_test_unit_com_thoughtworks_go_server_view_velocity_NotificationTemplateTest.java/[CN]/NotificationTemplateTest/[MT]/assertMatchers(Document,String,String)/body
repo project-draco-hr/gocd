@@ -1,0 +1,6 @@
+{
+  for (int i=0; i < individualMatchers.length; i++) {
+    assertThat(document.select("#tab-content-of-notifications #email-settings .matcher").get(i).html(),is(individualMatchers[i]));
+  }
+  assertThat(document.select("#tab-content-of-notifications #email-settings #matchers").val(),is(expectedCombinedMatchersValue));
+}

@@ -1,0 +1,12 @@
+{
+  MockHttpServletRequest request=new MockHttpServletRequest();
+  MockHttpServletResponse response=new MockHttpServletResponse();
+  try {
+    setExposeSpringMacroHelpers(false);
+    renderMergedOutputModel(modelData,request,response);
+    return response.getContentAsString();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

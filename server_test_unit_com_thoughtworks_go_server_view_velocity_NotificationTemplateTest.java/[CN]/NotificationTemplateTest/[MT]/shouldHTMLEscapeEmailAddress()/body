@@ -1,0 +1,10 @@
+{
+  HashMap<String,Object> data=new HashMap<String,Object>();
+  User user=new User("name","display-name",new String[]{"matcher1","matcher2"},"email1@host.com<script>this && that</script>",true);
+  user.populateModel(data);
+  data.put("pipelines","[]");
+  data.put("l",null);
+  data.put("escaper",new Escaper());
+  Document actualDoc=Jsoup.parse(new TestVelocityView(TEMPLATE_PATH,data).render());
+  assertEmailSection(actualDoc,"email1@host.com&lt;script&gt;this &amp;&amp; that&lt;/script&gt;","checked");
+}
