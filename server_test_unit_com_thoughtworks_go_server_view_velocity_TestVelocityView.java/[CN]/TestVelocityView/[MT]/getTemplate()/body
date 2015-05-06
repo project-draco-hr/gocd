@@ -1,0 +1,10 @@
+{
+  Template template=new Template();
+  ResourceLoader loader=mock(ResourceLoader.class);
+  when(loader.getResourceStream("template1")).thenReturn(getClass().getResourceAsStream(templatePath));
+  template.setRuntimeServices(new RuntimeInstance());
+  template.setName("template1");
+  template.setResourceLoader(loader);
+  template.process();
+  return template;
+}
