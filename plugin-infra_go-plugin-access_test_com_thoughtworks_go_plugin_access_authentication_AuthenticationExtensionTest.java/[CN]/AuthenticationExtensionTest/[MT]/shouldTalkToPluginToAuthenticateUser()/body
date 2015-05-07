@@ -1,0 +1,11 @@
+{
+  String username="username";
+  String password="password";
+  when(jsonMessageHandler.requestMessageForAuthenticateUser(username,password)).thenReturn(REQUEST_BODY);
+  User response=new User("username","display-name","email-id");
+  when(jsonMessageHandler.responseMessageForAuthenticateUser(RESPONSE_BODY)).thenReturn(response);
+  User deserializedResponse=authenticationExtension.authenticateUser(PLUGIN_ID,username,password);
+  assertRequest(requestArgumentCaptor.getValue(),AuthenticationExtension.EXTENSION_NAME,"1.0",AuthenticationExtension.REQUEST_AUTHENTICATE_USER,REQUEST_BODY);
+  verify(jsonMessageHandler).responseMessageForAuthenticateUser(RESPONSE_BODY);
+  assertSame(response,deserializedResponse);
+}

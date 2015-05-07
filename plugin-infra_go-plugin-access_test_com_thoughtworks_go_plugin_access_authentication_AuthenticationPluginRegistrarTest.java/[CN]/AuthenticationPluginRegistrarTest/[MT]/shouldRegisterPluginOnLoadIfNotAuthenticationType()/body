@@ -1,0 +1,6 @@
+{
+  String pluginId="plugin-id-1";
+  when(authenticationExtension.isAuthenticationPlugin(pluginId)).thenReturn(false);
+  authenticationPluginRegistrar.pluginLoaded(getPluginDescriptor(pluginId));
+  verify(authenticationPluginRegistry,never()).registerPlugin(eq(pluginId),any(AuthenticationPluginConfiguration.class));
+}

@@ -1,0 +1,27 @@
+{
+  String username;
+  try {
+    username=(String)map.get("username");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("User 'username' should be of type string");
+  }
+  if (StringUtil.isBlank(username)) {
+    throw new RuntimeException("User 'username' cannot be empty");
+  }
+  String displayName;
+  try {
+    displayName=(String)map.get("display-name");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("User 'display-name' should be of type string");
+  }
+  String emailId;
+  try {
+    emailId=(String)map.get("email-id");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("User 'email-id' should be of type string");
+  }
+  return new User(username,displayName,emailId);
+}

@@ -1,0 +1,6 @@
+{
+  String user1Json="{\"username\":\"username1\",\"display-name\":\"user 1\",\"email-id\":\"test1@test.com\"}";
+  String user2Json="{\"username\":\"username2\",\"display-name\":\"user 2\",\"email-id\":\"test2@test.com\"}";
+  List<User> users=messageHandler.responseMessageForSearchUser(String.format("[%s,%s]",user1Json,user2Json));
+  assertThat(users,is(Arrays.asList(new User("username1","user 1","test1@test.com"),new User("username2","user 2","test2@test.com"))));
+}
