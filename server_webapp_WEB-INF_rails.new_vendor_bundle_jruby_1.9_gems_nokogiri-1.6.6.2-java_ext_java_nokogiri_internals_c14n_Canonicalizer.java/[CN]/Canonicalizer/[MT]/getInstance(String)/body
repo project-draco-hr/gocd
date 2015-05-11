@@ -1,0 +1,7 @@
+{
+  if (canonicalizerHash == null) {
+    canonicalizerHash=new ConcurrentHashMap<String,Class<? extends CanonicalizerSpi>>();
+    Canonicalizer.registerDefaultAlgorithms();
+  }
+  return new Canonicalizer(algorithmURI);
+}

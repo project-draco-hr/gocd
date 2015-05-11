@@ -1,0 +1,7 @@
+{
+  XmlDocument xmlDocument=(XmlDocument)NokogiriService.XML_DOCUMENT_ALLOCATOR.allocate(context.getRuntime(),getNokogiriClass(context.getRuntime(),"Nokogiri::XML::Document"));
+  RuntimeHelpers.invoke(context,xmlDocument,"initialize");
+  Document document=(Document)arg.toJava(Document.class);
+  xmlDocument.setDocumentNode(context,document);
+  return xmlDocument;
+}

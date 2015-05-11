@@ -1,0 +1,19 @@
+{
+  NullPointerException npe=null;
+  for (  Node node : xpathNodeSet) {
+    int nodeType=node.getNodeType();
+    if (nodeType == Node.DOCUMENT_NODE) {
+      return (Document)node;
+    }
+    try {
+      if (nodeType == Node.ATTRIBUTE_NODE) {
+        return ((Attr)node).getOwnerElement().getOwnerDocument();
+      }
+      return node.getOwnerDocument();
+    }
+ catch (    NullPointerException e) {
+      npe=e;
+    }
+  }
+  throw new NullPointerException(npe.getMessage());
+}

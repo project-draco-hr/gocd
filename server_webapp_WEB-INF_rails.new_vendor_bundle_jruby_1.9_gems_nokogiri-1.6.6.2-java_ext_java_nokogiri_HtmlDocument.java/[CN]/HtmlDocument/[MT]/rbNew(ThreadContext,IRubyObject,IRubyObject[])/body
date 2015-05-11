@@ -1,0 +1,13 @@
+{
+  HtmlDocument htmlDocument=null;
+  try {
+    Document docNode=createNewDocument();
+    htmlDocument=(HtmlDocument)NokogiriService.HTML_DOCUMENT_ALLOCATOR.allocate(context.getRuntime(),(RubyClass)klazz);
+    htmlDocument.setDocumentNode(context,docNode);
+  }
+ catch (  Exception ex) {
+    throw context.getRuntime().newRuntimeError("couldn't create document: " + ex.toString());
+  }
+  RuntimeHelpers.invoke(context,htmlDocument,"initialize",args);
+  return htmlDocument;
+}

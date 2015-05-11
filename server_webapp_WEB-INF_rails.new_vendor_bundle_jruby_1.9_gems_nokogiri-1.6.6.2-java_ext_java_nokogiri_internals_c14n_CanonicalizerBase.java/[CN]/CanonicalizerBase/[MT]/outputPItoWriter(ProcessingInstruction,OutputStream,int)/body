@@ -1,0 +1,40 @@
+{
+  if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
+    writer.write('\n');
+  }
+  writer.write(BEGIN_PI);
+  final String target=currentPI.getTarget();
+  int length=target.length();
+  for (int i=0; i < length; i++) {
+    char c=target.charAt(i);
+    if (c == 0x0D) {
+      writer.write(XD);
+    }
+ else {
+      if (c < 0x80) {
+        writer.write(c);
+      }
+ else {
+        UtfHelpper.writeCharToUtf8(c,writer);
+      }
+    }
+  }
+  final String data=currentPI.getData();
+  length=data.length();
+  if (length > 0) {
+    writer.write(' ');
+    for (int i=0; i < length; i++) {
+      char c=data.charAt(i);
+      if (c == 0x0D) {
+        writer.write(XD);
+      }
+ else {
+        UtfHelpper.writeCharToUtf8(c,writer);
+      }
+    }
+  }
+  writer.write(END_PI);
+  if (position == NODE_BEFORE_DOCUMENT_ELEMENT) {
+    writer.write('\n');
+  }
+}

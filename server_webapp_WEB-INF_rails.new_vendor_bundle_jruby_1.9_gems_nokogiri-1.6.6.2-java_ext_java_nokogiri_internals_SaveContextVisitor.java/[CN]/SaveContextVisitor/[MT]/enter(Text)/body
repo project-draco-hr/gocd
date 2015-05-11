@@ -1,0 +1,16 @@
+{
+  String textContent=text.getNodeValue();
+  if (canonical) {
+    c14nNodeList.add(text);
+    if (isWhitespaceText(textContent)) {
+      buffer.append(canonicalizeWhitespce(textContent));
+      return true;
+    }
+  }
+  if (NokogiriHelpers.shouldEncode(text) && !isHtmlScript(text)) {
+    textContent=encodeJavaString(textContent);
+  }
+  textContent=encodeStringToHtmlEntity(textContent);
+  buffer.append(textContent);
+  return true;
+}

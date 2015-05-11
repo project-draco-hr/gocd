@@ -1,0 +1,13 @@
+{
+  AgentConfig agent=createDisabledAndIdleAgent(UUID);
+  goConfigFileDao.load();
+  assertThat(agentService.agents().size(),is(1));
+  assertThat(agentService.agents().get(0).getHostname(),is(not("some-hostname")));
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.updateAgentAttributes(USERNAME,operationResult,UUID,"some-hostname","linux,java");
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(operationResult.message(),is("Updated agent with uuid uuid."));
+  assertThat(agentService.agents().size(),is(1));
+  assertThat(agentService.agents().get(0).getHostname(),is("some-hostname"));
+  assertThat(agentService.agents().get(0).resources(),is(new Resources("linux,java")));
+}

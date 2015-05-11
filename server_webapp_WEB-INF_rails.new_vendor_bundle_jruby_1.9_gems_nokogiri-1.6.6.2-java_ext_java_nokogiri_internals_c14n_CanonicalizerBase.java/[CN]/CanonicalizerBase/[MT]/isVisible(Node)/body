@@ -1,0 +1,14 @@
+{
+  if (nodeFilter != null) {
+    Iterator<NodeFilter> it=nodeFilter.iterator();
+    while (it.hasNext()) {
+      if (it.next().isNodeInclude(currentNode) != 1) {
+        return false;
+      }
+    }
+  }
+  if ((this.xpathNodeSet != null) && !this.xpathNodeSet.contains(currentNode)) {
+    return false;
+  }
+  return true;
+}

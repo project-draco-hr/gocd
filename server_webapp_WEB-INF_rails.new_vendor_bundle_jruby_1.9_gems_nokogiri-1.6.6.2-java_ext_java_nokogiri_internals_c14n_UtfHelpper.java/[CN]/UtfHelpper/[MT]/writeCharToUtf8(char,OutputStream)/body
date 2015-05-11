@@ -1,0 +1,33 @@
+{
+  if (c < 0x80) {
+    out.write(c);
+    return;
+  }
+  if ((c >= 0xD800 && c <= 0xDBFF) || (c >= 0xDC00 && c <= 0xDFFF)) {
+    out.write(0x3f);
+    return;
+  }
+  int bias;
+  int write;
+  char ch;
+  if (c > 0x07FF) {
+    ch=(char)(c >>> 12);
+    write=0xE0;
+    if (ch > 0) {
+      write|=(ch & 0x0F);
+    }
+    out.write(write);
+    write=0x80;
+    bias=0x3F;
+  }
+ else {
+    write=0xC0;
+    bias=0x1F;
+  }
+  ch=(char)(c >>> 6);
+  if (ch > 0) {
+    write|=(ch & bias);
+  }
+  out.write(write);
+  out.write(0x80 | ((c) & 0x3F));
+}

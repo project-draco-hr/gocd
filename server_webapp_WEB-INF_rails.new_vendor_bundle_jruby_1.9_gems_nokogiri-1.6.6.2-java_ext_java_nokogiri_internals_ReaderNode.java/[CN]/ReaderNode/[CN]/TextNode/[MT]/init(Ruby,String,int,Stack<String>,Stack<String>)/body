@@ -1,0 +1,11 @@
+{
+  this.ruby=ruby;
+  this.value=content;
+  this.localName="#text";
+  this.name="#text";
+  this.depth=depth;
+  if (content.trim().length() > 0)   nodeType=ReaderNodeType.TEXT.getValue();
+ else   nodeType=ReaderNodeType.SIGNIFICANT_WHITESPACE.getValue();
+  if (!langStack.isEmpty())   this.lang=langStack.peek();
+  if (!xmlBaseStack.isEmpty())   this.xmlBase=xmlBaseStack.peek();
+}

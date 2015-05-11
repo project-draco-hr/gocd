@@ -1,0 +1,11 @@
+{
+  SAXParser parser=new SAXParser();
+  try {
+    parser.setProperty("http://cyberneko.org/html/properties/names/elems","lower");
+    parser.setProperty("http://cyberneko.org/html/properties/names/attrs","lower");
+    return parser;
+  }
+ catch (  SAXException ex) {
+    throw new SAXException("Problem while creating HTML SAX Parser: " + ex.toString());
+  }
+}

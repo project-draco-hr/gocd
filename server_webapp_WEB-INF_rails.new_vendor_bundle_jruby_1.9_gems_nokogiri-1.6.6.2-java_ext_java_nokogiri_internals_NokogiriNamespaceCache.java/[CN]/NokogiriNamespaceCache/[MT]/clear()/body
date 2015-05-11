@@ -1,0 +1,15 @@
+{
+  for (  String[] key : cache.keySet()) {
+    CacheEntry entry=cache.get(key);
+    NamedNodeMap attributes=entry.ownerNode.getAttributes();
+    for (int j=0; j < attributes.getLength(); j++) {
+      String name=((Attr)attributes.item(j)).getName();
+      if (isNamespace(name)) {
+        attributes.removeNamedItem(name);
+      }
+    }
+  }
+  keys.clear();
+  cache.clear();
+  defaultNamespace=null;
+}

@@ -1,0 +1,20 @@
+{
+  if (ctx == descendantOrSelf) {
+    return true;
+  }
+  Node parent=descendantOrSelf;
+  while (true) {
+    if (parent == null) {
+      return false;
+    }
+    if (parent == ctx) {
+      return true;
+    }
+    if (parent.getNodeType() == Node.ATTRIBUTE_NODE) {
+      parent=((Attr)parent).getOwnerElement();
+    }
+ else {
+      parent=parent.getParentNode();
+    }
+  }
+}

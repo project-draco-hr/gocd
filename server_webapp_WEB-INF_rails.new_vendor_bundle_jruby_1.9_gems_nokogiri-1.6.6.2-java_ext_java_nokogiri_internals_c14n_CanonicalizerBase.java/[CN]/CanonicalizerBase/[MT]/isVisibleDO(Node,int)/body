@@ -1,0 +1,15 @@
+{
+  if (nodeFilter != null) {
+    Iterator<NodeFilter> it=nodeFilter.iterator();
+    while (it.hasNext()) {
+      int i=(it.next()).isNodeIncludeDO(currentNode,level);
+      if (i != 1) {
+        return i;
+      }
+    }
+  }
+  if ((this.xpathNodeSet != null) && !this.xpathNodeSet.contains(currentNode)) {
+    return 0;
+  }
+  return 1;
+}

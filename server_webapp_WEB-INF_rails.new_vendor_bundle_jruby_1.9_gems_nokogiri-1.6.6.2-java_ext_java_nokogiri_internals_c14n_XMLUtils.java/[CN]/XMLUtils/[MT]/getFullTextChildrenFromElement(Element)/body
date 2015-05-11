@@ -1,0 +1,11 @@
+{
+  StringBuilder sb=new StringBuilder();
+  Node child=element.getFirstChild();
+  while (child != null) {
+    if (child.getNodeType() == Node.TEXT_NODE) {
+      sb.append(((Text)child).getData());
+    }
+    child=child.getNextSibling();
+  }
+  return sb.toString();
+}

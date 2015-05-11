@@ -1,0 +1,10 @@
+{
+  String expectedLocalName=this.getBaseLocalName();
+  String expectedNamespaceUri=this.getBaseNamespace();
+  String actualLocalName=this.constructionElement.getLocalName();
+  String actualNamespaceUri=this.constructionElement.getNamespaceURI();
+  if (!expectedNamespaceUri.equals(actualNamespaceUri) && !expectedLocalName.equals(actualLocalName)) {
+    Object exArgs[]={actualNamespaceUri + ":" + actualLocalName,expectedNamespaceUri + ":" + expectedLocalName};
+    throw new CanonicalizationException("xml.WrongElement",exArgs);
+  }
+}

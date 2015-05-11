@@ -1,0 +1,10 @@
+{
+  List<Element> list=new ArrayList<Element>();
+  while (sibling != null) {
+    if (sibling.getNamespaceURI() != null && sibling.getNamespaceURI().equals(uri) && sibling.getLocalName().equals(nodeName)) {
+      list.add((Element)sibling);
+    }
+    sibling=sibling.getNextSibling();
+  }
+  return list.toArray(new Element[list.size()]);
+}

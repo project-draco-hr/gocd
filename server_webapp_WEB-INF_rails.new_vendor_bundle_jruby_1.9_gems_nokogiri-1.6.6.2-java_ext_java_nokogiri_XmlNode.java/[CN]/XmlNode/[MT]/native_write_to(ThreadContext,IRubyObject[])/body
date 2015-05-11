@@ -1,0 +1,24 @@
+{
+  IRubyObject io=args[0];
+  IRubyObject encoding=args[1];
+  IRubyObject indentString=args[2];
+  IRubyObject options=args[3];
+  String encString=encoding.isNil() ? null : rubyStringToString(encoding);
+  SaveContextVisitor visitor=new SaveContextVisitor((Integer)options.toJava(Integer.class),rubyStringToString(indentString),encString,isHtmlDoc(context),isFragment(),0);
+  accept(context,visitor);
+  IRubyObject rubyString=null;
+  if (NokogiriHelpers.isUTF8(encString)) {
+    rubyString=stringOrNil(context.getRuntime(),visitor.toString());
+  }
+ else {
+    try {
+      byte[] bytes=NokogiriHelpers.convertEncoding(Charset.forName(encString),visitor.toString());
+      rubyString=stringOrNil(context.getRuntime(),bytes);
+    }
+ catch (    CharacterCodingException e) {
+      throw context.getRuntime().newRuntimeError(e.getMessage());
+    }
+  }
+  RuntimeHelpers.invoke(context,io,"write",rubyString);
+  return io;
+}

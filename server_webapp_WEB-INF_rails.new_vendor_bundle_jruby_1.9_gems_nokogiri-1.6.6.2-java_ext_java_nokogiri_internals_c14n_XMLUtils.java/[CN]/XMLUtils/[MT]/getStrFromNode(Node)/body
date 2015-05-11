@@ -1,0 +1,18 @@
+{
+  if (xpathnode.getNodeType() == Node.TEXT_NODE) {
+    StringBuilder sb=new StringBuilder();
+    for (Node currentSibling=xpathnode.getParentNode().getFirstChild(); currentSibling != null; currentSibling=currentSibling.getNextSibling()) {
+      if (currentSibling.getNodeType() == Node.TEXT_NODE) {
+        sb.append(((Text)currentSibling).getData());
+      }
+    }
+    return sb.toString();
+  }
+ else   if (xpathnode.getNodeType() == Node.ATTRIBUTE_NODE) {
+    return ((Attr)xpathnode).getNodeValue();
+  }
+ else   if (xpathnode.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE) {
+    return ((ProcessingInstruction)xpathnode).getNodeValue();
+  }
+  return null;
+}

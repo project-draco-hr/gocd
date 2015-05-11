@@ -1,0 +1,10 @@
+{
+  if (doc == null) {
+    doc=(XmlDocument)node.getOwnerDocument().getUserData(NokogiriHelpers.CACHED_NODE);
+  }
+  if (doc == null) {
+    doc=getCachedNodeOrCreate(context.getRuntime(),node.getOwnerDocument());
+    node.getOwnerDocument().setUserData(NokogiriHelpers.CACHED_NODE,doc,null);
+  }
+  return doc;
+}

@@ -1,0 +1,14 @@
+{
+  NamedNodeMap nodeMap=this.node.getAttributes();
+  Ruby ruby=context.getRuntime();
+  if (nodeMap == null) {
+    return ruby.newEmptyArray();
+  }
+  RubyArray attr=ruby.newArray();
+  for (int i=0; i < nodeMap.getLength(); i++) {
+    if ((doc instanceof HtmlDocument) || !NokogiriHelpers.isNamespace(nodeMap.item(i))) {
+      attr.append(getCachedNodeOrCreate(context.getRuntime(),nodeMap.item(i)));
+    }
+  }
+  return attr;
+}

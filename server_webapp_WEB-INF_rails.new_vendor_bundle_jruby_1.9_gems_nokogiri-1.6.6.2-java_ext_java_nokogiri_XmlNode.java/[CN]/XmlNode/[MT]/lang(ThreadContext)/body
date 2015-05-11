@@ -1,0 +1,12 @@
+{
+  IRubyObject currentObj=this;
+  while (!currentObj.isNil()) {
+    XmlNode currentNode=asXmlNode(context,currentObj);
+    IRubyObject lang=currentNode.getAttribute(context.getRuntime(),"xml:lang");
+    if (!lang.isNil()) {
+      return lang;
+    }
+    currentObj=currentNode.parent(context);
+  }
+  return context.nil;
+}

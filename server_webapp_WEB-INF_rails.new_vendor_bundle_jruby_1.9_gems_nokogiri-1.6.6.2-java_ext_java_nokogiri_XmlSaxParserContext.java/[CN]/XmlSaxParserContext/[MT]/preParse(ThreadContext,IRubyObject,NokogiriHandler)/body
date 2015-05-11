@@ -1,0 +1,11 @@
+{
+  ((XmlSaxParser)parser).setXmlDeclHandler(handler);
+  if (recovery.isTrue()) {
+    try {
+      ((XmlSaxParser)parser).setFeature(FEATURE_CONTINUE_AFTER_FATAL_ERROR,true);
+    }
+ catch (    Exception e) {
+      throw RaiseException.createNativeRaiseException(context.getRuntime(),e);
+    }
+  }
+}

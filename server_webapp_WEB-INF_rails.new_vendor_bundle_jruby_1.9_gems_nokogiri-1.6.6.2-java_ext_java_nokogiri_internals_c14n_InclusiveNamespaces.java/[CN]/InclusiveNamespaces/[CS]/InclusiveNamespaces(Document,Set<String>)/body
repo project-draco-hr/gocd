@@ -1,0 +1,20 @@
+{
+  super(doc);
+  SortedSet<String> prefixList=null;
+  if (prefixes instanceof SortedSet<?>) {
+    prefixList=(SortedSet<String>)prefixes;
+  }
+ else {
+    prefixList=new TreeSet<String>(prefixes);
+  }
+  StringBuilder sb=new StringBuilder();
+  for (  String prefix : prefixList) {
+    if (prefix.equals("xmlns")) {
+      sb.append("#default ");
+    }
+ else {
+      sb.append(prefix + " ");
+    }
+  }
+  this.constructionElement.setAttributeNS(null,InclusiveNamespaces._ATT_EC_PREFIXLIST,sb.toString().trim());
+}

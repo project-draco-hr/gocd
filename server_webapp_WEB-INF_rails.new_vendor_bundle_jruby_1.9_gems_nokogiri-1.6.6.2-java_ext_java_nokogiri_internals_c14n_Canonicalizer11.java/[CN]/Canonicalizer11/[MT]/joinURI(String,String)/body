@@ -1,0 +1,73 @@
+{
+  String bscheme=null;
+  String bauthority=null;
+  String bpath="";
+  String bquery=null;
+  if (baseURI != null) {
+    if (baseURI.endsWith("..")) {
+      baseURI=baseURI + "/";
+    }
+    URI base=new URI(baseURI);
+    bscheme=base.getScheme();
+    bauthority=base.getAuthority();
+    bpath=base.getPath();
+    bquery=base.getQuery();
+  }
+  URI r=new URI(relativeURI);
+  String rscheme=r.getScheme();
+  String rauthority=r.getAuthority();
+  String rpath=r.getPath();
+  String rquery=r.getQuery();
+  String tscheme, tauthority, tpath, tquery;
+  if (rscheme != null && rscheme.equals(bscheme)) {
+    rscheme=null;
+  }
+  if (rscheme != null) {
+    tscheme=rscheme;
+    tauthority=rauthority;
+    tpath=removeDotSegments(rpath);
+    tquery=rquery;
+  }
+ else {
+    if (rauthority != null) {
+      tauthority=rauthority;
+      tpath=removeDotSegments(rpath);
+      tquery=rquery;
+    }
+ else {
+      if (rpath.length() == 0) {
+        tpath=bpath;
+        if (rquery != null) {
+          tquery=rquery;
+        }
+ else {
+          tquery=bquery;
+        }
+      }
+ else {
+        if (rpath.startsWith("/")) {
+          tpath=removeDotSegments(rpath);
+        }
+ else {
+          if (bauthority != null && bpath.length() == 0) {
+            tpath="/" + rpath;
+          }
+ else {
+            int last=bpath.lastIndexOf('/');
+            if (last == -1) {
+              tpath=rpath;
+            }
+ else {
+              tpath=bpath.substring(0,last + 1) + rpath;
+            }
+          }
+          tpath=removeDotSegments(tpath);
+        }
+        tquery=rquery;
+      }
+      tauthority=bauthority;
+    }
+    tscheme=bscheme;
+  }
+  return new URI(tscheme,tauthority,tpath,tquery,null).toString();
+}

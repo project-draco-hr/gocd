@@ -1,0 +1,8 @@
+{
+  byte[] result=cache.get(str);
+  if (result == null) {
+    result=getStringInUtf8(str);
+    cache.put(str,result);
+  }
+  out.write(result);
+}

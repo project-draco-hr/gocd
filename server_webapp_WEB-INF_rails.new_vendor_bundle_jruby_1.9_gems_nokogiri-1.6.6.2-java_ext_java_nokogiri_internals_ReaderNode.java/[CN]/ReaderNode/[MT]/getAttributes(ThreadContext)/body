@@ -1,0 +1,11 @@
+{
+  if (attributeList == null)   return context.getRuntime().getNil();
+  RubyHash hash=RubyHash.newHash(context.getRuntime());
+  for (int i=0; i < attributeList.length; i++) {
+    IRubyObject k=stringOrBlank(context.getRuntime(),attributeList.names.get(i));
+    IRubyObject v=stringOrBlank(context.getRuntime(),attributeList.values.get(i));
+    if (context.getRuntime().is1_9())     hash.op_aset19(context,k,v);
+ else     hash.op_aset(context,k,v);
+  }
+  return hash;
+}

@@ -1,0 +1,28 @@
+{
+  if (canonical) {
+    c14nNodeList.add(docType);
+    return true;
+  }
+  String name=docType.getName();
+  String pubId=docType.getPublicId();
+  String sysId=docType.getSystemId();
+  String internalSubset=docType.getInternalSubset();
+  if (docType.getPreviousSibling() != null) {
+    buffer.append("\n");
+  }
+  buffer.append("<!DOCTYPE " + name + " ");
+  if (pubId != null) {
+    buffer.append("PUBLIC \"" + pubId + "\"");
+    if (sysId != null)     buffer.append(" \"" + sysId + "\"");
+  }
+ else   if (sysId != null) {
+    buffer.append("SYSTEM \"" + sysId + "\"");
+  }
+  if (internalSubset != null) {
+    buffer.append(" [");
+    buffer.append(internalSubset);
+    buffer.append("]");
+  }
+  buffer.append(">\n");
+  return true;
+}

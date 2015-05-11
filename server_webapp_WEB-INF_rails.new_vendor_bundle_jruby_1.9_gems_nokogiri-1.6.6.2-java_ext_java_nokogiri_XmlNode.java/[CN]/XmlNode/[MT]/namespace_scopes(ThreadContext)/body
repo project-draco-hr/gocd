@@ -1,0 +1,28 @@
+{
+  RubyArray scoped_namespaces=context.getRuntime().newArray();
+  if (doc == null)   return scoped_namespaces;
+  if (doc instanceof HtmlDocument)   return scoped_namespaces;
+  Node previousNode;
+  if (node.getNodeType() == Node.ELEMENT_NODE) {
+    previousNode=node;
+  }
+ else   if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
+    previousNode=((Attr)node).getOwnerElement();
+  }
+ else {
+    previousNode=findPreviousElement(node);
+  }
+  if (previousNode == null)   return scoped_namespaces;
+  List<String> prefixes_in_scope=new ArrayList<String>();
+  NokogiriNamespaceCache nsCache=NokogiriHelpers.getNamespaceCacheFormNode(previousNode);
+  for (Node previous=previousNode; previous != null; ) {
+    List<XmlNamespace> namespaces=nsCache.get(previous);
+    for (    XmlNamespace namespace : namespaces) {
+      if (prefixes_in_scope.contains(namespace.getPrefix()))       continue;
+      scoped_namespaces.append(namespace);
+      prefixes_in_scope.add(namespace.getPrefix());
+    }
+    previous=findPreviousElement(previous);
+  }
+  return scoped_namespaces;
+}

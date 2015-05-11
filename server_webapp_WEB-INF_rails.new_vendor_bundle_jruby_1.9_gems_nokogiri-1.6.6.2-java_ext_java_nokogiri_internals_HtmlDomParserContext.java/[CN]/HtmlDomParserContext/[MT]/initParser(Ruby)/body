@@ -1,0 +1,14 @@
+{
+  XMLParserConfiguration config=new HTMLConfiguration();
+  XMLDocumentFilter removeNSAttrsFilter=new RemoveNSAttrsFilter();
+  XMLDocumentFilter elementValidityCheckFilter=new ElementValidityCheckFilter(errorHandler);
+  XMLDocumentFilter[] filters={elementValidityCheckFilter};
+  config.setErrorHandler(this.errorHandler);
+  parser=new NokogiriDomParser(config);
+  setProperty("http://cyberneko.org/html/properties/default-encoding",java_encoding);
+  setProperty("http://cyberneko.org/html/properties/names/elems","lower");
+  setProperty("http://cyberneko.org/html/properties/names/attrs","lower");
+  setProperty("http://cyberneko.org/html/properties/filters",filters);
+  setFeature("http://cyberneko.org/html/features/report-errors",true);
+  setFeature("http://xml.org/sax/features/namespaces",false);
+}

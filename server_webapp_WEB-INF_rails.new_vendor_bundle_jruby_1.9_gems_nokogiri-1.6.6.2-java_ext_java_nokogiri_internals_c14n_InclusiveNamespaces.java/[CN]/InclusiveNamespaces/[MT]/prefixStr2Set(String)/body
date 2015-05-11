@@ -1,0 +1,16 @@
+{
+  SortedSet<String> prefixes=new TreeSet<String>();
+  if ((inclusiveNamespaces == null) || (inclusiveNamespaces.length() == 0)) {
+    return prefixes;
+  }
+  String[] tokens=inclusiveNamespaces.split("\\s");
+  for (  String prefix : tokens) {
+    if (prefix.equals("#default")) {
+      prefixes.add("xmlns");
+    }
+ else {
+      prefixes.add(prefix);
+    }
+  }
+  return prefixes;
+}

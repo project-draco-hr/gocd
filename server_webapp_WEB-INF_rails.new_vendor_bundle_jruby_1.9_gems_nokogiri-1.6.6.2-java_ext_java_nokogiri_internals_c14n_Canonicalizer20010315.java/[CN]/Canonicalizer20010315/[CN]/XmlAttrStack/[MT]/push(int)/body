@@ -1,0 +1,16 @@
+{
+  currentLevel=level;
+  if (currentLevel == -1) {
+    return;
+  }
+  cur=null;
+  while (lastlevel >= currentLevel) {
+    levels.remove(levels.size() - 1);
+    int newSize=levels.size();
+    if (newSize == 0) {
+      lastlevel=0;
+      return;
+    }
+    lastlevel=(levels.get(newSize - 1)).level;
+  }
+}

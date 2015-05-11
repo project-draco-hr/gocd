@@ -1,0 +1,15 @@
+{
+  if (options.recover) {
+    XmlDocument xmlDocument=getInterruptedOrNewXmlDocument(context,klazz);
+    this.addErrorsIfNecessary(context,xmlDocument);
+    XmlSyntaxError xmlSyntaxError=(XmlSyntaxError)NokogiriService.XML_SYNTAXERROR_ALLOCATOR.allocate(context.getRuntime(),getNokogiriClass(context.getRuntime(),"Nokogiri::XML::SyntaxError"));
+    xmlSyntaxError.setException(ex);
+    ((RubyArray)xmlDocument.getInstanceVariable("@errors")).append(xmlSyntaxError);
+    return xmlDocument;
+  }
+ else {
+    XmlSyntaxError xmlSyntaxError=(XmlSyntaxError)NokogiriService.XML_SYNTAXERROR_ALLOCATOR.allocate(context.getRuntime(),getNokogiriClass(context.getRuntime(),"Nokogiri::XML::SyntaxError"));
+    xmlSyntaxError.setException(ex);
+    throw new RaiseException(xmlSyntaxError);
+  }
+}

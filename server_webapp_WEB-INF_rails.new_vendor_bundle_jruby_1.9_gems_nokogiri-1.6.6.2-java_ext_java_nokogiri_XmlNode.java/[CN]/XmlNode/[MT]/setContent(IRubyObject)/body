@@ -1,0 +1,9 @@
+{
+  String javaContent=rubyStringToString(content);
+  node.setTextContent(javaContent);
+  if (javaContent.length() == 0)   return;
+  if (node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.CDATA_SECTION_NODE)   return;
+  if (node.getFirstChild() != null) {
+    node.getFirstChild().setUserData(NokogiriHelpers.ENCODED_STRING,true,null);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  CompositeConfigCommand command=new CompositeConfigCommand();
+  if (hostname != null) {
+    command.addCommand(new UpdateAgentHostname(uuid,hostname,userName));
+  }
+  if (resources != null) {
+    command.addCommand(new UpdateResourcesCommand(uuid,new Resources(resources)));
+  }
+  updateConfig(command);
+}

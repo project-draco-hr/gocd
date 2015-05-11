@@ -1,0 +1,31 @@
+{
+  if ("xml:base".equals(n)) {
+    if (v.startsWith("http://")) {
+      return v;
+    }
+ else     if (v.startsWith("/") && v.endsWith("/")) {
+      String sub=v.substring(1,v.length() - 2);
+      String base=xmlBaseStack.peek();
+      if (base.endsWith("/")) {
+        base=base.substring(0,base.length() - 1);
+      }
+      int pos=base.lastIndexOf("/");
+      return base.substring(0,pos).concat(sub);
+    }
+ else {
+      String base=xmlBaseStack.peek();
+      if (base.endsWith("/"))       return base.concat(v);
+ else       return base.concat("/").concat(v);
+    }
+  }
+ else   if ("xlink:href".equals(n)) {
+    if (v.startsWith("http://")) {
+      return v;
+    }
+ else     if (!xmlBaseStack.isEmpty()) {
+      String base=xmlBaseStack.peek();
+      return base;
+    }
+  }
+  return null;
+}

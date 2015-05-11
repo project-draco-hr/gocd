@@ -1,0 +1,29 @@
+{
+  IRubyObject dtd=(IRubyObject)node.getUserData(DTD_INTERNAL_SUBSET);
+  if (dtd == null) {
+    Document document=getDocument();
+    if (document.getUserData(XmlDocument.DTD_RAW_DOCUMENT) != null) {
+      dtd=XmlDtd.newFromInternalSubset(context.getRuntime(),document);
+    }
+ else     if (document.getDoctype() != null) {
+      DocumentType docType=document.getDoctype();
+      IRubyObject name, publicId, systemId;
+      name=publicId=systemId=context.getRuntime().getNil();
+      if (docType.getName() != null) {
+        name=context.getRuntime().newString(docType.getName());
+      }
+      if (docType.getPublicId() != null) {
+        publicId=context.getRuntime().newString(docType.getPublicId());
+      }
+      if (docType.getSystemId() != null) {
+        systemId=context.getRuntime().newString(docType.getSystemId());
+      }
+      dtd=XmlDtd.newEmpty(context.getRuntime(),document,name,publicId,systemId);
+    }
+ else {
+      dtd=context.getRuntime().getNil();
+    }
+    setInternalSubset(dtd);
+  }
+  return dtd;
+}

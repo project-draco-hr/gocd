@@ -1,0 +1,23 @@
+{
+  NameSpaceSymbEntry ob=symb.get(prefix);
+  if ((ob != null) && uri.equals(ob.uri)) {
+    if (!ob.rendered) {
+      ob=(NameSpaceSymbEntry)ob.clone();
+      needsClone();
+      symb.put(prefix,ob);
+      ob.lastrendered=uri;
+      ob.rendered=true;
+      return ob.n;
+    }
+    return null;
+  }
+  NameSpaceSymbEntry ne=new NameSpaceSymbEntry(uri,n,true,prefix);
+  ne.lastrendered=uri;
+  needsClone();
+  symb.put(prefix,ne);
+  if ((ob != null) && (ob.lastrendered != null) && (ob.lastrendered.equals(uri))) {
+    ne.rendered=true;
+    return null;
+  }
+  return ne.n;
+}

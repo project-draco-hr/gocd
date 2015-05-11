@@ -1,0 +1,9 @@
+{
+  if (node == null || !(node instanceof XmlNode)) {
+    Ruby ruby=context.getRuntime();
+    throw ruby.newTypeError(node,getNokogiriClass(ruby,"Nokogiri::XML::Node"));
+  }
+ else {
+    return (XmlNode)node;
+  }
+}

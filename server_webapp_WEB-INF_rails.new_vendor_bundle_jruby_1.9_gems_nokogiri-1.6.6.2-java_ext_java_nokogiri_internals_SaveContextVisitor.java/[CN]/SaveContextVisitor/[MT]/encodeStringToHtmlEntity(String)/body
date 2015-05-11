@@ -1,0 +1,12 @@
+{
+  if (encoding == null)   return text;
+  CharsetEncoder encoder=Charset.forName(encoding).newEncoder();
+  int last=126;
+  StringBuffer sb=new StringBuffer();
+  for (int i=0; i < text.length(); i++) {
+    char ch=text.charAt(i);
+    if (encoder.canEncode(ch))     sb.append(ch);
+ else     sb.append("&#x" + Integer.toHexString(ch) + ";");
+  }
+  return new String(sb);
+}

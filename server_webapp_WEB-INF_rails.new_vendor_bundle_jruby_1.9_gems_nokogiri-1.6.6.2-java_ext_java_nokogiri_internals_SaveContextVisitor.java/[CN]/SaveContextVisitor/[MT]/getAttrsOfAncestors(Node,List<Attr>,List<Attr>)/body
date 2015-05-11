@@ -1,0 +1,11 @@
+{
+  if (parent == null)   return;
+  NamedNodeMap attrs=parent.getAttributes();
+  if (attrs == null || attrs.getLength() == 0)   return;
+  for (int i=0; i < attrs.getLength(); i++) {
+    Attr attr=(Attr)attrs.item(i);
+    if (isNamespace(attr.getNodeName()))     namespaces.add(attr);
+ else     attributes.add(attr);
+  }
+  getAttrsOfAncestors(parent.getParentNode(),namespaces,attributes);
+}

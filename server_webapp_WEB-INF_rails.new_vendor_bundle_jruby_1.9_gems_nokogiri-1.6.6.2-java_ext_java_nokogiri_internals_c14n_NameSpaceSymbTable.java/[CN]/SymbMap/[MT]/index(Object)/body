@@ -1,0 +1,16 @@
+{
+  Object[] set=keys;
+  int length=set.length;
+  int index=(obj.hashCode() & 0x7fffffff) % length;
+  Object cur=set[index];
+  if (cur == null || (cur.equals(obj))) {
+    return index;
+  }
+  length--;
+  do {
+    index=index == length ? 0 : ++index;
+    cur=set[index];
+  }
+ while (cur != null && (!cur.equals(obj)));
+  return index;
+}
