@@ -1,0 +1,10 @@
+{
+  return (List<Plugin>)transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus transactionStatus){
+      Query query=sessionFactory.getCurrentSession().createQuery("FROM " + Plugin.class.getSimpleName());
+      query.setCacheable(true);
+      return query.list();
+    }
+  }
+);
+}
