@@ -1,0 +1,7 @@
+{
+  String pluginId="plugin-id";
+  PluginSettingsMetadataStore.getInstance().addMetadataFor(pluginId,new PluginSettingsConfiguration(),"template-value");
+  assertThat(PluginSettingsMetadataStore.getInstance().hasPlugin(pluginId),is(true));
+  PluginSettingsMetadataStore.getInstance().removeMetadataFor(pluginId);
+  assertThat(PluginSettingsMetadataStore.getInstance().hasPlugin(pluginId),is(false));
+}

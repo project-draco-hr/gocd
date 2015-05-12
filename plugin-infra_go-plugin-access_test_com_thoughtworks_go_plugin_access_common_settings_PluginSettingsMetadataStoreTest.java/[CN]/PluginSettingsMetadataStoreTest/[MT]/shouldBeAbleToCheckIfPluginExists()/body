@@ -1,0 +1,7 @@
+{
+  PluginSettingsConfiguration configuration=new PluginSettingsConfiguration();
+  String template="template-value";
+  PluginSettingsMetadataStore.getInstance().addMetadataFor("plugin-id",configuration,template);
+  assertThat(PluginSettingsMetadataStore.getInstance().hasPlugin("plugin-id"),is(true));
+  assertThat(PluginSettingsMetadataStore.getInstance().hasPlugin("some-plugin-which-does-not-exist"),is(false));
+}

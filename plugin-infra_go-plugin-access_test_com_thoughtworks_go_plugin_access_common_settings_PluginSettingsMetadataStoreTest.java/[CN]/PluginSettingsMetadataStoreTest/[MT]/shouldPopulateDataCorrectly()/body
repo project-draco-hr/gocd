@@ -1,0 +1,11 @@
+{
+  String existingPluginId="plugin-id";
+  PluginSettingsConfiguration configuration=new PluginSettingsConfiguration();
+  String template="template-value";
+  PluginSettingsMetadataStore.getInstance().addMetadataFor(existingPluginId,configuration,template);
+  assertThat(PluginSettingsMetadataStore.getInstance().configuration(existingPluginId),is(configuration));
+  assertThat(PluginSettingsMetadataStore.getInstance().template(existingPluginId),is(template));
+  String nonExistingPluginId="some-plugin-which-does-not-exist";
+  assertThat(PluginSettingsMetadataStore.getInstance().configuration(nonExistingPluginId),is(nullValue()));
+  assertThat(PluginSettingsMetadataStore.getInstance().template(nonExistingPluginId),is(nullValue()));
+}

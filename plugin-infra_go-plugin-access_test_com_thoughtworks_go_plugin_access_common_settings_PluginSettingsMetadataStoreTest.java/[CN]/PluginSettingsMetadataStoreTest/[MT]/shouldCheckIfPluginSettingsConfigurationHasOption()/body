@@ -1,0 +1,10 @@
+{
+  PluginSettingsConfiguration configuration=new PluginSettingsConfiguration();
+  PluginSettingsProperty p1=createProperty("k1",true);
+  PluginSettingsProperty p2=createProperty("k2",false);
+  configuration.add(p1);
+  configuration.add(p2);
+  PluginSettingsMetadataStore.getInstance().addMetadataFor("plugin-id",configuration,"template-value");
+  assertTrue(PluginSettingsMetadataStore.getInstance().hasOption("plugin-id","k1",Property.REQUIRED));
+  assertFalse(PluginSettingsMetadataStore.getInstance().hasOption("plugin-id","k2",Property.REQUIRED));
+}

@@ -1,0 +1,16 @@
+{
+  PluginSettingsProperty p3=createProperty("k3",3);
+  PluginSettingsProperty p0=createProperty("k0",0);
+  PluginSettingsProperty p2=createProperty("k2",2);
+  PluginSettingsProperty p1=createProperty("k1",1);
+  PluginSettingsConfiguration configuration=new PluginSettingsConfiguration();
+  configuration.add(p3);
+  configuration.add(p0);
+  configuration.add(p2);
+  configuration.add(p1);
+  List<? extends Property> properties=configuration.list();
+  assertThat(properties.get(0).getKey(),is("k0"));
+  assertThat(properties.get(1).getKey(),is("k1"));
+  assertThat(properties.get(2).getKey(),is("k2"));
+  assertThat(properties.get(3).getKey(),is("k3"));
+}
