@@ -7,9 +7,10 @@
       String workingDir=SystemUtil.currentWorkingDirectory();
       assertThat(postMethod.getParameter("location").getValue(),is(workingDir));
       assertThat(postMethod.getParameter("operating_system").getValue(),is("minix"));
-      assertThat(postMethod.getParameter("agentAutoRegisterKey").getValue(),is(""));
-      assertThat(postMethod.getParameter("agentAutoRegisterResources").getValue(),is(""));
-      assertThat(postMethod.getParameter("agentAutoRegisterEnvironments").getValue(),is(""));
+      assertThat(postMethod.getParameter("agentAutoRegisterKey").getValue(),is("t0ps3cret"));
+      assertThat(postMethod.getParameter("agentAutoRegisterResources").getValue(),is("linux, java"));
+      assertThat(postMethod.getParameter("agentAutoRegisterEnvironments").getValue(),is("uat, staging"));
+      assertThat(postMethod.getParameter("agentAutoRegisterHostname").getValue(),is("agent01.example.com"));
       return true;
     }
     public void describeTo(    Description description){
