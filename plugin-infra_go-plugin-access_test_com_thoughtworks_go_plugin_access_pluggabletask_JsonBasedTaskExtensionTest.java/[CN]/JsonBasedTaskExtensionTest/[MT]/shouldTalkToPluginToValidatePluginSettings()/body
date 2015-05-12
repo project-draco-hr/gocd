@@ -1,0 +1,15 @@
+{
+  extension.getPluginSettingsMessageHandlerMap().put("1.0",pluginSettingsJSONMessageHandler);
+  extension.getMessageHandlerMap().put("1.0",jsonMessageHandler);
+  String requestBody="expected-request";
+  when(pluginSettingsJSONMessageHandler.requestMessageForPluginSettingsValidation(pluginSettingsConfiguration)).thenReturn(requestBody);
+  String responseBody="expected-response";
+  ValidationResult deserializedResponse=new ValidationResult();
+  when(pluginSettingsJSONMessageHandler.responseMessageForPluginSettingsValidation(responseBody)).thenReturn(deserializedResponse);
+  when(pluginManager.isPluginOfType(JsonBasedTaskExtension.TASK_EXTENSION,pluginId)).thenReturn(true);
+  when(pluginManager.submitTo(eq(pluginId),requestArgumentCaptor.capture())).thenReturn(DefaultGoPluginApiResponse.success(responseBody));
+  ValidationResult response=extension.validatePluginSettings(pluginId,pluginSettingsConfiguration);
+  assertRequest(requestArgumentCaptor.getValue(),JsonBasedTaskExtension.TASK_EXTENSION,"1.0",PluginSettingsConstants.REQUEST_VALIDATE_PLUGIN_SETTINGS,requestBody);
+  verify(pluginSettingsJSONMessageHandler).responseMessageForPluginSettingsValidation(responseBody);
+  assertSame(response,deserializedResponse);
+}

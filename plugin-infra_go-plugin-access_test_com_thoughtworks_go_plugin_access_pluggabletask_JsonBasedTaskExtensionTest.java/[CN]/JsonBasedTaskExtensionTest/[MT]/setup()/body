@@ -1,6 +1,8 @@
 {
-  pluginManager=mock(PluginManager.class);
+  initMocks(this);
   extension=new JsonBasedTaskExtension(pluginManager);
   pluginId="plugin-id";
   when(pluginManager.resolveExtensionVersion(eq(pluginId),any(ArrayList.class))).thenReturn("1.0");
+  pluginSettingsConfiguration=new PluginSettingsConfiguration();
+  requestArgumentCaptor=ArgumentCaptor.forClass(GoPluginApiRequest.class);
 }

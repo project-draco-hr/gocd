@@ -1,0 +1,9 @@
+{
+  when(pluginSettingsJSONMessageHandler.requestMessageForPluginSettingsValidation(pluginSettingsConfiguration)).thenReturn(requestBody);
+  ValidationResult deserializedResponse=new ValidationResult();
+  when(pluginSettingsJSONMessageHandler.responseMessageForPluginSettingsValidation(responseBody)).thenReturn(deserializedResponse);
+  ValidationResult response=scmExtension.validatePluginSettings(PLUGIN_ID,pluginSettingsConfiguration);
+  assertRequest(requestArgumentCaptor.getValue(),SCMExtension.EXTENSION_NAME,"1.0",PluginSettingsConstants.REQUEST_VALIDATE_PLUGIN_SETTINGS,requestBody);
+  verify(pluginSettingsJSONMessageHandler).responseMessageForPluginSettingsValidation(responseBody);
+  assertSame(response,deserializedResponse);
+}

@@ -1,0 +1,14 @@
+{
+  return pluginRequestHelper.submitRequest(pluginId,PluginSettingsConstants.REQUEST_PLUGIN_SETTINGS_VIEW,new PluginInteractionCallback<String>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public String onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return pluginSettingsMessageHandlerMap.get(resolvedExtensionVersion).responseMessageForPluginSettingsView(responseBody);
+    }
+  }
+);
+}

@@ -1,0 +1,8 @@
+{
+  PluginSettingsConfiguration deserializedResponse=new PluginSettingsConfiguration();
+  when(pluginSettingsJSONMessageHandler.responseMessageForPluginSettingsConfiguration(responseBody)).thenReturn(deserializedResponse);
+  PluginSettingsConfiguration response=scmExtension.getPluginSettingsConfiguration(PLUGIN_ID);
+  assertRequest(requestArgumentCaptor.getValue(),SCMExtension.EXTENSION_NAME,"1.0",PluginSettingsConstants.REQUEST_PLUGIN_SETTINGS_CONFIGURATION,null);
+  verify(pluginSettingsJSONMessageHandler).responseMessageForPluginSettingsConfiguration(responseBody);
+  assertSame(response,deserializedResponse);
+}

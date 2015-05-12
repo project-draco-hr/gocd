@@ -1,0 +1,58 @@
+{
+  List<String> errors=new ArrayList<String>();
+  String defaultValue=null;
+  try {
+    defaultValue=(String)configuration.get("default-value");
+  }
+ catch (  Exception e) {
+    errors.add(format("'default-value' property for key '%s' should be of type string",key));
+  }
+  Boolean isSecure=null;
+  try {
+    isSecure=(Boolean)configuration.get("secure");
+  }
+ catch (  Exception e) {
+    errors.add(format("'secure' property for key '%s' should be of type boolean",key));
+  }
+  Boolean required=null;
+  try {
+    required=(Boolean)configuration.get("required");
+  }
+ catch (  Exception e) {
+    errors.add(format("'required' property for key '%s' should be of type boolean",key));
+  }
+  String displayName=null;
+  try {
+    displayName=(String)configuration.get("display-name");
+  }
+ catch (  Exception e) {
+    errors.add(format("'display-name' property for key '%s' should be of type string",key));
+  }
+  Integer displayOrder=null;
+  try {
+    displayOrder=configuration.get("display-order") == null ? null : Integer.parseInt((String)configuration.get("display-order"));
+  }
+ catch (  Exception e) {
+    errors.add(format("'display-order' property for key '%s' should be of type integer",key));
+  }
+  if (!errors.isEmpty()) {
+    throw new RuntimeException(StringUtils.join(errors,", "));
+  }
+  PluginSettingsProperty property=new PluginSettingsProperty(key);
+  if (!isEmpty(defaultValue)) {
+    property.withDefault(defaultValue);
+  }
+  if (isSecure != null) {
+    property.with(Property.SECURE,isSecure);
+  }
+  if (required != null) {
+    property.with(Property.REQUIRED,required);
+  }
+  if (!isEmpty(displayName)) {
+    property.with(Property.DISPLAY_NAME,displayName);
+  }
+  if (displayOrder != null) {
+    property.with(Property.DISPLAY_ORDER,displayOrder);
+  }
+  return property;
+}

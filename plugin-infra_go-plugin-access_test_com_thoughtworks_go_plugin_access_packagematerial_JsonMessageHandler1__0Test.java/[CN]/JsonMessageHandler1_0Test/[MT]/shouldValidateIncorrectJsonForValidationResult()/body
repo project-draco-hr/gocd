@@ -1,7 +1,0 @@
-{
-  assertThat(errorMessageForValidationResult("{{\"key\":\"abc\",\"message\":\"msg\"}}"),is("Unable to de-serialize json response. Validation errors should be returned as list or errors, with  each error represented as a map"));
-  assertThat(errorMessageForValidationResult("[[{\"key\":\"abc\",\"message\":\"msg\"}]]"),is("Unable to de-serialize json response. Each validation error should be represented as a map"));
-  assertThat(errorMessageForValidationResult("[{\"key\":true,\"message\":\"msg\"}]"),is("Unable to de-serialize json response. Validation error key should be of type string"));
-  assertThat(errorMessageForValidationResult("[{\"key\":\"abc\",\"message\":{}}]"),is("Unable to de-serialize json response. Validation message should be of type string"));
-  assertThat(errorMessageForValidationResult("[{\"key\":\"abc\",\"message\":[]}]"),is("Unable to de-serialize json response. Validation message should be of type string"));
-}

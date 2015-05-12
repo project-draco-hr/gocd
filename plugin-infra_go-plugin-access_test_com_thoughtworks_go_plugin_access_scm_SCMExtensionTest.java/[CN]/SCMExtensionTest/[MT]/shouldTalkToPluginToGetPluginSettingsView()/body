@@ -1,0 +1,8 @@
+{
+  String deserializedResponse="";
+  when(pluginSettingsJSONMessageHandler.responseMessageForPluginSettingsView(responseBody)).thenReturn(deserializedResponse);
+  String response=scmExtension.getPluginSettingsView(PLUGIN_ID);
+  assertRequest(requestArgumentCaptor.getValue(),SCMExtension.EXTENSION_NAME,"1.0",PluginSettingsConstants.REQUEST_PLUGIN_SETTINGS_VIEW,null);
+  verify(pluginSettingsJSONMessageHandler).responseMessageForPluginSettingsView(responseBody);
+  assertSame(response,deserializedResponse);
+}
