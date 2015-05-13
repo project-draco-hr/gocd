@@ -2,7 +2,7 @@
   GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand();
   for (  AgentInstance agentInstance : instances) {
     String uuid=agentInstance.getUuid();
-    if (this.agents().hasAgentIdentifiedWith(uuid)) {
+    if (hasAgent(uuid)) {
       for (      TriStateSelection selection : selections) {
         command.addCommand(new GoConfigFileDao.ModifyResourcesCommand(uuid,new Resource(selection.getValue()),selection.getAction()));
       }
