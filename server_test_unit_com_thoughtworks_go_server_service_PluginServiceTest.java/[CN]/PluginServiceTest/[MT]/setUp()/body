@@ -1,0 +1,23 @@
+{
+  initMocks(this);
+  PluginSettingsMetadataStore.getInstance().clear();
+  Map<String,String> configuration=new HashMap<String,String>();
+  configuration.put("p1-k1","v1");
+  configuration.put("p1-k2","");
+  configuration.put("p1-k3",null);
+  Plugin plugin=new Plugin("plugin-id-1",toJSON(configuration));
+  plugin.setId(1L);
+  when(pluginDao.findPlugin("plugin-id-1")).thenReturn(plugin);
+  when(pluginDao.findPlugin("plugin-id-2")).thenReturn(new NullPlugin());
+  PluginSettingsConfiguration configuration1=new PluginSettingsConfiguration();
+  configuration1.add(new PluginSettingsProperty("p1-k1"));
+  configuration1.add(new PluginSettingsProperty("p1-k2"));
+  configuration1.add(new PluginSettingsProperty("p1-k3"));
+  PluginSettingsMetadataStore.getInstance().addMetadataFor("plugin-id-1",configuration1,"template-1");
+  PluginSettingsConfiguration configuration2=new PluginSettingsConfiguration();
+  configuration2.add(new PluginSettingsProperty("p2-k1"));
+  configuration2.add(new PluginSettingsProperty("p2-k2"));
+  configuration2.add(new PluginSettingsProperty("p2-k3"));
+  PluginSettingsMetadataStore.getInstance().addMetadataFor("plugin-id-2",configuration2,"template-2");
+  pluginService=new PluginService(packageAsRepositoryExtension,scmExtension,taskExtension,notificationExtension,pluginDao);
+}

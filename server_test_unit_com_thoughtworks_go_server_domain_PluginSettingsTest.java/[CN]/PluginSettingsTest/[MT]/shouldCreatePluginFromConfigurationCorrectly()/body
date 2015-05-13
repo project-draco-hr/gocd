@@ -1,0 +1,13 @@
+{
+  Map<String,String> parameterMap=new HashMap<String,String>();
+  parameterMap.put("k1","v1");
+  parameterMap.put("k2","");
+  parameterMap.put("k3",null);
+  PluginSettings pluginSettings=new PluginSettings(PLUGIN_ID);
+  pluginSettings.populateSettingsMap(parameterMap);
+  PluginSettingsConfiguration configuration=pluginSettings.toPluginSettingsConfiguration();
+  assertThat(configuration.size(),is(3));
+  assertThat(configuration.get("k1").getValue(),is("v1"));
+  assertThat(configuration.get("k2").getValue(),is(""));
+  assertThat(configuration.get("k3").getValue(),is(nullValue()));
+}

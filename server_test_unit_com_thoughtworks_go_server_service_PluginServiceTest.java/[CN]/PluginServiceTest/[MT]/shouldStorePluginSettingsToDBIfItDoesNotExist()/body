@@ -1,0 +1,11 @@
+{
+  Map<String,String> parameterMap=new HashMap<String,String>();
+  parameterMap.put("p2-k1","v1");
+  parameterMap.put("p2-k2","");
+  parameterMap.put("p2-k3",null);
+  PluginSettings pluginSettings=new PluginSettings("plugin-id-2");
+  pluginSettings.populateSettingsMap(parameterMap);
+  pluginService.savePluginSettingsFor(pluginSettings);
+  Plugin plugin=new Plugin("plugin-id-2",toJSON(parameterMap));
+  verify(pluginDao).saveOrUpdate(plugin);
+}

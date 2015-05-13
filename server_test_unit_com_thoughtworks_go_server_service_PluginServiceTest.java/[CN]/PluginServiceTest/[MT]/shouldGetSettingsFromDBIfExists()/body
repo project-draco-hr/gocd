@@ -1,0 +1,7 @@
+{
+  PluginSettings pluginSettings=pluginService.getPluginSettingsFor("plugin-id-1");
+  assertThat(pluginSettings.getPluginSettingsKeys().size(),is(3));
+  assertThat(pluginSettings.getValueFor("p1-k1"),is("v1"));
+  assertThat(pluginSettings.getValueFor("p1-k2"),is(""));
+  assertThat(pluginSettings.getValueFor("p1-k3"),is(nullValue()));
+}

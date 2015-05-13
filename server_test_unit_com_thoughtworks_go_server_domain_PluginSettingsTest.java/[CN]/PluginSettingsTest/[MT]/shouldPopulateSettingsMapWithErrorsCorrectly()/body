@@ -1,0 +1,10 @@
+{
+  PluginSettings pluginSettings=new PluginSettings(PLUGIN_ID);
+  pluginSettings.populateErrorMessageFor("k1","e1");
+  pluginSettings.populateErrorMessageFor("k2","");
+  pluginSettings.populateErrorMessageFor("k3",null);
+  assertThat(pluginSettings.getPluginSettingsKeys().size(),is(3));
+  assertThat(pluginSettings.getErrorFor("k1"),is("e1"));
+  assertThat(pluginSettings.getErrorFor("k2"),is(""));
+  assertThat(pluginSettings.getErrorFor("k3"),is(nullValue()));
+}
