@@ -1,0 +1,7 @@
+{
+  initMocks(this);
+  userAuthority=GoAuthority.ROLE_USER.asAuthority();
+  when(authorityGranter.authorities("username")).thenReturn(new GrantedAuthority[]{userAuthority});
+  processor=new AuthenticationRequestProcessor(applicationAccessor,authorityGranter,userService);
+  processor.getMessageHandlerMap().put("1.0",jsonMessageHandler);
+}
