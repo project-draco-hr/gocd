@@ -1,0 +1,9 @@
+{
+  String pluginId="plugin-id-1";
+  String requestBody="expected-request";
+  when(jsonMessageHandler.requestMessageSessionPut(requestBody)).thenReturn(new SessionData(pluginId,null));
+  SessionRequestProcessor applicationAccessorSpy=spy(processor);
+  doReturn(null).when(applicationAccessorSpy).getUserSession();
+  GoApiResponse response=applicationAccessorSpy.process(getGoPluginApiRequest("1.0",SessionRequestProcessor.PUT_INTO_SESSION,requestBody));
+  assertThat(response.responseCode(),is(400));
+}

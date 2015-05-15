@@ -1,0 +1,8 @@
+{
+  SessionData sessionData=messageHandler.requestMessageSessionPut("{\"plugin-id\":\"plugin-id-1\",\"session-data\":{\"k1\":\"v1\",\"k2\":\"v2\"}}");
+  assertThat(sessionData.getPluginId(),is("plugin-id-1"));
+  HashMap<String,String> expected=new HashMap<String,String>();
+  expected.put("k1","v1");
+  expected.put("k2","v2");
+  assertEquals(sessionData.getSessionData(),expected);
+}
