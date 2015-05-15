@@ -1,0 +1,6 @@
+{
+  when(authenticationPluginRegistry.getPluginsThatSupportsPasswordBasedAuthentication()).thenReturn(new HashSet<String>());
+  assertThat(provider.supports(UsernamePasswordAuthenticationToken.class),is(false));
+  when(authenticationPluginRegistry.getPluginsThatSupportsPasswordBasedAuthentication()).thenReturn(new HashSet<String>(Arrays.asList("plugin-id-1")));
+  assertThat(provider.supports(UsernamePasswordAuthenticationToken.class),is(true));
+}
