@@ -1,0 +1,8 @@
+{
+  PluginSettings pluginSettings=new PluginSettings("plugin-id-1");
+  Map<String,String> map=new LinkedHashMap<String,String>();
+  map.put("k1","v1");
+  map.put("k2","v2");
+  pluginSettings.populateSettingsMap(map);
+  assertThat(messageHandler.responseMessagePluginSettingsGet(pluginSettings),is("{\"k1\":\"v1\",\"k2\":\"v2\"}"));
+}
