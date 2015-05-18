@@ -1,0 +1,10 @@
+{
+  PluginSettingsConfiguration configurations=configuration(pluginId);
+  if (configurations != null) {
+    Property property=configurations.get(key);
+    if (property != null) {
+      return property.getOption(option);
+    }
+  }
+  return option.getValue();
+}

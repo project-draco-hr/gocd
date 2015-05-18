@@ -1,0 +1,7 @@
+{
+  assertThat(pluginSqlMapDao.getAllPlugins().size(),is(0));
+  Plugin plugin=savePlugin("plugin-id");
+  assertThat(pluginSqlMapDao.getAllPlugins().size(),is(1));
+  Plugin pluginInDB=pluginSqlMapDao.getAllPlugins().get(0);
+  assertThat(pluginInDB,is(plugin));
+}

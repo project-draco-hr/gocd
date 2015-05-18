@@ -1,0 +1,10 @@
+{
+  PluginSettingsConfiguration configurationInStore=PluginSettingsMetadataStore.getInstance().configuration(pluginId);
+  assertThat(configurationInStore.size(),is(1));
+  PluginSettingsProperty scmConfiguration=(PluginSettingsProperty)configurationInStore.get("k1");
+  assertThat(scmConfiguration.getKey(),is("k1"));
+  assertThat(scmConfiguration.getOption(Property.REQUIRED),is(true));
+  assertThat(scmConfiguration.getOption(Property.SECURE),is(false));
+  String template=PluginSettingsMetadataStore.getInstance().template(pluginDescriptor.id());
+  assertThat(template,is("template"));
+}

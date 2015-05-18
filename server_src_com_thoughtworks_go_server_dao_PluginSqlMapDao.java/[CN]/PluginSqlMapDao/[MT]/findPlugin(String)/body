@@ -1,0 +1,9 @@
+{
+  return (Plugin)transactionTemplate.execute(new TransactionCallback(){
+    @Override public Object doInTransaction(    TransactionStatus transactionStatus){
+      Plugin plugin=(Plugin)sessionFactory.getCurrentSession().createCriteria(Plugin.class).add(Restrictions.eq("pluginId",pluginId)).setCacheable(true).uniqueResult();
+      return plugin == null ? new NullPlugin() : plugin;
+    }
+  }
+);
+}

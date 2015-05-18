@@ -1,0 +1,8 @@
+{
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
+      sessionFactory.getCurrentSession().createQuery("DELETE FROM " + Plugin.class.getSimpleName()).executeUpdate();
+    }
+  }
+);
+}

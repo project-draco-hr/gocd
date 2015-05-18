@@ -1,0 +1,7 @@
+{
+  when(packageAsRepositoryExtension.isPackageRepositoryPlugin("plugin-id-4")).thenReturn(true);
+  when(packageAsRepositoryExtension.validatePluginSettings(eq("plugin-id-4"),any(PluginSettingsConfiguration.class))).thenReturn(new ValidationResult());
+  PluginSettings pluginSettings=new PluginSettings("plugin-id-4");
+  pluginService.validatePluginSettingsFor(pluginSettings);
+  verify(packageAsRepositoryExtension).validatePluginSettings(eq("plugin-id-4"),any(PluginSettingsConfiguration.class));
+}

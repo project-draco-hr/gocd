@@ -1,7 +1,9 @@
 {
   initMocks(this);
   scmExtension=new SCMExtension(pluginManager);
+  scmExtension.getPluginSettingsMessageHandlerMap().put("1.0",pluginSettingsJSONMessageHandler);
   scmExtension.getMessageHandlerMap().put("1.0",jsonMessageHandler);
+  pluginSettingsConfiguration=new PluginSettingsConfiguration();
   scmPropertyConfiguration=new SCMPropertyConfiguration();
   materialData=new HashMap<String,String>();
   requestArgumentCaptor=ArgumentCaptor.forClass(GoPluginApiRequest.class);

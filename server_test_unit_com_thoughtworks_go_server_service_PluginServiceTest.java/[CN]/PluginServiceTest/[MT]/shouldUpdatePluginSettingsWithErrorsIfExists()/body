@@ -1,0 +1,17 @@
+{
+  when(notificationExtension.isNotificationPlugin("plugin-id-4")).thenReturn(true);
+  ValidationResult validationResult=new ValidationResult();
+  validationResult.addError(new ValidationError("p4-k1","m1"));
+  validationResult.addError(new ValidationError("p4-k3","m3"));
+  when(notificationExtension.validatePluginSettings(eq("plugin-id-4"),any(PluginSettingsConfiguration.class))).thenReturn(validationResult);
+  Map<String,String> parameterMap=new HashMap<String,String>();
+  parameterMap.put("p4-k1","v1");
+  parameterMap.put("p4-k2","v2");
+  PluginSettings pluginSettings=new PluginSettings("plugin-id-4");
+  pluginSettings.populateSettingsMap(parameterMap);
+  pluginService.validatePluginSettingsFor(pluginSettings);
+  assertThat(pluginSettings.hasErrors(),is(true));
+  assertThat(pluginSettings.getErrorFor("p4-k1"),is("m1"));
+  assertThat(pluginSettings.getErrorFor("p4-k2"),is(nullValue()));
+  assertThat(pluginSettings.getErrorFor("p4-k3"),is("m3"));
+}

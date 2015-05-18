@@ -1,0 +1,22 @@
+{
+  try {
+    final Map map=parseResponseToMap(responseBody);
+    if (map.isEmpty()) {
+      throw new RuntimeException("The JSON for Plugin Settings View cannot be empty");
+    }
+    final String template;
+    try {
+      template=(String)map.get("template");
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Plugin Settings View's 'template' should be of type string");
+    }
+    if (isEmpty(template)) {
+      throw new RuntimeException("Plugin Settings View's 'template' is a required field");
+    }
+    return template;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(String.format("Unable to de-serialize json response. Error: %s.",e.getMessage()));
+  }
+}

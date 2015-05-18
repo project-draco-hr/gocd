@@ -1,0 +1,9 @@
+{
+  Plugin plugin=pluginDao.findPlugin(pluginSettings.getPluginId());
+  if (plugin instanceof NullPlugin) {
+    plugin=new Plugin(pluginSettings.getPluginId(),null);
+  }
+  Map<String,String> settingsMap=pluginSettings.getSettingsAsKeyValuePair();
+  plugin.setConfiguration(toJSON(settingsMap));
+  pluginDao.saveOrUpdate(plugin);
+}

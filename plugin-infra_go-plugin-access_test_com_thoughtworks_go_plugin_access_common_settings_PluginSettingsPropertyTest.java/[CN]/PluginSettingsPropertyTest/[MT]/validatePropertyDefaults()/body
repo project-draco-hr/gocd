@@ -1,0 +1,14 @@
+{
+  PluginSettingsProperty property=new PluginSettingsProperty("Test-Property");
+  assertThat(property.getOptions().size(),is(4));
+  assertThat(property.getOption(Property.REQUIRED),is(true));
+  assertThat(property.getOption(Property.SECURE),is(false));
+  assertThat(property.getOption(Property.DISPLAY_NAME),is("Test-Property"));
+  assertThat(property.getOption(Property.DISPLAY_ORDER),is(0));
+  property=new PluginSettingsProperty("Test-Property","Dummy Value");
+  assertThat(property.getOptions().size(),is(4));
+  assertThat(property.getOption(Property.REQUIRED),is(true));
+  assertThat(property.getOption(Property.SECURE),is(false));
+  assertThat(property.getOption(Property.DISPLAY_NAME),is("Test-Property"));
+  assertThat(property.getOption(Property.DISPLAY_ORDER),is(0));
+}
