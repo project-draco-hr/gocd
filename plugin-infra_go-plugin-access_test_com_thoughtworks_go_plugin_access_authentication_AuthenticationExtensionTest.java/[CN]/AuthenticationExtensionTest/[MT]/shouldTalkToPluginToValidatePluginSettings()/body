@@ -1,0 +1,10 @@
+{
+  String requestBody="expected-request";
+  when(pluginSettingsJSONMessageHandler.requestMessageForPluginSettingsValidation(pluginSettingsConfiguration)).thenReturn(requestBody);
+  ValidationResult deserializedResponse=new ValidationResult();
+  when(pluginSettingsJSONMessageHandler.responseMessageForPluginSettingsValidation(RESPONSE_BODY)).thenReturn(deserializedResponse);
+  ValidationResult response=authenticationExtension.validatePluginSettings(PLUGIN_ID,pluginSettingsConfiguration);
+  assertRequest(requestArgumentCaptor.getValue(),AuthenticationExtension.EXTENSION_NAME,"1.0",PluginSettingsConstants.REQUEST_VALIDATE_PLUGIN_SETTINGS,requestBody);
+  verify(pluginSettingsJSONMessageHandler).responseMessageForPluginSettingsValidation(RESPONSE_BODY);
+  assertSame(response,deserializedResponse);
+}

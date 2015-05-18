@@ -1,7 +1,9 @@
 {
   initMocks(this);
   authenticationExtension=new AuthenticationExtension(pluginManager);
+  authenticationExtension.getPluginSettingsMessageHandlerMap().put("1.0",pluginSettingsJSONMessageHandler);
   authenticationExtension.getMessageHandlerMap().put("1.0",jsonMessageHandler);
+  pluginSettingsConfiguration=new PluginSettingsConfiguration();
   requestArgumentCaptor=ArgumentCaptor.forClass(GoPluginApiRequest.class);
   when(pluginManager.resolveExtensionVersion(PLUGIN_ID,Arrays.asList("1.0"))).thenReturn("1.0");
   when(pluginManager.isPluginOfType(AuthenticationExtension.EXTENSION_NAME,PLUGIN_ID)).thenReturn(true);
