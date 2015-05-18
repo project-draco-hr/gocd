@@ -1,0 +1,20 @@
+{
+  DefaultGoPluginApiRequest apiRequest=new DefaultGoPluginApiRequest(null,null,requestName);
+  apiRequest.setRequestParams(getParameterMap(request));
+  try {
+    GoPluginApiResponse response=pluginManager.submitTo(pluginId,apiRequest);
+    if (DefaultGoApiResponse.SUCCESS_RESPONSE_CODE == response.responseCode()) {
+      return renderPluginResponse(response);
+    }
+    if (DefaultGoApiResponse.REDIRECT_RESPONSE_CODE == response.responseCode()) {
+      String location="";
+      if (hasValueFor(response,"Location")) {
+        location=response.responseHeaders().get("Location");
+      }
+      return new ModelAndView("redirect:" + location);
+    }
+  }
+ catch (  Exception e) {
+  }
+  throw new RuntimeException("render error page");
+}
