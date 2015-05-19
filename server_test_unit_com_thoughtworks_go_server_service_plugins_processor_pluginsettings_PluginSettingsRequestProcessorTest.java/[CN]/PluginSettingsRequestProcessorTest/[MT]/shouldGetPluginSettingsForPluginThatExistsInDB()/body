@@ -1,0 +1,16 @@
+{
+  String pluginId="plugin-id-1";
+  String requestBody="expected-request";
+  String responseBody="expected-response";
+  when(jsonMessageHandler.requestMessagePluginSettingsGet(requestBody)).thenReturn(pluginId);
+  when(jsonMessageHandler.responseMessagePluginSettingsGet(requestArgumentCaptor.capture())).thenReturn(responseBody);
+  DefaultGoApiRequest apiRequest=new DefaultGoApiRequest(PluginSettingsRequestProcessor.GET_PLUGIN_SETTINGS,"1.0",null);
+  apiRequest.setRequestBody(requestBody);
+  GoApiResponse response=processor.process(apiRequest);
+  assertThat(response.responseCode(),is(200));
+  assertThat(response.responseBody(),is(responseBody));
+  Map<String,String> settingsMap=new HashMap<String,String>();
+  settingsMap.put("k1","v1");
+  settingsMap.put("k2","v2");
+  assertEquals(requestArgumentCaptor.getValue().getSettingsAsKeyValuePair(),settingsMap);
+}

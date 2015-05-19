@@ -1,0 +1,11 @@
+{
+  String pluginId=messageHandlerMap.get(goPluginApiRequest.apiVersion()).requestMessagePluginSettingsGet(goPluginApiRequest.requestBody());
+  Plugin plugin=pluginSqlMapDao.findPlugin(pluginId);
+  PluginSettings pluginSettings=new PluginSettings(pluginId);
+  if (!(plugin instanceof NullPlugin)) {
+    pluginSettings.populateSettingsMap(plugin);
+  }
+  DefaultGoApiResponse response=new DefaultGoApiResponse(200);
+  response.setResponseBody(messageHandlerMap.get(goPluginApiRequest.apiVersion()).responseMessagePluginSettingsGet(pluginSettings));
+  return response;
+}

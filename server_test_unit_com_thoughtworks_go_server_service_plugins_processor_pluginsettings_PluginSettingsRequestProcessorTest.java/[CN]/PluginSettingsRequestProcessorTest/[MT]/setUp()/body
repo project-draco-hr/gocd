@@ -1,0 +1,11 @@
+{
+  initMocks(this);
+  Map<String,String> configuration=new HashMap<String,String>();
+  configuration.put("k1","v1");
+  configuration.put("k2","v2");
+  when(pluginSqlMapDao.findPlugin("plugin-id-1")).thenReturn(new Plugin("plugin-id-1",JsonHelper.toJsonString(configuration)));
+  when(pluginSqlMapDao.findPlugin("plugin-id-2")).thenReturn(new NullPlugin());
+  requestArgumentCaptor=ArgumentCaptor.forClass(PluginSettings.class);
+  processor=new PluginSettingsRequestProcessor(pluginSqlMapDao,applicationAccessor);
+  processor.getMessageHandlerMap().put("1.0",jsonMessageHandler);
+}
