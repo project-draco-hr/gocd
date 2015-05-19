@@ -1,0 +1,11 @@
+{
+  String pluginId=messageHandlerMap.get(goPluginApiRequest.apiVersion()).requestMessageSessionGetAndRemove(goPluginApiRequest.requestBody());
+  HttpSession session=getUserSession();
+  if (session == null) {
+    throw new RuntimeException("session not found");
+  }
+  Map<String,String> sessionDataMap=(Map<String,String>)session.getAttribute(pluginId);
+  DefaultGoApiResponse response=new DefaultGoApiResponse(200);
+  response.setResponseBody(JsonHelper.toJsonString(sessionDataMap));
+  return response;
+}

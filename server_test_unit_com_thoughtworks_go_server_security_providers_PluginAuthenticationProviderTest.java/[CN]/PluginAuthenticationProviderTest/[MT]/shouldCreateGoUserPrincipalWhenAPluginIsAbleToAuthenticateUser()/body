@@ -1,0 +1,14 @@
+{
+  String pluginId1="plugin-id-1";
+  String pluginId2="plugin-id-2";
+  when(authenticationPluginRegistry.getPluginsThatSupportsPasswordBasedAuthentication()).thenReturn(new HashSet<String>(Arrays.asList(pluginId1,pluginId2)));
+  when(authenticationExtension.authenticateUser(pluginId1,"username","password")).thenReturn(null);
+  when(authenticationExtension.authenticateUser(pluginId2,"username","password")).thenReturn(new User("username","display-name","test@test.com"));
+  UserDetails userDetails=provider.retrieveUser("username",authenticationToken);
+  assertThat(userDetails,is(instanceOf(GoUserPrinciple.class)));
+  GoUserPrinciple goUserPrincipal=(GoUserPrinciple)userDetails;
+  assertThat(goUserPrincipal.getUsername(),is("username"));
+  assertThat(goUserPrincipal.getDisplayName(),is("display-name"));
+  assertThat(goUserPrincipal.getAuthorities().length,is(1));
+  assertThat(goUserPrincipal.getAuthorities()[0],is(userAuthority));
+}

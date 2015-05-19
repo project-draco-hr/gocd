@@ -1,0 +1,21 @@
+{
+  try {
+    String version=goPluginApiRequest.apiVersion();
+    if (!goSupportedVersions.contains(version)) {
+      throw new RuntimeException(String.format("Unsupported '%s' API version: %s. Supported versions: %s",AUTHENTICATE_USER_REQUEST,version,goSupportedVersions));
+    }
+    User user=messageHandlerMap.get(version).responseMessageForAuthenticateUser(goPluginApiRequest.requestBody());
+    if (user == null) {
+      throw new RuntimeException(String.format("Could not parse User details. Request Body: %s",goPluginApiRequest.requestBody()));
+    }
+    GoUserPrinciple goUserPrincipal=getGoUserPrincipal(user);
+    Authentication authentication=getAuthenticationToken(goUserPrincipal);
+    userService.addUserIfDoesNotExist(UserHelper.getUserName(authentication));
+    getSecurityContext().setAuthentication(authentication);
+    return new DefaultGoApiResponse(200);
+  }
+ catch (  Exception e) {
+    LOGGER.error("Error occurred while authenticating user",e);
+  }
+  return new DefaultGoApiResponse(500);
+}

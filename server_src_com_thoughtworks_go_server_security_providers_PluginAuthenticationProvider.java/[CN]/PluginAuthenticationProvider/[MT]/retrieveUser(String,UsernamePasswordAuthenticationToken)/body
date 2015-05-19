@@ -1,0 +1,11 @@
+{
+  Set<String> plugins=authenticationPluginRegistry.getPluginsThatSupportsPasswordBasedAuthentication();
+  for (  String pluginId : plugins) {
+    String password=(String)authentication.getCredentials();
+    User user=authenticationExtension.authenticateUser(pluginId,username,password);
+    if (user != null) {
+      return new GoUserPrinciple(user.getUsername(),user.getDisplayName(),"",true,true,true,true,authorityGranter.authorities(username));
+    }
+  }
+  throw new UsernameNotFoundException("Unable to authenticate user: " + username);
+}

@@ -1,0 +1,7 @@
+{
+  initMocks(this);
+  when(authenticationToken.getCredentials()).thenReturn("password");
+  userAuthority=GoAuthority.ROLE_USER.asAuthority();
+  when(authorityGranter.authorities("username")).thenReturn(new GrantedAuthority[]{userAuthority});
+  provider=new PluginAuthenticationProvider(authenticationPluginRegistry,authenticationExtension,authorityGranter);
+}

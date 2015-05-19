@@ -14,6 +14,9 @@
  else   if (notificationExtension.isNotificationPlugin(pluginId)) {
     result=notificationExtension.validatePluginSettings(pluginId,configuration);
   }
+ else   if (authenticationExtension.isAuthenticationPlugin(pluginId)) {
+    result=authenticationExtension.validatePluginSettings(pluginId,configuration);
+  }
   if (!result.isSuccessful()) {
     for (    ValidationError error : result.getErrors()) {
       pluginSettings.populateErrorMessageFor(error.getKey(),error.getMessage());

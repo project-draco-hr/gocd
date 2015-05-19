@@ -19,6 +19,10 @@
       configuration=notificationExtension.getPluginSettingsConfiguration(pluginId);
       view=notificationExtension.getPluginSettingsView(pluginId);
     }
+ else     if (authenticationExtension.isAuthenticationPlugin(pluginId)) {
+      configuration=authenticationExtension.getPluginSettingsConfiguration(pluginId);
+      view=authenticationExtension.getPluginSettingsView(pluginId);
+    }
     if (configuration == null || view == null) {
       throw new RuntimeException("Plugin Settings - Configuration or View cannot be null");
     }

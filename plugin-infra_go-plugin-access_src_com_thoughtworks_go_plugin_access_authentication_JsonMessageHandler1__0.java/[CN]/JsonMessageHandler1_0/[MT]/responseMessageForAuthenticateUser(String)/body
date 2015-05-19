@@ -1,0 +1,14 @@
+{
+  Map map;
+  try {
+    map=parseResponseToMap(responseBody);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("User should be returned as a map");
+  }
+  if (map == null || map.isEmpty()) {
+    return null;
+  }
+  User user=toUser(map);
+  return user;
+}

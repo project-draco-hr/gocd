@@ -1,0 +1,13 @@
+{
+  String pluginId="plugin-id-1";
+  String requestBody="expected-request";
+  Map<String,String> sessionData=new HashMap<String,String>();
+  sessionData.put("k1","v1");
+  sessionData.put("k2","v2");
+  when(jsonMessageHandler.requestMessageSessionPut(requestBody)).thenReturn(new SessionData(pluginId,sessionData));
+  SessionRequestProcessor applicationAccessorSpy=spy(processor);
+  doReturn(session).when(applicationAccessorSpy).getUserSession();
+  GoApiResponse response=applicationAccessorSpy.process(getGoPluginApiRequest("1.0",SessionRequestProcessor.PUT_INTO_SESSION,requestBody));
+  assertThat(response.responseCode(),is(200));
+  verify(session).setAttribute(pluginId,sessionData);
+}

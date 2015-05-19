@@ -1,0 +1,9 @@
+{
+  DefaultGoPluginApiResponse apiResponse=new DefaultGoPluginApiResponse(302);
+  String redirectLocation="/go/plugin/interact/plugin.id/request.name";
+  apiResponse.responseHeaders().put("Location",redirectLocation);
+  when(pluginManager.submitTo(eq("plugin.id"),any(GoPluginApiRequest.class))).thenReturn(apiResponse);
+  when(servletRequest.getParameterMap()).thenReturn(new HashMap<String,String[]>());
+  ModelAndView modelAndView=pluginController.handlePluginInteractRequest("plugin.id","request.name",servletRequest);
+  assertThat(modelAndView.getViewName(),is("redirect:" + redirectLocation));
+}

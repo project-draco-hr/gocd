@@ -1,0 +1,12 @@
+{
+  Map map=JsonHelper.fromJson(message,Map.class);
+  String pluginId=getPluginId(map);
+  Map sessionData;
+  try {
+    sessionData=(Map)map.get("session-data");
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("'sessionData' should of map type");
+  }
+  return new SessionData(pluginId,sessionData);
+}

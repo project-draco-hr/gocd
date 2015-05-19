@@ -1,0 +1,14 @@
+{
+  Map<String,String[]> springParameterMap=request.getParameterMap();
+  Map<String,String> pluginParameterMap=new HashMap<String,String>();
+  for (  String parameterName : springParameterMap.keySet()) {
+    String[] values=springParameterMap.get(parameterName);
+    if (values != null && values.length > 0) {
+      pluginParameterMap.put(parameterName,values[0]);
+    }
+ else {
+      pluginParameterMap.put(parameterName,null);
+    }
+  }
+  return pluginParameterMap;
+}

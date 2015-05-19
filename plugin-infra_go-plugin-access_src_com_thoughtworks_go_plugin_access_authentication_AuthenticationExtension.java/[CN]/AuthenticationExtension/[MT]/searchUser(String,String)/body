@@ -1,0 +1,14 @@
+{
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_SEARCH_USER,new PluginInteractionCallback<List<User>>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForSearchUser(searchTerm);
+    }
+    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public List<User> onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForSearchUser(responseBody);
+    }
+  }
+);
+}

@@ -1,0 +1,11 @@
+{
+  if (authenticationExtension.isAuthenticationPlugin(pluginDescriptor.id())) {
+    try {
+      AuthenticationPluginConfiguration configuration=authenticationExtension.getPluginConfiguration(pluginDescriptor.id());
+      authenticationPluginRegistry.registerPlugin(pluginDescriptor.id(),configuration);
+    }
+ catch (    Exception e) {
+      LOGGER.warn("Error occurred during plugin registration.",e);
+    }
+  }
+}

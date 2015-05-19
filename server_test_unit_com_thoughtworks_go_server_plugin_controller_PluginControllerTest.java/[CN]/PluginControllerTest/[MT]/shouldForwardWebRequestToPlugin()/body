@@ -1,0 +1,16 @@
+{
+  when(pluginManager.submitTo(eq("plugin.id"),requestArgumentCaptor.capture())).thenReturn(new DefaultGoPluginApiResponse(200));
+  Map<String,String[]> springParameterMap=new HashMap<String,String[]>();
+  springParameterMap.put("k1",new String[]{"v1"});
+  springParameterMap.put("k2",new String[]{"v2","v3"});
+  springParameterMap.put("k3",new String[]{});
+  springParameterMap.put("k4",null);
+  when(servletRequest.getParameterMap()).thenReturn(springParameterMap);
+  pluginController.handlePluginInteractRequest("plugin.id","request.name",servletRequest);
+  Map<String,String> requestParameters=new HashMap<String,String>();
+  requestParameters.put("k1","v1");
+  requestParameters.put("k2","v2");
+  requestParameters.put("k3",null);
+  requestParameters.put("k4",null);
+  assertRequest(requestArgumentCaptor.getValue(),"request.name",requestParameters);
+}

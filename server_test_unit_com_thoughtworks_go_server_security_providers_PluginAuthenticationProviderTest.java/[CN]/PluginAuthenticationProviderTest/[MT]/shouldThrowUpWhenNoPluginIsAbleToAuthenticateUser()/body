@@ -1,0 +1,13 @@
+{
+  String pluginId="plugin-id-1";
+  when(authenticationPluginRegistry.getPluginsThatSupportsPasswordBasedAuthentication()).thenReturn(new HashSet<String>(Arrays.asList(pluginId)));
+  when(authenticationExtension.authenticateUser(pluginId,"username","password")).thenReturn(null);
+  try {
+    provider.retrieveUser("username",authenticationToken);
+    fail("should have thrown up");
+  }
+ catch (  Exception e) {
+    assertThat(e,is(instanceOf(UsernameNotFoundException.class)));
+    assertThat(e.getMessage(),is("Unable to authenticate user: username"));
+  }
+}

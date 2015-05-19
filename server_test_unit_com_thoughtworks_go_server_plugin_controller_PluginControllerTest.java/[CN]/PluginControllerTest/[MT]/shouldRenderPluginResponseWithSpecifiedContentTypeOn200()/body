@@ -1,0 +1,13 @@
+{
+  DefaultGoPluginApiResponse apiResponse=new DefaultGoPluginApiResponse(200);
+  String contentType="image/png";
+  apiResponse.responseHeaders().put("Content-Type",contentType);
+  String responseBody="response-body";
+  apiResponse.setResponseBody(responseBody);
+  when(pluginManager.submitTo(eq("plugin.id"),any(GoPluginApiRequest.class))).thenReturn(apiResponse);
+  when(servletRequest.getParameterMap()).thenReturn(new HashMap<String,String[]>());
+  ModelAndView modelAndView=pluginController.handlePluginInteractRequest("plugin.id","request.name",servletRequest);
+  modelAndView.getView().render(null,servletRequest,servletResponse);
+  assertThat(modelAndView.getView().getContentType(),is(contentType));
+  verify(writer).write(responseBody);
+}

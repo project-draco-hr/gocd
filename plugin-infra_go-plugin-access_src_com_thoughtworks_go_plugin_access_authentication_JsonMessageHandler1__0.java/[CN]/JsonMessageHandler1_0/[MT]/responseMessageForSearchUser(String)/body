@@ -1,0 +1,18 @@
+{
+  List<Map> list;
+  try {
+    list=parseResponseToList(responseBody);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("Search results should be returned as a list");
+  }
+  List<User> searchResults=new ArrayList<User>();
+  if (list == null || list.isEmpty()) {
+    return searchResults;
+  }
+  for (  Map userMap : list) {
+    User user=toUser(userMap);
+    searchResults.add(user);
+  }
+  return searchResults;
+}

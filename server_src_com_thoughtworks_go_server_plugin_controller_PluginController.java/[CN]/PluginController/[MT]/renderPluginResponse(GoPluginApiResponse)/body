@@ -1,0 +1,15 @@
+{
+  return new ModelAndView(new View(){
+    @Override public String getContentType(){
+      String contentType=CONTENT_TYPE_HTML;
+      if (hasValueFor(response,"Content-Type")) {
+        contentType=response.responseHeaders().get("Content-Type");
+      }
+      return contentType;
+    }
+    @Override public void render(    Map<String,?> map,    HttpServletRequest httpServletRequest,    HttpServletResponse httpServletResponse) throws Exception {
+      httpServletResponse.getWriter().write(response.responseBody());
+    }
+  }
+);
+}

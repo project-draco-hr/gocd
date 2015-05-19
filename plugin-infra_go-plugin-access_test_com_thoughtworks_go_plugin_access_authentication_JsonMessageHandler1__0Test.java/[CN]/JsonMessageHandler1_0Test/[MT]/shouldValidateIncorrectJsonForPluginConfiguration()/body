@@ -1,0 +1,6 @@
+{
+  assertThat(errorMessageForPluginConfiguration("[]"),is("Plugin configuration should be returned as a map"));
+  assertThat(errorMessageForPluginConfiguration("{\"display-name\":true}"),is("Configuration 'display-name' should be of type string"));
+  assertThat(errorMessageForPluginConfiguration("{\"display-name\":\"name\",\"supports-password-based-authentication\":\"test\"}"),is("Configuration 'supports-password-based-authentication' should be of type boolean"));
+  assertThat(errorMessageForPluginConfiguration("{\"display-name\":\"name\",\"supports-password-based-authentication\":true,\"supports-user-search\":\"test\"}"),is("Configuration 'supports-user-search' should be of type boolean"));
+}
