@@ -2,7 +2,7 @@
   GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand();
   for (  AgentInstance agentInstance : instances) {
     String uuid=agentInstance.getUuid();
-    if (this.agents().hasAgentIdentifiedWith(uuid)) {
+    if (hasAgent(uuid)) {
       command.addCommand(GoConfigFileDao.updateApprovalStatus(uuid,disabled));
     }
  else {
