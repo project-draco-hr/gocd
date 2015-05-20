@@ -1,8 +1,0 @@
-{
-  String oldPrefix=this.node.getPrefix();
-  String uri=rubyStringToString(ns.href(context));
-  boolean update=(oldPrefix == null && ns.prefix(context).isNil()) || (oldPrefix != null && !ns.prefix(context).isNil() && oldPrefix.equals(rubyStringToString(ns.prefix(context))));
-  if (update) {
-    this.node=NokogiriHelpers.renameNode(this.node,uri,this.node.getNodeName());
-  }
-}
