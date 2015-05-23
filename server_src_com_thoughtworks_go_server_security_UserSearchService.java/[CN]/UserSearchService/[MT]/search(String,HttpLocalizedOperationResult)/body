@@ -5,6 +5,7 @@
   }
   boolean passwordSearchFailed=searchPasswordFile(searchText,result,userSearchModels);
   searchLdap(searchText,result,userSearchModels,passwordSearchFailed);
+  searchUsingPlugins(searchText,userSearchModels);
   if (userSearchModels.size() == 0 && !result.hasMessage()) {
     result.setMessage(LocalizedMessage.string("NO_SEARCH_RESULTS_ERROR"));
   }
