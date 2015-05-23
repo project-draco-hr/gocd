@@ -1,0 +1,8 @@
+{
+  Enumeration headerNames=request.getHeaderNames();
+  while (headerNames.hasMoreElements()) {
+    String header=(String)headerNames.nextElement();
+    String value=request.getHeader(header);
+    apiRequest.addRequestHeader(header,value);
+  }
+}

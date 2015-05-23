@@ -1,6 +1,7 @@
 {
   DefaultGoPluginApiRequest apiRequest=new DefaultGoPluginApiRequest(null,null,requestName);
   apiRequest.setRequestParams(getParameterMap(request));
+  addRequestHeaders(request,apiRequest);
   try {
     GoPluginApiResponse response=pluginManager.submitTo(pluginId,apiRequest);
     if (DefaultGoApiResponse.SUCCESS_RESPONSE_CODE == response.responseCode()) {

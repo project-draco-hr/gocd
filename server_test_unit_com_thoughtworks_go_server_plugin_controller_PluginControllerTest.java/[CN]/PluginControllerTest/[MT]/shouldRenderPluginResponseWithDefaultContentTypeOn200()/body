@@ -2,10 +2,12 @@
   DefaultGoPluginApiResponse apiResponse=new DefaultGoPluginApiResponse(200);
   String responseBody="response-body";
   apiResponse.setResponseBody(responseBody);
-  when(pluginManager.submitTo(eq("plugin.id"),any(GoPluginApiRequest.class))).thenReturn(apiResponse);
+  when(pluginManager.submitTo(eq(PLUGIN_ID),requestArgumentCaptor.capture())).thenReturn(apiResponse);
   when(servletRequest.getParameterMap()).thenReturn(new HashMap<String,String[]>());
-  ModelAndView modelAndView=pluginController.handlePluginInteractRequest("plugin.id","request.name",servletRequest);
+  when(servletRequest.getHeaderNames()).thenReturn(getMockEnumeration(new ArrayList<String>()));
+  ModelAndView modelAndView=pluginController.handlePluginInteractRequest(PLUGIN_ID,REQUEST_NAME,servletRequest);
   modelAndView.getView().render(null,servletRequest,servletResponse);
   assertThat(modelAndView.getView().getContentType(),is(PluginController.CONTENT_TYPE_HTML));
   verify(writer).write(responseBody);
+  assertRequest(requestArgumentCaptor.getValue(),REQUEST_NAME,new HashMap<String,String>(),new HashMap<String,String>());
 }
