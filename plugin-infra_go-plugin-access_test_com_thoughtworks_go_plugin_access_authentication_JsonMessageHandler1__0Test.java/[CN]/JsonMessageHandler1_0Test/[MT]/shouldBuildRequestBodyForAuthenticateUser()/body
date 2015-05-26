@@ -1,4 +1,8 @@
 {
   String requestMessage=messageHandler.requestMessageForAuthenticateUser("username","password");
-  assertThat(requestMessage,is("{\"username\":\"username\",\"password\":\"password\"}"));
+  Object o=new GsonBuilder().create().fromJson(requestMessage,Object.class);
+  Map<String,String> requestMap=new HashMap<String,String>();
+  requestMap.put("username","username");
+  requestMap.put("password","password");
+  assertEquals(o,requestMap);
 }
