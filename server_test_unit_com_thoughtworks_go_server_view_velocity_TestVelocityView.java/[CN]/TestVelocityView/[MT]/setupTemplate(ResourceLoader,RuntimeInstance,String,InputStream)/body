@@ -1,0 +1,15 @@
+{
+  try {
+    Template template=new Template();
+    template.setRuntimeServices(runtimeServices);
+    template.setResourceLoader(loader);
+    template.setName(templateName);
+    when(loader.getResourceStream(templateName)).thenReturn(templateContents);
+    doReturn(template).when(runtimeServices).getTemplate(templateName);
+    doReturn(template).when(runtimeServices).getTemplate(eq(templateName),Matchers.<String>any());
+    return template;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}
