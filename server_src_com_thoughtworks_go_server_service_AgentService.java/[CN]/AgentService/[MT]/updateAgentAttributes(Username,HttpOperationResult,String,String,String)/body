@@ -10,10 +10,12 @@
     agentConfigService.updateAgentAttributes(uuid,username.getUsername().toString(),newHostname,resources);
     result.ok(String.format("Updated agent with uuid %s.",uuid));
   }
- catch (  GoConfigInvalidException e) {
-    result.unprocessibleEntity("Updating agents failed",e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
-  }
-catch (  Exception e) {
-    result.internalServerError("Updating agents failed: " + e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
+ catch (  Exception e) {
+    if (e.getCause() instanceof GoConfigInvalidException) {
+      result.unprocessibleEntity("Updating agents failed",e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
+    }
+ else {
+      result.internalServerError("Updating agents failed: " + e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
+    }
   }
 }
