@@ -1,0 +1,10 @@
+{
+  if (systemId == null)   return systemId;
+  File file=new File(systemId);
+  if (file.isAbsolute())   return systemId;
+  String path=resolveSystemId(baseURI,systemId);
+  if (path != null)   return path;
+  path=resolveSystemId(currentDir,systemId);
+  if (path != null)   return path;
+  return resolveSystemId(scriptFileName,systemId);
+}

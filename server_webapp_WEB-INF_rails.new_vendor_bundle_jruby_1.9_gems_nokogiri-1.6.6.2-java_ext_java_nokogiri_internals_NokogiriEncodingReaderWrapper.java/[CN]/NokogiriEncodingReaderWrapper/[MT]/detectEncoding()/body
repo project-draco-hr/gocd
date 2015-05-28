@@ -1,0 +1,11 @@
+{
+  try {
+    firstChunkLength=read(firstChunk);
+  }
+ catch (  RaiseException e) {
+    detectedEncoding=e.getException().getInstanceVariable("@found_encoding");
+    return true;
+  }
+  detectedEncoding=context.nil;
+  return false;
+}

@@ -1,0 +1,11 @@
+{
+  Node n=selectNode(sibling,uri,nodeName,number);
+  if (n == null) {
+    return null;
+  }
+  n=n.getFirstChild();
+  while (n != null && n.getNodeType() != Node.TEXT_NODE) {
+    n=n.getNextSibling();
+  }
+  return (Text)n;
+}

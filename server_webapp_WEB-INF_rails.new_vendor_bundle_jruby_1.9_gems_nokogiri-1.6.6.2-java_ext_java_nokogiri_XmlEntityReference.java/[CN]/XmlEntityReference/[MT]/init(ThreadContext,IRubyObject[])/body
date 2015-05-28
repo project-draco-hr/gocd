@@ -1,0 +1,14 @@
+{
+  if (args.length < 2) {
+    throw getRuntime().newArgumentError(args.length,2);
+  }
+  IRubyObject doc=args[0];
+  IRubyObject name=args[1];
+  Document document=((XmlNode)doc).getOwnerDocument();
+  CoreDocumentImpl internalDocument=(CoreDocumentImpl)document;
+  boolean oldErrorChecking=internalDocument.getErrorChecking();
+  internalDocument.setErrorChecking(false);
+  Node node=document.createEntityReference(rubyStringToString(name));
+  internalDocument.setErrorChecking(oldErrorChecking);
+  setNode(context,node);
+}

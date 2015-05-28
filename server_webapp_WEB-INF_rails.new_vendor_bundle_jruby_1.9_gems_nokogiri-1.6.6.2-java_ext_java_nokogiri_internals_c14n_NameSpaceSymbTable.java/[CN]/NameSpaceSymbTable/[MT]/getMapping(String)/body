@@ -1,0 +1,15 @@
+{
+  NameSpaceSymbEntry entry=symb.get(prefix);
+  if (entry == null) {
+    return null;
+  }
+  if (entry.rendered) {
+    return null;
+  }
+  entry=(NameSpaceSymbEntry)entry.clone();
+  needsClone();
+  symb.put(prefix,entry);
+  entry.rendered=true;
+  entry.lastrendered=entry.uri;
+  return entry.n;
+}

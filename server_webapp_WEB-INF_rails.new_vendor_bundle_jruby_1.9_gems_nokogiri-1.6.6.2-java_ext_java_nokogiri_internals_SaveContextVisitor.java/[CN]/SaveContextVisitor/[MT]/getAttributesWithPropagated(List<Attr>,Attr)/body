@@ -1,0 +1,19 @@
+{
+  boolean newAttribute=true;
+  Iterator<Attr[]> iter=c14nAttrStack.iterator();
+  while (iter.hasNext()) {
+    Attr[] parentAttr=iter.next();
+    for (int n=0; n < parentAttr.length; n++) {
+      if (!parentAttr[n].getNodeName().startsWith("xml:"))       continue;
+      if (parentAttr[n].getNodeName().equals(attr.getNodeName())) {
+        if (parentAttr[n].getNodeValue().equals(attr.getNodeValue())) {
+          newAttribute=false;
+        }
+ else {
+          attributes.remove(parentAttr[n]);
+        }
+      }
+    }
+    if (newAttribute)     attributes.add(attr);
+  }
+}

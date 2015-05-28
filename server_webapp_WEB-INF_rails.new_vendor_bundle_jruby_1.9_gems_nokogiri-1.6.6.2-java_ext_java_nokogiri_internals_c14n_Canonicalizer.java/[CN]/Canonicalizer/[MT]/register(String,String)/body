@@ -1,0 +1,8 @@
+{
+  Class<? extends CanonicalizerSpi> registeredClass=canonicalizerHash.get(algorithmURI);
+  if (registeredClass != null) {
+    Object exArgs[]={algorithmURI,registeredClass};
+    throw new CanonicalizationException("algorithm.alreadyRegistered",exArgs);
+  }
+  canonicalizerHash.put(algorithmURI,(Class<? extends CanonicalizerSpi>)Class.forName(implementingClass));
+}

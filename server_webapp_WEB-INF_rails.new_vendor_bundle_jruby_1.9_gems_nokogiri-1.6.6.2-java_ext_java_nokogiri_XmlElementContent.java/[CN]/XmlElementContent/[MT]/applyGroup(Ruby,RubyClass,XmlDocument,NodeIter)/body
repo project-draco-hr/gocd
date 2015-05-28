@@ -1,0 +1,17 @@
+{
+  if (iter.isNull())   return;
+  if (left.isNil()) {
+    left=new XmlElementContent(runtime,klass,doc,iter);
+    if (iter.isNull())     return;
+    if (isSeparator(iter.current())) {
+      setType(((Element)iter.current()).getAttribute("type"));
+      iter.nextSibling();
+    }
+  }
+  if (iter.isNull())   return;
+  right=new XmlElementContent(runtime,klass,doc,iter);
+  if (iter.isNull())   return;
+  if (isSeparator(iter.current()))   iter.nextSibling();
+  if (iter.isNull())   return;
+  right=new XmlElementContent(runtime,klass,type,doc,iter,(XmlElementContent)right);
+}

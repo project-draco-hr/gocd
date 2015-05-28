@@ -1,0 +1,26 @@
+{
+  XObject xobj=null;
+  Node contextNode=context.node;
+  try {
+    com.sun.org.apache.xpath.internal.XPath xpathInternal=new com.sun.org.apache.xpath.internal.XPath(expr,null,prefixResolver,com.sun.org.apache.xpath.internal.XPath.SELECT);
+    if (contextNode == null)     xobj=xpathInternal.execute(xpathSupport,DTM.NULL,prefixResolver);
+ else     xobj=xpathInternal.execute(xpathSupport,contextNode,prefixResolver);
+switch (xobj.getType()) {
+case XObject.CLASS_BOOLEAN:
+      return thread_context.getRuntime().newBoolean(xobj.bool());
+case XObject.CLASS_NUMBER:
+    return thread_context.getRuntime().newFloat(xobj.num());
+case XObject.CLASS_NODESET:
+  NodeList nodeList=xobj.nodelist();
+XmlNodeSet xmlNodeSet=(XmlNodeSet)NokogiriService.XML_NODESET_ALLOCATOR.allocate(getRuntime(),getNokogiriClass(getRuntime(),"Nokogiri::XML::NodeSet"));
+xmlNodeSet.setNodeList(nodeList);
+xmlNodeSet.initialize(thread_context.getRuntime(),context);
+return xmlNodeSet;
+default :
+return thread_context.getRuntime().newString(xobj.str());
+}
+}
+ catch (TransformerException ex) {
+throw new XPathExpressionException(expr);
+}
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    Class<? extends CanonicalizerSpi> implementingClass=canonicalizerHash.get(algorithmURI);
+    canonicalizerSpi=implementingClass.newInstance();
+    canonicalizerSpi.reset=true;
+  }
+ catch (  Exception e) {
+    Object exArgs[]={algorithmURI};
+    throw new CanonicalizationException("signature.Canonicalizer.UnknownCanonicalizer",exArgs,e);
+  }
+}

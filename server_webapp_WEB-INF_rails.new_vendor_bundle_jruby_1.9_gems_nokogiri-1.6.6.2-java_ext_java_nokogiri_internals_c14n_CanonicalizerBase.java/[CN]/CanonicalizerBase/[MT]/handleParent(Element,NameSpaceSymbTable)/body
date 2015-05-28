@@ -1,0 +1,30 @@
+{
+  if (!e.hasAttributes() && e.getNamespaceURI() == null) {
+    return;
+  }
+  NamedNodeMap attrs=e.getAttributes();
+  int attrsLength=attrs.getLength();
+  for (int i=0; i < attrsLength; i++) {
+    Attr attribute=(Attr)attrs.item(i);
+    String NName=attribute.getLocalName();
+    String NValue=attribute.getNodeValue();
+    if (Constants.NamespaceSpecNS.equals(attribute.getNamespaceURI()) && (!XML.equals(NName) || !Constants.XML_LANG_SPACE_SpecNS.equals(NValue))) {
+      ns.addMapping(NName,NValue,attribute);
+    }
+  }
+  if (e.getNamespaceURI() != null) {
+    String NName=e.getPrefix();
+    String NValue=e.getNamespaceURI();
+    String Name;
+    if (NName == null || NName.equals("")) {
+      NName=XMLNS;
+      Name=XMLNS;
+    }
+ else {
+      Name=XMLNS + ":" + NName;
+    }
+    Attr n=e.getOwnerDocument().createAttributeNS("http://www.w3.org/2000/xmlns/",Name);
+    n.setValue(NValue);
+    ns.addMapping(NName,NValue,n);
+  }
+}

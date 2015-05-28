@@ -1,0 +1,6 @@
+{
+  AgentConfig agentConfig=cruiseConfig.agents().getAgentByUuid(uuid);
+  bombIfNull(agentConfig,"Unable to set agent hostname; Agent [" + uuid + "] not found.");
+  agentConfig.setHostName(hostname);
+  return cruiseConfig;
+}

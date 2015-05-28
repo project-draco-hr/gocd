@@ -1,0 +1,10 @@
+{
+  List<XmlNamespace> namespaces=new ArrayList<XmlNamespace>();
+  for (  String[] key : keys) {
+    CacheEntry entry=cache.get(key);
+    if (entry.isOwner(node)) {
+      namespaces.add(entry.namespace);
+    }
+  }
+  return namespaces;
+}

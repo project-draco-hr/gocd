@@ -1,0 +1,12 @@
+{
+  if (elementNode == null)   elementNode=new ElementNode();
+  ElementNode clone;
+  try {
+    clone=(ElementNode)elementNode.clone();
+  }
+ catch (  CloneNotSupportedException e) {
+    clone=new ElementNode();
+  }
+  clone.init(ruby,uri,localName,qName,attrs,depth,langStack,xmlBaseStack);
+  return clone;
+}

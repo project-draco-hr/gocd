@@ -1,0 +1,11 @@
+{
+  Set<Node> resultSet=new HashSet<Node>();
+  Iterator<Node> iterator=inputSet.iterator();
+  while (iterator.hasNext()) {
+    Node inputNode=iterator.next();
+    if (!XMLUtils.isDescendantOrSelf(signatureElement,inputNode)) {
+      resultSet.add(inputNode);
+    }
+  }
+  return resultSet;
+}

@@ -1,0 +1,14 @@
+{
+  Iterator<NameSpaceSymbEntry> it=symb.entrySet().iterator();
+  while (it.hasNext()) {
+    NameSpaceSymbEntry n=it.next();
+    if ((!n.rendered) && (n.n != null)) {
+      n=(NameSpaceSymbEntry)n.clone();
+      needsClone();
+      symb.put(n.prefix,n);
+      n.lastrendered=n.uri;
+      n.rendered=true;
+      result.add(n.n);
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  String prefixString=rubyStringToString(prefix);
+  String hrefString;
+  if (href.isNil()) {
+    hrefString=this.findNamespaceHref(context,rubyStringToString(prefix));
+    if (hrefString == null) {
+      return context.nil;
+    }
+    href=context.getRuntime().newString(hrefString);
+  }
+ else {
+    hrefString=rubyStringToString(href);
+  }
+  NokogiriNamespaceCache nsCache=NokogiriHelpers.getNamespaceCacheFormNode(node);
+  XmlNamespace cachedNamespace=nsCache.get(prefixString,hrefString);
+  if (cachedNamespace != null)   return cachedNamespace;
+  Node namespaceOwner;
+  if (node.getNodeType() == Node.ELEMENT_NODE) {
+    namespaceOwner=node;
+    Element element=(Element)node;
+    final String uri="http://www.w3.org/2000/xmlns/";
+    String qName=prefix.isNil() ? "xmlns" : "xmlns:" + prefixString;
+    element.setAttributeNS(uri,qName,hrefString);
+  }
+ else   if (node.getNodeType() == Node.ATTRIBUTE_NODE)   namespaceOwner=((Attr)node).getOwnerElement();
+ else   namespaceOwner=node.getParentNode();
+  XmlNamespace ns=XmlNamespace.createFromPrefixAndHref(namespaceOwner,prefix,href);
+  if (node != namespaceOwner) {
+    this.node=NokogiriHelpers.renameNode(node,ns.getHref(),ns.getPrefix() + ":" + node.getLocalName());
+  }
+  updateNodeNamespaceIfNecessary(context,ns);
+  return ns;
+}

@@ -1,0 +1,11 @@
+{
+  int index=index(key);
+  Object oldKey=keys[index];
+  keys[index]=key;
+  entries[index]=value;
+  if ((oldKey == null || !oldKey.equals(key)) && (--free == 0)) {
+    free=entries.length;
+    int newCapacity=free << 2;
+    rehash(newCapacity);
+  }
+}

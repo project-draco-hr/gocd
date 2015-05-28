@@ -1,0 +1,62 @@
+{
+  xmlattrStack.push(ns.getLevel());
+  boolean isRealVisible=isVisibleDO(element,ns.getLevel()) == 1;
+  final SortedSet<Attr> result=this.result;
+  result.clear();
+  if (element.hasAttributes()) {
+    NamedNodeMap attrs=element.getAttributes();
+    int attrsLength=attrs.getLength();
+    for (int i=0; i < attrsLength; i++) {
+      Attr attribute=(Attr)attrs.item(i);
+      String NUri=attribute.getNamespaceURI();
+      String NName=attribute.getLocalName();
+      String NValue=attribute.getValue();
+      if (!XMLNS_URI.equals(NUri)) {
+        if (XML_LANG_URI.equals(NUri)) {
+          xmlattrStack.addXmlnsAttr(attribute);
+        }
+ else         if (isRealVisible) {
+          result.add(attribute);
+        }
+      }
+ else       if (!XML.equals(NName) || !XML_LANG_URI.equals(NValue)) {
+        if (isVisible(attribute)) {
+          if (isRealVisible || !ns.removeMappingIfRender(NName)) {
+            Node n=ns.addMappingAndRender(NName,NValue,attribute);
+            if (n != null) {
+              result.add((Attr)n);
+              if (C14nHelper.namespaceIsRelative(attribute)) {
+                Object exArgs[]={element.getTagName(),NName,attribute.getNodeValue()};
+                throw new CanonicalizationException("c14n.Canonicalizer.RelativeNamespace",exArgs);
+              }
+            }
+          }
+        }
+ else {
+          if (isRealVisible && !XMLNS.equals(NName)) {
+            ns.removeMapping(NName);
+          }
+ else {
+            ns.addMapping(NName,NValue,attribute);
+          }
+        }
+      }
+    }
+  }
+  if (isRealVisible) {
+    Attr xmlns=element.getAttributeNodeNS(XMLNS_URI,XMLNS);
+    Node n=null;
+    if (xmlns == null) {
+      n=ns.getMapping(XMLNS);
+    }
+ else     if (!isVisible(xmlns)) {
+      n=ns.addMappingAndRender(XMLNS,"",nullNode);
+    }
+    if (n != null) {
+      result.add((Attr)n);
+    }
+    xmlattrStack.getXmlnsAttr(result);
+    ns.getUnrenderedNodes(result);
+  }
+  return result.iterator();
+}

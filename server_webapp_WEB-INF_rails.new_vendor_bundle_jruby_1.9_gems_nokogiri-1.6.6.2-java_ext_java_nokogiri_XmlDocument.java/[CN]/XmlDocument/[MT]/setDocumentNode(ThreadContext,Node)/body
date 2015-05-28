@@ -1,0 +1,11 @@
+{
+  super.setNode(context,node);
+  initializeNamespaceCacheIfNecessary();
+  Ruby runtime=context.getRuntime();
+  if (node != null) {
+    Document document=(Document)node;
+    stabilizeTextContent(document);
+    createAndCacheNamespaces(runtime,document.getDocumentElement());
+  }
+  setInstanceVariable("@decorators",runtime.getNil());
+}

@@ -1,0 +1,24 @@
+{
+  XmlNode xmlNode=(XmlNode)node;
+  XmlXpathContext xmlXpathContext=(XmlXpathContext)NokogiriService.XML_XPATHCONTEXT_ALLOCATOR.allocate(thread_context.getRuntime(),(RubyClass)klazz);
+  XPathFactory.newInstance().newXPath();
+  try {
+    xmlXpathContext.setNode(xmlNode);
+  }
+ catch (  IllegalArgumentException e) {
+    throw thread_context.getRuntime().newRuntimeError(e.getMessage());
+  }
+catch (  ClassNotFoundException e) {
+    throw thread_context.getRuntime().newRuntimeError(e.getMessage());
+  }
+catch (  InstantiationException e) {
+    throw thread_context.getRuntime().newRuntimeError(e.getMessage());
+  }
+catch (  IllegalAccessException e) {
+    throw thread_context.getRuntime().newRuntimeError(e.getMessage());
+  }
+catch (  InvocationTargetException e) {
+    throw thread_context.getRuntime().newRuntimeError(e.getMessage());
+  }
+  return xmlXpathContext;
+}

@@ -1,0 +1,14 @@
+{
+  if (config == null) {
+    if (xInclude) {
+      config=new XIncludeParserConfiguration();
+    }
+ else {
+      config=getXMLParserConfiguration();
+    }
+  }
+  DTDConfiguration dtdConfig=new DTDConfiguration();
+  dtd=new DOMParser(dtdConfig);
+  config.setDTDHandler(dtdConfig);
+  config.setDTDContentModelHandler(dtdConfig);
+}

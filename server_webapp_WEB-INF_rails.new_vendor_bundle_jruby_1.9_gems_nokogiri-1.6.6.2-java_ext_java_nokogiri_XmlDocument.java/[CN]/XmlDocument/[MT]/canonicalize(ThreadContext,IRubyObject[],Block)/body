@@ -1,0 +1,54 @@
+{
+  Integer mode=0;
+  String inclusive_namespace=null;
+  Boolean with_comments=false;
+  if (args.length > 0 && !(args[0].isNil())) {
+    mode=RubyFixnum.fix2int(args[0]);
+  }
+  if (args.length > 1) {
+    if (!args[1].isNil() && !(args[1] instanceof List)) {
+      throw context.getRuntime().newTypeError("Expected array");
+    }
+    if (!args[1].isNil()) {
+      inclusive_namespace=(String)((RubyArray)args[1]).join(context,context.getRuntime().newString(" ")).asString().asJavaString();
+    }
+  }
+  if (args.length > 2) {
+    with_comments=args[2].isTrue();
+  }
+  String algorithmURI=null;
+switch (mode) {
+case 0:
+    if (with_comments)     algorithmURI=Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS;
+ else     algorithmURI=Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS;
+  break;
+case 1:
+if (with_comments) algorithmURI=Canonicalizer.ALGO_ID_C14N_EXCL_WITH_COMMENTS;
+ else algorithmURI=Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS;
+break;
+case 2:
+if (with_comments) algorithmURI=Canonicalizer.ALGO_ID_C14N11_WITH_COMMENTS;
+ else algorithmURI=Canonicalizer.ALGO_ID_C14N11_OMIT_COMMENTS;
+}
+try {
+Canonicalizer canonicalizer=Canonicalizer.getInstance(algorithmURI);
+XmlNode startingNode=getStartingNode(block);
+byte[] result;
+CanonicalFilter filter=new CanonicalFilter(context,block);
+if (inclusive_namespace == null) {
+result=canonicalizer.canonicalizeSubtree(startingNode.getNode(),filter);
+}
+ else {
+result=canonicalizer.canonicalizeSubtree(startingNode.getNode(),inclusive_namespace,filter);
+}
+String resultString=new String(result,"UTF-8");
+return stringOrNil(context.getRuntime(),resultString);
+}
+ catch (CanonicalizationException e) {
+e.printStackTrace();
+}
+catch (UnsupportedEncodingException e) {
+e.printStackTrace();
+}
+return context.getRuntime().getNil();
+}

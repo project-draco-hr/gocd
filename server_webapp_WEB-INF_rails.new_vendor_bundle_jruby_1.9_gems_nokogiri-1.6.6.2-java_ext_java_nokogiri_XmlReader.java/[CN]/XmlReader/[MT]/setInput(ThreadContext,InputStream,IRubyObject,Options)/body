@@ -1,0 +1,14 @@
+{
+  this.setState(XML_TEXTREADER_MODE_READING);
+  config=this.createReader(context.getRuntime(),options);
+  InputSource inputSource=new InputSource();
+  ParserContext.setUrl(context,inputSource,url);
+  XMLInputSource xmlInputSource=new XMLInputSource(inputSource.getPublicId(),inputSource.getSystemId(),null,in,null);
+  try {
+    config.setInputSource(xmlInputSource);
+  }
+ catch (  IOException e) {
+    throw context.getRuntime().newRuntimeError(e.getMessage());
+  }
+  this.setState(XML_TEXTREADER_MODE_CLOSED);
+}

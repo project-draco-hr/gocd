@@ -16,11 +16,15 @@
     return new GoConfigSaveResult(internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand)),configSaveState);
   }
  catch (  ConfigFileHasChangedException e) {
-    LOGGER.warn("Configuration file could not be merged successfully after a concurrent edit : " + e.getMessage(),e);
+    LOGGER.warn("Configuration file could not be merged successfully after a concurrent edit: " + e.getMessage(),e);
+    throw e;
+  }
+catch (  GoConfigInvalidException e) {
+    LOGGER.warn("Configuration file is invalid: " + e.getMessage(),e);
     throw e;
   }
 catch (  Exception e) {
-    LOGGER.error("Configuration file is not valid : " + e.getMessage(),e);
+    LOGGER.error("Configuration file is not valid: " + e.getMessage(),e);
     throw bomb(e.getMessage(),e);
   }
  finally {

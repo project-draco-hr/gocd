@@ -1,0 +1,10 @@
+{
+  if (doc instanceof HtmlDocument)   return context.getRuntime().getNil();
+  NokogiriNamespaceCache nsCache=NokogiriHelpers.getNamespaceCacheFormNode(node);
+  String prefix=node.getPrefix();
+  XmlNamespace namespace=nsCache.get(prefix == null ? "" : prefix,node.getNamespaceURI());
+  if (namespace == null || namespace.isEmpty()) {
+    return context.getRuntime().getNil();
+  }
+  return namespace;
+}

@@ -1,0 +1,14 @@
+{
+  try {
+    SymbMap copy=(SymbMap)super.clone();
+    copy.entries=new NameSpaceSymbEntry[entries.length];
+    System.arraycopy(entries,0,copy.entries,0,entries.length);
+    copy.keys=new String[keys.length];
+    System.arraycopy(keys,0,copy.keys,0,keys.length);
+    return copy;
+  }
+ catch (  CloneNotSupportedException e) {
+    e.printStackTrace();
+  }
+  return null;
+}

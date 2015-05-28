@@ -1,0 +1,18 @@
+{
+  if (parent.getNodeType() == Node.DOCUMENT_NODE && otherNode.getNodeType() == Node.TEXT_NODE) {
+    Element e=(Element)parent.getFirstChild();
+    if (e == null || !e.getNodeName().equals(TEXT_WRAPPER_NAME)) {
+      e=((Document)parent).createElement(TEXT_WRAPPER_NAME);
+      adoptAsChild(context,parent,e);
+    }
+    e.appendChild(otherNode);
+    otherNode=e;
+  }
+ else {
+    addNamespaceURIIfNeeded(otherNode);
+    parent.appendChild(otherNode);
+  }
+  Node[] nodes=new Node[1];
+  nodes[0]=otherNode;
+  return nodes;
+}

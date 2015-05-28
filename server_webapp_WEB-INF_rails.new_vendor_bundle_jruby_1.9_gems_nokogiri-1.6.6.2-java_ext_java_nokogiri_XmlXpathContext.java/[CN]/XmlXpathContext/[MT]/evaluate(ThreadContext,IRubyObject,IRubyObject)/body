@@ -1,0 +1,13 @@
+{
+  functionResolver.setHandler(handler);
+  String src=(String)expr.toJava(String.class);
+  if (!handler.isNil()) {
+    if (!isContainsPrefix(src)) {
+      Set<String> methodNames=handler.getMetaClass().getMethods().keySet();
+      for (      String name : methodNames) {
+        src=src.replaceAll(name,NokogiriNamespaceContext.NOKOGIRI_PREFIX + ":" + name);
+      }
+    }
+  }
+  return node_set(thread_context,src);
+}

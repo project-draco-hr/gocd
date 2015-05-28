@@ -1,0 +1,38 @@
+{
+  int size=levels.size() - 1;
+  if (cur == null) {
+    cur=new XmlsStackElement();
+    cur.level=currentLevel;
+    lastlevel=currentLevel;
+    levels.add(cur);
+  }
+  boolean parentRendered=false;
+  XmlsStackElement e=null;
+  if (size == -1) {
+    parentRendered=true;
+  }
+ else {
+    e=levels.get(size);
+    if (e.rendered && e.level + 1 == currentLevel) {
+      parentRendered=true;
+    }
+  }
+  if (parentRendered) {
+    col.addAll(cur.nodes);
+    cur.rendered=true;
+    return;
+  }
+  Map<String,Attr> loa=new HashMap<String,Attr>();
+  for (; size >= 0; size--) {
+    e=levels.get(size);
+    Iterator<Attr> it=e.nodes.iterator();
+    while (it.hasNext()) {
+      Attr n=it.next();
+      if (!loa.containsKey(n.getName())) {
+        loa.put(n.getName(),n);
+      }
+    }
+  }
+  cur.rendered=true;
+  col.addAll(loa.values());
+}

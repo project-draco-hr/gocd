@@ -1,0 +1,54 @@
+{
+  final int length=str.length();
+  boolean expanded=false;
+  byte[] result=new byte[length];
+  int i=0;
+  int out=0;
+  char c;
+  while (i < length) {
+    c=str.charAt(i++);
+    if (c < 0x80) {
+      result[out++]=(byte)c;
+      continue;
+    }
+    if ((c >= 0xD800 && c <= 0xDBFF) || (c >= 0xDC00 && c <= 0xDFFF)) {
+      result[out++]=0x3f;
+      continue;
+    }
+    if (!expanded) {
+      byte newResult[]=new byte[3 * length];
+      System.arraycopy(result,0,newResult,0,out);
+      result=newResult;
+      expanded=true;
+    }
+    char ch;
+    int bias;
+    byte write;
+    if (c > 0x07FF) {
+      ch=(char)(c >>> 12);
+      write=(byte)0xE0;
+      if (ch > 0) {
+        write|=(ch & 0x0F);
+      }
+      result[out++]=write;
+      write=(byte)0x80;
+      bias=0x3F;
+    }
+ else {
+      write=(byte)0xC0;
+      bias=0x1F;
+    }
+    ch=(char)(c >>> 6);
+    if (ch > 0) {
+      write|=(ch & bias);
+    }
+    result[out++]=write;
+    result[out++]=(byte)(0x80 | ((c) & 0x3F));
+  }
+  if (expanded) {
+    byte newResult[]=new byte[out];
+    System.arraycopy(result,0,newResult,0,out);
+    result=newResult;
+  }
+  return result;
+}

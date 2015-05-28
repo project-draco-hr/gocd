@@ -1,0 +1,39 @@
+{
+  Ruby ruby=context.getRuntime();
+  if (!invoke(context,handlerRuby,"respond_to?",ruby.newSymbol("document")).isTrue()) {
+    String msg="argument must respond_to document";
+    throw ruby.newArgumentError(msg);
+  }
+  handler=new NokogiriHandler(ruby,handlerRuby);
+  preParse(context,handlerRuby,handler);
+  setContentHandler(handler);
+  setErrorHandler(handler);
+  try {
+    setProperty("http://xml.org/sax/properties/lexical-handler",handler);
+  }
+ catch (  Exception ex) {
+    throw ruby.newRuntimeError("Problem while creating XML SAX Parser: " + ex.toString());
+  }
+  try {
+    try {
+      do_parse();
+    }
+ catch (    SAXParseException spe) {
+      String message=spe.getMessage();
+      if ("Premature end of file.".matches(message) && stringDataSize < 1) {
+        throw ruby.newRuntimeError("couldn't parse document: " + message);
+      }
+ else {
+        handler.error(spe);
+      }
+    }
+  }
+ catch (  SAXException se) {
+    throw RaiseException.createNativeRaiseException(ruby,se);
+  }
+catch (  IOException ioe) {
+    throw ruby.newIOErrorFromException(ioe);
+  }
+  postParse(context,handlerRuby,handler);
+  return ruby.getNil();
+}

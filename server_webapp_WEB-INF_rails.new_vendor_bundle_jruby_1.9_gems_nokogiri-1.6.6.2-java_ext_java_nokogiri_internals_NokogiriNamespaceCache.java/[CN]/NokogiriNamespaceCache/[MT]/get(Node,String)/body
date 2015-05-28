@@ -1,0 +1,9 @@
+{
+  if (prefix == null)   return defaultNamespace;
+  for (  String[] key : keys) {
+    if (key[0].equals(prefix) && cache.get(key) != null && cache.get(key).isOwner(node)) {
+      return cache.get(key).namespace;
+    }
+  }
+  return null;
+}

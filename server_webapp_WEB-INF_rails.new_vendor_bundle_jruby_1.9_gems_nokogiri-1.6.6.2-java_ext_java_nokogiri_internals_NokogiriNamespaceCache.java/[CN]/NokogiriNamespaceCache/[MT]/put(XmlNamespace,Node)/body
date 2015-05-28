@@ -1,0 +1,10 @@
+{
+  String prefixString=namespace.getPrefix();
+  String hrefString=namespace.getHref();
+  if (getKey(prefixString,hrefString) != null)   return;
+  String[] key={prefixString,hrefString};
+  keys.add(key);
+  CacheEntry entry=new CacheEntry(namespace,ownerNode);
+  cache.put(key,entry);
+  if ("".equals(prefixString))   defaultNamespace=namespace;
+}

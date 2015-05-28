@@ -1,0 +1,9 @@
+{
+  int limit=params.getLength();
+  if (limit % 2 == 1)   limit--;
+  for (int i=0; i < limit; i+=2) {
+    String name=params.aref(runtime.newFixnum(i)).asJavaString();
+    String value=params.aref(runtime.newFixnum(i + 1)).asJavaString();
+    transformer.setParameter(name,unparseValue(value));
+  }
+}

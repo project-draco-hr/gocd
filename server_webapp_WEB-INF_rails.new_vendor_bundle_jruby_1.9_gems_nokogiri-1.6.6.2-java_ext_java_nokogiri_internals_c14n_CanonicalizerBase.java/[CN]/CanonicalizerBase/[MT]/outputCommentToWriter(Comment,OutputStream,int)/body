@@ -1,0 +1,26 @@
+{
+  if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
+    writer.write('\n');
+  }
+  writer.write(BEGIN_COMM);
+  final String data=currentComment.getData();
+  final int length=data.length();
+  for (int i=0; i < length; i++) {
+    char c=data.charAt(i);
+    if (c == 0x0D) {
+      writer.write(XD);
+    }
+ else {
+      if (c < 0x80) {
+        writer.write(c);
+      }
+ else {
+        UtfHelpper.writeCharToUtf8(c,writer);
+      }
+    }
+  }
+  writer.write(END_COMM);
+  if (position == NODE_BEFORE_DOCUMENT_ELEMENT) {
+    writer.write('\n');
+  }
+}

@@ -1,0 +1,16 @@
+{
+  Node doc=node.getNode().getOwnerDocument();
+  if (doc == null) {
+    doc=node.getNode();
+  }
+  xpathSupport=(XPathContext)doc.getUserData(XPATH_CONTEXT);
+  if (xpathSupport == null) {
+    JAXPExtensionsProvider jep=getProviderInstance();
+    xpathSupport=new XPathContext(jep);
+    xpathSupport.setVarStack(new JAXPVariableStack(variableResolver));
+    doc.setUserData(XPATH_CONTEXT,xpathSupport,null);
+  }
+  context=node;
+  nsContext=NokogiriNamespaceContext.create();
+  prefixResolver=new JAXPPrefixResolver(nsContext);
+}

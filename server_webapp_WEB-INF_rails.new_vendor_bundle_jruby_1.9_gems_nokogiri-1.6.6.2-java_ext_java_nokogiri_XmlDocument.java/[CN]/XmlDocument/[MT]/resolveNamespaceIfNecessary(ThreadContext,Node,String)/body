@@ -1,0 +1,17 @@
+{
+  if (node == null)   return;
+  String nodePrefix=node.getPrefix();
+  if (nodePrefix == null) {
+    NokogiriHelpers.renameNode(node,default_href,node.getNodeName());
+  }
+ else {
+    XmlNamespace xmlNamespace=nsCache.get(node,nodePrefix);
+    String href=rubyStringToString(xmlNamespace.href(context));
+    NokogiriHelpers.renameNode(node,href,node.getNodeName());
+  }
+  resolveNamespaceIfNecessary(context,node.getNextSibling(),default_href);
+  NodeList children=node.getChildNodes();
+  for (int i=0; i < children.getLength(); i++) {
+    resolveNamespaceIfNecessary(context,children.item(i),default_href);
+  }
+}

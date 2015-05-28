@@ -1,0 +1,13 @@
+{
+  List<XmlNamespace> namespaces=new ArrayList<XmlNamespace>();
+  if (prefix == null) {
+    namespaces.add(defaultNamespace);
+    return namespaces;
+  }
+  for (  String[] key : keys) {
+    if (key[0].equals(prefix) && cache.get(key) != null) {
+      namespaces.add(cache.get(key).namespace);
+    }
+  }
+  return namespaces;
+}

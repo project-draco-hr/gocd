@@ -1,0 +1,16 @@
+{
+  try {
+    Future<Void> task=stream.addChunk(NokogiriBlockingQueueInputStream.END);
+    task.get();
+  }
+ catch (  ClosedStreamException ex) {
+  }
+catch (  Exception e) {
+    if (context != null)     throw context.getRuntime().newRuntimeError(e.getMessage());
+  }
+  futureTask.cancel(true);
+  executor.shutdown();
+  executor=null;
+  stream=null;
+  futureTask=null;
+}

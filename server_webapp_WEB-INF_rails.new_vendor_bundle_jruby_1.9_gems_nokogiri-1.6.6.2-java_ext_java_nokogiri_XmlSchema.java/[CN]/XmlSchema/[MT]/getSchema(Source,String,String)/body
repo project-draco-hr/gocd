@@ -1,0 +1,7 @@
+{
+  SchemaFactory schemaFactory=SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+  SchemaResourceResolver resourceResolver=new SchemaResourceResolver(currentDir,scriptFileName,null);
+  schemaFactory.setResourceResolver(resourceResolver);
+  schemaFactory.setErrorHandler(new IgnoreSchemaErrorsErrorHandler());
+  return schemaFactory.newSchema(source);
+}

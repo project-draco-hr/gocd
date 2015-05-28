@@ -1,0 +1,10 @@
+{
+  Node previous=n.getPreviousSibling() == null ? n.getParentNode() : n.getPreviousSibling();
+  if (previous == null || previous.getNodeType() == Node.DOCUMENT_NODE)   return null;
+  if (previous.getNodeType() == Node.ELEMENT_NODE) {
+    return previous;
+  }
+ else {
+    return findPreviousElement(previous);
+  }
+}

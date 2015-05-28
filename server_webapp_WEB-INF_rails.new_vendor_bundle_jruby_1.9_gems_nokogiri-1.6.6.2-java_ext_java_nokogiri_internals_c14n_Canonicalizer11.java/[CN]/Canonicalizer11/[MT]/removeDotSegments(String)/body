@@ -1,0 +1,121 @@
+{
+  String input=path;
+  while (input.indexOf("//") > -1) {
+    input=input.replaceAll("//","/");
+  }
+  StringBuilder output=new StringBuilder();
+  if (input.charAt(0) == '/') {
+    output.append("/");
+    input=input.substring(1);
+  }
+  printStep("1 ",output.toString(),input);
+  while (input.length() != 0) {
+    if (input.startsWith("./")) {
+      input=input.substring(2);
+      printStep("2A",output.toString(),input);
+    }
+ else     if (input.startsWith("../")) {
+      input=input.substring(3);
+      if (!output.toString().equals("/")) {
+        output.append("../");
+      }
+      printStep("2A",output.toString(),input);
+    }
+ else     if (input.startsWith("/./")) {
+      input=input.substring(2);
+      printStep("2B",output.toString(),input);
+    }
+ else     if (input.equals("/.")) {
+      input=input.replaceFirst("/.","/");
+      printStep("2B",output.toString(),input);
+    }
+ else     if (input.startsWith("/../")) {
+      input=input.substring(3);
+      if (output.length() == 0) {
+        output.append("/");
+      }
+ else       if (output.toString().endsWith("../")) {
+        output.append("..");
+      }
+ else       if (output.toString().endsWith("..")) {
+        output.append("/..");
+      }
+ else {
+        int index=output.lastIndexOf("/");
+        if (index == -1) {
+          output=new StringBuilder();
+          if (input.charAt(0) == '/') {
+            input=input.substring(1);
+          }
+        }
+ else {
+          output=output.delete(index,output.length());
+        }
+      }
+      printStep("2C",output.toString(),input);
+    }
+ else     if (input.equals("/..")) {
+      input=input.replaceFirst("/..","/");
+      if (output.length() == 0) {
+        output.append("/");
+      }
+ else       if (output.toString().endsWith("../")) {
+        output.append("..");
+      }
+ else       if (output.toString().endsWith("..")) {
+        output.append("/..");
+      }
+ else {
+        int index=output.lastIndexOf("/");
+        if (index == -1) {
+          output=new StringBuilder();
+          if (input.charAt(0) == '/') {
+            input=input.substring(1);
+          }
+        }
+ else {
+          output=output.delete(index,output.length());
+        }
+      }
+      printStep("2C",output.toString(),input);
+    }
+ else     if (input.equals(".")) {
+      input="";
+      printStep("2D",output.toString(),input);
+    }
+ else     if (input.equals("..")) {
+      if (!output.toString().equals("/")) {
+        output.append("..");
+      }
+      input="";
+      printStep("2D",output.toString(),input);
+    }
+ else {
+      int end=-1;
+      int begin=input.indexOf('/');
+      if (begin == 0) {
+        end=input.indexOf('/',1);
+      }
+ else {
+        end=begin;
+        begin=0;
+      }
+      String segment;
+      if (end == -1) {
+        segment=input.substring(begin);
+        input="";
+      }
+ else {
+        segment=input.substring(begin,end);
+        input=input.substring(end);
+      }
+      output.append(segment);
+      printStep("2E",output.toString(),input);
+    }
+  }
+  if (output.toString().endsWith("..")) {
+    output.append("/");
+    printStep("3 ",output.toString(),input);
+  }
+  return output.toString();
+}

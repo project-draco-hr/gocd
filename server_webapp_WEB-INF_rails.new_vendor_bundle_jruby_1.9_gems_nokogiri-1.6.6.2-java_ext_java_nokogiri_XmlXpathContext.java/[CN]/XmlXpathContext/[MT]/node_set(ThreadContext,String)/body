@@ -1,0 +1,9 @@
+{
+  try {
+    return tryGetNodeSet(thread_context,expr);
+  }
+ catch (  XPathExpressionException xpee) {
+    RubyException e=XmlSyntaxError.createXPathSyntaxError(getRuntime(),xpee);
+    throw new RaiseException(e);
+  }
+}

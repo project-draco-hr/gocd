@@ -1,0 +1,20 @@
+{
+  if (!"html".equalsIgnoreCase(document.getDocumentElement().getNodeName()))   return null;
+  NodeList list=document.getDocumentElement().getChildNodes();
+  for (int i=0; i < list.getLength(); i++) {
+    if ("head".equalsIgnoreCase(list.item(i).getNodeName())) {
+      NodeList headers=list.item(i).getChildNodes();
+      for (int j=0; j < headers.getLength(); j++) {
+        if ("meta".equalsIgnoreCase(headers.item(j).getNodeName())) {
+          NamedNodeMap nodeMap=headers.item(j).getAttributes();
+          for (int k=0; k < nodeMap.getLength(); k++) {
+            if ("charset".equalsIgnoreCase(nodeMap.item(k).getNodeName())) {
+              return nodeMap.item(k).getNodeValue();
+            }
+          }
+        }
+      }
+    }
+  }
+  return null;
+}

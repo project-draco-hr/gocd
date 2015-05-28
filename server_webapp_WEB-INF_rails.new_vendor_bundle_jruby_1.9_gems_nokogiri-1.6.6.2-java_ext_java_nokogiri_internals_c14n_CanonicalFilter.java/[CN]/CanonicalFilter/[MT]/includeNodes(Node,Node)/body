@@ -1,0 +1,12 @@
+{
+  if (block == null || !block.isGiven())   return true;
+  IRubyObject current=NokogiriHelpers.getCachedNodeOrCreate(context.getRuntime(),currentNode);
+  IRubyObject parent=NokogiriHelpers.getCachedNodeOrCreate(context.getRuntime(),parentNode);
+  if (parent.isNil()) {
+    IRubyObject doc=((XmlNode)current).document(context);
+    boolean returnValue=block.call(context,current,doc).isTrue();
+    block.call(context,doc,context.nil);
+    return returnValue;
+  }
+  return block.call(context,current,parent).isTrue();
+}

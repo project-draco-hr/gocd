@@ -1,0 +1,14 @@
+{
+  Class<?> clazz=Class.forName("com.sun.org.apache.xpath.internal.jaxp.JAXPExtensionsProvider");
+  Constructor[] constructors=clazz.getDeclaredConstructors();
+  for (int i=0; i < constructors.length; i++) {
+    Class[] parameterTypes=constructors[i].getParameterTypes();
+    if (parameterTypes.length == 2) {
+      return (JAXPExtensionsProvider)constructors[i].newInstance(functionResolver,false);
+    }
+ else     if (parameterTypes.length == 1) {
+      return (JAXPExtensionsProvider)constructors[i].newInstance(functionResolver);
+    }
+  }
+  return null;
+}

@@ -1,0 +1,8 @@
+{
+  NamedNodeMap attrs=this.node.getAttributes();
+  Node attr=attrs.getNamedItem(rubyStringToString(name));
+  if (attr == null) {
+    return context.getRuntime().getNil();
+  }
+  return getCachedNodeOrCreate(context.getRuntime(),attr);
+}

@@ -1,0 +1,9 @@
+{
+  if (args.size() != this.arity) {
+    throw new XPathFunctionException("arity does not match");
+  }
+  Ruby ruby=this.handler.getRuntime();
+  ThreadContext context=ruby.getCurrentContext();
+  IRubyObject result=RuntimeHelpers.invoke(context,this.handler,this.name,fromObjectToRubyArgs(args));
+  return fromRubyToObject(result);
+}

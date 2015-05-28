@@ -1,0 +1,18 @@
+{
+  Element result=null;
+  String prefix=ElementProxy.getDefaultPrefix(namespace);
+  if (namespace == null) {
+    result=doc.createElementNS(null,localName);
+  }
+ else {
+    if ((prefix == null) || (prefix.length() == 0)) {
+      result=doc.createElementNS(namespace,localName);
+      result.setAttributeNS(Constants.NamespaceSpecNS,"xmlns",namespace);
+    }
+ else {
+      result=doc.createElementNS(namespace,prefix + ":" + localName);
+      result.setAttributeNS(Constants.NamespaceSpecNS,"xmlns:" + prefix,namespace);
+    }
+  }
+  return result;
+}

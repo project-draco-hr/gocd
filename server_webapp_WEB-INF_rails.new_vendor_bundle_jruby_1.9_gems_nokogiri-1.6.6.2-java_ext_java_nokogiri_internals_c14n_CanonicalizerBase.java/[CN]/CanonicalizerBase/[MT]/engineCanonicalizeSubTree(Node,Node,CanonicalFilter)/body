@@ -1,0 +1,33 @@
+{
+  this.excludeNode=excludeNode;
+  try {
+    NameSpaceSymbTable ns=new NameSpaceSymbTable();
+    int nodeLevel=NODE_BEFORE_DOCUMENT_ELEMENT;
+    if (rootNode != null && Node.ELEMENT_NODE == rootNode.getNodeType()) {
+      getParentNameSpaces((Element)rootNode,ns);
+      nodeLevel=NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
+    }
+    this.canonicalizeSubTree(rootNode,ns,rootNode,nodeLevel,filter);
+    this.writer.flush();
+    if (this.writer instanceof ByteArrayOutputStream) {
+      byte[] result=((ByteArrayOutputStream)this.writer).toByteArray();
+      if (reset) {
+        ((ByteArrayOutputStream)this.writer).reset();
+      }
+ else {
+        this.writer.close();
+      }
+      return result;
+    }
+ else {
+      this.writer.close();
+    }
+    return null;
+  }
+ catch (  UnsupportedEncodingException ex) {
+    throw new CanonicalizationException("empty",ex);
+  }
+catch (  IOException ex) {
+    throw new CanonicalizationException("empty",ex);
+  }
+}

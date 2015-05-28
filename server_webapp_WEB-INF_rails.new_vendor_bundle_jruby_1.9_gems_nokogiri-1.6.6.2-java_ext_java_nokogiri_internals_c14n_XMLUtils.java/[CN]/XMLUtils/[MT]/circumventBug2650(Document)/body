@@ -1,0 +1,8 @@
+{
+  Element documentElement=doc.getDocumentElement();
+  Attr xmlnsAttr=documentElement.getAttributeNodeNS(Constants.NamespaceSpecNS,"xmlns");
+  if (xmlnsAttr == null) {
+    documentElement.setAttributeNS(Constants.NamespaceSpecNS,"xmlns","");
+  }
+  XMLUtils.circumventBug2650internal(doc);
+}

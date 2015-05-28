@@ -1,0 +1,12 @@
+{
+  if (textNode == null)   textNode=new TextNode();
+  TextNode clone;
+  try {
+    clone=(TextNode)textNode.clone();
+  }
+ catch (  CloneNotSupportedException e) {
+    clone=new TextNode();
+  }
+  clone.init(ruby,content,depth,langStack,xmlBaseStack);
+  return clone;
+}

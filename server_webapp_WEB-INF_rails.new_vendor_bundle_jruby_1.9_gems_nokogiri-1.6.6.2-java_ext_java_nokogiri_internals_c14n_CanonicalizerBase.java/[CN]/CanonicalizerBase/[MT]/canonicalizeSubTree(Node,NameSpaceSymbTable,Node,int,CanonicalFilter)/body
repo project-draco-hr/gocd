@@ -1,0 +1,95 @@
+{
+  if (isVisibleInt(currentNode) == -1) {
+    return;
+  }
+  Node sibling=null;
+  Node parentNode=null;
+  final OutputStream writer=this.writer;
+  final Node excludeNode=this.excludeNode;
+  final boolean includeComments=this.includeComments;
+  Map<String,byte[]> cache=new HashMap<String,byte[]>();
+  do {
+switch (currentNode.getNodeType()) {
+case Node.ENTITY_NODE:
+case Node.NOTATION_NODE:
+case Node.ATTRIBUTE_NODE:
+      throw new CanonicalizationException("empty");
+case Node.DOCUMENT_FRAGMENT_NODE:
+case Node.DOCUMENT_NODE:
+    ns.outputNodePush();
+  sibling=currentNode.getFirstChild();
+break;
+case Node.COMMENT_NODE:
+if (includeComments) {
+outputCommentToWriter((Comment)currentNode,writer,documentLevel);
+}
+break;
+case Node.PROCESSING_INSTRUCTION_NODE:
+outputPItoWriter((ProcessingInstruction)currentNode,writer,documentLevel);
+break;
+case Node.TEXT_NODE:
+case Node.CDATA_SECTION_NODE:
+outputTextToWriter(currentNode.getNodeValue(),writer);
+break;
+case Node.ELEMENT_NODE:
+documentLevel=NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
+if (currentNode == excludeNode) {
+break;
+}
+if (filter != null && !filter.includeNodes(currentNode,parentNode)) {
+break;
+}
+Element currentElement=(Element)currentNode;
+ns.outputNodePush();
+writer.write('<');
+String name=currentElement.getTagName();
+UtfHelpper.writeByte(name,writer,cache);
+Iterator<Attr> attrs=this.handleAttributesSubtree(currentElement,ns);
+if (attrs != null) {
+while (attrs.hasNext()) {
+Attr attr=attrs.next();
+outputAttrToWriter(attr.getNodeName(),attr.getNodeValue(),writer,cache);
+}
+}
+writer.write('>');
+sibling=currentNode.getFirstChild();
+if (sibling == null) {
+writer.write(END_TAG);
+UtfHelpper.writeStringToUtf8(name,writer);
+writer.write('>');
+ns.outputNodePop();
+if (parentNode != null) {
+sibling=currentNode.getNextSibling();
+}
+}
+ else {
+parentNode=currentElement;
+}
+break;
+case Node.DOCUMENT_TYPE_NODE:
+default :
+break;
+}
+while (sibling == null && parentNode != null) {
+writer.write(END_TAG);
+UtfHelpper.writeByte(((Element)parentNode).getTagName(),writer,cache);
+writer.write('>');
+ns.outputNodePop();
+if (parentNode == endnode) {
+return;
+}
+sibling=parentNode.getNextSibling();
+parentNode=parentNode.getParentNode();
+if (parentNode == null || Node.ELEMENT_NODE != parentNode.getNodeType()) {
+documentLevel=NODE_AFTER_DOCUMENT_ELEMENT;
+parentNode=null;
+}
+}
+if (sibling == null) {
+return;
+}
+currentNode=sibling;
+sibling=currentNode.getNextSibling();
+}
+ while (true);
+}

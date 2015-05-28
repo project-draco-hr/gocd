@@ -1,0 +1,9 @@
+{
+  String namej=rubyStringToString(name);
+  String nsj=(namespace.isNil()) ? null : rubyStringToString(namespace);
+  Node el=this.node.getAttributes().getNamedItemNS(nsj,namej);
+  if (el == null) {
+    return context.getRuntime().getNil();
+  }
+  return NokogiriHelpers.getCachedNodeOrCreate(context.getRuntime(),el);
+}

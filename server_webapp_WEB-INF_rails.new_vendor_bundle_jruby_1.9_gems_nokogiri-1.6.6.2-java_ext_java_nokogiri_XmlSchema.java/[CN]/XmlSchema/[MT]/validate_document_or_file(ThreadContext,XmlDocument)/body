@@ -1,0 +1,17 @@
+{
+  RubyArray errors=(RubyArray)this.getInstanceVariable("@errors");
+  ErrorHandler errorHandler=new SchemaErrorHandler(context.getRuntime(),errors);
+  setErrorHandler(errorHandler);
+  try {
+    validate(xmlDocument.getDocument());
+  }
+ catch (  SAXException ex) {
+    XmlSyntaxError xmlSyntaxError=(XmlSyntaxError)NokogiriService.XML_SYNTAXERROR_ALLOCATOR.allocate(context.getRuntime(),getNokogiriClass(context.getRuntime(),"Nokogiri::XML::SyntaxError"));
+    xmlSyntaxError.setException(ex);
+    errors.append(xmlSyntaxError);
+  }
+catch (  IOException ex) {
+    throw context.getRuntime().newIOError(ex.getMessage());
+  }
+  return errors;
+}

@@ -1,0 +1,9 @@
+{
+  Document doc=n.getOwnerDocument();
+  NokogiriNamespaceCache nsCache=getNamespaceCacheFormNode(n);
+  Node result=doc.renameNode(n,namespaceURI,qualifiedName);
+  if (result != n) {
+    nsCache.replaceNode(n,result);
+  }
+  return result;
+}

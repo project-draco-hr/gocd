@@ -1,0 +1,12 @@
+{
+  while (sibling != null) {
+    if (sibling.getNamespaceURI() != null && sibling.getNamespaceURI().equals(uri) && sibling.getLocalName().equals(nodeName)) {
+      if (number == 0) {
+        return (Element)sibling;
+      }
+      number--;
+    }
+    sibling=sibling.getNextSibling();
+  }
+  return null;
+}
