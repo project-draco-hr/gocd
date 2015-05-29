@@ -1,5 +1,6 @@
 {
   assertThat(IpAddress.create("10.12.34.20").compareTo(IpAddress.create("10.12.34.3")),is(greaterThan(0)));
+  assertThat(IpAddress.create("10.12.34.20").compareTo(IpAddress.create("10.12.34.20")),is(0));
   assertThat(IpAddress.create("112.12.34.20").compareTo(IpAddress.create("10.12.34.20")),is(greaterThan(0)));
   assertThat(IpAddress.create("10.12.34.20").compareTo(IpAddress.create("")),is(greaterThan(0)));
   assertThat(IpAddress.create("").compareTo(IpAddress.create("10.12.34.3")),is(lessThan(0)));
