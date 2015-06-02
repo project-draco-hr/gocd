@@ -1,9 +1,0 @@
-{
-  request.setMethod("POST");
-  request.addParameter("uuid",UUID);
-  ModelAndView modelAndView=controller.registerAgent(response,UUID);
-  JsonMap result=(JsonMap)modelAndView.getModel().get("json");
-  new JsonTester(result).is("{ 'result' : 'success' }");
-  verify(agentService).approve(UUID);
-  assertThat(HttpServletResponse.SC_CREATED,is(equal(response.getStatus())));
-}

@@ -1,9 +1,0 @@
-{
-  final String exceptionMessage="The agent at test.com is already registered.";
-  doThrow(new RuntimeException(exceptionMessage)).when(agentService).approve(UUID);
-  request.setMethod("POST");
-  request.addParameter("uuid",UUID);
-  ModelAndView modelAndView=controller.registerAgent(response,UUID);
-  JsonMap result=(JsonMap)modelAndView.getModel().get("json");
-  new JsonTester(result).is("{ 'result' : 'failed'," + "  '" + ERROR_FOR_JSON + "' : '"+ exceptionMessage+ "' }");
-}
