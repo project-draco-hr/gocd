@@ -14,7 +14,7 @@
   spyService.notifyMaterialsForUpdate(username,params,result);
   verify(svnPostCommitHookImplementer).prune(anySet(),eq(params));
   verify(spyService).updateMaterial(svnMaterial);
-  HttpLocalizedOperationResult noContentResult=new HttpLocalizedOperationResult();
-  noContentResult.noContent();
-  assertThat(result,is(noContentResult));
+  HttpLocalizedOperationResult acceptedResult=new HttpLocalizedOperationResult();
+  acceptedResult.accepted(LocalizedMessage.string("MATERIAL_SCHEDULE_NOTIFICATION_ACCEPTED"));
+  assertThat(result,is(acceptedResult));
 }
