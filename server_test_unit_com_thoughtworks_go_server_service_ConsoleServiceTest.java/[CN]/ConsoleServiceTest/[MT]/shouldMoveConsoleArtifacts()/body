@@ -1,0 +1,10 @@
+{
+  JobIdentifier jobIdentifier=JobIdentifierMother.anyBuildIdentifier();
+  File temporaryConsoleLog=testFolder.newFile("temporary_console.log");
+  File finalConsoleLog=new File(testFolder.getRoot(),"final_console.log");
+  when(chooser.temporaryConsoleFile(jobIdentifier)).thenReturn(temporaryConsoleLog);
+  when(chooser.findArtifact(jobIdentifier,getConsoleOutputFolderAndFileName())).thenReturn(finalConsoleLog);
+  service.moveConsoleArtifacts(jobIdentifier);
+  assertThat(temporaryConsoleLog.exists(),is(false));
+  assertThat(finalConsoleLog.exists(),is(true));
+}
