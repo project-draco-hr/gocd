@@ -1,0 +1,20 @@
+{
+  List<User> searchResults=new ArrayList<User>();
+  Set<String> pluginsThatSupportsUserSearch=authenticationPluginRegistry.getPluginsThatSupportsUserSearch();
+  if (!pluginsThatSupportsUserSearch.isEmpty()) {
+    for (    final String pluginId : pluginsThatSupportsUserSearch) {
+      try {
+        List<com.thoughtworks.go.plugin.access.authentication.model.User> users=authenticationExtension.searchUser(pluginId,searchText);
+        if (users != null && !users.isEmpty()) {
+          for (          com.thoughtworks.go.plugin.access.authentication.model.User user : users) {
+            searchResults.add(new User(user.getUsername(),user.getDisplayName(),user.getEmailId()));
+          }
+        }
+      }
+ catch (      Exception e) {
+        LOGGER.warn("Error occurred while performing user search using plugin: " + pluginId,e);
+      }
+    }
+  }
+  userSearchModels.addAll(convertUsersToUserSearchModel(searchResults,UserSourceType.PLUGIN));
+}
