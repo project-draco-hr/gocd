@@ -1,8 +1,0 @@
-{
-  if (!RuntimeHelpers.invoke(context,possibleNodeSet,"is_a?",getNokogiriClass(context.getRuntime(),"Nokogiri::XML::NodeSet")).isTrue()) {
-    throw context.getRuntime().newArgumentError("node must be a Nokogiri::XML::NodeSet");
-  }
-  XmlNodeSet xmlNodeSet=(XmlNodeSet)possibleNodeSet;
-  if (xmlNodeSet.nodes == null)   xmlNodeSet.setNodes(RubyArray.newEmptyArray(context.getRuntime()));
-  return xmlNodeSet;
-}
