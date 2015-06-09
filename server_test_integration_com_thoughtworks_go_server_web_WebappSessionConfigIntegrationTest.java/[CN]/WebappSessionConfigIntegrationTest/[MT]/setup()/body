@@ -1,0 +1,8 @@
+{
+  webapp=temporaryFolder.newFolder();
+  File webInf=new File(webapp,"WEB-INF");
+  webInf.mkdirs();
+  File webXmlForTest=new File(webInf,"web.xml");
+  File srcWebXMlFile=new File(WebappSessionConfigIntegrationTest.class.getResource("/WEB-INF/web.xml").getFile());
+  FileUtils.copyFile(srcWebXMlFile,webXmlForTest);
+}
