@@ -1,0 +1,21 @@
+{
+  GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand();
+  if (!hasAgent(uuid) && enable.isTrue()) {
+    AgentInstance agentInstance=agentInstances.findAgent(uuid);
+    AgentConfig agentConfig=agentInstance.agentConfig();
+    command.addCommand(GoConfigFileDao.createAddAgentCommand(agentConfig));
+  }
+  if (enable.isTrue()) {
+    command.addCommand(GoConfigFileDao.updateApprovalStatus(uuid,false));
+  }
+  if (enable.isFalse()) {
+    command.addCommand(GoConfigFileDao.updateApprovalStatus(uuid,true));
+  }
+  if (hostname != null) {
+    command.addCommand(new GoConfigFileDao.UpdateAgentHostname(uuid,hostname,userName));
+  }
+  if (resources != null) {
+    command.addCommand(new GoConfigFileDao.UpdateResourcesCommand(uuid,new Resources(resources)));
+  }
+  goConfigFileDao.updateConfig(command);
+}
