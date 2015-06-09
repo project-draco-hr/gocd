@@ -1,0 +1,19 @@
+{
+  when(goConfigService.isUserAdmin(username)).thenReturn(true);
+  PostCommitHookMaterialType materialType=mock(PostCommitHookMaterialType.class);
+  when(postCommitHookMaterialType.toType("type")).thenReturn(materialType);
+  PostCommitHookImplementer hookImplementer=mock(PostCommitHookImplementer.class);
+  when(materialType.getImplementer()).thenReturn(hookImplementer);
+  when(materialType.isKnown()).thenReturn(true);
+  CruiseConfig config=mock(CruiseConfig.class);
+  when(goConfigService.currentCruiseConfig()).thenReturn(config);
+  when(config.getGroups()).thenReturn(new PipelineGroups());
+  when(hookImplementer.prune(anySet(),anyMap())).thenReturn(new HashSet<Material>());
+  final HashMap params=new HashMap();
+  params.put(MaterialUpdateService.TYPE,"type");
+  service.notifyMaterialsForUpdate(username,params,result);
+  HttpLocalizedOperationResult operationResult=new HttpLocalizedOperationResult();
+  operationResult.notFound(LocalizedMessage.string("MATERIAL_NOT_FOUND"),HealthStateType.general(HealthStateScope.GLOBAL));
+  assertThat(result,is(operationResult));
+  verify(hookImplementer).prune(anySet(),anyMap());
+}
