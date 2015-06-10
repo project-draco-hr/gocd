@@ -1,6 +1,6 @@
 {
   environmentConfig.addEnvironmentVariable("hello","world");
-  environmentConfig.setConfigAttributes(new SingletonMap(EnvironmentConfig.VARIABLES_FIELD,Arrays.asList(envVar("foo","bar"),envVar("baz","quux"))));
+  environmentConfig.setConfigAttributes(new SingletonMap(BasicEnvironmentConfig.VARIABLES_FIELD,Arrays.asList(envVar("foo","bar"),envVar("baz","quux"))));
   assertThat(environmentConfig.getVariables(),hasItem(new EnvironmentVariableConfig("foo","bar")));
   assertThat(environmentConfig.getVariables(),hasItem(new EnvironmentVariableConfig("baz","quux")));
   assertThat(environmentConfig.getVariables().size(),is(2));

@@ -7,7 +7,7 @@
   List<String> selectedPipelines=asList("first","second");
   environmentConfigService.createEnvironment(env(environmentName,selectedPipelines,new ArrayList<Map<String,String>>(),new ArrayList<String>()),user,result);
   assertThat(result.isSuccessful(),is(true));
-  EnvironmentConfig config=new EnvironmentConfig(new CaseInsensitiveString(environmentName));
+  BasicEnvironmentConfig config=new BasicEnvironmentConfig(new CaseInsensitiveString(environmentName));
   config.addPipeline(new CaseInsensitiveString("first"));
   config.addPipeline(new CaseInsensitiveString("second"));
   verify(mockGoConfigService).addEnvironment(config);
