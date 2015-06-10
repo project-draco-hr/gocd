@@ -1,9 +1,9 @@
 {
-  ArrayList<EnvironmentVariableConfig> plainTextVariables=new ArrayList<EnvironmentVariableConfig>();
+  EnvironmentVariablesConfig result=new EnvironmentVariablesConfig();
   for (  EnvironmentVariableConfig environmentVariableConfig : this) {
-    if (!environmentVariableConfig.isSecure()) {
-      plainTextVariables.add(environmentVariableConfig);
+    if (environmentVariableConfig.isPlain()) {
+      result.add(environmentVariableConfig);
     }
   }
-  return plainTextVariables;
+  return result;
 }
