@@ -9,7 +9,7 @@
   groups.addAll(asList(groupOne,groupTwo));
   Map<String,List<Pair<PipelineConfig,PipelineConfigs>>> packageToPipelineMap=groups.getPackageUsageInPipelines();
   assertThat(packageToPipelineMap.get("package-id-one").size(),is(1));
-  assertThat(packageToPipelineMap.get("package-id-one"),hasItems(new Pair<PipelineConfig,BasicPipelineConfigs>(p1,groupOne)));
+  assertThat(packageToPipelineMap.get("package-id-one"),hasItems(new Pair<PipelineConfig,PipelineConfigs>(p1,groupOne)));
   assertThat(packageToPipelineMap.get("package-id-two").size(),is(2));
-  assertThat(packageToPipelineMap.get("package-id-two"),hasItems(new Pair<PipelineConfig,BasicPipelineConfigs>(p1,groupOne),new Pair<PipelineConfig,BasicPipelineConfigs>(p2,groupTwo)));
+  assertThat(packageToPipelineMap.get("package-id-two"),hasItems(new Pair<PipelineConfig,PipelineConfigs>(p1,groupOne),new Pair<PipelineConfig,PipelineConfigs>(p2,groupTwo)));
 }
