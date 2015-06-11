@@ -3,7 +3,7 @@
   config.server().setArtifactsDir("logs");
   String stageName="mingle";
   String pipelineName="pipeline1";
-  config.addPipeline(PipelineConfigs.DEFAULT_GROUP,new PipelineConfig(new CaseInsensitiveString(pipelineName),new MaterialConfigs(),new StageConfig(new CaseInsensitiveString(stageName),new JobConfigs(jobConfig))));
+  config.addPipeline(BasicPipelineConfigs.DEFAULT_GROUP,new PipelineConfig(new CaseInsensitiveString(pipelineName),new MaterialConfigs(),new StageConfig(new CaseInsensitiveString(stageName),new JobConfigs(jobConfig))));
   String pipelineLabel="100";
   JobPlan jobPlan=JobInstanceMother.createJobPlan(jobConfig,new JobIdentifier(pipelineName,-2,pipelineLabel,stageName,"100",JOB_PLAN_NAME,0L),new DefaultSchedulingContext());
   jobPlan.setFetchMaterials(true);

@@ -1,5 +1,5 @@
 {
-  PipelineConfigs newPipeline=new PipelineConfigs();
+  PipelineConfigs newPipeline=new BasicPipelineConfigs();
   PipelineConfig pipelineConfig=createPipelineConfig("pipeline","name","plan");
   pipelineConfig.setTrackingTool(new TrackingTool("link","regex"));
   newPipeline.add(pipelineConfig);
@@ -7,12 +7,12 @@
   assertEquals(goConfigService.getCommentRendererFor("pipeline"),new TrackingTool("link","regex"));
   pipelineConfig=createPipelineConfig("pipeline","name","plan");
   pipelineConfig.setMingleConfig(new MingleConfig("baseUrl","projIdentifier","mql"));
-  newPipeline=new PipelineConfigs();
+  newPipeline=new BasicPipelineConfigs();
   newPipeline.add(pipelineConfig);
   expectLoad(new CruiseConfig(newPipeline));
   assertEquals(goConfigService.getCommentRendererFor("pipeline"),new MingleConfig("baseUrl","projIdentifier","mql"));
   pipelineConfig=createPipelineConfig("pipeline","name","plan");
-  newPipeline=new PipelineConfigs();
+  newPipeline=new BasicPipelineConfigs();
   newPipeline.add(pipelineConfig);
   expectLoad(new CruiseConfig(newPipeline));
   assertEquals(goConfigService.getCommentRendererFor("pipeline"),new TrackingTool());

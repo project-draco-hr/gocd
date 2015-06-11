@@ -8,7 +8,7 @@
   when(pipelineService.buildCauseFor("p1",1)).thenReturn(p1buildCause);
   PipelineConfig p1Config=PipelineConfigMother.pipelineConfig("p1",new MaterialConfigs(gitConfig));
   PipelineConfig p2Config=PipelineConfigMother.pipelineConfig("p2",new MaterialConfigs(gitConfig));
-  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(p1Config,p2Config));
+  CruiseConfig cruiseConfig=new CruiseConfig(new BasicPipelineConfigs(p1Config,p2Config));
   when(pipelineService.findPipelineByCounterOrLabel("p2","1")).thenReturn(new Pipeline("p2","LABEL-P2",p2buildCause));
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
   ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p2",1,user,result);

@@ -1,6 +1,6 @@
 {
   PipelineConfig pipeline1=pipelineWithManyMaterials(true);
   pipeline1.add(new StageConfig(new CaseInsensitiveString("manual-stage"),new JobConfigs(),new Approval()));
-  CruiseConfig config=new CruiseConfig(new PipelineConfigs(pipeline1));
+  CruiseConfig config=new CruiseConfig(new BasicPipelineConfigs(pipeline1));
   assertThat(config.getAllUniqueMaterialsBelongingToAutoPipelines().size(),is(4));
 }

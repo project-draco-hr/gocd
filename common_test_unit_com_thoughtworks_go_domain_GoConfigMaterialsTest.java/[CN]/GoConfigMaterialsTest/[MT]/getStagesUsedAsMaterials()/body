@@ -7,7 +7,7 @@
   DependencyMaterialConfig dependency2=MaterialConfigsMother.dependencyMaterialConfig("up2","stage2");
   PipelineConfig down1=new PipelineConfig(new CaseInsensitiveString("down1"),new MaterialConfigs(dependency1,dependency2,hg));
   PipelineConfig down2=new PipelineConfig(new CaseInsensitiveString("down2"),new MaterialConfigs(dependency1,dependency2,hg));
-  CruiseConfig config=new CruiseConfig(new PipelineConfigs(up1,up2,down1,down2));
+  CruiseConfig config=new CruiseConfig(new BasicPipelineConfigs(up1,up2,down1,down2));
   Set<StageConfig> stages=config.getStagesUsedAsMaterials(up1);
   assertThat(stages.size(),is(1));
   assertThat(stages.contains(upStage),is(true));

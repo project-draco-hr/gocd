@@ -2,7 +2,7 @@
   OperationConfig operationConfig=new OperationConfig(new AdminUser(new CaseInsensitiveString("jez")),new AdminUser(new CaseInsensitiveString("lqiao")),new AdminRole(new CaseInsensitiveString("mingle")));
   Authorization authorization=new Authorization(operationConfig);
   PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline1");
-  PipelineConfigs pipelineConfigs=new PipelineConfigs(authorization,pipelineConfig);
+  PipelineConfigs pipelineConfigs=new BasicPipelineConfigs(authorization,pipelineConfig);
   MagicalGoConfigXmlWriter xmlWriter=new MagicalGoConfigXmlWriter(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
   String xml=xmlWriter.toXmlPartial(pipelineConfigs);
   assertThat(xml,is("<pipelines>\n" + "  <authorization>\n" + "    <operate>\n"+ "      <user>jez</user>\n"+ "      <user>lqiao</user>\n"+ "      <role>mingle</role>\n"+ "    </operate>\n"+ "  </authorization>\n"+ "  <pipeline name=\"pipeline1\">\n"+ "    <materials>\n"+ "      <svn url=\"http://some/svn/url\" dest=\"svnDir\" />\n"+ "    </materials>\n"+ "    <stage name=\"mingle\">\n"+ "      <jobs />\n"+ "    </stage>\n"+ "  </pipeline>\n"+ "</pipelines>"));

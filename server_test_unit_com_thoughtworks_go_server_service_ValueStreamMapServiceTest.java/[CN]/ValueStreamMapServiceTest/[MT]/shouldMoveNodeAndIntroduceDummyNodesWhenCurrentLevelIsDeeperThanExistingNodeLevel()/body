@@ -13,7 +13,7 @@
   PipelineConfig p1Config=PipelineConfigMother.pipelineConfig(p1,new MaterialConfigs(gitConfig));
   PipelineConfig p2Config=PipelineConfigMother.pipelineConfig(p2,new MaterialConfigs(gitConfig,new DependencyMaterialConfig(p1Config.name(),p1Config.getFirstStageConfig().name())));
   PipelineConfig p3Config=PipelineConfigMother.pipelineConfig(p3,new MaterialConfigs(new DependencyMaterialConfig(p1Config.name(),p1Config.getFirstStageConfig().name()),new DependencyMaterialConfig(p2Config.name(),p2Config.getFirstStageConfig().name())));
-  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(p1Config,p2Config,p3Config));
+  CruiseConfig cruiseConfig=new CruiseConfig(new BasicPipelineConfigs(p1Config,p2Config,p3Config));
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
   when(pipelineService.findPipelineByCounterOrLabel("p3","1")).thenReturn(new Pipeline("p3","p3-label",p3buildCause));
   ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap(p3,1,user,result);

@@ -3,8 +3,8 @@
   cachedGoConfig.save(CONFIG_WITH_2_GROUPS,true);
   configHelper.setViewPermissionForGroup("first","foo");
   configHelper.setViewPermissionForGroup("second","foo");
-  PipelineConfigs first=configService.getCurrentConfig().findGroup("first");
-  PipelineConfigs second=configService.getCurrentConfig().findGroup("second");
+  BasicPipelineConfigs first=configService.getCurrentConfig().findGroup("first");
+  BasicPipelineConfigs second=configService.getCurrentConfig().findGroup("second");
   assertUserCanView("admin",first);
   assertUserCanView("pavan",second);
   assertUserCanView("foo",first,second);

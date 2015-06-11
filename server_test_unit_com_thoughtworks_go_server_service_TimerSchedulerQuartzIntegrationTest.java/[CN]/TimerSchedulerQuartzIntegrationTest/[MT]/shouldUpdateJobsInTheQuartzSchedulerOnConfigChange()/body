@@ -8,7 +8,7 @@
   TimerScheduler timerScheduler=new TimerScheduler(quartzSchedulerFactory,goConfigService,buildCauseProducerService,null);
   timerScheduler.initialize();
   CruiseConfig cruiseConfig=new CruiseConfig();
-  cruiseConfig.getGroups().add(new PipelineConfigs(uat));
+  cruiseConfig.getGroups().add(new BasicPipelineConfigs(uat));
   timerScheduler.onConfigChange(cruiseConfig);
   pauseForScheduling();
   verify(buildCauseProducerService,atLeastOnce()).timerSchedulePipeline(eq(uat),any(ServerHealthStateOperationResult.class));

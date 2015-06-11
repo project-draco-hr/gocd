@@ -1,5 +1,5 @@
 {
-  PipelineConfigs pipelineConfigs=new PipelineConfigs();
+  PipelineConfigs pipelineConfigs=new BasicPipelineConfigs();
   pipelineConfigs.add(createPipelineConfig("pipeline","stage","job"));
   expectLoad(new CruiseConfig(pipelineConfigs));
   assertThat(goConfigService.stageExists("pipeline","randomstage"),is(false));

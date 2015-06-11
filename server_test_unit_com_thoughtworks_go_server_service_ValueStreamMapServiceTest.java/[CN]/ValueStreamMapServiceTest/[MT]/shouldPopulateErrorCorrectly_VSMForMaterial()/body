@@ -5,7 +5,7 @@
   GitMaterial gitMaterial=new GitMaterial("git");
   MaterialConfig gitConfig=gitMaterial.config();
   GitMaterialInstance gitMaterialInstance=new GitMaterialInstance("url","branch","submodule","flyweight");
-  PipelineConfigs groups=new PipelineConfigs(groupName,new Authorization(),PipelineConfigMother.pipelineConfig(pipelineName,new MaterialConfigs(gitConfig)));
+  PipelineConfigs groups=new BasicPipelineConfigs(groupName,new Authorization(),PipelineConfigMother.pipelineConfig(pipelineName,new MaterialConfigs(gitConfig)));
   CruiseConfig cruiseConfig=new CruiseConfig(groups);
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
   when(goConfigService.groups()).thenReturn(new PipelineGroups(groups));

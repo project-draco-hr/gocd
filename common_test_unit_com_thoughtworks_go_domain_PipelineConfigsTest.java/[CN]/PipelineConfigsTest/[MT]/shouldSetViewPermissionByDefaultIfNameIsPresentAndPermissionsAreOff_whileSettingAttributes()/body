@@ -1,6 +1,6 @@
 {
-  PipelineConfigs group=new PipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
-  group.setConfigAttributes(m(PipelineConfigs.AUTHORIZATION,a(m(Authorization.NAME,"user1",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(OFF,OFF,OFF)),m(Authorization.NAME,"role1",Authorization.TYPE,ROLE.toString(),Authorization.PRIVILEGES,privileges(OFF,OFF,OFF)))));
+  PipelineConfigs group=new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
+  group.setConfigAttributes(m(BasicPipelineConfigs.AUTHORIZATION,a(m(Authorization.NAME,"user1",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(OFF,OFF,OFF)),m(Authorization.NAME,"role1",Authorization.TYPE,ROLE.toString(),Authorization.PRIVILEGES,privileges(OFF,OFF,OFF)))));
   Authorization authorization=group.getAuthorization();
   assertThat(authorization.getViewConfig().size(),is(2));
   assertThat(authorization.getViewConfig(),hasItems((Admin)new AdminRole(new CaseInsensitiveString("role1")),(Admin)new AdminUser(new CaseInsensitiveString("user1"))));

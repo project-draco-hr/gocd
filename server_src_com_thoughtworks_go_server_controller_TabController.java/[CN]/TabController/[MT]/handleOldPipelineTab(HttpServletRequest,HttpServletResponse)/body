@@ -1,6 +1,6 @@
 {
   if (goConfigService.isPipelineEmpty() && goConfigService.isAdministrator(CaseInsensitiveString.str(UserHelper.getUserName().getUsername()))) {
-    response.sendRedirect(String.format("admin/pipeline/new?group=%s",PipelineConfigs.DEFAULT_GROUP));
+    response.sendRedirect(String.format("admin/pipeline/new?group=%s",BasicPipelineConfigs.DEFAULT_GROUP));
     return null;
   }
   return new ModelAndView(TAB_PLACEHOLDER,new HashMap(){

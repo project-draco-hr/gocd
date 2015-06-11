@@ -1,6 +1,6 @@
 {
-  PipelineConfigs group=new PipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
-  group.setConfigAttributes(m(PipelineConfigs.AUTHORIZATION,a(m(Authorization.NAME,"loser",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(ON,DISABLED,DISABLED)),m(Authorization.NAME,"boozer",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(OFF,ON,ON)),m(Authorization.NAME,"geezer",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(DISABLED,OFF,ON)),m(Authorization.NAME,"gang_of_losers",Authorization.TYPE,ROLE.toString(),Authorization.PRIVILEGES,privileges(DISABLED,OFF,ON)),m(Authorization.NAME,"blinds",Authorization.TYPE,ROLE.toString(),Authorization.PRIVILEGES,privileges(ON,ON,OFF)))));
+  PipelineConfigs group=new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
+  group.setConfigAttributes(m(BasicPipelineConfigs.AUTHORIZATION,a(m(Authorization.NAME,"loser",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(ON,DISABLED,DISABLED)),m(Authorization.NAME,"boozer",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(OFF,ON,ON)),m(Authorization.NAME,"geezer",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(DISABLED,OFF,ON)),m(Authorization.NAME,"gang_of_losers",Authorization.TYPE,ROLE.toString(),Authorization.PRIVILEGES,privileges(DISABLED,OFF,ON)),m(Authorization.NAME,"blinds",Authorization.TYPE,ROLE.toString(),Authorization.PRIVILEGES,privileges(ON,ON,OFF)))));
   Authorization authorization=group.getAuthorization();
   assertThat(authorization.getAdminsConfig().size(),is(2));
   assertThat(authorization.getOperationConfig().size(),is(2));

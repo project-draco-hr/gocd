@@ -5,7 +5,7 @@
   PipelineTemplateConfig another=template("another_template");
   PipelineConfig pipelineWithoutTemplateOne=pipelineConfig("first_without_template");
   PipelineConfig pipelineWithoutTemplateTwo=pipelineConfig("another_without_template");
-  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(createPipelineWithTemplate("first",template),createPipelineWithTemplate("second",template),pipelineWithoutTemplateOne,pipelineWithoutTemplateTwo,createPipelineWithTemplate("fifth",another)));
+  CruiseConfig cruiseConfig=new CruiseConfig(new BasicPipelineConfigs(createPipelineWithTemplate("first",template),createPipelineWithTemplate("second",template),pipelineWithoutTemplateOne,pipelineWithoutTemplateTwo,createPipelineWithTemplate("fifth",another)));
   cruiseConfig.addTemplate(template);
   cruiseConfig.addTemplate(another);
   when(goConfigService.getAllPipelineConfigsForEdit()).thenReturn(cruiseConfig.allPipelines());

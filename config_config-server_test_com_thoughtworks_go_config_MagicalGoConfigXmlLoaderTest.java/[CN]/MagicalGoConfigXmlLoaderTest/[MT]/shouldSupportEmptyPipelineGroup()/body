@@ -1,5 +1,5 @@
 {
-  PipelineConfigs group=new PipelineConfigs("defaultGroup",new Authorization());
+  PipelineConfigs group=new BasicPipelineConfigs("defaultGroup",new Authorization());
   CruiseConfig config=new CruiseConfig(group);
   ByteArrayOutputStream stream=new ByteArrayOutputStream();
   new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).write(config,stream,true);

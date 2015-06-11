@@ -8,7 +8,7 @@
   DependencyMaterialConfig p2Dep=new DependencyMaterialConfig(p2.name(),p2.get(0).name());
   DependencyMaterialConfig p3Dep=new DependencyMaterialConfig(p3.name(),p3.get(0).name());
   PipelineConfig p4=PipelineConfigMother.pipelineConfig("p4",new MaterialConfigs(p2Dep,p3Dep));
-  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(p1,p2,p3,p4));
+  CruiseConfig cruiseConfig=new CruiseConfig(new BasicPipelineConfigs(p1,p2,p3,p4));
   FanInGraph faninGraph=new FanInGraph(cruiseConfig,p4.name(),null,null,null,null);
   List<ScmMaterialConfig> scmMaterialNodes=faninGraph.getScmMaterials();
   List<String> scmMaterialUrls=new ArrayList<String>();
