@@ -1,6 +1,6 @@
 {
-  singleEnvironmentConfig.addPipeline(new CaseInsensitiveString("deployment"));
-  singleEnvironmentConfig.addPipeline(new CaseInsensitiveString("testing"));
+  singleEnvironmentConfig.first().addPipeline(new CaseInsensitiveString("deployment"));
+  singleEnvironmentConfig.first().addPipeline(new CaseInsensitiveString("testing"));
   List<CaseInsensitiveString> pipelineNames=singleEnvironmentConfig.getPipelineNames();
   assertThat(pipelineNames.size(),is(2));
   assertThat(pipelineNames,hasItem(new CaseInsensitiveString("deployment")));

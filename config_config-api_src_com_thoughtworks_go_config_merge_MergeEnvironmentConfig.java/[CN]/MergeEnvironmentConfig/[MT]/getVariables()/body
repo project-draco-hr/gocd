@@ -1,3 +1,9 @@
 {
-  return null;
+  EnvironmentVariablesConfig allVariables=new EnvironmentVariablesConfig();
+  for (  EnvironmentConfig part : this) {
+    for (    EnvironmentVariableConfig partVariable : part.getVariables()) {
+      if (!allVariables.contains(partVariable))       allVariables.add(partVariable);
+    }
+  }
+  return allVariables;
 }

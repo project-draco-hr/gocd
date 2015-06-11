@@ -1,2 +1,13 @@
 {
+  EnvironmentVariablesConfig allVariables=new EnvironmentVariablesConfig();
+  for (  EnvironmentConfig part : this) {
+    for (    EnvironmentVariableConfig partVariable : part.getVariables()) {
+      if (!allVariables.hasVariable(partVariable.getName())) {
+        allVariables.add(partVariable);
+      }
+ else {
+        if (!allVariables.contains(partVariable))         configErrors.add(CONSISTENT_KV,String.format("Environment variable '%s' is defined more than once with different values",partVariable.getName()));
+      }
+    }
+  }
 }

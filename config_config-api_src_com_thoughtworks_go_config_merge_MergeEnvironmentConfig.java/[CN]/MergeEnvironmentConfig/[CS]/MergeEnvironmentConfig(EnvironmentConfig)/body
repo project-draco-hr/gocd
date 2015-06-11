@@ -1,5 +1,7 @@
 {
+  CaseInsensitiveString name=configs[0].name();
   for (  EnvironmentConfig part : configs) {
+    if (!part.name().equals(name))     throw new IllegalArgumentException("partial environment configs must all have the same name");
     this.add(part);
   }
 }

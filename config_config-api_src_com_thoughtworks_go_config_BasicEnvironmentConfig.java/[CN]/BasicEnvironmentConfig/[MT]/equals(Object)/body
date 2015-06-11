@@ -2,20 +2,18 @@
   if (this == o) {
     return true;
   }
-  if (o == null || getClass() != o.getClass()) {
+  EnvironmentConfig that=as(EnvironmentConfig.class,o);
+  if (that == null)   return false;
+  if (agents != null ? !agents.equals(that.getAgents()) : that.getAgents() != null) {
     return false;
   }
-  BasicEnvironmentConfig that=(BasicEnvironmentConfig)o;
-  if (agents != null ? !agents.equals(that.agents) : that.agents != null) {
+  if (name != null ? !name.equals(that.name()) : that.name() != null) {
     return false;
   }
-  if (name != null ? !name.equals(that.name) : that.name != null) {
+  if (pipelines != null ? !pipelines.equals(that.getPipelines()) : that.getPipelines() != null) {
     return false;
   }
-  if (pipelines != null ? !pipelines.equals(that.pipelines) : that.pipelines != null) {
-    return false;
-  }
-  if (variables != null ? !variables.equals(that.variables) : that.variables != null) {
+  if (variables != null ? !variables.equals(that.getVariables()) : that.getVariables() != null) {
     return false;
   }
   return true;

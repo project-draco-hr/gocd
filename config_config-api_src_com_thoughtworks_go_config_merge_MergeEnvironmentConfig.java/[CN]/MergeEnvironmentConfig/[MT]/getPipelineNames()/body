@@ -1,3 +1,9 @@
 {
-  return null;
+  List<CaseInsensitiveString> allNames=new ArrayList<CaseInsensitiveString>();
+  for (  EnvironmentConfig part : this) {
+    for (    CaseInsensitiveString pipe : part.getPipelineNames()) {
+      if (!allNames.contains(pipe))       allNames.add(pipe);
+    }
+  }
+  return allNames;
 }

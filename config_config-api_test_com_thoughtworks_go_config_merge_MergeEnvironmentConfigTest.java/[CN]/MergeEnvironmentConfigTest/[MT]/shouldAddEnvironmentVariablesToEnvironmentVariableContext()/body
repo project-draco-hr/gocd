@@ -1,5 +1,5 @@
 {
-  singleEnvironmentConfig.addEnvironmentVariable("variable-name","variable-value");
+  singleEnvironmentConfig.first().addEnvironmentVariable("variable-name","variable-value");
   EnvironmentVariableContext context=singleEnvironmentConfig.createEnvironmentContext();
   assertThat(context.getProperty("variable-name"),is("variable-value"));
 }
