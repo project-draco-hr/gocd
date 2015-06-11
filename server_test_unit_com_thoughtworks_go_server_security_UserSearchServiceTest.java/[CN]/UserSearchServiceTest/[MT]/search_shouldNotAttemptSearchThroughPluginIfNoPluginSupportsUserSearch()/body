@@ -1,0 +1,7 @@
+{
+  when(goConfigService.isPasswordFileConfigured()).thenReturn(false);
+  when(goConfigService.isLdapConfigured()).thenReturn(false);
+  when(authenticationPluginRegistry.getPluginsThatSupportsUserSearch()).thenReturn(new HashSet<String>());
+  userSearchService.search("foo",new HttpLocalizedOperationResult());
+  verify(authenticationExtension,never()).searchUser(any(String.class),eq("foo"));
+}

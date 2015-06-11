@@ -1,8 +1,9 @@
 {
   Json json;
   try {
-    JobInstance instance=jobInstanceService.buildByIdWithTransitions(jobId);
-    JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(instance,goConfigService.agentByUuid(instance.getAgentUuid()),stageService.getBuildDuration(pipelineName,stageName,instance));
+    JobInstance requestedInstance=jobInstanceService.buildByIdWithTransitions(jobId);
+    JobInstance mostRecentJobInstance=jobDetailService.findMostRecentBuild(requestedInstance.getIdentifier());
+    JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(mostRecentJobInstance,goConfigService.agentByUuid(mostRecentJobInstance.getAgentUuid()),stageService.getBuildDuration(pipelineName,stageName,mostRecentJobInstance));
     json=createBuildInfo(presenter);
   }
  catch (  Exception e) {

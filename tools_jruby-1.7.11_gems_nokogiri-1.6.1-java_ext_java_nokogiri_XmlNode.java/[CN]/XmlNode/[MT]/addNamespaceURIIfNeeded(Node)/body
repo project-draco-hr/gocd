@@ -1,9 +1,0 @@
-{
-  if (this instanceof XmlDocumentFragment && ((XmlDocumentFragment)this).getFragmentContext() != null) {
-    XmlElement fragmentContext=((XmlDocumentFragment)this).getFragmentContext();
-    String namespace_uri=fragmentContext.node.getNamespaceURI();
-    if (namespace_uri != null && namespace_uri.length() > 0) {
-      NokogiriHelpers.renameNode(child,namespace_uri,child.getNodeName());
-    }
-  }
-}

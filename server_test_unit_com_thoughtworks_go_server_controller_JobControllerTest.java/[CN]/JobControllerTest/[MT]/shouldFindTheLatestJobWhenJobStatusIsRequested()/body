@@ -1,0 +1,20 @@
+{
+  JobInstance job=JobInstanceMother.buildEndingWithState(JobState.Rescheduled,JobResult.Unknown,"config");
+  job.assign("agent",new Date());
+  JobInstance newJob=JobInstanceMother.buildEndingWithState(JobState.Building,JobResult.Unknown,"another_config");
+  newJob.setId(2);
+  newJob.assign("another_agent",new Date());
+  String pipelineName=job.getPipelineName();
+  String stageName=job.getStageName();
+  when(jobInstanceService.buildByIdWithTransitions(job.getId())).thenReturn(job);
+  when(jobDetailService.findMostRecentBuild(job.getIdentifier())).thenReturn(newJob);
+  when(stageService.getBuildDuration(pipelineName,stageName,newJob)).thenReturn(new DurationBean(newJob.getId(),5l));
+  ModelAndView modelAndView=jobController.handleRequest(pipelineName,stageName,job.getId(),response);
+  verify(jobInstanceService).buildByIdWithTransitions(job.getId());
+  verify(jobDetailService).findMostRecentBuild(job.getIdentifier());
+  verify(stageService).getBuildDuration(pipelineName,stageName,newJob);
+  JsonValue json=from(((JsonList)modelAndView.getModel().get("json")).getJsonMap(0));
+  JsonValue buildingInfo=json.getObject("building_info");
+  assertThat(buildingInfo.getString("id"),is("2"));
+  assertThat(buildingInfo.getString("last_build_duration"),is("5"));
+}

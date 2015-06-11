@@ -1,8 +1,8 @@
 {
   when(goConfigService.isUserAdmin(username)).thenReturn(false);
   service.notifyMaterialsForUpdate(username,new HashMap(),result);
-  assertThat(result.isSuccessful(),is(false));
-  assertThat(result.httpCode(),is(HttpStatus.SC_UNAUTHORIZED));
-  assertThat(result.hasMessage(),is(true));
+  HttpLocalizedOperationResult unauthorizedResult=new HttpLocalizedOperationResult();
+  unauthorizedResult.unauthorized(LocalizedMessage.string("API_ACCESS_UNAUTHORIZED"),HealthStateType.unauthorised());
+  assertThat(result,is(unauthorizedResult));
   verify(goConfigService).isUserAdmin(username);
 }

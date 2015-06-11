@@ -1,0 +1,14 @@
+{
+  try {
+    ContentResource resource=new ContentResource();
+    resource.setRuntimeServices(runtimeServices);
+    resource.setResourceLoader(loader);
+    resource.setName(templateName);
+    resource.setData(fakeContent);
+    doReturn(resource).when(runtimeServices).getContent(templateName);
+    doReturn(resource).when(runtimeServices).getContent(eq(templateName),Matchers.<String>any());
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

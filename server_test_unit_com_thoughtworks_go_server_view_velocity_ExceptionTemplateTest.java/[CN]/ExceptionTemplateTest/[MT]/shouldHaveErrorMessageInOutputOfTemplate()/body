@@ -1,0 +1,9 @@
+{
+  HashMap<String,Object> data=new HashMap<String,Object>();
+  data.put("errorMessage","ERROR MESSAGE");
+  TestVelocityView view=new TestVelocityView(TEMPLATE_PATH,data);
+  view.setupAdditionalFakeTemplate("shared/_header.vm","header_template_content");
+  view.setupAdditionalFakeTemplate("shared/_flash_message.vm","flash_message_template_content");
+  String output=view.render();
+  assertThat(output,containsString("$('trans_content').update(\"Sorry, an unexpected error occurred. :( Please check the server logs for more information.\");"));
+}

@@ -1,7 +1,6 @@
 {
-  ldapUserSearch=mock(LdapUserSearch.class);
-  passwordFileUserSearch=mock(PasswordFileUserSearch.class);
-  goConfigService=mock(GoConfigService.class);
+  initMocks(this);
   when(goConfigService.isLdapConfigured()).thenReturn(true);
-  userSearchService=new UserSearchService(ldapUserSearch,passwordFileUserSearch,goConfigService);
+  when(authenticationPluginRegistry.getPluginsThatSupportsUserSearch()).thenReturn(new HashSet<String>());
+  userSearchService=new UserSearchService(ldapUserSearch,passwordFileUserSearch,authenticationPluginRegistry,authenticationExtension,goConfigService);
 }

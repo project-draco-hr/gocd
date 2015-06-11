@@ -1,0 +1,8 @@
+{
+  HashMap<String,Object> data=new HashMap<String,Object>();
+  data.put("l",null);
+  TestVelocityView view=new TestVelocityView(TEMPLATE_PATH,data);
+  view.setupAdditionalFakeTemplate("admin/admin_version.txt.vm","some_version");
+  Document actualOutput=Jsoup.parse(view.render());
+  assertThat(actualOutput.select("#header .application_nav").isEmpty(),is(true));
+}
