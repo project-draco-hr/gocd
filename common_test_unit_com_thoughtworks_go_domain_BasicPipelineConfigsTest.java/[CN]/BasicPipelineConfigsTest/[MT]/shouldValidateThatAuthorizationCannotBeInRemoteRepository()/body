@@ -1,0 +1,6 @@
+{
+  BasicPipelineConfigs group=new BasicPipelineConfigs();
+  group.setOrigin(new RepoConfigOrigin());
+  group.validate(null);
+  assertThat(group.errors().on(BasicPipelineConfigs.NO_REMOTE_AUTHORIZATION),is("Authorization can be defined only in configuration file"));
+}
