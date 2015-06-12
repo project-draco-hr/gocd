@@ -7,7 +7,7 @@
   BuildCauseProducerService buildCauseProducerService=mock(BuildCauseProducerService.class);
   TimerScheduler timerScheduler=new TimerScheduler(quartzSchedulerFactory,goConfigService,buildCauseProducerService,null);
   timerScheduler.initialize();
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.getGroups().add(new BasicPipelineConfigs(uat));
   timerScheduler.onConfigChange(cruiseConfig);
   pauseForScheduling();

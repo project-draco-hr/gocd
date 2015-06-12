@@ -22,6 +22,6 @@
 ).when(spyAutoBuild).hasAnyUnsharedMaterialChanged(dependencyGraph,originalRevisions);
   BuildCause buildCause=spyAutoBuild.onModifications(originalRevisions,false,null);
   verify(pipelineService).getRevisionsBasedOnDependencies(dependencyGraph,originalRevisions);
-  verify(pipelineService,never()).getRevisionsBasedOnDependencies(any(MaterialRevisions.class),any(CruiseConfig.class),any(CaseInsensitiveString.class));
+  verify(pipelineService,never()).getRevisionsBasedOnDependencies(any(MaterialRevisions.class),any(BasicCruiseConfig.class),any(CaseInsensitiveString.class));
   assertThat(buildCause.getMaterialRevisions(),is(recomputedRevisions));
 }

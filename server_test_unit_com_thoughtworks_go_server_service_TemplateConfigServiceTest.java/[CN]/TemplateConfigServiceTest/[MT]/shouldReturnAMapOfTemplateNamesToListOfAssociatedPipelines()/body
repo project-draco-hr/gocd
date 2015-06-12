@@ -3,7 +3,7 @@
   when(securityService.isUserAdmin(user)).thenReturn(true);
   PipelineTemplateConfig template=template("first_template");
   PipelineTemplateConfig emptyTemplate=template("empty_template");
-  CruiseConfig cruiseConfig=new CruiseConfig(new BasicPipelineConfigs(createPipelineWithTemplate("first",template),createPipelineWithTemplate("second",template)));
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(createPipelineWithTemplate("first",template),createPipelineWithTemplate("second",template)));
   cruiseConfig.addTemplate(template);
   cruiseConfig.addTemplate(emptyTemplate);
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);

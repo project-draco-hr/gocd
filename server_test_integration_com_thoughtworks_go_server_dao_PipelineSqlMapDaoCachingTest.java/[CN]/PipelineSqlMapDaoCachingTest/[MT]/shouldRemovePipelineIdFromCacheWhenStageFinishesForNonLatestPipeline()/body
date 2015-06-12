@@ -1,6 +1,6 @@
 {
   final String pipelineName="pipeline";
-  CruiseConfig mockCruiseConfig=mock(CruiseConfig.class);
+  CruiseConfig mockCruiseConfig=mock(BasicCruiseConfig.class);
   GoConfigFileDao mockconfigFileDao=mock(GoConfigFileDao.class);
   when(mockconfigFileDao.load()).thenReturn(mockCruiseConfig);
   when(mockCruiseConfig.getAllPipelineNames()).thenReturn(Arrays.asList(new CaseInsensitiveString(pipelineName)));

@@ -3,6 +3,6 @@
   pipeline1.addMaterialConfig(getPackageMaterialConfigWithAutoUpdateFalse());
   pipeline1.addMaterialConfig(getPackageMaterialConfigWithAutoUpdateTrue());
   pipeline1.add(new StageConfig(new CaseInsensitiveString("manual-stage"),new JobConfigs(),new Approval()));
-  CruiseConfig config=new CruiseConfig(new BasicPipelineConfigs(pipeline1));
+  CruiseConfig config=new BasicCruiseConfig(new BasicPipelineConfigs(pipeline1));
   assertThat(config.getAllUniqueMaterialsBelongingToAutoPipelines().size(),is(4));
 }

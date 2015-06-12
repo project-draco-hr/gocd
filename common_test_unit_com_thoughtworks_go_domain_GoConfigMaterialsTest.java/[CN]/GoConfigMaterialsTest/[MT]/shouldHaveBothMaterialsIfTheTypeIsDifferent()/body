@@ -3,6 +3,6 @@
   HgMaterialConfig hg=MaterialConfigsMother.hgMaterialConfig("url","folder2");
   PipelineConfig pipeline1=new PipelineConfig(new CaseInsensitiveString("pipeline1"),new MaterialConfigs(svn));
   PipelineConfig pipeline2=new PipelineConfig(new CaseInsensitiveString("pipeline2"),new MaterialConfigs(hg));
-  CruiseConfig config=new CruiseConfig(new BasicPipelineConfigs(pipeline1,pipeline2));
+  CruiseConfig config=new BasicCruiseConfig(new BasicPipelineConfigs(pipeline1,pipeline2));
   assertThat(config.getAllUniqueMaterialsBelongingToAutoPipelines().size(),is(2));
 }

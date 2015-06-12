@@ -1,6 +1,6 @@
 {
   new SystemEnvironment().setProperty(SystemEnvironment.ARTIFACT_WARNING_SIZE_LIMIT,"1M");
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.setServerConfig(new ServerConfig(".",new SecurityConfig()));
   ArtifactsDiskSpaceWarningChecker fullChecker=new ArtifactsDiskSpaceWarningChecker(new SystemEnvironment(),sender,goConfigService,new SystemDiskSpaceChecker(),serverHealthService);
   assertThat(fullChecker.limitInMb(),is(1L));

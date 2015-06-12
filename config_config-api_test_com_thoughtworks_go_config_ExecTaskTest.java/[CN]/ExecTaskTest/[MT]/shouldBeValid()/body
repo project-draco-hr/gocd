@@ -1,8 +1,8 @@
 {
   ExecTask execTask=new ExecTask("",new Arguments(new Argument("arg1"),new Argument("arg2")));
-  execTask.validate(ValidationContext.forChain(new CruiseConfig()));
+  execTask.validate(ValidationContext.forChain(new BasicCruiseConfig()));
   assertThat(execTask.errors().isEmpty(),is(true));
   execTask=new ExecTask("command","","blah");
-  execTask.validate(ValidationContext.forChain(new CruiseConfig()));
+  execTask.validate(ValidationContext.forChain(new BasicCruiseConfig()));
   assertThat(execTask.errors().isEmpty(),is(true));
 }

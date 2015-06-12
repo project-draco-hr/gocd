@@ -5,7 +5,7 @@
   LdapConfig ldapConfig=new LdapConfig("url","managerDn","managerPassword","managerPassword",false,basesConfig,"filter");
   SecurityConfig securityConfig=new SecurityConfig(ldapConfig,new PasswordFileConfig("some_path"),false);
   ServerConfig serverConfig=new ServerConfig(securityConfig,new MailHost(new GoCipher()));
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.setServerConfig(serverConfig);
   xmlWriter.write(cruiseConfig,output,false);
   GoConfigHolder holder=xmlLoader.loadConfigHolder(output.toString());

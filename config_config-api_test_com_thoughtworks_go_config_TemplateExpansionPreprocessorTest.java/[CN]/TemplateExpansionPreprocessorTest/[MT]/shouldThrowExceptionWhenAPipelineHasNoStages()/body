@@ -1,7 +1,7 @@
 {
   PipelineConfig pipelineConfigWithNoStages=pipelineConfigWithGivenStages();
   try {
-    preprocessor.process(new CruiseConfig(new BasicPipelineConfigs(pipelineConfigWithGivenStages("foo"),pipelineConfigWithNoStages)));
+    preprocessor.process(new BasicCruiseConfig(new BasicPipelineConfigs(pipelineConfigWithGivenStages("foo"),pipelineConfigWithNoStages)));
     fail("should fail when no stages");
   }
  catch (  Exception expected) {

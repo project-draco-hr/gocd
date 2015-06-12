@@ -11,5 +11,5 @@
   PipelineConfig up1=createPipelineConfigWithMaterialConfig("up1",gitMaterialConfig);
   when(pipelineDao.findBuildCauseOfPipelineByNameAndCounter("up1",1)).thenReturn(BuildCause.createManualForced(expectedIfPegged,new Username(str("loser"))));
   PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1));
-  assertThat(service.getRevisionsBasedOnDependencies(actual,createCruiseConfigFromGraph(new CruiseConfig(),dependencyGraph),dependencyGraph.getCurrent().name()),is(actual));
+  assertThat(service.getRevisionsBasedOnDependencies(actual,createCruiseConfigFromGraph(new BasicCruiseConfig(),dependencyGraph),dependencyGraph.getCurrent().name()),is(actual));
 }

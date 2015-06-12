@@ -2,7 +2,7 @@
   String noAccessUserName="foo";
   String withAccessUserName="admin";
   String pipelineName="no-access-pipeline";
-  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  CruiseConfig cruiseConfig=mock(BasicCruiseConfig.class);
   when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString(pipelineName))).thenReturn(true);
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
   when(securityService.hasViewPermissionForPipeline(noAccessUserName,pipelineName)).thenReturn(false);

@@ -1,6 +1,6 @@
 {
   Resource resource=resource("foo$bar");
-  resource.validate(ValidationContext.forChain(new CruiseConfig()));
+  resource.validate(ValidationContext.forChain(new BasicCruiseConfig()));
   ConfigErrors configErrors=resource.errors();
   assertThat(configErrors.isEmpty(),is(false));
   assertThat(configErrors.on(JobConfig.RESOURCES),is(String.format("Resource name 'foo$bar' is not valid. Valid names much match '%s'",Resource.VALID_REGEX)));

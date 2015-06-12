@@ -1,7 +1,7 @@
 {
   Configuration packageConfiguration=new Configuration(getConfigurationProperty("name",false,"go-agent"));
   Configuration repositoryConfiguration=new Configuration(getConfigurationProperty("url",false,"http://go"));
-  CruiseConfig configToSave=new CruiseConfig();
+  CruiseConfig configToSave=new BasicCruiseConfig();
   PackageRepository packageRepository=createPackageRepository("plugin-id","version","id","name",repositoryConfiguration,new Packages(new PackageDefinition("id with space","name",packageConfiguration)));
   configToSave.setPackageRepositories(new PackageRepositories(packageRepository));
   try {

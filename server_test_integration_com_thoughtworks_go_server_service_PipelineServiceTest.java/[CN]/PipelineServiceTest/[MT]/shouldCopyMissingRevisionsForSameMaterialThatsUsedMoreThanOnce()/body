@@ -10,6 +10,6 @@
   materialToCommit.put(MaterialsMother.createMaterialFromMaterialConfig(onDirTwo),"abc");
   MaterialRevisions revs=ModificationsMother.getMaterialRevisions(materialToCommit);
   PipelineConfigDependencyGraph dependencyGraph=new PipelineConfigDependencyGraph(pipelineConfig);
-  MaterialRevisions finalRevisions=service.getRevisionsBasedOnDependencies(revs,createCruiseConfigFromGraph(new CruiseConfig(),dependencyGraph),dependencyGraph.getCurrent().name());
+  MaterialRevisions finalRevisions=service.getRevisionsBasedOnDependencies(revs,createCruiseConfigFromGraph(new BasicCruiseConfig(),dependencyGraph),dependencyGraph.getCurrent().name());
   assertThat(finalRevisions.getRevisions(),is(revs.getRevisions()));
 }

@@ -1,6 +1,6 @@
 {
   PipelineTemplateConfig template=template("first_template");
-  CruiseConfig cruiseConfig=new CruiseConfig(new BasicPipelineConfigs(createPipelineWithTemplate("first",template),createPipelineWithTemplate("second",template)));
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(createPipelineWithTemplate("first",template),createPipelineWithTemplate("second",template)));
   cruiseConfig.addTemplate(template);
   when(goConfigService.getConfigHolder()).thenReturn(new GoConfigHolder(cruiseConfig,cruiseConfig));
   PipelineTemplateConfig actual=service.loadForView(template.name().toString(),new HttpLocalizedOperationResult());

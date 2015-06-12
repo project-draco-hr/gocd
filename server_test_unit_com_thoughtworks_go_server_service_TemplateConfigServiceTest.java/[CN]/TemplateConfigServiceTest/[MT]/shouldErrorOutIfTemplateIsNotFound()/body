@@ -1,6 +1,6 @@
 {
   PipelineTemplateConfig emptyTemplate=template("empty_template");
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.addTemplate(emptyTemplate);
   when(securityService.isAuthorizedToEditTemplate(anyString(),any(Username.class))).thenReturn(true);
   when(goConfigService.getConfigHolder()).thenReturn(new GoConfigHolder(cruiseConfig,cruiseConfig));

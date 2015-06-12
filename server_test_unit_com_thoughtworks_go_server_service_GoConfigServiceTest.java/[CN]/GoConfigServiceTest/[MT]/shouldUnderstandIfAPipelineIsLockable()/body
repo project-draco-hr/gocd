@@ -2,9 +2,9 @@
   PipelineConfigs group=new BasicPipelineConfigs();
   PipelineConfig pipelineConfig=createPipelineConfig("pipeline","name","plan");
   group.add(pipelineConfig);
-  expectLoad(new CruiseConfig(group));
+  expectLoad(new BasicCruiseConfig(group));
   assertThat(goConfigService.isLockable("pipeline"),is(false));
   pipelineConfig.lockExplicitly();
-  expectLoad(new CruiseConfig(group));
+  expectLoad(new BasicCruiseConfig(group));
   assertThat(goConfigService.isLockable("pipeline"),is(true));
 }

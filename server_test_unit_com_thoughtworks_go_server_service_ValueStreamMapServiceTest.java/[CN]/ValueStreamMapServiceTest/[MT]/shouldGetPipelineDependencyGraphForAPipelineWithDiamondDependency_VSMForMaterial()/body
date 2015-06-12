@@ -14,7 +14,7 @@
   PipelineConfig p2Config=PipelineConfigMother.pipelineConfig("p2",new MaterialConfigs(gitConfig));
   PipelineConfig p3Config=PipelineConfigMother.pipelineConfig("p3",new MaterialConfigs(new DependencyMaterialConfig(p1Config.name(),p1Config.getFirstStageConfig().name()),new DependencyMaterialConfig(p2Config.name(),p2Config.getFirstStageConfig().name())));
   PipelineConfigs pipelineConfigs=new BasicPipelineConfigs("g1",new Authorization(),p1Config,p2Config,p3Config);
-  CruiseConfig cruiseConfig=new CruiseConfig(pipelineConfigs);
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(pipelineConfigs);
   when(goConfigService.groups()).thenReturn(new PipelineGroups(pipelineConfigs));
   when(materialRepository.findMaterialInstance(gitConfig)).thenReturn(gitMaterialInstance);
   when(materialRepository.findModificationWithRevision(gitMaterial,gitRevision)).thenReturn(gitModification);

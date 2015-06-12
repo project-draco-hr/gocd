@@ -7,7 +7,7 @@
   when(cache.get(stage1ProjectName)).thenReturn(statusOfStage1InCache);
   when(cache.get(job1ProjectName)).thenReturn(statusOfJob1InCache);
   when(cache.get(projectNameOfNewJob)).thenReturn(null);
-  CruiseConfig config=new CruiseConfig();
+  CruiseConfig config=new BasicCruiseConfig();
   goConfigMother.addPipeline(config,"pipeline1","stage1","job1","NEW_JOB_IN_CONFIG");
   handler.call(config);
   ProjectStatus expectedNullStatusForNewJob=new ProjectStatus.NullProjectStatus(projectNameOfNewJob);

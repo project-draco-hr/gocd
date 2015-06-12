@@ -1,6 +1,6 @@
 {
   String pipelineName="unknown-pipeline";
-  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  CruiseConfig cruiseConfig=mock(BasicCruiseConfig.class);
   when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString(pipelineName))).thenReturn(false);
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
   HttpOperationResult result=new HttpOperationResult();

@@ -2,7 +2,7 @@
   Username username=new Username(new CaseInsensitiveString("user"));
   String templateName="templateName";
   PipelineTemplateConfig emptyTemplate=PipelineTemplateConfigMother.createTemplate(templateName);
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.addTemplate(emptyTemplate);
   when(securityService.isAuthorizedToEditTemplate(templateName,username)).thenReturn(false);
   when(goConfigService.getConfigHolder()).thenReturn(new GoConfigHolder(cruiseConfig,cruiseConfig));

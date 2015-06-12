@@ -8,7 +8,7 @@
   when(cache.get(stage1ProjectName)).thenReturn(statusOfStage1InCache);
   when(cache.get(job1ProjectName)).thenReturn(statusOfJob1InCache);
   when(cache.get(projectNameOfJobWhichWillBeRemoved)).thenReturn(statusOfOldJobInCache);
-  CruiseConfig config=new CruiseConfig();
+  CruiseConfig config=new BasicCruiseConfig();
   goConfigMother.addPipeline(config,"pipeline1","stage1","job1");
   handler.call(config);
   verify(cache).replaceAllEntriesInCacheWith(eq(asList(statusOfStage1InCache,statusOfJob1InCache)));

@@ -2,7 +2,7 @@
   PipelineConfig pipeline=createPipelineConfig("cruise","dev","test");
   StageConfig stage=pipeline.first();
   stage.setFetchMaterials(false);
-  CruiseConfig cruiseConfig=new CruiseConfig(new BasicPipelineConfigs(pipeline));
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(pipeline));
   expectLoad(cruiseConfig);
   assertThat(goConfigService.shouldFetchMaterials("cruise","dev"),is(false));
 }

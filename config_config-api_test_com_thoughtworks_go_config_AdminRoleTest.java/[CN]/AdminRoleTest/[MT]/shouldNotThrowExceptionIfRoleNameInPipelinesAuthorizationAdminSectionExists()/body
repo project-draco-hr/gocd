@@ -1,7 +1,7 @@
 {
   AdminRole role=new AdminRole(new CaseInsensitiveString("shilpaIsHere"));
   PipelineConfigs pipelineConfigs=new BasicPipelineConfigs(new Authorization(new AdminsConfig(role)));
-  CruiseConfig config=new CruiseConfig(pipelineConfigs);
+  CruiseConfig config=new BasicCruiseConfig(pipelineConfigs);
   config.server().security().addRole(new Role(new CaseInsensitiveString("shilpaIsHere")));
   role.validate(ValidationContext.forChain(config));
   assertThat(role.errors().isEmpty(),is(true));

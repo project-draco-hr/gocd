@@ -1,6 +1,6 @@
 {
   serverHealthService.update(ServerHealthState.error("message","description",pipelineId));
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   new GoConfigMother().addPipeline(cruiseConfig,PIPELINE_NAME,"stageName","jon");
   assertThat(serverHealthService.getAllValidLogs(cruiseConfig).size(),is(1));
 }

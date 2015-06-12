@@ -2,7 +2,7 @@
   final PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline-quux");
   final MaterialConfig materialConfig=pipelineConfig.materialConfigs().get(0);
   when(goConfigService.pipelineConfigNamed(new CaseInsensitiveString("pipeline-quux"))).thenReturn(pipelineConfig);
-  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  CruiseConfig cruiseConfig=mock(BasicCruiseConfig.class);
   when(cruiseConfig.getMd5()).thenReturn("md5-test");
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
   when(schedulingChecker.canAutoTriggerConsumer(pipelineConfig)).thenReturn(true);

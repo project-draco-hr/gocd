@@ -11,7 +11,7 @@
   stageConfig.jobConfigByConfigName(new CaseInsensitiveString("plan")).setVariables(GoConfigFileHelper.env("JOB_LEVEL","job value"));
   newPipeline.add(pipelineConfig);
   newPipeline.add(otherPipeline);
-  CruiseConfig cruiseConfig=new CruiseConfig(newPipeline);
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(newPipeline);
   EnvironmentConfig environmentConfig=cruiseConfig.addEnvironment("uat");
   environmentConfig.addPipeline(new CaseInsensitiveString("pipeline"));
   environmentConfig.addEnvironmentVariable("ENV_LEVEL","env value");

@@ -3,7 +3,7 @@
   CaseInsensitiveString templateAdminUser=new CaseInsensitiveString("templateAdminUser");
   Username templateUser=new Username(templateAdminUser);
   PipelineTemplateConfig emptyTemplate=PipelineTemplateConfigMother.createTemplate(templateName,new Authorization(new AdminsConfig(new AdminUser(templateAdminUser))),StageConfigMother.stageConfig("some_stage"));
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.addTemplate(emptyTemplate);
   when(securityService.isAuthorizedToEditTemplate(templateName,templateUser)).thenReturn(true);
   when(goConfigService.getConfigHolder()).thenReturn(new GoConfigHolder(cruiseConfig,cruiseConfig));
