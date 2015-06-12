@@ -1,3 +1,5 @@
 {
-  return false;
+  PipelineConfigs part=this.getFirstEditablePart();
+  if (part == null)   throw bomb("No editable configuration sources");
+  return part.addWithoutValidation(pipelineConfig);
 }

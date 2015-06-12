@@ -1,3 +1,17 @@
 {
-  return null;
+  if (i < 0)   throw new IndexOutOfBoundsException();
+  int start=0;
+  for (  PipelineConfigs part : this.parts) {
+    int end=start + part.size();
+    if (i < end) {
+      if (part.getOrigin() != null && part.getOrigin().canEdit()) {
+        return part.set(i - start,pipelineConfig);
+      }
+ else {
+        throw bomb(String.format("Cannot edit pipeline %s",pipelineConfig.name()));
+      }
+    }
+    start=end;
+  }
+  throw new IndexOutOfBoundsException();
 }

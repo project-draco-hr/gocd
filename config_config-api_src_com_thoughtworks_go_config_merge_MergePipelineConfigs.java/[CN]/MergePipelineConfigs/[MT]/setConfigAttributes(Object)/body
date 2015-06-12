@@ -1,2 +1,14 @@
 {
+  Map attributeMap=(Map)attributes;
+  if (attributeMap == null) {
+    return;
+  }
+  if (attributeMap.containsKey(GROUP)) {
+    String group=(String)attributeMap.get(GROUP);
+    this.setGroup(group);
+  }
+  if (attributeMap.containsKey(AUTHORIZATION) || attributeMap.isEmpty()) {
+    PipelineConfigs authorizationPart=this.getAuthorizationPart();
+    authorizationPart.setConfigAttributes(attributes);
+  }
 }

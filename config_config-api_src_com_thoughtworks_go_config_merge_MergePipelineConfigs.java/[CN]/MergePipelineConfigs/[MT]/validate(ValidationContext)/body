@@ -1,2 +1,10 @@
 {
+  String group=this.getGroup();
+  if (StringUtils.isBlank(group) || !new NameTypeValidator().isNameValid(group)) {
+    this.configErrors.add(GROUP,NameTypeValidator.errorMessage("group",group));
+  }
+  for (  PipelineConfigs part : this.parts) {
+    part.validate(validationContext);
+  }
+  verifyPipelineNameUniqueness();
 }

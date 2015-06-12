@@ -1,0 +1,13 @@
+{
+  PipelineConfig pipeline1=PipelineConfigMother.pipelineConfig("pipeline1");
+  PipelineConfig pipeline3=PipelineConfigMother.pipelineConfig("pipeline3");
+  PipelineConfig pipeline5=PipelineConfigMother.pipelineConfig("pipeline5");
+  PipelineConfig pipeline2=PipelineConfigMother.pipelineConfig("pipeline2");
+  PipelineConfig pipeline4=PipelineConfigMother.pipelineConfig("pipeline4");
+  PipelineConfigs group=new MergePipelineConfigs(new BasicPipelineConfigs(pipeline1,pipeline2),new BasicPipelineConfigs(pipeline3),new BasicPipelineConfigs(pipeline4,pipeline5));
+  assertThat(group.get(0),is(pipeline1));
+  assertThat(group.get(1),is(pipeline2));
+  assertThat(group.get(2),is(pipeline3));
+  assertThat(group.get(3),is(pipeline4));
+  assertThat(group.get(4),is(pipeline5));
+}

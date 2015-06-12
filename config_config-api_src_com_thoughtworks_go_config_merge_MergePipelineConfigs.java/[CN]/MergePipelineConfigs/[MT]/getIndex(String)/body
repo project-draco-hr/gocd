@@ -1,0 +1,13 @@
+{
+  CaseInsensitiveString caseName=new CaseInsensitiveString(pipelineName);
+  int start=0;
+  for (  PipelineConfigs part : this.parts) {
+    int end=start + part.size();
+    if (part.hasPipeline(caseName)) {
+      int internalIndex=part.indexOf(part.findBy(caseName));
+      return start + internalIndex;
+    }
+    start=end;
+  }
+  return -1;
+}

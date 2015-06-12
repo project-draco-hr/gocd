@@ -1,5 +1,7 @@
 {
-  PipelineConfigs group=new MergePipelineConfigs(new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1")));
+  BasicPipelineConfigs filePart=new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
+  filePart.setOrigin(new FileConfigOrigin());
+  PipelineConfigs group=new MergePipelineConfigs(filePart);
   group.getAuthorization().getViewConfig().add(new AdminUser(new CaseInsensitiveString("jez")));
   assertThat(group.hasViewPermission(new CaseInsensitiveString("anyone"),null),is(false));
 }

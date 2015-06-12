@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipe1=PipelineConfigMother.pipelineConfig("pipeline1");
+  BasicPipelineConfigs part1=new BasicPipelineConfigs(pipe1);
+  part1.setOrigin(new FileConfigOrigin());
+  MergePipelineConfigs group=new MergePipelineConfigs(part1,new BasicPipelineConfigs());
+  PipelineConfig pipeline2=PipelineConfigMother.pipelineConfig("pipeline2");
+  group.add(pipeline2);
+  assertThat(group.contains(pipeline2),is(true));
+}
