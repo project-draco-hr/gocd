@@ -1,0 +1,5 @@
+{
+  PipelineConfigs part1=new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
+  MergePipelineConfigs merge=new MergePipelineConfigs(part1);
+  assertThat("shouldReturnFalseIfPipelineNotExist",merge.hasPipeline(new CaseInsensitiveString("not-exist")),is(false));
+}
