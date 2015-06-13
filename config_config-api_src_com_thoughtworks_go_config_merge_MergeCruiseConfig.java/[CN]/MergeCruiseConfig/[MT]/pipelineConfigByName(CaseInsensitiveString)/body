@@ -1,3 +1,11 @@
 {
-  return null;
+  if (pipelineNameToConfigMap.containsKey(name)) {
+    return pipelineNameToConfigMap.get(name);
+  }
+  PipelineConfig pipelineConfig=getPipelineConfigByName(name);
+  if (pipelineConfig == null) {
+    throw new PipelineNotFoundException("Pipeline '" + name + "' not found.");
+  }
+  pipelineNameToConfigMap.putIfAbsent(pipelineConfig.name(),pipelineConfig);
+  return pipelineConfig;
 }

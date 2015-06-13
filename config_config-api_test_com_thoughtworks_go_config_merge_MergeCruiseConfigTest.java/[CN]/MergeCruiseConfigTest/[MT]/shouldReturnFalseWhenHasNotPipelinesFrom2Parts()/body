@@ -1,0 +1,6 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("pipe1"));
+  mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  cruiseConfig=new MergeCruiseConfig(mainCruiseConfig,PartialConfigMother.withPipeline("pipe2"));
+  assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe3")),is(false));
+}

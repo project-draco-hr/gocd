@@ -1,3 +1,5 @@
 {
-  return null;
+  StageConfig stageConfig=pipelineConfigByName(pipelineName).previousStage(lastStageName);
+  bombIfNull(stageConfig,"Build stage after '" + lastStageName + "' not found.");
+  return stageConfig;
 }

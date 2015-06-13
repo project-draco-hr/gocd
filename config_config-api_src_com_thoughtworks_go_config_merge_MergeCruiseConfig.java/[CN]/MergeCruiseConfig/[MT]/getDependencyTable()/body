@@ -1,3 +1,10 @@
 {
-  return null;
+  final Hashtable<CaseInsensitiveString,Node> hashtable=new Hashtable<CaseInsensitiveString,Node>();
+  this.accept(new PiplineConfigVisitor(){
+    public void visit(    PipelineConfig pipelineConfig){
+      hashtable.put(pipelineConfig.name(),pipelineConfig.getDependenciesAsNode());
+    }
+  }
+);
+  return hashtable;
 }
