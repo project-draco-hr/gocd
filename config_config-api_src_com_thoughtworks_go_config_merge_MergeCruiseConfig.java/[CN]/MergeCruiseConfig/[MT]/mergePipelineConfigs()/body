@@ -1,0 +1,22 @@
+{
+  List<PipelineConfigs> allPipelineConfigs=new ArrayList<PipelineConfigs>();
+  for (  PipelineConfigs partPipesConf : this.main.getGroups()) {
+    allPipelineConfigs.add(partPipesConf);
+  }
+  for (  PartialConfig part : this.parts) {
+    for (    PipelineConfigs partPipesConf : part.getGroups()) {
+      allPipelineConfigs.add(partPipesConf);
+    }
+  }
+  Map<String,List<PipelineConfigs>> map=new HashMap<String,List<PipelineConfigs>>();
+  for (  PipelineConfigs pipes : allPipelineConfigs) {
+    String key=pipes.getGroup();
+    if (map.get(key) == null) {
+      map.put(key,new ArrayList<PipelineConfigs>());
+    }
+    map.get(key).add(pipes);
+  }
+  for (  List<PipelineConfigs> oneGroup : map.values()) {
+    groups.add(new MergePipelineConfigs(oneGroup));
+  }
+}
