@@ -1,0 +1,20 @@
+{
+  PipelineTemplateConfig template=template("first_template");
+  PipelineConfig pipelineConfig1=PipelineConfigMother.pipelineConfig("first");
+  pipelineConfig1.clear();
+  pipelineConfig1.setTemplateName(new CaseInsensitiveString("first_template"));
+  pipelineConfig1.usingTemplate(template);
+  PipelineConfig pipelineConfig2=PipelineConfigMother.pipelineConfig("second");
+  pipelineConfig2.clear();
+  pipelineConfig2.setTemplateName(new CaseInsensitiveString("FIRST_template"));
+  pipelineConfig2.usingTemplate(template);
+  PipelineConfig pipelineConfigWithoutTemplate=PipelineConfigMother.pipelineConfig("third");
+  CruiseConfig cruiseConfig=new MergeCruiseConfig(new BasicCruiseConfig(new BasicPipelineConfigs(pipelineConfig1,pipelineConfig2,pipelineConfigWithoutTemplate)));
+  cruiseConfig.addTemplate(template);
+  SecurityConfig securityConfig=new SecurityConfig(new LdapConfig(new GoCipher()),new PasswordFileConfig("foo"),false);
+  securityConfig.adminsConfig().add(new AdminUser(new CaseInsensitiveString("root")));
+  cruiseConfig.server().useSecurity(securityConfig);
+  Map<CaseInsensitiveString,List<CaseInsensitiveString>> templateWithPipelines=cruiseConfig.templatesWithPipelinesForUser("root");
+  assertThat(templateWithPipelines.size(),is(1));
+  assertThat(templateWithPipelines.get(new CaseInsensitiveString("first_template")),is(Arrays.asList(new CaseInsensitiveString("first"),new CaseInsensitiveString("second"))));
+}

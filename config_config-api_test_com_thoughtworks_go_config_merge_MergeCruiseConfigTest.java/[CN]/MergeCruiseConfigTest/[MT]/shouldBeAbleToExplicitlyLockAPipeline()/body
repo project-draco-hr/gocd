@@ -1,0 +1,6 @@
+{
+  CruiseConfig config=new MergeCruiseConfig(GoConfigMother.configWithPipelines("pipeline-1"));
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString("pipeline-1"));
+  pipelineConfig.lockExplicitly();
+  assertThat(config.isPipelineLocked("pipeline-1"),is(true));
+}

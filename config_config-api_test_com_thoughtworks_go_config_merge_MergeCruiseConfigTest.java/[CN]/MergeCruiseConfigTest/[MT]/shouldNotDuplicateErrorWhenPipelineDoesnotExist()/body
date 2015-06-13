@@ -1,0 +1,16 @@
+{
+  CruiseConfig cruiseConfig=new MergeCruiseConfig(new BasicCruiseConfig());
+  PipelineConfig pipelineConfig=goConfigMother.addPipeline(cruiseConfig,"pipeline1","stage","build");
+  PipelineConfig pipelineConfig2=goConfigMother.addPipeline(cruiseConfig,"pipeline2","stage","build");
+  goConfigMother.addStageToPipeline(cruiseConfig,"pipeline1","ft","build");
+  goConfigMother.setDependencyOn(cruiseConfig,pipelineConfig2,"pipeline1","ft");
+  goConfigMother.setDependencyOn(cruiseConfig,pipelineConfig,"invalid","invalid");
+  cruiseConfig.validate(null);
+  List<ConfigErrors> allErrors=cruiseConfig.getAllErrors();
+  List<String> errors=new ArrayList<String>();
+  for (  ConfigErrors allError : allErrors) {
+    errors.addAll(allError.getAllOn("base"));
+  }
+  assertThat(errors.size(),is(1));
+  assertThat(errors.get(0),is("Pipeline \"invalid\" does not exist. It is used from pipeline \"pipeline1\"."));
+}

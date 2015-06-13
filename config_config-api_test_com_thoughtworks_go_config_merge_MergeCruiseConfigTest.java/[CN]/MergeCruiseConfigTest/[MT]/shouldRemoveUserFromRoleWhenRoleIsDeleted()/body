@@ -1,0 +1,11 @@
+{
+  CruiseConfig config=new MergeCruiseConfig(new BasicCruiseConfig());
+  SecurityConfig securityConfig=new SecurityConfig(new LdapConfig(new GoCipher()),new PasswordFileConfig("foo"),false);
+  securityConfig.adminsConfig().add(new AdminUser(new CaseInsensitiveString("root")));
+  final Role role=goConfigMother.createRole("ldap-users","root");
+  securityConfig.addRole(role);
+  config.server().useSecurity(securityConfig);
+  assertTrue(config.server().security().getRoles().isRoleExist(new CaseInsensitiveString("ldap-users")));
+  config.removeRole(role);
+  assertFalse(config.server().security().getRoles().isRoleExist(new CaseInsensitiveString("ldap-users")));
+}

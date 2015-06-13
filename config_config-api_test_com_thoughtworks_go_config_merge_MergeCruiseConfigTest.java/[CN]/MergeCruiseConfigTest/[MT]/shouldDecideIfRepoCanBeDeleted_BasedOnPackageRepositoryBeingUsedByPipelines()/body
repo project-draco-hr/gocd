@@ -1,0 +1,13 @@
+{
+  PackageRepository repo1=PackageRepositoryMother.create(null,"repo1","plugin","1.3",new Configuration());
+  PackageRepository repo2=PackageRepositoryMother.create(null,"repo2","plugin","1.3",new Configuration());
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("package",repo2);
+  repo2.addPackage(packageDefinition);
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfig("pipeline");
+  pipeline.addMaterialConfig(new PackageMaterialConfig(new CaseInsensitiveString("p1"),packageDefinition.getId(),packageDefinition));
+  cruiseConfig.addPipeline("existing_group",pipeline);
+  cruiseConfig.savePackageRepository(repo1);
+  cruiseConfig.savePackageRepository(repo2);
+  assertThat(cruiseConfig.canDeletePackageRepository(repo1),is(true));
+  assertThat(cruiseConfig.canDeletePackageRepository(repo2),is(false));
+}

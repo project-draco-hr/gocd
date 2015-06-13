@@ -1,0 +1,12 @@
+{
+  CruiseConfig config=new MergeCruiseConfig(new BasicCruiseConfig());
+  setupJobWithTasks(config,new NullTask());
+  final List<Task> tasksVisited=new ArrayList<Task>();
+  config.accept(new TaskConfigVisitor(){
+    public void visit(    PipelineConfig pipelineConfig,    StageConfig stageConfig,    JobConfig jobConfig,    Task task){
+      tasksVisited.add(task);
+    }
+  }
+);
+  assertThat(tasksVisited.size(),is(0));
+}
