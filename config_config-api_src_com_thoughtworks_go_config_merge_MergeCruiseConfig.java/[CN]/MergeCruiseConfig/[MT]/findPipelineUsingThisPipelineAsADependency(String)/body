@@ -1,3 +1,10 @@
 {
+  List<PipelineConfig> configs=getAllPipelineConfigs();
+  for (  PipelineConfig config : configs) {
+    DependencyMaterialConfig materialConfig=config.materialConfigs().findDependencyMaterial(new CaseInsensitiveString(pipelineName));
+    if (materialConfig != null) {
+      return config;
+    }
+  }
   return null;
 }

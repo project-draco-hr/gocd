@@ -1,3 +1,10 @@
 {
-  return null;
+  Map<String,List<Authorization.PrivilegeType>> result=new HashMap<String,List<Authorization.PrivilegeType>>();
+  for (  PipelineConfigs group : groups) {
+    final List<Authorization.PrivilegeType> privileges=group.getAuthorization().privilagesOfRole(new CaseInsensitiveString(roleName));
+    if (privileges.size() > 0) {
+      result.put(group.getGroup(),privileges);
+    }
+  }
+  return result;
 }

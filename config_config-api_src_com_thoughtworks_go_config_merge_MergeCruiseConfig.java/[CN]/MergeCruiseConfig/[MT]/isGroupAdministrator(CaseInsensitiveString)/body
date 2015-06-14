@@ -1,3 +1,6 @@
 {
-  return false;
+  final List<Role> roles=server().security().memberRoleFor(userName);
+  FindPipelineGroupAdminstrator finder=new FindPipelineGroupAdminstrator(userName,roles);
+  groups.accept(finder);
+  return finder.isGroupAdmin;
 }

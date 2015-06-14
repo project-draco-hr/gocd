@@ -1,3 +1,7 @@
 {
-  return null;
+  List<ConfigErrors> all=getAllErrors();
+  if (skipValidatable != null) {
+    all.removeAll(getAllErrors(skipValidatable));
+  }
+  return all;
 }

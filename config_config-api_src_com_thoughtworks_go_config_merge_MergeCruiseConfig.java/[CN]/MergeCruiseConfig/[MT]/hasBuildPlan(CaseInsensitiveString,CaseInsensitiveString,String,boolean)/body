@@ -1,3 +1,7 @@
 {
-  return false;
+  if (!hasStageConfigNamed(pipelineName,stageName,ignoreCase)) {
+    return false;
+  }
+  StageConfig stageConfig=stageConfigByName(pipelineName,stageName);
+  return stageConfig != null && stageConfig.jobConfigByInstanceName(buildName,ignoreCase) != null;
 }

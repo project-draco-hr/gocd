@@ -17,6 +17,7 @@
     map.get(key).add(pipes);
   }
   for (  List<PipelineConfigs> oneGroup : map.values()) {
-    groups.add(new MergePipelineConfigs(oneGroup));
+    if (oneGroup.size() == 1)     groups.add(oneGroup.get(0));
+ else     groups.add(new MergePipelineConfigs(oneGroup));
   }
 }

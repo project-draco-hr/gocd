@@ -1,3 +1,16 @@
 {
-  return null;
+  Set<String> stagesUsedAsMaterials=new HashSet<String>();
+  for (  MaterialConfig materialConfig : getAllUniqueMaterials()) {
+    if (materialConfig instanceof DependencyMaterialConfig) {
+      DependencyMaterialConfig dep=(DependencyMaterialConfig)materialConfig;
+      stagesUsedAsMaterials.add(dep.getPipelineName() + "|" + dep.getStageName());
+    }
+  }
+  Set<StageConfig> stages=new HashSet<StageConfig>();
+  for (  StageConfig stage : pipelineConfig) {
+    if (stagesUsedAsMaterials.contains(pipelineConfig.name() + "|" + stage.name())) {
+      stages.add(stage);
+    }
+  }
+  return stages;
 }

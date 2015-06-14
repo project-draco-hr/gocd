@@ -1,3 +1,9 @@
 {
-  return null;
+  PipelineGroups pipelineGroups=this.getGroups();
+  for (  PipelineConfigs pipelineGroup : pipelineGroups) {
+    if (pipelineGroup.isNamed(groupName)) {
+      return pipelineGroup;
+    }
+  }
+  throw new RuntimeException("");
 }

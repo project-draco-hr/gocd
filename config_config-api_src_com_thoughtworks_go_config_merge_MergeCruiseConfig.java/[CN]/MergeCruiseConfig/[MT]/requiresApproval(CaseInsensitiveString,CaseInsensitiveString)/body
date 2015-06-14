@@ -1,3 +1,8 @@
 {
-  return false;
+  PipelineConfig pipelineConfig=getPipelineConfigByName(pipelineName);
+  if (pipelineConfig == null) {
+    return false;
+  }
+  final StageConfig stageConfig=pipelineConfig.findBy(stageName);
+  return stageConfig != null && stageConfig.requiresApproval();
 }
