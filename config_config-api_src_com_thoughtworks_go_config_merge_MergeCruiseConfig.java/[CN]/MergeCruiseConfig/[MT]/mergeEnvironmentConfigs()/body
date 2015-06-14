@@ -1,2 +1,25 @@
 {
+  EnvironmentsConfig environments=new EnvironmentsConfig();
+  List<EnvironmentConfig> allEnvConfigs=new ArrayList<EnvironmentConfig>();
+  for (  EnvironmentConfig envConfig : this.main.getEnvironments()) {
+    allEnvConfigs.add(envConfig);
+  }
+  for (  PartialConfig part : this.parts) {
+    for (    EnvironmentConfig partPipesConf : part.getEnvironments()) {
+      allEnvConfigs.add(partPipesConf);
+    }
+  }
+  Map<CaseInsensitiveString,List<EnvironmentConfig>> map=new HashMap<CaseInsensitiveString,List<EnvironmentConfig>>();
+  for (  EnvironmentConfig env : allEnvConfigs) {
+    CaseInsensitiveString key=env.name();
+    if (map.get(key) == null) {
+      map.put(key,new ArrayList<EnvironmentConfig>());
+    }
+    map.get(key).add(env);
+  }
+  for (  List<EnvironmentConfig> oneEnv : map.values()) {
+    if (oneEnv.size() == 1)     environments.add(oneEnv.get(0));
+ else     environments.add(new MergeEnvironmentConfig(oneEnv));
+  }
+  return environments;
 }

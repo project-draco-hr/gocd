@@ -1,4 +1,5 @@
 {
+  PipelineGroups groups=new PipelineGroups();
   List<PipelineConfigs> allPipelineConfigs=new ArrayList<PipelineConfigs>();
   for (  PipelineConfigs partPipesConf : this.main.getGroups()) {
     allPipelineConfigs.add(partPipesConf);
@@ -20,4 +21,5 @@
     if (oneGroup.size() == 1)     groups.add(oneGroup.get(0));
  else     groups.add(new MergePipelineConfigs(oneGroup));
   }
+  return groups;
 }
