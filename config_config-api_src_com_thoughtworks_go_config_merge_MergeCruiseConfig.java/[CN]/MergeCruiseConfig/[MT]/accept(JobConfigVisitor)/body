@@ -1,2 +1,9 @@
 {
+  for (  PipelineConfig pipelineConfig : this.getAllPipelineConfigs()) {
+    for (    StageConfig stageConfig : pipelineConfig) {
+      for (      JobConfig jobConfig : stageConfig.allBuildPlans()) {
+        visitor.visit(pipelineConfig,stageConfig,jobConfig);
+      }
+    }
+  }
 }

@@ -3,5 +3,5 @@
   BasicPipelineConfigs part1=new BasicPipelineConfigs(pipe1);
   part1.setOrigin(new FileConfigOrigin());
   MergePipelineConfigs group=new MergePipelineConfigs(part1,new BasicPipelineConfigs());
-  assertThat(group.getFirstEditablePart(),Matchers.<PipelineConfigs>is(part1));
+  assertThat(group.getFirstEditablePartOrNull(),Matchers.<PipelineConfigs>is(part1));
 }

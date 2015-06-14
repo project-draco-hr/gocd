@@ -1,3 +1,11 @@
 {
-  return null;
+  if (allPipelineConfigs == null) {
+    List<PipelineConfig> configs=new ArrayList<PipelineConfig>();
+    PipelineGroups groups=getGroups();
+    for (    PipelineConfigs group : groups) {
+      configs.addAll(group);
+    }
+    allPipelineConfigs=configs;
+  }
+  return allPipelineConfigs;
 }

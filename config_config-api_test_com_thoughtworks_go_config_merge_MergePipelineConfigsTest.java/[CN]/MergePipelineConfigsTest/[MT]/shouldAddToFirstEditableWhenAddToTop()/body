@@ -1,0 +1,8 @@
+{
+  BasicPipelineConfigs filePart=new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline2"));
+  filePart.setOrigin(new FileConfigOrigin());
+  PipelineConfigs group=new MergePipelineConfigs(new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1")),filePart);
+  group.addToTop(PipelineConfigMother.pipelineConfig("pipeline3"));
+  assertThat(filePart.hasPipeline(new CaseInsensitiveString("pipeline3")),is(true));
+  assertThat(group.hasPipeline(new CaseInsensitiveString("pipeline3")),is(true));
+}

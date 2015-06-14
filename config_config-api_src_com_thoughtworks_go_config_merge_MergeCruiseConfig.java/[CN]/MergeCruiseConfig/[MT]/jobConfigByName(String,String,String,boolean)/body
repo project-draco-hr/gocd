@@ -1,3 +1,5 @@
 {
-  return null;
+  JobConfig jobConfig=stageConfigByName(new CaseInsensitiveString(pipelineName),new CaseInsensitiveString(stageName)).jobConfigByInstanceName(jobInstanceName,ignoreCase);
+  bombIfNull(jobConfig,String.format("Job [%s] is not found in pipeline [%s] stage [%s].",jobInstanceName,pipelineName,stageName));
+  return jobConfig;
 }
