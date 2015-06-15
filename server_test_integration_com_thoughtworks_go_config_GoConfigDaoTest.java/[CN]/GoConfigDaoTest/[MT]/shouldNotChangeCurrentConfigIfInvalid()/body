@@ -1,0 +1,11 @@
+{
+  useConfigString(WITH_3_AGENT_CONFIG);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  try {
+    cachedGoConfig.save("This is invalid Cruise",false);
+    fail();
+  }
+ catch (  Exception ignored) {
+  }
+  assertCurrentConfigIs(cruiseConfig);
+}

@@ -1,6 +1,6 @@
 {
   CruiseConfig config=configWithPipeline();
-  when(goConfigFileDao.loadForEditing()).thenReturn(config);
+  when(goConfigDao.loadForEditing()).thenReturn(config);
   String stageContent="<stage name='firstStage'>" + "  <unknown/>" + "     <jobs>"+ "         <job name='jobName'/>"+ "      </jobs>"+ "  </stage>";
   GoConfigValidity validity=goConfigService.stageSaver("pipeline",0).saveXml(stageContent,"md5");
   assertThat(validity.errorMessage(),containsString("Invalid content was found starting with element 'unknown'"));

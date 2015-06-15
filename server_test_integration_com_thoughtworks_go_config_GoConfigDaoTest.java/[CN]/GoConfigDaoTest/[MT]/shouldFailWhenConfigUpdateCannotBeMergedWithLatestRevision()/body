@@ -1,0 +1,25 @@
+{
+  final String originalMd5=goConfigDao.load().getMd5();
+  goConfigDao.updateConfig(configHelper.addPipelineCommand(originalMd5,"p1","stage1","build1"));
+  final String md5WhenPipelineIsAdded=goConfigDao.load().getMd5();
+  goConfigDao.updateConfig(configHelper.changeJobNameCommand(md5WhenPipelineIsAdded,"p1","stage1","build1","new_build"));
+  try {
+    goConfigDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
+      public String unmodifiedMd5(){
+        return md5WhenPipelineIsAdded;
+      }
+      public CruiseConfig update(      CruiseConfig cruiseConfig) throws Exception {
+        deletePipeline(cruiseConfig);
+        return cruiseConfig;
+      }
+      private void deletePipeline(      CruiseConfig cruiseConfig){
+        cruiseConfig.getGroups().get(0).remove(0);
+      }
+    }
+);
+    fail("should not have allowed no-overwrite stale update");
+  }
+ catch (  RuntimeException e) {
+    assertThat(e.getMessage(),is(ConfigFileHasChangedException.CONFIG_CHANGED_PLEASE_REFRESH));
+  }
+}

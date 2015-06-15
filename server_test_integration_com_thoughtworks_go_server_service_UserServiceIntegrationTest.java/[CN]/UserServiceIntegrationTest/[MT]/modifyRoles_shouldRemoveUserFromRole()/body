@@ -2,6 +2,6 @@
   userDao.saveOrUpdate(new User("user-1"));
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("user-1"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),Arrays.asList(new TriStateSelection("dev",TriStateSelection.Action.add)),new HttpLocalizedOperationResult());
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("user-1"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),Arrays.asList(new TriStateSelection("dev",TriStateSelection.Action.remove)),new HttpLocalizedOperationResult());
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   assertThat(cruiseConfig.server().security().getRoles().findByName(new CaseInsensitiveString("dev")).hasMember(new CaseInsensitiveString("user-1")),is(false));
 }

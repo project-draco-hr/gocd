@@ -1,5 +1,5 @@
 {
   String staleMd5="oldmd5";
-  when(goConfigFileDao.md5OfConfigFile()).thenReturn("newmd5");
+  when(goConfigDao.md5OfConfigFile()).thenReturn("newmd5");
   assertThat(goConfigService.doesMd5Match(staleMd5),is(false));
 }

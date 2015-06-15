@@ -1,7 +1,7 @@
 {
   new SystemEnvironment().setProperty(SystemEnvironment.ENFORCE_SERVERID_MUTABILITY,"N");
   configRepo=mock(ConfigRepository.class);
-  goConfigFileDao=mock(GoConfigFileDao.class);
+  goConfigDao=mock(GoConfigDao.class);
   pipelineRepository=mock(PipelineRepository.class);
   pipelinePauseService=mock(PipelinePauseService.class);
   metricsProbeService=mock(MetricsProbeService.class);
@@ -12,5 +12,5 @@
   instanceFactory=mock(InstanceFactory.class);
   userDao=mock(UserDao.class);
   ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
-  goConfigService=new GoConfigService(goConfigFileDao,pipelineRepository,this.clock,new GoConfigMigration(configRepo,new TimeProvider(),new ConfigCache(),registry,metricsProbeService),goCache,configRepo,userDao,registry,metricsProbeService,instanceFactory);
+  goConfigService=new GoConfigService(goConfigDao,pipelineRepository,this.clock,new GoConfigMigration(configRepo,new TimeProvider(),new ConfigCache(),registry,metricsProbeService),goCache,configRepo,userDao,registry,metricsProbeService,instanceFactory);
 }

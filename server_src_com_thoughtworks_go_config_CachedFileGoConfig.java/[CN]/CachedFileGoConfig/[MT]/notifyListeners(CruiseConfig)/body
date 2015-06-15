@@ -1,0 +1,10 @@
+{
+  for (  ConfigChangedListener listener : listeners) {
+    try {
+      listener.onConfigChange(newCruiseConfig);
+    }
+ catch (    Exception e) {
+      LOGGER.error("failed to fire config changed event for listener: " + listener,e);
+    }
+  }
+}

@@ -12,7 +12,7 @@
   CruiseConfig currentConfig=goConfigService.getCurrentConfig();
   currentConfig.pipelineConfigByName(new CaseInsensitiveString("down_pipe")).removeMaterialConfig(svn.config());
   configHelper.writeConfigFile(currentConfig);
-  goConfigFileDao.load();
+  goConfigDao.load();
   MaterialRevisions given=scheduleUtil.mrs(scheduleUtil.mr(up_pipe,true,up_pipe_1));
   MaterialRevisions expected=scheduleUtil.mrs(scheduleUtil.mr(up_pipe,true,up_pipe_1));
   AutoBuild autoBuildType=new AutoBuild(goConfigService,pipelineService,"down_pipe",systemEnvironment,materialChecker,serverHealthService);

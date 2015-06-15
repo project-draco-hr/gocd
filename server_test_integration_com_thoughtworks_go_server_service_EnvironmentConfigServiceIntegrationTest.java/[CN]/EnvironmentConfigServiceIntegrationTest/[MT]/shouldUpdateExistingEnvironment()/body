@@ -17,7 +17,7 @@
   newUat.addPipeline(new CaseInsensitiveString("bar"));
   newUat.addAgent("uuid-1");
   newUat.addEnvironmentVariable("env-three","THREE");
-  HttpLocalizedOperationResult result=service.updateEnvironment("uat",newUat,new Username(new CaseInsensitiveString("foo")),goConfigFileDao.md5OfConfigFile());
+  HttpLocalizedOperationResult result=service.updateEnvironment("uat",newUat,new Username(new CaseInsensitiveString("foo")),goConfigDao.md5OfConfigFile());
   EnvironmentConfig updatedEnv=service.named("prod");
   assertThat(updatedEnv.name(),is(new CaseInsensitiveString("prod")));
   assertThat(updatedEnv.getAgents().getUuids(),is(Arrays.asList("uuid-1")));

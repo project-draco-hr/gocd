@@ -6,7 +6,7 @@
   ScheduleTestUtil.AddedPipeline regression=u.saveConfigWith("regression",u.m(build),u.m(acceptance));
   ScheduleTestUtil.AddedPipeline staging=u.saveConfigWith("staging",u.m(acceptance),u.m(regression));
   ScheduleTestUtil.AddedPipeline production=u.saveConfigWith("production",u.m(staging));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   int i=1;
   String b_1=u.runAndPass(build,"g1");
   String a_1=u.runAndPass(acceptance,b_1);

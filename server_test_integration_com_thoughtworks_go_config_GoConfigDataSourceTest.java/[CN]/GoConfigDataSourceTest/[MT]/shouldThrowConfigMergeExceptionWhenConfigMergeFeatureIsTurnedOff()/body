@@ -1,8 +1,8 @@
 {
   String firstMd5=dataSource.forceLoad(dataSource.fileLocation()).configForEdit.getMd5();
-  goConfigFileDao.updateConfig(configHelper.addPipelineCommand(firstMd5,"p0","s0","b0"));
+  goConfigDao.updateConfig(configHelper.addPipelineCommand(firstMd5,"p0","s0","b0"));
   String originalMd5=dataSource.forceLoad(dataSource.fileLocation()).configForEdit.getMd5();
-  goConfigFileDao.updateConfig(configHelper.addPipelineCommand(originalMd5,"p1","s1","j1"));
+  goConfigDao.updateConfig(configHelper.addPipelineCommand(originalMd5,"p1","s1","j1"));
   GoConfigHolder goConfigHolder=dataSource.forceLoad(dataSource.fileLocation());
   systemEnvironment.set(SystemEnvironment.ENABLE_CONFIG_MERGE_FEATURE,Boolean.FALSE);
   try {

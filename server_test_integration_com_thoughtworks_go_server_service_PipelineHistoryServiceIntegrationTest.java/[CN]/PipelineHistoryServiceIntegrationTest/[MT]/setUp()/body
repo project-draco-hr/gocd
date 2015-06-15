@@ -5,7 +5,7 @@
   pipelineTwo=new PipelineWithTwoStages(materialRepository,transactionTemplate);
   pipelineTwo.setGroupName("group2");
   diskIsFull=new ArtifactsDiskIsFull();
-  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.usingCruiseConfigDao(goConfigDao);
   configHelper.onSetUp();
   dbHelper.onSetUp();
   pipelineOne.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();

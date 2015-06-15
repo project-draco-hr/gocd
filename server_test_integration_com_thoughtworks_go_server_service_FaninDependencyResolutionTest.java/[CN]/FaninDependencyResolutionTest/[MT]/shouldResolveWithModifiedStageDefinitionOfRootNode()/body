@@ -12,7 +12,7 @@
   }
   String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g2");
   p2=u.changeStagenameForToPipeline("P2","s","new-stage");
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   MaterialRevisions given=u.mrs(u.mr(p1,true,p1_2),u.mr(git,true,"g2"));
   MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(p2,cruiseConfig,given);
   assertThat(finalRevisions,is(given));

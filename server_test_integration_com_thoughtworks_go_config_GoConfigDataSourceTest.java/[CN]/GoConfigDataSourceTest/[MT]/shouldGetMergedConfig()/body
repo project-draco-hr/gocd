@@ -6,7 +6,7 @@
   MailHost oldMailHost=oldConfigForEdit.server().mailHost();
   assertThat(oldMailHost.getHostName(),is("mailhost.local.old"));
   assertThat(oldMailHost.getHostName(),is(not("mailhost.local")));
-  goConfigFileDao.updateMailHost(getMailHost("mailhost.local"));
+  goConfigDao.updateMailHost(getMailHost("mailhost.local"));
   goConfigHolder=dataSource.forceLoad(dataSource.fileLocation());
   GoConfigDataSource.GoConfigSaveResult result=dataSource.writeWithLock(new NoOverwriteUpdateConfigCommand(){
     @Override public String unmodifiedMd5(){

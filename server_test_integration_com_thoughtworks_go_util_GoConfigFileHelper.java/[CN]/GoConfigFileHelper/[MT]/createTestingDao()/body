@@ -9,7 +9,7 @@
     dataSource.upgradeIfNecessary();
     CachedGoConfig cachedConfigService=new CachedGoConfig(dataSource,serverHealthService);
     cachedConfigService.loadConfigIfNull();
-    return new GoConfigFileDao(cachedConfigService,probeService);
+    return new GoConfigDao(cachedConfigService,probeService);
   }
  catch (  IOException e) {
     throw new RuntimeException(e);

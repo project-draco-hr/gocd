@@ -8,7 +8,7 @@
   ScheduleTestUtil.MaterialDeclaration upForDown=u.m(up);
   ((DependencyMaterial)upForDown.material).setName(new CaseInsensitiveString("up-for-down"));
   ScheduleTestUtil.AddedPipeline down=u.saveConfigWith("down",u.m(mid),upForDown);
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String up_1=u.runAndPass(up,"g1");
   String mid_1=u.runAndPass(mid,up_1);
   String down_1=u.runAndPass(down,mid_1,up_1);

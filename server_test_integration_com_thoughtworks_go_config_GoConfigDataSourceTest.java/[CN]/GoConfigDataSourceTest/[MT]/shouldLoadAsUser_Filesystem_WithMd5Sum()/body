@@ -1,5 +1,5 @@
 {
-  GoConfigHolder configHolder=goConfigFileDao.loadConfigHolder();
+  GoConfigHolder configHolder=goConfigDao.loadConfigHolder();
   String md5=DigestUtils.md5Hex(FileUtils.readFileToString(dataSource.fileLocation()));
   assertThat(configHolder.configForEdit.getMd5(),is(md5));
   assertThat(configHolder.config.getMd5(),is(md5));

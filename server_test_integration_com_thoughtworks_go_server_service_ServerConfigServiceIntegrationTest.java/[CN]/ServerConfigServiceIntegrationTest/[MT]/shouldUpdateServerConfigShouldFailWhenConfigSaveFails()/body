@@ -3,7 +3,7 @@
   PasswordFileConfig passwordFileConfig=new PasswordFileConfig("valid_path.txt");
   MailHost mailHost=new MailHost("boo",1,"username","password",true,true,"from@from.com","admin@admin.com");
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  serverConfigService.updateServerConfig(mailHost,ldapConfig,passwordFileConfig,"artifacts",null,null,"42",true,"http://site_url","https://secure_site_url","default",result,goConfigFileDao.md5OfConfigFile());
+  serverConfigService.updateServerConfig(mailHost,ldapConfig,passwordFileConfig,"artifacts",null,null,"42",true,"http://site_url","https://secure_site_url","default",result,goConfigDao.md5OfConfigFile());
   assertThat(result.isSuccessful(),is(false));
   assertThat(result.message(localizer),containsString("Failed to save the server configuration. Reason: "));
   assertThat(result.message(localizer),containsString("Search Base should not be empty"));

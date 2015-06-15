@@ -5,7 +5,7 @@
   u.checkinInOrder(git,u.d(i++),git_revs);
   ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git));
   ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(p1),u.m(git));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g1");
   setMaxBackTrackLimit(2);
   for (int j=1; j <= maxBackTrackLimit() + 1; j++) {

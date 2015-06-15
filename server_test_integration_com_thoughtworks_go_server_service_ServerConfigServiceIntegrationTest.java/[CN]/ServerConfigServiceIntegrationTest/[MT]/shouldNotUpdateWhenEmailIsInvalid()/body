@@ -1,6 +1,6 @@
 {
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  serverConfigService.updateServerConfig(new MailHost("boo",1,"username","password",true,true,"from","admin@admin.com"),new LdapConfig(new GoCipher()),new PasswordFileConfig(),"artifacts",null,null,"42",true,"http://site_url","https://secure_site_url","default",result,goConfigFileDao.md5OfConfigFile());
+  serverConfigService.updateServerConfig(new MailHost("boo",1,"username","password",true,true,"from","admin@admin.com"),new LdapConfig(new GoCipher()),new PasswordFileConfig(),"artifacts",null,null,"42",true,"http://site_url","https://secure_site_url","default",result,goConfigDao.md5OfConfigFile());
   assertThat(result.isSuccessful(),is(false));
   assertThat(result.message(localizer),is("From address is not a valid email address."));
   assertThat(goConfigService.getMailHost(),is(new MailHost(new GoCipher())));

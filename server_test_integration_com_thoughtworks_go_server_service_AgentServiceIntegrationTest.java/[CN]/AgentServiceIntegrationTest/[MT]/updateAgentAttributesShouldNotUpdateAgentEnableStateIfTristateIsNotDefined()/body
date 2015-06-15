@@ -1,7 +1,7 @@
 {
   AgentConfig enabledAgent=createEnabledAgent("enabled");
   AgentConfig disabledAgent=createDisabledAgent("disabled");
-  goConfigFileDao.load();
+  goConfigDao.load();
   assertThat(agentService.agents().size(),is(2));
   assertThat(agentService.findAgentAndRefreshStatus("enabled").agentConfig().isDisabled(),is(false));
   assertThat(agentService.findAgentAndRefreshStatus("disabled").agentConfig().isDisabled(),is(true));

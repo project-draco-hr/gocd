@@ -1,6 +1,6 @@
 {
   CruiseConfig cruiseConfig=new GoConfigMother().cruiseConfigWithOnePipelineGroup();
-  stub(goConfigFileDao.load()).toReturn(cruiseConfig);
+  stub(goConfigDao.load()).toReturn(cruiseConfig);
   goConfigService.initialize();
-  verify(goConfigFileDao).registerListener(any(BaseUrlChangeListener.class));
+  verify(goConfigDao).registerListener(any(BaseUrlChangeListener.class));
 }

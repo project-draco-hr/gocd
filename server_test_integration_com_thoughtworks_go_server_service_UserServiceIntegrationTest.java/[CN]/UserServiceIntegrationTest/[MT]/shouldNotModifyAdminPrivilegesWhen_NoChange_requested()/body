@@ -7,7 +7,7 @@
   userDao.saveOrUpdate(new User("boozer"));
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("user","boozer"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),new ArrayList<TriStateSelection>(),result);
-  final CruiseConfig cruiseConfig=goConfigFileDao.load();
+  final CruiseConfig cruiseConfig=goConfigDao.load();
   final SecurityConfig securityConfig=cruiseConfig.server().security();
   final AdminsConfig adminsConfig=securityConfig.adminsConfig();
   assertThat(adminsConfig.hasUser(new CaseInsensitiveString("user"),UserRoleMatcherMother.ALWAYS_FALSE_MATCHER),is(true));

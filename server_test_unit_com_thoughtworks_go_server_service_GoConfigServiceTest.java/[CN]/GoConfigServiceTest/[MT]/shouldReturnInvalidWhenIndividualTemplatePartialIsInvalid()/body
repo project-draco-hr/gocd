@@ -2,7 +2,7 @@
   CruiseConfig config=new BasicCruiseConfig();
   config.server().setArtifactsDir("/var/logs");
   config.addTemplate(new PipelineTemplateConfig(new CaseInsensitiveString("templateName"),StageConfigMother.custom("stage","job")));
-  when(goConfigFileDao.loadForEditing()).thenReturn(config);
+  when(goConfigDao.loadForEditing()).thenReturn(config);
   String templateContent="<pipeline name='pipeline'>\n" + "  <unknown/>" + "  <stage name='firstStage'>"+ "     <jobs>"+ "         <job name='jobName'/>"+ "      </jobs>"+ "  </stage>"+ "</pipeline>";
   GoConfigValidity validity=goConfigService.templateSaver(0).saveXml(templateContent,"md5");
   assertThat(validity.errorMessage(),containsString("Invalid content was found starting with element 'unknown'"));

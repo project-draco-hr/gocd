@@ -1,6 +1,6 @@
 {
   CruiseConfig config=configWithPipeline();
-  when(goConfigFileDao.loadForEditing()).thenReturn(config);
+  when(goConfigDao.loadForEditing()).thenReturn(config);
   GoConfigValidity validity=goConfigService.buildSaver("pipeline","stage",0).saveXml("<job name='first'></job>","md5");
   assertThat(validity.isValid(),is(true));
 }

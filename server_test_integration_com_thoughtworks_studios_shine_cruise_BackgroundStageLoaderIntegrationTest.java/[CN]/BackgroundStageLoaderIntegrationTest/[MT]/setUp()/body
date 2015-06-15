@@ -8,7 +8,7 @@
   pipelineInstanceLoader=pipelineHistoryService;
   StageResourceImporter importer=new StageResourceImporter("/artifacts",xmlApiService,stageFinder,pipelineInstanceLoader,systemEnvironment);
   loader=new BackgroundStageLoader(null,importer,stageStorage,pipelineHistoryService,stageService,systemEnvironment);
-  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.usingCruiseConfigDao(goConfigDao);
   configHelper.onSetUp();
   failureSetup=new TestFailureSetup(materialRepository,dbHelper,pipelineTimeline,configHelper,transactionTemplate);
 }

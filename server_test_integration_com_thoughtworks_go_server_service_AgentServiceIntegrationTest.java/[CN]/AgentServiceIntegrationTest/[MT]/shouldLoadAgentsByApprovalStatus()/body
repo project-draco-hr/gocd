@@ -6,7 +6,7 @@
   deniedAgent2.disable();
   CONFIG_HELPER.addAgent(deniedAgent2);
   CONFIG_HELPER.addAgent(new AgentConfig("uuid3","approvedAgent1","127.0.0.3"));
-  goConfigFileDao.load();
+  goConfigDao.load();
   agentService.initialize();
   AgentInstances approvedAgents=agentService.findPhysicalAgents().findEnabledAgents();
   assertThat(approvedAgents.size(),is(1));

@@ -12,6 +12,6 @@
   String up1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(up1,u.d(i),up0_2,"hg2");
   MaterialRevisions given=u.mrs(u.mr(hg,true,"hg3"),u.mr(up1,true,up1_1));
   MaterialRevisions expected=u.mrs(u.mr(hg,true,"hg2"),u.mr(up1,true,up1_1));
-  MaterialRevisions revisions=getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("current"));
+  MaterialRevisions revisions=getRevisionsBasedOnDependencies(goConfigDao.load(),given,new CaseInsensitiveString("current"));
   assertThat(revisions,is(expected));
 }

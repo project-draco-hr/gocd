@@ -1,7 +1,7 @@
 {
   CruiseConfig config=configWithPipeline();
-  when(goConfigFileDao.loadForEditing()).thenReturn(config);
-  when(goConfigFileDao.updateConfig(org.mockito.Matchers.<UpdateConfigCommand>any())).thenReturn(ConfigSaveState.UPDATED);
+  when(goConfigDao.loadForEditing()).thenReturn(config);
+  when(goConfigDao.updateConfig(org.mockito.Matchers.<UpdateConfigCommand>any())).thenReturn(ConfigSaveState.UPDATED);
   GoConfigValidity goConfigValidity=goConfigService.buildSaver("pipeline","stage",0).saveXml("<job name='first'></job>","md5");
   assertThat(goConfigValidity.isValid(),is(true));
   assertThat(goConfigValidity.wasMerged(),is(false));
