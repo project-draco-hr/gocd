@@ -8,7 +8,7 @@
   when(timeProvider.currentTime()).thenReturn(new Date());
   ServerVersion serverVersion=new ServerVersion();
   ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
-  dataSource=new GoConfigDataSource(new GoConfigMigration(new GoConfigMigration.UpgradeFailedHandler(){
+  dataSource=new GoFileConfigDataSource(new GoConfigMigration(new GoConfigMigration.UpgradeFailedHandler(){
     public void handle(    Exception e){
       throw new RuntimeException(e);
     }

@@ -15,5 +15,5 @@
   assertThat(configHolder.configForEdit.getMd5(),is(not(md5)));
   GoConfigRevision commitedVersion=configRepository.getRevision(secondMd5);
   assertThat(commitedVersion.getContent(),is(xmlText));
-  assertThat(commitedVersion.getUsername(),is(GoConfigDataSource.FILESYSTEM));
+  assertThat(commitedVersion.getUsername(),is(GoFileConfigDataSource.FILESYSTEM));
 }

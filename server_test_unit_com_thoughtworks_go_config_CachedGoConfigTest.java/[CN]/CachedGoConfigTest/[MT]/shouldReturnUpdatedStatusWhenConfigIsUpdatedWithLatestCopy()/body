@@ -1,10 +1,10 @@
 {
-  GoConfigDataSource goConfigDataSource=mock(GoConfigDataSource.class);
+  GoFileConfigDataSource goFileConfigDataSource=mock(GoFileConfigDataSource.class);
   UpdateConfigCommand updateConfigCommand=mock(UpdateConfigCommand.class);
   CruiseConfig currentConfig=GoConfigMother.configWithPipelines("p1");
-  GoConfigDataSource.GoConfigSaveResult goConfigSaveResult=new GoConfigDataSource.GoConfigSaveResult(new GoConfigHolder(currentConfig,currentConfig),ConfigSaveState.UPDATED);
-  when(goConfigDataSource.writeWithLock(argThat(is(updateConfigCommand)),any(GoConfigHolder.class))).thenReturn(goConfigSaveResult);
-  cachedGoConfig=new CachedGoConfig(goConfigDataSource,serverHealthService);
+  GoFileConfigDataSource.GoConfigSaveResult goConfigSaveResult=new GoFileConfigDataSource.GoConfigSaveResult(new GoConfigHolder(currentConfig,currentConfig),ConfigSaveState.UPDATED);
+  when(goFileConfigDataSource.writeWithLock(argThat(is(updateConfigCommand)),any(GoConfigHolder.class))).thenReturn(goConfigSaveResult);
+  cachedGoConfig=new CachedGoConfig(goFileConfigDataSource,serverHealthService);
   ConfigSaveState configSaveState=cachedGoConfig.writeWithLock(updateConfigCommand);
   assertThat(configSaveState,is(ConfigSaveState.UPDATED));
 }
