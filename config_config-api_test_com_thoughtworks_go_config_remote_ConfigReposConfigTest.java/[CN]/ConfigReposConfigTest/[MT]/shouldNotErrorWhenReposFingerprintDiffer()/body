@@ -1,0 +1,9 @@
+{
+  ConfigRepoConfig repo1=new ConfigRepoConfig(new GitMaterialConfig("http://git"),"myplugin");
+  ConfigRepoConfig repo2=new ConfigRepoConfig(new GitMaterialConfig("http://git","develop"),"myotherplugin");
+  repos.add(repo1);
+  repos.add(repo2);
+  repos.validate(null);
+  assertThat(repo1.errors().isEmpty(),is(true));
+  assertThat(repo2.errors().isEmpty(),is(true));
+}

@@ -1,0 +1,9 @@
+{
+  ConfigRepoConfig repo1=new ConfigRepoConfig(new GitMaterialConfig("http://git"),"myplugin");
+  ConfigRepoConfig repo2=new ConfigRepoConfig(new GitMaterialConfig("http://git"),"myotherplugin");
+  repos.add(repo1);
+  repos.add(repo2);
+  repos.validate(null);
+  assertThat(repo1.errors().on(ConfigRepoConfig.UNIQUE_REPO),is("You have defined multiple configuration repositories with the same repository - http://git"));
+  assertThat(repo2.errors().on(ConfigRepoConfig.UNIQUE_REPO),is("You have defined multiple configuration repositories with the same repository - http://git"));
+}
