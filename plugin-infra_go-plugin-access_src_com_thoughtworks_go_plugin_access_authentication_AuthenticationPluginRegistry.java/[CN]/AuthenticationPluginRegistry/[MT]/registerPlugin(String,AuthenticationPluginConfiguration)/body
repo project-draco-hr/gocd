@@ -1,5 +1,8 @@
 {
   pluginToConfigurationMap.put(pluginId,configuration);
+  if (!StringUtil.isBlank(configuration.getDisplayImageURL())) {
+    pluginsThatHaveImageURL.add(pluginId);
+  }
   if (configuration.supportsPasswordBasedAuthentication()) {
     pluginsThatSupportsPasswordBasedAuthentication.add(pluginId);
   }
