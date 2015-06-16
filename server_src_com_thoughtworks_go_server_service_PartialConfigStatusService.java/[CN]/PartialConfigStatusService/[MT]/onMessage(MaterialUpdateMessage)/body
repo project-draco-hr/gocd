@@ -1,0 +1,8 @@
+{
+  String fingerprint=message.getMaterial().getFingerprint();
+  if (this.configWatchList.hasConfigRepoWithFingerprint(fingerprint)) {
+    activeParts.putIfAbsent(fingerprint,new ConfigStatus());
+    ConfigStatus status=activeParts.get(fingerprint);
+    status.setLastStartedTrackingId(message.trackingId());
+  }
+}

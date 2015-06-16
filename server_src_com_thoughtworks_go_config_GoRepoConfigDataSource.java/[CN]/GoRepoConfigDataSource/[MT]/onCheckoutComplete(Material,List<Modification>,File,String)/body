@@ -12,9 +12,12 @@
       }
       newPart.setOrigin(new RepoConfigOrigin(repoConfig,revision));
       fingerprintLatestConfigMap.put(fingerprint,newPart);
+      notifySuccessListeners(repoConfig,newPart);
     }
  catch (    Exception ex) {
+      fingerprintLatestConfigMap.put(fingerprint,null);
       LOGGER.error(String.format("Failed to parse configuration material %s by %s",material.getDisplayName(),plugin));
+      notifyFailureListeners(repoConfig,ex);
     }
   }
 }
