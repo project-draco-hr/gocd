@@ -1,0 +1,13 @@
+{
+  if (this.getMaterialConfig() == null) {
+    return;
+  }
+  String materialFingerprint=this.getMaterialConfig().getFingerprint();
+  ConfigRepoConfig repoWithSameFingerprint=map.get(materialFingerprint);
+  if (repoWithSameFingerprint != null) {
+    repoWithSameFingerprint.addMaterialConflictError();
+    addMaterialConflictError();
+    return;
+  }
+  map.put(materialFingerprint,this);
+}
