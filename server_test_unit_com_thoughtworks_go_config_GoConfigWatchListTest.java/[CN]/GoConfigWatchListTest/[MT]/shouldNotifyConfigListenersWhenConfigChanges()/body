@@ -1,7 +1,7 @@
 {
   final ChangedRepoConfigWatchListListener listener=mock(ChangedRepoConfigWatchListListener.class);
   watchList.registerListener(listener);
-  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(cruiseConfig.getConfigRepos()).thenReturn(new ConfigReposConfig());
   watchList.onConfigChange(cruiseConfig);
   verify(listener,times(1)).onChangedRepoConfigWatchList(notNull(ConfigReposConfig.class));
 }
