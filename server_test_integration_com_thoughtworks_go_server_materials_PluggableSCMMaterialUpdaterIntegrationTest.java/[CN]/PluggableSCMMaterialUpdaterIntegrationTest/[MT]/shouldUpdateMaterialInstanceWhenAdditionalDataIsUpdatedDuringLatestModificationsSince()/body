@@ -9,7 +9,7 @@
   newData.put("k2","v2");
   when(scmExtension.latestModificationSince(any(String.class),any(SCMPropertyConfiguration.class),any(Map.class),any(String.class),any(SCMRevision.class))).thenReturn(new MaterialPollResult(newData,new SCMRevision()));
   mockSCMExtensionInPoller();
-  scmMaterialUpdater=new ScmMaterialUpdater(materialRepository,materialChecker,subprocessExecutionContext,materialService);
+  scmMaterialUpdater=new ScmMaterialUpdater(materialRepository,materialChecker,subprocessExecutionContext,materialService,checkoutService);
   pluggableSCMMaterialUpdater=new PluggableSCMMaterialUpdater(materialRepository,scmMaterialUpdater,transactionTemplate);
   transactionTemplate.execute(new TransactionCallback(){
     @Override public Object doInTransaction(    TransactionStatus transactionStatus){

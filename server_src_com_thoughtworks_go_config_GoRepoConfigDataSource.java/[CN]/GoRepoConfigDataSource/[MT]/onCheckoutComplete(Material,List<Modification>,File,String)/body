@@ -1,0 +1,20 @@
+{
+  String fingerprint=material.getFingerprint();
+  if (this.configWatchList.hasConfigRepoWithFingerprint(fingerprint)) {
+    ConfigRepoConfig repoConfig=configWatchList.getConfigRepoForMaterial(material.config());
+    PartialConfigProvider plugin=this.configPluginService.partialConfigProviderFor(repoConfig);
+    PartialConfigLoadContext context=null;
+    try {
+      PartialConfig newPart=plugin.Load(folder,context);
+      if (newPart == null) {
+        LOGGER.warn(String.format("Parsed configuration material %s by %s is null",material.getDisplayName(),plugin));
+        newPart=new PartialConfig();
+      }
+      newPart.setOrigin(new RepoConfigOrigin(repoConfig,revision));
+      fingerprintLatestConfigMap.put(fingerprint,newPart);
+    }
+ catch (    Exception ex) {
+      LOGGER.error(String.format("Failed to parse configuration material %s by %s",material.getDisplayName(),plugin));
+    }
+  }
+}
