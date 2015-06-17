@@ -1,0 +1,8 @@
+{
+  MockHttpServletRequest request=new MockHttpServletRequest();
+  MockHttpServletResponse response=new MockHttpServletResponse();
+  new BasicProcessingFilterEntryPoint().commence(request,response,new BadCredentialsException("foo"));
+  assertEquals("Basic realm=\"GoCD\"",response.getHeader("WWW-Authenticate"));
+  assertEquals(401,response.getStatus());
+  assertEquals("foo",response.getErrorMessage());
+}
