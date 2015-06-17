@@ -1,0 +1,9 @@
+{
+  String fingerprint=repoConfig.getMaterialConfig().getFingerprint();
+  if (this.configWatchList.hasConfigRepoWithFingerprint(fingerprint)) {
+    fingerprintLatestConfigMap.put(fingerprint,newPart);
+    for (    PartialConfigChangedListener listener : listeners) {
+      listener.onPartialConfigChanged(this.lastPartials());
+    }
+  }
+}
