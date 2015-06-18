@@ -1,0 +1,8 @@
+{
+  ScmMaterialConfig material=SetOneConfigRepo();
+  PartialConfig part=new PartialConfig();
+  when(plugin.Load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(part);
+  repoConfigDataSource.onCheckoutComplete(material,folder,"7a8f");
+  assertThat(partialConfig.lastPartials().length,is(1));
+  assertThat(partialConfig.lastPartials()[0],is(part));
+}

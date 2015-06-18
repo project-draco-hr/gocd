@@ -1,0 +1,8 @@
+{
+  ScmMaterialConfig material=SetOneConfigRepo();
+  PartialConfig part=new PartialConfig();
+  when(plugin.Load(any(File.class),any(PartialConfigLoadContext.class))).thenThrow(new RuntimeException("Failed parsing"));
+  repoConfigDataSource.onCheckoutComplete(material,folder,"7a8f");
+  assertThat(repoConfigDataSource.latestParseHasFailedForMaterial(material),is(true));
+  assertThat(partialConfig.lastPartials().length,is(0));
+}
