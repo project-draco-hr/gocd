@@ -1,5 +1,5 @@
 {
-  cachedGoConfig.onTimer();
+  cachedGoConfig.forceReload();
   Thread.sleep(1000);
   goConfigService.updateConfig(new UpdateConfigCommand(){
     public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
@@ -9,6 +9,6 @@
   }
 );
   CruiseConfig cruiseConfig=cachedGoConfig.loadForEditing();
-  cachedGoConfig.onTimer();
+  cachedGoConfig.forceReload();
   assertThat(cruiseConfig,sameInstance(cachedGoConfig.loadForEditing()));
 }
