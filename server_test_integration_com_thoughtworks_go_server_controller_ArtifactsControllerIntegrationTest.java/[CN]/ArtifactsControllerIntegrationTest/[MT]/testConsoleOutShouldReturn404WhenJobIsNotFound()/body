@@ -1,0 +1,9 @@
+{
+  prepareConsoleOut("");
+  Stage firstStage=pipeline.getFirstStage();
+  int startLineNumber=0;
+  ModelAndView view=artifactsController.consoleout("snafu","snafu","snafu","build",String.valueOf(firstStage.getCounter()),startLineNumber);
+  assertThat(view.getView().getContentType(),is(RESPONSE_CHARSET));
+  assertThat(view.getView(),is(instanceOf((ResponseCodeView.class))));
+  assertThat(((ResponseCodeView)view.getView()).getContent(),containsString("Job snafu/snafu/snafu/1/build not found."));
+}
