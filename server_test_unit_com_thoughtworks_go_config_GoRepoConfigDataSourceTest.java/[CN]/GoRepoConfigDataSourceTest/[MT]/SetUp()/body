@@ -1,0 +1,11 @@
+{
+  configPluginService=mock(GoConfigPluginService.class);
+  plugin=mock(PartialConfigProvider.class);
+  when(configPluginService.partialConfigProviderFor(any(ConfigRepoConfig.class))).thenReturn(plugin);
+  cruiseConfig=new BasicCruiseConfig();
+  CachedFileGoConfig fileMock=mock(CachedFileGoConfig.class);
+  when(fileMock.currentConfig()).thenReturn(cruiseConfig);
+  configWatchList=new GoConfigWatchList(fileMock);
+  checkoutService=mock(ScmMaterialCheckoutService.class);
+  repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,configPluginService,checkoutService);
+}

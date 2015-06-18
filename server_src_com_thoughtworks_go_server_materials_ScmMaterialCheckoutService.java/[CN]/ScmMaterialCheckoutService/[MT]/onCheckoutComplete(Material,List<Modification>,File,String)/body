@@ -1,7 +1,7 @@
 {
   for (  ScmMaterialCheckoutListener listener : this.listeners) {
     try {
-      listener.onCheckoutComplete(material,newChanges,folder,revision);
+      listener.onCheckoutComplete(material.config(),folder,revision);
     }
  catch (    Exception e) {
       LOGGER.error("failed to fire checkout complete event for listener: " + listener,e);

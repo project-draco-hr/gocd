@@ -1,0 +1,7 @@
+{
+  String fingerprint=material.getFingerprint();
+  PartialConfigParseResult result=fingerprintLatestConfigMap.get(fingerprint);
+  if (result == null)   return null;
+  if (result.getLastFailure() != null)   throw result.getLastFailure();
+  return result.getLastSuccess();
+}
