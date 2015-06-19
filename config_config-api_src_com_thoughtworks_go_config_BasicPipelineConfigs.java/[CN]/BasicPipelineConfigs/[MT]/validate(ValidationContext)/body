@@ -2,7 +2,7 @@
   if (StringUtils.isBlank(group) || !new NameTypeValidator().isNameValid(group)) {
     this.configErrors.add(GROUP,NameTypeValidator.errorMessage("group",group));
   }
-  if (this.configOrigin != null && !(this.configOrigin instanceof FileConfigOrigin)) {
+  if (this.configOrigin != null && !(this.configOrigin.isLocal())) {
     this.configErrors.add(NO_REMOTE_AUTHORIZATION,"Authorization can be defined only in configuration file");
   }
   verifyPipelineNameUniqueness();
