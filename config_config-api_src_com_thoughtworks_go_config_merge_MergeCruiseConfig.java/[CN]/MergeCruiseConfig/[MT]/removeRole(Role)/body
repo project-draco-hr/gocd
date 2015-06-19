@@ -1,9 +1,0 @@
-{
-  if (doesAdminConfigContainRole(roleToDelete.getName().toString())) {
-    server().security().adminsConfig().removeRole(roleToDelete);
-  }
-  for (  PipelineConfigs group : this.getGroups()) {
-    group.cleanupAllUsagesOfRole(roleToDelete);
-  }
-  server().security().deleteRole(roleToDelete);
-}

@@ -1,7 +1,0 @@
-{
-  addPipelineWithStages("mingle","dev",jobConfig("ut"),jobConfig("ft"));
-  assertThat(cruiseConfig.hasPreviousStage(new CaseInsensitiveString("mingle"),new CaseInsensitiveString("dev2")),is(true));
-  StageConfig previousStage=cruiseConfig.previousStage(new CaseInsensitiveString("mingle"),new CaseInsensitiveString("dev2"));
-  assertThat(previousStage.name(),is(new CaseInsensitiveString("dev")));
-  assertThat(cruiseConfig.hasPreviousStage(new CaseInsensitiveString("mingle"),previousStage.name()),is(false));
-}
