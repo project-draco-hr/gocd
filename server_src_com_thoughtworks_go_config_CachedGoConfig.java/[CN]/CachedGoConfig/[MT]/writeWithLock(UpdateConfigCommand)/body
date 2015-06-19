@@ -1,5 +1,3 @@
 {
-  GoFileConfigDataSource.GoConfigSaveResult saveResult=dataSource.writeWithLock(updateConfigCommand,new GoConfigHolder(currentConfig,currentConfigForEdit));
-  saveValidConfigToCache(saveResult.getConfigHolder());
-  return saveResult.getConfigSaveState();
+  return this.fileService.writeWithLock(updateConfigCommand);
 }

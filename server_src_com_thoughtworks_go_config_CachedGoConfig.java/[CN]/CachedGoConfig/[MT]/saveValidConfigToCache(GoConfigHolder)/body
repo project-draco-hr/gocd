@@ -1,13 +1,10 @@
 {
-  if (configHolder != null) {
-    LOGGER.debug("[Config Save] Saving config to the cache");
-    this.lastException=null;
-    this.configHolder=configHolder;
-    this.currentConfig=this.configHolder.config;
-    this.currentConfigForEdit=this.configHolder.configForEdit;
-    serverHealthService.update(ServerHealthState.success(invalidConfigType()));
-    LOGGER.info("About to notify config listeners");
-    notifyListeners(currentConfig);
-    LOGGER.info("Finished notifying all listeners");
-  }
+  LOGGER.debug("[Config Save] Saving (merged) config to the cache");
+  this.configHolder=configHolder;
+  this.currentConfig=this.configHolder.config;
+  this.currentConfigForEdit=this.configHolder.configForEdit;
+  serverHealthService.update(ServerHealthState.success(invalidConfigType()));
+  LOGGER.info("About to notify (merged) config listeners");
+  notifyListeners(currentConfig);
+  LOGGER.info("Finished notifying all listeners");
 }
