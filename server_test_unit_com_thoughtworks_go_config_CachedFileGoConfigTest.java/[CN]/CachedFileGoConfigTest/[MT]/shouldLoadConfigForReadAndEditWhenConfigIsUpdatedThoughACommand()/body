@@ -1,18 +1,18 @@
 {
-  cachedGoConfig.onTimer();
-  GoConfigValidity configValidity=cachedGoConfig.checkConfigFileValid();
+  cachedFileGoConfig.onTimer();
+  GoConfigValidity configValidity=cachedFileGoConfig.checkConfigFileValid();
   assertThat(configValidity.isValid(),is(true));
-  cachedGoConfig.writeWithLock(new UpdateConfigCommand(){
+  cachedFileGoConfig.writeWithLock(new UpdateConfigCommand(){
     public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
       addPipelineWithParams(cruiseConfig);
       return cruiseConfig;
     }
   }
 );
-  PipelineConfig reloadedPipelineConfig=cachedGoConfig.currentConfig().pipelineConfigByName(new CaseInsensitiveString("mingle"));
+  PipelineConfig reloadedPipelineConfig=cachedFileGoConfig.currentConfig().pipelineConfigByName(new CaseInsensitiveString("mingle"));
   HgMaterialConfig hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
   assertThat(hgMaterialConfig.getUrl(),is("http://hg-server/repo-name"));
-  reloadedPipelineConfig=cachedGoConfig.loadForEditing().pipelineConfigByName(new CaseInsensitiveString("mingle"));
+  reloadedPipelineConfig=cachedFileGoConfig.loadForEditing().pipelineConfigByName(new CaseInsensitiveString("mingle"));
   hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
   assertThat(hgMaterialConfig.getUrl(),is("http://#{foo}/#{bar}"));
 }

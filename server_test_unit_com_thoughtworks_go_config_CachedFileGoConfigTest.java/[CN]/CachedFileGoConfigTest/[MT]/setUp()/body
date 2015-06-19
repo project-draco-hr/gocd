@@ -5,4 +5,10 @@
   configRepository.initialize();
   dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,env,new TimeProvider(),new ConfigCache(),new ServerVersion(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService,serverHealthService);
   serverHealthService=new ServerHealthService();
+  cachedFileGoConfig=new CachedFileGoConfig(dataSource,serverHealthService);
+  cachedFileGoConfig.loadConfigIfNull();
+  GoPartialConfig partials=mock(GoPartialConfig.class);
+  when(partials.lastPartials()).thenReturn(new PartialConfig[0]);
+  cachedGoConfig=new CachedGoConfig(serverHealthService,cachedFileGoConfig,partials);
+  configHelper.usingCruiseConfigDao(new GoConfigDao(cachedGoConfig,mock(MetricsProbeService.class)));
 }

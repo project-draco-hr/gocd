@@ -3,7 +3,7 @@
   serverHealthService.update(error);
   assertThat(serverHealthService.getAllLogs().size(),is(1));
   configHelper.writeXmlToConfigFile(ConfigFileFixture.TASKS_WITH_CONDITION);
-  cachedGoConfig.onTimer();
-  assertThat(cachedGoConfig.checkConfigFileValid().isValid(),is(true));
+  cachedFileGoConfig.onTimer();
+  assertThat(cachedFileGoConfig.checkConfigFileValid().isValid(),is(true));
   assertThat(serverHealthService.getAllLogs().size(),is(0));
 }

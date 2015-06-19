@@ -1,19 +1,19 @@
 {
-  cachedGoConfig.onTimer();
-  GoConfigValidity configValidity=cachedGoConfig.checkConfigFileValid();
+  cachedFileGoConfig.onTimer();
+  GoConfigValidity configValidity=cachedFileGoConfig.checkConfigFileValid();
   assertThat(configValidity.isValid(),is(true));
-  CruiseConfig cruiseConfig=cachedGoConfig.loadForEditing();
+  CruiseConfig cruiseConfig=cachedFileGoConfig.loadForEditing();
   addPipelineWithParams(cruiseConfig);
   ByteArrayOutputStream buffer=new ByteArrayOutputStream();
   new MagicalGoConfigXmlWriter(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).write(cruiseConfig,buffer,false);
-  cachedGoConfig.save(new String(buffer.toByteArray()),true);
-  PipelineConfig reloadedPipelineConfig=cachedGoConfig.currentConfig().pipelineConfigByName(new CaseInsensitiveString("mingle"));
+  cachedFileGoConfig.save(new String(buffer.toByteArray()),true);
+  PipelineConfig reloadedPipelineConfig=cachedFileGoConfig.currentConfig().pipelineConfigByName(new CaseInsensitiveString("mingle"));
   HgMaterialConfig hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
   assertThat(hgMaterialConfig.getUrl(),is("http://hg-server/repo-name"));
-  reloadedPipelineConfig=cachedGoConfig.loadForEditing().pipelineConfigByName(new CaseInsensitiveString("mingle"));
+  reloadedPipelineConfig=cachedFileGoConfig.loadForEditing().pipelineConfigByName(new CaseInsensitiveString("mingle"));
   hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
   assertThat(hgMaterialConfig.getUrl(),is("http://#{foo}/#{bar}"));
-  GoConfigHolder configHolder=cachedGoConfig.loadConfigHolder();
+  GoConfigHolder configHolder=cachedFileGoConfig.loadConfigHolder();
   reloadedPipelineConfig=configHolder.config.pipelineConfigByName(new CaseInsensitiveString("mingle"));
   hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
   assertThat(hgMaterialConfig.getUrl(),is("http://hg-server/repo-name"));
