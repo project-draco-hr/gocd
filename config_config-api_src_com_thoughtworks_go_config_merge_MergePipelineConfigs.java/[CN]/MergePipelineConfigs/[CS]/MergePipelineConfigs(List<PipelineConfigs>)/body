@@ -1,8 +1,4 @@
 {
   this.parts=parts;
-  String name=this.parts.get(0).getGroup();
-  for (  PipelineConfigs part : this.parts) {
-    String otherName=part.getGroup();
-    if (!StringUtils.equals(otherName,name))     throw new IllegalArgumentException("Group names must be the same in merge");
-  }
+  validateGroupNameUniqueness(this.parts);
 }
