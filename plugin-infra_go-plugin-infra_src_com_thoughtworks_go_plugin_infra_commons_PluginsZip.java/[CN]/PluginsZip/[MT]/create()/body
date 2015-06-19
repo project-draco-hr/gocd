@@ -2,6 +2,7 @@
   if (!pluginsEnabled) {
     return;
   }
+  checkFilesAccessibility(bundledPlugins,externalPlugins);
   try {
     ZipBuilder zipBuilder=zipUtil.zipContentsOfMultipleFolders(destZipFile,true);
     zipBuilder.add("bundled",bundledPlugins).add("external",externalPlugins).done();
