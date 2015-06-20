@@ -2,7 +2,7 @@
   configHelper.addTemplate("my-template","my-stage");
   configHelper.addPipeline("pipeline","stage");
   configHelper.addPipelineWithTemplate(PipelineConfigs.DEFAULT_GROUP,"my-pipeline","my-template");
-  CheckedTestUpdateCommand command=spy(new CheckedTestUpdateCommand(mergedGoConfig.loadForEditing().getMd5(),true));
+  CheckedTestUpdateCommand command=spy(new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(),true));
   goConfigDao.updateConfig(command);
-  verify(command).canContinue(mergedGoConfig.currentConfig());
+  verify(command).canContinue(cachedGoConfig.currentConfig());
 }
