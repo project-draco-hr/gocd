@@ -1,5 +1,5 @@
 {
-  configHelper=new GoConfigFileHelper(ONE_CONFIG_REPO);
+  configHelper=new GoConfigFileHelper(CONFIG);
   SystemEnvironment env=new SystemEnvironment();
   ConfigRepository configRepository=new ConfigRepository(env);
   configRepository.initialize();
@@ -14,5 +14,6 @@
   checkoutService=mock(ScmMaterialCheckoutService.class);
   repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,configPluginService,checkoutService);
   partials=new GoPartialConfig(repoConfigDataSource,configWatchList);
-  mergedGoConfig=new MergedGoConfig(serverHealthService,cachedFileGoConfig,partials);
+  cachedGoConfig=new MergedGoConfig(serverHealthService,cachedFileGoConfig,partials);
+  configHelper.usingCruiseConfigDao(new GoConfigDao(cachedFileGoConfig,metricsProbeService));
 }
