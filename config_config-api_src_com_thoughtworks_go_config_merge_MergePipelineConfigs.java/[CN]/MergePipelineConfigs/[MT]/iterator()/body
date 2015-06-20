@@ -1,3 +1,15 @@
 {
-  return listIterator();
+  return new Iterator<PipelineConfig>(){
+    private int currentIndex=0;
+    private int count=size();
+    @Override public boolean hasNext(){
+      return currentIndex < count;
+    }
+    @Override public PipelineConfig next(){
+      return get(currentIndex++);
+    }
+    @Override public void remove(){
+    }
+  }
+;
 }

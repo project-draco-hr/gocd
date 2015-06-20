@@ -1,6 +1,5 @@
 {
-  for (  PipelineConfigs part : parts) {
-    if (part.getOrigin() != null && part.getOrigin().canEdit())     return part;
-  }
-  throw bomb("No editable confgiration part");
+  PipelineConfigs found=getFirstEditablePartOrNull();
+  if (found == null)   throw bomb("No editable configuration part");
+  return found;
 }

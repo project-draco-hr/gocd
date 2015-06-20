@@ -1,8 +1,0 @@
-{
-  final Role role=setupSecurityWithRole();
-  goConfigMother.addPipelineWithGroup(cruiseConfig,"group1","p1","s1","b1");
-  goConfigMother.addApprovalForStage(cruiseConfig,"p1","s1","ldap-users");
-  assertEquals(1,cruiseConfig.stagesWithPermissionForRole(role.getName().toLower()).size());
-  cruiseConfig.removeRole(role);
-  assertEquals(0,cruiseConfig.stagesWithPermissionForRole(role.getName().toLower()).size());
-}

@@ -1,0 +1,6 @@
+{
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(ConfigFileFixture.ONE_CONFIG_REPO).config;
+  assertThat(cruiseConfig.getConfigRepos().size(),is(1));
+  ConfigRepoConfig configRepo=cruiseConfig.getConfigRepos().get(0);
+  assertThat(configRepo.getMaterialConfig(),Is.<MaterialConfig>is(new GitMaterialConfig("https://github.com/tomzo/gocd-indep-config-part.git")));
+}

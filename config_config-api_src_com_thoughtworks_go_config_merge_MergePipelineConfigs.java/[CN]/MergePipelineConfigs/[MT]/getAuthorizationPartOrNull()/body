@@ -1,6 +1,6 @@
 {
   for (  PipelineConfigs part : parts) {
-    if (part.getOrigin() instanceof FileConfigOrigin)     return part;
+    if (part.getOrigin() != null && part.getOrigin().isLocal())     return part;
   }
   return null;
 }

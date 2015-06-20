@@ -1,0 +1,7 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("pipe1"));
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  PipelineConfig pipe=pipelines.get(0);
+  mainCruiseConfig.setOrigins(new FileConfigOrigin());
+  assertThat(pipe.getOrigin(),Is.<ConfigOrigin>is(new FileConfigOrigin()));
+}
