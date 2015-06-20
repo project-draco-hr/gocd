@@ -1,4 +1,5 @@
 {
+  if (md5 == null)   throw new NullArgumentException("md5");
   final String expectedPart=GoConfigRevision.Fragment.md5.represent(GoConfigRevision.esc(md5));
   for (  RevCommit revision : revisions()) {
     String message=revision.getFullMessage();
