@@ -1,0 +1,9 @@
+{
+  GoPartialConfig partials=mock(GoPartialConfig.class);
+  PartialConfig[] parts=new PartialConfig[1];
+  parts[0]=new PartialConfig(new PipelineGroups(PipelineConfigMother.createGroup("part1",PipelineConfigMother.pipelineConfig("remote-pipe"))));
+  when(partials.lastPartials()).thenReturn(parts);
+  configHelper=new GoConfigFileHelper(partials);
+  goConfigDao=configHelper.getGoConfigFileDao();
+  mergedGoConfig=configHelper.getCachedGoConfig();
+}
