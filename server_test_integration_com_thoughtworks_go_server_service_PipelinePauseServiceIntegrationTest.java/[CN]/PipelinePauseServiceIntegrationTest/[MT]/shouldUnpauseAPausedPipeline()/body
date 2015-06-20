@@ -2,7 +2,7 @@
   String name="pipeline-name";
   CruiseConfig cruiseConfig=GoConfigMother.configWithPipelines(name);
   configHelper.writeConfigFile(cruiseConfig);
-  cachedGoConfig.forceReload();
+  mergedGoConfig.forceReload();
   Username userName=new Username(new CaseInsensitiveString("UserFoo"));
   pipelinePauseService.pause(name,"pause for testing",userName);
   assertThat(pipelinePauseService.pipelinePauseInfo(name).getPauseCause(),is("pause for testing"));

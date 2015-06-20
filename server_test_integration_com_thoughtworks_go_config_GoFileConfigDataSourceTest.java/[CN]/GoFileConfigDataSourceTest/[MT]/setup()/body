@@ -17,7 +17,7 @@
   dataSource.upgradeIfNecessary();
   CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,new ServerHealthService());
   GoPartialConfig partialConfig=null;
-  CachedGoConfig cachedConfigService=new CachedGoConfig(new ServerHealthService(),fileService,partialConfig);
+  MergedGoConfig cachedConfigService=new MergedGoConfig(new ServerHealthService(),fileService,partialConfig);
   cachedConfigService.loadConfigIfNull();
   goConfigDao=new GoConfigDao(cachedConfigService,metricsProbeService);
   configHelper.load();

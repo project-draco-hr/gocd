@@ -1,6 +1,6 @@
 {
   useConfigString(WITH_3_AGENT_CONFIG);
-  cachedGoConfig.save(CONFIG_WITH_ANT_BUILDER,false);
+  mergedGoConfig.save(CONFIG_WITH_ANT_BUILDER,false);
   CruiseConfig cruiseConfig=goConfigDao.load();
   assertThat(cruiseConfig.jobConfigByName("pipeline1","mingle","cardlist",true).tasks().size(),is(1));
 }
