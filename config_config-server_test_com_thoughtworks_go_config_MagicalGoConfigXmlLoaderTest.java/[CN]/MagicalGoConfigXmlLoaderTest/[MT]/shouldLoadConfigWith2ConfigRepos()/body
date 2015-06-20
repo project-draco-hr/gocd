@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(ConfigFileFixture.configWithConfigRepos("  <config-repos>\n" + "    <config-repo plugin=\"myplugin\">\n" + "      <git url=\"https://github.com/tomzo/gocd-indep-config-part.git\" />\n"+ "    </config-repo >\n"+ "    <config-repo plugin=\"myplugin\">\n"+ "      <git url=\"https://github.com/tomzo/gocd-refmain-config-part.git\" />\n"+ "    </config-repo >\n"+ "  </config-repos>\n")).config;
+  assertThat(cruiseConfig.getConfigRepos().size(),is(2));
+  ConfigRepoConfig configRepo1=cruiseConfig.getConfigRepos().get(0);
+  assertThat(configRepo1.getMaterialConfig(),Is.<MaterialConfig>is(new GitMaterialConfig("https://github.com/tomzo/gocd-indep-config-part.git")));
+  ConfigRepoConfig configRepo2=cruiseConfig.getConfigRepos().get(1);
+  assertThat(configRepo2.getMaterialConfig(),Is.<MaterialConfig>is(new GitMaterialConfig("https://github.com/tomzo/gocd-refmain-config-part.git")));
+}
