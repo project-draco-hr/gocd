@@ -4,7 +4,7 @@
     goConfigDao.addPipeline(dupPipelineConfig,DEFAULT_GROUP);
   }
  catch (  RuntimeException ex) {
-    assertThat(ex.getMessage(),is("You have defined multiple pipelines called 'remote-pipe'. Pipeline names must be unique."));
+    assertThat(ex.getMessage(),is("Pipeline called 'remote-pipe' is already defined in configuration repository http://config-repo.git at 3213455"));
     return;
   }
   fail("Should have thrown");
