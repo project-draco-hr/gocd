@@ -1,0 +1,11 @@
+{
+  PipelineConfig dupPipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("remote-pipe","ut","www.spring.com");
+  try {
+    goConfigDao.addPipeline(dupPipelineConfig,DEFAULT_GROUP);
+  }
+ catch (  RuntimeException ex) {
+    assertThat(ex.getMessage(),is("You have defined multiple pipelines called 'remote-pipe'. Pipeline names must be unique."));
+    return;
+  }
+  fail("Should have thrown");
+}
