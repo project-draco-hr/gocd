@@ -13,7 +13,8 @@
         }
         return;
       }
-      CruiseConfig forEdit=fileService.loadConfigHolder().configForEdit;
+      CruiseConfig basicForEdit=this.fileService.loadForEditing();
+      CruiseConfig forEdit=new BasicCruiseConfig((BasicCruiseConfig)basicForEdit,partials);
       newConfigHolder=new GoConfigHolder(merge,forEdit);
     }
     this.saveValidConfigToCache(newConfigHolder);
