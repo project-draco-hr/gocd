@@ -1,14 +1,16 @@
 {
   GoConfigMother mother=new GoConfigMother();
   PipelineConfig pipe1=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
-  File file1=helper.addFileWithPipeline("pipe1.gocd.xml",pipe1);
+  File file1=helper.addFileWithPipeline("pipe1.myextension",pipe1);
   File file2=helper.addFileWithPipeline("pipe1.gcd.xml",pipe1);
   File file3=helper.addFileWithPipeline("subdir/pipe1.gocd.xml",pipe1);
   File file4=helper.addFileWithPipeline("subdir/sub/pipe1.gocd.xml",pipe1);
-  File[] matchingFiles=xmlPartialProvider.getFiles(tmpFolder,mock(PartialConfigLoadContext.class));
-  File[] expected=new File[3];
+  PartialConfigLoadContext context=mock(PartialConfigLoadContext.class);
+  Configuration configs=new Configuration();
+  configs.addNewConfigurationWithValue("pattern","*.myextension",false);
+  when(context.configuration()).thenReturn(configs);
+  File[] matchingFiles=xmlPartialProvider.getFiles(tmpFolder,context);
+  File[] expected=new File[1];
   expected[0]=file1;
-  expected[1]=file3;
-  expected[2]=file4;
   assertArrayEquals(expected,matchingFiles);
 }
