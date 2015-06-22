@@ -1,0 +1,8 @@
+{
+  EnvironmentConfig env=EnvironmentConfigMother.environment("dev");
+  File file=helper.addFileWithEnvironment("dev-env.gocd.xml",env);
+  PartialConfig part=xmlPartialProvider.ParseFile(file);
+  EnvironmentsConfig loadedEnvs=part.getEnvironments();
+  assertThat(loadedEnvs.size(),is(1));
+  assertThat(loadedEnvs.get(0),is(env));
+}
