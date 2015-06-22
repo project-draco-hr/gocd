@@ -1,0 +1,10 @@
+{
+  GoConfigMother mother=new GoConfigMother();
+  PipelineConfigs group1=mother.cruiseConfigWithOnePipelineGroup().getGroups().get(0);
+  File file=helper.addFileWithPipelineGroup("group1.gocd.xml",group1);
+  PartialConfig part=xmlPartialProvider.ParseFile(file);
+  PipelineConfigs groupRead=part.getGroups().get(0);
+  assertThat(groupRead,is(group1));
+  assertThat(groupRead.size(),is(group1.size()));
+  assertThat(groupRead.get(0),is(group1.get(0)));
+}
