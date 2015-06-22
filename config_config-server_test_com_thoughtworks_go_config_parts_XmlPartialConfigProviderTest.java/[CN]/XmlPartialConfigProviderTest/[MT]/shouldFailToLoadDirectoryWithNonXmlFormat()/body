@@ -1,0 +1,11 @@
+{
+  String content="<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<cruise xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\" schemaVersion=\"38\">\n" + "/cruise>";
+  helper.writeFileWithContent("bad.gocd.xml",content);
+  try {
+    PartialConfig part=xmlPartialProvider.Load(tmpFolder,mock(PartialConfigLoadContext.class));
+  }
+ catch (  JDOMParseException ex) {
+    return;
+  }
+  fail("should have thrown");
+}
