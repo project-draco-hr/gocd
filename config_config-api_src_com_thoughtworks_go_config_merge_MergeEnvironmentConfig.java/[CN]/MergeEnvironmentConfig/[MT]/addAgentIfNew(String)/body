@@ -1,2 +1,8 @@
 {
+  for (  EnvironmentConfig part : this) {
+    if (part.hasAgent(uuid)) {
+      return;
+    }
+  }
+  this.getFirstEditablePart().addAgentIfNew(uuid);
 }

@@ -1,5 +1,11 @@
 {
-  singleEnvironmentConfig=new MergeEnvironmentConfig(new BasicEnvironmentConfig(new CaseInsensitiveString("UAT")));
-  pairEnvironmentConfig=new MergeEnvironmentConfig(new BasicEnvironmentConfig(new CaseInsensitiveString("UAT")),new BasicEnvironmentConfig(new CaseInsensitiveString("UAT")));
+  BasicEnvironmentConfig localUatEnv=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  localUatEnv.setOrigins(new FileConfigOrigin());
+  singleEnvironmentConfig=new MergeEnvironmentConfig(localUatEnv);
+  BasicEnvironmentConfig uatLocalPart=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  uatLocalPart.setOrigins(new FileConfigOrigin());
+  BasicEnvironmentConfig uatRemotePart=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  uatRemotePart.setOrigins(new RepoConfigOrigin());
+  pairEnvironmentConfig=new MergeEnvironmentConfig(uatLocalPart,uatRemotePart);
   super.environmentConfig=pairEnvironmentConfig;
 }
