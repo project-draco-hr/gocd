@@ -1,3 +1,28 @@
 {
-  throw new RuntimeException("Not implemented");
+  if (agentsAttributes != null) {
+    List<Map> agentAttributes=(List)agentsAttributes;
+    List<EnvironmentAgentConfig> newProposed=new ArrayList<EnvironmentAgentConfig>();
+    for (    Map attributeMap : agentAttributes) {
+      EnvironmentAgentConfig agentInEnv=new EnvironmentAgentConfig((String)attributeMap.get("uuid"));
+      newProposed.add(agentInEnv);
+    }
+    List<EnvironmentAgentConfig> removals=new ArrayList<EnvironmentAgentConfig>();
+    for (    EnvironmentConfig part : this) {
+      for (      EnvironmentAgentConfig existingAgent : part.getAgents()) {
+        if (!newProposed.contains(existingAgent)) {
+          if (!isEditable(part))           throw bomb(String.format("Cannot remove agent %s from environment %s because it is defined in non-editable source %s",existingAgent.getUuid(),this.name(),part.getOrigin()));
+          removals.add(existingAgent);
+        }
+ else {
+          newProposed.remove(existingAgent);
+        }
+      }
+    }
+    for (    EnvironmentAgentConfig toRemove : removals) {
+      for (      EnvironmentConfig part : this) {
+        part.getAgents().remove(toRemove);
+      }
+    }
+    this.getFirstEditablePart().getAgents().addAll(newProposed);
+  }
 }
