@@ -1,0 +1,9 @@
+{
+  User user=new User("user-1");
+  user.disable();
+  addUser(user);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.update(user,TriState.TRUE,TriState.UNSET,null,null,result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(user.isEnabled(),is(true));
+}

@@ -2,9 +2,9 @@
   configFileHelper.addAdmins("user","boozer");
   configFileHelper.addRole(new Role(new CaseInsensitiveString("mastersOfTheWorld"),new RoleUser(new CaseInsensitiveString("loser")),new RoleUser(new CaseInsensitiveString("boozer"))));
   configFileHelper.addAdminRoles("mastersOfTheWorld");
-  userDao.saveOrUpdate(new User("user"));
-  userDao.saveOrUpdate(new User("loser"));
-  userDao.saveOrUpdate(new User("boozer"));
+  addUser(new User("user"));
+  addUser(new User("loser"));
+  addUser(new User("boozer"));
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("user","boozer"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),new ArrayList<TriStateSelection>(),result);
   final CruiseConfig cruiseConfig=goConfigFileDao.load();

@@ -1,0 +1,11 @@
+{
+  User user=new User("user-1");
+  user.enable();
+  user.setEmailMe(true);
+  addUser(user);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  userService.update(user,TriState.UNSET,TriState.FALSE,null,null,result);
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(user.isEmailMe(),is(false));
+  ;
+}
