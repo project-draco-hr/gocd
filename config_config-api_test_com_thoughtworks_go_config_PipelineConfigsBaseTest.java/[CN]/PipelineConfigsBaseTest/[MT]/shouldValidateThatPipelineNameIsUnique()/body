@@ -1,6 +1,7 @@
 {
   PipelineConfig first=PipelineConfigMother.pipelineConfig("first");
-  PipelineConfigs group=new BasicPipelineConfigs(first,PipelineConfigMother.pipelineConfig("second"));
+  PipelineConfig second=PipelineConfigMother.pipelineConfig("second");
+  PipelineConfigs group=createWithPipelines(first,second);
   PipelineConfig duplicate=PipelineConfigMother.pipelineConfig("first");
   group.addWithoutValidation(duplicate);
   group.validate(null);

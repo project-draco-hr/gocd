@@ -1,0 +1,8 @@
+{
+  PipelineConfigs group=createWithPipeline(PipelineConfigMother.pipelineConfig("pipeline0"));
+  PipelineConfig p1=PipelineConfigMother.pipelineConfig("pipeline1");
+  group.add(1,p1);
+  group.remove(0);
+  assertThat(group.get(0),is(p1));
+  assertThat(group.size(),is(1));
+}

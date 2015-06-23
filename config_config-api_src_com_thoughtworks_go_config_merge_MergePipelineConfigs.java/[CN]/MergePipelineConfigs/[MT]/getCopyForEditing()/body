@@ -1,3 +1,7 @@
 {
-  throw new RuntimeException("TODO: Not implemented yet");
+  List<PipelineConfigs> parts=new ArrayList<PipelineConfigs>();
+  for (  PipelineConfigs part : this.parts) {
+    parts.add(part.getCopyForEditing());
+  }
+  return new MergePipelineConfigs(parts);
 }

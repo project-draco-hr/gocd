@@ -4,7 +4,7 @@
   for (  PipelineConfigs part : this.parts) {
     int end=start + part.size();
     if (i < end) {
-      if (part.getOrigin() != null && part.getOrigin().canEdit()) {
+      if (isEditable(part)) {
         return part.set(i - start,pipelineConfig);
       }
  else {
