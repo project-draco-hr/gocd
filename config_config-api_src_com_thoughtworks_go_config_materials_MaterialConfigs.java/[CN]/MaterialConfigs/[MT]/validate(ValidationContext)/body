@@ -6,4 +6,9 @@
   for (  DependencyMaterialConfig material : filterDependencyMaterials()) {
     material.validateUniqueness(dependencies);
   }
+  if (validationContext.isWithinPipelines()) {
+    PipelineConfig currentPipeline=validationContext.getPipeline();
+    CruiseConfig cruiseConfig=validationContext.getCruiseConfig();
+    validateOrigins(currentPipeline,cruiseConfig);
+  }
 }
