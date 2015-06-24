@@ -5,6 +5,6 @@
     fail("Should throw exception when repo cannot connected");
   }
  catch (  Exception e) {
-    assertThat(e.getMessage(),containsString("The remote end hung up unexpectedly"));
+    assertThat(e.getMessage(),anyOf(containsString("The remote end hung up unexpectedly"),containsString("Could not read from remote repository")));
   }
 }
