@@ -1,0 +1,13 @@
+{
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  ConfigReposConfig reposConfig=new ConfigReposConfig();
+  GitMaterialConfig configRepo=new GitMaterialConfig("http://git");
+  reposConfig.add(new ConfigRepoConfig(configRepo,"myplug"));
+  mainCruiseConfig.setConfigRepos(reposConfig);
+  PartialConfig partialConfig=PartialConfigMother.withPipeline("pipe2");
+  MaterialConfig pipeRepo=partialConfig.getGroups().get(0).get(0).materialConfigs().get(0);
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,partialConfig);
+  Set<MaterialConfig> materials=cruiseConfig.getAllUniqueMaterialsBelongingToAutoPipelines();
+  assertThat(materials,hasItem(pipeRepo));
+  assertThat(materials.size(),is(1));
+}
