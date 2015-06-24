@@ -7,5 +7,10 @@
     addError(JOB,String.format("Pipeline \"%s\" tries to fetch artifact from job \"%s :: %s :: %s\" which does not exist.",currentPipeline.name(),pipelineName.getAncestorName(),stage,job));
     return true;
   }
+  PipelineConfig srcPipeline=cruiseConfig.getPipelineConfigByName(pipelineName.getAncestorName());
+  if (!cruiseConfig.getConfigRepos().isReferenceAllowed(currentPipeline.getOrigin(),srcPipeline.getOrigin())) {
+    addError(ORIGIN,String.format("Pipeline \"%s\" tries to fetch artifact from job \"%s :: %s :: %s\" which is defined in %s - reference is not allowed",currentPipeline.name(),pipelineName.getAncestorName(),stage,job,srcPipeline.getOrigin()));
+    return true;
+  }
   return false;
 }

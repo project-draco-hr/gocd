@@ -9,7 +9,7 @@
     if (pipelineName == null || CaseInsensitiveString.isBlank(pipelineName.getPath())) {
       pipelineName=new PathFromAncestor(currentPipeline.name());
     }
-    if (validateExistence(currentPipeline,cruiseConfig,validationContext)) {
+    if (validateExistenceAndOrigin(currentPipeline,cruiseConfig,validationContext)) {
       return;
     }
     if (pipelineName.isAncestor()) {
