@@ -1,18 +1,19 @@
 {
+  Element logEntryPaths=logEntry.getChild("paths");
+  if (logEntryPaths == null) {
+    return null;
+  }
   Date modifiedTime=convertDate(logEntry.getChildText("date"));
   String author=logEntry.getChildText("author");
   String comment=logEntry.getChildText("msg");
   String revision=logEntry.getAttributeValue("revision");
   Modification modification=new Modification(author,comment,null,modifiedTime,revision);
-  Element logEntryPaths=logEntry.getChild("paths");
-  if (logEntryPaths != null) {
-    List paths=logEntryPaths.getChildren("path");
-    for (Iterator iterator=paths.iterator(); iterator.hasNext(); ) {
-      Element node=(Element)iterator.next();
-      if (underPath(path,node.getText())) {
-        ModifiedAction action=convertAction(node.getAttributeValue("action"));
-        modification.createModifiedFile(node.getText(),null,action);
-      }
+  List paths=logEntryPaths.getChildren("path");
+  for (Iterator iterator=paths.iterator(); iterator.hasNext(); ) {
+    Element node=(Element)iterator.next();
+    if (underPath(path,node.getText())) {
+      ModifiedAction action=convertAction(node.getAttributeValue("action"));
+      modification.createModifiedFile(node.getText(),null,action);
     }
   }
   return modification;
