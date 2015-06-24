@@ -1,0 +1,14 @@
+{
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  PartialConfig partialConfig=PartialConfigMother.withPipelineInGroup("pipe2","g2");
+  partialConfig.getGroups().get(0).get(0).setOrigin(new RepoConfigOrigin());
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,partialConfig);
+  PipelineConfig pipeline1=goConfigMother.addPipeline(cruiseConfig,"pipeline1","stage","build");
+  PipelineConfig pipeline2=PipelineConfigMother.createPipelineConfigWithStage("pipeline2","stage");
+  pipeline2.setOrigin(new RepoConfigOrigin());
+  partialConfig.getGroups().addPipeline("g2",pipeline2);
+  goConfigMother.setDependencyOn(cruiseConfig,pipeline1,"pipeline2","stage");
+  List<ConfigErrors> allErrors=cruiseConfig.validateAfterPreprocess();
+  assertThat(allErrors.size(),is(1));
+  assertNotNull(allErrors.get(0).on("origin"));
+}
