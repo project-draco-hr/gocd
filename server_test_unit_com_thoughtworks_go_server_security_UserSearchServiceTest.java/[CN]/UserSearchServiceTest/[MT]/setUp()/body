@@ -1,6 +1,5 @@
 {
   initMocks(this);
   when(goConfigService.isLdapConfigured()).thenReturn(true);
-  when(authenticationPluginRegistry.getPluginsThatSupportsUserSearch()).thenReturn(new HashSet<String>());
   userSearchService=new UserSearchService(ldapUserSearch,passwordFileUserSearch,authenticationPluginRegistry,authenticationExtension,goConfigService);
 }

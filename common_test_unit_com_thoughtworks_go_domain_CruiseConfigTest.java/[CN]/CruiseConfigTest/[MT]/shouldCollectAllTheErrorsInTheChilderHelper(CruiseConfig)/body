@@ -1,0 +1,20 @@
+{
+  config.server().security().ldapConfig().errors().add("uri","invalid ldap uri");
+  config.server().security().ldapConfig().errors().add("searchBase","invalid search base");
+  PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString("pipeline-1"));
+  pipelineConfig.errors().add("base","Some base errors");
+  P4MaterialConfig p4MaterialConfig=new P4MaterialConfig("localhost:1999","view");
+  p4MaterialConfig.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"p4_folder"));
+  pipelineConfig.addMaterialConfig(p4MaterialConfig);
+  p4MaterialConfig.errors().add("materialName","material name does not follow pattern");
+  StageConfig stage=pipelineConfig.first();
+  stage.errors().add("role","Roles must be proper");
+  List<ConfigErrors> allErrors=config.validateAfterPreprocess();
+  assertThat(allErrors.size(),is(5));
+  assertThat(allErrors.get(0).on("uri"),is("invalid ldap uri"));
+  assertThat(allErrors.get(0).on("searchBase"),is("invalid search base"));
+  assertThat(allErrors.get(1).on("base"),is("Some base errors"));
+  assertThat(allErrors.get(2).on("role"),is("Roles must be proper"));
+  assertThat(allErrors.get(3).on(ScmMaterialConfig.FOLDER),is("Destination directory is required when specifying multiple scm materials"));
+  assertThat(allErrors.get(4).on("materialName"),is("material name does not follow pattern"));
+}

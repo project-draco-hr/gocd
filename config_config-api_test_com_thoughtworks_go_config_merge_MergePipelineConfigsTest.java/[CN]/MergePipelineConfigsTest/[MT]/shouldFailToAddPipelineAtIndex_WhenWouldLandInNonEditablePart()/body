@@ -1,0 +1,21 @@
+{
+  PipelineConfig pipeline0=PipelineConfigMother.pipelineConfig("pipeline0");
+  PipelineConfig pipeline1=PipelineConfigMother.pipelineConfig("pipeline1");
+  PipelineConfig pipeline3=PipelineConfigMother.pipelineConfig("pipeline3");
+  PipelineConfig pipeline5=PipelineConfigMother.pipelineConfig("pipeline5");
+  PipelineConfig pipeline2=PipelineConfigMother.pipelineConfig("pipeline2");
+  PipelineConfig pipeline4=PipelineConfigMother.pipelineConfig("pipeline4");
+  BasicPipelineConfigs pipelineConfigsMiddle=new BasicPipelineConfigs(pipeline3);
+  pipelineConfigsMiddle.setOrigin(new FileConfigOrigin());
+  BasicPipelineConfigs bottom=new BasicPipelineConfigs(pipeline0,pipeline1,pipeline2);
+  BasicPipelineConfigs top=new BasicPipelineConfigs(pipeline4,pipeline5);
+  bottom.setOrigin(new RepoConfigOrigin());
+  top.setOrigin(new RepoConfigOrigin());
+  PipelineConfigs group=new MergePipelineConfigs(bottom,pipelineConfigsMiddle,top);
+  PipelineConfig p1=PipelineConfigMother.pipelineConfig("pipelineToInsert");
+  tryAddAndAssertThatFailed(group,p1,0);
+  tryAddAndAssertThatFailed(group,p1,1);
+  tryAddAndAssertThatFailed(group,p1,2);
+  tryAddAndAssertThatFailed(group,p1,5);
+  tryAddAndAssertThatFailed(group,p1,4);
+}

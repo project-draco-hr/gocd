@@ -1,3 +1,6 @@
 {
-  throw new RuntimeException("TODO: Not implemented yet");
+  PipelineConfigs part=getPartWithIndexForInsert(index);
+  if (!isEditable(part))   throw bomb("Cannot add pipeline to non-editable configuration part");
+  int start=getFirstIndexInPart(part);
+  part.add(index - start,pipelineConfig);
 }

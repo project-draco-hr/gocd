@@ -1,0 +1,28 @@
+{
+  if (pipelinesAttributes != null) {
+    List<Map> pipelineAttributes=(List)pipelinesAttributes;
+    List<EnvironmentPipelineConfig> newProposed=new ArrayList<EnvironmentPipelineConfig>();
+    for (    Map attributeMap : pipelineAttributes) {
+      EnvironmentPipelineConfig pipeInEnv=new EnvironmentPipelineConfig(new CaseInsensitiveString((String)attributeMap.get("name")));
+      newProposed.add(pipeInEnv);
+    }
+    List<EnvironmentPipelineConfig> removals=new ArrayList<EnvironmentPipelineConfig>();
+    for (    EnvironmentConfig part : this) {
+      for (      EnvironmentPipelineConfig existingPipeline : part.getPipelines()) {
+        if (!newProposed.contains(existingPipeline)) {
+          if (!isEditable(part))           throw bomb(String.format("Cannot remove pipeline %s from environment %s because it is defined in non-editable source %s",existingPipeline.getName(),this.name(),part.getOrigin()));
+          removals.add(existingPipeline);
+        }
+ else {
+          newProposed.remove(existingPipeline);
+        }
+      }
+    }
+    for (    EnvironmentPipelineConfig toRemove : removals) {
+      for (      EnvironmentConfig part : this) {
+        part.getPipelines().remove(toRemove);
+      }
+    }
+    this.getFirstEditablePart().getPipelines().addAll(newProposed);
+  }
+}

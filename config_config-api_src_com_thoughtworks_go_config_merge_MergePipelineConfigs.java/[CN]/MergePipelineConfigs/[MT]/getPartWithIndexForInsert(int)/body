@@ -1,0 +1,10 @@
+{
+  if (i < 0)   throw new IndexOutOfBoundsException();
+  int start=0;
+  for (  PipelineConfigs part : this.parts) {
+    int end=start + part.size();
+    if (i < end)     return part;
+    start=end;
+  }
+  return this.parts.get(this.parts.size() - 1);
+}

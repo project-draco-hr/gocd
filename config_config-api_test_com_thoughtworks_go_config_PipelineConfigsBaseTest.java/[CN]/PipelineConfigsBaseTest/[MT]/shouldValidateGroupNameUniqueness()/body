@@ -1,0 +1,10 @@
+{
+  Map<String,PipelineConfigs> nameToConfig=new HashMap<String,PipelineConfigs>();
+  PipelineConfigs group1=createEmpty();
+  group1.setGroup("joe");
+  PipelineConfigs group2=createEmpty();
+  group2.setGroup("joe");
+  group1.validateNameUniqueness(nameToConfig);
+  group2.validateNameUniqueness(nameToConfig);
+  assertThat(group1.errors().on(PipelineConfigs.GROUP),is("Group with name 'joe' already exists"));
+}

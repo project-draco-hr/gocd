@@ -1,4 +1,6 @@
 {
+  initMocks(this);
+  when(systemEnvironment.get(SystemEnvironment.FETCH_ARTIFACT_AUTO_SUGGEST)).thenReturn(true);
   PipelineConfig random=PipelineConfigMother.pipelineConfig("random_pipeline");
   JobConfigs randomJobs=random.getStage(new CaseInsensitiveString("mingle")).getJobs();
   randomJobs.add(new JobConfig("mingle_job"));

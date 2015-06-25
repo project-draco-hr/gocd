@@ -1,0 +1,7 @@
+{
+  BasicCruiseConfig mainCruiseConfig=GoConfigMother.configWithPipelines("pipeline-1");
+  PartialConfig partialConfig=PartialConfigMother.withPipelineInGroup("pipe2","g2");
+  partialConfig.getGroups().get(0).get(0).setOrigin(new RepoConfigOrigin());
+  CruiseConfig config=new BasicCruiseConfig(mainCruiseConfig,partialConfig);
+  shouldCollectAllTheErrorsInTheChilderHelper(config);
+}

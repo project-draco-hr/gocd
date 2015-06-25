@@ -1,0 +1,13 @@
+{
+  HttpServletResponse httpResponse=(HttpServletResponse)response;
+  httpResponse.addHeader("WWW-Authenticate","Basic realm=\"GoCD\"");
+  if (hasAccept(request,"application/vnd.go.cd.v1+json")) {
+    httpResponse.setContentType("application/vnd.go.cd.v1+json");
+    httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    httpResponse.getOutputStream().print("{\n");
+    httpResponse.getOutputStream().print("  \"message\": \"You are not authorized to access this resource!\"\n");
+    httpResponse.getOutputStream().print("}\n");
+    return;
+  }
+  httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,authException.getMessage());
+}
