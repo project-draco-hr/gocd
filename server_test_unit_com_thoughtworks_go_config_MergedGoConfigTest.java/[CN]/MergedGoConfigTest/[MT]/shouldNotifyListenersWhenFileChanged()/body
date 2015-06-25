@@ -1,7 +1,8 @@
 {
   ConfigChangedListener listener=mock(ConfigChangedListener.class);
   cachedGoConfig.registerListener(listener);
+  verify(listener,times(1)).onConfigChange(any(CruiseConfig.class));
   String content="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts' />"+ "<pipelines>\n"+ "</pipelines>\n"+ "</cruise>";
   configHelper.writeXmlToConfigFile(content);
-  verify(listener,times(1)).onConfigChange(any(CruiseConfig.class));
+  verify(listener,times(2)).onConfigChange(any(CruiseConfig.class));
 }
