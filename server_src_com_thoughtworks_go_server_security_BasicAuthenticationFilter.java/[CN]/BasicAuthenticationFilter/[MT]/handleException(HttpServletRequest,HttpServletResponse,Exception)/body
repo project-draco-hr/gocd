@@ -1,0 +1,10 @@
+{
+  SecurityContext context=SecurityContextHolder.getContext();
+  String message="There was an error authenticating you. Please check the server logs, or contact your the go administrator.";
+  httpRequest.getSession().setAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY,new RuntimeException(message));
+  httpRequest.setAttribute(SessionDenialAwareAuthenticationProcessingFilterEntryPoint.SESSION_DENIED,true);
+  context.setAuthentication(null);
+  httpResponse.sendRedirect("/go/auth/login?login_error=1");
+  LOG.error(e.getMessage());
+  LOG.trace(e.getMessage(),e);
+}
