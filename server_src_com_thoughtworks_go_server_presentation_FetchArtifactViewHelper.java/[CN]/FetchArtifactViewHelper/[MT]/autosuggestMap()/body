@@ -1,3 +1,6 @@
 {
+  if (!systemEnvironment.get(SystemEnvironment.FETCH_ARTIFACT_AUTO_SUGGEST)) {
+    return new FetchSuggestionHirarchy();
+  }
   return fetchArtifactSuggestionsForPipeline(template ? createPipelineConfigForTemplate() : cruiseConfig.pipelineConfigByName(pipelineName));
 }
