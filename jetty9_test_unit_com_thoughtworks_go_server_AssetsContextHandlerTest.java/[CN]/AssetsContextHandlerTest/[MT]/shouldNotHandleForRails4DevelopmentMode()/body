@@ -5,7 +5,7 @@
   HttpServletResponse response=mock(HttpServletResponse.class);
   Request baseRequest=mock(Request.class);
   ResourceHandler resourceHandler=mock(ResourceHandler.class);
-  ReflectionUtil.setField(handler.getHandler(),"resourceHandler",resourceHandler);
+  ReflectionUtil.setField(((HandlerWrapper)handler.getHandler()).getHandler(),"resourceHandler",resourceHandler);
   handler.getHandler().handle(target,baseRequest,request,response);
   verify(resourceHandler,never()).handle(any(String.class),any(Request.class),any(HttpServletRequest.class),any(HttpServletResponse.class));
 }

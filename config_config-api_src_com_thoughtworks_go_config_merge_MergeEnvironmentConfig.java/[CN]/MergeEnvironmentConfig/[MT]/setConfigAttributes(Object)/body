@@ -1,3 +1,22 @@
 {
-  throw new RuntimeException("Not implemented");
+  if (attributes == null) {
+    return;
+  }
+  Map attributeMap=(Map)attributes;
+  if (attributeMap.containsKey(NAME_FIELD)) {
+    CaseInsensitiveString newName=new CaseInsensitiveString((String)attributeMap.get(NAME_FIELD));
+    if (!newName.equals(this.name()))     throw bomb("Cannot update name of environment defined in multiple sources");
+  }
+  if (attributeMap.containsKey(PIPELINES_FIELD)) {
+    Object pipelinesAttributes=attributeMap.get(PIPELINES_FIELD);
+    this.setPipelineAttributes(pipelinesAttributes);
+  }
+  if (attributeMap.containsKey(AGENTS_FIELD)) {
+    Object agentAttributes=attributeMap.get(AGENTS_FIELD);
+    this.setAgentAttributes(agentAttributes);
+  }
+  if (attributeMap.containsKey(VARIABLES_FIELD)) {
+    Object variablesAttributes=attributeMap.get(VARIABLES_FIELD);
+    this.setVariablesAttributes(variablesAttributes);
+  }
 }

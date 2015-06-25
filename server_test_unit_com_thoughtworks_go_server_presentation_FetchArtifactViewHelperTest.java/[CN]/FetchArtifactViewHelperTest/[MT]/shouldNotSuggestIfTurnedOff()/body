@@ -1,0 +1,5 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.FETCH_ARTIFACT_AUTO_SUGGEST)).thenReturn(false);
+  Map<CaseInsensitiveString,Map<CaseInsensitiveString,List<CaseInsensitiveString>>> jobForFetchHierarchy=new FetchArtifactViewHelper(systemEnvironment,cruiseConfig,new CaseInsensitiveString("uppest"),new CaseInsensitiveString("uppest_stage_3"),false).autosuggestMap();
+  assertThat(jobForFetchHierarchy.isEmpty(),is(true));
+}

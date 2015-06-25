@@ -1,0 +1,8 @@
+{
+  PipelineConfig first=PipelineConfigMother.pipelineConfig("first");
+  PipelineConfig duplicate=PipelineConfigMother.pipelineConfig("first");
+  PipelineConfigs group=new MergePipelineConfigs(new BasicPipelineConfigs(first,PipelineConfigMother.pipelineConfig("second")),new BasicPipelineConfigs(duplicate,PipelineConfigMother.pipelineConfig("third")));
+  Map<String,PipelineConfigs> nameToConfig=new HashMap<String,PipelineConfigs>();
+  List<PipelineConfigs> visited=new ArrayList();
+  group.validateNameUniqueness(nameToConfig);
+}

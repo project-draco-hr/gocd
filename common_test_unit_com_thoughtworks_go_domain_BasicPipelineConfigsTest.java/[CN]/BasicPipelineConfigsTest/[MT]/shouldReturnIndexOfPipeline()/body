@@ -1,7 +1,0 @@
-{
-  BasicPipelineConfigs group=new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
-  PipelineConfig pipelineConfig=(PipelineConfig)group.first().clone();
-  pipelineConfig.setLabelTemplate("blah");
-  group.update(group.getGroup(),pipelineConfig,"pipeline1");
-  assertThat(group.first().getLabelTemplate(),is("blah"));
-}

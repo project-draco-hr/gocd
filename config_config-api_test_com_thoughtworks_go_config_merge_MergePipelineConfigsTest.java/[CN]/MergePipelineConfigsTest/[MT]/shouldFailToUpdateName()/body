@@ -1,0 +1,5 @@
+{
+  PipelineConfigs group=new MergePipelineConfigs(new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1")),new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline2")));
+  group.setConfigAttributes(m(BasicPipelineConfigs.GROUP,"my-new-group"));
+  assertThat(group.getGroup(),is("my-new-group"));
+}

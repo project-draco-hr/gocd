@@ -1,5 +1,13 @@
 {
-  if (!group.equals(this.getGroup())) {
-    throw bomb("Cannot change group name in configuration merged from many parts");
+  if (group.equals(this.getGroup())) {
+    return;
+  }
+  for (  PipelineConfigs part : this.parts) {
+    if (!isEditable(part)) {
+      throw bomb("Cannot update group name because there are non-editable parts");
+    }
+  }
+  for (  PipelineConfigs part : this.parts) {
+    part.setGroup(group);
   }
 }

@@ -1,0 +1,5 @@
+{
+  PipelineConfigs group=createWithPipelines(PipelineConfigMother.pipelineConfig("pipeline1"),PipelineConfigMother.pipelineConfig("pipeline2"));
+  PipelineConfig pipelineConfig=group.findBy(new CaseInsensitiveString("pipeline2"));
+  assertThat(group.indexOf(pipelineConfig),is(1));
+}

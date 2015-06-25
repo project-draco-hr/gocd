@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipeline1=PipelineConfigMother.pipelineConfig("pipeline1");
+  PipelineConfig pipeline2=PipelineConfigMother.pipelineConfig("pipeline2");
+  PipelineConfigs group=createWithPipelines(pipeline1,pipeline2);
+  assertThat(group.getPipelines(),hasItem(pipeline1));
+  assertThat(group.getPipelines(),hasItem(pipeline2));
+}

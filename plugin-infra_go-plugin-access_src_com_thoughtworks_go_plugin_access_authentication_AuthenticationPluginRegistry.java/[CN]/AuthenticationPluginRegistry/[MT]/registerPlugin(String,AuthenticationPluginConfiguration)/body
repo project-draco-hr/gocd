@@ -1,9 +1,9 @@
 {
   pluginToConfigurationMap.put(pluginId,configuration);
+  if (configuration.supportsWebBasedAuthentication()) {
+    pluginsThatSupportsWebBasedAuthentication.add(pluginId);
+  }
   if (configuration.supportsPasswordBasedAuthentication()) {
     pluginsThatSupportsPasswordBasedAuthentication.add(pluginId);
-  }
-  if (configuration.supportsUserSearch()) {
-    pluginsThatSupportsUserSearch.add(pluginId);
   }
 }
