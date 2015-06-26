@@ -13,7 +13,7 @@
       return;
     }
     try {
-      PartialConfigLoadContext context=new LoadContext();
+      PartialConfigLoadContext context=new LoadContext(repoConfig);
       PartialConfig newPart=plugin.Load(folder,context);
       if (newPart == null) {
         LOGGER.warn(String.format("Parsed configuration material %s by %s is null",material.getDisplayName(),plugin));
