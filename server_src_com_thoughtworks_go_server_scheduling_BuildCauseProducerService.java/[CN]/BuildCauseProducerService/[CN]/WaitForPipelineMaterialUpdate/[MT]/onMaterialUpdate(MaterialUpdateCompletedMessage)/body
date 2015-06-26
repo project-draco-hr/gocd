@@ -19,9 +19,10 @@
       LOGGER.debug(format("Configuration of manually-triggered pipeline %s has been updated.",pipelineConfig.name()));
       for (      MaterialConfig materialConfig : newPipelineConfig.materialConfigs()) {
         if (!this.pipelineConfig.materialConfigs().hasMaterialWithFingerprint(materialConfig)) {
-          pendingMaterials.putIfAbsent(materialConfig.getFingerprint(),materialConfigConverter.toMaterial(materialConfig));
-          materialUpdateService.updateMaterial(material);
-          LOGGER.info(format("new material %s in %s was added after manual-trigger. Scheduled update for it.",material.getDisplayName(),pipelineConfig.name()));
+          Material newMaterial=materialConfigConverter.toMaterial(materialConfig);
+          pendingMaterials.putIfAbsent(materialConfig.getFingerprint(),newMaterial);
+          materialUpdateService.updateMaterial(newMaterial);
+          LOGGER.info(format("new material %s in %s was added after manual-trigger. Scheduled update for it.",newMaterial.getDisplayName(),pipelineConfig.name()));
         }
       }
       this.pipelineConfig=newPipelineConfig;
