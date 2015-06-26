@@ -1,0 +1,9 @@
+{
+  baseFolder=TestFileUtil.createTempFolder("test");
+  metricsProbeService=mock(MetricsProbeService.class);
+  xmlLoader=new MagicalGoConfigXmlLoader(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  xmlPartialProvider=new XmlPartialConfigProvider(xmlLoader);
+  xmlWriter=new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  tmpFolder=TestFileUtil.createTestFolder(baseFolder,"partialTestDir");
+  helper=new PartialConfigHelper(xmlWriter,tmpFolder);
+}

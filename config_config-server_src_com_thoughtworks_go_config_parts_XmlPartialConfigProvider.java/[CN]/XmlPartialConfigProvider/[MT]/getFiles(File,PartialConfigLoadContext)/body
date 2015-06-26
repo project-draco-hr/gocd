@@ -1,0 +1,11 @@
+{
+  String pattern=defaultPatter;
+  Configuration configuration=context.configuration();
+  if (configuration != null) {
+    ConfigurationProperty explicitPattern=configuration.getProperty("pattern");
+    if (explicitPattern != null) {
+      pattern=explicitPattern.getValue();
+    }
+  }
+  return getFiles(configRepoCheckoutDirectory,pattern);
+}
