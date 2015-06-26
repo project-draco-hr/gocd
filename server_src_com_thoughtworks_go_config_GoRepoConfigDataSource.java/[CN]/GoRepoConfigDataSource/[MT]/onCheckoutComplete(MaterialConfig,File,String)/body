@@ -19,7 +19,7 @@
         LOGGER.warn(String.format("Parsed configuration material %s by %s is null",material.getDisplayName(),plugin));
         newPart=new PartialConfig();
       }
-      newPart.setOrigin(new RepoConfigOrigin(repoConfig,revision));
+      newPart.setOrigins(new RepoConfigOrigin(repoConfig,revision));
       fingerprintLatestConfigMap.put(fingerprint,new PartialConfigParseResult(newPart));
       notifySuccessListeners(repoConfig,newPart);
     }
