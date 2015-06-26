@@ -11,7 +11,7 @@
   when(materialConfigConverter.toMaterial(svnMaterialConfig)).thenReturn(svnMaterial);
   MaterialUpdateStatusNotifier notifier=new MaterialUpdateStatusNotifier(mock(MaterialUpdateCompletedTopic.class));
   buildCauseProducerService=spy(createBuildCauseProducerService(notifier));
-  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig,new ScheduleOptions(),new ServerHealthStateOperationResult());
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),new ServerHealthStateOperationResult());
   final HashMap<String,String> stringStringHashMap=new HashMap<String,String>();
   doReturn(ServerHealthState.success(healthStateType)).when(buildCauseProducerService).newProduceBuildCause(eq(pipelineConfig),any(ManualBuild.class),new ScheduleOptions(eq(EMPTY_REVISIONS),stringStringHashMap,new HashMap<String,String>()),any(ServerHealthStateOperationResult.class),eq(12345L));
   assertThat(notifier.hasListenerFor(pipelineConfig),is(true));

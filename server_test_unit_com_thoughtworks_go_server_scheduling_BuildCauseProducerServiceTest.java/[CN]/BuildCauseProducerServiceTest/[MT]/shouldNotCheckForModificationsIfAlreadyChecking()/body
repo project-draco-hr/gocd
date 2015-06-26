@@ -9,7 +9,7 @@
   }
 );
   buildCauseProducerService.markPipelineAsAlreadyTriggered(pipelineConfig);
-  buildCauseProducerService.manualSchedulePipeline(user,pipelineConfig,new ScheduleOptions(),result);
+  buildCauseProducerService.manualSchedulePipeline(user,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),result);
   assertThat(result.canContinue(),is(false));
   assertThat(result.message(),is("Failed to force pipeline: pipeline"));
   verify(mockMaterialUpdateService,never()).updateMaterial(any(Material.class));

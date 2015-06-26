@@ -1,5 +1,26 @@
 {
   Material material=message.getMaterial();
+  if (this.configMaterial != null && material.isSameFlyweight(this.configMaterial)) {
+    PipelineConfig newPipelineConfig=goConfigService.pipelineConfigNamed(this.pipelineConfig.name());
+    if (pipelineConfig == null) {
+      LOGGER.error(format("not scheduling pipeline %s after manual-trigger because pipeline's %s configuration was removed from origin repository",pipelineConfig.name()));
+      showError(CaseInsensitiveString.str(pipelineConfig.name()),format("Could not trigger pipeline '%s'",pipelineConfig.name()),format("Pipeline '%s' configuration has been removed from %s",pipelineConfig.name(),configMaterial.getDisplayName()));
+      failed=true;
+    }
+    ConfigOrigin oldOrigin=this.pipelineConfig.getOrigin();
+    ConfigOrigin newOrigin=newPipelineConfig.getOrigin();
+    if (!oldOrigin.equals(newOrigin)) {
+      LOGGER.debug(format("Configuration of manually-triggered pipeline %s has been updated.",pipelineConfig.name()));
+      for (      MaterialConfig materialConfig : newPipelineConfig.materialConfigs()) {
+        if (!this.pipelineConfig.materialConfigs().hasMaterialWithFingerprint(materialConfig)) {
+          pendingMaterials.putIfAbsent(materialConfig.getFingerprint(),materialConfigConverter.toMaterial(materialConfig));
+          materialUpdateService.updateMaterial(material);
+          LOGGER.info(format("new material %s in %s was added after manual-trigger. Scheduled update for it.",material.getDisplayName(),pipelineConfig.name()));
+        }
+      }
+      this.pipelineConfig=newPipelineConfig;
+    }
+  }
   pendingMaterials.remove(material.getFingerprint());
   if (message instanceof MaterialUpdateFailedMessage) {
     String failureReason=((MaterialUpdateFailedMessage)message).getReason();

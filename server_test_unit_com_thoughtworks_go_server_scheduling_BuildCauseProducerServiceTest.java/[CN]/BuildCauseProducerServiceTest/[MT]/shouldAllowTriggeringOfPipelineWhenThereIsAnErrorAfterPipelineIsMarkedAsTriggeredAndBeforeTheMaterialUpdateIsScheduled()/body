@@ -1,7 +1,7 @@
 {
   try {
     when(operationResult.canContinue()).thenThrow(new RuntimeException("force a failure"));
-    buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig,new ScheduleOptions(),operationResult);
+    buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),operationResult);
     fail("expected exception, got none");
   }
  catch (  Exception e) {

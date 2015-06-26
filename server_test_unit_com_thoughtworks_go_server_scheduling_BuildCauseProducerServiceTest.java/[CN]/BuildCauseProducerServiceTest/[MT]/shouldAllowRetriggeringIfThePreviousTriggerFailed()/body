@@ -1,6 +1,6 @@
 {
-  buildCauseProducerService.manualSchedulePipeline(Username.CRUISE_TIMER,pipelineConfig,new ScheduleOptions(),errorResult());
+  buildCauseProducerService.manualSchedulePipeline(Username.CRUISE_TIMER,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),errorResult());
   HttpOperationResult result=new HttpOperationResult();
-  buildCauseProducerService.manualSchedulePipeline(Username.CRUISE_TIMER,pipelineConfig,new ScheduleOptions(),result);
+  buildCauseProducerService.manualSchedulePipeline(Username.CRUISE_TIMER,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),result);
   assertThat(result.httpCode(),is(202));
 }
