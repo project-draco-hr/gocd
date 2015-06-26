@@ -1,0 +1,13 @@
+{
+  if (!pipelineConfig.isConfigOriginSameAsOneOfMaterials()) {
+    return;
+  }
+  RepoConfigOrigin repoConfigOrigin=(RepoConfigOrigin)pipelineConfig.getOrigin();
+  MaterialConfig configAndCodeMaterial=repoConfigOrigin.getMaterial();
+  MaterialRevision revision=buildCause.getMaterialRevisions().findRevisionFor(configAndCodeMaterial);
+  String revisionString=revision.getRevision().getRevision();
+  if (pipelineConfig.isConfigOriginFromRevision(revisionString)) {
+    return;
+  }
+  invalidRevision(repoConfigOrigin.getRevision(),revisionString);
+}
