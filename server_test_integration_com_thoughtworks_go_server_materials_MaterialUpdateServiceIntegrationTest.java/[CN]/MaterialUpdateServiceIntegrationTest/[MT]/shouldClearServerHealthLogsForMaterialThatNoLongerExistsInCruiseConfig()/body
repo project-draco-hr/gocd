@@ -4,7 +4,7 @@
   SvnMaterialConfig goodMaterial=new SvnMaterialConfig("good-url!","user","pwd",false);
   HealthStateScope goodScope=HealthStateScope.forMaterialConfig(goodMaterial);
   serverHealthService.update(ServerHealthState.error("could not update!","why",HealthStateType.general(goodScope)));
-  MaterialUpdateService materialUpdateService=new MaterialUpdateService(null,mock(MaterialUpdateCompletedTopic.class),mock(GoConfigService.class),systemEnvironment,serverHealthService,null,mock(MDUPerformanceLogger.class),materialConfigConverter);
+  MaterialUpdateService materialUpdateService=new MaterialUpdateService(null,null,mock(MaterialUpdateCompletedTopic.class),mock(GoConfigWatchList.class),mock(GoConfigService.class),systemEnvironment,serverHealthService,null,mock(MDUPerformanceLogger.class),materialConfigConverter);
   materialUpdateService.onConfigChange(configWithMaterial(goodMaterial));
   assertThat(serverHealthService,ServerHealthMatcher.containsState(HealthStateType.general(goodScope)));
 }

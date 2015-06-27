@@ -1,5 +1,7 @@
 {
   queue=mock(MaterialUpdateQueue.class);
+  configQueue=mock(ConfigMaterialUpdateQueue.class);
+  watchList=mock(GoConfigWatchList.class);
   completed=mock(MaterialUpdateCompletedTopic.class);
   goConfigService=mock(GoConfigService.class);
   postCommitHookMaterialType=mock(PostCommitHookMaterialTypeResolver.class);
@@ -8,7 +10,7 @@
   metricsProbeService=mock(MetricsProbeService.class);
   materialConfigConverter=mock(MaterialConfigConverter.class);
   MDUPerformanceLogger mduPerformanceLogger=mock(MDUPerformanceLogger.class);
-  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  service=new MaterialUpdateService(queue,configQueue,completed,watchList,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
   HashSet<MaterialConfig> materialConfigs=new HashSet(Collections.singleton(MATERIAL_CONFIG));
   HashSet<Material> materials=new HashSet(Collections.singleton(MATERIAL));
   when(goConfigService.getSchedulableMaterials()).thenReturn(materialConfigs);

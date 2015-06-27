@@ -1,6 +1,6 @@
 {
   systemEnvironment.setProperty(SystemEnvironment.MATERIAL_UPDATE_IDLE_INTERVAL_PROPERTY,"1000");
-  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  service=initializeMaterialUpdateService();
   service=spy(service);
   Set<MaterialConfig> schedulableMaterials=goConfigService.getSchedulableMaterials();
   Set<Material> materials=new HashSet<Material>();
