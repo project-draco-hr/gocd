@@ -1,0 +1,6 @@
+{
+  when(watchList.hasConfigRepoWithFingerprint(MATERIAL.getFingerprint())).thenReturn(true);
+  service.onTimer();
+  Mockito.verify(configQueue).post(matchMaterialUpdateMessage(MATERIAL));
+  Mockito.verify(queue,times(0)).post(any(MaterialUpdateMessage.class));
+}

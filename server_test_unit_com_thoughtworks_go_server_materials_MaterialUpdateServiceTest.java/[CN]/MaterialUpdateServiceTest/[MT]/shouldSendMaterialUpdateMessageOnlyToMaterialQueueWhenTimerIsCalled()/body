@@ -1,4 +1,5 @@
 {
   service.onTimer();
   Mockito.verify(queue).post(matchMaterialUpdateMessage(MATERIAL));
+  Mockito.verify(configQueue,times(0)).post(any(MaterialUpdateMessage.class));
 }
