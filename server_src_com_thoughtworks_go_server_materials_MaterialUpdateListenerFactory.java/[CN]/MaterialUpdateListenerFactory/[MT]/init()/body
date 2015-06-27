@@ -1,7 +1,6 @@
 {
-  int numberOfAllListeners=systemEnvironment.getNumberOfMaterialCheckListener();
-  int numberOfConfigListeners=2;
-  int numberOfStandardMaterialListeners=numberOfAllListeners - numberOfConfigListeners;
+  int numberOfStandardMaterialListeners=systemEnvironment.getNumberOfMaterialCheckListener();
+  int numberOfConfigListeners=systemEnvironment.getNumberOfConfigMaterialCheckListener();
   for (int i=0; i < numberOfStandardMaterialListeners; i++) {
     createWorker(this.queue,this.topic);
   }
