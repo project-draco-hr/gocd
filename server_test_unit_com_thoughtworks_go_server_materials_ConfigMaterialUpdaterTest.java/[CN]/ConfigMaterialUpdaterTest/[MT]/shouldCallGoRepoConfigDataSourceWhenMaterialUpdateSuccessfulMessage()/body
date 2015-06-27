@@ -1,0 +1,6 @@
+{
+  MaterialUpdateSuccessfulMessage message=new MaterialUpdateSuccessfulMessage(material,123);
+  this.configUpdater.onMessage(message);
+  verify(repoConfigDataSource,times(1)).onCheckoutComplete(material.config(),folder,"1");
+  verify(topic,times(1)).post(message);
+}

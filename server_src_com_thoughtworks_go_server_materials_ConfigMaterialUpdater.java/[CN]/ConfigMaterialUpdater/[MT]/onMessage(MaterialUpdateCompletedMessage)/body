@@ -4,17 +4,23 @@
     LOGGER.debug(format("[Config Material Update] Config material update completed for material %s. Starting parse process",material));
   }
   try {
-    File folder=materialRepository.folderFor(material);
-    MaterialRevisions latestModification=materialRepository.findLatestModification(material);
-    String revision=latestModification.latestRevision();
-    MaterialRevision lastParseRevision=getMaterialRevisionAtLastParseAttempt(message);
-    if (lastParseRevision == null) {
-      UpdateConfigurationFromCheckout(folder,revision,material);
-    }
- else     if (latestModification.findRevisionFor(material.config()).hasChangedSince(lastParseRevision)) {
-      UpdateConfigurationFromCheckout(folder,revision,material);
+    if (message instanceof MaterialUpdateFailedMessage) {
+      MaterialUpdateFailedMessage failure=(MaterialUpdateFailedMessage)message;
+      LOGGER.warn(String.format("[Config Material Update] Cannot update configuration part because material update has failed. Reason: ",failure.getReason()));
     }
  else {
+      File folder=materialRepository.folderFor(material);
+      MaterialRevisions latestModification=materialRepository.findLatestModification(material);
+      String revision=latestModification.latestRevision();
+      MaterialRevision lastParseRevision=getMaterialRevisionAtLastParseAttempt(message);
+      if (lastParseRevision == null) {
+        UpdateConfigurationFromCheckout(folder,revision,material);
+      }
+ else       if (latestModification.findRevisionFor(material.config()).hasChangedSince(lastParseRevision)) {
+        UpdateConfigurationFromCheckout(folder,revision,material);
+      }
+ else {
+      }
     }
   }
   finally {
