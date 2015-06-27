@@ -1,0 +1,13 @@
+{
+  MaterialRevision lastParseRevision;
+  try {
+    String materialRevisionAtLastAttempt=repoConfigDataSource.getRevisionAtLastAttempt(message.getMaterial().config());
+    if (materialRevisionAtLastAttempt == null)     return null;
+    lastParseRevision=materialChecker.findSpecificRevision(message.getMaterial(),materialRevisionAtLastAttempt);
+  }
+ catch (  Exception ex) {
+    LOGGER.error(String.format("[Config Material Update] failed to get last parsed material revision. Reason: ",ex.getMessage()));
+    lastParseRevision=null;
+  }
+  return lastParseRevision;
+}
