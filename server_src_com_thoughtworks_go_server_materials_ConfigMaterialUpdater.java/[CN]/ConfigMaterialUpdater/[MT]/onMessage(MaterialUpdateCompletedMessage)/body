@@ -11,7 +11,7 @@
  else {
       File folder=materialRepository.folderFor(material);
       MaterialRevisions latestModification=materialRepository.findLatestModification(material);
-      String revision=latestModification.latestRevision();
+      Revision revision=latestModification.firstModifiedMaterialRevision().getRevision();
       MaterialRevision lastParseRevision=getMaterialRevisionAtLastParseAttempt(message);
       if (lastParseRevision == null) {
         UpdateConfigurationFromCheckout(folder,revision,material);

@@ -1,0 +1,5 @@
+{
+  MaterialPoller poller=this.materialService.getPollerImplementation(material);
+  poller.checkout(material,folder,revision,this.subprocessExecutionContext);
+  this.repoConfigDataSource.onCheckoutComplete(material.config(),folder,revision.getRevision());
+}
