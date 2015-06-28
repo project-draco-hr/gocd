@@ -1,0 +1,11 @@
+{
+  materialUpdateService.updateMaterial(material);
+  Thread.sleep(1000);
+  String revision=goRepoConfigDataSource.getRevisionAtLastAttempt(materialConfig);
+  assertNotNull(revision);
+  PartialConfig partial=goRepoConfigDataSource.latestPartialConfigForMaterial(materialConfig);
+  materialUpdateService.updateMaterial(material);
+  Thread.sleep(1000);
+  PartialConfig partial2=goRepoConfigDataSource.latestPartialConfigForMaterial(materialConfig);
+  assertSame(partial,partial2);
+}

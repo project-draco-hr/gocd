@@ -1,0 +1,18 @@
+{
+  diskSpaceSimulator=new DiskSpaceSimulator();
+  hgRepo=new HgTestRepo("testHgRepo");
+  dbHelper.onSetUp();
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
+  materialConfig=new HgMaterialConfig(hgRepo.projectRepositoryUrl(),"testHgRepo");
+  configHelper.addConfigRepo(new ConfigRepoConfig(materialConfig,"gocd-xml"));
+  logger=mock(MDUPerformanceLogger.class);
+  TestingEmailSender emailSender=new TestingEmailSender();
+  SystemDiskSpaceChecker mockDiskSpaceChecker=Mockito.mock(SystemDiskSpaceChecker.class);
+  StageService stageService=mock(StageService.class);
+  ConfigDbStateRepository configDbStateRepository=mock(ConfigDbStateRepository.class);
+  GoDiskSpaceMonitor goDiskSpaceMonitor=new GoDiskSpaceMonitor(goConfigService,systemEnvironment,serverHealthService,emailSender,mockDiskSpaceChecker,mock(ArtifactsService.class),stageService,configDbStateRepository);
+  goDiskSpaceMonitor.initialize();
+  worker=new MaterialUpdateListener(configTopic,materialDatabaseUpdater,logger,goDiskSpaceMonitor);
+  material=(HgMaterial)materialConfigConverter.toMaterial(materialConfig);
+}
