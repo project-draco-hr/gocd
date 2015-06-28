@@ -4,10 +4,13 @@
   materialRepository=mock(MaterialRepository.class);
   configCompleted=mock(ConfigMaterialUpdateCompletedTopic.class);
   topic=mock(MaterialUpdateCompletedTopic.class);
+  materialService=mock(MaterialService.class);
   material=new SvnMaterial("url","tom","pass",false);
   when(materialRepository.folderFor(material)).thenReturn(folder);
+  MaterialPoller poller=mock(MaterialPoller.class);
+  when(materialService.getPollerImplementation(any(Material.class))).thenReturn(poller);
   Modification svnModification=new Modification("user","commend","em@il",new Date(),"1");
   mods=revisions(material,svnModification);
   when(materialRepository.findLatestModification(material)).thenReturn(mods);
-  configUpdater=new ConfigMaterialUpdater(repoConfigDataSource,materialRepository,materialChecker,configCompleted,topic);
+  configUpdater=new ConfigMaterialUpdater(repoConfigDataSource,materialRepository,materialChecker,configCompleted,topic,materialService,new TestSubprocessExecutionContext());
 }
