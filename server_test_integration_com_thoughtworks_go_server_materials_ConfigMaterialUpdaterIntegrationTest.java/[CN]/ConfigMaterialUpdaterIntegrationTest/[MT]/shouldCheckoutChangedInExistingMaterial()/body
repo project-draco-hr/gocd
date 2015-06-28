@@ -1,10 +1,10 @@
 {
   GoConfigMother mother=new GoConfigMother();
   PipelineConfig pipelineConfig=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
-  HgMaterial material=addPipelineToRepositoryAndPush("pipe1.gocd.xml",pipelineConfig);
+  configTestRepo.addPipelineToRepositoryAndPush("pipe1.gocd.xml",pipelineConfig);
   materialUpdateService.updateMaterial(material);
   waitForMaterialNotInProgress();
-  material=addPipelineToRepositoryAndPush("pipe2.gocd.xml",pipelineConfig);
+  configTestRepo.addPipelineToRepositoryAndPush("pipe2.gocd.xml",pipelineConfig);
   materialUpdateService.updateMaterial(material);
   waitForMaterialNotInProgress();
   File flyweightDir=materialRepository.folderFor(material);

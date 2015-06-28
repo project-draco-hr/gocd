@@ -2,7 +2,7 @@
   String fileName="pipe1.gocd.xml";
   GoConfigMother mother=new GoConfigMother();
   PipelineConfig pipelineConfig=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
-  HgMaterial material=addPipelineToRepositoryAndPush(fileName,pipelineConfig);
+  configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
   materialUpdateService.updateMaterial(material);
   Assert.assertThat(materialUpdateService.isInProgress(material),is(true));
   waitForMaterialNotInProgress();

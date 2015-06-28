@@ -2,13 +2,13 @@
   String fileName="pipe1.gocd.xml";
   GoConfigMother mother=new GoConfigMother();
   PipelineConfig pipelineConfig=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
-  HgMaterial material=addPipelineToRepositoryAndPush(fileName,pipelineConfig);
+  configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
   materialUpdateService.updateMaterial(material);
   waitForMaterialNotInProgress();
   mergedGoConfig.forceReload();
   assertThat(goConfigService.hasPipelineNamed(pipelineConfig.name()),is(true));
   assertThat(goConfigService.pipelineConfigNamed(pipelineConfig.name()),is(pipelineConfig));
-  material=addCodeToRepositoryAndPush("badPipe.gocd.xml","added bad config file","<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<cruise xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\" schemaVersion=\"38\">\n" + "<pipelines group=\"changed\">\n"+ "  <pipeline name=\"badPipe\">\n"+ "    <materials>\n"+ "      <svn url=\"file:///tmp/foo\" />\n"+ "      <svn url=\"file:///tmp/foo\" />\n"+ "    </materials>\n"+ "  </pipeline>\n"+ "</pipelines>"+ "</cruise>");
+  configTestRepo.addCodeToRepositoryAndPush("badPipe.gocd.xml","added bad config file","<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<cruise xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"cruise-config.xsd\" schemaVersion=\"38\">\n" + "<pipelines group=\"changed\">\n"+ "  <pipeline name=\"badPipe\">\n"+ "    <materials>\n"+ "      <svn url=\"file:///tmp/foo\" />\n"+ "      <svn url=\"file:///tmp/foo\" />\n"+ "    </materials>\n"+ "  </pipeline>\n"+ "</pipelines>"+ "</cruise>");
   materialUpdateService.updateMaterial(material);
   waitForMaterialNotInProgress();
   mergedGoConfig.forceReload();
