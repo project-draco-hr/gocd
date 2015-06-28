@@ -1,0 +1,10 @@
+{
+  if (validationContext == null)   return;
+  MaterialConfig material=this.getMaterialConfig();
+  MaterialConfigs allMaterialsByFingerPrint=validationContext.getAllMaterialsByFingerPrint(material.getFingerprint());
+  if (allMaterialsByFingerPrint != null) {
+    for (    MaterialConfig other : allMaterialsByFingerPrint) {
+      if (!other.isAutoUpdate())       ((ScmMaterialConfig)other).setAutoUpdateMismatchErrorWithConfigRepo();
+    }
+  }
+}
