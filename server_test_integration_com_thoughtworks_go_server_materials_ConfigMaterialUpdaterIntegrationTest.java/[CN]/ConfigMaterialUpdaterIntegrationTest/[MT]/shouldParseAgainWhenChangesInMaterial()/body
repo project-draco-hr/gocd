@@ -1,12 +1,12 @@
 {
   materialUpdateService.updateMaterial(material);
-  Thread.sleep(1000);
+  waitForMaterialNotInProgress();
   String revision=goRepoConfigDataSource.getRevisionAtLastAttempt(materialConfig);
   assertNotNull(revision);
   PartialConfig partial=goRepoConfigDataSource.latestPartialConfigForMaterial(materialConfig);
   hgRepo.commitAndPushFile("newFile.bla","could be config file");
   materialUpdateService.updateMaterial(material);
-  Thread.sleep(1000);
+  waitForMaterialNotInProgress();
   PartialConfig partial2=goRepoConfigDataSource.latestPartialConfigForMaterial(materialConfig);
   assertNotSame(partial,partial2);
   assertThat("originsShouldDiffer",partial2.getOrigin(),is(not(partial.getOrigin())));

@@ -4,8 +4,9 @@
   PipelineConfig pipelineConfig=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
   HgMaterial material=addPipelineToRepositoryAndPush(fileName,pipelineConfig);
   materialUpdateService.updateMaterial(material);
+  Assert.assertThat(materialUpdateService.isInProgress(material),is(true));
   waitForMaterialNotInProgress();
-  PartialConfig partial=goRepoConfigDataSource.latestPartialConfigForMaterial(materialConfig);
-  assertThat(partial.getGroups().get(0).size(),is(1));
-  assertThat(partial.getGroups().get(0).get(0),is(pipelineConfig));
+  mergedGoConfig.forceReload();
+  assertThat(goConfigService.hasPipelineNamed(pipelineConfig.name()),is(true));
+  assertThat(goConfigService.pipelineConfigNamed(pipelineConfig.name()),is(pipelineConfig));
 }

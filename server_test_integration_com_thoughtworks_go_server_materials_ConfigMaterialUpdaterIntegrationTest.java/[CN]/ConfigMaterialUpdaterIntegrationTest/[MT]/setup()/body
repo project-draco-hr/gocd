@@ -17,4 +17,6 @@
   goDiskSpaceMonitor.initialize();
   worker=new MaterialUpdateListener(configTopic,materialDatabaseUpdater,logger,goDiskSpaceMonitor);
   material=(HgMaterial)materialConfigConverter.toMaterial(materialConfig);
+  baseDir=hgRepo.prepareWorkDirectory();
+  material=hgRepo.updateTo(baseDir);
 }

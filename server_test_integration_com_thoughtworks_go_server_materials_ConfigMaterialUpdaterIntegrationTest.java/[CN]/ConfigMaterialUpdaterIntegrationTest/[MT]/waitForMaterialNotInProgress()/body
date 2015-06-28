@@ -1,0 +1,7 @@
+{
+  int i=0;
+  while (materialUpdateService.isInProgress(material)) {
+    Thread.sleep(100);
+    if (i++ > 100)     fail("material is hung - more than 10 seconds in progress");
+  }
+}

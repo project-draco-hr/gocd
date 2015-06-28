@@ -1,6 +1,6 @@
 {
   materialUpdateService.updateMaterial(material);
-  Thread.sleep(1000);
+  waitForMaterialNotInProgress();
   String revision=goRepoConfigDataSource.getRevisionAtLastAttempt(materialConfig);
   assertNotNull(revision);
   PartialConfig partial=goRepoConfigDataSource.latestPartialConfigForMaterial(materialConfig);
