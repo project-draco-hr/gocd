@@ -1,0 +1,15 @@
+{
+  GoConfigMother mother=new GoConfigMother();
+  PipelineConfig pipelineConfig=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
+  File baseDir=hgRepo.prepareWorkDirectory();
+  HgMaterial material=hgRepo.updateTo(baseDir);
+  PartialConfigHelper partialConfigHelper=new PartialConfigHelper(xmlWriter,baseDir);
+  File file=new File(baseDir,"pipe1.gocd.xml");
+  partialConfigHelper.addFileWithPipeline("pipe1.gocd.xml",pipelineConfig);
+  hgRepo.addCommitPush(material,"added valid config file",baseDir,file);
+  materialUpdateService.updateMaterial(material);
+  Thread.sleep(1000);
+  PartialConfig partial=goRepoConfigDataSource.latestPartialConfigForMaterial(materialConfig);
+  assertThat(partial.getGroups().get(0).size(),is(1));
+  assertThat(partial.getGroups().get(0).get(0),is(pipelineConfig));
+}

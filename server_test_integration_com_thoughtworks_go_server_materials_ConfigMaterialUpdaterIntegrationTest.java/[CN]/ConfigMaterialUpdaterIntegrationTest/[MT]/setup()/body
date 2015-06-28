@@ -1,6 +1,8 @@
 {
+  metricsProbeService=mock(MetricsProbeService.class);
   diskSpaceSimulator=new DiskSpaceSimulator();
   hgRepo=new HgTestRepo("testHgRepo");
+  xmlWriter=new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
   dbHelper.onSetUp();
   configHelper.onSetUp();
   configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();

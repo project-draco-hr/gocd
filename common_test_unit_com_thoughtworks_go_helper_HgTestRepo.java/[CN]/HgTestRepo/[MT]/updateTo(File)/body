@@ -1,0 +1,6 @@
+{
+  HgMaterial material=material();
+  Revision tip=latestRevision(material,baseDir,new TestSubprocessExecutionContext());
+  material.updateTo(ProcessOutputStreamConsumer.inMemoryConsumer(),tip,baseDir,new TestSubprocessExecutionContext());
+  return material;
+}
