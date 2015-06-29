@@ -1,0 +1,9 @@
+{
+  Materials materials=new Materials();
+  PackageMaterial packageMaterial=new PackageMaterial();
+  GitMaterial gitMaterial=new GitMaterial("http://some-url.com","some-branch");
+  materials.add(packageMaterial);
+  materials.add(gitMaterial);
+  boolean hasOneMaterialUseBaseFolder=materials.hasOneMaterialUseBaseFolder();
+  assertThat(hasOneMaterialUseBaseFolder,is(true));
+}
