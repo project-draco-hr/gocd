@@ -1,6 +1,7 @@
 {
   for (  Material material : this) {
-    if (!((AbstractMaterial)material).hasDestinationFolder()) {
+    AbstractMaterial abstractMaterial=(AbstractMaterial)material;
+    if (abstractMaterial.requiresDestinationFolder() && !abstractMaterial.hasDestinationFolder()) {
       return true;
     }
   }
