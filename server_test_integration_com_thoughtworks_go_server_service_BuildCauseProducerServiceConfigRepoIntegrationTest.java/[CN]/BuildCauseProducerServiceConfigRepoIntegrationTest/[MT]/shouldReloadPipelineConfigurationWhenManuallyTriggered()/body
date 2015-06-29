@@ -1,0 +1,18 @@
+{
+  pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("pipe1","build","test","newStage");
+  pipelineConfig.materialConfigs().clear();
+  pipelineConfig.materialConfigs().add(materialConfig);
+  List<Modification> mod=configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
+  final HashMap<String,String> revisions=new HashMap<String,String>();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,Username.ANONYMOUS,new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
+  Map<String,BuildCause> afterLoad=scheduleHelper.waitForAnyScheduled(5);
+  assertThat(afterLoad.keySet(),hasItem(PIPELINE_NAME));
+  BuildCause cause=afterLoad.get(PIPELINE_NAME);
+  assertThat(cause.getBuildCauseMessage(),containsString("Forced by anonymous"));
+  PipelineConfig pipelineConfigAfterSchedule=goConfigService.pipelineConfigNamed(pipelineConfig.name());
+  RepoConfigOrigin configOriginAfterSchedule=(RepoConfigOrigin)pipelineConfigAfterSchedule.getOrigin();
+  String lastPushedRevision=mod.get(0).getRevision();
+  assertThat("revisionOfPipelineConfigOriginShouldMatchLastPushedCommit",configOriginAfterSchedule.getRevision(),is(lastPushedRevision));
+  assertThat("buildCauseRevisionShouldMatchLastPushedCommit",cause.getMaterialRevisions().latestRevision(),is(lastPushedRevision));
+}

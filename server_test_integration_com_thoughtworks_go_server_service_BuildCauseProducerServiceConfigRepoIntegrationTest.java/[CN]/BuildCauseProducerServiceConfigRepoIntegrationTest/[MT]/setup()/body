@@ -12,13 +12,12 @@
   SystemDiskSpaceChecker mockDiskSpaceChecker=Mockito.mock(SystemDiskSpaceChecker.class);
   StageService stageService=mock(StageService.class);
   ConfigDbStateRepository configDbStateRepository=mock(ConfigDbStateRepository.class);
-  GoDiskSpaceMonitor goDiskSpaceMonitor=new GoDiskSpaceMonitor(goConfigService,systemEnvironment,serverHealthService,emailSender,mockDiskSpaceChecker,mock(ArtifactsService.class),stageService,configDbStateRepository);
+  goDiskSpaceMonitor=new GoDiskSpaceMonitor(goConfigService,systemEnvironment,serverHealthService,emailSender,mockDiskSpaceChecker,mock(ArtifactsService.class),stageService,configDbStateRepository);
   goDiskSpaceMonitor.initialize();
   worker=new MaterialUpdateListener(configTopic,materialDatabaseUpdater,logger,goDiskSpaceMonitor);
   xmlWriter=new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
   configTestRepo=new ConfigTestRepo(hgRepo,xmlWriter);
   this.material=(HgMaterial)materialConfigConverter.toMaterial(materialConfig);
-  String fileName="pipe1.gocd.xml";
   pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("pipe1","build","test");
   pipelineConfig.materialConfigs().clear();
   pipelineConfig.materialConfigs().add(materialConfig);
@@ -30,6 +29,6 @@
   pipelineScheduleQueue.clear();
   Materials materials=materialConfigConverter.toMaterials(pipelineConfig.materialConfigs());
   MaterialRevisions peggedRevisions=new MaterialRevisions();
-  MaterialRevisions revisions=materialChecker.findLatestRevisions(peggedRevisions,materials);
-  assertThat(revisions.isMissingModifications(),is(false));
+  firstRevisions=materialChecker.findLatestRevisions(peggedRevisions,materials);
+  assertThat(firstRevisions.isMissingModifications(),is(false));
 }

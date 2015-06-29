@@ -1,0 +1,9 @@
+{
+  MaterialUpdateListener byPassWorker=new MaterialUpdateListener(topic,materialDatabaseUpdater,logger,goDiskSpaceMonitor);
+  List<Modification> mod=configTestRepo.addCodeToRepositoryAndPush("a.java","added code file","some java code");
+  byPassWorker.onMessage(new MaterialUpdateMessage(material,123));
+  RepoConfigOrigin configOrigin=(RepoConfigOrigin)goConfigService.pipelineConfigNamed(new CaseInsensitiveString(PIPELINE_NAME)).getOrigin();
+  assertThat(configOrigin.getRevision(),is(firstRevisions.latestRevision()));
+  buildCauseProducerService.autoSchedulePipeline(PIPELINE_NAME,new ServerHealthStateOperationResult(),123);
+  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),IsNot.not(hasItem(PIPELINE_NAME)));
+}
