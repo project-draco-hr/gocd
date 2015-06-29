@@ -1,0 +1,27 @@
+{
+  GitTestRepo otherGitRepo=new GitTestRepo();
+  pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("pipe1","build","test");
+  pipelineConfig.materialConfigs().clear();
+  materialConfig=hgRepo.createMaterialConfig("dest1");
+  pipelineConfig.materialConfigs().add(materialConfig);
+  GitMaterial gitMaterial=otherGitRepo.createMaterial("dest2");
+  MaterialConfig otherMaterialConfig=gitMaterial.config();
+  pipelineConfig.materialConfigs().add(otherMaterialConfig);
+  List<Modification> mod=configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
+  final HashMap<String,String> revisions=new HashMap<String,String>();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,Username.ANONYMOUS,new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
+  mergedGoConfig.throwExceptionIfExists();
+  Map<String,BuildCause> afterLoad=scheduleHelper.waitForAnyScheduled(20);
+  assertThat(afterLoad.keySet(),hasItem(PIPELINE_NAME));
+  BuildCause cause=afterLoad.get(PIPELINE_NAME);
+  assertThat(cause.getBuildCauseMessage(),containsString("Forced by anonymous"));
+  PipelineConfig pipelineConfigAfterSchedule=goConfigService.pipelineConfigNamed(pipelineConfig.name());
+  RepoConfigOrigin configOriginAfterSchedule=(RepoConfigOrigin)pipelineConfigAfterSchedule.getOrigin();
+  String lastPushedRevision=mod.get(0).getRevision();
+  assertThat("revisionOfPipelineConfigOriginShouldMatchLastPushedCommit",configOriginAfterSchedule.getRevision(),is(lastPushedRevision));
+  assertThat(pipelineConfig.materialConfigs(),hasItem(otherMaterialConfig));
+  assertThat("buildCauseRevisionShouldMatchLastPushedCommit",cause.getMaterialRevisions().latestRevision(),is(lastPushedRevision));
+  MaterialRevisions modificationsInDb=materialRepository.findLatestModification(gitMaterial);
+  assertThat(modificationsInDb.latestRevision(),is(otherGitRepo.latestModification().getRevision()));
+}
