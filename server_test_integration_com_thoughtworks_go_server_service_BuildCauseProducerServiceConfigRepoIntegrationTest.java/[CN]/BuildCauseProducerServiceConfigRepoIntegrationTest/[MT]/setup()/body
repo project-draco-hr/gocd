@@ -1,0 +1,35 @@
+{
+  metricsProbeService=mock(MetricsProbeService.class);
+  diskSpaceSimulator=new DiskSpaceSimulator();
+  hgRepo=new HgTestRepo("testHgRepo");
+  dbHelper.onSetUp();
+  configHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
+  materialConfig=hgRepo.materialConfig();
+  configHelper.addConfigRepo(new ConfigRepoConfig(materialConfig,"gocd-xml"));
+  logger=mock(MDUPerformanceLogger.class);
+  TestingEmailSender emailSender=new TestingEmailSender();
+  SystemDiskSpaceChecker mockDiskSpaceChecker=Mockito.mock(SystemDiskSpaceChecker.class);
+  StageService stageService=mock(StageService.class);
+  ConfigDbStateRepository configDbStateRepository=mock(ConfigDbStateRepository.class);
+  GoDiskSpaceMonitor goDiskSpaceMonitor=new GoDiskSpaceMonitor(goConfigService,systemEnvironment,serverHealthService,emailSender,mockDiskSpaceChecker,mock(ArtifactsService.class),stageService,configDbStateRepository);
+  goDiskSpaceMonitor.initialize();
+  worker=new MaterialUpdateListener(configTopic,materialDatabaseUpdater,logger,goDiskSpaceMonitor);
+  xmlWriter=new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  configTestRepo=new ConfigTestRepo(hgRepo,xmlWriter);
+  this.material=(HgMaterial)materialConfigConverter.toMaterial(materialConfig);
+  String fileName="pipe1.gocd.xml";
+  pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("pipe1","build","test");
+  pipelineConfig.materialConfigs().clear();
+  pipelineConfig.materialConfigs().add(materialConfig);
+  PIPELINE_NAME=pipelineConfig.name().toString();
+  configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
+  materialUpdateService.updateMaterial(material);
+  waitForMaterialNotInProgress();
+  pipelineConfig=goConfigService.pipelineConfigNamed(pipelineConfig.name());
+  pipelineScheduleQueue.clear();
+  Materials materials=materialConfigConverter.toMaterials(pipelineConfig.materialConfigs());
+  MaterialRevisions peggedRevisions=new MaterialRevisions();
+  MaterialRevisions revisions=materialChecker.findLatestRevisions(peggedRevisions,materials);
+  assertThat(revisions.isMissingModifications(),is(false));
+}
