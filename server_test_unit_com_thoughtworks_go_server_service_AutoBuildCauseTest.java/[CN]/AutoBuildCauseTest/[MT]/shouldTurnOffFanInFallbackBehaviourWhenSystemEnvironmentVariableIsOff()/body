@@ -8,7 +8,6 @@
   RuntimeException expectedException=new RuntimeException("failed");
   when(goConfigService.upstreamDependencyGraphOf(targetPipeline,cruiseConfig)).thenReturn(dependencyGraph);
   when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenThrow(expectedException);
-  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
   when(systemEnvironment.enforceRevisionCompatibilityWithUpstream()).thenReturn(true);
   when(systemEnvironment.enforceFanInFallbackBehaviour()).thenReturn(false);
   try {
@@ -16,6 +15,6 @@
     fail("should have thrown exception");
   }
  catch (  RuntimeException e) {
-    assertThat(e,Is.is(expectedException));
+    assertThat(e,is(expectedException));
   }
 }
