@@ -1,9 +1,0 @@
-{
-  when(localizer.localize("LICENSE_EXPIRED_WITH_URL_AND_DATE",GoConstants.THOUGHTWORKS_LICENSE_URL,formatISO8601(new Date(111,02,01)))).thenReturn("description");
-  when(localizer.localize("LICENSE_EXPIRED",new Object[0])).thenReturn("message");
-  when(goLicenseService.isLicenseExpired()).thenReturn(true);
-  when(goLicenseService.getExpirationDate()).thenReturn(new Date(111,02,01));
-  expiryValidator.updateServerHealth();
-  ServerHealthState expectedServerHealthState=ServerHealthState.warning("message","description",HealthStateType.expiredLicense(HealthStateScope.GLOBAL));
-  verify(serverHealthService).update(expectedServerHealthState);
-}

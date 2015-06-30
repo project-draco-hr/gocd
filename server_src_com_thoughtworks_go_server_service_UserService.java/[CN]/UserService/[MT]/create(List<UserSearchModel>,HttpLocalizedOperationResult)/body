@@ -14,10 +14,6 @@ synchronized (enableUserMutex) {
         result.badRequest(LocalizedMessage.string("USERNAME_NOT_PERMITTED",user.getName()));
         return;
       }
-      if (isLicenseUserLimitReached()) {
-        result.badRequest(LocalizedMessage.string("LICENSE_LIMIT_EXCEEDED"));
-        return;
-      }
       if (!userSearchModel.getUserSourceType().equals(UserSourceType.PASSWORD_FILE) && validateEmailAndMatcher(result,user)) {
         return;
       }

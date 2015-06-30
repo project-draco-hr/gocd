@@ -2,8 +2,6 @@
   schedulingChecker.canSchedule(operationResult);
   verify(schedulingChecker).buildScheduleCheckers(argumentCaptor.capture());
   verify(compositeChecker).check(operationResult);
-  assertFor(argumentCaptor.getValue(),EnabledUsersLicenseLimitChecker.class);
-  assertFor(argumentCaptor.getValue(),LicenseChecker.class);
   assertFor(argumentCaptor.getValue(),ArtifactsDiskSpaceFullChecker.class);
   assertFor(argumentCaptor.getValue(),DatabaseDiskSpaceFullChecker.class);
 }

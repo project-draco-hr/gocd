@@ -1,6 +1,6 @@
 {
   String pipelineName=pipelineIdentifier.getName();
-  SchedulingChecker canRerunChecker=buildScheduleCheckers(asList(new EnabledUsersLicenseLimitChecker(userService,licenseService,serverHealthService),new StageAuthorizationChecker(pipelineName,stageName,username,securityService),new PipelinePauseChecker(pipelineName,pipelinePauseService),new PipelineActiveChecker(activityService,pipelineIdentifier),new StageActiveChecker(pipelineName,stageName,activityService),diskCheckers()));
+  SchedulingChecker canRerunChecker=buildScheduleCheckers(asList(new StageAuthorizationChecker(pipelineName,stageName,username,securityService),new PipelinePauseChecker(pipelineName,pipelinePauseService),new PipelineActiveChecker(activityService,pipelineIdentifier),new StageActiveChecker(pipelineName,stageName,activityService),diskCheckers()));
   canRerunChecker.check(result);
   return result.getServerHealthState().isSuccess();
 }
