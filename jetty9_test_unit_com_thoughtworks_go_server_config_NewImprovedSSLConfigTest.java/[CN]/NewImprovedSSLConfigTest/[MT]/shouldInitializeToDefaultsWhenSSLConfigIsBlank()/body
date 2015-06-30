@@ -1,0 +1,9 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_FILE_PATH)).thenReturn(blankConfig);
+  when(systemEnvironment.get(SystemEnvironment.USER_CONFIGURED_SSL_CONFIG_FILE_PATH)).thenReturn("junk");
+  NewImprovedSSLConfig config=new NewImprovedSSLConfig(systemEnvironment);
+  assertThat(config.getCipherSuitesToBeIncluded().length,is(0));
+  assertThat(config.getCipherSuitesToBeExcluded().length,is(0));
+  assertThat(config.getProtocolsToBeExcluded().length,is(0));
+  assertThat(config.isRenegotiationAllowed(),is(false));
+}

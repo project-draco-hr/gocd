@@ -1,0 +1,7 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_FILE_PATH)).thenReturn(defaultSSLConfig);
+  when(systemEnvironment.get(SystemEnvironment.USER_CONFIGURED_SSL_CONFIG_FILE_PATH)).thenReturn(overrideFile.getAbsolutePath());
+  NewImprovedSSLConfig userOverriddenConfig=new NewImprovedSSLConfig(systemEnvironment);
+  assertThat(userOverriddenConfig.getCipherSuitesToBeIncluded().length,is(1));
+  assertThat(userOverriddenConfig.getCipherSuitesToBeIncluded()[0],is("STRONG_CIPHER"));
+}

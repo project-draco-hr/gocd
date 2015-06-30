@@ -1,0 +1,5 @@
+{
+  GoSSLConfig goSSLConfig=new GoSSLConfig(mock(SSLSocketFactory.class),mock(SystemEnvironment.class));
+  SSLConfig config=(SSLConfig)ReflectionUtil.getField(goSSLConfig,"config");
+  assertThat(config instanceof WeakSSLConfig,is(true));
+}

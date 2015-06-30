@@ -1,0 +1,7 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_FILE_PATH)).thenReturn(defaultSSLConfig);
+  NewImprovedSSLConfig config=new NewImprovedSSLConfig(systemEnvironment);
+  assertThat(config.getCipherSuitesToBeIncluded().length,is(2));
+  assertThat(config.getCipherSuitesToBeIncluded()[0],is("TLS_DHE_RSA.*"));
+  assertThat(config.getCipherSuitesToBeIncluded()[1],is("TLS_ECDHE.*"));
+}
