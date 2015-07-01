@@ -6,8 +6,9 @@
       scmMaterials.add(new FaninScmMaterial(fingerprint,revision));
       continue;
     }
-    if (isDependencyMaterial(fingerprint,context)) {
+    if (isDependencyMaterial(fingerprint,context) && !visitedNodes.contains(new CaseInsensitiveString(revision.revision))) {
       revisionQueue.add(revision);
+      visitedNodes.add(new CaseInsensitiveString(revision.revision));
     }
   }
 }
