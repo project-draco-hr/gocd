@@ -4,6 +4,8 @@
   byPassWorker.onMessage(new MaterialUpdateMessage(material,123));
   RepoConfigOrigin configOrigin=(RepoConfigOrigin)goConfigService.pipelineConfigNamed(new CaseInsensitiveString(PIPELINE_NAME)).getOrigin();
   assertThat(configOrigin.getRevision(),is(firstRevisions.latestRevision()));
-  buildCauseProducerService.autoSchedulePipeline(PIPELINE_NAME,new ServerHealthStateOperationResult(),123);
+  final HashMap<String,String> revisions=new HashMap<String,String>();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,Username.ANONYMOUS,new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
   scheduleHelper.waitForNotScheduled(5,PIPELINE_NAME);
 }

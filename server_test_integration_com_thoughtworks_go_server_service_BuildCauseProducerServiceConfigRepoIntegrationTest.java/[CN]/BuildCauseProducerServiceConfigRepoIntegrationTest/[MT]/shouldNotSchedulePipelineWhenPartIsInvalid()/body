@@ -4,5 +4,5 @@
   waitForMaterialNotInProgress();
   assertThat(goRepoConfigDataSource.latestParseHasFailedForMaterial(material.config()),is(true));
   buildCauseProducerService.autoSchedulePipeline(PIPELINE_NAME,new ServerHealthStateOperationResult(),123);
-  assertThat(pipelineScheduleQueue.toBeScheduled().keySet(),IsNot.not(hasItem(PIPELINE_NAME)));
+  scheduleHelper.waitForNotScheduled(5,PIPELINE_NAME);
 }

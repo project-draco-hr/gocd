@@ -2,6 +2,9 @@
   if (!pipelineConfig.isConfigOriginSameAsOneOfMaterials()) {
     return;
   }
+  if (this.trigger.isForced()) {
+    return;
+  }
   RepoConfigOrigin repoConfigOrigin=(RepoConfigOrigin)pipelineConfig.getOrigin();
   MaterialConfig configAndCodeMaterial=repoConfigOrigin.getMaterial();
   MaterialRevision revision=this.getMaterialRevisions().findRevisionForFingerPrint(configAndCodeMaterial.getFingerprint());

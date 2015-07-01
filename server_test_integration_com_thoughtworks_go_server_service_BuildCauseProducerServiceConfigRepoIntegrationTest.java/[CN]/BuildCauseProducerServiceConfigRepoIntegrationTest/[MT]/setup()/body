@@ -21,7 +21,7 @@
   pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("pipe1","build","test");
   pipelineConfig.materialConfigs().clear();
   pipelineConfig.materialConfigs().add(materialConfig);
-  PIPELINE_NAME=pipelineConfig.name().toString();
+  PIPELINE_NAME=CaseInsensitiveString.str(pipelineConfig.name());
   configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
   materialUpdateService.updateMaterial(material);
   waitForMaterialNotInProgress();
