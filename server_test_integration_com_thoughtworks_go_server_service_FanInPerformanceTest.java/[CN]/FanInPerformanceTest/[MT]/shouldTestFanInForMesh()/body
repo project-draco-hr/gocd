@@ -1,0 +1,22 @@
+{
+  int numberOfNodesPerLevel=10;
+  int numberOfLevels=10;
+  int numberOfInstancesForUpstream=1;
+  ScmMaterial svn=u.wf((ScmMaterial)MaterialsMother.defaultMaterials().get(0),"folder1");
+  String[] svn_revs={"svn_1"};
+  u.checkinInOrder(svn,svn_revs);
+  PipelineConfig upstreamConfig=graphGenerator.createPipelineWithInstances("upstream",new ArrayList<PipelineConfig>(),numberOfInstancesForUpstream);
+  PipelineConfig currentConfig=graphGenerator.createMesh(upstreamConfig,"current","up",numberOfInstancesForUpstream,numberOfNodesPerLevel,numberOfLevels);
+  List<MaterialRevision> revisions=new ArrayList<>();
+  revisions.add(u.mr(svn,true,"svn_1"));
+  for (int i=1; i <= numberOfNodesPerLevel; i++) {
+    String pipelineName=String.format("pipeline_%s_%d_%d","up",numberOfLevels,i);
+    revisions.add(u.mr(new DependencyMaterial(new CaseInsensitiveString(pipelineName),new CaseInsensitiveString("stage")),true,pipelineName + "/1/stage/1"));
+  }
+  MaterialRevisions given=new MaterialRevisions(revisions);
+  long start=System.currentTimeMillis();
+  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(currentConfig.name(),configHelper.currentConfig(),given);
+  long timeTaken=(System.currentTimeMillis() - start) / 1000;
+  assertThat(String.format("Fan-in took %ds. Should have finished in 1s.",timeTaken),timeTaken,Matchers.lessThan(1l));
+  assertThat(finalRevisions,is(given));
+}

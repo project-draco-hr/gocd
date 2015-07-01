@@ -6,6 +6,6 @@
     for (int x=0; x < previousNodes.size(); x++) {
       previousRevisions.add(String.format("%s/%d/stage/1",previousNodes.get(x).name().toString(),instanceCount));
     }
-    u.runAndPass(new ScheduleTestUtil.AddedPipeline(pipelineConfig,new DependencyMaterial(pipelineConfig.name(),new CaseInsensitiveString("stage"))),previousRevisions.toArray(new String[previousRevisions.size()]));
+    scheduleUtil.runAndPass(new ScheduleTestUtil.AddedPipeline(pipelineConfig,new DependencyMaterial(pipelineConfig.name(),new CaseInsensitiveString("stage"))),previousRevisions.toArray(new String[previousRevisions.size()]));
   }
 }
