@@ -1,11 +1,15 @@
 {
   MaterialUpdateListener byPassWorker=new MaterialUpdateListener(topic,materialDatabaseUpdater,logger,goDiskSpaceMonitor);
-  List<Modification> mod=configTestRepo.addCodeToRepositoryAndPush("a.java","added code file","some java code");
+  List<Modification> lastPush=configTestRepo.addCodeToRepositoryAndPush("a.java","added code file","some java code");
   byPassWorker.onMessage(new MaterialUpdateMessage(material,123));
   RepoConfigOrigin configOrigin=(RepoConfigOrigin)goConfigService.pipelineConfigNamed(new CaseInsensitiveString(PIPELINE_NAME)).getOrigin();
   assertThat(configOrigin.getRevision(),is(firstRevisions.latestRevision()));
   final HashMap<String,String> revisions=new HashMap<String,String>();
   final HashMap<String,String> environmentVariables=new HashMap<String,String>();
   buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,Username.ANONYMOUS,new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
-  scheduleHelper.waitForNotScheduled(5,PIPELINE_NAME);
+  Map<String,BuildCause> afterLoad=scheduleHelper.waitForAnyScheduled(5);
+  assertThat(afterLoad.keySet(),hasItem(PIPELINE_NAME));
+  BuildCause cause=afterLoad.get(PIPELINE_NAME);
+  assertThat(cause.getBuildCauseMessage(),containsString("Forced by anonymous"));
+  assertThat("buildCauseRevisionShouldMatchLastPushedCommit",cause.getMaterialRevisions().latestRevision(),is(lastPush.get(0).getRevision()));
 }

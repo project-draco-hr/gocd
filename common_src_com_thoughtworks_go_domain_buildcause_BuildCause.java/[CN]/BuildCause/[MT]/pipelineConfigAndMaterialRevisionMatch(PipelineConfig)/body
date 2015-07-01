@@ -1,9 +1,13 @@
 {
-  try {
-    assertPipelineConfigAndMaterialRevisionMatch(config);
+  if (!pipelineConfig.isConfigOriginSameAsOneOfMaterials()) {
+    return true;
   }
- catch (  BuildCauseOutOfDateException e) {
-    return false;
+  RepoConfigOrigin repoConfigOrigin=(RepoConfigOrigin)pipelineConfig.getOrigin();
+  MaterialConfig configAndCodeMaterial=repoConfigOrigin.getMaterial();
+  MaterialRevision revision=this.getMaterialRevisions().findRevisionForFingerPrint(configAndCodeMaterial.getFingerprint());
+  String revisionString=revision.getRevision().getRevision();
+  if (pipelineConfig.isConfigOriginFromRevision(revisionString)) {
+    return true;
   }
-  return true;
+  return false;
 }
