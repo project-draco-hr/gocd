@@ -1,5 +1,6 @@
 {
   StageIdFaninScmMaterialPair revisionToSet=getRevisionToSet();
+  int i=1;
   while (revisionToSet != null) {
     for (    DependencyFanInNode child : depChildren) {
       final DependencyFanInNode.RevisionAlteration revisionAlteration=child.setRevisionTo(revisionToSet,context);
@@ -7,6 +8,10 @@
         throw NoCompatibleUpstreamRevisionsException.failedToFindCompatibleRevision(pipelineName,child.materialConfig);
       }
     }
+    if (fanInEventListener != null) {
+      fanInEventListener.iterationComplete(i,depChildren);
+    }
+    i++;
     revisionToSet=getRevisionToSet();
   }
 }
