@@ -1,0 +1,14 @@
+{
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_PARSE_DIRECTORY,new PluginInteractionCallback<CRPartialConfig>(){
+    @Override public String requestBody(    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForParseDirectory(destinationFolder,configurations);
+    }
+    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
+      return null;
+    }
+    @Override public CRPartialConfig onSuccess(    String responseBody,    String resolvedExtensionVersion){
+      return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForParseDirectory(responseBody);
+    }
+  }
+);
+}
