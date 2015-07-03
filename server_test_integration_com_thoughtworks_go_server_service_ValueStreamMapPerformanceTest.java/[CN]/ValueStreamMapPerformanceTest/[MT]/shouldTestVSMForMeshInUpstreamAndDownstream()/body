@@ -6,11 +6,14 @@
   ScmMaterial svn=u.wf((ScmMaterial)MaterialsMother.defaultMaterials().get(0),"folder1");
   String[] svn_revs={"svn_1"};
   u.checkinInOrder(svn,svn_revs);
-  PipelineConfig upstreamConfig=createPipelineWithInstances("upstream",new ArrayList<PipelineConfig>(),1);
-  PipelineConfig currentConfig=createMesh(upstreamConfig,"current","up",numberOfInstancesForUpstream,numberOfNodesPerLevel,numberOfLevels);
-  createMesh(currentConfig,"downstream","down",numberOfInstancesForDownstream,numberOfNodesPerLevel,numberOfLevels);
+  PipelineConfig upstreamConfig=graphGenerator.createPipelineWithInstances("upstream",new ArrayList<PipelineConfig>(),1);
+  PipelineConfig currentConfig=graphGenerator.createMesh(upstreamConfig,"current","up",numberOfInstancesForUpstream,numberOfNodesPerLevel,numberOfLevels);
+  graphGenerator.createMesh(currentConfig,"downstream","down",numberOfInstancesForDownstream,numberOfNodesPerLevel,numberOfLevels);
   long start=System.currentTimeMillis();
-  valueStreamMapService.getValueStreamMap("current",1,Username.ANONYMOUS,new DefaultLocalizedOperationResult());
+  DefaultLocalizedOperationResult result=new DefaultLocalizedOperationResult();
+  ValueStreamMapPresentationModel presentationModel=valueStreamMapService.getValueStreamMap("current",1,Username.ANONYMOUS,result);
   long timeTaken=(System.currentTimeMillis() - start) / 1000;
   assertThat(String.format("VSM took %ds. Should have been generated in 30s.",timeTaken),timeTaken,Matchers.lessThan(30l));
+  assertThat(result.isSuccessful(),is(true));
+  assertThat(presentationModel.getNodesAtEachLevel().size(),is(14));
 }

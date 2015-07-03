@@ -1,9 +1,8 @@
 {
-  configHelper=new GoConfigFileHelper();
-  dbHelper.onSetUp();
+  goCache.clear();
   configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
   configHelper.onSetUp();
-  goConfigService.forceNotifyListeners();
+  dbHelper.onSetUp();
   u=new ScheduleTestUtil(transactionTemplate,materialRepository,dbHelper,configHelper);
   graphGenerator=new GraphGenerator(configHelper,u);
 }
