@@ -1,0 +1,6 @@
+{
+  extension=mock(ConfigRepoExtension.class);
+  service=new GoConfigPluginService(extension,mock(ConfigCache.class),ConfigElementImplementationRegistryMother.withNoPlugins(),mock(MetricsProbeService.class));
+  partialConfig=new CRPartialConfig();
+  when(extension.ParseCheckout(any(String.class),any(String.class),any(Collection.class))).thenReturn(partialConfig);
+}
