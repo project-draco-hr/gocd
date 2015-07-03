@@ -3,6 +3,10 @@
     addError("labelTemplate",LABEL_TEMPLATE_ERROR_MESSAGE);
     return;
   }
+  if (validateLabelTemplateTruncation(labelTemplate)) {
+    addError("labelTemplate",String.format("Length of zero not allowed on label %s defined on pipeline %s.",labelTemplate,name));
+    return;
+  }
   Set<String> templateVariables=getTemplateVariables();
   List<String> materialNames=allowedTemplateVariables();
   for (  final String templateVariable : templateVariables) {
