@@ -4,7 +4,7 @@
   String md5=goConfigFileDao.md5OfConfigFile();
   ModelAndView mav=controller.postPipelineAsXmlPartial(4,groupName,NEW_PIPELINE,md5,response);
   assertThat(response.getStatus(),is(SC_NOT_FOUND));
-  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));
   Json json=(Json)mav.getModel().get("json");
   JsonMap jsonMap=new JsonMap();
   jsonMap.put("result","Pipeline does not exist.");
