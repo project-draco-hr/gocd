@@ -1,0 +1,8 @@
+{
+  Map<String,T> examples=getBadExamples();
+  for (  Map.Entry<String,T> example : examples.entrySet()) {
+    ErrorCollection errorCollection=new ErrorCollection();
+    example.getValue().getErrors(errorCollection);
+    assertThat(String.format("Example %s - invalid value should return errors",example.getKey()),errorCollection.isEmpty(),is(false));
+  }
+}
