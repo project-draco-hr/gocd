@@ -1,0 +1,20 @@
+{
+  if (this == o) {
+    return true;
+  }
+  CREnvironment_1 that=(CREnvironment_1)o;
+  if (that == null)   return false;
+  if (name != null ? !name.equals(that.getName()) : that.getName() != null) {
+    return false;
+  }
+  if (agents != null ? !CollectionUtils.isEqualCollection(this.getAgents(),that.getAgents()) : that.getAgents() != null) {
+    return false;
+  }
+  if (pipelines != null ? !CollectionUtils.isEqualCollection(this.getPipelines(),that.getPipelines()) : that.getPipelines() != null) {
+    return false;
+  }
+  if (environmentVariables != null ? !CollectionUtils.isEqualCollection(this.getEnvironmentVariables(),that.getEnvironmentVariables()) : that.getEnvironmentVariables() != null) {
+    return false;
+  }
+  return true;
+}
