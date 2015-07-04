@@ -1,3 +1,12 @@
 {
-  throw new RuntimeException("not implemented");
+  CRPartialConfig_1 partialConfig_1=deserializePartialConfig_1(responseBody);
+  validatePartialConfig(partialConfig_1);
+  CRPartialConfig partialConfig;
+  try {
+    partialConfig=migrate(partialConfig_1);
+    return partialConfig;
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(String.format("Unable to migrate json response v1.0 to current contract version. Error: %s.",e.getMessage()));
+  }
 }
