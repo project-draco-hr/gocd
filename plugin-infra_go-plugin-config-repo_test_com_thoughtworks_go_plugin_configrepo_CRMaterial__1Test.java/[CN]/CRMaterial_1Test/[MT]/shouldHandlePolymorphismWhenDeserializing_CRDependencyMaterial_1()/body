@@ -1,0 +1,9 @@
+{
+  Map<String,CRMaterial_1> examples=getExamples();
+  for (  Map.Entry<String,CRMaterial_1> example : examples.entrySet()) {
+    CRMaterial_1 value=example.getValue();
+    String json=gson.toJson(value);
+    CRDependencyMaterial_1 deserializedValue=(CRDependencyMaterial_1)gson.fromJson(json,CRMaterial_1.class);
+    assertThat(String.format("Example %s - Deserialized value should equal to value before serialization",example.getKey()),deserializedValue,is(value));
+  }
+}
