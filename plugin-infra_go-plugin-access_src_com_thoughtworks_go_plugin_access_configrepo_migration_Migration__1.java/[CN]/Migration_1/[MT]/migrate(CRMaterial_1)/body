@@ -1,5 +1,6 @@
 {
   String typeName=material_1.typeName();
+  if (typeName == null)   throw new IllegalArgumentException("material has returned null type");
 switch (typeName) {
 case CRDependencyMaterial_1.TYPE_NAME:
     CRDependencyMaterial_1 dependencyMaterial_1=(CRDependencyMaterial_1)material_1;
@@ -10,6 +11,9 @@ return new CRPackageMaterial(crPackageMaterial_1.getName(),crPackageMaterial_1.g
 case CRPluggableScmMaterial_1.TYPE_NAME:
 CRPluggableScmMaterial_1 crPluggableScmMaterial_1=(CRPluggableScmMaterial_1)material_1;
 return new CRPluggableScmMaterial(crPluggableScmMaterial_1.getName(),crPluggableScmMaterial_1.getScmId(),crPluggableScmMaterial_1.getDirectory(),crPluggableScmMaterial_1.getFilter());
+case CRGitMaterial_1.TYPE_NAME:
+CRGitMaterial_1 crGitMaterial_1=(CRGitMaterial_1)material_1;
+return new CRGitMaterial(crGitMaterial_1.getName(),crGitMaterial_1.getDirectory(),crGitMaterial_1.isAutoUpdate(),crGitMaterial_1.getFilter(),crGitMaterial_1.getUrl(),crGitMaterial_1.getBranch());
 default :
 throw new CRMigrationException(String.format("Invalid or unknown material type %s",typeName));
 }
