@@ -7,6 +7,9 @@ case CRDependencyMaterial_1.TYPE_NAME:
 case CRPackageMaterial_1.TYPE_NAME:
 CRPackageMaterial_1 crPackageMaterial_1=(CRPackageMaterial_1)material_1;
 return new CRPackageMaterial(crPackageMaterial_1.getName(),crPackageMaterial_1.getPackageId());
+case CRPluggableScmMaterial_1.TYPE_NAME:
+CRPluggableScmMaterial_1 crPluggableScmMaterial_1=(CRPluggableScmMaterial_1)material_1;
+return new CRPluggableScmMaterial(crPluggableScmMaterial_1.getName(),crPluggableScmMaterial_1.getScmId(),crPluggableScmMaterial_1.getDirectory(),crPluggableScmMaterial_1.getFilter());
 default :
 throw new CRMigrationException(String.format("Invalid or unknown material type %s",typeName));
 }
