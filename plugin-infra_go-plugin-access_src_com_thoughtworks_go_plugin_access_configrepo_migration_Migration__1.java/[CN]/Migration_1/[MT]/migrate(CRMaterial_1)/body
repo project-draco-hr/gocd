@@ -4,6 +4,9 @@ switch (typeName) {
 case CRDependencyMaterial_1.TYPE_NAME:
     CRDependencyMaterial_1 dependencyMaterial_1=(CRDependencyMaterial_1)material_1;
   return new CRDependencyMaterial(dependencyMaterial_1.getName(),dependencyMaterial_1.getPipelineName(),dependencyMaterial_1.getStageName());
+case CRPackageMaterial_1.TYPE_NAME:
+CRPackageMaterial_1 crPackageMaterial_1=(CRPackageMaterial_1)material_1;
+return new CRPackageMaterial(crPackageMaterial_1.getName(),crPackageMaterial_1.getPackageId());
 default :
 throw new CRMigrationException(String.format("Invalid or unknown material type %s",typeName));
 }

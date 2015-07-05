@@ -1,0 +1,8 @@
+{
+  CRPackageMaterial_1 packageMaterial=new CRPackageMaterial_1("myapt","apt-package-plugin-id");
+  CRMaterial result=migration.migrate(packageMaterial);
+  assertThat(result.getName(),is("myapt"));
+  assertThat(result instanceof CRPackageMaterial,is(true));
+  CRPackageMaterial crDependencyMaterial=(CRPackageMaterial)result;
+  assertThat(crDependencyMaterial.getPackageId(),is("apt-package-plugin-id"));
+}
