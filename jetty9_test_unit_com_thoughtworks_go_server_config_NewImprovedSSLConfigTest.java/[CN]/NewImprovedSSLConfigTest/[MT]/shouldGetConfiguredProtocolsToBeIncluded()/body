@@ -1,0 +1,6 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_FILE_PATH)).thenReturn(defaultSSLConfig);
+  NewImprovedSSLConfig config=new NewImprovedSSLConfig(systemEnvironment);
+  assertThat(config.getProtocolsToBeIncluded().length,is(1));
+  assertThat(config.getProtocolsToBeIncluded()[0],is("TLSv1.2"));
+}
