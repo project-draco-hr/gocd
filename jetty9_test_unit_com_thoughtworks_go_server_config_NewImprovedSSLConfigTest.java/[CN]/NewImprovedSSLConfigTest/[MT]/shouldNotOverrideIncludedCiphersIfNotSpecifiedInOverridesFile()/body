@@ -1,8 +1,0 @@
-{
-  when(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_FILE_PATH)).thenReturn(defaultSSLConfig);
-  NewImprovedSSLConfig systemConfigured=new NewImprovedSSLConfig(systemEnvironment);
-  FileUtils.writeStringToFile(overrideFile,org.apache.commons.io.IOUtils.toString(getClass().getResourceAsStream(partialConfig)));
-  when(systemEnvironment.get(SystemEnvironment.USER_CONFIGURED_SSL_CONFIG_FILE_PATH)).thenReturn(overrideFile.getAbsolutePath());
-  NewImprovedSSLConfig userOverriddenConfig=new NewImprovedSSLConfig(systemEnvironment);
-  assertThat(userOverriddenConfig.getCipherSuitesToBeExcluded(),is(systemConfigured.getCipherSuitesToBeExcluded()));
-}

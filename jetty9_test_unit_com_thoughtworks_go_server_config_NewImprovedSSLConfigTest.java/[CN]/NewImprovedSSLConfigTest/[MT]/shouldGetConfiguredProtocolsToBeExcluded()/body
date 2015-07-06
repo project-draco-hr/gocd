@@ -1,7 +1,0 @@
-{
-  when(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_FILE_PATH)).thenReturn(defaultSSLConfig);
-  NewImprovedSSLConfig config=new NewImprovedSSLConfig(systemEnvironment);
-  assertThat(config.getProtocolsToBeExcluded().length,is(2));
-  assertThat(config.getProtocolsToBeExcluded()[0],is("SSLv3"));
-  assertThat(config.getProtocolsToBeExcluded()[1],is("SSLv1"));
-}

@@ -3,7 +3,7 @@
   File actualConfigFile=new File(getClass().getResource(filePath).toURI());
   String config=FileUtils.readFileToString(actualConfigFile);
   try {
-    new Gson().fromJson(config,NewImprovedSSLConfig.Config.class);
+    new Gson().fromJson(config,ConfigurableSSLSettings.Config.class);
   }
  catch (  Exception e) {
     fail("Invalid content in ssl.config file. " + e.getMessage());

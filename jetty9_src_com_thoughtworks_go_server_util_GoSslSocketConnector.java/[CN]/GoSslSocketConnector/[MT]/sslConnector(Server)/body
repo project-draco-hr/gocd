@@ -12,10 +12,10 @@
   sslContextFactory.setTrustStorePath(truststore.getPath());
   sslContextFactory.setTrustStorePassword(password);
   sslContextFactory.setWantClientAuth(true);
-  if (!ArrayUtils.isEmpty(goSSLConfig.getCipherSuitesToBeIncluded()))   sslContextFactory.setIncludeCipherSuites(goSSLConfig.getCipherSuitesToBeIncluded());
-  if (!ArrayUtils.isEmpty(goSSLConfig.getCipherSuitesToBeExcluded()))   sslContextFactory.setExcludeCipherSuites(goSSLConfig.getCipherSuitesToBeExcluded());
-  if (!ArrayUtils.isEmpty(goSSLConfig.getProtocolsToBeExcluded()))   sslContextFactory.setExcludeProtocols(goSSLConfig.getProtocolsToBeExcluded());
-  if (!ArrayUtils.isEmpty(goSSLConfig.getProtocolsToBeIncluded()))   sslContextFactory.setIncludeProtocols(goSSLConfig.getProtocolsToBeIncluded());
+  if (!ArrayUtil.isEmpty(goSSLConfig.getCipherSuitesToBeIncluded()))   sslContextFactory.setIncludeCipherSuites(goSSLConfig.getCipherSuitesToBeIncluded());
+  if (!ArrayUtil.isEmpty(goSSLConfig.getCipherSuitesToBeExcluded()))   sslContextFactory.setExcludeCipherSuites(goSSLConfig.getCipherSuitesToBeExcluded());
+  if (!ArrayUtil.isEmpty(goSSLConfig.getProtocolsToBeExcluded()))   sslContextFactory.setExcludeProtocols(goSSLConfig.getProtocolsToBeExcluded());
+  if (!ArrayUtil.isEmpty(goSSLConfig.getProtocolsToBeIncluded()))   sslContextFactory.setIncludeProtocols(goSSLConfig.getProtocolsToBeIncluded());
   sslContextFactory.setRenegotiationAllowed(goSSLConfig.isRenegotiationAllowed());
   LOGGER.info("Included ciphers: {}",ArrayUtil.join(goSSLConfig.getCipherSuitesToBeIncluded()));
   LOGGER.info("Excluded ciphers: {}",ArrayUtil.join(goSSLConfig.getCipherSuitesToBeExcluded()));

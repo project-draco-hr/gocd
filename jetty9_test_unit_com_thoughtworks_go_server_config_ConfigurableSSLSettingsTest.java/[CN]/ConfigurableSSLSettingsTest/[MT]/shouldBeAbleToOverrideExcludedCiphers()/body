@@ -1,0 +1,7 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_FILE_PATH)).thenReturn(defaultSSLConfig);
+  when(systemEnvironment.get(SystemEnvironment.USER_CONFIGURED_SSL_CONFIG_FILE_PATH)).thenReturn(overrideFile.getAbsolutePath());
+  ConfigurableSSLSettings userOverriddenConfig=new ConfigurableSSLSettings(systemEnvironment);
+  assertThat(userOverriddenConfig.getCipherSuitesToBeExcluded().length,is(1));
+  assertThat(userOverriddenConfig.getCipherSuitesToBeExcluded()[0],is("WEAK_CIPHER"));
+}
