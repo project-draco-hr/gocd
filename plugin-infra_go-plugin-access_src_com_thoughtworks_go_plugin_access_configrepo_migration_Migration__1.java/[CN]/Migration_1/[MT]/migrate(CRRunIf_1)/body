@@ -1,0 +1,13 @@
+{
+  if (runIf == null)   return CRRunIf.passed;
+switch (runIf) {
+case any:
+    return CRRunIf.any;
+case passed:
+  return CRRunIf.passed;
+case failed:
+return CRRunIf.failed;
+default :
+throw new CRMigrationException(String.format("Invalid or unknown task run-if condition %s",runIf));
+}
+}

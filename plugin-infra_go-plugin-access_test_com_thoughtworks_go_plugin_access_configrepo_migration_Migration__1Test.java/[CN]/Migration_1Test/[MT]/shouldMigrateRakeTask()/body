@@ -1,0 +1,14 @@
+{
+  CRBuildTask_1 crBuildTask_1=CRBuildTask_1.rake("Rakefile.rb","build","src/tasks");
+  crBuildTask_1.setRunIf(CRRunIf_1.any);
+  crBuildTask_1.setOnCancel(new CRExecTask_1("cleanup"));
+  CRTask result=migration.migrate(crBuildTask_1);
+  assertThat(result instanceof CRBuildTask,is(true));
+  CRBuildTask crBuildTask=(CRBuildTask)result;
+  assertThat(crBuildTask.getRunIf(),is(CRRunIf.any));
+  assertThat(((CRExecTask)crBuildTask.getOnCancel()).getCommand(),is("cleanup"));
+  assertThat(crBuildTask.getBuildFile(),is("Rakefile.rb"));
+  assertThat(crBuildTask.getTarget(),is("build"));
+  assertThat(crBuildTask.getWorkingDirectory(),is("src/tasks"));
+  assertThat(crBuildTask.getType(),is(CRBuildFramework.rake));
+}

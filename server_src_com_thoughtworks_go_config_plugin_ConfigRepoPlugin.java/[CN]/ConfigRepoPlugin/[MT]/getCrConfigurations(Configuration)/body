@@ -1,10 +1,10 @@
 {
-  List<CRConfiguration> config=new ArrayList<>();
+  List<CRConfigurationProperty> config=new ArrayList<>();
   for (  ConfigurationProperty prop : configuration) {
     String configKeyName=prop.getConfigKeyName();
-    if (!prop.isSecure())     config.add(new CRConfiguration(configKeyName,prop.getValue()));
+    if (!prop.isSecure())     config.add(new CRConfigurationProperty(configKeyName,prop.getValue()));
  else {
-      CRConfiguration crProp=new CRConfiguration(configKeyName);
+      CRConfigurationProperty crProp=new CRConfigurationProperty(configKeyName);
       crProp.setEncryptedValue(prop.getEncryptedValue().getValue());
       config.add(crProp);
     }

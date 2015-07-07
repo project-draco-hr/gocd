@@ -1,0 +1,9 @@
+{
+  if (this.configuration == null)   return;
+  HashSet<String> keys=new HashSet<>();
+  for (  CRConfigurationProperty_1 property1 : this.configuration) {
+    String key=property1.getKey();
+    if (keys.contains(key))     errors.add(this,String.format("Configuration property %s is defined more than once",property1));
+ else     keys.add(key);
+  }
+}

@@ -1,0 +1,7 @@
+{
+  JsonObject jsonObject=json.getAsJsonObject();
+  JsonPrimitive prim=(JsonPrimitive)jsonObject.get(TYPE);
+  String typeName=prim.getAsString();
+  Class<?> klass=classForName(typeName);
+  return context.deserialize(jsonObject,klass);
+}

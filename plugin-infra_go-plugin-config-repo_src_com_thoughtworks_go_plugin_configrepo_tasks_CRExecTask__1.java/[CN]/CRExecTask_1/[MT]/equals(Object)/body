@@ -1,0 +1,21 @@
+{
+  if (this == o) {
+    return true;
+  }
+  CRExecTask_1 that=(CRExecTask_1)o;
+  if (that == null)   return false;
+  if (!super.equals(that))   return false;
+  if (command != null ? !command.equals(that.command) : that.command != null) {
+    return false;
+  }
+  if (workingDirectory != null ? !workingDirectory.equals(that.workingDirectory) : that.workingDirectory != null) {
+    return false;
+  }
+  if (timeout != null ? !timeout.equals(that.timeout) : that.timeout != null) {
+    return false;
+  }
+  if (args != null ? !CollectionUtils.isEqualCollection(this.args,that.args) : that.args != null) {
+    return false;
+  }
+  return true;
+}
