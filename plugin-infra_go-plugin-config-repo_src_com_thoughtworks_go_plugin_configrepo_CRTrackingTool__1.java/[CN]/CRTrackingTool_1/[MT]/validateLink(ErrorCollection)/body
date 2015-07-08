@@ -1,0 +1,8 @@
+{
+  if (StringUtil.isBlank(link)) {
+    errors.add(this,"Tracking tool link not set");
+  }
+  if (link != null && !link.contains("${ID}")) {
+    errors.add(this,"Link must be a URL containing '${ID}'. Go will replace the string '${ID}' with the first matched group from the regex at run-time.");
+  }
+}

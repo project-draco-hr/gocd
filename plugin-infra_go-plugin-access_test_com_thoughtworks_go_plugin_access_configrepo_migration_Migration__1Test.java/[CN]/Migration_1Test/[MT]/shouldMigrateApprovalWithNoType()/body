@@ -1,0 +1,9 @@
+{
+  CRApproval_1 approval_1=new CRApproval_1(null);
+  approval_1.setAuthorizedRoles(null);
+  approval_1.setAuthorizedUsers(null);
+  CRApproval result=migration.migrate(approval_1);
+  assertThat(result.getType(),is(CRApprovalCondition.success));
+  assertThat(result.getAuthorizedRoles().isEmpty(),is(true));
+  assertThat(result.getAuthorizedUsers().isEmpty(),is(true));
+}

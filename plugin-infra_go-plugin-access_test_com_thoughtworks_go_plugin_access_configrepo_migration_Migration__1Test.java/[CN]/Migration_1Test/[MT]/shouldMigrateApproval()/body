@@ -1,0 +1,9 @@
+{
+  CRApproval_1 approval_1=new CRApproval_1("manual");
+  approval_1.addAuthorizedUser("user1");
+  approval_1.addAuthorizedRole("tester");
+  CRApproval result=migration.migrate(approval_1);
+  assertThat(result.getType(),is(CRApprovalCondition.manual));
+  assertThat(result.getAuthorizedRoles(),hasItem("tester"));
+  assertThat(result.getAuthorizedUsers(),hasItem("user1"));
+}
