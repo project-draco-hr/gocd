@@ -1,0 +1,9 @@
+{
+  String[] defaultValue={"junk","funk"};
+  String propertyName="property.name";
+  SystemEnvironment.GoStringArraySystemProperty property=new SystemEnvironment.GoStringArraySystemProperty(propertyName,defaultValue);
+  System.clearProperty(propertyName);
+  assertThat(systemEnvironment.get(property),is(defaultValue));
+  System.setProperty(propertyName," ");
+  assertThat(systemEnvironment.get(property),is(defaultValue));
+}

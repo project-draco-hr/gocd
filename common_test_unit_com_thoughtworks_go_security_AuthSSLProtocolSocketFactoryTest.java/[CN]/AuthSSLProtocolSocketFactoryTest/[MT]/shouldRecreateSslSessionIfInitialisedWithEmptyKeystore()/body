@@ -18,4 +18,5 @@
 );
   SSLContext newSslContext=factory.getSSLContext();
   assertThat(oldSslContext,not(newSslContext));
+  assertThat(newSslContext.getProtocol(),is(new SystemEnvironment().get(SystemEnvironment.GO_SSL_TRANSPORT_PROTOCOL_TO_BE_USED_BY_AGENT)));
 }
