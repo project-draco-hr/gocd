@@ -1,0 +1,12 @@
+{
+switch (runIf) {
+case any:
+    return new RunIfConfigs(RunIfConfig.ANY);
+case passed:
+  return new RunIfConfigs(RunIfConfig.PASSED);
+case failed:
+return new RunIfConfigs(RunIfConfig.FAILED);
+default :
+throw new RuntimeException(String.format("unknown run if condition '%s'",runIf));
+}
+}

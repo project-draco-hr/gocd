@@ -1,0 +1,11 @@
+{
+  CRFetchArtifactTask crFetchArtifactTask=new CRFetchArtifactTask(CRRunIf.failed,null,"upstream","stage","job","src","dest",true);
+  FetchTask result=(FetchTask)configConverter.toAbstractTask(crFetchArtifactTask);
+  assertThat(result.getConditions().first(),is(RunIfConfig.FAILED));
+  assertThat(result.getDest(),is("dest"));
+  assertThat(result.getJob().toLower(),is("job"));
+  assertThat(result.getPipelineName().toLower(),is("upstream"));
+  assertThat(result.getSrc(),is("src"));
+  assertNull(result.getSrcfile());
+  assertThat(result.isSourceAFile(),is(false));
+}
