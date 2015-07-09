@@ -1,0 +1,7 @@
+{
+  String json=gson.toJson(pipe1);
+  CRPipeline_1 deserializedValue=gson.fromJson(json,CRPipeline_1.class);
+  CRMaterial_1 git=deserializedValue.getMaterialByName("gitMaterial1");
+  assertThat(git instanceof CRGitMaterial_1,is(true));
+  assertThat(((CRGitMaterial_1)git).getBranch(),is("feature12"));
+}
