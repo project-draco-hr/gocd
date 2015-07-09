@@ -2,5 +2,5 @@
   PartialConfigProvider plugin=service.partialConfigProviderFor("plugin-id");
   assertThat(plugin instanceof ConfigRepoPlugin,is(true));
   CRPartialConfig loaded=((ConfigRepoPlugin)plugin).parseDirectory(new File("dir"),mock(Collection.class));
-  assertSame(loaded,partialConfig);
+  assertSame(loaded,parseResult.getPartialConfig());
 }

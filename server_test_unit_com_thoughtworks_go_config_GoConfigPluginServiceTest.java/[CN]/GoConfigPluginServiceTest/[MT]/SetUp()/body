@@ -2,5 +2,6 @@
   extension=mock(ConfigRepoExtension.class);
   service=new GoConfigPluginService(extension,mock(ConfigCache.class),ConfigElementImplementationRegistryMother.withNoPlugins(),mock(MetricsProbeService.class));
   partialConfig=new CRPartialConfig();
-  when(extension.parseDirectory(any(String.class),any(String.class),any(Collection.class))).thenReturn(partialConfig);
+  parseResult=new CRParseResult(partialConfig);
+  when(extension.parseDirectory(any(String.class),any(String.class),any(Collection.class))).thenReturn(parseResult);
 }

@@ -1,3 +1,6 @@
 {
-  return this.crExtension.parseDirectory(this.pluginId,configRepoCheckoutDirectory.getAbsolutePath(),cRconfigurations);
+  CRParseResult crParseResult=this.crExtension.parseDirectory(this.pluginId,configRepoCheckoutDirectory.getAbsolutePath(),cRconfigurations);
+  List<CRError> errors=crParseResult.getErrors();
+  if (errors != null && !errors.isEmpty())   throw new InvalidPartialConfigException(crParseResult,errors);
+  return crParseResult.getPartialConfig();
 }

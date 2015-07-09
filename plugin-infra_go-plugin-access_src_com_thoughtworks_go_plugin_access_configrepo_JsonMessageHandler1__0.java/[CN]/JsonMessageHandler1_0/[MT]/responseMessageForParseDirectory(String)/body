@@ -1,12 +1,22 @@
 {
-  CRPartialConfig_1 partialConfig_1=deserializePartialConfig_1(responseBody);
-  validatePartialConfig(partialConfig_1);
+  ParseDirectoryResponseMessage_1 responseMessage_1=deserializeResponse(responseBody);
+  if (responseMessage_1.hasErrors()) {
+    LOGGER.warn("Configuration repository plugin has reported errors");
+    return new CRParseResult(null,migrate(responseMessage_1.getErrors()));
+  }
+  CRPartialConfig_1 partialConfig_1=responseMessage_1.getConfig();
+  ErrorCollection errors=validatePartialConfig(partialConfig_1);
+  if (!errors.isEmpty()) {
+    LOGGER.warn("Configuration repository plugin has returned invalid configuration");
+    return new CRParseResult(null,migrate(responseMessage_1.getErrors()));
+  }
   CRPartialConfig partialConfig;
   try {
     partialConfig=migrate(partialConfig_1);
-    return partialConfig;
+    return new CRParseResult(partialConfig);
   }
  catch (  Exception e) {
-    throw new RuntimeException(String.format("Unable to migrate json response v1.0 to current contract version. Error: %s.",e.getMessage()));
+    String errorMessage=String.format("Failed to migrate json response v1.0 to current contract version. Error: %s.",e.getMessage());
+    return new CRParseResult(null,errorMessage);
   }
 }
