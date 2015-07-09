@@ -1,0 +1,14 @@
+{
+  ArrayList<CREnvironmentVariable> environmentVariables=new ArrayList<>();
+  environmentVariables.add(new CREnvironmentVariable("key","value"));
+  ArrayList<String> agents=new ArrayList<>();
+  agents.add("12");
+  ArrayList<String> pipelines=new ArrayList<>();
+  pipelines.add("pipe1");
+  CREnvironment crEnvironment=new CREnvironment("dev",environmentVariables,agents,pipelines);
+  BasicEnvironmentConfig environmentConfig=configConverter.toEnvironmentConfig(crEnvironment);
+  assertThat(environmentConfig.name().toLower(),is("dev"));
+  assertThat(environmentConfig.contains("pipe1"),is(true));
+  assertThat(environmentConfig.hasVariable("key"),is(true));
+  assertThat(environmentConfig.hasAgent("12"),is(true));
+}
