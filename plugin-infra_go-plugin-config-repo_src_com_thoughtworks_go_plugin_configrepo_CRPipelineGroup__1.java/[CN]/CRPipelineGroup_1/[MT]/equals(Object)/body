@@ -1,0 +1,19 @@
+{
+  if (this == o) {
+    return true;
+  }
+  CRPipelineGroup_1 that=(CRPipelineGroup_1)o;
+  if (that == null)   return false;
+  if (name != null ? !name.equals(that.getName()) : that.getName() != null) {
+    return false;
+  }
+  if (pipelines != null) {
+    if (that.pipelines == null)     return false;
+    if (this.pipelines.size() != that.pipelines.size())     return false;
+    for (int i=0; i < pipelines.size(); i++) {
+      if (!this.pipelines.get(i).equals(that.pipelines.get(i)))       return false;
+    }
+  }
+ else   if (that.pipelines != null)   return false;
+  return true;
+}
