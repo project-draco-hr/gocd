@@ -7,4 +7,10 @@
   when(goCipher.encrypt("secret")).thenReturn("encryptedvalue");
   filter=new ArrayList<>();
   filter.add("filter");
+  environmentVariables.add(new CREnvironmentVariable("key","value"));
+  tabs.add(new CRTab("tabname","tabpath"));
+  resources.add("resource1");
+  artifacts.add(new CRArtifact("src","dest"));
+  artifactPropertiesGenerators.add(new CRPropertyGenerator("name","src","path"));
+  tasks.add(new CRFetchArtifactTask(CRRunIf.failed,null,"upstream","stage","job","src","dest",false));
 }
