@@ -1,0 +1,7 @@
+{
+  List<CRPipeline> pipelines=new ArrayList<>();
+  pipelines.add(new CRPipeline("pipename","label",true,trackingTool,null,timer,environmentVariables,materials,stages));
+  CRPipelineGroup crPipelineGroup=new CRPipelineGroup("group",pipelines);
+  assertThat(crPipelineGroup.getName(),is("group"));
+  assertThat(crPipelineGroup.getPipelines().size(),is(1));
+}
