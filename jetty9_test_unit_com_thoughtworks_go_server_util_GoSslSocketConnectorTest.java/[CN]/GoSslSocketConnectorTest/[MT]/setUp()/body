@@ -1,9 +1,9 @@
 {
   keystore=folder.newFile("keystore");
   truststore=folder.newFile("truststore");
-  GoCipherSuite cipherSuite=mock(GoCipherSuite.class);
+  GoSSLConfig cipherSuite=mock(GoSSLConfig.class);
   String[] cipherSuitesToBeIncluded={"FOO"};
-  when(cipherSuite.getCipherSuitsToBeIncluded()).thenReturn(cipherSuitesToBeIncluded);
+  when(cipherSuite.getCipherSuitesToBeIncluded()).thenReturn(cipherSuitesToBeIncluded);
   SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
   when(systemEnvironment.getSslServerPort()).thenReturn(1234);
   when(systemEnvironment.keystore()).thenReturn(keystore);

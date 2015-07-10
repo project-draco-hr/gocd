@@ -12,7 +12,16 @@
   sslContextFactory.setTrustStorePath(truststore.getPath());
   sslContextFactory.setTrustStorePassword(password);
   sslContextFactory.setWantClientAuth(true);
-  sslContextFactory.setIncludeCipherSuites(goCipherSuite.getCipherSuitsToBeIncluded());
+  if (!ArrayUtil.isEmpty(goSSLConfig.getCipherSuitesToBeIncluded()))   sslContextFactory.setIncludeCipherSuites(goSSLConfig.getCipherSuitesToBeIncluded());
+  if (!ArrayUtil.isEmpty(goSSLConfig.getCipherSuitesToBeExcluded()))   sslContextFactory.setExcludeCipherSuites(goSSLConfig.getCipherSuitesToBeExcluded());
+  if (!ArrayUtil.isEmpty(goSSLConfig.getProtocolsToBeExcluded()))   sslContextFactory.setExcludeProtocols(goSSLConfig.getProtocolsToBeExcluded());
+  if (!ArrayUtil.isEmpty(goSSLConfig.getProtocolsToBeIncluded()))   sslContextFactory.setIncludeProtocols(goSSLConfig.getProtocolsToBeIncluded());
+  sslContextFactory.setRenegotiationAllowed(goSSLConfig.isRenegotiationAllowed());
+  LOGGER.info("Included ciphers: {}",ArrayUtil.join(goSSLConfig.getCipherSuitesToBeIncluded()));
+  LOGGER.info("Excluded ciphers: {}",ArrayUtil.join(goSSLConfig.getCipherSuitesToBeExcluded()));
+  LOGGER.info("Included protocols: {}",ArrayUtil.join(goSSLConfig.getProtocolsToBeIncluded()));
+  LOGGER.info("Excluded protocols: {}",ArrayUtil.join(goSSLConfig.getProtocolsToBeExcluded()));
+  LOGGER.info("Renegotiation Allowed: {}",goSSLConfig.isRenegotiationAllowed());
   ServerConnector https=new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(httpsConfig));
   https.setHost(systemEnvironment.getListenHost());
   https.setPort(systemEnvironment.getSslServerPort());

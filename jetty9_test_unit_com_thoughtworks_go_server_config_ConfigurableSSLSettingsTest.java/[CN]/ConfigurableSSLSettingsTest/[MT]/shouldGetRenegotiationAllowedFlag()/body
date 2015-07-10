@@ -1,0 +1,5 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_RENEGOTIATION_ALLOWED)).thenReturn(true);
+  ConfigurableSSLSettings config=new ConfigurableSSLSettings(systemEnvironment);
+  assertThat(config.isRenegotiationAllowed(),is(true));
+}

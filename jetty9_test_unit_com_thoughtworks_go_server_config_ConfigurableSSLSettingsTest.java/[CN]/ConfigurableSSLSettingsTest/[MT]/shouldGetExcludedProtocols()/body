@@ -1,0 +1,6 @@
+{
+  String[] protocols={"PROTO1","PROTO2"};
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_EXCLUDE_PROTOCOLS)).thenReturn(protocols);
+  ConfigurableSSLSettings config=new ConfigurableSSLSettings(systemEnvironment);
+  assertThat(config.getProtocolsToBeExcluded(),is(protocols));
+}

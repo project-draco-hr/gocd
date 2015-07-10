@@ -1,0 +1,24 @@
+{
+  CruiseConfig cruiseConfig=goConfigService.getCurrentConfig();
+  FanInGraph fanInGraph=new FanInGraph(cruiseConfig,pipelineName,materialRepository,pipelineDao,systemEnvironment,materialConfigConverter);
+  final String[] iterationData={null};
+  fanInGraph.setFanInEventListener(new FanInEventListener(){
+    @Override public void iterationComplete(    int iterationCount,    List<DependencyFanInNode> dependencyFanInNodes){
+      if (iterationCount == targetIterationCount) {
+        iterationData[0]=new GsonBuilder().setExclusionStrategies(getGsonExclusionStrategy()).create().toJson(dependencyFanInNodes);
+      }
+    }
+  }
+);
+  PipelineConfig pipelineConfig=goConfigService.pipelineConfigNamed(pipelineName);
+  Materials materials=materialConfigConverter.toMaterials(pipelineConfig.materialConfigs());
+  MaterialRevisions actualRevisions=new MaterialRevisions();
+  for (  Material material : materials) {
+    actualRevisions.addAll(materialRepository.findLatestModification(material));
+  }
+  MaterialRevisions materialRevisions=fanInGraph.computeRevisions(actualRevisions,pipelineTimeline);
+  if (iterationData[0] == null) {
+    iterationData[0]=new GsonBuilder().setExclusionStrategies(getGsonExclusionStrategy()).create().toJson(materialRevisions);
+  }
+  return iterationData[0];
+}

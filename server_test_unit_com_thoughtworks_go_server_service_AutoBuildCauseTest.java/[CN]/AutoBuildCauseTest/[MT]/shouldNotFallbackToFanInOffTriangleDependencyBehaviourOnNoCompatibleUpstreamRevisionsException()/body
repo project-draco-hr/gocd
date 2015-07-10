@@ -8,11 +8,13 @@
   NoCompatibleUpstreamRevisionsException expectedException=NoCompatibleUpstreamRevisionsException.failedToFindCompatibleRevision(new CaseInsensitiveString("downstream"),null);
   when(goConfigService.upstreamDependencyGraphOf(targetPipeline,cruiseConfig)).thenReturn(dependencyGraph);
   when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenThrow(expectedException);
+  when(systemEnvironment.enforceRevisionCompatibilityWithUpstream()).thenReturn(true);
+  when(systemEnvironment.enforceFanInFallbackBehaviour()).thenReturn(false);
   try {
-    new AutoBuild(goConfigService,pipelineService,targetPipeline,new SystemEnvironment(),materialChecker,serverHealthService).onModifications(revisions,false,null);
+    new AutoBuild(goConfigService,pipelineService,targetPipeline,systemEnvironment,materialChecker,serverHealthService).onModifications(revisions,false,null);
     fail("should have thrown exception");
   }
  catch (  NoCompatibleUpstreamRevisionsException e) {
-    assertThat(e,Is.is(expectedException));
+    assertThat(e,is(expectedException));
   }
 }

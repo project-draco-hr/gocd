@@ -1,0 +1,6 @@
+{
+  assertThat(SystemEnvironment.GO_SSL_CONFIG_ALLOW.propertyName(),is("go.ssl.config.allow"));
+  assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_ALLOW),is(true));
+  System.setProperty(SystemEnvironment.GO_SSL_CONFIG_ALLOW.propertyName(),"false");
+  assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_ALLOW),is(false));
+}

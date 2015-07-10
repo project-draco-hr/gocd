@@ -1,0 +1,6 @@
+{
+  String[] ciphers={"CIPHER1","CIPHER2"};
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_INCLUDE_CIPHERS)).thenReturn(ciphers);
+  ConfigurableSSLSettings config=new ConfigurableSSLSettings(systemEnvironment);
+  assertThat(config.getCipherSuitesToBeIncluded(),is(ciphers));
+}
