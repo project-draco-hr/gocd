@@ -1,0 +1,13 @@
+{
+  Approval approval;
+  if (crApproval.getType() == CRApprovalCondition.manual)   approval=Approval.manualApproval();
+ else   approval=Approval.automaticApproval();
+  AuthConfig authConfig=approval.getAuthConfig();
+  for (  String user : crApproval.getAuthorizedUsers()) {
+    authConfig.add(new AdminUser(new CaseInsensitiveString(user)));
+  }
+  for (  String user : crApproval.getAuthorizedRoles()) {
+    authConfig.add(new AdminRole(new CaseInsensitiveString(user)));
+  }
+  return approval;
+}
