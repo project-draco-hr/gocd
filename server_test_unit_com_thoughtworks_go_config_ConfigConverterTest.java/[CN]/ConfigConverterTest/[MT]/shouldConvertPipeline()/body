@@ -1,0 +1,11 @@
+{
+  CRPipeline crPipeline=new CRPipeline("pipename","label",true,trackingTool,null,timer,environmentVariables,materials,stages);
+  PipelineConfig pipelineConfig=configConverter.toPipelineConfig(crPipeline);
+  assertThat(pipelineConfig.name().toLower(),is("pipename"));
+  assertThat(pipelineConfig.materialConfigs().first() instanceof GitMaterialConfig,is(true));
+  assertThat(pipelineConfig.first().name().toLower(),is("stagename"));
+  assertThat(pipelineConfig.getVariables().hasVariable("key"),is(true));
+  assertThat(pipelineConfig.trackingTool().getLink(),is("link"));
+  assertThat(pipelineConfig.getTimer().getTimerSpec(),is("timer"));
+  assertThat(pipelineConfig.getLabelTemplate(),is("label"));
+}
