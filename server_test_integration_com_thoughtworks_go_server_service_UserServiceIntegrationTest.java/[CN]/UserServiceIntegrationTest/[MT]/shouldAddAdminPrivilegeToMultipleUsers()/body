@@ -1,7 +1,7 @@
 {
-  userDao.saveOrUpdate(new User("user"));
-  userDao.saveOrUpdate(new User("loser"));
-  userDao.saveOrUpdate(new User("boozer"));
+  addUser(new User("user"));
+  addUser(new User("loser"));
+  addUser(new User("boozer"));
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("user","boozer"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.add),new ArrayList<TriStateSelection>(),result);
   CruiseConfig cruiseConfig=goConfigFileDao.load();

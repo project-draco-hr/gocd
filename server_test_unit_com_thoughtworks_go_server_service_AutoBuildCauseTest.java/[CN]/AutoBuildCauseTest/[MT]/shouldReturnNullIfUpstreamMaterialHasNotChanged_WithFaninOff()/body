@@ -5,7 +5,6 @@
   dependencyRevision.markAsNotChanged();
   revisions.addRevision(dependencyRevision);
   when(goConfigService.upstreamDependencyGraphOf("current",cruiseConfig)).thenReturn(dependencyGraph);
-  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
   when(systemEnvironment.enforceRevisionCompatibilityWithUpstream()).thenReturn(false);
   AutoBuild autoBuild=new AutoBuild(goConfigService,pipelineService,"current",systemEnvironment,materialChecker,serverHealthService);
   BuildCause current=autoBuild.onModifications(revisions,false,null);

@@ -1,0 +1,6 @@
+{
+  assertThat(SystemEnvironment.GO_SSL_TRANSPORT_PROTOCOL_TO_BE_USED_BY_AGENT.propertyName(),is("go.ssl.agent.protocol"));
+  assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_TRANSPORT_PROTOCOL_TO_BE_USED_BY_AGENT),is("TLSv1.2"));
+  System.setProperty(SystemEnvironment.GO_SSL_TRANSPORT_PROTOCOL_TO_BE_USED_BY_AGENT.propertyName(),"SSL");
+  assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_TRANSPORT_PROTOCOL_TO_BE_USED_BY_AGENT),is("SSL"));
+}

@@ -1,0 +1,11 @@
+{
+  TemporaryFolder temporaryFolder=new TemporaryFolder();
+  temporaryFolder.create();
+  File junkFolder=temporaryFolder.newFolder("junk-folder");
+  Materials materials=new Materials();
+  GitMaterial gitMaterial=new GitMaterial("http://some-url.com","some-branch","some-folder");
+  materials.add(gitMaterial);
+  materials.cleanUp(temporaryFolder.getRoot(),mock(ConsoleOutputStreamConsumer.class));
+  assertThat(junkFolder.exists(),is(false));
+  temporaryFolder.delete();
+}

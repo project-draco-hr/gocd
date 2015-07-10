@@ -1,0 +1,11 @@
+{
+  return new ExclusionStrategy(){
+    @Override public boolean shouldSkipField(    FieldAttributes f){
+      return f.getName().equals("materialConfig") || f.getName().equals("parents") || f.getName().equals("children");
+    }
+    @Override public boolean shouldSkipClass(    Class<?> clazz){
+      return false;
+    }
+  }
+;
+}

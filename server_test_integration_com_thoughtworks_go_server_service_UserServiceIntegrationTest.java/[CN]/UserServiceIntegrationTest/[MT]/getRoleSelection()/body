@@ -3,9 +3,9 @@
   configFileHelper.addRole(new Role(new CaseInsensitiveString("boy")));
   configFileHelper.addRole(new Role(new CaseInsensitiveString("girl")));
   configFileHelper.addRole(new Role(new CaseInsensitiveString("none")));
-  userDao.saveOrUpdate(new User("yogi"));
-  userDao.saveOrUpdate(new User("shilpa"));
-  userDao.saveOrUpdate(new User("pavan"));
+  addUser(new User("yogi"));
+  addUser(new User("shilpa"));
+  addUser(new User("pavan"));
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("yogi","shilpa"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),Arrays.asList(new TriStateSelection("dev",TriStateSelection.Action.add)),new HttpLocalizedOperationResult());
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("shilpa"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),Arrays.asList(new TriStateSelection("girl",TriStateSelection.Action.add)),new HttpLocalizedOperationResult());
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("yogi"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),Arrays.asList(new TriStateSelection("boy",TriStateSelection.Action.add)),new HttpLocalizedOperationResult());

@@ -6,6 +6,6 @@
   ModelAndView mav=controller.postGroupAsXmlPartial("Pipeline Templates",newXml,md5,response);
   assertResponseMessage(mav,"Template changed successfully.");
   assertThat(response.getStatus(),is(SC_OK));
-  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));
   assertThat(configHelper.currentConfig().getTemplates().size(),is(1));
 }

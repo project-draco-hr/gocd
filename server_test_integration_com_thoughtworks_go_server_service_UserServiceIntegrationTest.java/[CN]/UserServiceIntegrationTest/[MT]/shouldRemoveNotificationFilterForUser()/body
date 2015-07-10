@@ -1,6 +1,6 @@
 {
   User user=new User("jez",new String[]{"jez"},"user@mail.com",true);
-  userDao.saveOrUpdate(user);
+  addUser(user);
   user=userDao.findUser(user.getName());
   NotificationFilter filter=new NotificationFilter("cruise","dev",StageEvent.Fixed,false);
   userService.addNotificationFilter(user.getId(),filter);
