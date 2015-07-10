@@ -1,0 +1,11 @@
+{
+  ParamStateMachine stateMachine=new ParamStateMachine();
+  doThrow(new IllegalStateException()).when(handler).handlePatternFound(any(StringBuilder.class));
+  try {
+    stateMachine.process("#{pattern}",handler);
+  }
+ catch (  Exception e) {
+  }
+  assertThat(ParamStateMachine.ReaderState.IN_PATTERN.pattern.length(),is(0));
+  verify(handler).handlePatternFound(any(StringBuilder.class));
+}

@@ -12,7 +12,6 @@
   revisions.addRevision(secondRev);
   revisions.addRevision(firstRev);
   when(goConfigService.upstreamDependencyGraphOf("third",cruiseConfig)).thenReturn(dependencyGraph);
-  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
   when(systemEnvironment.enforceRevisionCompatibilityWithUpstream()).thenReturn(false);
   AutoBuild build=new AutoBuild(goConfigService,pipelineService,"third",systemEnvironment,materialChecker,serverHealthService);
   BuildCause cause=build.onModifications(revisions,false,null);

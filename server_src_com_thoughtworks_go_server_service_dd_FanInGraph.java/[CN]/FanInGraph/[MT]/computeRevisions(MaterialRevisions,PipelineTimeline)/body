@@ -9,6 +9,9 @@
   FanInGraphContext context=buildContext(pipelineTimeline);
   root.initialize(context);
   initChildren(depChildren,pipelineName,context);
+  if (fanInEventListener != null) {
+    fanInEventListener.iterationComplete(0,depChildren);
+  }
   iterateAndMakeAllUniqueScmRevisionsForChildrenSame(depChildren,pipelineName,context);
   List<MaterialRevision> finalRevisionsForScmChildren=createFinalRevisionsForScmChildren(root.latestPipelineTimelineEntry(context),scmChildren,depChildren);
   List<MaterialRevision> finalRevisionsForDepChildren=createFinalRevisionsForDepChildren(depChildren);

@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
+  GoConfigMother mother=new GoConfigMother();
+  SvnMaterialConfig svn=new SvnMaterialConfig("url",false);
+  svn.setAutoUpdate(false);
+  ConfigRepoConfig configRepoConfig=new ConfigRepoConfig(svn,"plug");
+  cruiseConfig.setConfigRepos(new ConfigReposConfig(configRepoConfig));
+  configRepoConfig.validate(null);
+  assertThat(configRepoConfig.errors().isEmpty(),is(false));
+  assertThat(configRepoConfig.errors().on(ConfigRepoConfig.AUTO_UPDATE),is("Configuration repository material url must have autoUpdate enabled"));
+}

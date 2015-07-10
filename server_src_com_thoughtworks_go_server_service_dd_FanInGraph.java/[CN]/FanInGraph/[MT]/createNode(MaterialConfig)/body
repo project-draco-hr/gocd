@@ -1,8 +1,8 @@
 {
-  FanInNode node=getNodeIfExists(material);
+  FanInNode node=nodes.get(material.getFingerprint());
   if (node == null) {
     node=FanInNodeFactory.create(material);
-    nodes.add(node);
+    nodes.put(material.getFingerprint(),node);
   }
   return node;
 }
