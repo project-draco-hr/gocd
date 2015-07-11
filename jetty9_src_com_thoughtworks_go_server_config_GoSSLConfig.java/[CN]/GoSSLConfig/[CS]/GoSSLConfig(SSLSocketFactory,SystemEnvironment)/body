@@ -1,0 +1,8 @@
+{
+  if (systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_ALLOW)) {
+    config=new ConfigurableSSLSettings(systemEnvironment);
+  }
+ else {
+    config=new WeakSSLConfig(socketFactory);
+  }
+}

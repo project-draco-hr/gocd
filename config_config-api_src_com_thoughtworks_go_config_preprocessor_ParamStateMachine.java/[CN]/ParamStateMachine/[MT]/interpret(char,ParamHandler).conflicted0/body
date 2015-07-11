@@ -1,11 +1,10 @@
 {
-  if (ch == CHAR_CURL_CLOSE) {
-    paramsHandler.handlePatternFound(pattern);
-    pattern.setLength(0);
+  if (ch == CHAR_HASH) {
+    paramsHandler.handlePatternStarted(ch);
     return NOT_IN_PATTERN;
   }
- else {
-    pattern.append(ch);
+ else   if (ch == CHAR_CURL_OPEN) {
     return IN_PATTERN;
   }
+  return INVALID_PATTERN;
 }

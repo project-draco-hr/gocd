@@ -19,7 +19,7 @@
   when(processTwo.getInputStream()).thenReturn(mock(InputStream.class));
   when(processTwo.getErrorStream()).thenReturn(mock(InputStream.class));
   when(processTwo.getOutputStream()).thenReturn(mock(OutputStream.class));
-  ConcurrentHashMap<Process,ProcessWrapper> processMap=processManager.getProcessMap();
+  ConcurrentMap<Process,ProcessWrapper> processMap=processManager.getProcessMap();
   wrapperForProcessOne=new ProcessWrapper(processOne,"tag1",null,inMemoryConsumer(),null,"ERROR: ");
   processMap.put(processOne,wrapperForProcessOne);
   wrapperForProcessTwo=new ProcessWrapper(processTwo,"tag2",null,inMemoryConsumer(),null,"ERROR: ");

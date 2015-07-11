@@ -7,11 +7,13 @@
   revisions.addRevision(dependencyRevision);
   when(goConfigService.upstreamDependencyGraphOf(targetPipeline,cruiseConfig)).thenReturn(dependencyGraph);
   when(pipelineService.getRevisionsBasedOnDependencies(eq(revisions),eq(cruiseConfig),eq(dependencyGraph.getCurrent().name()))).thenThrow(new RuntimeException("failed")).thenReturn(null);
-  new AutoBuild(goConfigService,pipelineService,targetPipeline,new SystemEnvironment(),materialChecker,serverHealthService).onModifications(revisions,false,null);
+  when(systemEnvironment.enforceRevisionCompatibilityWithUpstream()).thenReturn(true);
+  when(systemEnvironment.enforceFanInFallbackBehaviour()).thenReturn(true);
+  new AutoBuild(goConfigService,pipelineService,targetPipeline,systemEnvironment,materialChecker,serverHealthService).onModifications(revisions,false,null);
   verify(pipelineService,times(1)).getRevisionsBasedOnDependencies(dependencyGraph,revisions);
   assertThat(serverHealthService.getAllLogs().size(),is(1));
   assertThat(serverHealthService.getAllLogs(),hasItem((ServerHealthState.warning("Turning off Fan-In for pipeline: 'current'","Error occurred during Fan-In resolution for the pipeline.",HealthStateType.general(HealthStateScope.forFanin(targetPipeline))))));
-  new AutoBuild(goConfigService,pipelineService,targetPipeline,new SystemEnvironment(),materialChecker,serverHealthService).onModifications(revisions,false,null);
+  new AutoBuild(goConfigService,pipelineService,targetPipeline,systemEnvironment,materialChecker,serverHealthService).onModifications(revisions,false,null);
   verify(pipelineService,times(1)).getRevisionsBasedOnDependencies(dependencyGraph,revisions);
   assertThat(serverHealthService.getAllLogs().size(),is(0));
 }

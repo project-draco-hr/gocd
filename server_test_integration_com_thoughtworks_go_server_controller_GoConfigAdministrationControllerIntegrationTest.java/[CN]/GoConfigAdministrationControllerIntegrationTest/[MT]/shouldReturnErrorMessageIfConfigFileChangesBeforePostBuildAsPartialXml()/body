@@ -4,7 +4,7 @@
   String newXml="<job name=\"build3\" />";
   ModelAndView mav=controller.postBuildAsXmlPartial("pipeline","stage",0,newXml,md5,response);
   assertThat(response.getStatus(),is(SC_CONFLICT));
-  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));
   Json json=(Json)mav.getModel().get("json");
   new JsonTester(json).shouldContain("{ 'result' : '" + ConfigFileHasChangedException.CONFIG_CHANGED_PLEASE_REFRESH + "',"+ "  'originalContent' : '"+ newXml+ "' }");
 }

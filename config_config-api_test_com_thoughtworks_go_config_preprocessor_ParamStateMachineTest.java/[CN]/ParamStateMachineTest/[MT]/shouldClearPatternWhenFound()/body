@@ -1,0 +1,6 @@
+{
+  ParamStateMachine stateMachine=new ParamStateMachine();
+  stateMachine.process("#{pattern}",handler);
+  assertThat(ParamStateMachine.ReaderState.IN_PATTERN.pattern.length(),is(0));
+  verify(handler).handlePatternFound(any(StringBuilder.class));
+}
