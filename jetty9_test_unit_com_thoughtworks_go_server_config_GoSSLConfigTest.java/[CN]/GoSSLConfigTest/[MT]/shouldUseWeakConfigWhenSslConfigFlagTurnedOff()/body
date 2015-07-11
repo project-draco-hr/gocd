@@ -1,0 +1,6 @@
+{
+  when(systemEnvironment.get(SystemEnvironment.GO_SSL_CONFIG_ALLOW)).thenReturn(false);
+  GoSSLConfig goSSLConfig=new GoSSLConfig(mock(SSLSocketFactory.class),systemEnvironment);
+  SSLConfig config=(SSLConfig)ReflectionUtil.getField(goSSLConfig,"config");
+  assertThat(config instanceof WeakSSLConfig,is(true));
+}

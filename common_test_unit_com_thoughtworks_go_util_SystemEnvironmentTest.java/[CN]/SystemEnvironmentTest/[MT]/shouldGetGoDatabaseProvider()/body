@@ -1,5 +1,4 @@
 {
-  SystemEnvironment systemEnvironment=new SystemEnvironment();
   assertThat("default provider should be h2db",systemEnvironment.getDatabaseProvider(),is("com.thoughtworks.go.server.database.H2Database"));
   System.setProperty("go.database.provider","foo");
   assertThat(systemEnvironment.getDatabaseProvider(),is("foo"));

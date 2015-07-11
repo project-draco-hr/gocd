@@ -4,7 +4,7 @@
   String md5=goConfigDao.md5OfConfigFile();
   ModelAndView mav=controller.postBuildAsXmlPartial("pipeline","stage",0,badXml,md5,response);
   assertThat(response.getStatus(),is(SC_CONFLICT));
-  assertThat(response.getContentType(),is(RESPONSE_CHARSET));
+  assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));
   Json json=(Json)mav.getModel().get("json");
   new JsonTester(json).shouldContain("{ 'result' : 'Error on line 1 of document  : The markup in the document preceding the root element must be well-formed. Nested exception: The markup in the document preceding the root element must be well-formed.'," + "  'originalContent' : '" + badXml + "' }");
 }

@@ -9,7 +9,6 @@
   firstOrderRevision.getMaterialRevision(0).markAsNotChanged();
   revisions.getMaterialRevision(0).markAsChanged();
   when(goConfigService.upstreamDependencyGraphOf("downstream",cruiseConfig)).thenReturn(dependencyGraph);
-  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
   when(systemEnvironment.enforceRevisionCompatibilityWithUpstream()).thenReturn(false);
   AutoBuild build=new AutoBuild(goConfigService,pipelineService,"downstream",systemEnvironment,materialChecker,serverHealthService);
   BuildCause cause=build.onModifications(revisions,false,null);

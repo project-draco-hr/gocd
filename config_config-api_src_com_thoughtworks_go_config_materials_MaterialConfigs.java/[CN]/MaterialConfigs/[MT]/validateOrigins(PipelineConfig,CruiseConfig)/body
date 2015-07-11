@@ -1,6 +1,7 @@
 {
   for (  DependencyMaterialConfig material : filterDependencyMaterials()) {
     PipelineConfig upstream=cruiseConfig.getPipelineConfigByName(material.getPipelineName());
+    if (upstream == null)     continue;
     ConfigOrigin myOrigin=currentPipeline.getOrigin();
     ConfigOrigin upstreamOrigin=upstream.getOrigin();
     if (!cruiseConfig.getConfigRepos().isReferenceAllowed(myOrigin,upstreamOrigin)) {

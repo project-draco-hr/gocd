@@ -1,6 +1,6 @@
 {
   configFileHelper.addRole(new Role(new CaseInsensitiveString("dev")));
-  userDao.saveOrUpdate(new User("user-1"));
+  addUser(new User("user-1"));
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("user-1"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.nochange),Arrays.asList(new TriStateSelection("dev",TriStateSelection.Action.add)),result);
   CruiseConfig cruiseConfig=goConfigDao.load();

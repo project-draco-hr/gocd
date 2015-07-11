@@ -2,7 +2,6 @@
   String key="go.server.state";
   try {
     System.setProperty(key,"active");
-    SystemEnvironment systemEnvironment=new SystemEnvironment();
     systemEnvironment.switchToPassiveState();
     assertThat(systemEnvironment.isServerActive(),is(false));
   }

@@ -1,6 +1,6 @@
 {
-  nodes.add(this.root);
-  final HashSet<String> scmMaterials=new HashSet<String>();
-  buildRestOfTheGraph(this.root,target,scmMaterials);
+  nodes.put(this.root.materialConfig.getFingerprint(),this.root);
+  final Set<String> scmMaterials=new HashSet<String>();
+  buildRestOfTheGraph(this.root,target,scmMaterials,new HashSet<DependencyMaterialConfig>());
   dependencyMaterialFingerprintMap.put((DependencyMaterialConfig)this.root.materialConfig,scmMaterials);
 }
