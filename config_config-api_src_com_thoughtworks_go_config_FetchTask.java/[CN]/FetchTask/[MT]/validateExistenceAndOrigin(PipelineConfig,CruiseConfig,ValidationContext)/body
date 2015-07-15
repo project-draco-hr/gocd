@@ -9,7 +9,7 @@
   }
   PipelineConfig srcPipeline=cruiseConfig.getPipelineConfigByName(pipelineName.getAncestorName());
   if (!cruiseConfig.getConfigRepos().isReferenceAllowed(currentPipeline.getOrigin(),srcPipeline.getOrigin())) {
-    addError(ORIGIN,String.format("Pipeline \"%s\" tries to fetch artifact from job \"%s :: %s :: %s\" which is defined in %s - reference is not allowed",currentPipeline.name(),pipelineName.getAncestorName(),stage,job,srcPipeline.getOrigin().displayName()));
+    addError(ORIGIN,String.format("Pipeline \"%s\" tries to fetch artifact from job \"%s :: %s :: %s\" which is defined in %s - reference is not allowed",currentPipeline.name(),pipelineName.getAncestorName(),stage,job,displayNameFor(srcPipeline.getOrigin())));
     return true;
   }
   return false;
