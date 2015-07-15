@@ -5,7 +5,7 @@
     ConfigOrigin myOrigin=currentPipeline.getOrigin();
     ConfigOrigin upstreamOrigin=upstream.getOrigin();
     if (!cruiseConfig.getConfigRepos().isReferenceAllowed(myOrigin,upstreamOrigin)) {
-      material.addError(DependencyMaterialConfig.ORIGIN,String.format("Dependency from pipeline defined in %s to pipeline defined in %s is not allowed",myOrigin,upstreamOrigin));
+      material.addError(DependencyMaterialConfig.ORIGIN,String.format("Dependency from pipeline defined in %s to pipeline defined in %s is not allowed",myOrigin.displayName(),upstreamOrigin.displayName()));
     }
   }
 }
