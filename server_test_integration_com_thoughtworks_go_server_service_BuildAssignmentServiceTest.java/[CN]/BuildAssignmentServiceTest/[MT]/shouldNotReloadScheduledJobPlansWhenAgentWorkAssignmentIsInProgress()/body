@@ -23,8 +23,7 @@
   Thread assigner=new Thread(new Runnable(){
     public void run(){
       try {
-        final AgentConfig agentConfig=new AgentConfig("uuid");
-        agentConfig.addResource(new Resource("some-other-resource"));
+        final AgentConfig agentConfig=AgentMother.localAgentWithResources("some-other-resource");
         buildAssignmentServiceUnderTest.assignWorkToAgent(agent(agentConfig));
       }
  catch (      Throwable e) {
