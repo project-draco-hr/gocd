@@ -1,6 +1,5 @@
 {
-  final HashSet<EnvironmentPipelineMatcher> environmentPipelineMatchers=new HashSet<EnvironmentPipelineMatcher>();
-  AgentInstance instance=AgentInstance.create(agentConfig,false,new SystemEnvironment());
-  instance.enable();
-  return instance;
+  agentService.sync(new Agents(agentConfig));
+  agentService.approve(agentConfig.getUuid());
+  return agentService.findAgent(agentConfig.getUuid()).getAgentIdentifier();
 }

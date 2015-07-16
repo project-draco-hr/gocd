@@ -9,7 +9,7 @@
   when(mockGoConfigService.getCurrentConfig()).thenReturn(config);
   buildAssignmentService=new BuildAssignmentService(mockGoConfigService,jobInstanceService,scheduleService,licenseService,agentService,environmentConfigService,timeProvider,transactionTemplate,scheduledPipelineLoader,pipelineService,builderFactory);
   buildAssignmentService.onTimer();
-  AgentConfig agentConfig=new AgentConfig("uuid");
+  AgentConfig agentConfig=AgentMother.localAgent();
   agentConfig.addResource(new Resource("some-other-resource"));
   try {
     buildAssignmentService.assignWorkToAgent(agent(agentConfig));

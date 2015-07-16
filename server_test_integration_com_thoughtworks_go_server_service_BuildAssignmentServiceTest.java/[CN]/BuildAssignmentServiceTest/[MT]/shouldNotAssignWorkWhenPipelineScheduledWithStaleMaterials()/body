@@ -1,5 +1,5 @@
 {
-  AgentInstance instance=agent(AgentMother.localAgent());
+  AgentIdentifier instance=agent(AgentMother.localAgent());
   Pipeline pipeline=instanceFactory.createPipelineInstance(evolveConfig,modifyNoFiles(evolveConfig),new DefaultSchedulingContext(DEFAULT_APPROVED_BY),md5,new TimeProvider());
   dbHelper.savePipelineWithStagesAndMaterials(pipeline);
   evolveConfig.setMaterialConfigs(new MaterialConfigs(new HgMaterialConfig("foo",null)));

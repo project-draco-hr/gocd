@@ -2,7 +2,7 @@
   fixture.createPipelineWithFirstStageScheduled();
   buildAssignmentService.onTimer();
   configHelper.removePipeline(fixture.pipelineName);
-  AgentConfig agentConfig=new AgentConfig("uuid");
+  AgentConfig agentConfig=AgentMother.localAgent();
   agentConfig.addResource(new Resource("some-other-resource"));
   assertThat((NoWork)buildAssignmentService.assignWorkToAgent(agent(agentConfig)),Matchers.is(BuildAssignmentService.NO_WORK));
   Pipeline pipeline=pipelineDao.mostRecentPipeline(fixture.pipelineName);
