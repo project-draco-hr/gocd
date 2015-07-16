@@ -1,0 +1,9 @@
+{
+  EnvironmentAgentsConfig allAgents=new EnvironmentAgentsConfig();
+  for (  EnvironmentConfig part : this) {
+    for (    EnvironmentAgentConfig partAgent : part.getAgents()) {
+      if (!allAgents.contains(partAgent))       allAgents.add(partAgent);
+    }
+  }
+  return allAgents;
+}

@@ -1,5 +1,5 @@
 {
-  CruiseConfig config=new CruiseConfig();
+  CruiseConfig config=new BasicCruiseConfig();
   config.server().setArtifactsDir("logs");
   JobConfig job=new JobConfig(jobPlanName);
   String workingDir=new File("testdata/" + CruiseConfig.WORKING_BASE_DIR + stageName).getPath();
@@ -13,6 +13,6 @@
   artifactFile.setSrc(directoryPath);
   job.artifactPlans().add(artifactDir);
   PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString(pipelineName),new MaterialConfigs(new SvnMaterialConfig("file:///foo",null,null,false)),new StageConfig(new CaseInsensitiveString(stageName),new JobConfigs(job)));
-  config.addPipeline(PipelineConfigs.DEFAULT_GROUP,pipelineConfig);
+  config.addPipeline(BasicPipelineConfigs.DEFAULT_GROUP,pipelineConfig);
   return config;
 }

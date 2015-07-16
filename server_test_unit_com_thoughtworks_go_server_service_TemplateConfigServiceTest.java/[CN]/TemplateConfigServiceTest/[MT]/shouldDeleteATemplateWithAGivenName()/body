@@ -1,6 +1,6 @@
 {
   PipelineTemplateConfig emptyTemplate=template("empty_template");
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.addTemplate(emptyTemplate);
   service.removeTemplate("empty_template",cruiseConfig,"md5",new HttpLocalizedOperationResult());
   verify(goConfigService).updateConfig(new DeleteTemplateCommand("empty_template","md5"));

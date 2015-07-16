@@ -1,0 +1,6 @@
+{
+  assertThat(cruiseConfig.getGroups().get(0) instanceof MergePipelineConfigs,is(false));
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,PartialConfigMother.withPipelineInGroup("pipe2","existing_group"));
+  assertThat(cruiseConfig.getGroups().get(0) instanceof MergePipelineConfigs,is(true));
+}

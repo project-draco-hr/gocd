@@ -1,7 +1,7 @@
 {
   SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
   validator=new CommandRepositoryLocationValidator(systemEnvironment);
-  cruiseConfig=mock(CruiseConfig.class);
+  cruiseConfig=mock(BasicCruiseConfig.class);
   serverConfig=mock(ServerConfig.class);
   when(cruiseConfig.server()).thenReturn(serverConfig);
   when(systemEnvironment.get(COMMAND_REPOSITORY_DIRECTORY)).thenReturn("db/task_repository");

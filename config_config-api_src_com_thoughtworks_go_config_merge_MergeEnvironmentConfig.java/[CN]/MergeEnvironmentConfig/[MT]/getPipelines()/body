@@ -1,0 +1,10 @@
+{
+  EnvironmentPipelinesConfig allPipelines=new EnvironmentPipelinesConfig();
+  for (  EnvironmentConfig part : this) {
+    EnvironmentPipelinesConfig partPipes=part.getPipelines();
+    for (    EnvironmentPipelineConfig partPipe : partPipes) {
+      if (!allPipelines.containsPipelineNamed(partPipe.getName()))       allPipelines.add(partPipe);
+    }
+  }
+  return allPipelines;
+}

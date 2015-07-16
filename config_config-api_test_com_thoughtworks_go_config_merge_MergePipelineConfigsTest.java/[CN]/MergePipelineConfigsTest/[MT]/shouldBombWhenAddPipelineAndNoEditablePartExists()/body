@@ -1,0 +1,14 @@
+{
+  PipelineConfig pipe1=PipelineConfigMother.pipelineConfig("pipeline1");
+  BasicPipelineConfigs part1=new BasicPipelineConfigs(pipe1);
+  MergePipelineConfigs group=new MergePipelineConfigs(part1,new BasicPipelineConfigs());
+  PipelineConfig pipeline2=PipelineConfigMother.pipelineConfig("pipeline2");
+  try {
+    group.add(pipeline2);
+  }
+ catch (  Exception ex) {
+    assertThat(ex.getMessage(),is("No editable configuration sources"));
+    return;
+  }
+  fail("exception not thrown");
+}

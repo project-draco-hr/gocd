@@ -6,15 +6,15 @@
   serverHealthService.update(expiresInThreeMins);
   serverHealthService.update(expiresInNintySecs);
   serverHealthService.update(expiresNever);
-  ServerHealthStates logs=serverHealthService.getAllValidLogs(new CruiseConfig());
+  ServerHealthStates logs=serverHealthService.getAllValidLogs(new BasicCruiseConfig());
   assertThat(logs.size(),is(3));
   assertThat(logs,hasItems(expiresInThreeMins,expiresInNintySecs,expiresNever));
   testingClock.addSeconds(100);
-  logs=serverHealthService.getAllValidLogs(new CruiseConfig());
+  logs=serverHealthService.getAllValidLogs(new BasicCruiseConfig());
   assertThat(logs.size(),is(2));
   assertThat(logs,hasItems(expiresInThreeMins,expiresNever));
   testingClock.addMillis((int)Timeout.TWO_MINUTES.inMillis());
-  logs=serverHealthService.getAllValidLogs(new CruiseConfig());
+  logs=serverHealthService.getAllValidLogs(new BasicCruiseConfig());
   assertThat(logs.size(),is(1));
   assertThat(logs,hasItem(expiresNever));
 }

@@ -2,7 +2,7 @@
   String multiLinedata="some data\nfoo bar";
   String content=ConfigFileFixture.configWithEnvironmentsAndAgents("<environments>" + "  <environment name='uat'>" + "     <environmentvariables> "+ "         <variable name='cdata'><![CDATA[" + multiLinedata + "]]></variable>"+ "     </environmentvariables> "+ "  </environment>"+ "</environments>","<agents>" + "  <agent uuid='1' hostname='test1.com' ipaddress='192.168.0.1' isDenied='true' />" + "</agents>");
   CruiseConfig config=ConfigMigrator.loadWithMigration(content).config;
-  EnvironmentConfig element=new EnvironmentConfig(new CaseInsensitiveString("uat"));
+  EnvironmentConfig element=new BasicEnvironmentConfig(new CaseInsensitiveString("uat"));
   element.addEnvironmentVariable("cdata",multiLinedata);
   assertThat(config.getEnvironments().get(0),is(element));
 }

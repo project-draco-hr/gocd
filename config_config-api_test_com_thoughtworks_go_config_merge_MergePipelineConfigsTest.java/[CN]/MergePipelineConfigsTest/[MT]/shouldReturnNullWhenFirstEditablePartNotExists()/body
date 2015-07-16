@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipe1=PipelineConfigMother.pipelineConfig("pipeline1");
+  BasicPipelineConfigs part1=new BasicPipelineConfigs(pipe1);
+  MergePipelineConfigs group=new MergePipelineConfigs(part1,new BasicPipelineConfigs());
+  assertNull(group.getFirstEditablePartOrNull());
+}

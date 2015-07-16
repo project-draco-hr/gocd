@@ -1,8 +1,8 @@
 {
   AdminRole role=new AdminRole(new CaseInsensitiveString("role1"));
   StageConfig stage=StageConfigMother.custom("ft",new AuthConfig(role));
-  PipelineConfigs pipelineConfigs=new PipelineConfigs(new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs(),stage));
-  CruiseConfig config=new CruiseConfig(pipelineConfigs);
+  PipelineConfigs pipelineConfigs=new BasicPipelineConfigs(new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs(),stage));
+  CruiseConfig config=new BasicCruiseConfig(pipelineConfigs);
   config.server().security().addRole(new Role(new CaseInsensitiveString("role1")));
   role.validate(ValidationContext.forChain(config));
   assertThat(role.errors().isEmpty(),is(true));

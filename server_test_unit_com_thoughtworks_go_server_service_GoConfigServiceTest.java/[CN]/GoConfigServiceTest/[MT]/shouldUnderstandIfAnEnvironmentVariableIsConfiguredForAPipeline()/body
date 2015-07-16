@@ -1,5 +1,5 @@
 {
-  final PipelineConfigs newPipeline=new PipelineConfigs();
+  final PipelineConfigs newPipeline=new BasicPipelineConfigs();
   PipelineConfig otherPipeline=createPipelineConfig("pipeline_other","stage_other","plan_other");
   otherPipeline.setVariables(GoConfigFileHelper.env("OTHER_PIPELINE_LEVEL","other pipeline"));
   otherPipeline.first().setVariables(GoConfigFileHelper.env("OTHER_STAGE_LEVEL","other stage"));
@@ -11,7 +11,7 @@
   stageConfig.jobConfigByConfigName(new CaseInsensitiveString("plan")).setVariables(GoConfigFileHelper.env("JOB_LEVEL","job value"));
   newPipeline.add(pipelineConfig);
   newPipeline.add(otherPipeline);
-  CruiseConfig cruiseConfig=new CruiseConfig(newPipeline);
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(newPipeline);
   EnvironmentConfig environmentConfig=cruiseConfig.addEnvironment("uat");
   environmentConfig.addPipeline(new CaseInsensitiveString("pipeline"));
   environmentConfig.addEnvironmentVariable("ENV_LEVEL","env value");

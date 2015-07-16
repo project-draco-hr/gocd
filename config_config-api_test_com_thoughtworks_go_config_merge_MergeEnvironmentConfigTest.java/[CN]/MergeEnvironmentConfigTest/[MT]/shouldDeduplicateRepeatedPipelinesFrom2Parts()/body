@@ -1,0 +1,7 @@
+{
+  pairEnvironmentConfig.get(0).addPipeline(new CaseInsensitiveString("deployment"));
+  pairEnvironmentConfig.get(1).addPipeline(new CaseInsensitiveString("deployment"));
+  List<CaseInsensitiveString> pipelineNames=pairEnvironmentConfig.getPipelineNames();
+  assertThat(pipelineNames.size(),is(1));
+  assertTrue(pairEnvironmentConfig.containsPipeline(new CaseInsensitiveString("deployment")));
+}

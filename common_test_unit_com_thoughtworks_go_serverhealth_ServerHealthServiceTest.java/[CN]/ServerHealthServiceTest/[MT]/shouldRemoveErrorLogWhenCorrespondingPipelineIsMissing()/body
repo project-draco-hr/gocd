@@ -1,5 +1,5 @@
 {
   serverHealthService.update(ServerHealthState.error("message","description",pipelineId));
   serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.general(forPipeline("other"))));
-  assertThat(serverHealthService.getAllValidLogs(new CruiseConfig()).size(),is(0));
+  assertThat(serverHealthService.getAllValidLogs(new BasicCruiseConfig()).size(),is(0));
 }

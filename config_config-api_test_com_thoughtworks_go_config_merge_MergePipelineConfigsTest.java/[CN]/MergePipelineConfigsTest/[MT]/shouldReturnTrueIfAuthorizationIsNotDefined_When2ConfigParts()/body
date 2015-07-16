@@ -1,0 +1,6 @@
+{
+  BasicPipelineConfigs filePart=new BasicPipelineConfigs();
+  filePart.setOrigin(new FileConfigOrigin());
+  MergePipelineConfigs merge=new MergePipelineConfigs(new BasicPipelineConfigs(),filePart);
+  assertThat(merge.hasViewPermission(new CaseInsensitiveString("anyone"),null),is(true));
+}

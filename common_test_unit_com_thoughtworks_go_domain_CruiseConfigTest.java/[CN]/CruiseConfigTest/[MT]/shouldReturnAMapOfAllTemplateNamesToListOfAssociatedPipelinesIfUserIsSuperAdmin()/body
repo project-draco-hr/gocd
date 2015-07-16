@@ -10,7 +10,7 @@
   pipelineConfig2.setTemplateName(new CaseInsensitiveString("second_template"));
   pipelineConfig2.usingTemplate(secondTemplate);
   PipelineConfig pipelineConfigWithoutTemplate=PipelineConfigMother.pipelineConfig("third");
-  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(pipelineConfig1,pipelineConfig2,pipelineConfigWithoutTemplate));
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(pipelineConfig1,pipelineConfig2,pipelineConfigWithoutTemplate));
   SecurityConfig securityConfig=new SecurityConfig(new LdapConfig(new GoCipher()),new PasswordFileConfig("foo"),false);
   securityConfig.adminsConfig().add(new AdminUser(new CaseInsensitiveString("root")));
   cruiseConfig.server().useSecurity(securityConfig);

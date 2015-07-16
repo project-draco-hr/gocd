@@ -1,6 +1,6 @@
 {
   PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("MYPIPELINE",new MaterialConfigs(new GitMaterialConfig("sampleGit")));
-  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(pipelineConfig));
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(pipelineConfig));
   when(pipelineService.findPipelineByCounterOrLabel("MYPIPELINE","1")).thenThrow(Exception.class);
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
   ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("MYPIPELINE",1,user,result);

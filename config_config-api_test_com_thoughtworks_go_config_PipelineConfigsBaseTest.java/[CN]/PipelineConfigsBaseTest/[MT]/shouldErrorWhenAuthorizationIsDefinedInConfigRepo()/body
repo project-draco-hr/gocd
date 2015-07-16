@@ -1,0 +1,7 @@
+{
+  BasicPipelineConfigs group=new BasicPipelineConfigs(new RepoConfigOrigin());
+  group.setGroup("gr");
+  group.setConfigAttributes(m(BasicPipelineConfigs.AUTHORIZATION,a(m(Authorization.NAME,"loser",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(ON,DISABLED,DISABLED)),m(Authorization.NAME,"boozer",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(OFF,ON,ON)),m(Authorization.NAME,"geezer",Authorization.TYPE,USER.toString(),Authorization.PRIVILEGES,privileges(DISABLED,OFF,ON)),m(Authorization.NAME,"gang_of_losers",Authorization.TYPE,ROLE.toString(),Authorization.PRIVILEGES,privileges(DISABLED,OFF,ON)),m(Authorization.NAME,"blinds",Authorization.TYPE,ROLE.toString(),Authorization.PRIVILEGES,privileges(ON,ON,OFF)))));
+  group.validate(null);
+  assertThat(group.errors().on(BasicPipelineConfigs.NO_REMOTE_AUTHORIZATION),is("Authorization can be defined only in configuration file"));
+}

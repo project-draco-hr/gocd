@@ -1,0 +1,11 @@
+{
+  String currentName=sanitizedGroupName(this.getGroup()).toLowerCase();
+  PipelineConfigs groupWithSameName=groupNameMap.get(currentName);
+  if (groupWithSameName == null) {
+    groupNameMap.put(currentName,this);
+  }
+ else {
+    groupWithSameName.addError(GROUP,createNameConflictError());
+    this.nameConflictError();
+  }
+}

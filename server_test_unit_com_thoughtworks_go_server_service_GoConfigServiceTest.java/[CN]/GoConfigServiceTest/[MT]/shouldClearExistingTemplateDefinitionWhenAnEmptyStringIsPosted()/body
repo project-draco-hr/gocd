@@ -1,5 +1,5 @@
 {
-  CruiseConfig config=new CruiseConfig();
+  CruiseConfig config=new BasicCruiseConfig();
   config.server().setArtifactsDir("/var/logs");
   config.addTemplate(new PipelineTemplateConfig(new CaseInsensitiveString("templateName"),StageConfigMother.custom("stage","job")));
   when(goConfigFileDao.loadForEditing()).thenReturn(config);

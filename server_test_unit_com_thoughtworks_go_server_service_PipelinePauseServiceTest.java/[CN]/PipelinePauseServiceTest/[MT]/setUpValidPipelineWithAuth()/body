@@ -1,6 +1,6 @@
 {
   Authorization authorization=new Authorization(new OperationConfig(new AdminUser(VALID_USER.getUsername())));
-  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs("my_group",authorization,PipelineConfigMother.pipelineConfig(VALID_PIPELINE)));
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs("my_group",authorization,PipelineConfigMother.pipelineConfig(VALID_PIPELINE)));
   when(goConfigFileDao.load()).thenReturn(cruiseConfig);
   when(securityService.hasOperatePermissionForGroup(eq(VALID_USER.getUsername()),any(String.class))).thenReturn(true);
 }

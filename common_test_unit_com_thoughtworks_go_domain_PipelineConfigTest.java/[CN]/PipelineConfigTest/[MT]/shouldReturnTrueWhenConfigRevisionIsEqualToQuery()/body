@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("pipeline","stage","build");
+  MaterialConfig material=pipelineConfig.materialConfigs().first();
+  pipelineConfig.setOrigin(new RepoConfigOrigin(new ConfigRepoConfig(material,"plugin"),"1233"));
+  assertThat(pipelineConfig.isConfigOriginFromRevision("1233"),is(true));
+}

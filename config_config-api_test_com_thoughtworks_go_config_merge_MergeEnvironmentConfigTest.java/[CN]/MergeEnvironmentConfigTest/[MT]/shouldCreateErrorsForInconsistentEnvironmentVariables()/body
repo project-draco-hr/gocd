@@ -1,0 +1,7 @@
+{
+  pairEnvironmentConfig.get(0).addEnvironmentVariable("variable-name1","variable-value1");
+  pairEnvironmentConfig.get(1).addEnvironmentVariable("variable-name1","variable-value2");
+  pairEnvironmentConfig.validate(null);
+  assertThat(pairEnvironmentConfig.errors().isEmpty(),is(false));
+  assertThat(pairEnvironmentConfig.errors().on(MergeEnvironmentConfig.CONSISTENT_KV),Matchers.is("Environment variable 'variable-name1' is defined more than once with different values"));
+}

@@ -11,5 +11,13 @@
  else   if (immediateParent.getClass().equals(klass)) {
     return (T)immediateParent;
   }
+ else {
+    Class<?>[] interfacesOfCandidate=immediateParent.getClass().getInterfaces();
+    for (    Class<?> inter : interfacesOfCandidate) {
+      if (inter.equals(klass)) {
+        return (T)immediateParent;
+      }
+    }
+  }
   return null;
 }

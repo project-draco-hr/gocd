@@ -1,0 +1,10 @@
+{
+  int start=0;
+  for (  PipelineConfigs part : this.parts) {
+    int end=start + part.size();
+    int internalIndex=part.indexOf(o);
+    if (internalIndex > 0)     return start + internalIndex;
+    start=end;
+  }
+  return -1;
+}

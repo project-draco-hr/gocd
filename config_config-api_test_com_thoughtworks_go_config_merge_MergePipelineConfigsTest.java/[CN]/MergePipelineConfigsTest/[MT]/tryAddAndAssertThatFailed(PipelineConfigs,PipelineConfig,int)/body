@@ -1,0 +1,10 @@
+{
+  try {
+    group.add(index,p1);
+  }
+ catch (  Exception ex) {
+    assertThat(ex.getMessage(),is("Cannot add pipeline to non-editable configuration part"));
+    return;
+  }
+  fail(String.format("should have thrown when adding at %s",index));
+}

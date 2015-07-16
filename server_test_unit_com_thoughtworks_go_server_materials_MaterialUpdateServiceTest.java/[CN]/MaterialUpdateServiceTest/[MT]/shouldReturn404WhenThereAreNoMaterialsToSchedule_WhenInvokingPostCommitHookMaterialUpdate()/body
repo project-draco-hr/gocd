@@ -5,7 +5,7 @@
   PostCommitHookImplementer hookImplementer=mock(PostCommitHookImplementer.class);
   when(materialType.getImplementer()).thenReturn(hookImplementer);
   when(materialType.isKnown()).thenReturn(true);
-  CruiseConfig config=mock(CruiseConfig.class);
+  CruiseConfig config=mock(BasicCruiseConfig.class);
   when(goConfigService.currentCruiseConfig()).thenReturn(config);
   when(config.getGroups()).thenReturn(new PipelineGroups());
   when(hookImplementer.prune(anySet(),anyMap())).thenReturn(new HashSet<Material>());

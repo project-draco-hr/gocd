@@ -2,7 +2,7 @@
   PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfig("foo-pipeline","foo-stage","foo-job");
   DefaultSchedulingContext schedulingContext=new DefaultSchedulingContext("loser");
   String md5="foo-md5";
-  CruiseConfig config=mock(CruiseConfig.class);
+  CruiseConfig config=mock(BasicCruiseConfig.class);
   when(config.pipelineConfigByName(new CaseInsensitiveString("foo-pipeline"))).thenReturn(pipelineConfig);
   when(config.getMd5()).thenReturn(md5);
   when(goConfigFileDao.load()).thenReturn(config);

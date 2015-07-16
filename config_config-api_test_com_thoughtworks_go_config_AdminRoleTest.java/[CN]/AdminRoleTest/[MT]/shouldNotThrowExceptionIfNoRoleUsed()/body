@@ -1,7 +1,7 @@
 {
   StageConfig stage=new StageConfig(new CaseInsensitiveString("stage-foo"),new JobConfigs(new JobConfig(new CaseInsensitiveString("build-1"),new Resources(),new ArtifactPlans(),new Tasks(new ExecTask("ls","-la","work")))));
-  PipelineConfigs pipelinesConfig=new PipelineConfigs("group",new Authorization(),new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs(),stage));
-  CruiseConfig config=new CruiseConfig(pipelinesConfig);
+  PipelineConfigs pipelinesConfig=new BasicPipelineConfigs("group",new Authorization(),new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs(),stage));
+  CruiseConfig config=new BasicCruiseConfig(pipelinesConfig);
   config.server().security().addRole(new Role(new CaseInsensitiveString("role1")));
   pipelinesConfig.validate(ValidationContext.forChain(config));
   assertThat(pipelinesConfig.errors().isEmpty(),is(true));

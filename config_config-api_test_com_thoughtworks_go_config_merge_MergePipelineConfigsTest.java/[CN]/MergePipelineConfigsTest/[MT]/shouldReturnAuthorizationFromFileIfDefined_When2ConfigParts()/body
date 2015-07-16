@@ -1,0 +1,10 @@
+{
+  BasicPipelineConfigs part1=new BasicPipelineConfigs();
+  Authorization fileAuth=new Authorization();
+  part1.setAuthorization(fileAuth);
+  part1.setOrigin(new FileConfigOrigin());
+  BasicPipelineConfigs part2=new BasicPipelineConfigs();
+  part2.setAuthorization(new Authorization());
+  MergePipelineConfigs merge=new MergePipelineConfigs(part1,part2);
+  assertThat(merge.getAuthorization(),is(fileAuth));
+}

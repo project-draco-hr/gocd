@@ -1,6 +1,6 @@
 {
-  CruiseConfig cfg=new CruiseConfig();
-  assertThat(cfg.sanitizedGroupName(null),is(PipelineConfigs.DEFAULT_GROUP));
+  CruiseConfig cfg=new BasicCruiseConfig();
+  assertThat(cfg.sanitizedGroupName(null),is(BasicPipelineConfigs.DEFAULT_GROUP));
   cfg.addPipeline("grp1",PipelineConfigMother.pipelineConfig("foo"));
-  assertThat(cfg.sanitizedGroupName(null),is(PipelineConfigs.DEFAULT_GROUP));
+  assertThat(cfg.sanitizedGroupName(null),is(BasicPipelineConfigs.DEFAULT_GROUP));
 }

@@ -5,7 +5,7 @@
   when(pipelineService.buildCauseFor("p3",1)).thenReturn(p3buildCause);
   when(pipelineService.buildCauseFor("p1",1)).thenReturn(p1buildCause);
   PipelineConfig p3Config=PipelineConfigMother.pipelineConfig("p3",new MaterialConfigs(new GitMaterialConfig("test")));
-  CruiseConfig cruiseConfig=new CruiseConfig(new PipelineConfigs(p3Config));
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(p3Config));
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
   when(goConfigService.hasPipelineNamed(new CaseInsensitiveString("p1"))).thenReturn(false);
   when(pipelineService.findPipelineByCounterOrLabel("p3","1")).thenReturn(new Pipeline("p3","p3-label",p3buildCause));

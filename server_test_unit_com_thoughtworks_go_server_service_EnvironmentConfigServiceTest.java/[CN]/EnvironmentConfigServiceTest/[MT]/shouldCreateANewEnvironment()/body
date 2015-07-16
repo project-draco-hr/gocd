@@ -7,5 +7,5 @@
   when(mockGoConfigService.hasEnvironmentNamed(new CaseInsensitiveString(environmentName))).thenReturn(false);
   environmentConfigService.createEnvironment(env(environmentName,new ArrayList<String>(),new ArrayList<Map<String,String>>(),selectedAgents),user,result);
   assertThat(result.isSuccessful(),is(true));
-  verify(mockGoConfigService).addEnvironment(new EnvironmentConfig(new CaseInsensitiveString(environmentName)));
+  verify(mockGoConfigService).addEnvironment(new BasicEnvironmentConfig(new CaseInsensitiveString(environmentName)));
 }

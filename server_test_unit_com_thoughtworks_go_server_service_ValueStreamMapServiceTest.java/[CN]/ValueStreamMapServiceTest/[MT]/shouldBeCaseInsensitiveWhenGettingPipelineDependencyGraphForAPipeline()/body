@@ -5,7 +5,7 @@
   MaterialConfig materialConfig=buildCause.getMaterialRevisions().getMaterialRevision(0).getMaterial().config();
   PipelineConfig p1Config=PipelineConfigMother.pipelineConfig(pipelineName,new MaterialConfigs(materialConfig));
   when(pipelineService.buildCauseFor(pipelineName,counter)).thenReturn(buildCause);
-  when(goConfigService.currentCruiseConfig()).thenReturn(new CruiseConfig(new PipelineConfigs(p1Config)));
+  when(goConfigService.currentCruiseConfig()).thenReturn(new BasicCruiseConfig(new BasicPipelineConfigs(p1Config)));
   when(pipelineService.findPipelineByCounterOrLabel(pipelineName,"1")).thenReturn(new Pipeline("MYPIPELINE","p1-label",buildCause));
   ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("MYPIPELINE",counter,user,result);
   assertThat(graph.getCurrentPipeline().getName(),is(pipelineName));

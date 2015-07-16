@@ -1,6 +1,6 @@
 {
   Resource resource=resource("#{PARAMS}");
-  ValidationContext context=ValidationContext.forChain(new CruiseConfig(),new PipelineConfig());
+  ValidationContext context=ValidationContext.forChain(new BasicCruiseConfig(),new PipelineConfig());
   resource.validate(context);
   assertThat(resource.errors().isEmpty(),is(false));
   assertThat(resource.errors().on(JobConfig.RESOURCES),is(String.format("Resource name '#{PARAMS}' is not valid. Valid names much match '%s'",Resource.VALID_REGEX)));

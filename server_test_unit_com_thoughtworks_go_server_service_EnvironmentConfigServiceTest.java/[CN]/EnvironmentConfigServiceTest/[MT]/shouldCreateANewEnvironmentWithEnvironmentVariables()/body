@@ -9,7 +9,7 @@
   environmentVariables.addAll(Arrays.asList(envVar("SHELL","/bin/zsh"),envVar("HOME","/home/cruise")));
   environmentConfigService.createEnvironment(env(environmentName,new ArrayList<String>(),environmentVariables,selectedAgents),user,result);
   assertThat(result.isSuccessful(),is(true));
-  EnvironmentConfig expectedConfig=new EnvironmentConfig(new CaseInsensitiveString(environmentName));
+  BasicEnvironmentConfig expectedConfig=new BasicEnvironmentConfig(new CaseInsensitiveString(environmentName));
   expectedConfig.addEnvironmentVariable("SHELL","/bin/zsh");
   expectedConfig.addEnvironmentVariable("HOME","/home/cruise");
   verify(mockGoConfigService).addEnvironment(expectedConfig);

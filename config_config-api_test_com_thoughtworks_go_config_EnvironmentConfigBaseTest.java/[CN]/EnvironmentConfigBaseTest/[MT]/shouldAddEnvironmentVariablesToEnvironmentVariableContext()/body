@@ -1,0 +1,6 @@
+{
+  EnvironmentConfig another=new BasicEnvironmentConfig(new CaseInsensitiveString("other"));
+  another.addEnvironmentVariable("variable-name","variable-value");
+  EnvironmentVariableContext context=another.createEnvironmentContext();
+  assertThat(context.getProperty("variable-name"),is("variable-value"));
+}

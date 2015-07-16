@@ -1,0 +1,8 @@
+{
+  BasicPipelineConfigs filePart=new BasicPipelineConfigs();
+  filePart.setOrigin(new FileConfigOrigin());
+  MergePipelineConfigs merge=new MergePipelineConfigs(filePart,new BasicPipelineConfigs());
+  Authorization auth=new Authorization(new AdminsConfig(new AdminUser(new CaseInsensitiveString("buddy"))));
+  merge.setAuthorization(auth);
+  assertThat(filePart.getAuthorization(),is(auth));
+}

@@ -1,7 +1,7 @@
 {
   PipelineConfigs configs=createGroup("group","pipeline","in_env");
   downstream(configs);
-  CruiseConfig cruiseConfig=new CruiseConfig(configs);
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(configs);
   cruiseConfig.addEnvironment(environment("foo","in_env"));
   GoConfigService service=mock(GoConfigService.class);
   when(service.getCurrentConfig()).thenReturn(cruiseConfig);

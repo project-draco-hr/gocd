@@ -2,7 +2,7 @@
   serverHealthService.update(ServerHealthState.error("hg-message","description",HealthStateType.general(forMaterial(MaterialsMother.hgMaterial()))));
   SvnMaterialConfig svnMaterialConfig=MaterialConfigsMother.svnMaterialConfig();
   serverHealthService.update(ServerHealthState.error("svn-message","description",HealthStateType.general(forMaterialConfig(svnMaterialConfig))));
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.addPipeline("defaultGroup",new PipelineConfig(new CaseInsensitiveString("dev"),new MaterialConfigs(svnMaterialConfig),new StageConfig(new CaseInsensitiveString("first"),new JobConfigs())));
   assertThat(serverHealthService.getAllValidLogs(cruiseConfig).size(),is(1));
 }

@@ -1,5 +1,5 @@
 {
-  final PipelineConfigs group=new PipelineConfigs("group1",new Authorization(),PipelineConfigMother.pipelineConfig("pipeline1"));
+  final PipelineConfigs group=new BasicPipelineConfigs("group1",new Authorization(),PipelineConfigMother.pipelineConfig("pipeline1"));
   when(securityService.hasViewPermissionForGroup("anyone","group1")).thenReturn(false);
   securityFilter.visit(group);
   verifyNoMoreInteractions(pipelineGroupVisitor);

@@ -2,7 +2,7 @@
   final HashMap params=new HashMap();
   params.put(MaterialUpdateService.TYPE,"svn");
   when(goConfigService.isUserAdmin(username)).thenReturn(true);
-  final CruiseConfig cruiseConfig=new CruiseConfig(PipelineConfigMother.createGroup("groupName","pipeline1","pipeline2"));
+  final CruiseConfig cruiseConfig=new BasicCruiseConfig(PipelineConfigMother.createGroup("groupName","pipeline1","pipeline2"));
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
   when(postCommitHookMaterialType.toType("svn")).thenReturn(validMaterialType);
   final PostCommitHookImplementer svnPostCommitHookImplementer=mock(PostCommitHookImplementer.class);

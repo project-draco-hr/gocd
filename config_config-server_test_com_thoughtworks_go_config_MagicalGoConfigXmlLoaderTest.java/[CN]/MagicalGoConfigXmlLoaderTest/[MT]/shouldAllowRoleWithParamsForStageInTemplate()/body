@@ -1,5 +1,5 @@
 {
-  CruiseConfig cruiseConfig=new CruiseConfig();
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.server().security().addRole(new Role(new CaseInsensitiveString("role")));
   cruiseConfig.addTemplate(new PipelineTemplateConfig(new CaseInsensitiveString("template"),stageWithAuth("#{ROLE}")));
   PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs());

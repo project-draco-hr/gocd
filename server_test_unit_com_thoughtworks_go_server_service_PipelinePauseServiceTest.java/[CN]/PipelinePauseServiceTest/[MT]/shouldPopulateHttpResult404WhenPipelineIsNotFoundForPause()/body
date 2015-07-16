@@ -1,6 +1,6 @@
 {
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  when(goConfigFileDao.load()).thenReturn(new CruiseConfig());
+  when(goConfigFileDao.load()).thenReturn(new BasicCruiseConfig());
   pipelinePauseService.pause(INVALID_PIPELINE,"cause",VALID_USER,result);
   assertThat(result.isSuccessful(),is(false));
   assertThat(result.httpCode(),is(HttpStatus.SC_NOT_FOUND));

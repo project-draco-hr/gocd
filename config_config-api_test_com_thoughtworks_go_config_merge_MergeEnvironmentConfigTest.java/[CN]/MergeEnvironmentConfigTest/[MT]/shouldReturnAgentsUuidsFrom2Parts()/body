@@ -1,0 +1,8 @@
+{
+  pairEnvironmentConfig.get(0).addAgent("123");
+  pairEnvironmentConfig.get(1).addAgent("345");
+  EnvironmentAgentsConfig agents=pairEnvironmentConfig.getAgents();
+  assertThat(agents.size(),is(2));
+  assertThat(agents.getUuids(),hasItem("123"));
+  assertThat(agents.getUuids(),hasItem("345"));
+}

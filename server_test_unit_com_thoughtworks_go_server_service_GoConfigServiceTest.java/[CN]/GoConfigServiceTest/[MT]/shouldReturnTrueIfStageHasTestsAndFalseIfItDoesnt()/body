@@ -1,10 +1,10 @@
 {
-  PipelineConfigs newPipelines=new PipelineConfigs();
+  PipelineConfigs newPipelines=new BasicPipelineConfigs();
   PipelineConfig pipelineConfig=createPipelineConfig("pipeline","name","plan");
   pipelineConfig.add(StageConfigMother.stageConfigWithArtifact("stage1","job1",ArtifactType.unit));
   pipelineConfig.add(StageConfigMother.stageConfigWithArtifact("stage2","job2",ArtifactType.file));
   newPipelines.add(pipelineConfig);
-  expectLoad(new CruiseConfig(newPipelines));
+  expectLoad(new BasicCruiseConfig(newPipelines));
   assertThat(goConfigService.stageHasTests("pipeline","stage1"),is(true));
   assertThat(goConfigService.stageHasTests("pipeline","stage2"),is(false));
 }

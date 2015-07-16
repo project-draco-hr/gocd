@@ -1,0 +1,13 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("pipe1"));
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  PartialConfig partialConfig=PartialConfigMother.withPipelineInGroup("pipe2","g2");
+  partialConfig.getGroups().get(0).get(0).setOrigin(new RepoConfigOrigin());
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,partialConfig);
+  BasicEnvironmentConfig uat=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  uat.addPipeline(new CaseInsensitiveString("pipe2"));
+  cruiseConfig.addEnvironment(uat);
+  List<ConfigErrors> allErrors=cruiseConfig.validateAfterPreprocess();
+  assertThat(allErrors.size(),is(1));
+  assertNotNull(allErrors.get(0).on("origin"));
+}
