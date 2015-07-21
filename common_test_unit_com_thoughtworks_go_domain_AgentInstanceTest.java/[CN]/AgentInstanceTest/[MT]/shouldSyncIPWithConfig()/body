@@ -1,5 +1,5 @@
 {
   AgentInstance original=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
-  original.update(AgentRuntimeInfo.fromAgent(new AgentIdentifier("CCeDev01","10.18.5.2","uuid2"),"cookie",null));
+  original.update(new AgentRuntimeInfo(new AgentIdentifier("CCeDev01","10.18.5.2","uuid2"),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
   assertThat(original.agentConfig(),is(new AgentConfig("uuid2","CCeDev01","10.18.5.2")));
 }

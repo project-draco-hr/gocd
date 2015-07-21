@@ -1,5 +1,5 @@
 {
-  AgentInstance pending=AgentInstance.createFromLiveAgent(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null),systemEnvironment);
-  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(new AgentIdentifier("ccedev01","10.18.7.52","uuid"),"cookie",null);
+  AgentInstance pending=AgentInstance.createFromLiveAgent(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),systemEnvironment);
+  AgentRuntimeInfo info=new AgentRuntimeInfo(new AgentIdentifier("ccedev01","10.18.7.52","uuid"),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
   assertThat(pending.isIpChangeRequired(info.getIpAdress()),is(false));
 }

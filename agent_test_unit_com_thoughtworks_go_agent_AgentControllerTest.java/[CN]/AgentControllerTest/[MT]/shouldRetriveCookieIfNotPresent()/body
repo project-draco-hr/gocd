@@ -1,11 +1,10 @@
 {
-  AgentRuntimeInfo infoWithCookie=AgentRuntimeInfo.fromAgent(new AgentIdentifier(SystemUtil.getLocalhostName(),SystemUtil.getFirstLocalNonLoopbackIpAddress(),agentUuid),"cookie",null);
-  when(loopServer.getCookie(any(AgentIdentifier.class),eq(infoWithCookie.getLocation()))).thenReturn("cookie");
-  when(sslInfrastructureService.isRegistered()).thenReturn(true);
-  when(loopServer.getWork(infoWithCookie)).thenReturn(work);
-  when(agentRegistry.uuid()).thenReturn(agentUuid);
   agentController=createAgentController();
   agentController.init();
+  when(loopServer.getCookie(any(AgentIdentifier.class),eq(agentController.getAgentRuntimeInfo().getLocation()))).thenReturn("cookie");
+  when(sslInfrastructureService.isRegistered()).thenReturn(true);
+  when(loopServer.getWork(agentController.getAgentRuntimeInfo())).thenReturn(work);
+  when(agentRegistry.uuid()).thenReturn(agentUuid);
   agentController.loop();
-  verify(work).doWork(eq(agentIdentifier),eq(loopServer),eq(artifactsManipulator),any(EnvironmentVariableContext.class),eq(infoWithCookie),eq(packageAsRepositoryExtension),eq(scmExtension),eq(taskExtension));
+  verify(work).doWork(eq(agentIdentifier),eq(loopServer),eq(artifactsManipulator),any(EnvironmentVariableContext.class),eq(agentController.getAgentRuntimeInfo()),eq(packageAsRepositoryExtension),eq(scmExtension),eq(taskExtension));
 }

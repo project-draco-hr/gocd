@@ -1,5 +1,5 @@
 {
-  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier);
+  AgentRuntimeInfo runtimeInfo=new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),null,null);
   try {
     agentService.updateRuntimeInfo(runtimeInfo);
     fail("should throw exception when no cookie is set");

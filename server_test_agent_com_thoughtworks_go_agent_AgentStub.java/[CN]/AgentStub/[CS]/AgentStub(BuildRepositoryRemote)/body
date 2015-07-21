@@ -1,6 +1,6 @@
 {
   LOGGER.info("Agent started.");
-  Work work=server.getWork(AgentRuntimeInfo.fromAgent(new AgentIdentifier("","","1234"),"cookie",null));
+  Work work=server.getWork(new AgentRuntimeInfo(new AgentIdentifier("","","1234"),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
   try {
     LOGGER.info(work.description());
   }

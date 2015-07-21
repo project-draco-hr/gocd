@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)getWork(WILL_FAIL,PIPELINE_NAME);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   String consoleOutAsString=artifactManipulator.consoleOut();
   String locator=JOB_IDENTIFIER.buildLocator();
   assertThat(consoleOutAsString,printedPreparingInfo(locator));

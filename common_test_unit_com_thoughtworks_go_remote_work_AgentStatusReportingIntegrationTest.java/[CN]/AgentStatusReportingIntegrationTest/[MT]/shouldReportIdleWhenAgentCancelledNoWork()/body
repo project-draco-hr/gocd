@@ -1,5 +1,5 @@
 {
   NoWork work=new NoWork();
   work.cancel(environmentVariableContext,agentRuntimeInfo);
-  assertThat(agentRuntimeInfo,is(AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null)));
+  assertThat(agentRuntimeInfo,is(new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null)));
 }

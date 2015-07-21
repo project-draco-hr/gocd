@@ -1,5 +1,5 @@
 {
   assertThat(runner.isJobCancelled(),is(false));
-  runner.handleInstruction(new AgentInstruction(true),AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  runner.handleInstruction(new AgentInstruction(true),new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
   assertThat(runner.isJobCancelled(),is(true));
 }

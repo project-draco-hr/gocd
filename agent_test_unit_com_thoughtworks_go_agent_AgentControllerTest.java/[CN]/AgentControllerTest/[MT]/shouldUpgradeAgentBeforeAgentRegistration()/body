@@ -3,5 +3,5 @@
   InOrder inOrder=inOrder(agentUpgradeService,sslInfrastructureService);
   agentController.loop();
   inOrder.verify(agentUpgradeService).checkForUpgrade();
-  inOrder.verify(sslInfrastructureService).registerIfNecessary();
+  inOrder.verify(sslInfrastructureService).registerIfNecessary(agentController.getAgentAutoRegistrationProperties());
 }

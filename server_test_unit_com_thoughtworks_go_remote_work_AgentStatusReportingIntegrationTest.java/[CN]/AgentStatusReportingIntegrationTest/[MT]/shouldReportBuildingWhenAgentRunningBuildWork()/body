@@ -1,7 +1,7 @@
 {
   Work work=BuildWorkTest.getWork(WILL_PASS,BuildWorkTest.PIPELINE_NAME);
   work.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,agentRuntimeInfo,null,null,null);
-  AgentRuntimeInfo agentRuntimeInfo1=AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null);
+  AgentRuntimeInfo agentRuntimeInfo1=new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
   agentRuntimeInfo1.busy(new AgentBuildingInfo("pipeline1/100/mingle/100/run-ant","pipeline1/100/mingle/100/run-ant"));
   assertThat(agentRuntimeInfo,is(agentRuntimeInfo1));
 }

@@ -1,6 +1,6 @@
 {
   AgentIdentifier identifier=new AgentIdentifier("HostName","ipAddress","uuid");
-  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(identifier);
+  AgentRuntimeInfo info=new AgentRuntimeInfo(identifier,AgentRuntimeStatus.Idle,null,null,null);
   when(remote.getCookie(identifier,info.getLocation())).thenReturn("new cookie");
   when(remote.ping(info)).thenReturn(new AgentInstruction(false));
   handler.process(agent,new Message(Action.ping,info));

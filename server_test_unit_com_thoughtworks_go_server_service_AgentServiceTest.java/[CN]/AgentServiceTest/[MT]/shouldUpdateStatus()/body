@@ -1,5 +1,5 @@
 {
-  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier,"pavanIsGreat",null);
+  AgentRuntimeInfo runtimeInfo=new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"pavanIsGreat",null);
   when(agentDao.cookieFor(runtimeInfo.getIdentifier())).thenReturn("pavanIsGreat");
   agentService.updateRuntimeInfo(runtimeInfo);
   verify(agentInstances).updateAgentRuntimeInfo(runtimeInfo);

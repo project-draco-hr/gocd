@@ -6,7 +6,7 @@
   assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Building));
   AgentIdentifier agentIdentifier=instance.agentConfig().getAgentIdentifier();
   String cookie=agentService.assignCookie(agentIdentifier);
-  agentService.updateRuntimeInfo(AgentRuntimeInfo.fromAgent(agentIdentifier,cookie,null));
+  agentService.updateRuntimeInfo(new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),cookie,null));
   agents=agentService.findRegisteredAgents();
   assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Idle));
 }

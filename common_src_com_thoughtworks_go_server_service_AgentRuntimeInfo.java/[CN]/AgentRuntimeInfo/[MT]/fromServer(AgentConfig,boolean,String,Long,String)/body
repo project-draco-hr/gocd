@@ -2,7 +2,7 @@
   if (StringUtils.isEmpty(location)) {
     throw new RuntimeException("Agent should not register without installation path.");
   }
-  AgentStatus status=AgentStatus.fromConfig(AgentConfigStatus.Pending);
+  AgentStatus status=AgentStatus.Pending;
   if (SystemUtil.isLocalIpAddress(agentConfig.getIpAddress()) || registeredAlready) {
     status=AgentStatus.Idle;
   }

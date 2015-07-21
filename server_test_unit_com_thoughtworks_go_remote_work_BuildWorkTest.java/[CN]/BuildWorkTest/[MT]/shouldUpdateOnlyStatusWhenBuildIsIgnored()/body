@@ -1,7 +1,7 @@
 {
   buildWork=(BuildWork)getWork(WILL_PASS,"pipeline1");
   buildRepository=new com.thoughtworks.go.remote.work.BuildRepositoryRemoteStub(true);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   assertThat(buildRepository.results.isEmpty(),is(true));
   assertThat(buildRepository.states,containsResult(JobState.Completed));
 }

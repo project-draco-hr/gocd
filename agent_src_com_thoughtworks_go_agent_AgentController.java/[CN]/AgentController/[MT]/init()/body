@@ -3,6 +3,11 @@
   createPipelinesFolderIfNotExist();
   sslInfrastructureService.createSslInfrastructure();
   AgentIdentifier identifier=agentIdentifier();
-  agentRuntimeInfo=AgentRuntimeInfo.fromAgent(identifier,systemEnvironment.getAgentLauncherVersion());
+  if (agentAutoRegistrationProperties.isElastic()) {
+    agentRuntimeInfo=ElasticAgentRuntimeInfo.fromAgent(identifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),systemEnvironment.getAgentLauncherVersion(),agentAutoRegistrationProperties.getAgentAutoRegisterElasticAgentId(),agentAutoRegistrationProperties.getAgentAutoRegisterElasticPluginId());
+  }
+ else {
+    agentRuntimeInfo=AgentRuntimeInfo.fromAgent(identifier,AgentStatus.Idle.getRuntimeStatus(),currentWorkingDirectory(),systemEnvironment.getAgentLauncherVersion());
+  }
   subprocessLogger.registerAsExitHook("Following processes were alive at shutdown: ");
 }

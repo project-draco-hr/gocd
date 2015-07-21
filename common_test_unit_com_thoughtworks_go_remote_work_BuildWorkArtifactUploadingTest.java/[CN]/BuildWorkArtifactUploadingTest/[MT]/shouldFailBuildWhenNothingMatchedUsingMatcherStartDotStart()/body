@@ -6,7 +6,7 @@
   GoArtifactsManipulatorStub manipulator=new GoArtifactsManipulatorStub();
   BuildRepositoryRemoteStub repository=new BuildRepositoryRemoteStub();
   AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
-  work.doWork(agentIdentifier,repository,manipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  work.doWork(agentIdentifier,repository,manipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   List<UploadEntry> entries=manipulator.uploadEntries();
   assertThat(entries.size(),is(0));
   assertThat(repository.states,containsResult(JobState.Building));
