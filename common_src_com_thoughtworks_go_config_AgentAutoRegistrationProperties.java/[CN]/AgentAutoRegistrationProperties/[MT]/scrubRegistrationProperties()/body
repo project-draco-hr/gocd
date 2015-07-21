@@ -8,6 +8,7 @@
     PropertiesConfigurationLayout layout=new PropertiesConfigurationLayout(config);
     layout.load(reader());
     layout.save(new FileWriter(this.configFile));
+    loadProperties();
   }
  catch (  ConfigurationException|IOException e) {
     LOG.warn("[Agent Auto Registration] Unable to scrub registration key.",e);
