@@ -1,0 +1,13 @@
+{
+  Properties properties=new Properties();
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_KEY,"foo");
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_RESOURCES,"foo, zoo");
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_ENVIRONMENTS,"foo, bar");
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_HOSTNAME,"agent01.example.com");
+  properties.store(new FileOutputStream(configFile),"");
+  AgentAutoRegistrationProperties reader=new AgentAutoRegistrationProperties(configFile);
+  assertThat(reader.agentAutoRegisterKey(),is("foo"));
+  assertThat(reader.agentAutoRegisterResources(),is("foo, zoo"));
+  assertThat(reader.agentAutoRegisterEnvironments(),is("foo, bar"));
+  assertThat(reader.agentAutoRegisterHostname(),is("agent01.example.com"));
+}
