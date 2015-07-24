@@ -3,7 +3,10 @@
     isProcessingBasicAuth.set(true);
     super.doFilterHttp(httpRequest,httpResponse,chain);
   }
-  finally {
+ catch (  Exception e) {
+    handleException(httpRequest,httpResponse,e);
+  }
+ finally {
     isProcessingBasicAuth.set(false);
   }
 }
