@@ -1,3 +1,8 @@
 {
-  throw bomb("Cannot update pipeline group in merged configuration");
+  if (groups.isEmpty()) {
+    PipelineConfigs configs=new BasicPipelineConfigs();
+    configs.add(pipeline);
+    groups.add(configs);
+  }
+  groups.update(groupName,pipelineName,pipeline);
 }

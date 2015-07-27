@@ -1,6 +1,6 @@
 {
-  List<EnvironmentPipelineModel> pipelines=new ArrayList<>();
-  for (  PipelineConfig pipelineConfig : goConfigService.getAllPipelineConfigs()) {
+  List<EnvironmentPipelineModel> pipelines=new ArrayList<EnvironmentPipelineModel>();
+  for (  PipelineConfig pipelineConfig : pipelineConfigs) {
     String pipelineName=CaseInsensitiveString.str(pipelineConfig.name());
     if (securityService.hasViewPermissionForPipeline(user,pipelineName)) {
       EnvironmentConfig environment=environments.findEnvironmentForPipeline(new CaseInsensitiveString(pipelineName));
