@@ -3,6 +3,9 @@
   downstream(configs);
   cruiseConfig=new BasicCruiseConfig(configs);
   cruiseConfig.addEnvironment(environment("foo","in_env"));
+  PipelineConfig remotePipeline=PipelineConfigMother.pipelineConfig("remote");
+  remotePipeline.setOrigin(new RepoConfigOrigin(new ConfigRepoConfig(new GitMaterialConfig("url"),"plugin"),"1234"));
+  cruiseConfig.addPipeline("group",remotePipeline);
   goConfigService=mock(GoConfigService.class);
   securityService=mock(SecurityService.class);
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
