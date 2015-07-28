@@ -1,6 +1,6 @@
 {
   try {
-    configRepository.checkin(new GoConfigRevision("<cruise></cruise>","md5","ps","123",Edition.Empty,new TimeProvider()));
+    configRepository.checkin(new GoConfigRevision("<cruise></cruise>","md5","ps","123",new TimeProvider()));
     loadConfigFileWithContent("<cruise></cruise>");
     ServerHealthStates states=serverHealthService.getAllLogs();
     assertThat(states.size(),is(1));

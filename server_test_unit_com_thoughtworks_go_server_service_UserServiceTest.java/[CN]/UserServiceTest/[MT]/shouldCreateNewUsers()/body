@@ -3,7 +3,6 @@
   doNothing().when(userDao).saveOrUpdate(foo.getUser());
   when(userDao.findUser("fooUser")).thenReturn(new NullUser());
   when(userDao.enabledUserCount()).thenReturn(10);
-  when(licenseService.maximumUsersAllowed()).thenReturn(100);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   userService.create(Arrays.asList(foo),result);
   assertThat(result.isSuccessful(),is(true));

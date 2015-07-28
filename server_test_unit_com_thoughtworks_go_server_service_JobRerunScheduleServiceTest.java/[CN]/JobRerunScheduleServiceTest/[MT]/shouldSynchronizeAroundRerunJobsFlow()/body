@@ -9,7 +9,7 @@
   final ThreadLocal<Integer> requestNumber=new ThreadLocal<Integer>();
   final boolean[] firstRequestFinished=new boolean[]{false};
   final boolean[] secondReqGotInAfterFirstFinished=new boolean[]{false};
-  schedulingChecker=new SchedulingCheckerService(null,null,null,null,null,null,null,null,null,null,null){
+  schedulingChecker=new SchedulingCheckerService(null,null,null,null,null,null,null,null,null,null){
     @Override public boolean canSchedule(    OperationResult result){
       if (requestNumber.get() == 0) {
         sem.release();

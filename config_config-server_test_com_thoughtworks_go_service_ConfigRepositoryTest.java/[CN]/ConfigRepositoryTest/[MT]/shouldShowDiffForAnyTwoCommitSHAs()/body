@@ -1,7 +1,7 @@
 {
   configRepo.checkin(goConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,33),"md5-1"));
-  configRepo.checkin(new GoConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,60),"md5-2","user-2","13.2",Edition.Enterprise,new TimeProvider()));
-  configRepo.checkin(new GoConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,55),"md5-3","user-2","13.2",Edition.Enterprise,new TimeProvider()));
+  configRepo.checkin(new GoConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,60),"md5-2","user-2","13.2",new TimeProvider()));
+  configRepo.checkin(new GoConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,55),"md5-3","user-2","13.2",new TimeProvider()));
   GoConfigRevisions commits=configRepo.getCommits(10,0);
   String firstCommitSHA=commits.get(2).getCommitSHA();
   String secondCommitSHA=commits.get(1).getCommitSHA();

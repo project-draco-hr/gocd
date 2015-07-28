@@ -1,8 +1,7 @@
 {
-  goLicenseService=mock(GoLicenseService.class);
   securityService=mock(SecurityService.class);
   userService=mock(UserService.class);
-  schedulingChecker=spy(new SchedulingCheckerService(mock(GoConfigService.class),mock(CurrentActivityService.class),goLicenseService,mock(SystemEnvironment.class),securityService,mock(PipelineLockService.class),mock(TriggerMonitor.class),mock(PipelineScheduleQueue.class),userService,mock(ServerHealthService.class),mock(PipelinePauseService.class)));
+  schedulingChecker=spy(new SchedulingCheckerService(mock(GoConfigService.class),mock(CurrentActivityService.class),mock(SystemEnvironment.class),securityService,mock(PipelineLockService.class),mock(TriggerMonitor.class),mock(PipelineScheduleQueue.class),userService,mock(ServerHealthService.class),mock(PipelinePauseService.class)));
   argumentCaptor=new ArgumentCaptor<List<SchedulingChecker>>();
   compositeChecker=mock(CompositeChecker.class);
   operationResult=mock(OperationResult.class);

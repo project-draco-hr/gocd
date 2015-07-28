@@ -1,9 +1,0 @@
-{
-  LicenseExpiryValidator expiryValidator=mock(LicenseExpiryValidator.class);
-  when(expiryValidator.isLicenseExpired()).thenReturn(true);
-  when(expiryValidator.description()).thenReturn("description");
-  LicenseExpiryInterceptor interceptor=new LicenseExpiryInterceptor(expiryValidator);
-  ModelAndView modelAndView=new ModelAndView();
-  interceptor.postHandle(new MockHttpServletRequest(),new MockHttpServletResponse(),new Object(),modelAndView);
-  assertThat(modelAndView.getModel().get(GoConstants.ERROR_FOR_GLOBAL_MESSAGE),is((Object)"description"));
-}

@@ -1,8 +1,0 @@
-{
-  when(goLicenseService.isLicenseEmpty()).thenReturn(true);
-  checker.check(operationResult);
-  assertThat(operationResult.canContinue(),is(false));
-  String desc="There is no license configured. Scheduling will resume once a valid license is used.";
-  assertThat(operationResult.getServerHealthState(),is(ServerHealthState.error("License Violation",desc,EnabledUsersLicenseLimitChecker.USER_LIMIT_EXCEEDED)));
-  verifyNoMoreInteractions(serverHealthService);
-}
