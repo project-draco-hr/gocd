@@ -1,0 +1,6 @@
+{
+  FileConfigOrigin fileConfigOrigin=new FileConfigOrigin();
+  RepoConfigOrigin repoConfigOrigin=new RepoConfigOrigin(new ConfigRepoConfig(new SvnMaterialConfig("http://mysvn",false),"myplugin"),"123");
+  MergeConfigOrigin mergeOrigin=new MergeConfigOrigin(fileConfigOrigin,repoConfigOrigin);
+  assertThat(mergeOrigin.displayName(),is("Merged: [ cruise-config.xml; http://mysvn at 123; ]"));
+}
