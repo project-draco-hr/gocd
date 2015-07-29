@@ -1,3 +1,31 @@
 {
-  return this.main;
+  EnvironmentsConfig localEnvironments=environments.getLocal();
+  EnvironmentsConfig configsForSave=new EnvironmentsConfig();
+  for (  EnvironmentConfig environmentConfig : localEnvironments) {
+    if (environmentConfig.getOrigin() instanceof UIConfigOrigin) {
+      if (!environmentConfig.isEnvironmentEmpty()) {
+        configsForSave.add(environmentConfig);
+      }
+    }
+ else {
+      configsForSave.add(environmentConfig);
+    }
+  }
+  PipelineGroups localGroups=groups.getLocal();
+  PipelineGroups pipelineConfigsForSave=new PipelineGroups();
+  for (  PipelineConfigs pipelineConfigs : localGroups) {
+    if (pipelineConfigs.getOrigin() instanceof UIConfigOrigin) {
+      if (!pipelineConfigs.isEmpty()) {
+        pipelineConfigsForSave.add(pipelineConfigs);
+      }
+    }
+ else {
+      pipelineConfigsForSave.add(pipelineConfigs);
+    }
+  }
+  Cloner cloner=new Cloner();
+  BasicCruiseConfig configForSave=cloner.deepClone(this.main);
+  configForSave.setEnvironments(configsForSave);
+  configForSave.groups=localGroups;
+  return configForSave;
 }

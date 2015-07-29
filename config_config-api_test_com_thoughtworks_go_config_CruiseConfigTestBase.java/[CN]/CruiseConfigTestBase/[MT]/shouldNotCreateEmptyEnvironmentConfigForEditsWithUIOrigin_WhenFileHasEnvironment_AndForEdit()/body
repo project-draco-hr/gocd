@@ -1,0 +1,15 @@
+{
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  mainCruiseConfig.addEnvironment(new BasicEnvironmentConfig(new CaseInsensitiveString("Env")));
+  mainCruiseConfig.setOrigins(new FileConfigOrigin());
+  PartialConfig partialConfig=PartialConfigMother.withEnvironment("Env");
+  partialConfig.setOrigins(new RepoConfigOrigin());
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,true,partialConfig);
+  assertThat(cruiseConfig.getEnvironments().size(),is(1));
+  assertThat(cruiseConfig.getEnvironments().get(0) instanceof MergeEnvironmentConfig,is(true));
+  assertThat(cruiseConfig.getEnvironments().get(0).name(),is(new CaseInsensitiveString("Env")));
+  MergeEnvironmentConfig mergedEnv=(MergeEnvironmentConfig)cruiseConfig.getEnvironments().get(0);
+  assertThat(mergedEnv.size(),is(2));
+  assertThat(mergedEnv.get(0).isLocal(),is(true));
+  assertThat(mergedEnv.get(1).isLocal(),is(false));
+}

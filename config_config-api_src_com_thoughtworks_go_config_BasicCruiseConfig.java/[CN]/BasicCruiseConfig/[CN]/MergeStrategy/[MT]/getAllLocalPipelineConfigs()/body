@@ -1,3 +1,11 @@
 {
-  return this.main.getAllPipelineConfigs();
+  List<PipelineConfig> locals=new ArrayList<>();
+  for (  PipelineConfigs group : this.main.groups) {
+    for (    PipelineConfigs pipelineConfigs : groups) {
+      for (      PipelineConfig pipeline : pipelineConfigs) {
+        if (pipeline.isLocal())         locals.add(pipeline);
+      }
+    }
+  }
+  return locals;
 }

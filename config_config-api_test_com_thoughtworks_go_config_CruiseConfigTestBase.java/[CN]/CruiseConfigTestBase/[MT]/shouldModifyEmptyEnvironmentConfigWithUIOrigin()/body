@@ -1,0 +1,9 @@
+{
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  PartialConfig partialConfig=PartialConfigMother.withEnvironment("remoteEnv");
+  partialConfig.setOrigins(new RepoConfigOrigin());
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,true,partialConfig);
+  cruiseConfig.getEnvironments().get(0).addAgent("agent");
+  MergeEnvironmentConfig mergedEnv=(MergeEnvironmentConfig)cruiseConfig.getEnvironments().get(0);
+  assertThat(mergedEnv.getFirstEditablePart().getAgents(),hasItem(new EnvironmentAgentConfig("agent")));
+}

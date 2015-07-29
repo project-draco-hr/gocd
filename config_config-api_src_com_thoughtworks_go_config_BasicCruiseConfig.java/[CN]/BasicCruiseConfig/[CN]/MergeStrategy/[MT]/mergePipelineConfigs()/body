@@ -18,8 +18,34 @@
     map.get(key).add(pipes);
   }
   for (  List<PipelineConfigs> oneGroup : map.values()) {
-    if (oneGroup.size() == 1)     groups.add(oneGroup.get(0));
- else     groups.add(new MergePipelineConfigs(oneGroup));
+    if (forEdit) {
+      if (oneGroup.size() == 1) {
+        PipelineConfigs sole=oneGroup.get(0);
+        if (sole.isLocal()) {
+          groups.add(sole);
+        }
+ else {
+          BasicPipelineConfigs pipelineConfigsForEdit=new BasicPipelineConfigs();
+          pipelineConfigsForEdit.setGroup(sole.getGroup());
+          pipelineConfigsForEdit.setOrigins(new UIConfigOrigin());
+          groups.add(new MergePipelineConfigs(pipelineConfigsForEdit,sole));
+        }
+      }
+ else {
+        MergePipelineConfigs merge=new MergePipelineConfigs(oneGroup);
+        if (merge.getFirstEditablePartOrNull() == null) {
+          BasicPipelineConfigs pipelineConfigsForEdit=new BasicPipelineConfigs();
+          pipelineConfigsForEdit.setGroup(merge.getGroup());
+          pipelineConfigsForEdit.setOrigins(new UIConfigOrigin());
+          merge.addPart(pipelineConfigsForEdit);
+        }
+        groups.add(merge);
+      }
+    }
+ else {
+      if (oneGroup.size() == 1)       groups.add(oneGroup.get(0));
+ else       groups.add(new MergePipelineConfigs(oneGroup));
+    }
   }
   return groups;
 }

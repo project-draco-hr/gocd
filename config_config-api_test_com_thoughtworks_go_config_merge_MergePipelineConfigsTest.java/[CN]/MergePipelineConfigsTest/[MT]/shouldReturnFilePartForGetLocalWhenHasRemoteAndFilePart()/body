@@ -1,0 +1,8 @@
+{
+  BasicPipelineConfigs filePart=new BasicPipelineConfigs();
+  filePart.setOrigin(new FileConfigOrigin());
+  BasicPipelineConfigs secondPart=new BasicPipelineConfigs();
+  secondPart.setOrigin(new RepoConfigOrigin());
+  MergePipelineConfigs merge=new MergePipelineConfigs(filePart,secondPart);
+  assertThat(merge.getLocal(),Matchers.<PipelineConfigs>is(filePart));
+}

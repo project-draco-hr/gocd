@@ -1,0 +1,10 @@
+{
+  PipelineConfigs localGroup=createGroup("defaultGroup",createPipelineConfig("pipeline1","stage1"));
+  localGroup.setOrigins(new FileConfigOrigin());
+  PipelineConfigs remoteGroup=createGroup("defaultGroup",createPipelineConfig("pipeline2","stage1"));
+  remoteGroup.setOrigins(new RepoConfigOrigin());
+  MergePipelineConfigs mergePipelineConfigs=new MergePipelineConfigs(localGroup,remoteGroup);
+  PipelineGroups groups=new PipelineGroups(mergePipelineConfigs);
+  assertThat(groups.getLocal().size(),is(1));
+  assertThat(groups.getLocal(),hasItem(localGroup));
+}
