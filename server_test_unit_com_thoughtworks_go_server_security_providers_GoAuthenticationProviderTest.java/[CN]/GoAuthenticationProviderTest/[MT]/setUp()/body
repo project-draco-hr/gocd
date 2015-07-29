@@ -1,0 +1,8 @@
+{
+  userService=mock(UserService.class);
+  underlyingProvider=mock(AuthenticationProvider.class);
+  enforcementProvider=new GoAuthenticationProvider(userService,underlyingProvider);
+  auth=new UsernamePasswordAuthenticationToken(new User("user","pass",true,true,true,true,new GrantedAuthority[]{}),"credentials");
+  resultantAuthorization=new UsernamePasswordAuthenticationToken(new User("user-authenticated","pass",true,true,true,true,new GrantedAuthority[]{GoAuthority.ROLE_GROUP_SUPERVISOR.asAuthority()}),"credentials");
+  when(underlyingProvider.authenticate(auth)).thenReturn(resultantAuthorization);
+}
