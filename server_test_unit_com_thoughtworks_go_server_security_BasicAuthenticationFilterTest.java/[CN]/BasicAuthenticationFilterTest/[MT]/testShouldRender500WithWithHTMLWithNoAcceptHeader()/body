@@ -1,5 +1,6 @@
 {
   filter.handleException(httpRequest,httpResponse,new Exception("foo"));
+  verify(localizer).localize("INVALID_LDAP_ERROR");
   assertEquals(500,httpResponse.getStatus());
   assertEquals("foo",httpResponse.getErrorMessage());
 }
