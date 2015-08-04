@@ -3,6 +3,9 @@
   hibernateTemplate=mock(HibernateTemplate.class);
   goCache=mock(GoCache.class);
   systemEnvironment=mock(SystemEnvironment.class);
-  pipelineRepository=new PipelineRepository(sessionFactory,goCache,systemEnvironment);
+  databaseStrategy=mock(DatabaseStrategy.class);
+  queryExtensions=mock(QueryExtensions.class);
+  when(databaseStrategy.getQueryExtensions()).thenReturn(queryExtensions);
+  pipelineRepository=new PipelineRepository(sessionFactory,goCache,systemEnvironment,databaseStrategy);
   pipelineRepository.setHibernateTemplate(hibernateTemplate);
 }
