@@ -3,6 +3,12 @@
     String message=String.format("Invalid job name '%s'. This must be alphanumeric and can contain underscores and periods. The maximum allowed length is %d characters.",name(),NameTypeValidator.MAX_LENGTH);
     errors.add(NAME,message);
   }
+  if (RunOnAllAgentsJobTypeConfig.hasMarker(CaseInsensitiveString.str(jobName))) {
+    errors.add(NAME,String.format("A job cannot have '%s' in it's name: %s",RunOnAllAgentsJobTypeConfig.MARKER,jobName));
+  }
+  if (RunMultipleInstanceJobTypeConfig.hasMarker(CaseInsensitiveString.str(jobName))) {
+    errors.add(NAME,String.format("A job cannot have '%s' in it's name: %s",RunMultipleInstanceJobTypeConfig.MARKER,jobName));
+  }
   if (runInstanceCount != null) {
     try {
       int runInstanceCountForValidation=Integer.parseInt(this.runInstanceCount);
