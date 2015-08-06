@@ -1,7 +1,7 @@
 {
   final SslInfrastructureServiceTest me=this;
   return new SslInfrastructureService.RemoteRegistrationRequester(null,agentRegistryStub(),new HttpClient()){
-    protected Registration requestRegistration(    String agentHostName,    AgentAutoRegistrationProperties agentAutoRegisterProperties) throws IOException, ClassNotFoundException {
+    protected Registration requestRegistration(    String agentHostName,    AgentRegistrationPropertiesReader agentAutoRegisterProperties) throws IOException, ClassNotFoundException {
       LOGGER.debug("Requesting remote registration");
       me.remoteCalled=true;
       return registration;

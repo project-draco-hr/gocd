@@ -1,0 +1,14 @@
+{
+  FileInputStream inStream=null;
+  try {
+    inStream=new FileInputStream(propertiesFile);
+    agentAutoRegisterProperties.load(inStream);
+    LOG.info(String.format("[Agent Auto Registration] Loaded agent auto register properties file."));
+    inStream.close();
+  }
+ catch (  Exception e) {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("[Agent Auto Registration] Unable to load agent auto register properties file. This agent will not auto-register");
+    }
+  }
+}
