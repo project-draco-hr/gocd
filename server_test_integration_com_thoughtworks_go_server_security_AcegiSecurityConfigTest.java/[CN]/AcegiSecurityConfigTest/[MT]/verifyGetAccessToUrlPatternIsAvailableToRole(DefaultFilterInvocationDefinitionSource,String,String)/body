@@ -1,0 +1,11 @@
+{
+  ConfigAttributeDefinition definition=objectDefinitionSource.lookupAttributes(urlPattern,"get");
+  Iterator iterator=definition.getConfigAttributes().iterator();
+  StringBuilder allowedAccess=new StringBuilder();
+  while (iterator.hasNext()) {
+    SecurityConfig securityConfig=(SecurityConfig)iterator.next();
+    if (securityConfig.getAttribute().equals(role))     return;
+ else     allowedAccess.append(securityConfig.getAttribute() + ",");
+  }
+  fail(String.format("Expected access to url %s only by %s but found %s",urlPattern,role,allowedAccess.toString()));
+}
