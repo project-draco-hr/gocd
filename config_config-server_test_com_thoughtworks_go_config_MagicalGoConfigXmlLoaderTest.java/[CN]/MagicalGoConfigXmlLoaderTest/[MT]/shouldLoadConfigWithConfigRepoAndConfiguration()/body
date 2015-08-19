@@ -1,0 +1,7 @@
+{
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(ConfigFileFixture.configWithConfigRepos("  <config-repos>\n" + "    <config-repo >\n" + "      <git url=\"https://github.com/tomzo/gocd-indep-config-part.git\" />\n"+ "      <configuration>\n"+ "        <property>\n"+ "          <key>pattern</key>\n"+ "          <value>*.gocd.xml</value>\n"+ "        </property>\n"+ "      </configuration>\n"+ "    </config-repo >\n"+ "  </config-repos>\n")).config;
+  assertThat(cruiseConfig.getConfigRepos().size(),is(1));
+  ConfigRepoConfig configRepo=cruiseConfig.getConfigRepos().get(0);
+  assertThat(configRepo.getConfiguration().size(),is(1));
+  assertThat(configRepo.getConfiguration().getProperty("pattern").getValue(),is("*.gocd.xml"));
+}

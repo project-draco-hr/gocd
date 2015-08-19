@@ -9,6 +9,7 @@
     LOGGER.debug("[Config Save] Updating config cache with new XML");
     configForEdit=classParser(element,BasicCruiseConfig.class,configCache,new GoCipher(),registry,new ConfigReferenceElements()).parse();
     setMd5(configForEdit,md5);
+    configForEdit.setOrigins(new FileConfigOrigin());
     config=preprocessAndValidate(configForEdit);
   }
   finally {

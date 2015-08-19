@@ -1,0 +1,5 @@
+{
+  CruiseConfig cruiseConfig=xmlLoader.loadConfigHolder(ConfigFileFixture.CONFIG).config;
+  PipelineConfig pipelineConfig1=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  assertThat(pipelineConfig1.getOrigin(),Is.<ConfigOrigin>is(new FileConfigOrigin()));
+}

@@ -1,0 +1,6 @@
+{
+  String content=ConfigFileFixture.configWithEnvironments("<environments>" + "  <environment name='uat'>" + "    <agents>"+ "      <physical uuid='1'/>"+ "      <physical uuid='2'/>"+ "    </agents>"+ "  </environment>"+ "</environments>");
+  EnvironmentsConfig environmentsConfig=ConfigMigrator.loadWithMigration(content).config.getEnvironments();
+  EnvironmentConfig uat=environmentsConfig.get(0);
+  assertThat(uat.getOrigin(),Is.<ConfigOrigin>is(new FileConfigOrigin()));
+}

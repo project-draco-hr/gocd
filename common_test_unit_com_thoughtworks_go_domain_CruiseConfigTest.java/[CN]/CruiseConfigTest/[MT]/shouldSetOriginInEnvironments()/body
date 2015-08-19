@@ -1,0 +1,7 @@
+{
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  BasicEnvironmentConfig env=new BasicEnvironmentConfig(new CaseInsensitiveString("e"));
+  mainCruiseConfig.addEnvironment(env);
+  mainCruiseConfig.setOrigins(new FileConfigOrigin());
+  assertThat(env.getOrigin(),Is.<ConfigOrigin>is(new FileConfigOrigin()));
+}
