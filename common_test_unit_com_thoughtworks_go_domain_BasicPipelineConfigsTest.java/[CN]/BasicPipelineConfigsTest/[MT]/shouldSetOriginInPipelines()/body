@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipe=PipelineConfigMother.pipelineConfig("pipeline1");
+  PipelineConfigs group=new BasicPipelineConfigs(pipe);
+  group.setOrigins(new FileConfigOrigin());
+  assertThat(pipe.getOrigin(),Is.<ConfigOrigin>is(new FileConfigOrigin()));
+}
