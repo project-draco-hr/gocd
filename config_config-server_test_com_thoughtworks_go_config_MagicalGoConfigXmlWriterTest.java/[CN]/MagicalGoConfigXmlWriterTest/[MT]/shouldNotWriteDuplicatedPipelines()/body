@@ -1,0 +1,12 @@
+{
+  String xml=ConfigFileFixture.TWO_PIPELINES;
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(IOUtils.toInputStream(xml)).config;
+  cruiseConfig.addPipeline("someGroup",PipelineConfigMother.pipelineConfig("pipeline1"));
+  try {
+    xmlWriter.write(cruiseConfig,output,false);
+    fail("Should not be able to save config when there are 2 pipelines with same name");
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),containsString("You have defined multiple pipelines named 'pipeline1'. Pipeline names must be unique."));
+  }
+}

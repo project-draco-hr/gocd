@@ -1,3 +1,5 @@
 {
-  return this.getAuthorizationPart().hasAuthorizationDefined();
+  PipelineConfigs authPart=this.getAuthorizationPartOrNull();
+  if (authPart == null)   return false;
+  return authPart.hasAuthorizationDefined();
 }
