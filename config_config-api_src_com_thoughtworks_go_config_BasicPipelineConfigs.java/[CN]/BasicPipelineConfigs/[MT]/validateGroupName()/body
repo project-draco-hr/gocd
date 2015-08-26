@@ -1,0 +1,8 @@
+{
+  if (StringUtils.isBlank(group) || !new NameTypeValidator().isNameValid(group)) {
+    String errorText=NameTypeValidator.errorMessage("group",group);
+    this.configErrors.add(GROUP,errorText);
+    return errorText;
+  }
+  return null;
+}
