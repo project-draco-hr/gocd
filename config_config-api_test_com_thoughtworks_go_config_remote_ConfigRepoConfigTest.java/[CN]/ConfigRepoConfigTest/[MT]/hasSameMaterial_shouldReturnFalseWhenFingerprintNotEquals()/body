@@ -1,0 +1,6 @@
+{
+  MaterialConfig configRepo=new GitMaterialConfig("url","branch");
+  MaterialConfig someRepo=new GitMaterialConfig("url","branch1");
+  ConfigRepoConfig config=new ConfigRepoConfig(configRepo,"myplugin");
+  assertThat(config.hasSameMaterial(someRepo),is(false));
+}
