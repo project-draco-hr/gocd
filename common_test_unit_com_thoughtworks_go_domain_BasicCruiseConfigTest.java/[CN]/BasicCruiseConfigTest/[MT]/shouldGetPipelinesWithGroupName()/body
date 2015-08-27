@@ -1,7 +1,7 @@
 {
   PipelineConfigs group1=createGroup("group1",createPipelineConfig("pipeline1","stage1"));
   PipelineConfigs group2=createGroup("group2",createPipelineConfig("pipeline2","stage2"));
-  CruiseConfig config=new BasicCruiseConfig();
+  CruiseConfig config=createCruiseConfig();
   config.setGroup(new PipelineGroups(group1,group2));
   assertThat(config.pipelines("group1"),is(group1));
   assertThat(config.pipelines("group2"),is(group2));

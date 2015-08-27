@@ -1,5 +1,5 @@
 {
-  CruiseConfig config=new BasicCruiseConfig();
+  CruiseConfig config=createCruiseConfig();
   SecurityConfig securityConfig=new SecurityConfig(new LdapConfig(new GoCipher()),new PasswordFileConfig("foo"),false);
   securityConfig.adminsConfig().add(new AdminUser(new CaseInsensitiveString("root")));
   final Role role=goConfigMother.createRole("ldap-users","root");

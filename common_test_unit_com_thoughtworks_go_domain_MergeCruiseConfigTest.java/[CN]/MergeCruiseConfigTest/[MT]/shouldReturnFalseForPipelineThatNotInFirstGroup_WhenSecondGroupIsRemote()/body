@@ -1,0 +1,5 @@
+{
+  PipelineConfigs group1=createGroup("group1",createPipelineConfig("pipeline1","stage1"));
+  CruiseConfig config=new BasicCruiseConfig(new BasicCruiseConfig(group1),PartialConfigMother.withPipelineInGroup("remote-pipe-1","remote_group"));
+  assertThat("shouldReturnFalseForPipelineThatNotInFirstGroup",config.isInFirstGroup(new CaseInsensitiveString("pipeline2")),is(false));
+}
