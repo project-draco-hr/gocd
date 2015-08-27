@@ -3,7 +3,7 @@
   ConfigRepoConfig configRepo=new ConfigRepoConfig(material,"myplugin");
   cruiseConfig.setConfigRepos(new ConfigReposConfig(configRepo));
   configWatchList.onConfigChange(cruiseConfig);
-  when(plugin.Load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(PartialConfigMother.withEnvironment("UAT"));
+  when(plugin.load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(PartialConfigMother.withEnvironment("UAT"));
   repoConfigDataSource.onCheckoutComplete(material,folder,"7a8f");
   PartialConfig partialConfig=repoConfigDataSource.latestPartialConfigForMaterial(material);
   RepoConfigOrigin repoConfigOrigin=new RepoConfigOrigin(configRepo,"7a8f");

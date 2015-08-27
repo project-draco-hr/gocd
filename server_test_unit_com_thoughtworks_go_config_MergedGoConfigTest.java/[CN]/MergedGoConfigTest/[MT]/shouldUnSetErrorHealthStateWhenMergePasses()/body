@@ -1,11 +1,11 @@
 {
   ConfigRepoConfig configRepo=configWatchList.getCurrentConfigRepos().get(0);
   PartialConfig badPart=new PartialConfig(new PipelineGroups(PipelineConfigMother.createGroup("part1",PipelineConfigMother.pipelineConfig("pipe1"),PipelineConfigMother.pipelineConfig("pipe1"))));
-  when(plugin.Load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(badPart);
+  when(plugin.load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(badPart);
   repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),folder,"321e");
   assertThat(serverHealthService.getLogsAsText().contains("Invalid Merged Config"),is(true));
   PartialConfig part1=new PartialConfig(new PipelineGroups(PipelineConfigMother.createGroup("part1",PipelineConfigMother.pipelineConfig("pipe1"))));
-  when(plugin.Load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(part1);
+  when(plugin.load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(part1);
   repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),folder,"321e");
   assertThat(serverHealthService.filterByScope(HealthStateScope.GLOBAL).isEmpty(),is(true));
 }

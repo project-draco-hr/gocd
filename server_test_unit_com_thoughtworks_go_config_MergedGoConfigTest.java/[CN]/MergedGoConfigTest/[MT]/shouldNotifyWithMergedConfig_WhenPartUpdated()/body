@@ -1,7 +1,7 @@
 {
   ConfigRepoConfig configRepo=configWatchList.getCurrentConfigRepos().get(0);
   PartialConfig part1=new PartialConfig(new PipelineGroups(PipelineConfigMother.createGroup("part1",PipelineConfigMother.pipelineConfig("pipe1"))));
-  when(plugin.Load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(part1);
+  when(plugin.load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(part1);
   ConfigChangedListener listener=mock(ConfigChangedListener.class);
   cachedGoConfig.registerListener(listener);
   verify(listener,times(1)).onConfigChange(any(CruiseConfig.class));
