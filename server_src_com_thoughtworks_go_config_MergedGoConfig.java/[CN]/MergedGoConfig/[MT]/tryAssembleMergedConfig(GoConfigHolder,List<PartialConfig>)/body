@@ -2,10 +2,10 @@
   try {
     GoConfigHolder newConfigHolder;
     if (partials.size() == 0) {
-      newConfigHolder=fileService.loadConfigHolder();
+      newConfigHolder=cruiseConfigHolder;
     }
  else {
-      BasicCruiseConfig merge=new BasicCruiseConfig((BasicCruiseConfig)cruiseConfig.config,partials);
+      BasicCruiseConfig merge=new BasicCruiseConfig((BasicCruiseConfig)cruiseConfigHolder.config,partials);
       List<ConfigErrors> allErrors=validate(merge);
       if (!allErrors.isEmpty()) {
         throw new GoConfigInvalidException(merge,allErrors);
