@@ -1,0 +1,12 @@
+{
+  StageStatusListener listener=mock(StageStatusListener.class);
+  stageService.addStageStatusListener(listener);
+  transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+    public void doInTransactionWithoutResult(    TransactionStatus status){
+      stageService.cancelStage(stage);
+    }
+  }
+);
+  stage=stageService.stageById(stage.getId());
+  verify(listener).stageStatusChanged(stage);
+}
