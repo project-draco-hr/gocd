@@ -4,7 +4,7 @@
     return true;
   }
  catch (  Throwable t) {
-    if (isCausedBySecurityException(t)) {
+    if (t.getMessage().contains("Could not initialize intrinsics") || isCausedBySecurityException(t)) {
       return false;
     }
     throw (t instanceof RuntimeException ? (RuntimeException)t : new RuntimeException(t));
