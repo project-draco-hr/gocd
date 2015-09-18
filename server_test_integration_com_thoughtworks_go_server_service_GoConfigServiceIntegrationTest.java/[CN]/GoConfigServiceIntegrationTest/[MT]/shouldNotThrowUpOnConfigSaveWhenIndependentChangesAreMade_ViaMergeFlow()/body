@@ -2,7 +2,7 @@
   for (int i=0; i < 10; i++) {
     configHelper.addRole(new Role(new CaseInsensitiveString("admin_role_" + i),new RoleUser(new CaseInsensitiveString("admin_user_" + i))));
   }
-  CruiseConfig user1SeeingConfig=goConfigFileDao.loadForEditing();
+  CruiseConfig user1SeeingConfig=goConfigDao.loadForEditing();
   String user1SeeingMd5=user1SeeingConfig.getMd5();
   configHelper.addPipelineWithGroup("defaultGroup","user2_pipeline","user2_stage","user2_job");
   CruiseConfig user2SeeingConfig=configHelper.load();

@@ -1,7 +1,7 @@
 {
   dbHelper.onSetUp();
   configHelper.onSetUp();
-  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.usingCruiseConfigDao(goConfigDao);
   preCondition=new PipelineWithTwoStages(materialRepository,transactionTemplate);
   preCondition.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
   agentService.clearAll();

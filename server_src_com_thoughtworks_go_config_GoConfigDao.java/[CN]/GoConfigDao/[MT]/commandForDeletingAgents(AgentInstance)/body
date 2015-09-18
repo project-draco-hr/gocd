@@ -1,0 +1,7 @@
+{
+  GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand();
+  for (  AgentInstance agentInstance : agentInstances) {
+    command.addCommand(deleteAgentCommand(agentInstance.getUuid()));
+  }
+  return command;
+}

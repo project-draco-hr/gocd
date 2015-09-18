@@ -4,7 +4,7 @@
   svnRepository=new SvnTestRepo("testSvnRepo");
   dbHelper.onSetUp();
   configHelper.onSetUp();
-  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
   repository=new SvnCommand(null,svnRepository.projectRepositoryUrl());
   goParentPipelineConfig=configHelper.addPipeline(GO_PIPELINE_UPSTREAM,STAGE_NAME,new MaterialConfigs(new GitMaterialConfig("foo-bar")),"unit");
   goPipelineConfig=configHelper.addPipeline(GO_PIPELINE_NAME,STAGE_NAME,repository,"unit");

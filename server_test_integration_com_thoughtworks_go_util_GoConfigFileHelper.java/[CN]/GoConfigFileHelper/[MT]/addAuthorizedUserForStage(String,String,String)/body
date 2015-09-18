@@ -1,6 +1,6 @@
 {
   configureStageAsManualApproval(pipelineName,stageName);
-  CruiseConfig cruiseConfig=load();
+  CruiseConfig cruiseConfig=loadForEdit();
   StageConfig stageConfig=cruiseConfig.stageConfigByName(new CaseInsensitiveString(pipelineName),new CaseInsensitiveString(stageName));
   Approval approval=stageConfig.getApproval();
   for (  String user : users) {

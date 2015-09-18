@@ -1,0 +1,7 @@
+{
+  AgentConfig agentConfig=new AgentConfig("uuid","test","127.0.0.1",new Resources("java"));
+  goConfigDao.addAgent(agentConfig);
+  goConfigDao.updateAgentApprovalStatus(agentConfig.getUuid(),Boolean.TRUE);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.agents().get(0).isDisabled(),is(true));
+}

@@ -1,6 +1,6 @@
 {
   configHelper.onSetUp();
-  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.usingCruiseConfigDao(goConfigDao);
   fixture=new PipelineWithMultipleMaterials(materialRepository,transactionTemplate);
   fixture.usingFilterForFirstMaterial("**/*.doc").usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
   pipelineScheduleQueue.clear();

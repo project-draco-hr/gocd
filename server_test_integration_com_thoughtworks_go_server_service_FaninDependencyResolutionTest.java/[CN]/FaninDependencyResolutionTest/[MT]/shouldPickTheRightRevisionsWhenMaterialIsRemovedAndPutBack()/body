@@ -19,7 +19,7 @@
   String p3_2=u.runAndPass(p3,p1_2,p2_2,"git1_2");
   String p4_2=u.runAndPass(p4,p3_2,"git2_2");
   configHelper.setMaterialConfigForPipeline("P2",git3.config());
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   p2=new ScheduleTestUtil.AddedPipeline(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("P2")),p2.material);
   u.checkinInOrder(git1,"git1_3");
   u.checkinInOrder(git2,"git2_3");
@@ -32,7 +32,7 @@
   MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(p4,cruiseConfig,given);
   assertThat(finalRevisions,is(expected));
   configHelper.setMaterialConfigForPipeline("P2",git2.config());
-  cruiseConfig=goConfigFileDao.load();
+  cruiseConfig=goConfigDao.load();
   p2=new ScheduleTestUtil.AddedPipeline(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("P2")),p2.material);
   given=u.mrs(u.mr(git2,true,"git2_3"),u.mr(p3,true,p3_3));
   expected=u.mrs(new MaterialRevision[]{u.mr(git2,true,"git2_3"),u.mr(p3,true,p3_3)});

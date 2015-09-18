@@ -1,0 +1,10 @@
+{
+  for (  ChangedRepoConfigWatchListListener listener : listeners) {
+    try {
+      listener.onChangedRepoConfigWatchList(configRepoConfigs);
+    }
+ catch (    Exception e) {
+      LOGGER.error("failed to fire config repos list changed event for listener: " + listener,e);
+    }
+  }
+}

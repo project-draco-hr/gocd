@@ -5,7 +5,7 @@
   ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git,"p1-first"),u.m(git,"p1-second"));
   ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(p1),u.m(git,"p2-first"),u.m(git,"p2-second"));
   ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(p2),u.m(git));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String p1_1=u.runAndPass(p1,"g1","g1");
   assertThat(getRevisionsBasedOnDependencies(p2,cruiseConfig,u.mrs(new MaterialRevision[]{u.mr(rel(p1,p2),true,p1_1),u.mr(rel(git,p2,0),true,"g1","g2","g3"),u.mr(rel(git,p2,1),true,"g1","g2","g3")})),is(u.mrs(new MaterialRevision[]{u.mr(rel(p1,p2),true,p1_1),u.mr(rel(git,p2,0),true,"g1"),u.mr(rel(git,p2,1),true,"g1")})));
   String p2_1=u.runAndPass(p2,p1_1,"g1","g1");

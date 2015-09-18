@@ -1,7 +1,7 @@
 {
   String p4view="//depot/... //localhost/...";
   cruiseConfig.replaceMaterialConfigForPipeline(PIPELINE_NAME,p4TestRepo.materialConfig(p4view));
-  mingle=goConfigFileDao.load().pipelineConfigByName(new CaseInsensitiveString(PIPELINE_NAME));
+  mingle=goConfigDao.load().pipelineConfigByName(new CaseInsensitiveString(PIPELINE_NAME));
   assertThat(mingle.materialConfigs().get(0),is(instanceOf(P4MaterialConfig.class)));
   scheduleHelper.manuallySchedulePipelineWithRealMaterials(PIPELINE_NAME,username);
   scheduleService.autoSchedulePipelinesFromRequestBuffer();

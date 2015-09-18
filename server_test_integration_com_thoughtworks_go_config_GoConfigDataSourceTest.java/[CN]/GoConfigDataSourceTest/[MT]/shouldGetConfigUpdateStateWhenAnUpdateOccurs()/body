@@ -1,6 +1,0 @@
-{
-  String originalMd5=dataSource.forceLoad(dataSource.fileLocation()).configForEdit.getMd5();
-  GoConfigHolder goConfigHolder=dataSource.forceLoad(dataSource.fileLocation());
-  GoConfigDataSource.GoConfigSaveResult goConfigSaveResult=dataSource.writeWithLock(configHelper.addPipelineCommand(originalMd5,"p1","s","b"),goConfigHolder);
-  assertThat(goConfigSaveResult.getConfigSaveState(),is(ConfigSaveState.UPDATED));
-}

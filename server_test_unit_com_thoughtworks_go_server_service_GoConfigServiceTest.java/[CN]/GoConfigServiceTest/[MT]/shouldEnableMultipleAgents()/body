@@ -6,6 +6,6 @@
   AgentInstance fromConfigFile=AgentInstance.createFromConfig(agentConfig,new SystemEnvironment());
   goConfigService.currentCruiseConfig().agents().add(agentConfig);
   goConfigService.disableAgents(false,pending,fromConfigFile);
-  GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand(GoConfigFileDao.createAddAgentCommand(pending.agentConfig()),GoConfigFileDao.updateApprovalStatus("UUID2",false));
-  verify(goConfigFileDao).updateConfig(command);
+  GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand(GoConfigDao.createAddAgentCommand(pending.agentConfig()),GoConfigDao.updateApprovalStatus("UUID2",false));
+  verify(goConfigDao).updateConfig(command);
 }

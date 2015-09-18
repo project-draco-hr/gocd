@@ -7,6 +7,6 @@
   ScheduleTestUtil.AddedPipeline third=u.saveConfigWith("third",u.m(second),u.m(svn2));
   String second_1=u.runAndPass(second,"s1");
   MaterialRevisions given=u.mrs(u.mr(second,true,second_1),u.mr(svn2,true,"s1"));
-  MaterialRevisions materialRevisions=getRevisionsBasedOnDependencies(third,goConfigFileDao.load(),given);
+  MaterialRevisions materialRevisions=getRevisionsBasedOnDependencies(third,goConfigDao.load(),given);
   assertThat(materialRevisions,is(given));
 }

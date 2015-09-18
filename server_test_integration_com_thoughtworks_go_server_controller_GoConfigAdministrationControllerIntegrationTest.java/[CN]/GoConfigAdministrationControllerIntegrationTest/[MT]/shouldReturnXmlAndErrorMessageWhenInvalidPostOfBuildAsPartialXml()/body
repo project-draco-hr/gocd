@@ -1,7 +1,7 @@
 {
   configHelper.addPipeline("pipeline","stage","build1","build2");
   String newXml="<job name=\"build3\" />";
-  String md5=goConfigFileDao.md5OfConfigFile();
+  String md5=goConfigDao.md5OfConfigFile();
   ModelAndView mav=controller.postBuildAsXmlPartial("pipeline","stage",4,newXml,md5,response);
   assertThat(response.getStatus(),is(SC_NOT_FOUND));
   assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));

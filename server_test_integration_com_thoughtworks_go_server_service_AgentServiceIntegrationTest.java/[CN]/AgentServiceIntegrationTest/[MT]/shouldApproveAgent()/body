@@ -4,6 +4,6 @@
   agentService.approve(pending.getUuid());
   assertThat(agentService.findRegisteredAgents().size(),is(1));
   assertThat(agentService.findAgentAndRefreshStatus(pending.agentConfig().getUuid()).agentConfig().isDisabled(),is(false));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   assertThat(cruiseConfig.agents().get(0).isDisabled(),is(false));
 }

@@ -1,0 +1,13 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("pipe1"));
+  BasicCruiseConfig localCruiseConfig=new BasicCruiseConfig(pipelines);
+  cruiseConfig=new BasicCruiseConfig(localCruiseConfig,PartialConfigMother.withPipelineInGroup("pipe2","remote_group"));
+  PipelineConfig pipe3=PipelineConfigMother.pipelineConfig("pipe3");
+  cruiseConfig.addPipeline("remote_group",pipe3);
+  assertThat(cruiseConfig.allPipelines().size(),is(3));
+  assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe3")),is(true));
+  assertThat(localCruiseConfig.allPipelines().size(),is(2));
+  assertThat(localCruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+  assertThat(localCruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe3")),is(true));
+  assertThat(localCruiseConfig.pipelines("remote_group").contains(pipe3),is(true));
+}

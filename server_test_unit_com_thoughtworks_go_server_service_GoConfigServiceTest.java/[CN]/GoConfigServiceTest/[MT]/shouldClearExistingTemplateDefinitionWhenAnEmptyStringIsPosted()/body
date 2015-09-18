@@ -2,7 +2,7 @@
   CruiseConfig config=new BasicCruiseConfig();
   config.server().setArtifactsDir("/var/logs");
   config.addTemplate(new PipelineTemplateConfig(new CaseInsensitiveString("templateName"),StageConfigMother.custom("stage","job")));
-  when(goConfigFileDao.loadForEditing()).thenReturn(config);
+  when(goConfigDao.loadForEditing()).thenReturn(config);
   String templateContent="";
   GoConfigValidity validity=goConfigService.templatesSaver().saveXml(templateContent,"md5");
   assertThat(validity.errorMessage(),is(""));

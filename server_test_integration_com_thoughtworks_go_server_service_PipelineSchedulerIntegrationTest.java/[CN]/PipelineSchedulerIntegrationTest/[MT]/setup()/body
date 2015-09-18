@@ -1,7 +1,7 @@
 {
   cruise=new Username(new CaseInsensitiveString("cruise"));
   dbHelper.onSetUp();
-  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
   configHelper.onSetUp();
   repository=new SvnCommand(null,testRepo.projectRepositoryUrl());
   configHelper.addPipeline(PIPELINE_MINGLE,DEV_STAGE,repository,"unit","functional");

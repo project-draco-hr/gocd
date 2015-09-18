@@ -1,0 +1,15 @@
+{
+  when(configPluginService.partialConfigProviderFor(any(ConfigRepoConfig.class))).thenReturn(new BrokenConfigPlugin());
+  ScmMaterialConfig material=new GitMaterialConfig("http://my.git");
+  cruiseConfig.setConfigRepos(new ConfigReposConfig(new ConfigRepoConfig(material,"myplugin")));
+  configWatchList.onConfigChange(cruiseConfig);
+  repoConfigDataSource.onCheckoutComplete(material,folder,"7a8f");
+  assertTrue(repoConfigDataSource.latestParseHasFailedForMaterial(material));
+  try {
+    repoConfigDataSource.latestPartialConfigForMaterial(material);
+  }
+ catch (  BrokenConfigPluginException ex) {
+    return;
+  }
+  fail("should have thrown BrokenConfigPluginException");
+}

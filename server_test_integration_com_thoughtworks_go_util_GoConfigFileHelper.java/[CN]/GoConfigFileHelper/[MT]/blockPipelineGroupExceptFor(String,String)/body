@@ -1,5 +1,5 @@
 {
-  CruiseConfig config=load();
+  CruiseConfig config=loadForEdit();
   PipelineConfigs configs=config.getGroups().findGroup(pipelineGroupName);
   Authorization authorization=new Authorization(new OperationConfig(new AdminRole(new CaseInsensitiveString(roleName))),new ViewConfig(new AdminRole(new CaseInsensitiveString(roleName))));
   configs.setAuthorization(authorization);

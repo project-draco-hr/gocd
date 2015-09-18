@@ -1,0 +1,8 @@
+{
+  String content="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts' />"+ "<pipelines>\n"+ "<pipeline name='dev'>\n"+ "    <params>"+ "        <param name='command'>ls#{a}</param>"+ "        <param name='dir'>/tmp</param>"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1'>"+ "            <tasks>"+ "                <exec command='/bin/#{command}##{b}' args='#{dir}'/>"+ "            </tasks>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
+  configHelper.writeXmlToConfigFile(content);
+  cachedGoConfig.forceReload();
+  CruiseConfig cruiseConfig=cachedGoConfig.currentConfig();
+  ExecTask devExec=(ExecTask)cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("dev")).getFirstStageConfig().jobConfigByConfigName(new CaseInsensitiveString("job1")).getTasks().first();
+  assertThat(devExec,Is.is(new ExecTask("/bin/ls#{a}#{b}","/tmp",(String)null)));
+}

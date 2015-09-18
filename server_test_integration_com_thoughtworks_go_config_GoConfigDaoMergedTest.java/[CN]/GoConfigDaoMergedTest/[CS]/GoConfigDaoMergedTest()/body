@@ -1,0 +1,10 @@
+{
+  GoPartialConfig partials=mock(GoPartialConfig.class);
+  List<PartialConfig> parts=new ArrayList<>();
+  parts.add(new PartialConfig(new PipelineGroups(PipelineConfigMother.createGroup("part1",PipelineConfigMother.pipelineConfig("remote-pipe")))));
+  parts.get(0).setOrigin(new RepoConfigOrigin(new ConfigRepoConfig(new GitMaterialConfig("http://config-repo.git"),"someplugin"),"3213455"));
+  when(partials.lastPartials()).thenReturn(parts);
+  configHelper=new GoConfigFileHelper(partials);
+  goConfigDao=configHelper.getGoConfigDao();
+  cachedGoConfig=configHelper.getCachedGoConfig();
+}

@@ -1,7 +1,0 @@
-{
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
-  int oldsize=cruiseConfig.getEnvironments().size();
-  goConfigFileDao.addEnvironment(new BasicEnvironmentConfig(new CaseInsensitiveString("foo-environment")));
-  cruiseConfig=goConfigFileDao.load();
-  assertThat(cruiseConfig.getEnvironments().size(),is(oldsize + 1));
-}

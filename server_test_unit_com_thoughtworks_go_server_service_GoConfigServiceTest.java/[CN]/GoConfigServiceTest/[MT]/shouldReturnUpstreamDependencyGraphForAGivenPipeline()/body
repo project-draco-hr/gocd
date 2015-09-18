@@ -3,6 +3,6 @@
   PipelineConfig up1=GoConfigMother.createPipelineConfigWithMaterialConfig("up1",new DependencyMaterialConfig(new CaseInsensitiveString("uppest"),new CaseInsensitiveString("first")));
   PipelineConfig up2=GoConfigMother.createPipelineConfigWithMaterialConfig("up2",new DependencyMaterialConfig(new CaseInsensitiveString("uppest"),new CaseInsensitiveString("first")));
   PipelineConfig uppest=GoConfigMother.createPipelineConfigWithMaterialConfig("uppest",MaterialConfigsMother.hgMaterialConfig());
-  when(goConfigFileDao.load()).thenReturn(configWith(current,up1,up2,uppest));
+  when(goConfigDao.load()).thenReturn(configWith(current,up1,up2,uppest));
   assertThat(goConfigService.upstreamDependencyGraphOf("current"),is(new PipelineConfigDependencyGraph(current,new PipelineConfigDependencyGraph(up1,new PipelineConfigDependencyGraph(uppest)),new PipelineConfigDependencyGraph(up2,new PipelineConfigDependencyGraph(uppest)))));
 }

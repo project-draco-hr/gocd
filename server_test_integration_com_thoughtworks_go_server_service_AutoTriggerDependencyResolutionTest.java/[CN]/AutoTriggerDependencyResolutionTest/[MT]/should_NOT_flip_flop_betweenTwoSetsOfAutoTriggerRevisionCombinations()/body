@@ -5,7 +5,7 @@
   ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git));
   ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(git));
   ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(p2),u.m(git));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   int i=0;
   int extraHours18=i++;
   String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(extraHours18),"g1");

@@ -2,7 +2,7 @@
   configHelper.turnOnSecurity();
   userService.deleteAll();
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  serverConfigService.updateServerConfig(new MailHost(new GoCipher()),new LdapConfig(new GoCipher()),new PasswordFileConfig(),"artifacts",null,null,"42",false,"http://site_url","https://secure_site_url","default",result,goConfigFileDao.md5OfConfigFile());
+  serverConfigService.updateServerConfig(new MailHost(new GoCipher()),new LdapConfig(new GoCipher()),new PasswordFileConfig(),"artifacts",null,null,"42",false,"http://site_url","https://secure_site_url","default",result,goConfigDao.md5OfConfigFile());
   assertThat(result.isSuccessful(),is(false));
   assertThat(result.message(localizer),containsString("Cannot disable auto login with no admins enabled."));
 }

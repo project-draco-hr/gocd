@@ -1,8 +1,8 @@
 {
   AgentConfig agent=createDisabledAndIdleAgent(UUID);
   String originalHostname=agent.getHostname();
-  goConfigFileDao.load();
-  goConfigFileDao.updateAgentResources(agent.getUuid(),new Resources("linux,java"));
+  goConfigDao.load();
+  goConfigDao.updateAgentResources(agent.getUuid(),new Resources("linux,java"));
   assertThat(agentService.agents().size(),is(1));
   HttpOperationResult operationResult=new HttpOperationResult();
   agentService.updateAgentAttributes(USERNAME,operationResult,UUID,null,null,TriState.UNSET);

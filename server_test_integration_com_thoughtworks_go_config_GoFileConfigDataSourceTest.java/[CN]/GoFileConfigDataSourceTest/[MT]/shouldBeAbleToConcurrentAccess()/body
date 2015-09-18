@@ -1,0 +1,38 @@
+{
+  GoConfigFileHelper helper=new GoConfigFileHelper(loadAndMigrate(ConfigFileFixture.CONFIG_WITH_NANT_AND_EXEC_BUILDER));
+  final String xml=FileUtil.readContentFromFile(helper.getConfigFile());
+  final List<Exception> errors=new Vector<Exception>();
+  Thread thread1=new Thread(new Runnable(){
+    public void run(){
+      for (int i=0; i < 5; i++) {
+        try {
+          goConfigDao.updateMailHost(new MailHost("hostname",9999,"user","password",false,false,"from@local","admin@local"));
+        }
+ catch (        Exception e) {
+          e.printStackTrace();
+          errors.add(e);
+        }
+      }
+    }
+  }
+,"Update-license");
+  Thread thread2=new Thread(new Runnable(){
+    public void run(){
+      for (int i=0; i < 5; i++) {
+        try {
+          dataSource.write(xml,false);
+        }
+ catch (        Exception e) {
+          e.printStackTrace();
+          errors.add(e);
+        }
+      }
+    }
+  }
+,"Modify-config");
+  thread1.start();
+  thread2.start();
+  thread1.join();
+  thread2.join();
+  assertThat(errors.size(),is(0));
+}

@@ -1,7 +1,7 @@
 {
   configHelper.addPipeline("pipeline","stage","build1","build2");
   String badXml="<job name=\"build3\" >" + "<tasks>" + "<exec command=\"ant\" workingdir=\".\"/>"+ "</tasks>"+ "</job>";
-  String md5=goConfigFileDao.md5OfConfigFile();
+  String md5=goConfigDao.md5OfConfigFile();
   ModelAndView mav=controller.postBuildAsXmlPartial("pipeline","stage",0,badXml,md5,response);
   assertThat(response.getStatus(),is(SC_CONFLICT));
   assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));

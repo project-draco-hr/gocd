@@ -7,7 +7,7 @@
   ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(p1));
   ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p1));
   ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("p4",u.m(p2),u.m(p3));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g11");
   String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),p1_1);
   String p3_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p3,u.d(i++),p1_1);

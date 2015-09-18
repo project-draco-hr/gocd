@@ -8,7 +8,7 @@
   downstream.add(StageConfigMother.stageConfig("current.stage"));
   downstream.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("upstream"),new CaseInsensitiveString("upstream.stage.2")));
   CruiseConfig cruiseConfig=configWith(upstream,downstream,unrelatedPipeline);
-  when(goConfigFileDao.load()).thenReturn(cruiseConfig);
+  when(goConfigDao.load()).thenReturn(cruiseConfig);
   List<PipelineConfig> fetchablePipelines=goConfigService.pipelinesForFetchArtifacts("pipeline");
   assertThat(fetchablePipelines.size(),is(2));
   assertThat(fetchablePipelines,hasItem(upstream));

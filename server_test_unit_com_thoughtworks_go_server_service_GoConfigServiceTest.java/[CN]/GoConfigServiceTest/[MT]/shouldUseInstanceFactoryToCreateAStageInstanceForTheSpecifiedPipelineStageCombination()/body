@@ -5,7 +5,7 @@
   CruiseConfig config=mock(BasicCruiseConfig.class);
   when(config.pipelineConfigByName(new CaseInsensitiveString("foo-pipeline"))).thenReturn(pipelineConfig);
   when(config.getMd5()).thenReturn(md5);
-  when(goConfigFileDao.load()).thenReturn(config);
+  when(goConfigDao.load()).thenReturn(config);
   goConfigService.scheduleStage("foo-pipeline","foo-stage",schedulingContext);
   verify(instanceFactory).createStageInstance(pipelineConfig,new CaseInsensitiveString("foo-stage"),schedulingContext,md5,clock);
 }

@@ -10,6 +10,6 @@
   String up1_1=u.runAndPass(up1,"s1");
   MaterialRevisions given=u.mrs(u.mr(svn,true,svn_revs),u.mr(hg,true,hg_revs),u.mr(up1,true,up1_1));
   MaterialRevisions expected=u.mrs(u.mr(svn,true,"s1"),u.mr(hg,true,"h3"),u.mr(up1,true,up1_1));
-  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("current"));
+  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(goConfigDao.load(),given,new CaseInsensitiveString("current"));
   assertThat(finalRevisions,is(expected));
 }

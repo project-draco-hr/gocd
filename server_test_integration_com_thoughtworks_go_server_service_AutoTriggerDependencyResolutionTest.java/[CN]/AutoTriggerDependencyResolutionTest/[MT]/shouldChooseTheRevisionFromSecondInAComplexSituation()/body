@@ -19,6 +19,6 @@
   String third_3=u.runAndPass(third,first_1,second_2);
   MaterialRevisions given=u.mrs(u.mr(hg,true,hg_revs),u.mr(second,true,second_4),u.mr(third,true,third_3));
   MaterialRevisions expected=u.mrs(u.mr(hg,true,"h1"),u.mr(second,true,second_2),u.mr(third,true,third_3));
-  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("last"));
+  MaterialRevisions finalRevisions=getRevisionsBasedOnDependencies(goConfigDao.load(),given,new CaseInsensitiveString("last"));
   assertThat(finalRevisions,is(expected));
 }

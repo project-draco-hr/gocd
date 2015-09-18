@@ -3,7 +3,7 @@
   autoSchedulePipelines("mingle","evolve");
   PipelineConfig cruisePlan=configHelper.addPipeline("cruise","test",repository);
   assertThat(goConfigService.stageConfigNamed("mingle","dev"),is(notNullValue()));
-  String dir=goConfigFileDao.load().server().artifactsDir();
+  String dir=goConfigDao.load().server().artifactsDir();
   new File(dir).mkdirs();
   goConfigService.forceNotifyListeners();
   Stage cruise=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(cruisePlan.name()),cruisePlan.findBy(new CaseInsensitiveString("test")));

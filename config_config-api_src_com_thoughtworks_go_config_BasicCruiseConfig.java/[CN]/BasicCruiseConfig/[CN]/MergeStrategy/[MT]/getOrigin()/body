@@ -1,3 +1,7 @@
 {
-  throw new RuntimeException("TODO: Not implemented yet");
+  MergeConfigOrigin origins=new MergeConfigOrigin(this.main.getOrigin());
+  for (  PartialConfig part : this.parts) {
+    origins.add(part.getOrigin());
+  }
+  return origins;
 }

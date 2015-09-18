@@ -1,8 +1,0 @@
-{
-  configHelper.addMailHost(getMailHost("mailhost.local.old"));
-  String originalMd5=dataSource.forceLoad(dataSource.fileLocation()).configForEdit.getMd5();
-  configHelper.addMailHost(getMailHost("mailhost.local"));
-  GoConfigHolder goConfigHolder=dataSource.forceLoad(dataSource.fileLocation());
-  GoConfigDataSource.GoConfigSaveResult goConfigSaveResult=dataSource.writeWithLock(configHelper.addPipelineCommand(originalMd5,"p1","s","b"),goConfigHolder);
-  assertThat(goConfigSaveResult.getConfigSaveState(),is(ConfigSaveState.MERGED));
-}

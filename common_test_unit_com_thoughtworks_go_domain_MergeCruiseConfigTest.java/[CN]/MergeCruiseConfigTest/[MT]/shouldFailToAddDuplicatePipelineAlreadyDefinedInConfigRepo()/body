@@ -1,0 +1,17 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("pipe1"));
+  BasicCruiseConfig localCruiseConfig=new BasicCruiseConfig(pipelines);
+  cruiseConfig=new BasicCruiseConfig(localCruiseConfig,PartialConfigMother.withPipelineInGroup("pipe2","remote_group"));
+  PipelineConfig pipe2Dup=PipelineConfigMother.pipelineConfig("pipe2");
+  try {
+    cruiseConfig.addPipeline("doesNotMatterWhichGroup",pipe2Dup);
+  }
+ catch (  Exception ex) {
+    assertThat(ex.getMessage(),is("Pipeline called 'pipe2' is already defined in configuration repository http://some.git at 1234fed"));
+  }
+  assertThat(cruiseConfig.allPipelines().size(),is(2));
+  assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe2")),is(true));
+  assertThat(localCruiseConfig.allPipelines().size(),is(1));
+  assertThat(localCruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+  assertThat(localCruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe2")),is(false));
+}

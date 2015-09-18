@@ -1,7 +1,7 @@
 {
   final String pipelineName="pipeline";
   CruiseConfig mockCruiseConfig=mock(BasicCruiseConfig.class);
-  GoConfigFileDao mockconfigFileDao=mock(GoConfigFileDao.class);
+  GoConfigDao mockconfigFileDao=mock(GoConfigDao.class);
   when(mockconfigFileDao.load()).thenReturn(mockCruiseConfig);
   when(mockCruiseConfig.getAllPipelineNames()).thenReturn(Arrays.asList(new CaseInsensitiveString(pipelineName)));
   pipelineDao=new PipelineSqlMapDao(null,repository,goCache,environmentVariableDao,transactionTemplate,null,transactionSynchronizationManager,systemEnvironment,mockconfigFileDao,databaseStrategy);

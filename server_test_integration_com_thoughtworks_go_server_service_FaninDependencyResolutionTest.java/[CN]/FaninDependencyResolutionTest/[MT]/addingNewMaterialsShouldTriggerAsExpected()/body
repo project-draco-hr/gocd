@@ -6,7 +6,7 @@
   ScheduleTestUtil.AddedPipeline regression=u.saveConfigWith("regression",u.m(build),u.m(acceptance));
   ScheduleTestUtil.AddedPipeline staging=u.saveConfigWith("staging",u.m(acceptance),u.m(regression));
   ScheduleTestUtil.AddedPipeline production=u.saveConfigWith("production",u.m(staging));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   int i=1;
   String b_1=u.runAndPass(build,"g1");
   String a_1=u.runAndPass(acceptance,b_1);
@@ -16,7 +16,7 @@
   HgMaterial hg=u.wf(new HgMaterial("hgurl",null),"hg_folder");
   u.checkinInOrder(hg,"h1");
   acceptance=u.addMaterialToPipeline(acceptance,u.m(hg));
-  cruiseConfig=goConfigFileDao.load();
+  cruiseConfig=goConfigDao.load();
   String a_2=u.runAndPass(acceptance,b_1,"h1");
   MaterialRevisions given=u.mrs(u.mr(acceptance,true,a_2),u.mr(regression,false,r_1));
   MaterialRevisions expected=u.mrs(u.mr(acceptance,true,a_1),u.mr(regression,false,r_1));
@@ -25,7 +25,7 @@
   assertThat(getRevisionsBasedOnDependencies(regression,cruiseConfig,given),is(given));
   String r_2=u.runAndPass(regression,b_1,a_2);
   regression=u.addMaterialToPipeline(regression,u.m(hg));
-  cruiseConfig=goConfigFileDao.load();
+  cruiseConfig=goConfigDao.load();
   given=u.mrs(u.mr(acceptance,true,a_2),u.mr(regression,false,r_2));
   String r_3=u.runAndPass(regression,b_1,a_2,"h1");
   given=u.mrs(u.mr(acceptance,true,a_2),u.mr(regression,false,r_3));

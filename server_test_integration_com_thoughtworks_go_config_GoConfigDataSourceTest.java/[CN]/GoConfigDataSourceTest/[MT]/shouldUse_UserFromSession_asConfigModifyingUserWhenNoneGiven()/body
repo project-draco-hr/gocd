@@ -1,8 +1,0 @@
-{
-  SecurityContext context=SecurityContextHolder.getContext();
-  context.setAuthentication(new UsernamePasswordAuthenticationToken(new User("loser_boozer","pass",true,true,true,true,new GrantedAuthority[]{}),null));
-  goConfigFileDao.updateMailHost(getMailHost("mailhost.local"));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
-  GoConfigRevision revision=configRepository.getRevision(cruiseConfig.getMd5());
-  assertThat(revision.getUsername(),is("loser_boozer"));
-}

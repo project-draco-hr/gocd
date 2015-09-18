@@ -1,0 +1,10 @@
+{
+  configHelper.writeXmlToConfigFile("invalid-xml");
+  cachedGoConfig.forceReload();
+  cachedGoConfig.currentConfig();
+  assertThat(cachedGoConfig.checkConfigFileValid().isValid(),is(false));
+  configHelper.onSetUp();
+  CruiseConfig cruiseConfig=cachedGoConfig.currentConfig();
+  assertThat(cruiseConfig.agents().size(),is(1));
+  assertThat(cachedGoConfig.checkConfigFileValid().isValid(),is(true));
+}

@@ -1,0 +1,10 @@
+{
+  String fingerprint=repoConfig.getMaterialConfig().getFingerprint();
+  if (this.configWatchList.hasConfigRepoWithFingerprint(fingerprint)) {
+    activeParts.putIfAbsent(fingerprint,new ConfigStatus());
+    ConfigStatus status=activeParts.get(fingerprint);
+    status.setLastParseSuccess(false);
+  }
+ else {
+  }
+}

@@ -9,16 +9,16 @@
   ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("P1",u.m(git));
   ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(git));
   ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(p1),u.m(p2));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g1");
   String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),"g2");
   String p3_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p3,u.d(i++),p1_1,p2_1);
   configHelper.setMaterialConfigForPipeline("P2",svn.config());
-  cruiseConfig=goConfigFileDao.load();
+  cruiseConfig=goConfigDao.load();
   String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g3");
   String p2_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(new ScheduleTestUtil.AddedPipeline(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("P2")),p2.material),u.d(i++),"s1");
   configHelper.setMaterialConfigForPipeline("P2",git.config());
-  cruiseConfig=goConfigFileDao.load();
+  cruiseConfig=goConfigDao.load();
   try {
     getRevisionsBasedOnDependencies(p3,cruiseConfig,u.mrs(u.mr(p1,true,p1_2),u.mr(p2,true,p2_2)));
     fail("should not have found a compatible revision");

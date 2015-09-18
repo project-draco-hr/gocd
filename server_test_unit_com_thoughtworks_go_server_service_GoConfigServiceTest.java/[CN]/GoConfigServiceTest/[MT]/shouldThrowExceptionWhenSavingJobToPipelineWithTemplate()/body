@@ -1,6 +1,6 @@
 {
   PipelineConfig pipeline=pipelineWithTemplate();
-  when(goConfigFileDao.loadForEditing()).thenReturn(configWith(pipeline));
+  when(goConfigDao.loadForEditing()).thenReturn(configWith(pipeline));
   try {
     goConfigService.buildSaver("pipeline","stage",0).asXml();
     fail("shouldThrowExceptionWhenSavingJobToPipelineWithTemplate");

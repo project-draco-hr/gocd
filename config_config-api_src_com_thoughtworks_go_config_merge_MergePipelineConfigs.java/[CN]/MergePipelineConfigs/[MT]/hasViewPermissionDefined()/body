@@ -1,3 +1,5 @@
 {
-  return this.getAuthorizationPart().hasViewPermissionDefined();
+  PipelineConfigs authPart=this.getAuthorizationPartOrNull();
+  if (authPart == null)   return false;
+  return authPart.hasViewPermissionDefined();
 }

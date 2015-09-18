@@ -6,7 +6,7 @@
   assertThat(xml,containsString("pass"));
   MockHttpServletResponse postResponse=new MockHttpServletResponse();
   String modifiedXml=xml.replace("pass","secret");
-  controller.postPipelineAsXmlPartial(0,groupName,modifiedXml,goConfigFileDao.md5OfConfigFile(),postResponse);
+  controller.postPipelineAsXmlPartial(0,groupName,modifiedXml,goConfigDao.md5OfConfigFile(),postResponse);
   MockHttpServletResponse getResponse=new MockHttpServletResponse();
   controller.getPipelineAsXmlPartial(0,groupName,null,getResponse);
   assertThat(getResponse.getContentAsString(),containsString("secret"));

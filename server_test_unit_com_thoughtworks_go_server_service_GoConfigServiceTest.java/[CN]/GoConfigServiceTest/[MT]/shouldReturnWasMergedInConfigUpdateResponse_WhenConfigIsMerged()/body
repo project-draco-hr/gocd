@@ -1,5 +1,5 @@
 {
-  when(goConfigFileDao.updateConfig(org.mockito.Matchers.<UpdateConfigCommand>any())).thenReturn(ConfigSaveState.MERGED);
+  when(goConfigDao.updateConfig(org.mockito.Matchers.<UpdateConfigCommand>any())).thenReturn(ConfigSaveState.MERGED);
   ConfigUpdateResponse configUpdateResponse=goConfigService.updateConfigFromUI(mock(UpdateConfigFromUI.class),"md5",new Username(new CaseInsensitiveString("user")),new HttpLocalizedOperationResult());
   assertThat(configUpdateResponse.wasMerged(),is(true));
 }

@@ -1,0 +1,10 @@
+{
+  configHelper.addMailHost(getMailhost("mailhost.local.old"));
+  final String oldMd5=goConfigDao.md5OfConfigFile();
+  configHelper.addMailHost(getMailhost("mailhost.local"));
+  ConfigSaveState configSaveState=goConfigDao.updateConfig(configHelper.addPipelineCommand(oldMd5,"p2","stage1","build1"));
+  CruiseConfig updatedConfig=goConfigDao.load();
+  assertThat(updatedConfig.hasPipelineNamed(new CaseInsensitiveString("p2")),is(true));
+  assertThat(updatedConfig.mailHost().getHostName(),is("mailhost.local"));
+  assertThat(configSaveState,is(ConfigSaveState.MERGED));
+}

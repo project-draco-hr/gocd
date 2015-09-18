@@ -1,11 +1,11 @@
 {
-  CruiseConfig cruiseConfig=goConfigFileDao.loadForEditing();
+  CruiseConfig cruiseConfig=goConfigDao.loadForEditing();
   LdapConfig newLdapConfig=new LdapConfig("url","managerDN","managerPassword","encrypted",true,new BasesConfig(new BaseConfig("base1"),new BaseConfig("base2")),"filter");
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   ServerConfig serverConfig=cruiseConfig.server();
   serverConfigService.updateServerConfig(cruiseConfig.mailHost(),newLdapConfig,serverConfig.security().passwordFileConfig(),serverConfig.artifactsDir(),serverConfig.getPurgeStart(),serverConfig.getPurgeUpto(),serverConfig.getJobTimeout(),true,serverConfig.getSiteUrl().getUrl(),serverConfig.getSecureSiteUrl().getUrl(),serverConfig.getCommandRepositoryLocation(),result,cruiseConfig.getMd5());
-  goConfigFileDao.forceReload();
-  CruiseConfig updatedCruiseConfig=goConfigFileDao.loadForEditing();
+  goConfigDao.forceReload();
+  CruiseConfig updatedCruiseConfig=goConfigDao.loadForEditing();
   assertThat(result.isSuccessful(),is(true));
   assertThat(updatedCruiseConfig.server().security().ldapConfig().isEnabled(),is(true));
 }

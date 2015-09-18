@@ -8,5 +8,5 @@
   String p2_1=u.runAndPass(p2,"git-3");
   MaterialRevisions given=u.mrs(u.mr(gitMaterial,true,"git-3"),u.mr(p1,false,p1_1),u.mr(p2,false,p2_1));
   MaterialRevisions expected=u.mrs(u.mr(gitMaterial,true,"git-3"),u.mr(p1,false,p1_1),u.mr(p2,false,p2_1));
-  assertThat(getRevisionsBasedOnDependencies(p3,goConfigFileDao.load(),given),is(expected));
+  assertThat(getRevisionsBasedOnDependencies(p3,goConfigDao.load(),given),is(expected));
 }

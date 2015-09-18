@@ -1,0 +1,11 @@
+{
+  ConfigRepoConfig configRepo=configWatchList.getCurrentConfigRepos().get(0);
+  PartialConfig part1=new PartialConfig(new PipelineGroups(PipelineConfigMother.createGroup("part1",PipelineConfigMother.pipelineConfig("pipe1"))));
+  when(plugin.load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(part1);
+  ConfigChangedListener listener=mock(ConfigChangedListener.class);
+  cachedGoConfig.registerListener(listener);
+  verify(listener,times(1)).onConfigChange(any(CruiseConfig.class));
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),folder,"321e");
+  assertThat("currentConfigShouldBeMerged",cachedGoConfig.currentConfig().hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+  verify(listener,times(2)).onConfigChange(any(CruiseConfig.class));
+}
