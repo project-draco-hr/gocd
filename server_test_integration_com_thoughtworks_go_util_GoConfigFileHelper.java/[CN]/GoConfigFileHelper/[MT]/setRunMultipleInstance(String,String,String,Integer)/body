@@ -1,5 +1,5 @@
 {
-  CruiseConfig config=load();
+  CruiseConfig config=loadForEdit();
   PipelineConfig pipelineConfig=config.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
   pipelineConfig.findBy(new CaseInsensitiveString(stageName)).jobConfigByInstanceName(jobName,true).setRunInstanceCount(runInstanceCount);
   writeConfigFile(config);

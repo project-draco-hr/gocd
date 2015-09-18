@@ -1,0 +1,23 @@
+{
+  systemEnvironment=new SystemEnvironment();
+  configHelper=new GoConfigFileHelper();
+  configHelper.onSetUp();
+  configRepository=new ConfigRepository(systemEnvironment);
+  configRepository.initialize();
+  timeProvider=mock(TimeProvider.class);
+  when(timeProvider.currentTime()).thenReturn(new Date());
+  ServerVersion serverVersion=new ServerVersion();
+  ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
+  dataSource=new GoFileConfigDataSource(new GoConfigMigration(new GoConfigMigration.UpgradeFailedHandler(){
+    public void handle(    Exception e){
+      throw new RuntimeException(e);
+    }
+  }
+,configRepository,new TimeProvider(),configCache,registry,metricsProbeService),configRepository,systemEnvironment,timeProvider,configCache,serverVersion,registry,metricsProbeService,mock(ServerHealthService.class));
+  dataSource.upgradeIfNecessary();
+  CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,new ServerHealthService());
+  fileService.loadConfigIfNull();
+  goConfigDao=new GoConfigDao(fileService,metricsProbeService);
+  configHelper.load();
+  configHelper.usingCruiseConfigDao(goConfigDao);
+}

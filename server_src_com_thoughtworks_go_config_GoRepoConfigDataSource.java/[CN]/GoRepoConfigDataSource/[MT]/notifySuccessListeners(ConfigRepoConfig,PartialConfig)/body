@@ -1,0 +1,10 @@
+{
+  for (  PartialConfigUpdateCompletedListener listener : this.listeners) {
+    try {
+      listener.onSuccessPartialConfig(repoConfig,newPart);
+    }
+ catch (    Exception e) {
+      LOGGER.error(String.format("Failed to fire parsed partial configuration for listener %s",listener));
+    }
+  }
+}

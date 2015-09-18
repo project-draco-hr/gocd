@@ -1,7 +1,7 @@
 {
-  goConfigFileDao=mock(GoConfigFileDao.class,"badCruiseConfigManager");
-  when(goConfigFileDao.loadForEditing()).thenThrow(new RuntimeException("Invalid config file",new JDOMParseException("JDom exception",new RuntimeException())));
-  GoConfigService service=new GoConfigService(goConfigFileDao,pipelineRepository,new SystemTimeClock(),mock(GoConfigMigration.class),goCache,null,userDao,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService,instanceFactory);
+  goConfigDao=mock(GoConfigDao.class,"badCruiseConfigManager");
+  when(goConfigDao.loadForEditing()).thenThrow(new RuntimeException("Invalid config file",new JDOMParseException("JDom exception",new RuntimeException())));
+  GoConfigService service=new GoConfigService(goConfigDao,pipelineRepository,new SystemTimeClock(),mock(GoConfigMigration.class),goCache,null,userDao,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService,instanceFactory);
   try {
     service.buildSaver("pipeline","stage",1).asXml();
     fail("Invalid config file.");

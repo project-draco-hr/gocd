@@ -9,12 +9,12 @@
   ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(git1),u.m(git2));
   ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(git1),u.m(git2));
   ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("p3",u.m(p1),u.m(p2));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g11","g21");
   String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),"g11","g21");
   String p3_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p3,u.d(i++),p1_1,p2_1);
   configHelper.setMaterialConfigForPipeline("P2",git1.config());
-  cruiseConfig=goConfigFileDao.load();
+  cruiseConfig=goConfigDao.load();
   String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i),"g11","g22");
   ScheduleTestUtil.AddedPipeline new_p2=new ScheduleTestUtil.AddedPipeline(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("p2")),p2.material);
   u.scheduleWith(new_p2,"g11");

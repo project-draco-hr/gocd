@@ -7,7 +7,7 @@
   SecurityConfig securityConfig=createSecurity(role,ldapConfig,passwordConfig,false);
   MailHost mailHost=new MailHost("boo",1,"username","password",true,true,"from@from.com","admin@admin.com");
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  serverConfigService.updateServerConfig(mailHost,ldapConfig,passwordConfig,"artifacts",null,null,"42",true,"http://site_url","https://secure_site_url","default",result,goConfigFileDao.md5OfConfigFile());
+  serverConfigService.updateServerConfig(mailHost,ldapConfig,passwordConfig,"artifacts",null,null,"42",true,"http://site_url","https://secure_site_url","default",result,goConfigDao.md5OfConfigFile());
   assertThat(goConfigService.getMailHost(),is(mailHost));
   assertThat(goConfigService.security(),is(securityConfig));
   assertThat(result.isSuccessful(),is(true));

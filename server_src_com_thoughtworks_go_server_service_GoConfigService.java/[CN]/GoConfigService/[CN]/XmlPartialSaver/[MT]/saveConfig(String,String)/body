@@ -3,7 +3,7 @@
   MagicalGoConfigXmlLoader configXmlLoader=new MagicalGoConfigXmlLoader(configCache,registry,metricsProbeService);
   final CruiseConfig config=configXmlLoader.loadConfigHolder(xmlString).configForEdit;
   LOGGER.debug("[Config Save] Updating config");
-  ConfigSaveState configSaveState=goConfigFileDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
+  ConfigSaveState configSaveState=goConfigDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
     public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
       return config;
     }

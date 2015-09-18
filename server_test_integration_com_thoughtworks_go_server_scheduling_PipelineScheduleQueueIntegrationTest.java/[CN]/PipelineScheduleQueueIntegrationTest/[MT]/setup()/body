@@ -2,7 +2,7 @@
   configFileEditor=new GoConfigFileHelper();
   configFileEditor.onSetUp();
   dbHelper.onSetUp();
-  configFileEditor.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configFileEditor.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
   fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
   fixture.usingDbHelper(dbHelper).usingConfigHelper(configFileEditor).onSetUp();
   newCause=BuildCause.createWithEmptyModifications();

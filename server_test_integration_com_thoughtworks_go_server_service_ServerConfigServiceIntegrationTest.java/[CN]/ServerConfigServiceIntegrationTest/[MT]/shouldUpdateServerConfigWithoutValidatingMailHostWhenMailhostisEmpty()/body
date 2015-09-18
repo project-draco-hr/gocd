@@ -3,7 +3,7 @@
   PasswordFileConfig passwordFileConfig=new PasswordFileConfig("valid_path.txt");
   MailHost mailHost=new MailHost(new GoCipher());
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  serverConfigService.updateServerConfig(mailHost,ldapConfig,passwordFileConfig,"artifacts",null,null,"42",true,"http://site_url","https://secure_site_url","default",result,goConfigFileDao.md5OfConfigFile());
+  serverConfigService.updateServerConfig(mailHost,ldapConfig,passwordFileConfig,"artifacts",null,null,"42",true,"http://site_url","https://secure_site_url","default",result,goConfigDao.md5OfConfigFile());
   assertThat(goConfigService.getMailHost(),is(mailHost));
   assertThat(goConfigService.security(),is(new SecurityConfig(ldapConfig,passwordFileConfig,false)));
   assertThat(result.isSuccessful(),is(true));

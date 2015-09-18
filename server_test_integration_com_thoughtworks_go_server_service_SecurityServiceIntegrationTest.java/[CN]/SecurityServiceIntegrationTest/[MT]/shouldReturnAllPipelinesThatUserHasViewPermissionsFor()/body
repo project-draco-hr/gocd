@@ -1,6 +1,6 @@
 {
   configHelper.onTearDown();
-  cachedGoConfig.save(CONFIG_WITH_2_GROUPS,true);
+  mergedGoConfig.save(CONFIG_WITH_2_GROUPS,true);
   assertThat(securityService.viewablePipelinesFor(new Username(new CaseInsensitiveString("blah"))).size(),is(0));
   assertThat(securityService.viewablePipelinesFor(new Username(new CaseInsensitiveString("admin"))),is(Arrays.asList(new CaseInsensitiveString("pipeline1"),new CaseInsensitiveString("pipeline2"))));
   assertThat(securityService.viewablePipelinesFor(new Username(new CaseInsensitiveString("pavan"))),is(Arrays.asList(new CaseInsensitiveString("pipeline3"))));

@@ -2,7 +2,7 @@
   groupName=BasicPipelineConfigs.DEFAULT_GROUP;
   configHelper.addPipeline("pipeline","stage","build1","build2");
   String badXml="<pipeline name=\"cruise\" labeltemplate=\"invalid\">\n" + "  <materials>\n" + "    <svn url=\"file:///tmp/foo\" checkexternals=\"true\" />\n"+ "  </materials>\n"+ "  <stage name=\"dev\">\n"+ "    <jobs>\n"+ "      <job name=\"linux\" />\n"+ "      <job name=\"windows\" />\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>";
-  String md5=goConfigFileDao.md5OfConfigFile();
+  String md5=goConfigDao.md5OfConfigFile();
   ModelAndView mav=controller.postPipelineAsXmlPartial(0,groupName,badXml,md5,response);
   assertThat(response.getStatus(),is(SC_CONFLICT));
   assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));

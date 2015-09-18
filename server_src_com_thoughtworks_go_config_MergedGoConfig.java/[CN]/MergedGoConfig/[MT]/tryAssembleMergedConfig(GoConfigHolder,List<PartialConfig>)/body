@@ -1,0 +1,23 @@
+{
+  try {
+    GoConfigHolder newConfigHolder;
+    if (partials.size() == 0) {
+      newConfigHolder=cruiseConfigHolder;
+    }
+ else {
+      BasicCruiseConfig merge=new BasicCruiseConfig((BasicCruiseConfig)cruiseConfigHolder.config,partials);
+      List<ConfigErrors> allErrors=validate(merge);
+      if (!allErrors.isEmpty()) {
+        throw new GoConfigInvalidException(merge,allErrors);
+      }
+      CruiseConfig basicForEdit=this.fileService.loadForEditing();
+      CruiseConfig forEdit=new BasicCruiseConfig((BasicCruiseConfig)basicForEdit,partials);
+      newConfigHolder=new GoConfigHolder(merge,forEdit);
+    }
+    this.saveValidConfigToCache(newConfigHolder);
+  }
+ catch (  Exception e) {
+    LOGGER.error(String.format("Failed validation of merged configuration: %s",e));
+    saveConfigError(e);
+  }
+}

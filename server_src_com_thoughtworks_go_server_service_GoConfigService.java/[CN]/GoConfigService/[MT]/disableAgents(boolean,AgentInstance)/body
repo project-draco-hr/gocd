@@ -1,14 +1,14 @@
 {
-  GoConfigFileDao.CompositeConfigCommand command=new GoConfigFileDao.CompositeConfigCommand();
+  GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand();
   for (  AgentInstance agentInstance : instances) {
     String uuid=agentInstance.getUuid();
     if (hasAgent(uuid)) {
-      command.addCommand(GoConfigFileDao.updateApprovalStatus(uuid,disabled));
+      command.addCommand(GoConfigDao.updateApprovalStatus(uuid,disabled));
     }
  else {
       AgentConfig agentConfig=agentInstance.agentConfig();
       agentConfig.disable(disabled);
-      command.addCommand(GoConfigFileDao.createAddAgentCommand(agentConfig));
+      command.addCommand(GoConfigDao.createAddAgentCommand(agentConfig));
     }
   }
   updateConfig(command);

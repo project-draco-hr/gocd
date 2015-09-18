@@ -5,10 +5,10 @@
   expectLoad(cruiseConfig);
   new GoConfigMother().addPipelineWithGroup(cruiseConfig,groupName,"pipeline_name","stage_name","job_name");
   expectLoadForEditing(cruiseConfig);
-  when(goConfigFileDao.md5OfConfigFile()).thenReturn(md5);
+  when(goConfigDao.md5OfConfigFile()).thenReturn(md5);
   String pipelineGroupContent=groupXmlWithInvalidAttributeValue(groupName);
   GoConfigValidity validity=goConfigService.groupSaver(groupName).saveXml(pipelineGroupContent,"md5");
   assertThat(validity.isValid(),Matchers.is(false));
   assertThat(validity.errorMessage(),containsString("Name is invalid. \"pipeline@$^\""));
-  verify(goConfigFileDao,never()).updateConfig(any(UpdateConfigCommand.class));
+  verify(goConfigDao,never()).updateConfig(any(UpdateConfigCommand.class));
 }

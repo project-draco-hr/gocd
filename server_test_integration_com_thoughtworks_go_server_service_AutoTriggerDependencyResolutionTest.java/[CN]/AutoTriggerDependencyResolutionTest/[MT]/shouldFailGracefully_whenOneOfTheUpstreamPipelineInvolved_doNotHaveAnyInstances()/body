@@ -15,7 +15,7 @@
   given.addRevision(u.mr(hg,false,"hg1"));
   given.addRevision(u.mr(up1,true,up1_1));
   try {
-    getRevisionsBasedOnDependencies(current,goConfigFileDao.load(),given);
+    getRevisionsBasedOnDependencies(current,goConfigDao.load(),given);
     fail("Should have detected no-compatible-revisions situation, as config has changed.");
   }
  catch (  NoCompatibleUpstreamRevisionsException e) {

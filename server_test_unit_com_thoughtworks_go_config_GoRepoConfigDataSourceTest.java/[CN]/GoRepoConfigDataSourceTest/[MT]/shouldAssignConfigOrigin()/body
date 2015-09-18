@@ -1,0 +1,11 @@
+{
+  ScmMaterialConfig material=new GitMaterialConfig("http://my.git");
+  ConfigRepoConfig configRepo=new ConfigRepoConfig(material,"myplugin");
+  cruiseConfig.setConfigRepos(new ConfigReposConfig(configRepo));
+  configWatchList.onConfigChange(cruiseConfig);
+  repoConfigDataSource.onCheckoutComplete(material,folder,"7a8f");
+  PartialConfig partialConfig=repoConfigDataSource.latestPartialConfigForMaterial(material);
+  assertNotNull(partialConfig.getOrigin());
+  RepoConfigOrigin repoConfigOrigin=new RepoConfigOrigin(configRepo,"7a8f");
+  assertThat(partialConfig.getOrigin(),Is.<ConfigOrigin>is(repoConfigOrigin));
+}

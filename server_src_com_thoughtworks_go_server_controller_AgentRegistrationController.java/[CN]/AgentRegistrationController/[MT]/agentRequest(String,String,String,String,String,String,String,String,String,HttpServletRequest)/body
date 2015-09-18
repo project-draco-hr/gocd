@@ -9,7 +9,7 @@
     if (goConfigService.serverConfig().shouldAutoRegisterAgentWith(agentAutoRegisterKey)) {
       preferredHostname=getPreferredHostname(agentAutoRegisterHostname,hostname);
       LOG.info(String.format("[Agent Auto Registration] Auto registering agent with uuid %s ",uuid));
-      GoConfigFileDao.CompositeConfigCommand compositeConfigCommand=new GoConfigFileDao.CompositeConfigCommand(new ApproveAgentCommand(uuid,ipAddress,preferredHostname),new UpdateResourceCommand(uuid,agentAutoRegisterResources),new UpdateEnvironmentsCommand(uuid,agentAutoRegisterEnvironments));
+      GoConfigDao.CompositeConfigCommand compositeConfigCommand=new GoConfigDao.CompositeConfigCommand(new ApproveAgentCommand(uuid,ipAddress,preferredHostname),new UpdateResourceCommand(uuid,agentAutoRegisterResources),new UpdateEnvironmentsCommand(uuid,agentAutoRegisterEnvironments));
       goConfigService.updateConfig(compositeConfigCommand);
     }
     keyEntry=agentService.requestRegistration(AgentRuntimeInfo.fromServer(new AgentConfig(uuid,preferredHostname,ipAddress),goConfigService.hasAgent(uuid),location,Long.parseLong(usablespace),operatingSystem));

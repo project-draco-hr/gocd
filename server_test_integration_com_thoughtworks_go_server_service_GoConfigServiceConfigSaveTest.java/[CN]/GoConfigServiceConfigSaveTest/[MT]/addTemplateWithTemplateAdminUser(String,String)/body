@@ -1,8 +1,8 @@
 {
   AdminUser adminUser=new AdminUser(new CaseInsensitiveString(userName));
   PipelineTemplateConfig template=PipelineTemplateConfigMother.createTemplate(templateName,new Authorization(new AdminsConfig(adminUser)),StageConfigMother.manualStage("stage1"));
-  CruiseConfig configForEdit=goConfigFileDao.loadForEditing();
+  CruiseConfig configForEdit=goConfigDao.loadForEditing();
   configForEdit.addTemplate(template);
   configFileHelper.writeConfigFile(configForEdit);
-  return goConfigFileDao.loadForEditing();
+  return goConfigDao.loadForEditing();
 }

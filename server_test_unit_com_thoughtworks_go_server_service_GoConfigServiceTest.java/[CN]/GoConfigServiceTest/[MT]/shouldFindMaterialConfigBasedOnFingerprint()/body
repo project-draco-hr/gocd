@@ -1,7 +1,7 @@
 {
   SvnMaterialConfig expected=new SvnMaterialConfig("repo",null,null,false);
   cruiseConfig=configWith(GoConfigMother.createPipelineConfigWithMaterialConfig(expected));
-  when(goConfigFileDao.load()).thenReturn(cruiseConfig);
+  when(goConfigDao.load()).thenReturn(cruiseConfig);
   MaterialConfig actual=goConfigService.materialForPipelineWithFingerprint("pipeline",expected.getFingerprint());
   assertThat((SvnMaterialConfig)actual,is(expected));
 }

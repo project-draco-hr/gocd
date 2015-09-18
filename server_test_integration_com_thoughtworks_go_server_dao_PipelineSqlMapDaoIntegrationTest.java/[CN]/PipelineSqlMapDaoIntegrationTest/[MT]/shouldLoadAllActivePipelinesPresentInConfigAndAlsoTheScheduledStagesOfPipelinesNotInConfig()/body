@@ -1,13 +1,13 @@
 {
   PipelineConfig twistConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("twist","dev","ft");
   Pipeline twistPipeline=dbHelper.newPipelineWithAllStagesPassed(twistConfig);
-  List<CaseInsensitiveString> allPipelineNames=goConfigFileDao.load().getAllPipelineNames();
+  List<CaseInsensitiveString> allPipelineNames=goConfigDao.load().getAllPipelineNames();
   if (!allPipelineNames.contains(new CaseInsensitiveString("twist"))) {
-    goConfigFileDao.addPipeline(twistConfig,"pipelinesqlmapdaotest");
+    goConfigDao.addPipeline(twistConfig,"pipelinesqlmapdaotest");
   }
   PipelineConfig mingleConfig=PipelineMother.twoBuildPlansWithResourcesAndMaterials("mingle","dev","ft");
   if (!allPipelineNames.contains(new CaseInsensitiveString("mingle"))) {
-    goConfigFileDao.addPipeline(mingleConfig,"pipelinesqlmapdaotest");
+    goConfigDao.addPipeline(mingleConfig,"pipelinesqlmapdaotest");
   }
   dbHelper.newPipelineWithAllStagesPassed(mingleConfig);
   Pipeline secondPipeline=dbHelper.newPipelineWithFirstStagePassed(mingleConfig);

@@ -13,5 +13,5 @@
   String p4_1=u.runAndPass(p4,p5_1,"g31","g41","g51");
   String p8_1=u.runAndPass(p8,p4_1);
   MaterialRevisions given=u.mrs(new MaterialRevision[]{u.mr(p8,true,p8_1)});
-  assertThat(getRevisionsBasedOnDependencies(goConfigFileDao.load(),given,new CaseInsensitiveString("p11")),is(given));
+  assertThat(getRevisionsBasedOnDependencies(goConfigDao.load(),given,new CaseInsensitiveString("p11")),is(given));
 }

@@ -1,5 +1,5 @@
 {
-  return goConfigFileDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
+  return goConfigDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
     public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
       EnvironmentsConfig environments=cruiseConfig.getEnvironments();
       EnvironmentConfig oldConfig=environments.named(new CaseInsensitiveString(named));

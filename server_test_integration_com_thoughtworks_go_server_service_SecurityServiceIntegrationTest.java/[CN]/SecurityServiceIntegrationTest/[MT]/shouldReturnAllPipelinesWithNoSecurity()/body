@@ -1,6 +1,6 @@
 {
   configHelper.onTearDown();
-  cachedGoConfig.save(ConfigFileFixture.multipleMaterial("<hg url='http://localhost'/>"),true);
+  mergedGoConfig.save(ConfigFileFixture.multipleMaterial("<hg url='http://localhost'/>"),true);
   assertThat(securityService.viewablePipelinesFor(new Username(new CaseInsensitiveString("admin"))),is(Arrays.asList(new CaseInsensitiveString("ecl"),new CaseInsensitiveString("ec2"),new CaseInsensitiveString("framework"))));
   assertThat(securityService.viewablePipelinesFor(Username.ANONYMOUS),is(Arrays.asList(new CaseInsensitiveString("ecl"),new CaseInsensitiveString("ec2"),new CaseInsensitiveString("framework"))));
 }

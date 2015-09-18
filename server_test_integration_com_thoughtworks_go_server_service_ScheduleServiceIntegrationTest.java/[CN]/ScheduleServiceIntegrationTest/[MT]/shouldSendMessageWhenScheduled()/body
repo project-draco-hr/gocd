@@ -5,7 +5,7 @@
   assertThat(goConfigService.stageConfigNamed("mingle","dev"),is(notNullValue()));
   Stage cruise=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(cruisePlan.name()),cruisePlan.findBy(new CaseInsensitiveString("test")));
   assertEquals(NullStage.class,cruise.getClass());
-  String dir=goConfigFileDao.load().server().artifactsDir();
+  String dir=goConfigDao.load().server().artifactsDir();
   new File(dir).mkdirs();
   TestGoMessageListener listener=new TestGoMessageListener();
   pipelineScheduledTopic.addListener(listener);

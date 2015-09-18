@@ -1,0 +1,10 @@
+{
+  boolean removedAny=false;
+  for (  String fingerprint : this.fingerprintToLatestValidConfigMap.keySet()) {
+    if (!newConfigRepos.hasMaterialWithFingerprint(fingerprint)) {
+      this.fingerprintToLatestValidConfigMap.remove(fingerprint);
+      removedAny=true;
+    }
+  }
+  if (removedAny)   this.notifyListeners();
+}

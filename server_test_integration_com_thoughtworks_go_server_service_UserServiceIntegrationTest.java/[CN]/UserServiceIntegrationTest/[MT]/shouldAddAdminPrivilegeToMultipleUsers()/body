@@ -4,7 +4,7 @@
   addUser(new User("boozer"));
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   userService.modifyRolesAndUserAdminPrivileges(Arrays.asList("user","boozer"),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.add),new ArrayList<TriStateSelection>(),result);
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   final AdminsConfig adminsConfig=cruiseConfig.server().security().adminsConfig();
   assertThat(adminsConfig.hasUser(new CaseInsensitiveString("user"),UserRoleMatcherMother.ALWAYS_FALSE_MATCHER),is(true));
   assertThat(adminsConfig.hasUser(new CaseInsensitiveString("loser"),UserRoleMatcherMother.ALWAYS_FALSE_MATCHER),is(false));

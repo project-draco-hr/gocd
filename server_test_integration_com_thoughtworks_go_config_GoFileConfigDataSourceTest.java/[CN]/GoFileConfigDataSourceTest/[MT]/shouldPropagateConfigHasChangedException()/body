@@ -1,0 +1,12 @@
+{
+  String originalMd5=dataSource.forceLoad(dataSource.fileLocation()).configForEdit.getMd5();
+  goConfigDao.updateConfig(configHelper.addPipelineCommand(originalMd5,"p1","s1","b1"));
+  GoConfigHolder goConfigHolder=dataSource.forceLoad(dataSource.fileLocation());
+  try {
+    dataSource.writeWithLock(configHelper.addPipelineCommand(originalMd5,"p2","s","b"),goConfigHolder);
+    fail("Should throw ConfigFileHasChanged exception");
+  }
+ catch (  Exception e) {
+    assertThat(e.getCause().getClass().getName(),e.getCause() instanceof ConfigMergeException,is(true));
+  }
+}

@@ -1,0 +1,15 @@
+{
+  PipelineConfig pipe=mock(PipelineConfig.class);
+  when(pipe.iterator()).thenReturn(new Iterator<StageConfig>(){
+    @Override public boolean hasNext(){
+      return false;
+    }
+    @Override public StageConfig next(){
+      return null;
+    }
+    @Override public void remove(){
+    }
+  }
+);
+  return pipe;
+}

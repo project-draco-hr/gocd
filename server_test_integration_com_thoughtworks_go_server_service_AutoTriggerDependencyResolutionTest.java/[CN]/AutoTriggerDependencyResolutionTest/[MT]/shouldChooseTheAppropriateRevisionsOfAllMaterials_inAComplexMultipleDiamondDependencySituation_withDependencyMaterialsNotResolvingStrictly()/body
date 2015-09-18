@@ -17,7 +17,7 @@
   ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("P4",u.m(hg));
   ScheduleTestUtil.AddedPipeline p5=u.saveConfigWith("P5",u.m(git1),u.m(git2));
   ScheduleTestUtil.AddedPipeline p6=u.saveConfigWith("P6",u.m(svn),u.m(p4),u.m(hg),u.m(p3),u.m(p1),u.m(p2),u.m(p5),u.m(git2));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"s1");
   String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"s2");
   String p1_3=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"s3");

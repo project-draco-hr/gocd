@@ -1,6 +1,6 @@
 {
   AgentConfig disabledButBuildingAgent=createDisabledAgent(UUID);
-  goConfigFileDao.load();
+  goConfigDao.load();
   assertThat(agentService.agents().size(),is(1));
   HttpOperationResult operationResult=new HttpOperationResult();
   agentService.deleteAgents(USERNAME,operationResult,Arrays.asList(disabledButBuildingAgent.getUuid()));

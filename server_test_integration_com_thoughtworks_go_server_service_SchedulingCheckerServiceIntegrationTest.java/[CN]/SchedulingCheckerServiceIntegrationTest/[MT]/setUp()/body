@@ -1,6 +1,6 @@
 {
   configFileHelper.onSetUp();
-  configFileHelper.usingCruiseConfigDao(goConfigFileDao);
+  configFileHelper.usingCruiseConfigDao(goConfigDao);
   pipelineFixture=new PipelineWithMultipleStages(2,materialRepository,transactionTemplate);
   pipelineFixture.usingConfigHelper(configFileHelper).usingDbHelper(dbHelper).onSetUp();
   pipelineFixture.configStageAsManualApprovalWithApprovedUsers(pipelineFixture.ftStage,APPROVED_USER);

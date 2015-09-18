@@ -2,7 +2,7 @@
   groupName=BasicPipelineConfigs.DEFAULT_GROUP;
   configHelper.addPipeline("pipeline","stage","build1","build2");
   String badXml="<;askldjfa;dsklfja;sdjas;lkdf";
-  String md5=goConfigFileDao.md5OfConfigFile();
+  String md5=goConfigDao.md5OfConfigFile();
   ModelAndView mav=controller.postPipelineAsXmlPartial(0,groupName,badXml,md5,response);
   assertThat(response.getStatus(),is(SC_CONFLICT));
   assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));

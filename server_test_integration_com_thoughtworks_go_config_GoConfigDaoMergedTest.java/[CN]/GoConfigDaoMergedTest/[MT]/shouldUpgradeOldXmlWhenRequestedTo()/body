@@ -1,0 +1,6 @@
+{
+  cachedGoConfig.save(ConfigFileFixture.VERSION_5,true);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.getAllPipelineConfigs().size(),is(2));
+  assertNotNull(cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("framework")));
+}

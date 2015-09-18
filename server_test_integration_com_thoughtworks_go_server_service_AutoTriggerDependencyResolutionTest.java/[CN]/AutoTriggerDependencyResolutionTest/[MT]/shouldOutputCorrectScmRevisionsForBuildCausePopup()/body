@@ -5,7 +5,7 @@
   u.checkinInOrder(git,u.d(i++),git_revs1);
   ScheduleTestUtil.AddedPipeline p1=u.saveConfigWith("p1",u.m(git));
   ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("p2",u.m(git),u.m(p1));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String p1_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g11");
   String p1_2=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p1,u.d(i++),"g12");
   String p2_1=u.runAndPassWithGivenMDUTimestampAndRevisionStrings(p2,u.d(i++),"g12",p1_2);

@@ -1,5 +1,5 @@
 {
   final List<ConfigSaveState> result=new ArrayList<ConfigSaveState>();
-  result.add(updateConfig(new GoConfigFileDao.NoOverwriteCompositeConfigCommand(md5,goConfigFileDao.mailHostUpdater(mailHost),securityUpdater(ldapConfig,passwordFileConfig,shouldAllowAutoLogin),serverConfigUpdater(artifactsDir,purgeStart,purgeUpto,jobTimeout,siteUrl,secureSiteUrl,taskRepositoryLocation))));
+  result.add(updateConfig(new GoConfigDao.NoOverwriteCompositeConfigCommand(md5,goConfigDao.mailHostUpdater(mailHost),securityUpdater(ldapConfig,passwordFileConfig,shouldAllowAutoLogin),serverConfigUpdater(artifactsDir,purgeStart,purgeUpto,jobTimeout,siteUrl,secureSiteUrl,taskRepositoryLocation))));
   return result.get(0);
 }

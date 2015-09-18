@@ -6,7 +6,7 @@
   assertThat(xml,containsString("new-template"));
   MockHttpServletResponse postResponse=new MockHttpServletResponse();
   String modifiedXml=xml.replace("new-template","new-name-for-template");
-  controller.postPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,modifiedXml,goConfigFileDao.md5OfConfigFile(),postResponse);
+  controller.postPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,modifiedXml,goConfigDao.md5OfConfigFile(),postResponse);
   MockHttpServletResponse getResponse=new MockHttpServletResponse();
   controller.getPipelineAsXmlPartial(0,TemplatesConfig.PIPELINE_TEMPLATES_FAKE_GROUP_NAME,null,getResponse);
   assertThat(getResponse.getContentAsString(),containsString("new-name-for-template"));

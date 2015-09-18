@@ -1,7 +1,7 @@
 {
   userName="GAO LI";
   configHelper.onSetUp();
-  configHelper.usingCruiseConfigDao(goConfigFileDao).initializeConfigFile();
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
   dbHelper.onSetUp();
   pipelineConfig=PipelineMother.withSingleStageWithMaterials(PIPELINE_NAME,STAGE_NAME,withBuildPlans(UNIT_LINUX,UNIT_WINDOWS));
   pipelineConfig.setMaterialConfigs(MaterialConfigsMother.multipleMaterialConfigs());

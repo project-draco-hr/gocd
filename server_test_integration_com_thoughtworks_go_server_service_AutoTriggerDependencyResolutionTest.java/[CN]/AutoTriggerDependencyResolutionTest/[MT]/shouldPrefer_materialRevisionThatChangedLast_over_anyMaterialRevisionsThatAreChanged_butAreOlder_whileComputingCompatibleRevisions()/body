@@ -6,7 +6,7 @@
   ScheduleTestUtil.AddedPipeline p2=u.saveConfigWith("P2",u.m(git));
   ScheduleTestUtil.AddedPipeline p3=u.saveConfigWith("P3",u.m(git));
   ScheduleTestUtil.AddedPipeline p4=u.saveConfigWith("P4",u.m(p2),u.m(p1),u.m(p3));
-  CruiseConfig cruiseConfig=goConfigFileDao.load();
+  CruiseConfig cruiseConfig=goConfigDao.load();
   String p1_1=u.runAndPass(p1,"g1");
   String p1_2=u.runAndPass(p1,"g2","g3");
   String p1_3=u.runAndPass(p1,"g4");

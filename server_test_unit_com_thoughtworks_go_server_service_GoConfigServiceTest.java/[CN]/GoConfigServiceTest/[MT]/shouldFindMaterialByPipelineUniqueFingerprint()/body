@@ -2,7 +2,7 @@
   SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig("repo",null,null,false);
   svnMaterialConfig.setName(new CaseInsensitiveString("foo"));
   cruiseConfig=configWith(GoConfigMother.createPipelineConfigWithMaterialConfig(svnMaterialConfig));
-  when(goConfigFileDao.load()).thenReturn(cruiseConfig);
+  when(goConfigDao.load()).thenReturn(cruiseConfig);
   assertThat((SvnMaterialConfig)goConfigService.findMaterial(new CaseInsensitiveString("pipeline"),svnMaterialConfig.getPipelineUniqueFingerprint()),is(svnMaterialConfig));
   assertThat((SvnMaterialConfig)goConfigService.findMaterial(new CaseInsensitiveString("piPelIne"),svnMaterialConfig.getPipelineUniqueFingerprint()),is(svnMaterialConfig));
 }

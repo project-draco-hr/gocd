@@ -1,7 +1,7 @@
 {
-  String oldMd5=goConfigFileDao.md5OfConfigFile();
+  String oldMd5=goConfigDao.md5OfConfigFile();
   configHelper.addPipeline("pipeline","stage","build1","build2");
-  String newMd5=goConfigFileDao.md5OfConfigFile();
+  String newMd5=goConfigDao.md5OfConfigFile();
   controller.getBuildAsXmlPartial("pipeline","stage",1,oldMd5,response);
   assertValidContentAndStatus(SC_CONFLICT,RESPONSE_CHARSET,ConfigFileHasChangedException.CONFIG_CHANGED_PLEASE_REFRESH);
   assertThat((String)response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5),is(newMd5));

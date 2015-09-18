@@ -5,11 +5,11 @@
   expectLoad(cruiseConfig);
   new GoConfigMother().addPipelineWithGroup(cruiseConfig,groupName,"pipeline_name","stage_name","job_name");
   expectLoadForEditing(cruiseConfig);
-  when(goConfigFileDao.md5OfConfigFile()).thenReturn(md5);
+  when(goConfigDao.md5OfConfigFile()).thenReturn(md5);
   GoConfigService.XmlPartialSaver partialSaver=goConfigService.groupSaver(groupName);
   String renamedGroupName="renamed_group_name";
   GoConfigValidity validity=partialSaver.saveXml(groupXml(renamedGroupName),md5);
   assertThat(validity.isValid(),Matchers.is(true));
   assertThat(validity.errorMessage(),Matchers.is(""));
-  verify(goConfigFileDao).updateConfig(argThat(cruiseConfigIsUpdatedWith(renamedGroupName,"new_name","${COUNT}-#{foo}")));
+  verify(goConfigDao).updateConfig(argThat(cruiseConfigIsUpdatedWith(renamedGroupName,"new_name","${COUNT}-#{foo}")));
 }

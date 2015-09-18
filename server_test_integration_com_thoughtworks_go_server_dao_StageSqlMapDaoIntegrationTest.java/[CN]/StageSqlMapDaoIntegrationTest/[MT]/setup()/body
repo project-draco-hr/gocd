@@ -4,7 +4,7 @@
   mingleConfig=twoBuildPlansWithResourcesAndMaterials(PIPELINE_NAME,STAGE_DEV);
   pipelineNames=asList(PIPELINE_NAME);
   origTemplate=stageDao.getSqlMapClientTemplate();
-  configHelper.usingCruiseConfigDao(goConfigFileDao);
+  configHelper.usingCruiseConfigDao(goConfigDao);
   configHelper.onSetUp();
   scheduleUtil=new ScheduleTestUtil(transactionTemplate,materialRepository,dbHelper,configHelper);
 }

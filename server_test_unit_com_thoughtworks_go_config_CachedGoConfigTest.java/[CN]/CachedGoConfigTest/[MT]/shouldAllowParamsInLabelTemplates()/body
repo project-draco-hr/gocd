@@ -1,7 +1,0 @@
-{
-  String content="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts' />"+ "<pipelines>\n"+ "<pipeline name='dev' labeltemplate='cruise-#{VERSION}-${COUNT}'>\n"+ "    <params>"+ "        <param name='VERSION'>1.2</param>"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1'>"+ "            <tasks>"+ "                <exec command='/bin/ls' args='some'/>"+ "            </tasks>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
-  configHelper.writeXmlToConfigFile(content);
-  cachedGoConfig.onTimer();
-  CruiseConfig cruiseConfig=cachedGoConfig.currentConfig();
-  assertThat(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("dev")).getLabelTemplate(),Is.is("cruise-1.2-${COUNT}"));
-}

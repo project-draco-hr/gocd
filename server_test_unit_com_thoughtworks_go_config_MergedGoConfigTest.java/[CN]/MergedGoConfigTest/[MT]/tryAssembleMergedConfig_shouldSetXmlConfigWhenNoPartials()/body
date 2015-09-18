@@ -1,0 +1,8 @@
+{
+  GoConfigHolder fileHolder=cachedFileGoConfig.loadConfigHolder();
+  MergedGoConfig mergedGoConfig=(MergedGoConfig)this.cachedGoConfig;
+  mergedGoConfig.tryAssembleMergedConfig(fileHolder,new ArrayList<PartialConfig>());
+  assertSame(cachedFileGoConfig.loadConfigHolder(),mergedGoConfig.loadConfigHolder());
+  assertSame(cachedFileGoConfig.currentConfig(),mergedGoConfig.currentConfig());
+  assertSame(cachedFileGoConfig.loadForEditing(),mergedGoConfig.loadForEditing());
+}

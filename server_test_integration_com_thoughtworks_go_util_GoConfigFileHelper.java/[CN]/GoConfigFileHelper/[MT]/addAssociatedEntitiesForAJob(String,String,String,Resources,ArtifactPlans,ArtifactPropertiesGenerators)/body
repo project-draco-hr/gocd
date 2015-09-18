@@ -1,5 +1,5 @@
 {
-  CruiseConfig config=load();
+  CruiseConfig config=loadForEdit();
   JobConfig jobConfig=config.pipelineConfigByName(new CaseInsensitiveString(pipelineName)).findBy(new CaseInsensitiveString(stageName)).jobConfigByConfigName(new CaseInsensitiveString(jobName));
   ReflectionUtil.setField(jobConfig,"resources",resources);
   ReflectionUtil.setField(jobConfig,"artifactPlans",artifactPlans);

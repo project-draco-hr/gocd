@@ -1,0 +1,7 @@
+{
+  GitMaterialConfig gitrepo=new GitMaterialConfig("http://configrepo.git");
+  ConfigRepoConfig repoConfig=new ConfigRepoConfig(gitrepo,"myplugin");
+  when(cruiseConfig.getConfigRepos()).thenReturn(new ConfigReposConfig(repoConfig));
+  watchList=new GoConfigWatchList(cachedGoConfig);
+  assertThat(watchList.getConfigRepoForMaterial(gitrepo),is(repoConfig));
+}

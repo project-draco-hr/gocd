@@ -14,5 +14,5 @@
   String p2_2=u.runAndPass(p2,"h12","g13");
   MaterialRevisions given=u.mrs(new MaterialRevision[]{u.mr(p1,true,p1_2),u.mr(p2,true,p2_2)});
   MaterialRevisions expected=u.mrs(new MaterialRevision[]{u.mr(p1,true,p1_2),u.mr(p2,true,p2_1)});
-  assertThat(getRevisionsBasedOnDependencies(p3,goConfigFileDao.load(),given),is(expected));
+  assertThat(getRevisionsBasedOnDependencies(p3,goConfigDao.load(),given),is(expected));
 }
