@@ -1,0 +1,9 @@
+{
+  while (t != null) {
+    if ((t.getMessage() != null && t.getMessage().contains("Could not initialize intrinsics")) || t instanceof SecurityException) {
+      return true;
+    }
+    t=t.getCause();
+  }
+  return false;
+}
