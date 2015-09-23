@@ -1,6 +1,8 @@
 {
-  errorMessage="There was an error authenticating you. Please check the server logs, or contact your the go administrator.";
+  errorMessage="There was an error authenticating you. Please check the go server logs, or contact the go server administrator.";
   httpRequest=new MockHttpServletRequest();
   httpResponse=new MockHttpServletResponse();
-  filter=new BasicAuthenticationFilter();
+  localizer=mock(Localizer.class);
+  filter=new BasicAuthenticationFilter(localizer);
+  when(localizer.localize("INVALID_LDAP_ERROR")).thenReturn(errorMessage);
 }

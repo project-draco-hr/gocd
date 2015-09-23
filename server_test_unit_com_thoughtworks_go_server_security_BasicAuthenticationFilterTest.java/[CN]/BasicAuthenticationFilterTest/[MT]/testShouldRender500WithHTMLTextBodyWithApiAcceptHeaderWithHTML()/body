@@ -2,6 +2,7 @@
   httpRequest.addHeader("Accept","text/html");
   SecurityContext context=SecurityContextHolder.getContext();
   filter.handleException(httpRequest,httpResponse,new Exception("some error"));
+  verify(localizer).localize("INVALID_LDAP_ERROR");
   assertThat(((Exception)(httpRequest.getSession().getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY))).getMessage(),is(errorMessage));
   assertThat(httpRequest.getAttribute(SessionDenialAwareAuthenticationProcessingFilterEntryPoint.SESSION_DENIED).toString(),is("true"));
   assertThat(context.getAuthentication(),is(nullValue()));

@@ -1,13 +1,9 @@
 {
-  String message="There was an error authenticating you. Please check the server logs, or contact your the go administrator.";
+  String message=localizer.localize("INVALID_LDAP_ERROR");
   if (hasAccept(httpRequest,"text/html") || hasAccept(httpRequest,"application/xhtml")) {
-    SecurityContext context=SecurityContextHolder.getContext();
     httpRequest.getSession().setAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY,new RuntimeException(message));
     httpRequest.setAttribute(SessionDenialAwareAuthenticationProcessingFilterEntryPoint.SESSION_DENIED,true);
-    context.setAuthentication(null);
     httpResponse.sendRedirect("/go/auth/login?login_error=1");
-    LOG.error(e.getMessage());
-    LOG.trace(e.getMessage(),e);
     return;
   }
   if (hasAccept(httpRequest,"application/vnd.go.cd.v1+json") || hasAccept(httpRequest,"application/json")) {
