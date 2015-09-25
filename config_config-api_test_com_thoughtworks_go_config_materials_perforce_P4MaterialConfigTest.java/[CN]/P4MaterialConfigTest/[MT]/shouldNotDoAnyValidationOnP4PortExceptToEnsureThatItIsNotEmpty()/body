@@ -1,0 +1,12 @@
+{
+  assertError("","view",P4MaterialConfig.SERVER_AND_PORT,"P4 port cannot be empty.");
+  assertError(" ","view",P4MaterialConfig.SERVER_AND_PORT,"P4 port cannot be empty.");
+  assertNoError("example.com:1818","view",P4MaterialConfig.SERVER_AND_PORT);
+  assertNoError("ssl:host:1234","view",P4MaterialConfig.SERVER_AND_PORT);
+  assertNoError("ssl:host:non_numerical_port","view",P4MaterialConfig.SERVER_AND_PORT);
+  assertNoError("complete_junk:::abc:::123:::def","view",P4MaterialConfig.SERVER_AND_PORT);
+  assertNoError(":1234","view",P4MaterialConfig.SERVER_AND_PORT);
+  assertNoError(":abc","view",P4MaterialConfig.SERVER_AND_PORT);
+  assertNoError("1234","view",P4MaterialConfig.SERVER_AND_PORT);
+  assertNoError("tcp:abc:1234","view",P4MaterialConfig.SERVER_AND_PORT);
+}
