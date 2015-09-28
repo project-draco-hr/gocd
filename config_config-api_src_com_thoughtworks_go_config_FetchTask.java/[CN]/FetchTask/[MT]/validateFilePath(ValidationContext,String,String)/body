@@ -1,0 +1,11 @@
+{
+  if (path == null) {
+    return;
+  }
+  if (!FileUtil.isFolderInsideSandbox(path)) {
+    String parentType=validationContext.isWithinPipeline() ? "pipeline" : "template";
+    CaseInsensitiveString parentName=validationContext.isWithinPipeline() ? validationContext.getPipeline().name() : validationContext.getTemplate().name();
+    String message=String.format("Task of job '%s' in stage '%s' of %s '%s' has path '%s' which is outside the working directory.",validationContext.getJob().name(),validationContext.getStage().name(),parentType,parentName,path);
+    addError(propertyName,message);
+  }
+}

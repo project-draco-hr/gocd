@@ -1,0 +1,7 @@
+{
+  StageConfig stage=upstream.getFirstStageConfig();
+  JobConfig job=stage.getJobs().get(0);
+  FetchTask task=new FetchTask(upstream.name(),stage.name(),job.name(),"src","dest");
+  task.validate(ValidationContext.forChain(upstream,stage,job));
+  assertThat(task.errors().isEmpty(),is(true));
+}
