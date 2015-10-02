@@ -1,9 +1,0 @@
-{
-  Element server=(Element)document.selectSingleNode("/cruise/server");
-  Node oldLicense=server.selectSingleNode("./license");
-  if (oldLicense != null) {
-    server.remove(oldLicense);
-  }
-  server.add(new DefaultElement("license").addAttribute("user",user).addText(license));
-  return document.asXML();
-}

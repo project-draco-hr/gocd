@@ -1,5 +1,5 @@
 {
   String pipelineName=CaseInsensitiveString.str(pipelineConfig.name());
   String stageName=CaseInsensitiveString.str(pipelineConfig.getFirstStageConfig().name());
-  return new CompositeChecker(new LicenseChecker(licenseService),new EnabledUsersLicenseLimitChecker(userService,licenseService,serverHealthService),new AboutToBeTriggeredChecker(pipelineName,triggerMonitor,pipelineScheduleQueue),new PipelinePauseChecker(pipelineName,pipelinePauseService),new StageActiveChecker(pipelineName,stageName,activityService),new PipelineLockChecker(pipelineName,pipelineLockService),diskCheckers());
+  return new CompositeChecker(new AboutToBeTriggeredChecker(pipelineName,triggerMonitor,pipelineScheduleQueue),new PipelinePauseChecker(pipelineName,pipelinePauseService),new StageActiveChecker(pipelineName,stageName,activityService),new PipelineLockChecker(pipelineName,pipelineLockService),diskCheckers());
 }

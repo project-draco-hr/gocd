@@ -1,9 +1,0 @@
-{
-  when(goLicenseService.isLicenseValid()).thenReturn(true);
-  when(goLicenseService.isLicenseExpired()).thenReturn(false);
-  when(goLicenseService.getCruiseEdition()).thenReturn(Edition.Enterprise);
-  HttpOperationResult result=new HttpOperationResult();
-  licenseChecker.check(result);
-  assertThat(result.getServerHealthState().getType(),is(HealthStateType.invalidLicense(HealthStateScope.GLOBAL)));
-  assertThat(result.getServerHealthState().getLogLevel(),is(HealthStateLevel.OK));
-}

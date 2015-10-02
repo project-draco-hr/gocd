@@ -1,5 +1,3 @@
 {
-  P4MaterialConfig p4MaterialConfig=new P4MaterialConfig("example.com:1233","");
-  p4MaterialConfig.validate(new ValidationContext(null));
-  assertThat(p4MaterialConfig.errors().on(P4MaterialConfig.VIEW),is("P4 view cannot be empty."));
+  assertError("example.com:1233","",P4MaterialConfig.VIEW,"P4 view cannot be empty.");
 }

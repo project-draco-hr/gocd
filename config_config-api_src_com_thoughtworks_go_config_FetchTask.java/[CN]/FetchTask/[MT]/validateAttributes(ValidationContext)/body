@@ -1,0 +1,11 @@
+{
+  if (StringUtils.isNotEmpty(srcdir) && StringUtils.isNotEmpty(srcfile)) {
+    addError(SRC,"Only one of srcfile or srcdir is allowed at a time");
+  }
+  if (StringUtils.isEmpty(srcdir) && StringUtils.isEmpty(srcfile)) {
+    addError(SRC,"Should provide either srcdir or srcfile");
+  }
+  validateFilePath(validationContext,srcfile,SRC);
+  validateFilePath(validationContext,srcdir,SRC);
+  validateFilePath(validationContext,dest,DEST);
+}

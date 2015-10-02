@@ -9,7 +9,7 @@
       reloadedXml=upgrade(xmlStringBeforeUpgrade,currentVersion);
       GoConfigHolder configHolder=reloadedConfig(stream,reloadedXml);
       reloadedXml=new String(stream.toByteArray());
-      configRepository.checkin(new GoConfigRevision(reloadedXml,CachedDigestUtils.md5Hex(reloadedXml),UPGRADE,currentGoServerVersion,configHolder.config.edition(),timeProvider));
+      configRepository.checkin(new GoConfigRevision(reloadedXml,CachedDigestUtils.md5Hex(reloadedXml),UPGRADE,currentGoServerVersion,timeProvider));
     }
  else {
       GoConfigHolder configHolder=reloadedConfig(stream,xmlStringBeforeUpgrade);

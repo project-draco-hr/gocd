@@ -1,6 +1,6 @@
 {
-  configRepo.checkin(new GoConfigRevision("v1","md5-v1","user-name","100.3.9",Edition.Free,new TimeProvider()));
-  configRepo.checkin(new GoConfigRevision("v1 v2","md5-v2","user-name","100.9.8",Edition.Enterprise,new TimeProvider()));
+  configRepo.checkin(new GoConfigRevision("v1","md5-v1","user-name","100.3.9",new TimeProvider()));
+  configRepo.checkin(new GoConfigRevision("v1 v2","md5-v2","user-name","100.9.8",new TimeProvider()));
   assertThat(configRepo.getRevision("md5-v1").getContent(),is("v1"));
   assertThat(configRepo.getRevision("md5-v2").getContent(),is("v1 v2"));
 }

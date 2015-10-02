@@ -2,7 +2,7 @@
   GoConfigMother mother=new GoConfigMother();
   PipelineConfigs group1=mother.cruiseConfigWithOnePipelineGroup().getGroups().get(0);
   helper.addFileWithPipelineGroup("group1.gocd.xml",group1);
-  PartialConfig part=xmlPartialProvider.Load(tmpFolder,mock(PartialConfigLoadContext.class));
+  PartialConfig part=xmlPartialProvider.load(tmpFolder,mock(PartialConfigLoadContext.class));
   PipelineConfigs groupRead=part.getGroups().get(0);
   assertThat(groupRead,is(group1));
   assertThat(groupRead.size(),is(group1.size()));

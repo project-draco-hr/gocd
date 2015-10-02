@@ -1,0 +1,6 @@
+{
+  String jobName="a-runOnAll-1";
+  ConfigErrors configErrors=createJobAndValidate(jobName).errors();
+  assertThat(configErrors.isEmpty(),is(false));
+  assertThat(configErrors.on(JobConfig.NAME),is(String.format("A job cannot have 'runOnAll' in it's name: %s",jobName)));
+}

@@ -1,0 +1,18 @@
+{
+  CruiseConfig cruiseConfig=createCruiseConfig();
+  PipelineConfig pipeline1=goConfigMother.addPipeline(cruiseConfig,"pipeline1","stage","build");
+  SvnMaterialConfig material=(SvnMaterialConfig)pipeline1.materialConfigs().get(0);
+  material.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"svn_dir"));
+  P4MaterialConfig p4MaterialConfig=new P4MaterialConfig("localhost:1999","view");
+  p4MaterialConfig.setConfigAttributes(Collections.singletonMap(ScmMaterialConfig.FOLDER,"p4_folder"));
+  pipeline1.addMaterialConfig(p4MaterialConfig);
+  PipelineConfig pipeline2=goConfigMother.addPipeline(cruiseConfig,"pipeline3","stage","build");
+  PipelineConfig pipeline3=goConfigMother.addPipeline(cruiseConfig,"pipeline2","stage","build");
+  goConfigMother.setDependencyOn(cruiseConfig,pipeline3,"pipeline3","stage");
+  goConfigMother.setDependencyOn(cruiseConfig,pipeline2,"pipeline1","stage");
+  goConfigMother.setDependencyOn(cruiseConfig,pipeline1,"pipeline2","stage");
+  cruiseConfig.validate(null);
+  assertThat(pipeline1.materialConfigs().errors().isEmpty(),is(false));
+  assertThat(pipeline2.materialConfigs().errors().isEmpty(),is(false));
+  assertThat(pipeline3.materialConfigs().errors().isEmpty(),is(false));
+}

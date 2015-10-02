@@ -2,9 +2,6 @@
   if (!agent.isRegistered()) {
     return new UnregisteredAgentWork(agent.getUuid());
   }
-  if (agent.isFromRemoteHost() && hasRemoteAgentReachedLimit()) {
-    return NO_WORK;
-  }
   if (agent.isDisabled()) {
     return new DeniedAgentWork(agent.getUuid());
   }

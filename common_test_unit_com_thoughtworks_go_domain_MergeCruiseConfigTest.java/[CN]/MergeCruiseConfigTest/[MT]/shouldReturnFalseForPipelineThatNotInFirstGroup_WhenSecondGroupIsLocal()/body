@@ -1,0 +1,6 @@
+{
+  PipelineConfigs group1=createGroup("group1",createPipelineConfig("pipeline1","stage1"));
+  PipelineConfigs group2=createGroup("group2",createPipelineConfig("pipeline2","stage2"));
+  CruiseConfig config=new BasicCruiseConfig(new BasicCruiseConfig(group1,group2),new PartialConfig());
+  assertThat("shouldReturnFalseForPipelineThatNotInFirstGroup",config.isInFirstGroup(new CaseInsensitiveString("pipeline2")),is(false));
+}

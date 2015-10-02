@@ -1,7 +1,7 @@
 {
   configRepo.checkin(goConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,33),"md5-1"));
   String configXml=ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,60);
-  configRepo.checkin(new GoConfigRevision(configXml,"md5-2","user-2","13.2",Edition.Enterprise,new TimeProvider()));
+  configRepo.checkin(new GoConfigRevision(configXml,"md5-2","user-2","13.2",new TimeProvider()));
   String configChangesLine1="-<cruise schemaVersion='33'>";
   String configChangesLine2="+<cruise schemaVersion='60'>";
   String actual=configRepo.configChangesFor("md5-2","md5-1");
