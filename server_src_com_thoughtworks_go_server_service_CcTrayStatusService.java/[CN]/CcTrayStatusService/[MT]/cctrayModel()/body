@@ -1,8 +1,0 @@
-{
-  CcTrayFeedBuilder builder=new CcTrayFeedBuilder(ccTrayStatus);
-  String userName=CaseInsensitiveString.str(UserHelper.getUserName().getUsername());
-  PipelineGroupVisitor visitor=new SecurityFilter(builder,goConfigService,securityService,userName);
-  CruiseConfig config=goConfigService.currentCruiseConfig();
-  config.accept(visitor);
-  return builder.getResult();
-}

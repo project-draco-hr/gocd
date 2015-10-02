@@ -1,0 +1,15 @@
+{
+  if (request instanceof HttpServletRequest) {
+    String accept=((HttpServletRequest)request).getHeader("Accept");
+    if (accept != null) {
+      List<MediaType> mediaTypes=MediaType.parseMediaTypes(accept);
+      for (      MediaType mediaType : mediaTypes) {
+        String type=mediaType.getType() + "/" + mediaType.getSubtype();
+        if (type.equals(expectedContentType)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}

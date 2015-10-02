@@ -1,0 +1,9 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("pipe1"));
+  pipelines.setOrigin(new FileConfigOrigin());
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,PartialConfigMother.withPipeline("pipe2"));
+  cruiseConfig.addPipelineWithoutValidation("group_main",PipelineConfigMother.pipelineConfig("pipe3"));
+  assertThat(mainCruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe3")),is(true));
+  assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipe3")),is(true));
+}

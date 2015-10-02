@@ -1,5 +1,5 @@
 {
-  CompositeChecker checker=buildScheduleCheckers(asList(new EnabledUsersLicenseLimitChecker(userService,licenseService,serverHealthService),new LicenseChecker(licenseService),diskCheckers()));
+  CompositeChecker checker=buildScheduleCheckers(asList(diskCheckers()));
   checker.check(result);
   return result.canContinue();
 }

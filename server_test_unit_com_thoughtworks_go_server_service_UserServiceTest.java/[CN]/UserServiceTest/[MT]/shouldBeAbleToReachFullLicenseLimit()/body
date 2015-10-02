@@ -1,7 +1,0 @@
-{
-  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  when(licenseService.maximumUsersAllowed()).thenReturn(2);
-  when(userDao.enabledUsers()).thenReturn(Arrays.asList(new User("Jake")));
-  userService.enable(Arrays.asList("Pavan"),result);
-  assertThat(result.isSuccessful(),is(true));
-}

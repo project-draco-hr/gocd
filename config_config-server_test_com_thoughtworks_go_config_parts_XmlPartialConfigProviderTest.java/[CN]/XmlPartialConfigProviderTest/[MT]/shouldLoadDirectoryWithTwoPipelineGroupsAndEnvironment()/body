@@ -5,7 +5,7 @@
   helper.addFileWithPipelineGroup("group1.gocd.xml",groups.get(0));
   helper.addFileWithPipelineGroup("group2.gocd.xml",groups.get(1));
   helper.addFileWithEnvironment("dev-env.gocd.xml",env);
-  PartialConfig part=xmlPartialProvider.Load(tmpFolder,mock(PartialConfigLoadContext.class));
+  PartialConfig part=xmlPartialProvider.load(tmpFolder,mock(PartialConfigLoadContext.class));
   PipelineGroups groupsRead=part.getGroups();
   assertThat(groupsRead.size(),is(2));
   EnvironmentsConfig loadedEnvs=part.getEnvironments();

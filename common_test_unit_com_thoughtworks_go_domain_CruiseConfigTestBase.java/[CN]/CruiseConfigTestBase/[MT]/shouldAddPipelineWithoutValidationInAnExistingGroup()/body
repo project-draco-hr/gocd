@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=createCruiseConfig();
+  PipelineConfig pipeline1=PipelineConfigMother.pipelineConfig("first");
+  PipelineConfig pipeline2=PipelineConfigMother.pipelineConfig("first");
+  cruiseConfig.addPipelineWithoutValidation("first-group",pipeline1);
+  assertThat(cruiseConfig.getGroups().size(),is(1));
+  assertThat(cruiseConfig.findGroup("first-group").get(0),is(pipeline1));
+  cruiseConfig.addPipelineWithoutValidation("first-group",pipeline2);
+  assertThat(cruiseConfig.findGroup("first-group").get(0),is(pipeline1));
+  assertThat(cruiseConfig.findGroup("first-group").get(1),is(pipeline2));
+}

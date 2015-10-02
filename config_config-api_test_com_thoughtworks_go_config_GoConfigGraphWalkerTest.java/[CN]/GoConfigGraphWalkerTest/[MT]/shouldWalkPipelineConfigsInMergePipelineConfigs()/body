@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipe=mockPipelineConfig();
+  MergePipelineConfigs mergePipelines=new MergePipelineConfigs(new BasicPipelineConfigs(pipe));
+  new GoConfigGraphWalker(mergePipelines).walk(new GoConfigGraphWalker.Handler(){
+    @Override public void handle(    Validatable validatable,    ValidationContext ctx){
+      validatable.validate(ctx);
+    }
+  }
+);
+  verify(pipe,atLeastOnce()).validate(any(ValidationContext.class));
+}

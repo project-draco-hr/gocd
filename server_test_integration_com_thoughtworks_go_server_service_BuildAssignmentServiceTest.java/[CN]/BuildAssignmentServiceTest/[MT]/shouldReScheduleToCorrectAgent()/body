@@ -15,7 +15,7 @@
   JobInstance rescheduledJob=pipeline.findStage(STAGE_NAME).findJob("unit");
   assertThat(rescheduledJob.getId(),not(runningJob.getId()));
   buildAssignmentService.onTimer();
-  Work noResourcesWork=buildAssignmentService.assignWorkToAgent(agent(new AgentConfig("WITHOUT_RESOURCES")));
+  Work noResourcesWork=buildAssignmentService.assignWorkToAgent(agent(AgentMother.localAgentWithResources("WITHOUT_RESOURCES")));
   assertThat(noResourcesWork,is((Work)BuildAssignmentService.NO_WORK));
   buildAssignmentService.onTimer();
   Work correctAgentWork=buildAssignmentService.assignWorkToAgent(agent(agentConfig));

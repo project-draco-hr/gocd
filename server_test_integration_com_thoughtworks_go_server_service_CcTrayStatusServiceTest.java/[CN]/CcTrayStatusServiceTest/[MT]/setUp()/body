@@ -1,9 +1,0 @@
-{
-  pipelineFixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
-  configHelper.onSetUp();
-  configHelper.usingCruiseConfigDao(goConfigDao);
-  dbHelper.onSetUp();
-  pipelineFixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
-  ccTrayStatus.clear();
-  ccTrayStatusService=new CcTrayStatusService(goConfigService,ccTrayStatus,stageService,securityService,serverConfigService);
-}

@@ -1,7 +1,0 @@
-{
-  final User userA=new User("userA","User A",new String[]{"userA"},"userA@example.com",true);
-  userA.disable();
-  User userB=new User("userB","User B",new String[]{"userB","user-B"},"userB@example.com",false);
-  String expectedXml="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<users type=\"array\">" + "<user>"+ "<name>userA</name>"+ "<displayName>User A</displayName>"+ "<matcher>userA</matcher>"+ "<email>userA@example.com</email>"+ "<emailMe type=\"boolean\">true</emailMe>"+ "<enabled type=\"boolean\">false</enabled>"+ "</user>"+ "<user>"+ "<name>userB</name>"+ "<displayName>User B</displayName>"+ "<matcher>userB,user-B</matcher>"+ "<email>userB@example.com</email>"+ "<emailMe type=\"boolean\">false</emailMe>"+ "<enabled type=\"boolean\">true</enabled>"+ "</user>"+ "</users>";
-  assertEquals(expectedXml,toXml(userA,userB));
-}

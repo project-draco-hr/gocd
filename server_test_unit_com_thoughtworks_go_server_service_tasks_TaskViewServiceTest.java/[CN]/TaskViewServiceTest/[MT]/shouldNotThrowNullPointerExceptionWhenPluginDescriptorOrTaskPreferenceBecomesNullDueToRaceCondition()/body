@@ -4,7 +4,7 @@
   try {
     ReflectionUtil.setStaticField(PluggableTaskConfigStore.class,"PLUGGABLE_TASK_CONFIG_STORE",pluggableTaskConfigStore);
     String pluginId="some.plugin.id";
-    when(pluggableTaskConfigStore.pluginsWithPreference()).thenReturn(s(pluginId));
+    when(pluggableTaskConfigStore.pluginIds()).thenReturn(s(pluginId));
     when(pluginManager.getPluginDescriptorFor(pluginId)).thenReturn(null);
     TaskViewService taskViewService=new TaskViewService(registry,pluginManager);
     taskViewService.getTaskViewModelsWith(mock(Task.class));

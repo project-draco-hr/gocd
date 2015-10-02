@@ -2,10 +2,6 @@
 synchronized (enableUserMutex) {
     Set<String> potentialEnabledUsers=new HashSet<String>(toUserNames(userDao.enabledUsers()));
     potentialEnabledUsers.addAll(usernames);
-    if (licenseService.maximumUsersAllowed() < potentialEnabledUsers.size()) {
-      result.badRequest(LocalizedMessage.string("DID_NOT_ENABLE_SELECTED_USERS"));
-      return;
-    }
     userDao.enableUsers(usernames);
   }
 }
