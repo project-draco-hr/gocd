@@ -6,7 +6,7 @@
   }
 ,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
   FileUtils.writeStringToFile(configFile,ConfigFileFixture.DEFAULT_XML_WITH_2_AGENTS);
-  configRepository.checkin(new GoConfigRevision("dummy-content","some-md5","loser","100.3.1",Edition.Free,new TimeProvider()));
+  configRepository.checkin(new GoConfigRevision("dummy-content","some-md5","loser","100.3.1",new TimeProvider()));
   upgrader.upgradeIfNecessary(configFile,currentGoServerVersion);
   GoConfigRevision latest=configRepository.getRevision(ConfigRepository.CURRENT);
   assertThat(latest.getUsername(),is("Upgrade"));

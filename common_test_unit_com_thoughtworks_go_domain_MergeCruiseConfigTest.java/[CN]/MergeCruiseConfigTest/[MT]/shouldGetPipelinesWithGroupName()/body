@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipeline1=createPipelineConfig("pipeline1","stage1");
+  cruiseConfig.getGroups().addPipeline("existing_group",pipeline1);
+  assertThat(cruiseConfig.pipelines("existing_group"),hasItem(pipeline1));
+  assertThat(cruiseConfig.pipelines("remote_group").hasPipeline(new CaseInsensitiveString("remote-pipe-1")),is(true));
+}

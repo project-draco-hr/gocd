@@ -2,10 +2,8 @@
   schedulingChecker.canManuallyTrigger(PipelineConfigMother.pipelineConfig("p1"),"user",operationResult);
   verify(schedulingChecker).buildScheduleCheckers(argumentCaptor.capture());
   verify(compositeChecker).check(operationResult);
-  assertFor(argumentCaptor.getValue(),LicenseChecker.class);
   assertFor(argumentCaptor.getValue(),AboutToBeTriggeredChecker.class);
   assertFor(argumentCaptor.getValue(),StageAuthorizationChecker.class);
-  assertFor(argumentCaptor.getValue(),EnabledUsersLicenseLimitChecker.class);
   assertFor(argumentCaptor.getValue(),PipelinePauseChecker.class);
   assertFor(argumentCaptor.getValue(),PipelineLockChecker.class);
   assertFor(argumentCaptor.getValue(),StageActiveChecker.class);

@@ -1,7 +1,7 @@
 {
   configRepo.checkin(goConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,33),"md5-1"));
   RevCommit previousCommit=configRepo.revisions().iterator().next();
-  configRepo.checkin(new GoConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,60),"md5-2","user-2","13.2",Edition.Enterprise,new TimeProvider()));
+  configRepo.checkin(new GoConfigRevision(ConfigFileFixture.configWithPipeline(ConfigFileFixture.SIMPLE_PIPELINE,60),"md5-2","user-2","13.2",new TimeProvider()));
   RevCommit latestCommit=configRepo.revisions().iterator().next();
   String configChangesLine1="-<cruise schemaVersion='33'>";
   String configChangesLine2="+<cruise schemaVersion='60'>";

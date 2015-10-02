@@ -19,4 +19,5 @@
   for (  ValidationError validationError : validationResult.getErrors()) {
     modifiedTask.getConfiguration().getProperty(validationError.getKey()).addError(validationError.getKey(),validationError.getMessage());
   }
+  return validationResult.isSuccessful();
 }

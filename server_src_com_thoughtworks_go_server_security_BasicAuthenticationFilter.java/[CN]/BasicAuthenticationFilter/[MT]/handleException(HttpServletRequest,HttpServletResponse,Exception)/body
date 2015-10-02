@@ -1,0 +1,20 @@
+{
+  String message=localizer.localize("INVALID_LDAP_ERROR");
+  if (hasAccept(httpRequest,"text/html") || hasAccept(httpRequest,"application/xhtml")) {
+    httpRequest.getSession().setAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY,new RuntimeException(message));
+    httpRequest.setAttribute(SessionDenialAwareAuthenticationProcessingFilterEntryPoint.SESSION_DENIED,true);
+    httpResponse.sendRedirect("/go/auth/login?login_error=1");
+    return;
+  }
+  if (hasAccept(httpRequest,"application/vnd.go.cd.v1+json") || hasAccept(httpRequest,"application/json")) {
+    String msg=String.format("{\n \"message\": \"%s\"\n}\n",message);
+    generateResponse(httpResponse,"application/vnd.go.cd.v1+json; charset=utf-8",msg);
+    return;
+  }
+  if (hasAccept(httpRequest,"application/xml")) {
+    String msg=String.format("<message>%s</message>\n",message);
+    generateResponse(httpResponse,"application/xml; charset=utf-8",msg);
+    return;
+  }
+  httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+}

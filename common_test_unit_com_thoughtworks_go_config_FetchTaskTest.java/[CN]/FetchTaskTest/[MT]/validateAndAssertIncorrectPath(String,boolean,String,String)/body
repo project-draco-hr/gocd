@@ -1,0 +1,16 @@
+{
+  StageConfig stage=upstream.getFirstStageConfig();
+  JobConfig job=stage.getJobs().get(0);
+  FetchTask task=new FetchTask(upstream.name(),stage.name(),job.name(),null,destination);
+  if (isSourceDir) {
+    task.setSrcdir(source);
+  }
+ else {
+    task.setSrcfile(source);
+  }
+  task.validate(ValidationContext.forChain(upstream,stage,job));
+  assertThat(task.errors().isEmpty(),is(false));
+  String path=propertyName.equals(FetchTask.SRC) ? source : destination;
+  String message=String.format("Task of job '%s' in stage '%s' of pipeline '%s' has path '%s' which is outside the working directory.",job.name(),stage.name(),upstream.name(),path);
+  assertThat(task.errors().on(propertyName),is(message));
+}

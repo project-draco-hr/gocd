@@ -1,6 +1,5 @@
 {
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  when(licenseService.maximumUsersAllowed()).thenReturn(1);
   when(userDao.enabledUsers()).thenReturn(Arrays.asList(new User("Jake")));
   userService.enable(Arrays.asList("Jake"),result);
   assertThat(result.isSuccessful(),is(true));

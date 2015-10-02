@@ -1,12 +1,14 @@
 {
-  FetchTask task=new FetchTask(new CaseInsensitiveString("upstream"),new CaseInsensitiveString("stage"),new CaseInsensitiveString("job"),"..","..");
-  ValidationContext context=ValidationContext.forChain(config,new TemplatesConfig(),downstream.getStage(new CaseInsensitiveString("stage")));
-  task.validate(context);
+  String dest="..";
+  String src="..";
+  PipelineTemplateConfig template=PipelineTemplateConfigMother.createTemplate("template-1");
+  StageConfig stage=template.get(0);
+  JobConfig job=stage.getJobs().get(0);
+  FetchTask task=new FetchTask(template.name(),stage.name(),job.name(),src,dest);
+  task.validate(ValidationContext.forChain(template,stage,job));
   assertThat(task.errors().isEmpty(),is(false));
-  assertThat(task.errors().on(FetchTask.SRC),is("Invalid src name '..'. It should be a valid relative path."));
-  assertThat(task.errors().on(FetchTask.DEST),is("Invalid dest name '..'. It should be a valid relative path."));
-  task.setSrcfile(null);
-  task.setSrcdir("..");
-  task.validate(context);
-  assertThat(task.errors().on(FetchTask.SRC),is("Invalid src name '..'. It should be a valid relative path."));
+  String messageForSrc=String.format("Task of job '%s' in stage '%s' of template '%s' has path '%s' which is outside the working directory.",job.name(),stage.name(),template.name(),src);
+  assertThat(task.errors().on(FetchTask.SRC),is(messageForSrc));
+  String messageForDest=String.format("Task of job '%s' in stage '%s' of template '%s' has path '%s' which is outside the working directory.",job.name(),stage.name(),template.name(),dest);
+  assertThat(task.errors().on(FetchTask.DEST),is(messageForDest));
 }

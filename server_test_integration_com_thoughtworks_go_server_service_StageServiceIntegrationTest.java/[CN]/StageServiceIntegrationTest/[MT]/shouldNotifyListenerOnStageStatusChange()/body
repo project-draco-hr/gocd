@@ -1,9 +1,6 @@
 {
-  ccTrayStatus.clear();
+  StageStatusListener listener=mock(StageStatusListener.class);
+  stageService.addStageStatusListener(listener);
   stageService.updateResult(stage);
-  assertThat(ccTrayStatus.projects().size(),is(4));
-  String stageProjectName=String.format("%s :: %s",stage.getIdentifier().getPipelineName(),stage.getName());
-  assertThat(stageProjectName + " should be in cctray feed",ccTrayStatus.containsProject(stageProjectName),is(true));
-  String jobProjectName=String.format("%s :: %s :: %s",stage.getIdentifier().getPipelineName(),stage.getName(),stage.getJobInstances().first().getName());
-  assertThat(jobProjectName + " should be in cctray feed",ccTrayStatus.containsProject(jobProjectName),is(true));
+  verify(listener).stageStatusChanged(stage);
 }

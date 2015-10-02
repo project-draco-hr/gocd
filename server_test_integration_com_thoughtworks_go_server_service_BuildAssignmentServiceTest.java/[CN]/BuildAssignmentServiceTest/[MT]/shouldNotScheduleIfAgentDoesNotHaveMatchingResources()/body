@@ -2,7 +2,7 @@
   JobConfig plan=evolveConfig.findBy(new CaseInsensitiveString(STAGE_NAME)).jobConfigByInstanceName("unit",true);
   plan.addResource("some-resource");
   scheduleHelper.schedule(evolveConfig,modifySomeFiles(evolveConfig),DEFAULT_APPROVED_BY);
-  AgentConfig agentConfig=new AgentConfig("uuid");
+  AgentConfig agentConfig=AgentMother.localAgent();
   agentConfig.addResource(new Resource("some-other-resource"));
   Work work=buildAssignmentService.assignWorkToAgent(agent(agentConfig));
   assertThat(work,is((Work)BuildAssignmentService.NO_WORK));

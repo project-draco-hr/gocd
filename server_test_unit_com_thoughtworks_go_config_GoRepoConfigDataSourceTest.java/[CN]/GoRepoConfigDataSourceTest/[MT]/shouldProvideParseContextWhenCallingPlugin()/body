@@ -5,5 +5,5 @@
   configWatchList.onConfigChange(cruiseConfig);
   when(configPluginService.partialConfigProviderFor(any(ConfigRepoConfig.class))).thenReturn(plugin);
   repoConfigDataSource.onCheckoutComplete(material,folder,"7a8f");
-  verify(plugin,times(1)).Load(eq(folder),notNull(PartialConfigLoadContext.class));
+  verify(plugin,times(1)).load(eq(folder),notNull(PartialConfigLoadContext.class));
 }

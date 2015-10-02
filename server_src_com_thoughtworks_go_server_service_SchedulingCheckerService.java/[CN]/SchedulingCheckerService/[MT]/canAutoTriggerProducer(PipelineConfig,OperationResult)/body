@@ -1,5 +1,5 @@
 {
   String pipelineName=CaseInsensitiveString.str(pipelineConfig.name());
-  SchedulingChecker checker=buildScheduleCheckers(asList(new EnabledUsersLicenseLimitChecker(userService,licenseService,serverHealthService),new PipelineLockChecker(pipelineName,pipelineLockService),new ManualPipelineChecker(pipelineConfig),new PipelinePauseChecker(pipelineName,pipelinePauseService),new PipelineLockChecker(pipelineName,pipelineLockService),new StageActiveChecker(pipelineName,CaseInsensitiveString.str(pipelineConfig.getFirstStageConfig().name()),activityService)));
+  SchedulingChecker checker=buildScheduleCheckers(asList(new PipelineLockChecker(pipelineName,pipelineLockService),new ManualPipelineChecker(pipelineConfig),new PipelinePauseChecker(pipelineName,pipelinePauseService),new PipelineLockChecker(pipelineName,pipelineLockService),new StageActiveChecker(pipelineName,CaseInsensitiveString.str(pipelineConfig.getFirstStageConfig().name()),activityService)));
   checker.check(operationResult);
 }

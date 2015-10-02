@@ -1,8 +1,0 @@
-{
-  pipelineFixture.createdPipelineWithAllStagesPassed();
-  Document document=ccTrayStatusService.createCctrayXmlDocument("http://localhost/go");
-  assertThat(XPath.selectNodes(document,"/Projects/Project").size(),is(4));
-  configHelper.addJob(pipelineFixture.pipelineName,pipelineFixture.devStage,"newJob");
-  document=ccTrayStatusService.createCctrayXmlDocument("http://localhost/go");
-  assertThat(XPath.selectNodes(document,"/Projects/Project").size(),is(4));
-}

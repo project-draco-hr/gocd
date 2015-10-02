@@ -1,9 +1,0 @@
-{
-  when(goLicenseService.getNumberOfLicensedRemoteAgents()).thenReturn(2);
-  when(goConfigService.getNumberOfApprovedRemoteAgents()).thenReturn(3);
-  when(goLicenseService.hasRemoteAgentsExceededLicenseLimit()).thenReturn(true);
-  interceptor.postHandle(request,response,null,mov);
-  assertThat(mov.getModelMap().containsKey(GoConstants.ERROR_FOR_GLOBAL_MESSAGE),is(true));
-  String message="Current Go license allows only 2 remote agents. Currently 3 remote agents are enabled. Go will continue to assign jobs only to 2 remote agents " + "and the remaining remote agents will not be used. Please disable additional remote agents to comply with your license, or " + "<a href='http://www.thoughtworks.com/products/go-continuous-delivery/compare'>contact our sales team</a> to buy more agents.";
-  assertThat((String)mov.getModelMap().get(GoConstants.ERROR_FOR_GLOBAL_MESSAGE),is(message));
-}

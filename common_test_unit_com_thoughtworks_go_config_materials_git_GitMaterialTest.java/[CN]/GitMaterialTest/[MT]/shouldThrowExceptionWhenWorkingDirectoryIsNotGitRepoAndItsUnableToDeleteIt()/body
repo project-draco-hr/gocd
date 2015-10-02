@@ -1,0 +1,16 @@
+{
+  File fileToBeLocked=new File(workingDir,"file");
+  RandomAccessFile lockedFile=new RandomAccessFile(fileToBeLocked,"rw");
+  FileLock lock=lockedFile.getChannel().lock();
+  try {
+    git.latestModification(workingDir,new TestSubprocessExecutionContext());
+    fail("Should have failed to check modifications since the file is locked and cannot be removed.");
+  }
+ catch (  Exception e) {
+    assertEquals(e.getMessage().trim(),"Failed to delete directory: " + workingDir.getAbsolutePath().trim());
+    assertEquals(true,fileToBeLocked.exists());
+  }
+ finally {
+    lock.release();
+  }
+}

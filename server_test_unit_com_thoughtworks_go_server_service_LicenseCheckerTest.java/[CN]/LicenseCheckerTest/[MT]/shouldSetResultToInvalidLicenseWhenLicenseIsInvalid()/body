@@ -1,8 +1,0 @@
-{
-  when(goLicenseService.isLicenseValid()).thenReturn(false);
-  HttpOperationResult result=new HttpOperationResult();
-  licenseChecker.check(result);
-  assertThat(result.httpCode(),is(406));
-  assertThat(result.getServerHealthState().getType(),is(HealthStateType.invalidLicense(HealthStateScope.GLOBAL)));
-  assertThat(result.message(),is("Failed to schedule the pipeline because Go does not have a valid license."));
-}

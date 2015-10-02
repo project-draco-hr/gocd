@@ -1,0 +1,6 @@
+{
+  MaterialConfig configRepo=new GitMaterialConfig("url","branch");
+  GitMaterialConfig someRepo=new GitMaterialConfig("url","branch1");
+  ConfigRepoConfig config=new ConfigRepoConfig(configRepo,"myplugin");
+  assertThat(config.hasMaterialWithFingerprint(someRepo.getFingerprint()),is(false));
+}
