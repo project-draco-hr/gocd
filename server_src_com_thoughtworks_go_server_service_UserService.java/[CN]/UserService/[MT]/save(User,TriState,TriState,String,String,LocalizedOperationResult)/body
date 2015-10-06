@@ -17,6 +17,9 @@
   if (emailMe.isFalse()) {
     user.setEmailMe(false);
   }
+  if (validate(result,user)) {
+    return user;
+  }
   try {
     saveOrUpdate(user);
   }

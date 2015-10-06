@@ -2,11 +2,11 @@
   User user=new User("user-1");
   addUser(user);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  userService.update(user,TriState.UNSET,TriState.UNSET,"foo@example.com",null,result);
+  userService.save(user,TriState.UNSET,TriState.UNSET,"foo@example.com",null,result);
   assertThat(result.isSuccessful(),is(true));
   assertThat(user.getEmail(),is("foo@example.com"));
   result=new HttpLocalizedOperationResult();
-  userService.update(user,TriState.TRUE,TriState.UNSET,"",null,result);
+  userService.save(user,TriState.TRUE,TriState.UNSET,"",null,result);
   assertThat(result.isSuccessful(),is(true));
   assertThat(user.getEmail(),is(""));
 }
