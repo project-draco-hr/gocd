@@ -1,6 +1,6 @@
 {
-  JobConfig windoze=new JobConfig(new CaseInsensitiveString("WinBuild"),new Resources(new Resource("Windows"),new Resource(".NET")),new ArtifactPlans(Arrays.asList(new ArtifactPlan(ArtifactType.unit,"junit","junit"))));
-  JobConfig linux=new JobConfig(new CaseInsensitiveString("NixBuild"),new Resources(new Resource("Linux"),new Resource("java")),new ArtifactPlans(Arrays.asList(new ArtifactPlan(ArtifactType.unit,"junit","junit"))));
+  JobConfig windoze=new JobConfig(new CaseInsensitiveString("WinBuild"),new Resources(new Resource("Windows"),new Resource(".NET")),new ArtifactPlans(Arrays.<ArtifactPlan>asList(new TestArtifactPlan("junit","junit"))));
+  JobConfig linux=new JobConfig(new CaseInsensitiveString("NixBuild"),new Resources(new Resource("Linux"),new Resource("java")),new ArtifactPlans(Arrays.<ArtifactPlan>asList(new TestArtifactPlan("junit","junit"))));
   JobConfigs jobConfigs=new JobConfigs(windoze,linux);
   return stageConfig(stageName,jobConfigs);
 }

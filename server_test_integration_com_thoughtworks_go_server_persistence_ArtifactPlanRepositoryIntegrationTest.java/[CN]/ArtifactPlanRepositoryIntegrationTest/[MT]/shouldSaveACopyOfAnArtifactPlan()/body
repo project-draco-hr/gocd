@@ -1,7 +1,7 @@
 {
   JobInstance firstJobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME + "1"));
   JobInstance secondJobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME + "2"));
-  ArtifactPlan artifactPlan=new ArtifactPlan(ArtifactType.file,"src","dest");
+  ArtifactPlan artifactPlan=new ArtifactPlan("src","dest");
   ArtifactPlan artifactPlanOfFirstJob=artifactPlanRepository.saveCopyOf(firstJobInstance.getId(),artifactPlan);
   ArtifactPlan artifactPlanOfSecondJob=artifactPlanRepository.saveCopyOf(secondJobInstance.getId(),artifactPlan);
   List<ArtifactPlan> firstJobArtifactPlans=artifactPlanRepository.findByBuildId(firstJobInstance.getId());
