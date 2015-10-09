@@ -1,6 +1,6 @@
 {
   final DefaultGoPublisher publisher=context.mock(DefaultGoPublisher.class);
-  final ArtifactPlan artifactPlan=new ArtifactPlan(ArtifactType.file,"src","dest");
+  final ArtifactPlan artifactPlan=new ArtifactPlan("src","dest");
   context.checking(new Expectations(){
 {
       one(publisher).upload(new File(testFolder,"src"),"dest");
