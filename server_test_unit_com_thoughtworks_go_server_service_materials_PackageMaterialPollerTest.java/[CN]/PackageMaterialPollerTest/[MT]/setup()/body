@@ -5,6 +5,6 @@
   material.setPackageDefinition(packageDefinition);
   packageAsRepositoryExtension=mock(PackageAsRepositoryExtension.class);
   poller=new com.thoughtworks.go.server.service.materials.PackageMaterialPoller(packageAsRepositoryExtension);
-  packageConfiguration=new ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>();
-  repositoryConfiguration=new ArgumentCaptor<RepositoryConfiguration>();
+  packageConfiguration=ArgumentCaptor.forClass(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class);
+  repositoryConfiguration=ArgumentCaptor.forClass(RepositoryConfiguration.class);
 }

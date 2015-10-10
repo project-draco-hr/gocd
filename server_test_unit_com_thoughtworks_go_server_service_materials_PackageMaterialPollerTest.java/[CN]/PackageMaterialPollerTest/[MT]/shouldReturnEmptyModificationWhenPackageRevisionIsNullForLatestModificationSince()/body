@@ -1,6 +1,6 @@
 {
   PackageMaterialRevision knownRevision=new PackageMaterialRevision("rev-122",new Date());
-  ArgumentCaptor<PackageRevision> knownPackageRevision=new ArgumentCaptor<PackageRevision>();
+  ArgumentCaptor<PackageRevision> knownPackageRevision=ArgumentCaptor.forClass(PackageRevision.class);
   when(packageAsRepositoryExtension.latestModificationSince(eq(material.getPluginId()),packageConfiguration.capture(),repositoryConfiguration.capture(),knownPackageRevision.capture())).thenReturn(null);
   List<Modification> modifications=poller.modificationsSince(material,null,knownRevision,null);
   assertThat(modifications,is(notNullValue()));

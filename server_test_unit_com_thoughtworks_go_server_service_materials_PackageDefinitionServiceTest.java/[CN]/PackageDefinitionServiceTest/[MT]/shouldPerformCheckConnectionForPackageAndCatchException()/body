@@ -8,8 +8,8 @@
   PackageDefinition packageDefinition=PackageDefinitionMother.create("1","name",configuration,packageRepository);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   PackageDefinitionService service=new PackageDefinitionService(packageAsRepositoryExtension,localizer);
-  ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration> packageConfigurationsCaptor=new ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>();
-  ArgumentCaptor<RepositoryConfiguration> packageRepositoryConfigurationsCaptor=new ArgumentCaptor<RepositoryConfiguration>();
+  ArgumentCaptor<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration> packageConfigurationsCaptor=ArgumentCaptor.forClass(com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.class);
+  ArgumentCaptor<RepositoryConfiguration> packageRepositoryConfigurationsCaptor=ArgumentCaptor.forClass(RepositoryConfiguration.class);
   when(packageAsRepositoryExtension.checkConnectionToPackage(eq(packageRepository.getPluginConfiguration().getId()),packageConfigurationsCaptor.capture(),packageRepositoryConfigurationsCaptor.capture())).thenThrow(new RuntimeException("Check connection for package not implemented!!"));
   service.checkConnection(packageDefinition,result);
   assertThat(result.isSuccessful(),Is.is(false));
