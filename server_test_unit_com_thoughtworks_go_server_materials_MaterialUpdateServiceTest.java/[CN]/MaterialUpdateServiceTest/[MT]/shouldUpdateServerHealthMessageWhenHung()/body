@@ -12,7 +12,7 @@
   when(processManager.getIdleTimeFor("fingerprint")).thenReturn(60010L);
   service.updateMaterial(material);
   verify(serverHealthService).removeByScope(HealthStateScope.forMaterialUpdate(material));
-  ArgumentCaptor<ServerHealthState> argumentCaptor=new ArgumentCaptor<ServerHealthState>();
+  ArgumentCaptor<ServerHealthState> argumentCaptor=ArgumentCaptor.forClass(ServerHealthState.class);
   verify(serverHealthService).update(argumentCaptor.capture());
   assertThat(argumentCaptor.getValue().getMessage(),is("Material update for uri hung:"));
   assertThat(argumentCaptor.getValue().getDescription(),is("Material update is currently running but has not shown any activity in the last 1 minute(s). This may be hung. Details - details to uniquely identify a material"));
