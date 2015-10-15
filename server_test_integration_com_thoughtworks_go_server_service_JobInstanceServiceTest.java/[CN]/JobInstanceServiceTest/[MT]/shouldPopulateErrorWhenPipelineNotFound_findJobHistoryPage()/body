@@ -1,7 +1,7 @@
 {
   when(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("pipeline"))).thenReturn(false);
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
-  when(securityService.hasViewPermissionForPipeline("looser","pipeline")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(Username.valueOf("looser"),"pipeline")).thenReturn(true);
   final JobInstanceService jobService=new JobInstanceService(jobInstanceDao,buildPropertiesService,topic,jobStatusCache,transactionTemplate,transactionSynchronizationManager,null,null,goConfigService,securityService,pluginManager);
   Pagination pagination=Pagination.pageStartingAt(1,1,1);
   HttpOperationResult result=new HttpOperationResult();
