@@ -1,3 +1,7 @@
 {
-  return hasViewPermissionForPipeline(CaseInsensitiveString.str(username.getUsername()),pipelineName);
+  String groupName=goConfigService.findGroupNameByPipeline(new CaseInsensitiveString(pipelineName));
+  if (groupName == null) {
+    return true;
+  }
+  return hasViewPermissionForGroup(CaseInsensitiveString.str(username.getUsername()),groupName);
 }

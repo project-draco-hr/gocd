@@ -4,11 +4,11 @@
   assertThat(securityService.hasViewPermissionForGroup(viewOnly,GROUP_NAME),is(true));
   assertThat(securityService.hasOperatePermissionForGroup(new CaseInsensitiveString(viewOnly),GROUP_NAME),is(false));
   assertThat(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString(viewOnly),PIPELINE_NAME),is(false));
-  assertThat(securityService.hasViewPermissionForPipeline(viewOnly,PIPELINE_NAME),is(true));
+  assertThat(securityService.hasViewPermissionForPipeline(Username.valueOf(viewOnly),PIPELINE_NAME),is(true));
   assertThat(securityService.hasOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,viewOnly),is(false));
   assertThat(securityService.hasViewPermissionForGroup(viewOnly,GROUP_NAME),is(true));
   assertThat(securityService.hasOperatePermissionForGroup(new CaseInsensitiveString(viewOnly),GROUP_NAME),is(false));
   assertThat(securityService.hasOperatePermissionForPipeline(new CaseInsensitiveString(viewOnly),PIPELINE_NAME),is(false));
-  assertThat(securityService.hasViewPermissionForPipeline(viewOnly,PIPELINE_NAME),is(true));
+  assertThat(securityService.hasViewPermissionForPipeline(Username.valueOf(viewOnly),PIPELINE_NAME),is(true));
   assertThat(securityService.hasOperatePermissionForStage(PIPELINE_NAME,STAGE_NAME,viewOnly),is(false));
 }
