@@ -1,7 +1,7 @@
 {
   return new Comparator<UserModel>(){
     public int compare(    UserModel one,    UserModel other){
-      return ((Boolean)one.isAdmin()).compareTo(other.isAdmin());
+      return STRING_COMPARATOR.compare(one.getUser().getMatchers(),other.getUser().getMatchers());
     }
   }
 ;

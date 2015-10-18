@@ -1,6 +1,6 @@
 {
   SecurityService securityService=mock(SecurityService.class);
-  when(securityService.hasViewPermissionForPipeline(CaseInsensitiveString.str(ALWAYS_ALLOW_USER.getUsername()),"pipeline_does_not_exist")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(ALWAYS_ALLOW_USER,"pipeline_does_not_exist")).thenReturn(true);
   TransactionSynchronizationManager transactionSynchronizationManager=mock(TransactionSynchronizationManager.class);
   StageService service=new StageService(stageDao,null,null,null,securityService,null,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();

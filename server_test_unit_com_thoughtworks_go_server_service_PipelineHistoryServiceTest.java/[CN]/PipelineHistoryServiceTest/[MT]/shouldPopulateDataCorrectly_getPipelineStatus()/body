@@ -4,7 +4,7 @@
   PipelinePauseInfo pipelinePauseInfo=new PipelinePauseInfo(true,"pausing pipeline for some-reason","some-one");
   when(cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("pipeline-name"))).thenReturn(pipelineConfig);
   when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
-  when(securityService.hasViewPermissionForPipeline("user-name","pipeline-name")).thenReturn(true);
+  when(securityService.hasViewPermissionForPipeline(Username.valueOf("user-name"),"pipeline-name")).thenReturn(true);
   when(pipelinePauseService.pipelinePauseInfo("pipeline-name")).thenReturn(pipelinePauseInfo);
   when(pipelineLockService.isLocked("pipeline-name")).thenReturn(true);
   when(schedulingCheckerService.canManuallyTrigger(eq(pipelineConfig),eq("user-name"),any(ServerHealthStateOperationResult.class))).thenReturn(true);
