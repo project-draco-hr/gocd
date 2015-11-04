@@ -1,6 +1,8 @@
 {
+  LOGGER.debug("Adding CCTray activity for job into queue: " + job);
   queue.add(new Action(){
     @Override public void call(){
+      LOGGER.debug("Handling CCTray activity for job: " + job);
       jobStatusChangeHandler.call(job);
     }
   }
