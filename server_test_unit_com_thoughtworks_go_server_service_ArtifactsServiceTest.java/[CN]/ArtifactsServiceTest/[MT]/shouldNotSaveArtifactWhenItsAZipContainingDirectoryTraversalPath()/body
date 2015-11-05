@@ -1,0 +1,10 @@
+{
+  final File logsDir=new File("logs");
+  final ByteArrayInputStream stream=new ByteArrayInputStream(FileUtils.readFileToByteArray(new File(getClass().getResource("/archive_traversal_attack.zip").toURI())));
+  String buildInstanceId="1";
+  final File destFile=new File(logsDir,buildInstanceId + File.separator + LOG_XML_NAME);
+  assumeArtifactsRoot(logsDir);
+  ArtifactsService artifactsService=new ArtifactsService(resolverService,stageService,artifactsDirHolder,new ZipUtil(),systemService);
+  boolean saved=artifactsService.saveFile(destFile,stream,true,1);
+  assertThat(saved,is(false));
+}
