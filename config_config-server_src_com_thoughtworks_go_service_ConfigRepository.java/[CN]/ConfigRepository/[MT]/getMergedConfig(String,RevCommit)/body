@@ -5,13 +5,13 @@
     result=git.merge().include(newCommit).call();
   }
  catch (  GitAPIException e) {
-    LOGGER.info(String.format("[CONFIG_MERGE] Merging commit %s by user %s to branch %s at revision %s failed",newCommit.getId().getName(),newCommit.getAuthorIdent().getName(),branchName,getCurrentRevCommit().getId().getName()));
+    LOGGER.info("[CONFIG_MERGE] Merging commit {} by user {} to branch {} at revision {} failed",newCommit.getId().getName(),newCommit.getAuthorIdent().getName(),branchName,getCurrentRevCommit().getId().getName());
     throw e;
   }
   if (!result.getMergeStatus().isSuccessful()) {
-    LOGGER.info(String.format("[CONFIG_MERGE] Merging commit %s by user %s to branch %s at revision %s failed as config file has changed",newCommit.getId().getName(),newCommit.getAuthorIdent().getName(),branchName,getCurrentRevCommit().getId().getName()));
+    LOGGER.info("[CONFIG_MERGE] Merging commit {} by user {} to branch {} at revision {} failed as config file has changed",newCommit.getId().getName(),newCommit.getAuthorIdent().getName(),branchName,getCurrentRevCommit().getId().getName());
     throw new ConfigFileHasChangedException();
   }
-  LOGGER.info(String.format("[CONFIG_MERGE] Successfully merged commit %s by user %s to branch %s. Merge commit revision is %s",newCommit.getId().getName(),newCommit.getAuthorIdent().getName(),branchName,getCurrentRevCommit().getId().getName()));
+  LOGGER.info("[CONFIG_MERGE] Successfully merged commit {} by user {} to branch {}. Merge commit revision is {}",newCommit.getId().getName(),newCommit.getAuthorIdent().getName(),branchName,getCurrentRevCommit().getId().getName());
   return FileUtils.readFileToString(new File(workingDir,CRUISE_CONFIG_XML));
 }

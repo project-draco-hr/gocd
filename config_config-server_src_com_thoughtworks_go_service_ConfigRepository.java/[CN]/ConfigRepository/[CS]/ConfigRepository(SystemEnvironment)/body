@@ -1,6 +1,7 @@
 {
-  workingDir=systemEnvironment.getConfigRepoDir();
+  this.systemEnvironment=systemEnvironment;
+  workingDir=this.systemEnvironment.getConfigRepoDir();
   File configRepoDir=new File(workingDir,".git");
-  gitRepo=new FileRepository(configRepoDir);
+  gitRepo=new FileRepositoryBuilder().setGitDir(configRepoDir).build();
   git=new Git(gitRepo);
 }
