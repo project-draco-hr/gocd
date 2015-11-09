@@ -11,7 +11,7 @@
   Material[] materials=new Material[]{material1,material2};
   when(materialConfigConverter.toMaterial(materialConfig1)).thenReturn(material1);
   when(materialConfigConverter.toMaterial(materialConfig2)).thenReturn(material2);
-  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(new HashMap<String,String>(),new HashMap<String,String>(),new HashMap<String,String>()),new ServerHealthStateOperationResult());
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig.name(),new ScheduleOptions(new HashMap<String,String>(),new HashMap<String,String>(),new HashMap<String,String>()),new ServerHealthStateOperationResult());
   verify(mockMaterialUpdateService,times(1)).updateMaterial(any(Material.class));
   MaterialUpdateStatusListener statusListener=extractMaterialListenerInstanceFromRegisterCall();
   statusListener.onMaterialUpdate(new MaterialUpdateFailedMessage(materials[0],0,new Exception("Cannot connect to repo")));

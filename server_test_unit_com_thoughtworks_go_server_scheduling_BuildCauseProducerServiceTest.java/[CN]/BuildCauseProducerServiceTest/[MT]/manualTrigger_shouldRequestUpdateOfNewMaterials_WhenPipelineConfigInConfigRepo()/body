@@ -7,7 +7,7 @@
   pipelineConfig.setOrigin(new RepoConfigOrigin(new ConfigRepoConfig(materialConfig1,"plug"),"revision1"));
   when(materialConfigConverter.toMaterial(materialConfig1)).thenReturn(material1);
   when(materialConfigConverter.toMaterial(materialConfig2)).thenReturn(material2);
-  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(new HashMap<String,String>(),new HashMap<String,String>(),new HashMap<String,String>()),new ServerHealthStateOperationResult());
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig.name(),new ScheduleOptions(new HashMap<String,String>(),new HashMap<String,String>(),new HashMap<String,String>()),new ServerHealthStateOperationResult());
   verify(goConfigService,times(1)).pipelineConfigNamed(pipelineConfig.name());
   PipelineConfig pipelineConfig1=new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs());
   pipelineConfig1.addMaterialConfig(materialConfig1);

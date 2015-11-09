@@ -4,6 +4,6 @@
   OperationResult operationResult=mock(OperationResult.class);
   final HashMap<String,String> revisions=new HashMap<String,String>();
   scheduler.manualProduceBuildCauseAndSave("blahPipeline",Username.ANONYMOUS,new ScheduleOptions(revisions,Collections.singletonMap("blahVariable","blahValue"),new HashMap<String,String>()),operationResult);
-  verify(buildCauseProducerService,new NoMoreInteractions()).manualSchedulePipeline(any(Username.class),any(String.class),any(ScheduleOptions.class),any(OperationResult.class));
+  verify(buildCauseProducerService,new NoMoreInteractions()).manualSchedulePipeline(any(Username.class),any(CaseInsensitiveString.class),any(ScheduleOptions.class),any(OperationResult.class));
   verify(operationResult).notFound("Variable 'blahVariable' has not been configured for pipeline 'blahPipeline'","Variable 'blahVariable' has not been configured for pipeline 'blahPipeline'",HealthStateType.general(HealthStateScope.forPipeline("blahPipeline")));
 }

@@ -3,7 +3,7 @@
   HgMaterial hgMaterial=new HgMaterial("url",null);
   pipelineConfig.addMaterialConfig(hgMaterialConfig);
   when(materialConfigConverter.toMaterial(hgMaterialConfig)).thenReturn(hgMaterial);
-  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),new ServerHealthStateOperationResult());
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig.name(),new ScheduleOptions(),new ServerHealthStateOperationResult());
   sendMaterialUpdateFailedMessage(extractMaterialListenerInstanceFromRegisterCall(),hgMaterial);
   assertThat(triggerMonitor.isAlreadyTriggered(CaseInsensitiveString.str(pipelineConfig.name())),is(false));
 }

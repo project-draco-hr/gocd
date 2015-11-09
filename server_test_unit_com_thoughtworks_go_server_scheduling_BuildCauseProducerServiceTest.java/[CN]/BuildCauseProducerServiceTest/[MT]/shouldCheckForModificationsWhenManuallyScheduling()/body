@@ -8,7 +8,7 @@
   when(materialConfigConverter.toMaterial(hgMaterialConfig)).thenReturn(hgMaterial);
   when(materialConfigConverter.toMaterial(svnMaterialConfig)).thenReturn(svnMaterial);
   ServerHealthStateOperationResult result=new ServerHealthStateOperationResult();
-  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),result);
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig.name(),new ScheduleOptions(),result);
   assertThat(result.getServerHealthState().isSuccess(),is(true));
   verify(mockMaterialUpdateService,times(2)).updateMaterial(any(Material.class));
   verify(mockMaterialUpdateStatusNotifier).registerListenerFor(eq(pipelineConfig),any(MaterialUpdateStatusListener.class));

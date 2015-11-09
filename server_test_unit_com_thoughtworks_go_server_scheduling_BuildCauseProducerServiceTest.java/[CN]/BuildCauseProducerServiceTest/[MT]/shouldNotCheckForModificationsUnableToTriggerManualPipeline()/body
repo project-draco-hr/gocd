@@ -1,5 +1,5 @@
 {
-  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),errorResult());
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig.name(),new ScheduleOptions(),errorResult());
   verify(mockMaterialUpdateService,never()).updateMaterial(any(Material.class));
   verify(mockMaterialUpdateStatusNotifier,never()).registerListenerFor(eq(pipelineConfig),any(MaterialUpdateStatusListener.class));
 }

@@ -1,6 +1,6 @@
 {
   when(mockMaterialUpdateStatusNotifier.hasListenerFor(pipelineConfig)).thenReturn(false);
   when(operationResult.canContinue()).thenReturn(true);
-  buildCauseProducerService.manualSchedulePipeline(Username.BLANK,CaseInsensitiveString.str(pipelineConfig.name()),new ScheduleOptions(),operationResult);
+  buildCauseProducerService.manualSchedulePipeline(Username.BLANK,pipelineConfig.name(),new ScheduleOptions(),operationResult);
   verify(operationResult).accepted(eq("Request to schedule pipeline pipeline accepted"),any(String.class),any(HealthStateType.class));
 }
