@@ -1,0 +1,6 @@
+{
+  MaterialUpdateFailedMessage message=new MaterialUpdateFailedMessage(material,123,new RuntimeException("bla"));
+  this.configUpdater.onMessage(message);
+  verify(repoConfigDataSource,times(0)).onCheckoutComplete(material.config(),folder,"1");
+  verify(topic,times(1)).post(message);
+}

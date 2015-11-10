@@ -1,0 +1,10 @@
+{
+  GoConfigMother mother=new GoConfigMother();
+  PipelineConfig pipelineConfig=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
+  configTestRepo.addPipelineToRepositoryAndPush("pipe1.gocd.xml",pipelineConfig);
+  materialUpdateService.updateMaterial(material);
+  waitForMaterialNotInProgress();
+  File flyweightDir=materialRepository.folderFor(material);
+  Assert.assertThat(flyweightDir.exists(),is(true));
+  Assert.assertThat(new File(flyweightDir,"pipe1.gocd.xml").exists(),is(true));
+}

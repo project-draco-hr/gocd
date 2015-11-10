@@ -1,0 +1,8 @@
+{
+  int i=0;
+  while (goRepoConfigDataSource.getRevisionAtLastAttempt(materialConfig) == null) {
+    if (!materialUpdateService.isInProgress(material))     Assert.fail("should be still in progress");
+    Thread.sleep(1);
+    if (i++ > 10000)     fail("material is hung - more than 10 seconds in progress");
+  }
+}

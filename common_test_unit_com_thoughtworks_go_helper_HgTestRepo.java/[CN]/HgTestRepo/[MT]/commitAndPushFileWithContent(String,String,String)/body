@@ -1,0 +1,7 @@
+{
+  File baseDir=prepareWorkDirectory();
+  HgMaterial material=updateTo(baseDir);
+  File file=new File(baseDir,fileName);
+  FileUtils.writeStringToFile(file,content);
+  return addCommitPush(material,comment,baseDir,file);
+}

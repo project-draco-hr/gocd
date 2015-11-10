@@ -6,7 +6,7 @@
   when(goConfigService.getSchedulableMaterials()).thenReturn(materialConfigs);
   when(materialConfigConverter.toMaterials(materialConfigs)).thenReturn(materials);
   systemEnvironment.setProperty(SystemEnvironment.MATERIAL_UPDATE_IDLE_INTERVAL_PROPERTY,"100000");
-  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  service=initializeMaterialUpdateService();
   service=spy(service);
   service.onTimer();
   service.onTimer();

@@ -7,7 +7,7 @@
       plugin=this.configPluginService.partialConfigProviderFor(repoConfig);
     }
  catch (    Exception ex) {
-      fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(ex));
+      fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(revision,ex));
       LOGGER.error(String.format("Failed to get config plugin for %s",material.getDisplayName()));
       notifyFailureListeners(repoConfig,ex);
       return;
@@ -20,11 +20,11 @@
         newPart=new PartialConfig();
       }
       newPart.setOrigins(new RepoConfigOrigin(repoConfig,revision));
-      fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(newPart));
+      fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(revision,newPart));
       notifySuccessListeners(repoConfig,newPart);
     }
  catch (    Exception ex) {
-      fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(ex));
+      fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(revision,ex));
       LOGGER.error(String.format("Failed to parse configuration material %s by %s",material.getDisplayName(),plugin));
       notifyFailureListeners(repoConfig,ex);
     }

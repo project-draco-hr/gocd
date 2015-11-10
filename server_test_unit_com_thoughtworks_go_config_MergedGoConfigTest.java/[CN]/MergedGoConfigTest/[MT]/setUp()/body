@@ -11,8 +11,7 @@
   plugin=mock(PartialConfigProvider.class);
   when(configPluginService.partialConfigProviderFor(any(ConfigRepoConfig.class))).thenReturn(plugin);
   configWatchList=new GoConfigWatchList(cachedFileGoConfig);
-  checkoutService=mock(ScmMaterialCheckoutService.class);
-  repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,configPluginService,checkoutService);
+  repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,configPluginService);
   partials=new GoPartialConfig(repoConfigDataSource,configWatchList);
   cachedGoConfig=new MergedGoConfig(serverHealthService,cachedFileGoConfig,partials);
   configHelper.usingCruiseConfigDao(new GoConfigDao(cachedFileGoConfig,metricsProbeService));

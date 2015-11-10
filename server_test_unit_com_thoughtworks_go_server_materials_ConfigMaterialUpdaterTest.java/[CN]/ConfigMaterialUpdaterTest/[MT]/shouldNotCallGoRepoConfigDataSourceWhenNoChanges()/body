@@ -1,0 +1,8 @@
+{
+  when(repoConfigDataSource.getRevisionAtLastAttempt(material.config())).thenReturn("1");
+  when(materialChecker.findSpecificRevision(material,"1")).thenReturn(mods.getMaterialRevision(0));
+  MaterialUpdateSuccessfulMessage message=new MaterialUpdateSuccessfulMessage(material,123);
+  this.configUpdater.onMessage(message);
+  verify(repoConfigDataSource,times(0)).onCheckoutComplete(material.config(),folder,"1");
+  verify(topic,times(1)).post(message);
+}

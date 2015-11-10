@@ -1,0 +1,12 @@
+{
+  String fileName="pipe1.gocd.xml";
+  GoConfigMother mother=new GoConfigMother();
+  PipelineConfig pipelineConfig=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
+  configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
+  materialUpdateService.updateMaterial(material);
+  Assert.assertThat(materialUpdateService.isInProgress(material),is(true));
+  waitForMaterialNotInProgress();
+  mergedGoConfig.forceReload();
+  assertThat(goConfigService.hasPipelineNamed(pipelineConfig.name()),is(true));
+  assertThat(goConfigService.pipelineConfigNamed(pipelineConfig.name()),is(pipelineConfig));
+}

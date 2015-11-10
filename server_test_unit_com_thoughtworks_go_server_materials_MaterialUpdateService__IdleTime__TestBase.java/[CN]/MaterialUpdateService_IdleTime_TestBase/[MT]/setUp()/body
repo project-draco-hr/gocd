@@ -7,7 +7,9 @@
   systemEnvironment=new SystemEnvironment();
   materialConfigConverter=mock(MaterialConfigConverter.class);
   mduPerformanceLogger=mock(MDUPerformanceLogger.class);
-  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  configQueue=mock(ConfigMaterialUpdateQueue.class);
+  watchList=mock(GoConfigWatchList.class);
+  service=initializeMaterialUpdateService();
   Set<MaterialConfig> schedulableMaterialConfigs=new HashSet<MaterialConfig>(Collections.singleton(material().config()));
   when(goConfigService.getSchedulableMaterials()).thenReturn(schedulableMaterialConfigs);
   when(materialConfigConverter.toMaterials(schedulableMaterialConfigs)).thenReturn(new HashSet<Material>(Collections.singleton(material())));

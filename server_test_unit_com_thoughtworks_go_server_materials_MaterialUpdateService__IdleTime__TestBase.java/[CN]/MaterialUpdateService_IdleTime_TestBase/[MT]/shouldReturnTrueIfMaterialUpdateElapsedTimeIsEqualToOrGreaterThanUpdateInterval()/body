@@ -1,6 +1,6 @@
 {
   systemEnvironment.setProperty(SystemEnvironment.MATERIAL_UPDATE_IDLE_INTERVAL_PROPERTY,"2000");
-  service=new MaterialUpdateService(queue,completed,goConfigService,systemEnvironment,serverHealthService,postCommitHookMaterialType,mduPerformanceLogger,materialConfigConverter);
+  service=initializeMaterialUpdateService();
   Map<Material,Long> materialLastUpdateTimeMap=(Map<Material,Long>)ReflectionUtil.getField(service,"materialLastUpdateTimeMap");
   materialLastUpdateTimeMap.put(material(),System.currentTimeMillis() - 10000);
   assertThat(service.hasUpdateIntervalElapsedForScmMaterial(material()),is(true));

@@ -6,7 +6,8 @@
     }
     try {
       long trackingId=mduPerformanceLogger.materialSentToUpdateQueue(material);
-      updateQueue.post(new MaterialUpdateMessage(material,trackingId));
+      if (isConfigMaterial(material))       configUpdateQueue.post(new MaterialUpdateMessage(material,trackingId));
+ else       updateQueue.post(new MaterialUpdateMessage(material,trackingId));
     }
  catch (    RuntimeException e) {
       inProgress.remove(material);
