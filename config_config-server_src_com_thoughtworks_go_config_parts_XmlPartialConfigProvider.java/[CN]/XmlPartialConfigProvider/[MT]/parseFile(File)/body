@@ -1,6 +1,7 @@
 {
+  FileInputStream inputStream=null;
   try {
-    final FileInputStream inputStream=new FileInputStream(file);
+    inputStream=new FileInputStream(file);
     return loader.fromXmlPartial(inputStream,PartialConfig.class);
   }
  catch (  JDOMParseException jdomex) {
@@ -11,5 +12,15 @@ catch (  IOException ioex) {
   }
 catch (  Exception ex) {
     throw new RuntimeException("Failed to parse xml file in configuration repository",ex);
+  }
+ finally {
+    if (inputStream != null) {
+      try {
+        inputStream.close();
+      }
+ catch (      IOException e) {
+        LOGGER.error("Failed to close file: " + file,e);
+      }
+    }
   }
 }
