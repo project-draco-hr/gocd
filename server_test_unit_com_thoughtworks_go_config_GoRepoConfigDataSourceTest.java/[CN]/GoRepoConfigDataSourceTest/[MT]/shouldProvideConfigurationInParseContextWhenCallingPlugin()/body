@@ -1,0 +1,10 @@
+{
+  ScmMaterialConfig material=new GitMaterialConfig("http://my.git");
+  ConfigRepoConfig repoConfig=new ConfigRepoConfig(material,"myplugin");
+  cruiseConfig.setConfigRepos(new ConfigReposConfig(repoConfig));
+  configWatchList.onConfigChange(cruiseConfig);
+  repoConfig.getConfiguration().addNewConfigurationWithValue("key","value",false);
+  plugin=new AssertingConfigPlugin(repoConfig.getConfiguration());
+  when(configPluginService.partialConfigProviderFor(any(ConfigRepoConfig.class))).thenReturn(plugin);
+  repoConfigDataSource.onCheckoutComplete(material,folder,"7a8f");
+}

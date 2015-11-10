@@ -1,0 +1,8 @@
+{
+  File[] allFiles=getFiles(configRepoCheckoutDirectory,context);
+  PartialConfig[] allFragments=ParseFiles(allFiles);
+  PartialConfig partialConfig=new PartialConfig();
+  CollectFragments(allFragments,partialConfig);
+  partialConfig.validatePart();
+  return partialConfig;
+}

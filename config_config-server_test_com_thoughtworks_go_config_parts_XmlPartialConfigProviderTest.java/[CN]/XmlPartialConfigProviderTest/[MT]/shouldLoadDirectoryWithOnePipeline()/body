@@ -1,0 +1,8 @@
+{
+  GoConfigMother mother=new GoConfigMother();
+  PipelineConfig pipe1=mother.cruiseConfigWithOnePipelineGroup().getAllPipelineConfigs().get(0);
+  helper.addFileWithPipeline("pipe1.gocd.xml",pipe1);
+  PartialConfig part=xmlPartialProvider.load(tmpFolder,mock(PartialConfigLoadContext.class));
+  PipelineConfig pipeRead=part.getGroups().get(0).get(0);
+  assertThat(pipeRead,is(pipe1));
+}

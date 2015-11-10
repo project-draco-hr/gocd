@@ -1,0 +1,12 @@
+{
+  for (  PartialConfig frag : allFragments) {
+    for (    PipelineConfigs pipesInGroup : frag.getGroups()) {
+      for (      PipelineConfig pipe : pipesInGroup) {
+        partialConfig.getGroups().addPipeline(pipesInGroup.getGroup(),pipe);
+      }
+    }
+    for (    EnvironmentConfig env : frag.getEnvironments()) {
+      partialConfig.getEnvironments().add(env);
+    }
+  }
+}

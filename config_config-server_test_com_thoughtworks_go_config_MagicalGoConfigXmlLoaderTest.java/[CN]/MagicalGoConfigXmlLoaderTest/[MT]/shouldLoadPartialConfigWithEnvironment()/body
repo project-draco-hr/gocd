@@ -1,0 +1,23 @@
+{
+  String partialConfigWithPipeline="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<environments>"+ "  <environment name='uat'>"+ "    <agents>"+ "      <physical uuid='1'/>"+ "      <physical uuid='2'/>"+ "    </agents>"+ "  </environment>"+ "  <environment name='prod'>"+ "    <agents>"+ "      <physical uuid='2'/>"+ "    </agents>"+ "  </environment>"+ "</environments>"+ "</cruise>\n";
+  PartialConfig partialConfig=xmlLoader.fromXmlPartial(toInputStream(partialConfigWithPipeline),PartialConfig.class);
+  EnvironmentsConfig environmentsConfig=partialConfig.getEnvironments();
+  assertThat(environmentsConfig.size(),is(2));
+  EnvironmentPipelineMatchers matchers=environmentsConfig.matchers();
+  assertThat(matchers.size(),is(2));
+  ArrayList<String> uat_uuids=new ArrayList<String>(){
+{
+      add("1");
+      add("2");
+    }
+  }
+;
+  ArrayList<String> prod_uuids=new ArrayList<String>(){
+{
+      add("2");
+    }
+  }
+;
+  assertThat(matchers,hasItem(new EnvironmentPipelineMatcher(new CaseInsensitiveString("uat"),uat_uuids,new EnvironmentPipelinesConfig())));
+  assertThat(matchers,hasItem(new EnvironmentPipelineMatcher(new CaseInsensitiveString("prod"),prod_uuids,new EnvironmentPipelinesConfig())));
+}
