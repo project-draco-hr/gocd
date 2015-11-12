@@ -1,0 +1,8 @@
+{
+  validate(validationContext);
+  boolean isValid=errors().isEmpty();
+  for (  Tab tab : this) {
+    isValid=tab.validateTree(validationContext) && isValid;
+  }
+  return isValid;
+}

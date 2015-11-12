@@ -1,0 +1,13 @@
+{
+  String upstreamPipeline="upstream";
+  String upstreamStage="non-existant";
+  PipelineConfig upstream=GoConfigMother.createPipelineConfigWithMaterialConfig(upstreamPipeline,new GitMaterialConfig("url"));
+  PipelineConfig pipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig("downstream",new DependencyMaterialConfig(new CaseInsensitiveString(upstreamPipeline),new CaseInsensitiveString(upstreamStage)));
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(pipelineConfig,upstream));
+  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  boolean isValid=pipelineConfig.validateTree(PipelineConfigSaveValidationContext.forChain(true,cruiseConfig.getGroups().first().getGroup(),cruiseConfig,pipelineConfig));
+  assertThat(isValid,is(false));
+  ConfigErrors materialErrors=pipelineConfig.materialConfigs().first().errors();
+  assertThat(materialErrors.isEmpty(),is(false));
+  assertThat(materialErrors.firstError(),is("Stage with name 'non-existant' does not exist on pipeline 'upstream'"));
+}

@@ -2,7 +2,7 @@
   if (isBlank(name)) {
     errors().add(NAME,"Package name is mandatory");
   }
- else   if (!new NameTypeValidator().isNameValid(name)) {
+ else   if (new NameTypeValidator().isNameInvalid(name)) {
     errors().add(NAME,NameTypeValidator.errorMessage("Package",name));
   }
   configuration.validateUniqueness(String.format("Package '%s'",name));

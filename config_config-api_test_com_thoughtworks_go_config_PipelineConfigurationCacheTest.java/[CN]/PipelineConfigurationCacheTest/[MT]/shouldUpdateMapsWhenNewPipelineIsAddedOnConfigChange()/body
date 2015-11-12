@@ -1,0 +1,12 @@
+{
+  GitMaterialConfig git=new GitMaterialConfig("url");
+  PipelineConfig p4=new PipelineConfig(new CaseInsensitiveString("P4"),new MaterialConfigs(git));
+  assertThat(configCache.getPipelineConfig("P4"),is(nullValue()));
+  assertThat(configCache.getMatchingMaterialsFromConfig(git.getFingerprint()),is(Matchers.nullValue()));
+  cruiseConfig.addPipeline("g2",p4);
+  configCache.onConfigChange(cruiseConfig);
+  assertThat(configCache.getPipelineConfig("P4"),is(p4));
+  MaterialConfigs matchingMaterialsFromConfig=configCache.getMatchingMaterialsFromConfig(git.getFingerprint());
+  assertThat(matchingMaterialsFromConfig.size(),is(1));
+  assertThat(matchingMaterialsFromConfig.contains(git),is(true));
+}

@@ -1,0 +1,13 @@
+{
+  JobConfig job=createJobConfigWithResourceAndArtifactPlans();
+  addTask(job);
+  job.setTimeout("100");
+  job.setRunInstanceCount(3);
+  job.artifactPlans().clear();
+  job.artifactPlans().add(new ArtifactPlan("target/dist.jar","pkg"));
+  job.artifactPlans().add(new TestArtifactPlan("target/reports/**/*Test.xml","reports"));
+  job.addTab("coverage","Jcoverage/index.html");
+  job.addTab("something","something/path.html");
+  job.getProperties().add(new ArtifactPropertiesGenerator("coverage.class","target/emma/coverage.xml","substring-before(//report/data/all/coverage[starts-with(@type,'class')]/@value, '%')"));
+  return job;
+}

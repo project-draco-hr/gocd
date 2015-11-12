@@ -1,0 +1,8 @@
+{
+  Filter filter=new Filter(new IgnoredFiles("**/*.html"),new IgnoredFiles("**/foobar/"));
+  TfsMaterialConfig tfsMaterialConfig=new TfsMaterialConfig(new GoCipher(),new UrlArgument("http://10.4.4.101:8080/tfs/Sample"),"loser","some_domain","passwd","walk_this_path");
+  tfsMaterialConfig.setFilter(filter);
+  tfsMaterialConfig.setName(new CaseInsensitiveString("tfs-material"));
+  tfsMaterialConfig.setFolder("dest-folder");
+  return tfsMaterialConfig;
+}

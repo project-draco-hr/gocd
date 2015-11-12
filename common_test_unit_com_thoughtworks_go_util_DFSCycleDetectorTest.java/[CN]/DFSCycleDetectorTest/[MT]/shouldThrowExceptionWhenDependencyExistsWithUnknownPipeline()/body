@@ -1,8 +1,11 @@
 {
-  createNode(new CaseInsensitiveString("a"),new CaseInsensitiveString("b"));
-  createNode(new CaseInsensitiveString("b"),new CaseInsensitiveString("z"));
+  when(state.getDependencyMaterials(new CaseInsensitiveString("a"))).thenReturn(new Node(new Node.DependencyNode(new CaseInsensitiveString("b"),new CaseInsensitiveString("stage"))));
+  when(state.getDependencyMaterials(new CaseInsensitiveString("b"))).thenReturn(new Node(new Node.DependencyNode(new CaseInsensitiveString("z"),new CaseInsensitiveString("stage"))));
+  when(state.hasPipeline(new CaseInsensitiveString("a"))).thenReturn(true);
+  when(state.hasPipeline(new CaseInsensitiveString("b"))).thenReturn(true);
+  when(state.hasPipeline(new CaseInsensitiveString("z"))).thenReturn(false);
   try {
-    project.topoSort(new CaseInsensitiveString("a"),hashtable);
+    project.topoSort(new CaseInsensitiveString("a"),state);
   }
  catch (  Exception e) {
     assertThat(e.getMessage(),is("Pipeline \"z\" does not exist. It is used from pipeline \"b\"."));

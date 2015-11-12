@@ -1,0 +1,6 @@
+{
+  when(goCache.get("GO_PIPELINE_CONFIGS_ETAGS_CACHE","p")).thenReturn(new Object());
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("p"),new MaterialConfigs());
+  pipelineConfigService.onPipelineConfigChange(pipelineConfig,"grp");
+  verify(goCache).remove("GO_PIPELINE_CONFIGS_ETAGS_CACHE","p");
+}

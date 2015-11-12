@@ -1,0 +1,13 @@
+{
+  GoConfigHolder goConfigHolderBeforeUpdate=goConfigDao.loadConfigHolder();
+  pipelineConfig.add(new StageConfig(new CaseInsensitiveString("additional_stage"),new JobConfigs(new JobConfig(new CaseInsensitiveString("addtn_job")))));
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
+  assertThat(result.toString(),result.isSuccessful(),is(true));
+  assertThat(goConfigDao.loadConfigHolder(),is(not(goConfigHolderBeforeUpdate)));
+  StageConfig newlyAddedStage=goConfigDao.loadForEditing().getPipelineConfigByName(pipelineConfig.name()).getStage(new CaseInsensitiveString("additional_stage"));
+  assertThat(newlyAddedStage,is(not(nullValue())));
+  assertThat(newlyAddedStage.getJobs().isEmpty(),is(false));
+  assertThat(newlyAddedStage.getJobs().first().name().toString(),is("addtn_job"));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(not(headCommitBeforeUpdate)));
+  assertThat(configRepository.getCurrentRevision().getUsername(),is(user.getDisplayName()));
+}

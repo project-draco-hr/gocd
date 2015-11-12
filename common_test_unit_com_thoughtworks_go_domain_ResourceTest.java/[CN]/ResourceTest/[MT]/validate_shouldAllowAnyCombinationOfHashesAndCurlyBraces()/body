@@ -1,6 +1,6 @@
 {
   Resource resource=resource("}#PARAMS{");
-  ValidationContext context=ValidationContext.forChain(new BasicCruiseConfig(),new TemplatesConfig());
+  ValidationContext context=ConfigSaveValidationContext.forChain(new BasicCruiseConfig(),new TemplatesConfig());
   resource.validate(context);
   assertThat(resource.errors().isEmpty(),is(true));
 }

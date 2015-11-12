@@ -14,7 +14,7 @@
       CruiseConfig forEdit=new BasicCruiseConfig((BasicCruiseConfig)basicForEdit,partials);
       newConfigHolder=new GoConfigHolder(merge,forEdit);
     }
-    this.saveValidConfigToCache(newConfigHolder);
+    this.saveValidConfigToCacheAndNotifyConfigChangeListeners(newConfigHolder);
   }
  catch (  Exception e) {
     LOGGER.error(String.format("Failed validation of merged configuration: %s",e));

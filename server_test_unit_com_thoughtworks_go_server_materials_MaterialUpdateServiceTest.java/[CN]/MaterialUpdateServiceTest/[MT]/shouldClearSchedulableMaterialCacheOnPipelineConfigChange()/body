@@ -1,0 +1,10 @@
+{
+  when(serverHealthService.getAllLogs()).thenReturn(new ServerHealthStates());
+  when(goConfigService.getCurrentConfig()).thenReturn(mock(CruiseConfig.class));
+  service.onTimer();
+  PipelineConfig pipelineConfig=mock(PipelineConfig.class);
+  when(pipelineConfig.materialConfigs()).thenReturn(new MaterialConfigs(new GitMaterialConfig("url")));
+  service.onPipelineConfigChange(pipelineConfig,"g1");
+  service.onTimer();
+  verify(goConfigService,times(2)).getSchedulableMaterials();
+}

@@ -1,0 +1,13 @@
+{
+  List<StageConfig> validStages=currentPipeline.validStagesForFetchArtifact(currentPipeline,validationContext.getStage().name());
+  StageConfig matchingStage=ListUtil.find(validStages,new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      StageConfig valid=(StageConfig)item;
+      return valid.name().equals(stage);
+    }
+  }
+);
+  if (matchingStage == null) {
+    addError(STAGE,String.format("\"%s :: %s :: %s\" tries to fetch artifact from its stage \"%s\" which does not complete before the current stage \"%s\".",currentPipeline.name(),validationContext.getStage().name(),validationContext.getJob().name(),stage,validationContext.getStage().name()));
+  }
+}

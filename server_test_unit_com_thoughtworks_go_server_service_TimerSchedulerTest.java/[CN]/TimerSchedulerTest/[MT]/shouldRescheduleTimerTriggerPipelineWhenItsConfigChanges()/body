@@ -1,0 +1,23 @@
+{
+  when(schedulerFactory.getScheduler()).thenReturn(scheduler);
+  String pipelineName="timer-based-pipeline";
+  when(scheduler.getJobDetail(pipelineName,TimerScheduler.QUARTZ_GROUP)).thenReturn(mock(JobDetail.class));
+  GoConfigService goConfigService=mock(GoConfigService.class);
+  TimerScheduler timerScheduler=new TimerScheduler(schedulerFactory,goConfigService,null,null);
+  timerScheduler.initialize();
+  PipelineConfig pipelineConfig=mock(PipelineConfig.class);
+  when(pipelineConfig.name()).thenReturn(new CaseInsensitiveString(pipelineName));
+  when(pipelineConfig.getTimer()).thenReturn(new TimerConfig("* * * * * ?",true));
+  ArgumentCaptor<JobDetail> jobDetailArgumentCaptor=ArgumentCaptor.forClass(JobDetail.class);
+  ArgumentCaptor<CronTrigger> triggerArgumentCaptor=ArgumentCaptor.forClass(CronTrigger.class);
+  when(scheduler.scheduleJob(jobDetailArgumentCaptor.capture(),triggerArgumentCaptor.capture())).thenReturn(new Date());
+  timerScheduler.onPipelineConfigChange(pipelineConfig,"g1");
+  assertThat(jobDetailArgumentCaptor.getValue().getName(),is(pipelineName));
+  assertThat(triggerArgumentCaptor.getValue().getCronExpression(),is("* * * * * ?"));
+  verify(schedulerFactory).getScheduler();
+  verify(scheduler).start();
+  verify(scheduler).getJobDetail(pipelineName,TimerScheduler.QUARTZ_GROUP);
+  verify(scheduler).unscheduleJob(pipelineName,TimerScheduler.QUARTZ_GROUP);
+  verify(scheduler).deleteJob(pipelineName,TimerScheduler.QUARTZ_GROUP);
+  verify(scheduler).scheduleJob(jobDetailArgumentCaptor.getValue(),triggerArgumentCaptor.getValue());
+}

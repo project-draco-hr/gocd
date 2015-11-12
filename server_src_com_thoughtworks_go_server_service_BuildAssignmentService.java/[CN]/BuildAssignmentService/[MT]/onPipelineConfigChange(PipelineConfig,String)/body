@@ -1,0 +1,26 @@
+{
+  LOGGER.info(String.format("[Configuration Changed] Removing deleted jobs for pipeline %s.",pipelineConfig.name()));
+synchronized (this) {
+    List<JobPlan> jobsToRemove=new ArrayList<JobPlan>();
+    for (    JobPlan jobPlan : jobPlans) {
+      if (pipelineConfig.name().equals(new CaseInsensitiveString(jobPlan.getPipelineName()))) {
+        StageConfig stageConfig=pipelineConfig.findBy(new CaseInsensitiveString(jobPlan.getStageName()));
+        if (stageConfig != null) {
+          JobConfig jobConfig=stageConfig.jobConfigByConfigName(new CaseInsensitiveString(jobPlan.getName()));
+          if (jobConfig == null) {
+            jobsToRemove.add(jobPlan);
+          }
+        }
+ else {
+          jobsToRemove.add(jobPlan);
+        }
+      }
+    }
+    forAllDo(jobsToRemove,new Closure(){
+      @Override public void execute(      Object o){
+        removeJob((JobPlan)o);
+      }
+    }
+);
+  }
+}

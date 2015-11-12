@@ -1,0 +1,11 @@
+{
+  GoConfigHolder goConfigHolderBeforeUpdate=goConfigDao.loadConfigHolder();
+  pipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new GitMaterialConfig("FOO"));
+  pipelineConfigService.createPipelineConfig(user,pipelineConfig,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(true));
+  assertThat(goConfigDao.loadConfigHolder(),is(not(goConfigHolderBeforeUpdate)));
+  PipelineConfig savedPipelineConfig=goConfigDao.loadForEditing().getPipelineConfigByName(pipelineConfig.name());
+  assertThat(savedPipelineConfig,is(pipelineConfig));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(not(headCommitBeforeUpdate)));
+  assertThat(configRepository.getCurrentRevision().getUsername(),is(user.getDisplayName()));
+}

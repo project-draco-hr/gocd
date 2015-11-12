@@ -1,0 +1,7 @@
+{
+  if (validationContext.isPipelineBeingCreated()) {
+    validationContext.getGroups().validatePipelineNameUniqueness();
+    PipelineConfigs group=validationContext.getPipelineGroup();
+    group.validateGroupNameAndAddErrorsTo(pipelineConfig.errors());
+  }
+}

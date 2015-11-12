@@ -3,6 +3,6 @@
   PipelineConfigs pipelinesConfig=new BasicPipelineConfigs("group",new Authorization(),new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs(),stage));
   CruiseConfig config=new BasicCruiseConfig(pipelinesConfig);
   config.server().security().addRole(new Role(new CaseInsensitiveString("role1")));
-  pipelinesConfig.validate(ValidationContext.forChain(config));
+  pipelinesConfig.validate(ConfigSaveValidationContext.forChain(config));
   assertThat(pipelinesConfig.errors().isEmpty(),is(true));
 }

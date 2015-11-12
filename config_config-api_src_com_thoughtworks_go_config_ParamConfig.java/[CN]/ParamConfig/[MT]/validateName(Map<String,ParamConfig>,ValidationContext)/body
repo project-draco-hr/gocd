@@ -1,10 +1,10 @@
 {
-  String currentParamName=name.toLowerCase();
   CaseInsensitiveString parentName=validationContext.getPipeline().name();
-  if (StringUtil.isBlank(currentParamName)) {
+  if (StringUtil.isBlank(name)) {
     configErrors.add("name",String.format("Parameter cannot have an empty name for pipeline '%s'.",parentName));
     return;
   }
+  String currentParamName=name.toLowerCase();
   ParamConfig paramWithSameName=paramConfigMap.get(currentParamName);
   if (paramWithSameName != null) {
     paramWithSameName.addNameConflictError(name,parentName);

@@ -1,0 +1,9 @@
+{
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  SecurityConfig securityConfig=new SecurityConfig();
+  securityConfig.addRole(new Role(new CaseInsensitiveString("admin")));
+  securityConfig.adminsConfig().add(new AdminUser(new CaseInsensitiveString("super-admin")));
+  cruiseConfig.server().useSecurity(securityConfig);
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,"group",cruiseConfig);
+  Assert.assertThat(context.getServerSecurityConfig(),is(securityConfig));
+}

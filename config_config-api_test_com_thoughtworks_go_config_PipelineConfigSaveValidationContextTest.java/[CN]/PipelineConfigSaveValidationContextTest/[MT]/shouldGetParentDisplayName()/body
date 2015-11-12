@@ -1,0 +1,5 @@
+{
+  assertThat(PipelineConfigSaveValidationContext.forChain(true,"group",new PipelineConfig()).getParentDisplayName(),is("pipeline"));
+  assertThat(PipelineConfigSaveValidationContext.forChain(true,"group",new PipelineConfig(),new StageConfig()).getParentDisplayName(),is("stage"));
+  assertThat(PipelineConfigSaveValidationContext.forChain(true,"group",new PipelineConfig(),new StageConfig(),new JobConfig()).getParentDisplayName(),is("job"));
+}

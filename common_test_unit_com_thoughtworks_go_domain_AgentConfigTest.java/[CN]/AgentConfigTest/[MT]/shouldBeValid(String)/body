@@ -3,6 +3,6 @@
   AgentConfig agentConfig=new AgentConfig();
   agentConfig.setIpAddress(ipAddress);
   cruiseConfig.agents().add(agentConfig);
-  agentConfig.validate(ValidationContext.forChain(cruiseConfig));
+  agentConfig.validate(ConfigSaveValidationContext.forChain(cruiseConfig));
   assertThat(agentConfig.errors().isEmpty(),is(true));
 }

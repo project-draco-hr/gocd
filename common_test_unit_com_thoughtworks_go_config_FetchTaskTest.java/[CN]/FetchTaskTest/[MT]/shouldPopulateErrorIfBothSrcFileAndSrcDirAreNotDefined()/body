@@ -1,7 +1,7 @@
 {
   FetchTask task=new FetchTask(new CaseInsensitiveString("upstream"),new CaseInsensitiveString("stage"),new CaseInsensitiveString("job"),"src_file","dest");
   task.setSrcfile(null);
-  task.validate(ValidationContext.forChain(config,upstream,upstream.getStage(new CaseInsensitiveString("stage"))));
+  task.validate(ConfigSaveValidationContext.forChain(config,upstream,upstream.getStage(new CaseInsensitiveString("stage"))));
   assertThat(task.errors().isEmpty(),is(false));
   assertThat(task.errors().on(FetchTask.SRC),is("Should provide either srcdir or srcfile"));
 }

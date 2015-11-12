@@ -1,6 +1,8 @@
 {
-  boolean isValid=CronExpression.isValidExpression(timerSpec);
-  if (!isValid) {
-    errors.add(TIMER_SPEC,"Invalid cron syntax");
+  try {
+    new CronExpression(timerSpec);
+  }
+ catch (  ParseException pe) {
+    errors.add(TIMER_SPEC,"Invalid cron syntax: " + pe.getMessage());
   }
 }

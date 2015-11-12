@@ -1,0 +1,12 @@
+{
+  CaseInsensitiveString templateName=new CaseInsensitiveString("template_with_param");
+  saveTemplateWithParamToConfig(templateName);
+  GoConfigHolder goConfigHolderBeforeUpdate=goConfigDao.loadConfigHolder();
+  pipelineConfigService.updatePipelineConfig(new Username(new CaseInsensitiveString("unauthorized_user")),pipelineConfig,result);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.toString(),result.httpCode(),is(401));
+  assertThat(result.toString(),result.toString().contains("UNAUTHORIZED_TO_EDIT_PIPELINE"),is(true));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
+  assertThat(goConfigDao.loadConfigHolder().configForEdit,is(goConfigHolderBeforeUpdate.configForEdit));
+  assertThat(goConfigDao.loadConfigHolder().config,is(goConfigHolderBeforeUpdate.config));
+}

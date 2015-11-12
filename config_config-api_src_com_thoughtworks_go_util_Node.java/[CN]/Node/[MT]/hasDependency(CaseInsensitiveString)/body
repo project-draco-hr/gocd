@@ -1,3 +1,9 @@
 {
-  return getDependencies().contains(pipelineName);
+  return ListUtil.find(dependencies,new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      DependencyNode dependencyNode=(DependencyNode)item;
+      return dependencyNode.getPipelineName().equals(pipelineName);
+    }
+  }
+) != null;
 }

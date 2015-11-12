@@ -1,0 +1,7 @@
+{
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  cruiseConfig.addTemplate(new PipelineTemplateConfig(new CaseInsensitiveString("t1")));
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,"group",cruiseConfig,new PipelineConfig());
+  assertThat(context.doesTemplateExist(new CaseInsensitiveString("t1")),is(true));
+  assertThat(context.doesTemplateExist(new CaseInsensitiveString("t2")),is(false));
+}

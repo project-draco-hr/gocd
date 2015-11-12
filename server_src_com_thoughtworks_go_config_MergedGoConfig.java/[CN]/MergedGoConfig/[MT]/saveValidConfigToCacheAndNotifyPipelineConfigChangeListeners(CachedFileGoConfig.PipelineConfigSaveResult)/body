@@ -1,0 +1,15 @@
+{
+  saveValidConfigToCache(saveResult.getConfigHolder());
+  LOGGER.info("About to notify pipeline config listeners");
+  for (  ConfigChangedListener listener : listeners) {
+    if (listener instanceof PipelineConfigChangedListener) {
+      try {
+        ((PipelineConfigChangedListener)listener).onPipelineConfigChange(saveResult.getPipelineConfig(),saveResult.getGroup());
+      }
+ catch (      Exception e) {
+        LOGGER.error("failed to fire config changed event for listener: " + listener,e);
+      }
+    }
+  }
+  LOGGER.info("Finished notifying pipeline config listeners");
+}

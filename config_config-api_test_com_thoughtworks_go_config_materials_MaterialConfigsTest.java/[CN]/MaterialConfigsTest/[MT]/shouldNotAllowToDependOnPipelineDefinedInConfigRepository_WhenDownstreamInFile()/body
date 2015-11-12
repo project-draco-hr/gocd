@@ -5,9 +5,9 @@
   goConfigMother.setDependencyOn(cruiseConfig,pipeline2,"pipeline1","stage");
   pipeline1.setOrigin(new RepoConfigOrigin());
   pipeline2.setOrigin(new FileConfigOrigin());
-  pipeline1.materialConfigs().validate(ValidationContext.forChain(cruiseConfig,new BasicPipelineConfigs(),pipeline1));
+  pipeline1.materialConfigs().validate(ConfigSaveValidationContext.forChain(cruiseConfig,new BasicPipelineConfigs(),pipeline1));
   assertThat(pipeline1.materialConfigs().errors().isEmpty(),is(true));
-  pipeline2.materialConfigs().validate(ValidationContext.forChain(cruiseConfig,new BasicPipelineConfigs(),pipeline2));
+  pipeline2.materialConfigs().validate(ConfigSaveValidationContext.forChain(cruiseConfig,new BasicPipelineConfigs(),pipeline2));
   DependencyMaterialConfig invalidDependency=pipeline2.materialConfigs().findDependencyMaterial(new CaseInsensitiveString("pipeline1"));
   assertThat(invalidDependency.errors().isEmpty(),is(false));
   assertThat(invalidDependency.errors().on(DependencyMaterialConfig.ORIGIN),startsWith("Dependency from pipeline defined in"));

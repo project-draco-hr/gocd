@@ -1,0 +1,12 @@
+{
+synchronized (writeLock) {
+    if (saveCommand.hasWritePermissions()) {
+      try {
+        cachedConfigService.writePipelineWithLock(pipelineConfig,saveCommand,currentUser);
+      }
+ catch (      ConfigUpdateCheckFailedException e) {
+        result.unprocessableEntity(LocalizedMessage.string("PIPELINE_CONFIG_VALIDATION_FAILED",pipelineConfig.name()));
+      }
+    }
+  }
+}

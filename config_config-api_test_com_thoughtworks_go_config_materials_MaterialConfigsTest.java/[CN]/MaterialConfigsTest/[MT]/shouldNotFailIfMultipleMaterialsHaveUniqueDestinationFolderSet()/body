@@ -6,7 +6,7 @@
   CruiseConfig config=GoConfigMother.configWithPipelines("one");
   PipelineConfig pipelineOne=config.pipelineConfigByName(new CaseInsensitiveString("one"));
   pipelineOne.setMaterialConfigs(new MaterialConfigs(materialOne,materialTwo));
-  pipelineOne.materialConfigs().validate(ValidationContext.forChain(config));
+  pipelineOne.materialConfigs().validate(ConfigSaveValidationContext.forChain(config));
   assertThat(pipelineOne.materialConfigs().get(0).errors().isEmpty(),is(true));
   assertThat(pipelineOne.materialConfigs().get(1).errors().isEmpty(),is(true));
 }

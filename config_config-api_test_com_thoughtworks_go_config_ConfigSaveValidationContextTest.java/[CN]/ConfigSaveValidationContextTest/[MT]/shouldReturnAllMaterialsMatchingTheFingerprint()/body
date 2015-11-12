@@ -1,0 +1,10 @@
+{
+  CruiseConfig cruiseConfig=new BasicCruiseConfig();
+  HgMaterialConfig hg=new HgMaterialConfig("url",null);
+  for (int i=0; i < 10; i++) {
+    PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("pipeline" + i,new MaterialConfigs(hg));
+    cruiseConfig.addPipeline("defaultGroup",pipelineConfig);
+  }
+  ValidationContext context=ConfigSaveValidationContext.forChain(cruiseConfig);
+  assertThat(context.getAllMaterialsByFingerPrint(hg.getFingerprint()).size(),is(10));
+}

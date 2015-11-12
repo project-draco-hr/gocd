@@ -5,21 +5,20 @@
   }
   if (validationContext.isWithinPipelines()) {
     PipelineConfig currentPipeline=validationContext.getPipeline();
-    CruiseConfig cruiseConfig=validationContext.getCruiseConfig();
     if (pipelineName == null || CaseInsensitiveString.isBlank(pipelineName.getPath())) {
       pipelineName=new PathFromAncestor(currentPipeline.name());
     }
-    if (validateExistenceAndOrigin(currentPipeline,cruiseConfig,validationContext)) {
+    if (validateExistenceAndOrigin(currentPipeline,validationContext)) {
       return;
     }
     if (pipelineName.isAncestor()) {
-      validatePathFromAncestor(currentPipeline,cruiseConfig);
+      validatePathFromAncestor(currentPipeline,validationContext);
     }
  else     if (currentPipeline.name().equals(pipelineName.getPath())) {
-      validateStagesOfSamePipeline(validationContext,currentPipeline,cruiseConfig);
+      validateStagesOfSamePipeline(validationContext,currentPipeline);
     }
  else {
-      validateDependencies(validationContext,currentPipeline,cruiseConfig);
+      validateDependencies(validationContext,currentPipeline);
     }
   }
 }

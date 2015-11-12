@@ -1,5 +1,5 @@
 {
-  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs());
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("cruise"),new MaterialConfigs(),new StageConfig(new CaseInsensitiveString("first"),new JobConfigs()));
   pipelineConfig.setLabelTemplate("pipeline-${COUNT}-alpha");
   pipelineConfig.validate(null);
   assertThat(pipelineConfig.errors().isEmpty(),is(true));

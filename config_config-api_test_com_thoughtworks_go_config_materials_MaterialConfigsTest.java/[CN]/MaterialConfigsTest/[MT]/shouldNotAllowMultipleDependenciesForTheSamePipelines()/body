@@ -3,7 +3,7 @@
   DependencyMaterialConfig dependencyMaterial=new DependencyMaterialConfig(new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage"));
   DependencyMaterialConfig duplicateDependencyMaterial=new DependencyMaterialConfig(new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage"));
   MaterialConfigs materialConfigs=new MaterialConfigs(dependencyMaterial,duplicateDependencyMaterial);
-  ValidationContext validationContext=ValidationContext.forChain(config);
+  ValidationContext validationContext=ConfigSaveValidationContext.forChain(config);
   materialConfigs.validate(validationContext);
   ConfigErrors errors=duplicateDependencyMaterial.errors();
   assertThat(errors.isEmpty(),is(false));

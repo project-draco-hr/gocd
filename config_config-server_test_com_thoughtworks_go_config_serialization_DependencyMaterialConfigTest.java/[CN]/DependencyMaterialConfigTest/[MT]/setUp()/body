@@ -2,4 +2,6 @@
   metricsProbeService=new NoOpMetricsProbeService();
   writer=new MagicalGoConfigXmlWriter(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
   loader=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  config=GoConfigMother.configWithPipelines("pipeline1","pipeline2","pipeline3","go");
+  PipelineConfigurationCache.getInstance().onConfigChange(config);
 }

@@ -1,8 +1,8 @@
 {
   SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig("/foo","","",false);
-  svnMaterialConfig.validate(new ValidationContext(null));
+  svnMaterialConfig.validate(new ConfigSaveValidationContext(null));
   assertThat(svnMaterialConfig.errors().on(SvnMaterialConfig.MATERIAL_NAME),is(nullValue()));
   svnMaterialConfig.setName(new CaseInsensitiveString(".bad-name-with-dot"));
-  svnMaterialConfig.validate(new ValidationContext(null));
+  svnMaterialConfig.validate(new ConfigSaveValidationContext(null));
   assertThat(svnMaterialConfig.errors().on(SvnMaterialConfig.MATERIAL_NAME),is("Invalid material name '.bad-name-with-dot'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
 }

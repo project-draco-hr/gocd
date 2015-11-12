@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineWithSameName=pipelineNameMap.get(name);
+  if (pipelineWithSameName == null) {
+    pipelineNameMap.put(name,this);
+  }
+ else {
+    pipelineWithSameName.nameConflictError();
+    this.nameConflictError();
+  }
+}

@@ -6,7 +6,7 @@
       configFileContent=upgrader.upgradeIfNecessary(configFileContent);
     }
     GoConfigHolder configHolder=internalLoad(configFileContent,new ConfigModifyingUser());
-    String toWrite=configAsXml(configHolder.configForEdit);
+    String toWrite=configAsXml(configHolder.configForEdit,false);
     if (LOGGER.isTraceEnabled()) {
       LOGGER.trace("Writing config file: " + configFile.getAbsolutePath());
     }

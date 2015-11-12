@@ -1,0 +1,10 @@
+{
+  JobConfig jobConfig=new JobConfig(new CaseInsensitiveString(jobName));
+  jobConfig.addTask(new AntTask());
+  jobConfig.addTask(new ExecTask("command","","workingDir"));
+  jobConfig.artifactPlans().add(new ArtifactPlan("src","dest"));
+  jobConfig.addVariable("env1","val1");
+  jobConfig.addResource("powerful");
+  JobConfigs jobConfigs=new JobConfigs(jobConfig);
+  return new StageConfig(new CaseInsensitiveString(stageName),jobConfigs);
+}

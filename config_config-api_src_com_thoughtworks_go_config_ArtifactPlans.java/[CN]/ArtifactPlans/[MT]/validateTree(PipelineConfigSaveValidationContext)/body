@@ -1,0 +1,8 @@
+{
+  validate(validationContext);
+  boolean isValid=errors().isEmpty();
+  for (  ArtifactPlan artifactPlan : this) {
+    isValid=artifactPlan.validateTree(validationContext) && isValid;
+  }
+  return isValid;
+}

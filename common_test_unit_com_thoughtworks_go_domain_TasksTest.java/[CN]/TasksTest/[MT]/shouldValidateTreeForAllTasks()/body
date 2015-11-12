@@ -1,0 +1,20 @@
+{
+  AntTask antTask=antTask("build.xml","compile","/abc");
+  ExecTask execTask=new ExecTask("foo",new Arguments(new Argument("arg")));
+  Tasks tasks=new Tasks(antTask,execTask);
+  String pipelineName="p1";
+  PipelineConfig pipelineConfig=GoConfigMother.configWithPipelines(pipelineName).pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  StageConfig stageConfig=pipelineConfig.getStages().get(0);
+  JobConfig jobConfig=stageConfig.getJobs().get(0);
+  jobConfig.setTasks(tasks);
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,"group",pipelineConfig,stageConfig,jobConfig);
+  assertFalse(tasks.validateTree(context));
+  assertThat(tasks.errors().isEmpty(),is(true));
+  assertThat(antTask.errors().isEmpty(),is(false));
+  assertThat(antTask.errors().get(AntTask.WORKING_DIRECTORY).size(),is(1));
+  assertThat(antTask.errors().get(AntTask.WORKING_DIRECTORY).contains("Task of job 'job' in stage 'stage' of pipeline 'p1' has path '/abc' which is outside the working directory."),is(true));
+  assertThat(execTask.errors().get(ExecTask.ARG_LIST_STRING).size(),is(1));
+  assertThat(execTask.errors().get(ExecTask.ARG_LIST_STRING).contains("Can not use both 'args' attribute and 'arg' sub element in 'exec' element!"),is(true));
+  assertThat(execTask.errors().get(ExecTask.ARGS).size(),is(1));
+  assertThat(execTask.errors().get(ExecTask.ARGS).contains("Can not use both 'args' attribute and 'arg' sub element in 'exec' element!"),is(true));
+}

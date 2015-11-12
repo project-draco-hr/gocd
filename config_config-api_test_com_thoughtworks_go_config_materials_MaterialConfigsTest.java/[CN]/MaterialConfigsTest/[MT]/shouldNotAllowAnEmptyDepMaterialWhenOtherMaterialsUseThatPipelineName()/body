@@ -4,7 +4,7 @@
   one.setName(new CaseInsensitiveString("pipeline2"));
   DependencyMaterialConfig invalidOne=new DependencyMaterialConfig(new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage"));
   MaterialConfigs materials=new MaterialConfigs(one,invalidOne);
-  ValidationContext validationContext=ValidationContext.forChain(config);
+  ValidationContext validationContext=ConfigSaveValidationContext.forChain(config);
   materials.validate(validationContext);
   assertThat(invalidOne.errors().isEmpty(),is(false));
   assertThat(invalidOne.errors().on("materialName"),is("You have defined multiple materials called 'pipeline2'." + " Material names are case-insensitive and must be unique. Note that for dependency materials the default materialName is the name of the upstream pipeline. " + "You can override this by setting the materialName explicitly for the upstream pipeline."));

@@ -1,0 +1,7 @@
+{
+  ParamConfig paramConfig=new ParamConfig();
+  ValidationContext validationContext=mock(ValidationContext.class);
+  when(validationContext.getPipeline()).thenReturn(new PipelineConfig(new CaseInsensitiveString("p"),null));
+  paramConfig.validateName(new HashMap<String,ParamConfig>(),validationContext);
+  assertThat(paramConfig.errors().on(ParamConfig.NAME),is("Parameter cannot have an empty name for pipeline 'p'."));
+}

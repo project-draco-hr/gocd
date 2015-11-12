@@ -1,0 +1,9 @@
+{
+  validate(validationContext);
+  boolean isValid=errors.isEmpty();
+  PipelineConfigSaveValidationContext contextForChildren=validationContext.withParent(this);
+  isValid=jobConfigs.validateTree(contextForChildren) && isValid;
+  isValid=approval.validateTree(contextForChildren) && isValid;
+  isValid=variables.validateTree(contextForChildren) && isValid;
+  return isValid;
+}

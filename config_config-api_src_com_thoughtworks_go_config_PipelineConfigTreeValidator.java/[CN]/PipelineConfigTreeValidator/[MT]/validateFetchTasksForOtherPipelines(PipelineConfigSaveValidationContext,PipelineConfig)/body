@@ -1,0 +1,19 @@
+{
+  for (  StageConfig stageConfig : downstreamPipeline.getStages()) {
+    for (    JobConfig jobConfig : stageConfig.getJobs()) {
+      for (      Task task : jobConfig.getTasks()) {
+        if (task instanceof FetchTask) {
+          FetchTask fetchTask=(FetchTask)task;
+          if (fetchTask.getPipelineNamePathFromAncestor() != null && !StringUtil.isBlank(CaseInsensitiveString.str(fetchTask.getPipelineNamePathFromAncestor().getPath())) && fetchTask.getPipelineNamePathFromAncestor().pathIncludingAncestor().contains(pipelineConfig.name())) {
+            fetchTask=new Cloner().deepClone(fetchTask);
+            fetchTask.validateTask(validationContext.withParent(downstreamPipeline).withParent(stageConfig).withParent(jobConfig));
+            List<String> allErrors=fetchTask.errors().getAll();
+            for (            String error : allErrors) {
+              pipelineConfig.errors().add("base",error);
+            }
+          }
+        }
+      }
+    }
+  }
+}

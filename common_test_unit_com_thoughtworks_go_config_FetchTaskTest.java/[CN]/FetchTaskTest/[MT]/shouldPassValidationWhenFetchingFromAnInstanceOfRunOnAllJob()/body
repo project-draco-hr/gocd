@@ -1,0 +1,8 @@
+{
+  StageConfig stage=upstream.getFirstStageConfig();
+  JobConfig job=stage.getJobs().get(0);
+  job.setRunOnAllAgents(true);
+  FetchTask task=new FetchTask(upstream.name(),stage.name(),new CaseInsensitiveString(job.name() + "-runOnAll-1"),"src","dest");
+  task.validate(ConfigSaveValidationContext.forChain(config,new BasicPipelineConfigs(),upstream,stage,job));
+  assertThat(task.errors().on(FetchTask.JOB),is(Matchers.nullValue()));
+}

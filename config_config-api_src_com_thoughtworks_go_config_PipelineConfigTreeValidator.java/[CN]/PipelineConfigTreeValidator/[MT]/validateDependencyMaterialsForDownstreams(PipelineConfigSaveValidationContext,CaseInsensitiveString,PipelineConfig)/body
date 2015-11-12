@@ -1,0 +1,17 @@
+{
+  Node dependenciesOfSelectedPipeline=validationContext.getDependencyMaterialsFor(selected);
+  for (  Node.DependencyNode dependencyNode : dependenciesOfSelectedPipeline.getDependencies()) {
+    if (dependencyNode.getPipelineName().equals(pipelineConfig.name())) {
+      for (      MaterialConfig materialConfig : downstreamPipeline.materialConfigs()) {
+        if (materialConfig instanceof DependencyMaterialConfig) {
+          DependencyMaterialConfig dependencyMaterialConfig=new Cloner().deepClone((DependencyMaterialConfig)materialConfig);
+          dependencyMaterialConfig.validate(validationContext.withParent(downstreamPipeline));
+          List<String> allErrors=dependencyMaterialConfig.errors().getAll();
+          for (          String error : allErrors) {
+            pipelineConfig.errors().add("base",String.format("%s, it is being referred to from pipeline '%s'",error,selected));
+          }
+        }
+      }
+    }
+  }
+}

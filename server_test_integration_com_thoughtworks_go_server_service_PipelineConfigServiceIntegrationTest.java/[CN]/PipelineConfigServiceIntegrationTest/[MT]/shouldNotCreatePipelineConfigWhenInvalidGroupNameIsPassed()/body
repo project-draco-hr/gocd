@@ -1,0 +1,11 @@
+{
+  GoConfigHolder goConfigHolderBeforeUpdate=goConfigDao.loadConfigHolder();
+  PipelineConfig pipelineBeingCreated=GoConfigMother.createPipelineConfigWithMaterialConfig(pipelineConfig.name().toLower(),new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
+  pipelineConfigService.createPipelineConfig(user,pipelineBeingCreated,result,"%$-with-invalid-characters");
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  assertFalse(pipelineBeingCreated.errors().isEmpty());
+  assertThat(pipelineBeingCreated.errors().on(PipelineConfigs.GROUP),contains("Invalid group name '%$-with-invalid-characters'"));
+  assertThat(goConfigDao.loadConfigHolder(),is(goConfigHolderBeforeUpdate));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
+}

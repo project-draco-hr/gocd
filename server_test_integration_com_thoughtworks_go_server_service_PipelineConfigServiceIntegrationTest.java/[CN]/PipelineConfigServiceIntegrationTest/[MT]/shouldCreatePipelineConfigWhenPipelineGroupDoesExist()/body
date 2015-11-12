@@ -1,0 +1,11 @@
+{
+  GoConfigHolder goConfigHolderBeforeUpdate=goConfigDao.loadConfigHolder();
+  PipelineConfig downstream=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
+  pipelineConfigService.createPipelineConfig(user,downstream,result,"does-not-exist");
+  assertThat(result.toString(),result.isSuccessful(),is(true));
+  assertThat(goConfigDao.loadConfigHolder(),is(not(goConfigHolderBeforeUpdate)));
+  PipelineConfig savedPipelineConfig=goConfigDao.loadForEditing().getPipelineConfigByName(downstream.name());
+  assertThat(savedPipelineConfig,is(downstream));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(not(headCommitBeforeUpdate)));
+  assertThat(configRepository.getCurrentRevision().getUsername(),is(user.getDisplayName()));
+}

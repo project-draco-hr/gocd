@@ -5,7 +5,7 @@
   StageConfig stage=pipeline.get(0);
   StageConfigMother.addApprovalWithUsers(stage,"not-present");
   Approval approval=stage.getApproval();
-  approval.validate(ValidationContext.forChain(cruiseConfig,new TemplatesConfig(),stage));
+  approval.validate(ConfigSaveValidationContext.forChain(cruiseConfig,new TemplatesConfig(),stage));
   AdminUser user=approval.getAuthConfig().getUsers().get(0);
   assertThat(user.errors().isEmpty(),is(true));
 }

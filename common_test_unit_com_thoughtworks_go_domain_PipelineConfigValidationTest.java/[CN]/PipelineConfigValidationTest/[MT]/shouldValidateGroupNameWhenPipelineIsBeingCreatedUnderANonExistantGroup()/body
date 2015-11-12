@@ -1,0 +1,9 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("p1");
+  PipelineConfig p1=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("p1"));
+  String groupName="%$-with-invalid-characters";
+  cruiseConfig.addPipeline(groupName,p1);
+  p1.validateTree(PipelineConfigSaveValidationContext.forChain(true,groupName,cruiseConfig,p1));
+  Assert.assertFalse(p1.errors().isEmpty());
+  assertThat(p1.errors().on(PipelineConfigs.GROUP),contains("Invalid group name '%$-with-invalid-characters'"));
+}

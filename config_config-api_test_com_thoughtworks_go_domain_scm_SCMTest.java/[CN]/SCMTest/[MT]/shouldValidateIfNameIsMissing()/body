@@ -1,5 +1,5 @@
 {
   SCM scm=new SCM();
-  scm.validate(new ValidationContext(new BasicCruiseConfig(),null));
+  scm.validate(new ConfigSaveValidationContext(new BasicCruiseConfig(),null));
   assertThat(scm.errors().getAllOn(SCM.NAME),is(asList("Please provide name")));
 }

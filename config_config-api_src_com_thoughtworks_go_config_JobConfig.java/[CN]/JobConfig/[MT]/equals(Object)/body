@@ -1,10 +1,16 @@
 {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
   JobConfig jobConfig=(JobConfig)o;
-  return !(jobName != null ? !jobName.equals(jobConfig.jobName) : jobConfig.jobName != null);
+  if (runOnAllAgents != jobConfig.runOnAllAgents)   return false;
+  if (jobName != null ? !jobName.equals(jobConfig.jobName) : jobConfig.jobName != null)   return false;
+  if (variables != null ? !variables.equals(jobConfig.variables) : jobConfig.variables != null)   return false;
+  if (tasks != null ? !tasks.equals(jobConfig.tasks) : jobConfig.tasks != null)   return false;
+  if (tabs != null ? !tabs.equals(jobConfig.tabs) : jobConfig.tabs != null)   return false;
+  if (resources != null ? !resources.equals(jobConfig.resources) : jobConfig.resources != null)   return false;
+  if (artifactPlans != null ? !artifactPlans.equals(jobConfig.artifactPlans) : jobConfig.artifactPlans != null)   return false;
+  if (artifactPropertiesGenerators != null ? !artifactPropertiesGenerators.equals(jobConfig.artifactPropertiesGenerators) : jobConfig.artifactPropertiesGenerators != null)   return false;
+  if (runInstanceCount != null ? !runInstanceCount.equals(jobConfig.runInstanceCount) : jobConfig.runInstanceCount != null)   return false;
+  if (timeout != null ? !timeout.equals(jobConfig.timeout) : jobConfig.timeout != null)   return false;
+  return !(errors != null ? !errors.equals(jobConfig.errors) : jobConfig.errors != null);
 }

@@ -1,11 +1,11 @@
 {
   CaseInsensitiveString upstreamPipelineName=this.getPipelineName();
   CaseInsensitiveString upstreamStageName=this.getStageName();
-  CruiseConfig cruiseConfig=validationContext.getCruiseConfig();
-  if (!cruiseConfig.hasPipelineNamed(upstreamPipelineName)) {
-    errors.add(PIPELINE_STAGE_NAME,String.format("Pipeline with name '%s' does not exist",upstreamPipelineName));
+  PipelineConfig upstreamPipeline=validationContext.getPipelineConfigByName(upstreamPipelineName);
+  if (upstreamPipeline == null) {
+    errors.add(DependencyMaterialConfig.PIPELINE_STAGE_NAME,String.format("Pipeline with name '%s' does not exist",upstreamPipelineName));
   }
-  if (!cruiseConfig.hasStageConfigNamed(upstreamPipelineName,upstreamStageName,true)) {
-    errors.add(PIPELINE_STAGE_NAME,String.format("Stage with name '%s' does not exist on pipeline '%s'",upstreamStageName,upstreamPipelineName));
+ else   if (upstreamPipeline.findBy(upstreamStageName) == null) {
+    errors.add(DependencyMaterialConfig.PIPELINE_STAGE_NAME,String.format("Stage with name '%s' does not exist on pipeline '%s'",upstreamStageName,upstreamPipelineName));
   }
 }

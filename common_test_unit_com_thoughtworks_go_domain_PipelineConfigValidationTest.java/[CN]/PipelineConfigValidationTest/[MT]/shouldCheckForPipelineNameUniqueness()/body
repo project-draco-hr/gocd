@@ -1,0 +1,10 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("p1");
+  String group="group";
+  cruiseConfig.getGroups().add(new BasicPipelineConfigs(group,new Authorization()));
+  PipelineConfig p1Duplicate=GoConfigMother.createPipelineConfigWithMaterialConfig("p1",new GitMaterialConfig("url"));
+  cruiseConfig.addPipeline(group,p1Duplicate);
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,group,cruiseConfig,p1Duplicate);
+  p1Duplicate.validateTree(context);
+  assertThat(p1Duplicate.errors().on(PipelineConfig.NAME),is(String.format("You have defined multiple pipelines named '%s'. Pipeline names must be unique.",p1Duplicate.name())));
+}

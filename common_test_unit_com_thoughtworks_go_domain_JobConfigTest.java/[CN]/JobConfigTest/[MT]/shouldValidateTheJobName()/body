@@ -2,5 +2,5 @@
   assertThat(createJobAndValidate(".name").errors().isEmpty(),is(true));
   ConfigErrors configErrors=createJobAndValidate("name pavan").errors();
   assertThat(configErrors.isEmpty(),is(false));
-  assertThat(configErrors.on(JobConfig.NAME),is("Invalid job name 'name pavan'. This must be alphanumeric and can contain underscores and periods. The maximum allowed length is 255 characters."));
+  assertThat(configErrors.on(JobConfig.NAME),is("Invalid job name 'name pavan'. This must be alphanumeric and may contain underscores and periods. The maximum allowed length is 255 characters."));
 }

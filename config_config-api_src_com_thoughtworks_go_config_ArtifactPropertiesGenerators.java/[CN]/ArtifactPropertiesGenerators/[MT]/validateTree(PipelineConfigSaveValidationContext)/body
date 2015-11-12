@@ -1,0 +1,7 @@
+{
+  boolean isValid=errors().isEmpty();
+  for (  ArtifactPropertiesGenerator artifactPropertiesGenerator : this) {
+    isValid=artifactPropertiesGenerator.validateTree(validationContext) && isValid;
+  }
+  return isValid;
+}

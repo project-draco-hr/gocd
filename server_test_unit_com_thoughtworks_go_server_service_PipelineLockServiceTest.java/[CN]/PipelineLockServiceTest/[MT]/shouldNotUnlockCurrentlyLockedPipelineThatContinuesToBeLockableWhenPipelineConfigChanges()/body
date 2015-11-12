@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=mock(PipelineConfig.class);
+  when(pipelineDao.lockedPipelines()).thenReturn(asList("locked_pipeline"));
+  when(pipelineConfig.isLock()).thenReturn(true);
+  when(pipelineConfig.name()).thenReturn(new CaseInsensitiveString("locked_pipeline"));
+  pipelineLockService.onPipelineConfigChange(pipelineConfig,"g1");
+  verify(pipelineDao,never()).unlockPipeline("locked_pipeline");
+}
