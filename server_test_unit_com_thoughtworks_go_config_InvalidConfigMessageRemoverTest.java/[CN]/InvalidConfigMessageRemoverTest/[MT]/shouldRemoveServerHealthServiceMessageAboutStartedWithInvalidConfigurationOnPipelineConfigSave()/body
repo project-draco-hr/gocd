@@ -1,0 +1,8 @@
+{
+  ServerHealthService serverHealthService=mock(ServerHealthService.class);
+  InvalidConfigMessageRemover invalidConfigMessageRemover=new InvalidConfigMessageRemover(mock(GoConfigService.class),serverHealthService);
+  invalidConfigMessageRemover.onPipelineConfigChange(mock(PipelineConfig.class),"g1");
+  ArgumentCaptor<HealthStateScope> captor=ArgumentCaptor.forClass(HealthStateScope.class);
+  verify(serverHealthService).removeByScope(captor.capture());
+  assertThat(captor.getValue().compareTo(HealthStateScope.forInvalidConfig()),is(0));
+}

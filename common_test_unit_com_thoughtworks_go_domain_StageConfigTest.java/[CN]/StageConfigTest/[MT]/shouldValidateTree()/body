@@ -1,0 +1,15 @@
+{
+  EnvironmentVariablesConfig variables=mock(EnvironmentVariablesConfig.class);
+  JobConfigs jobConfigs=mock(JobConfigs.class);
+  Approval approval=mock(Approval.class);
+  StageConfig stageConfig=new StageConfig(new CaseInsensitiveString("stage$"),jobConfigs,approval);
+  stageConfig.setVariables(variables);
+  stageConfig.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",new PipelineConfig(),stageConfig));
+  assertThat(stageConfig.errors().on(StageConfig.NAME),contains("Invalid stage name 'stage$'"));
+  ArgumentCaptor<PipelineConfigSaveValidationContext> captor=ArgumentCaptor.forClass(PipelineConfigSaveValidationContext.class);
+  verify(jobConfigs).validateTree(captor.capture());
+  PipelineConfigSaveValidationContext childContext=captor.getValue();
+  assertThat((StageConfig)childContext.getParent(),is(stageConfig));
+  verify(approval).validateTree(childContext);
+  verify(variables).validateTree(childContext);
+}

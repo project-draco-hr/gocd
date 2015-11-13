@@ -1,6 +1,13 @@
 {
   for (  MaterialConfig material : filterScmMaterials()) {
-    MaterialConfigs allMaterialsByFingerPrint=validationContext.getAllMaterialsByFingerPrint(material.getFingerprint());
+    String fingerprint;
+    try {
+      fingerprint=material.getFingerprint();
+    }
+ catch (    Exception e) {
+      continue;
+    }
+    MaterialConfigs allMaterialsByFingerPrint=validationContext.getAllMaterialsByFingerPrint(fingerprint);
     if (allMaterialsByFingerPrint != null && ((ScmMaterialConfig)material).isAutoUpdateStateMismatch(allMaterialsByFingerPrint)) {
       ((ScmMaterialConfig)material).setAutoUpdateMismatchError();
     }

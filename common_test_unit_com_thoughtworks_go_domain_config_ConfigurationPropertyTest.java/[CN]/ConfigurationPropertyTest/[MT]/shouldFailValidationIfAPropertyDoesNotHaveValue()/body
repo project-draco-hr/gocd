@@ -1,6 +1,6 @@
 {
   ConfigurationProperty property=new ConfigurationProperty(new ConfigurationKey("secureKey"),null,new EncryptedConfigurationValue("invalid-encrypted-value"),new GoCipher());
-  property.validate(ValidationContext.forChain(property));
+  property.validate(ConfigSaveValidationContext.forChain(property));
   assertThat(property.errors().isEmpty(),is(false));
   assertThat(property.errors().getAllOn(ConfigurationProperty.ENCRYPTED_VALUE).contains("Encrypted value for property with key 'secureKey' is invalid. This usually happens when the cipher text is modified to have an invalid value."),is(true));
 }

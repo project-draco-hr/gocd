@@ -17,8 +17,9 @@
   when(taskFactory.taskInstanceFor(execTask.getTaskType())).thenReturn(execTask);
   task.setConfigAttributes(actualTaskAttributes,taskFactory);
   assertThat(task.hasCancelTask(),is(true));
-  assertThat((ExecTask)task.cancelTask(),is(new ExecTask("sudo","ls -la","working_dir")));
-  assertThat(task.cancelTask().getConditions().match(RunIfConfig.ANY),is(true));
-  assertThat(task.cancelTask().getConditions().match(RunIfConfig.FAILED),is(true));
-  assertThat(task.cancelTask().getConditions().match(RunIfConfig.PASSED),is(true));
+  ExecTask expected=new ExecTask("sudo","ls -la","working_dir");
+  expected.getConditions().add(RunIfConfig.ANY);
+  expected.getConditions().add(RunIfConfig.FAILED);
+  expected.getConditions().add(RunIfConfig.PASSED);
+  assertThat((ExecTask)task.cancelTask(),is(expected));
 }

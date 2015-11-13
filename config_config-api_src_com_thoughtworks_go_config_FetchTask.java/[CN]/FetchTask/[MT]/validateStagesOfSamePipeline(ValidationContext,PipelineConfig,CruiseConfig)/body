@@ -1,6 +1,0 @@
-{
-  List<StageConfig> validStages=currentPipeline.validStagesForFetchArtifact(currentPipeline,validationContext.getStage().name());
-  if (!validStages.contains(cruiseConfig.stageConfigByName(currentPipeline.name(),stage))) {
-    addError(STAGE,String.format("Pipeline \"%s\" tries to fetch artifact from its stage \"%s\" which does not complete before the current stage \"%s\".",currentPipeline.name(),stage,validationContext.getStage().name()));
-  }
-}

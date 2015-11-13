@@ -1,0 +1,24 @@
+{
+  String pipeline1Stage="pipeline1 :: stage1";
+  String pipeline1job="pipeline1 :: stage1 :: job1";
+  String pipeline2stage="pipeline2 :: stage1";
+  String pipeline2job="pipeline2 :: stage1 :: job1";
+  ProjectStatus statusOfPipeline1StageInCache=new ProjectStatus(pipeline1Stage,"OldActivity","OldStatus","OldLabel",new Date(),"p1-stage-url");
+  ProjectStatus statusOfPipeline1JobInCache=new ProjectStatus(pipeline1job,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"p1-job-url");
+  ProjectStatus statusOfPipeline2StageInCache=new ProjectStatus(pipeline1Stage,"OldActivity","OldStatus","OldLabel",new Date(),"p2-stage-url");
+  ProjectStatus statusOfPipeline2JobInCache=new ProjectStatus(pipeline1job,"OldActivity-Job","OldStatus-Job","OldLabel-Job",new Date(),"p2-job2-url");
+  when(cache.get(pipeline1Stage)).thenReturn(statusOfPipeline1StageInCache);
+  when(cache.get(pipeline1job)).thenReturn(statusOfPipeline1JobInCache);
+  when(cache.get(pipeline2stage)).thenReturn(statusOfPipeline2StageInCache);
+  when(cache.get(pipeline2job)).thenReturn(statusOfPipeline2JobInCache);
+  PipelineConfig pipeline1Config=GoConfigMother.pipelineHavingJob("pipeline1","stage1","job1","arts","dir").pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  handler.call(pipeline1Config,"group1");
+  ArgumentCaptor<ArrayList<ProjectStatus>> argumentCaptor=new ArgumentCaptor<>();
+  verify(cache).putAll(argumentCaptor.capture());
+  List<ProjectStatus> allValues=argumentCaptor.getValue();
+  assertThat(allValues.get(0).name(),is(pipeline1Stage));
+  assertThat(allValues.get(1).name(),is(pipeline1job));
+  verify(cache,atLeastOnce()).get(pipeline1Stage);
+  verify(cache,atLeastOnce()).get(pipeline1job);
+  verifyNoMoreInteractions(cache);
+}

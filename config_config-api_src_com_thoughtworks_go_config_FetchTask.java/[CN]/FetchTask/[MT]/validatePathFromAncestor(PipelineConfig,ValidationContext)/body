@@ -1,0 +1,32 @@
+{
+  List<CaseInsensitiveString> parentPipelineNames=pipelineName.pathIncludingAncestor();
+  PipelineConfig pipeline=currentPipeline;
+  CaseInsensitiveString dependencyStage=null;
+  for (  CaseInsensitiveString parentPipelineName : parentPipelineNames) {
+    if (validationContext.getPipelineConfigByName(parentPipelineName) == null) {
+      addError(FetchTask.PIPELINE_NAME,String.format("Pipeline named '%s' which is declared ancestor of '%s' through path '%s' does not exist.",parentPipelineName,currentPipeline.name(),pipelineName.getPath()));
+      return;
+    }
+    DependencyMaterialConfig matchingDependencyMaterial=findMatchingDependencyMaterial(pipeline,parentPipelineName);
+    if (matchingDependencyMaterial != null) {
+      dependencyStage=matchingDependencyMaterial.getStageName();
+      pipeline=validationContext.getPipelineConfigByName(matchingDependencyMaterial.getPipelineName());
+    }
+ else {
+      addError(FetchTask.PIPELINE_NAME,String.format("Pipeline named '%s' exists, but is not an ancestor of '%s' as declared in '%s'.",parentPipelineName,currentPipeline.name(),pipelineName.getPath()));
+      return;
+    }
+  }
+  boolean foundStageAtOrBeforeDependency=dependencyStage.equals(stage);
+  if (!foundStageAtOrBeforeDependency) {
+    for (    StageConfig stageConfig : pipeline.allStagesBefore(dependencyStage)) {
+      foundStageAtOrBeforeDependency=stage.equals(stageConfig.name());
+      if (foundStageAtOrBeforeDependency) {
+        break;
+      }
+    }
+  }
+  if (!foundStageAtOrBeforeDependency) {
+    addStageMayNotCompleteBeforeDownstreamError(currentPipeline,validationContext);
+  }
+}

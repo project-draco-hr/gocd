@@ -2,7 +2,7 @@
   try {
     GoConfigHolder configHolder=dataSource.load();
     if (configHolder != null) {
-      saveValidConfigToCache(configHolder);
+      saveValidConfigToCacheAndNotifyConfigChangeListeners(configHolder);
     }
   }
  catch (  Exception e) {

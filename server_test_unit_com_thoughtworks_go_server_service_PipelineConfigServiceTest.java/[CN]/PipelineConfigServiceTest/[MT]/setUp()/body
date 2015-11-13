@@ -1,0 +1,12 @@
+{
+  PipelineConfigs configs=createGroup("group","pipeline","in_env");
+  downstream(configs);
+  cruiseConfig=new BasicCruiseConfig(configs);
+  cruiseConfig.addEnvironment(environment("foo","in_env"));
+  goConfigService=mock(GoConfigService.class);
+  when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
+  when(goConfigService.getConfigForEditing()).thenReturn(cruiseConfig);
+  goCache=mock(GoCache.class);
+  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  pipelineConfigService=new PipelineConfigService(goConfigService,goCache);
+}

@@ -1,0 +1,13 @@
+{
+  CaseInsensitiveString templateName=new CaseInsensitiveString("template_with_param");
+  saveTemplateWithParamToConfig(templateName);
+  GoConfigHolder goConfigHolder=goConfigDao.loadConfigHolder();
+  pipelineConfig.clear();
+  pipelineConfig.setTemplateName(templateName);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.toString(),result.toString().contains("Parameter 'SOME_PARAM' is not defined"),is(true));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
+  assertThat(goConfigDao.loadConfigHolder().configForEdit,is(goConfigHolder.configForEdit));
+  assertThat(goConfigDao.loadConfigHolder().config,is(goConfigHolder.config));
+}

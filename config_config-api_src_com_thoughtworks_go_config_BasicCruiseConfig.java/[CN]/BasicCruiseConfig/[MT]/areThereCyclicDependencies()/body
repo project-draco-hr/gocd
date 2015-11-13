@@ -2,9 +2,10 @@
   final DFSCycleDetector dfsCycleDetector=new DFSCycleDetector();
   final Hashtable<CaseInsensitiveString,Node> dependencyTable=getDependencyTable();
   List<PipelineConfig> pipelineConfigs=this.getAllPipelineConfigs();
+  DependencyTable pipelineDependencyState=new DependencyTable(dependencyTable);
   for (  PipelineConfig pipelineConfig : pipelineConfigs) {
     try {
-      dfsCycleDetector.topoSort(pipelineConfig.name(),dependencyTable);
+      dfsCycleDetector.topoSort(pipelineConfig.name(),pipelineDependencyState);
     }
  catch (    Exception e) {
       addToErrorsBaseOnMaterialsIfDoesNotExist(e.getMessage(),pipelineConfig.materialConfigs(),pipelineConfigs);

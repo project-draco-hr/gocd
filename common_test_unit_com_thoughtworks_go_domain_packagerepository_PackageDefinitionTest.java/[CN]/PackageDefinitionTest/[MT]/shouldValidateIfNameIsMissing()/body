@@ -1,6 +1,6 @@
 {
   PackageDefinition packageDefinition=new PackageDefinition();
-  packageDefinition.validate(new ValidationContext(new BasicCruiseConfig(),null));
+  packageDefinition.validate(new ConfigSaveValidationContext(new BasicCruiseConfig(),null));
   assertThat(packageDefinition.errors().isEmpty(),is(false));
   assertThat(packageDefinition.errors().getAllOn("name"),is(asList("Package name is mandatory")));
 }

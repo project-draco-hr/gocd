@@ -1,0 +1,8 @@
+{
+  PipelineConfig newPipeline=mock(PipelineConfig.class);
+  String pipelineName="newly-added-pipeline";
+  when(newPipeline.name()).thenReturn(new CaseInsensitiveString(pipelineName));
+  scheduler.onPipelineConfigChange(newPipeline,"g1");
+  scheduler.checkPipelines();
+  verify(queue,times(1)).post(ScheduleCheckMessageMatcher.matchScheduleCheckMessage(pipelineName));
+}

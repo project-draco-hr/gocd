@@ -1,0 +1,8 @@
+{
+  if (dependencies == null) {
+    dependencies=new Hashtable<>();
+    for (    CaseInsensitiveString pipeline : pipelineConfigHashMap.map.keySet()) {
+      dependencies.put(pipeline,pipelineConfigHashMap.getPipelineConfig(pipeline.toString()).getDependenciesAsNode());
+    }
+  }
+}

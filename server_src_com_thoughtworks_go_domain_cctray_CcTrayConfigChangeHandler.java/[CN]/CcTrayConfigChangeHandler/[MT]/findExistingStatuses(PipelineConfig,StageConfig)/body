@@ -1,0 +1,8 @@
+{
+  if (cache.get(stageProjectName(pipelineConfig,stageConfig)) != null) {
+    return findStageAndStatusesFromCache(pipelineConfig,stageConfig);
+  }
+ else {
+    return findStageAndStatusesFromDB(pipelineConfig,stageConfig);
+  }
+}

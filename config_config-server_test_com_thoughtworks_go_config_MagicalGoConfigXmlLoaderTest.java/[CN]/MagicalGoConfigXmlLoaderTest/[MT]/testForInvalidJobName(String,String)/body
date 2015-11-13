@@ -5,6 +5,6 @@
     fail("should not allow jobs with with name '" + marker + "'");
   }
  catch (  Exception expected) {
-    assertThat(expected.getMessage(),containsString("A job cannot have '" + marker + "' in it's name: "+ invalidJobName));
+    assertThat(expected.getMessage(),containsString(String.format("A job cannot have '%s' in it's name: %s because it is a reserved keyword",marker,invalidJobName)));
   }
 }

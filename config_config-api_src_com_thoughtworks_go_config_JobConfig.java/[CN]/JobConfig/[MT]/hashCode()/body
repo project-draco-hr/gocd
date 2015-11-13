@@ -1,3 +1,14 @@
 {
-  return jobName != null ? jobName.hashCode() : 0;
+  int result=jobName != null ? jobName.hashCode() : 0;
+  result=31 * result + (variables != null ? variables.hashCode() : 0);
+  result=31 * result + (tasks != null ? tasks.hashCode() : 0);
+  result=31 * result + (tabs != null ? tabs.hashCode() : 0);
+  result=31 * result + (resources != null ? resources.hashCode() : 0);
+  result=31 * result + (artifactPlans != null ? artifactPlans.hashCode() : 0);
+  result=31 * result + (artifactPropertiesGenerators != null ? artifactPropertiesGenerators.hashCode() : 0);
+  result=31 * result + (runOnAllAgents ? 1 : 0);
+  result=31 * result + (runInstanceCount != null ? runInstanceCount.hashCode() : 0);
+  result=31 * result + (timeout != null ? timeout.hashCode() : 0);
+  result=31 * result + (errors != null ? errors.hashCode() : 0);
+  return result;
 }

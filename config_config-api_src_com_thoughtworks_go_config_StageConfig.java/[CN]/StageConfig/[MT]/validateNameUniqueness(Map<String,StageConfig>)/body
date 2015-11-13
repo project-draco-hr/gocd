@@ -1,11 +1,13 @@
 {
-  String currentName=name.toLower();
-  StageConfig stageWithSameName=stageNameMap.get(currentName);
-  if (stageWithSameName == null) {
-    stageNameMap.put(currentName,this);
-  }
+  if (isValidateName()) {
+    String currentName=name.toLower();
+    StageConfig stageWithSameName=stageNameMap.get(currentName);
+    if (stageWithSameName == null) {
+      stageNameMap.put(currentName,this);
+    }
  else {
-    stageWithSameName.nameConflictError();
-    this.nameConflictError();
+      stageWithSameName.nameConflictError();
+      this.nameConflictError();
+    }
   }
 }

@@ -1,0 +1,8 @@
+{
+  validate(validationContext);
+  boolean isValid=errors().isEmpty();
+  for (  EnvironmentVariableConfig config : this) {
+    isValid=config.validateTree(validationContext) && isValid;
+  }
+  return isValid;
+}

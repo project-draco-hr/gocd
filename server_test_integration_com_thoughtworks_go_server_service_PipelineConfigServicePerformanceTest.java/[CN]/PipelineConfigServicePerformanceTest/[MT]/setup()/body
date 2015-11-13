@@ -1,0 +1,14 @@
+{
+  configHelper=new GoConfigFileHelper();
+  dbHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
+  configHelper.onSetUp();
+  goConfigService.forceNotifyListeners();
+  File dumpDir=FileUtil.createTempFolder("perf-pipelineapi-test");
+  FileUtil.deleteDirectoryNoisily(dumpDir);
+  dumpDir.mkdirs();
+  result=new HttpLocalizedOperationResult();
+  user=new Username(new CaseInsensitiveString("admin"));
+  consoleAppenderForPerformanceTest="ConsoleAppenderForPerformanceTest";
+  rollingFileAppenderForPerformanceTest="RollingFileAppenderForPerformanceTest";
+}

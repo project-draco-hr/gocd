@@ -1,0 +1,29 @@
+{
+  FileChannel channel=null;
+  FileOutputStream outputStream=null;
+  FileLock lock=null;
+  try {
+    RandomAccessFile randomAccessFile=new RandomAccessFile(fileLocation(),"rw");
+    channel=randomAccessFile.getChannel();
+    lock=channel.lock();
+    randomAccessFile.seek(0);
+    randomAccessFile.setLength(0);
+    outputStream=new FileOutputStream(randomAccessFile.getFD());
+    IOUtils.write(content,outputStream);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+ finally {
+    if (channel != null && lock != null) {
+      try {
+        lock.release();
+        channel.close();
+        IOUtils.closeQuietly(outputStream);
+      }
+ catch (      IOException e) {
+        LOGGER.error("Error occured when releasing file lock and closing file.",e);
+      }
+    }
+  }
+}

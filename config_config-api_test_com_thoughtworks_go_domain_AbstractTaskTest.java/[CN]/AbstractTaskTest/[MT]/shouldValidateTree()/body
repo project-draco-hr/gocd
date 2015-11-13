@@ -1,0 +1,15 @@
+{
+  String pipelineName="p1";
+  PipelineConfig pipelineConfig=GoConfigMother.configWithPipelines(pipelineName).pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  StageConfig stageConfig=pipelineConfig.getStages().get(0);
+  JobConfig jobConfig=stageConfig.getJobs().get(0);
+  AbstractTask execTask=new ExecTask("ls","-la","42");
+  AntTask antTask=new AntTask();
+  antTask.setWorkingDirectory("/abc");
+  execTask.setCancelTask(antTask);
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,"group",pipelineConfig,stageConfig,jobConfig);
+  assertThat(execTask.validateTree(context),is(false));
+  assertThat(antTask.errors().isEmpty(),is(false));
+  assertThat(antTask.errors().get(AntTask.WORKING_DIRECTORY).size(),is(1));
+  assertThat(antTask.errors().get(AntTask.WORKING_DIRECTORY).contains("Task of job 'job' in stage 'stage' of pipeline 'p1' has path '/abc' which is outside the working directory."),is(true));
+}

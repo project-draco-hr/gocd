@@ -1,13 +1,13 @@
 {
   JobConfig jobConfig1=new JobConfig(new CaseInsensitiveString("test"));
   jobConfig1.setRunInstanceCount(-1);
-  jobConfig1.validate(ValidationContext.forChain(new BasicCruiseConfig()));
+  jobConfig1.validate(ConfigSaveValidationContext.forChain(new BasicCruiseConfig()));
   ConfigErrors configErrors1=jobConfig1.errors();
   assertThat(configErrors1.isEmpty(),is(false));
   assertThat(configErrors1.on(JobConfig.RUN_TYPE),is("'Run Instance Count' cannot be a negative number as it represents number of instances Go needs to spawn during runtime."));
   JobConfig jobConfig2=new JobConfig(new CaseInsensitiveString("test"));
   ReflectionUtil.setField(jobConfig2,"runInstanceCount","abcd");
-  jobConfig2.validate(ValidationContext.forChain(new BasicCruiseConfig()));
+  jobConfig2.validate(ConfigSaveValidationContext.forChain(new BasicCruiseConfig()));
   ConfigErrors configErrors2=jobConfig2.errors();
   assertThat(configErrors2.isEmpty(),is(false));
   assertThat(configErrors2.on(JobConfig.RUN_TYPE),is("'Run Instance Count' should be a valid positive integer as it represents number of instances Go needs to spawn during runtime."));

@@ -3,7 +3,7 @@
   DependencyMaterialConfig one=new DependencyMaterialConfig(new CaseInsensitiveString(""),new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage"));
   DependencyMaterialConfig another=new DependencyMaterialConfig(new CaseInsensitiveString(""),new CaseInsensitiveString("pipeline3"),new CaseInsensitiveString("stage"));
   MaterialConfigs materials=new MaterialConfigs(one,another);
-  ValidationContext validationContext=ValidationContext.forChain(config);
+  ValidationContext validationContext=ConfigSaveValidationContext.forChain(config);
   materials.validate(validationContext);
   assertThat(one.errors().isEmpty(),is(true));
   assertThat(another.errors().isEmpty(),is(true));

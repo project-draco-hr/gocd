@@ -1,17 +1,8 @@
 {
-  FileChannel channel=null;
-  FileOutputStream outputStream=null;
-  FileLock lock=null;
   try {
-    RandomAccessFile randomAccessFile=new RandomAccessFile(fileLocation(),"rw");
-    channel=randomAccessFile.getChannel();
-    lock=channel.lock();
     String configAsXml=getModifiedConfig(updatingCommand,configHolder);
-    randomAccessFile.seek(0);
-    randomAccessFile.setLength(0);
-    outputStream=new FileOutputStream(randomAccessFile.getFD());
     LOGGER.info(String.format("[Configuration Changed] Saving updated configuration."));
-    IOUtils.write(configAsXml,outputStream);
+    writeToConfigXmlFile(configAsXml);
     ConfigSaveState configSaveState=shouldMergeConfig(updatingCommand,configHolder) ? ConfigSaveState.MERGED : ConfigSaveState.UPDATED;
     return new GoConfigSaveResult(internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand)),configSaveState);
   }
@@ -28,16 +19,6 @@ catch (  Exception e) {
     throw bomb(e.getMessage(),e);
   }
  finally {
-    if (channel != null && lock != null) {
-      try {
-        lock.release();
-        channel.close();
-        IOUtils.closeQuietly(outputStream);
-      }
- catch (      IOException e) {
-        LOGGER.error("Error occured when releasing file lock and closing file.",e);
-      }
-    }
     LOGGER.debug("[Config Save] Done writing with lock");
   }
 }

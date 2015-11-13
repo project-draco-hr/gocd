@@ -1,0 +1,5 @@
+{
+  ConfigErrors configErrors=createJobAndValidate(null).errors();
+  assertThat(configErrors.isEmpty(),is(false));
+  assertThat(configErrors.on(JobConfig.NAME),is("Name is a required field"));
+}

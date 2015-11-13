@@ -2,5 +2,5 @@
   String jobName="a-runInstance-1";
   ConfigErrors configErrors=createJobAndValidate(jobName).errors();
   assertThat(configErrors.isEmpty(),is(false));
-  assertThat(configErrors.on(JobConfig.NAME),is(String.format("A job cannot have 'runInstance' in it's name: %s",jobName)));
+  assertThat(configErrors.on(JobConfig.NAME),is(String.format("A job cannot have 'runInstance' in it's name: %s because it is a reserved keyword",jobName)));
 }

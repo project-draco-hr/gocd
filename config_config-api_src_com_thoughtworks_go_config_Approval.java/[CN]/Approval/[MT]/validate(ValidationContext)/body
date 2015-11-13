@@ -8,10 +8,9 @@
       return;
     }
     AdminsConfig adminsConfig=group.getAuthorization().getOperationConfig();
-    CruiseConfig cruiseConfig=validationContext.getCruiseConfig();
+    RolesConfig roles=validationContext.getServerSecurityConfig().getRoles();
     for (    Admin user : authConfig) {
-      RolesConfig roles=cruiseConfig.server().security().getRoles();
-      if (!userIsAdmin(user,cruiseConfig) && !adminsConfig.has(user,roles.memberRoles(user))) {
+      if (!validationContext.getServerSecurityConfig().isAdmin(user) && !adminsConfig.has(user,roles.memberRoles(user))) {
         user.addError(String.format("%s \"%s\" who is not authorized to operate pipeline group can not be authorized to approve stage",user.describe(),user));
       }
     }

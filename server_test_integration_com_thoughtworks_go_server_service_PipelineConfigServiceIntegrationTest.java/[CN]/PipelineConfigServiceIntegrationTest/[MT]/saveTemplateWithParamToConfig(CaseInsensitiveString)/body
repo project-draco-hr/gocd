@@ -1,0 +1,12 @@
+{
+  JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("job"));
+  ExecTask task=new ExecTask();
+  task.setCommand("ls");
+  jobConfig.addTask(task);
+  jobConfig.addVariable("ENV_VAR","#{SOME_PARAM}");
+  final PipelineTemplateConfig template=new PipelineTemplateConfig(templateName,new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(jobConfig)));
+  CruiseConfig cruiseConfig=goConfigDao.loadConfigHolder().configForEdit;
+  cruiseConfig.addTemplate(template);
+  ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+  new MagicalGoConfigXmlWriter(configCache,registry,metricsProbeService).write(cruiseConfig,buffer,false);
+}

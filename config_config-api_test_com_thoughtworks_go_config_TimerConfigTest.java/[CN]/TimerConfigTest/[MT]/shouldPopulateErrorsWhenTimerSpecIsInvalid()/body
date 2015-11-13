@@ -1,5 +1,5 @@
 {
   timerConfig=new TimerConfig("SOME JUNK TIMER SPEC",false);
   timerConfig.validate(null);
-  assertThat(timerConfig.errors().firstError(),is("Invalid cron syntax"));
+  assertThat(timerConfig.errors().firstError(),startsWith("Invalid cron syntax"));
 }

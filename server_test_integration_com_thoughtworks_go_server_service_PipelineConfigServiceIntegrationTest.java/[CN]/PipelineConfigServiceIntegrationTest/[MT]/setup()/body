@@ -1,0 +1,16 @@
+{
+  configHelper=new GoConfigFileHelper();
+  dbHelper.onSetUp();
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
+  configHelper.onSetUp();
+  goConfigService.forceNotifyListeners();
+  user=new Username(new CaseInsensitiveString("current"));
+  pipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new GitMaterialConfig("FOO"));
+  goConfigService.addPipeline(pipelineConfig,groupName);
+  GoCipher goCipher=new GoCipher();
+  goConfigService.updateServerConfig(new MailHost(goCipher),new LdapConfig(goCipher),new PasswordFileConfig("path"),false,goConfigService.configFileMd5(),"artifacts",null,null,"0",null,null,"foo");
+  UpdateConfigCommand command=goConfigService.modifyAdminPrivilegesCommand(Arrays.asList(user.getUsername().toString()),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.add));
+  goConfigService.updateConfig(command);
+  result=new HttpLocalizedOperationResult();
+  headCommitBeforeUpdate=configRepository.getCurrentRevCommit().name();
+}

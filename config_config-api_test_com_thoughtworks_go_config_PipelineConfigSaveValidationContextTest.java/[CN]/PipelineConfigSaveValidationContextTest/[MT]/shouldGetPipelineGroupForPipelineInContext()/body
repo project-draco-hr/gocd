@@ -1,0 +1,7 @@
+{
+  String pipelineName="p1";
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines(pipelineName);
+  PipelineConfig p1=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,PipelineConfigs.DEFAULT_GROUP,cruiseConfig,p1);
+  assertThat(context.getPipelineGroup(),is(cruiseConfig.findGroup(PipelineConfigs.DEFAULT_GROUP)));
+}

@@ -9,5 +9,5 @@
   execTask.setCancelTask(mockTask);
   jobConfig.addTask(execTask);
   config.validateAfterPreprocess();
-  verify(mockTask).validate(ValidationContext.forChain(config,config.getGroups(),config.getGroups().findGroup("defaultGroup"),pipelineConfig,stageConfig,stageConfig.getJobs(),jobConfig,jobConfig.getTasks(),execTask,execTask.onCancelConfig()));
+  verify(mockTask).validate(ConfigSaveValidationContext.forChain(config,config.getGroups(),config.getGroups().findGroup("defaultGroup"),pipelineConfig,stageConfig,stageConfig.getJobs(),jobConfig,jobConfig.getTasks(),execTask,execTask.onCancelConfig()));
 }

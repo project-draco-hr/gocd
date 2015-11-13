@@ -1,0 +1,12 @@
+{
+  if (isEmpty()) {
+    errors().add("materials","A pipeline must have at least one material");
+  }
+  validate(validationContext);
+  boolean isValid=errors().isEmpty();
+  for (  MaterialConfig materialConfig : this) {
+    materialConfig.validate(validationContext);
+    isValid=materialConfig.errors().isEmpty() && isValid;
+  }
+  return isValid;
+}

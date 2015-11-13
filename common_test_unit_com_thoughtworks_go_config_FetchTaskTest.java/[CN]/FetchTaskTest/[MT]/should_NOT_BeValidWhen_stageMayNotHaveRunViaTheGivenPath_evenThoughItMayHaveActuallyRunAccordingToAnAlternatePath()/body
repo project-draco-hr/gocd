@@ -5,10 +5,10 @@
   downstream=config.pipelineConfigByName(new CaseInsensitiveString("downstream"));
   downstream.setMaterialConfigs(new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig("upstream","up-stage1"),MaterialConfigsMother.dependencyMaterialConfig("upstreams_peer","peer-stage")));
   FetchTask task=new FetchTask(new CaseInsensitiveString("uppest_stream/upstreams_peer"),new CaseInsensitiveString("uppest-stage1"),new CaseInsensitiveString("uppest-job1"),"src","dest");
-  task.validate(ValidationContext.forChain(config,new BasicPipelineConfigs(),downstream,downstream.getStage(new CaseInsensitiveString("stage"))));
+  task.validate(ConfigSaveValidationContext.forChain(config,new BasicPipelineConfigs(),downstream,downstream.getStage(new CaseInsensitiveString("stage")),downstream.getStage(new CaseInsensitiveString("stage")).getJobs().first()));
   assertThat(task.errors().isEmpty(),is(true));
   task=new FetchTask(new CaseInsensitiveString("uppest_stream/upstreams_peer"),new CaseInsensitiveString("uppest-stage2"),new CaseInsensitiveString("uppest-job2"),"src","dest");
-  task.validate(ValidationContext.forChain(config,new BasicPipelineConfigs(),downstream,downstream.getStage(new CaseInsensitiveString("stage"))));
+  task.validate(ConfigSaveValidationContext.forChain(config,new BasicPipelineConfigs(),downstream,downstream.getStage(new CaseInsensitiveString("stage")),downstream.getStage(new CaseInsensitiveString("stage")).getJobs().first()));
   assertThat(task.errors().isEmpty(),is(false));
-  assertThat(task.errors().on(FetchTask.STAGE),is("Pipeline \"downstream\" tries to fetch artifact from stage \"uppest_stream :: uppest-stage2\" which does not complete before \"downstream\" pipeline's dependencies."));
+  assertThat(task.errors().on(FetchTask.STAGE),is("\"downstream :: stage :: job\" tries to fetch artifact from stage \"uppest_stream :: uppest-stage2\" which does not complete before \"downstream\" pipeline's dependencies."));
 }

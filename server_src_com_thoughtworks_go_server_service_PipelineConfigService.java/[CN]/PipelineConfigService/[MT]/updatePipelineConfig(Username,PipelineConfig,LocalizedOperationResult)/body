@@ -1,0 +1,29 @@
+{
+  try {
+    goConfigService.updatePipeline(pipelineConfig,currentUser,result,new SaveCommand<PipelineConfig>(){
+      public String group;
+      @Override public boolean isValid(      CruiseConfig modifiedConfig,      PipelineConfig preprocessedConfig){
+        boolean isValid=preprocessedConfig.validateTree(PipelineConfigSaveValidationContext.forChain(false,getPipelineGroup(),modifiedConfig,preprocessedConfig));
+        if (!isValid)         BasicCruiseConfig.copyErrors(preprocessedConfig,pipelineConfig);
+        return isValid;
+      }
+      @Override public boolean hasWritePermissions(){
+        return goConfigService.canEditPipeline(pipelineConfig.name().toString(),currentUser,result,getPipelineGroup());
+      }
+      @Override public String getPipelineGroup(){
+        if (group == null) {
+          this.group=goConfigService.findGroupNameByPipeline(pipelineConfig.name());
+        }
+        return group;
+      }
+      @Override public void updateConfig(      CruiseConfig configForEdit,      PipelineConfig pipelineConfig){
+        configForEdit.update(getPipelineGroup(),pipelineConfig.name().toString(),pipelineConfig);
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+    LOGGER.error(e.getMessage(),e);
+    result.internalServerError(LocalizedMessage.string("SAVE_FAILED_WITH_REASON",e.getMessage()));
+  }
+}

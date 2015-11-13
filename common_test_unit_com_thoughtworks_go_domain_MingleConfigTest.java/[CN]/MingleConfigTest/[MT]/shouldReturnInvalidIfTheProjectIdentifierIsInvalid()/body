@@ -1,6 +1,6 @@
 {
   MingleConfig mingleConfig=new MingleConfig("https://some-mingle-instance","wrong project identifier");
-  mingleConfig.validate(new ValidationContext(null));
+  mingleConfig.validate(new ConfigSaveValidationContext(null));
   assertThat(mingleConfig.errors().isEmpty(),is(false));
   assertThat(mingleConfig.errors().on(MingleConfig.BASE_URL),is(nullValue()));
   assertThat(mingleConfig.errors().on(MingleConfig.PROJECT_IDENTIFIER),is("Should be a valid mingle identifier."));

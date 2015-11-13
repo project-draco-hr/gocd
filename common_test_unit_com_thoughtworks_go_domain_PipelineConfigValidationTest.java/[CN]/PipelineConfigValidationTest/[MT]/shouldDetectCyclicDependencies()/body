@@ -1,0 +1,15 @@
+{
+  String pipelineName="p1";
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines(pipelineName,"p2","p3");
+  PipelineConfig p2=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("p2"));
+  p2.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString(pipelineName),new CaseInsensitiveString("stage")));
+  PipelineConfig p3=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("p3"));
+  p3.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("p2"),new CaseInsensitiveString("stage")));
+  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  PipelineConfig p1=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  p1=new Cloner().deepClone(p1);
+  p1.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("p3"),new CaseInsensitiveString("stage")));
+  p1.validateTree(PipelineConfigSaveValidationContext.forChain(true,cruiseConfig.getGroups().first().getGroup(),cruiseConfig,p1));
+  assertThat(p1.materialConfigs().errors().isEmpty(),is(false));
+  assertThat(p1.materialConfigs().errors().on("base"),is("Circular dependency: p1 <- p2 <- p3 <- p1"));
+}

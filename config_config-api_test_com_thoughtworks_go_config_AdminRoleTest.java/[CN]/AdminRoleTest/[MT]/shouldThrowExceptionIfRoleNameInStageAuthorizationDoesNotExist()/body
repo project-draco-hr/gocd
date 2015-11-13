@@ -2,8 +2,8 @@
   AdminRole role=new AdminRole(new CaseInsensitiveString("role2"));
   StageConfig stage=StageConfigMother.custom("ft",new AuthConfig(role));
   CruiseConfig config=new BasicCruiseConfig(new BasicPipelineConfigs(new PipelineConfig(new CaseInsensitiveString("pipeline"),new MaterialConfigs(),stage)));
-  role.validate(ValidationContext.forChain(config));
+  role.validate(ConfigSaveValidationContext.forChain(config));
   ConfigErrors configErrors=role.errors();
   assertThat(configErrors.isEmpty(),is(false));
-  assertThat(configErrors.on(AdminRole.NAME),is("Role \"role2\" does not exist!"));
+  assertThat(configErrors.on(AdminRole.NAME),is("Role \"role2\" does not exist."));
 }

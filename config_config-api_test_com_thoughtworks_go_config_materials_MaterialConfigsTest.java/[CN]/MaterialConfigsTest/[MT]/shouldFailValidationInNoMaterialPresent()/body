@@ -1,0 +1,5 @@
+{
+  MaterialConfigs materialConfigs=new MaterialConfigs();
+  assertThat(materialConfigs.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",new PipelineConfig())),is(false));
+  assertThat(materialConfigs.errors().firstError(),is("A pipeline must have at least one material"));
+}

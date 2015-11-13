@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("wunderbar"),new MaterialConfigs());
+  config.addPipeline("group",pipelineConfig);
+  PipelineConfigurationCache.getInstance().onConfigChange(config);
+  pipelineConfig.setTemplateName(new CaseInsensitiveString("does-not-exist"));
+  pipelineConfig.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",config,pipelineConfig));
+  assertThat(pipelineConfig.errors().on("pipeline"),is("Pipeline 'wunderbar' refers to non-existent template 'does-not-exist'."));
+}

@@ -1,0 +1,8 @@
+{
+  JobConfig jobConfig=mock(JobConfig.class);
+  when(jobConfig.validateTree(Matchers.<PipelineConfigSaveValidationContext>any())).thenReturn(false);
+  JobConfigs jobConfigs=new JobConfigs(jobConfig);
+  boolean isValid=jobConfigs.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",new PipelineConfig()));
+  assertFalse(isValid);
+  verify(jobConfig).validateTree(Matchers.<PipelineConfigSaveValidationContext>any());
+}

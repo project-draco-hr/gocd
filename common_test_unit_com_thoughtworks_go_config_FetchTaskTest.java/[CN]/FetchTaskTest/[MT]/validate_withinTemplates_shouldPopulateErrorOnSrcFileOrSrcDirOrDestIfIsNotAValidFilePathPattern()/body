@@ -5,10 +5,11 @@
   StageConfig stage=template.get(0);
   JobConfig job=stage.getJobs().get(0);
   FetchTask task=new FetchTask(template.name(),stage.name(),job.name(),src,dest);
-  task.validate(ValidationContext.forChain(template,stage,job));
+  ValidationContext context=ConfigSaveValidationContext.forChain(config,template,stage,job);
+  task.validate(context);
   assertThat(task.errors().isEmpty(),is(false));
-  String messageForSrc=String.format("Task of job '%s' in stage '%s' of template '%s' has path '%s' which is outside the working directory.",job.name(),stage.name(),template.name(),src);
+  String messageForSrc=String.format("Task of job '%s' in stage '%s' of template '%s' has src path '%s' which is outside the working directory.",job.name(),stage.name(),template.name(),src);
   assertThat(task.errors().on(FetchTask.SRC),is(messageForSrc));
-  String messageForDest=String.format("Task of job '%s' in stage '%s' of template '%s' has path '%s' which is outside the working directory.",job.name(),stage.name(),template.name(),dest);
+  String messageForDest=String.format("Task of job '%s' in stage '%s' of template '%s' has dest path '%s' which is outside the working directory.",job.name(),stage.name(),template.name(),dest);
   assertThat(task.errors().on(FetchTask.DEST),is(messageForDest));
 }

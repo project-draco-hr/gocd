@@ -1,0 +1,9 @@
+{
+  Resource resource1=new Resource("a#");
+  Resource resource2=new Resource("b");
+  Resources resources=new Resources(resource1,resource2);
+  resources.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",new PipelineConfig()));
+  assertThat(resource1.errors().size(),is(1));
+  assertThat(resource1.errors().firstError(),is(String.format("Resource name 'a#' is not valid. Valid names much match '%s'",Resource.VALID_REGEX)));
+  assertThat(resource2.errors().isEmpty(),is(true));
+}

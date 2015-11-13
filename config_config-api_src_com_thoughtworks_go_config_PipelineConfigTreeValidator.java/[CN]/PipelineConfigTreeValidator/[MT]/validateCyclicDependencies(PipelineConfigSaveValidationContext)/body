@@ -1,0 +1,9 @@
+{
+  final DFSCycleDetector dfsCycleDetector=new DFSCycleDetector();
+  try {
+    dfsCycleDetector.topoSort(pipelineConfig.name(),new PipelineConfigValidationContextDependencyState(pipelineConfig,validationContext));
+  }
+ catch (  Exception e) {
+    pipelineConfig.materialConfigs().addError("base",e.getMessage());
+  }
+}

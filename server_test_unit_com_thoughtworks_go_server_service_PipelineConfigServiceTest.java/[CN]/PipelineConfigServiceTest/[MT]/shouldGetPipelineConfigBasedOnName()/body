@@ -1,0 +1,6 @@
+{
+  String pipelineName="pipeline";
+  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  PipelineConfig pipeline=pipelineConfigService.getPipelineConfig(pipelineName);
+  assertThat(pipeline,is(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString(pipelineName))));
+}

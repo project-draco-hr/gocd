@@ -1,0 +1,27 @@
+{
+  PipelineConfig srcPipeline=validationContext.getPipelineConfigByName(pipelineName.getAncestorName());
+  if (srcPipeline == null) {
+    addError(PIPELINE,String.format("\"%s :: %s :: %s\" tries to fetch artifact from pipeline \"%s\" which does not exist.",currentPipeline.name(),validationContext.getStage().name(),validationContext.getJob().name(),pipelineName.getAncestorName()));
+    return true;
+  }
+ else {
+    StageConfig srcStage=srcPipeline.findBy(stage);
+    if (srcStage == null) {
+      addError(STAGE,String.format("\"%s :: %s :: %s\" tries to fetch artifact from stage \"%s :: %s\" which does not exist.",currentPipeline.name(),validationContext.getStage().name(),validationContext.getJob().name(),pipelineName.getAncestorName(),stage));
+      return true;
+    }
+ else {
+      if (srcStage.jobConfigByInstanceName(CaseInsensitiveString.str(job),true) == null) {
+        addError(JOB,String.format("\"%s :: %s :: %s\" tries to fetch artifact from job \"%s :: %s :: %s\" which does not exist.",currentPipeline.name(),validationContext.getStage().name(),validationContext.getJob().name(),pipelineName.getAncestorName(),stage,job));
+        return true;
+      }
+    }
+    if (validationContext.shouldCheckConfigRepo()) {
+      if (!validationContext.getConfigRepos().isReferenceAllowed(currentPipeline.getOrigin(),srcPipeline.getOrigin())) {
+        addError(ORIGIN,String.format("\"%s :: %s :: %s\" tries to fetch artifact from job \"%s :: %s :: %s\" which is defined in %s - reference is not allowed",currentPipeline.name(),validationContext.getStage().name(),validationContext.getJob().name(),pipelineName.getAncestorName(),stage,job,displayNameFor(srcPipeline.getOrigin())));
+        return true;
+      }
+    }
+  }
+  return false;
+}

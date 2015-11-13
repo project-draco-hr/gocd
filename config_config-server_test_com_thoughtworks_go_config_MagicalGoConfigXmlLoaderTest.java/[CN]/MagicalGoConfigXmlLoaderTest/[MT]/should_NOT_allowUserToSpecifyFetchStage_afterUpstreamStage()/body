@@ -5,6 +5,6 @@
     fail("should not have permitted fetch from parent pipeline's stage after the one downstream depends on");
   }
  catch (  Exception e) {
-    assertThat(e.getMessage(),containsString("Pipeline \"down_pipeline\" tries to fetch artifact from stage \"up_pipeline :: up_stage_2\" which does not complete before \"down_pipeline\" pipeline's dependencies."));
+    assertThat(e.getMessage(),containsString("\"down_pipeline :: down_stage :: down_job\" tries to fetch artifact from stage \"up_pipeline :: up_stage_2\" which does not complete before \"down_pipeline\" pipeline's dependencies."));
   }
 }

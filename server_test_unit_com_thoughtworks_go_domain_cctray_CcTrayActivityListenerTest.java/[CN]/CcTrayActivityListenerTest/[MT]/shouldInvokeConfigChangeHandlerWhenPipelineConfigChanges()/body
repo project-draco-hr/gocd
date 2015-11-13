@@ -1,0 +1,9 @@
+{
+  CcTrayConfigChangeHandler ccTrayConfigChangeHandler=mock(CcTrayConfigChangeHandler.class);
+  CcTrayActivityListener listener=new CcTrayActivityListener(goConfigService,mock(CcTrayJobStatusChangeHandler.class),mock(CcTrayStageStatusChangeHandler.class),ccTrayConfigChangeHandler);
+  listener.initialize();
+  PipelineConfig pipelineConfig=mock(PipelineConfig.class);
+  listener.onPipelineConfigChange(pipelineConfig,"group1");
+  waitForProcessingToHappen();
+  verify(ccTrayConfigChangeHandler).call(pipelineConfig,"group1");
+}

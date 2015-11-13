@@ -13,14 +13,11 @@
     }
   }
   if (attributeMap.containsKey(ARGS)) {
-    clearCurrentArgsAndArgList();
     String val=(String)attributeMap.get(ARGS);
-    if (!StringUtil.isBlank(val)) {
-      this.args=val;
-    }
+    setArgs(val);
   }
   if (attributeMap.containsKey(WORKING_DIR)) {
     final String newWorkingDir=(String)attributeMap.get(WORKING_DIR);
-    workingDirectory=StringUtil.isBlank(newWorkingDir) ? null : newWorkingDir;
+    setWorkingDirectory(newWorkingDir);
   }
 }
