@@ -1,0 +1,6 @@
+{
+  ServerVersionInfoManager manager=mock(ServerVersionInfoManager.class);
+  when(manager.isUpdateCheckEnabled()).thenReturn(true);
+  boolean isVersionCheckEnabled=new VersionInfoService(manager).isGOUpdateCheckEnabled();
+  assertTrue(isVersionCheckEnabled);
+}

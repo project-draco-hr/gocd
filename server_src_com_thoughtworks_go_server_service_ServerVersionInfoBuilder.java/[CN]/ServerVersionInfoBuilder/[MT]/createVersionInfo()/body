@@ -1,0 +1,8 @@
+{
+  VersionInfo versionInfo=null;
+  GoVersion installedVersion=installedVersion();
+  if (installedVersion == null)   return versionInfo;
+  versionInfo=new VersionInfo(GO_SERVER,installedVersion);
+  versionInfoDao.saveOrUpdate(versionInfo);
+  return versionInfo;
+}

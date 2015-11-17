@@ -1,0 +1,8 @@
+{
+  Matcher matcher=matcherFor(version);
+  if (matcher == null)   throw new VersionFormatException(format("Invalid version format [%s]",version));
+  this.major=parseInt(matcher.group(1));
+  this.minor=parseInt(matcher.group(2));
+  this.patches=parseInt(matcher.group(3));
+  this.modifications=parseInt(matcher.group(4));
+}

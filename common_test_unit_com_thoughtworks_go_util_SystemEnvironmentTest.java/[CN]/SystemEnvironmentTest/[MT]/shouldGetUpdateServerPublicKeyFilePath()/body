@@ -1,0 +1,5 @@
+{
+  assertThat(SystemEnvironment.GO_UPDATE_SERVER_PUBLIC_KEY_FILE_NAME.propertyName(),is("go.update.server.public.key.file.name"));
+  System.setProperty("go.update.server.public.key.file.name","public_key");
+  assertThat(systemEnvironment.getUpdateServerPublicKeyPath(),is(systemEnvironment.getConfigDir() + "/public_key"));
+}

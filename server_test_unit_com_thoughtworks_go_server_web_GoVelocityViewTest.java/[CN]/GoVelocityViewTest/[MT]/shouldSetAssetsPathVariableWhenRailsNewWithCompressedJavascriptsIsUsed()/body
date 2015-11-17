@@ -10,6 +10,7 @@
   when(railsAssetsService.getAssetPath("cruise.ico")).thenReturn("assets/cruise.ico");
   GoVelocityView view=spy(new GoVelocityView(systemEnvironment));
   doReturn(railsAssetsService).when(view).getRailsAssetsService();
+  doReturn(versionInfoService).when(view).getVersionInfoService();
   Request servletRequest=mock(Request.class);
   when(servletRequest.getSession()).thenReturn(mock(HttpSession.class));
   view.exposeHelpers(velocityContext,servletRequest);

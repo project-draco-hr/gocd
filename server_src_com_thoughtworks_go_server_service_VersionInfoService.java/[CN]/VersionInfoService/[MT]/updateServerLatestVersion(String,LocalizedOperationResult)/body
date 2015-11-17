@@ -1,0 +1,10 @@
+{
+  VersionInfo versionInfo=null;
+  try {
+    versionInfo=manager.updateLatestVersion(latestVersion);
+  }
+ catch (  VersionFormatException e) {
+    result.badRequest(LocalizedMessage.string("INVALID_VERSION_STRING_FORMAT",e.getMessage()));
+  }
+  return versionInfo;
+}

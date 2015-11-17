@@ -1,0 +1,7 @@
+{
+  String newRelease="15.0.1-123";
+  GoCache goCache=mock(GoCache.class);
+  when(goCache.get("GOUpdate")).thenReturn(newRelease);
+  manager=new ServerVersionInfoManager(builder,versionInfoDao,new SystemTimeClock(),goCache,null);
+  assertThat(manager.getGoUpdate(),is(newRelease));
+}

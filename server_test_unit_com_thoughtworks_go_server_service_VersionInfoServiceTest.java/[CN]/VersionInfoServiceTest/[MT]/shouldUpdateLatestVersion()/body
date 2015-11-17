@@ -1,0 +1,7 @@
+{
+  ServerVersionInfoManager versionInfoManager=mock(ServerVersionInfoManager.class);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  new VersionInfoService(versionInfoManager).updateServerLatestVersion("15.3.0-123",result);
+  verify(versionInfoManager).updateLatestVersion("15.3.0-123");
+  assertTrue(result.isSuccessful());
+}

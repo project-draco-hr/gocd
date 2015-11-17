@@ -1,0 +1,11 @@
+{
+  GoVersion installedVersion=new GoVersion("14.1.0-123");
+  GoVersion latestVersion=new GoVersion("15.1.0-876");
+  Date now=new Date();
+  VersionInfo versionInfo=new VersionInfo("GOServer",installedVersion,latestVersion,now);
+  versionInfoSqlMapDao.saveOrUpdate(versionInfo);
+  VersionInfo info=versionInfoSqlMapDao.findByComponentName(versionInfo.getComponentName());
+  assertThat(info.getInstalledVersion().toString(),is(installedVersion.toString()));
+  assertThat(info.getLatestVersion().toString(),is(latestVersion.toString()));
+  assertThat(info.getLatestVersionUpdatedAt().compareTo(now),is(0));
+}
