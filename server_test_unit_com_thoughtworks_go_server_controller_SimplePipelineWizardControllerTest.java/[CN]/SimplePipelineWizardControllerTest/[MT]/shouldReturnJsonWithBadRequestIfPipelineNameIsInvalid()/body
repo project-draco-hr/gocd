@@ -1,8 +1,0 @@
-{
-  pipelineName="_$%^*&%$$invalidName";
-  when(goConfigService.hasPipelineNamed(new CaseInsensitiveString(pipelineName))).thenReturn(false);
-  ModelAndView modelAndView=controller.createPipeline(pipelineName,DEFAULT_GROUP,null,"http://test/","","","","","",null,null,null,"","",false,"",null,null,null,response);
-  Map data=modelAndView.getModel();
-  JsonMap json=(JsonMap)data.get("json");
-  new JsonTester(json).shouldContain("{ 'isValid' : 'false' }");
-}

@@ -1,10 +1,9 @@
 {
   assertThat(ValidationBean.valid().isValid(),is(true));
   assertThat(ValidationBean.valid().getError(),is(""));
-  ValidationBean bean=ValidationBean.valid("random_message_id");
+  ValidationBean bean=ValidationBean.valid();
   assertThat(bean.isValid(),is(true));
   JsonMap map=new JsonMap();
   map.put("isValid","true");
-  map.put("messageId","random_message_id");
   assertTrue(bean.toJson().contains(map));
 }
