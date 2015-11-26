@@ -1,9 +1,0 @@
-{
-  configHelper.addSecurityWithAdminConfig();
-  String defaultUser=CaseInsensitiveString.str(UserHelper.getUserName().getUsername());
-  configHelper.setOperatePermissionForGroup("defaultGroup",defaultUser);
-  configHelper.setViewPermissionForGroup("defaultGroup",defaultUser);
-  fixture.createPipelineWithFirstStageScheduled();
-  PipelineJsonPresentationModel pipelineActivity=pipelineActivity(defaultUser);
-  assertThat(pipelineActivity.getLatestStage(0).getCanCancel(),is(true));
-}

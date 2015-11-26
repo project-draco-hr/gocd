@@ -24,13 +24,7 @@
         }
       }
  else {
-        if (isForcePipelineRequest(request)) {
-          if (!securityService.hasOperatePermissionForFirstStage(pipelineName,name)) {
-            response.sendError(SC_UNAUTHORIZED);
-            return false;
-          }
-        }
- else         if (!securityService.hasOperatePermissionForPipeline(username.getUsername(),pipelineName)) {
+        if (!securityService.hasOperatePermissionForPipeline(username.getUsername(),pipelineName)) {
           response.sendError(SC_UNAUTHORIZED);
           return false;
         }

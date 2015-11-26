@@ -1,8 +1,0 @@
-{
-  configHelper.addSecurityWithAdminConfig();
-  configHelper.setOperatePermissionForGroup("defaultGroup","operate_user");
-  configHelper.setViewPermissionForGroup("defaultGroup","view_user");
-  fixture.createPipelineWithFirstStageScheduled();
-  PipelineJsonPresentationModel pipelineActivity=pipelineActivity("view_user");
-  assertThat(pipelineActivity.getLatestStage(0).getCanCancel(),is(false));
-}
