@@ -1,11 +1,11 @@
 {
   PackageMaterial material=new PackageMaterial();
-  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo-name","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
+  PackageRepository repository=create("repo-id","repo-name","pluginid","version",new Configuration(ConfigurationPropertyMother.create("k1",false,"v1")));
   material.setPackageDefinition(PackageDefinitionMother.create("p-id","package-name",new Configuration(ConfigurationPropertyMother.create("k2",false,"v2")),repository));
-  JsonMap jsonMap=new JsonMap();
+  Map<String,String> jsonMap=new LinkedHashMap<>();
   material.toJson(jsonMap,new PackageMaterialRevision("rev123",new Date()));
-  assertThat(jsonMap.hasEntry("scmType","Package"),is(true));
-  assertThat(jsonMap.hasEntry("materialName","repo-name:package-name"),is(true));
-  assertThat(jsonMap.hasEntry("action","Modified"),is(true));
-  assertThat(jsonMap.hasEntry("location",material.getUriForDisplay()),is(true));
+  assertThat(jsonMap.get("scmType"),is("Package"));
+  assertThat(jsonMap.get("materialName"),is("repo-name:package-name"));
+  assertThat(jsonMap.get("action"),is("Modified"));
+  assertThat(jsonMap.get("location"),is(material.getUriForDisplay()));
 }

@@ -1,6 +1,6 @@
 {
   Stage unscheduled=new NullStage("unscheduled");
   StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,unscheduled,null,new Agents());
-  JsonMap json=presenter.toJson();
+  Map json=presenter.toJson();
   new JsonTester(json).shouldContain("{ 'getCanRun' : 'false' }");
 }

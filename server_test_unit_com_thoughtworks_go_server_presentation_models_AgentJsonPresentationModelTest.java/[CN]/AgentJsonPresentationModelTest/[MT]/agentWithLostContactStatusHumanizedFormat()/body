@@ -6,6 +6,6 @@
   agentInstance.update(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null));
   agentInstance.refresh(null);
   AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(agentInstance);
-  JsonMap json=adaptor.toJsonHash();
+  Map json=adaptor.toJsonHash();
   new JsonTester(json).shouldContain("{ 'humanizedStatus' : 'lost contact'," + " 'status' : 'lostcontact'}");
 }

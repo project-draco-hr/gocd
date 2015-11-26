@@ -1,7 +1,7 @@
 {
-  JsonList json=new JsonList();
+  List json=new ArrayList();
   for (  PipelineInstanceModel item : pipelineHistory) {
-    JsonMap jsonMap=new JsonMap();
+    Map<String,Object> jsonMap=new LinkedHashMap<>();
     jsonMap.put("pipelineId",item.getId());
     jsonMap.put("label",item.getLabel());
     jsonMap.put("counterOrLabel",item.getPipelineIdentifier().instanceIdentifier());

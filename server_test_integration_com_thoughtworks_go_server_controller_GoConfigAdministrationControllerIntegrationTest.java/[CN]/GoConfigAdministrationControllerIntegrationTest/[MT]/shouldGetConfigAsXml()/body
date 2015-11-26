@@ -4,5 +4,5 @@
   ByteArrayOutputStream os=new ByteArrayOutputStream();
   new MagicalGoConfigXmlWriter(new ConfigCache(),registry,metricsProbeService).write(goConfigDao.loadForEditing(),os,true);
   assertValidContentAndStatus(SC_OK,"text/xml",os.toString());
-  assertThat((String)response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5),is(goConfigDao.md5OfConfigFile()));
+  assertThat(response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5),is(goConfigDao.md5OfConfigFile()));
 }

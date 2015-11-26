@@ -3,9 +3,11 @@
   response.addHeader("Cache-Control",GoConstants.CACHE_CONTROL);
   response.setStatus(status);
   response.setContentType(getContentType());
-  Json json=jsonAware.toJson();
+  Object json=jsonAware;
+  if (jsonAware instanceof JsonAware) {
+    json=((JsonAware)jsonAware).toJson();
+  }
   PrintWriter writer=response.getWriter();
-  JsonRenderer renderer=new JsonStreamRenderer(goRequestContext,writer);
-  json.renderTo(renderer);
+  JsonRenderer.render(json,goRequestContext,writer);
   writer.close();
 }

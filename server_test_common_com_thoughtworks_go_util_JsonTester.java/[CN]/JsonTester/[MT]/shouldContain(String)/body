@@ -1,4 +1,11 @@
 {
-  JsonContains jsonContains=jsonContains(other);
-  assertThat(json,jsonContains);
+  Object otherJson=javascriptParse(other);
+  try {
+    String actual=GSON.toJson(this.json);
+    String expected=GSON.toJson(otherJson);
+    JSONAssert.assertEquals(expected,actual,false);
+  }
+ catch (  JSONException e) {
+    throw new AssertionError(e.getMessage());
+  }
 }

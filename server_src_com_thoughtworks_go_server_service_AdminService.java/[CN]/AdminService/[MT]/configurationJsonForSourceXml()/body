@@ -1,6 +1,6 @@
 {
-  JsonMap json=new JsonMap();
-  JsonMap configJson=new JsonMap();
+  Map<String,Object> json=new LinkedHashMap<>();
+  Map<String,Object> configJson=new LinkedHashMap<>();
   GoConfigService.XmlPartialSaver saver=goConfigService.fileSaver(false);
   configJson.put("location",goConfigService.fileLocation());
   configJson.put("content",saver.asXml());

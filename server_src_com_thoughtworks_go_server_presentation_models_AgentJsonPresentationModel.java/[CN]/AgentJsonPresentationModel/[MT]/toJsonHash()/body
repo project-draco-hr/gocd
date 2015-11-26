@@ -1,30 +1,30 @@
 {
-  JsonMap map=new JsonMap();
+  Map<String,Object> map=new LinkedHashMap<>();
   map.put("location",agentInstallPath());
   map.put("agentId",agentInstance.agentConfig().getUuid());
   map.put("hostname",agentInstance.agentConfig().getHostNameForDispaly());
   map.put("status",agentInstance.getStatus().toString().toLowerCase());
   map.put("usablespace",getUsableSpaceForDisplay());
-  map.put("isLowSpace",String.valueOf(agentInstance.isLowDiskSpace()));
+  map.put("isLowSpace",valueOf(agentInstance.isLowDiskSpace()));
   if (agentInstance.canApprove()) {
     map.put("canApprove","true");
   }
   if (agentInstance.canDisable()) {
     map.put("canDeny","true");
   }
-  if (agentInstance.getStatus() != AgentStatus.Pending) {
+  if (agentInstance.getStatus() != Pending) {
     map.put("canEditResource","true");
   }
-  map.put("humanizedStatus",StringUtil.humanize(agentInstance.getStatus().toString()));
+  map.put("humanizedStatus",humanize(agentInstance.getStatus().toString()));
   if (agentInstance.getBuildingInfo().isBuilding()) {
     map.put("buildingInfo",agentInstance.getBuildingInfo().getBuildingInfo());
     map.put("buildLocator",agentInstance.getBuildingInfo().getBuildLocator());
   }
-  if (agentInstance.getStatus() == AgentStatus.LostContact) {
+  if (agentInstance.getStatus() == LostContact) {
     map.put("lostContactTime",timeConverter.nullSafeDate(agentInstance.getLastHeardTime()));
   }
   map.put("ipAddress",agentInstance.agentConfig().getIpAddress());
   map.put("resources",agentInstance.agentConfig().getResources().resourceNames());
-  map.put("isCancelled",String.valueOf(agentInstance.isCancelled()));
+  map.put("isCancelled",valueOf(agentInstance.isCancelled()));
   return map;
 }

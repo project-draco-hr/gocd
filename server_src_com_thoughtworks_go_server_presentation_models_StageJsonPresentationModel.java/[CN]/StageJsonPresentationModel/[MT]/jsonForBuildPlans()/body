@@ -1,9 +1,9 @@
 {
   JobInstances builds=stage.getJobInstances();
-  JsonList plans=new JsonList();
+  List plans=new ArrayList();
   for (  JobInstance job : builds) {
     JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(job,agents.getAgentByUuid(job.getAgentUuid()),durations.byId(job.getId()));
-    JsonMap jsonMap=presenter.toJsonHash();
+    Map jsonMap=presenter.toJsonHash();
     jsonMap.put("buildLocator",job.buildLocator());
     plans.add(jsonMap);
   }

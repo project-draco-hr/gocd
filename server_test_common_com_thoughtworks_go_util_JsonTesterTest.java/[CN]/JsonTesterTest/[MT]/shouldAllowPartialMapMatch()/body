@@ -1,7 +1,7 @@
 {
-  JsonMap json=new JsonMap();
+  Map<String,Object> json=new LinkedHashMap<>();
   json.put("first","1");
-  json.put("second",jsonList("a","b","c"));
+  json.put("second",Arrays.asList("a","b","c"));
   JsonTester tester=new JsonTester(json);
   tester.shouldContain("{ 'first' : '1' }");
   tester.shouldContain("{ 'second' : [ " + "    'a',       " + "    'c',       "+ "    'b'        "+ "  ]            "+ "}              ");

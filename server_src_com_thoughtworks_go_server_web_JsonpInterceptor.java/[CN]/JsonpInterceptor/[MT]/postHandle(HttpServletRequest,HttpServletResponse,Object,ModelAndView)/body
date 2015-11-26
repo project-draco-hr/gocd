@@ -1,7 +1,0 @@
-{
-  String callback=request.getParameter("callback");
-  if (!StringUtils.isEmpty(callback) && modelAndView.getModel().containsKey("json")) {
-    Json json=(Json)modelAndView.getModel().get("json");
-    modelAndView.getModel().put("json",new JsonpString(json,callback));
-  }
-}

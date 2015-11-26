@@ -1,8 +1,8 @@
 {
-  JsonList jsonList=new JsonList();
+  List jsonList=new ArrayList();
   for (  PipelineInstanceGroupModel group : pipelineHistoryGroups) {
-    JsonMap jsonMap=new JsonMap();
-    Json configJson=configAsJson(group.getStages());
+    Map<String,Object> jsonMap=new LinkedHashMap<>();
+    Map configJson=configAsJson(group.getStages());
     jsonMap.put("config",configJson);
     jsonMap.put("history",historyAsJson(group.getPipelineInstances()));
     jsonList.add(jsonMap);
