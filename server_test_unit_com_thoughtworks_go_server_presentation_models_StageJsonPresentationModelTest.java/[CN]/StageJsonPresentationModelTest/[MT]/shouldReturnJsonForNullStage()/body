@@ -1,6 +1,6 @@
 {
   final StageConfig config=StageConfigMother.oneBuildPlanWithResourcesAndMaterials("newStage");
   StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,NullStage.createNullStage(config),null,new Agents());
-  JsonMap json=presenter.toJson();
-  new JsonTester(json.getJsonList("builds")).shouldContain("[{ 'current_status' : 'unknown' }]");
+  Map json=presenter.toJson();
+  new JsonTester((List)json.get("builds")).shouldContain("[{ 'current_status' : 'unknown' }]");
 }

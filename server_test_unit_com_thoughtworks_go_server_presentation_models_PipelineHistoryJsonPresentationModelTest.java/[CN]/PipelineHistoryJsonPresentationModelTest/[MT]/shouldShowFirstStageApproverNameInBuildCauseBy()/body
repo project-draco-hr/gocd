@@ -1,5 +1,5 @@
 {
-  JsonMap jsonMap=presenter.toJson();
+  Map jsonMap=presenter.toJson();
   JsonValue jsonValue=JsonUtils.from(jsonMap);
   String revision=jsonValue.getString("groups",0,"history",0,"buildCauseBy");
   assertThat(revision,is("Triggered by " + GoConstants.DEFAULT_APPROVED_BY));

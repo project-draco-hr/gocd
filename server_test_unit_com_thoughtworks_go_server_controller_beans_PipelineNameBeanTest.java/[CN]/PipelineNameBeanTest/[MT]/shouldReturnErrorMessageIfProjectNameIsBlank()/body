@@ -1,6 +1,6 @@
 {
   PipelineNameBean bean=new PipelineNameBean("     ",false);
-  JsonMap json=(JsonMap)bean.validate().toJson();
-  assertThat(json.getJsonString("isValid").withoutQuote(),is("false"));
-  assertThat(json.getJsonString(ERROR_FOR_JSON).withoutQuote(),is(ERRORR_MESSAGE));
+  Map<String,String> json=(Map)bean.validate().toJson();
+  assertThat(json.get("isValid"),is("false"));
+  assertThat(json.get(ERROR_FOR_JSON),is(ERRORR_MESSAGE));
 }

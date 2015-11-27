@@ -1,6 +1,6 @@
 {
   JobInstance instance=JobInstanceMother.building("test",new DateTime().minusSeconds(5).toDate());
   JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(instance,null,new DurationBean(instance.getId(),10L));
-  JsonMap json=presenter.toJsonHash();
+  Map json=presenter.toJsonHash();
   new JsonTester(json).shouldContain("{ 'name' : 'test'," + " 'current_status' : 'building', " + " 'current_build_duration' : '5', "+ " 'last_build_duration' : '10' "+ "}");
 }

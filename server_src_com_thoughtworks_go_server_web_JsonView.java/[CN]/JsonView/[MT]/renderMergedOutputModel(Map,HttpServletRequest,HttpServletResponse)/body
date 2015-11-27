@@ -7,9 +7,8 @@
       throw e;
     }
   }
-  Json json=(Json)map.get("json");
+  Object json=map.get("json");
   PrintWriter writer=httpServletResponse.getWriter();
-  JsonRenderer renderer=new JsonStreamRenderer(requestContext,writer);
-  json.renderTo(renderer);
+  JsonRenderer.render(json,requestContext,writer);
   writer.close();
 }

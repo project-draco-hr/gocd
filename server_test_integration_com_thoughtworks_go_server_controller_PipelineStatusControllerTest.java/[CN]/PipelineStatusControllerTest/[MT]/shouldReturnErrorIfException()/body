@@ -1,8 +1,0 @@
-{
-  MockHttpServletRequest request=new MockHttpServletRequest();
-  request.setRequestURI("pausePipeline.json");
-  MockHttpServletResponse response=new MockHttpServletResponse();
-  ModelAndView modelAndView=pipelineStatusController.handleError(request,response,new Exception("pause error"));
-  String json=modelAndView.getModelMap().get("json").toString();
-  assertThat(json,containsString("pause error"));
-}

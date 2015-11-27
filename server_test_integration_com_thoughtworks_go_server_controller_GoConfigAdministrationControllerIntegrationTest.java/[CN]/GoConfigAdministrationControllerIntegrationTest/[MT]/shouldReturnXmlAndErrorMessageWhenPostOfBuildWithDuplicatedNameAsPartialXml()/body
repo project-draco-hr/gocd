@@ -5,9 +5,9 @@
   ModelAndView mav=controller.postBuildAsXmlPartial("pipeline","stage",0,newXml,md5,response);
   assertThat(response.getStatus(),is(SC_CONFLICT));
   assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));
-  Json json=(Json)mav.getModel().get("json");
-  JsonMap expected=new JsonMap();
+  Map<String,Object> json=(Map)mav.getModel().get("json");
+  Map<String,Object> expected=new LinkedHashMap<>();
   expected.put("result","Duplicate unique value [build2] declared for identity constraint \"uniqueJob\" of element \"jobs\".");
   expected.put("originalContent",newXml);
-  assertThat(json,is((Json)expected));
+  assertThat(json,is(expected));
 }

@@ -1,6 +1,6 @@
 {
   StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,stage,null,new Agents());
-  JsonMap json=presenter.toJson();
-  new JsonTester(json).shouldContain("{ 'pipelineName' : 'pipeline'," + "  'stageName' : 'stage'," + "  'builds' : ["+ "    { 'name' : 'job-that-will-fail' },"+ "    { 'name' : 'job-that-will-pass' }"+ "  ],"+ " 'current_label' : '" + pipeline.getLabel() + "', "+ " 'pipelineCounter' : '"+ pipeline.getCounter()+ "', "+ " 'pipelineCounterOrLabel' : '"+ pipeline.getIdentifier().instanceIdentifier()+ "', "+ " 'id' : '1' "+ "}");
+  Map json=presenter.toJson();
+  new JsonTester(json).shouldContain("{ 'pipelineName' : 'pipeline'," + "  'stageName' : 'stage'," + "  'builds' : ["+ "    { 'name' : 'job-that-will-fail' },"+ "    { 'name' : 'job-that-will-pass' },"+ "    { 'name' : 'scheduledBuild' }"+ "  ],"+ " 'current_label' : '" + pipeline.getLabel() + "', "+ " 'pipelineCounter' : '"+ pipeline.getCounter()+ "', "+ " 'pipelineCounterOrLabel' : '"+ pipeline.getIdentifier().instanceIdentifier()+ "', "+ " 'id' : '1' "+ "}");
   assertFalse("JSON shouldn't contain last_successful_label",json.toString().contains("last_successful_label"));
 }

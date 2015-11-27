@@ -1,6 +1,6 @@
 {
   pipelinePauseInfo.setPaused(true);
-  JsonTester jsonTester=new JsonTester(presenter.toJson());
-  jsonTester.shouldContain("{ 'paused' : 'true' }");
-  jsonTester.shouldNotContain("{ 'needsApproval' : 'true' }");
+  HashMap<String,Object> map=new HashMap(presenter.toJson());
+  assertThat(map.get("paused"),Is.<Object>is("true"));
+  assertThat(map,not(hasKey("needsApproval")));
 }

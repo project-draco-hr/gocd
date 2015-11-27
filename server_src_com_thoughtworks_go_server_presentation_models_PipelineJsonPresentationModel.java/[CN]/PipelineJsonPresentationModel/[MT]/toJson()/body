@@ -1,13 +1,13 @@
 {
-  JsonMap pipelineJson=new JsonMap();
+  Map<String,Object> pipelineJson=new LinkedHashMap<>();
   pipelineJson.put("name",name);
   pipelineJson.put("group",groupName);
-  pipelineJson.put("paused",String.valueOf(pauseInfo.isPaused()));
+  pipelineJson.put("paused",valueOf(pauseInfo.isPaused()));
   pipelineJson.put("pauseCause",pauseInfo.getPauseCause());
   pipelineJson.put("pauseBy",pauseInfo.getPauseBy());
   pipelineJson.put("stages",stagesJson(getStages()));
-  pipelineJson.put("forcedBuild",String.valueOf(forcedBuild));
-  pipelineJson.put("canForce",String.valueOf(canForce));
-  pipelineJson.put("canPause",String.valueOf(canPause));
+  pipelineJson.put("forcedBuild",valueOf(forcedBuild));
+  pipelineJson.put("canForce",valueOf(canForce));
+  pipelineJson.put("canPause",valueOf(canPause));
   return pipelineJson;
 }

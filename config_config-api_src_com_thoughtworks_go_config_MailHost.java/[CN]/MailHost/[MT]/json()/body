@@ -1,7 +1,7 @@
 {
-  JsonMap model=new JsonMap();
+  Map<String,Object> model=new LinkedHashMap<>();
   model.put("hostName",defaultString(hostName));
-  model.put("port",port == 0 ? "" : String.valueOf(port));
+  model.put("port",port == 0 ? "" : valueOf(port));
   model.put("username",defaultString(username));
   model.put("password",defaultString(getPassword()));
   model.put("tls",tls == null ? "false" : tls.toString());

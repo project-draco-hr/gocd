@@ -1,5 +1,5 @@
 {
-  JsonMap jsonMap=presenter.toJson();
+  Map jsonMap=presenter.toJson();
   JsonValue jsonValue=JsonUtils.from(jsonMap);
   JsonValue revision=jsonValue.getObject("groups",0,"history",0,"materialRevisions",0);
   assertThat(revision.getString("revision"),is("svn.100"));

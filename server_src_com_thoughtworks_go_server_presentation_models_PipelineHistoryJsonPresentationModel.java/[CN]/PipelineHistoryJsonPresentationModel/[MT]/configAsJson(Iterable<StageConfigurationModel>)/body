@@ -1,12 +1,12 @@
 {
-  JsonList jsonList=new JsonList();
+  List jsonList=new ArrayList();
   for (  StageConfigurationModel stageInfo : stages) {
-    JsonMap jsonMap=new JsonMap();
+    Map<String,Object> jsonMap=new LinkedHashMap<>();
     jsonMap.put("name",stageInfo.getName());
-    jsonMap.put("isAutoApproved",String.valueOf(stageInfo.isAutoApproved()));
+    jsonMap.put("isAutoApproved",valueOf(stageInfo.isAutoApproved()));
     jsonList.add(jsonMap);
   }
-  JsonMap jsonMap=new JsonMap();
+  Map<String,Object> jsonMap=new LinkedHashMap<>();
   jsonMap.put("stages",jsonList);
   return jsonMap;
 }

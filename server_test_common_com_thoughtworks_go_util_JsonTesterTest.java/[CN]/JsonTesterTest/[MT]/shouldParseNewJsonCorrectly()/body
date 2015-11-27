@@ -1,6 +1,6 @@
 {
-  JsonMap json=new JsonMap();
+  Map<String,Object> json=new LinkedHashMap<>();
   json.put("one","1");
-  json.put("two",jsonList("monkey","baboon"));
+  json.put("two",Arrays.asList("monkey","baboon"));
   new JsonTester(json).is("{ 'one' : '1',  " + "  'two' : [     " + "    'monkey',   "+ "    'baboon'    "+ "  ]             "+ "}");
 }

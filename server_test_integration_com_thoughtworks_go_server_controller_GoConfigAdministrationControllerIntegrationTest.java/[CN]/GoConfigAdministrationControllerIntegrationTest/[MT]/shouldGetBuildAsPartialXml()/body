@@ -3,5 +3,5 @@
   String md5=goConfigDao.md5OfConfigFile();
   controller.getBuildAsXmlPartial("pipeline","stage",1,null,response);
   assertValidContentAndStatus(SC_OK,"text/xml","<job name=\"build2\" />");
-  assertThat((String)response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5),is(md5));
+  assertThat(response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5),is(md5));
 }

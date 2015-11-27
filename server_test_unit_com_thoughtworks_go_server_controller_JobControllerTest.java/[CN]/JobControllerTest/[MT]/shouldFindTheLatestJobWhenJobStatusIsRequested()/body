@@ -13,7 +13,7 @@
   verify(jobInstanceService).buildByIdWithTransitions(job.getId());
   verify(jobDetailService).findMostRecentBuild(job.getIdentifier());
   verify(stageService).getBuildDuration(pipelineName,stageName,newJob);
-  JsonValue json=from(((JsonList)modelAndView.getModel().get("json")).getJsonMap(0));
+  JsonValue json=from(((List)modelAndView.getModel().get("json")).get(0));
   JsonValue buildingInfo=json.getObject("building_info");
   assertThat(buildingInfo.getString("id"),is("2"));
   assertThat(buildingInfo.getString("last_build_duration"),is("5"));

@@ -1,8 +1,0 @@
-{
-  dbHelper.onSetUp();
-  configHelper=new GoConfigFileHelper();
-  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
-  pipelineFixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
-  pipelineFixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
-  configService.forceNotifyListeners();
-}

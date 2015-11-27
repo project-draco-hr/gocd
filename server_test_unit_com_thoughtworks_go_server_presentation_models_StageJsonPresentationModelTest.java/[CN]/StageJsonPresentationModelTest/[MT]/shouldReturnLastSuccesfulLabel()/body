@@ -1,6 +1,6 @@
 {
   StageIdentifier successfulStage=new StageIdentifier(pipeline.getName(),1,"LABEL:1",stage.getName(),"1");
   StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,stage,successfulStage,new Agents());
-  JsonMap json=presenter.toJson();
+  Map json=presenter.toJson();
   new JsonTester(json).shouldContain("{ 'last_successful_label' : 'LABEL:1', 'last_successful_stage_locator' : '" + String.format("%s/%s/%s/%s",pipeline.getName(),"1",stage.getName(),"1") + "' }");
 }
