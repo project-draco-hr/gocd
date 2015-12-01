@@ -1,5 +1,5 @@
 {
-  when(systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_GC_WARNING_THRESHOLD)).thenReturn(10L);
+  when(systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_GC_LOOSE_OBJECT_WARNING_THRESHOLD)).thenReturn(10L);
   when(configRepository.getLooseObjectCount()).thenReturn(20L);
   service.checkRepoAndAddWarningIfRequired();
   List<ServerHealthState> healthStates=serverHealthService.filterByScope(HealthStateScope.forConfigRepo("GC"));

@@ -1,5 +1,5 @@
 {
-  when(systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_AUTO_GC)).thenReturn(false);
+  when(systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_PERIODIC_GC)).thenReturn(false);
   configRepo.checkin(goConfigRevision("v1","md5-1"));
   Long numberOfLooseObjectsOld=(Long)configRepo.git().gc().getStatistics().get("sizeOfLooseObjects");
   configRepo.garbageCollect();
