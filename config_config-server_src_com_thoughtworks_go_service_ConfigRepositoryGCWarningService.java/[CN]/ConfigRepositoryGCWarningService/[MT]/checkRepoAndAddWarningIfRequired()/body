@@ -1,0 +1,16 @@
+{
+  try {
+    if (configRepository.getLooseObjectCount() >= systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_GC_WARNING_THRESHOLD)) {
+      String message="Action required: Run 'git gc' on config.git repo";
+      String description="Number of loose objects in your Configuration repository(config.git) has grown beyond " + "the configured threshold. As the size of config repo increases, the config save operations tend to slow down " + "drastically. It is recommended that you run 'git gc' from "+ "'&lt;go server installation directory&gt;/db/config.git/' to address this problem. Go can do this "+ "automatically on a periodic basis if you enable automatic GC. <a target='_blank' href='http://www.go.cd/documentation/user/current/advanced_usage/config_repo.html'>read more...</a>";
+      serverHealthService.update(ServerHealthState.warning(message,description,HealthStateType.general(HealthStateScope.forConfigRepo(SCOPE))));
+      LOGGER.warn("{}:{}",message,description);
+    }
+ else {
+      serverHealthService.removeByScope(HealthStateScope.forConfigRepo(SCOPE));
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.error(e.getMessage(),e);
+  }
+}

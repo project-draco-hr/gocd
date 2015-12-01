@@ -1,0 +1,17 @@
+{
+  Map<Runnable,String> fixedDelayTasks=(Map<Runnable,String>)ReflectionUtil.getField(scheduledTaskRegistrar,taskType);
+  boolean matchFound=false;
+  for (  Runnable runnable : fixedDelayTasks.keySet()) {
+    if (runnable instanceof ScheduledMethodRunnable) {
+      ScheduledMethodRunnable scheduledMethodRunnable=(ScheduledMethodRunnable)runnable;
+      Object target=scheduledMethodRunnable.getTarget();
+      if (target.equals(targetObject)) {
+        matchFound=true;
+        Method method=scheduledMethodRunnable.getMethod();
+        assertThat(method.getName(),Is.is(methodName));
+        assertThat(fixedDelayTasks.get(runnable),is(time));
+      }
+    }
+  }
+  assertThat("Could not find a scheduled job for configRepositoryGCWarningService.checkRepoAndAddWarningIfRequired",matchFound,Is.is(true));
+}

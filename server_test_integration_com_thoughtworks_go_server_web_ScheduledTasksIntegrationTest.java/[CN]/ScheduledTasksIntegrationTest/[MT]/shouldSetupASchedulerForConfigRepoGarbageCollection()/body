@@ -1,17 +1,3 @@
 {
-  Map<Runnable,String> cronTasks=(Map<Runnable,String>)ReflectionUtil.getField(scheduledTaskRegistrar,"cronTasks");
-  boolean matchFound=false;
-  for (  Runnable runnable : cronTasks.keySet()) {
-    if (runnable instanceof ScheduledMethodRunnable) {
-      ScheduledMethodRunnable scheduledMethodRunnable=(ScheduledMethodRunnable)runnable;
-      Object target=scheduledMethodRunnable.getTarget();
-      if (target.equals(configRepository)) {
-        matchFound=true;
-        Method method=scheduledMethodRunnable.getMethod();
-        assertThat(method.getName(),Is.is("garbageCollect"));
-        assertThat(cronTasks.get(runnable),is("0 0 1 * * ?"));
-      }
-    }
-  }
-  assertThat("Could not find a scheduled job for ConfigRepository.garbageCollect",matchFound,Is.is(true));
+  assertScheduledTask("cronTasks",configRepository,"garbageCollect","0 0 7 ? * SUN");
 }
