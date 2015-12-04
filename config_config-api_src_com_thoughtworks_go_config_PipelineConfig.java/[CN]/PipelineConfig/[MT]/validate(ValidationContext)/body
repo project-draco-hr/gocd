@@ -2,4 +2,7 @@
   validateLabelTemplate();
   validatePipelineName();
   validateStageNameUniqueness();
+  if (!hasTemplate() && isEmpty()) {
+    addError("pipeline",String.format("Pipeline '%s' does not have any stages configured. A pipeline must have at least one stage.",name()));
+  }
 }
