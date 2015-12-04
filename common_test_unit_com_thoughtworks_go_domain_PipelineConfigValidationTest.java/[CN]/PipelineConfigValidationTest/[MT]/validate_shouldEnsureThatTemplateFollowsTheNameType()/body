@@ -2,7 +2,7 @@
   PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("name"),new MaterialConfigs());
   pipelineConfig.setTemplateName(new CaseInsensitiveString(".Name"));
   config.addPipeline("group",pipelineConfig);
-  pipelineConfig.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",config,pipelineConfig));
+  pipelineConfig.validateTemplate(new PipelineTemplateConfig());
   assertThat(pipelineConfig.errors().isEmpty(),is(false));
   assertThat(pipelineConfig.errors().on(PipelineConfig.TEMPLATE_NAME),is("Invalid template name '.Name'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
 }
