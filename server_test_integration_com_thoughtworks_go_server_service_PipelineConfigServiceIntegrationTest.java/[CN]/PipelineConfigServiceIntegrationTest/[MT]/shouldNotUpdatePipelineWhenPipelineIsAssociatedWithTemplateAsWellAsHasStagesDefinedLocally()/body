@@ -1,0 +1,15 @@
+{
+  CaseInsensitiveString templateName=new CaseInsensitiveString("template_with_param");
+  saveTemplateWithParamToConfig(templateName);
+  GoConfigHolder goConfigHolder=goConfigDao.loadConfigHolder();
+  pipelineConfig.clear();
+  pipelineConfig.setTemplateName(templateName);
+  pipelineConfig.addStageWithoutValidityAssertion(StageConfigMother.stageConfig("local-stage"));
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(pipelineConfig.errors().on("stages"),is(String.format("Cannot add stages to pipeline '%s' which already references template '%s'",pipelineConfig.name(),templateName)));
+  assertThat(pipelineConfig.errors().on("template"),is(String.format("Cannot set template '%s' on pipeline '%s' because it already has stages defined",templateName,pipelineConfig.name())));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
+  assertThat(goConfigDao.loadConfigHolder().configForEdit,is(goConfigHolder.configForEdit));
+  assertThat(goConfigDao.loadConfigHolder().config,is(goConfigHolder.config));
+}

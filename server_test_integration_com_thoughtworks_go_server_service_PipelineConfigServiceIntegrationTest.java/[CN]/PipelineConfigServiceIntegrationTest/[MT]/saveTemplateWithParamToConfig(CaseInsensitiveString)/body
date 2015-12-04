@@ -7,6 +7,5 @@
   final PipelineTemplateConfig template=new PipelineTemplateConfig(templateName,new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(jobConfig)));
   CruiseConfig cruiseConfig=goConfigDao.loadConfigHolder().configForEdit;
   cruiseConfig.addTemplate(template);
-  ByteArrayOutputStream buffer=new ByteArrayOutputStream();
-  new MagicalGoConfigXmlWriter(configCache,registry,metricsProbeService).write(cruiseConfig,buffer,false);
+  saveConfig(cruiseConfig);
 }

@@ -9,8 +9,8 @@
   if (folder != null ? !folder.equals(that.folder) : that.folder != null) {
     return false;
   }
-  if (scmConfig == null || that.scmConfig == null) {
+  if (scmConfig != null ? !scmConfig.equals(that.scmConfig) : that.scmConfig != null) {
     return false;
   }
-  return this.getFingerprint().equals(that.getFingerprint());
+  return super.equals(that);
 }

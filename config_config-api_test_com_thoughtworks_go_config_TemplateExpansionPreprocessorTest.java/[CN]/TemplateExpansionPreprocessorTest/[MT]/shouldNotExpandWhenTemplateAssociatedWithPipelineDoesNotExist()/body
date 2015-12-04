@@ -1,0 +1,6 @@
+{
+  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("p"),new MaterialConfigs());
+  pipelineConfig.templatize(new CaseInsensitiveString("does_not_exist"));
+  preprocessor.process(new BasicCruiseConfig(new BasicPipelineConfigs(pipelineConfig)));
+  assertThat(pipelineConfig.hasTemplateApplied(),is(false));
+}
