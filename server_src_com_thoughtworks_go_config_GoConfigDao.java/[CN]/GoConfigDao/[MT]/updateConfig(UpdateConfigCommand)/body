@@ -1,8 +1,10 @@
 {
   Context context=metricsProbeService.begin(ProbeType.UPDATE_CONFIG);
+  LOGGER.info("Config update request by {} is in queue - {}",UserHelper.getUserName().getUsername(),command);
   try {
 synchronized (writeLock) {
       try {
+        LOGGER.info("Config update request by {} is being processed",UserHelper.getUserName().getUsername());
         if (command instanceof CheckedUpdateCommand) {
           CheckedUpdateCommand checkedCommand=(CheckedUpdateCommand)command;
           if (!checkedCommand.canContinue(cachedConfigService.currentConfig())) {
@@ -15,6 +17,7 @@ synchronized (writeLock) {
         if (command instanceof ConfigAwareUpdate) {
           ((ConfigAwareUpdate)command).afterUpdate(clonedConfig());
         }
+        LOGGER.info("Config update request by {} is completed",UserHelper.getUserName().getUsername());
       }
     }
   }
