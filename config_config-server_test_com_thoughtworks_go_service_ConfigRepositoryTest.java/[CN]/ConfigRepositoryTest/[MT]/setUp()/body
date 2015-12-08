@@ -1,6 +1,10 @@
 {
-  env=new SystemEnvironment();
-  FileUtils.deleteQuietly(env.getConfigRepoDir());
-  configRepo=new ConfigRepository(env);
+  File configRepoDir=this.temporaryFolder.newFolder();
+  System.out.println("configRepoDir.getAbsolutePath() = " + configRepoDir.getAbsolutePath());
+  systemEnvironment=mock(SystemEnvironment.class);
+  when(systemEnvironment.getConfigRepoDir()).thenReturn(configRepoDir);
+  when(systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_GC_AGGRESSIVE)).thenReturn(true);
+  when(systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_PERIODIC_GC)).thenReturn(true);
+  configRepo=new ConfigRepository(systemEnvironment);
   configRepo.initialize();
 }
