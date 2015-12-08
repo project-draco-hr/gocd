@@ -1,0 +1,11 @@
+{
+  GoVersion version=null;
+  String installedVersion=serverVersion.version();
+  try {
+    version=new GoVersion(installedVersion);
+  }
+ catch (  VersionFormatException e) {
+    LOGGER.error(String.format("Server Version: %s format is Invalid.",installedVersion));
+  }
+  return version;
+}

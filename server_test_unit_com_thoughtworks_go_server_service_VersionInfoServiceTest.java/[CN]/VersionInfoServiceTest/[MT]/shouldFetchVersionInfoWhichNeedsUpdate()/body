@@ -1,0 +1,8 @@
+{
+  ServerVersionInfoManager versionInfoManager=mock(ServerVersionInfoManager.class);
+  VersionInfo versionInfo=mock(VersionInfo.class);
+  when(versionInfoManager.versionInfoForUpdate()).thenReturn(versionInfo);
+  VersionInfoService versionInfoService=new VersionInfoService(versionInfoManager);
+  VersionInfo info=versionInfoService.getStaleVersionInfo();
+  assertThat(info,is(versionInfo));
+}

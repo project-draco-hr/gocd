@@ -1,0 +1,9 @@
+{
+  VersionInfo goVersionInfo=new VersionInfo("go_server",new GoVersion("1.2.3-1"));
+  when(versionInfoDao.findByComponentName("go_server")).thenReturn(goVersionInfo);
+  when(serverVersion.version()).thenReturn("N/A");
+  VersionInfo versionInfo=builder.getServerVersionInfo();
+  verify(versionInfoDao,never()).saveOrUpdate(isA(VersionInfo.class));
+  assertThat(versionInfo.getComponentName(),is(goVersionInfo.getComponentName()));
+  assertThat(versionInfo.getInstalledVersion(),is(goVersionInfo.getInstalledVersion()));
+}

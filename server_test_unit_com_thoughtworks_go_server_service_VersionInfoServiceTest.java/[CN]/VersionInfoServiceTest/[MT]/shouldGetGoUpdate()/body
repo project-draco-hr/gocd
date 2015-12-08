@@ -1,0 +1,7 @@
+{
+  String newRelease="15.1.0-123";
+  ServerVersionInfoManager manager=mock(ServerVersionInfoManager.class);
+  when(manager.getGoUpdate()).thenReturn(newRelease);
+  String goUpdate=new VersionInfoService(manager).getGoUpdate();
+  assertThat(goUpdate,is(goUpdate));
+}

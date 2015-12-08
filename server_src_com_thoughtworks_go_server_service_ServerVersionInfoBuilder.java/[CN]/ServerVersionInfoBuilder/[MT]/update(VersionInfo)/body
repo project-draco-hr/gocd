@@ -1,0 +1,9 @@
+{
+  GoVersion currentGoVersion=installedVersion();
+  if (currentGoVersion == null)   return versionInfo;
+  if (!isServerVersionInfoUpToDate(versionInfo,currentGoVersion)) {
+    versionInfo.setInstalledVersion(currentGoVersion);
+    versionInfoDao.saveOrUpdate(versionInfo);
+  }
+  return versionInfo;
+}

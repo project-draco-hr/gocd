@@ -1,5 +1,6 @@
 {
   RailsAssetsService railsAssetsService=getRailsAssetsService();
+  VersionInfoService versionInfoService=getVersionInfoService();
   velocityContext.put(ADMINISTRATOR,true);
   velocityContext.put(GROUP_ADMINISTRATOR,true);
   velocityContext.put(TEMPLATE_ADMINISTRATOR,true);
@@ -14,6 +15,8 @@
   velocityContext.put(CONCATENATED_SPINNER_ICON_FILE_PATH,railsAssetsService.getAssetPath("spinner.gif"));
   velocityContext.put(CONCATENATED_CRUISE_ICON_FILE_PATH,railsAssetsService.getAssetPath("cruise.ico"));
   velocityContext.put(PATH_RESOLVER,railsAssetsService);
+  velocityContext.put(GO_UPDATE,versionInfoService.getGoUpdate());
+  velocityContext.put(GO_UPDATE_CHECK_ENABLED,versionInfoService.isGOUpdateCheckEnabled());
   SecurityContext securityContext=(SecurityContext)request.getSession().getAttribute(SPRING_SECURITY_CONTEXT_KEY);
   if (securityContext == null || securityContext.getAuthentication() == null) {
     return;

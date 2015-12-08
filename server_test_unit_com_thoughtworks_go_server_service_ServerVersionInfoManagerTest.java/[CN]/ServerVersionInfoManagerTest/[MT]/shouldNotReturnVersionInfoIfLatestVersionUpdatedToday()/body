@@ -1,0 +1,8 @@
+{
+  Date today=new Date();
+  VersionInfo versionInfo=new VersionInfo("go_server",new GoVersion("1.2.3-1"),new GoVersion("2.3.4-2"),today);
+  when(builder.getServerVersionInfo()).thenReturn(versionInfo);
+  manager.initialize();
+  VersionInfo serverVersionInfo=manager.versionInfoForUpdate();
+  assertNull(serverVersionInfo);
+}

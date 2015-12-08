@@ -1,0 +1,8 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  when(builder.getServerVersionInfo()).thenReturn(new VersionInfo());
+  when(systemEnvironment.isGOUpdateCheckEnabled()).thenReturn(true);
+  manager=new ServerVersionInfoManager(builder,versionInfoDao,new SystemTimeClock(),goCache,systemEnvironment);
+  manager.initialize();
+  assertTrue(manager.isUpdateCheckEnabled());
+}

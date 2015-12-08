@@ -1,0 +1,13 @@
+{
+  SystemTimeClock systemTimeClock=mock(SystemTimeClock.class);
+  VersionInfo versionInfo=new VersionInfo("go_server",new GoVersion("1.2.3-1"),new GoVersion("2.3.4-1"),null);
+  Date now=new Date();
+  when(builder.getServerVersionInfo()).thenReturn(versionInfo);
+  when(systemTimeClock.currentTime()).thenReturn(now);
+  manager=new ServerVersionInfoManager(builder,versionInfoDao,systemTimeClock,goCache,null);
+  manager.initialize();
+  VersionInfo info=manager.updateLatestVersion("15.0.1-123");
+  assertThat(info.getLatestVersion().toString(),is("15.0.1-123"));
+  assertThat(info.getLatestVersionUpdatedAt(),is(now));
+  verify(versionInfoDao).saveOrUpdate(versionInfo);
+}

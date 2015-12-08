@@ -1,0 +1,8 @@
+{
+  if (this.serverVersionInfo == null)   return;
+  GoVersion latestVersion=serverVersionInfo.getLatestVersion();
+  if (latestVersion == null)   return;
+  if (latestVersion.isGreaterThan(serverVersionInfo.getInstalledVersion())) {
+    goCache.put(GO_UPDATE,latestVersion.toString());
+  }
+}
