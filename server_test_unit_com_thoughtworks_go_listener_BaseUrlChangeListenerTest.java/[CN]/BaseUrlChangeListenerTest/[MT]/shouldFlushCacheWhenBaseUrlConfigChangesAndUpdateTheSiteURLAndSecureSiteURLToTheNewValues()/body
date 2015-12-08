@@ -4,5 +4,6 @@
   CruiseConfig newCruiseConfig=new BasicCruiseConfig();
   newCruiseConfig.setServerConfig(serverConfigWith("http://blah.com","https://blah.com"));
   listener.onConfigChange(newCruiseConfig);
-  verify(cache).remove("urls_cache");
+  listener.onConfigChange(newCruiseConfig);
+  verify(cache,times(1)).remove("urls_cache");
 }
