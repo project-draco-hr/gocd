@@ -1,10 +1,16 @@
 {
-  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(null,SCMMother.create("scm-id"),"/usr/home",null);
-  pluggableSCMMaterialConfig.validateConcreteMaterial(new ConfigSaveValidationContext(null,null));
+  ConfigSaveValidationContext configSaveValidationContext=mock(ConfigSaveValidationContext.class);
+  SCM scmConfig=mock(SCM.class);
+  when(configSaveValidationContext.findScmById(anyString())).thenReturn(scmConfig);
+  when(scmConfig.doesPluginExist()).thenReturn(true);
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(null,scmConfig,"/usr/home",null);
+  pluggableSCMMaterialConfig.setScmId("scm-id");
+  pluggableSCMMaterialConfig.validateConcreteMaterial(configSaveValidationContext);
   assertThat(pluggableSCMMaterialConfig.errors().getAll().size(),is(1));
   assertThat(pluggableSCMMaterialConfig.errors().on(PluggableSCMMaterialConfig.FOLDER),is("Dest folder '/usr/home' is not valid. It must be a sub-directory of the working folder."));
-  pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(null,SCMMother.create("scm-id"),".crap",null);
-  pluggableSCMMaterialConfig.validateConcreteMaterial(new ConfigSaveValidationContext(null,null));
+  pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(null,scmConfig,".crap",null);
+  pluggableSCMMaterialConfig.setScmId("scm-id");
+  pluggableSCMMaterialConfig.validateConcreteMaterial(configSaveValidationContext);
   assertThat(pluggableSCMMaterialConfig.errors().getAll().size(),is(1));
   assertThat(pluggableSCMMaterialConfig.errors().on(PluggableSCMMaterialConfig.FOLDER),is("Invalid directory name '.crap'. It should be a valid relative path."));
 }

@@ -1,10 +1,15 @@
 {
   SCM scmConfig=mock(SCM.class);
+  when(scmConfig.getName()).thenReturn("scm");
+  when(scmConfig.getId()).thenReturn("scm-id");
   PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig("scm-id");
   setField(pluggableSCMMaterialConfig,"scmConfig",scmConfig);
+  BasicCruiseConfig config=new BasicCruiseConfig();
+  config.getSCMs().add(scmConfig);
+  final ConfigSaveValidationContext context=new ConfigSaveValidationContext(config);
   new GoConfigGraphWalker(pluggableSCMMaterialConfig).walk(new GoConfigGraphWalker.Handler(){
     @Override public void handle(    Validatable validatable,    ValidationContext ctx){
-      validatable.validate(ctx);
+      validatable.validate(context);
     }
   }
 );
