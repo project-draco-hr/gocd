@@ -3,6 +3,7 @@
   Collection<ConnectionFactory> connectionFactories=connector.getConnectionFactories();
   HttpConnectionFactory httpConnectionFactory=getHttpConnectionFactory(connectionFactories);
   assertThat(httpConnectionFactory.getHttpConfiguration().getOutputBufferSize(),is(100));
-  assertThat(httpConnectionFactory.getHttpConfiguration().getCustomizers().size(),is(1));
-  assertThat(httpConnectionFactory.getHttpConfiguration().getCustomizers().get(0) instanceof SecureRequestCustomizer,is(true));
+  assertThat(httpConnectionFactory.getHttpConfiguration().getCustomizers().size(),is(2));
+  assertThat(httpConnectionFactory.getHttpConfiguration().getCustomizers().get(0),instanceOf(SecureRequestCustomizer.class));
+  assertThat(httpConnectionFactory.getHttpConfiguration().getCustomizers().get(1),instanceOf(ForwardedRequestCustomizer.class));
 }
