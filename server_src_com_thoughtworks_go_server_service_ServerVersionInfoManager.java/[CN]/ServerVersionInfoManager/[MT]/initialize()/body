@@ -1,4 +1,7 @@
 {
   this.serverVersionInfo=builder.getServerVersionInfo();
+  if (!systemEnvironment.isGOUpdateCheckEnabled()) {
+    LOGGER.info("[Go Update Check] Update check disabled.");
+  }
   addGoUpdateToCacheIfAvailable();
 }
