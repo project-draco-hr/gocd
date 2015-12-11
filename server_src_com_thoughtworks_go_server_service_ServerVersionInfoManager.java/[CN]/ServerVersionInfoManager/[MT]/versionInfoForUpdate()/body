@@ -2,6 +2,7 @@
 synchronized (VERSION_INFO_MUTEX) {
     if (isDevelopmentServer() || isVersionInfoUpdatedToday() || isUpdateInProgress())     return null;
     versionInfoUpdatingFrom=clock.currentDateTime();
+    LOGGER.info("[Go Update Check] Starting update check at: {}",new Date());
     return this.serverVersionInfo;
   }
 }
