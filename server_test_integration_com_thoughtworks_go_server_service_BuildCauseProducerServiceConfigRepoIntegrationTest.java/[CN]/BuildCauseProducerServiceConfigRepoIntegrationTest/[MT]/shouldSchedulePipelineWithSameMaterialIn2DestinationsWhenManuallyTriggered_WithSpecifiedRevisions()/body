@@ -2,7 +2,9 @@
   pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("pipe1","build","test");
   pipelineConfig.materialConfigs().clear();
   materialConfig=hgRepo.createMaterialConfig("dest1");
+  materialConfig.setAutoUpdate(true);
   MaterialConfig otherMaterialConfig=hgRepo.createMaterialConfig("dest2");
+  otherMaterialConfig.setAutoUpdate(true);
   pipelineConfig.materialConfigs().add(materialConfig);
   pipelineConfig.materialConfigs().add(otherMaterialConfig);
   List<Modification> firstBuildModifications=configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
