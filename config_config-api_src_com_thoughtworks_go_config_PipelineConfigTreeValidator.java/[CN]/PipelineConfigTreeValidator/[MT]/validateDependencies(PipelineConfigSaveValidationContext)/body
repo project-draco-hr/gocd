@@ -1,0 +1,9 @@
+{
+  if (validationContext.isPipelineBeingCreated())   return;
+  for (  CaseInsensitiveString selected : validationContext.getPipelinesWithDependencyMaterials()) {
+    if (selected.equals(pipelineConfig.name()))     continue;
+    PipelineConfig selectedPipeline=validationContext.getPipelineConfigByName(selected);
+    validateDependencyMaterialsForDownstreams(validationContext,selected,selectedPipeline);
+    validateFetchTasksForOtherPipelines(validationContext,selectedPipeline);
+  }
+}

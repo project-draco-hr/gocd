@@ -1,0 +1,11 @@
+{
+  String upstreamPipeline="non-existant";
+  PipelineConfig pipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString(upstreamPipeline),new CaseInsensitiveString("non-existant")));
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(pipelineConfig));
+  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  boolean isValid=pipelineConfig.validateTree(PipelineConfigSaveValidationContext.forChain(true,cruiseConfig.getGroups().first().getGroup(),cruiseConfig,pipelineConfig));
+  assertThat(isValid,is(false));
+  ConfigErrors materialErrors=pipelineConfig.materialConfigs().first().errors();
+  assertThat(materialErrors.isEmpty(),is(false));
+  assertThat(materialErrors.firstError(),is("Pipeline with name 'non-existant' does not exist"));
+}

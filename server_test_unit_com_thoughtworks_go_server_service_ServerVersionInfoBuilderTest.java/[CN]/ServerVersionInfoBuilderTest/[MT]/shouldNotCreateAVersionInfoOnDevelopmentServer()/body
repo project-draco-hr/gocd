@@ -1,0 +1,7 @@
+{
+  when(versionInfoDao.findByComponentName("go_server")).thenReturn(null);
+  when(serverVersion.version()).thenReturn("N/A");
+  VersionInfo versionInfo=builder.getServerVersionInfo();
+  verify(versionInfoDao,never()).saveOrUpdate(isA(VersionInfo.class));
+  assertNull(versionInfo);
+}

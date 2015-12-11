@@ -4,9 +4,9 @@
   ModelAndView mav=controller.postStageAsXmlPartial("pipeline",4,NEW_STAGE,md5,response);
   assertThat(response.getStatus(),is(SC_NOT_FOUND));
   assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));
-  Json json=(Json)mav.getModel().get("json");
-  JsonMap jsonMap=new JsonMap();
+  Map<String,Object> json=(Map)mav.getModel().get("json");
+  Map<String,Object> jsonMap=new LinkedHashMap<>();
   jsonMap.put("result","Stage does not exist.");
   jsonMap.put("originalContent",NEW_STAGE);
-  assertThat(json,is((Json)jsonMap));
+  assertThat(json,is(jsonMap));
 }

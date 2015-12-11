@@ -8,9 +8,9 @@
  else {
     task.setSrcfile(source);
   }
-  task.validate(ValidationContext.forChain(upstream,stage,job));
+  task.validate(ConfigSaveValidationContext.forChain(config,new BasicPipelineConfigs(),upstream,stage,job));
   assertThat(task.errors().isEmpty(),is(false));
   String path=propertyName.equals(FetchTask.SRC) ? source : destination;
-  String message=String.format("Task of job '%s' in stage '%s' of pipeline '%s' has path '%s' which is outside the working directory.",job.name(),stage.name(),upstream.name(),path);
+  String message=String.format("Task of job '%s' in stage '%s' of pipeline '%s' has %s path '%s' which is outside the working directory.",job.name(),stage.name(),upstream.name(),propertyName,path);
   assertThat(task.errors().on(propertyName),is(message));
 }

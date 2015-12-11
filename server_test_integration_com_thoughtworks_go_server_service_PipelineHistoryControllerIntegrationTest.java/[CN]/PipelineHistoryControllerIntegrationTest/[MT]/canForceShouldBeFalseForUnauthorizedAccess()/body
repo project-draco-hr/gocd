@@ -2,6 +2,6 @@
   configHelper.addSecurityWithAdminConfig();
   fixture.configStageAsManualApprovalWithApprovedUsers(fixture.devStage,"user");
   fixture.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
-  JsonMap jsonMap=requestPipelineHistoryPage();
+  Map jsonMap=requestPipelineHistoryPage();
   assertThat(getItemInJson(jsonMap,"canForce"),is("false"));
 }

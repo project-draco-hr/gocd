@@ -1,5 +1,5 @@
 {
-  if (!securityService.hasViewPermissionForPipeline(CaseInsensitiveString.str(username.getUsername()),pipelineName)) {
+  if (!securityService.hasViewPermissionForPipeline(username,pipelineName)) {
     result.unauthorized(LocalizedMessage.cannotViewPipeline(pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
     return new ArrayList<MatchedRevision>();
   }

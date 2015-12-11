@@ -1,0 +1,8 @@
+{
+  builder=mock(ServerVersionInfoBuilder.class);
+  versionInfoDao=mock(VersionInfoDao.class);
+  goCache=mock(GoCache.class);
+  systemEnvironment=mock(SystemEnvironment.class);
+  manager=new ServerVersionInfoManager(builder,versionInfoDao,new SystemTimeClock(),goCache,systemEnvironment);
+  when(systemEnvironment.isGOUpdateCheckEnabled()).thenReturn(true);
+}

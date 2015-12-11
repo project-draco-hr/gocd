@@ -2,9 +2,9 @@
   if (modelAndView == null) {
     return;
   }
-  JsonMap messages=new JsonMap();
+  Map<String,Object> messages=new LinkedHashMap<>();
   RequestContext requestContext=new RequestContext(httpServletRequest);
-  messages.put(JobState.Scheduled.toString().toLowerCase(),"Scheduled");
+  messages.put(Scheduled.toString().toLowerCase(),"Scheduled");
   messages.put(CurrentStatus.BUILDING.getStatus().toLowerCase(),requestContext.getMessage(BUILDING));
   messages.put(CurrentStatus.DISCONTINUED.getStatus().toLowerCase(),requestContext.getMessage(DISCONTINUED));
   messages.put(CurrentStatus.PAUSED.getStatus().toLowerCase(),requestContext.getMessage(PAUSED));

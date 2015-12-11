@@ -1,8 +1,0 @@
-{
-  MockHttpServletRequest request=new MockHttpServletRequest();
-  request.setRequestURI("/force");
-  MockHttpServletResponse response=new MockHttpServletResponse();
-  ModelAndView modelAndView=pipelineStatusController.handleError(request,response,new Exception());
-  String json=modelAndView.getModelMap().get("json").toString();
-  assertThat(json,containsString("Cannot schedule: missed pipeline name"));
-}

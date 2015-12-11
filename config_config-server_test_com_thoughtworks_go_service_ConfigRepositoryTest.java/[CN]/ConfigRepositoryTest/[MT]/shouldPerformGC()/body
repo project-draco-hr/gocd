@@ -1,0 +1,8 @@
+{
+  configRepo.checkin(goConfigRevision("v1","md5-1"));
+  Long numberOfLooseObjects=(Long)configRepo.git().gc().getStatistics().get("sizeOfLooseObjects");
+  assertThat(numberOfLooseObjects > 0l,is(true));
+  configRepo.garbageCollect();
+  numberOfLooseObjects=(Long)configRepo.git().gc().getStatistics().get("sizeOfLooseObjects");
+  assertThat(numberOfLooseObjects,is(0l));
+}

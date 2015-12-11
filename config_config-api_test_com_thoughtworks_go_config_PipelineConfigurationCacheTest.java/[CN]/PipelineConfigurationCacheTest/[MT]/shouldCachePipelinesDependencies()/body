@@ -1,0 +1,12 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("p1","p2","p3");
+  PipelineConfig p2=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("p2"));
+  p2.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("p1"),new CaseInsensitiveString("stage")));
+  PipelineConfig p3=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("p3"));
+  p3.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("p2"),new CaseInsensitiveString("stage")));
+  configCache.onConfigChange(cruiseConfig);
+  assertThat(configCache.getDependencyMaterialsFor(new CaseInsensitiveString("p1")).getDependencies().isEmpty(),is(true));
+  assertThat(configCache.getDependencyMaterialsFor(new CaseInsensitiveString("p2")).getDependencies(),contains(new Node.DependencyNode(new CaseInsensitiveString("p1"),new CaseInsensitiveString("stage"))));
+  assertThat(configCache.getDependencyMaterialsFor(new CaseInsensitiveString("p3")).getDependencies(),contains(new Node.DependencyNode(new CaseInsensitiveString("p2"),new CaseInsensitiveString("stage"))));
+  assertThat(configCache.getDependencyMaterialsFor(new CaseInsensitiveString("junk")).getDependencies().isEmpty(),is(true));
+}

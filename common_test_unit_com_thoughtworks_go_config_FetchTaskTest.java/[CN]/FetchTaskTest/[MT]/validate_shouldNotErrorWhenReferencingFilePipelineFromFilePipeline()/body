@@ -2,6 +2,6 @@
   uppestStream.setOrigin(new FileConfigOrigin());
   downstream.setOrigin(new FileConfigOrigin());
   FetchTask task=new FetchTask(new CaseInsensitiveString("uppest_stream/upstream"),new CaseInsensitiveString("uppest-stage2"),new CaseInsensitiveString("uppest-job2"),"src","dest");
-  task.validate(ValidationContext.forChain(config,new BasicPipelineConfigs(),downstream,downstream.getStage(new CaseInsensitiveString("stage"))));
+  task.validate(ConfigSaveValidationContext.forChain(config,new BasicPipelineConfigs(),downstream,downstream.getStage(new CaseInsensitiveString("stage"))));
   assertThat(task.errors().isEmpty(),is(true));
 }

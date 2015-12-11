@@ -4,7 +4,7 @@
   HashMap<String,String> dataInPreviousRevision=new HashMap<String,String>();
   dataInPreviousRevision.put("1","one");
   PackageMaterialRevision knownRevision=new PackageMaterialRevision(previousRevision,timestamp,dataInPreviousRevision);
-  ArgumentCaptor<PackageRevision> knownPackageRevision=new ArgumentCaptor<PackageRevision>();
+  ArgumentCaptor<PackageRevision> knownPackageRevision=ArgumentCaptor.forClass(PackageRevision.class);
   PackageRevision latestRevision=new PackageRevision("rev-123",timestamp,"user");
   String dataKey="2";
   String dataValue="two";

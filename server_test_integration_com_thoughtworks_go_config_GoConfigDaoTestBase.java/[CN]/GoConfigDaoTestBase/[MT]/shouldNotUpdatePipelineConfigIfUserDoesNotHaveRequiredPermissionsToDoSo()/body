@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=mock(PipelineConfig.class);
+  LocalizedOperationResult result=mock(LocalizedOperationResult.class);
+  PipelineConfigService.SaveCommand saveCommand=mock(PipelineConfigService.SaveCommand.class);
+  when(saveCommand.hasWritePermissions()).thenReturn(false);
+  CachedGoConfig cachedConfigService=mock(CachedGoConfig.class);
+  goConfigDao=new GoConfigDao(cachedConfigService,null);
+  goConfigDao.updatePipeline(pipelineConfig,result,new Username(new CaseInsensitiveString("user")),saveCommand);
+  verifyZeroInteractions(cachedConfigService);
+}

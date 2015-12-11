@@ -1,6 +1,6 @@
 {
   ArtifactPlans artifactPlans=new ArtifactPlans();
-  artifactPlans.add(new ArtifactPlan(ArtifactType.file,"**/*.png","mypic"));
+  artifactPlans.add(new ArtifactPlan("**/*.png","mypic"));
   BuildAssignment buildAssigment=createAssignment(artifactPlans,new String[]{"logs/pic/pass.png","logs/pic-1/pass.png"});
   BuildWork work=new BuildWork(buildAssigment);
   GoArtifactsManipulatorStub manipulator=new GoArtifactsManipulatorStub(new ArrayList<Property>(),new ArrayList<String>(),new HttpServiceStub(),new URLService(),new ZipUtilThatRunsOutOfMemory());

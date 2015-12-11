@@ -1,0 +1,8 @@
+{
+  CruiseConfig cruiseConfig=new GoConfigMother().cruiseConfigWithPipelineUsingTwoMaterials();
+  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  MaterialConfig expectedMaterial=MaterialConfigsMother.multipleMaterialConfigs().get(1);
+  MaterialConfigs allMaterialsByFingerPrint=pipelineContext.getAllMaterialsByFingerPrint(expectedMaterial.getFingerprint());
+  assertThat(allMaterialsByFingerPrint.size(),is(1));
+  assertThat(allMaterialsByFingerPrint.first(),is(expectedMaterial));
+}

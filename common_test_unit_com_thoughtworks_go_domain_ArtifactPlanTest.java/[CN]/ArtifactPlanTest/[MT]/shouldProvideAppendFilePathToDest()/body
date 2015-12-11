@@ -1,4 +1,4 @@
 {
-  ArtifactPlan artifactPlan=new ArtifactPlan(ArtifactType.file,"test/**/*/a.log","logs");
+  ArtifactPlan artifactPlan=new ArtifactPlan("test/**/*/a.log","logs");
   assertThat(artifactPlan.destURL(new File("pipelines/pipelineA"),new File("pipelines/pipelineA/test/a/b/a.log")),is("logs/a/b"));
 }

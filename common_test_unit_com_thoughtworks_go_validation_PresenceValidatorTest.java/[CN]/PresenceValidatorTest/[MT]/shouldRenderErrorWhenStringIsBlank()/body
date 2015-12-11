@@ -1,0 +1,10 @@
+{
+  ValidationBean validation=new PresenceValidator("String must be non-blank").validate("");
+  assertThat(validation.isValid(),is(false));
+  validation=new PresenceValidator("String must be non-blank").validate(null);
+  assertThat(validation.isValid(),is(false));
+  validation=new PresenceValidator("String must be non-blank").validate("   ");
+  assertThat(validation.isValid(),is(false));
+  validation=new PresenceValidator("String must be non-blank").validate(" \t\n  ");
+  assertThat(validation.isValid(),is(false));
+}

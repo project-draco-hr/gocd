@@ -1,6 +1,6 @@
 {
   FetchTask task=new FetchTask(new CaseInsensitiveString("dummy"),new CaseInsensitiveString(""),new CaseInsensitiveString(""),"src","dest");
-  task.validate(ValidationContext.forChain(config,new TemplatesConfig(),downstream.getStage(new CaseInsensitiveString("stage"))));
+  task.validate(ConfigSaveValidationContext.forChain(config,new TemplatesConfig(),downstream.getStage(new CaseInsensitiveString("stage"))));
   assertThat(task.errors().isEmpty(),Is.is(false));
   assertThat(task.errors().on(FetchTask.STAGE),is("Stage is a required field."));
   assertThat(task.errors().on(FetchTask.JOB),is("Job is a required field."));

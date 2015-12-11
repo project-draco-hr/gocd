@@ -1,5 +1,8 @@
 {
   SvnMaterialConfig svnMaterial=new SvnMaterialConfig(svnUrl,userName,password,checkExternals,folder);
   if (filterPattern != null)   svnMaterial.setFilter(new Filter(new IgnoredFiles(filterPattern)));
+  String name=svnUrl.replaceAll("/","_");
+  name=name.replaceAll(":","_");
+  svnMaterial.setName(new CaseInsensitiveString(name));
   return svnMaterial;
 }

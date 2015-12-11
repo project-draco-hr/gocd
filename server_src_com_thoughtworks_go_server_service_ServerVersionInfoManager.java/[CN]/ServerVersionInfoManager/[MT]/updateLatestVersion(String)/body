@@ -1,0 +1,11 @@
+{
+synchronized (VERSION_INFO_MUTEX) {
+    serverVersionInfo.setLatestVersion(new GoVersion(latestVersion));
+    serverVersionInfo.setLatestVersionUpdatedAt(clock.currentTime());
+    versionInfoDao.saveOrUpdate(serverVersionInfo);
+    versionInfoUpdatingFrom=null;
+    addGoUpdateToCacheIfAvailable();
+    LOGGER.info("[Go Update Check] Update check done at: {}, latest available version: {}",new Date(),latestVersion);
+    return serverVersionInfo;
+  }
+}

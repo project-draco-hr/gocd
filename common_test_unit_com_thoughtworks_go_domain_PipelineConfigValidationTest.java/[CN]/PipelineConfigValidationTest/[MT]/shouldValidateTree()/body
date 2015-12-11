@@ -1,0 +1,21 @@
+{
+  PipelineConfig pipeline=new PipelineConfig();
+  pipeline.setName("pipeline");
+  pipeline.addEnvironmentVariable("","");
+  pipeline.addParam(new ParamConfig("",""));
+  pipeline.setMaterialConfigs(new MaterialConfigs(MaterialConfigsMother.gitMaterialConfig(),MaterialConfigsMother.svnMaterialConfig()));
+  StageConfig stage1=getStageConfig("stage1","s1j1");
+  StageConfig stage2=getStageConfig("stage2","s2j1");
+  pipeline.getStages().add(stage1);
+  pipeline.getStages().add(stage2);
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs("group",new Authorization(),pipeline));
+  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  boolean isValid=pipeline.validateTree(PipelineConfigSaveValidationContext.forChain(true,cruiseConfig.getGroups().first().getGroup(),cruiseConfig,pipeline));
+  assertThat(isValid,is(false));
+  assertThat(pipeline.getVariables().get(0).errors().firstError(),is("Environment Variable cannot have an empty name for pipeline 'pipeline'."));
+  assertThat(pipeline.getParams().get(0).errors().firstError(),is("Parameter cannot have an empty name for pipeline 'pipeline'."));
+  assertThat(pipeline.materialConfigs().errors().isEmpty(),is(true));
+  assertThat(pipeline.materialConfigs().get(0).errors().isEmpty(),is(true));
+  assertThat(pipeline.materialConfigs().get(1).errors().isEmpty(),is(true));
+  assertThat(pipeline.errors().getAll().isEmpty(),is(true));
+}

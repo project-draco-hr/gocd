@@ -1,6 +1,8 @@
 {
+  LOGGER.debug("Adding CCTray activity for config change into queue.");
   queue.add(new Action(){
     @Override public void call(){
+      LOGGER.debug("Handling CCTray activity for config change.");
       configChangeHandler.call(newConfig);
     }
   }

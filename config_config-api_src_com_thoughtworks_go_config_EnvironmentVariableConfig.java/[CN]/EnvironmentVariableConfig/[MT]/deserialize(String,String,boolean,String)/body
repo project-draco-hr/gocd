@@ -1,0 +1,19 @@
+{
+  setName(name);
+  setIsSecure(isSecure);
+  if (isSecure) {
+    if (isNotBlank(value) && isNotBlank(encryptedValue)) {
+      addError("value","You may only specify `value` or `encrypted_value`, not both!");
+      addError("encryptedValue","You may only specify `value` or `encrypted_value`, not both!");
+    }
+    if (isNotBlank(value)) {
+      setEncryptedValue(new EncryptedVariableValueConfig(new GoCipher().encrypt(value)));
+    }
+    if (isNotBlank(encryptedValue)) {
+      setEncryptedValue(new EncryptedVariableValueConfig(encryptedValue));
+    }
+  }
+ else {
+    setValue(new VariableValueConfig(value));
+  }
+}

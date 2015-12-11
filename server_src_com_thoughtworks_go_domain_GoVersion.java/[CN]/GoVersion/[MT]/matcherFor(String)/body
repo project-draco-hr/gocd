@@ -1,0 +1,10 @@
+{
+  Pattern updateServerPattern=Pattern.compile("^(?:(\\d+)\\.)?(?:(\\d+)\\.)?(?:(\\d+)\\-)?(?:(\\d+))$");
+  Pattern serverVersionPattern=Pattern.compile("^(?:(\\d+)\\.)?(?:(\\d+)\\.)?(?:(\\d+)\\()?(?:(\\d+)\\-)?(?:(\\w+)\\))$");
+  Matcher matcher=null;
+  matcher=updateServerPattern.matcher(version);
+  if (matcher.matches())   return matcher;
+  matcher=serverVersionPattern.matcher(version);
+  if (matcher.matches())   return matcher;
+  return null;
+}

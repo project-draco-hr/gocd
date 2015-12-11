@@ -4,6 +4,6 @@
   instance.setAgentUuid("1234");
   final Agents agents=new Agents(new AgentConfig("1234","localhost","1234"));
   JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(instance,agents.getAgentByUuid(instance.getAgentUuid()));
-  JsonMap json=presenter.toJsonHash();
+  Map json=presenter.toJsonHash();
   new JsonTester(json).shouldContain("{ 'name' : 'test'," + " 'id' : '12', " + " 'agent' : 'localhost', "+ " 'current_status' : 'assigned' "+ "}");
 }

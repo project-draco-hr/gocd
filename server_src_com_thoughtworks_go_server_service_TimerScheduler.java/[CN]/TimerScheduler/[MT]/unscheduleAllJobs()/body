@@ -2,8 +2,7 @@
   try {
     String[] jobNames=quartzScheduler.getJobNames(QUARTZ_GROUP);
     for (    String jobName : jobNames) {
-      quartzScheduler.unscheduleJob(jobName,QUARTZ_GROUP);
-      quartzScheduler.deleteJob(jobName,QUARTZ_GROUP);
+      unscheduleJob(jobName);
     }
   }
  catch (  SchedulerException e) {

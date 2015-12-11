@@ -1,0 +1,8 @@
+{
+  validate(validationContext);
+  boolean isValid=errors().isEmpty();
+  for (  ParamConfig paramConfig : this) {
+    isValid=paramConfig.validateTree(validationContext) && isValid;
+  }
+  return isValid;
+}

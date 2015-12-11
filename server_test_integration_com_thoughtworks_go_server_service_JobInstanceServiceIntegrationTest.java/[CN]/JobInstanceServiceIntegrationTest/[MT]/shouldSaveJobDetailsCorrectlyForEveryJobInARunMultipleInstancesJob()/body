@@ -4,7 +4,7 @@
   jobConfig.setRunInstanceCount(2);
   jobConfig.addResource("blah");
   jobConfig.getProperties().add(new ArtifactPropertiesGenerator("prop1","props.xml","//somepath"));
-  jobConfig.artifactPlans().add(new ArtifactPlan(ArtifactType.file,"src1","dest1"));
+  jobConfig.artifactPlans().add(new ArtifactPlan("src1","dest1"));
   configHelper.addPipeline("go","dev");
   scheduleHelper.schedule(pipelineConfig,BuildCause.createWithModifications(modifyOneFile(pipelineConfig),""),DEFAULT_APPROVED_BY);
   List<JobPlan> jobPlans=jobInstanceService.orderedScheduledBuilds();

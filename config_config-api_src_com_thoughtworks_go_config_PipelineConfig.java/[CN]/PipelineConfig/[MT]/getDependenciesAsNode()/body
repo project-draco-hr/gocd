@@ -1,8 +1,9 @@
 {
-  List<CaseInsensitiveString> pipelineDeps=new ArrayList<CaseInsensitiveString>();
+  List<Node.DependencyNode> pipelineDeps=new ArrayList<>();
   for (  MaterialConfig material : materialConfigs) {
     if (material instanceof DependencyMaterialConfig) {
-      pipelineDeps.add(((DependencyMaterialConfig)material).getPipelineName());
+      DependencyMaterialConfig dependencyMaterialConfig=(DependencyMaterialConfig)material;
+      pipelineDeps.add(new Node.DependencyNode(dependencyMaterialConfig.getPipelineName(),dependencyMaterialConfig.getStageName()));
     }
   }
   return new Node(pipelineDeps);

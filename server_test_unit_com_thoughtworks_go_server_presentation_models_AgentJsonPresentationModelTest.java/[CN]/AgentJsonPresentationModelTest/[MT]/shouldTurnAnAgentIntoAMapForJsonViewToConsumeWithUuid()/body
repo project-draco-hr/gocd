@@ -2,6 +2,6 @@
   AgentInstance activity=AgentInstance.create(new AgentConfig("12345","localhost","192.168.0.1"),false,systemEnvironment);
   activity.enable();
   AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(activity);
-  JsonMap json=adaptor.toJsonHash();
+  Map json=adaptor.toJsonHash();
   new JsonTester(json).shouldContain("{ 'agentId' : '12345'," + "  'hostname' : 'localhost'," + "  'status' : '" + AgentStatus.Idle.toString().toLowerCase() + "',"+ "  'canDeny' : 'true',"+ "  'canEditResource' : 'true',"+ "  'ipAddress' : '192.168.0.1' }");
 }

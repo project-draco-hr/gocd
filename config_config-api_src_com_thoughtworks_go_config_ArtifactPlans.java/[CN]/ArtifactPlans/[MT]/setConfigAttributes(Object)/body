@@ -12,13 +12,10 @@
     }
     String type=(String)attrMap.get("artifactTypeValue");
     if (TestArtifactPlan.TEST_PLAN_DISPLAY_NAME.equals(type)) {
-      TestArtifactPlan plan=new TestArtifactPlan();
-      plan.setSrc(source);
-      plan.setDest(destination);
-      this.add(plan);
+      this.add(new TestArtifactPlan(source,destination));
     }
  else {
-      this.add(artifactPlan(attrMap));
+      this.add(new ArtifactPlan(source,destination));
     }
   }
 }

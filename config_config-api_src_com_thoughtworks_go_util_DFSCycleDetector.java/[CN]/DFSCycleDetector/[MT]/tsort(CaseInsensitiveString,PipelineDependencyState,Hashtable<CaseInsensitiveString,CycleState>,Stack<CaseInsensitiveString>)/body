@@ -1,0 +1,16 @@
+{
+  state.put(root,CycleState.VISITING);
+  visiting.push(root);
+  validateRootExists(root,pipelineDependencyState,visiting);
+  Node stage=pipelineDependencyState.getDependencyMaterials(root);
+  for (  Node.DependencyNode cur : stage.getDependencies()) {
+    if (!state.containsKey(cur.getPipelineName())) {
+      tsort(cur.getPipelineName(),pipelineDependencyState,state,visiting);
+    }
+ else     if (state.get(cur.getPipelineName()) == CycleState.VISITING) {
+      throwCircularException(cur.getPipelineName(),visiting);
+    }
+  }
+  popAndAssertTopIsConsistent(visiting,root);
+  state.put(root,CycleState.VISITED);
+}

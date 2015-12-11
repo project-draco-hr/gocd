@@ -1,10 +1,10 @@
 {
-  JsonList list=new JsonList();
-  JsonMap nestedMap=new JsonMap();
+  List list=new ArrayList();
+  Map<String,Object> nestedMap=new LinkedHashMap<>();
   nestedMap.put("key1","value1");
   list.add(nestedMap);
   list.add("value2");
   JsonView view=new JsonView();
-  String json=view.renderJson(JsonView.asMap(list));
+  String json=view.renderJson(asMap(list));
   new JsonTester(json).is("[ { 'key1' : 'value1' }, 'value2' ]");
 }

@@ -5,4 +5,8 @@
   assertThat(config.hasTemplateApplied(),is(false));
   assertThat(config.getTemplateName(),is(new CaseInsensitiveString("template")));
   assertThat(config.isEmpty(),is(true));
+  config.templatize(new CaseInsensitiveString(""));
+  assertThat(config.hasTemplate(),is(false));
+  config.templatize(null);
+  assertThat(config.hasTemplate(),is(false));
 }

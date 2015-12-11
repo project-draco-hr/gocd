@@ -4,6 +4,6 @@
   activity.enable();
   activity.building(new AgentBuildingInfo("something","buildLocator"));
   AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(activity);
-  JsonMap json=adaptor.toJsonHash();
+  Map json=adaptor.toJsonHash();
   new JsonTester(json).shouldContain("{ 'hostname' : 'localhost'," + "  'status' : 'building' }");
 }

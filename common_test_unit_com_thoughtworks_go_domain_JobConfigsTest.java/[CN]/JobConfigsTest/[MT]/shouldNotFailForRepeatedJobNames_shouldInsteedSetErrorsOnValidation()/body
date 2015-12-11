@@ -12,7 +12,7 @@
   assertThat(secondFoo.name(),is(new CaseInsensitiveString("foo")));
   assertThat(firstFoo.errors().isEmpty(),is(true));
   assertThat(secondFoo.errors().isEmpty(),is(true));
-  jobs.validate(ValidationContext.forChain(config,config.getGroups(),config.getGroups().get(0),pipelineConfig,pipelineConfig.get(0),jobs));
+  jobs.validate(ConfigSaveValidationContext.forChain(config,config.getGroups(),config.getGroups().get(0),pipelineConfig,pipelineConfig.get(0),jobs));
   assertThat(firstFoo.errors().on(JobConfig.NAME),is("You have defined multiple jobs called 'foo'. Job names are case-insensitive and must be unique."));
   assertThat(secondFoo.errors().on(JobConfig.NAME),is("You have defined multiple jobs called 'foo'. Job names are case-insensitive and must be unique."));
 }

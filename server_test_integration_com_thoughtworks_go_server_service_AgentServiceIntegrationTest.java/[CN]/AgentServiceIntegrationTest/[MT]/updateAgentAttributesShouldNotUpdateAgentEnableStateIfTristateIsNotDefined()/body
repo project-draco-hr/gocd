@@ -6,8 +6,8 @@
   assertThat(agentService.findAgentAndRefreshStatus("enabled").agentConfig().isDisabled(),is(false));
   assertThat(agentService.findAgentAndRefreshStatus("disabled").agentConfig().isDisabled(),is(true));
   HttpOperationResult operationResult=new HttpOperationResult();
-  agentService.updateAgentAttributes(USERNAME,operationResult,"enabled","new.enabled.hostname","linux,java",TriState.UNSET);
-  agentService.updateAgentAttributes(USERNAME,operationResult,"disabled","new.disabled.hostname","linux,java",TriState.UNSET);
+  agentService.updateAgentAttributes(USERNAME,operationResult,"enabled","new.enabled.hostname","linux,java",null,TriState.UNSET);
+  agentService.updateAgentAttributes(USERNAME,operationResult,"disabled","new.disabled.hostname","linux,java",null,TriState.UNSET);
   assertThat(operationResult.httpCode(),is(200));
   assertThat(agentService.agents().size(),is(2));
   assertThat(agentService.findAgentAndRefreshStatus("enabled").agentConfig().isDisabled(),is(false));

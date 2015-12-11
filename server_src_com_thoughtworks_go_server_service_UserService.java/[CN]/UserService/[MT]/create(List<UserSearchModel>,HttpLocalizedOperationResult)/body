@@ -14,7 +14,7 @@ synchronized (enableUserMutex) {
         result.badRequest(LocalizedMessage.string("USERNAME_NOT_PERMITTED",user.getName()));
         return;
       }
-      if (!userSearchModel.getUserSourceType().equals(UserSourceType.PASSWORD_FILE) && validateEmailAndMatcher(result,user)) {
+      if (!userSearchModel.getUserSourceType().equals(UserSourceType.PASSWORD_FILE) && validate(result,user)) {
         return;
       }
       userDao.saveOrUpdate(user);

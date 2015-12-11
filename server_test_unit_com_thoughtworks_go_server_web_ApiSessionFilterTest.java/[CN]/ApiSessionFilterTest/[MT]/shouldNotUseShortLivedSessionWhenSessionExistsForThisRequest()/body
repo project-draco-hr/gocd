@@ -1,5 +1,4 @@
 {
-  when(featureToggleService.isToggleOn(Toggles.API_REQUESTS_SHORT_SESSION_FEATURE_TOGGLE_KEY)).thenReturn(true);
   ensureSessionExistsBeforeReachingFilter();
   filter.doFilterHttp(request,response,chain);
   verify(chain,times(1)).doFilter(request,response);

@@ -1,0 +1,10 @@
+{
+  GoConfigHolder goConfigHolder=goConfigDao.loadConfigHolder();
+  pipelineConfig.setLabelTemplate("LABEL");
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(pipelineConfig.errors().on(PipelineConfig.LABEL_TEMPLATE),contains("Invalid label"));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
+  assertThat(goConfigDao.loadConfigHolder().configForEdit,is(goConfigHolder.configForEdit));
+  assertThat(goConfigDao.loadConfigHolder().config,is(goConfigHolder.config));
+}

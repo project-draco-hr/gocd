@@ -1,16 +1,16 @@
 {
-  JsonMap json=new JsonMap();
-  String pipelineName=CaseInsensitiveString.str(pipelineConfig.name());
+  Map<String,Object> json=new LinkedHashMap<>();
+  String pipelineName=str(pipelineConfig.name());
   json.put("pipelineName",pipelineName);
-  json.put("paused",String.valueOf(pipelinePauseInfo.isPaused()));
+  json.put("paused",valueOf(pipelinePauseInfo.isPaused()));
   json.put("pauseCause",pipelinePauseInfo.getPauseCause());
   json.put("pauseBy",pipelinePauseInfo.getPauseBy());
-  json.put("canForce",String.valueOf(canForce));
+  json.put("canForce",valueOf(canForce));
   json.put("nextLabel","");
   json.put("groups",groupAsJson());
-  json.put("forcedBuild",String.valueOf(hasForceBuildCause));
-  json.put("showForceBuildButton",String.valueOf(showForceBuildButton()));
-  json.put("canPause",String.valueOf(canPause));
+  json.put("forcedBuild",valueOf(hasForceBuildCause));
+  json.put("showForceBuildButton",valueOf(showForceBuildButton()));
+  json.put("canPause",valueOf(canPause));
   json.putAll(pagination.toJsonMap());
   return json;
 }

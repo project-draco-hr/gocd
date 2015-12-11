@@ -1,0 +1,6 @@
+{
+  when(builder.getServerVersionInfo()).thenReturn(null);
+  manager.initialize();
+  verify(builder).getServerVersionInfo();
+  verify(goCache,never()).put(anyString(),anyString());
+}

@@ -1,0 +1,7 @@
+{
+  boolean isValid=errors().isEmpty();
+  for (  Resource resource : this) {
+    isValid=resource.validateTree(validationContext) && isValid;
+  }
+  return isValid;
+}

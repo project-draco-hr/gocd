@@ -1,0 +1,13 @@
+{
+  PackageRepository repo1=PackageRepositoryMother.create("repo-id1","repo1","plugin-id","1.0",null);
+  PackageDefinition packageDefinitionOne=PackageDefinitionMother.create("pid1",repo1);
+  PackageDefinition packageDefinitionTwo=PackageDefinitionMother.create("pid2",repo1);
+  repo1.getPackages().addAll(asList(packageDefinitionOne,packageDefinitionTwo));
+  PackageRepository repo2=PackageRepositoryMother.create("repo-id2","repo2","plugin-id","1.0",null);
+  PackageDefinition packageDefinitionThree=PackageDefinitionMother.create("pid3",repo2);
+  PackageDefinition packageDefinitionFour=PackageDefinitionMother.create("pid4",repo2);
+  repo2.getPackages().addAll(asList(packageDefinitionThree,packageDefinitionFour));
+  PackageRepositories packageRepositories=new PackageRepositories(repo1,repo2);
+  assertThat(packageRepositories.findPackageDefinitionWith("pid3"),is(packageDefinitionThree));
+  assertThat(packageRepositories.findPackageDefinitionWith("pid5"),is(nullValue()));
+}

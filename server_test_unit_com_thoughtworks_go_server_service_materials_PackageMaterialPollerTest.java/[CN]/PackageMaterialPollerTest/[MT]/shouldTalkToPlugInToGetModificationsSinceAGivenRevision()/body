@@ -1,7 +1,7 @@
 {
   Date timestamp=new Date();
   PackageMaterialRevision knownRevision=new PackageMaterialRevision("rev-122",timestamp);
-  ArgumentCaptor<PackageRevision> knownPackageRevision=new ArgumentCaptor<PackageRevision>();
+  ArgumentCaptor<PackageRevision> knownPackageRevision=ArgumentCaptor.forClass(PackageRevision.class);
   PackageRevision latestRevision=new PackageRevision("rev-123",timestamp,"user");
   when(packageAsRepositoryExtension.latestModificationSince(eq(material.getPluginId()),packageConfiguration.capture(),repositoryConfiguration.capture(),knownPackageRevision.capture())).thenReturn(latestRevision);
   List<Modification> modifications=poller.modificationsSince(material,null,knownRevision,null);

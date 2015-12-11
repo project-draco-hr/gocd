@@ -3,6 +3,6 @@
   String decrypted="decrypted";
   when(cipher.decrypt(encrypted)).thenReturn(decrypted);
   ConfigurationProperty property=new ConfigurationProperty(new ConfigurationKey("name"),null,new EncryptedConfigurationValue(encrypted),cipher);
-  property.validate(ValidationContext.forChain(property));
+  property.validate(ConfigSaveValidationContext.forChain(property));
   assertThat(property.errors().isEmpty(),is(true));
 }

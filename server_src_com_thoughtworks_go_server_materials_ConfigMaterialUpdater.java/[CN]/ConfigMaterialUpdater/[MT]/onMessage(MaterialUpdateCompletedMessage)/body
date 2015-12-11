@@ -14,10 +14,10 @@
       Revision revision=latestModification.firstModifiedMaterialRevision().getRevision();
       MaterialRevision lastParseRevision=getMaterialRevisionAtLastParseAttempt(message);
       if (lastParseRevision == null) {
-        UpdateConfigurationFromCheckout(folder,revision,material);
+        updateConfigurationFromCheckout(folder,revision,material);
       }
  else       if (latestModification.findRevisionFor(material.config()).hasChangedSince(lastParseRevision)) {
-        UpdateConfigurationFromCheckout(folder,revision,material);
+        updateConfigurationFromCheckout(folder,revision,material);
       }
  else {
       }

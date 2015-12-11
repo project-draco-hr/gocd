@@ -1,0 +1,18 @@
+{
+  createEnvironment("a","b");
+  AgentConfig agent=createDisabledAndIdleAgent(UUID);
+  String originalHostname=agent.getHostname();
+  HttpOperationResult operationResult=new HttpOperationResult();
+  agentService.modifyEnvironments(USERNAME,operationResult,Arrays.asList(UUID),Arrays.asList(new TriStateSelection("a",TriStateSelection.Action.add),new TriStateSelection("b",TriStateSelection.Action.add)));
+  goConfigDao.load();
+  goConfigDao.updateAgentResources(agent.getUuid(),new Resources("linux,java"));
+  assertThat(agentService.agents().size(),is(1));
+  operationResult=new HttpOperationResult();
+  agentService.updateAgentAttributes(USERNAME,operationResult,UUID,null,null,null,TriState.UNSET);
+  assertThat(operationResult.httpCode(),is(200));
+  assertThat(operationResult.message(),is("Updated agent with uuid uuid."));
+  assertThat(agentService.agents().size(),is(1));
+  assertThat(agentService.agents().get(0).getHostname(),is(originalHostname));
+  assertThat(agentService.agents().get(0).resources().resourceNames(),is(new Resources("linux,java").resourceNames()));
+  assertEquals(agentService.agents().get(0).getEnvironments(),new HashSet<>(Arrays.asList("a","b")));
+}

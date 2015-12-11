@@ -8,6 +8,6 @@
   pipelineOne.setMaterialConfigs(new MaterialConfigs(materialOne));
   PipelineConfig pipelineTwo=config.pipelineConfigByName(new CaseInsensitiveString("two"));
   pipelineTwo.setMaterialConfigs(new MaterialConfigs(materialTwo));
-  pipelineOne.materialConfigs().validate(ValidationContext.forChain(config));
+  pipelineOne.materialConfigs().validate(ConfigSaveValidationContext.forChain(config));
   assertThat(pipelineOne.materialConfigs().get(0).errors().on(ScmMaterialConfig.AUTO_UPDATE),is("Material of type Mercurial (http://url1) is specified more than once in the configuration with different values for the autoUpdate attribute. All copies of the a material should have the same value for this attribute."));
 }

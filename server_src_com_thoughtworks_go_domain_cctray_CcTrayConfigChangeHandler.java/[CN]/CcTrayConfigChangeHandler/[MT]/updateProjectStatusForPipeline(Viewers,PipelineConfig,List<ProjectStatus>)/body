@@ -1,0 +1,8 @@
+{
+  for (  StageConfig stageConfig : pipelineConfig) {
+    List<ProjectStatus> statusesInCacheOrDB=findExistingStatuses(pipelineConfig,stageConfig);
+    List<ProjectStatus> statuses=getStatusesForCurrentProjectsWithDefaultsForMissingOnes(pipelineConfig,stageConfig,statusesInCacheOrDB);
+    updateStatusesWithUsersHavingViewPermission(statuses,usersWithViewPermissionsOfThisGroup);
+    projectStatuses.addAll(statuses);
+  }
+}

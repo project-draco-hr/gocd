@@ -8,7 +8,7 @@
   pipelineOne.setMaterialConfigs(new MaterialConfigs(materialOne));
   PipelineConfig pipelineTwo=config.pipelineConfigByName(new CaseInsensitiveString("two"));
   pipelineTwo.setMaterialConfigs(new MaterialConfigs(materialTwo));
-  pipelineOne.materialConfigs().validate(ValidationContext.forChain(config));
+  pipelineOne.materialConfigs().validate(ConfigSaveValidationContext.forChain(config));
   assertThat(pipelineOne.materialConfigs().get(0).errors().isEmpty(),is(true));
   assertThat(pipelineTwo.materialConfigs().get(0).errors().isEmpty(),is(true));
 }

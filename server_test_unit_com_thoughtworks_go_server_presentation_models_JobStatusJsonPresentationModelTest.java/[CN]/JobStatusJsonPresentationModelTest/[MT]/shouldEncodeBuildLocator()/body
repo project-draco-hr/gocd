@@ -2,6 +2,6 @@
   JobInstance instance=JobInstanceMother.completed("job-%",JobResult.Passed);
   instance.setIdentifier(new JobIdentifier("cruise-%",1,"label-1","dev-%","1","job-%",-1L));
   JobStatusJsonPresentationModel presenter=new JobStatusJsonPresentationModel(instance,null);
-  JsonMap json=presenter.toJsonHash();
+  Map json=presenter.toJsonHash();
   assertThat(JsonUtils.from(json).getString("buildLocator"),is("cruise-%25/1/dev-%25/1/job-%25"));
 }

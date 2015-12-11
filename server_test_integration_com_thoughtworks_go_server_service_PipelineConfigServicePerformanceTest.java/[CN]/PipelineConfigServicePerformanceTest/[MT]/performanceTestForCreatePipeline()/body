@@ -1,0 +1,20 @@
+{
+  setupPipelines(0);
+  final ConcurrentHashMap<String,Boolean> results=new ConcurrentHashMap<>();
+  run(new Runnable(){
+    @Override public void run(){
+      JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("job"));
+      StageConfig stageConfig=new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(jobConfig));
+      PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString(Thread.currentThread().getName()),new MaterialConfigs(new GitMaterialConfig("FOO")),stageConfig);
+      PerfTimer updateTimer=PerfTimer.start("Saving pipelineConfig : " + pipelineConfig.name());
+      pipelineConfigService.createPipelineConfig(user,pipelineConfig,result,"jumbo");
+      updateTimer.stop();
+      results.put(Thread.currentThread().getName(),result.isSuccessful());
+      if (!result.isSuccessful()) {
+        LOGGER.error(result.toString());
+        LOGGER.error("Errors on pipeline" + Thread.currentThread().getName() + " are : "+ ListUtil.join(getAllErrors(pipelineConfig)));
+      }
+    }
+  }
+,numberOfRequests,results);
+}

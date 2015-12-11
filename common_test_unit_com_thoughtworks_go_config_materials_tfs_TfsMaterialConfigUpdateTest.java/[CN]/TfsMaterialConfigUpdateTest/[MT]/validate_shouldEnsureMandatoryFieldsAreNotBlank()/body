@@ -1,6 +1,6 @@
 {
   TfsMaterialConfig tfsMaterialConfig=new TfsMaterialConfig(new GoCipher(),new UrlArgument(""),"","CORPORATE","","");
-  tfsMaterialConfig.validate(new ValidationContext(null));
+  tfsMaterialConfig.validate(new ConfigSaveValidationContext(null));
   assertThat(tfsMaterialConfig.errors().on(TfsMaterialConfig.URL),is("URL cannot be blank"));
   assertThat(tfsMaterialConfig.errors().on(TfsMaterialConfig.USERNAME),is("Username cannot be blank"));
   assertThat(tfsMaterialConfig.errors().on(TfsMaterialConfig.PROJECT_PATH),is("Project Path cannot be blank"));

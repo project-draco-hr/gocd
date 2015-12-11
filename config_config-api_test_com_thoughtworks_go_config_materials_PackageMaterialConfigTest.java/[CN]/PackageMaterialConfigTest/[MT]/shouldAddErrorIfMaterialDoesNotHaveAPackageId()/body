@@ -1,6 +1,6 @@
 {
   PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig();
-  packageMaterialConfig.validateConcreteMaterial(new ValidationContext(null,null));
+  packageMaterialConfig.validateConcreteMaterial(new ConfigSaveValidationContext(null,null));
   assertThat(packageMaterialConfig.errors().getAll().size(),is(1));
   assertThat(packageMaterialConfig.errors().on(PackageMaterialConfig.PACKAGE_ID),is("Please select a repository and package"));
 }

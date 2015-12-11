@@ -5,7 +5,7 @@
   StageConfig stage=pipeline.get(0);
   StageConfigMother.addApprovalWithUsers(stage,"not-present");
   Approval approval=stage.getApproval();
-  approval.validate(ValidationContext.forChain(cruiseConfig,group,pipeline,stage));
+  approval.validate(ConfigSaveValidationContext.forChain(cruiseConfig,group,pipeline,stage));
   AdminUser user=approval.getAuthConfig().getUsers().get(0);
   assertThat(user.errors().isEmpty(),is(false));
   assertThat(user.errors().on("name"),is("User \"not-present\" who is not authorized to operate pipeline group can not be authorized to approve stage"));

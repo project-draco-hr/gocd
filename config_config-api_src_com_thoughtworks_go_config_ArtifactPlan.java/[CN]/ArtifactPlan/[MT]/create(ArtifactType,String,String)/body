@@ -1,0 +1,11 @@
+{
+  if (artifactType == ArtifactType.file) {
+    return new ArtifactPlan(src,dest);
+  }
+ else   if (artifactType == ArtifactType.unit) {
+    return new TestArtifactPlan(src,dest);
+  }
+ else {
+    throw bomb("ArtifactType not specified");
+  }
+}

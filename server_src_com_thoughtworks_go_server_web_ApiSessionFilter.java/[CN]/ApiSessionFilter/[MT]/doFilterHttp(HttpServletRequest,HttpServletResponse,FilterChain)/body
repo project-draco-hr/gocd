@@ -1,19 +1,13 @@
 {
-  boolean shouldUseLongLivedSessions=!Toggles.isToggleOn(Toggles.API_REQUESTS_SHORT_SESSION_FEATURE_TOGGLE_KEY);
-  if (shouldUseLongLivedSessions) {
+  boolean hadSessionBeforeStarting=request.getSession(false) != null;
+  try {
     chain.doFilter(request,response);
   }
- else {
-    boolean hadSessionBeforeStarting=request.getSession(false) != null;
-    try {
-      chain.doFilter(request,response);
-    }
   finally {
-      HttpSession session=request.getSession(false);
-      boolean hasSessionNow=session != null;
-      if (!hadSessionBeforeStarting && hasSessionNow) {
-        session.setMaxInactiveInterval(idleTimeoutInSeconds);
-      }
+    HttpSession session=request.getSession(false);
+    boolean hasSessionNow=session != null;
+    if (!hadSessionBeforeStarting && hasSessionNow) {
+      session.setMaxInactiveInterval(idleTimeoutInSeconds);
     }
   }
 }

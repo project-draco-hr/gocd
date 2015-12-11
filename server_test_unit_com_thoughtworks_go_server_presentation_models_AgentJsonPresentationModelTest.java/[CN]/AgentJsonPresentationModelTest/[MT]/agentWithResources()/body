@@ -4,6 +4,6 @@
   agentConfig.addResource(new Resource("jdk1.5"));
   AgentInstance activity=AgentInstance.create(agentConfig,false,systemEnvironment);
   AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(activity);
-  JsonMap json=adaptor.toJsonHash();
+  Map json=adaptor.toJsonHash();
   new JsonTester(json).shouldContain("{ 'resources' : [ 'jdk1.4', 'jdk1.5' ] }");
 }

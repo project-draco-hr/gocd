@@ -1,0 +1,30 @@
+{
+  if (enabled.isTrue()) {
+    user.enable();
+  }
+  if (enabled.isFalse()) {
+    user.disable();
+  }
+  if (email != null) {
+    user.setEmail(email);
+  }
+  if (checkinAliases != null) {
+    user.setMatcher(checkinAliases);
+  }
+  if (emailMe.isTrue()) {
+    user.setEmailMe(true);
+  }
+  if (emailMe.isFalse()) {
+    user.setEmailMe(false);
+  }
+  if (validate(result,user)) {
+    return user;
+  }
+  try {
+    saveOrUpdate(user);
+  }
+ catch (  ValidationException e) {
+    result.badRequest(LocalizedMessage.string("USER_FIELD_VALIDATIONS_FAILED",e.getMessage()));
+  }
+  return user;
+}

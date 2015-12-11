@@ -1,6 +1,6 @@
 {
   JobInstance jobInstance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME));
-  ArtifactPlan savedArtifactPlan=new ArtifactPlan(ArtifactType.file,"src","dest");
+  ArtifactPlan savedArtifactPlan=new ArtifactPlan("src","dest");
   savedArtifactPlan.setBuildId(jobInstance.getId());
   artifactPlanRepository.save(savedArtifactPlan);
   List<ArtifactPlan> artifactPlanList=artifactPlanRepository.findByBuildId(jobInstance.getId());

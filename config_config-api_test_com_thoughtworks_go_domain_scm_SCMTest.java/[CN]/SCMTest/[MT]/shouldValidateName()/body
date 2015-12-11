@@ -1,7 +1,7 @@
 {
   SCM scm=new SCM();
   scm.setName("some name");
-  scm.validate(new ValidationContext(null));
+  scm.validate(new ConfigSaveValidationContext(null));
   assertThat(scm.errors().isEmpty(),is(false));
   assertThat(scm.errors().getAllOn(SCM.NAME).get(0),is("Invalid SCM name 'some name'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
 }

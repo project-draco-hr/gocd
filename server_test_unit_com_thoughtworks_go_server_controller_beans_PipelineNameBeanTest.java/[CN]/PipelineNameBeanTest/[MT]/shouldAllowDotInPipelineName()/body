@@ -1,5 +1,5 @@
 {
   PipelineNameBean bean=new PipelineNameBean("pipeline.719",false);
-  JsonMap json=(JsonMap)bean.validate().toJson();
-  assertThat(json.getJsonString("isValid").withoutQuote(),is("true"));
+  Map<String,String> json=(Map)bean.validate().toJson();
+  assertThat(json.get("isValid"),is("true"));
 }

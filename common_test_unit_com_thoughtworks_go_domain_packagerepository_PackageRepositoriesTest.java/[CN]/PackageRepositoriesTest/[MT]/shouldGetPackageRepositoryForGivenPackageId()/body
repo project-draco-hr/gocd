@@ -4,10 +4,10 @@
   PackageDefinition packageDefinitionTwo=PackageDefinitionMother.create("pid2",repo1);
   repo1.getPackages().addAll(asList(packageDefinitionOne,packageDefinitionTwo));
   PackageRepository repo2=PackageRepositoryMother.create("repo-id2","repo2","plugin-id","1.0",null);
-  PackageDefinition packageDefinitionThree=PackageDefinitionMother.create("pid1",repo2);
-  PackageDefinition packageDefinitionFour=PackageDefinitionMother.create("pid2",repo2);
+  PackageDefinition packageDefinitionThree=PackageDefinitionMother.create("pid3",repo2);
+  PackageDefinition packageDefinitionFour=PackageDefinitionMother.create("pid4",repo2);
   repo2.getPackages().addAll(asList(packageDefinitionThree,packageDefinitionFour));
   PackageRepositories packageRepositories=new PackageRepositories(repo1,repo2);
-  PackageRepository actual=packageRepositories.findPackageRepositoryHaving("pid1");
-  assertThat(actual,is(repo1));
+  PackageRepository actual=packageRepositories.findPackageRepositoryHaving("pid3");
+  assertThat(actual,is(repo2));
 }

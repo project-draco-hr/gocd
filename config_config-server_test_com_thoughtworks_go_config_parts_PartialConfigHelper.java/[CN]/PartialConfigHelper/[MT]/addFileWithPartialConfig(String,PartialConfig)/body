@@ -1,10 +1,18 @@
 {
   File dest=new File(directory,relativePath);
   FileUtil.createParentFolderIfNotExist(dest);
-  FileOutputStream output=new FileOutputStream(dest);
   BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.setGroup(partialConfig.getGroups());
   cruiseConfig.setEnvironments(partialConfig.getEnvironments());
-  writer.write(cruiseConfig,output,true);
+  FileOutputStream output=null;
+  try {
+    output=new FileOutputStream(dest);
+    writer.write(cruiseConfig,output,true);
+  }
+  finally {
+    if (output != null) {
+      output.close();
+    }
+  }
   return dest;
 }

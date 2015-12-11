@@ -1,6 +1,6 @@
 {
   SvnMaterialConfig svn=svnMaterialConfig(svnRepo.projectRepositoryUrl(),"mainRepo");
-  SvnMaterialConfig svnExt=svnMaterialConfig(svnRepo.externalRepositoryUrl(),"mainRepo/end2end");
+  SvnMaterialConfig svnExt=svnMaterialConfig(svnRepo.externalRepositoryUrl(),"mainRepo/end2end",null);
   PipelineConfig pipelineConfig=new PipelineConfig();
   pipelineConfig.addMaterialConfig(svn);
   String cacheKeyForSvn=MaterialExpansionService.class + "_cacheKeyForSvnMaterialCheckExternalCommand_" + svn.getFingerprint();

@@ -1,0 +1,29 @@
+{
+  pipelineConfig.validate(validationContext);
+  pipelineCreationSpecificValidations(validationContext);
+  validateDependencies(validationContext);
+  boolean isValid=pipelineConfig.errors().isEmpty();
+  PipelineConfigSaveValidationContext contextForChildren=validationContext.withParent(pipelineConfig);
+  for (  StageConfig stageConfig : pipelineConfig.getStages()) {
+    isValid=stageConfig.validateTree(contextForChildren) && isValid;
+    if (pipelineConfig.hasTemplateApplied()) {
+      final List<ConfigErrors> allErrors=new ArrayList<>();
+      new GoConfigGraphWalker(stageConfig).walk(new ErrorCollectingHandler(allErrors){
+        @Override public void handleValidation(        Validatable validatable,        ValidationContext context){
+        }
+      }
+);
+      for (      ConfigErrors error : allErrors) {
+        pipelineConfig.errors().add("template",ListUtil.join(error.getAll()));
+      }
+    }
+  }
+  validateCyclicDependencies(validationContext);
+  isValid=pipelineConfig.materialConfigs().validateTree(contextForChildren) && isValid;
+  isValid=pipelineConfig.getParams().validateTree(contextForChildren) && isValid;
+  isValid=pipelineConfig.getVariables().validateTree(contextForChildren) && isValid;
+  if (pipelineConfig.getTrackingTool() != null)   isValid=pipelineConfig.getTrackingTool().validateTree(contextForChildren) && isValid;
+  if (pipelineConfig.getMingleConfig() != null)   isValid=pipelineConfig.getMingleConfig().validateTree(contextForChildren) && isValid;
+  if (pipelineConfig.getTimer() != null)   isValid=pipelineConfig.getTimer().validateTree(contextForChildren) && isValid;
+  return isValid;
+}

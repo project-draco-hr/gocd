@@ -1,6 +1,6 @@
 {
   StageJsonPresentationModel presenter=new StageJsonPresentationModel(pipeline,stage,null,new Agents());
-  JsonMap json=presenter.toJson();
+  Map json=presenter.toJson();
   JsonValue jsonValue=JsonUtils.from(json);
   JsonValue revision=jsonValue.getObject("materialRevisions",0);
   String expected=modifications.getMaterialRevisions().getMaterialRevision(0).getModifications().get(0).getRevision();

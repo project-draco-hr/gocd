@@ -5,6 +5,6 @@
   String buildingInfo="pipeline/label/stage/job";
   agentInstance.building(new AgentBuildingInfo(buildingInfo,"buildLocator"));
   AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(agentInstance);
-  JsonMap json=adaptor.toJsonHash();
+  Map json=adaptor.toJsonHash();
   new JsonTester(json).shouldContain("{ 'hostname' : 'localhost'," + "  'status' : 'building'," + "  'buildingInfo' : '" + buildingInfo + "',"+ "  'buildLocator' : 'buildLocator' }");
 }

@@ -1,8 +1,10 @@
 {
-  ServerSiteUrlConfig newSecureSiteUrl=newCruiseConfig.server().getSecureSiteUrl();
-  ServerSiteUrlConfig newSiteUrl=newCruiseConfig.server().getSiteUrl();
-  if (!(serverConfig.getSecureSiteUrl().equals(newSecureSiteUrl) && serverConfig.getSiteUrl().equals(newSiteUrl))) {
+  ServerConfig newServerConfig=newCruiseConfig.server();
+  ServerSiteUrlConfig newSecureSiteUrl=newServerConfig.getSecureSiteUrl();
+  ServerSiteUrlConfig newSiteUrl=newServerConfig.getSiteUrl();
+  if (!(secureSiteUrl.equals(newSecureSiteUrl) && siteUrl.equals(newSiteUrl))) {
     goCache.remove(URLS_CACHE_KEY);
-    LOGGER.info(String.format("[Configuration Changed] Site URL was changed from [%s] to [%s] and " + "Secure Site URL was changed from [%s] to [%s]",serverConfig.getSiteUrl(),newSiteUrl,serverConfig.getSecureSiteUrl(),newSecureSiteUrl));
+    LOGGER.info(String.format("[Configuration Changed] Site URL was changed from [%s] to [%s] and " + "Secure Site URL was changed from [%s] to [%s]",siteUrl,newSiteUrl,secureSiteUrl,newSecureSiteUrl));
   }
+  setUrls(newSiteUrl,newSecureSiteUrl);
 }

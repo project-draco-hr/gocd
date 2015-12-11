@@ -1,0 +1,9 @@
+{
+  when(state.getDependencyMaterials(new CaseInsensitiveString("a"))).thenReturn(new Node(new Node.DependencyNode(new CaseInsensitiveString("b"),new CaseInsensitiveString("stage"))));
+  when(state.getDependencyMaterials(new CaseInsensitiveString("b"))).thenReturn(new Node(new Node.DependencyNode(new CaseInsensitiveString("c"),new CaseInsensitiveString("stage"))));
+  when(state.getDependencyMaterials(new CaseInsensitiveString("c"))).thenReturn(new Node(new ArrayList<Node.DependencyNode>()));
+  when(state.hasPipeline(new CaseInsensitiveString("a"))).thenReturn(true);
+  when(state.hasPipeline(new CaseInsensitiveString("b"))).thenReturn(true);
+  when(state.hasPipeline(new CaseInsensitiveString("c"))).thenReturn(true);
+  project.topoSort(new CaseInsensitiveString("a"),state);
+}

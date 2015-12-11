@@ -1,7 +1,7 @@
 {
-  JsonMap jsonMap=new JsonMap();
+  Map<String,Object> jsonMap=new LinkedHashMap<>();
   for (  Object basicId : o.getIds()) {
-    String id=String.valueOf(basicId);
+    String id=valueOf(basicId);
     jsonMap.put(id,parse(o.get(id,o)));
   }
   return jsonMap;

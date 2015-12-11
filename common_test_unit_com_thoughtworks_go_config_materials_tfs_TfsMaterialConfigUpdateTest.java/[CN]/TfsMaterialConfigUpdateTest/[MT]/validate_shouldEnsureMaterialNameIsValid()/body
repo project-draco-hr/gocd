@@ -1,8 +1,8 @@
 {
   TfsMaterialConfig tfsMaterialConfig=new TfsMaterialConfig(new GoCipher(),new UrlArgument("http://10.4.4.101:8080/tfs/Sample"),"loser","CORPORATE","passwd","walk_this_path");
-  tfsMaterialConfig.validate(new ValidationContext(null));
+  tfsMaterialConfig.validate(new ConfigSaveValidationContext(null));
   assertThat(tfsMaterialConfig.errors().on(TfsMaterialConfig.MATERIAL_NAME),is(nullValue()));
   tfsMaterialConfig.setName(new CaseInsensitiveString(".bad-name-with-dot"));
-  tfsMaterialConfig.validate(new ValidationContext(null));
+  tfsMaterialConfig.validate(new ConfigSaveValidationContext(null));
   assertThat(tfsMaterialConfig.errors().on(TfsMaterialConfig.MATERIAL_NAME),is("Invalid material name '.bad-name-with-dot'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters."));
 }

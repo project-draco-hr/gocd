@@ -1,0 +1,34 @@
+{
+  this.isPipelineBeingCreated=parentContext.isPipelineBeingCreated();
+  this.groupName=parentContext.groupName;
+  this.immediateParent=immediateParent;
+  this.parentContext=parentContext;
+  if (immediateParent instanceof CruiseConfig) {
+    this.cruiseConfig=(CruiseConfig)immediateParent;
+  }
+ else   if (parentContext.cruiseConfig != null) {
+    this.cruiseConfig=parentContext.cruiseConfig;
+  }
+  if (immediateParent instanceof PipelineConfig) {
+    this.pipeline=(PipelineConfig)immediateParent;
+  }
+ else   if (parentContext.pipeline != null) {
+    this.pipeline=parentContext.pipeline;
+  }
+  if (immediateParent instanceof JobConfig) {
+    this.job=(JobConfig)immediateParent;
+  }
+ else   if (parentContext.getJob() != null) {
+    this.job=parentContext.job;
+  }
+  if (immediateParent instanceof StageConfig) {
+    this.stage=(StageConfig)immediateParent;
+  }
+ else   if (parentContext.stage != null) {
+    this.stage=parentContext.stage;
+  }
+  this.pipelineBeingValidated=parentContext.pipelineBeingValidated;
+  if (parentContext.pipelineBeingValidated == null) {
+    this.pipelineBeingValidated=this.pipeline;
+  }
+}

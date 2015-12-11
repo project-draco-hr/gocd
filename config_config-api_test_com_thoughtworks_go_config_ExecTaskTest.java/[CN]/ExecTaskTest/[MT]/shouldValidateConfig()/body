@@ -1,6 +1,6 @@
 {
   ExecTask execTask=new ExecTask("arg1 arg2",new Arguments(new Argument("arg1"),new Argument("arg2")));
-  execTask.validate(ValidationContext.forChain(new BasicCruiseConfig()));
+  execTask.validate(ConfigSaveValidationContext.forChain(new BasicCruiseConfig()));
   assertThat(execTask.errors().isEmpty(),is(false));
   assertThat(execTask.errors().on(ExecTask.ARGS),is(ExecTask.EXEC_CONFIG_ERROR));
   assertThat(execTask.errors().on(ExecTask.ARG_LIST_STRING),is(ExecTask.EXEC_CONFIG_ERROR));

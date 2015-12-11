@@ -1,6 +1,8 @@
 {
+  LOGGER.debug("Adding CCTray activity for stage into queue: " + stage);
   queue.add(new Action(){
     @Override public void call(){
+      LOGGER.debug("Handling CCTray activity for stage: " + stage);
       stageStatusChangeHandler.call(stage);
     }
   }

@@ -1,0 +1,24 @@
+{
+  String groupName="jumbo";
+  String configFile="<FULL PATH TO YOUR CONFIG FILE>";
+  String xml=FileUtil.readContentFromFile(new File(configFile));
+  xml=goConfigMigration.upgradeIfNecessary(xml);
+  goConfigService.fileSaver(false).saveConfig(xml,goConfigService.getConfigForEditing().getMd5());
+  LOGGER.info(String.format("Total number of pipelines in this config: %s",goConfigService.getConfigForEditing().allPipelines().size()));
+  if (goConfigService.getConfigForEditing().hasPipelineGroup(groupName)) {
+    ((BasicPipelineConfigs)goConfigService.getConfigForEditing().findGroup(groupName)).clear();
+  }
+  final CruiseConfig configForEditing=goConfigService.getConfigForEditing();
+  for (int i=0; i < numberOfPipelinesToBeCreated; i++) {
+    JobConfig jobConfig=new JobConfig(new CaseInsensitiveString("job"));
+    StageConfig stageConfig=new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(jobConfig));
+    PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("pipeline" + i),new MaterialConfigs(new GitMaterialConfig("FOO")),stageConfig);
+    configForEditing.addPipeline(groupName,pipelineConfig);
+  }
+  goConfigService.updateConfig(new UpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      return configForEditing;
+    }
+  }
+);
+}

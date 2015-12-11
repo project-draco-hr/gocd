@@ -9,7 +9,9 @@
   when(goConfigService.downstreamPipelinesOf("blahPipeline")).thenReturn(Arrays.asList(other));
   stubConfigServiceToReturnPipeline("blahPipeline",PipelineConfigMother.pipelineConfig("blahPipeline",new StageConfig(new CaseInsensitiveString("first"),new JobConfigs())));
   ensureHasPermission(USERNAME,"blahPipeline");
-  stubConfigServiceToReturnMaterialAndPipeline("down1",new MaterialConfigs(MaterialConfigsMother.svnMaterialConfig()),PipelineConfigMother.pipelineConfig("down1",new StageConfig(new CaseInsensitiveString("first"),new JobConfigs())));
+  SvnMaterialConfig svnMaterialConfig=MaterialConfigsMother.svnMaterialConfig();
+  svnMaterialConfig.setName(null);
+  stubConfigServiceToReturnMaterialAndPipeline("down1",new MaterialConfigs(svnMaterialConfig),PipelineConfigMother.pipelineConfig("down1",new StageConfig(new CaseInsensitiveString("first"),new JobConfigs())));
   ensureHasPermission(USERNAME,"down1");
   stubConfigServiceToReturnMaterialAndPipeline("other",new MaterialConfigs(),other);
   when(pipelineTimeline.pipelineBefore(23)).thenReturn(-1L);

@@ -1,4 +1,5 @@
 {
+  LOGGER.info("About to notify config listeners");
   for (  ConfigChangedListener listener : listeners) {
     try {
       listener.onConfigChange(newCruiseConfig);
@@ -7,4 +8,5 @@
       LOGGER.error("failed to fire config changed event for listener: " + listener,e);
     }
   }
+  LOGGER.info("Finished notifying all listeners");
 }

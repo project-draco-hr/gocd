@@ -1,0 +1,16 @@
+{
+  MaterialConfigs knownMaterialsForPipeline=pipelineMaterialMap.get(pipelineConfig.name().toString());
+  MaterialConfigs currentMaterials=pipelineConfig.materialConfigs();
+  if (knownMaterialsForPipeline != null) {
+    for (    MaterialConfig old : knownMaterialsForPipeline) {
+      map.get(old.getFingerprint()).remove(old);
+    }
+  }
+  for (  MaterialConfig currentMaterial : currentMaterials) {
+    if (!map.containsKey(currentMaterial.getFingerprint())) {
+      map.put(currentMaterial.getFingerprint(),new MaterialConfigs());
+    }
+    map.get(currentMaterial.getFingerprint()).add(currentMaterial);
+  }
+  pipelineMaterialMap.put(pipelineConfig.name().toString(),currentMaterials);
+}

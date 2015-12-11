@@ -1,0 +1,13 @@
+{
+  for (  DependencyMaterialConfig material : filterDependencyMaterials()) {
+    PipelineConfig upstream=validationContext.getPipelineConfigByName(material.getPipelineName());
+    if (upstream == null)     continue;
+    ConfigOrigin myOrigin=currentPipeline.getOrigin();
+    ConfigOrigin upstreamOrigin=upstream.getOrigin();
+    if (validationContext.shouldCheckConfigRepo()) {
+      if (!validationContext.getConfigRepos().isReferenceAllowed(myOrigin,upstreamOrigin)) {
+        material.addError(DependencyMaterialConfig.ORIGIN,String.format("Dependency from pipeline defined in %s to pipeline defined in %s is not allowed",displayNameFor(myOrigin),displayNameFor(upstreamOrigin)));
+      }
+    }
+  }
+}

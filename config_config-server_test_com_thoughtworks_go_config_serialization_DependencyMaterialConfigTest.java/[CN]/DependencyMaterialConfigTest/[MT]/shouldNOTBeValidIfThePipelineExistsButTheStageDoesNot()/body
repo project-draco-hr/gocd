@@ -1,7 +1,6 @@
 {
-  CruiseConfig config=GoConfigMother.configWithPipelines("pipeline1","pipeline2","pipeline3","go");
   DependencyMaterialConfig dependencyMaterialConfig=new DependencyMaterialConfig(new CaseInsensitiveString("pipeline2"),new CaseInsensitiveString("stage-not-existing does not exist!"));
-  dependencyMaterialConfig.validate(ValidationContext.forChain(config));
+  dependencyMaterialConfig.validate(ConfigSaveValidationContext.forChain(config));
   ConfigErrors configErrors=dependencyMaterialConfig.errors();
   assertThat(configErrors.isEmpty(),is(false));
   assertThat(configErrors.on(DependencyMaterialConfig.PIPELINE_STAGE_NAME),containsString("Stage with name 'stage-not-existing does not exist!' does not exist on pipeline 'pipeline2'"));

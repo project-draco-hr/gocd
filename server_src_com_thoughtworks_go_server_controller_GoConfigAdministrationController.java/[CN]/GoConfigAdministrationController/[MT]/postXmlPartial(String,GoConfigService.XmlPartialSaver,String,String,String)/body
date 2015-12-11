@@ -10,9 +10,9 @@
     return JsonAction.jsonFound(JsonView.getSimpleAjaxResult("result",successMessage));
   }
  else {
-    JsonMap jsonMap=new JsonMap();
+    Map<String,Object> jsonMap=new LinkedHashMap<>();
     jsonMap.put("result",configValidity.errorMessage());
     jsonMap.put("originalContent",xmlPartial);
-    return JsonAction.jsonByValidity(jsonMap,configValidity);
+    return jsonByValidity(jsonMap,configValidity);
   }
 }

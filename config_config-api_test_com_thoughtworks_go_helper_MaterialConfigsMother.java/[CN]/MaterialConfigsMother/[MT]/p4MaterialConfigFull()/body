@@ -1,0 +1,8 @@
+{
+  Filter filter=new Filter(new IgnoredFiles("**/*.html"),new IgnoredFiles("**/foobar/"));
+  P4MaterialConfig config=p4MaterialConfig("host:9876","user","password","view",true);
+  config.setFolder("dest-folder");
+  config.setFilter(filter);
+  config.setName(new CaseInsensitiveString("p4-material"));
+  return config;
+}

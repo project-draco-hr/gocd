@@ -1,0 +1,19 @@
+{
+  if (!systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_PERIODIC_GC)) {
+    return;
+  }
+  doLocked(new VoidThrowingFn<Exception>(){
+    public void run() throws Exception {
+      try {
+        LOGGER.info("Before GC: {}",git.gc().getStatistics());
+        git.gc().setAggressive(systemEnvironment.get(SystemEnvironment.GO_CONFIG_REPO_GC_AGGRESSIVE)).call();
+        LOGGER.info("After GC: {}",git.gc().getStatistics());
+      }
+ catch (      GitAPIException e) {
+        LOGGER.error("Could not perform GC",e);
+        throw e;
+      }
+    }
+  }
+);
+}

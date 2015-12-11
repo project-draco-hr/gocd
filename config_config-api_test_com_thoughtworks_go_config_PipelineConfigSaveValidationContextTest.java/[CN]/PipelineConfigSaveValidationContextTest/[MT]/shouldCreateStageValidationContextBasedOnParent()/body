@@ -1,0 +1,7 @@
+{
+  StageConfig stageConfig=mock(StageConfig.class);
+  PipelineConfigSaveValidationContext stageContext=PipelineConfigSaveValidationContext.forChain(true,"group",pipelineConfig,stageConfig);
+  assertThat(stageContext.getPipeline(),is(pipelineConfig));
+  assertThat(stageContext.getStage(),is(stageConfig));
+  assertThat(stageContext.getJob(),is(nullValue()));
+}

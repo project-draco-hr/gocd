@@ -1,0 +1,11 @@
+{
+  StageConfig stageConfig=new StageConfig();
+  stageConfig.validate(null);
+  assertThat(stageConfig.errors().on(StageConfig.NAME),contains("Invalid stage name 'null'"));
+  stageConfig.setName(null);
+  stageConfig.validate(null);
+  assertThat(stageConfig.errors().on(StageConfig.NAME),contains("Invalid stage name 'null'"));
+  stageConfig.setName(new CaseInsensitiveString(""));
+  stageConfig.validate(null);
+  assertThat(stageConfig.errors().on(StageConfig.NAME),contains("Invalid stage name 'null'"));
+}

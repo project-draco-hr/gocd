@@ -11,6 +11,7 @@
     goFileConfigDataSource.upgradeIfNecessary();
     mergedGoConfig.loadConfigIfNull();
     goConfigService.initialize();
+    pipelineConfigService.initialize();
     artifactsDirHolder.initialize();
     artifactsService.initialize();
     consoleService.initialize();
@@ -37,6 +38,7 @@
     ccTrayActivityListener.initialize();
     ServletHelper.init();
     Toggles.initializeWith(featureToggleService);
+    serverVersionInfoManager.initialize();
   }
  catch (  Throwable throwable) {
     throw new RuntimeException(throwable);

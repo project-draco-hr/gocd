@@ -3,7 +3,7 @@
   user.setMatcher("foo,bar");
   addUser(user);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  userService.update(user,TriState.UNSET,TriState.UNSET,null,null,result);
+  userService.save(user,TriState.UNSET,TriState.UNSET,null,null,result);
   assertThat(result.isSuccessful(),is(true));
   assertThat(user.getMatcher(),is("foo,bar"));
 }

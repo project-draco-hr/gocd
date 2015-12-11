@@ -1,0 +1,9 @@
+{
+  GoVersion currentVersion=new GoVersion("1.2.3-1");
+  GoVersion latestVersion=new GoVersion("2.3.4-2");
+  VersionInfo versionInfo=new VersionInfo("go_server",currentVersion,latestVersion,null);
+  when(builder.getServerVersionInfo()).thenReturn(versionInfo);
+  manager.initialize();
+  verify(builder).getServerVersionInfo();
+  verify(goCache).put("GOUpdate",latestVersion.toString());
+}

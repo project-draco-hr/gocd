@@ -1,0 +1,9 @@
+{
+  return ListUtil.find(pipeline.dependencyMaterialConfigs(),new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      DependencyMaterialConfig dependencyMaterialConfig=(DependencyMaterialConfig)item;
+      return dependencyMaterialConfig.getPipelineName().equals(ancestorName);
+    }
+  }
+);
+}
