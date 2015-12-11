@@ -13,6 +13,7 @@
   pipelineConfig1.addMaterialConfig(materialConfig1);
   pipelineConfig1.addMaterialConfig(materialConfig2);
   when(goConfigService.pipelineConfigNamed(pipelineConfig.name())).thenReturn(pipelineConfig1);
+  when(goConfigService.hasPipelineNamed(pipelineConfig.name())).thenReturn(true);
   MaterialUpdateStatusListener statusListener=extractMaterialListenerInstanceFromRegisterCall();
   statusListener.onMaterialUpdate(new MaterialUpdateSuccessfulMessage(material1,0));
   verify(goConfigService,times(2)).pipelineConfigNamed(pipelineConfig.name());
