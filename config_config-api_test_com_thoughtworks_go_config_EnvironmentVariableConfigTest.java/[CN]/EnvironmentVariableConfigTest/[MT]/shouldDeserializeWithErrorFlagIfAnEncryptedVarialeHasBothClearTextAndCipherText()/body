@@ -1,0 +1,6 @@
+{
+  EnvironmentVariableConfig variable=new EnvironmentVariableConfig();
+  variable.deserialize("PASSWORD","clearText",true,"c!ph3rt3xt");
+  assertThat(variable.errors().getAllOn("value"),is(Arrays.asList("You may only specify `value` or `encrypted_value`, not both!")));
+  assertThat(variable.errors().getAllOn("encryptedValue"),is(Arrays.asList("You may only specify `value` or `encrypted_value`, not both!")));
+}
