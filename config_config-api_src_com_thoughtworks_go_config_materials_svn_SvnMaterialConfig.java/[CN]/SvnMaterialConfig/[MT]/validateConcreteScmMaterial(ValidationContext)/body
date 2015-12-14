@@ -2,4 +2,8 @@
   if (StringUtil.isBlank(url.forDisplay())) {
     errors().add(URL,"URL cannot be blank");
   }
+  if (isNotEmpty(this.password) && isNotEmpty(this.encryptedPassword)) {
+    addError("password","You may only specify `password` or `encrypted_password`, not both!");
+    addError("encryptedPassword","You may only specify `password` or `encrypted_password`, not both!");
+  }
 }
