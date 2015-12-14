@@ -1,16 +1,10 @@
 {
-  BufferedReader bufferedReader=null;
   try {
-    bufferedReader=new BufferedReader(new FileReader(file));
-    String line=bufferedReader.readLine();
-    if (!line.contains("<?xml")) {
-      out.println(line);
-    }
-    while ((line=bufferedReader.readLine()) != null) {
-      out.println(line);
-    }
+    String content=FileUtil.readToEnd(new BOMInputStream(new FileInputStream(file)));
+    final Document document=XmlUtils.buildXmlDocument(content);
+    XmlUtils.writeXml(document.getRootElement(),out);
   }
-  finally {
-    IOUtils.closeQuietly(bufferedReader);
+ catch (  JDOMException e) {
+    publisher.consumeLine(MessageFormat.format("The file {0} could not be parsed as XML document: {1}",file.getName(),e.getMessage()));
   }
 }
