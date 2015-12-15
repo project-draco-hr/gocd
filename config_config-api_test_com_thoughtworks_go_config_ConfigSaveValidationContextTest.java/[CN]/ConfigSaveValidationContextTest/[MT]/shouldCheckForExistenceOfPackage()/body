@@ -1,0 +1,7 @@
+{
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  cruiseConfig.setPackageRepositories(new PackageRepositories(PackageRepositoryMother.create("repo-id")));
+  cruiseConfig.getPackageRepositories().find("repo-id").setPackages(new Packages(PackageDefinitionMother.create("package-id")));
+  ValidationContext context=ConfigSaveValidationContext.forChain(cruiseConfig);
+  MatcherAssert.assertThat(context.findPackageById("package-id").getId(),is("repo-id"));
+}

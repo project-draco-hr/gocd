@@ -1,0 +1,6 @@
+{
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  cruiseConfig.setSCMs(new SCMs(SCMMother.create("scm-id")));
+  ValidationContext context=ConfigSaveValidationContext.forChain(cruiseConfig);
+  MatcherAssert.assertThat(context.findScmById("scm-id").getId(),is("scm-id"));
+}
