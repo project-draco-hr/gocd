@@ -1,11 +1,11 @@
 {
-  ConfigSaveValidationContext configSaveValidationContext=mock(ConfigSaveValidationContext.class);
+  PipelineConfigSaveValidationContext configSaveValidationContext=mock(PipelineConfigSaveValidationContext.class);
   when(configSaveValidationContext.findScmById(anyString())).thenReturn(mock(SCM.class));
   SCM scmConfig=mock(SCM.class);
   when(scmConfig.doesPluginExist()).thenReturn(false);
   PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(null,scmConfig,"usr/home",null);
   pluggableSCMMaterialConfig.setScmId("scm-id");
-  pluggableSCMMaterialConfig.validateConcreteMaterial(configSaveValidationContext);
+  pluggableSCMMaterialConfig.validateTree(configSaveValidationContext);
   assertThat(pluggableSCMMaterialConfig.errors().getAll().size(),is(1));
-  assertThat(pluggableSCMMaterialConfig.errors().on(PluggableSCMMaterialConfig.SCM_ID),is("Could not find repository for given package id:[scm-id]."));
+  assertThat(pluggableSCMMaterialConfig.errors().on(PluggableSCMMaterialConfig.SCM_ID),is("Could not find plugin for scm-id: [scm-id]."));
 }
