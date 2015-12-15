@@ -1,4 +1,9 @@
 {
   FileInputStream input=new FileInputStream(file);
-  return readToEnd(input);
+  try {
+    return readToEnd(input);
+  }
+  finally {
+    IOUtils.closeQuietly(input);
+  }
 }
