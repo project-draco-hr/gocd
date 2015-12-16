@@ -1,0 +1,13 @@
+{
+  GoConfigHolder goConfigHolder=goConfigDao.loadConfigHolder();
+  String packageid="packageid";
+  saveScmMaterialToConfig(packageid);
+  PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig(packageid);
+  pipelineConfig.materialConfigs().add(packageMaterialConfig);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(packageMaterialConfig.errors().on(PackageMaterialConfig.PACKAGE_ID),is("Could not find repository for given package id:[packageid]"));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
+  assertThat(goConfigDao.loadConfigHolder().configForEdit,is(goConfigHolder.configForEdit));
+  assertThat(goConfigDao.loadConfigHolder().config,is(goConfigHolder.config));
+}

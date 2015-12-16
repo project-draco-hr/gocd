@@ -7,6 +7,7 @@
   pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
   assertThat(result.toString(),result.isSuccessful(),is(false));
   assertThat(scmMaterialConfig.errors().on(PluggableSCMMaterialConfig.FOLDER),is("Destination directory is required when specifying multiple scm materials"));
+  assertThat(scmMaterialConfig.errors().on(PluggableSCMMaterialConfig.SCM_ID),is("Could not find plugin for scm-id: [scmid]."));
   assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
   assertThat(goConfigDao.loadConfigHolder().configForEdit,is(goConfigHolder.configForEdit));
   assertThat(goConfigDao.loadConfigHolder().config,is(goConfigHolder.config));
