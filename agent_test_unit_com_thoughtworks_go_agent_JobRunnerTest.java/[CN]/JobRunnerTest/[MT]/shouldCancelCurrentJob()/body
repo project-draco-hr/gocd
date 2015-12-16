@@ -24,7 +24,6 @@
   cancel.start();
   cancel.join();
   worker.join();
-  System.out.println(consoleOut);
   assertThat(consoleOut.toString(),containsString("should run me before cancellation"));
   assertThat(consoleOut.toString(),containsString("Start to execute cancel task: <exec command=\"echo\" args=\"cancel in progress\" />"));
   assertThat(consoleOut.toString(),containsString("cancel in progress"));

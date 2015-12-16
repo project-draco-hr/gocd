@@ -24,7 +24,6 @@
   cancel.start();
   cancel.join();
   worker.join();
-  System.out.println(consoleOut);
   String output=consoleOut.toString();
   assertThat(output.indexOf("Task is cancelled") < output.indexOf("Job completed"),is(true));
   assertThat(statesAndResult.toString(),statesAndResult.contains(JobResult.Cancelled),is(true));
