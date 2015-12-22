@@ -7,8 +7,8 @@
     spy.searchForUser("username");
     fail("should have throw up");
   }
- catch (  UsernameNotFoundException e) {
-    assertThat(e.getMessage(),is("User username not found in directory."));
+ catch (  BadCredentialsException e) {
+    assertThat(e.getMessage(),is("Bad credentials"));
   }
   verify(filterBasedLdapUserSearch).searchForUser("username");
 }

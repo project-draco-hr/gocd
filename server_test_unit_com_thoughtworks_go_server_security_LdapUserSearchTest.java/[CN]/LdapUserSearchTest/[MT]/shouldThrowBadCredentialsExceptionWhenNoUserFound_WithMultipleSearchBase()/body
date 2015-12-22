@@ -10,8 +10,8 @@
     spy.searchForUser("username");
     fail("Should have thrown up");
   }
- catch (  UsernameNotFoundException e) {
-    assertThat(e.getMessage(),is("User username not found in directory."));
+ catch (  BadCredentialsException e) {
+    assertThat(e.getMessage(),is("Bad credentials"));
   }
   verify(filter1).searchForUser("username");
   verify(filter2).searchForUser("username");
