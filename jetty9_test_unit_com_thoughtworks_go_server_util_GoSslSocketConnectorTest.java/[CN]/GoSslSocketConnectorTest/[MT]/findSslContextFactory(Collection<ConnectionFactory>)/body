@@ -1,9 +1,3 @@
 {
-  return ((SslConnectionFactory)ListUtil.find(connectionFactories,new ListUtil.Condition(){
-    @Override public <T>boolean isMet(    T item){
-      ConnectionFactory factory=(ConnectionFactory)item;
-      return factory instanceof SslConnectionFactory;
-    }
-  }
-)).getSslContextFactory();
+  return ((SslConnectionFactory)getConnectionFactoryOfType(connectionFactories,SslConnectionFactory.class)).getSslContextFactory();
 }
