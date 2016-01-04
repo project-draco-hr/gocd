@@ -2,6 +2,7 @@
   HttpConfiguration httpConfig=new HttpConfiguration();
   httpConfig.setOutputBufferSize(systemEnvironment.get(SystemEnvironment.RESPONSE_BUFFER_SIZE));
   httpConfig.setSendServerVersion(false);
+  httpConfig.addCustomizer(new ForwardedRequestCustomizer());
   ServerConnector httpConnector=new ServerConnector(server.getServer(),new HttpConnectionFactory(httpConfig));
   httpConnector.setHost(systemEnvironment.getListenHost());
   httpConnector.setPort(systemEnvironment.getServerPort());
