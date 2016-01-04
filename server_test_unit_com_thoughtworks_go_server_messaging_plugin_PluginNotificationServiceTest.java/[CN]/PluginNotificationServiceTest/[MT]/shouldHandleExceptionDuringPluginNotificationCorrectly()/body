@@ -1,10 +1,11 @@
 {
-  when(notificationExtension.notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY)).thenThrow(new RuntimeException("crap!"));
+  when(notificationPluginRegistry.getPluginsInterestedIn(PIPELINE_STATUS)).thenReturn(new LinkedHashSet<>(asList(PLUGIN_ID_1)));
+  when(notificationExtension.notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY)).thenThrow(new RuntimeException("error!"));
   when(serverHealthService.update(serverHealthState.capture())).thenReturn(null);
   PluginNotificationService pluginNotificationService=new PluginNotificationService(notificationExtension,notificationPluginRegistry,serverHealthService);
   pluginNotificationService.notifyPlugins(new PluginNotificationMessage(PIPELINE_STATUS,REQUEST_BODY));
   verify(notificationExtension).notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY);
   assertThat(serverHealthState.getValue().getMessage(),is("Notification update failed for plugin: plugin-id-1"));
-  assertThat(serverHealthState.getValue().getDescription(),is("crap!"));
+  assertThat(serverHealthState.getValue().getDescription(),is("error!"));
   verify(serverHealthService,never()).removeByScope(any(HealthStateScope.class));
 }
