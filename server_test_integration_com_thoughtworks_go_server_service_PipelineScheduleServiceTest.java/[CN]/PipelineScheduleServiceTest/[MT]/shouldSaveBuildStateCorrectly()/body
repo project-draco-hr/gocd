@@ -3,8 +3,6 @@
   goConfigService.forceNotifyListeners();
   autoSchedulePipelines("mingle","evolve","cruise");
   Stage cruise=stageDao.mostRecentWithBuilds(CaseInsensitiveString.str(cruisePlan.name()),cruisePlan.findBy(new CaseInsensitiveString("dev")));
-  System.out.println("cruise = " + cruise);
   JobInstance instance=cruise.getJobInstances().first();
-  System.out.println("instance = " + instance);
   assertThat(instance.getState(),is(JobState.Scheduled));
 }
