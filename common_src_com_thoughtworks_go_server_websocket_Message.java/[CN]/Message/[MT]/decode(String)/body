@@ -1,0 +1,11 @@
+{
+  Gson gson=new Gson();
+  Message msg=gson.fromJson(message,Message.class);
+  try {
+    Class k=Class.forName(msg.className);
+    return (Action)gson.fromJson(msg.json,k);
+  }
+ catch (  ClassNotFoundException e) {
+    throw new RuntimeException("Could not find class: " + msg.className,e);
+  }
+}
