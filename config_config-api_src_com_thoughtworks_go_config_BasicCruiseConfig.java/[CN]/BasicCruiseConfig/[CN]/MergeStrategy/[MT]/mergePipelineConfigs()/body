@@ -1,6 +1,6 @@
 {
   PipelineGroups groups=new PipelineGroups();
-  List<PipelineConfigs> allPipelineConfigs=new ArrayList<PipelineConfigs>();
+  List<PipelineConfigs> allPipelineConfigs=new ArrayList<>();
   for (  PipelineConfigs partPipesConf : this.main.getGroups()) {
     allPipelineConfigs.add(partPipesConf);
   }
@@ -9,7 +9,7 @@
       allPipelineConfigs.add(partPipesConf);
     }
   }
-  Map<String,List<PipelineConfigs>> map=new HashMap<String,List<PipelineConfigs>>();
+  Map<String,List<PipelineConfigs>> map=new LinkedHashMap<>();
   for (  PipelineConfigs pipes : allPipelineConfigs) {
     String key=pipes.getGroup();
     if (map.get(key) == null) {
