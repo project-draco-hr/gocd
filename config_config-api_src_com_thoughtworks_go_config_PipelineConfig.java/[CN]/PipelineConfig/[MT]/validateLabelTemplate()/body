@@ -1,4 +1,8 @@
 {
+  if (StringUtil.isBlank(labelTemplate)) {
+    addError("labelTemplate",BLANK_LABEL_TEMPLATE_ERROR_MESSAGE);
+    return;
+  }
   if (XmlUtils.doesNotMatchUsingXsdRegex(LABEL_TEMPLATE_FORMAT_REGEX,labelTemplate)) {
     addError("labelTemplate",LABEL_TEMPLATE_ERROR_MESSAGE);
     return;
