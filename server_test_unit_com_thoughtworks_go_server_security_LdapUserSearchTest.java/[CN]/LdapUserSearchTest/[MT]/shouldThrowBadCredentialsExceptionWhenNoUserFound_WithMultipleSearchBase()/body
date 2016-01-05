@@ -6,13 +6,9 @@
   doReturn(filter2).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().get(1).getValue(),ldapConfig.searchFilter());
   when(filter1.searchForUser("username")).thenThrow(new UsernameNotFoundException("User username not found in directory."));
   when(filter2.searchForUser("username")).thenThrow(new UsernameNotFoundException("User username not found in directory."));
-  try {
-    spy.searchForUser("username");
-    fail("Should have thrown up");
-  }
- catch (  UsernameNotFoundException e) {
-    assertThat(e.getMessage(),is("User username not found in directory."));
-  }
+  thrown.expect(BadCredentialsException.class);
+  thrown.expectMessage(is("Bad credentials"));
+  spy.searchForUser("username");
   verify(filter1).searchForUser("username");
   verify(filter2).searchForUser("username");
 }

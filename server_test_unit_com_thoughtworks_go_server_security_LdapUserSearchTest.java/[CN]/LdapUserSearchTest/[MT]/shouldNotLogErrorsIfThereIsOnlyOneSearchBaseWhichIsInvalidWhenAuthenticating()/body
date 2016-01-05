@@ -4,11 +4,7 @@
   doReturn(filter1).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().get(0).getValue(),ldapConfig.searchFilter());
   RuntimeException runtimeException=new RuntimeException("Invalid search base");
   when(filter1.searchForUser("username")).thenThrow(runtimeException);
-  try {
-    spy.searchForUser("username");
-  }
- catch (  RuntimeException e) {
-    assertThat(e,is(runtimeException));
-  }
+  thrown.expect(RuntimeException.class);
+  spy.searchForUser("username");
   verify(logger,never()).warn(Matchers.<Object>any(),Matchers.<Throwable>any());
 }
