@@ -1,0 +1,14 @@
+{
+  AgentConfig agentConfig=AgentMother.remoteAgent();
+  configHelper.addAgent(agentConfig);
+  fixture.createPipelineWithFirstStageScheduled();
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromServer(agentConfig,true,"location",1000000l,"OS");
+  info.setCookie("cookie");
+  final List<Action> actions=new ArrayList<Action>();
+  Agent agent=createWebsocketAgent(actions);
+  agentRemoteHandler.process(agent,new Ping(info));
+  AgentInstance agentInstance=agentService.findAgentAndRefreshStatus(info.getUUId());
+  agentInstance.cancel();
+  buildAssignmentService.onTimer();
+  assertThat("Should not assign work when agent status is Canceled",actions.size(),is(0));
+}

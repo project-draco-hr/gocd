@@ -1,0 +1,15 @@
+{
+  AgentConfig agentConfig=AgentMother.remoteAgent();
+  configHelper.addAgent(agentConfig);
+  fixture.createPipelineWithFirstStageScheduled();
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromServer(agentConfig,true,"location",1000000l,"OS");
+  info.setCookie("cookie");
+  final List<Action> actions=new ArrayList<Action>();
+  Agent agent=createWebsocketAgent(actions);
+  agentRemoteHandler.process(agent,new Ping(info));
+  int before=agentService.numberOfActiveRemoteAgents();
+  buildAssignmentService.onTimer();
+  assertThat(actions.size(),is(1));
+  assertThat(actions.get(0).data(),instanceOf(BuildWork.class));
+  assertThat(agentService.numberOfActiveRemoteAgents(),is(before + 1));
+}
