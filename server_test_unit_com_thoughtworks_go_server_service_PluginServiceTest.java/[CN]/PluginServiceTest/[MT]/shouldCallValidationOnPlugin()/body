@@ -1,0 +1,10 @@
+{
+  for (  GoPluginExtension extension : extensions) {
+    String pluginId=UUID.randomUUID().toString();
+    when(extension.canHandlePlugin(pluginId)).thenReturn(true);
+    when(extension.validatePluginSettings(eq(pluginId),any(PluginSettingsConfiguration.class))).thenReturn(new ValidationResult());
+    PluginSettings pluginSettings=new PluginSettings(pluginId);
+    pluginService.validatePluginSettingsFor(pluginSettings);
+    verify(extension).validatePluginSettings(eq(pluginId),any(PluginSettingsConfiguration.class));
+  }
+}

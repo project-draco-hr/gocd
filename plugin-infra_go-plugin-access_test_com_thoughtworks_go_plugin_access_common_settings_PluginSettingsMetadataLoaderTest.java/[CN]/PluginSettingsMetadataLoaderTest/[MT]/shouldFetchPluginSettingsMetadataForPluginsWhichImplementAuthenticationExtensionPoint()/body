@@ -1,9 +1,0 @@
-{
-  PluginSettingsConfiguration configuration=new PluginSettingsConfiguration();
-  configuration.add(new PluginSettingsProperty("k1").with(Property.REQUIRED,true).with(Property.SECURE,false));
-  when(authenticationExtension.isAuthenticationPlugin(pluginDescriptor.id())).thenReturn(true);
-  when(authenticationExtension.getPluginSettingsConfiguration(pluginDescriptor.id())).thenReturn(configuration);
-  when(authenticationExtension.getPluginSettingsView(pluginDescriptor.id())).thenReturn("template");
-  metadataLoader.fetchPluginSettingsMetaData(pluginDescriptor);
-  verifyMetadataForPlugin(pluginDescriptor.id());
-}

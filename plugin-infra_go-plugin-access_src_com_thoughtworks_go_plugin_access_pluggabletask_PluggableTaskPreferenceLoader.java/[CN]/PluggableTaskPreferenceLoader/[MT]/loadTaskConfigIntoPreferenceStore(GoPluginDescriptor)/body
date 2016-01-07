@@ -1,5 +1,5 @@
 {
-  if (taskExtension.isTaskPlugin(descriptor.id())) {
+  if (taskExtension.canHandlePlugin(descriptor.id())) {
     taskExtension.doOnTask(descriptor.id(),new Action<Task>(){
       @Override public void execute(      Task task,      GoPluginDescriptor pluginDescriptor){
         PluggableTaskConfigStore.store().setPreferenceFor(pluginDescriptor.id(),new TaskPreference(task));

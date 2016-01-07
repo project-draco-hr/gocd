@@ -1,9 +1,0 @@
-{
-  PluginSettingsConfiguration configuration=new PluginSettingsConfiguration();
-  configuration.add(new PluginSettingsProperty("k1").with(Property.REQUIRED,true).with(Property.SECURE,false));
-  when(taskExtension.isTaskPlugin(pluginDescriptor.id())).thenReturn(true);
-  when(taskExtension.getPluginSettingsConfiguration(pluginDescriptor.id())).thenReturn(configuration);
-  when(taskExtension.getPluginSettingsView(pluginDescriptor.id())).thenReturn("template");
-  metadataLoader.fetchPluginSettingsMetaData(pluginDescriptor);
-  verifyMetadataForPlugin(pluginDescriptor.id());
-}
