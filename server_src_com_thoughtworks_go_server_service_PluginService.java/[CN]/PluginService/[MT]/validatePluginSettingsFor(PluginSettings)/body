@@ -2,20 +2,10 @@
   String pluginId=pluginSettings.getPluginId();
   PluginSettingsConfiguration configuration=pluginSettings.toPluginSettingsConfiguration();
   ValidationResult result=null;
-  if (packageAsRepositoryExtension.isPackageRepositoryPlugin(pluginId)) {
-    result=packageAsRepositoryExtension.validatePluginSettings(pluginId,configuration);
-  }
- else   if (scmExtension.isSCMPlugin(pluginId)) {
-    result=scmExtension.validatePluginSettings(pluginId,configuration);
-  }
- else   if (taskExtension.isTaskPlugin(pluginId)) {
-    result=taskExtension.validatePluginSettings(pluginId,configuration);
-  }
- else   if (notificationExtension.isNotificationPlugin(pluginId)) {
-    result=notificationExtension.validatePluginSettings(pluginId,configuration);
-  }
- else   if (authenticationExtension.isAuthenticationPlugin(pluginId)) {
-    result=authenticationExtension.validatePluginSettings(pluginId,configuration);
+  for (  GoPluginExtension extension : extensions) {
+    if (extension.canHandlePlugin(pluginId)) {
+      result=extension.validatePluginSettings(pluginId,configuration);
+    }
   }
   if (!result.isSuccessful()) {
     for (    ValidationError error : result.getErrors()) {

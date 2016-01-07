@@ -1,9 +1,9 @@
 {
   initMocks(this);
-  when(notificationExtension.isNotificationPlugin(PLUGIN_ID_1)).thenReturn(true);
-  when(notificationExtension.isNotificationPlugin(PLUGIN_ID_2)).thenReturn(true);
-  when(notificationExtension.isNotificationPlugin(PLUGIN_ID_3)).thenReturn(true);
-  when(notificationExtension.isNotificationPlugin(PLUGIN_ID_4)).thenReturn(false);
+  when(notificationExtension.canHandlePlugin(PLUGIN_ID_1)).thenReturn(true);
+  when(notificationExtension.canHandlePlugin(PLUGIN_ID_2)).thenReturn(true);
+  when(notificationExtension.canHandlePlugin(PLUGIN_ID_3)).thenReturn(true);
+  when(notificationExtension.canHandlePlugin(PLUGIN_ID_4)).thenReturn(false);
   when(notificationExtension.getNotificationsOfInterestFor(PLUGIN_ID_1)).thenReturn(asList(PIPELINE_STATUS,STAGE_STATUS,JOB_STATUS));
   when(notificationExtension.getNotificationsOfInterestFor(PLUGIN_ID_2)).thenReturn(asList(PIPELINE_STATUS));
   when(notificationExtension.getNotificationsOfInterestFor(PLUGIN_ID_3)).thenReturn(asList(STAGE_STATUS));

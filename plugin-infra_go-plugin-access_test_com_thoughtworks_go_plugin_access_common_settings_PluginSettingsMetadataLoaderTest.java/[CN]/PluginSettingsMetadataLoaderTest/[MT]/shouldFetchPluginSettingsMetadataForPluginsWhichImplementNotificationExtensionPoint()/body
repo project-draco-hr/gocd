@@ -1,9 +1,0 @@
-{
-  PluginSettingsConfiguration configuration=new PluginSettingsConfiguration();
-  configuration.add(new PluginSettingsProperty("k1").with(Property.REQUIRED,true).with(Property.SECURE,false));
-  when(notificationExtension.isNotificationPlugin(pluginDescriptor.id())).thenReturn(true);
-  when(notificationExtension.getPluginSettingsConfiguration(pluginDescriptor.id())).thenReturn(configuration);
-  when(notificationExtension.getPluginSettingsView(pluginDescriptor.id())).thenReturn("template");
-  metadataLoader.fetchPluginSettingsMetaData(pluginDescriptor);
-  verifyMetadataForPlugin(pluginDescriptor.id());
-}

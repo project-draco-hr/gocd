@@ -1,6 +1,6 @@
 {
   SCMMetadataStore.getInstance().addMetadataFor(pluginDescriptor.id(),new SCMConfigurations(),createSCMView(null,null));
-  when(scmExtension.isSCMPlugin(pluginDescriptor.id())).thenReturn(true);
+  when(scmExtension.canHandlePlugin(pluginDescriptor.id())).thenReturn(true);
   metadataLoader.pluginUnLoaded(pluginDescriptor);
   assertThat(SCMMetadataStore.getInstance().getConfigurationMetadata(pluginDescriptor.id()),is(nullValue()));
   assertThat(SCMMetadataStore.getInstance().getViewMetadata(pluginDescriptor.id()),is(nullValue()));
