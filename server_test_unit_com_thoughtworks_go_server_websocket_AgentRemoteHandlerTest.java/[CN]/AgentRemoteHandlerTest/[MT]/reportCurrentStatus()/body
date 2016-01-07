@@ -1,0 +1,9 @@
+{
+  AgentIdentifier identifier=new AgentIdentifier("HostName","ipAddress","uuid");
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(identifier);
+  info.setCookie("cookie");
+  info.setStatus(AgentStatus.Building);
+  JobIdentifier jobIdentifier=new JobIdentifier();
+  handler.process(this,new Message(Action.reportCurrentStatus,new Report(info,jobIdentifier,JobState.Preparing)));
+  verify(remote).reportCurrentStatus(info,jobIdentifier,JobState.Preparing);
+}

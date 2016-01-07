@@ -17,7 +17,7 @@ LOG.debug(String.format("Got work from server: [%s]",work.description()));
 }
 runner=new JobRunner();
 try {
-runner.run(work,agentIdentifier(),server,manipulator,agentRuntimeInfo,packageAsRepositoryExtension,scmExtension,taskExtension);
+runner.run(work,agentIdentifier(),new AgentWebsocketService.BuildRepositoryRemoteAdapter(runner,websocketService),manipulator,agentRuntimeInfo,packageAsRepositoryExtension,scmExtension,taskExtension);
 }
   finally {
 agentRuntimeInfo.idle();

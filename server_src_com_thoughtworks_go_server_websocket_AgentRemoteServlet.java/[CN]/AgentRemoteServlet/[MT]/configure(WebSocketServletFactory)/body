@@ -1,4 +1,6 @@
 {
-  factory.getPolicy().setIdleTimeout(SECONDS_10);
+  SystemEnvironment environment=new SystemEnvironment();
+  factory.getPolicy().setIdleTimeout(environment.getWebsocketMaxIdleTime());
+  factory.getPolicy().setMaxTextMessageBufferSize(environment.getWebsocketMaxTextMessageSize());
   factory.setCreator(wac.getBean(AgentRemoteSocketCreator.class));
 }
