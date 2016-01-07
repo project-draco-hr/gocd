@@ -1,0 +1,17 @@
+{
+  SslContextFactory sslContextFactory=new SslContextFactory();
+  sslContextFactory.setKeyStorePath(SslInfrastructureService.AGENT_CERTIFICATE_FILE.getAbsolutePath());
+  sslContextFactory.setKeyStorePassword(SslInfrastructureService.AGENT_STORE_PASSWORD);
+  sslContextFactory.setKeyManagerPassword(SslInfrastructureService.AGENT_STORE_PASSWORD);
+  sslContextFactory.setTrustStorePath(SslInfrastructureService.AGENT_TRUST_FILE.getAbsolutePath());
+  sslContextFactory.setTrustStorePassword(SslInfrastructureService.AGENT_STORE_PASSWORD);
+  sslContextFactory.setWantClientAuth(true);
+  if (client == null || client.isStopped()) {
+    client=new WebSocketClient(sslContextFactory);
+    client.start();
+  }
+  if (session != null) {
+    session.close();
+  }
+  session=client.connect(this,new URI(urlService.getAgentRemoteWebSocketUrl()),new ClientUpgradeRequest()).get();
+}

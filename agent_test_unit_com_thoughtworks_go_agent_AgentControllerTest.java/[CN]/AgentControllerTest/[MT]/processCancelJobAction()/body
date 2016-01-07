@@ -1,0 +1,26 @@
+{
+  agentController=createAgentController();
+  agentController.init();
+  final CountDownLatch cancelJob=new CountDownLatch(1);
+  final CountDownLatch doWork=new CountDownLatch(1);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      cancelJob.countDown();
+      doWork.await();
+      return null;
+    }
+  }
+).when(work).doWork(any(AgentIdentifier.class),any(BuildRepositoryRemote.class),any(GoArtifactsManipulator.class),any(EnvironmentVariableContext.class),any(AgentRuntimeInfo.class),any(PackageAsRepositoryExtension.class),any(SCMExtension.class),any(TaskExtension.class));
+  Thread buildingThread=new Thread(new Runnable(){
+    @Override public void run(){
+      agentController.process(new Message(Action.assignWork,work));
+    }
+  }
+);
+  buildingThread.start();
+  cancelJob.await();
+  agentController.process(new Message(Action.cancelJob));
+  doWork.countDown();
+  buildingThread.join();
+  verify(work).cancel(any(EnvironmentVariableContext.class),eq(agentController.getAgentRuntimeInfo()));
+}

@@ -1,7 +1,7 @@
 {
   when(loopServer.getWork(any(AgentRuntimeInfo.class))).thenReturn(work);
   when(agentRegistry.uuid()).thenReturn(agentUuid);
-  agentController=new AgentController(loopServer,artifactsManipulator,sslInfrastructureService,agentRegistry,agentUpgradeService,subprocessLogger,systemEnvironment,pluginManager,packageAsRepositoryExtension,scmExtension,taskExtension);
+  agentController=createAgentController();
   agentController.init();
   agentController.ping();
   agentController.retrieveWork();

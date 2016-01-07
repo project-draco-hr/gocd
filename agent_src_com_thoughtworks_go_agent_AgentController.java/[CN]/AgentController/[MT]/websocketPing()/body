@@ -1,0 +1,25 @@
+{
+  try {
+    agentUpgradeService.checkForUpgrade();
+    sslInfrastructureService.registerIfNecessary();
+    if (sslInfrastructureService.isRegistered()) {
+      if (!websocketService.isRunning()) {
+        LOG.info("Connect to server by websocket");
+        websocketService.start();
+      }
+      AgentIdentifier agent=agentIdentifier();
+      LOG.trace(agent + " is pinging server [" + server.toString()+ "]");
+      agentRuntimeInfo.refreshUsableSpace();
+      websocketService.send(new Message(Action.ping,agentRuntimeInfo));
+      LOG.trace(agent + " pinged server [" + server.toString()+ "]");
+    }
+  }
+ catch (  Exception e) {
+    if (isCausedBySecurity(e)) {
+      handleIfSecurityException(e);
+    }
+ else {
+      LOG.error("Error occurred when agent tried to ping server: ",e);
+    }
+  }
+}

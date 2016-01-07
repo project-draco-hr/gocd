@@ -1,27 +1,8 @@
 {
-  try {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("[Agent Loop] Trying to retrieve work.");
-    }
-    agentUpgradeService.checkForUpgrade();
-    sslInfrastructureService.registerIfNecessary();
-    retrieveCookieIfNecessary();
-    retrieveWork();
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("[Agent Loop] Successfully retrieved work.");
-    }
+  if (systemEnvironment.isWebsocketEnabled()) {
+    websocketPing();
   }
- catch (  Exception e) {
-    if (isCausedBySecurity(e)) {
-      handleIfSecurityException(e);
-    }
- else     if (e instanceof DataRetrievalFailureException) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("[Agent Loop] Error occurred during loop: ",e);
-      }
-    }
  else {
-      LOG.error("[Agent Loop] Error occurred during loop: ",e);
-    }
+    rpcLoop();
   }
 }

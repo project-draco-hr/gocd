@@ -1,0 +1,34 @@
+{
+switch (message.getAction()) {
+case cancelJob:
+    if (runner != null) {
+      runner.handleInstruction(new AgentInstruction(true),agentRuntimeInfo);
+    }
+  break;
+case setCookie:
+String cookie=(String)message.getData();
+agentRuntimeInfo.setCookie(cookie);
+LOG.info(String.format("Got cookie: %s ",cookie));
+break;
+case assignWork:
+Work work=(Work)message.getData();
+if (LOG.isDebugEnabled()) {
+LOG.debug(String.format("Got work from server: [%s]",work.description()));
+}
+runner=new JobRunner();
+try {
+runner.run(work,agentIdentifier(),server,manipulator,agentRuntimeInfo,packageAsRepositoryExtension,scmExtension,taskExtension);
+}
+  finally {
+agentRuntimeInfo.idle();
+}
+break;
+case reregister:
+LOG.warn(String.format("Reregister: invalidate current agent certificate fingerprint %s and stop websocket client.",agentRegistry.uuid()));
+websocketService.stop();
+sslInfrastructureService.invalidateAgentCertificate();
+break;
+default :
+throw new RuntimeException("Unknown action: " + message.getAction());
+}
+}

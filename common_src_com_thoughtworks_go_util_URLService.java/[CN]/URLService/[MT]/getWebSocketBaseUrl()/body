@@ -1,0 +1,14 @@
+{
+  try {
+    URI uri=new URI(baseRemotingURL);
+    StringBuffer ret=new StringBuffer("wss://");
+    ret.append(uri.getHost()).append(":").append(uri.getPort());
+    if (uri.getPath() != null) {
+      ret.append(uri.getPath());
+    }
+    return ret.toString();
+  }
+ catch (  URISyntaxException e) {
+    throw new RuntimeException("Invalid Go Server url",e);
+  }
+}
