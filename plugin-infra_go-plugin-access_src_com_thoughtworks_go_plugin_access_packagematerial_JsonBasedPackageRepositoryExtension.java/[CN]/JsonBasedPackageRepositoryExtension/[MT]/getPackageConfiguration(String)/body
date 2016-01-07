@@ -1,11 +1,5 @@
 {
-  return pluginRequestHelper.submitRequest(pluginId,REQUEST_PACKAGE_CONFIGURATION,new PluginInteractionCallback<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>(){
-    @Override public String requestBody(    String resolvedExtensionVersion){
-      return null;
-    }
-    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
-      return null;
-    }
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_PACKAGE_CONFIGURATION,new DefaultPluginInteractionCallback<com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration>(){
     @Override public com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForPackageConfiguration(responseBody);
     }

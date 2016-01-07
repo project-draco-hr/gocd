@@ -1,11 +1,5 @@
 {
-  return pluginRequestHelper.submitRequest(pluginId,PluginSettingsConstants.REQUEST_PLUGIN_SETTINGS_CONFIGURATION,new PluginInteractionCallback<PluginSettingsConfiguration>(){
-    @Override public String requestBody(    String resolvedExtensionVersion){
-      return null;
-    }
-    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
-      return null;
-    }
+  return pluginRequestHelper.submitRequest(pluginId,PluginSettingsConstants.REQUEST_PLUGIN_SETTINGS_CONFIGURATION,new DefaultPluginInteractionCallback<PluginSettingsConfiguration>(){
     @Override public PluginSettingsConfiguration onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return pluginSettingsMessageHandlerMap.get(resolvedExtensionVersion).responseMessageForPluginSettingsConfiguration(responseBody);
     }
