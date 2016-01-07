@@ -1,11 +1,5 @@
 {
-  return pluginRequestHelper.submitRequest(pluginId,REQUEST_PLUGIN_CONFIGURATION,new PluginInteractionCallback<AuthenticationPluginConfiguration>(){
-    @Override public String requestBody(    String resolvedExtensionVersion){
-      return null;
-    }
-    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
-      return null;
-    }
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_PLUGIN_CONFIGURATION,new DefaultPluginInteractionCallback<AuthenticationPluginConfiguration>(){
     @Override public AuthenticationPluginConfiguration onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForPluginConfiguration(responseBody);
     }
