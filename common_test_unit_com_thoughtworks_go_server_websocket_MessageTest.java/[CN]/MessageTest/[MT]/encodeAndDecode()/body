@@ -1,6 +1,6 @@
 {
   AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(new AgentIdentifier("hostName","ipAddress","uuid"));
-  String msg=Message.encode(new Ping(info));
-  Ping decoded=(Ping)Message.decode(msg);
-  Assert.assertEquals(info.getIdentifier(),((AgentRuntimeInfo)decoded.data()).getIdentifier());
+  String msg=Message.encode(new Message(Action.ping,info));
+  Message decoded=Message.decode(msg);
+  assertThat(((AgentRuntimeInfo)decoded.getData()).getIdentifier(),is(info.getIdentifier()));
 }

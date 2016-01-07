@@ -3,10 +3,10 @@
   AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(identifier);
   when(remote.getCookie(identifier,info.getLocation())).thenReturn("new cookie");
   when(remote.ping(info)).thenReturn(new AgentInstruction(false));
-  handler.process(this,new Ping(info));
+  handler.process(this,new Message(Action.ping,info));
   verify(remote).ping(info);
   verify(remote).getCookie(identifier,info.getLocation());
-  assertEquals(1,sendActions.size());
-  assertEquals(sendActions.get(0).getClass(),SetCookie.class);
-  assertEquals(sendActions.get(0).data(),"new cookie");
+  assertEquals(1,messages.size());
+  assertEquals(messages.get(0).getAction(),Action.setCookie);
+  assertEquals(messages.get(0).getData(),"new cookie");
 }

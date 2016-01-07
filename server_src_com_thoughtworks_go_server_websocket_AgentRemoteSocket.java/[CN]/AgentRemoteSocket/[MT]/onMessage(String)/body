@@ -1,6 +1,7 @@
 {
+  Message msg=Message.decode(raw);
   if (LOGGER.isDebugEnabled()) {
-    LOGGER.debug(sessionName() + " json: " + json);
+    LOGGER.debug(sessionName() + " message: " + msg);
   }
-  handler.process(this,Message.decode(json));
+  handler.process(this,msg);
 }

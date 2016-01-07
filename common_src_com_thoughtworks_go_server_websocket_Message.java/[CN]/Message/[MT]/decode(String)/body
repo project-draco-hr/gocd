@@ -1,11 +1,14 @@
 {
-  Gson gson=new Gson();
-  Message msg=gson.fromJson(message,Message.class);
+  BASE64Decoder decoder=new BASE64Decoder();
   try {
-    Class k=Class.forName(msg.className);
-    return (Action)gson.fromJson(msg.json,k);
+    byte[] data=decoder.decodeBuffer(message);
+    ObjectInputStream input=new ObjectInputStream(new ByteArrayInputStream(data));
+    return (Message)input.readObject();
   }
- catch (  ClassNotFoundException e) {
-    throw new RuntimeException("Could not find class: " + msg.className,e);
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+catch (  ClassNotFoundException e) {
+    throw new RuntimeException(e);
   }
 }

@@ -1,0 +1,13 @@
+{
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  ObjectOutputStream output;
+  try {
+    output=new ObjectOutputStream(out);
+    output.writeObject(msg);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+  BASE64Encoder encoder=new BASE64Encoder();
+  return encoder.encode(out.toByteArray());
+}

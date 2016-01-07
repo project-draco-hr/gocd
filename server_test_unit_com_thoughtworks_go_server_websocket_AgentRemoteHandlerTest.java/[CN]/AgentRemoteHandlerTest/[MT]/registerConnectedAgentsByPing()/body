@@ -1,11 +1,12 @@
 {
   AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(new AgentIdentifier("HostName","ipAddress","uuid"));
   info.setCookie("cookie");
-  when(remote.ping(info)).thenReturn(new AgentInstruction(true));
+  AgentInstance agentInstance=AgentInstance.createFromLiveAgent(info,new SystemEnvironment());
+  when(agentService.findAgent("uuid")).thenReturn(agentInstance);
+  when(remote.ping(info)).thenReturn(new AgentInstruction(false));
   handler.process(this,new Message(Action.ping,info));
   verify(remote).ping(info);
   assertEquals(1,handler.connectedAgents().size());
   assertEquals(this,handler.connectedAgents().get("uuid"));
-  assertEquals(1,messages.size());
-  assertEquals(messages.get(0).getAction(),Action.cancelJob);
+  assertTrue(messages.isEmpty());
 }
