@@ -1,7 +1,0 @@
-{
-  String configXml="<cruise schemaVersion='77'>" + "  <pipelines group='first'>" + "    <authorization>"+ "       <view>"+ "         <user></user>"+ "       </view>"+ "    </authorization>"+ "    <pipeline name='Test' template='test_template'>"+ "      <materials>"+ "        <hg url='../manual-testing/ant_hg/dummy' />"+ "      </materials>"+ "     </pipeline>"+ "  </pipelines>"+ "</cruise>";
-  String migratedXml=migrateXmlString(configXml,77);
-  assertThat(migratedXml,not(containsString("<user>")));
-  assertThat(migratedXml,not(containsString("<view>")));
-  assertThat(migratedXml,not(containsString("<authorization>")));
-}
