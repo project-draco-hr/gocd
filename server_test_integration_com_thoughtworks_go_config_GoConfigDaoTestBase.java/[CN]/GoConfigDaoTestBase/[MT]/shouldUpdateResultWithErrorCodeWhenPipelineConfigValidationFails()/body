@@ -6,7 +6,7 @@
   when(saveCommand.hasWritePermissions()).thenReturn(true);
   CachedGoConfig cachedConfigService=mock(CachedGoConfig.class);
   doThrow(new ConfigUpdateCheckFailedException()).when(cachedConfigService).writePipelineWithLock(pipelineConfig,saveCommand,username);
-  goConfigDao=new GoConfigDao(cachedConfigService,null);
+  goConfigDao=new GoConfigDao(cachedConfigService,null,new GoConfigWriteLock());
   goConfigDao.updatePipeline(pipelineConfig,result,username,saveCommand);
   verify(result).unprocessableEntity(Matchers.<Localizable>any());
 }

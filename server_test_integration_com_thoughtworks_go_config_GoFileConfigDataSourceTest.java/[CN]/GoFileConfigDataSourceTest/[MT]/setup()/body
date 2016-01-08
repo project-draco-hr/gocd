@@ -15,9 +15,10 @@
   }
 ,configRepository,new TimeProvider(),configCache,registry,metricsProbeService),configRepository,systemEnvironment,timeProvider,configCache,serverVersion,registry,metricsProbeService,mock(ServerHealthService.class));
   dataSource.upgradeIfNecessary();
-  CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,new ServerHealthService());
+  GoConfigWriteLock goConfigWriteLock=new GoConfigWriteLock();
+  CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,new ServerHealthService(),goConfigWriteLock);
   fileService.loadConfigIfNull();
-  goConfigDao=new GoConfigDao(fileService,metricsProbeService);
+  goConfigDao=new GoConfigDao(fileService,metricsProbeService,goConfigWriteLock);
   configHelper.load();
   configHelper.usingCruiseConfigDao(goConfigDao);
 }

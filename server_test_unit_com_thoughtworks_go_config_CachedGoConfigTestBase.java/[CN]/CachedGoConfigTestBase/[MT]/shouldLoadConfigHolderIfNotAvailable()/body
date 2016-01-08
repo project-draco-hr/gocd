@@ -1,6 +1,6 @@
 {
   configHelper.addPipeline("foo","bar");
-  cachedGoConfig=new CachedFileGoConfig(dataSource,new ServerHealthService());
+  cachedGoConfig=new CachedFileGoConfig(dataSource,new ServerHealthService(),new GoConfigWriteLock());
   dataSource.reloadIfModified();
   cachedGoConfig.forceReload();
   GoConfigHolder loaded=cachedGoConfig.loadConfigHolder();

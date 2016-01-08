@@ -1,5 +1,5 @@
 {
-synchronized (writeLock) {
+synchronized (goConfigWriteLock.mutex()) {
     if (saveCommand.hasWritePermissions()) {
       try {
         cachedConfigService.writePipelineWithLock(pipelineConfig,saveCommand,currentUser);

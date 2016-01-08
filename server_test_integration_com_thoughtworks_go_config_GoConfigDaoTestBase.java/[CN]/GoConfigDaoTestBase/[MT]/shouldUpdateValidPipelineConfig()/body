@@ -4,7 +4,7 @@
   PipelineConfigService.SaveCommand saveCommand=mock(PipelineConfigService.SaveCommand.class);
   when(saveCommand.hasWritePermissions()).thenReturn(true);
   CachedGoConfig cachedConfigService=mock(CachedGoConfig.class);
-  goConfigDao=new GoConfigDao(cachedConfigService,null);
+  goConfigDao=new GoConfigDao(cachedConfigService,null,new GoConfigWriteLock());
   Username currentUser=new Username(new CaseInsensitiveString("user"));
   goConfigDao.updatePipeline(pipelineConfig,result,currentUser,saveCommand);
   verifyZeroInteractions(result);

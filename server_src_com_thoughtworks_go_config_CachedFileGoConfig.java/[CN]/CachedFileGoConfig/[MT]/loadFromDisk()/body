@@ -1,8 +1,10 @@
 {
   try {
-    GoConfigHolder configHolder=dataSource.load();
-    if (configHolder != null) {
-      saveValidConfigToCacheAndNotifyConfigChangeListeners(configHolder);
+synchronized (goConfigWriteLock.mutex()) {
+      GoConfigHolder configHolder=dataSource.load();
+      if (configHolder != null) {
+        saveValidConfigToCacheAndNotifyConfigChangeListeners(configHolder);
+      }
     }
   }
  catch (  Exception e) {

@@ -2,7 +2,7 @@
   Context context=metricsProbeService.begin(ProbeType.UPDATE_CONFIG);
   LOGGER.info("Config update request by {} is in queue - {}",UserHelper.getUserName().getUsername(),command);
   try {
-synchronized (writeLock) {
+synchronized (goConfigWriteLock.mutex()) {
       try {
         LOGGER.info("Config update request by {} is being processed",UserHelper.getUserName().getUsername());
         if (command instanceof CheckedUpdateCommand) {

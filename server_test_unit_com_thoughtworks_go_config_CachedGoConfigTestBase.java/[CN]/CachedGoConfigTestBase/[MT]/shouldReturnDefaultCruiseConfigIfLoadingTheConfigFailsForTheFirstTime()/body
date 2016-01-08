@@ -1,5 +1,5 @@
 {
   configHelper.writeXmlToConfigFile("invalid-xml");
-  cachedGoConfig=new CachedFileGoConfig(dataSource,new ServerHealthService());
+  cachedGoConfig=new CachedFileGoConfig(dataSource,new ServerHealthService(),new GoConfigWriteLock());
   assertThat(cachedGoConfig.currentConfig(),Matchers.<CruiseConfig>is(new BasicCruiseConfig()));
 }
