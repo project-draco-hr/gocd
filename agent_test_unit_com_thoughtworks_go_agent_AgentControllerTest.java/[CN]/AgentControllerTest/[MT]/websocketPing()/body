@@ -4,7 +4,7 @@
   when(sslInfrastructureService.isRegistered()).thenReturn(true);
   agentController=createAgentController();
   agentController.init();
-  agentController.ping();
+  agentController.loop();
   verify(agentUpgradeService).checkForUpgrade();
   verify(sslInfrastructureService).registerIfNecessary();
   verify(agentWebsocketService).start();

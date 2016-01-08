@@ -1,0 +1,12 @@
+{
+  started.countDown();
+  try {
+    if (this.seconds > 0) {
+      latch.await(this.seconds,TimeUnit.SECONDS);
+    }
+    done.set(true);
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException(e);
+  }
+}

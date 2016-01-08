@@ -5,7 +5,7 @@
   doThrow(new GeneralSecurityException()).when(agentWebsocketService).start();
   agentController=createAgentController();
   agentController.init();
-  agentController.ping();
+  agentController.loop();
   verify(agentUpgradeService).checkForUpgrade();
   verify(sslInfrastructureService).registerIfNecessary();
   verify(sslInfrastructureService).invalidateAgentCertificate();

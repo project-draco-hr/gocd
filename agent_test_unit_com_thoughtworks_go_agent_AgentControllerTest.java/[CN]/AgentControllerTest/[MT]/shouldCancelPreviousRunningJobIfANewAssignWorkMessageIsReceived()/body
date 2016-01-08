@@ -1,0 +1,20 @@
+{
+  agentController=createAgentController();
+  agentController.init();
+  final SleepWork work1=new SleepWork();
+  Thread work1Thread=new Thread(new Runnable(){
+    @Override public void run(){
+      agentController.process(new Message(Action.assignWork,work1));
+    }
+  }
+);
+  work1Thread.start();
+  work1.started.await(MAX_WAIT_IN_TEST,TimeUnit.MILLISECONDS);
+  SleepWork work2=new SleepWork(0);
+  agentController.process(new Message(Action.assignWork,work2));
+  work1Thread.join(MAX_WAIT_IN_TEST);
+  assertThat(work1.done.get(),is(true));
+  assertThat(work1.canceled.get(),is(true));
+  assertThat(work2.done.get(),is(true));
+  assertThat(work2.canceled.get(),is(false));
+}
