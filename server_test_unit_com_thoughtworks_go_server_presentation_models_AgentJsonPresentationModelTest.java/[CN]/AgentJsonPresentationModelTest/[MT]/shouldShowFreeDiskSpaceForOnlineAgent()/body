@@ -1,6 +1,0 @@
-{
-  AgentInstance instance=AgentInstanceMother.building();
-  AgentJsonPresentationModel model=new AgentJsonPresentationModel(instance);
-  JsonValue json=JsonUtils.from(model.toJsonHash());
-  assertThat(json.getString("usablespace"),is(FileUtil.byteCountToDisplaySize(instance.getUsableSpace()) + " free"));
-}
