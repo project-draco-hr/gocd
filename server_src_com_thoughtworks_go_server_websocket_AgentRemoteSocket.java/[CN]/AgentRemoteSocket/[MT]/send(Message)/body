@@ -2,12 +2,5 @@
   if (LOGGER.isDebugEnabled()) {
     LOGGER.debug(sessionName() + " send message: " + msg);
   }
-  try {
-    this.session.getRemote().sendString(Message.encode(msg));
-    return true;
-  }
- catch (  IOException e) {
-    onError(e);
-    return false;
-  }
+  return this.session.getRemote().sendStringByFuture(Message.encode(msg));
 }

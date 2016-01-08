@@ -6,9 +6,7 @@ case ping:
 if (info.getCookie() == null) {
   String cookie=buildRepositoryRemote.getCookie(info.getIdentifier(),info.getLocation());
   info.setCookie(cookie);
-  if (!agent.send(new Message(Action.setCookie,cookie))) {
-    return;
-  }
+  agent.send(new Message(Action.setCookie,cookie));
 }
 AgentInstruction instruction=this.buildRepositoryRemote.ping(info);
 if (instruction.isShouldCancelJob()) {

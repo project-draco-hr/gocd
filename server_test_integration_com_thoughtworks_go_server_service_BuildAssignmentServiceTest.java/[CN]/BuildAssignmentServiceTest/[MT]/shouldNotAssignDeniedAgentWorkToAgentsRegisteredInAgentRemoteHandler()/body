@@ -5,9 +5,7 @@
   fixture.createPipelineWithFirstStageScheduled();
   AgentRuntimeInfo info=AgentRuntimeInfo.fromServer(agentConfig,true,"location",1000000l,"OS");
   info.setCookie("cookie");
-  final List<Message> messages=new ArrayList<>();
-  Agent agent=createWebsocketAgent(messages);
   agentRemoteHandler.process(agent,new Message(Action.ping,info));
   buildAssignmentService.onTimer();
-  assertThat(messages.size(),is(0));
+  assertThat(agent.messages.size(),is(0));
 }
