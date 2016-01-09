@@ -1,7 +1,12 @@
 {
-  Message msg=Message.decode(raw);
+  final Message msg=Message.decode(raw);
   if (LOGGER.isDebugEnabled()) {
     LOGGER.debug(sessionName() + " message: " + msg);
   }
-  this.controller.process(msg);
+  executor.execute(new Runnable(){
+    @Override public void run(){
+      AgentWebsocketService.this.controller.process(msg);
+    }
+  }
+);
 }
