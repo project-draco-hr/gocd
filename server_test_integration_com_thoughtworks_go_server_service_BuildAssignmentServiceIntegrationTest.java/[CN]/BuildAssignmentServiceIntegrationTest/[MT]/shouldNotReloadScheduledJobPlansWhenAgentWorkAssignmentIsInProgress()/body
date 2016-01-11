@@ -17,7 +17,7 @@
     }
   }
 ;
-  final BuildAssignmentService buildAssignmentServiceUnderTest=new BuildAssignmentService(goConfigService,mockJobInstanceService,scheduleService,agentService,environmentConfigService,transactionTemplate,scheduledPipelineLoader,pipelineService,builderFactory,agentRemoteHandler);
+  final BuildAssignmentService buildAssignmentServiceUnderTest=new BuildAssignmentService(goConfigService,mockJobInstanceService,scheduleService,agentService,environmentConfigService,transactionTemplate,scheduledPipelineLoader,pipelineService,builderFactory,agentRemoteHandler,elasticAgentPluginService);
   final Throwable[] fromThread=new Throwable[1];
   buildAssignmentServiceUnderTest.onTimer();
   Thread assigner=new Thread(new Runnable(){

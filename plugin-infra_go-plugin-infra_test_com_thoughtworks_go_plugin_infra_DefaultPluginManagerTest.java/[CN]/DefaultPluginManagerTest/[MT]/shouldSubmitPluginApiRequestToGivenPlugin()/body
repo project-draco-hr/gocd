@@ -4,6 +4,8 @@
   final GoPlugin goPlugin=mock(GoPlugin.class);
   final GoPluginDescriptor descriptor=mock(GoPluginDescriptor.class);
   when(goPlugin.handle(request)).thenReturn(expectedResponse);
+  ArgumentCaptor<PluginAwareDefaultGoApplicationAccessor> captor=ArgumentCaptor.forClass(PluginAwareDefaultGoApplicationAccessor.class);
+  doNothing().when(goPlugin).initializeGoApplicationAccessor(captor.capture());
   doAnswer(new Answer(){
     @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
       ActionWithReturn<GoPlugin,GoPluginApiResponse> action=(ActionWithReturn<GoPlugin,GoPluginApiResponse>)invocationOnMock.getArguments()[2];
@@ -11,8 +13,9 @@
     }
   }
 ).when(goPluginOSGiFramework).doOn(eq(GoPlugin.class),eq("plugin-id"),any(ActionWithReturn.class));
-  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,pluginRequestProcessorRegistry,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener);
   GoPluginApiResponse actualResponse=pluginManager.submitTo("plugin-id",request);
   assertThat(actualResponse,is(expectedResponse));
-  verify(goPlugin).initializeGoApplicationAccessor(applicationAccessor);
+  PluginAwareDefaultGoApplicationAccessor accessor=captor.getValue();
+  assertThat(accessor.pluginDescriptor(),is(descriptor));
 }

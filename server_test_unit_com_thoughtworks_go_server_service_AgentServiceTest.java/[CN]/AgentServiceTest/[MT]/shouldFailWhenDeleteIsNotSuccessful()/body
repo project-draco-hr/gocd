@@ -6,10 +6,7 @@
   Username username=new Username(new CaseInsensitiveString("test"));
   HttpOperationResult operationResult=mock(HttpOperationResult.class);
   when(securityService.hasOperatePermissionForAgents(username)).thenReturn(true);
-  when(agentInstance.isNullAgent()).thenReturn(false);
-  when(agentInstance.isDisabled()).thenReturn(true);
-  when(agentInstance.isBuilding()).thenReturn(false);
-  when(agentInstance.isCancelled()).thenReturn(false);
+  when(agentInstance.canBeDeleted()).thenReturn(true);
   doThrow(new RuntimeException()).when(agentConfigService).deleteAgents(username,agentInstance);
   when(agentInstances.findAgentAndRefreshStatus(uuid)).thenReturn(agentInstance);
   AgentService agentService=new AgentService(agentConfigService,new SystemEnvironment(),agentInstances,mock(EnvironmentConfigService.class),mock(GoConfigService.class),securityService,agentDao,uuidGenerator,serverHealthService=mock(ServerHealthService.class));

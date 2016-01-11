@@ -3,7 +3,7 @@
   if (!goConfigService.hasAgent(uuid) && enable.isTrue()) {
     AgentInstance agentInstance=agentInstances.findAgent(uuid);
     AgentConfig agentConfig=agentInstance.agentConfig();
-    command.addCommand(createAddAgentCommand(agentConfig));
+    command.addCommand(new AddAgentCommand(agentConfig));
   }
   if (enable.isTrue()) {
     command.addCommand(updateApprovalStatus(uuid,false));

@@ -1,0 +1,8 @@
+{
+  Gson gson=new Gson();
+  JsonObject jsonObject=new JsonObject();
+  jsonObject.add("resources",gson.toJsonTree(resources));
+  jsonObject.addProperty("environment",environment);
+  jsonObject.add("agent",elasticAgent.toJSON());
+  return gson.toJson(jsonObject);
+}

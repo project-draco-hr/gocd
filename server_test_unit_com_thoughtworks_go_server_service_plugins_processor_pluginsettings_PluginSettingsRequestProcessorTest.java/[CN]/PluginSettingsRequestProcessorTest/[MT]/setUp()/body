@@ -6,6 +6,6 @@
   when(pluginSqlMapDao.findPlugin("plugin-id-1")).thenReturn(new Plugin("plugin-id-1",JsonHelper.toJsonString(configuration)));
   when(pluginSqlMapDao.findPlugin("plugin-id-2")).thenReturn(new NullPlugin());
   requestArgumentCaptor=ArgumentCaptor.forClass(PluginSettings.class);
-  processor=new PluginSettingsRequestProcessor(pluginSqlMapDao,applicationAccessor);
+  processor=new PluginSettingsRequestProcessor(applicationAccessor,pluginSqlMapDao);
   processor.getMessageHandlerMap().put("1.0",jsonMessageHandler);
 }

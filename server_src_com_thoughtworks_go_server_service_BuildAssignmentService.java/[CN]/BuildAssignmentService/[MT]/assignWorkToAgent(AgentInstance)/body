@@ -11,6 +11,14 @@ synchronized (this) {
     if (job != null) {
       Work buildWork=createWork(agent,job);
       AgentBuildingInfo buildingInfo=new AgentBuildingInfo(job.getIdentifier().buildLocatorForDisplay(),job.getIdentifier().buildLocator());
+      if (agent.isElastic()) {
+        if (!elasticAgentPluginService.shouldAssignWork(agent.elasticAgentMetadata(),new Resources(job.getResources()).resourceNames(),environmentConfigService.envForPipeline(job.getPipelineName()))) {
+          return NO_WORK;
+        }
+ else {
+          elasticAgentPluginService.notifyAgentBusy(agent.elasticAgentMetadata());
+        }
+      }
       agentService.building(agent.getUuid(),buildingInfo);
       LOGGER.info("[Agent Assignment] Assigned job [{}] to agent [{}]",job.getIdentifier(),agent.agentConfig().getAgentIdentifier());
       return buildWork;

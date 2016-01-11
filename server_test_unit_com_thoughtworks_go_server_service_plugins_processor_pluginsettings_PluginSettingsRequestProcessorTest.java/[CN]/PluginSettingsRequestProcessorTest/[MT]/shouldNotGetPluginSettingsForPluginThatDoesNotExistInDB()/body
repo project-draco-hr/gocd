@@ -5,7 +5,7 @@
   when(jsonMessageHandler.responseMessagePluginSettingsGet(any(PluginSettings.class))).thenReturn(null);
   DefaultGoApiRequest apiRequest=new DefaultGoApiRequest(PluginSettingsRequestProcessor.GET_PLUGIN_SETTINGS,"1.0",null);
   apiRequest.setRequestBody(requestBody);
-  GoApiResponse response=processor.process(apiRequest);
+  GoApiResponse response=processor.process(pluginDescriptor,apiRequest);
   assertThat(response.responseCode(),is(200));
   assertThat(response.responseBody(),is(nullValue()));
 }

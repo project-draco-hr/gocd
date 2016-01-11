@@ -1,0 +1,19 @@
+{
+  String api="api-uri";
+  GoPluginApiRequestProcessor processor=mock(GoPluginApiRequestProcessor.class);
+  GoApiRequest goApiRequest=mock(GoApiRequest.class);
+  GoPluginDescriptor descriptor=mock(GoPluginDescriptor.class);
+  when(goApiRequest.api()).thenReturn(api);
+  Throwable cause=new RuntimeException("error");
+  when(processor.process(descriptor,goApiRequest)).thenThrow(cause);
+  PluginRequestProcessorRegistry pluginRequestProcessorRegistry=new PluginRequestProcessorRegistry();
+  pluginRequestProcessorRegistry.registerProcessorFor(api,processor);
+  PluginAwareDefaultGoApplicationAccessor accessor=new PluginAwareDefaultGoApplicationAccessor(descriptor,pluginRequestProcessorRegistry);
+  try {
+    accessor.submit(goApiRequest);
+  }
+ catch (  Exception e) {
+    assertThat(e.getMessage(),is(String.format("Error while processing request api %s",api)));
+    assertThat(e.getCause(),is(cause));
+  }
+}

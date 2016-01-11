@@ -1,0 +1,7 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("dev","qa");
+  AgentConfig agentConfig=new AgentConfig("uuid","hostname","10.10.10.10");
+  cruiseConfig.agents().add(agentConfig);
+  agentConfig.addResource(new Resource("foo"));
+  assertThat(cruiseConfig.validateAfterPreprocess().isEmpty(),is(true));
+}

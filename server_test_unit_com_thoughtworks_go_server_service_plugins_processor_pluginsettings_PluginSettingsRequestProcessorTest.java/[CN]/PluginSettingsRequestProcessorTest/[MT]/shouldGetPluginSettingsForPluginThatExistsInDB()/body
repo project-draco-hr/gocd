@@ -6,7 +6,7 @@
   when(jsonMessageHandler.responseMessagePluginSettingsGet(requestArgumentCaptor.capture())).thenReturn(responseBody);
   DefaultGoApiRequest apiRequest=new DefaultGoApiRequest(PluginSettingsRequestProcessor.GET_PLUGIN_SETTINGS,"1.0",null);
   apiRequest.setRequestBody(requestBody);
-  GoApiResponse response=processor.process(apiRequest);
+  GoApiResponse response=processor.process(pluginDescriptor,apiRequest);
   assertThat(response.responseCode(),is(200));
   assertThat(response.responseBody(),is(responseBody));
   Map<String,String> settingsMap=new HashMap<String,String>();

@@ -1,4 +1,4 @@
 {
-  String json=new ElasticAgentExtensionConverterV1().shouldAssignWorkRequestBody("42",Arrays.asList("foo","bar"),"prod");
-  JSONAssert.assertEquals(json,"{\"elastic_agent_id\": \"42\",\"resources\":[\"foo\",\"bar\"],\"environment\":\"prod\"}",true);
+  String json=new ElasticAgentExtensionConverterV1().shouldAssignWorkRequestBody(elasticAgent(),Arrays.asList("foo","bar"),"prod");
+  JSONAssert.assertEquals(json,"{\"resources\":[\"foo\",\"bar\"],\"environment\":\"prod\",\"agent\":{\"agent_id\":\"42\",\"agent_state\":\"Idle\",\"build_state\":\"Idle\",\"config_state\":\"Enabled\"}}",true);
 }

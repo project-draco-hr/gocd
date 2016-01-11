@@ -1,0 +1,10 @@
+{
+  if (job.getAgentUuid() == null) {
+    return;
+  }
+  AgentInstance agent=agentService.findAgent(job.getAgentUuid());
+  if (job.isCompleted() && agent.isElastic()) {
+    ElasticAgentMetadata metadata=agent.elasticAgentMetadata();
+    elasticAgentPluginRegistry.notifyAgentIdle(pluginManager.getPluginDescriptorFor(metadata.elasticPluginId()),toAgentMetadata(metadata));
+  }
+}

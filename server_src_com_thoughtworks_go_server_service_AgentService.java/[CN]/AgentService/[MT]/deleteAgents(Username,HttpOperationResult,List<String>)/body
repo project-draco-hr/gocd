@@ -8,8 +8,7 @@
   }
   List<AgentInstance> failedToDeleteAgents=new ArrayList<>();
   for (  AgentInstance agentInstance : agents) {
-    boolean isBuildingOrCancelled=agentInstance.isBuilding() || agentInstance.isCancelled();
-    if (!agentInstance.isDisabled() || isBuildingOrCancelled) {
+    if (!agentInstance.canBeDeleted()) {
       failedToDeleteAgents.add(agentInstance);
     }
   }

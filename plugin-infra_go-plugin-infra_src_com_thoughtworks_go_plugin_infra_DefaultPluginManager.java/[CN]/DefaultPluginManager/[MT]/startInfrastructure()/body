@@ -4,6 +4,16 @@
   }
   removeBundleDirectory();
   goPluginOSGiFramework.start();
+  addPluginChangeListener(new PluginChangeListener(){
+    @Override public void pluginLoaded(    GoPluginDescriptor pluginDescriptor){
+    }
+    @Override public void pluginUnLoaded(    GoPluginDescriptor pluginDescriptor){
+synchronized (initializedPlugins) {
+        initializedPlugins.remove(pluginDescriptor);
+      }
+    }
+  }
+);
   monitor.addPluginJarChangeListener(defaultPluginJarChangeListener);
   monitor.start();
 }

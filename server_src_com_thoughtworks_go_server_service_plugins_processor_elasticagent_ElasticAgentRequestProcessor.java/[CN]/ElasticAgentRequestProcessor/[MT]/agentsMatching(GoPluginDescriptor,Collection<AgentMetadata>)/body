@@ -1,0 +1,9 @@
+{
+  Collection<AgentInstance> instances=Collections2.transform(agents,new Function<AgentMetadata,AgentInstance>(){
+    @Override public AgentInstance apply(    AgentMetadata input){
+      return agentService.findElasticAgent(input.elasticAgentId(),pluginDescriptor.id());
+    }
+  }
+);
+  return instances.toArray(new AgentInstance[instances.size()]);
+}
