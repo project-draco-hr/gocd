@@ -1,0 +1,30 @@
+{
+  LinkedMultiValueMap<String,ElasticAgentMetadata> elasticAgents=agentService.allElasticAgents();
+  for (  PluginDescriptor descriptor : elasticAgentPluginRegistry.getPlugins()) {
+    List<ElasticAgentMetadata> elasticAgentMetadatas;
+    if (elasticAgents.containsKey(descriptor.id())) {
+      elasticAgentMetadatas=elasticAgents.remove(descriptor.id());
+    }
+ else {
+      elasticAgentMetadatas=new ArrayList<>();
+    }
+    ArrayList<AgentMetadata> metadatas=ListUtil.map(elasticAgentMetadatas,new ListUtil.Transformer<ElasticAgentMetadata,AgentMetadata>(){
+      @Override public AgentMetadata transform(      ElasticAgentMetadata obj){
+        return new AgentMetadata(obj.elasticAgentId(),obj.agentState().toString(),obj.buildState().toString(),obj.configStatus().toString());
+      }
+    }
+);
+    elasticAgentPluginRegistry.serverPing(descriptor.id(),metadatas);
+  }
+  if (!elasticAgents.isEmpty()) {
+    for (    String pluginId : elasticAgents.keySet()) {
+      List<String> uuids=ListUtil.map(elasticAgents.get(pluginId),new ListUtil.Transformer<ElasticAgentMetadata,String>(){
+        @Override public String transform(        ElasticAgentMetadata obj){
+          return obj.uuid();
+        }
+      }
+);
+      LOGGER.warn("Elastic agent plugin with identifier {} has gone missing, but left behind {} agent(s) with UUIDs {}.",pluginId,elasticAgents.get(pluginId).size(),uuids);
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+  String json=new ElasticAgentExtensionConverterV1().shouldAssignWorkRequestBody("42",Arrays.asList("foo","bar"),"prod");
+  JSONAssert.assertEquals(json,"{\"elastic_agent_id\": \"42\",\"resources\":[\"foo\",\"bar\"],\"environment\":\"prod\"}",true);
+}

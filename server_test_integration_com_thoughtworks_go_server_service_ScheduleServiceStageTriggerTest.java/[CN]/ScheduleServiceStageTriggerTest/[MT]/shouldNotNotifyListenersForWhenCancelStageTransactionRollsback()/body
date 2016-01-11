@@ -10,7 +10,7 @@
   JobInstanceService jobInstanceService=jobInstanceService(jobResultTopic);
   StageService stageService=new StageService(stageDao,jobInstanceService,stageStatusTopic,stageStatusCache,securityService,pipelineDao,changesetService,goConfigService,transactionTemplate,transactionSynchronizationManager,goCache,stageStatusListener);
   SchedulingPerformanceLogger schedulingPerformanceLogger=mock(SchedulingPerformanceLogger.class);
-  scheduleService=new ScheduleService(goConfigService,pipelineService,stageService,schedulingCheckerService,pipelineScheduledTopic,pipelineDao,stageDao,stageOrderService,securityService,pipelineScheduleQueue,this.jobInstanceService,jobInstanceDao,agentAssignment,environmentConfigService,pipelineLockService,serverHealthService,transactionTemplate,null,transactionSynchronizationManager,null,null,null,null,schedulingPerformanceLogger);
+  scheduleService=new ScheduleService(goConfigService,pipelineService,stageService,schedulingCheckerService,pipelineScheduledTopic,pipelineDao,stageDao,stageOrderService,securityService,pipelineScheduleQueue,this.jobInstanceService,jobInstanceDao,agentAssignment,environmentConfigService,pipelineLockService,serverHealthService,transactionTemplate,null,transactionSynchronizationManager,null,null,null,null,schedulingPerformanceLogger,null);
   try {
     transactionTemplate.executeWithExceptionHandling(new TransactionCallback(){
       @Override public Object doInTransaction(      TransactionStatus status) throws Exception {

@@ -1,0 +1,13 @@
+{
+  Gson gson=new Gson();
+  JsonArray array=new JsonArray();
+  for (  AgentMetadata agentMetadata : metadata) {
+    JsonObject jsonObject=new JsonObject();
+    jsonObject.addProperty("agent_id",agentMetadata.elasticAgentId());
+    jsonObject.addProperty("agent_state",agentMetadata.agentState());
+    jsonObject.addProperty("config_state",agentMetadata.configState());
+    jsonObject.addProperty("build_state",agentMetadata.buildState());
+    array.add(jsonObject);
+  }
+  return gson.toJson(array);
+}
