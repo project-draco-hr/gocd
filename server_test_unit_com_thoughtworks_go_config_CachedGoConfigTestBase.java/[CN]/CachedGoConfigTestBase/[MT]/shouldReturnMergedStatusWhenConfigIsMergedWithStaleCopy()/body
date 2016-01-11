@@ -4,7 +4,7 @@
   CruiseConfig currentConfig=GoConfigMother.configWithPipelines("p1");
   GoFileConfigDataSource.GoConfigSaveResult goConfigSaveResult=new GoFileConfigDataSource.GoConfigSaveResult(new GoConfigHolder(currentConfig,currentConfig),ConfigSaveState.MERGED);
   when(goFileConfigDataSource.writeWithLock(argThat(is(updateConfigCommand)),any(GoConfigHolder.class))).thenReturn(goConfigSaveResult);
-  cachedGoConfig=new CachedFileGoConfig(goFileConfigDataSource,serverHealthService,new GoConfigWriteLock());
+  cachedGoConfig=new CachedFileGoConfig(goFileConfigDataSource,serverHealthService);
   ConfigSaveState configSaveState=cachedGoConfig.writeWithLock(updateConfigCommand);
   assertThat(configSaveState,is(ConfigSaveState.MERGED));
 }

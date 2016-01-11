@@ -2,7 +2,7 @@
   CruiseConfig cruiseConfig=configHelper.load();
   addPipelineWithParams(cruiseConfig);
   configHelper.writeConfigFile(cruiseConfig);
-  cachedGoConfig=new CachedFileGoConfig(dataSource,new ServerHealthService(),new GoConfigWriteLock());
+  cachedGoConfig=new CachedFileGoConfig(dataSource,new ServerHealthService());
   dataSource.reloadIfModified();
   cachedGoConfig.forceReload();
   PipelineConfig config=cachedGoConfig.currentConfig().pipelineConfigByName(new CaseInsensitiveString("mingle"));

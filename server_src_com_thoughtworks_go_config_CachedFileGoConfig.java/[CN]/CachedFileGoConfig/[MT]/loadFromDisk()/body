@@ -1,6 +1,6 @@
 {
   try {
-synchronized (goConfigWriteLock.mutex()) {
+synchronized (GoConfigWriteLock.class) {
       GoConfigHolder configHolder=dataSource.load();
       if (configHolder != null) {
         saveValidConfigToCacheAndNotifyConfigChangeListeners(configHolder);
