@@ -1,0 +1,14 @@
+{
+  List<AgentRuntimeStatus> agentRuntimeStatuses=Arrays.asList(AgentRuntimeStatus.Idle,AgentRuntimeStatus.Building,AgentRuntimeStatus.LostContact,AgentRuntimeStatus.Missing);
+  for (  AgentRuntimeStatus status : AgentRuntimeStatus.values()) {
+    if (agentRuntimeStatuses.contains(status)) {
+      assertEquals(status.agentState(),status);
+    }
+ else     if (status == AgentRuntimeStatus.Cancelled) {
+      assertEquals(status.agentState(),AgentRuntimeStatus.Building);
+    }
+ else {
+      assertEquals(status.agentState(),AgentRuntimeStatus.Unknown);
+    }
+  }
+}
