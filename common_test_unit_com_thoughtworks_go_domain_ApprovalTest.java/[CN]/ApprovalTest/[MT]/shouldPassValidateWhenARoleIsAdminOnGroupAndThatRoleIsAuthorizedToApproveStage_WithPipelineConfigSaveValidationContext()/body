@@ -8,6 +8,5 @@
   Approval approval=stage.getApproval();
   PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
   approval.validate(PipelineConfigSaveValidationContext.forChain(true,DEFAULT_GROUP,cruiseConfig,pipeline,stage));
-  AdminRole role=approval.getAuthConfig().getRoles().get(0);
-  assertThat(role.errors().getAll().toString(),role.errors().isEmpty(),is(true));
+  assertNoErrors(approval.getAuthConfig().getRoles().get(0));
 }
