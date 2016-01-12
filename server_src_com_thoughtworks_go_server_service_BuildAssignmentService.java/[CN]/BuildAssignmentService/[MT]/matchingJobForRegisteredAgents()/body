@@ -4,25 +4,24 @@
     return;
   }
   Long start=System.currentTimeMillis();
-  agents.forEach(new BiConsumer<String,Agent>(){
-    @Override public void accept(    String agentUUId,    Agent agent){
-      AgentInstance agentInstance=agentService.findAgentAndRefreshStatus(agentUUId);
-      if (!agentInstance.isRegistered()) {
-        agent.send(new Message(Action.reregister));
-        return;
+  for (  Map.Entry<String,Agent> entry : agents.entrySet()) {
+    String agentUUId=entry.getKey();
+    Agent agent=entry.getValue();
+    AgentInstance agentInstance=agentService.findAgentAndRefreshStatus(agentUUId);
+    if (!agentInstance.isRegistered()) {
+      agent.send(new Message(Action.reregister));
+      return;
+    }
+    if (agentInstance.isDisabled() || !agentInstance.isIdle()) {
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("Ignore agent that is disabled or is not idling: " + agentInstance);
       }
-      if (agentInstance.isDisabled() || !agentInstance.isIdle()) {
-        if (LOGGER.isDebugEnabled()) {
-          LOGGER.debug("Ignore agent that is disabled or is not idling: " + agentInstance);
-        }
-        return;
-      }
-      Work work=BuildAssignmentService.this.assignWorkToAgent(agentInstance);
-      if (work != NO_WORK) {
-        agent.send(new Message(Action.assignWork,work));
-      }
+      return;
+    }
+    Work work=BuildAssignmentService.this.assignWorkToAgent(agentInstance);
+    if (work != NO_WORK) {
+      agent.send(new Message(Action.assignWork,work));
     }
   }
-);
   LOGGER.info(format("Matching %d agents with %d jobs took: %dms",agents.size(),jobPlans.size(),System.currentTimeMillis() - start));
 }
