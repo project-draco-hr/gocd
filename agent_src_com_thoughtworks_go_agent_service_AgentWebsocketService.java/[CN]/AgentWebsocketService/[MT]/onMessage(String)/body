@@ -5,7 +5,12 @@
   }
   executor.execute(new Runnable(){
     @Override public void run(){
-      AgentWebsocketService.this.controller.process(msg);
+      try {
+        AgentWebsocketService.this.controller.process(msg);
+      }
+ catch (      InterruptedException e) {
+        LOGGER.info("Process message[" + msg + "] is interruptted.",e);
+      }
     }
   }
 );

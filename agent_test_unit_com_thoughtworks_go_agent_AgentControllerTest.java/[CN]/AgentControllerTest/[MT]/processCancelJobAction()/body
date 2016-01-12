@@ -4,7 +4,12 @@
   final SleepWork sleep1secWork=new SleepWork();
   Thread buildingThread=new Thread(new Runnable(){
     @Override public void run(){
-      agentController.process(new Message(Action.assignWork,sleep1secWork));
+      try {
+        agentController.process(new Message(Action.assignWork,sleep1secWork));
+      }
+ catch (      InterruptedException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 );
