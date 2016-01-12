@@ -1,6 +1,8 @@
 {
   try {
+    LOGGER.debug("Config file (on disk) update check is in queue");
 synchronized (GoConfigWriteLock.class) {
+      LOGGER.debug("Config file (on disk) update check is in progress");
       GoConfigHolder configHolder=dataSource.load();
       if (configHolder != null) {
         saveValidConfigToCacheAndNotifyConfigChangeListeners(configHolder);
