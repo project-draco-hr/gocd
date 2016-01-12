@@ -3,6 +3,7 @@
   SystemEnvironment env=new SystemEnvironment();
   ConfigRepository configRepository=new ConfigRepository(env);
   configRepository.initialize();
+  GoConfigWriteLock goConfigWriteLock=new GoConfigWriteLock();
   dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,env,new TimeProvider(),new ConfigCache(),new ServerVersion(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService,serverHealthService);
   serverHealthService=new ServerHealthService();
   CachedFileGoConfig cachedFileGoConfig=new CachedFileGoConfig(dataSource,serverHealthService);

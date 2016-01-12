@@ -1,0 +1,46 @@
+{
+  final ArrayList<Thread> configSaveThreads=new ArrayList<>();
+  final int pipelineCreatedThroughApiCount=100;
+  final int pipelineCreatedThroughUICount=100;
+  for (int i=0; i < pipelineCreatedThroughUICount; i++) {
+    Thread thread=configSaveThread(i);
+    configSaveThreads.add(thread);
+  }
+  for (int i=0; i < pipelineCreatedThroughApiCount; i++) {
+    Thread thread=pipelineSaveThread(i);
+    configSaveThreads.add(thread);
+  }
+  for (  Thread configSaveThread : configSaveThreads) {
+    Thread timerThread=null;
+    try {
+      timerThread=createThread(new Runnable(){
+        @Override public void run(){
+          try {
+            File configFile=new File(goConfigDao.fileLocation());
+            String currentConfig=FileUtil.readContentFromFile(configFile);
+            String updatedConfig=currentConfig.replaceFirst("artifactsdir=\".*\"","artifactsdir=\"" + UUID.randomUUID().toString() + "\"");
+            FileUtil.writeContentToFile(updatedConfig,configFile);
+          }
+ catch (          IOException e) {
+            fail("Failed with error: " + e.getMessage());
+          }
+          cachedFileGoConfig.forceReload();
+        }
+      }
+,"timer-thread");
+    }
+ catch (    InterruptedException e) {
+      fail(e.getMessage());
+    }
+    try {
+      configSaveThread.start();
+      timerThread.start();
+      configSaveThread.join();
+      timerThread.join();
+    }
+ catch (    InterruptedException e) {
+      fail(e.getMessage());
+    }
+  }
+  assertThat(goConfigService.getAllPipelineConfigs().size(),is(pipelineCreatedThroughApiCount + pipelineCreatedThroughUICount));
+}
