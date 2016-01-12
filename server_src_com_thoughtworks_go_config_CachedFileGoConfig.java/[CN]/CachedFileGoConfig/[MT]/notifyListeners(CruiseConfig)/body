@@ -4,7 +4,7 @@
     try {
       long startTime=System.currentTimeMillis();
       listener.onConfigChange(newCruiseConfig);
-      LOGGER.debug("Notifying " + listener.getClass() + " took (in ms): "+ (System.currentTimeMillis() - startTime));
+      LOGGER.debug("Notifying {} took (in ms): {}",listener.getClass(),(System.currentTimeMillis() - startTime));
     }
  catch (    Exception e) {
       LOGGER.error("Failed to fire config changed event for listener: " + listener,e);
