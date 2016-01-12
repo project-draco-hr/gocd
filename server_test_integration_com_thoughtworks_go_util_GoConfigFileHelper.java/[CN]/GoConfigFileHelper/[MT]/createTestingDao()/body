@@ -9,7 +9,6 @@
     ConfigElementImplementationRegistry configElementImplementationRegistry=ConfigElementImplementationRegistryMother.withNoPlugins();
     GoFileConfigDataSource dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,systemEnvironment,new TimeProvider(),configCache,new ServerVersion(),configElementImplementationRegistry,probeService,serverHealthService);
     dataSource.upgradeIfNecessary();
-    GoConfigWriteLock goConfigWriteLock=new GoConfigWriteLock();
     CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,serverHealthService);
     GoConfigWatchList configWatchList=new GoConfigWatchList(fileService);
     GoRepoConfigDataSource repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,new GoConfigPluginService(configCache,configElementImplementationRegistry,probeService));
