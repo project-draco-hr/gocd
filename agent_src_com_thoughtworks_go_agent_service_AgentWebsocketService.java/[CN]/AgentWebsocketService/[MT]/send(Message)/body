@@ -4,10 +4,8 @@
   }
   try {
     this.session.getRemote().sendString(Message.encode(message));
-    return true;
   }
  catch (  IOException e) {
-    onError(e);
-    return false;
+    throw new RuntimeException(e);
   }
 }
