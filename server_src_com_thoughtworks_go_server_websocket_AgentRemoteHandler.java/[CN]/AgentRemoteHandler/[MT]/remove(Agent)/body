@@ -1,10 +1,12 @@
 {
-  for (  Map.Entry<String,Agent> entry : agentSessions.entrySet()) {
-    if (entry.getValue().equals(agent)) {
-      agentSessions.remove(entry.getKey());
-      AgentInstance instance=agentService.findAgent(entry.getKey());
-      instance.lostContact();
-      return;
-    }
+  String uuid=sessionIds.remove(agent);
+  if (uuid == null) {
+    return;
+  }
+  agentSessions.remove(uuid);
+  AgentInstance instance=agentService.findAgent(uuid);
+  if (instance != null) {
+    instance.lostContact();
+    LOGGER.info(instance.getAgentIdentifier() + " lost contact because websocket connection is closed");
   }
 }
