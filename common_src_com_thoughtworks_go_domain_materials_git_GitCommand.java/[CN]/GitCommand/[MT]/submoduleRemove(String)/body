@@ -2,6 +2,8 @@
   configRemoveSection("submodule." + folderName);
   CommandLine gitConfig=git().withArgs("config","-f",".gitmodules","--remove-section","submodule." + folderName).withWorkingDir(workingDir);
   runOrBomb(gitConfig);
+  CommandLine gitAdd=git().withArgs("add",".gitmodules").withWorkingDir(workingDir);
+  runOrBomb(gitAdd);
   CommandLine gitRm=git().withArgs("rm","--cached",folderName).withWorkingDir(workingDir);
   runOrBomb(gitRm);
   FileUtil.deleteFolder(new File(workingDir,folderName));
