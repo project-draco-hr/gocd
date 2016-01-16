@@ -1,0 +1,16 @@
+{
+  File workingDir=new File(CruiseConfig.WORKING_BASE_DIR + "pipelineName");
+  Materials materials=MaterialsMother.defaultMaterials();
+  MaterialRevisions revisions=ModificationsMother.modifyOneFile(materials,ModificationsMother.nextRevision());
+  BuildCause buildCause=BuildCause.createWithModifications(revisions,"");
+  List<Builder> builder=new ArrayList<Builder>();
+  builder.add(new CommandBuilder("command","args",workingDir,new RunIfConfigs(),new NullBuilder(),"desc"));
+  builder.add(new BuilderForKillAllChildTask());
+  builder.add(new CommandBuilderWithArgList("command",new String[]{"arg1","arg2"},workingDir,new RunIfConfigs(),new NullBuilder(),"desc"));
+  builder.add(new FetchArtifactBuilder(new RunIfConfigs(),new NullBuilder(),"desc",jobPlan().getIdentifier(),"srcdir","dest",new FileHandler(workingDir,"src"),new ChecksumFileHandler(workingDir)));
+  BuildAssignment assignment=BuildAssignment.create(jobPlan(),buildCause,builder,workingDir);
+  BuildWork work=new BuildWork(assignment);
+  byte[] msg=Message.encode(new Message(Action.assignWork,work));
+  Message decodedMsg=Message.decode(msg);
+  assertThat(((BuildWork)decodedMsg.getData()).getAssignment().getPlan().getPipelineName(),is("pipelineName"));
+}

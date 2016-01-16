@@ -1,0 +1,9 @@
+{
+  if (src == null) {
+    return null;
+  }
+  JsonObject obj=new JsonObject();
+  obj.addProperty("type",src.getClass().getCanonicalName());
+  obj.add("data",getGson().toJsonTree(src));
+  return obj;
+}

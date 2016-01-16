@@ -3,7 +3,7 @@
   ConfigAttributeValue attributeValue=value.getClass().getAnnotation(ConfigAttributeValue.class);
   if (attributeValue != null) {
     try {
-      Field field=value.getClass().getDeclaredField(attributeValue.fieldName());
+      Field field=getField(value.getClass(),attributeValue);
       field.setAccessible(true);
       valueString=field.get(value).toString();
     }

@@ -3,7 +3,7 @@
     LOGGER.debug(sessionName() + " send message: " + message);
   }
   try {
-    this.session.getRemote().sendString(Message.encode(message));
+    this.session.getRemote().sendBytes(ByteBuffer.wrap(Message.encode(message)));
   }
  catch (  IOException e) {
     throw new RuntimeException(e);

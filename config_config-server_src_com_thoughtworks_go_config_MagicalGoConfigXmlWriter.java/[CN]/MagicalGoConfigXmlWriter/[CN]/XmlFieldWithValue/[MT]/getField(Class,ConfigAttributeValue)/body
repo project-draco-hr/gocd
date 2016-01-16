@@ -1,0 +1,12 @@
+{
+  try {
+    return clazz.getDeclaredField(attributeValue.fieldName());
+  }
+ catch (  NoSuchFieldException e) {
+    Class klass=clazz.getSuperclass();
+    if (klass == null) {
+      throw e;
+    }
+    return getField(klass,attributeValue);
+  }
+}

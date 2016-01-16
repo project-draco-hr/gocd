@@ -1,13 +1,9 @@
 {
-  ByteArrayOutputStream out=new ByteArrayOutputStream();
-  ObjectOutputStream output;
+  String encode=JsonMessage.encode(msg);
   try {
-    output=new ObjectOutputStream(out);
-    output.writeObject(msg);
+    return encode.getBytes("UTF8");
   }
  catch (  IOException e) {
     throw new RuntimeException(e);
   }
-  BASE64Encoder encoder=new BASE64Encoder();
-  return encoder.encode(out.toByteArray());
 }

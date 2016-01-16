@@ -1,0 +1,15 @@
+{
+  if (json == null) {
+    return null;
+  }
+  JsonObject object=json.getAsJsonObject();
+  String type=object.get("type").getAsString();
+  try {
+    Class k=Class.forName(type);
+    JsonElement data=object.get("data");
+    return getGson().fromJson(data.isJsonPrimitive() ? data.getAsJsonPrimitive() : data.getAsJsonObject(),k);
+  }
+ catch (  ClassNotFoundException e) {
+    throw new RuntimeException(e);
+  }
+}

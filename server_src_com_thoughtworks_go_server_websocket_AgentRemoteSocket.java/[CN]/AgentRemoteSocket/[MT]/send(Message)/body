@@ -2,5 +2,5 @@
   if (LOGGER.isDebugEnabled()) {
     LOGGER.debug(sessionName() + " send message: " + msg);
   }
-  return this.session.getRemote().sendStringByFuture(Message.encode(msg));
+  return this.session.getRemote().sendBytesByFuture(ByteBuffer.wrap(Message.encode(msg)));
 }
