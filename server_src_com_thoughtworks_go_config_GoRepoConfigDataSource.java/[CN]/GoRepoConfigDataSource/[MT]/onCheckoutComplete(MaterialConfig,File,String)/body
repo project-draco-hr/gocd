@@ -3,12 +3,16 @@
   if (this.configWatchList.hasConfigRepoWithFingerprint(fingerprint)) {
     PartialConfigProvider plugin=null;
     ConfigRepoConfig repoConfig=configWatchList.getConfigRepoForMaterial(material);
+    HealthStateScope scope=HealthStateScope.forPartialConfigRepo(repoConfig);
     try {
       plugin=this.configPluginService.partialConfigProviderFor(repoConfig);
     }
  catch (    Exception ex) {
       fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(revision,ex));
       LOGGER.error(String.format("Failed to get config plugin for %s",material.getDisplayName()));
+      String message=String.format("Failed to obtain configuration plugin '%s' for material: %s",repoConfig.getConfigProviderPluginName(),material.getLongDescription());
+      String errorDescription=ex.getMessage() == null ? "Unknown error" : ex.getMessage();
+      serverHealthService.update(ServerHealthState.error(message,errorDescription,HealthStateType.general(scope)));
       notifyFailureListeners(repoConfig,ex);
       return;
     }
@@ -16,16 +20,20 @@
       PartialConfigLoadContext context=new LoadContext(repoConfig);
       PartialConfig newPart=plugin.load(folder,context);
       if (newPart == null) {
-        LOGGER.warn(String.format("Parsed configuration material %s by %s is null",material.getDisplayName(),plugin));
+        LOGGER.warn(String.format("Parsed configuration material %s by %s is null",material.getDisplayName(),plugin.displayName()));
         newPart=new PartialConfig();
       }
       newPart.setOrigins(new RepoConfigOrigin(repoConfig,revision));
       fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(revision,newPart));
+      serverHealthService.removeByScope(scope);
       notifySuccessListeners(repoConfig,newPart);
     }
  catch (    Exception ex) {
       fingerprintOfPartialToLatestParseResultMap.put(fingerprint,new PartialConfigParseResult(revision,ex));
-      LOGGER.error(String.format("Failed to parse configuration material %s by %s",material.getDisplayName(),plugin));
+      LOGGER.error(String.format("Failed to parse configuration material %s by %s",material.getDisplayName(),plugin.displayName()));
+      String message=String.format("Parsing configuration repository using %s failed for material: %s",plugin.displayName(),material.getLongDescription());
+      String errorDescription=ex.getMessage() == null ? "Unknown error" : ex.getMessage();
+      serverHealthService.update(ServerHealthState.error(message,errorDescription,HealthStateType.general(scope)));
       notifyFailureListeners(repoConfig,ex);
     }
   }

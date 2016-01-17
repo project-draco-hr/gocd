@@ -1,3 +1,8 @@
 {
-  return false;
+  for (  MaterialConfig materialConfig : cruiseConfig.getAllUniqueMaterials()) {
+    if (HealthStateScope.forMaterialConfigUpdate(materialConfig).getScope().equals(materialScope)) {
+      return false;
+    }
+  }
+  return true;
 }

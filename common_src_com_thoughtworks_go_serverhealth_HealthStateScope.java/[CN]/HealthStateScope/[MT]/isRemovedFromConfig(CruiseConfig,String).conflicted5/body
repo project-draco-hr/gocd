@@ -1,6 +1,6 @@
 {
-  for (  MaterialConfig materialConfig : cruiseConfig.getAllUniqueMaterials()) {
-    if (HealthStateScope.forMaterialConfigUpdate(materialConfig).getScope().equals(materialScope)) {
+  for (  ConfigRepoConfig configRepoConfig : cruiseConfig.getConfigRepos()) {
+    if (HealthStateScope.forPartialConfigRepo(configRepoConfig).getScope().equals(materialScope)) {
       return false;
     }
   }
