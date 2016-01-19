@@ -1,0 +1,9 @@
+{
+  String json="{\n" + "      \"source\": \"test\",\n" + "      \"destination\": \"res1\",\n"+ "      \"type\": \"test\"\n"+ "    }";
+  CRArtifact_1 deserializedValue=gson.fromJson(json,CRArtifact_1.class);
+  assertThat(deserializedValue.getSource(),is("test"));
+  assertThat(deserializedValue.getDestination(),is("res1"));
+  assertThat(deserializedValue.getType(),is("test"));
+  ErrorCollection errors=deserializedValue.getErrors();
+  assertTrue(errors.isEmpty());
+}
