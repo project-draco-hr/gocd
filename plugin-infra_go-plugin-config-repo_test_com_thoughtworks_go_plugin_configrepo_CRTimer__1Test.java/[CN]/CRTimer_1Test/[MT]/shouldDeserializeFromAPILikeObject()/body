@@ -1,0 +1,8 @@
+{
+  String json="{\n" + "    \"spec\": \"0 0 22 ? * MON-FRI\",\n" + "    \"only_on_changes\": true\n"+ "  }";
+  CRTimer_1 deserializedValue=gson.fromJson(json,CRTimer_1.class);
+  assertThat(deserializedValue.getTimerSpec(),is("0 0 22 ? * MON-FRI"));
+  assertThat(deserializedValue.isOnlyOnChanges(),is(true));
+  ErrorCollection errors=deserializedValue.getErrors();
+  assertTrue(errors.isEmpty());
+}
