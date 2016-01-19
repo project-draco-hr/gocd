@@ -1,25 +1,22 @@
 {
   LinkedMultiValueMap<String,ElasticAgentMetadata> elasticAgents=agentService.allElasticAgents();
+  Collection<AgentMetadata> agents=Collections.emptyList();
   for (  PluginDescriptor descriptor : elasticAgentPluginRegistry.getPlugins()) {
-    List<ElasticAgentMetadata> elasticAgentMetadatas;
     if (elasticAgents.containsKey(descriptor.id())) {
-      elasticAgentMetadatas=elasticAgents.remove(descriptor.id());
-    }
- else {
-      elasticAgentMetadatas=new ArrayList<>();
-    }
-    Collection<AgentMetadata> metadatas=Collections2.transform(elasticAgentMetadatas,new Function<ElasticAgentMetadata,AgentMetadata>(){
-      @Override public AgentMetadata apply(      ElasticAgentMetadata input){
-        return toAgentMetadata(input);
+      List<ElasticAgentMetadata> elasticAgentMetadatas=elasticAgents.remove(descriptor.id());
+      agents=ListUtil.map(elasticAgentMetadatas,new ListUtil.Transformer<ElasticAgentMetadata,AgentMetadata>(){
+        @Override public AgentMetadata transform(        ElasticAgentMetadata input){
+          return toAgentMetadata(input);
+        }
       }
-    }
 );
-    elasticAgentPluginRegistry.serverPing(descriptor.id(),metadatas);
+    }
+    serverPingQueue.post(new ServerPingMessage(descriptor.id(),agents));
   }
   if (!elasticAgents.isEmpty()) {
     for (    String pluginId : elasticAgents.keySet()) {
-      Collection<String> uuids=Collections2.transform(elasticAgents.get(pluginId),new Function<ElasticAgentMetadata,String>(){
-        @Override public String apply(        ElasticAgentMetadata input){
+      Collection<String> uuids=ListUtil.map(elasticAgents.get(pluginId),new ListUtil.Transformer<ElasticAgentMetadata,String>(){
+        @Override public String transform(        ElasticAgentMetadata input){
           return input.uuid();
         }
       }

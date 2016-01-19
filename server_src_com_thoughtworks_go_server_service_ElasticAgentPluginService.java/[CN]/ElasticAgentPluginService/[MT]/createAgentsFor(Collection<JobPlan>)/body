@@ -2,6 +2,6 @@
   for (  JobPlan plan : plans) {
     List<String> resources=new Resources(plan.getResources()).resourceNames();
     String environment=environmentConfigService.envForPipeline(plan.getPipelineName());
-    elasticAgentPluginRegistry.createAgent(resources,environment);
+    createAgentQueue.post(new CreateAgentMessage(serverConfigService.getAutoregisterKey(),resources,environment));
   }
 }

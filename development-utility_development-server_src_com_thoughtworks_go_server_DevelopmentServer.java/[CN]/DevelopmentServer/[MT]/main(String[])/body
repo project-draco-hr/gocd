@@ -17,6 +17,7 @@
   systemEnvironment.set(SystemEnvironment.DEFAULT_PLUGINS_ZIP,"/plugins.zip");
   systemEnvironment.setProperty(GoConstants.I18N_CACHE_LIFE,"0");
   setupPeriodicGC(systemEnvironment);
+  PropertyConfigurator.configureAndWatch("./properties/src/log4j.properties",100L);
   File pluginsDist=new File("../tw-go-plugins/dist/");
   if (!pluginsDist.exists()) {
     pluginsDist.mkdirs();

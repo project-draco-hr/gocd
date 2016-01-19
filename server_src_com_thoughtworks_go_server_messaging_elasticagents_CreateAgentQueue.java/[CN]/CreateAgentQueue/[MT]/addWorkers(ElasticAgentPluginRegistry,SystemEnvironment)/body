@@ -1,0 +1,6 @@
+{
+  Integer workerThreads=systemEnvironment.get(SystemEnvironment.GO_ELASTIC_PLUGIN_CREATE_AGENT_THREADS);
+  for (int i=0; i < workerThreads; i++) {
+    addListener(new CreateAgentListener(elasticAgentPluginRegistry));
+  }
+}
