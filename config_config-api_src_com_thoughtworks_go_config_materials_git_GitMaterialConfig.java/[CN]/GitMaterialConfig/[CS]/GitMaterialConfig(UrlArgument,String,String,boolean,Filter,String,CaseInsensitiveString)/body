@@ -1,6 +1,8 @@
 {
   super(name,filter,folder,autoUpdate,TYPE,new ConfigErrors());
   this.url=url;
-  this.branch=(branch == null) ? DEFAULT_BRANCH : branch;
+  if (branch != null) {
+    this.branch=branch;
+  }
   this.submoduleFolder=submoduleFolder;
 }
