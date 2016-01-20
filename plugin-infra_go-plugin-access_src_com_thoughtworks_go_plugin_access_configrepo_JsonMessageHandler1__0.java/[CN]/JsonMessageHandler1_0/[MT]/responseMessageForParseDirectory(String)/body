@@ -1,22 +1,27 @@
 {
-  ParseDirectoryResponseMessage_1 responseMessage_1=deserializeResponse(responseBody);
-  if (responseMessage_1.hasErrors()) {
-    LOGGER.warn("Configuration repository plugin has reported errors");
-    return new CRParseResult(null,migrate(responseMessage_1.getErrors()));
-  }
-  CRPartialConfig_1 partialConfig_1=responseMessage_1.getConfig();
-  ErrorCollection errors=validatePartialConfig(partialConfig_1);
-  if (!errors.isEmpty()) {
-    LOGGER.warn("Configuration repository plugin has returned invalid configuration");
-    return new CRParseResult(null,migrate(responseMessage_1.getErrors()));
-  }
-  CRPartialConfig partialConfig;
+  Map responseMap;
   try {
-    partialConfig=migrate(partialConfig_1);
-    return new CRParseResult(partialConfig);
+    responseMap=parseResponseToMap(responseBody);
   }
  catch (  Exception e) {
-    String errorMessage=String.format("Failed to migrate json response v1.0 to current contract version. Error: %s.",e.getMessage());
-    return new CRParseResult(null,errorMessage);
+    throw new RuntimeException("Parse directory result should be returned as map");
   }
+  if (responseMap == null || responseMap.isEmpty()) {
+    throw new RuntimeException("Empty response body");
+  }
+  if (responseMap.containsKey("target_version") && responseMap.get("target_version") != null) {
+    Object targetVersion=responseMap.get("target_version");
+    if (!(targetVersion instanceof Integer)) {
+      throw new RuntimeException("Parse directory result 'target_version' should be an integer");
+    }
+    int version=(int)targetVersion;
+    while (version < CURRENT_CONTRACT_VERSION) {
+      migrate(responseBody,version);
+      version++;
+    }
+  }
+  ParseDirectoryResponseMessage parseDirectoryResponseMessage=codec.getGson().fromJson(responseBody,ParseDirectoryResponseMessage.class);
+  ErrorCollection errors=new ErrorCollection();
+  parseDirectoryResponseMessage.validateResponse(errors);
+  throw new RuntimeException("not implemented");
 }

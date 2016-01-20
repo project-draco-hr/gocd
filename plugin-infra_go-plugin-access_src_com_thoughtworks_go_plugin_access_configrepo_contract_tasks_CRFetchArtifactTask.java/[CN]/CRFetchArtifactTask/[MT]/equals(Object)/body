@@ -1,0 +1,29 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  CRFetchArtifactTask fetchTask=(CRFetchArtifactTask)o;
+  if (!super.equals(fetchTask))   return false;
+  if (destination != null ? !destination.equals(fetchTask.destination) : fetchTask.destination != null) {
+    return false;
+  }
+  if (job != null ? !job.equals(fetchTask.job) : fetchTask.job != null) {
+    return false;
+  }
+  if (pipelineName != null ? !pipelineName.equals(fetchTask.pipelineName) : fetchTask.pipelineName != null) {
+    return false;
+  }
+  if (source != null ? !source.equals(fetchTask.source) : fetchTask.source != null) {
+    return false;
+  }
+  if (sourceIsDir != fetchTask.sourceIsDir) {
+    return false;
+  }
+  if (stage != null ? !stage.equals(fetchTask.stage) : fetchTask.stage != null) {
+    return false;
+  }
+  return true;
+}

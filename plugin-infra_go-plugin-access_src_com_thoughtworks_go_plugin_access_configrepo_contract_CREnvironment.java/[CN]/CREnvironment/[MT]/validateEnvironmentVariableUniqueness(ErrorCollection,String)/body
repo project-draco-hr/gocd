@@ -1,0 +1,7 @@
+{
+  HashSet<String> keys=new HashSet<>();
+  for (  CREnvironmentVariable var : environmentVariables) {
+    String error=var.validateNameUniqueness(keys);
+    if (error != null)     errors.addError(location,error);
+  }
+}

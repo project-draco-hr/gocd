@@ -1,0 +1,14 @@
+{
+  String location=this.getLocation(parentLocation);
+  errors.checkMissing(location,"name",name);
+  errors.checkMissing(location,"group",group);
+  errors.checkMissing(location,"materials",materials);
+  errors.checkMissing(location,"stages",stages);
+  for (  CRMaterial material : this.materials) {
+    material.getErrors(errors,location);
+  }
+  if (materials.size() > 1) {
+    validateMaterialNameUniqueness(errors,location);
+  }
+  validateAtLeastOneStage(errors,location);
+}

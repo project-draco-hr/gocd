@@ -1,0 +1,8 @@
+{
+  String location=this.getLocation(parentLocation);
+  errors.checkMissing(location,"name",name);
+  validateAtLeastOneJob(errors,location);
+  validateEnvironmentVariableUniqueness(errors,location);
+  validateJobNameUniqueness(errors,location);
+  if (approval != null)   approval.getErrors(errors,location);
+}

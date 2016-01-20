@@ -1,0 +1,8 @@
+{
+  if (this.jobs == null)   return;
+  HashSet<String> keys=new HashSet<>();
+  for (  CRJob var : jobs) {
+    String error=var.validateNameUniqueness(keys);
+    if (error != null)     errors.addError(location,error);
+  }
+}

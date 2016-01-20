@@ -1,0 +1,9 @@
+{
+  JsonObject retValue=context.serialize(crTask).getAsJsonObject();
+  CRTask onCancel=crTask.getOnCancel();
+  if (onCancel != null) {
+    retValue.remove("onCancel");
+    retValue.add("onCancel",context.serialize(onCancel));
+  }
+  return retValue;
+}

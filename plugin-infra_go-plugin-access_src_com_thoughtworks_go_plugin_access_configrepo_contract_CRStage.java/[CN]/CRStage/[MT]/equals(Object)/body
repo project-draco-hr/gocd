@@ -1,0 +1,31 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  CRStage that=(CRStage)o;
+  if (fetchMaterials != that.fetchMaterials) {
+    return false;
+  }
+  if (artifactCleanupProhibited != that.artifactCleanupProhibited) {
+    return false;
+  }
+  if (cleanWorkingDir != that.cleanWorkingDir) {
+    return false;
+  }
+  if (approval != null ? !approval.equals(that.approval) : that.approval != null) {
+    return false;
+  }
+  if (jobs != null ? !CollectionUtils.isEqualCollection(jobs,that.jobs) : that.jobs != null) {
+    return false;
+  }
+  if (environmentVariables != null ? !CollectionUtils.isEqualCollection(environmentVariables,that.environmentVariables) : that.environmentVariables != null) {
+    return false;
+  }
+  if (name != null ? !name.equals(that.name) : that.name != null) {
+    return false;
+  }
+  return true;
+}
