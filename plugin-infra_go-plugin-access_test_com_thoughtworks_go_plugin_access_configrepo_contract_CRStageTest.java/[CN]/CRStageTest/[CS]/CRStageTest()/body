@@ -1,0 +1,24 @@
+{
+  CRBuildTask rakeTask=CRBuildTask.rake();
+  CRBuildTask antTask=CRBuildTask.ant();
+  CRJob buildRake=new CRJob("build",rakeTask);
+  CRJob build2Rakes=new CRJob("build",rakeTask,CRBuildTask.rake("Rakefile.rb","compile"));
+  CRJob jobWithVar=new CRJob("build",rakeTask);
+  jobWithVar.addEnvironmentVariable("key1","value1");
+  CRJob jobWithResource=new CRJob("test",antTask);
+  jobWithResource.addResource("linux");
+  stage=new CRStage("build",buildRake);
+  stageWith2Jobs=new CRStage("build",build2Rakes,jobWithResource);
+  stageWithEnv=new CRStage("test",jobWithResource);
+  stageWithEnv.addEnvironmentVariable("TEST_NUM","1");
+  CRApproval manualWithAuth=new CRApproval(CRApprovalCondition.manual);
+  manualWithAuth.setAuthorizedRoles(Arrays.asList("manager"));
+  stageWithApproval=new CRStage("deploy",buildRake);
+  stageWithApproval.setApproval(manualWithAuth);
+  invalidNoName=new CRStage(null,jobWithResource);
+  invalidNoJobs=new CRStage("build");
+  invalidSameEnvironmentVariableTwice=new CRStage("build",buildRake);
+  invalidSameEnvironmentVariableTwice.addEnvironmentVariable("key","value1");
+  invalidSameEnvironmentVariableTwice.addEnvironmentVariable("key","value2");
+  invalidSameJobNameTwice=new CRStage("build",buildRake,build2Rakes);
+}

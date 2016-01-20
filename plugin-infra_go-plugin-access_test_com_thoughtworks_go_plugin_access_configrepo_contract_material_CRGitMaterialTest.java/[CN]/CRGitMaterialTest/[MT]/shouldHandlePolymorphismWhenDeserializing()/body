@@ -1,0 +1,6 @@
+{
+  CRMaterial value=veryCustomGit;
+  String json=gson.toJson(value);
+  CRGitMaterial deserializedValue=(CRGitMaterial)gson.fromJson(json,CRMaterial.class);
+  assertThat(String.format("Deserialized value should equal to value before serialization"),deserializedValue,is(value));
+}

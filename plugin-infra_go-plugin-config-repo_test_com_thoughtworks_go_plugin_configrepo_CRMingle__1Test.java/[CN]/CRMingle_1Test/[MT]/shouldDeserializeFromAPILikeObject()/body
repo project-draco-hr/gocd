@@ -1,9 +1,0 @@
-{
-  String json="{\n" + "    \"base_url\": \"https://mingle.example.com\",\n" + "    \"project_identifier\": \"foobar_widgets\",\n"+ "    \"mql_grouping_conditions\": \"status > 'In Dev'\"\n"+ "  }";
-  CRMingle_1 deserializedValue=gson.fromJson(json,CRMingle_1.class);
-  assertThat(deserializedValue.getBaseUrl(),is("https://mingle.example.com"));
-  assertThat(deserializedValue.getProjectIdentifier(),is("foobar_widgets"));
-  assertThat(deserializedValue.getMqlGroupingConditions(),is("status > 'In Dev'"));
-  ErrorCollection errors=deserializedValue.getErrors();
-  assertTrue(errors.isEmpty());
-}

@@ -1,0 +1,10 @@
+{
+  fetch=new CRFetchArtifactTask("build","buildjob","bin");
+  fetchFromPipe=new CRFetchArtifactTask("build","buildjob","bin");
+  fetchFromPipe.setPipelineName("pipeline1");
+  fetchToDest=new CRFetchArtifactTask("build","buildjob","bin");
+  fetchToDest.setDestination("lib");
+  invalidFetchNoSource=new CRFetchArtifactTask("build","buildjob",null);
+  invalidFetchNoJob=new CRFetchArtifactTask("build",null,"bin");
+  invalidFetchNoStage=new CRFetchArtifactTask(null,"buildjob","bin");
+}

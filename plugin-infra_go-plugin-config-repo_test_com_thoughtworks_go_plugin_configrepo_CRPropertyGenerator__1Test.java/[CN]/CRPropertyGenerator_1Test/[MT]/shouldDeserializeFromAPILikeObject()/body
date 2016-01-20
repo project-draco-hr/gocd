@@ -1,9 +1,0 @@
-{
-  String json="{\n" + "      \"name\": \"coverage.class\",\n" + "      \"source\": \"target/emma/coverage.xml\",\n"+ "      \"xpath\": \"substring-before(//report/data/all/coverage[starts-with(@type,'class')]/@value, '%')\"\n"+ "    }";
-  CRPropertyGenerator_1 deserializedValue=gson.fromJson(json,CRPropertyGenerator_1.class);
-  assertThat(deserializedValue.getName(),is("coverage.class"));
-  assertThat(deserializedValue.getSrc(),is("target/emma/coverage.xml"));
-  assertThat(deserializedValue.getXpath(),is("substring-before(//report/data/all/coverage[starts-with(@type,'class')]/@value, '%')"));
-  ErrorCollection errors=deserializedValue.getErrors();
-  assertTrue(errors.isEmpty());
-}
