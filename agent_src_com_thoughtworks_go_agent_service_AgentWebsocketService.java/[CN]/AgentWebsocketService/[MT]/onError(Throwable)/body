@@ -1,3 +1,6 @@
 {
   LOGGER.error(sessionName() + " error",error);
+  if (error instanceof MessageTooLargeException) {
+    LOGGER.error("You can set Java system property 'go.websocket.max.text.message.size' to increase limit");
+  }
 }
