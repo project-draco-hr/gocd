@@ -4,11 +4,14 @@
   errors.checkMissing(location,"group",group);
   errors.checkMissing(location,"materials",materials);
   errors.checkMissing(location,"stages",stages);
-  for (  CRMaterial material : this.materials) {
-    material.getErrors(errors,location);
-  }
-  if (materials.size() > 1) {
-    validateMaterialNameUniqueness(errors,location);
+  validateAtLeastOneMaterial(errors,location);
+  if (materials != null) {
+    for (    CRMaterial material : this.materials) {
+      material.getErrors(errors,location);
+    }
+    if (materials.size() > 1) {
+      validateMaterialNameUniqueness(errors,location);
+    }
   }
   validateAtLeastOneStage(errors,location);
 }

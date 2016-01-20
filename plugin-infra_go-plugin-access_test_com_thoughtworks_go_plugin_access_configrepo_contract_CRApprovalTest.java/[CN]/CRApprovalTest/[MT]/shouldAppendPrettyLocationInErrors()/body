@@ -1,0 +1,8 @@
+{
+  CRApproval a=new CRApproval();
+  ErrorCollection errors=new ErrorCollection();
+  a.getErrors(errors,"Pipeline abc");
+  String fullError=errors.getErrorsAsText();
+  assertThat(fullError,contains("Pipeline abc; Approval"));
+  assertThat(fullError,contains("Missing field 'type'"));
+}

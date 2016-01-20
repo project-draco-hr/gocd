@@ -1,3 +1,6 @@
 {
-  return null;
+  String myLocation=getLocation() == null ? parent : getLocation();
+  String name=getName() == null ? "" : getName();
+  String url=getScmId() != null ? getScmId() : "unknown";
+  return String.format("%s; Pluggable SCM material %s ID: %s",myLocation,name,url);
 }

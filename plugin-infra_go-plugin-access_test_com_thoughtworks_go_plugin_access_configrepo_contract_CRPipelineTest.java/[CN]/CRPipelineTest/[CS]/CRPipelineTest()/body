@@ -1,8 +1,8 @@
 {
   CRBuildTask rakeTask=CRBuildTask.rake();
   CRJob buildRake=new CRJob("build",rakeTask);
-  CRGitMaterial veryCustomGit=new CRGitMaterial("gitMaterial1","dir1",false,"gitrepo","feature12","externals","tools");
-  CRStage buildStage=new CRStage("build",buildRake);
+  veryCustomGit=new CRGitMaterial("gitMaterial1","dir1",false,"gitrepo","feature12","externals","tools");
+  buildStage=new CRStage("build",buildRake);
   pipe1=new CRPipeline("pipe1","group1",veryCustomGit,buildStage);
   customPipeline=new CRPipeline("pipe2","group1",veryCustomGit,buildStage);
   customPipeline.addMaterial(new CRDependencyMaterial("pipe1","pipe1","build"));
@@ -13,10 +13,14 @@
   invalidNoName=new CRPipeline(null,"group1",veryCustomGit,buildStage);
   invalidNoMaterial=new CRPipeline();
   invalidNoMaterial.setName("pipe4");
+  invalidNoMaterial.setGroupName("g1");
   invalidNoMaterial.addStage(buildStage);
+  invalidNoGroup=new CRPipeline("name",null,veryCustomGit,buildStage);
   invalidNoStages=new CRPipeline();
   invalidNoStages.setName("pipe4");
+  invalidNoStages.setGroupName("g1");
   invalidNoStages.addMaterial(veryCustomGit);
   invalidNoNamedMaterials=new CRPipeline("pipe2","group1",veryCustomGit,buildStage);
   invalidNoNamedMaterials.addMaterial(new CRDependencyMaterial("pipe1","build"));
+  invalidNoNamedMaterials.setGroupName("g1");
 }
