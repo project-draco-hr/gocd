@@ -4,7 +4,8 @@
     EnvironmentConfig environment=toEnvironmentConfig(crEnvironment);
     partialConfig.getEnvironments().add(environment);
   }
-  for (  CRPipelineGroup crPipelineGroup : crPartialConfig.getGroups()) {
+  Map<String,List<CRPipeline>> pipesByGroup=groupPipelinesByGroupName(crPartialConfig.getPipelines());
+  for (  Map.Entry<String,List<CRPipeline>> crPipelineGroup : pipesByGroup.entrySet()) {
     BasicPipelineConfigs pipelineConfigs=toBasicPipelineConfigs(crPipelineGroup);
     partialConfig.getGroups().add(pipelineConfigs);
   }

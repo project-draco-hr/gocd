@@ -1,3 +1,4 @@
 {
-  return new ArtifactPlan(crArtifact.getSrc(),crArtifact.getDest());
+  ArtifactType artType=crArtifact.getType() == CRArtifactType.build ? ArtifactType.file : ArtifactType.unit;
+  return new ArtifactPlan(artType,crArtifact.getSource(),crArtifact.getDestination());
 }

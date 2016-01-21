@@ -5,11 +5,11 @@
     Filter filter=toFilter(crScmMaterial);
     String gitBranch=git.getBranch();
     if (StringUtils.isBlank(gitBranch))     gitBranch=GitMaterialConfig.DEFAULT_BRANCH;
-    return new GitMaterialConfig(new UrlArgument(git.getUrl()),gitBranch,null,git.isAutoUpdate(),filter,crScmMaterial.getFolder(),toMaterialName(materialName));
+    return new GitMaterialConfig(new UrlArgument(git.getUrl()),gitBranch,null,git.isAutoUpdate(),filter,crScmMaterial.getDirectory(),toMaterialName(materialName));
   }
  else   if (crScmMaterial instanceof CRHgMaterial) {
     CRHgMaterial hg=(CRHgMaterial)crScmMaterial;
-    return new HgMaterialConfig(new HgUrlArgument(hg.getUrl()),hg.isAutoUpdate(),toFilter(crScmMaterial),hg.getFolder(),toMaterialName(materialName));
+    return new HgMaterialConfig(new HgUrlArgument(hg.getUrl()),hg.isAutoUpdate(),toFilter(crScmMaterial),hg.getDirectory(),toMaterialName(materialName));
   }
  else   if (crScmMaterial instanceof CRP4Material) {
     CRP4Material crp4Material=(CRP4Material)crScmMaterial;
@@ -28,7 +28,7 @@
   }
  else   if (crScmMaterial instanceof CRSvnMaterial) {
     CRSvnMaterial crSvnMaterial=(CRSvnMaterial)crScmMaterial;
-    SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig(crSvnMaterial.getUrl(),crSvnMaterial.getUsername(),crSvnMaterial.isCheckExternals(),cipher);
+    SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig(crSvnMaterial.getUrl(),crSvnMaterial.getUserName(),crSvnMaterial.isCheckExternals(),cipher);
     if (crSvnMaterial.getEncryptedPassword() != null) {
       svnMaterialConfig.setEncryptedPassword(crSvnMaterial.getEncryptedPassword());
     }
