@@ -24,8 +24,8 @@
   for (  CRPropertyGenerator crPropertyGenerator : crJob.getArtifactPropertiesGenerators()) {
     artifactPropertiesGenerators.add(new ArtifactPropertiesGenerator(crPropertyGenerator.getName(),crPropertyGenerator.getSrc(),crPropertyGenerator.getXpath()));
   }
-  jobConfig.setRunOnAllAgents(crJob.isRunOnAllAgents());
-  jobConfig.setRunInstanceCount(crJob.getRunInstanceCount());
-  jobConfig.setTimeout(Integer.toString(crJob.getTimeout()));
+  if (crJob.isRunOnAllAgents())   jobConfig.setRunOnAllAgents(true);
+ else   jobConfig.setRunInstanceCount(crJob.getRunInstanceCount());
+  if (crJob.getTimeout() != null)   jobConfig.setTimeout(Integer.toString(crJob.getTimeout()));
   return jobConfig;
 }

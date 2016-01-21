@@ -28,8 +28,9 @@
   for (int i=0; i < this.tasks.size(); i++) {
     if (!tasks.get(i).equals(that.tasks.get(i)))     return false;
   }
-  if (this.runOnAllAgents != that.runOnAllAgents)   return false;
-  if (this.runInstanceCount != that.runInstanceCount)   return false;
+  if (run_instance_count != null ? !run_instance_count.equals(that.run_instance_count) : that.run_instance_count != null) {
+    return false;
+  }
   if (this.timeout != that.timeout)   return false;
   return true;
 }

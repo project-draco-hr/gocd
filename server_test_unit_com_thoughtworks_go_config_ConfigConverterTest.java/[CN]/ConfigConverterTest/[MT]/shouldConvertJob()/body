@@ -1,5 +1,5 @@
 {
-  CRJob crJob=new CRJob("name",environmentVariables,tabs,resources,artifacts,artifactPropertiesGenerators,true,5,120,tasks);
+  CRJob crJob=new CRJob("name",environmentVariables,tabs,resources,artifacts,artifactPropertiesGenerators,false,5,120,tasks);
   JobConfig jobConfig=configConverter.toJobConfig(crJob);
   assertThat(jobConfig.name().toLower(),is("name"));
   assertThat(jobConfig.hasVariable("key"),is(true));
@@ -7,7 +7,7 @@
   assertThat(jobConfig.resources(),hasItem(new Resource("resource1")));
   assertThat(jobConfig.artifactPlans(),hasItem(new ArtifactPlan("src","dest")));
   assertThat(jobConfig.getProperties(),hasItem(new ArtifactPropertiesGenerator("name","src","path")));
-  assertThat(jobConfig.isRunOnAllAgents(),is(true));
+  assertThat(jobConfig.isRunOnAllAgents(),is(false));
   assertThat(jobConfig.getRunInstanceCount(),is("5"));
   assertThat(jobConfig.getTimeout(),is("120"));
   assertThat(jobConfig.getTasks().size(),is(1));
