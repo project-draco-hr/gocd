@@ -1,27 +1,27 @@
 {
   JobConfig jobConfig=new JobConfig(crJob.getName());
-  for (  CREnvironmentVariable crEnvironmentVariable : crJob.getEnvironmentVariables()) {
+  if (crJob.getEnvironmentVariables() != null)   for (  CREnvironmentVariable crEnvironmentVariable : crJob.getEnvironmentVariables()) {
     jobConfig.getVariables().add(toEnvironmentVariableConfig(crEnvironmentVariable));
   }
   List<CRTask> crTasks=crJob.getTasks();
   Tasks tasks=jobConfig.getTasks();
-  for (  CRTask crTask : crTasks) {
+  if (crTasks != null)   for (  CRTask crTask : crTasks) {
     tasks.add(toAbstractTask(crTask));
   }
   Tabs tabs=jobConfig.getTabs();
-  for (  CRTab crTab : crJob.getTabs()) {
+  if (crJob.getTabs() != null)   for (  CRTab crTab : crJob.getTabs()) {
     tabs.add(toTab(crTab));
   }
   Resources resources=jobConfig.resources();
-  for (  String crResource : crJob.getResources()) {
+  if (crJob.getResources() != null)   for (  String crResource : crJob.getResources()) {
     resources.add(new Resource(crResource));
   }
   ArtifactPlans artifactPlans=jobConfig.artifactPlans();
-  for (  CRArtifact crArtifact : crJob.getArtifacts()) {
+  if (crJob.getArtifacts() != null)   for (  CRArtifact crArtifact : crJob.getArtifacts()) {
     artifactPlans.add(toArtifactPlan(crArtifact));
   }
   ArtifactPropertiesGenerators artifactPropertiesGenerators=jobConfig.getProperties();
-  for (  CRPropertyGenerator crPropertyGenerator : crJob.getArtifactPropertiesGenerators()) {
+  if (crJob.getArtifactPropertiesGenerators() != null)   for (  CRPropertyGenerator crPropertyGenerator : crJob.getArtifactPropertiesGenerators()) {
     artifactPropertiesGenerators.add(new ArtifactPropertiesGenerator(crPropertyGenerator.getName(),crPropertyGenerator.getSrc(),crPropertyGenerator.getXpath()));
   }
   if (crJob.isRunOnAllAgents())   jobConfig.setRunOnAllAgents(true);
