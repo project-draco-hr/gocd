@@ -1,27 +1,29 @@
 {
-  Map responseMap;
   try {
-    responseMap=parseResponseToMap(responseBody);
-  }
- catch (  Exception e) {
-    throw new RuntimeException("Parse directory result should be returned as map");
-  }
-  if (responseMap == null || responseMap.isEmpty()) {
-    throw new RuntimeException("Empty response body");
-  }
-  if (responseMap.containsKey("target_version") && responseMap.get("target_version") != null) {
-    Object targetVersion=responseMap.get("target_version");
-    if (!(targetVersion instanceof Integer)) {
-      throw new RuntimeException("Parse directory result 'target_version' should be an integer");
+    ResponseScratch responseMap=parseResponseForMigration(responseBody);
+    ErrorCollection errors=new ErrorCollection();
+    ParseDirectoryResponseMessage parseDirectoryResponseMessage;
+    if (responseMap.target_version == null) {
+      errors.addError("Plugin response message","missing 'target_version' field");
+      String errorsText=errors.getErrorsAsText();
+      return new CRParseResult(errorsText);
     }
-    int version=(int)targetVersion;
-    while (version < CURRENT_CONTRACT_VERSION) {
-      migrate(responseBody,version);
-      version++;
+ else {
+      int version=responseMap.target_version;
+      while (version < CURRENT_CONTRACT_VERSION) {
+        migrate(responseBody,version);
+        version++;
+      }
+      parseDirectoryResponseMessage=codec.getGson().fromJson(responseBody,ParseDirectoryResponseMessage.class);
+      parseDirectoryResponseMessage.validateResponse(errors);
+      String errorsText=errors.getErrorsAsText();
+      return new CRParseResult(parseDirectoryResponseMessage.getEnvironments(),parseDirectoryResponseMessage.getPipelines(),errorsText);
     }
   }
-  ParseDirectoryResponseMessage parseDirectoryResponseMessage=codec.getGson().fromJson(responseBody,ParseDirectoryResponseMessage.class);
-  ErrorCollection errors=new ErrorCollection();
-  parseDirectoryResponseMessage.validateResponse(errors);
-  throw new RuntimeException("not implemented");
+ catch (  Exception ex) {
+    StringBuilder builder=new StringBuilder();
+    builder.append("Unexpected error when handling plugin response").append('\n');
+    builder.append(ex);
+    return new CRParseResult(builder.toString());
+  }
 }
