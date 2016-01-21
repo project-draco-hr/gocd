@@ -2,10 +2,7 @@
   EnvironmentVariableContext context=new EnvironmentVariableContext();
   context.setProperty(PROPERTY_NAME,PROPERTY_VALUE,true);
   context.setProperty(PROPERTY_NAME,NEW_VALUE,true);
-  InMemoryStreamConsumer consumer=ProcessOutputStreamConsumer.inMemoryConsumer();
-  Map<String,String> map=new HashMap<String,String>();
-  context.setupRuntimeEnvironment(map,consumer);
-  assertThat(map.get(PROPERTY_NAME),is(NEW_VALUE));
-  assertThat(consumer.getAllOutput(),containsString(String.format("[go] setting environment variable 'PROPERTY_NAME' to value '%s'",EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE)));
-  assertThat(consumer.getAllOutput(),containsString(String.format("[go] overriding environment variable 'PROPERTY_NAME' with value '%s'",EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE)));
+  assertThat(context.report().size(),is(2));
+  assertThat(context.report().get(0),is(String.format("[go] setting environment variable 'PROPERTY_NAME' to value '%s'",EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE)));
+  assertThat(context.report().get(1),is(String.format("[go] overriding environment variable 'PROPERTY_NAME' with value '%s'",EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE)));
 }

@@ -1,4 +1,7 @@
 {
   Map<String,String> env=pb.environment();
-  environmentVariableContext.setupRuntimeEnvironment(env,consumer);
+  for (  String line : environmentVariableContext.report()) {
+    consumer.stdOutput(line);
+  }
+  env.putAll(environmentVariableContext.getProperties());
 }
