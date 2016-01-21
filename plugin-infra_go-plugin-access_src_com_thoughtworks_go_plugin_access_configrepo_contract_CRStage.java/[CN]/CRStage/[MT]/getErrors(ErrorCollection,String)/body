@@ -5,4 +5,9 @@
   validateEnvironmentVariableUniqueness(errors,location);
   validateJobNameUniqueness(errors,location);
   if (approval != null)   approval.getErrors(errors,location);
+  if (jobs != null) {
+    for (    CRJob job : jobs) {
+      job.getErrors(errors,location);
+    }
+  }
 }

@@ -1,0 +1,8 @@
+{
+  CRStage withNamelessJob=new CRStage("build",new CRJob());
+  ErrorCollection errors=new ErrorCollection();
+  withNamelessJob.getErrors(errors,"TEST");
+  String fullError=errors.getErrorsAsText();
+  assertThat(fullError,contains("TEST; Stage (build)"));
+  assertThat(fullError,contains("Missing field 'name'"));
+}

@@ -14,4 +14,12 @@
     }
   }
   validateAtLeastOneStage(errors,location);
+  if (stages != null) {
+    for (    CRStage stage : this.stages) {
+      stage.getErrors(errors,location);
+    }
+    if (stages.size() > 1) {
+      validateStageNameUniqueness(errors,location);
+    }
+  }
 }
