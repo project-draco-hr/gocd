@@ -1,6 +1,7 @@
 {
   EnvironmentVariableContext context=new EnvironmentVariableContext();
   context.setProperty(PROPERTY_NAME,PROPERTY_VALUE,true);
-  assertThat(context.report().size(),is(1));
-  assertThat(context.report().get(0),is(String.format("[go] setting environment variable 'PROPERTY_NAME' to value '%s'",EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE)));
+  List<String> repot=context.report(Collections.<String>emptyList());
+  assertThat(repot.size(),is(1));
+  assertThat(repot.get(0),is(String.format("[go] setting environment variable 'PROPERTY_NAME' to value '%s'",EnvironmentVariableContext.EnvironmentVariable.MASK_VALUE)));
 }

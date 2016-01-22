@@ -1,0 +1,7 @@
+{
+  EnvironmentVariableContext context=new EnvironmentVariableContext();
+  context.setProperty("PATH","/foo",false);
+  List<String> report=context.report(Collections.singleton("PATH"));
+  assertThat(report.size(),is(1));
+  assertThat(report.get(0),is("[go] overriding environment variable 'PATH' with value '/foo'"));
+}
