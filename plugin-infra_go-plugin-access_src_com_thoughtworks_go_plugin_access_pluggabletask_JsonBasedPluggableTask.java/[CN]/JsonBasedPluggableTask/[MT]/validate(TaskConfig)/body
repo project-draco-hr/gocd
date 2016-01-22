@@ -1,10 +1,7 @@
 {
-  return pluginRequestHelper.submitRequest(pluginId,JsonBasedTaskExtension.VALIDATION_REQUEST,new PluginInteractionCallback<ValidationResult>(){
+  return pluginRequestHelper.submitRequest(pluginId,JsonBasedTaskExtension.VALIDATION_REQUEST,new DefaultPluginInteractionCallback<ValidationResult>(){
     @Override public String requestBody(    String resolvedExtensionVersion){
       return handlerMap.get(resolvedExtensionVersion).convertTaskConfigToJson(configuration);
-    }
-    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
-      return null;
     }
     @Override public ValidationResult onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return handlerMap.get(resolvedExtensionVersion).toValidationResult(responseBody);

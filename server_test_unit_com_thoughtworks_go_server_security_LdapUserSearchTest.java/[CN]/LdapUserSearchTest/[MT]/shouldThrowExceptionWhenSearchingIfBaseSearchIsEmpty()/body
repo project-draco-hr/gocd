@@ -1,10 +1,6 @@
 {
   setLdapConfig(new BasesConfig());
-  try {
-    spy.search("username");
-    fail("This should throw exception mandating search bases.");
-  }
- catch (  Exception e) {
-    assertThat(e.getMessage(),is("Atleast one Search Base needs to be configured."));
-  }
+  thrown.expect(RuntimeException.class);
+  thrown.expectMessage(is("Atleast one Search Base needs to be configured."));
+  spy.search("username");
 }

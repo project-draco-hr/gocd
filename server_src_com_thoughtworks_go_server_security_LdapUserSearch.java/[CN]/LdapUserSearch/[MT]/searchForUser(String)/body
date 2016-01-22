@@ -7,7 +7,7 @@
   RuntimeException lastFoundException=null;
   BaseConfig failedBaseConfig=null;
   for (  BaseConfig baseConfig : ldapConfig.getBasesConfig()) {
-    if (lastFoundException != null && !(lastFoundException instanceof UsernameNotFoundException)) {
+    if (lastFoundException != null && !(lastFoundException instanceof BadCredentialsException)) {
       logger.warn(String.format("The ldap configuration for search base '%s' is invalid",failedBaseConfig.getValue()),lastFoundException);
     }
     FilterBasedLdapUserSearch search=getFilterBasedLdapUserSearch(baseConfig.getValue(),ldapConfig.searchFilter());
@@ -16,7 +16,11 @@
     try {
       return search.searchForUser(username);
     }
- catch (    RuntimeException e) {
+ catch (    UsernameNotFoundException e) {
+      failedBaseConfig=baseConfig;
+      lastFoundException=new BadCredentialsException("Bad credentials");
+    }
+catch (    RuntimeException e) {
       failedBaseConfig=baseConfig;
       lastFoundException=e;
     }

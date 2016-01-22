@@ -7,7 +7,6 @@
   AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
   work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),manipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   List<UploadEntry> entries=manipulator.uploadEntries();
-  System.out.println(entries);
   assertThat(entries.isEmpty(),is(true));
   assertThat(manipulator.consoleOut(),containsString("Failed to upload [**/*.png]"));
 }

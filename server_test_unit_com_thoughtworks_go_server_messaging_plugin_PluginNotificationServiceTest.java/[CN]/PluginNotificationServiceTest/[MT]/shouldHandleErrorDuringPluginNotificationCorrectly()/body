@@ -1,6 +1,7 @@
 {
   Result result=new Result();
   result.withErrorMessages(asList(new String[]{"message 1","message 2"}));
+  when(notificationPluginRegistry.getPluginsInterestedIn(PIPELINE_STATUS)).thenReturn(new LinkedHashSet<>(asList(PLUGIN_ID_1)));
   when(notificationExtension.notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY)).thenReturn(result);
   when(serverHealthService.update(serverHealthState.capture())).thenReturn(null);
   PluginNotificationService pluginNotificationService=new PluginNotificationService(notificationExtension,notificationPluginRegistry,serverHealthService);

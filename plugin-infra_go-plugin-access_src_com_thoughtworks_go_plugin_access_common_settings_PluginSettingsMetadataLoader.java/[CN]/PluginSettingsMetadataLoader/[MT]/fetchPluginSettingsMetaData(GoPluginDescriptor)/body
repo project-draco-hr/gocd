@@ -3,25 +3,11 @@
   try {
     PluginSettingsConfiguration configuration=null;
     String view=null;
-    if (packageAsRepositoryExtension.isPackageRepositoryPlugin(pluginId)) {
-      configuration=packageAsRepositoryExtension.getPluginSettingsConfiguration(pluginId);
-      view=packageAsRepositoryExtension.getPluginSettingsView(pluginId);
-    }
- else     if (scmExtension.isSCMPlugin(pluginId)) {
-      configuration=scmExtension.getPluginSettingsConfiguration(pluginId);
-      view=scmExtension.getPluginSettingsView(pluginId);
-    }
- else     if (taskExtension.isTaskPlugin(pluginId)) {
-      configuration=taskExtension.getPluginSettingsConfiguration(pluginId);
-      view=taskExtension.getPluginSettingsView(pluginId);
-    }
- else     if (notificationExtension.isNotificationPlugin(pluginId)) {
-      configuration=notificationExtension.getPluginSettingsConfiguration(pluginId);
-      view=notificationExtension.getPluginSettingsView(pluginId);
-    }
- else     if (authenticationExtension.isAuthenticationPlugin(pluginId)) {
-      configuration=authenticationExtension.getPluginSettingsConfiguration(pluginId);
-      view=authenticationExtension.getPluginSettingsView(pluginId);
+    for (    GoPluginExtension extension : extensions) {
+      if (extension.canHandlePlugin(pluginId)) {
+        configuration=extension.getPluginSettingsConfiguration(pluginId);
+        view=extension.getPluginSettingsView(pluginId);
+      }
     }
     if (configuration == null || view == null) {
       throw new RuntimeException("Plugin Settings - Configuration or View cannot be null");

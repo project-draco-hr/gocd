@@ -1,6 +1,8 @@
 {
   Result result=new Result();
-  result.withSuccessMessages(asList("success message"));
+  result.withSuccessMessages("success message");
+  when(notificationPluginRegistry.getPluginsInterestedIn(PIPELINE_STATUS)).thenReturn(new LinkedHashSet<>(asList(PLUGIN_ID_1,PLUGIN_ID_2)));
+  when(notificationPluginRegistry.getPluginsInterestedIn(STAGE_STATUS)).thenReturn(new LinkedHashSet<>(asList(PLUGIN_ID_3)));
   when(notificationExtension.notify(PLUGIN_ID_1,PIPELINE_STATUS,REQUEST_BODY)).thenReturn(result);
   when(notificationExtension.notify(PLUGIN_ID_2,PIPELINE_STATUS,REQUEST_BODY)).thenReturn(result);
   PluginNotificationService pluginNotificationService=new PluginNotificationService(notificationExtension,notificationPluginRegistry,serverHealthService);

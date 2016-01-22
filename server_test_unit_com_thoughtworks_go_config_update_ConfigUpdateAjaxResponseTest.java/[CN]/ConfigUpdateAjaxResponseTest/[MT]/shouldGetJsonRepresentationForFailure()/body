@@ -5,5 +5,5 @@
   ConfigUpdateAjaxResponse response=ConfigUpdateAjaxResponse.failure("id",HttpStatus.SC_BAD_REQUEST,"Save failed",fieldErrors,Arrays.asList("global1","global2"));
   String jsonString=response.toJson();
   assertThat(response.getStatusCode(),is(HttpStatus.SC_BAD_REQUEST));
-  assertThat(jsonString,is("{\"fieldErrors\":{\"field2\":[\"error 2\"],\"field1\":[\"error 1\"]},\"globalErrors\":[\"global1\",\"global2\"],\"message\":\"Save failed\",\"isSuccessful\":false,\"subjectIdentifier\":\"id\"}"));
+  assertThat(jsonString,jsonEquals("{\"fieldErrors\":{\"field1\":[\"error 1\"], \"field2\":[\"error 2\"]},\"globalErrors\":[\"global1\",\"global2\"],\"message\":\"Save failed\",\"isSuccessful\":false,\"subjectIdentifier\":\"id\"}"));
 }

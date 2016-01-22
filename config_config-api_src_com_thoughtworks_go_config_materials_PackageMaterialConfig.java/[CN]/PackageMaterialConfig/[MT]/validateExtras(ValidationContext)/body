@@ -1,0 +1,11 @@
+{
+  if (!StringUtils.isBlank(packageId)) {
+    PackageRepository packageRepository=validationContext.findPackageById(packageId);
+    if (packageRepository == null) {
+      addError(PACKAGE_ID,String.format("Could not find repository for given package id:[%s]",packageId));
+    }
+ else     if (!packageRepository.doesPluginExist()) {
+      addError(PACKAGE_ID,String.format("Could not find plugin for given package id:[%s].",packageId));
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  PipelineConfigSaveValidationContext validationContext=mock(PipelineConfigSaveValidationContext.class);
+  when(validationContext.findScmById(anyString())).thenReturn(null);
+  SCM scmConfig=mock(SCM.class);
+  when(scmConfig.doesPluginExist()).thenReturn(true);
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=new PluggableSCMMaterialConfig(null,scmConfig,"usr/home",null);
+  pluggableSCMMaterialConfig.setScmId("scm-id");
+  pluggableSCMMaterialConfig.validateTree(validationContext);
+  assertThat(pluggableSCMMaterialConfig.errors().getAll().size(),is(1));
+  assertThat(pluggableSCMMaterialConfig.errors().on(PluggableSCMMaterialConfig.SCM_ID),is("Could not find SCM for given scm-id: [scm-id]."));
+}

@@ -1,0 +1,12 @@
+{
+  CruiseConfig cruiseConfig=cruiseConfigWithSecurity(new Role(new CaseInsensitiveString("role"),new RoleUser(new CaseInsensitiveString("first")),new RoleUser(new CaseInsensitiveString("second"))),new AdminUser(new CaseInsensitiveString("admin")));
+  addUserAsOperatorToDefaultGroup(cruiseConfig,"user");
+  addRoleAsAdminToDefaultGroup(cruiseConfig,"role");
+  PipelineConfig pipeline=cruiseConfig.find(DEFAULT_GROUP,0);
+  StageConfig stage=pipeline.get(0);
+  StageConfigMother.addApprovalWithRoles(stage,"role");
+  Approval approval=stage.getApproval();
+  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  approval.validate(PipelineConfigSaveValidationContext.forChain(true,DEFAULT_GROUP,cruiseConfig,pipeline,stage));
+  assertNoErrors(approval.getAuthConfig().getRoles().get(0));
+}

@@ -1,0 +1,11 @@
+{
+  PipelineConfigSaveValidationContext configSaveValidationContext=mock(PipelineConfigSaveValidationContext.class);
+  when(configSaveValidationContext.findPackageById(anyString())).thenReturn(mock(PackageRepository.class));
+  PackageRepository packageRepository=mock(PackageRepository.class);
+  when(packageRepository.doesPluginExist()).thenReturn(false);
+  PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig(new CaseInsensitiveString("package-name"),"package-id",PackageDefinitionMother.create("package-id"));
+  packageMaterialConfig.getPackageDefinition().setRepository(packageRepository);
+  packageMaterialConfig.validateTree(configSaveValidationContext);
+  assertThat(packageMaterialConfig.errors().getAll().size(),is(1));
+  assertThat(packageMaterialConfig.errors().on(PackageMaterialConfig.PACKAGE_ID),is("Could not find plugin for given package id:[package-id]."));
+}

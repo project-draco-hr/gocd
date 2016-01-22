@@ -1,0 +1,15 @@
+{
+  return createThread(new Runnable(){
+    @Override public void run(){
+      goConfigService.updateConfig(new UpdateConfigCommand(){
+        @Override public CruiseConfig update(        CruiseConfig cruiseConfig) throws Exception {
+          PipelineConfig pipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new GitMaterialConfig("FOO"));
+          cruiseConfig.addPipeline("default",pipelineConfig);
+          return cruiseConfig;
+        }
+      }
+);
+    }
+  }
+,"config-save-thread" + counter);
+}

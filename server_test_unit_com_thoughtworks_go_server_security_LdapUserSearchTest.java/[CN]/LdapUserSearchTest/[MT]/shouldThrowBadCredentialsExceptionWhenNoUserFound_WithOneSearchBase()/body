@@ -1,0 +1,10 @@
+{
+  final FilterBasedLdapUserSearch filterBasedLdapUserSearch=mock(FilterBasedLdapUserSearch.class);
+  LdapConfig ldapConfig=setLdapConfig(new BasesConfig(new BaseConfig("search_base,foo")));
+  doReturn(filterBasedLdapUserSearch).when(spy).getFilterBasedLdapUserSearch(ldapConfig.getBasesConfig().first().getValue(),ldapConfig.searchFilter());
+  when(filterBasedLdapUserSearch.searchForUser("username")).thenThrow(new UsernameNotFoundException("User username not found in directory."));
+  thrown.expect(BadCredentialsException.class);
+  thrown.expectMessage(is("Bad credentials"));
+  spy.searchForUser("username");
+  verify(filterBasedLdapUserSearch).searchForUser("username");
+}

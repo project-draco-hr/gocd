@@ -8,4 +8,7 @@
   assertThat(savedPipelineConfig,is(pipelineConfig));
   assertThat(configRepository.getCurrentRevCommit().name(),is(not(headCommitBeforeUpdate)));
   assertThat(configRepository.getCurrentRevision().getUsername(),is(user.getDisplayName()));
+  assertThat(configRepository.getCurrentRevision().getMd5(),is(not(goConfigHolderBeforeUpdate.config.getMd5())));
+  assertThat(configRepository.getCurrentRevision().getMd5(),is(goConfigDao.loadConfigHolder().config.getMd5()));
+  assertThat(configRepository.getCurrentRevision().getMd5(),is(goConfigDao.loadConfigHolder().configForEdit.getMd5()));
 }

@@ -1,0 +1,9 @@
+{
+  return createThread(new Runnable(){
+    @Override public void run(){
+      PipelineConfig pipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new GitMaterialConfig("FOO"));
+      pipelineConfigService.createPipelineConfig(new Username(new CaseInsensitiveString("root")),pipelineConfig,new HttpLocalizedOperationResult(),"default");
+    }
+  }
+,"pipeline-config-save-thread" + counter);
+}

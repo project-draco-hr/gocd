@@ -3,6 +3,5 @@
   InMemoryStreamConsumer output=ProcessOutputStreamConsumer.inMemoryConsumer();
   File newFile=new File(workingDirectory,"test.txt");
   hgCommand.updateTo(new StringRevision("tip"),output);
-  System.out.println(output.getStdOut());
   assertThat(newFile.exists(),is(false));
 }

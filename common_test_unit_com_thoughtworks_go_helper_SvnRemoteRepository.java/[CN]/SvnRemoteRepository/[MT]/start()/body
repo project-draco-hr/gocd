@@ -8,7 +8,6 @@
   processWrapper=svnserve.execute(consumer,new EnvironmentVariableContext(),null);
   RandomPort.waitForPort(port);
   if (!processWrapper.isRunning()) {
-    System.out.println(consumer.getAllOutput());
     throw new RuntimeException("Could not run command " + svnserve);
   }
 }

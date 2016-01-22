@@ -9,7 +9,7 @@
   when(task.view()).thenReturn(taskView);
   PluginManager pluginManager=mock(PluginManager.class);
   final TaskExtension taskExtension=mock(TaskExtension.class);
-  when(taskExtension.isTaskPlugin(pluginId)).thenReturn(false);
+  when(taskExtension.canHandlePlugin(pluginId)).thenReturn(false);
   doAnswer(new Answer(){
     @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
       final Action<Task> action=(Action<Task>)invocationOnMock.getArguments()[1];

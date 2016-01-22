@@ -1,0 +1,12 @@
+{
+  for (  GoPluginExtension extension : extensions) {
+    PluginSettingsConfiguration configuration=new PluginSettingsConfiguration();
+    configuration.add(new PluginSettingsProperty("k1").with(Property.REQUIRED,true).with(Property.SECURE,false));
+    pluginDescriptor=new GoPluginDescriptor(UUID.randomUUID().toString(),"1.0",null,null,null,true);
+    when(extension.canHandlePlugin(pluginDescriptor.id())).thenReturn(true);
+    when(extension.getPluginSettingsConfiguration(pluginDescriptor.id())).thenReturn(configuration);
+    when(extension.getPluginSettingsView(pluginDescriptor.id())).thenReturn("template");
+    metadataLoader.fetchPluginSettingsMetaData(pluginDescriptor);
+    verifyMetadataForPlugin(pluginDescriptor.id());
+  }
+}

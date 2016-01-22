@@ -1,7 +1,7 @@
 {
   PackageMaterialMetadataLoader spy=spy(metadataLoader);
   doNothing().when(spy).fetchRepositoryAndPackageMetaData(pluginDescriptor);
-  when(packageAsRepositoryExtension.isPackageRepositoryPlugin(pluginDescriptor.id())).thenReturn(true);
+  when(packageAsRepositoryExtension.canHandlePlugin(pluginDescriptor.id())).thenReturn(true);
   spy.pluginLoaded(pluginDescriptor);
   verify(spy).fetchRepositoryAndPackageMetaData(pluginDescriptor);
 }

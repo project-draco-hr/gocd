@@ -2,7 +2,6 @@
   HgMaterialConfig hgMaterialConfig=MaterialConfigsMother.hgMaterialConfig();
   CruiseConfig config=GoConfigMother.pipelineHavingJob("blahPipeline","blahStage","blahJob","fii","baz");
   config.pipelineConfigByName(new CaseInsensitiveString("blahPipeline")).addMaterialConfig(hgMaterialConfig);
-  System.out.println("config.pipelineConfigByName(\"blahPipeline\").materialConfigs() = " + config.pipelineConfigByName(new CaseInsensitiveString("blahPipeline")).materialConfigs());
   assertThat(HealthStateScope.forMaterialConfig(hgMaterialConfig).isRemovedFromConfig(config),is(false));
   assertThat(HealthStateScope.forMaterial(MaterialsMother.svnMaterial("file:///bar")).isRemovedFromConfig(config),is(true));
 }

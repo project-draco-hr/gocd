@@ -1,11 +1,5 @@
 {
-  return pluginRequestHelper.submitRequest(pluginId,REQUEST_NOTIFICATIONS_INTERESTED_IN,new PluginInteractionCallback<List<String>>(){
-    @Override public String requestBody(    String resolvedExtensionVersion){
-      return null;
-    }
-    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
-      return null;
-    }
+  return pluginRequestHelper.submitRequest(pluginId,REQUEST_NOTIFICATIONS_INTERESTED_IN,new DefaultPluginInteractionCallback<List<String>>(){
     @Override public List<String> onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForNotificationsInterestedIn(responseBody);
     }

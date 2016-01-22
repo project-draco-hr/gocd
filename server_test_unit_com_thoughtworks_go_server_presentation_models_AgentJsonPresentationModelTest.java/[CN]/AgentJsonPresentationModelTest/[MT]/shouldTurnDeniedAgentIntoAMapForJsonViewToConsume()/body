@@ -1,8 +1,0 @@
-{
-  AgentInstance instance=AgentInstance.create(new AgentConfig(null,"localhost","192.168.0.1"),false,systemEnvironment);
-  instance.enable();
-  instance.deny();
-  AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(instance);
-  Map json=adaptor.toJsonHash();
-  new JsonTester(json).shouldContain("{ 'hostname' : 'localhost'," + "  'status' : '" + DENIED + "',"+ "  'ipAddress' : '192.168.0.1' }");
-}

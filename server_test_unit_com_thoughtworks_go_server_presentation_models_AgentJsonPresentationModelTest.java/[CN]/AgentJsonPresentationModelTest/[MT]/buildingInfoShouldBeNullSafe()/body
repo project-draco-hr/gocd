@@ -1,9 +1,0 @@
-{
-  AgentConfig agentConfig=new AgentConfig("1234","localhost","192.168.0.1");
-  AgentInstance activity=AgentInstance.create(agentConfig,false,systemEnvironment);
-  activity.enable();
-  activity.building(new AgentBuildingInfo("something","buildLocator"));
-  AgentJsonPresentationModel adaptor=new AgentJsonPresentationModel(activity);
-  Map json=adaptor.toJsonHash();
-  new JsonTester(json).shouldContain("{ 'hostname' : 'localhost'," + "  'status' : 'building' }");
-}

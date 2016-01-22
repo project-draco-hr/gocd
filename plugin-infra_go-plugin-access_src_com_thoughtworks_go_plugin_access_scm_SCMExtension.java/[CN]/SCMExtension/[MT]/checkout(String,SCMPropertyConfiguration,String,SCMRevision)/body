@@ -1,10 +1,7 @@
 {
-  return pluginRequestHelper.submitRequest(pluginId,SCMExtension.REQUEST_CHECKOUT,new PluginInteractionCallback<Result>(){
+  return pluginRequestHelper.submitRequest(pluginId,SCMExtension.REQUEST_CHECKOUT,new DefaultPluginInteractionCallback<Result>(){
     @Override public String requestBody(    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).requestMessageForCheckout(scmConfiguration,destinationFolder,revision);
-    }
-    @Override public Map<String,String> requestParams(    String resolvedExtensionVersion){
-      return null;
     }
     @Override public Result onSuccess(    String responseBody,    String resolvedExtensionVersion){
       return messageHandlerMap.get(resolvedExtensionVersion).responseMessageForCheckout(responseBody);
