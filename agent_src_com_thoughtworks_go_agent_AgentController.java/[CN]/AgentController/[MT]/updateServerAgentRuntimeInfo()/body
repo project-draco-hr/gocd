@@ -1,0 +1,7 @@
+{
+  AgentIdentifier agent=agentIdentifier();
+  LOG.trace(agent + " is pinging server [" + server.toString()+ "]");
+  agentRuntimeInfo.refreshUsableSpace();
+  websocketService.send(new Message(Action.ping,agentRuntimeInfo));
+  LOG.trace(agent + " pinged server [" + server.toString()+ "]");
+}
