@@ -15,12 +15,12 @@
           pipeline=pipelineService.save(newPipeline);
           finishSchedule(pipelineName,buildCause,pipeline.getBuildCause());
           if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(String.format("[Pipeline Schedule] Successfully scheduled pipeline %s, buildCause:%s",pipelineName,buildCause));
+            LOGGER.debug(String.format("[Pipeline Schedule] Successfully scheduled pipeline %s, buildCause:%s, configOrigin: %s",pipelineName,buildCause,pipelineConfig.getOrigin()));
           }
         }
  catch (        BuildCauseOutOfDateException e) {
           cancelSchedule(pipelineName);
-          LOGGER.info(String.format("[Pipeline Schedule] Build cause %s is out of date. Scheduling is cancelled. Go will reschedule this pipeline.",buildCause));
+          LOGGER.info(String.format("[Pipeline Schedule] Build cause %s is out of date. Scheduling is cancelled. Go will reschedule this pipeline. configOrigin: %s",buildCause,pipelineConfig.getOrigin()));
         }
       }
       return pipeline;

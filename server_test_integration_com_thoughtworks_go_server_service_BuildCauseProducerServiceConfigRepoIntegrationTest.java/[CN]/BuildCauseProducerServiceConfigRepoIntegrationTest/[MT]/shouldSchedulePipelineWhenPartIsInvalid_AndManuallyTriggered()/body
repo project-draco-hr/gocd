@@ -1,0 +1,18 @@
+{
+  List<Modification> lastPush=configTestRepo.addCodeToRepositoryAndPush(fileName,"added broken config file","bad bad config");
+  materialUpdateService.updateMaterial(material);
+  waitForMaterialNotInProgress();
+  assertThat(goRepoConfigDataSource.latestParseHasFailedForMaterial(material.config()),is(true));
+  final HashMap<String,String> revisions=new HashMap<String,String>();
+  final HashMap<String,String> environmentVariables=new HashMap<String,String>();
+  buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,Username.ANONYMOUS,new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
+  Map<String,BuildCause> afterLoad=scheduleHelper.waitForAnyScheduled(5);
+  assertThat(afterLoad.keySet(),hasItem(PIPELINE_NAME));
+  BuildCause cause=afterLoad.get(PIPELINE_NAME);
+  assertThat(cause.getBuildCauseMessage(),containsString("Forced by anonymous"));
+  PipelineConfig pipelineConfigAfterSchedule=goConfigService.pipelineConfigNamed(pipelineConfig.name());
+  RepoConfigOrigin configOriginAfterSchedule=(RepoConfigOrigin)pipelineConfigAfterSchedule.getOrigin();
+  String lastValidPushedRevision=this.firstRevisions.latestRevision();
+  assertThat("revisionOfPipelineConfigOriginShouldMatchLastValidPushedCommit",configOriginAfterSchedule.getRevision(),is(lastValidPushedRevision));
+  assertThat("buildCauseRevisionShouldMatchLastPushedCommit",cause.getMaterialRevisions().latestRevision(),is(lastPush.get(0).getRevision()));
+}

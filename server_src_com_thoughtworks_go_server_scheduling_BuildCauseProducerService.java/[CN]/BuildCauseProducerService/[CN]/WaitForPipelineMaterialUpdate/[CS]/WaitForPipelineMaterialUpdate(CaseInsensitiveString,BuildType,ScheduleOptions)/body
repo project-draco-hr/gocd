@@ -1,0 +1,15 @@
+{
+  this.pipelineConfig=goConfigService.pipelineConfigNamed(pipelineName);
+  this.buildType=buildType;
+  this.scheduleOptions=scheduleOptions;
+  pendingMaterials=new ConcurrentHashMap<String,Material>();
+  if (isConfigurationInMaterials()) {
+    RepoConfigOrigin configRepo=(RepoConfigOrigin)this.pipelineConfig.getOrigin();
+    MaterialConfig materialConfig=configRepo.getMaterial();
+    configMaterial=materialConfigConverter.toMaterial(materialConfig);
+    pendingMaterials.putIfAbsent(materialConfig.getFingerprint(),configMaterial);
+  }
+  for (  MaterialConfig materialConfig : pipelineConfig.materialConfigs()) {
+    pendingMaterials.putIfAbsent(materialConfig.getFingerprint(),materialConfigConverter.toMaterial(materialConfig));
+  }
+}

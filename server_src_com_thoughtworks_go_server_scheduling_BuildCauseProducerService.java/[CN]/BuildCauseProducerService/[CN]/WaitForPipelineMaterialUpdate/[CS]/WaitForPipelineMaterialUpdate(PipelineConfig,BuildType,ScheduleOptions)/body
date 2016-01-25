@@ -1,9 +1,0 @@
-{
-  this.pipelineConfig=pipelineConfig;
-  this.buildType=buildType;
-  this.scheduleOptions=scheduleOptions;
-  pendingMaterials=new ConcurrentHashMap<String,Material>();
-  for (  MaterialConfig materialConfig : pipelineConfig.materialConfigs()) {
-    pendingMaterials.put(materialConfig.getFingerprint(),materialConfigConverter.toMaterial(materialConfig));
-  }
-}

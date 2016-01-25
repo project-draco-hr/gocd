@@ -1,0 +1,16 @@
+{
+  if (buildCause == null)   return false;
+  boolean validCause=buildType.isValidBuildCause(pipelineConfig,buildCause);
+  if (pipelineConfig.isConfigOriginSameAsOneOfMaterials()) {
+    if (buildCause.isForced()) {
+      return validCause;
+    }
+    if (!buildCause.pipelineConfigAndMaterialRevisionMatch(pipelineConfig)) {
+      return false;
+    }
+    return validCause;
+  }
+ else {
+    return materialConfigurationChanged || validCause;
+  }
+}

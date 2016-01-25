@@ -1,0 +1,8 @@
+{
+  configTestRepo.addCodeToRepositoryAndPush(fileName,"added broken config file","bad bad config");
+  materialUpdateService.updateMaterial(material);
+  waitForMaterialNotInProgress();
+  assertThat(goRepoConfigDataSource.latestParseHasFailedForMaterial(material.config()),is(true));
+  buildCauseProducerService.autoSchedulePipeline(PIPELINE_NAME,new ServerHealthStateOperationResult(),123);
+  scheduleHelper.waitForNotScheduled(5,PIPELINE_NAME);
+}

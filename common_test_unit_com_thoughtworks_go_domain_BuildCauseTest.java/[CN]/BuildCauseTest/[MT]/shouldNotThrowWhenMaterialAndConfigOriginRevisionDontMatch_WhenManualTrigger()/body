@@ -1,0 +1,12 @@
+{
+  SvnMaterial material=MaterialsMother.svnMaterial();
+  MaterialConfig materialConfig=material.config();
+  MaterialRevisions first=new MaterialRevisions(new MaterialRevision(material,oneModifiedFile("revision1")));
+  BuildCause buildCause=BuildCause.createManualForced();
+  buildCause.setMaterialRevisions(first);
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfigWithStages("pipe1","build");
+  pipelineConfig.materialConfigs().clear();
+  pipelineConfig.materialConfigs().add(materialConfig);
+  pipelineConfig.setOrigin(new RepoConfigOrigin(new ConfigRepoConfig(materialConfig,"plug"),"revision2"));
+  buildCause.assertPipelineConfigAndMaterialRevisionMatch(pipelineConfig);
+}

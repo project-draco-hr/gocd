@@ -6,7 +6,7 @@
   when(specificMaterialRevisionFactory.create("pipeline",new HashMap<String,String>())).thenReturn(new MaterialRevisions());
   when(pipelineScheduleQueue.mostRecentScheduled(CaseInsensitiveString.str(pipelineConfig.name()))).thenReturn(BuildCause.createNeverRun());
   when(materialRepository.findLatestModification(hgMaterial)).thenReturn(new MaterialRevisions(new MaterialRevision(hgMaterial,new ArrayList<Modification>())));
-  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig,new ScheduleOptions(),new ServerHealthStateOperationResult());
+  buildCauseProducerService.manualSchedulePipeline(Username.ANONYMOUS,pipelineConfig.name(),new ScheduleOptions(),new ServerHealthStateOperationResult());
   assertThat(triggerMonitor.isAlreadyTriggered(CaseInsensitiveString.str(pipelineConfig.name())),is(true));
   sendMaterialUpdateCompleteMessage(extractMaterialListenerInstanceFromRegisterCall(),hgMaterial);
   assertThat(triggerMonitor.isAlreadyTriggered(CaseInsensitiveString.str(pipelineConfig.name())),is(false));
