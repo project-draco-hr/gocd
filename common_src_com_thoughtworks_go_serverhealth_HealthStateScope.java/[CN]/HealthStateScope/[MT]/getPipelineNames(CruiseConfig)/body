@@ -1,0 +1,42 @@
+{
+switch (type) {
+case PIPELINE:
+case FANIN:
+    return scope;
+case STAGE:
+case JOB:
+  return scope.split("/")[0];
+case MATERIAL:
+StringBuffer buffer=new StringBuffer();
+for (PipelineConfig pc : config.getAllPipelineConfigs()) {
+for (MaterialConfig mc : pc.materialConfigs()) {
+  String scope=HealthStateScope.forMaterialConfig(mc).getScope();
+  if (scope.equals(this.scope)) {
+    if (buffer.length() > 0) {
+      buffer.append(",");
+    }
+    buffer.append(pc.name());
+    break;
+  }
+}
+}
+return buffer.toString();
+case MATERIAL_UPDATE:
+StringBuffer materialUpdateBuffer=new StringBuffer();
+for (PipelineConfig pc : config.getAllPipelineConfigs()) {
+for (MaterialConfig mc : pc.materialConfigs()) {
+String scope=HealthStateScope.forMaterialConfigUpdate(mc).getScope();
+if (scope.equals(this.scope)) {
+if (materialUpdateBuffer.length() > 0) {
+materialUpdateBuffer.append(",");
+}
+materialUpdateBuffer.append(pc.name());
+break;
+}
+}
+}
+return materialUpdateBuffer.toString();
+default :
+return "";
+}
+}
