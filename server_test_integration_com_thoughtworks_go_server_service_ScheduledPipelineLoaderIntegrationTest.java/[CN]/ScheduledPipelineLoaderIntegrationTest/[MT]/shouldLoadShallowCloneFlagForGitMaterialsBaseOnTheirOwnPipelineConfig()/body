@@ -1,0 +1,17 @@
+{
+  GitTestRepo testRepo=new GitTestRepo();
+  PipelineConfig shallowPipeline=PipelineConfigMother.pipelineConfig("shallowPipeline",new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job-one"))));
+  shallowPipeline.materialConfigs().clear();
+  shallowPipeline.addMaterialConfig(new GitMaterialConfig(testRepo.projectRepositoryUrl(),null,true));
+  configHelper.addPipeline(shallowPipeline);
+  PipelineConfig fullPipeline=PipelineConfigMother.pipelineConfig("fullPipeline",new StageConfig(new CaseInsensitiveString("stage"),new JobConfigs(new JobConfig("job-one"))));
+  fullPipeline.materialConfigs().clear();
+  fullPipeline.addMaterialConfig(new GitMaterialConfig(testRepo.projectRepositoryUrl(),null,false));
+  configHelper.addPipeline(fullPipeline);
+  Pipeline shallowPipelineInstance=createAndLoadModifyOneFilePipeline(shallowPipeline);
+  MaterialRevisions shallowRevisions=shallowPipelineInstance.getBuildCause().getMaterialRevisions();
+  assertThat(((GitMaterial)shallowRevisions.getRevisions().get(0).getMaterial()).isShallowClone(),is(true));
+  Pipeline fullPipelineInstance=createAndLoadModifyOneFilePipeline(fullPipeline);
+  MaterialRevisions fullRevisions=fullPipelineInstance.getBuildCause().getMaterialRevisions();
+  assertThat(((GitMaterial)fullRevisions.getRevisions().get(0).getMaterial()).isShallowClone(),is(false));
+}

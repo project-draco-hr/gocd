@@ -1,0 +1,8 @@
+{
+  ProcessOutputStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  TestSubprocessExecutionContext execCtx=new TestSubprocessExecutionContext();
+  materials.cleanUp(pipelineDir,outputStreamConsumer);
+  for (  Material material : materials) {
+    material.updateTo(outputStreamConsumer,pipelineDir,new RevisionContext(revision),execCtx);
+  }
+}

@@ -2,7 +2,8 @@
   final File workingCopy=TestFileUtil.createTempFolder("foo" + System.currentTimeMillis());
   tmpFolders.add(workingCopy);
   InMemoryStreamConsumer consumer=inMemoryConsumer();
-  svnMaterial.updateTo(consumer,getLatestRevision(svnMaterial),workingCopy,new TestSubprocessExecutionContext());
+  Revision latestRevision=getLatestRevision(svnMaterial);
+  svnMaterial.updateTo(consumer,workingCopy,new RevisionContext(latestRevision),new TestSubprocessExecutionContext());
   File newFileToAdd=new File(workingCopy,filename);
   File directoryToAddTo=newFileToAdd.getParentFile();
   boolean addedToExistingDir=directoryToAddTo.exists();

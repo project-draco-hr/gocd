@@ -1,0 +1,13 @@
+{
+  MaterialConfigs expandedConfigs=materialExpansionService.expandMaterialConfigsForScheduling(pipelineConfig.materialConfigs());
+  MaterialRevisions materialRevisions=ModificationsMother.modifyOneFile(MaterialsMother.createMaterialsFromMaterialConfigs(expandedConfigs));
+  Pipeline building=PipelineMother.buildingWithRevisions(pipelineConfig,materialRevisions);
+  Pipeline pipeline=dbHelper.savePipelineWithMaterials(building);
+  final long jobId=pipeline.getStages().get(0).getJobInstances().get(0).getId();
+  return (Pipeline)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      return loader.pipelineWithPasswordAwareBuildCauseByBuildId(jobId);
+    }
+  }
+);
+}

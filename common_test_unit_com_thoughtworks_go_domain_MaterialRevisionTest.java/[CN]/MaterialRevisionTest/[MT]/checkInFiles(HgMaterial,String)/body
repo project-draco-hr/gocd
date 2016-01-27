@@ -1,7 +1,8 @@
 {
   final File localDir=TestFileUtil.createTempFolder("foo");
   InMemoryStreamConsumer consumer=inMemoryConsumer();
-  hgMaterial.updateTo(consumer,latestRevision(hgMaterial,workingFolder,new TestSubprocessExecutionContext()),localDir,new TestSubprocessExecutionContext());
+  Revision revision=latestRevision(hgMaterial,workingFolder,new TestSubprocessExecutionContext());
+  hgMaterial.updateTo(consumer,localDir,new RevisionContext(revision),new TestSubprocessExecutionContext());
   for (  String fileName : fileNames) {
     File file=new File(localDir,fileName);
     FileUtils.writeStringToFile(file,"");

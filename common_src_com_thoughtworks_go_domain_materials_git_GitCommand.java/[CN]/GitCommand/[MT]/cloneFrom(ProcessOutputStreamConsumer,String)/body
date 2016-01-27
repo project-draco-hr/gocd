@@ -1,4 +1,3 @@
 {
-  CommandLine gitClone=git().withArg("clone").withArg(String.format("--branch=%s",branch)).withArg(new UrlArgument(url)).withArg(workingDir.getAbsolutePath());
-  return run(gitClone,outputStreamConsumer);
+  return cloneFrom(outputStreamConsumer,url,Integer.MAX_VALUE);
 }

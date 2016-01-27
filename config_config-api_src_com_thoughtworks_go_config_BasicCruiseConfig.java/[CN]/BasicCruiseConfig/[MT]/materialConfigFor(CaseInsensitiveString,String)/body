@@ -1,0 +1,10 @@
+{
+  PipelineConfig pipelineConfig=pipelineConfigByName(pipelineName);
+  MaterialConfigs materialConfigs=pipelineConfig.materialConfigs();
+  for (  MaterialConfig materialConfig : materialConfigs) {
+    if (materialConfig.getFingerprint().equals(fingerprint)) {
+      return materialConfig;
+    }
+  }
+  return null;
+}

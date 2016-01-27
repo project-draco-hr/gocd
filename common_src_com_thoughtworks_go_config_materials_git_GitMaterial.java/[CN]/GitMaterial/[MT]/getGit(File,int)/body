@@ -1,0 +1,9 @@
+{
+  InMemoryStreamConsumer output=inMemoryConsumer();
+  try {
+    return git(output,workingdir,preferredCloneDepth);
+  }
+ catch (  Exception e) {
+    throw bomb(e.getMessage() + " " + output.getStdError(),e);
+  }
+}

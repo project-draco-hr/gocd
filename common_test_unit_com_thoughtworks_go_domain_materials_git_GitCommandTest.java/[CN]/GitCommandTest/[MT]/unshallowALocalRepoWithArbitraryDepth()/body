@@ -1,0 +1,11 @@
+{
+  FileUtil.deleteFolder(this.gitLocalRepoDir);
+  git.cloneFrom(inMemoryConsumer(),repoUrl,2);
+  git.unshallow(inMemoryConsumer(),3);
+  assertThat(git.isShallow(),is(true));
+  assertThat(git.hasRevision(GitTestRepo.REVISION_2),is(true));
+  assertThat(git.hasRevision(GitTestRepo.REVISION_0),is(false));
+  git.unshallow(inMemoryConsumer(),Integer.MAX_VALUE);
+  assertThat(git.isShallow(),is(false));
+  assertThat(git.hasRevision(GitTestRepo.REVISION_0),is(true));
+}

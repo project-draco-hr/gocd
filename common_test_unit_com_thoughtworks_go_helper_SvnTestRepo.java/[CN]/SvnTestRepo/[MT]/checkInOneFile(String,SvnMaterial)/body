@@ -2,7 +2,8 @@
   final File baseDir=TestFileUtil.createTempFolder("foo");
   tmpFolders.add(baseDir);
   ProcessOutputStreamConsumer consumer=inMemoryConsumer();
-  svnMaterial.updateTo(consumer,latestRevision(svnMaterial,baseDir,new TestSubprocessExecutionContext()),baseDir,new TestSubprocessExecutionContext());
+  Revision revision=latestRevision(svnMaterial,baseDir,new TestSubprocessExecutionContext());
+  svnMaterial.updateTo(consumer,baseDir,new RevisionContext(revision),new TestSubprocessExecutionContext());
   File workingDir=new File(baseDir,svnMaterial.getFolder());
   File newFileToAdd=new File(workingDir,fileName);
   newFileToAdd.getParentFile().mkdirs();

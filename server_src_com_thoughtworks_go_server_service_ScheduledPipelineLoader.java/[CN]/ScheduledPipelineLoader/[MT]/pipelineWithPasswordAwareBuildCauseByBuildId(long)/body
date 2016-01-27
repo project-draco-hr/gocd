@@ -1,7 +1,7 @@
 {
   Pipeline pipeline=pipelineDao.pipelineWithMaterialsAndModsByBuildId(buildId);
   MaterialRevisions scheduledRevs=pipeline.getBuildCause().getMaterialRevisions();
-  MaterialConfigs knownMaterials=knownMaterials(scheduledRevs);
+  MaterialConfigs knownMaterials=knownMaterials(pipeline,scheduledRevs);
   for (  MaterialRevision materialRevision : scheduledRevs) {
     MaterialConfig materialConfig=materialFrom(knownMaterials,materialRevision);
     Material usedMaterial=materialRevision.getMaterial();
@@ -22,10 +22,7 @@
 );
       throw new StaleMaterialsOnBuildCause(message);
     }
-    if (materialConfig instanceof PasswordAwareMaterial) {
-      PasswordAwareMaterial configuredMaterial=(PasswordAwareMaterial)materialConfig;
-      ((PasswordAwareMaterial)usedMaterial).setPassword(configuredMaterial.getPassword());
-    }
+    usedMaterial.updateFromConfig(materialConfig);
   }
   return pipeline;
 }

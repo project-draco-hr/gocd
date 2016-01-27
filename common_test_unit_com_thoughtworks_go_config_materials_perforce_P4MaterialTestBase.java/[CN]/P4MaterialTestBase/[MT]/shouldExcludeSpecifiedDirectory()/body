@@ -1,6 +1,6 @@
 {
   P4Material p4Material=p4Fixture.material("//depot/... //cws/...   \n  -//depot/lib/... //cws/release1/...");
-  p4Material.updateTo(outputconsumer.inMemoryConsumer(),new StringRevision("2"),clientFolder,new TestSubprocessExecutionContext());
+  updateMaterial(p4Material,new StringRevision("2"));
   assertThat(new File(clientFolder,"release1").exists(),is(false));
   assertThat(new File(clientFolder,"release1/junit.jar").exists(),is(false));
 }

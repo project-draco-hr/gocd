@@ -1,0 +1,23 @@
+{
+  CruiseConfig currentConfig=goConfigService.getCurrentConfig();
+  MaterialConfigs configuredMaterials=new MaterialConfigs();
+  for (  MaterialRevision revision : scheduledRevs) {
+    String fingerprint=revision.getMaterial().getFingerprint();
+    MaterialConfig configuredMaterial=currentConfig.materialConfigFor(new CaseInsensitiveString(pipeline.getName()),fingerprint);
+    if (configuredMaterial != null) {
+      configuredMaterials.add(configuredMaterial);
+      continue;
+    }
+    if (new SystemEnvironment().get(SystemEnvironment.GO_SERVER_SCHEDULED_PIPELINE_LOADER_GLOBAL_MATERIAL_LOOKUP)) {
+      configuredMaterial=currentConfig.materialConfigFor(fingerprint);
+      if (configuredMaterial != null) {
+        configuredMaterials.add((configuredMaterial));
+      }
+    }
+  }
+  MaterialConfigs knownMaterials=new MaterialConfigs();
+  for (  MaterialConfig configuredMaterial : configuredMaterials) {
+    materialExpansionService.expandForScheduling(configuredMaterial,knownMaterials);
+  }
+  return knownMaterials;
+}
