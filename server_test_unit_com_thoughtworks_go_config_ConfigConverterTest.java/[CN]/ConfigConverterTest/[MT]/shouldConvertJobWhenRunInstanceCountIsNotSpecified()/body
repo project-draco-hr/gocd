@@ -1,0 +1,8 @@
+{
+  CRJob crJob=new CRJob("name",environmentVariables,tabs,resources,artifacts,artifactPropertiesGenerators,null,120,tasks);
+  JobConfig jobConfig=configConverter.toJobConfig(crJob);
+  assertThat(jobConfig.isRunOnAllAgents(),is(false));
+  assertNull(jobConfig.getRunInstanceCount());
+  assertThat(jobConfig.getTimeout(),is("120"));
+  assertThat(jobConfig.getTasks().size(),is(1));
+}
