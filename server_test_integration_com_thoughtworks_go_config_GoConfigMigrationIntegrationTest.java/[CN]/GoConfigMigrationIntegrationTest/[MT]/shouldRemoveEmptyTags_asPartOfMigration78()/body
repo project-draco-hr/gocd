@@ -1,0 +1,5 @@
+{
+  String configXml="<cruise schemaVersion='77'>" + "  <pipelines group='first'>" + "    <authorization>"+ "       <view>"+ "         <user>foo</user>"+ "         <user />"+ "         <user>        </user>"+ "       </view>"+ "       <operate>"+ "          <user></user>"+ "       </operate>"+ "    </authorization>"+ "    <pipeline name='Test' template='test_template'>"+ "      <materials>"+ "        <hg url='../manual-testing/ant_hg/dummy' />"+ "      </materials>"+ "     </pipeline>"+ "  </pipelines>"+ "</cruise>";
+  String migratedXml=migrateXmlString(configXml,77);
+  assertThat(StringUtils.countMatches(migratedXml,"<user>"),is(1));
+}
