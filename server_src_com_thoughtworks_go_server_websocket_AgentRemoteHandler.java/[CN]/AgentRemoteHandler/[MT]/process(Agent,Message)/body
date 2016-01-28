@@ -3,7 +3,7 @@ switch (msg.getAction()) {
 case ping:
     AgentRuntimeInfo info=(AgentRuntimeInfo)msg.getData();
   if (!this.agentSessions.containsKey(info.getUUId())) {
-    LOGGER.info(info.getIdentifier() + " is connected with websocket " + agent);
+    LOGGER.info("{} is connected with websocket {}",info.getIdentifier(),agent);
     sessionIds.put(agent,info.getUUId());
     this.agentSessions.put(info.getUUId(),agent);
   }

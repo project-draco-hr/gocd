@@ -1,7 +1,5 @@
 {
-  if (LOGGER.isDebugEnabled()) {
-    LOGGER.debug(sessionName() + " send message: " + message);
-  }
+  LOGGER.debug("{} send message: {}",sessionName(),message);
   try {
     this.session.getRemote().sendBytes(ByteBuffer.wrap(Message.encode(message)));
   }
