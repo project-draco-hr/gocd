@@ -1,5 +1,5 @@
 {
-  SystemEnvironment environment=new SystemEnvironment();
-  Message.setupPolicy(factory.getPolicy(),environment);
+  SystemEnvironment environment=wac.getBean(SystemEnvironment.class);
+  Message.setupPolicy(factory.getPolicy(),environment.getWebsocketMaxMessageSize());
   factory.setCreator(wac.getBean(AgentRemoteSocketCreator.class));
 }
