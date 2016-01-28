@@ -10,7 +10,7 @@
     SystemEnvironment environment=new SystemEnvironment();
     client=new WebSocketClient(sslContextFactory);
     client.setMaxIdleTimeout(environment.getWebsocketMaxIdleTime());
-    Message.setupPolicy(client.getPolicy(),environment);
+    Message.setupPolicy(client.getPolicy(),environment.getWebsocketMaxMessageSize());
     client.start();
   }
   if (session != null) {
