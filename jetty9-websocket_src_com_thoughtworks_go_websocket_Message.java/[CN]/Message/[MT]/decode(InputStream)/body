@@ -1,10 +1,6 @@
 {
-  ByteArrayOutputStream baos=new ByteArrayOutputStream();
   try {
-    byte[] buffer=new byte[8192];
-    int len;
-    while ((len=input.read(buffer)) > 0)     baos.write(buffer,0,len);
-    return decode(baos.toByteArray());
+    return decode(IOUtils.toByteArray(input));
   }
  catch (  IOException e) {
     throw new RuntimeException(e);
