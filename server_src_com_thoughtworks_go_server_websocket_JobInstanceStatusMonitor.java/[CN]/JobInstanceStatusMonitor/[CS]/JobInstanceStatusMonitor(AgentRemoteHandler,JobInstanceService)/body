@@ -1,0 +1,10 @@
+{
+  jobInstanceService.registerJobStateChangeListener(new JobStatusListener(){
+    @Override public void jobStatusChanged(    JobInstance job){
+      if (job.isRescheduled() || JobResult.Cancelled.equals(job.getResult())) {
+        agentRemoteHandler.sendCancelMessage(job.getAgentUuid());
+      }
+    }
+  }
+);
+}

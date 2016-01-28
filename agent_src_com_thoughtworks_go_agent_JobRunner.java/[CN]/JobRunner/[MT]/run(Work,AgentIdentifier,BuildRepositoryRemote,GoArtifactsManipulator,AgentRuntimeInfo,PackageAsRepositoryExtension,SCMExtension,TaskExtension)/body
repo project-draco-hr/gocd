@@ -1,4 +1,11 @@
 {
+  running=true;
   this.work=work;
-  work.doWork(agentIdentifier,server,manipulator,environmentVariableContext,agentRuntimeInfo,packageAsRepositoryExtension,scmExtension,taskExtension);
+  try {
+    work.doWork(agentIdentifier,server,manipulator,environmentVariableContext,agentRuntimeInfo,packageAsRepositoryExtension,scmExtension,taskExtension);
+  }
+  finally {
+    running=false;
+    doneSignal.countDown();
+  }
 }

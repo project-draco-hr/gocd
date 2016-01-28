@@ -1,0 +1,8 @@
+{
+  when(agentRegistry.uuid()).thenReturn(agentUuid);
+  agentController=createAgentController();
+  agentController.init();
+  agentController.process(new Message(Action.reregister));
+  verify(sslInfrastructureService).invalidateAgentCertificate();
+  verify(agentWebsocketService).stop();
+}

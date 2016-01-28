@@ -1,0 +1,12 @@
+{
+  String uuid=sessionIds.remove(agent);
+  if (uuid == null) {
+    return;
+  }
+  agentSessions.remove(uuid);
+  AgentInstance instance=agentService.findAgent(uuid);
+  if (instance != null) {
+    instance.lostContact();
+    LOGGER.info(instance.getAgentIdentifier() + " lost contact because websocket connection is closed");
+  }
+}

@@ -1,0 +1,10 @@
+{
+  AgentInstance instance=AgentInstanceMother.idle();
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(instance.getAgentIdentifier(),"cookie",instance.getAgentLauncherVersion());
+  when(remote.ping(info)).thenReturn(new AgentInstruction(false));
+  handler.process(agent,new Message(Action.ping,info));
+  verify(remote).ping(info);
+  assertEquals(1,handler.connectedAgents().size());
+  assertEquals(agent,handler.connectedAgents().get(instance.getUuid()));
+  assertTrue(agent.messages.isEmpty());
+}

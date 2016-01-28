@@ -1,0 +1,12 @@
+{
+  AgentConfig agentConfig=AgentMother.remoteAgent();
+  fixture.createPipelineWithFirstStageScheduled();
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromServer(agentConfig,true,"location",1000000l,"OS");
+  agentService.requestRegistration(info);
+  assertThat(agentService.findAgent(info.getUUId()).isRegistered(),is(false));
+  info.setCookie("cookie");
+  agentRemoteHandler.process(agent,new Message(Action.ping,info));
+  buildAssignmentService.onTimer();
+  assertThat(agent.messages.size(),is(1));
+  assertThat(agent.messages.get(0).getAction(),is(Action.reregister));
+}

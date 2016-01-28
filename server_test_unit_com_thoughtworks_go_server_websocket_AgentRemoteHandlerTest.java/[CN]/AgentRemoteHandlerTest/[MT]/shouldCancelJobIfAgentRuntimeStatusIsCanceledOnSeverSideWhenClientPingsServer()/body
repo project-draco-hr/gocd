@@ -1,0 +1,12 @@
+{
+  AgentIdentifier identifier=new AgentIdentifier("HostName","ipAddress","uuid");
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(identifier);
+  info.setCookie("cookie");
+  when(remote.ping(info)).thenReturn(new AgentInstruction(true));
+  handler.process(agent,new Message(Action.ping,info));
+  verify(remote).ping(info);
+  assertEquals(1,handler.connectedAgents().size());
+  assertEquals(agent,handler.connectedAgents().get("uuid"));
+  assertEquals(1,agent.messages.size());
+  assertEquals(agent.messages.get(0).getAction(),Action.cancelJob);
+}

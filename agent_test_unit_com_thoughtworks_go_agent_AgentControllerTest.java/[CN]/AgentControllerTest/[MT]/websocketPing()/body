@@ -1,0 +1,12 @@
+{
+  when(systemEnvironment.isWebsocketEnabled()).thenReturn(true);
+  when(agentWebsocketService.isRunning()).thenReturn(false);
+  when(sslInfrastructureService.isRegistered()).thenReturn(true);
+  agentController=createAgentController();
+  agentController.init();
+  agentController.loop();
+  verify(agentUpgradeService).checkForUpgrade();
+  verify(sslInfrastructureService).registerIfNecessary();
+  verify(agentWebsocketService).start();
+  verify(agentWebsocketService).send(new Message(Action.ping,agentController.getAgentRuntimeInfo()));
+}

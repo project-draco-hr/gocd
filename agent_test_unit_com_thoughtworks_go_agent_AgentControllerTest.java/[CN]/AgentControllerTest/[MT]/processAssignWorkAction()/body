@@ -1,0 +1,17 @@
+{
+  when(agentRegistry.uuid()).thenReturn(agentUuid);
+  doAnswer(new Answer(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      AgentRuntimeInfo info=(AgentRuntimeInfo)invocationOnMock.getArguments()[4];
+      info.busy(new AgentBuildingInfo("locator for display","build locator"));
+      return null;
+    }
+  }
+).when(work).doWork(any(AgentIdentifier.class),any(BuildRepositoryRemote.class),any(GoArtifactsManipulator.class),any(EnvironmentVariableContext.class),any(AgentRuntimeInfo.class),any(PackageAsRepositoryExtension.class),any(SCMExtension.class),any(TaskExtension.class));
+  agentController=createAgentController();
+  agentController.init();
+  agentController.process(new Message(Action.assignWork,work));
+  verify(work).doWork(eq(agentIdentifier),any(BuildRepositoryRemote.class),eq(artifactsManipulator),any(EnvironmentVariableContext.class),eq(agentController.getAgentRuntimeInfo()),eq(packageAsRepositoryExtension),eq(scmExtension),eq(taskExtension));
+  assertThat(agentController.getAgentRuntimeInfo().getRuntimeStatus(),is(AgentRuntimeStatus.Idle));
+  verify(agentWebsocketService).send(new Message(Action.ping,agentController.getAgentRuntimeInfo()));
+}

@@ -1,0 +1,12 @@
+{
+  when(systemEnvironment.isWebsocketEnabled()).thenReturn(true);
+  when(sslInfrastructureService.isRegistered()).thenReturn(true);
+  when(agentWebsocketService.isRunning()).thenReturn(false);
+  doThrow(new GeneralSecurityException()).when(agentWebsocketService).start();
+  agentController=createAgentController();
+  agentController.init();
+  agentController.loop();
+  verify(agentUpgradeService).checkForUpgrade();
+  verify(sslInfrastructureService).registerIfNecessary();
+  verify(sslInfrastructureService).invalidateAgentCertificate();
+}

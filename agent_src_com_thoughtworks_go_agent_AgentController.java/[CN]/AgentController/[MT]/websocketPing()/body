@@ -1,0 +1,20 @@
+{
+  try {
+    agentUpgradeService.checkForUpgrade();
+    sslInfrastructureService.registerIfNecessary();
+    if (sslInfrastructureService.isRegistered()) {
+      if (!websocketService.isRunning()) {
+        websocketService.start();
+      }
+      updateServerAgentRuntimeInfo();
+    }
+  }
+ catch (  Exception e) {
+    if (isCausedBySecurity(e)) {
+      handleIfSecurityException(e);
+    }
+ else {
+      LOG.error("Error occurred when agent tried to ping server: ",e);
+    }
+  }
+}

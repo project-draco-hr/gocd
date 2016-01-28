@@ -4,7 +4,7 @@
       Object nonStringLeaf=leaf.get(resolvable);
       if (nonStringLeaf != null) {
         Class type=leaf.getType();
-        Field field=type.getDeclaredField(configAttributeValue(leaf).fieldName());
+        Field field=getField(leaf,type);
         field.setAccessible(true);
         if (field.getType().equals(CaseInsensitiveString.class)) {
           CaseInsensitiveString cis=(CaseInsensitiveString)field.get(nonStringLeaf);

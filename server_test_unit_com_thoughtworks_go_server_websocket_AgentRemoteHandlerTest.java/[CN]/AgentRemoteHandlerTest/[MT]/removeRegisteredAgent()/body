@@ -1,0 +1,10 @@
+{
+  AgentInstance instance=AgentInstanceMother.idle();
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(instance.getAgentIdentifier(),"cookie",instance.getAgentLauncherVersion());
+  when(remote.ping(info)).thenReturn(new AgentInstruction(false));
+  when(agentService.findAgent(instance.getUuid())).thenReturn(instance);
+  handler.process(agent,new Message(Action.ping,info));
+  handler.remove(agent);
+  assertEquals(0,handler.connectedAgents().size());
+  assertEquals(AgentStatus.LostContact,instance.getStatus());
+}

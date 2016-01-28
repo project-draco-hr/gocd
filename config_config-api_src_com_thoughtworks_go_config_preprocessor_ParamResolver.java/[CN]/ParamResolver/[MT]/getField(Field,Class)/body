@@ -1,0 +1,12 @@
+{
+  try {
+    return type.getDeclaredField(configAttributeValue(leaf).fieldName());
+  }
+ catch (  NoSuchFieldException e) {
+    Class superclass=type.getSuperclass();
+    if (superclass == null) {
+      throw e;
+    }
+    return getField(leaf,superclass);
+  }
+}

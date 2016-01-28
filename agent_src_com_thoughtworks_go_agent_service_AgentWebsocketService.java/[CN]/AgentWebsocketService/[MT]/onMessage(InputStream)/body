@@ -1,0 +1,20 @@
+{
+  final Message msg=Message.decode(raw);
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(sessionName() + " message: " + msg);
+  }
+  executor.execute(new Runnable(){
+    @Override public void run(){
+      try {
+        AgentWebsocketService.this.controller.process(msg);
+      }
+ catch (      InterruptedException e) {
+        LOGGER.error("Process message[" + msg + "] is interruptted.",e);
+      }
+catch (      RuntimeException e) {
+        LOGGER.error("Unexpected error while processing message[" + msg + "]: "+ e.getMessage(),e);
+      }
+    }
+  }
+);
+}

@@ -1,0 +1,12 @@
+{
+  AgentInstance instance=AgentInstanceMother.idle();
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(instance.getAgentIdentifier(),null,instance.getAgentLauncherVersion());
+  when(remote.getCookie(instance.getAgentIdentifier(),info.getLocation())).thenReturn("new cookie");
+  when(remote.ping(info)).thenReturn(new AgentInstruction(true));
+  handler.process(agent,new Message(Action.ping,info));
+  verify(remote).ping(info);
+  assertEquals(2,agent.messages.size());
+  assertEquals(agent.messages.get(0).getAction(),Action.setCookie);
+  assertEquals(agent.messages.get(0).getData(),"new cookie");
+  assertEquals(agent.messages.get(1).getAction(),Action.cancelJob);
+}

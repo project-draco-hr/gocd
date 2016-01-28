@@ -1,0 +1,6 @@
+{
+  if (LOGGER.isDebugEnabled()) {
+    LOGGER.debug(sessionName() + " send message: " + msg);
+  }
+  return this.session.getRemote().sendBytesByFuture(ByteBuffer.wrap(Message.encode(msg)));
+}
