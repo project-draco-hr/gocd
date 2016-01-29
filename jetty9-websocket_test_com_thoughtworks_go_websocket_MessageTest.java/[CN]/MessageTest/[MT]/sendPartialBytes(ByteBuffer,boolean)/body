@@ -1,0 +1,12 @@
+{
+  messageBuffer.add(byteBuffer);
+  if (last) {
+    ByteArrayOutputStream out=new ByteArrayOutputStream();
+    for (    ByteBuffer b : messageBuffer) {
+      byte[] bytes=new byte[b.remaining()];
+      b.get(bytes);
+      out.write(bytes);
+    }
+    message=out.toByteArray();
+  }
+}

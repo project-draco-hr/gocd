@@ -1,4 +1,14 @@
 {
   LOGGER.debug("{} send message: {}",sessionName(),msg);
-  return this.session.getRemote().sendBytesByFuture(ByteBuffer.wrap(Message.encode(msg)));
+  executor.execute(new Runnable(){
+    @Override public void run(){
+      try {
+        Message.send(AgentRemoteSocket.this,msg);
+      }
+ catch (      IOException e) {
+        onError(e);
+      }
+    }
+  }
+);
 }
