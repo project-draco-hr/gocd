@@ -1,10 +1,5 @@
 {
-  FileOutputStream fos=null;
-  try {
-    fos=new FileOutputStream(fileName);
+  try (FileOutputStream fos=new FileOutputStream(fileName)){
     fos.write(fileName.getBytes());
   }
-  finally {
-    fos.close();
-  }
-}
+ }
