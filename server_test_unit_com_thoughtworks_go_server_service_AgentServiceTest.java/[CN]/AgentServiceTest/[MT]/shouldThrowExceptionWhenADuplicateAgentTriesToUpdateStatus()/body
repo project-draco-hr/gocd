@@ -1,7 +1,7 @@
 {
-  AgentRuntimeInfo runtimeInfo=AgentRuntimeInfo.fromAgent(agentIdentifier);
+  AgentRuntimeInfo runtimeInfo=new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),null,null);
   runtimeInfo.setCookie("invalid_cookie");
-  AgentInstance original=AgentInstance.createFromLiveAgent(AgentRuntimeInfo.fromAgent(agentIdentifier),new SystemEnvironment());
+  AgentInstance original=AgentInstance.createFromLiveAgent(new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),null,null),new SystemEnvironment());
   try {
     when(agentService.findAgentAndRefreshStatus(runtimeInfo.getUUId())).thenReturn(original);
     agentService.updateRuntimeInfo(runtimeInfo);

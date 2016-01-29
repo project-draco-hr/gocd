@@ -6,7 +6,7 @@
   }
 );
   assertThat(instance.getStatus(),is(AgentStatus.Missing));
-  instance.update(AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null));
+  instance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
   instance.refresh(null);
   assertThat(instance.getStatus(),is(AgentStatus.LostContact));
 }

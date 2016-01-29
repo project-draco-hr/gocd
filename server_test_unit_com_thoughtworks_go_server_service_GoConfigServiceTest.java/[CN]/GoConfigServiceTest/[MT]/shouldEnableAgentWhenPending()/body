@@ -1,7 +1,7 @@
 {
   String agentId=DatabaseAccessHelper.AGENT_UUID;
   AgentConfig agentConfig=new AgentConfig(agentId,"remote-host","50.40.30.20");
-  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(new AgentIdentifier("remote-host","50.40.30.20",agentId),"cookie",null);
+  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(new AgentIdentifier("remote-host","50.40.30.20",agentId),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
   AgentInstance instance=AgentInstance.createFromLiveAgent(agentRuntimeInfo,new SystemEnvironment());
   goConfigService.disableAgents(false,instance);
   shouldPerformCommand(new GoConfigDao.CompositeConfigCommand(GoConfigDao.createAddAgentCommand(agentConfig)));

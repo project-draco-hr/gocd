@@ -1,4 +1,4 @@
 {
-  producer.ping(AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
-  verify(oldImplementation).ping(AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null));
+  producer.ping(new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
+  verify(oldImplementation).ping(new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
 }

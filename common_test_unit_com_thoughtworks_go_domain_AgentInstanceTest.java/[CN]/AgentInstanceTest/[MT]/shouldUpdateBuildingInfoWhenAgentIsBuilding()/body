@@ -1,6 +1,6 @@
 {
   AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
-  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
   AgentBuildingInfo buildingInfo=new AgentBuildingInfo("running pipeline/stage/build","buildLocator");
   agentRuntimeInfo.busy(buildingInfo);
   agentInstance.update(agentRuntimeInfo);

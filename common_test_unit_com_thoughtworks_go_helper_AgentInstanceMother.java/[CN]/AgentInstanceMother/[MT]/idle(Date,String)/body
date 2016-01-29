@@ -1,6 +1,6 @@
 {
   AgentConfig idleAgentConfig=new AgentConfig("uuid2",hostname,"10.18.5.1");
-  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(idleAgentConfig.getAgentIdentifier(),"cookie",null);
+  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(idleAgentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
   agentRuntimeInfo.setLocation("/var/lib/foo");
   agentRuntimeInfo.idle();
   agentRuntimeInfo.setUsableSpace(10 * 1024l);

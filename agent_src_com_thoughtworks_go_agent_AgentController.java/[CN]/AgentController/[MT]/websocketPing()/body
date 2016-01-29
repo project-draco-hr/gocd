@@ -1,7 +1,7 @@
 {
   try {
     agentUpgradeService.checkForUpgrade();
-    sslInfrastructureService.registerIfNecessary();
+    sslInfrastructureService.registerIfNecessary(agentAutoRegistrationProperties);
     if (sslInfrastructureService.isRegistered()) {
       if (!websocketService.isRunning()) {
         websocketService.start();

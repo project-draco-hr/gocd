@@ -1,6 +1,6 @@
 {
   AgentInstance instance=AgentInstanceMother.idle();
-  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(instance.getAgentIdentifier(),"cookie",instance.getAgentLauncherVersion());
+  AgentRuntimeInfo info=new AgentRuntimeInfo(instance.getAgentIdentifier(),AgentRuntimeStatus.Idle,null,"cookie",null);
   when(remote.ping(info)).thenReturn(new AgentInstruction(false));
   handler.process(agent,new Message(Action.ping,info));
   verify(remote).ping(info);

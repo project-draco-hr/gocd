@@ -1,11 +1,13 @@
 {
+  folder.create();
+  File configFile=folder.newFile();
   shouldCreateSslInfrastucture();
-  sslInfrastructureService.registerIfNecessary();
+  sslInfrastructureService.registerIfNecessary(new AgentAutoRegistrationProperties(configFile));
   assertThat(SslInfrastructureService.AGENT_CERTIFICATE_FILE,exists());
   assertRemoteCalled();
-  sslInfrastructureService.registerIfNecessary();
+  sslInfrastructureService.registerIfNecessary(new AgentAutoRegistrationProperties(configFile));
   assertRemoteNotCalled();
   sslInfrastructureService.invalidateAgentCertificate();
-  sslInfrastructureService.registerIfNecessary();
+  sslInfrastructureService.registerIfNecessary(new AgentAutoRegistrationProperties(configFile));
   assertRemoteCalled();
 }

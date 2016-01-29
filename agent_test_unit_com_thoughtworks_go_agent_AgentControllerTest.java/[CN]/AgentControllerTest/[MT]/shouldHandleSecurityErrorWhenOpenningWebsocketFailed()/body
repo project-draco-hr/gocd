@@ -7,6 +7,6 @@
   agentController.init();
   agentController.loop();
   verify(agentUpgradeService).checkForUpgrade();
-  verify(sslInfrastructureService).registerIfNecessary();
+  verify(sslInfrastructureService).registerIfNecessary(agentController.getAgentAutoRegistrationProperties());
   verify(sslInfrastructureService).invalidateAgentCertificate();
 }

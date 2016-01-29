@@ -1,6 +1,5 @@
 {
-  AgentInstance instance=AgentInstanceMother.building();
-  AgentRuntimeInfo info=AgentRuntimeInfo.fromAgent(instance.getAgentIdentifier(),"cookie",instance.getAgentLauncherVersion());
+  AgentRuntimeInfo info=new AgentRuntimeInfo(new AgentIdentifier("HostName","ipAddress","uuid"),AgentRuntimeStatus.Idle,null,null,null);
   JobIdentifier jobIdentifier=new JobIdentifier();
   handler.process(agent,new Message(Action.reportCompleting,new Report(info,jobIdentifier,JobResult.Passed)));
   verify(remote).reportCompleting(info,jobIdentifier,JobResult.Passed);

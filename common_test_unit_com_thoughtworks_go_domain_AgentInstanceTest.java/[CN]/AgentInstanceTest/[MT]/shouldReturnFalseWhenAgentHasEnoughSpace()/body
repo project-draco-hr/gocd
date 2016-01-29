@@ -5,7 +5,7 @@
     }
   }
 );
-  AgentRuntimeInfo newRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  AgentRuntimeInfo newRuntimeInfo=new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
   long is110M=110 * 1024 * 1024;
   newRuntimeInfo.setUsableSpace(is110M);
   original.update(newRuntimeInfo);

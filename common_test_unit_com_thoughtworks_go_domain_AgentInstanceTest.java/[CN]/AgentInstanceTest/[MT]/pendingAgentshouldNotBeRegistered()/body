@@ -1,5 +1,5 @@
 {
-  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(agentConfig.getAgentIdentifier(),"cookie",null);
+  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
   AgentInstance instance=AgentInstance.createFromLiveAgent(agentRuntimeInfo,systemEnvironment);
   assertThat(instance.isRegistered(),is(false));
 }

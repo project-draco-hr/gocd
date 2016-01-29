@@ -4,7 +4,7 @@
   GoArtifactsManipulatorStub manipulator=new GoArtifactsManipulatorStub();
   new SystemEnvironment().setProperty("serviceUrl","some_random_place");
   AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
-  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),manipulator,environmentVariableContext,AgentRuntimeInfo.fromAgent(agentIdentifier,"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),manipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
   assertThat(manipulator.consoleOut(),printedEnvVariable("GO_SERVER_URL","some_random_place"));
   assertThat(manipulator.consoleOut(),printedEnvVariable("GO_PIPELINE_NAME",PIPELINE_NAME));
   assertThat(manipulator.consoleOut(),printedEnvVariable("GO_PIPELINE_COUNTER",1));

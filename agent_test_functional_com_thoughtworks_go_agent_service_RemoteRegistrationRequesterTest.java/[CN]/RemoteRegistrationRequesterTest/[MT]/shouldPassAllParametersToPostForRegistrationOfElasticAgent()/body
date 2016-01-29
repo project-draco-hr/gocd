@@ -1,0 +1,15 @@
+{
+  new SystemEnvironment().setProperty("os.name","minix");
+  String url="http://cruise.com/go";
+  HttpClient httpClient=Mockito.mock(HttpClient.class);
+  final DefaultAgentRegistry defaultAgentRegistry=new DefaultAgentRegistry();
+  Properties properties=new Properties();
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_KEY,"t0ps3cret");
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_RESOURCES,"linux, java");
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_ENVIRONMENTS,"uat, staging");
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_HOSTNAME,"agent01.example.com");
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_ELASTIC_AGENT_ID,"42");
+  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_ELASTIC_PLUGIN_ID,"tw.go.elastic-agent.docker");
+  remoteRegistryRequester(url,httpClient,defaultAgentRegistry).requestRegistration("cruise.com",new AgentAutoRegistrationProperties(null,properties));
+  verify(httpClient).executeMethod(argThat(hasAllParams(defaultAgentRegistry.uuid(),"42","tw.go.elastic-agent.docker")));
+}

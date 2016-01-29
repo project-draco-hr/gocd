@@ -1,0 +1,23 @@
+{
+  String hostName=SystemUtil.getLocalhostNameOrRandomNameIfNotFound();
+  Registration keyEntry=null;
+  while (keyEntry == null || keyEntry.getChain().length == 0) {
+    try {
+      keyEntry=remoteRegistrationRequester.requestRegistration(hostName,agentAutoRegistrationProperties);
+    }
+ catch (    Exception e) {
+      LOGGER.error("[Agent Registration] There was a problem registering with the go server.",e);
+      throw e;
+    }
+ finally {
+      agentAutoRegistrationProperties.scrubRegistrationProperties();
+    }
+    try {
+      Thread.sleep(REGISTER_RETRY_INTERVAL);
+    }
+ catch (    InterruptedException e) {
+    }
+  }
+  LOGGER.info("[Agent Registration] Retrieved registration from Go server.");
+  storeChainIntoAgentStore(keyEntry);
+}
