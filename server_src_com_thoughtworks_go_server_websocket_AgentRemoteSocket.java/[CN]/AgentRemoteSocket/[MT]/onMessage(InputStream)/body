@@ -1,7 +1,5 @@
 {
   Message msg=Message.decode(input);
-  if (LOGGER.isDebugEnabled()) {
-    LOGGER.debug(sessionName() + " message: " + msg);
-  }
+  LOGGER.debug("{} message: {}",sessionName(),msg);
   handler.process(this,msg);
 }

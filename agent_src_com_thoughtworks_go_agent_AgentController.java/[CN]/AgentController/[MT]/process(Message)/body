@@ -6,14 +6,12 @@ case cancelJob:
 case setCookie:
 String cookie=(String)message.getData();
 agentRuntimeInfo.setCookie(cookie);
-LOG.info(String.format("Got cookie: %s ",cookie));
+LOG.info("Got cookie: {}",cookie);
 break;
 case assignWork:
 cancelJobIfThereIsOneRunning();
 Work work=(Work)message.getData();
-if (LOG.isDebugEnabled()) {
-LOG.debug(String.format("Got work from server: [%s]",work.description()));
-}
+LOG.debug("Got work from server: [{}]",work.description());
 agentRuntimeInfo.idle();
 runner=new JobRunner();
 try {
@@ -25,7 +23,7 @@ updateServerAgentRuntimeInfo();
 }
 break;
 case reregister:
-LOG.warn(String.format("Reregister: invalidate current agent certificate fingerprint %s and stop websocket client.",agentRegistry.uuid()));
+LOG.warn("Reregister: invalidate current agent certificate fingerprint {} and stop websocket client.",agentRegistry.uuid());
 websocketService.stop();
 sslInfrastructureService.invalidateAgentCertificate();
 break;
