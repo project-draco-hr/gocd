@@ -9,7 +9,7 @@
     }
     processBuilder.directory(workingDir);
   }
-  environmentVariableContext.setupRuntimeEnvironment(processBuilder.environment(),consumer);
+  processBuilder.environment().putAll(environmentVariableContext.getProperties());
   processBuilder.environment().putAll(envMap);
   Process process=startProcess(processBuilder,commandLineForDisplay);
   ProcessWrapper processWrapper=new ProcessWrapper(process,processTag,commandLineForDisplay,consumer,encoding,errorPrefix);

@@ -1,0 +1,8 @@
+{
+  Set<String> processLevelEnvVariables=ProcessManager.getInstance().environmentVariableNames();
+  List<String> report=environmentVariableContext.report(processLevelEnvVariables);
+  for (int i=0; i < report.size(); i++) {
+    String line=report.get(i);
+    goPublisher.consumeLine((i == report.size() - 1) ? line + "\n" : line);
+  }
+}

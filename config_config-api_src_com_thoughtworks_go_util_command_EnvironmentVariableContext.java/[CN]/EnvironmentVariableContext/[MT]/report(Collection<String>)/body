@@ -1,0 +1,18 @@
+{
+  ArrayList<String> lines=new ArrayList<>(properties.size());
+  Set<String> existing=new HashSet<>(predefinedEnvs);
+  for (  EnvironmentVariable property : properties) {
+    String name=property.name;
+    String value=property.value;
+    if (value != null) {
+      if (existing.contains(name)) {
+        lines.add(format("[%s] overriding environment variable '%s' with value '%s'",GoConstants.PRODUCT_NAME,name,property.valueForDisplay()));
+      }
+ else {
+        lines.add(format("[%s] setting environment variable '%s' to value '%s'",GoConstants.PRODUCT_NAME,name,property.valueForDisplay()));
+      }
+      existing.add(name);
+    }
+  }
+  return lines;
+}

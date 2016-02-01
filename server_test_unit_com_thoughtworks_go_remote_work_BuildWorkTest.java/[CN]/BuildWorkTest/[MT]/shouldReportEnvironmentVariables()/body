@@ -1,0 +1,12 @@
+{
+  buildWork=(BuildWork)getWork(WITH_ENV_VAR,PIPELINE_NAME);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  String consoleOut=artifactManipulator.consoleOut();
+  assertThat(consoleOut,matches("'GO_SERVER_URL' (to|with) value '" + SERVER_URL));
+  assertThat(consoleOut,matches("'GO_PIPELINE_LABEL' (to|with) value '" + PIPELINE_LABEL));
+  assertThat(consoleOut,matches("'GO_PIPELINE_NAME' (to|with) value '" + PIPELINE_NAME));
+  assertThat(consoleOut,matches("'GO_STAGE_NAME' (to|with) value '" + STAGE_NAME));
+  assertThat(consoleOut,matches("'GO_STAGE_COUNTER' (to|with) value '" + STAGE_COUNTER));
+  assertThat(consoleOut,matches("'GO_JOB_NAME' (to|with) value '" + JOB_PLAN_NAME));
+  assertThat(trimTimeStamp(consoleOut),containsString("[go] setting environment variable 'JOB_ENV' to value 'foobar'\n" + "[go] overriding environment variable 'PATH' with value '/tmp'\n\n"));
+}
