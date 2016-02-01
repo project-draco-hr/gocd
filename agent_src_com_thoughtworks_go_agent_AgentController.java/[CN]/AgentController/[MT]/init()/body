@@ -4,7 +4,7 @@
   sslInfrastructureService.createSslInfrastructure();
   AgentIdentifier identifier=agentIdentifier();
   if (agentAutoRegistrationProperties.isElastic()) {
-    agentRuntimeInfo=ElasticAgentRuntimeInfo.fromAgent(identifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),systemEnvironment.getAgentLauncherVersion(),agentAutoRegistrationProperties.getAgentAutoRegisterElasticAgentId(),agentAutoRegistrationProperties.getAgentAutoRegisterElasticPluginId());
+    agentRuntimeInfo=ElasticAgentRuntimeInfo.fromAgent(identifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),systemEnvironment.getAgentLauncherVersion(),agentAutoRegistrationProperties.agentAutoRegisterElasticAgentId(),agentAutoRegistrationProperties.agentAutoRegisterElasticPluginId());
   }
  else {
     agentRuntimeInfo=AgentRuntimeInfo.fromAgent(identifier,AgentStatus.Idle.getRuntimeStatus(),currentWorkingDirectory(),systemEnvironment.getAgentLauncherVersion());

@@ -4,10 +4,10 @@
   HttpClient httpClient=Mockito.mock(HttpClient.class);
   final DefaultAgentRegistry defaultAgentRegistry=new DefaultAgentRegistry();
   Properties properties=new Properties();
-  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_KEY,"t0ps3cret");
-  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_RESOURCES,"linux, java");
-  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_ENVIRONMENTS,"uat, staging");
-  properties.put(AgentAutoRegistrationProperties.AGENT_AUTO_REGISTER_HOSTNAME,"agent01.example.com");
-  remoteRegistryRequester(url,httpClient,defaultAgentRegistry).requestRegistration("cruise.com",new AgentAutoRegistrationProperties(null,properties));
+  properties.put(AgentAutoRegistrationPropertiesImpl.AGENT_AUTO_REGISTER_KEY,"t0ps3cret");
+  properties.put(AgentAutoRegistrationPropertiesImpl.AGENT_AUTO_REGISTER_RESOURCES,"linux, java");
+  properties.put(AgentAutoRegistrationPropertiesImpl.AGENT_AUTO_REGISTER_ENVIRONMENTS,"uat, staging");
+  properties.put(AgentAutoRegistrationPropertiesImpl.AGENT_AUTO_REGISTER_HOSTNAME,"agent01.example.com");
+  remoteRegistryRequester(url,httpClient,defaultAgentRegistry).requestRegistration("cruise.com",new AgentAutoRegistrationPropertiesImpl(null,properties));
   verify(httpClient).executeMethod(argThat(hasAllParams(defaultAgentRegistry.uuid(),"","")));
 }
