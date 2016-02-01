@@ -1,9 +1,9 @@
 {
   LOGGER.debug("{} send message: {}",sessionName(),message);
   try {
-    Message.send(this,message);
+    session.getRemote().sendBytes(ByteBuffer.wrap(Message.encode(message)));
   }
  catch (  IOException e) {
-    throw new RuntimeException(e);
+    bomb(e);
   }
 }
