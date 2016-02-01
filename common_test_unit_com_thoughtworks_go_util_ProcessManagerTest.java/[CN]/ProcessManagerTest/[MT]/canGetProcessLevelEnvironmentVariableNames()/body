@@ -1,3 +1,8 @@
 {
-  assertThat("PATH",isIn(processManager.environmentVariableNames()));
+  ListUtil.find(processManager.environmentVariableNames(),new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      return ((String)item).equalsIgnoreCase("path");
+    }
+  }
+);
 }
