@@ -1,7 +1,7 @@
 {
   LOGGER.debug("{} send message: {}",sessionName(),message);
   try {
-    this.session.getRemote().sendBytes(ByteBuffer.wrap(Message.encode(message)));
+    Message.send(this,message);
   }
  catch (  IOException e) {
     throw new RuntimeException(e);
