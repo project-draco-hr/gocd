@@ -11,6 +11,6 @@
   BuildAssignment assignment=BuildAssignment.create(jobPlan(),buildCause,builder,workingDir);
   BuildWork work=new BuildWork(assignment);
   byte[] msg=Message.encode(new Message(Action.assignWork,work));
-  Message decodedMsg=Message.decode(msg);
+  Message decodedMsg=Message.decode(new ByteArrayInputStream(msg));
   assertThat(((BuildWork)decodedMsg.getData()).getAssignment().getPlan().getPipelineName(),is("pipelineName"));
 }

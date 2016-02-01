@@ -1,4 +1,13 @@
 {
   String encode=JsonMessage.encode(msg);
-  return encode.getBytes(StandardCharsets.UTF_8);
+  ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+  try {
+    GZIPOutputStream out=new GZIPOutputStream(bytes);
+    out.write(encode.getBytes(StandardCharsets.UTF_8));
+    out.finish();
+  }
+ catch (  IOException e) {
+    throw bomb(e);
+  }
+  return bytes.toByteArray();
 }
