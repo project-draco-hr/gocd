@@ -1,5 +1,5 @@
 {
   byte[] msg=Message.encode(new Message(Action.assignWork,obj));
-  Message decodedMsg=Message.decode(msg);
+  Message decodedMsg=Message.decode(new ByteArrayInputStream(msg));
   assertEquals(decodedMsg.getData().getClass(),obj.getClass());
 }
