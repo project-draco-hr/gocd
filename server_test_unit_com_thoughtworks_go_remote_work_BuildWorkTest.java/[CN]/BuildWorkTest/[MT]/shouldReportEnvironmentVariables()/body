@@ -8,5 +8,11 @@
   assertThat(consoleOut,matches("'GO_STAGE_NAME' (to|with) value '" + STAGE_NAME));
   assertThat(consoleOut,matches("'GO_STAGE_COUNTER' (to|with) value '" + STAGE_COUNTER));
   assertThat(consoleOut,matches("'GO_JOB_NAME' (to|with) value '" + JOB_PLAN_NAME));
-  assertThat(trimTimeStamp(consoleOut),containsString("[go] setting environment variable 'JOB_ENV' to value 'foobar'\n" + "[go] overriding environment variable 'PATH' with value '/tmp'\n\n"));
+  assertThat(trimTimeStamp(consoleOut),containsString("[go] setting environment variable 'JOB_ENV' to value 'foobar'"));
+  if (isWindows()) {
+    assertThat(trimTimeStamp(consoleOut),containsString("[go] overriding environment variable 'Path' with value '/tmp'"));
+  }
+ else {
+    assertThat(trimTimeStamp(consoleOut),containsString("[go] overriding environment variable 'PATH' with value '/tmp'"));
+  }
 }
