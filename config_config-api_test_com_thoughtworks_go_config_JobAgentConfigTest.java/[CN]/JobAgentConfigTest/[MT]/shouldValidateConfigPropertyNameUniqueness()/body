@@ -1,0 +1,12 @@
+{
+  ConfigurationProperty prop1=ConfigurationPropertyMother.create("USERNAME");
+  ConfigurationProperty prop2=ConfigurationPropertyMother.create("USERNAME");
+  JobAgentConfig config=new JobAgentConfig("cd.go-contrib.elasticagent.docker",prop1,prop2);
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,null,PipelineConfigMother.pipelineConfig("pipeline"),StageConfigMother.manualStage("stage"),JobConfigMother.job());
+  config.validate(context);
+  assertThat(config.errors().size(),is(0));
+  assertThat(prop1.errors().size(),is(1));
+  assertThat(prop2.errors().size(),is(1));
+  assertThat(prop1.errors().on(ConfigurationProperty.CONFIGURATION_KEY),is("Duplicate key 'USERNAME' found for agent config of job 'pipeline::stage::defaultJob'"));
+  assertThat(prop2.errors().on(ConfigurationProperty.CONFIGURATION_KEY),is("Duplicate key 'USERNAME' found for agent config of job 'pipeline::stage::defaultJob'"));
+}
