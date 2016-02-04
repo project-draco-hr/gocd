@@ -1,0 +1,17 @@
+{
+  CaseInsensitiveString templateName=new CaseInsensitiveString("template_with_param");
+  saveTemplateWithParamToConfig(templateName);
+  pipelineConfig.clear();
+  pipelineConfig.setTemplateName(templateName);
+  pipelineConfig.addParam(new ParamConfig("SOME_PARAM","SOME_VALUE"));
+  CaseInsensitiveString stage=new CaseInsensitiveString("stage");
+  CaseInsensitiveString job=new CaseInsensitiveString("job");
+  CruiseConfig cruiseConfig=goConfigDao.loadConfigHolder().configForEdit;
+  cruiseConfig.update(groupName,pipelineConfig.name().toString(),pipelineConfig);
+  saveConfig(cruiseConfig);
+  PipelineConfig downstream=GoConfigMother.createPipelineConfigWithMaterialConfig("downstream",new DependencyMaterialConfig(pipelineConfig.name(),stage));
+  downstream.getStage(stage).getJobs().first().addTask(new FetchTask(pipelineConfig.name(),stage,job,"src","dest"));
+  pipelineConfigService.createPipelineConfig(user,downstream,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(true));
+  assertTrue(downstream.materialConfigs().first().errors().isEmpty());
+}
