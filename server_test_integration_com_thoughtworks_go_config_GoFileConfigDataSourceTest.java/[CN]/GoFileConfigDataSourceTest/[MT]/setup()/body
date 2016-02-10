@@ -8,16 +8,30 @@
   when(timeProvider.currentTime()).thenReturn(new Date());
   ServerVersion serverVersion=new ServerVersion();
   ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
+  cachedGoPartials=new CachedGoPartials();
   dataSource=new GoFileConfigDataSource(new GoConfigMigration(new GoConfigMigration.UpgradeFailedHandler(){
     public void handle(    Exception e){
       throw new RuntimeException(e);
     }
   }
-,configRepository,new TimeProvider(),configCache,registry),configRepository,systemEnvironment,timeProvider,configCache,serverVersion,registry,mock(ServerHealthService.class));
+,configRepository,new TimeProvider(),configCache,registry),configRepository,systemEnvironment,timeProvider,configCache,serverVersion,registry,mock(ServerHealthService.class),cachedGoPartials);
   dataSource.upgradeIfNecessary();
-  CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,new ServerHealthService());
-  fileService.loadConfigIfNull();
-  goConfigDao=new GoConfigDao(fileService);
+  ServerHealthService serverHealthService=new ServerHealthService();
+  CachedGoConfig cachedGoConfig=new CachedGoConfig(serverHealthService,dataSource);
+  cachedGoConfig.loadConfigIfNull();
+  goConfigDao=new GoConfigDao(cachedGoConfig);
   configHelper.load();
   configHelper.usingCruiseConfigDao(goConfigDao);
+  ConfigRepoPartialPreprocessor preprocessor=(ConfigRepoPartialPreprocessor)ListUtil.find(MagicalGoConfigXmlLoader.PREPROCESSORS,new ListUtil.Condition(){
+    @Override public <GoConfigPreprocessor>boolean isMet(    GoConfigPreprocessor item){
+      return item instanceof ConfigRepoPartialPreprocessor;
+    }
+  }
+);
+  GoConfigWatchList configWatchList=new GoConfigWatchList(cachedGoConfig);
+  ConfigElementImplementationRegistry configElementImplementationRegistry=new ConfigElementImplementationRegistry(new NoPluginsInstalled());
+  GoConfigPluginService configPluginService=new GoConfigPluginService(mock(ConfigRepoExtension.class),new ConfigCache(),configElementImplementationRegistry,cachedGoConfig);
+  preprocessor.init(new GoPartialConfig(new GoRepoConfigDataSource(configWatchList,configPluginService,serverHealthService),configWatchList,new GoConfigService(goConfigDao,null,new GoConfigMigration(configRepository,new TimeProvider(),configCache,configElementImplementationRegistry),new StubGoCache(new TestTransactionSynchronizationManager()),configRepository,configCache,configElementImplementationRegistry,new InstanceFactory(),cachedGoPartials),cachedGoPartials,serverHealthService));
+  repoConfig=new ConfigRepoConfig(new GitMaterialConfig("url"),"plugin");
+  configHelper.addConfigRepo(repoConfig);
 }

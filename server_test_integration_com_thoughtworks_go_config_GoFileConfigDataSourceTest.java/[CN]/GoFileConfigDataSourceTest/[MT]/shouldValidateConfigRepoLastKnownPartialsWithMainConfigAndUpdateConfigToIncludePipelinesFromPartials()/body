@@ -1,0 +1,21 @@
+{
+  String pipelineFromConfigRepo="pipeline_from_config_repo";
+  final String pipelineInMain="pipeline_in_main";
+  PartialConfig partialConfig=PartialConfigMother.withPipeline(pipelineFromConfigRepo,new RepoConfigOrigin(repoConfig,"1"));
+  cachedGoPartials.addOrUpdate(repoConfig.getMaterialConfig().getFingerprint(),partialConfig);
+  assertThat(cachedGoPartials.lastValidPartials().isEmpty(),is(true));
+  GoFileConfigDataSource.GoConfigSaveResult result=dataSource.writeWithLock(new UpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.addPipeline("default",PipelineConfigMother.createPipelineConfig(pipelineInMain,"stage","job"));
+      return cruiseConfig;
+    }
+  }
+,new GoConfigHolder(configHelper.currentConfig(),configHelper.currentConfig()));
+  assertThat(result.getConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString(pipelineFromConfigRepo)),is(true));
+  assertThat(result.getConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString(pipelineInMain)),is(true));
+  assertThat(cachedGoPartials.lastValidPartials().size(),is(1));
+  PartialConfig actualPartial=cachedGoPartials.lastValidPartials().get(0);
+  assertThat(actualPartial.getGroups(),is(partialConfig.getGroups()));
+  assertThat(actualPartial.getEnvironments(),is(partialConfig.getEnvironments()));
+  assertThat(actualPartial.getOrigin(),is(partialConfig.getOrigin()));
+}

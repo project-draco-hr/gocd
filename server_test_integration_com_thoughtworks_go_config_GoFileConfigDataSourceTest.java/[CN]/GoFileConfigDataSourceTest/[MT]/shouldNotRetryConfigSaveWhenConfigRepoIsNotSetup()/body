@@ -1,0 +1,29 @@
+{
+  MagicalGoConfigXmlLoader loader=mock(MagicalGoConfigXmlLoader.class);
+  MagicalGoConfigXmlWriter writer=mock(MagicalGoConfigXmlWriter.class);
+  GoConfigMigration migration=mock(GoConfigMigration.class);
+  ServerHealthService serverHealthService=mock(ServerHealthService.class);
+  CachedGoPartials cachedGoPartials=mock(CachedGoPartials.class);
+  ConfigRepository configRepository=mock(ConfigRepository.class);
+  dataSource=new GoFileConfigDataSource(migration,configRepository,systemEnvironment,timeProvider,mock(ServerVersion.class),loader,writer,serverHealthService,cachedGoPartials);
+  final String pipelineName=UUID.randomUUID().toString();
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines(pipelineName);
+  ConfigErrors configErrors=new ConfigErrors();
+  configErrors.add("key","some error");
+  when(loader.loadConfigHolder(Matchers.any(String.class))).thenThrow(new GoConfigInvalidException(cruiseConfig,configErrors.firstError()));
+  try {
+    dataSource.writeWithLock(new UpdateConfigCommand(){
+      @Override public CruiseConfig update(      CruiseConfig cruiseConfig) throws Exception {
+        cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString(pipelineName)).clear();
+        return cruiseConfig;
+      }
+    }
+,new GoConfigHolder(cruiseConfig,cruiseConfig));
+    fail("expected the test to fail");
+  }
+ catch (  Exception e) {
+    verifyZeroInteractions(configRepository);
+    verifyZeroInteractions(serverHealthService);
+    verify(loader,times(1)).loadConfigHolder(Matchers.any(String.class));
+  }
+}

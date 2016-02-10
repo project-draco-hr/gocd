@@ -1,0 +1,5 @@
+{
+  goPartialConfig.onSuccessPartialConfig(repoConfig1,PartialConfigMother.invalidPartial("p1"));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1")),is(false));
+  assertThat(serverHealthService.containsError(HealthStateType.invalidConfigMerge(),HealthStateLevel.ERROR),is(true));
+}

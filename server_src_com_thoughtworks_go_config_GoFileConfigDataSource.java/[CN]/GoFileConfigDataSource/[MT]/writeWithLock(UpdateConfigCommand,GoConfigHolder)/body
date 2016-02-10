@@ -1,10 +1,23 @@
 {
   try {
-    String configAsXml=getModifiedConfig(updatingCommand,configHolder);
-    LOGGER.info(String.format("[Configuration Changed] Saving updated configuration."));
-    writeToConfigXmlFile(configAsXml);
+    GoConfigHolder validatedConfigHolder;
+    try {
+      String configAsXml=trySavingConfig(updatingCommand,configHolder,cachedGoPartials.lastKnownPartials());
+      validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
+      serverHealthService.update(ServerHealthState.success(HealthStateType.invalidConfigMerge()));
+    }
+ catch (    GoConfigInvalidException e) {
+      if (cachedGoPartials.lastValidPartials().isEmpty()) {
+        throw e;
+      }
+ else {
+        serverHealthService.update(ServerHealthState.error(GoPartialConfig.INVALID_CRUISE_CONFIG_MERGE,GoConfigValidity.invalid(e).errorMessage(),HealthStateType.invalidConfigMerge()));
+        String configAsXml=trySavingConfig(updatingCommand,configHolder,cachedGoPartials.lastValidPartials());
+        validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
+      }
+    }
     ConfigSaveState configSaveState=shouldMergeConfig(updatingCommand,configHolder) ? ConfigSaveState.MERGED : ConfigSaveState.UPDATED;
-    return new GoConfigSaveResult(internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand)),configSaveState);
+    return new GoConfigSaveResult(validatedConfigHolder,configSaveState);
   }
  catch (  ConfigFileHasChangedException e) {
     LOGGER.warn("Configuration file could not be merged successfully after a concurrent edit: " + e.getMessage(),e);

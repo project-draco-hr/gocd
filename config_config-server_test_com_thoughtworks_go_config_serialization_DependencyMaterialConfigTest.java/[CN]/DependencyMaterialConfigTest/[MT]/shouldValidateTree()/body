@@ -2,6 +2,7 @@
   PipelineConfigurationCache.getInstance().onConfigChange(new BasicCruiseConfig());
   DependencyMaterialConfig dependencyMaterialConfig=new DependencyMaterialConfig(new CaseInsensitiveString("upstream_stage"),new CaseInsensitiveString("upstream_pipeline"),new CaseInsensitiveString("stage"));
   PipelineConfig pipeline=new PipelineConfig(new CaseInsensitiveString("p"),new MaterialConfigs());
+  pipeline.setOrigin(new FileConfigOrigin());
   dependencyMaterialConfig.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",pipeline));
-  assertThat(dependencyMaterialConfig.errors().on(DependencyMaterialConfig.PIPELINE_STAGE_NAME),is("Pipeline with name 'upstream_pipeline' does not exist"));
+  assertThat(dependencyMaterialConfig.errors().on(DependencyMaterialConfig.PIPELINE_STAGE_NAME),is("Pipeline with name 'upstream_pipeline' does not exist, it is defined as a dependency for pipeline 'p' (cruise-config.xml)"));
 }

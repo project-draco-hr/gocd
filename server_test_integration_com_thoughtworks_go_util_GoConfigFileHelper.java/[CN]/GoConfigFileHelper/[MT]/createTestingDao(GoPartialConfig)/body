@@ -4,10 +4,9 @@
     ServerHealthService serverHealthService=new ServerHealthService();
     ConfigRepository configRepository=new ConfigRepository(systemEnvironment);
     configRepository.initialize();
-    GoFileConfigDataSource dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,systemEnvironment,new TimeProvider(),new ConfigCache(),new ServerVersion(),com.thoughtworks.go.util.ConfigElementImplementationRegistryMother.withNoPlugins(),serverHealthService);
+    GoFileConfigDataSource dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,systemEnvironment,new TimeProvider(),new ConfigCache(),new ServerVersion(),com.thoughtworks.go.util.ConfigElementImplementationRegistryMother.withNoPlugins(),serverHealthService,new CachedGoPartials());
     dataSource.upgradeIfNecessary();
-    CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,serverHealthService);
-    MergedGoConfig cachedConfigService=new MergedGoConfig(serverHealthService,fileService,partialConfig);
+    CachedGoConfig cachedConfigService=new CachedGoConfig(serverHealthService,dataSource);
     cachedConfigService.loadConfigIfNull();
     return new GoConfigDao(cachedConfigService);
   }

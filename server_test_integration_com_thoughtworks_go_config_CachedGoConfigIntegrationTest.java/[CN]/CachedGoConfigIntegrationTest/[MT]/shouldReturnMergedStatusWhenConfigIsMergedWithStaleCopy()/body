@@ -1,0 +1,25 @@
+{
+  final String md5=cachedGoConfig.currentConfig().getMd5();
+  ConfigSaveState firstSaveState=cachedGoConfig.writeWithLock(new NoOverwriteUpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.addPipeline("g1",PipelineConfigMother.createPipelineConfig("p1","s1","j1"));
+      return cruiseConfig;
+    }
+    @Override public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+  assertThat(firstSaveState,is(ConfigSaveState.UPDATED));
+  ConfigSaveState secondSaveState=cachedGoConfig.writeWithLock(new NoOverwriteUpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.server().setArtifactsDir("something");
+      return cruiseConfig;
+    }
+    @Override public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+  assertThat(secondSaveState,is(ConfigSaveState.MERGED));
+}

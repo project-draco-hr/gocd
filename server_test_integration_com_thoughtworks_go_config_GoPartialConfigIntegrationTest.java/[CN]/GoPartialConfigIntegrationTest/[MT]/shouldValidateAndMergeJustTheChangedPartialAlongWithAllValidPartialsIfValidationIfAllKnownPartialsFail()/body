@@ -1,0 +1,17 @@
+{
+  goPartialConfig.onSuccessPartialConfig(repoConfig1,PartialConfigMother.withPipeline("p1_repo1",new RepoConfigOrigin(repoConfig1,"1")));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1_repo1")),is(true));
+  goPartialConfig.onSuccessPartialConfig(repoConfig1,PartialConfigMother.invalidPartial("p1_repo1_invalid",new RepoConfigOrigin(repoConfig1,"2")));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1_repo1_invalid")),is(false));
+  goPartialConfig.onSuccessPartialConfig(repoConfig2,PartialConfigMother.withPipeline("p2_repo2",new RepoConfigOrigin(repoConfig2,"1")));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1_repo1")),is(true));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p2_repo2")),is(true));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1_repo1_invalid")),is(false));
+  ServerHealthState healthStateForInvalidConfigMerge=ListUtil.find(serverHealthService.getAllLogs(),new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      return ((ServerHealthState)item).getType().equals(HealthStateType.invalidConfigMerge());
+    }
+  }
+);
+  assertThat(healthStateForInvalidConfigMerge,is(nullValue()));
+}

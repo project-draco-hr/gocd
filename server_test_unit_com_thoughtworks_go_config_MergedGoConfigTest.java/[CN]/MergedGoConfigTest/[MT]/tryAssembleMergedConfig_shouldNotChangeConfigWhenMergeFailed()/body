@@ -1,9 +1,0 @@
-{
-  GoConfigHolder fileHolder=cachedFileGoConfig.loadConfigHolder();
-  MergedGoConfig mergedGoConfig=(MergedGoConfig)this.cachedGoConfig;
-  PartialConfig badPart=new PartialConfig(new PipelineGroups(PipelineConfigMother.createGroup("part1",PipelineConfigMother.pipelineConfig("pipe1"),PipelineConfigMother.pipelineConfig("pipe1"))));
-  mergedGoConfig.tryAssembleMergedConfig(fileHolder,Arrays.asList(badPart));
-  assertSame(cachedFileGoConfig.loadConfigHolder(),mergedGoConfig.loadConfigHolder());
-  assertSame(cachedFileGoConfig.currentConfig(),mergedGoConfig.currentConfig());
-  assertSame(cachedFileGoConfig.loadForEditing(),mergedGoConfig.loadForEditing());
-}

@@ -1,0 +1,11 @@
+{
+  CruiseConfig cruiseConfig=configHelper.load();
+  addPipelineWithParams(cruiseConfig);
+  configHelper.writeConfigFile(cruiseConfig);
+  PipelineConfig config=cachedGoConfig.currentConfig().pipelineConfigByName(new CaseInsensitiveString("mingle"));
+  HgMaterialConfig hgMaterialConfig=(HgMaterialConfig)byFolder(config.materialConfigs(),"folder");
+  Assert.assertThat(hgMaterialConfig.getUrl(),Matchers.is("http://hg-server/repo-name"));
+  config=cachedGoConfig.loadForEditing().pipelineConfigByName(new CaseInsensitiveString("mingle"));
+  hgMaterialConfig=(HgMaterialConfig)byFolder(config.materialConfigs(),"folder");
+  Assert.assertThat(hgMaterialConfig.getUrl(),Matchers.is("http://#{foo}/#{bar}"));
+}

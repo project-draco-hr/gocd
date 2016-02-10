@@ -1,0 +1,8 @@
+{
+  configHelper.writeXmlToConfigFile("invalid-xml");
+  cachedGoConfig.forceReload();
+  assertThat(cachedGoConfig.checkConfigFileValid().isValid(),Matchers.is(false));
+  List<ServerHealthState> serverHealthStates=serverHealthService.getAllLogs();
+  assertThat(serverHealthStates.isEmpty(),is(false));
+  assertThat(serverHealthStates.contains(ServerHealthState.error(GoConfigService.INVALID_CRUISE_CONFIG_XML,"Error on line 1: Content is not allowed in prolog.",HealthStateType.invalidConfig())),is(true));
+}

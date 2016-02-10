@@ -6,7 +6,7 @@
   materialUpdateService.updateMaterial(material);
   Assert.assertThat(materialUpdateService.isInProgress(material),is(true));
   waitForMaterialNotInProgress();
-  mergedGoConfig.forceReload();
+  cachedGoConfig.forceReload();
   assertThat(goConfigService.hasPipelineNamed(pipelineConfig.name()),is(true));
   assertThat(goConfigService.pipelineConfigNamed(pipelineConfig.name()),is(pipelineConfig));
 }

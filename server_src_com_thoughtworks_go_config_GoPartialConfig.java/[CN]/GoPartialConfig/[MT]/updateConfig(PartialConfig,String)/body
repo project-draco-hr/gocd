@@ -1,0 +1,34 @@
+{
+  try {
+    goConfigService.updateConfig(new UpdateConfigCommand(){
+      @Override public CruiseConfig update(      CruiseConfig cruiseConfig) throws Exception {
+        if (newPart != null && fingerprint != null) {
+          cruiseConfig.getPartials().remove(findMatchingPartial(cruiseConfig,fingerprint));
+          cruiseConfig.getPartials().add(new Cloner().deepClone(newPart));
+          for (          PartialConfig partial : cruiseConfig.getPartials()) {
+            for (            EnvironmentConfig environmentConfig : partial.getEnvironments()) {
+              if (!cruiseConfig.getEnvironments().hasEnvironmentNamed(environmentConfig.name())) {
+                cruiseConfig.addEnvironment(new BasicEnvironmentConfig(environmentConfig.name()));
+              }
+            }
+            for (            PipelineConfigs pipelineConfigs : partial.getGroups()) {
+              if (!cruiseConfig.getGroups().hasGroup(pipelineConfigs.getGroup())) {
+                cruiseConfig.getGroups().add(new BasicPipelineConfigs(pipelineConfigs.getGroup(),new Authorization()));
+              }
+            }
+          }
+        }
+        return cruiseConfig;
+      }
+    }
+);
+    serverHealthService.update(ServerHealthState.success(HealthStateType.invalidConfigMerge()));
+    return true;
+  }
+ catch (  Exception e) {
+    String description=String.format("%s -  Config-Repo: %s",GoConfigValidity.invalid(e).errorMessage(),newPart.getOrigin().displayName());
+    ServerHealthState state=ServerHealthState.error(INVALID_CRUISE_CONFIG_MERGE,description,HealthStateType.invalidConfigMerge());
+    serverHealthService.update(state);
+    return false;
+  }
+}

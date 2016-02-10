@@ -1,0 +1,8 @@
+{
+  for (  PartialConfig partial : partials) {
+    if (partial.getOrigin() instanceof RepoConfigOrigin) {
+      String fingerprint=((RepoConfigOrigin)partial.getOrigin()).getMaterial().getFingerprint();
+      markAsValid(fingerprint,partial);
+    }
+  }
+}

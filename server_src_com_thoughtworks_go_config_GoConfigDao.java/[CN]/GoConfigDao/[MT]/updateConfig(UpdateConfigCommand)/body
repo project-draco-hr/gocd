@@ -1,4 +1,5 @@
 {
+  ConfigSaveState configSaveState=null;
   LOGGER.info("Config update request by {} is in queue - {}",UserHelper.getUserName().getUsername(),command);
 synchronized (GoConfigWriteLock.class) {
     try {
@@ -9,7 +10,7 @@ synchronized (GoConfigWriteLock.class) {
           throw new ConfigUpdateCheckFailedException();
         }
       }
-      return cachedConfigService.writeWithLock(command);
+      configSaveState=cachedConfigService.writeWithLock(command);
     }
   finally {
       if (command instanceof ConfigAwareUpdate) {
@@ -17,5 +18,7 @@ synchronized (GoConfigWriteLock.class) {
       }
       LOGGER.info("Config update request by {} is completed",UserHelper.getUserName().getUsername());
     }
+    LOGGER.info("Config update request by {} is completed",UserHelper.getUserName().getUsername());
   }
+  return configSaveState;
 }

@@ -7,10 +7,17 @@
     pluginsInitializer.initialize();
     pluginsZip.create();
     configCipherUpdater.migrate();
+    ConfigRepoPartialPreprocessor preprocessor=(ConfigRepoPartialPreprocessor)ListUtil.find(MagicalGoConfigXmlLoader.PREPROCESSORS,new ListUtil.Condition(){
+      @Override public <GoConfigPreprocessor>boolean isMet(      GoConfigPreprocessor item){
+        return item instanceof ConfigRepoPartialPreprocessor;
+      }
+    }
+);
+    preprocessor.init(goPartialConfig);
     configElementImplementationRegistrar.initialize();
     configRepository.initialize();
     goFileConfigDataSource.upgradeIfNecessary();
-    mergedGoConfig.loadConfigIfNull();
+    cachedGoConfig.loadConfigIfNull();
     goConfigService.initialize();
     pipelineConfigService.initialize();
     artifactsDirHolder.initialize();

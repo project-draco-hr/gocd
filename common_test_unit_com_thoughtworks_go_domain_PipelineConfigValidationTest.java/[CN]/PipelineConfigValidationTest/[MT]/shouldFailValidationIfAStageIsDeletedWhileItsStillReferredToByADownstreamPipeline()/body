@@ -8,7 +8,7 @@
   PipelineConfig pipelineConfig=new PipelineConfig(p1.name(),new MaterialConfigs(),stageConfig);
   PipelineConfigSaveValidationContext validationContext=PipelineConfigSaveValidationContext.forChain(false,cruiseConfig.getGroups().first().getGroup(),cruiseConfig,pipelineConfig);
   pipelineConfig.validateTree(validationContext);
-  assertThat(pipelineConfig.errors().on("base"),is("Stage with name 'stage' does not exist on pipeline 'p1', it is being referred to from pipeline 'p2'"));
+  assertThat(pipelineConfig.errors().on("base"),is("Stage with name 'stage' does not exist on pipeline 'p1', it is being referred to from pipeline 'p2' (cruise-config.xml)"));
   p2=PipelineConfigurationCache.getInstance().getPipelineConfig("p2");
   assertThat(p2.materialConfigs().getDependencyMaterial().errors().isEmpty(),is(true));
 }

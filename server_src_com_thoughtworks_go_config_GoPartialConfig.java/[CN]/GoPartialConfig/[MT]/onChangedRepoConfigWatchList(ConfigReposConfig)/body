@@ -1,10 +1,18 @@
 {
-  boolean removedAny=false;
-  for (  String fingerprint : this.fingerprintToLatestValidConfigMap.keySet()) {
+  boolean removed=false;
+  for (  String fingerprint : cachedGoPartials.getFingerprintToLatestKnownConfigMap().keySet()) {
     if (!newConfigRepos.hasMaterialWithFingerprint(fingerprint)) {
-      this.fingerprintToLatestValidConfigMap.remove(fingerprint);
-      removedAny=true;
+      removed=true;
+      cachedGoPartials.removeKnown(fingerprint);
     }
   }
-  if (removedAny)   this.notifyListeners();
+  for (  String fingerprint : cachedGoPartials.getFingerprintToLatestValidConfigMap().keySet()) {
+    if (!newConfigRepos.hasMaterialWithFingerprint(fingerprint)) {
+      removed=true;
+      cachedGoPartials.removeValid(fingerprint);
+    }
+  }
+  if (removed) {
+    updateConfig(null,null);
+  }
 }

@@ -3,7 +3,7 @@
   SCMs scms=new SCMs(myscm);
   BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
   cruiseConfig.setSCMs(scms);
-  when(cachedFileGoConfig.currentConfig()).thenReturn(cruiseConfig);
+  when(cachedGoConfig.currentConfig()).thenReturn(cruiseConfig);
   CRPluggableScmMaterial crPluggableScmMaterial=new CRPluggableScmMaterial("name","scmid","directory",filter);
   PluggableSCMMaterialConfig pluggableSCMMaterialConfig=(PluggableSCMMaterialConfig)configConverter.toMaterialConfig(crPluggableScmMaterial);
   assertThat(pluggableSCMMaterialConfig.getName().toLower(),is("name"));

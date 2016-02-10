@@ -1,0 +1,8 @@
+{
+  assertThat(configWatchList.getCurrentConfigRepos().size(),is(1));
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
+  assertThat(findMessageFor(HealthStateType.invalidConfigMerge()).isEmpty(),is(true));
+  assertThat(findMessageFor(HealthStateType.invalidConfig()).isEmpty(),is(true));
+  assertThat(repoConfigDataSource.latestPartialConfigForMaterial(configRepo.getMaterialConfig()).getGroups().findGroup("first").findBy(new CaseInsensitiveString("pipe1")),is(not(nullValue())));
+  assertThat(cachedGoConfig.currentConfig().hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+}

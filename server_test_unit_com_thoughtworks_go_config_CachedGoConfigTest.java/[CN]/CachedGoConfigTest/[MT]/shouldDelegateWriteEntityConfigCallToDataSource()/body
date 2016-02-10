@@ -1,0 +1,13 @@
+{
+  EntityConfigUpdateCommand saveCommand=mock(EntityConfigUpdateCommand.class);
+  GoConfigHolder savedConfig=new GoConfigHolder(new BasicCruiseConfig(),new BasicCruiseConfig());
+  GoConfigHolder holderBeforeUpdate=cachedGoConfig.loadConfigHolder();
+  Username user=new Username(new CaseInsensitiveString("user"));
+  EntityConfigSaveResult entityConfigSaveResult=mock(EntityConfigSaveResult.class);
+  when(dataSource.writeEntityWithLock(saveCommand,holderBeforeUpdate,user)).thenReturn(entityConfigSaveResult);
+  cachedGoConfig.writeEntityWithLock(saveCommand,user);
+  assertThat(cachedGoConfig.loadConfigHolder(),is(savedConfig));
+  assertThat(cachedGoConfig.currentConfig(),is(savedConfig.config));
+  assertThat(cachedGoConfig.loadForEditing(),is(savedConfig.configForEdit));
+  verify(dataSource).writeEntityWithLock(saveCommand,holderBeforeUpdate,user);
+}

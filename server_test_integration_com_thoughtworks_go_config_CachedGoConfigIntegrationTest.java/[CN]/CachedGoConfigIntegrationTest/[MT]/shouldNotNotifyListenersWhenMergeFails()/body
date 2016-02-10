@@ -1,0 +1,10 @@
+{
+  checkinPartial("config_repo_with_invalid_partial");
+  ConfigRepoConfig configRepo=configWatchList.getCurrentConfigRepos().get(0);
+  ConfigChangeListenerStub listener=new ConfigChangeListenerStub();
+  cachedGoConfig.registerListener(listener);
+  assertThat(listener.invocationCount,is(1));
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
+  assertThat("currentConfigShouldBeMainXmlOnly",cachedGoConfig.currentConfig().hasPipelineNamed(new CaseInsensitiveString("pipeline_with_no_stage")),is(false));
+  assertThat(listener.invocationCount,is(1));
+}

@@ -1,5 +1,5 @@
 {
   DependencyMaterialConfig dependencyMaterialConfig=new DependencyMaterialConfig(new CaseInsensitiveString("pipeline-foo"),new CaseInsensitiveString("stage-bar"));
-  dependencyMaterialConfig.validate(ConfigSaveValidationContext.forChain(new BasicCruiseConfig()));
+  dependencyMaterialConfig.validate(ConfigSaveValidationContext.forChain(new BasicCruiseConfig(),pipelineConfig));
   assertThat(dependencyMaterialConfig.errors().on(AbstractMaterialConfig.MATERIAL_NAME),is(nullValue()));
 }

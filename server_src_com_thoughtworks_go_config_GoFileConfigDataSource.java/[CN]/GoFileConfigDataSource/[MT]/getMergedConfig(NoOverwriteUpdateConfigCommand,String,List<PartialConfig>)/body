@@ -1,0 +1,11 @@
+{
+  LOGGER.debug("[Config Save] Getting merged config");
+  String oldMd5=noOverwriteCommand.unmodifiedMd5();
+  CruiseConfig modifiedConfig=getOldConfigAndMutateWithChanges(noOverwriteCommand,oldMd5);
+  modifiedConfig.setPartials(partials);
+  String modifiedConfigAsXml=convertMutatedConfigToXml(modifiedConfig,latestMd5);
+  GoConfigRevision configRevision=new GoConfigRevision(modifiedConfigAsXml,"temporary-md5-for-branch",getConfigUpdatingUser(noOverwriteCommand).getUserName(),serverVersion.version(),timeProvider);
+  String mergedConfigXml=configRepository.getConfigMergedWithLatestRevision(configRevision,oldMd5);
+  validateMergedXML(mergedConfigXml,latestMd5);
+  return mergedConfigXml;
+}

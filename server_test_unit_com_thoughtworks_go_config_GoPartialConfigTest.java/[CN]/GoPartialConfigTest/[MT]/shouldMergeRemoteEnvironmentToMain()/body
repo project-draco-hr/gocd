@@ -1,0 +1,13 @@
+{
+  when(goConfigService.updateConfig(any(UpdateConfigCommand.class))).thenAnswer(new Answer<Object>(){
+    @Override public Object answer(    InvocationOnMock invocationOnMock) throws Throwable {
+      UpdateConfigCommand command=(UpdateConfigCommand)invocationOnMock.getArguments()[0];
+      command.update(cruiseConfig);
+      return cruiseConfig;
+    }
+  }
+);
+  partialConfig.onSuccessPartialConfig(configRepoConfig,PartialConfigMother.withEnvironment("env1"));
+  assertThat(cruiseConfig.getPartials().size(),is(1));
+  assertThat(cruiseConfig.getPartials().get(0).getEnvironments().first().name(),is(new CaseInsensitiveString("env1")));
+}

@@ -14,7 +14,7 @@
   final HashMap<String,String> revisions=new HashMap<String,String>();
   final HashMap<String,String> environmentVariables=new HashMap<String,String>();
   buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,Username.ANONYMOUS,new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
-  mergedGoConfig.throwExceptionIfExists();
+  cachedGoConfig.throwExceptionIfExists();
   Map<String,BuildCause> afterLoad=scheduleHelper.waitForAnyScheduled(20);
   assertThat(afterLoad.keySet(),hasItem(PIPELINE_NAME));
   BuildCause cause=afterLoad.get(PIPELINE_NAME);

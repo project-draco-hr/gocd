@@ -11,7 +11,7 @@
   assertThat(task.getTypeForDisplay(),is("Pluggable Task"));
   final Configuration configuration=task.getConfiguration();
   assertThat(configuration.listOfConfigKeys().size(),is(3));
-  assertThat(configuration.listOfConfigKeys(),is(Arrays.asList("url","username","password")));
+  assertThat(configuration.listOfConfigKeys(),is(asList("url","username","password")));
   Collection values=CollectionUtils.collect(configuration.listOfConfigKeys(),new Transformer(){
     @Override public Object transform(    Object o){
       ConfigurationProperty property=configuration.getProperty((String)o);
@@ -19,5 +19,5 @@
     }
   }
 );
-  assertThat(new ArrayList<String>(values),is(Arrays.asList("http://fake-go-server","godev","password")));
+  assertThat(new ArrayList<String>(values),is(asList("http://fake-go-server","godev","password")));
 }

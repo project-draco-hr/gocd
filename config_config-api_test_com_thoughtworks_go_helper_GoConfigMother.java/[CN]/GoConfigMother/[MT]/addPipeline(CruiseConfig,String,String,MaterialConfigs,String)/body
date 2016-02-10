@@ -1,6 +1,7 @@
 {
   StageConfig stageConfig=StageConfigMother.custom(stageName,defaultBuildPlans(buildNames));
   PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString(pipelineName),materialConfigs,stageConfig);
+  pipelineConfig.setOrigin(new FileConfigOrigin());
   cruiseConfig.addPipeline(DEFAULT_GROUP,pipelineConfig);
   return pipelineConfig;
 }

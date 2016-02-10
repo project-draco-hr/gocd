@@ -2,7 +2,7 @@
   configHelper.turnOnSecurity();
   configHelper.addAdmins("hero");
   configHelper.addTemplate("pipeline","stage");
-  mergedGoConfig.forceReload();
+  cachedGoConfig.forceReload();
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   goConfigService.loadCruiseConfigForEdit(new Username(new CaseInsensitiveString("loser")),result);
   assertThat(result.isSuccessful(),is(false));

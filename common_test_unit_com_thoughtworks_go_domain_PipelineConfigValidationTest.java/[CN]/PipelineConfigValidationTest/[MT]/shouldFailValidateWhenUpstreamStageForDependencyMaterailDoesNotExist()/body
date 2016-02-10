@@ -9,5 +9,5 @@
   assertThat(isValid,is(false));
   ConfigErrors materialErrors=pipelineConfig.materialConfigs().first().errors();
   assertThat(materialErrors.isEmpty(),is(false));
-  assertThat(materialErrors.firstError(),is("Stage with name 'non-existant' does not exist on pipeline 'upstream'"));
+  assertThat(materialErrors.firstError(),is("Stage with name 'non-existant' does not exist on pipeline 'upstream', it is being referred to from pipeline 'downstream' (cruise-config.xml)"));
 }

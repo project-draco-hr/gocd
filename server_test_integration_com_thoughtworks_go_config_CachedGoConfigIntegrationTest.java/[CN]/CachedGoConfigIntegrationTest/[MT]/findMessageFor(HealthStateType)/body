@@ -1,0 +1,9 @@
+{
+  return ListUtil.filterInto(new ArrayList<ServerHealthState>(),serverHealthService.getAllLogs(),new Filter<ServerHealthState>(){
+    @Override public boolean matches(    ServerHealthState element){
+      boolean b=element.getType().equals(type);
+      return b;
+    }
+  }
+);
+}

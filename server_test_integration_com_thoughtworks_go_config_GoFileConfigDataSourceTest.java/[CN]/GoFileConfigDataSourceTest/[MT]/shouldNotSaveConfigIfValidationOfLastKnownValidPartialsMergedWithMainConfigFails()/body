@@ -1,0 +1,21 @@
+{
+  final PipelineConfig upstream=PipelineConfigMother.createPipelineConfig(UUID.randomUUID().toString(),"s1","j1");
+  configHelper.addPipeline(upstream);
+  String remotePipeline="remote_pipeline";
+  RepoConfigOrigin repoConfigOrigin=new RepoConfigOrigin(this.repoConfig,"1");
+  PartialConfig partialConfig=PartialConfigMother.pipelineWithDependencyMaterial(remotePipeline,upstream,repoConfigOrigin);
+  cachedGoPartials.addOrUpdate(this.repoConfig.getMaterialConfig().getFingerprint(),partialConfig);
+  cachedGoPartials.markAllKnownAsValid();
+  thrown.expect(RuntimeException.class);
+  thrown.expectCause(any(GoConfigInvalidException.class));
+  thrown.expectMessage(String.format("Stage with name 's1' does not exist on pipeline '%s', it is being referred to from pipeline '%s' (%s)",upstream.name(),remotePipeline,repoConfigOrigin.displayName()));
+  dataSource.writeWithLock(new UpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      PipelineConfig pipelineConfig=cruiseConfig.getPipelineConfigByName(upstream.name());
+      pipelineConfig.clear();
+      pipelineConfig.add(new StageConfig(new CaseInsensitiveString("new_stage"),new JobConfigs(new JobConfig("job"))));
+      return cruiseConfig;
+    }
+  }
+,new GoConfigHolder(configHelper.currentConfig(),configHelper.currentConfig()));
+}

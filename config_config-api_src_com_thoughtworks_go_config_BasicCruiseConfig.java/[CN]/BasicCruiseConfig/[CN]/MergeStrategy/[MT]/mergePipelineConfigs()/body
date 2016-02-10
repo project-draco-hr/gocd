@@ -6,6 +6,9 @@
   }
   for (  PartialConfig part : this.parts) {
     for (    PipelineConfigs partPipesConf : part.getGroups()) {
+      for (      PipelineConfig pipelineConfig : partPipesConf) {
+        main.getAllPipelineConfigs().add(pipelineConfig);
+      }
       allPipelineConfigs.add(partPipesConf);
     }
   }

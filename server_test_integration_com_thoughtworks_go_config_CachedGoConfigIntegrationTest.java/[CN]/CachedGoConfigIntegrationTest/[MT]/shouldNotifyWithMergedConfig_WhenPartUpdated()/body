@@ -1,0 +1,8 @@
+{
+  ConfigChangeListenerStub listener=new ConfigChangeListenerStub();
+  cachedGoConfig.registerListener(listener);
+  assertThat(listener.invocationCount,is(1));
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
+  assertThat("currentConfigShouldBeMerged",cachedGoConfig.currentConfig().hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+  assertThat(listener.invocationCount,is(2));
+}
