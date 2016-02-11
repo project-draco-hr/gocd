@@ -1,0 +1,12 @@
+{
+  goConfigService.updateConfig(new UpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      PipelineTemplateConfig template=PipelineTemplateConfigMother.createTemplate(templateName);
+      PipelineConfig pipeline=PipelineConfigMother.pipelineConfigWithTemplate(pipelineName,template.name().toString());
+      cruiseConfig.addTemplate(template);
+      cruiseConfig.addPipeline("group",pipeline);
+      return cruiseConfig;
+    }
+  }
+);
+}
