@@ -3,7 +3,7 @@
   String xml=FileUtil.readToEnd(stream);
   stream.close();
   SvnLogXmlParser parser=new SvnLogXmlParser();
-  List<Modification> revisions=parser.parse(xml,"",new SAXBuilder(false));
+  List<Modification> revisions=parser.parse(xml,"",new SAXBuilder());
   assertThat(revisions.size(),is(43));
   Modification modWithoutComment=null;
   for (  Modification revision : revisions) {

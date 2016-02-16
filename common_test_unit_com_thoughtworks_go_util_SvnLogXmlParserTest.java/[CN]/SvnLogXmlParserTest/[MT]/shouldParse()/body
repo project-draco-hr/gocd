@@ -1,6 +1,6 @@
 {
   SvnLogXmlParser parser=new SvnLogXmlParser();
-  List<Modification> materialRevisions=parser.parse(XML,"",new SAXBuilder(false));
+  List<Modification> materialRevisions=parser.parse(XML,"",new SAXBuilder());
   assertThat(materialRevisions.size(),is(1));
   Modification mod=materialRevisions.get(0);
   assertThat(mod.getRevision(),is("3"));

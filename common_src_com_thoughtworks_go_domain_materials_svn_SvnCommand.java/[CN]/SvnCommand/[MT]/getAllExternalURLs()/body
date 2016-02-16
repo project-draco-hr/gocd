@@ -2,7 +2,7 @@
   CommandLine svnExternalCommand=svn(true).withArgs("propget","--non-interactive","svn:externals","-R").withArg(repositoryUrl);
   ConsoleResult result=executeCommand(svnExternalCommand);
   String svnExternalConsoleOut=result.outputAsString();
-  SvnInfo remoteInfo=remoteInfo(new SAXBuilder(false));
+  SvnInfo remoteInfo=remoteInfo(new SAXBuilder());
   String repoUrl=remoteInfo.getUrl();
   String repoRoot=remoteInfo.getRoot();
   List<SvnExternal> svnExternalList=null;

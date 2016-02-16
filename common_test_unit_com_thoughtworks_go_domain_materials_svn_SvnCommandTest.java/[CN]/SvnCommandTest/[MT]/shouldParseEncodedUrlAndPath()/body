@@ -1,7 +1,7 @@
 {
   String output="<?xml version=\"1.0\"?>\n" + "<info>\n" + "<entry\n"+ "   kind=\"dir\"\n"+ "   path=\"unit-reports\"\n"+ "   revision=\"3\">\n"+ "<url>file:///C:/Documents%20and%20Settings/cceuser/Local%20Settings/Temp/testSvnRepo-1243722556125/end2end/unit-reports</url>\n"+ "<repository>\n"+ "<root>file:///C:/Documents%20and%20Settings/cceuser/Local%20Settings/Temp/testSvnRepo-1243722556125/end2end</root>\n"+ "<uuid>f953918e-915c-4459-8d4c-83860cce9d9a</uuid>\n"+ "</repository>\n"+ "<commit\n"+ "   revision=\"1\">\n"+ "<author>cceuser</author>\n"+ "<date>2008-03-20T04:00:43.976517Z</date>\n"+ "</commit>\n"+ "</entry>\n"+ "</info>";
   SvnCommand.SvnInfo svnInfo=new SvnCommand.SvnInfo();
-  svnInfo.parse(output,new SAXBuilder(false));
+  svnInfo.parse(output,new SAXBuilder());
   assertThat(svnInfo.getUrl(),is("file:///C:/Documents%20and%20Settings/cceuser/Local%20Settings/Temp/testSvnRepo-1243722556125/end2end/unit-reports"));
   assertThat(svnInfo.getPath(),is("/unit-reports"));
 }

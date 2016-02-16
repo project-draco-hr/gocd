@@ -1,6 +1,6 @@
 {
   SvnLogXmlParser parser=new SvnLogXmlParser();
-  List<Modification> materialRevisions=parser.parse(MULTIPLE_FILES,"/branch",new SAXBuilder(false));
+  List<Modification> materialRevisions=parser.parse(MULTIPLE_FILES,"/branch",new SAXBuilder());
   Modification mod=materialRevisions.get(0);
   List<ModifiedFile> files=mod.getModifiedFiles();
   assertThat(files.size(),is(1));
