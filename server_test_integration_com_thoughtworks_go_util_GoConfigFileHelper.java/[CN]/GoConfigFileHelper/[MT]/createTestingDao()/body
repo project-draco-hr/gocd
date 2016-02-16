@@ -1,21 +1,20 @@
 {
   SystemEnvironment systemEnvironment=new SystemEnvironment();
   try {
-    NoOpMetricsProbeService probeService=new NoOpMetricsProbeService();
     ServerHealthService serverHealthService=new ServerHealthService();
     ConfigRepository configRepository=new ConfigRepository(systemEnvironment);
     configRepository.initialize();
     ConfigCache configCache=new ConfigCache();
     ConfigElementImplementationRegistry configElementImplementationRegistry=ConfigElementImplementationRegistryMother.withNoPlugins();
-    GoFileConfigDataSource dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,systemEnvironment,new TimeProvider(),configCache,new ServerVersion(),configElementImplementationRegistry,probeService,serverHealthService);
+    GoFileConfigDataSource dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,systemEnvironment,new TimeProvider(),configCache,new ServerVersion(),configElementImplementationRegistry,serverHealthService);
     dataSource.upgradeIfNecessary();
     CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,serverHealthService);
     GoConfigWatchList configWatchList=new GoConfigWatchList(fileService);
-    GoRepoConfigDataSource repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,new GoConfigPluginService(configCache,configElementImplementationRegistry,probeService));
+    GoRepoConfigDataSource repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,new GoConfigPluginService(configCache,configElementImplementationRegistry));
     GoPartialConfig partialConfig=new GoPartialConfig(repoConfigDataSource,configWatchList);
     MergedGoConfig cachedConfigService=new MergedGoConfig(serverHealthService,fileService,partialConfig);
     cachedConfigService.loadConfigIfNull();
-    return new GoConfigDao(cachedConfigService,probeService);
+    return new GoConfigDao(cachedConfigService);
   }
  catch (  IOException e) {
     throw new RuntimeException(e);

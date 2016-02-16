@@ -1,5 +1,4 @@
 {
-  metricsProbeService=mock(MetricsProbeService.class);
   diskSpaceSimulator=new DiskSpaceSimulator();
   hgRepo=new HgTestRepo("testHgRepo");
   dbHelper.onSetUp();
@@ -15,7 +14,7 @@
   GoDiskSpaceMonitor goDiskSpaceMonitor=new GoDiskSpaceMonitor(goConfigService,systemEnvironment,serverHealthService,emailSender,mockDiskSpaceChecker,mock(ArtifactsService.class),stageService,configDbStateRepository);
   goDiskSpaceMonitor.initialize();
   worker=new MaterialUpdateListener(configTopic,materialDatabaseUpdater,logger,goDiskSpaceMonitor);
-  xmlWriter=new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  xmlWriter=new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins());
   configTestRepo=new ConfigTestRepo(hgRepo,xmlWriter);
   this.material=configTestRepo.getMaterial();
 }

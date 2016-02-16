@@ -6,7 +6,7 @@
       exs.add(e);
     }
   }
-,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins());
   Method upgrade=upgrader.getClass().getDeclaredMethod("upgrade",String.class,Integer.TYPE,Integer.TYPE);
   upgrade.setAccessible(true);
   return (String)upgrade.invoke(upgrader,content,fromVersion,toVersion);

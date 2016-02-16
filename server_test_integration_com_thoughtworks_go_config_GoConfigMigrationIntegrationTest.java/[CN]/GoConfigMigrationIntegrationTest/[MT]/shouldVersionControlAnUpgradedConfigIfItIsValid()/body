@@ -4,7 +4,7 @@
       throw new AssertionError("upgrade failed!!!!!");
     }
   }
-,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins());
   FileUtils.writeStringToFile(configFile,ConfigFileFixture.DEFAULT_XML_WITH_2_AGENTS);
   configRepository.checkin(new GoConfigRevision("dummy-content","some-md5","loser","100.3.1",new TimeProvider()));
   upgrader.upgradeIfNecessary(configFile,currentGoServerVersion);

@@ -5,7 +5,7 @@
       exs.add(e);
     }
   }
-,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins());
   FileUtils.writeStringToFile(configFile,ConfigFileFixture.JOBS_WITH_DIFFERNT_CASE);
   upgrader.upgradeIfNecessary(configFile,currentGoServerVersion);
   assertThat(exs.size(),is(1));

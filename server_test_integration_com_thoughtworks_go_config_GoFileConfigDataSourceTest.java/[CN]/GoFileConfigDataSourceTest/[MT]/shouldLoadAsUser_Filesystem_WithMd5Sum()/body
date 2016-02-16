@@ -6,7 +6,7 @@
   CruiseConfig forEdit=configHolder.configForEdit;
   forEdit.addPipeline("my-awesome-group",PipelineConfigMother.createPipelineConfig("pipeline-foo","stage-bar","job-baz"));
   FileOutputStream fos=new FileOutputStream(dataSource.fileLocation());
-  new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).write(forEdit,fos,false);
+  new MagicalGoConfigXmlWriter(configCache,ConfigElementImplementationRegistryMother.withNoPlugins()).write(forEdit,fos,false);
   configHolder=dataSource.load();
   String xmlText=FileUtils.readFileToString(dataSource.fileLocation());
   String secondMd5=DigestUtils.md5Hex(xmlText);

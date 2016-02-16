@@ -1,7 +1,7 @@
 {
   try {
     final ByteArrayInputStream inputStream=new ByteArrayInputStream(ConfigFileFixture.CONTAINS_MULTI_SAME_STATUS_RUN_IF.getBytes());
-    new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).loadConfigHolder(FileUtil.readToEnd(inputStream));
+    new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins()).loadConfigHolder(FileUtil.readToEnd(inputStream));
     fail();
   }
  catch (  Exception e) {

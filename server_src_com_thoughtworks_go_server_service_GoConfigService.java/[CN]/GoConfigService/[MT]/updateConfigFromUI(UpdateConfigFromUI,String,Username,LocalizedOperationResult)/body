@@ -1,5 +1,4 @@
 {
-  Context context=metricsProbeService.begin(ProbeType.SAVE_CONFIG_XML_THROUGH_CLICKY_ADMIN);
   UiBasedConfigUpdateCommand updateCommand=new UiBasedConfigUpdateCommand(md5,command,result);
   UpdatedNodeSubjectResolver updatedConfigResolver=new UpdatedNodeSubjectResolver();
   try {
@@ -33,9 +32,6 @@ catch (  Exception e) {
  else {
       result.badRequest(LocalizedMessage.string("SAVE_FAILED_WITH_REASON",e.getMessage()));
     }
-  }
- finally {
-    metricsProbeService.end(ProbeType.SAVE_CONFIG_XML_THROUGH_CLICKY_ADMIN,context);
   }
   CruiseConfig newConfigSinceNoOtherConfigExists=clonedConfigForEdit();
   setMD5(md5,newConfigSinceNoOtherConfigExists);

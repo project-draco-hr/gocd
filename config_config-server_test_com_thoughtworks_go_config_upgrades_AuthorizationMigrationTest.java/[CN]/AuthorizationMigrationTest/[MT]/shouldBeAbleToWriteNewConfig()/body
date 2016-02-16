@@ -1,6 +1,6 @@
 {
   CruiseConfig newConfig=ConfigMigrator.loadWithMigration(CONFIG_WITH_AUTH).config;
   ByteArrayOutputStream buffer=new ByteArrayOutputStream();
-  new MagicalGoConfigXmlWriter(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).write(newConfig,buffer,false);
+  new MagicalGoConfigXmlWriter(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins()).write(newConfig,buffer,false);
   assertThat(new String(buffer.toByteArray()).replace("\r\n","\n"),containsString(NEW_AUTHORIZATION));
 }

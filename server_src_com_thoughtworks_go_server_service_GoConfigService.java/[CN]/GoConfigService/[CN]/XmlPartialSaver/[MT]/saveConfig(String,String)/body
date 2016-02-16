@@ -1,6 +1,6 @@
 {
   LOGGER.debug("[Config Save] Started saving XML");
-  MagicalGoConfigXmlLoader configXmlLoader=new MagicalGoConfigXmlLoader(configCache,registry,metricsProbeService);
+  MagicalGoConfigXmlLoader configXmlLoader=new MagicalGoConfigXmlLoader(configCache,registry);
   final CruiseConfig config=configXmlLoader.loadConfigHolder(xmlString).configForEdit;
   LOGGER.debug("[Config Save] Updating config");
   ConfigSaveState configSaveState=goConfigDao.updateConfig(new NoOverwriteUpdateConfigCommand(){

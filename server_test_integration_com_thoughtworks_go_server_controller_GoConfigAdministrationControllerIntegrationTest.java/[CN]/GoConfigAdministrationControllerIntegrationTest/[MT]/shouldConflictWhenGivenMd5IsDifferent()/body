@@ -2,7 +2,7 @@
   configHelper.addPipeline("pipeline","stage","build1","build2");
   controller.getCurrentConfigXml("crapy_md5",response);
   ByteArrayOutputStream os=new ByteArrayOutputStream();
-  new MagicalGoConfigXmlWriter(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).write(goConfigDao.loadForEditing(),os,true);
+  new MagicalGoConfigXmlWriter(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins()).write(goConfigDao.loadForEditing(),os,true);
   assertValidContentAndStatus(SC_CONFLICT,"text/plain; charset=utf-8",CONFIG_CHANGED_PLEASE_REFRESH);
   assertThat(response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5),is(goConfigDao.md5OfConfigFile()));
 }

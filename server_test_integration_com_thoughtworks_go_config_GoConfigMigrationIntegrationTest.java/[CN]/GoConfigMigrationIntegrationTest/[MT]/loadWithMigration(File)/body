@@ -10,9 +10,9 @@
       throw bomb(e.getMessage() + ": content=\n" + content,e);
     }
   }
-,configRepository,new TimeProvider(),configCache,registry,metricsProbeService);
+,configRepository,new TimeProvider(),configCache,registry);
   SystemEnvironment sysEnv=new SystemEnvironment();
-  GoFileConfigDataSource configDataSource=new GoFileConfigDataSource(migration,configRepository,sysEnv,new TimeProvider(),configCache,serverVersion,registry,metricsProbeService,serverHealthService);
+  GoFileConfigDataSource configDataSource=new GoFileConfigDataSource(migration,configRepository,sysEnv,new TimeProvider(),configCache,serverVersion,registry,serverHealthService);
   configDataSource.upgradeIfNecessary();
   return configDataSource.forceLoad(configFile);
 }

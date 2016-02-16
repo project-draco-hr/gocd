@@ -1,5 +1,5 @@
 {
-  CruiseConfig cruiseConfig=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(ConfigFileFixture.withJob(CMD_NOT_EXIST)))).config;
+  CruiseConfig cruiseConfig=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins()).loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(ConfigFileFixture.withJob(CMD_NOT_EXIST)))).config;
   JobConfig jobConfig=cruiseConfig.jobConfigByName(PIPELINE_NAME,STAGE_NAME,JOB_PLAN_NAME,true);
   final Stage stage=StageMother.custom(STAGE_NAME,new JobInstance(JOB_PLAN_NAME));
   BuildCause buildCause=BuildCause.createWithEmptyModifications();

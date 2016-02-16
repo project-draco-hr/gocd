@@ -1,0 +1,16 @@
+{
+  this(new UpgradeFailedHandler(){
+    public void handle(    Exception e){
+      e.printStackTrace();
+      System.err.println("There are errors in the Cruise config file.  Please read the error message and correct the errors.\n" + "Once fixed, please restart Cruise.\nError: " + e.getMessage());
+      LOG.fatal("There are errors in the Cruise config file.  Please read the error message and correct the errors.\n" + "Once fixed, please restart Cruise.\nError: " + e.getMessage());
+      new Thread(new Runnable(){
+        public void run(){
+          System.exit(1);
+        }
+      }
+).start();
+    }
+  }
+,configRepository,timeProvider,configCache,registry);
+}
