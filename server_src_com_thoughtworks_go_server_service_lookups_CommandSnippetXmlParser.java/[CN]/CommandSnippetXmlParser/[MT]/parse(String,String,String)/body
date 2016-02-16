@@ -1,6 +1,6 @@
 {
   try {
-    XmlUtils.validate(xmlContent,CommandSnippet.class.getResource("command-snippet.xsd"),new XsdErrorTranslator(),new SAXBuilder());
+    XmlUtils.validate(xmlContent,CommandSnippet.class.getResource("command-snippet.xsd"));
     Document document=XmlUtils.buildXmlDocument(xmlContent);
     CommandSnippetComment comment=getComment(document);
     Element execTag=document.getRootElement();

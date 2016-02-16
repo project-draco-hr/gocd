@@ -2,5 +2,5 @@
   ByteArrayOutputStream buffer=new ByteArrayOutputStream();
   XmlUtils.writeXml(document,buffer);
   InputStream content=toInputStream(buffer.toString());
-  XmlUtils.validate(content,GoConfigSchema.getCurrentSchema(),new XsdErrorTranslator(),builder,registry.xsds());
+  XmlUtils.validate(content,GoConfigSchema.getCurrentSchema(),registry.xsds());
 }
