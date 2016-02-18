@@ -3,7 +3,7 @@
   ByteArrayOutputStream out=new ByteArrayOutputStream();
   new MagicalGoConfigXmlWriter(configCache,registry).write(cruiseConfig,out,true);
   org.dom4j.Document document=reader.read(new StringReader(out.toString()));
-  Map<String,String> map=new HashMap<String,String>();
+  Map<String,String> map=new HashMap<>();
   map.put("go",MagicalGoConfigXmlWriter.XML_NS);
   DocumentFactory factory=DocumentFactory.getInstance();
   factory.setXPathNamespaceURIs(map);
