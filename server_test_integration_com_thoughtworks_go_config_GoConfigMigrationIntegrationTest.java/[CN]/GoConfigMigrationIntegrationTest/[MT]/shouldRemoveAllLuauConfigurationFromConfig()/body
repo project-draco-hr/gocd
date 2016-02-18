@@ -1,7 +1,7 @@
 {
   String configString="<cruise schemaVersion='66'>" + "<server siteUrl='https://hostname'>" + "<security>"+ "      <luau url='https://luau.url.com' clientKey='0d010cf97ec505ee3788a9b5b8cf71d482c394ae88d32f0333' authState='authorized' />"+ "      <ldap uri='ldap' managerDn='managerDn' encryptedManagerPassword='+XhtUNvVAxJdHGF4qQGnWw==' searchFilter='(sAMAccountName={0})'>"+ "        <bases>"+ "          <base value='ou=Enterprise,ou=Principal,dc=corporate,dc=thoughtworks,dc=com' />"+ "        </bases>"+ "      </ldap>"+ "      <roles>"+ "         <role name='luau-role'><groups><luauGroup>luau-group</luauGroup></groups></role>"+ "         <role name='ldap-role'><users><user>some-user</user></users></role>"+ "</roles>"+ "</security>"+ "</server>"+ "</cruise>";
   String migratedContent=migrateXmlString(configString,66);
-  Document document=new SAXBuilder().build(migratedContent);
+  Document document=new SAXBuilder().build(new StringReader(migratedContent));
   assertThat(document.getDescendants(new ElementFilter("luau")).hasNext(),is(false));
   assertThat(document.getDescendants(new ElementFilter("groups")).hasNext(),is(false));
 }
