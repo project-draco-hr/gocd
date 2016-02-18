@@ -1,11 +1,11 @@
 {
   try {
-    XmlUtils.validate(xmlContent,CommandSnippet.class.getResource("command-snippet.xsd"));
-    Document document=XmlUtils.buildXmlDocument(xmlContent);
+    Document document=buildXmlDocument(xmlContent,CommandSnippet.class.getResource("command-snippet.xsd"));
+    ;
     CommandSnippetComment comment=getComment(document);
     Element execTag=document.getRootElement();
     String commandName=execTag.getAttributeValue("command");
-    List<String> arguments=new ArrayList<String>();
+    List<String> arguments=new ArrayList<>();
     for (    Object child : execTag.getChildren()) {
       Element element=(Element)child;
       arguments.add(element.getValue());

@@ -1,5 +1,5 @@
 {
-  Element element=XmlUtils.validate(inputStream,GoConfigSchema.getCurrentSchema(),registry.xsds());
-  validateDom(element,registry);
-  return element;
+  Element rootElement=buildXmlDocument(inputStream,GoConfigSchema.getCurrentSchema(),registry.xsds()).getRootElement();
+  validateDom(rootElement,registry);
+  return rootElement;
 }

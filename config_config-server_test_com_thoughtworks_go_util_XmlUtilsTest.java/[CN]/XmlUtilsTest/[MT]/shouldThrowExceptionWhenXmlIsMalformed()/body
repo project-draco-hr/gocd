@@ -2,5 +2,5 @@
   expectedException.expect(JDOMParseException.class);
   expectedException.expectMessage(containsString("Error on line 1: XML document structures must start and end within the same entity"));
   String xmlContent="<foo name='invalid'";
-  XmlUtils.validate(xmlContent,GoConfigSchema.getCurrentSchema());
+  buildXmlDocument(xmlContent,GoConfigSchema.getCurrentSchema());
 }

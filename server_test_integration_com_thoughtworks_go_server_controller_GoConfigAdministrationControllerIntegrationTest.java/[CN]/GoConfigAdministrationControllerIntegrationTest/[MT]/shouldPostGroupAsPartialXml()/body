@@ -1,9 +1,0 @@
-{
-  configHelper.addPipelineWithGroup("group","pipeline","dev","linux","windows");
-  String newXml=NEW_GROUP;
-  String md5=goConfigDao.md5OfConfigFile();
-  ModelAndView mav=controller.postGroupAsXmlPartial("group",newXml,md5,response);
-  assertThat(response.getStatus(),is(SC_OK));
-  assertThat(response.getContentType(),is(RESPONSE_CHARSET_JSON));
-  assertResponseMessage(mav,"Group changed successfully.");
-}
