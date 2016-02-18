@@ -1,6 +1,6 @@
 {
   try {
-    SAXBuilder builder=new SAXBuilder(false);
+    SAXBuilder builder=new SAXBuilder();
     Document document=builder.build(new ByteArrayInputStream(content.getBytes()));
     Element root=document.getRootElement();
     String currentVersion=root.getAttributeValue(schemaVersion) == null ? "0" : root.getAttributeValue(schemaVersion);

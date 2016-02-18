@@ -2,8 +2,7 @@
   String xmlContent="<foo name='invalid'/>";
   InputStream inputStream=new ByteArrayInputStream(xmlContent.getBytes());
   try {
-    final ConfigElementImplementationRegistry configElementImplementationRegistry=new ConfigElementImplementationRegistry(new NoPluginsInstalled());
-    XmlUtils.validate(inputStream,GoConfigSchema.getCurrentSchema(),new XsdErrorTranslator(),new SAXBuilder(),configElementImplementationRegistry.xsds());
+    XmlUtils.validate(inputStream,GoConfigSchema.getCurrentSchema(),configElementImplementationRegistry.xsds());
     fail("Should throw a XsdValidationException");
   }
  catch (  Exception e) {

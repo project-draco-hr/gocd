@@ -2,8 +2,8 @@
   String firstChangeLog="<?xml version=\"1.0\"?>\n" + "<log>\n" + "<logentry\n"+ "   revision=\"11238\">\n"+ "<author>yxchu</author>\n"+ "<date>2008-10-21T14:00:16.598195Z</date>\n"+ "<paths>\n"+ "<path\n"+ "   action=\"M\">/trunk/test/unit/card_selection_test.rb</path>\n"+ "<path\n"+ "   action=\"M\">/trunk/test/functional/cards_controller_quick_add_test.rb</path>\n"+ "<path\n"+ "   action=\"M\">/trunk/app/controllers/cards_controller.rb</path>\n"+ "</paths>\n"+ "<msg>#2761, fix random test failure and add quick add card type to session</msg>\n"+ "</logentry>\n"+ "</log>";
   String secondChangeLog="<?xml version=\"1.0\"?>\n" + "<log>\n" + "<logentry\n"+ "   revision=\"11239\">\n"+ "<author>yxchu</author>\n"+ "<date>2008-10-21T14:00:36.209014Z</date>\n"+ "<paths>\n"+ "<path\n"+ "   action=\"M\">/trunk/test/unit/card_selection_test.rb</path>\n"+ "</paths>\n"+ "<msg>still fix test</msg>\n"+ "</logentry>\n"+ "<logentry\n"+ "   revision=\"11240\">\n"+ "<author>yxchu</author>\n"+ "<date>2008-10-21T14:00:47.614448Z</date>\n"+ "<paths>\n"+ "<path\n"+ "   action=\"M\">/trunk/test/unit/card_selection_test.rb</path>\n"+ "</paths>\n"+ "<msg>fix test remove messaging helper</msg>\n"+ "</logentry>\n"+ "</log>";
   SvnLogXmlParser parser=new SvnLogXmlParser();
-  List<Modification> mods=parser.parse(firstChangeLog,".",new SAXBuilder(false));
+  List<Modification> mods=parser.parse(firstChangeLog,".",new SAXBuilder());
   assertThat(mods.get(0).getUserName(),is("yxchu"));
-  List<Modification> mods2=parser.parse(secondChangeLog,".",new SAXBuilder(false));
+  List<Modification> mods2=parser.parse(secondChangeLog,".",new SAXBuilder());
   assertThat(mods2.size(),is(2));
 }

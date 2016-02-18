@@ -1,7 +1,7 @@
 {
   String output="<?xml version=\"1.0\"?>\n" + "<info>\n" + "<entry\n"+ "   kind=\"dir\"\n"+ "   path=\"unit-reports\"\n"+ "   revision=\"3\">\n"+ "<url>svn+ssh://hostname/foo%20bar%20baz/end2end</url>\n"+ "<repository>\n"+ "<root>svn+ssh://hostname/foo%20bar%20baz</root>\n"+ "<uuid>f953918e-915c-4459-8d4c-83860cce9d9a</uuid>\n"+ "</repository>\n"+ "<commit\n"+ "   revision=\"1\">\n"+ "<author>cceuser</author>\n"+ "<date>2008-03-20T04:00:43.976517Z</date>\n"+ "</commit>\n"+ "</entry>\n"+ "</info>";
   SvnCommand.SvnInfo svnInfo=new SvnCommand.SvnInfo();
-  svnInfo.parse(output,new SAXBuilder(false));
+  svnInfo.parse(output,new SAXBuilder());
   assertThat(svnInfo.getUrl(),is("svn+ssh://hostname/foo%20bar%20baz/end2end"));
   assertThat(svnInfo.getPath(),is("/end2end"));
 }

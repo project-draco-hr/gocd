@@ -1,0 +1,9 @@
+{
+  XsdErrorTranslator errorHandler=new XsdErrorTranslator();
+  builder.setErrorHandler(errorHandler);
+  Document cruiseRoot=builder.build(inputStream);
+  if (errorHandler.hasValidationError()) {
+    throw new XsdValidationException(errorHandler.translate());
+  }
+  return cruiseRoot.getRootElement();
+}
