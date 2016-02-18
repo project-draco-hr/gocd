@@ -20,7 +20,7 @@ synchronized (stageMutex) {
     String stageName=stage.getIdentifier().getStageName();
     String user=username == null ? null : username.getUsername().toString();
     if (!securityService.hasOperatePermissionForStage(pipelineName,stageName,user)) {
-      opResult.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_OPERATE_STAGE",new String[]{stageName}),HealthStateType.unauthorised());
+      opResult.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_OPERATE_STAGE",stageName),HealthStateType.unauthorised());
       return null;
     }
     LOGGER.info("[Stage Cancellation] Cancelling stage " + stage.getIdentifier());
