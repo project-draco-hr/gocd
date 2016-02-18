@@ -1,19 +1,13 @@
 {
   LOGGER.debug("[Config Save] In validateCruiseConfig: Starting.");
-  Context context=metricsProbeService.begin(ProbeType.VALIDATING_CONFIG);
-  try {
-    List<ConfigErrors> allErrors=validate(config);
-    if (!allErrors.isEmpty()) {
-      throw new GoConfigInvalidException(config,allErrors);
-    }
-    LOGGER.debug("[Config Save] In validateCruiseConfig: Running validate.");
-    for (    GoConfigValidator validator : VALIDATORS) {
-      validator.validate(config);
-    }
-    LOGGER.debug("[Config Save] In validateCruiseConfig: Done.");
+  List<ConfigErrors> allErrors=validate(config);
+  if (!allErrors.isEmpty()) {
+    throw new GoConfigInvalidException(config,allErrors);
   }
-  finally {
-    metricsProbeService.end(ProbeType.VALIDATING_CONFIG,context);
+  LOGGER.debug("[Config Save] In validateCruiseConfig: Running validate.");
+  for (  GoConfigValidator validator : VALIDATORS) {
+    validator.validate(config);
   }
+  LOGGER.debug("[Config Save] In validateCruiseConfig: Done.");
   return config;
 }

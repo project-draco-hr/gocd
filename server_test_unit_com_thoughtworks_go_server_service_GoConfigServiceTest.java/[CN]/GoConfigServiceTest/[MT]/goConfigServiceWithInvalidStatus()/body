@@ -1,5 +1,5 @@
 {
   goConfigDao=mock(GoConfigDao.class,"badCruiseConfigManager");
   when(goConfigDao.checkConfigFileValid()).thenReturn(GoConfigValidity.invalid(new JDOMParseException("JDom exception",new RuntimeException())));
-  return new GoConfigService(goConfigDao,pipelineRepository,new SystemTimeClock(),mock(GoConfigMigration.class),goCache,null,userDao,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService,instanceFactory);
+  return new GoConfigService(goConfigDao,pipelineRepository,new SystemTimeClock(),mock(GoConfigMigration.class),goCache,null,ConfigElementImplementationRegistryMother.withNoPlugins(),instanceFactory);
 }

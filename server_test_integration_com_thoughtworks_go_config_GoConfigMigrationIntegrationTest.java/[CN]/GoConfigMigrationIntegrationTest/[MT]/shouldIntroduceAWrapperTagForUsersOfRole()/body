@@ -5,12 +5,12 @@
       exs.add(e);
     }
   }
-,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+,configRepository,new TimeProvider(),configCache,ConfigElementImplementationRegistryMother.withNoPlugins());
   String content="<cruise schemaVersion='" + 47 + "'>\n"+ "<server artifactsdir=\"logs\" siteUrl=\"http://go-server-site-url:8153\" secureSiteUrl=\"https://go-server-site-url:8154\" jobTimeout=\"60\">\n"+ "    <security>\n"+ "      <roles>\n"+ "        <role name=\"admins\">\n"+ "            <user>admin_one</user>\n"+ "            <user>admin_two</user>\n"+ "        </role>\n"+ "        <role name=\"devs\">\n"+ "            <user>dev_one</user>\n"+ "            <user>dev_two</user>\n"+ "            <user>dev_three</user>\n"+ "        </role>\n"+ "      </roles>\n"+ "      <admins>\n"+ "        <role>admins</role>\n"+ "      </admins>\n"+ "    </security>\n"+ "  </server>"+ "</cruise>";
   FileUtils.writeStringToFile(configFile,content);
   upgrader.upgradeIfNecessary(configFile,currentGoServerVersion);
   String configXml=FileUtils.readFileToString(configFile);
-  MagicalGoConfigXmlLoader loader=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService);
+  MagicalGoConfigXmlLoader loader=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins());
   GoConfigHolder configHolder=loader.loadConfigHolder(configXml);
   CruiseConfig config=configHolder.config;
   ServerConfig server=config.server();

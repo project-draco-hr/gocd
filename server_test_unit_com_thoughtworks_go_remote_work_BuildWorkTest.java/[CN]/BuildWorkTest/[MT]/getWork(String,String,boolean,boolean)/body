@@ -1,5 +1,5 @@
 {
-  CruiseConfig cruiseConfig=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(ConfigFileFixture.withJob(jobXml,pipelineName)))).config;
+  CruiseConfig cruiseConfig=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins()).loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(ConfigFileFixture.withJob(jobXml,pipelineName)))).config;
   JobConfig jobConfig=cruiseConfig.jobConfigByName(pipelineName,STAGE_NAME,JOB_PLAN_NAME,true);
   JobPlan jobPlan=JobInstanceMother.createJobPlan(jobConfig,new JobIdentifier(pipelineName,-2,PIPELINE_LABEL,STAGE_NAME,String.valueOf(STAGE_COUNTER),JOB_PLAN_NAME,0L),new DefaultSchedulingContext());
   jobPlan.setFetchMaterials(fetchMaterials);

@@ -1,5 +1,5 @@
 {
   String xml="<exec command='ls'>\n" + "  <arg>arg1</arg>\n" + "  <arg>arg2</arg>\n"+ "</exec>";
-  ExecTask execTask=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).fromXmlPartial(xml,ExecTask.class);
+  ExecTask execTask=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins()).fromXmlPartial(xml,ExecTask.class);
   assertThat(execTask.getArgList(),is(new Arguments(new Argument("arg1"),new Argument("arg2"))));
 }

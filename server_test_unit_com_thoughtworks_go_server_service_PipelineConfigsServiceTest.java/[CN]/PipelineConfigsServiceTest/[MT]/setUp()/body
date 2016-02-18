@@ -5,8 +5,7 @@
   registry=ConfigElementImplementationRegistryMother.withNoPlugins();
   dao=mock(GoConfigDao.class);
   validUser=new Username(new CaseInsensitiveString("validUser"));
-  MetricsProbeService metricsProbeService=mock(MetricsProbeService.class);
-  service=new PipelineConfigsService(configCache,registry,goConfigService,securityService,metricsProbeService);
+  service=new PipelineConfigsService(configCache,registry,goConfigService,securityService);
   result=new HttpLocalizedOperationResult();
   cruiseConfig=new BasicCruiseConfig();
   ReflectionUtil.setField(cruiseConfig,"md5","md5");

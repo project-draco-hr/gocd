@@ -1,25 +1,19 @@
 {
   LOGGER.debug("[Config Save] Configuration being saved");
-  Context context=metricsProbeService.begin(ProbeType.SAVE_CONFIG_XML_THROUGH_API);
   Map<String,String> data;
-  try {
-    GoConfigValidity configValidity=saveConfigFile(configFileContent,expectedMd5,shouldMigrate);
-    data=new HashMap<String,String>();
-    if (configValidity.isValid()) {
-      Localizable savedSuccessMessage=LocalizedMessage.string("SAVED_CONFIGURATION_SUCCESSFULLY");
-      Localizable localizableMessage=configValidity.wasMerged() ? LocalizedMessage.composite(savedSuccessMessage,LocalizedMessage.string("CONFIG_MERGED")) : savedSuccessMessage;
-      data.put(GoConstants.SUCCESS_MESSAGE,localizableMessage.localize(localizer));
-    }
+  GoConfigValidity configValidity=saveConfigFile(configFileContent,expectedMd5,shouldMigrate);
+  data=new HashMap<>();
+  if (configValidity.isValid()) {
+    Localizable savedSuccessMessage=LocalizedMessage.string("SAVED_CONFIGURATION_SUCCESSFULLY");
+    Localizable localizableMessage=configValidity.wasMerged() ? LocalizedMessage.composite(savedSuccessMessage,LocalizedMessage.string("CONFIG_MERGED")) : savedSuccessMessage;
+    data.put(GoConstants.SUCCESS_MESSAGE,localizableMessage.localize(localizer));
+  }
  else {
-      data.put(GoConstants.ERROR_FOR_PAGE,configValidity.errorMessage());
-      data.put("editing_md5",expectedMd5);
-      data.put("editing_content",configFileContent);
-    }
-    data.putAll(adminModel(request));
-    LOGGER.debug("[Config Save] Done saving configuration");
+    data.put(GoConstants.ERROR_FOR_PAGE,configValidity.errorMessage());
+    data.put("editing_md5",expectedMd5);
+    data.put("editing_content",configFileContent);
   }
-  finally {
-    metricsProbeService.end(ProbeType.SAVE_CONFIG_XML_THROUGH_API,context);
-  }
+  data.putAll(adminModel(request));
+  LOGGER.debug("[Config Save] Done saving configuration");
   return new ModelAndView("",data);
 }

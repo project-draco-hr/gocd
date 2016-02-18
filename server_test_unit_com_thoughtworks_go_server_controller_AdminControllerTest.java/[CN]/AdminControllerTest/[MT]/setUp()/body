@@ -2,9 +2,8 @@
   request=new MockHttpServletRequest();
   mockGoConfigService=mock(GoConfigService.class);
   mockAdminService=mock(AdminService.class);
-  metricsProbeService=mock(MetricsProbeService.class);
   localizer=mock(Localizer.class);
-  controller=new AdminController(mockGoConfigService,mockAdminService,localizer,metricsProbeService);
+  controller=new AdminController(mockGoConfigService,mockAdminService,localizer);
   userName=CaseInsensitiveString.str(Username.ANONYMOUS.getUsername());
   model.put("active","");
   model.put("current_tab","");

@@ -1,7 +1,7 @@
 {
   CruiseConfig cruiseConfig=goConfigDao.loadForEditing();
   ByteArrayOutputStream out=new ByteArrayOutputStream();
-  new MagicalGoConfigXmlWriter(configCache,registry,metricsProbeService).write(cruiseConfig,out,true);
+  new MagicalGoConfigXmlWriter(configCache,registry).write(cruiseConfig,out,true);
   org.dom4j.Document document=reader.read(new StringReader(out.toString()));
   Map<String,String> map=new HashMap<String,String>();
   map.put("go",MagicalGoConfigXmlWriter.XML_NS);

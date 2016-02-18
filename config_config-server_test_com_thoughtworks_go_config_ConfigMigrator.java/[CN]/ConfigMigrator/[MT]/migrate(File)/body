@@ -11,7 +11,7 @@
       throw bomb(e.getMessage() + ": content=\n" + content+ "\n"+ (e.getCause() == null ? "" : e.getCause().getMessage()),e);
     }
   }
-,mock(ConfigRepository.class),new TimeProvider(),new ConfigCache(),registry,metricsProbeService);
+,mock(ConfigRepository.class),new TimeProvider(),new ConfigCache(),registry);
   upgrader.upgradeIfNecessary(configFile,"N/A");
   return upgrader;
 }

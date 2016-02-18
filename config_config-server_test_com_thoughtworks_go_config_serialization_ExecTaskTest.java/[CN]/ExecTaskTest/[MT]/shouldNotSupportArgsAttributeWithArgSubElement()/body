@@ -3,7 +3,7 @@
   String configXml=ConfigFileFixture.withJob(jobXml);
   try {
     ConfigElementImplementationRegistry registry=ConfigElementImplementationRegistryMother.withNoPlugins();
-    new MagicalGoConfigXmlLoader(new ConfigCache(),registry,metricsProbeService).loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(configXml)));
+    new MagicalGoConfigXmlLoader(new ConfigCache(),registry).loadConfigHolder(FileUtil.readToEnd(IOUtils.toInputStream(configXml)));
     fail("should throw exception if both 'args' attribute and 'arg' sub element are configured");
   }
  catch (  Exception e) {

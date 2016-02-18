@@ -1,7 +1,7 @@
 {
   GoConfigService goConfigService=mock(GoConfigService.class);
   UserService userService=mock(UserService.class);
-  ServerConfigService serverConfigService=new ServerConfigService(goConfigService,userService,mock(MetricsProbeService.class));
+  ServerConfigService serverConfigService=new ServerConfigService(goConfigService,userService);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   MailHost mailHost=new MailHost(new GoCipher());
   when(goConfigService.updateServerConfig(mailHost,null,null,true,"md5",null,null,null,null,"http://site","https://site","location")).thenReturn(ConfigSaveState.MERGED);

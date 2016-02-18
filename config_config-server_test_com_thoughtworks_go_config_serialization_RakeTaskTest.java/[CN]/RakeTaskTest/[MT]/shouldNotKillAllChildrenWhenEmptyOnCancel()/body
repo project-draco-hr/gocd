@@ -1,4 +1,4 @@
 {
-  RakeTask rakeTask=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins(),metricsProbeService).fromXmlPartial("<rake>" + "  <oncancel />" + "</rake>",RakeTask.class);
+  RakeTask rakeTask=new MagicalGoConfigXmlLoader(new ConfigCache(),ConfigElementImplementationRegistryMother.withNoPlugins()).fromXmlPartial("<rake>" + "  <oncancel />" + "</rake>",RakeTask.class);
   assertThat(rakeTask.cancelTask(),is(instanceOf(NullTask.class)));
 }

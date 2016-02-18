@@ -13,11 +13,11 @@
       throw new RuntimeException(e);
     }
   }
-,configRepository,new TimeProvider(),configCache,registry,metricsProbeService),configRepository,systemEnvironment,timeProvider,configCache,serverVersion,registry,metricsProbeService,mock(ServerHealthService.class));
+,configRepository,new TimeProvider(),configCache,registry),configRepository,systemEnvironment,timeProvider,configCache,serverVersion,registry,mock(ServerHealthService.class));
   dataSource.upgradeIfNecessary();
   CachedFileGoConfig fileService=new CachedFileGoConfig(dataSource,new ServerHealthService());
   fileService.loadConfigIfNull();
-  goConfigDao=new GoConfigDao(fileService,metricsProbeService);
+  goConfigDao=new GoConfigDao(fileService);
   configHelper.load();
   configHelper.usingCruiseConfigDao(goConfigDao);
 }
