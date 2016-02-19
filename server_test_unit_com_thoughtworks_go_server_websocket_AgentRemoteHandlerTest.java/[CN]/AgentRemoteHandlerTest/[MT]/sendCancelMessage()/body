@@ -2,6 +2,7 @@
   AgentInstance instance=AgentInstanceMother.idle();
   AgentRuntimeInfo info=new AgentRuntimeInfo(instance.getAgentIdentifier(),AgentRuntimeStatus.Idle,null,null,null);
   when(remote.ping(info)).thenReturn(new AgentInstruction(false));
+  when(remote.getCookie(instance.getAgentIdentifier(),info.getLocation())).thenReturn("new cookie");
   handler.process(agent,new Message(Action.ping,info));
   agent.messages.clear();
   handler.sendCancelMessage(instance.getAgentIdentifier().getUuid());
