@@ -1,9 +1,8 @@
 {
   try {
-    GZIPInputStream zipStream=new GZIPInputStream(input);
-    return JsonMessage.decode(new String(IOUtils.toByteArray(zipStream),StandardCharsets.UTF_8));
+    return (Message)new ObjectInputStream(new GZIPInputStream(input)).readObject();
   }
- catch (  IOException e) {
+ catch (  Exception e) {
     throw bomb(e);
   }
 }

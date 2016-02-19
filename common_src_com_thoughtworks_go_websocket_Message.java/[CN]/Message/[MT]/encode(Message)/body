@@ -1,10 +1,11 @@
 {
-  String encode=JsonMessage.encode(msg);
   ByteArrayOutputStream bytes=new ByteArrayOutputStream();
   try {
-    GZIPOutputStream out=new GZIPOutputStream(bytes);
-    out.write(encode.getBytes(StandardCharsets.UTF_8));
-    out.finish();
+    GZIPOutputStream zip=new GZIPOutputStream(bytes);
+    ObjectOutputStream output=new ObjectOutputStream(zip);
+    output.writeObject(msg);
+    output.flush();
+    zip.finish();
   }
  catch (  IOException e) {
     throw bomb(e);
