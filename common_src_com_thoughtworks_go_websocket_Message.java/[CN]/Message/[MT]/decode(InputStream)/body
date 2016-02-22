@@ -1,6 +1,12 @@
 {
   try {
-    return (Message)new ObjectInputStream(new GZIPInputStream(input)).readObject();
+    ObjectInputStream stream=new ObjectInputStream(new GZIPInputStream(input));
+    try {
+      return (Message)stream.readObject();
+    }
+  finally {
+      stream.close();
+    }
   }
  catch (  Exception e) {
     throw bomb(e);

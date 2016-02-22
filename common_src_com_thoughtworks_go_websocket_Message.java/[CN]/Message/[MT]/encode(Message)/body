@@ -3,9 +3,12 @@
   try {
     GZIPOutputStream zip=new GZIPOutputStream(bytes);
     ObjectOutputStream output=new ObjectOutputStream(zip);
-    output.writeObject(msg);
-    output.flush();
-    zip.finish();
+    try {
+      output.writeObject(msg);
+    }
+  finally {
+      output.close();
+    }
   }
  catch (  IOException e) {
     throw bomb(e);
