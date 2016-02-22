@@ -1,0 +1,8 @@
+{
+  GoConfigDao.CompositeConfigCommand commandForDeletingAgents=commandForDeletingAgents(agentInstances);
+  ArrayList<String> uuids=new ArrayList<>();
+  for (  AgentInstance agentInstance : agentInstances) {
+    uuids.add(agentInstance.getUuid());
+  }
+  updateAgentWithoutValidations(commandForDeletingAgents,currentUser);
+}

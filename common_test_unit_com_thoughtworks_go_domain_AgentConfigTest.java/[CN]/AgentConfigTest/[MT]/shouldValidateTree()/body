@@ -1,0 +1,8 @@
+{
+  Resource resource=new Resource("junk%");
+  AgentConfig agentConfig=new AgentConfig("uuid","junk","junk",new Resources(resource));
+  boolean isValid=agentConfig.validateTree(ConfigSaveValidationContext.forChain(agentConfig));
+  assertThat(agentConfig.errors().on(AgentConfig.IP_ADDRESS),is("'junk' is an invalid IP address."));
+  assertThat(resource.errors().on(JobConfig.RESOURCES),contains("Resource name 'junk%' is not valid."));
+  assertThat(isValid,is(false));
+}

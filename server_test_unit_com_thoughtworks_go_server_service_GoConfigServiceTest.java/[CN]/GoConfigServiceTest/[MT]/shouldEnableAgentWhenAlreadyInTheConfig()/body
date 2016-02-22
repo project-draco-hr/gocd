@@ -1,9 +1,0 @@
-{
-  String agentId=DatabaseAccessHelper.AGENT_UUID;
-  AgentConfig agentConfig=new AgentConfig(agentId,"remote-host","50.40.30.20");
-  agentConfig.disable();
-  AgentInstance instance=AgentInstance.createFromConfig(agentConfig,new SystemEnvironment());
-  goConfigService.currentCruiseConfig().agents().add(agentConfig);
-  goConfigService.disableAgents(false,instance);
-  shouldPerformCommand(new GoConfigDao.CompositeConfigCommand(GoConfigDao.updateApprovalStatus(agentId,false)));
-}

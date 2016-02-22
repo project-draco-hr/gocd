@@ -12,7 +12,7 @@
   if (agentInstance.isIpChangeRequired(info.getIpAdress())) {
     AgentConfig agentConfig=agentInstance.agentConfig();
     LOGGER.warn(String.format("Agent with UUID [%s] changed IP Address from [%s] to [%s]",info.getUUId(),agentConfig.getIpAddress(),info.getIpAdress()));
-    String userName=String.format("agent_%s_%s_%s",info.getUUId(),info.getIpAdress(),agentConfig.getHostNameForDispaly());
+    String userName=usernameForAgent(info.getUUId(),info.getIpAdress(),agentConfig.getHostNameForDispaly());
     agentConfigService.updateAgentIpByUuid(agentConfig.getUuid(),info.getIpAdress(),userName);
   }
   agentInstances.updateAgentRuntimeInfo(info);

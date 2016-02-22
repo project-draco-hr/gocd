@@ -6,10 +6,10 @@
   assertThat(agentService.agents().size(),is(1));
   assertThat(agentService.agents().get(0).getHostname(),is(not("some-hostname")));
   HttpOperationResult operationResult=new HttpOperationResult();
-  agentService.updateAgentAttributes(USERNAME,operationResult,UUID,"some-hostname","lin!ux",null,TriState.UNSET);
+  AgentInstance agentInstance=agentService.updateAgentAttributes(USERNAME,operationResult,UUID,"some-hostname","lin!ux",null,TriState.UNSET);
   assertThat(operationResult.httpCode(),is(422));
-  assertThat(operationResult.message(),is("Updating agents failed:"));
-  assertThat(operationResult.detailedMessage(),is("Updating agents failed: { Resource name 'lin!ux' is not valid. Valid names much match '^[-\\w\\s|.]*$' }\n"));
+  assertThat(operationResult.message(),is("Updating agent failed:"));
+  assertThat(agentInstance.agentConfig().getResources().first().errors().on(JobConfig.RESOURCES),is("Resource name 'lin!ux' is not valid. Valid names much match '^[-\\w\\s|.]*$'"));
   assertThat(agentService.agents().size(),is(1));
   assertThat(agentService.agents().get(0).getHostname(),is(originalHostname));
   assertThat(agentService.agents().get(0).getResources(),is(originalResourceNames));

@@ -1,0 +1,9 @@
+{
+  AgentConfig agentConfig=agentInstance.agentConfig();
+  if (goConfigService.hasAgent(agentConfig.getUuid())) {
+    this.updateAgentApprovalStatus(agentConfig.getUuid(),agentConfig.isDisabled(),currentUser);
+  }
+ else {
+    this.addAgent(agentConfig,currentUser);
+  }
+}

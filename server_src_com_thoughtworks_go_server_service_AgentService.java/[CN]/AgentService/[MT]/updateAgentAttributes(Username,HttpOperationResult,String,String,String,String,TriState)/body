@@ -1,21 +1,12 @@
 {
   if (!hasOperatePermission(username,result)) {
-    return;
+    return null;
   }
   AgentInstance agentInstance=findAgent(uuid);
   if (isUnknownAgent(agentInstance,result)) {
-    return;
+    return null;
   }
-  try {
-    agentConfigService.updateAgentAttributes(uuid,username.getUsername().toString(),newHostname,resources,environments,enable,agentInstances);
-    result.ok(String.format("Updated agent with uuid %s.",uuid));
-  }
- catch (  Exception e) {
-    if (e.getCause() instanceof GoConfigInvalidException || e.getCause() instanceof NoSuchEnvironmentException) {
-      result.unprocessibleEntity("Updating agents failed:",e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
-    }
- else {
-      result.internalServerError("Updating agents failed:" + e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
-    }
-  }
+  AgentConfig agentConfig=agentConfigService.updateAgentAttributes(uuid,username,newHostname,resources,environments,enable,agentInstances,result);
+  if (agentConfig != null)   return AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  return null;
 }

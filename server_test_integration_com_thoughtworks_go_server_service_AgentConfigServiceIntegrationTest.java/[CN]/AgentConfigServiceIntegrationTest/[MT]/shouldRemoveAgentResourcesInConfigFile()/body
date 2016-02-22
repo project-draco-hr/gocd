@@ -1,0 +1,10 @@
+{
+  AgentConfig agentConfig=new AgentConfig(UUID.randomUUID().toString(),"test","127.0.0.1",new Resources("java, resource1, resource2"));
+  agentConfigService.addAgent(agentConfig,Username.ANONYMOUS);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.agents().hasAgent(agentConfig.getUuid()),is(true));
+  agentConfigService.updateAgentResources(agentConfig.getUuid(),new Resources("java"));
+  cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.agents().getAgentByUuid(agentConfig.getUuid()).getResources().size(),is(1));
+  assertThat(cruiseConfig.agents().getAgentByUuid(agentConfig.getUuid()).getResources().first(),is(new Resource("java")));
+}

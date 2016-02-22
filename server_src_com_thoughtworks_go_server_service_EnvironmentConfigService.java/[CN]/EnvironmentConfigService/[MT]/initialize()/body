@@ -1,3 +1,9 @@
 {
   goConfigService.register(this);
+  goConfigService.register(new EntityConfigChangedListener<Agents>(){
+    @Override public void onEntityConfigChange(    Agents entity){
+      sync(goConfigService.getEnvironments());
+    }
+  }
+);
 }

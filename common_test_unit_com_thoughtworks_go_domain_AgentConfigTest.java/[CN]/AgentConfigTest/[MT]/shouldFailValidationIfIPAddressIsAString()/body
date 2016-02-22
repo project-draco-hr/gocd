@@ -1,0 +1,8 @@
+{
+  AgentConfig agentConfig=new AgentConfig("uuid","host","blahinvalid");
+  agentConfig.validate(ConfigSaveValidationContext.forChain(agentConfig));
+  assertThat(agentConfig.errors().on(AgentConfig.IP_ADDRESS),is("'blahinvalid' is an invalid IP address."));
+  agentConfig=new AgentConfig("uuid","host","blah.invalid");
+  agentConfig.validate(ConfigSaveValidationContext.forChain(agentConfig));
+  assertThat(agentConfig.errors().on(AgentConfig.IP_ADDRESS),is("'blah.invalid' is an invalid IP address."));
+}

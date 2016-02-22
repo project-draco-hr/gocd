@@ -1,3 +1,5 @@
 {
-  shouldBeInvalid("","IpAddress cannot be empty if it is present.");
+  AgentConfig agentConfig=new AgentConfig("uuid","host","");
+  agentConfig.validate(ConfigSaveValidationContext.forChain(agentConfig));
+  assertThat(agentConfig.errors().on(AgentConfig.IP_ADDRESS),is("IpAddress cannot be empty if it is present."));
 }

@@ -1,0 +1,15 @@
+{
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(new AgentIdentifier("remote-host","50.40.30.20","abc"),AgentRuntimeStatus.Unknown,"cookie",null,false);
+  AgentInstance pending=AgentInstance.createFromLiveAgent(agentRuntimeInfo,new SystemEnvironment());
+  AgentConfig agentConfig=new AgentConfig("UUID2","remote-host","50.40.30.20");
+  agentConfig.disable();
+  AgentInstance fromConfigFile=AgentInstance.createFromConfig(agentConfig,new SystemEnvironment());
+  when(goConfigService.hasAgent(fromConfigFile.getUuid())).thenReturn(true);
+  when(goConfigService.hasAgent(pending.getUuid())).thenReturn(false);
+  agentConfigService.enableAgents(Username.ANONYMOUS,pending,fromConfigFile);
+  GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand(AgentConfigService.createAddAgentCommand(pending.agentConfig()),AgentConfigService.updateApprovalStatus("UUID2",false));
+  ArgumentCaptor<AgentsUpdateCommand> captor=ArgumentCaptor.forClass(AgentsUpdateCommand.class);
+  verify(goConfigService).updateConfig(captor.capture(),eq(Username.ANONYMOUS));
+  AgentsUpdateCommand updateCommand=captor.getValue();
+  assertThat((GoConfigDao.CompositeConfigCommand)ReflectionUtil.getField(updateCommand,"command"),is(command));
+}

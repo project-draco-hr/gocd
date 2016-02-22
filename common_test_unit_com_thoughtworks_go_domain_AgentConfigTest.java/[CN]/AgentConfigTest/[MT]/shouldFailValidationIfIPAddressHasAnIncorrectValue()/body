@@ -1,0 +1,5 @@
+{
+  AgentConfig agentConfig=new AgentConfig("uuid","host","399.0.0.1");
+  agentConfig.validate(ConfigSaveValidationContext.forChain(agentConfig));
+  assertThat(agentConfig.errors().on(AgentConfig.IP_ADDRESS),is("'399.0.0.1' is an invalid IP address."));
+}

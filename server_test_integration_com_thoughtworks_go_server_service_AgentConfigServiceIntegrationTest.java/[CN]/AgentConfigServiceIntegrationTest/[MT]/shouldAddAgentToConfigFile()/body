@@ -1,0 +1,14 @@
+{
+  Resources resources=new Resources("java");
+  AgentConfig approvedAgentConfig=new AgentConfig(UUID.randomUUID().toString(),"test1","192.168.0.1",resources);
+  AgentConfig deniedAgentConfig=new AgentConfig(UUID.randomUUID().toString(),"test2","192.168.0.2",resources);
+  deniedAgentConfig.disable();
+  agentConfigService.addAgent(approvedAgentConfig,Username.ANONYMOUS);
+  agentConfigService.addAgent(deniedAgentConfig,Username.ANONYMOUS);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.agents().contains(approvedAgentConfig),is(true));
+  assertThat(cruiseConfig.agents().getAgentByUuid(approvedAgentConfig.getUuid()).getResources(),is(resources));
+  assertThat(cruiseConfig.agents().contains(deniedAgentConfig),is(true));
+  assertThat(cruiseConfig.agents().getAgentByUuid(deniedAgentConfig.getUuid()).isDisabled(),is(Boolean.TRUE));
+  assertThat(cruiseConfig.agents().getAgentByUuid(deniedAgentConfig.getUuid()).getResources(),is(resources));
+}

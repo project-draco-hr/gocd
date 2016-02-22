@@ -1,10 +1,11 @@
 {
   agentService=mock(AgentService.class);
+  agentConfigService=mock(AgentConfigService.class);
   systemEnvironment=mock(SystemEnvironment.class);
   goConfigService=mock(GoConfigService.class);
   when(agentService.agentJarInputStream()).thenReturn(new ByteArrayInputStream(EXPECTED.getBytes()));
   when(agentService.agentLauncherJarInputStream()).thenReturn(new ByteArrayInputStream(EXPECTED_LAUNCHER.getBytes()));
   when(systemEnvironment.getSslServerPort()).thenReturn(8443);
   pluginsZip=mock(PluginsZip.class);
-  controller=new AgentRegistrationController(agentService,goConfigService,systemEnvironment,pluginsZip);
+  controller=new AgentRegistrationController(agentService,goConfigService,systemEnvironment,pluginsZip,agentConfigService);
 }

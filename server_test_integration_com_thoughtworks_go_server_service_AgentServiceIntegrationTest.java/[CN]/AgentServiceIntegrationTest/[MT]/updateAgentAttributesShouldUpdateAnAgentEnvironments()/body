@@ -12,5 +12,5 @@
   assertThat(operationResult.httpCode(),is(200));
   assertThat(operationResult.message(),is("Updated agent with uuid uuid."));
   assertThat(agentService.agents().size(),is(1));
-  assertEquals(agentService.agents().get(0).getEnvironments(),new HashSet<>(Arrays.asList("c","d","e")));
+  assertThat(agentService.agents().get(0).getEnvironments().equals(new HashSet<>(Arrays.asList("c","d","e"))),is(true));
 }

@@ -1,9 +1,0 @@
-{
-  AgentConfig agentConfig=new AgentConfig("uuid","test","127.0.0.1",new Resources("java, resource1, resource2"));
-  goConfigDao.addAgent(agentConfig);
-  CruiseConfig cruiseConfig=goConfigDao.load();
-  assertThat(cruiseConfig.agents().get(0).getResources().size(),is(3));
-  goConfigDao.updateAgentResources(agentConfig.getUuid(),new Resources("java"));
-  cruiseConfig=goConfigDao.load();
-  assertThat(cruiseConfig.agents().get(0).getResources().size(),is(1));
-}

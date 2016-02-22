@@ -1,4 +1,8 @@
 {
-  Set<String> uuids=cruiseConfig.agents().acceptedUuids();
-  cruiseConfig.getEnvironments().validateContainOnlyUuids(uuids);
+  List<ConfigErrors> errors=validateConfig(cruiseConfig);
+  List<String> errorMessages=new ArrayList<>();
+  for (  ConfigErrors error : errors) {
+    errorMessages.addAll(error.getAll());
+  }
+  if (!errors.isEmpty())   throw new RuntimeException(ListUtil.join(errorMessages));
 }

@@ -1,0 +1,14 @@
+{
+  List<ConfigErrors> errors=new ArrayList<>();
+  Set<String> uuids=cruiseConfig.agents().acceptedUuids();
+  if (!cruiseConfig.getEnvironments().validateContainOnlyUuids(uuids)) {
+    for (    EnvironmentConfig environmentConfig : cruiseConfig.getEnvironments()) {
+      for (      EnvironmentAgentConfig environmentAgentConfig : environmentConfig.getAgents()) {
+        if (!environmentAgentConfig.errors().isEmpty()) {
+          errors.add(environmentAgentConfig.errors());
+        }
+      }
+    }
+  }
+  return errors;
+}

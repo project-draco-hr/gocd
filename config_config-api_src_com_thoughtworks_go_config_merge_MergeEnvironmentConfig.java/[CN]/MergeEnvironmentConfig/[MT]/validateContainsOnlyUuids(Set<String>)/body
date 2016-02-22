@@ -1,5 +1,7 @@
 {
+  boolean isValid=true;
   for (  EnvironmentAgentConfig agent : this.getAgents()) {
-    agent.validateUuidPresent(this.name(),uuids);
+    isValid=agent.validateUuidPresent(this.name(),uuids) && isValid;
   }
+  return isValid;
 }

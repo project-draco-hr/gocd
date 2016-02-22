@@ -13,7 +13,7 @@
   }
 ;
   goConfigService.register(pipelineConfigChangedListener);
-  PipelineConfig pipeline=PipelineConfigMother.pipelineConfigWithTemplate(pipelineName,templateName);
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfigWithTemplate(UUID.randomUUID().toString(),templateName);
   pipeline.setVariables(new EnvironmentVariablesConfig());
   pipelineConfigService.createPipelineConfig(user,pipeline,new DefaultLocalizedOperationResult(),"group1");
   assertThat(listenerInvoked[0],is(true));

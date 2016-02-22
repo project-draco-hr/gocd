@@ -1,4 +1,5 @@
 {
+  String headCommitBeforeUpdate=configRepository.getCurrentRevCommit().name();
   AgentConfig agent=createDisabledAndIdleAgent(UUID);
   createEnvironment("a","b");
   goConfigDao.load();
@@ -14,4 +15,6 @@
   assertThat(agentService.agents().get(0).resources(),is(new Resources("linux,java")));
   assertThat(agentService.agents().get(0).isEnabled(),is(false));
   assertEquals(agentService.agents().get(0).getEnvironments(),new HashSet<>(Arrays.asList("a","b")));
+  assertThat(configRepository.getCurrentRevCommit().name(),is(not(headCommitBeforeUpdate)));
+  assertThat(configRepository.getCurrentRevision().getUsername(),is(USERNAME.getDisplayName()));
 }

@@ -1,0 +1,15 @@
+{
+  GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand();
+  ArrayList<String> uuids=new ArrayList<>();
+  for (  AgentInstance agentInstance : agentInstances) {
+    String uuid=agentInstance.getUuid();
+    uuids.add(uuid);
+    if (goConfigService.hasAgent(uuid)) {
+      for (      TriStateSelection selection : selections) {
+        command.addCommand(new ModifyResourcesCommand(uuid,new Resource(selection.getValue()),selection.getAction()));
+      }
+    }
+  }
+  AgentConfigsUpdateValidator validator=new AgentConfigsUpdateValidator(uuids);
+  updateAgents(command,validator,currentUser);
+}

@@ -1,0 +1,17 @@
+{
+  AgentConfig agentConfig1=new AgentConfig(UUID.randomUUID().toString(),"hostname","127.0.0.1");
+  AgentInstance fromConfigFile1=AgentInstance.createFromConfig(agentConfig1,new SystemEnvironment());
+  agentConfigService.addAgent(agentConfig1,Username.ANONYMOUS);
+  AgentConfig agentConfig2=new AgentConfig(UUID.randomUUID().toString(),"hostname","127.0.0.1");
+  agentConfigService.addAgent(agentConfig2,Username.ANONYMOUS);
+  BasicEnvironmentConfig env=new BasicEnvironmentConfig(new CaseInsensitiveString(UUID.randomUUID().toString()));
+  env.addAgent(agentConfig1.getUuid());
+  env.addAgent(agentConfig2.getUuid());
+  goConfigDao.addEnvironment(env);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.getEnvironments().named(env.name()).getAgents().size(),is(2));
+  agentConfigService.deleteAgents(Username.ANONYMOUS,fromConfigFile1);
+  cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.getEnvironments().named(env.name()).getAgents().size(),is(1));
+  assertThat(cruiseConfig.getEnvironments().named(env.name()).getAgents().get(0).getUuid(),is(agentConfig2.getUuid()));
+}
