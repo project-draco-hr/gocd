@@ -1,7 +1,15 @@
 {
+  GoConfigService goConfigService=mock(GoConfigService.class);
   ServerHealthService serverHealthService=mock(ServerHealthService.class);
-  InvalidConfigMessageRemover invalidConfigMessageRemover=new InvalidConfigMessageRemover(mock(GoConfigService.class),serverHealthService);
-  invalidConfigMessageRemover.onPipelineConfigChange(mock(PipelineConfig.class),"g1");
+  ArgumentCaptor<ConfigChangedListener> configChangedListenerArgumentCaptor=ArgumentCaptor.forClass(ConfigChangedListener.class);
+  doNothing().when(goConfigService).register(configChangedListenerArgumentCaptor.capture());
+  InvalidConfigMessageRemover invalidConfigMessageRemover=new InvalidConfigMessageRemover(goConfigService,serverHealthService);
+  invalidConfigMessageRemover.initialize();
+  invalidConfigMessageRemover.onConfigChange(null);
+  List<ConfigChangedListener> listeners=configChangedListenerArgumentCaptor.getAllValues();
+  assertThat(listeners.get(1) instanceof EntityConfigChangedListener,is(true));
+  EntityConfigChangedListener<PipelineConfig> pipelineConfigChangeListener=(EntityConfigChangedListener<PipelineConfig>)listeners.get(1);
+  invalidConfigMessageRemover.pipelineConfigChangedListener().onEntityConfigChange(mock(PipelineConfig.class));
   ArgumentCaptor<HealthStateScope> captor=ArgumentCaptor.forClass(HealthStateScope.class);
   verify(serverHealthService).removeByScope(captor.capture());
   assertThat(captor.getValue().compareTo(HealthStateScope.forInvalidConfig()),is(0));

@@ -1,0 +1,33 @@
+{
+  final boolean[] pipelineConfigChangeListenerCalled={false};
+  final boolean[] agentConfigChangeListenerCalled={false};
+  final boolean[] cruiseConfigChangeListenerCalled={false};
+  EntityConfigChangedListener<PipelineConfig> pipelineConfigChangeListener=new EntityConfigChangedListener<PipelineConfig>(){
+    @Override public void onEntityConfigChange(    PipelineConfig entity){
+      pipelineConfigChangeListenerCalled[0]=true;
+    }
+  }
+;
+  EntityConfigChangedListener<AgentConfig> agentConfigChangeListener=new EntityConfigChangedListener<AgentConfig>(){
+    @Override public void onEntityConfigChange(    AgentConfig entity){
+      agentConfigChangeListenerCalled[0]=true;
+    }
+  }
+;
+  EntityConfigChangedListener<CruiseConfig> cruiseConfigChangeListener=new EntityConfigChangedListener<CruiseConfig>(){
+    @Override public void onEntityConfigChange(    CruiseConfig entity){
+      cruiseConfigChangeListenerCalled[0]=true;
+    }
+  }
+;
+  cachedGoConfig.registerListener(pipelineConfigChangeListener);
+  cachedGoConfig.registerListener(agentConfigChangeListener);
+  cachedGoConfig.registerListener(cruiseConfigChangeListener);
+  EntityConfigUpdateCommand configCommand=mock(EntityConfigUpdateCommand.class);
+  when(configCommand.isValid(any(CruiseConfig.class))).thenReturn(true);
+  when(configCommand.getPreprocessedEntityConfig()).thenReturn(mock(PipelineConfig.class));
+  cachedGoConfig.writeEntityWithLock(configCommand,new Username(new CaseInsensitiveString("user")));
+  assertThat(pipelineConfigChangeListenerCalled[0],is(true));
+  assertThat(agentConfigChangeListenerCalled[0],is(false));
+  assertThat(cruiseConfigChangeListenerCalled[0],is(false));
+}

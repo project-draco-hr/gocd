@@ -1,0 +1,13 @@
+{
+  return new EntityConfigChangedListener<PipelineConfig>(){
+    @Override public void onEntityConfigChange(    PipelineConfig pipelineConfig){
+      for (      String lockedPipeline : pipelineDao.lockedPipelines()) {
+        if (pipelineConfig.name().equals(new CaseInsensitiveString(lockedPipeline)) && !pipelineConfig.isLock()) {
+          pipelineDao.unlockPipeline(lockedPipeline);
+          break;
+        }
+      }
+    }
+  }
+;
+}

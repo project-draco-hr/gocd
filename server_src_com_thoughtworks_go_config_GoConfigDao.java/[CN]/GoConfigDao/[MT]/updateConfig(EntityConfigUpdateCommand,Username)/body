@@ -1,0 +1,10 @@
+{
+  LOGGER.info("Config update for pipeline request by {} is in queue - {}",currentUser,command);
+synchronized (GoConfigWriteLock.class) {
+    LOGGER.info("Config update for pipeline request by {} is being processed",currentUser);
+    if (!command.canContinue(cachedConfigService.currentConfig())) {
+      throw new ConfigUpdateCheckFailedException();
+    }
+    cachedConfigService.writeEntityWithLock(command,currentUser);
+  }
+}

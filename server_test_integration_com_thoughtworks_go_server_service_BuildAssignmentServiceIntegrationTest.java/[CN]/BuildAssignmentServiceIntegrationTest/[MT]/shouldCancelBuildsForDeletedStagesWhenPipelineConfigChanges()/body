@@ -1,0 +1,13 @@
+{
+  buildAssignmentService.initialize();
+  fixture.createPipelineWithFirstStageScheduled();
+  buildAssignmentService.onTimer();
+  PipelineConfig pipelineConfig=new Cloner().deepClone(configHelper.getCachedGoConfig().currentConfig().getPipelineConfigByName(new CaseInsensitiveString(fixture.pipelineName)));
+  StageConfig devStage=pipelineConfig.findBy(new CaseInsensitiveString(fixture.devStage));
+  pipelineConfig.remove(devStage);
+  pipelineConfigService.updatePipelineConfig(loserUser,pipelineConfig,new HttpLocalizedOperationResult());
+  Pipeline pipeline=pipelineDao.mostRecentPipeline(fixture.pipelineName);
+  JobInstance job=pipeline.getFirstStage().getJobInstances().first();
+  assertThat(job.getState(),is(JobState.Completed));
+  assertThat(job.getResult(),is(JobResult.Cancelled));
+}

@@ -1,17 +1,17 @@
 {
   CachedFileGoConfig fileService=mock(CachedFileGoConfig.class);
-  PipelineConfigService.SaveCommand saveCommand=mock(PipelineConfigService.SaveCommand.class);
-  MergedGoConfig mergedGoConfig=new MergedGoConfig(mock(ServerHealthService.class),fileService,mock(GoPartialConfig.class));
+  EntityConfigUpdateCommand saveCommand=mock(EntityConfigUpdateCommand.class);
   PipelineConfig pipelineConfig=new PipelineConfig();
-  CachedFileGoConfig.PipelineConfigSaveResult saveResult=mock(CachedFileGoConfig.PipelineConfigSaveResult.class);
+  when(saveCommand.getPreprocessedEntityConfig()).thenReturn(pipelineConfig);
+  MergedGoConfig mergedGoConfig=new MergedGoConfig(mock(ServerHealthService.class),fileService,mock(GoPartialConfig.class));
+  EntityConfigSaveResult<PipelineConfig> saveResult=mock(EntityConfigSaveResult.class);
   GoConfigHolder savedConfig=new GoConfigHolder(new BasicCruiseConfig(),new BasicCruiseConfig());
   when(saveResult.getConfigHolder()).thenReturn(savedConfig);
-  GoConfigHolder holderBeforeUpdate=mergedGoConfig.loadConfigHolder();
   Username user=new Username(new CaseInsensitiveString("user"));
-  when(fileService.writePipelineWithLock(pipelineConfig,holderBeforeUpdate,saveCommand,user)).thenReturn(saveResult);
-  mergedGoConfig.writePipelineWithLock(pipelineConfig,saveCommand,user);
+  when(fileService.writeEntityWithLock(eq(saveCommand),any(GoConfigHolder.class),eq(user))).thenReturn(saveResult);
+  mergedGoConfig.writeEntityWithLock(saveCommand,user);
   assertThat(mergedGoConfig.loadConfigHolder(),is(savedConfig));
   assertThat(mergedGoConfig.currentConfig(),is(savedConfig.config));
   assertThat(mergedGoConfig.loadForEditing(),is(savedConfig.configForEdit));
-  verify(fileService).writePipelineWithLock(pipelineConfig,holderBeforeUpdate,saveCommand,user);
+  verify(fileService).writeEntityWithLock(eq(saveCommand),any(GoConfigHolder.class),eq(user));
 }

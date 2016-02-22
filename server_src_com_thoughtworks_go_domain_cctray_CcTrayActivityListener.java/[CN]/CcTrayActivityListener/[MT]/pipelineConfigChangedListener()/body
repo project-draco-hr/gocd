@@ -1,0 +1,13 @@
+{
+  return new EntityConfigChangedListener<PipelineConfig>(){
+    @Override public void onEntityConfigChange(    final PipelineConfig pipelineConfig){
+      queue.add(new Action(){
+        @Override public void call(){
+          configChangeHandler.call(pipelineConfig,goConfigService.findGroupNameByPipeline(pipelineConfig.name()));
+        }
+      }
+);
+    }
+  }
+;
+}

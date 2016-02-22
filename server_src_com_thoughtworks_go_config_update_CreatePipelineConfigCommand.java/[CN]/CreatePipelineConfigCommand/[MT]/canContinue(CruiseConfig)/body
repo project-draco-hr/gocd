@@ -1,0 +1,7 @@
+{
+  if (goConfigService.groups().hasGroup(groupName) && !goConfigService.isUserAdminOfGroup(currentUser.getUsername(),groupName)) {
+    result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT_GROUP",groupName),HealthStateType.unauthorised());
+    return false;
+  }
+  return true;
+}
