@@ -1,0 +1,7 @@
+{
+  JobAgentConfig config=new JobAgentConfig(null);
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,null,PipelineConfigMother.pipelineConfig("pipeline"),StageConfigMother.manualStage("stage"),JobConfigMother.job());
+  config.validate(context);
+  assertThat(config.errors().size(),is(1));
+  assertThat(config.errors().on(JobAgentConfig.PLUGIN_ID),is("Agent config on job 'pipeline::stage::defaultJob' cannot have a blank plugin id."));
+}

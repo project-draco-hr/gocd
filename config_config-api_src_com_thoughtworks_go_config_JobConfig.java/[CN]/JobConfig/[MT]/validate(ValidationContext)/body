@@ -1,10 +1,10 @@
 {
-  if (StringUtil.isBlank(CaseInsensitiveString.str(name()))) {
+  if (StringUtil.isBlank(CaseInsensitiveString.str(jobName))) {
     errors.add(NAME,"Name is a required field");
   }
  else {
-    if ((CaseInsensitiveString.str(name()).length() > 255 || XmlUtils.doesNotMatchUsingXsdRegex(JOB_NAME_PATTERN_REGEX,CaseInsensitiveString.str(name())))) {
-      String message=String.format("Invalid job name '%s'. This must be alphanumeric and may contain underscores and periods. The maximum allowed length is %d characters.",name(),NameTypeValidator.MAX_LENGTH);
+    if ((CaseInsensitiveString.str(jobName).length() > 255 || XmlUtils.doesNotMatchUsingXsdRegex(JOB_NAME_PATTERN_REGEX,CaseInsensitiveString.str(jobName)))) {
+      String message=String.format("Invalid job name '%s'. This must be alphanumeric and may contain underscores and periods. The maximum allowed length is %d characters.",jobName,NameTypeValidator.MAX_LENGTH);
       errors.add(NAME,message);
     }
     if (RunOnAllAgentsJobTypeConfig.hasMarker(CaseInsensitiveString.str(jobName))) {
@@ -43,7 +43,6 @@
     if (StringUtils.isEmpty(resource.getName())) {
       CaseInsensitiveString pipelineName=validationContext.getPipeline().name();
       CaseInsensitiveString stageName=validationContext.getStage().name();
-      CaseInsensitiveString jobName=name();
       String message=String.format("Empty resource name in job \"%s\" of stage \"%s\" of pipeline \"%s\". If a template is used, please ensure that the resource parameters are defined for this pipeline.",jobName,stageName,pipelineName);
       errors.add(RESOURCES,message);
     }
