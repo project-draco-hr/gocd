@@ -16,7 +16,7 @@
     progressPane.progressBar.setValue(slept);
     slept++;
     try {
-      HttpURLConnection urlConnection=new HttpURLConnection(url,null);
+      HttpURLConnection urlConnection=(HttpURLConnection)url.openConnection();
       urlConnection.connect();
       if (urlConnection.getResponseCode() == 200) {
         LOG.info("Server up, let's go");
