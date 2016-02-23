@@ -1,5 +1,5 @@
 {
   SvnCommand command=new SvnCommand(null,"url","shilpaIsGreat",null,false);
   CommandArgument argument=new StringArgument(String.format("--password="));
-  assertThat(command.buildSvnLogCommandForLatestOne().getArguments(),hasItem(argument));
+  assertThat(command.buildSvnLogCommandForLatestOne().getArguments(),not(hasItem(argument)));
 }
