@@ -2,20 +2,26 @@
 switch (msg.getAction()) {
 case ping:
     AgentRuntimeInfo info=(AgentRuntimeInfo)msg.getData();
-  if (!this.agentSessions.containsKey(info.getUUId())) {
-    LOGGER.info("{} is connected with websocket {}",info.getIdentifier(),agent);
-    sessionIds.put(agent,info.getUUId());
-    this.agentSessions.put(info.getUUId(),agent);
+synchronized (agent) {
+    if (!sessionIds.containsKey(agent)) {
+      LOGGER.info("{} is connected with websocket {}",info.getIdentifier(),agent);
+      sessionIds.put(agent,info.getUUId());
+      this.agentSessions.put(info.getUUId(),agent);
+    }
+    if (info.getCookie() == null) {
+      String cookie=agentCookie.get(agent);
+      if (cookie == null) {
+        cookie=buildRepositoryRemote.getCookie(info.getIdentifier(),info.getLocation());
+        agentCookie.put(agent,cookie);
+      }
+      info.setCookie(cookie);
+      agent.send(new Message(Action.setCookie,cookie));
+    }
+    AgentInstruction instruction=this.buildRepositoryRemote.ping(info);
+    if (instruction.isShouldCancelJob()) {
+      agent.send(new Message(Action.cancelJob));
+    }
   }
-if (info.getCookie() == null) {
-  String cookie=buildRepositoryRemote.getCookie(info.getIdentifier(),info.getLocation());
-  info.setCookie(cookie);
-  agent.send(new Message(Action.setCookie,cookie));
-}
-AgentInstruction instruction=this.buildRepositoryRemote.ping(info);
-if (instruction.isShouldCancelJob()) {
-agent.send(new Message(Action.cancelJob));
-}
 break;
 case reportCurrentStatus:
 Report report=(Report)msg.getData();
