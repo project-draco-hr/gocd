@@ -2,6 +2,6 @@
   JobInstance newest=new JobInstance(jobName);
   newest.setScheduledDate(date);
   jobInstanceDao.save(stageId,newest);
-  jobInstanceDao.save(newest.getId(),new DefaultJobPlan(new Resources(),new ArtifactPlans(),new ArtifactPropertiesGenerators(),-1,jobIdentifier));
+  jobInstanceDao.save(newest.getId(),new DefaultJobPlan(new Resources(),new ArtifactPlans(),new ArtifactPropertiesGenerators(),-1,jobIdentifier,null,new EnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),null));
   return newest.getId();
 }

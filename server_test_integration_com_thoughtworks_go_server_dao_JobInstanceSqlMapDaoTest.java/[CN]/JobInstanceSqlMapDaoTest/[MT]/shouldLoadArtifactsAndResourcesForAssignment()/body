@@ -2,7 +2,7 @@
   JobInstance instance=jobInstanceDao.save(stageId,new JobInstance(projectOne));
   instance.setIdentifier(new JobIdentifier(savedPipeline,savedStage,instance));
   Resources resources=new Resources("one, two, three");
-  JobPlan savedPlan=new DefaultJobPlan(resources,artifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier());
+  JobPlan savedPlan=new DefaultJobPlan(resources,artifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier(),null,new EnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),null);
   jobInstanceDao.save(instance.getId(),savedPlan);
   final List<JobPlan> planList=jobInstanceDao.orderedScheduledBuilds();
   final List<JobPlan> plans=findPlans(planList,projectOne);
