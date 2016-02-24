@@ -1,0 +1,5 @@
+{
+  ModelAndView list=controller.list("Un-available");
+  assertThat(list.getViewName(),is("exceptions_page"));
+  assertThat(list.getModel().get("errorMessage"),Is.<Object>is("Pipeline 'Un-available' not found."));
+}
