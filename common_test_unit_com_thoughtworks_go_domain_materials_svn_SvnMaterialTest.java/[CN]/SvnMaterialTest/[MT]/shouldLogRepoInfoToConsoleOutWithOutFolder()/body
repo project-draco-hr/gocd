@@ -6,7 +6,7 @@
     }
   }
 );
-  svnMaterial.updateTo(outputStreamConsumer,revision,workingCopy,new TestSubprocessExecutionContext());
+  updateMaterial(svnMaterial,revision,workingCopy);
   String stdout=outputStreamConsumer.getStdOut();
   assertThat(stdout,containsString(String.format("Start updating %s at revision %s from %s","files",revision.getRevision(),svnMaterial.getUrl())));
 }

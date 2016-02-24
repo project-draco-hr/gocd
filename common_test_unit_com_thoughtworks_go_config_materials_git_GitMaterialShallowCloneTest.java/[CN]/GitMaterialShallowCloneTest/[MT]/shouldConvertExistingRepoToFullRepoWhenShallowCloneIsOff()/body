@@ -1,0 +1,8 @@
+{
+  GitMaterial material=new GitMaterial(repo.projectRepositoryUrl(),true);
+  material.latestModification(workingDir,context());
+  assertThat(localRepoFor(material).isShallow(),is(true));
+  material=new GitMaterial(repo.projectRepositoryUrl(),false);
+  material.latestModification(workingDir,context());
+  assertThat(localRepoFor(material).isShallow(),is(false));
+}

@@ -1,0 +1,8 @@
+{
+  outputStreamConsumer.stdOutput(String.format("[GIT] Unshallowing repository with depth %d",depth));
+  CommandLine gitFetch=git().withArgs("fetch","origin").withArg(String.format("--depth=%d",depth)).withWorkingDir(workingDir);
+  int result=run(gitFetch,outputStreamConsumer);
+  if (result != 0) {
+    throw new RuntimeException(String.format("Unshallow repository failed for [%s]",this.workingRepositoryUrl()));
+  }
+}

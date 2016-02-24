@@ -2,11 +2,11 @@
   File newFile=new File(workingDir,"second.txt");
   assertThat(outputStreamConsumer.getStdError(),is(""));
   InMemoryStreamConsumer output=inMemoryConsumer();
-  git.updateTo(output,REVISION_1,workingDir,new TestSubprocessExecutionContext());
+  git.updateTo(output,workingDir,new RevisionContext(REVISION_1,REVISION_0,2),new TestSubprocessExecutionContext());
   assertThat(output.getStdOut(),containsString("Start updating files at revision " + REVISION_1.getRevision()));
   assertThat(newFile.exists(),is(false));
   output=inMemoryConsumer();
-  git.updateTo(output,REVISION_2,workingDir,new TestSubprocessExecutionContext());
+  git.updateTo(output,workingDir,new RevisionContext(REVISION_2,REVISION_1,2),new TestSubprocessExecutionContext());
   assertThat(output.getStdOut(),containsString("Start updating files at revision " + REVISION_2.getRevision()));
   assertThat(newFile.exists(),is(true));
 }

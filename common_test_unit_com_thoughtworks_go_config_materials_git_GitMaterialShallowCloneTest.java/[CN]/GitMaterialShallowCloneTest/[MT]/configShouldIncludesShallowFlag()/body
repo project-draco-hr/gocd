@@ -1,0 +1,6 @@
+{
+  GitMaterialConfig shallowConfig=(GitMaterialConfig)new GitMaterial(repo.projectRepositoryUrl(),true).config();
+  assertThat(shallowConfig.isShallowClone(),is(true));
+  GitMaterialConfig normalConfig=(GitMaterialConfig)new GitMaterial(repo.projectRepositoryUrl(),null).config();
+  assertThat(normalConfig.isShallowClone(),is(false));
+}

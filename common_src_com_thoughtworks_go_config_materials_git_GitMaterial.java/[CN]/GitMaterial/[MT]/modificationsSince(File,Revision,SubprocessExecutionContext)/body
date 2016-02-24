@@ -1,4 +1,5 @@
 {
-  GitCommand gitCommand=getGit(baseDir);
+  GitCommand gitCommand=getGit(baseDir,DEFAULT_SHALLOW_CLONE_DEPTH);
+  unshallowIfNeeded(gitCommand,ProcessOutputStreamConsumer.inMemoryConsumer(),revision,baseDir);
   return gitCommand.modificationsSince(revision);
 }

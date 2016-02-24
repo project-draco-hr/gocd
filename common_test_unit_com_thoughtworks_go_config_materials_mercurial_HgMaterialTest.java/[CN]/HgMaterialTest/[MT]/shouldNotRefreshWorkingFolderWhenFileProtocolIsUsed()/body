@@ -2,7 +2,7 @@
   new HgCommand(null,workingFolder,"default",hgTestRepo.url().forCommandline()).clone(inMemoryConsumer(),hgTestRepo.url());
   File testFile=createNewFileInWorkingFolder();
   hgMaterial=MaterialsMother.hgMaterial("file://" + hgTestRepo.projectRepositoryUrl());
-  hgMaterial.updateTo(outputStreamConsumer,new StringRevision("0"),workingFolder,new TestSubprocessExecutionContext());
+  updateMaterial(hgMaterial,new StringRevision("0"));
   String workingUrl=new HgCommand(null,workingFolder,"default",hgTestRepo.url().forCommandline()).workingRepositoryUrl().outputAsString();
   assertThat(workingUrl,is(hgTestRepo.projectRepositoryUrl()));
   assertThat(testFile.exists(),is(true));

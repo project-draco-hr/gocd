@@ -1,0 +1,8 @@
+{
+  CommandLine gitClone=git().withArg("clone").withArg(String.format("--branch=%s",branch));
+  if (depth < Integer.MAX_VALUE) {
+    gitClone.withArg(String.format("--depth=%s",depth));
+  }
+  gitClone.withArg(new UrlArgument(url)).withArg(workingDir.getAbsolutePath());
+  return run(gitClone,outputStreamConsumer);
+}

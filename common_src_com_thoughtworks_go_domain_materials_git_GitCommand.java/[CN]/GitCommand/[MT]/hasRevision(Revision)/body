@@ -1,0 +1,10 @@
+{
+  CommandLine cmd=git().withArg("cat-file").withArg("-t").withArg(revision.getRevision()).withWorkingDir(workingDir);
+  try {
+    ConsoleResult consoleResult=runOrBomb(cmd);
+    return "commit".equals(consoleResult.outputAsString());
+  }
+ catch (  CommandLineException e) {
+    return false;
+  }
+}

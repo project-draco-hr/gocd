@@ -1,4 +1,4 @@
 {
-  git.updateTo(outputStreamConsumer,REVISION_1,workingDir,new TestSubprocessExecutionContext());
+  git.updateTo(outputStreamConsumer,workingDir,new RevisionContext(REVISION_1),new TestSubprocessExecutionContext());
   assertThat(outputStreamConsumer.getStdOut(),containsString(format("Start updating %s at revision %s from %s","files",REVISION_1.getRevision(),git.getUrl())));
 }

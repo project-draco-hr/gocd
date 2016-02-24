@@ -1,8 +1,8 @@
 {
-  hgMaterial.updateTo(outputStreamConsumer,new StringRevision("0"),workingFolder,new TestSubprocessExecutionContext());
+  updateMaterial(hgMaterial,new StringRevision("0"));
   File end2endFolder=new File(workingFolder,"end2end");
   assertThat(end2endFolder.listFiles().length,is(3));
   assertThat(outputStreamConsumer.getStdOut(),is(not("")));
-  hgMaterial.updateTo(outputStreamConsumer,new StringRevision("1"),workingFolder,new TestSubprocessExecutionContext());
+  updateMaterial(hgMaterial,new StringRevision("1"));
   assertThat(end2endFolder.listFiles().length,is(4));
 }
