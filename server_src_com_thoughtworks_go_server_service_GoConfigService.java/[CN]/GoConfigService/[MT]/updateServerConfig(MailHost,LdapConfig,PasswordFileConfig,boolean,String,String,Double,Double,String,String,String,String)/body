@@ -1,5 +1,5 @@
 {
-  final List<ConfigSaveState> result=new ArrayList<ConfigSaveState>();
+  final List<ConfigSaveState> result=new ArrayList<>();
   result.add(updateConfig(new GoConfigDao.NoOverwriteCompositeConfigCommand(md5,goConfigDao.mailHostUpdater(mailHost),securityUpdater(ldapConfig,passwordFileConfig,shouldAllowAutoLogin),serverConfigUpdater(artifactsDir,purgeStart,purgeUpto,jobTimeout,siteUrl,secureSiteUrl,taskRepositoryLocation))));
   return result.get(0);
 }

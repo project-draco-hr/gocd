@@ -1,9 +1,0 @@
-{
-  if (isTemplate(groupName)) {
-    return postXmlPartial(groupName,goConfigService.templateSaver(pipelineIndex),xmlPartial,"Template changed successfully.",md5).respond(response);
-  }
- else {
-    String actualName=defaultString(groupName,BasicPipelineConfigs.DEFAULT_GROUP);
-    return postXmlPartial(groupName,goConfigService.pipelineSaver(actualName,pipelineIndex),xmlPartial,"Pipeline changed successfully.",md5).respond(response);
-  }
-}

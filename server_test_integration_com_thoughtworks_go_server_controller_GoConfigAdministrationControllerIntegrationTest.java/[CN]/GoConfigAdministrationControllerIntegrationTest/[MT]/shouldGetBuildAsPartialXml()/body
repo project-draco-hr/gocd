@@ -1,7 +1,0 @@
-{
-  configHelper.addPipeline("pipeline","stage","build1","build2");
-  String md5=goConfigDao.md5OfConfigFile();
-  controller.getBuildAsXmlPartial("pipeline","stage",1,null,response);
-  assertValidContentAndStatus(SC_OK,"text/xml","<job name=\"build2\" />");
-  assertThat(response.getHeader(XmlAction.X_CRUISE_CONFIG_MD5),is(md5));
-}

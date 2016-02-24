@@ -1,8 +1,0 @@
-{
-  String md5=setUpPipelineGroupsWithAdminPermissions();
-  controller.getPipelineAsXmlPartial(0,"studios",md5,response);
-  assertThat(response.getStatus(),is(SC_UNAUTHORIZED));
-  assertThat(response.getContentAsString(),is("User 'ram' does not have permissions to administer pipeline group 'studios'"));
-  controller.getPipelineAsXmlPartial(0,"consulting",md5,response);
-  assertThat(response.getStatus(),is(SC_OK));
-}
