@@ -1,0 +1,5 @@
+{
+  ModelAndView list=controller.list(fixture.pipelineName);
+  assertThat(list.getViewName(),is("pipeline/pipeline_history"));
+  assertThat(list.getModel().get("pipelineName").toString(),is(fixture.pipelineName));
+}
