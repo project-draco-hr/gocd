@@ -1,0 +1,9 @@
+{
+  when(request.getMethod()).thenReturn("POST");
+  when(manager.verify(request)).thenReturn(false);
+  TokenInterceptor interceptor=new TokenInterceptor(manager);
+  assertThat(interceptor.preHandle(request,response,mock(Object.class)),is(false));
+  verify(request).getMethod();
+  verify(manager).verify(request);
+  verify(response).sendError(HttpServletResponse.SC_FORBIDDEN,"Bad or missing Token in the POST request");
+}

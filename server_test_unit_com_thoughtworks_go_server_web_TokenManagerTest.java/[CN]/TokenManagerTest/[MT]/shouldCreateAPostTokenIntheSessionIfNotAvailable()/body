@@ -1,0 +1,6 @@
+{
+  when(session.getAttribute(TOKEN)).thenReturn(null);
+  manager.create(session);
+  verify(session).getAttribute(TOKEN);
+  verify(session).setAttribute(eq(TOKEN),anyString());
+}

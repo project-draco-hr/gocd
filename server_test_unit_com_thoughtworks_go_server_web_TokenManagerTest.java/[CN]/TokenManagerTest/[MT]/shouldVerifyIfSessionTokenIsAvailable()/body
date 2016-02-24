@@ -1,0 +1,9 @@
+{
+  when(request.getParameter(TOKEN)).thenReturn("token");
+  when(request.getSession()).thenReturn(session);
+  when(session.getAttribute(TOKEN)).thenReturn(null);
+  assertThat(manager.verify(request),is(false));
+  verify(request).getParameter(TOKEN);
+  verify(request).getSession();
+  verify(session).getAttribute(TOKEN);
+}

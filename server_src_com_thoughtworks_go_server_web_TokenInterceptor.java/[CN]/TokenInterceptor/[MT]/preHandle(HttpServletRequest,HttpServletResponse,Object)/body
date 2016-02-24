@@ -1,0 +1,11 @@
+{
+  if (!request.getMethod().equalsIgnoreCase("POST")) {
+    tokenManager.create(request.getSession());
+    return true;
+  }
+  if (tokenManager.verify(request)) {
+    return true;
+  }
+  response.sendError(HttpServletResponse.SC_FORBIDDEN,"Bad or missing Token in the POST request");
+  return false;
+}
