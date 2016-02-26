@@ -1,6 +1,6 @@
 {
   Date epoch=new Date(0);
-  KeyPair agentKeyPair=KeyPairCreator.createKeyPair();
+  KeyPair agentKeyPair=generateKeyPair();
   try {
     KeyStore store=loadOrCreateCAKeyStore(authorityKeystore);
     KeyStore.PrivateKeyEntry intermediateEntry=(KeyStore.PrivateKeyEntry)store.getEntry("ca-intermediate",new KeyStore.PasswordProtection(PASSWORD_AS_CHAR_ARRAY));

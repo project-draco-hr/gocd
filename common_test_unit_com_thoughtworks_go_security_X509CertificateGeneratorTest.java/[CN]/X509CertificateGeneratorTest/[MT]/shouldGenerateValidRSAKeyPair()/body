@@ -1,0 +1,13 @@
+{
+  String text="this is a secret message";
+  X509CertificateGenerator generator=new X509CertificateGenerator();
+  Registration registration=generator.createAgentCertificate(keystore,"agentHostName");
+  PrivateKey privateKey=registration.getPrivateKey();
+  PublicKey publicKey=registration.getPublicKey();
+  final Cipher cipher=Cipher.getInstance("RSA");
+  cipher.init(Cipher.ENCRYPT_MODE,publicKey);
+  byte[] encrypted=cipher.doFinal(text.getBytes());
+  cipher.init(Cipher.DECRYPT_MODE,privateKey);
+  byte[] decrypted=cipher.doFinal(encrypted);
+  assertThat(decrypted,is(text.getBytes()));
+}

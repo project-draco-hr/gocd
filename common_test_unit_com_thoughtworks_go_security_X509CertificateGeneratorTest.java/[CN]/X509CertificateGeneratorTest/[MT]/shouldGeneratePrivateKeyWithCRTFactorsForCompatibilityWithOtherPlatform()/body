@@ -1,0 +1,11 @@
+{
+  X509CertificateGenerator generator=new X509CertificateGenerator();
+  Registration registration=generator.createAgentCertificate(keystore,"agentHostName");
+  assertThat(registration.getPrivateKey(),instanceOf(RSAPrivateCrtKey.class));
+  RSAPrivateCrtKey key=(RSAPrivateCrtKey)registration.getPrivateKey();
+  assertThat(key.getModulus().signum(),is(1));
+  assertThat(key.getPrivateExponent().signum(),is(1));
+  assertThat(key.getPrimeP().signum(),is(1));
+  assertThat(key.getPrimeExponentQ().signum(),is(1));
+  assertThat(key.getCrtCoefficient().signum(),is(1));
+}
