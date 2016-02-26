@@ -7,7 +7,7 @@
   }
 );
   try {
-    wait.await(ACK_WAIT_TIMEOUT,TimeUnit.SECONDS);
+    wait.await(environment.getWebsocketAckMessageTimeout(),TimeUnit.MILLISECONDS);
   }
  catch (  InterruptedException e) {
     bomb(e);

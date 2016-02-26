@@ -28,11 +28,7 @@ websocketService.stop();
 sslInfrastructureService.invalidateAgentCertificate();
 break;
 case ack:
-String messageId=(String)message.getData();
-MessageCallback callback=callbacks.remove(messageId);
-if (callback != null) {
-callback.call();
-}
+callbacks.remove(message.getData()).call();
 break;
 default :
 throw new RuntimeException("Unknown action: " + message.getAction());

@@ -7,7 +7,6 @@
   sslContextFactory.setTrustStorePassword(SslInfrastructureService.AGENT_STORE_PASSWORD);
   sslContextFactory.setWantClientAuth(true);
   if (client == null || client.isStopped()) {
-    SystemEnvironment environment=new SystemEnvironment();
     client=new WebSocketClient(sslContextFactory);
     client.setMaxIdleTimeout(environment.getWebsocketMaxIdleTime());
     client.start();
