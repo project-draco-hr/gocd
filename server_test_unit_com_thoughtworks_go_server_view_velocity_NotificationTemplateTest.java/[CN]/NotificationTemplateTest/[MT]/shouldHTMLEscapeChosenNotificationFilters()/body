@@ -1,12 +1,11 @@
 {
-  HashMap<String,Object> data=new HashMap<String,Object>();
+  HashMap<String,Object> data=new HashMap<>();
   User user=new User("name","display-name",new String[]{"matcher1","matcher2"},"email1@host.com",true);
   user.addNotificationFilter(new NotificationFilter("<script>pipeline1 && that</script>","stage1",StageEvent.Passes,false));
   user.addNotificationFilter(new NotificationFilter("pipeline2","<script>stage2 && that</script>",StageEvent.Fails,true));
   user.populateModel(data);
   data.put("pipelines","[]");
   data.put("l",null);
-  data.put("escaper",new Escaper());
   Document actualDoc=Jsoup.parse(new TestVelocityView(TEMPLATE_PATH,data).render());
   assertNotificationFilter(actualDoc,0,"&lt;script&gt;pipeline1 &amp;&amp; that&lt;/script&gt;","stage1","Passes","All");
   assertNotificationFilter(actualDoc,1,"pipeline2","&lt;script&gt;stage2 &amp;&amp; that&lt;/script&gt;","Fails","Mine");

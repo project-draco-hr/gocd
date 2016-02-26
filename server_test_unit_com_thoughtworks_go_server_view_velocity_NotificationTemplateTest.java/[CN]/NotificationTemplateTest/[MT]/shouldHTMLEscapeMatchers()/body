@@ -1,10 +1,9 @@
 {
-  HashMap<String,Object> data=new HashMap<String,Object>();
+  HashMap<String,Object> data=new HashMap<>();
   User user=new User("name","display-name",new String[]{"<script>this && that</script>","matcher2"},"email1@host.com",true);
   user.populateModel(data);
   data.put("pipelines","[]");
   data.put("l",null);
-  data.put("escaper",new Escaper());
   Document actualDoc=Jsoup.parse(new TestVelocityView(TEMPLATE_PATH,data).render());
   assertMatchers(actualDoc,"<script>this && that</script>,matcher2","&lt;script&gt;this &amp;&amp; that&lt;/script&gt;,","matcher2");
 }

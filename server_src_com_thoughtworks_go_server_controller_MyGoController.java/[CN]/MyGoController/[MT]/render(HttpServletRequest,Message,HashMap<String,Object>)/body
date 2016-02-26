@@ -9,7 +9,6 @@
   List<PipelineConfigs> groups=securityService.viewableGroupsFor(getUserName());
   data.put("pipelines",new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(getPipelineModelsSortedByNameFor(groups)));
   data.put("l",localizer);
-  data.put("escaper",new Escaper());
   message.populateModel(data);
   return new ModelAndView("mycruise/mycruise-tab",data);
 }
