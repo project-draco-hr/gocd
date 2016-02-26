@@ -3,5 +3,6 @@
   if (o == null || getClass() != o.getClass())   return false;
   Message message=(Message)o;
   if (action != message.action)   return false;
-  return data != null ? data.equals(message.data) : message.data == null;
+  if (data != null ? !data.equals(message.data) : message.data != null)   return false;
+  return ackId != null ? ackId.equals(message.ackId) : message.ackId == null;
 }

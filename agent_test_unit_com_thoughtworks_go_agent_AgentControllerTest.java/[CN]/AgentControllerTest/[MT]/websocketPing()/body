@@ -8,5 +8,5 @@
   verify(agentUpgradeService).checkForUpgrade();
   verify(sslInfrastructureService).registerIfNecessary(agentController.getAgentAutoRegistrationProperties());
   verify(agentWebsocketService).start();
-  verify(agentWebsocketService).send(new Message(Action.ping,agentController.getAgentRuntimeInfo()));
+  verify(agentWebsocketService).sendAndWaitForAck(new Message(Action.ping,agentController.getAgentRuntimeInfo()));
 }

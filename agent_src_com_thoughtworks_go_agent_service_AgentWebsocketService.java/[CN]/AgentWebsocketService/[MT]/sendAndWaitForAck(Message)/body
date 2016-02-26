@@ -1,0 +1,15 @@
+{
+  final CountDownLatch wait=new CountDownLatch(1);
+  controller.sendWithCallback(message,new MessageCallback(){
+    @Override public void call(){
+      wait.countDown();
+    }
+  }
+);
+  try {
+    wait.await(ACK_WAIT_TIMEOUT,TimeUnit.SECONDS);
+  }
+ catch (  InterruptedException e) {
+    bomb(e);
+  }
+}
