@@ -1,0 +1,16 @@
+{
+  final AtomicBoolean callbackIsCalled=new AtomicBoolean(false);
+  agentController=createAgentController();
+  agentController.init();
+  final Message message=new Message(Action.reportCurrentStatus);
+  assertNull(message.getAckId());
+  agentController.sendWithCallback(message,new MessageCallback(){
+    @Override public void call(){
+      callbackIsCalled.set(true);
+    }
+  }
+);
+  assertNotNull(message.getAckId());
+  agentController.process(new Message(Action.ack,message.getAckId()));
+  assertTrue(callbackIsCalled.get());
+}

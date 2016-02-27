@@ -15,7 +15,7 @@ LOG.debug("Got work from server: [{}]",work.description());
 agentRuntimeInfo.idle();
 runner=new JobRunner();
 try {
-runner.run(work,agentIdentifier(),new AgentWebsocketService.BuildRepositoryRemoteAdapter(runner,websocketService),manipulator,agentRuntimeInfo,packageAsRepositoryExtension,scmExtension,taskExtension);
+runner.run(work,agentIdentifier(),websocketService.buildRepositoryRemote(runner),manipulator,agentRuntimeInfo,packageAsRepositoryExtension,scmExtension,taskExtension);
 }
   finally {
 agentRuntimeInfo.idle();
@@ -26,6 +26,9 @@ case reregister:
 LOG.warn("Reregister: invalidate current agent certificate fingerprint {} and stop websocket client.",agentRegistry.uuid());
 websocketService.stop();
 sslInfrastructureService.invalidateAgentCertificate();
+break;
+case ack:
+callbacks.remove(message.getData()).call();
 break;
 default :
 throw new RuntimeException("Unknown action: " + message.getAction());

@@ -1,0 +1,15 @@
+{
+  final CountDownLatch wait=new CountDownLatch(1);
+  controller.sendWithCallback(message,new MessageCallback(){
+    @Override public void call(){
+      wait.countDown();
+    }
+  }
+);
+  try {
+    wait.await(environment.getWebsocketAckMessageTimeout(),TimeUnit.MILLISECONDS);
+  }
+ catch (  InterruptedException e) {
+    bomb(e);
+  }
+}

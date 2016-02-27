@@ -1,41 +1,10 @@
 {
-switch (msg.getAction()) {
-case ping:
-    AgentRuntimeInfo info=(AgentRuntimeInfo)msg.getData();
-synchronized (agent) {
-    if (!sessionIds.containsKey(agent)) {
-      LOGGER.info("{} is connected with websocket {}",info.getIdentifier(),agent);
-      sessionIds.put(agent,info.getUUId());
-      this.agentSessions.put(info.getUUId(),agent);
-    }
-    if (info.getCookie() == null) {
-      String cookie=agentCookie.get(agent);
-      if (cookie == null) {
-        cookie=buildRepositoryRemote.getCookie(info.getIdentifier(),info.getLocation());
-        agentCookie.put(agent,cookie);
-      }
-      info.setCookie(cookie);
-      agent.send(new Message(Action.setCookie,cookie));
-    }
-    AgentInstruction instruction=this.buildRepositoryRemote.ping(info);
-    if (instruction.isShouldCancelJob()) {
-      agent.send(new Message(Action.cancelJob));
+  try {
+    processWithoutAck(agent,msg);
+  }
+  finally {
+    if (msg.getAckId() != null) {
+      agent.send(new Message(Action.ack,msg.getAckId()));
     }
   }
-break;
-case reportCurrentStatus:
-Report report=(Report)msg.getData();
-buildRepositoryRemote.reportCurrentStatus(report.getAgentRuntimeInfo(),report.getJobIdentifier(),report.getJobState());
-break;
-case reportCompleting:
-report=(Report)msg.getData();
-buildRepositoryRemote.reportCompleting(report.getAgentRuntimeInfo(),report.getJobIdentifier(),report.getResult());
-break;
-case reportCompleted:
-report=(Report)msg.getData();
-buildRepositoryRemote.reportCompleted(report.getAgentRuntimeInfo(),report.getJobIdentifier(),report.getResult());
-break;
-default :
-throw new RuntimeException("Unknown action: " + msg.getAction());
-}
 }
