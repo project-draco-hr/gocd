@@ -2,9 +2,9 @@
   Date startDate=new Date(0);
   String principalDn="ou=Cruise Server primary certificate, cn=" + getHostname();
   try {
-    KeyPair caKeyPair=KeyPairCreator.createKeyPair();
+    KeyPair caKeyPair=generateKeyPair();
     X509Certificate caCertificate=createTypeOneX509Certificate(startDate,principalDn,caKeyPair);
-    KeyPair intKeyPair=KeyPairCreator.createKeyPair();
+    KeyPair intKeyPair=generateKeyPair();
     X509Certificate intermediateCertificate=createIntermediateCertificate(caKeyPair.getPrivate(),caCertificate,startDate,intKeyPair);
     Registration intermediateEntry=new Registration(intKeyPair.getPrivate(),intermediateCertificate);
     keyStoreManager.storeCACertificate(keystore,PASSWORD,caCertificate,intermediateEntry);
