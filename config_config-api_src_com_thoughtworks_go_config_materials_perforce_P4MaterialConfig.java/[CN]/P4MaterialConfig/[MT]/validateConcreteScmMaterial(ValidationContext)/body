@@ -5,4 +5,8 @@
   if (StringUtil.isBlank(getServerAndPort())) {
     errors.add(SERVER_AND_PORT,"P4 port cannot be empty.");
   }
+  if (isNotEmpty(this.password) && isNotEmpty(this.encryptedPassword)) {
+    addError("password","You may only specify `password` or `encrypted_password`, not both!");
+    addError("encryptedPassword","You may only specify `password` or `encrypted_password`, not both!");
+  }
 }

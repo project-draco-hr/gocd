@@ -8,4 +8,8 @@
   if (StringUtil.isBlank(projectPath)) {
     errors().add(PROJECT_PATH,"Project Path cannot be blank");
   }
+  if (isNotEmpty(this.password) && isNotEmpty(this.encryptedPassword)) {
+    addError("password","You may only specify `password` or `encrypted_password`, not both!");
+    addError("encryptedPassword","You may only specify `password` or `encrypted_password`, not both!");
+  }
 }
