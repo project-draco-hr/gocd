@@ -12,7 +12,7 @@ synchronized (this) {
       Work buildWork=createWork(agent,job);
       AgentBuildingInfo buildingInfo=new AgentBuildingInfo(job.getIdentifier().buildLocatorForDisplay(),job.getIdentifier().buildLocator());
       agentService.building(agent.getUuid(),buildingInfo);
-      LOGGER.info(format("[Agent Assignment] Assigned job [%s] to agent [%s]",job.getIdentifier(),agent.agentConfig().getAgentIdentifier()));
+      LOGGER.info("[Agent Assignment] Assigned job [{}] to agent [{}]",job.getIdentifier(),agent.agentConfig().getAgentIdentifier());
       return buildWork;
     }
   }

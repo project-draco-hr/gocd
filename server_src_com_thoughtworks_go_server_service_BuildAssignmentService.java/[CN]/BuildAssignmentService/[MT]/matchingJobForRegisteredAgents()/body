@@ -14,7 +14,7 @@
     }
     if (agentInstance.isDisabled() || !agentInstance.isIdle()) {
       if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug("Ignore agent that is " + agentInstance.getStatus());
+        LOGGER.debug("Ignore agent [{}] that is {}",agentInstance.getAgentIdentifier().toString(),agentInstance.getStatus());
       }
       return;
     }
@@ -24,6 +24,6 @@
     }
   }
   if (LOGGER.isDebugEnabled()) {
-    LOGGER.debug(format("Matching %d agents with %d jobs took: %dms",agents.size(),jobPlans.size(),System.currentTimeMillis() - start));
+    LOGGER.debug("Matching {} agents with {} jobs took: {}ms",agents.size(),jobPlans.size(),System.currentTimeMillis() - start);
   }
 }

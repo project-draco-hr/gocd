@@ -1,13 +1,13 @@
 {
   try {
     jobPlans.remove(jobPlan);
-    LOGGER.info(String.format("Removing job plan %s that no longer exists in the config",jobPlan));
+    LOGGER.info("Removing job plan {} that no longer exists in the config",jobPlan);
     JobInstance instance=jobInstanceService.buildByIdWithTransitions(jobPlan.getJobId());
     instance.setIdentifier(jobPlan.getIdentifier());
     scheduleService.cancelJob(instance);
-    LOGGER.info(String.format("Successfully removed job plan %s that no longer exists in the config",jobPlan));
+    LOGGER.info("Successfully removed job plan {} that no longer exists in the config",jobPlan);
   }
  catch (  Exception e) {
-    LOGGER.warn(String.format("Unable to remove plan %s from queue that no longer exists in the config",jobPlan));
+    LOGGER.warn("Unable to remove plan {} from queue that no longer exists in the config",jobPlan);
   }
 }
