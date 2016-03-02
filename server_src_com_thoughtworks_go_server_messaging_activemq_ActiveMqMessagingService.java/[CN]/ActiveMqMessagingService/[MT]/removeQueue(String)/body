@@ -1,0 +1,17 @@
+{
+  try {
+    ActiveMQQueue destination=new ActiveMQQueue(queueName);
+    ConnectionContext connectionContext=BrokerSupport.getConnectionContext(broker.getBroker());
+    Destination brokerDestination=broker.getDestination(destination);
+    List<Subscription> consumers=brokerDestination.getConsumers();
+    for (    Subscription consumer : consumers) {
+      consumer.remove(connectionContext,brokerDestination);
+      brokerDestination.removeSubscription(connectionContext,consumer,0);
+    }
+    broker.getBroker().removeDestination(connectionContext,destination,1000);
+    broker.removeDestination(destination);
+  }
+ catch (  Exception e) {
+    throw bomb(e);
+  }
+}
