@@ -1,0 +1,8 @@
+{
+  when(request.getMethod()).thenReturn("POST");
+  when(manager.verify(request)).thenReturn(true);
+  TokenInterceptor interceptor=new TokenInterceptor(manager);
+  assertThat(interceptor.preHandle(request,response,mock(Object.class)),is(true));
+  verify(request).getMethod();
+  verify(manager).verify(request);
+}

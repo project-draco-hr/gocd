@@ -1,0 +1,5 @@
+{
+  String postedToken=request.getParameter(TOKEN);
+  String expectedToken=(String)request.getSession().getAttribute(TOKEN);
+  return !isBlank(postedToken) && !isBlank(expectedToken) && postedToken.equals(expectedToken);
+}

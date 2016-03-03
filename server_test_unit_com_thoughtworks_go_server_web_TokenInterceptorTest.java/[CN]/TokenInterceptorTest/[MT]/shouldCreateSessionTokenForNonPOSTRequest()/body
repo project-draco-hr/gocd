@@ -1,0 +1,10 @@
+{
+  when(request.getMethod()).thenReturn("GET");
+  MockHttpSession session=new MockHttpSession();
+  when(request.getSession()).thenReturn(session);
+  TokenInterceptor interceptor=new TokenInterceptor(manager);
+  assertThat(interceptor.preHandle(request,response,mock(Object.class)),is(true));
+  verify(request).getMethod();
+  verify(manager).create(session);
+  verify(request).getSession();
+}
