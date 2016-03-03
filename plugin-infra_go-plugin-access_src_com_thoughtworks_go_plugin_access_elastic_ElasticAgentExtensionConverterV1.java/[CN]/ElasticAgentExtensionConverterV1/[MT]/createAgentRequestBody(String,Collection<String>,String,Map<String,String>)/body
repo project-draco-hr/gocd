@@ -2,7 +2,11 @@
   Gson gson=new Gson();
   JsonObject jsonObject=new JsonObject();
   jsonObject.addProperty("auto_register_key",autoRegisterKey);
-  jsonObject.add("resources",gson.toJsonTree(resources));
+  JsonObject properties=new JsonObject();
+  for (  Map.Entry<String,String> entry : configuration.entrySet()) {
+    properties.addProperty(entry.getKey(),entry.getValue());
+  }
+  jsonObject.add("properties",properties);
   jsonObject.addProperty("environment",environment);
   return gson.toJson(jsonObject);
 }

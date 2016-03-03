@@ -1,0 +1,11 @@
+{
+  PluginDescriptor plugin=findPlugin(pluginId);
+  if (plugin != null) {
+    LOGGER.debug("Processing create agent for plugin: {} with resources: [{}] and environment: {}",pluginId,resources,environment);
+    elasticAgentExtension.createAgent(autoRegisterKey,pluginId,resources,environment,configuration);
+    LOGGER.debug("Done processing create agent for plugin: {} with resources: [{}] and environment: {}",pluginId,resources,environment);
+  }
+ else {
+    LOGGER.warn("Could not find plugin with id: {}",pluginId);
+  }
+}
