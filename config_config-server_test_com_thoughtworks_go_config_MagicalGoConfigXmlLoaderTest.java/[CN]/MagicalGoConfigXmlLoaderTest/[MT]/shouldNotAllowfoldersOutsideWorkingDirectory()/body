@@ -2,5 +2,5 @@
   String materials="  <materials>\n" + "    <svn url=\"/hgrepo2\" dest=\"folder1/folder2/../folder3\" />\n" + "  </materials>\n";
   MagicalGoConfigXmlLoaderFixture.assertValid(materials);
   String materials2="  <materials>\n" + "    <svn url=\"/hgrepo2\" dest=\"../../..\" />\n" + "  </materials>\n";
-  MagicalGoConfigXmlLoaderFixture.assertNotValid("File path is invalid. \"../../..\" should conform to the pattern - ([^. ].+[^. ])|([^. ][^. ])|([^. ])",materials2);
+  MagicalGoConfigXmlLoaderFixture.assertNotValid("File path is invalid. \"../../..\" should conform to the pattern - (([.]\\/)?[.][^. ]+)|([^. ].+[^. ])|([^. ][^. ])|([^. ])",materials2);
 }
