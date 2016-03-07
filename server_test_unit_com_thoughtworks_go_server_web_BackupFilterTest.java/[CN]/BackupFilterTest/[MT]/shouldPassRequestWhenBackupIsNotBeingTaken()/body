@@ -1,0 +1,7 @@
+{
+  when(backupService.isBackingUp()).thenReturn(false);
+  Request request=request(HttpMethod.GET,"","/go/agents");
+  backupFilter.doFilter(request,res,chain);
+  verify(res,times(0)).setContentType("text/html");
+  verify(writer,times(0)).print("some test data for my input stream");
+}

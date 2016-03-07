@@ -1,0 +1,13 @@
+{
+  when(backupService.isBackingUp()).thenReturn(true);
+  when(backupService.backupRunningSinceISO8601()).thenReturn(BACKUP_STARTED_AT);
+  when(backupService.backupStartedBy()).thenReturn(BACKUP_STARTED_BY);
+  Request request=request(HttpMethod.GET,"application/json","/go/is_backup_finished.json");
+  backupFilter.doFilter(request,res,chain);
+  verify(res,times(1)).setContentType("application/json");
+  JsonObject json=new JsonObject();
+  json.addProperty("is_backing_up",true);
+  verify(writer).print(json);
+  verify(res).setHeader("Cache-Control","private, max-age=0, no-cache");
+  verify(res).setDateHeader("Expires",0);
+}

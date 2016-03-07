@@ -1,0 +1,24 @@
+{
+  try {
+    HttpServletRequest httpRequest=(HttpServletRequest)request;
+    String message="Server is under maintenance mode, please try later.";
+    if (requestIsOfType(JSON,httpRequest)) {
+      response.setContentType("application/json");
+      JsonObject jsonObject=new JsonObject();
+      jsonObject.addProperty("message",message);
+      response.getWriter().print(jsonObject);
+    }
+ else     if (requestIsOfType(XML,httpRequest)) {
+      response.setContentType("application/xml");
+      String xml=String.format("<message> %s </message>",message);
+      response.getWriter().print(xml);
+    }
+ else {
+      generateHTMLResponse(response);
+    }
+  }
+ catch (  IOException e) {
+    LOGGER.error(String.format("General IOException",e.getMessage()));
+  }
+  ((HttpServletResponse)response).setStatus(503);
+}

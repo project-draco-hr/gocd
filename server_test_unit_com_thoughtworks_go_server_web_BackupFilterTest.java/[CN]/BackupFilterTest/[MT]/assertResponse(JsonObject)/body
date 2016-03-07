@@ -1,0 +1,6 @@
+{
+  json.addProperty("message","Server is under maintenance mode, please try later.");
+  verify(writer).print(json);
+  verify(res).setHeader("Cache-Control","private, max-age=0, no-cache");
+  verify(res).setDateHeader("Expires",0);
+}

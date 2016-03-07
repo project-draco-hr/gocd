@@ -1,16 +1,4 @@
 {
-  when(wac.getBean("backupService")).thenReturn(new BackupStatusProvider(){
-    public boolean isBackingUp(){
-      return assertion.serverBackupRunningSince != null;
-    }
-    public String backupRunningSinceISO8601(){
-      return assertion.serverBackupRunningSince;
-    }
-    public String backupStartedBy(){
-      return "admin";
-    }
-  }
-);
   useConfiguredUrls=assertion.useConfiguredUrls;
   HttpClient httpClient=new HttpClient(new HttpClientParams());
   HttpMethod httpMethod;
@@ -25,9 +13,6 @@
   }
  else {
     throw new RuntimeException("Method has to be one of GET, POST and PUT. Was: " + assertion.method);
-  }
-  if (assertion.referrer != null) {
-    httpMethod.setRequestHeader(new Header("Referer",assertion.referrer));
   }
   int resp=httpClient.executeMethod(httpMethod);
   assertThat("status code match failed",resp,is(assertion.responseCode));

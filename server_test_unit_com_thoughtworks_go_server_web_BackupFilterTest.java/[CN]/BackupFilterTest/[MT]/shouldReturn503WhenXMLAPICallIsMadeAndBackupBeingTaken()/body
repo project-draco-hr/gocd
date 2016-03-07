@@ -1,0 +1,10 @@
+{
+  when(backupService.isBackingUp()).thenReturn(true);
+  when(backupService.backupRunningSinceISO8601()).thenReturn(BACKUP_STARTED_AT);
+  when(backupService.backupStartedBy()).thenReturn(BACKUP_STARTED_BY);
+  Request request=request(HttpMethod.GET,"application/json","/go/api/config.xml");
+  backupFilter.doFilter(request,res,chain);
+  verify(res,times(1)).setContentType("application/json");
+  JsonObject json=new JsonObject();
+  assertResponse(json);
+}
