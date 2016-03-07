@@ -12,7 +12,7 @@ synchronized (this) {
       Work buildWork=createWork(agent,job);
       AgentBuildingInfo buildingInfo=new AgentBuildingInfo(job.getIdentifier().buildLocatorForDisplay(),job.getIdentifier().buildLocator());
       if (agent.isElastic()) {
-        if (!elasticAgentPluginService.shouldAssignWork(agent.elasticAgentMetadata(),new Resources(job.getResources()).resourceNames(),environmentConfigService.envForPipeline(job.getPipelineName()))) {
+        if (!elasticAgentPluginService.shouldAssignWork(agent.elasticAgentMetadata(),new Resources(job.getResources()).resourceNames(),environmentConfigService.envForPipeline(job.getPipelineName()),job.getJobAgentConfig())) {
           return NO_WORK;
         }
  else {

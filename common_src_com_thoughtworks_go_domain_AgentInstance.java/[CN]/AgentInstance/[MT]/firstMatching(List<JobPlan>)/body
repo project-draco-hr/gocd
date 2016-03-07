@@ -1,7 +1,7 @@
 {
   for (  JobPlan jobPlan : jobPlans) {
     if (jobPlan.getAgentUuid() == null) {
-      if (agentConfig.hasAllResources(jobPlan.getResources())) {
+      if (isElasticAndLaunchedBySamePluginAsConfiguredForJob(jobPlan) || resourcesMatchForNonElasticAgents(jobPlan)) {
         return jobPlan;
       }
     }

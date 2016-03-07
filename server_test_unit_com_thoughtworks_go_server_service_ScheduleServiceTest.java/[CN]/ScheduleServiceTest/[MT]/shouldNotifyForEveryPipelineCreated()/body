@@ -3,7 +3,7 @@
   when(cruiseConfig.getMd5()).thenReturn("md5-test");
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
   StubPipelineScheduleTopic stubTopic=new StubPipelineScheduleTopic();
-  service=new ScheduleService(goConfigService,null,null,schedulingChecker,stubTopic,null,null,null,null,pipelineScheduleQueue,jobInstanceService,null,null,environmentConfigService,null,serverHealthService,null,null,null,timeProvider,null,null,null,schedulingPerformanceLogger,null);
+  service=new ScheduleService(goConfigService,null,null,schedulingChecker,stubTopic,null,null,null,null,pipelineScheduleQueue,jobInstanceService,null,null,environmentConfigService,null,serverHealthService,null,null,null,timeProvider,null,null,null,schedulingPerformanceLogger);
   PipelineConfig mingleConfig=PipelineConfigMother.createPipelineConfig("mingle","build","unit","functional");
   PipelineConfig evolveConfig=PipelineConfigMother.createPipelineConfig("evolve","build","unit");
   BuildCause mingleBuildCause=modifySomeFiles(mingleConfig);

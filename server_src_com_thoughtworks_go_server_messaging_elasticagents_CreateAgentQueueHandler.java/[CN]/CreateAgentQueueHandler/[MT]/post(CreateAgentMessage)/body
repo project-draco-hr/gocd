@@ -1,0 +1,14 @@
+{
+  String pluginId=createAgentMessage.getPluginId();
+  try {
+    if (queues.containsKey(pluginId)) {
+      queues.get(pluginId).post(createAgentMessage);
+    }
+ else {
+      LOGGER.error("Could not find a create-agent-queue for {}",pluginId);
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.error("Failed while posting to create-agent-queue for {}",pluginId,e.getMessage(),e);
+  }
+}
