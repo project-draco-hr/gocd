@@ -3,7 +3,9 @@
   AgentInstances registered=new AgentInstances(changeListener);
 synchronized (agentInstances) {
     for (    AgentInstance agentInstance : this) {
-      agentInstance.addToRegistered(registered);
+      if (agentInstance.getStatus().isRegistered()) {
+        registered.add(agentInstance);
+      }
     }
   }
   return registered;

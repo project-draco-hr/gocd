@@ -6,7 +6,7 @@
   agentService.disableAgents(USERNAME,operationResult,Arrays.asList(uuid));
   assertAgentDisablingSucceeded(operationResult,uuid);
   Agents agents=agentConfigService.agents();
-  assertThat(agentService.findPhysicalAgents().size(),is(1));
+  assertThat(agentService.agents().size(),is(1));
   assertThat(agents.size(),is(1));
   assertThat(agents.get(0).isDisabled(),is(true));
   assertThat(agentService.findAgentAndRefreshStatus(uuid).isDisabled(),is(true));
