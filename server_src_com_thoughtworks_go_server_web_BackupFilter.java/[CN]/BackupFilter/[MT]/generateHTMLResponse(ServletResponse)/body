@@ -1,0 +1,14 @@
+{
+  String path="backup_in_progress.html";
+  InputStream resourceAsStream=getClass().getClassLoader().getResourceAsStream(path);
+  response.setContentType("text/html");
+  try {
+    String content=FileUtil.readToEnd(resourceAsStream);
+    content=replaceStringLiterals(content);
+    response.getWriter().print(content);
+    resourceAsStream.close();
+  }
+ catch (  IOException e) {
+    LOGGER.error(String.format("General IOException: %s",e.getMessage()));
+  }
+}

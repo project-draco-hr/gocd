@@ -1,0 +1,11 @@
+{
+  response.setContentType("application/json");
+  JsonObject json=new JsonObject();
+  json.addProperty("is_backing_up",backupService.isBackingUp());
+  try {
+    response.getWriter().print(json);
+  }
+ catch (  IOException e) {
+    LOGGER.error(String.format("General IOException: %s",e.getMessage()));
+  }
+}

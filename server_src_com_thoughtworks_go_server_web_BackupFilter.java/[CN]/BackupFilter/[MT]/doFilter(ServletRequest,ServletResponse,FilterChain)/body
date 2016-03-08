@@ -1,0 +1,25 @@
+{
+  if (backupService == null) {
+    SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+  }
+  String url=((HttpServletRequest)request).getRequestURI();
+  if (isBackupFinishJsonUrl(url)) {
+    ((HttpServletResponse)response).setHeader("Cache-Control","private, max-age=0, no-cache");
+    ((HttpServletResponse)response).setDateHeader("Expires",0);
+    generateResponseForIsBackupFinishedAPI(response);
+    return;
+  }
+  if (backupService.isBackingUp()) {
+    ((HttpServletResponse)response).setHeader("Cache-Control","private, max-age=0, no-cache");
+    ((HttpServletResponse)response).setDateHeader("Expires",0);
+    if (isAPIUrl(url) && !isMessagesJson(url)) {
+      generateAPIResponse(request,response);
+    }
+ else {
+      generateHTMLResponse(response);
+    }
+  }
+ else {
+    chain.doFilter(request,response);
+  }
+}

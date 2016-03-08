@@ -1,0 +1,13 @@
+{
+  ServletHelper.init();
+  res=mock(HttpServletResponse.class);
+  backupService=mock(BackupService.class);
+  chain=mock(FilterChain.class);
+  filterConfig=mock(FilterConfig.class);
+  inputStream=BackupFilter.class.getClassLoader().getResourceAsStream("backup_in_progress.html");
+  output=new ByteArrayOutputStream();
+  writer=mock(PrintWriter.class);
+  when(res.getWriter()).thenReturn(writer);
+  this.backupFilter=new BackupFilter(backupService);
+  backupFilter.init(filterConfig);
+}
