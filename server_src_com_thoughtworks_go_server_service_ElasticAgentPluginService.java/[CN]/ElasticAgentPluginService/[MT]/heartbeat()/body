@@ -1,17 +1,7 @@
 {
   LinkedMultiValueMap<String,ElasticAgentMetadata> elasticAgents=agentService.allElasticAgents();
-  Collection<AgentMetadata> agents=Collections.emptyList();
   for (  PluginDescriptor descriptor : elasticAgentPluginRegistry.getPlugins()) {
-    if (elasticAgents.containsKey(descriptor.id())) {
-      List<ElasticAgentMetadata> elasticAgentMetadatas=elasticAgents.remove(descriptor.id());
-      agents=ListUtil.map(elasticAgentMetadatas,new ListUtil.Transformer<ElasticAgentMetadata,AgentMetadata>(){
-        @Override public AgentMetadata transform(        ElasticAgentMetadata input){
-          return toAgentMetadata(input);
-        }
-      }
-);
-    }
-    serverPingQueue.post(new ServerPingMessage(descriptor.id(),agents));
+    serverPingQueue.post(new ServerPingMessage(descriptor.id()));
   }
   if (!elasticAgents.isEmpty()) {
     for (    String pluginId : elasticAgents.keySet()) {

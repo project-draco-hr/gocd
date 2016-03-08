@@ -6,7 +6,6 @@
   Registration keyEntry;
   String preferredHostname=hostname;
   try {
-    preferredHostname=hostname;
     if (goConfigService.serverConfig().shouldAutoRegisterAgentWith(agentAutoRegisterKey)) {
       preferredHostname=getPreferredHostname(agentAutoRegisterHostname,hostname);
       LOG.info("[Agent Auto Registration] Auto registering agent with uuid {} ",uuid);
@@ -16,7 +15,7 @@
     agentConfig.setElasticPluginId(elasticPluginId);
     if (goConfigService.serverConfig().shouldAutoRegisterAgentWith(agentAutoRegisterKey)) {
       LOG.info(String.format("[Agent Auto Registration] Auto registering agent with uuid %s ",uuid));
-      GoConfigDao.CompositeConfigCommand compositeConfigCommand=new GoConfigDao.CompositeConfigCommand(createAddAgentCommand(agentConfig),new UpdateResourceCommand(uuid,agentAutoRegisterResources),new UpdateEnvironmentsCommand(uuid,agentAutoRegisterEnvironments));
+      GoConfigDao.CompositeConfigCommand compositeConfigCommand=new GoConfigDao.CompositeConfigCommand(new AgentConfigService.AddAgentCommand(agentConfig),new UpdateResourceCommand(uuid,agentAutoRegisterResources),new UpdateEnvironmentsCommand(uuid,agentAutoRegisterEnvironments));
       HttpOperationResult result=new HttpOperationResult();
       agentConfig=agentConfigService.updateAgent(compositeConfigCommand,uuid,result,Username.ANONYMOUS);
       if (!result.isSuccess()) {
@@ -30,7 +29,7 @@
     if (elasticAgentAutoregistrationInfoPresent(elasticAgentId,elasticPluginId)) {
       agentRuntimeInfo=ElasticAgentRuntimeInfo.fromServer(agentRuntimeInfo,elasticAgentId,elasticPluginId);
     }
-    keyEntry=agentService.requestRegistration(agentRuntimeInfo);
+    keyEntry=agentService.requestRegistration(agentService.agentUsername(uuid,ipAddress,preferredHostname),agentRuntimeInfo);
   }
  catch (  Exception e) {
     keyEntry=Registration.createNullPrivateKeyEntry();

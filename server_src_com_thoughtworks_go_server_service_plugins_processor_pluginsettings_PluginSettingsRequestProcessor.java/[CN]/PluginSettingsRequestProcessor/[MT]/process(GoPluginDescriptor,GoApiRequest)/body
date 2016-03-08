@@ -5,7 +5,7 @@
       throw new RuntimeException(String.format("Unsupported '%s' API version: %s. Supported versions: %s",goPluginApiRequest.api(),version,goSupportedVersions));
     }
     if (goPluginApiRequest.api().equals(GET_PLUGIN_SETTINGS)) {
-      return handlePluginSettingsGetRequest(goPluginApiRequest);
+      return handlePluginSettingsGetRequest(pluginDescriptor.id(),goPluginApiRequest);
     }
   }
  catch (  Exception e) {

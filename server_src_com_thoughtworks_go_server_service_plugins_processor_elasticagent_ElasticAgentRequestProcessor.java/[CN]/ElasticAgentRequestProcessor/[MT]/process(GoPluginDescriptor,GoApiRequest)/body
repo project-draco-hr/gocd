@@ -1,21 +1,15 @@
 {
-  Collection<AgentMetadata> agents=elasticAgentExtension.getElasticAgentMessageConverter(goPluginApiRequest.apiVersion()).deleteAgentRequestBody(goPluginApiRequest.requestBody());
+  Collection<AgentMetadata> agents=elasticAgentExtension.getElasticAgentMessageConverter(goPluginApiRequest.apiVersion()).deleteAndDisableAgentRequestBody(goPluginApiRequest.requestBody());
   if (agents.isEmpty()) {
     return new DefaultGoApiResponse(200);
   }
-  Collection<AgentInstance> agentInstances=agentsMatching(pluginDescriptor,agents);
-  Collection<ElasticAgentMetadata> metadata=ElasticAgentMetadata.from(agentInstances);
 switch (goPluginApiRequest.api()) {
 case PROCESS_DISABLE_AGENT:
-    LOGGER.debug("Disabling agents {}",metadata);
-  agentConfigService.disableAgents(new Username("plugin." + pluginDescriptor.id()),agentInstances.toArray(new AgentInstance[agentInstances.size()]));
-LOGGER.debug("Done disabling agents {}",metadata);
-return new DefaultGoApiResponse(200);
+    return processDisableAgent(pluginDescriptor,goPluginApiRequest);
 case PROCESS_DELETE_AGENT:
-LOGGER.debug("Deleting agents {}",metadata);
-agentConfigService.deleteAgents(new Username("plugin." + pluginDescriptor.id()),agentInstances.toArray(new AgentInstance[agentInstances.size()]));
-LOGGER.debug("Done deleting agents {}",metadata);
-return new DefaultGoApiResponse(200);
+  return processDeleteAgent(pluginDescriptor,goPluginApiRequest);
+case REQUEST_SERVER_LIST_AGENTS:
+return processListAgents(pluginDescriptor,goPluginApiRequest);
 default :
 return DefaultGoApiResponse.error("Illegal api request");
 }

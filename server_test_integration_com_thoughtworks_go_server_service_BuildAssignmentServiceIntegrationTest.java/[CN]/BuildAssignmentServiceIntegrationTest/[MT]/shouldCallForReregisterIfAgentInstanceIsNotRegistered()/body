@@ -2,7 +2,7 @@
   AgentConfig agentConfig=AgentMother.remoteAgent();
   fixture.createPipelineWithFirstStageScheduled();
   AgentRuntimeInfo info=AgentRuntimeInfo.fromServer(agentConfig,true,"location",1000000l,"OS",false);
-  agentService.requestRegistration(info);
+  agentService.requestRegistration(new Username("bob"),info);
   assertThat(agentService.findAgent(info.getUUId()).isRegistered(),is(false));
   info.setCookie("cookie");
   agentRemoteHandler.process(agent,new Message(Action.ping,MessageEncoding.encodeData(info)));

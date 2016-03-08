@@ -1,0 +1,10 @@
+{
+  Collection<AgentInstance> agentInstances=getAgentInstances(pluginDescriptor,goPluginApiRequest);
+  if (agentInstances.isEmpty()) {
+    return new DefaultGoApiResponse(200);
+  }
+  LOGGER.debug("Disabling agents from plugin {} {}",pluginDescriptor.id(),agentInstances);
+  agentConfigService.disableAgents(usernameFor(pluginDescriptor),agentInstances.toArray(new AgentInstance[agentInstances.size()]));
+  LOGGER.debug("Done disabling agents from plugin {} {}",pluginDescriptor.id(),agentInstances);
+  return new DefaultGoApiResponse(200);
+}

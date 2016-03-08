@@ -2,6 +2,5 @@
   if (this == o)   return true;
   if (o == null || getClass() != o.getClass())   return false;
   ServerPingMessage that=(ServerPingMessage)o;
-  if (!pluginId.equals(that.pluginId))   return false;
-  return agents.equals(that.agents);
+  return pluginId != null ? pluginId.equals(that.pluginId) : that.pluginId == null;
 }

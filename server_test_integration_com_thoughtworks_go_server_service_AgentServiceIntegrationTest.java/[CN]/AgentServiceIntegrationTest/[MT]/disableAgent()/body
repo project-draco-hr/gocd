@@ -1,6 +1,6 @@
 {
   AgentConfig pending=new AgentConfig("uuid1","agent1","192.168.0.1");
-  agentService.requestRegistration(AgentRuntimeInfo.fromServer(pending,false,"/var/lib",0L,"linux",false));
+  agentService.requestRegistration(new Username("bob"),AgentRuntimeInfo.fromServer(pending,false,"/var/lib",0L,"linux",false));
   agentService.approve("uuid1");
   agentConfigService.updateAgentApprovalStatus("uuid1",true,Username.ANONYMOUS);
 }

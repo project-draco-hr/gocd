@@ -5,7 +5,7 @@
     String uuid=agentInstance.getUuid();
     uuids.add(uuid);
     if (goConfigService.hasAgent(uuid)) {
-      command.addCommand(updateApprovalStatus(uuid,disabled));
+      command.addCommand(new UpdateAgentApprovalStatus(uuid,disabled));
     }
  else {
       AgentConfig agentConfig=agentInstance.agentConfig();

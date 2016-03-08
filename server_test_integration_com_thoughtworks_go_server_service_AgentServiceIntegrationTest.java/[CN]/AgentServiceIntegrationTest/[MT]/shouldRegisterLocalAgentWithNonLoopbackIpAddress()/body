@@ -4,7 +4,7 @@
   assertThat(SystemUtil.isLocalIpAddress(nonLoopbackIp),is(true));
   AgentConfig agentConfig=new AgentConfig("uuid",inetAddress.getHostName(),nonLoopbackIp);
   AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",0L,"linux",false);
-  agentService.requestRegistration(agentRuntimeInfo);
+  agentService.requestRegistration(new Username("bob"),agentRuntimeInfo);
   AgentInstance agentInstance=agentService.findRegisteredAgents().findAgentAndRefreshStatus("uuid");
   assertThat(agentInstance.agentConfig().getIpAddress(),is(nonLoopbackIp));
   assertThat(agentInstance.getStatus(),is(AgentStatus.Idle));

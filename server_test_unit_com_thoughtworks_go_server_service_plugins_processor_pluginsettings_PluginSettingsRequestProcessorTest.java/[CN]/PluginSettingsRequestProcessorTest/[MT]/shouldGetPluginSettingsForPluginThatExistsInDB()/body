@@ -1,8 +1,8 @@
 {
-  String pluginId="plugin-id-1";
+  when(pluginDescriptor.id()).thenReturn("plugin-foo-id");
+  when(pluginSqlMapDao.findPlugin("plugin-foo-id")).thenReturn(new Plugin("plugin-foo-id","{\"k1\": \"v1\",\"k2\": \"v2\"}"));
   String requestBody="expected-request";
   String responseBody="expected-response";
-  when(jsonMessageHandler.requestMessagePluginSettingsGet(requestBody)).thenReturn(pluginId);
   when(jsonMessageHandler.responseMessagePluginSettingsGet(requestArgumentCaptor.capture())).thenReturn(responseBody);
   DefaultGoApiRequest apiRequest=new DefaultGoApiRequest(PluginSettingsRequestProcessor.GET_PLUGIN_SETTINGS,"1.0",null);
   apiRequest.setRequestBody(requestBody);

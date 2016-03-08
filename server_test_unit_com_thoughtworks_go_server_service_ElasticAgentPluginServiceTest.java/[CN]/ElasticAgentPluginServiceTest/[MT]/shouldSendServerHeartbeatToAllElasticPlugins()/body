@@ -9,6 +9,6 @@
   ArgumentCaptor<ServerPingMessage> captor=ArgumentCaptor.forClass(ServerPingMessage.class);
   verify(serverPingQueue,times(2)).post(captor.capture());
   List<ServerPingMessage> messages=captor.getAllValues();
-  assertThat(messages.contains(new ServerPingMessage("p1",new ArrayList<AgentMetadata>())),is(true));
-  assertThat(messages.contains(new ServerPingMessage("p2",new ArrayList<AgentMetadata>())),is(true));
+  assertThat(messages.contains(new ServerPingMessage("p1")),is(true));
+  assertThat(messages.contains(new ServerPingMessage("p2")),is(true));
 }
