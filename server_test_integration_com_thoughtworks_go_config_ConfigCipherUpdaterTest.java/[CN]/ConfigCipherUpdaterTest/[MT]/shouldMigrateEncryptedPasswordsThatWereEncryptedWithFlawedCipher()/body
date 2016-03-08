@@ -1,0 +1,25 @@
+{
+  String originalConfig=FileUtil.readContentFromFile(originalConfigFile);
+  assertThat(originalConfig.contains("encryptedPassword=\"" + passwordEncryptedWithFlawedCipher + "\""),is(true));
+  updater.migrate();
+  File copyOfOldConfig=new File(systemEnvironment.getConfigDir(),"cipher.original." + timestamp);
+  assertThat(copyOfOldConfig.exists(),is(true));
+  assertThat(FileUtil.readContentFromFile(copyOfOldConfig).equals(ConfigCipherUpdater.FLAWED_VALUE),is(true));
+  String newCipher=FileUtil.readContentFromFile(systemEnvironment.getCipherFile());
+  assertThat(newCipher.equals(ConfigCipherUpdater.FLAWED_VALUE),is(false));
+  File editedConfigFile=new File(systemEnvironment.getCruiseConfigFile());
+  String editedConfig=FileUtil.readContentFromFile(editedConfigFile);
+  assertThat(editedConfig.contains("encryptedPassword=\"" + passwordEncryptedWithFlawedCipher + "\""),is(false));
+  String passwordEncryptedWithNewCipher=new GoCipher().encrypt(password);
+  CruiseConfig config=magicalGoConfigXmlLoader.loadConfigHolder(editedConfig).config;
+  MaterialConfigs materialConfigs=config.getAllPipelineConfigs().get(0).materialConfigs();
+  SvnMaterialConfig svnMaterial=materialConfigs.getSvnMaterial();
+  assertThat(svnMaterial.getPassword(),is(password));
+  assertThat(svnMaterial.getEncryptedPassword(),is(passwordEncryptedWithNewCipher));
+  P4MaterialConfig p4Material=materialConfigs.getP4Material();
+  assertThat(p4Material.getPassword(),is(password));
+  assertThat(p4Material.getEncryptedPassword(),is(passwordEncryptedWithNewCipher));
+  TfsMaterialConfig tfsMaterial=materialConfigs.getTfsMaterial();
+  assertThat(tfsMaterial.getPassword(),is(password));
+  assertThat(tfsMaterial.getEncryptedPassword(),is(passwordEncryptedWithNewCipher));
+}

@@ -1,0 +1,6 @@
+{
+  FileUtils.deleteQuietly(systemEnvironment.getCipherFile());
+  updater.migrate();
+  File cipherFile=systemEnvironment.getCipherFile();
+  assertThat(cipherFile.exists(),is(false));
+}

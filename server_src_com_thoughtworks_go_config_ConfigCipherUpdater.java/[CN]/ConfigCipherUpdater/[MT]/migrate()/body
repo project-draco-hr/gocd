@@ -1,0 +1,62 @@
+{
+  File cipherFile=systemEnvironment.getCipherFile();
+  String timestamp=new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(timeProvider.currentTime());
+  File backupCipherFile=new File(systemEnvironment.getConfigDir(),"cipher.original." + timestamp);
+  File configFile=new File(systemEnvironment.getCruiseConfigFile());
+  File backupConfigFile=new File(configFile.getParentFile(),configFile.getName() + ".original." + timestamp);
+  try {
+    if (!cipherFile.exists() || !FileUtils.readFileToString(cipherFile).equals(FLAWED_VALUE)) {
+      return;
+    }
+    LOGGER.info("Found unsafe cipher {} on server, Go will make an attempt to rekey",FLAWED_VALUE);
+    FileUtils.copyFile(cipherFile,backupCipherFile);
+    LOGGER.info("Old cipher was successfully backed up to {}",backupCipherFile.getAbsoluteFile());
+    FileUtils.copyFile(configFile,backupConfigFile);
+    LOGGER.info("Old config was successfully backed up to {}",backupConfigFile.getAbsoluteFile());
+    byte[] oldCipher=FileUtils.readFileToByteArray(backupCipherFile);
+    new CipherProvider(systemEnvironment).resetCipher();
+    byte[] newCipher=FileUtils.readFileToByteArray(cipherFile);
+    if (new String(newCipher).equals(new String(oldCipher))) {
+      LOGGER.warn("Unable to generate a new safe cipher. Your cipher is unsafe.");
+      FileUtils.deleteQuietly(backupCipherFile);
+      FileUtils.deleteQuietly(backupConfigFile);
+      return;
+    }
+    Document document=new SAXBuilder().build(configFile);
+    List<String> encryptedAttributes=Arrays.asList("encryptedPassword","encryptedManagerPassword");
+    List<String> encryptedNodes=Arrays.asList("encryptedValue");
+    for (    String attributeName : encryptedAttributes) {
+      XPath xpathExpression=XPath.newInstance(String.format("//*[@%s]",attributeName));
+      List<Element> encryptedPasswordElements=xpathExpression.selectNodes(document);
+      for (      Element element : encryptedPasswordElements) {
+        Attribute encryptedPassword=element.getAttribute(attributeName);
+        encryptedPassword.setValue(reEncryptUsingNewKey(oldCipher,newCipher,encryptedPassword.getValue()));
+        LOGGER.debug("Replaced encrypted value at {}",element.toString());
+      }
+    }
+    for (    String nodeName : encryptedNodes) {
+      XPath xpathExpression=XPath.newInstance(String.format("//%s",nodeName));
+      List<Element> encryptedNode=xpathExpression.selectNodes(document);
+      for (      Element element : encryptedNode) {
+        element.setText(reEncryptUsingNewKey(oldCipher,newCipher,element.getValue()));
+        LOGGER.debug("Replaced encrypted value at {}",element.toString());
+      }
+    }
+    try (FileOutputStream fileOutputStream=new FileOutputStream(configFile)){
+      XmlUtils.writeXml(document,fileOutputStream);
+    }
+     LOGGER.info("Successfully re-encrypted config");
+  }
+ catch (  Exception e) {
+    LOGGER.error("Re-keying of cipher failed with error: [{}]",e.getMessage(),e);
+    if (backupCipherFile.exists()) {
+      try {
+        FileUtils.copyFile(backupCipherFile,cipherFile);
+      }
+ catch (      IOException e1) {
+        LOGGER.error("Could not replace the cipher file [{}] with original one [{}], please do so manually. Error: [{}]",cipherFile.getAbsolutePath(),backupCipherFile.getAbsolutePath(),e.getMessage(),e);
+        bomb(e1);
+      }
+    }
+  }
+}

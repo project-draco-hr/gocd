@@ -1,0 +1,16 @@
+{
+  String originalConfig=FileUtil.readContentFromFile(originalConfigFile);
+  assertThat(originalConfig.contains("<encryptedValue>" + passwordEncryptedWithFlawedCipher + "</encryptedValue>"),is(true));
+  updater.migrate();
+  File copyOfOldConfig=new File(systemEnvironment.getConfigDir(),"cipher.original." + timestamp);
+  assertThat(copyOfOldConfig.exists(),is(true));
+  assertThat(FileUtil.readContentFromFile(copyOfOldConfig).equals(ConfigCipherUpdater.FLAWED_VALUE),is(true));
+  assertThat(FileUtil.readContentFromFile(systemEnvironment.getCipherFile()).equals(ConfigCipherUpdater.FLAWED_VALUE),is(false));
+  File editedConfigFile=new File(systemEnvironment.getCruiseConfigFile());
+  String editedConfig=FileUtil.readContentFromFile(editedConfigFile);
+  assertThat(editedConfig.contains("<encryptedValue>" + passwordEncryptedWithFlawedCipher + "</encryptedValue>"),is(false));
+  CruiseConfig config=magicalGoConfigXmlLoader.loadConfigHolder(editedConfig).config;
+  EnvironmentVariablesConfig secureVariables=config.getAllPipelineConfigs().get(0).getSecureVariables();
+  assertThat(secureVariables.first().getValue(),is(password));
+  assertThat(secureVariables.first().getEncryptedValue(),is(new GoCipher().encrypt(password)));
+}
