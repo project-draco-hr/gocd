@@ -9,7 +9,4 @@
   assertThat(materialRevisions.numberOfRevisions(),is(1));
   MaterialRevision materialRevision=materialRevisions.getMaterialRevision(0);
   assertThat(materialRevision.getRevision().getRevision(),is(submoduleRepos.currentRevision(GitSubmoduleRepos.NAME)));
-  File file=submoduleRepos.files(SUBMODULE).get(0);
-  File workingSubmoduleFolder=new File(workingDirectory,"sub1");
-  assertThat(new File(workingSubmoduleFolder,file.getName()),exists());
 }
