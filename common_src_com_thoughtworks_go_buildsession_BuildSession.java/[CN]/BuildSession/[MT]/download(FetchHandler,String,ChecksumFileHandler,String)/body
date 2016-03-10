@@ -1,0 +1,12 @@
+{
+  try {
+    if (checksumFileHandler != null) {
+      downloadAction.perform(checksumUrl,checksumFileHandler);
+      handler.useArtifactMd5Checksums(checksumFileHandler.getArtifactMd5Checksums());
+    }
+    downloadAction.perform(url,handler);
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException("download interrupted");
+  }
+}

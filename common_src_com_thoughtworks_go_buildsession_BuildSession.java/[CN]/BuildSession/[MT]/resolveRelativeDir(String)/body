@@ -1,0 +1,10 @@
+{
+  if (dirs.length == 0) {
+    return workingDir;
+  }
+  File result=new File(dirs[dirs.length - 1]);
+  for (int i=dirs.length - 2; i >= 0; i--) {
+    result=applyBaseDirIfRelative(new File(dirs[i]),result);
+  }
+  return applyBaseDirIfRelative(workingDir,result);
+}

@@ -1,9 +1,10 @@
 {
   AgentInstance instance=AgentInstanceMother.idle();
-  AgentRuntimeInfo info=new AgentRuntimeInfo(instance.getAgentIdentifier(),AgentRuntimeStatus.Idle,null,null,null);
-  when(remote.ping(info)).thenReturn(new AgentInstruction(false));
+  AgentRuntimeInfo info=new AgentRuntimeInfo(instance.getAgentIdentifier(),AgentRuntimeStatus.Idle,null,null,null,false);
+  when(agentService.findAgentAndRefreshStatus(instance.getUuid())).thenReturn(instance);
+  when(remote.ping(any(AgentRuntimeInfo.class))).thenReturn(new AgentInstruction(false));
   when(remote.getCookie(instance.getAgentIdentifier(),info.getLocation())).thenReturn("new cookie");
-  handler.process(agent,new Message(Action.ping,info));
+  handler.process(agent,new Message(Action.ping,MessageEncoding.encodeData(info)));
   agent.messages.clear();
   handler.sendCancelMessage(instance.getAgentIdentifier().getUuid());
   assertEquals(1,agent.messages.size());

@@ -1,0 +1,10 @@
+{
+  BuildSession build=this.buildSession.get();
+  if (build == null) {
+    return;
+  }
+  agentRuntimeInfo.cancel();
+  if (!build.cancel(30,TimeUnit.SECONDS)) {
+    LOG.error("Waited 30 seconds for canceling job finish, but the job is still running. Maybe canceling job does not work as expected, here is buildSession details: " + buildSession.get());
+  }
+}

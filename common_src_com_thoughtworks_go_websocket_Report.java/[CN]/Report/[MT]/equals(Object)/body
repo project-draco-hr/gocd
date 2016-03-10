@@ -1,0 +1,10 @@
+{
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  Report report=(Report)o;
+  if (buildId != null ? !buildId.equals(report.buildId) : report.buildId != null)   return false;
+  if (!agentRuntimeInfo.equals(report.agentRuntimeInfo))   return false;
+  if (jobIdentifier != null ? !jobIdentifier.equals(report.jobIdentifier) : report.jobIdentifier != null)   return false;
+  if (result != report.result)   return false;
+  return jobState == report.jobState;
+}

@@ -1,0 +1,10 @@
+{
+  File dir=new File(sandbox,"foo");
+  assertTrue(dir.mkdirs());
+  assertTrue(new File(dir,"bar").createNewFile());
+  assertTrue(new File(dir,"baz").createNewFile());
+  runBuild(uploadArtifact("foo/*","foo-dest",false),Passed);
+  assertThat(artifactsRepository.getFileUploaded().size(),is(2));
+  assertThat(artifactsRepository.getFileUploaded().get(0).file,is(new File(dir,"bar")));
+  assertThat(artifactsRepository.getFileUploaded().get(1).file,is(new File(dir,"baz")));
+}

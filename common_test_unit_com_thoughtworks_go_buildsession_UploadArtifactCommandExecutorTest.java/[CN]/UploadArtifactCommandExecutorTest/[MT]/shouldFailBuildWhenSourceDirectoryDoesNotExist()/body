@@ -1,0 +1,5 @@
+{
+  FileUtil.createFilesByPath(sandbox,"logs/pic-1/fail.png","logs/pic-1/pass.png","logs/pic-2/cancel.png","logs/pic-2/complete.png","README");
+  runBuild(uploadArtifact("not-Exist-Folder","mypic",false),Failed);
+  assertThat(console.output(),printedRuleDoesNotMatchFailure(sandbox.getPath(),"not-Exist-Folder"));
+}

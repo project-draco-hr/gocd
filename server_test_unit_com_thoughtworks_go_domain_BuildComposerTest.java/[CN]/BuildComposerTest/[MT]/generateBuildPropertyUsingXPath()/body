@@ -1,0 +1,9 @@
+{
+  File basedir=new File(sandbox,"pipelines/pipeline1");
+  String content="<artifacts>\n" + "         <artifact src=\"target\\connectfour.jar\" dest=\"dist\\jars\" />\n" + "         <artifact src=\"target\\test-results\" dest=\"testoutput\" type=\"junit\" />\n"+ "         <artifact src=\"build.xml\" />\n"+ "       </artifacts>\n";
+  File file=new File(basedir,"xmlfile");
+  FileUtils.writeStringToFile(file,content,"UTF-8");
+  build(willGenerateProperties("xmlfile","artifactsrc","//artifact/@src"),PIPELINE_NAME,false,false);
+  assertThat(buildInfo(),getLast(statusReporter.results()),is(Passed));
+  assertThat(artifactsRepository.propertyValue("artifactsrc"),is("target\\connectfour.jar"));
+}

@@ -1,0 +1,9 @@
+{
+  String pipelineName="p1";
+  File workingdir=new File(sandbox,"pipelines/" + pipelineName);
+  assertThat(workingdir.exists(),is(false));
+  build(WILL_PASS,pipelineName,true,true);
+  assertThat(console.output(),not(containsString("Working directory \"" + workingdir.getAbsolutePath() + "\" is not a directory")));
+  assertThat(statusReporter.results().contains(Passed),is(true));
+  assertThat(workingdir.exists(),is(true));
+}

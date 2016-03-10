@@ -1,6 +1,6 @@
 {
-  AgentInstance instance=AgentInstance.createFromLiveAgent(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),systemEnvironment);
+  AgentInstance instance=AgentInstance.createFromLiveAgent(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),systemEnvironment);
   instance.enable();
-  instance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
+  instance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false));
   assertThat(instance.getStatus(),is(AgentStatus.Idle));
 }

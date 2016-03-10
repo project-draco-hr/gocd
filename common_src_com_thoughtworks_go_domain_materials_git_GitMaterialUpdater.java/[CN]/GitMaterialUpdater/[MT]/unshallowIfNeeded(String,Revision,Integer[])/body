@@ -1,0 +1,7 @@
+{
+  if (steps.length == 0) {
+    return noop();
+  }
+  int depth=steps[0];
+  return compose(compose(echo("[GIT] Unshallowing repository with depth %d",depth),exec("git","fetch","origin",format("--depth=%d",depth)).setWorkingDirectory(workingDir),unshallowIfNeeded(workingDir,revision,Arrays.copyOfRange(steps,1,steps.length))).setTest(revisionNotExists(workingDir,revision))).setTest(isShallow(workingDir));
+}

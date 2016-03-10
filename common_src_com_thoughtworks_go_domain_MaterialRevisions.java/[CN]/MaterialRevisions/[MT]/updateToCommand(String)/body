@@ -1,0 +1,16 @@
+{
+  List<BuildCommand> commands=new ArrayList<>();
+  for (  MaterialRevision revision : revisions) {
+    Material material=revision.getMaterial();
+    if (material instanceof ScmMaterial) {
+      if (material instanceof GitMaterial) {
+        GitMaterialUpdater updater=new GitMaterialUpdater((GitMaterial)material);
+        commands.add(updater.updateTo(baseDir,revision.toRevisionContext()));
+      }
+ else {
+        commands.add(BuildCommand.fail("%s Material is not supported for new build command agent",material.getTypeForDisplay()));
+      }
+    }
+  }
+  return BuildCommand.compose(commands);
+}

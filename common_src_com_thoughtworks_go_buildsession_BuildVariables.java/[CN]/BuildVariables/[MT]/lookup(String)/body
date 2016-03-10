@@ -1,0 +1,10 @@
+{
+  String staticResult=staticLookup.lookup(key);
+  if (staticResult != null) {
+    return staticResult;
+  }
+  if (key.equals("date")) {
+    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z").format(clock.currentTime());
+  }
+  return null;
+}

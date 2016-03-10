@@ -1,0 +1,7 @@
+{
+  if (hasMaterialsWithNoDestinationFolder()) {
+    return noop();
+  }
+  List<String> allowed=allowedFolders();
+  return cleandir(baseDir,allowed.toArray(new String[allowed.size()]));
+}

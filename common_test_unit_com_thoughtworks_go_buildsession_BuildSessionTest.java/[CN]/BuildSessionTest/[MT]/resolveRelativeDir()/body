@@ -1,0 +1,6 @@
+{
+  BuildSession buildSession=newBuildSession();
+  assertThat(buildSession.resolveRelativeDir("foo"),is(new File(sandbox,"foo")));
+  assertThat(buildSession.resolveRelativeDir("foo","bar"),is(new File(sandbox,"foo/bar")));
+  assertThat(buildSession.resolveRelativeDir("","bar"),is(new File(sandbox,"bar")));
+}

@@ -1,0 +1,15 @@
+{
+  if (this.contains(RunIfConfig.ANY)) {
+    return RunIfConfig.ANY;
+  }
+  if (this.contains(RunIfConfig.PASSED)) {
+    if (this.contains(RunIfConfig.FAILED)) {
+      return RunIfConfig.ANY;
+    }
+    return RunIfConfig.PASSED;
+  }
+  if (this.contains(RunIfConfig.FAILED)) {
+    return RunIfConfig.FAILED;
+  }
+  return RunIfConfig.PASSED;
+}

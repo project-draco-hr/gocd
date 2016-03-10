@@ -1,0 +1,7 @@
+{
+  runBuild(test("-f",""),Failed);
+  runBuild(test("-f","file"),Failed);
+  File file=new File(sandbox,"file");
+  assertTrue(file.createNewFile());
+  runBuild(test("-f","file"),Passed);
+}

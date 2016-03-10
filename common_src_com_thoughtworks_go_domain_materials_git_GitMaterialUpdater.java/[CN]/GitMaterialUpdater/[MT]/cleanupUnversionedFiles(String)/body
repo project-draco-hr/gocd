@@ -1,0 +1,3 @@
+{
+  return compose(echo("[GIT] Cleaning all unversioned files in working copy"),exec("git","submodule","foreach","--recursive","git","clean","-fdd").setTest(hasSubmodules(workingDir)),exec("git","clean","-dff")).setWorkingDirectoryRecursively(workingDir);
+}

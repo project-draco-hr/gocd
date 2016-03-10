@@ -1,0 +1,5 @@
+{
+  AgentRuntimeInfo info=new AgentRuntimeInfo(new AgentIdentifier("go02","10.10.10.1","uuid"),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie","12.3",true);
+  AgentRuntimeInfo clonedInfo=MessageEncoding.decodeData(MessageEncoding.encodeData(info),AgentRuntimeInfo.class);
+  assertThat(clonedInfo,is(info));
+}

@@ -1,0 +1,9 @@
+{
+  List<ArtifactPropertiesGenerator> generators=assignment.getPlan().getPropertyGenerators();
+  List<BuildCommand> commands=new ArrayList<>();
+  for (  ArtifactPropertiesGenerator generator : generators) {
+    BuildCommand command=BuildCommand.generateProperty(generator.getName(),generator.getSrc(),generator.getXpath()).setWorkingDirectory(workingDirectory());
+    commands.add(command);
+  }
+  return BuildCommand.compose(reportAction("Start to create properties"),BuildCommand.compose(commands));
+}

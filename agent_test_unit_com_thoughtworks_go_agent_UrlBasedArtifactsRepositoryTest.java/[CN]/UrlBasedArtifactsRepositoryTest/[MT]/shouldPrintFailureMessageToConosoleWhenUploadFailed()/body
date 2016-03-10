@@ -1,0 +1,17 @@
+{
+  String data="Some text whose checksum can be asserted";
+  final String md5=CachedDigestUtils.md5Hex(data);
+  FileUtils.writeStringToFile(tempFile,data);
+  Properties properties=new Properties();
+  properties.setProperty("dest/path/file.txt",md5);
+  when(httpService.upload(eq("http://baseurl/artifacts/dest/path?attempt=1&buildId=build42"),eq(tempFile.length()),any(File.class),eq(properties))).thenReturn(HttpServletResponse.SC_BAD_GATEWAY);
+  when(httpService.upload(eq("http://baseurl/artifacts/dest/path?attempt=2&buildId=build42"),eq(tempFile.length()),any(File.class),eq(properties))).thenReturn(HttpServletResponse.SC_BAD_GATEWAY);
+  when(httpService.upload(eq("http://baseurl/artifacts/dest/path?attempt=3&buildId=build42"),eq(tempFile.length()),any(File.class),eq(properties))).thenReturn(HttpServletResponse.SC_BAD_GATEWAY);
+  try {
+    artifactsRepository.upload(console,tempFile,"dest/path","build42");
+    fail("should have thrown request entity too large error");
+  }
+ catch (  RuntimeException e) {
+    assertThat(console.output(),printedUploadingFailure(tempFile));
+  }
+}

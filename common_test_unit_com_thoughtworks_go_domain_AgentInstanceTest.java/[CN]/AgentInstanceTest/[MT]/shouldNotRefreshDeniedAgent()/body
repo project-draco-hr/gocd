@@ -6,7 +6,7 @@
     }
   }
 );
-  instance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
+  instance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false));
   instance.refresh(null);
   assertThat(instance.getStatus().getRuntimeStatus(),is(not(AgentRuntimeStatus.LostContact)));
 }

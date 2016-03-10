@@ -1,0 +1,12 @@
+{
+  ArrayList<String> cloneArgs=new ArrayList<>();
+  cloneArgs.add("clone");
+  cloneArgs.add("--no-checkout");
+  cloneArgs.add(format("--branch=%s",material.branchWithDefault()));
+  if (material.isShallowClone()) {
+    cloneArgs.add(format("--depth=%s",String.valueOf(cloneDepth)));
+  }
+  cloneArgs.add(material.getUrlArgument().forCommandline());
+  cloneArgs.add(workDir);
+  return exec("git",cloneArgs.toArray(new String[cloneArgs.size()])).setTest(isNotRepository(workDir));
+}

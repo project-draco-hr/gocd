@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)getWork(WITH_SECRET_ENV_VAR,PIPELINE_NAME);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),packageAsRepositoryExtension,scmExtension,taskExtension);
   String consoleOut=artifactManipulator.consoleOut();
   assertThat(consoleOut,containsString("[go] setting environment variable 'foo' to value 'foo(******)'"));
   assertThat(consoleOut,containsString("[go] setting environment variable 'bar' to value '********'"));

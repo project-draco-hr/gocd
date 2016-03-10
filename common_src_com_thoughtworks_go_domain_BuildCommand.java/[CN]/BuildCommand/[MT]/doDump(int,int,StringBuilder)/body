@@ -1,0 +1,16 @@
+{
+  for (int i=0; i < level * indent; i++) {
+    sb.append(' ');
+  }
+  sb.append(name);
+  for (  String argName : args.keySet()) {
+    sb.append(' ').append('\"').append(argName).append(":").append(args.get(argName)).append('\"');
+  }
+  if (!"passed".equals(runIfConfig)) {
+    sb.append(" ").append("(runIf:").append(runIfConfig).append(")");
+  }
+  for (  BuildCommand subCommand : subCommands) {
+    sb.append("\n");
+    subCommand.doDump(level + 1,indent,sb);
+  }
+}

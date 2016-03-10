@@ -1,0 +1,26 @@
+{
+  final Exception[] err={null};
+  Thread buildThread=new Thread(new Runnable(){
+    @Override public void run(){
+      try {
+        build(SystemUtil.isWindows() ? SLEEP_TEN_SECONDS_ON_WINDOWS : SLEEP_TEN_SECONDS_ON_UNIX,PIPELINE_NAME,true,false);
+      }
+ catch (      Exception e) {
+        err[0]=e;
+      }
+    }
+  }
+);
+  buildThread.start();
+  console.waitForContain("before sleep",5);
+  assertTrue(buildSession.cancel(30,TimeUnit.SECONDS));
+  assertThat(statusReporter.status(),is(Arrays.asList(Preparing,Building,Completed)));
+  assertThat(statusReporter.results(),is(Collections.singletonList(Cancelled)));
+  assertThat(console.output(),printedJobCompletedInfo(JOB_IDENTIFIER.buildLocatorForDisplay()));
+  assertThat(console.output(),printedJobCanceledInfo(JOB_IDENTIFIER.buildLocatorForDisplay()));
+  assertThat(console.output(),containsString("executing on cancel task"));
+  buildThread.join();
+  if (err[0] != null) {
+    throw err[0];
+  }
+}

@@ -1,0 +1,5 @@
+{
+  runBuild(compose(export("answer","2",false),export("answer","42",false)),Passed);
+  assertThat(console.asList().get(0),is("[go] setting environment variable 'answer' to value '2'"));
+  assertThat(console.asList().get(1),is("[go] overriding environment variable 'answer' with value '42'"));
+}

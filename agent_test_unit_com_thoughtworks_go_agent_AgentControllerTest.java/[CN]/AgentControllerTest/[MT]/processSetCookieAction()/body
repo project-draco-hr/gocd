@@ -1,6 +1,6 @@
 {
   agentController=createAgentController();
   agentController.init();
-  agentController.process(new Message(Action.setCookie,"cookie"));
+  agentController.process(new Message(Action.setCookie,MessageEncoding.encodeData("cookie")));
   assertThat(agentController.getAgentRuntimeInfo().getCookie(),is("cookie"));
 }

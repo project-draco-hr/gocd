@@ -1,0 +1,7 @@
+{
+  if (report.getJobIdentifier() != null) {
+    return report.getJobIdentifier();
+  }
+  JobInstance instance=jobInstanceService.buildById(Long.valueOf(report.getBuildId()));
+  return instance.getIdentifier();
+}

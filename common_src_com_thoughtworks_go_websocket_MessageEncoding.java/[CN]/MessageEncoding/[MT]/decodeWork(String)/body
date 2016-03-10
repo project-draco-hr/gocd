@@ -1,0 +1,11 @@
+{
+  try {
+    byte[] binary=Base64.decodeBase64(data);
+    try (ObjectInputStream objectStream=new ObjectInputStream(new ByteArrayInputStream(binary))){
+      return (Work)objectStream.readObject();
+    }
+   }
+ catch (  ClassNotFoundException|IOException e) {
+    throw bomb(e);
+  }
+}

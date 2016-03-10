@@ -1,0 +1,8 @@
+{
+  byte[] body=downloadFiles.get(url);
+  if (body == null) {
+    return HttpServletResponse.SC_NOT_FOUND;
+  }
+  handler.handle(new ByteArrayInputStream(body));
+  return returnCode;
+}

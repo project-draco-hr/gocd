@@ -1,0 +1,26 @@
+{
+  String propertyName=command.getStringArg("name");
+  File file=buildSession.resolveRelativeDir(command.getWorkingDirectory(),command.getStringArg("src"));
+  String xpath=command.getStringArg("xpath");
+  String indent="             ";
+  if (!file.exists()) {
+    buildSession.println(format("%sFailed to create property %s. File %s does not exist.",indent,propertyName,file.getAbsolutePath()));
+    return true;
+  }
+  try {
+    if (!XpathUtils.nodeExists(file,xpath)) {
+      buildSession.println(format("%sFailed to create property %s. Nothing matched xpath \"%s\" in the file: %s.",indent,propertyName,xpath,file.getAbsolutePath()));
+    }
+ else {
+      String value=XpathUtils.evaluate(file,xpath);
+      buildSession.getPublisher().setProperty(new Property(propertyName,value));
+      buildSession.println(format("%sProperty %s = %s created." + "\n",indent,propertyName,value));
+    }
+  }
+ catch (  Exception e) {
+    String error=(e instanceof XPathExpressionException) ? (format("Illegal xpath: \"%s\"",xpath)) : ExceptionUtils.messageOf(e);
+    String message=format("%sFailed to create property %s. %s",indent,propertyName,error);
+    buildSession.getPublisher().reportErrorMessage(message,e);
+  }
+  return true;
+}

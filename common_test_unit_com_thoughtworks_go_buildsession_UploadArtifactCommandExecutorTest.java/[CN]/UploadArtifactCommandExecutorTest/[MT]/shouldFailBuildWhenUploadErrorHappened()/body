@@ -1,0 +1,6 @@
+{
+  FileUtil.createFilesByPath(sandbox,"logs/pic/pass.png","logs/pic-1/pass.png");
+  artifactsRepository.setUploadError(new RuntimeException("upload failed!!"));
+  runBuild(uploadArtifact("**/*.png","mypic",false),Failed);
+  assertThat(artifactsRepository.getFileUploaded().size(),is(0));
+}

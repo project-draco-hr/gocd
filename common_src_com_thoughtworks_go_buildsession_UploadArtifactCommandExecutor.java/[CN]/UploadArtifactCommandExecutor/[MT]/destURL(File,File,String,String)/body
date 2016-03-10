@@ -1,0 +1,11 @@
+{
+  String trimmedPattern=rtrimStandardrizedWildcardTokens(src);
+  if (StringUtils.equals(normalizePath(trimmedPattern),normalizePath(src))) {
+    return dest;
+  }
+  String trimmedPath=removeStart(subtractPath(rootPath,file),normalizePath(trimmedPattern));
+  if (!StringUtils.startsWith(trimmedPath,"/") && StringUtils.isNotEmpty(trimmedPath)) {
+    trimmedPath="/" + trimmedPath;
+  }
+  return dest + trimmedPath;
+}

@@ -1,0 +1,3 @@
+{
+  return BuildCommand.compose(reportAction("Start to build"),reportCurrentStatus(Building),setupSecrets(),setupEnvironmentVariables(),runBuilders(),BuildCommand.compose(reportCompleting(),reportCurrentStatus(Completing),harvestProperties(),uploadArtifacts()).setRunIfRecurisvely("any"));
+}

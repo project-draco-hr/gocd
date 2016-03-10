@@ -1,0 +1,19 @@
+{
+  final BuildSession buildSession=newBuildSession();
+  Thread buildingThread=new Thread(new Runnable(){
+    @Override public void run(){
+      buildSession.build(compose(execSleepScript(50),echo("build done")));
+    }
+  }
+);
+  try {
+    buildingThread.start();
+    console.waitForContain("start sleeping",5);
+    assertTrue(buildInfo(),buildSession.cancel(30,TimeUnit.SECONDS));
+    assertThat(buildInfo(),getLast(statusReporter.results()),is(Cancelled));
+    assertThat(buildInfo(),console.output(),not(containsString("build done")));
+  }
+  finally {
+    buildingThread.join();
+  }
+}

@@ -1,0 +1,6 @@
+{
+  File dir=new File(sandbox,"foo");
+  runBuild(mkdirs("foo"),Passed);
+  runBuild(mkdirs("foo").setTest(test("-nd",dir.getPath())),Passed);
+  assertThat(new File(sandbox,"foo").isDirectory(),is(true));
+}

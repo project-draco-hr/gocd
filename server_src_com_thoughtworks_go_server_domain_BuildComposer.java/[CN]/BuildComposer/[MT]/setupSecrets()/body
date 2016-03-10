@@ -1,0 +1,8 @@
+{
+  List<EnvironmentVariableContext.EnvironmentVariable> secrets=environmentVariableContext().getSecureEnvironmentVariables();
+  ArrayList<BuildCommand> commands=new ArrayList<>();
+  for (  EnvironmentVariableContext.EnvironmentVariable secret : secrets) {
+    commands.add(secret(secret.value()));
+  }
+  return BuildCommand.compose(commands);
+}

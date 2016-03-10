@@ -1,0 +1,27 @@
+{
+  File workingDir=buildSession.resolveRelativeDir(command.getWorkingDirectory());
+  if (!workingDir.isDirectory()) {
+    String message="Working directory \"" + workingDir.getAbsolutePath() + "\" is not a directory!";
+    LOG.error(message);
+    buildSession.println(message);
+    return false;
+  }
+  String cmd=command.getStringArg("command");
+  String[] args=command.getArrayArg("args");
+  CommandLine commandLine;
+  if (SystemUtil.isWindows()) {
+    commandLine=CommandLine.createCommandLine("cmd");
+    commandLine.withArg("/c");
+    commandLine.withArg(StringUtils.replace(cmd,"/","\\"));
+  }
+ else {
+    commandLine=CommandLine.createCommandLine(cmd);
+  }
+  commandLine.withWorkingDir(workingDir);
+  commandLine.withEnv(buildSession.getEnvs());
+  commandLine.withArgs(args);
+  for (  SecretSubstitution secretSubstitution : buildSession.getSecretSubstitutions()) {
+    commandLine.withNonArgSecret(secretSubstitution);
+  }
+  return executeCommandLine(buildSession,commandLine) == 0;
+}

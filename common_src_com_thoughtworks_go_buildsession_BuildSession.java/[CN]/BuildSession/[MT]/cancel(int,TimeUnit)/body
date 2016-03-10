@@ -1,0 +1,7 @@
+{
+  if (isCanceled()) {
+    return true;
+  }
+  cancelLatch.countDown();
+  return doneLatch.await(timeout,timeoutUnit);
+}

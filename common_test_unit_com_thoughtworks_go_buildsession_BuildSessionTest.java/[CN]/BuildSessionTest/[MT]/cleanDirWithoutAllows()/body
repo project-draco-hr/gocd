@@ -1,0 +1,8 @@
+{
+  runBuild(mkdirs("foo/baz"),Passed);
+  assertTrue(new File(sandbox,"foo/file1").createNewFile());
+  assertTrue(new File(sandbox,"file2").createNewFile());
+  runBuild(cleandir(""),Passed);
+  assertThat(sandbox.exists(),is(true));
+  assertThat(sandbox.listFiles().length,is(0));
+}

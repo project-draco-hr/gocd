@@ -1,0 +1,4 @@
+{
+  runBuild(compose(echo("on pass"),echo("on failure").runIf("failed")),Passed);
+  assertThat(console.asList(),is(Collections.singletonList("on pass")));
+}

@@ -1,0 +1,18 @@
+{
+  ArrayList<File> allFiles=new ArrayList<>();
+  for (  String src : sources) {
+    File source=new File(FileUtil.applyBaseDirIfRelativeAndNormalize(workingDirectory,new File(src)));
+    WildcardScanner wildcardScanner=new WildcardScanner(workingDirectory,src);
+    File[] files=wildcardScanner.getFiles();
+    if (files.length > 0) {
+      final List<File> fileList=files == null ? new ArrayList<File>() : Arrays.asList(files);
+      allFiles.addAll(fileList);
+    }
+ else {
+      final String message=MessageFormat.format("The Directory {0} specified as a test artifact was not found." + " Please check your configuration",FileUtil.normalizePath(source));
+      buildSession.printlnWithPrefix(message);
+      LOG.error(message);
+    }
+  }
+  return allFiles;
+}

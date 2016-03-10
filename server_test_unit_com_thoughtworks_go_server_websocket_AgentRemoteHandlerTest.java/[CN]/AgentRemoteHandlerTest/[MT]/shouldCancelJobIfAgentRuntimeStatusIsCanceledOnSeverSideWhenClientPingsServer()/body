@@ -1,8 +1,8 @@
 {
-  AgentRuntimeInfo info=new AgentRuntimeInfo(new AgentIdentifier("HostName","ipAddress","uuid"),AgentRuntimeStatus.Idle,null,null,null);
+  AgentRuntimeInfo info=new AgentRuntimeInfo(new AgentIdentifier("HostName","ipAddress","uuid"),AgentRuntimeStatus.Idle,null,null,null,false);
   info.setCookie("cookie");
   when(remote.ping(info)).thenReturn(new AgentInstruction(true));
-  handler.process(agent,new Message(Action.ping,info));
+  handler.process(agent,new Message(Action.ping,MessageEncoding.encodeData(info)));
   verify(remote).ping(info);
   assertEquals(1,handler.connectedAgents().size());
   assertEquals(agent,handler.connectedAgents().get("uuid"));

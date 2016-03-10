@@ -2,9 +2,9 @@
   AgentConfig agentConfig=AgentMother.remoteAgent();
   configHelper.addAgent(agentConfig);
   fixture.createPipelineWithFirstStageScheduled();
-  AgentRuntimeInfo info=AgentRuntimeInfo.fromServer(agentConfig,true,"location",1000000l,"OS");
+  AgentRuntimeInfo info=AgentRuntimeInfo.fromServer(agentConfig,true,"location",1000000l,"OS",false);
   info.setCookie("cookie");
-  agentRemoteHandler.process(agent,new Message(Action.ping,info));
+  agentRemoteHandler.process(agent,new Message(Action.ping,MessageEncoding.encodeData(info)));
   AgentInstance agentInstance=agentService.findAgentAndRefreshStatus(info.getUUId());
   agentInstance.cancel();
   buildAssignmentService.onTimer();

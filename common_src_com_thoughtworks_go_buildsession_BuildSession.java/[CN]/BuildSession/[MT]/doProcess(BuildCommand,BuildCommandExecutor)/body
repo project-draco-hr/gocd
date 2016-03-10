@@ -1,0 +1,27 @@
+{
+  BuildCommand onCancelCommand=command.getOnCancel();
+  try {
+    if (("passed".equals(command.getRunIfConfig()) && buildResult.isFailed()) || ("failed".equals(command.getRunIfConfig()) && this.buildResult.isPassed())) {
+      return true;
+    }
+    BuildCommand test=command.getTest();
+    if (test != null) {
+      if (!newTestingSession(console).processCommand(test)) {
+        return true;
+      }
+    }
+    if (isCanceled()) {
+      return false;
+    }
+    return executor.execute(command,this);
+  }
+ catch (  Exception e) {
+    reportException(e);
+    return false;
+  }
+ finally {
+    if (isCanceled() && onCancelCommand != null) {
+      newCancelSession().processCommand(onCancelCommand);
+    }
+  }
+}

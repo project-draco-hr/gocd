@@ -1,0 +1,16 @@
+{
+  File basedir=new File(sandbox,"pipelines/pipeline1/test-reports");
+  basedir.mkdirs();
+  InputStream nunitResult=new ClassPathResource(FileUtil.fileseparator() + "data" + FileUtil.fileseparator()+ "TestResult.xml").getInputStream();
+  FileOutputStream testArtifact=new FileOutputStream(new File(basedir,"test-result.xml"));
+  copyAndClose(nunitResult,testArtifact);
+  build(willUploadTestArtifact("test-reports","test-report-dest"),PIPELINE_NAME,false,false);
+  assertThat(artifactsRepository.getFileUploaded().size(),Is.is(2));
+  assertThat(artifactsRepository.getFileUploaded().get(0).file,is(basedir));
+  assertThat(artifactsRepository.getFileUploaded().get(0).destPath,is("test-report-dest"));
+  assertThat(artifactsRepository.getFileUploaded().get(1).destPath,is("testoutput"));
+  assertThat(artifactsRepository.propertyValue(TestReportGenerator.TOTAL_TEST_COUNT),is("206"));
+  assertThat(artifactsRepository.propertyValue(TestReportGenerator.FAILED_TEST_COUNT),is("0"));
+  assertThat(artifactsRepository.propertyValue(TestReportGenerator.IGNORED_TEST_COUNT),is("0"));
+  assertThat(artifactsRepository.propertyValue(TestReportGenerator.TEST_TIME),is("NaN"));
+}

@@ -1,0 +1,11 @@
+{
+  build(MULTIPLE_TASKS,PIPELINE_NAME,true,false);
+  assertThat(console.output(),containsString("run when status is failed"));
+  assertThat(console.output(),printedExcRunIfInfo("command-not-found","passed"));
+  assertThat(console.output(),containsString("run when status is any"));
+  assertThat(console.output(),printedExcRunIfInfo("echo","run when status is any","failed"));
+  assertThat(console.output(),not(containsString("run when status is passed")));
+  assertThat(console.output(),not(printedExcRunIfInfo("echo","run when status is passed","failed")));
+  assertThat(console.output(),not(containsString("run when status is cancelled")));
+  assertThat(console.output(),not(printedExcRunIfInfo("echo","run when status is cancelled","failed")));
+}

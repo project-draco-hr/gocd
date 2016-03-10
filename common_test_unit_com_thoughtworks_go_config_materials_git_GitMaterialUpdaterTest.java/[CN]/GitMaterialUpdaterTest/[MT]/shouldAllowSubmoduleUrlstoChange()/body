@@ -1,0 +1,10 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  String submoduleDirectoryName="local-submodule";
+  submoduleRepos.addSubmodule(SUBMODULE,submoduleDirectoryName);
+  GitMaterial material=new GitMaterial(submoduleRepos.projectRepositoryUrl(),true);
+  updateTo(material,new RevisionContext(new StringRevision("origin/HEAD")),JobResult.Passed);
+  submoduleRepos.changeSubmoduleUrl(submoduleDirectoryName);
+  updateTo(material,new RevisionContext(new StringRevision("origin/HEAD")),JobResult.Passed);
+  assertThat(console.output(),containsString("Synchronizing submodule url for 'local-submodule'"));
+}

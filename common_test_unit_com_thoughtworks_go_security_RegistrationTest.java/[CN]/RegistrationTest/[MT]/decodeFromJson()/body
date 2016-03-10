@@ -1,0 +1,6 @@
+{
+  String json=createRegistration().toJson();
+  Registration reg=Registration.fromJson(json);
+  assertNotNull(reg.getPrivateKey());
+  assertThat(reg.getChain().length,is(3));
+}

@@ -1,0 +1,5 @@
+{
+  String envName=pathSystemEnvName();
+  runBuild(export(envName,"/foo/bar",false),Passed);
+  assertThat(console.output(),is(String.format("[go] overriding environment variable '%s' with value '/foo/bar'",envName)));
+}

@@ -1,0 +1,8 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  submoduleRepos.addSubmodule(SUBMODULE,"sub1");
+  GitMaterial material=new GitMaterial(submoduleRepos.projectRepositoryUrl(),true);
+  updateTo(material,new RevisionContext(new StringRevision("origin/HEAD")),JobResult.Passed);
+  Matcher matcher=Pattern.compile(".*^\\s[a-f0-9A-F]{40} sub1 \\(heads/master\\)$.*",Pattern.MULTILINE | Pattern.DOTALL).matcher(console.output());
+  assertThat(matcher.matches(),Matchers.is(true));
+}

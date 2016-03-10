@@ -1,0 +1,11 @@
+{
+  runBuild(mkdirs("bar/foo/baz"),Passed);
+  runBuild(mkdirs("bar/foo2"),Passed);
+  assertTrue(new File(sandbox,"bar/foo/file1").createNewFile());
+  assertTrue(new File(sandbox,"bar/file2").createNewFile());
+  assertTrue(new File(sandbox,"file3").createNewFile());
+  runBuild(cleandir("","file2","foo2").setWorkingDirectory("bar"),Passed);
+  assertThat(new File(sandbox,"bar").isDirectory(),is(true));
+  assertThat(new File(sandbox,"file3").exists(),is(true));
+  assertThat(new File(sandbox,"bar").listFiles(),is(new File[]{new File(sandbox,"bar/file2"),new File(sandbox,"bar/foo2")}));
+}

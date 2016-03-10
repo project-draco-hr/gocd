@@ -1,0 +1,6 @@
+{
+  if (!assignment.getPlan().shouldCleanWorkingDir()) {
+    return noop();
+  }
+  return BuildCommand.compose(cleandir(workingDirectory()),echoWithPrefix("Cleaning working directory \"$%s\" since stage is configured to clean working directory",workingDirectory())).setTest(test("-d",workingDirectory()));
+}

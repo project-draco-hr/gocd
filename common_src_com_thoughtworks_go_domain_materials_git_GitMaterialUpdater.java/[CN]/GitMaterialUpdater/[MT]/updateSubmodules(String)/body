@@ -1,0 +1,3 @@
+{
+  return compose(echo("[GIT] Removing modified files in submodules"),exec("git","submodule","foreach","--recursive","git","checkout","."),echo("[GIT] Updating git sub-modules"),exec("git","submodule","init"),exec("git","submodule","sync"),exec("git","submodule","foreach","--recursive","git","submodule","sync"),exec("git","submodule","update"),echo("[GIT] Git sub-module status"),exec("git","submodule","status")).setTest(hasSubmodules(workingDir)).setWorkingDirectoryRecursively(workingDir);
+}

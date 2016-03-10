@@ -1,0 +1,9 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  File submoduleFolder=submoduleRepos.addSubmodule(SUBMODULE,"sub1");
+  GitMaterial material=new GitMaterial(submoduleRepos.projectRepositoryUrl(),true);
+  FileUtils.deleteDirectory(submoduleFolder);
+  assertThat(submoduleFolder.exists(),Matchers.is(false));
+  updateTo(material,new RevisionContext(new StringRevision("origin/HEAD")),JobResult.Failed);
+  assertThat(console.output(),containsString(String.format("Clone of '%s' into submodule path 'sub1' failed",submoduleFolder.getAbsolutePath())));
+}

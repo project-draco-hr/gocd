@@ -1,0 +1,9 @@
+{
+  String repositoryUrl=new GitTestRepo().projectRepositoryUrl();
+  GitMaterial shallowMaterial=new GitMaterial(repositoryUrl,true);
+  updateTo(shallowMaterial,new RevisionContext(REVISION_3),JobResult.Passed);
+  assertThat(localRepoFor(shallowMaterial).isShallow(),is(true));
+  GitMaterial fullMaterial=new GitMaterial(repositoryUrl,false);
+  updateTo(fullMaterial,new RevisionContext(REVISION_4),JobResult.Passed);
+  assertThat(localRepoFor(fullMaterial).isShallow(),is(false));
+}

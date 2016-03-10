@@ -1,4 +1,4 @@
 {
   LOGGER.debug("{} send message: {}",sessionName(),message);
-  session.getRemote().sendBytesByFuture(ByteBuffer.wrap(Message.encode(message)));
+  session.getRemote().sendBytesByFuture(ByteBuffer.wrap(MessageEncoding.encodeMessage(message)));
 }

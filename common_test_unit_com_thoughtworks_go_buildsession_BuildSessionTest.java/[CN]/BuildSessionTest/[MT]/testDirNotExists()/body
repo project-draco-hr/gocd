@@ -1,0 +1,9 @@
+{
+  runBuild(test("-nd",""),Failed);
+  runBuild(test("-nd","dir"),Passed);
+  runBuild(test("-nd","file"),Passed);
+  assertTrue(new File(sandbox,"file").createNewFile());
+  assertTrue(new File(sandbox,"dir").mkdir());
+  runBuild(test("-nd","file"),Passed);
+  runBuild(test("-nd","dir"),Failed);
+}

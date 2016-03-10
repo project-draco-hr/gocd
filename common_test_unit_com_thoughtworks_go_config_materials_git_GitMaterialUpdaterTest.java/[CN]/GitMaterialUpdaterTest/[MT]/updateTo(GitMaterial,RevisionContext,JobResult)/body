@@ -1,0 +1,5 @@
+{
+  BuildSession buildSession=newBuildSession();
+  JobResult result=buildSession.build(new GitMaterialUpdater(material).updateTo("working",revisionContext));
+  assertThat(buildInfo(),result,is(expectedResult));
+}

@@ -1,0 +1,22 @@
+{
+  URLService urlService=new URLService();
+  String url=urlService.prefixPartialUrl(command.getStringArg("url"));
+  String dest=command.getStringArg("dest");
+  String src=command.getStringArg("src");
+  String checksumUrl=null;
+  ChecksumFileHandler checksumFileHandler=null;
+  if (command.hasArg("checksumUrl")) {
+    checksumUrl=new URLService().prefixPartialUrl(command.getStringArg("checksumUrl"));
+    File checksumFile;
+    if (command.hasArg("checksumFile")) {
+      checksumFile=buildSession.resolveRelativeDir(command.getWorkingDirectory(),command.getStringArg("checksumFile"));
+    }
+ else {
+      checksumFile=TempFiles.createUniqueFile("checksum");
+    }
+    checksumFileHandler=new ChecksumFileHandler(checksumFile);
+  }
+  DirHandler handler=new DirHandler(src,buildSession.resolveRelativeDir(command.getWorkingDirectory(),dest));
+  buildSession.download(handler,url,checksumFileHandler,checksumUrl);
+  return true;
+}

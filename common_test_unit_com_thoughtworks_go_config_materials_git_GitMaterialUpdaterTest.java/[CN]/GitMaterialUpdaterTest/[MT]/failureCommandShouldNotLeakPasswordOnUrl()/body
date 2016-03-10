@@ -1,0 +1,6 @@
+{
+  GitMaterial material=new GitMaterial("https://foo:foopassword@this.is.absolute.not.exists",true);
+  updateTo(material,new RevisionContext(new StringRevision("origin/master")),JobResult.Failed);
+  assertThat(console.output(),containsString("https://foo:******@this.is.absolute.not.exists/"));
+  assertThat(console.output(),not(containsString("foopassword")));
+}

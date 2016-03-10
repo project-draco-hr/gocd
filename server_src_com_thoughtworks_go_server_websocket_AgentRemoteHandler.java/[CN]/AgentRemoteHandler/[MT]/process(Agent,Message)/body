@@ -4,7 +4,7 @@
   }
   finally {
     if (msg.getAckId() != null) {
-      agent.send(new Message(Action.ack,msg.getAckId()));
+      agent.send(new Message(Action.ack,MessageEncoding.encodeData(msg.getAckId())));
     }
   }
 }

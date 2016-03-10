@@ -1,0 +1,9 @@
+{
+  build(WILL_FAIL,PIPELINE_NAME,true,false);
+  String locator=JOB_IDENTIFIER.buildLocator();
+  assertThat(console.output(),printedPreparingInfo(locator));
+  assertThat(console.output(),printedBuildingInfo(locator));
+  assertThat(console.output(),printedUploadingInfo(locator));
+  assertThat(console.output(),printedBuildFailed());
+  assertThat(console.output(),printedJobCompletedInfo(JOB_IDENTIFIER.buildLocatorForDisplay()));
+}

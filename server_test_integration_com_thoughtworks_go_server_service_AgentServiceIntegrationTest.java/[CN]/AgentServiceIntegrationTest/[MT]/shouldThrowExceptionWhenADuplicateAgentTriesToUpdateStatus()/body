@@ -6,7 +6,7 @@
   assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Building));
   AgentIdentifier identifier=instance.agentConfig().getAgentIdentifier();
   agentDao.associateCookie(identifier,"new_cookie");
-  AgentRuntimeInfo runtimeInfo=new AgentRuntimeInfo(identifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"old_cookie",null);
+  AgentRuntimeInfo runtimeInfo=new AgentRuntimeInfo(identifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"old_cookie",null,false);
   try {
     agentService.updateRuntimeInfo(runtimeInfo);
     fail("agent with bad cookie should not be able to update runtime info");
@@ -18,5 +18,5 @@
   assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Building));
   AgentIdentifier agentIdentifier=instance.agentConfig().getAgentIdentifier();
   String cookie=agentService.assignCookie(agentIdentifier);
-  agentService.updateRuntimeInfo(new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),cookie,null));
+  agentService.updateRuntimeInfo(new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),cookie,null,false));
 }

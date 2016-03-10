@@ -1,0 +1,3 @@
+{
+  return BuildCommand.compose(echoWithPrefix("Job started ${date}"),prepare(),build(),reportAction("Job completed").runIf("any")).setOnCancel(BuildCommand.compose(reportAction("Job is canceled"),reportAction("Job completed")));
+}

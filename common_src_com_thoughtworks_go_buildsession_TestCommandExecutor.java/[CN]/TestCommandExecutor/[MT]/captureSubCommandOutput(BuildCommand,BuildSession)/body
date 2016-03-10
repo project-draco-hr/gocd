@@ -1,0 +1,6 @@
+{
+  BuildCommand targetCommand=command.getSubCommands().get(0);
+  ConsoleCapture consoleCapture=new ConsoleCapture();
+  buildSession.newTestingSession(consoleCapture).processCommand(targetCommand);
+  return consoleCapture.captured();
+}

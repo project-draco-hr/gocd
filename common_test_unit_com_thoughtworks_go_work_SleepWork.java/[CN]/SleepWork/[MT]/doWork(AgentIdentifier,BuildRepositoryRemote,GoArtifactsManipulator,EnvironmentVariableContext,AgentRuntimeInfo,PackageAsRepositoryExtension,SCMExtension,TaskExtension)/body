@@ -1,10 +1,13 @@
 {
-  started.countDown();
+  cancelLatch=new CountDownLatch(1);
+  agentRuntimeInfo.busy(new AgentBuildingInfo("sleepwork","sleepwork1"));
+  boolean canceled=false;
   try {
-    if (this.seconds > 0) {
-      latch.await(this.seconds,TimeUnit.SECONDS);
+    if (this.sleepInMilliSeconds > 0) {
+      canceled=cancelLatch.await(this.sleepInMilliSeconds,TimeUnit.MILLISECONDS);
     }
-    done.set(true);
+    String result=canceled ? "done_canceled" : "done";
+    manipulator.setProperty(null,new Property(name + "_result",result));
   }
  catch (  InterruptedException e) {
     throw new RuntimeException(e);

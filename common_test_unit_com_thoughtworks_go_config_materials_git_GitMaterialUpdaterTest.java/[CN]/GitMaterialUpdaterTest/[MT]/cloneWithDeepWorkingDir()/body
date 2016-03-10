@@ -1,0 +1,5 @@
+{
+  GitMaterial material=new GitMaterial(new GitTestRepo().projectRepositoryUrl(),"","foo/bar/baz",true);
+  updateTo(material,new RevisionContext(REVISION_4),JobResult.Passed);
+  assertThat(new File(workingDir,"foo/bar/baz/build.xml").exists(),is(true));
+}

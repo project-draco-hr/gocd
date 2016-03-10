@@ -1,0 +1,7 @@
+{
+  File folder=TestFileUtil.createTempFolder("log");
+  File consolelog=new File(folder,"console.log");
+  folder.mkdirs();
+  consolelog.createNewFile();
+  zip=new ZipUtil().zip(folder,TestFileUtil.createUniqueTempFile(folder.getName()),Deflater.NO_COMPRESSION);
+}

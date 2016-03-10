@@ -1,0 +1,13 @@
+{
+  File folder=TestFileUtil.createTempFolder("log");
+  Files.write(Paths.get(folder.getPath(),"a"),"content for a".getBytes());
+  Files.write(Paths.get(folder.getPath(),"b"),"content for b".getBytes());
+  File zip=new ZipUtil().zip(folder,TestFileUtil.createUniqueTempFile(folder.getName()),Deflater.NO_COMPRESSION);
+  httpService.setupDownload("http://far.far.away/log.zip",zip);
+  httpService.setupDownload("http://far.far.away/log.zip.md5","s/log/a=524ebd45bd7de3616317127f6e639bd6\ns/log/b=83c0aa3048df233340203c74e8a93d7d");
+  runBuild(downloadDir(map("url","http://far.far.away/log.zip","dest","dest","src","s/log","checksumUrl","http://far.far.away/log.zip.md5")),Passed);
+  File dest=new File(sandbox,"dest");
+  assertThat(console.output(),containsString(String.format("Saved artifact to [%s] after verifying the integrity of its contents",dest.getPath())));
+  assertThat(FileUtil.readContentFromFile(new File(dest,"log/a")),is("content for a"));
+  assertThat(FileUtil.readContentFromFile(new File(dest,"log/b")),is("content for b"));
+}

@@ -5,6 +5,6 @@
   BuildWork work=new BuildWork(buildAssigment);
   EnvironmentVariableContext environmentContext=new EnvironmentVariableContext();
   AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
-  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),new GoArtifactsManipulatorStub(),environmentContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),new GoArtifactsManipulatorStub(),environmentContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),packageAsRepositoryExtension,scmExtension,taskExtension);
   assertEnvironmentContext(environmentContext,"foo",is("bar"));
 }

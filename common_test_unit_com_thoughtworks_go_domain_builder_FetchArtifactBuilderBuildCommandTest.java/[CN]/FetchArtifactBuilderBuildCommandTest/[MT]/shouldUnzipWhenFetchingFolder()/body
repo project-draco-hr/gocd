@@ -1,0 +1,6 @@
+{
+  httpService.setupDownload(format("%s/remoting/files/cruise/1/dev/1/windows/log.zip",new URLService().baseRemoteURL()),zip);
+  FetchArtifactBuilder builder=getBuilder(new JobIdentifier("cruise",-10,"1","dev","1","windows",1L),"log","dest",new DirHandler("log",new File("pipelines/cruise/dest")));
+  runBuilder(builder,JobResult.Passed);
+  assertDownloaded(new File(sandbox,"pipelines/cruise/dest"));
+}

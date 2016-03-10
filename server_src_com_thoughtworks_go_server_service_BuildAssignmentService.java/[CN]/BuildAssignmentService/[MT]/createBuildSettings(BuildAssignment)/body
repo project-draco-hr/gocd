@@ -1,0 +1,14 @@
+{
+  URLService urlService=new URLService("");
+  JobPlan plan=assignment.getPlan();
+  JobIdentifier jobIdentifier=plan.getIdentifier();
+  BuildSettings buildSettings=new BuildSettings();
+  buildSettings.setBuildId(String.valueOf(jobIdentifier.getBuildId()));
+  buildSettings.setBuildLocatorForDisplay(jobIdentifier.buildLocatorForDisplay());
+  buildSettings.setBuildLocator(jobIdentifier.buildLocator());
+  buildSettings.setBuildCommand(new BuildComposer(assignment).compose());
+  buildSettings.setConsoleUrl(urlService.getUploadUrlOfAgent(plan.getIdentifier(),getConsoleOutputFolderAndFileNameUrl()));
+  buildSettings.setArtifactUploadBaseUrl(urlService.getUploadBaseUrlOfAgent(plan.getIdentifier()));
+  buildSettings.setPropertyBaseUrl(urlService.getPropertiesUrl(plan.getIdentifier(),""));
+  return buildSettings;
+}

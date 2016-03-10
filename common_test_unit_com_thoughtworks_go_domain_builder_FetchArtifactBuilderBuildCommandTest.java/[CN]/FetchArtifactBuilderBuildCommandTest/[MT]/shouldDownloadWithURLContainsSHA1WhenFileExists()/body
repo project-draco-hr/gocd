@@ -1,0 +1,12 @@
+{
+  File artifactOnAgent=new File(sandbox,"pipelines/cruise/foo/a.jar");
+  new File(sandbox,"pipelines/cruise/foo").mkdirs();
+  FileUtil.writeContentToFile("foobar",artifactOnAgent);
+  String sha1=java.net.URLEncoder.encode(StringUtil.sha1Digest(artifactOnAgent),"UTF-8");
+  httpService.setupDownload(format("%s/remoting/files/cruise/1/dev/1/windows/a.jar",new URLService().baseRemoteURL()),"content for url without sha1");
+  httpService.setupDownload(format("%s/remoting/files/cruise/1/dev/1/windows/a.jar?sha1=%s",new URLService().baseRemoteURL(),sha1),"content for url with sha1");
+  FetchArtifactBuilder builder=getBuilder(new JobIdentifier("cruise",-1,"1","dev","1","windows",1L),"a.jar","foo",new FileHandler(new File("pipelines/cruise/foo/a.jar"),"a.jar"));
+  runBuilder(builder,JobResult.Passed);
+  assertThat(artifactOnAgent.isFile(),is(true));
+  assertThat(FileUtil.readContentFromFile(artifactOnAgent),is("content for url with sha1"));
+}

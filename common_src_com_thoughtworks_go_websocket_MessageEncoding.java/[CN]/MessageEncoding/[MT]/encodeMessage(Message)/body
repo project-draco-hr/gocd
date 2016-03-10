@@ -1,0 +1,13 @@
+{
+  String encode=gson.toJson(msg);
+  org.apache.commons.io.output.ByteArrayOutputStream bytes=new org.apache.commons.io.output.ByteArrayOutputStream();
+  try {
+    GZIPOutputStream out=new GZIPOutputStream(bytes);
+    out.write(encode.getBytes(StandardCharsets.UTF_8));
+    out.finish();
+  }
+ catch (  IOException e) {
+    throw bomb(e);
+  }
+  return bytes.toByteArray();
+}

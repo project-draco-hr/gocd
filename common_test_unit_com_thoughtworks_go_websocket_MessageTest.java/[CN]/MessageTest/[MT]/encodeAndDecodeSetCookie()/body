@@ -1,5 +1,5 @@
 {
-  byte[] msg=Message.encode(new Message(Action.setCookie,"cookie"));
-  Message decoded=Message.decode(new ByteArrayInputStream(msg));
-  assertThat((String)decoded.getData(),is("cookie"));
+  byte[] msg=MessageEncoding.encodeMessage(new Message(Action.setCookie,MessageEncoding.encodeData("cookie")));
+  Message decoded=MessageEncoding.decodeMessage(new ByteArrayInputStream(msg));
+  assertThat(MessageEncoding.decodeData(decoded.getData(),String.class),is("cookie"));
 }

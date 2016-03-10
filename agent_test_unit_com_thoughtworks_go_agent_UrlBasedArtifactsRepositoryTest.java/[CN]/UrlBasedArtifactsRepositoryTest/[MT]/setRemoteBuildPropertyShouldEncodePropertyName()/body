@@ -1,0 +1,8 @@
+{
+  ArgumentCaptor<String> url=ArgumentCaptor.forClass(String.class);
+  ArgumentCaptor<String> value=ArgumentCaptor.forClass(String.class);
+  artifactsRepository.setProperty(new Property("fo,o","bar"));
+  verify(httpService).postProperty(url.capture(),value.capture());
+  assertThat(value.getValue(),is("bar"));
+  assertThat(url.getValue(),is("http://baseurl/properties/fo%2Co"));
+}
