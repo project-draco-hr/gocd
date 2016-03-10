@@ -1,5 +1,6 @@
 {
   TransformerFactory transformerFactory=TransformerFactory.newInstance();
+  transformerFactory.setErrorListener(new DefaultErrorHandler(true));
   try {
     return transformerFactory.newTransformer(new StreamSource(xsl));
   }
