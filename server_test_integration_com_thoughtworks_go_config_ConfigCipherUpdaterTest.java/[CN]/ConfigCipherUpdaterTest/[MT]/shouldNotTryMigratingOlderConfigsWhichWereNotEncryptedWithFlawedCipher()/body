@@ -1,0 +1,15 @@
+{
+  String goodCipher="269298bc31c44620";
+  FileUtil.writeContentToFile(goodCipher,systemEnvironment.getCipherFile());
+  File originalConfigFile=new File(systemEnvironment.getCruiseConfigFile());
+  FileUtils.copyFile(new ClassPathResource("cruise-config-with-encrypted-with-safe-cipher.xml").getFile(),originalConfigFile);
+  String originalConfig=FileUtil.readContentFromFile(originalConfigFile);
+  assertThat(originalConfig.contains("encryptedPassword=\"pVyuW5ny9I6YT4Ou+KLZhQ==\""),is(true));
+  updater.migrate();
+  File copyOfOldConfig=new File(systemEnvironment.getConfigDir(),"cipher.original." + timestamp);
+  assertThat(copyOfOldConfig.exists(),is(false));
+  assertThat(FileUtil.readContentFromFile(systemEnvironment.getCipherFile()).equals(goodCipher),is(true));
+  File configFile=new File(systemEnvironment.getCruiseConfigFile());
+  String editedConfig=FileUtil.readContentFromFile(configFile);
+  assertThat(editedConfig.contains("encryptedPassword=\"pVyuW5ny9I6YT4Ou+KLZhQ==\""),is(true));
+}

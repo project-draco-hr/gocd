@@ -1,0 +1,28 @@
+{
+  systemEnvironment.setProperty(SystemEnvironment.CONFIG_DIR_PROPERTY,temporaryFolder.newFolder().getAbsolutePath());
+  final Date currentTime=new DateTime().toDate();
+  timestamp=new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(currentTime);
+  updater=new ConfigCipherUpdater(systemEnvironment,new TimeProvider(){
+    @Override public Date currentTime(){
+      return currentTime;
+    }
+  }
+);
+  configCache=new ConfigCache();
+  registry=new ConfigElementImplementationRegistry(new NoPluginsInstalled());
+  ConfigElementImplementationRegistrar registrar=new ConfigElementImplementationRegistrar(new FakePluginManager(){
+    @Override public boolean hasReferenceFor(    Class serviceReferenceClass,    String pluginId){
+      return false;
+    }
+    @Override public boolean isPluginOfType(    String extension,    String pluginId){
+      return false;
+    }
+  }
+,registry);
+  registrar.initialize();
+  magicalGoConfigXmlLoader=new MagicalGoConfigXmlLoader(configCache,registry);
+  configFileEncryptedWithFlawedCipher=new ClassPathResource("cruise-config-with-encrypted-with-flawed-cipher.xml").getFile();
+  FileUtil.writeContentToFile(ConfigCipherUpdater.FLAWED_VALUE,systemEnvironment.getCipherFile());
+  originalConfigFile=new File(systemEnvironment.getCruiseConfigFile());
+  FileUtils.copyFile(configFileEncryptedWithFlawedCipher,originalConfigFile);
+}
