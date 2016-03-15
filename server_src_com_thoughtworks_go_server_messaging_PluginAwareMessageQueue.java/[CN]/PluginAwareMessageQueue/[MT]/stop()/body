@@ -1,0 +1,16 @@
+{
+  super.stop();
+  ArrayList<JMSMessageListenerAdapter> listenerAdapters=listeners.get(pluginId);
+  for (  JMSMessageListenerAdapter listenerAdapter : listenerAdapters) {
+    try {
+      listenerAdapter.stop();
+    }
+ catch (    JMSException e) {
+      LOGGER.error("Unable to stop listener for {} {}, ERROR: {}",queueName,listenerAdapter.thread.getName(),e.getMessage(),e);
+      bomb(e);
+    }
+ finally {
+      this.listeners.remove(pluginId);
+    }
+  }
+}

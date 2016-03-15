@@ -1,0 +1,14 @@
+{
+  String pluginId=PLUGIN_ID;
+  String queueName=QUEUE_NAME_PREFIX + pluginId;
+  when(extension.canHandlePlugin(pluginId)).thenReturn(true);
+  when(messaging.addQueueListener(eq(queueName),any(GoMessageListener.class))).thenReturn(mock(JMSMessageListenerAdapter.class));
+  handler.pluginLoaded(new GoPluginDescriptor(pluginId,null,null,null,null,false));
+  assertThat(handler.queues.containsKey(pluginId),is(true));
+  assertThat(handler.queues.get(pluginId).listeners.containsKey(pluginId),is(true));
+  ArrayList<JMSMessageListenerAdapter> listeners=handler.queues.get(pluginId).listeners.get(pluginId);
+  assertThat(listeners.size(),is(10));
+  ArgumentCaptor<GoMessageListener> argumentCaptor=ArgumentCaptor.forClass(GoMessageListener.class);
+  verify(messaging,times(10)).addQueueListener(eq(queueName),argumentCaptor.capture());
+  assertThat(argumentCaptor.getValue() instanceof GoMessageListener,is(true));
+}

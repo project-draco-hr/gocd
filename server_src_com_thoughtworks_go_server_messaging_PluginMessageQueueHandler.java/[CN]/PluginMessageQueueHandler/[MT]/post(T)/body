@@ -1,0 +1,14 @@
+{
+  String pluginId=message.pluginId();
+  try {
+    if (queues.containsKey(pluginId)) {
+      queues.get(pluginId).post(message);
+    }
+ else {
+      LOGGER.error("Could not find a queue for {}",pluginId);
+    }
+  }
+ catch (  Exception e) {
+    LOGGER.error("Failed while posting to queue for plugin {}. The error was {}",pluginId,e.getMessage(),e);
+  }
+}
