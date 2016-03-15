@@ -1,0 +1,23 @@
+{
+  String jobName="job-one";
+  PipelineConfig pipelineConfig=setupPipelineWithScmMaterial("pipeline_with_pluggable_scm_mat","stage",jobName);
+  final Pipeline previousSuccessfulBuildWithOlderScmConfig=simulateSuccessfulPipelineRun(pipelineConfig);
+  PipelineConfig updatedPipelineConfig=configHelper.updatePipeline(pipelineConfig.name(),new GoConfigFileHelper.Updater<PipelineConfig>(){
+    @Override public void update(    PipelineConfig config){
+      PluggableSCMMaterialConfig materialConfig=(PluggableSCMMaterialConfig)config.materialConfigs().first();
+      materialConfig.getSCMConfig().getConfiguration().getProperty("password").setConfigurationValue(new ConfigurationValue("new_value"));
+    }
+  }
+);
+  final long jobId=rerunJob(jobName,pipelineConfig,previousSuccessfulBuildWithOlderScmConfig);
+  Pipeline loadedPipeline=(Pipeline)transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      return loader.pipelineWithPasswordAwareBuildCauseByBuildId(jobId);
+    }
+  }
+);
+  MaterialRevisions revisions=loadedPipeline.getBuildCause().getMaterialRevisions();
+  Configuration updatedConfiguration=((PluggableSCMMaterial)revisions.findRevisionFor(updatedPipelineConfig.materialConfigs().first()).getMaterial()).getScmConfig().getConfiguration();
+  assertThat(updatedConfiguration.size(),is(2));
+  assertThat(updatedConfiguration.getProperty("password").getConfigurationValue(),is(new ConfigurationValue("new_value")));
+}

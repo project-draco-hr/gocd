@@ -1,0 +1,11 @@
+{
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=MaterialConfigsMother.pluggableSCMMaterialConfigWithConfigProperties("url","password");
+  SCMPropertyConfiguration configuration=new SCMPropertyConfiguration();
+  configuration.add(new SCMProperty("url",null).with(PackageConfiguration.PART_OF_IDENTITY,true));
+  configuration.add(new SCMProperty("password",null).with(PackageConfiguration.PART_OF_IDENTITY,false));
+  SCMMetadataStore.getInstance().addMetadataFor(pluggableSCMMaterialConfig.getPluginId(),new SCMConfigurations(configuration),null);
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(pipelineName,stageName,new MaterialConfigs(pluggableSCMMaterialConfig),jobName);
+  configHelper.addSCMConfig(pluggableSCMMaterialConfig.getSCMConfig());
+  configHelper.addPipeline(pipelineConfig);
+  return pipelineConfig;
+}

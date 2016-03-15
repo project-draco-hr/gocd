@@ -1,0 +1,21 @@
+{
+  PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig("p-id");
+  Configuration repoConfig=new Configuration(ConfigurationPropertyMother.create("repo-key1",false,"repo-k1-value"),ConfigurationPropertyMother.create("repo-key2",false,"repo-k2-value"));
+  PackageRepository repository=PackageRepositoryMother.create("repo-id","repo-name","pluginid","version",repoConfig);
+  Configuration packageConfig=new Configuration(ConfigurationPropertyMother.create("package-key1",false,"package-key1-value"),ConfigurationPropertyMother.create("package-key2",false,"package-key2-value"));
+  PackageDefinition packageDefinition=PackageDefinitionMother.create("p-id","package-name",packageConfig,repository);
+  packageMaterialConfig.setPackageDefinition(packageDefinition);
+  repository.getPackages().add(packageDefinition);
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig(pipelineName,stageName,new MaterialConfigs(packageMaterialConfig),jobName);
+  configHelper.addPackageDefinition(packageMaterialConfig);
+  configHelper.addPipeline(pipelineConfig);
+  PackageConfigurations packageConfigurations=new PackageConfigurations();
+  packageConfigurations.add(new PackageConfiguration("package-key1").with(PackageConfiguration.PART_OF_IDENTITY,true));
+  packageConfigurations.add(new PackageConfiguration("package-key2").with(PackageConfiguration.PART_OF_IDENTITY,false));
+  PackageMetadataStore.getInstance().addMetadataFor(packageMaterialConfig.getPluginId(),packageConfigurations);
+  PackageConfigurations configuration=new PackageConfigurations();
+  configuration.add(new PackageConfiguration("repo-key1").with(PackageConfiguration.PART_OF_IDENTITY,true));
+  configuration.add(new PackageConfiguration("repo-key2").with(PackageConfiguration.PART_OF_IDENTITY,false));
+  RepositoryMetadataStore.getInstance().addMetadataFor(packageMaterialConfig.getPluginId(),configuration);
+  return pipelineConfig;
+}
