@@ -1,0 +1,5 @@
+{
+  Stage stage=instanceFactory.createStageForRerunOfJobs(previousSuccessfulBuildWithOlderPackageConfig.getFirstStage(),asList(jobName),new DefaultSchedulingContext(),pipelineConfig.getFirstStageConfig(),new TimeProvider(),configHelper.getGoConfigDao().md5OfConfigFile());
+  stage=stageService.save(previousSuccessfulBuildWithOlderPackageConfig,stage);
+  return stage.getFirstJob().getId();
+}
