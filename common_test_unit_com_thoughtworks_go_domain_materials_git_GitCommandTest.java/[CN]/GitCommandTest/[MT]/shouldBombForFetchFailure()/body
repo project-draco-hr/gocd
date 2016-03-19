@@ -3,7 +3,7 @@
   executeOnGitRepo("git","remote","add","origin","git://user:secret@foo.bar/baz");
   try {
     InMemoryStreamConsumer output=new InMemoryStreamConsumer();
-    git.fetchAndReset(output,new StringRevision("ab9ff2cee965ae4d0778dbcda1fadffbbc202e85"));
+    git.fetch(output);
     fail("should have failed for non 0 return code. Git output was:\n " + output.getAllOutput());
   }
  catch (  Exception e) {

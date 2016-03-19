@@ -1,9 +1,7 @@
 {
-  outputStreamConsumer.stdOutput(String.format("[GIT] Fetch and reset in working directory %s",workingDir));
+  outputStreamConsumer.stdOutput(String.format("[GIT] Reset working directory %s",workingDir));
   cleanAllUnversionedFiles(outputStreamConsumer);
   removeSubmoduleSectionsFromGitConfig(outputStreamConsumer);
-  fetch(outputStreamConsumer);
-  gc(outputStreamConsumer);
   resetHard(outputStreamConsumer,revision);
   checkoutAllModifiedFilesInSubmodules(outputStreamConsumer);
   updateSubmoduleWithInit(outputStreamConsumer);
