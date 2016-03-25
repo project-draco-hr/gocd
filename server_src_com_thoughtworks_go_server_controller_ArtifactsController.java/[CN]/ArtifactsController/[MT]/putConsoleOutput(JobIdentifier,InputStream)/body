@@ -1,6 +1,6 @@
 {
   File consoleLogFile=consoleService.consoleLogFile(jobIdentifier);
-  boolean updated=consoleService.updateConsoleLog(consoleLogFile,inputStream,ConsoleService.LineListener.NO_OP_LINE_LISTENER);
+  boolean updated=consoleService.updateConsoleLog(consoleLogFile,inputStream);
   if (updated) {
     consoleActivityMonitor.consoleUpdatedFor(jobIdentifier);
     return FileModelAndView.fileAppended(consoleLogFile.getPath());
