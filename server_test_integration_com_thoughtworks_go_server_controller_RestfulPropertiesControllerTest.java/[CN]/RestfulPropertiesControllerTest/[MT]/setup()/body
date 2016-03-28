@@ -2,11 +2,13 @@
   configHelper.onSetUp();
   configHelper.usingCruiseConfigDao(goConfigDao);
   response=new MockHttpServletResponse();
+  request=new MockHttpServletRequest();
   dbHelper.onSetUp();
   oldPipeline=dbHelper.saveTestPipeline("pipeline","stage","build");
   oldStage=oldPipeline.getStages().byName("stage");
   newPipeline=dbHelper.saveTestPipeline("pipeline","stage","build");
   newStage=newPipeline.getStages().byName("stage");
   configHelper.addPipeline("pipeline","stage","build");
-  propertiesController=new PropertiesController(propertiesService,restfulService,pipelineService);
+  propertiesController=new PropertiesController(propertiesService,restfulService,pipelineService,systemEnvironment);
+  request.addHeader("Confirm","True");
 }

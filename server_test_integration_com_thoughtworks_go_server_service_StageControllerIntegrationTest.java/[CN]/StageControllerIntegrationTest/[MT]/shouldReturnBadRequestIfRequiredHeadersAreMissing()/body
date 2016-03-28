@@ -1,0 +1,8 @@
+{
+  MockHttpServletRequest mockHttpServletRequest=new MockHttpServletRequest();
+  mockHttpServletRequest.addHeader("Confirm","false");
+  ModelAndView modelAndView=controller.rerunStage("pipeline","invalid-label","stage",response,mockHttpServletRequest);
+  ResponseCodeView codeView=(ResponseCodeView)modelAndView.getView();
+  assertThat(codeView.getStatusCode(),is(HttpServletResponse.SC_BAD_REQUEST));
+  assertThat(codeView.getContent(),is("Missing required header 'Confirm'"));
+}

@@ -1,4 +1,7 @@
 {
+  if (!headerConstraint.isSatisfied(request)) {
+    return ResponseCodeView.create(HttpServletResponse.SC_BAD_REQUEST,"Missing required header 'Confirm'");
+  }
   try {
     scheduleService.rerunStage(pipelineName,counterOrLabel,stageName);
     return ResponseCodeView.create(HttpServletResponse.SC_OK,"");

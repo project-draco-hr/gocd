@@ -1,0 +1,7 @@
+{
+  SystemEnvironment systemEnvironment=mock(SystemEnvironment.class);
+  MockHttpServletRequest request=new MockHttpServletRequest();
+  when(systemEnvironment.isApiSafeModeEnabled()).thenReturn(false);
+  request.addHeader("Confirm","false");
+  assertTrue(new HeaderConstraint(systemEnvironment).isSatisfied(request));
+}

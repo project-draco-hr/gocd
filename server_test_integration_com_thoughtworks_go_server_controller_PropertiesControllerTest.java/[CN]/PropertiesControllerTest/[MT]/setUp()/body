@@ -2,6 +2,6 @@
   configHelper=new GoConfigFileHelper();
   fixture=new PipelineWithTwoStages(materialRepository,transactionTemplate);
   fixture.usingConfigHelper(configHelper).usingDbHelper(dbHelper).onSetUp();
-  controller=new PropertiesController(propertiesService,restfulService,pipelineService);
+  controller=new PropertiesController(propertiesService,restfulService,pipelineService,systemEnvironment);
   response=new MockHttpServletResponse();
 }
