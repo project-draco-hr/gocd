@@ -1,6 +1,5 @@
 {
   File configFile=fileLocation();
-  FileOutputStream output=null;
   try {
     if (shouldMigrate) {
       configFileContent=upgrader.upgradeIfNecessary(configFileContent);
@@ -10,15 +9,11 @@
     if (LOGGER.isTraceEnabled()) {
       LOGGER.trace("Writing config file: " + configFile.getAbsolutePath());
     }
-    output=new FileOutputStream(configFile);
-    IOUtils.write(toWrite,output);
+    writeToConfigXmlFile(toWrite);
     return configHolder;
   }
  catch (  Exception e) {
     LOGGER.error("Unable to write config file: " + configFile.getAbsolutePath() + "\n"+ e.getMessage(),e);
     throw e;
-  }
- finally {
-    IOUtils.closeQuietly(output);
   }
 }
