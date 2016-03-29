@@ -6,10 +6,11 @@
   File remoteSubmoduleLocation=submoduleRepos.addSubmodule(SUBMODULE,submoduleDirectoryName);
   GitCommand clonedCopy=new GitCommand(null,cloneDirectory,GitMaterialConfig.DEFAULT_BRANCH,false);
   clonedCopy.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
-  clonedCopy.fetchAndReset(outputStreamConsumer,new StringRevision("HEAD"));
+  clonedCopy.resetWorkingDir(outputStreamConsumer,new StringRevision("HEAD"));
   File fileInSubmodule=allFilesIn(new File(cloneDirectory,submoduleDirectoryName),"file-").get(0);
   FileUtils.writeStringToFile(fileInSubmodule,"Some other new content.");
   List<Modification> modifications=submoduleRepos.modifyOneFileInSubmoduleAndUpdateMainRepo(remoteSubmoduleLocation,submoduleDirectoryName,fileInSubmodule.getName(),"NEW CONTENT OF FILE");
-  clonedCopy.fetchAndReset(outputStreamConsumer,new StringRevision(modifications.get(0).getRevision()));
+  clonedCopy.fetch(outputStreamConsumer);
+  clonedCopy.resetWorkingDir(outputStreamConsumer,new StringRevision(modifications.get(0).getRevision()));
   assertThat(FileUtils.readFileToString(fileInSubmodule),is("NEW CONTENT OF FILE"));
 }

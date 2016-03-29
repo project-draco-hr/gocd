@@ -6,7 +6,7 @@
   FileUtils.deleteDirectory(submoduleFolder);
   assertThat(submoduleFolder.exists(),is(false));
   try {
-    gitWithSubmodule.fetchAndReset(new SysOutStreamConsumer(),new StringRevision("HEAD"));
+    gitWithSubmodule.resetWorkingDir(new SysOutStreamConsumer(),new StringRevision("HEAD"));
     fail("should have failed for non 0 return code");
   }
  catch (  Exception e) {

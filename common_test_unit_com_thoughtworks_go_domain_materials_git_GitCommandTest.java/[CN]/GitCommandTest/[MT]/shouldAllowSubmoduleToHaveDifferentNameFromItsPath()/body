@@ -7,5 +7,5 @@
   File cloneDirectory=createTempWorkingDirectory();
   GitCommand clonedCopy=new GitCommand(null,cloneDirectory,GitMaterialConfig.DEFAULT_BRANCH,false);
   clonedCopy.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
-  clonedCopy.fetchAndReset(outputStreamConsumer,new StringRevision("HEAD"));
+  clonedCopy.resetWorkingDir(outputStreamConsumer,new StringRevision("HEAD"));
 }

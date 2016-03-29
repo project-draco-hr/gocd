@@ -1,0 +1,10 @@
+{
+  GitMaterial material=new GitMaterial(repo.projectRepositoryUrl(),true);
+  material.updateTo(inMemoryConsumer(),workingDir,new RevisionContext(REVISION_4,REVISION_4,1),context());
+  assertThat(localRepoFor(material).isShallow(),is(true));
+  List<Modification> modifications=repo.addFileAndPush("newfile","add new file");
+  StringRevision newRevision=new StringRevision(modifications.get(0).getRevision());
+  material.updateTo(inMemoryConsumer(),workingDir,new RevisionContext(newRevision,newRevision,1),context());
+  assertThat(new File(workingDir,"newfile").exists(),is(true));
+  assertThat(localRepoFor(material).isShallow(),is(true));
+}
