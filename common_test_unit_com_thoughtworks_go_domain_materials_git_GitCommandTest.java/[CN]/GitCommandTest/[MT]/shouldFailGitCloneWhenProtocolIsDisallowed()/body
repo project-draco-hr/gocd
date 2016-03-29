@@ -1,0 +1,9 @@
+{
+  final Map<String,String> whiteListWhichDoesNotContainFileProtocol=new HashMap<>();
+  whiteListWhichDoesNotContainFileProtocol.put("GIT_ALLOW_PROTOCOL","git");
+  final TestSubprocessExecutionContext executionContext=testSubprocessExecutionContext;
+  when(executionContext.getDefaultEnvironmentVariables()).thenReturn(whiteListWhichDoesNotContainFileProtocol);
+  GitCommand gitCommand=new GitCommand("unique-material",null,"master",false,executionContext.getDefaultEnvironmentVariables());
+  InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
+  gitCommand.cloneFrom(outputStreamConsumer,gitRepo.projectRepositoryUrl());
+}

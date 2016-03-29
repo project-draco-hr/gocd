@@ -1,6 +1,6 @@
 {
   GitTestRepo branchedRepo=GitTestRepo.testRepoAtBranch(GIT_FOO_BRANCH_BUNDLE,BRANCH);
-  GitCommand branchedGit=new GitCommand(null,createTempWorkingDirectory(),BRANCH,false);
+  GitCommand branchedGit=new GitCommand(null,createTempWorkingDirectory(),BRANCH,false,new HashMap<String,String>());
   branchedGit.cloneFrom(inMemoryConsumer(),branchedRepo.projectRepositoryUrl());
   Modification mod=branchedGit.latestModification();
   assertThat(mod.getUserName(),is("Chris Turner <cturner@thoughtworks.com>"));

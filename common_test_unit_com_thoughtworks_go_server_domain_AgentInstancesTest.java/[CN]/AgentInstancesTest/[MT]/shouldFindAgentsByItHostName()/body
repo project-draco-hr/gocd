@@ -1,6 +1,6 @@
 {
   AgentInstance idle=AgentInstanceMother.idle(new Date(),"ghost-name");
-  AgentInstances agentInstances=new AgentInstances(null,idle,AgentInstanceMother.building());
+  AgentInstances agentInstances=new AgentInstances(null,systemEnvironment,idle,AgentInstanceMother.building());
   AgentInstance byHostname=agentInstances.findFirstByHostname("ghost-name");
   assertThat(byHostname,is(idle));
 }

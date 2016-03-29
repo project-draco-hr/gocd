@@ -10,7 +10,7 @@
   goPipelineConfig=configHelper.addPipeline(GO_PIPELINE_NAME,STAGE_NAME,repository,"unit");
   svnMaterialRevs=new MaterialRevisions();
   SvnMaterial svnMaterial=SvnMaterial.createSvnMaterialWithMock(repository);
-  svnMaterialRevs.addRevision(svnMaterial,svnMaterial.latestModification(null,new ServerSubprocessExecutionContext(goConfigService)));
+  svnMaterialRevs.addRevision(svnMaterial,svnMaterial.latestModification(null,new ServerSubprocessExecutionContext(goConfigService,new SystemEnvironment())));
   final MaterialRevisions materialRevisions=new MaterialRevisions();
   SvnMaterial anotherSvnMaterial=SvnMaterial.createSvnMaterialWithMock(repository);
   materialRevisions.addRevision(anotherSvnMaterial,anotherSvnMaterial.latestModification(null,subprocessExecutionContext));

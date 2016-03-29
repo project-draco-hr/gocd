@@ -3,10 +3,10 @@
   AgentRuntimeInfo agent1=AgentRuntimeInfo.fromServer(new AgentConfig("uuid-1","host-1","192.168.1.2"),true,"/foo/bar",100l,"linux",false);
   AgentRuntimeInfo agent2=AgentRuntimeInfo.fromServer(new AgentConfig("uuid-2","host-2","192.168.1.3"),true,"/bar/baz",200l,"linux",false);
   AgentRuntimeInfo agent3=AgentRuntimeInfo.fromServer(new AgentConfig("uuid-3","host-3","192.168.1.4"),true,"/baz/quux",300l,"linux",false);
-  AgentInstance instance1=AgentInstance.createFromLiveAgent(agent1,new SystemEnvironment());
+  AgentInstance instance1=AgentInstance.createFromLiveAgent(agent1,systemEnvironment);
   instances.add(instance1);
-  instances.add(AgentInstance.createFromLiveAgent(agent2,new SystemEnvironment()));
-  AgentInstance instance3=AgentInstance.createFromLiveAgent(agent3,new SystemEnvironment());
+  instances.add(AgentInstance.createFromLiveAgent(agent2,systemEnvironment));
+  AgentInstance instance3=AgentInstance.createFromLiveAgent(agent3,systemEnvironment);
   instances.add(instance3);
   List<AgentInstance> agents=instances.filter(Arrays.asList("uuid-1","uuid-3"));
   assertThat(agents,hasItems(instance1,instance3));

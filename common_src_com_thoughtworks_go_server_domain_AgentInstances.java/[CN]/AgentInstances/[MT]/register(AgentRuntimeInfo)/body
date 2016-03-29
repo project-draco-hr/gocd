@@ -1,7 +1,10 @@
 {
   AgentInstance agentInstance=findAgentAndRefreshStatus(info.getUUId());
   if (!agentInstance.isRegistered()) {
-    agentInstance=AgentInstance.createFromLiveAgent(info,new SystemEnvironment());
+    if (isMaxPendingAgentsLimitReached()) {
+      throw new MaxPendingAgentsLimitReachedException(systemEnvironment.get(SystemEnvironment.MAX_PENDING_AGENTS_ALLOWED));
+    }
+    agentInstance=AgentInstance.createFromLiveAgent(info,systemEnvironment);
     this.add(agentInstance);
   }
   agentInstance.update(info);

@@ -1,0 +1,6 @@
+{
+  AgentConfig agentConfig=new AgentConfig("uuid2","CCeDev01","10.18.5.1");
+  AgentInstances agentInstances=new AgentInstances(null,systemEnvironment,AgentInstanceMother.pending());
+  when(systemEnvironment.get(SystemEnvironment.MAX_PENDING_AGENTS_ALLOWED)).thenReturn(1);
+  agentInstances.register(AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",0L,"linux",false));
+}

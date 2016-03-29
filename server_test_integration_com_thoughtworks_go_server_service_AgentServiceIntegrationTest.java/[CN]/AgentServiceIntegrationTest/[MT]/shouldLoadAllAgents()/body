@@ -3,7 +3,7 @@
   AgentInstance pending=AgentInstanceMother.pending();
   AgentInstance building=AgentInstanceMother.building();
   AgentInstance denied=AgentInstanceMother.disabled();
-  AgentService agentService=getAgentService(new AgentInstances(null,idle,pending,building,denied));
+  AgentService agentService=getAgentService(new AgentInstances(null,new SystemEnvironment(),idle,pending,building,denied));
   AgentInstances agents=agentService.findPhysicalAgents();
   assertThat(agents.size(),is(4));
   assertThat(agents.findAgentAndRefreshStatus(idle.agentConfig().getUuid()),is(idle));

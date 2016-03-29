@@ -3,7 +3,7 @@
   String[] changeSubmoduleNameInGitModules=new String[]{"config","--file",".gitmodules","--rename-section","submodule." + folder,"submodule." + submoduleNameToPutInGitSubmodules};
   String[] addGitModules=new String[]{"add",".gitmodules"};
   String[] changeSubmoduleNameInGitConfig=new String[]{"config","--file",".git/config","--rename-section","submodule." + folder,"submodule." + submoduleNameToPutInGitSubmodules};
-  runOrBomb(git().withArgs(addSubmoduleWithSameNameArgs).withWorkingDir(workingDir));
-  runOrBomb(git().withArgs(changeSubmoduleNameInGitModules).withWorkingDir(workingDir));
-  runOrBomb(git().withArgs(addGitModules).withWorkingDir(workingDir));
+  runOrBomb(git(environment).withArgs(addSubmoduleWithSameNameArgs).withWorkingDir(workingDir));
+  runOrBomb(git(environment).withArgs(changeSubmoduleNameInGitModules).withWorkingDir(workingDir));
+  runOrBomb(git(environment).withArgs(addGitModules).withWorkingDir(workingDir));
 }

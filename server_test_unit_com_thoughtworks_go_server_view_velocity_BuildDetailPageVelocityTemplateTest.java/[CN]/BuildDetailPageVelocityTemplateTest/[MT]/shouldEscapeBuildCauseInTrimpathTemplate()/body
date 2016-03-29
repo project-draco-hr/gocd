@@ -1,0 +1,4 @@
+{
+  Document actualDoc=Jsoup.parse(getBuildDetailVelocityView(createJobDetailModel()).render());
+  assertThat(actualDoc.select("#build-summary-template").last().html(),containsString("modified by Ernest Hemingway &amp;lt;oldman@sea.com&amp;gt;"));
+}

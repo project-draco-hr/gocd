@@ -1,0 +1,30 @@
+{
+  if (isSubmoduleFolder()) {
+    return new GitCommand(getFingerprint(),new File(workingFolder.getPath()),GitMaterialConfig.DEFAULT_BRANCH,true,executionContext.getDefaultEnvironmentVariables());
+  }
+  GitCommand gitCommand=new GitCommand(getFingerprint(),workingFolder,getBranch(),false,executionContext.getDefaultEnvironmentVariables());
+  if (!isGitRepository(workingFolder) || isRepositoryChanged(gitCommand,workingFolder)) {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Invalid git working copy or repository changed. Delete folder: " + workingFolder);
+    }
+    deleteDirectoryNoisily(workingFolder);
+  }
+  createParentFolderIfNotExist(workingFolder);
+  if (!workingFolder.exists()) {
+    TransactionSynchronizationManager txManager=new TransactionSynchronizationManager();
+    if (txManager.isActualTransactionActive()) {
+      txManager.registerSynchronization(new TransactionSynchronizationAdapter(){
+        @Override public void afterCompletion(        int status){
+          if (status != TransactionSynchronization.STATUS_COMMITTED) {
+            FileUtils.deleteQuietly(workingFolder);
+          }
+        }
+      }
+);
+    }
+    int cloneDepth=shallowClone ? preferredCloneDepth : Integer.MAX_VALUE;
+    int returnValue=gitCommand.cloneFrom(outputStreamConsumer,url.forCommandline(),cloneDepth);
+    bombIfFailedToRunCommandLine(returnValue,"Failed to run git clone command");
+  }
+  return gitCommand;
+}

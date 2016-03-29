@@ -7,7 +7,6 @@
   server.addConnector(sslConnector(keystore,truststore,sslPort));
   WebAppContext wac=new WebAppContext("testdata/goserverstub","/go");
   wac.setConfigurationClasses(new String[]{WebInfConfiguration.class.getCanonicalName(),WebXmlConfiguration.class.getCanonicalName(),JettyWebXmlConfiguration.class.getCanonicalName()});
-  addStopServlet(server,wac);
   addFakeArtifactiPublisherServlet(wac);
   addFakeAgentCertificateServlet(wac);
   server.setHandler(wac);

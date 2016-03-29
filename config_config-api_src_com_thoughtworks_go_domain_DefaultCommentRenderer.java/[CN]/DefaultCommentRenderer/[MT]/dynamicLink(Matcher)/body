@@ -1,4 +1,4 @@
 {
-  String linkWithRealId=link.replace("${ID}",id(matcher));
+  String linkWithRealId=StringEscapeUtils.escapeHtml(link.replace("${ID}",id(matcher)));
   return String.format("<a href=\"%s\" target=\"story_tracker\">%s</a>",linkWithRealId,textOnLink(matcher));
 }

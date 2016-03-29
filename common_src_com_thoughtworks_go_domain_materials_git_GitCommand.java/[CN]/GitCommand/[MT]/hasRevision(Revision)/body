@@ -1,5 +1,5 @@
 {
-  CommandLine cmd=git().withArg("cat-file").withArg("-t").withArg(revision.getRevision()).withWorkingDir(workingDir);
+  CommandLine cmd=git(environment).withArg("cat-file").withArg("-t").withArg(revision.getRevision()).withWorkingDir(workingDir);
   try {
     ConsoleResult consoleResult=runOrBomb(cmd);
     return "commit".equals(consoleResult.outputAsString());

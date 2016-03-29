@@ -1,3 +1,4 @@
 {
-  GitCommand.checkConnection(new UrlArgument("git://somewhere.is.not.exist"));
+  final TestSubprocessExecutionContext executionContext=new TestSubprocessExecutionContext();
+  GitCommand.checkConnection(new UrlArgument("git://somewhere.is.not.exist"),executionContext.getDefaultEnvironmentVariables());
 }

@@ -1,11 +1,11 @@
 {
   try {
-    GitCommand.checkConnection(url);
+    GitCommand.checkConnection(url,execCtx.getDefaultEnvironmentVariables());
     return ValidationBean.valid();
   }
  catch (  Exception e) {
     try {
-      return handleException(e,GitCommand.version());
+      return handleException(e,GitCommand.version(execCtx.getDefaultEnvironmentVariables()));
     }
  catch (    Exception notInstallGitException) {
       return ValidationBean.notValid(ERR_GIT_NOT_FOUND);

@@ -1,0 +1,6 @@
+{
+  final Map<String,String> whiteListWhichDoesNotContainFileProtocol=new HashMap<>();
+  whiteListWhichDoesNotContainFileProtocol.put("GIT_ALLOW_PROTOCOL","git");
+  when(testSubprocessExecutionContext.getDefaultEnvironmentVariables()).thenReturn(whiteListWhichDoesNotContainFileProtocol);
+  GitCommand.checkConnection(new UrlArgument(gitRepo.projectRepositoryUrl()),testSubprocessExecutionContext.getDefaultEnvironmentVariables());
+}

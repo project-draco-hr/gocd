@@ -10,5 +10,5 @@
   map.put("pipeline-quux",BuildCause.createManualForced());
   when(pipelineScheduleQueue.toBeScheduled()).thenReturn(map);
   service.autoSchedulePipelinesFromRequestBuffer();
-  verify(serverHealthService).update(new ServerHealthState(HealthStateLevel.ERROR,HealthStateType.general(HealthStateScope.forStage("pipeline-quux","stage-baz")),"Failed to trigger stage [stage-baz] pipeline [pipeline-quux]","foo",Timeout.TWO_MINUTES));
+  verify(serverHealthService).update(ServerHealthState.failedToScheduleStage(HealthStateType.general(HealthStateScope.forStage("pipeline-quux","stage-baz")),"pipeline-quux","stage-baz","foo"));
 }

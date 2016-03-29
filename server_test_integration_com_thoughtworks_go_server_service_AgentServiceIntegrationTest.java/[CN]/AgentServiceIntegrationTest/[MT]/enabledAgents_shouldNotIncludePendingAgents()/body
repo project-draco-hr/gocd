@@ -6,7 +6,7 @@
   createEnvironment("uat");
   EnvironmentConfig environment=environmentConfigService.named("uat");
   environment.addAgent(UUID);
-  AgentInstances instances=new AgentInstances(null,idle,pending,building,denied);
+  AgentInstances instances=new AgentInstances(null,new SystemEnvironment(),idle,pending,building,denied);
   AgentService agentService=getAgentService(instances);
   AgentsViewModel agents=agentService.registeredAgents();
   assertThat(agents.size(),is(3));

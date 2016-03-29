@@ -1,11 +1,12 @@
 {
+  initMocks(this);
   virtual=AgentInstanceMother.virtual();
-  idle=AgentInstanceMother.idle(new Date(),"CCeDev01");
+  idle=AgentInstanceMother.idle(new Date(),"CCeDev01",systemEnvironment);
   AgentInstanceMother.updateOS(idle,"linux");
-  building=AgentInstanceMother.building();
+  building=AgentInstanceMother.building("buildLocator",systemEnvironment);
   AgentInstanceMother.updateOS(building,"macOS");
-  pending=AgentInstanceMother.pending();
+  pending=AgentInstanceMother.pending(systemEnvironment);
   AgentInstanceMother.updateOS(pending,"windows");
-  disabled=AgentInstanceMother.disabled();
-  local=AgentInstanceMother.local();
+  disabled=AgentInstanceMother.disabled("10.18.5.4",systemEnvironment);
+  local=AgentInstanceMother.local(systemEnvironment);
 }

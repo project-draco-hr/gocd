@@ -1,8 +1,8 @@
 {
   String[] syncArgs=new String[]{"submodule","sync"};
-  CommandLine syncCmd=git().withArgs(syncArgs).withWorkingDir(workingDir);
+  CommandLine syncCmd=git(environment).withArgs(syncArgs).withWorkingDir(workingDir);
   runOrBomb(syncCmd);
   String[] foreachArgs=new String[]{"submodule","foreach","--recursive","git","submodule","sync"};
-  CommandLine foreachCmd=git().withArgs(foreachArgs).withWorkingDir(workingDir);
+  CommandLine foreachCmd=git(environment).withArgs(foreachArgs).withWorkingDir(workingDir);
   runOrBomb(foreachCmd);
 }

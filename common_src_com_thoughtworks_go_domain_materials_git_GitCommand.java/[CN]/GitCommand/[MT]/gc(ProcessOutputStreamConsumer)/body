@@ -1,5 +1,5 @@
 {
   outputStreamConsumer.stdOutput("[GIT] Performing git gc");
-  CommandLine gitGc=git().withArgs("gc","--auto").withWorkingDir(workingDir);
+  CommandLine gitGc=git(environment).withArgs("gc","--auto").withWorkingDir(workingDir);
   return run(gitGc,outputStreamConsumer);
 }

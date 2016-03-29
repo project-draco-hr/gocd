@@ -1,6 +1,6 @@
 {
   String[] args=new String[]{"config","--get-regexp","^submodule\\..+\\.url"};
-  CommandLine gitCmd=git().withArgs(args).withWorkingDir(workingDir);
+  CommandLine gitCmd=git(environment).withArgs(args).withWorkingDir(workingDir);
   ConsoleResult result=runOrBomb(gitCmd,false);
   List<String> submoduleList=result.output();
   HashMap<String,String> submoduleUrls=new HashMap<String,String>();

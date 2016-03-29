@@ -1,0 +1,8 @@
+{
+  ServerHealthState warningState=ServerHealthState.warningWithHtml("\"<message1 & message2>\"","\"<message1 & message2>\"",HealthStateType.general(HealthStateScope.forPipeline("foo")));
+  ServerHealthState warningStateWithTime=ServerHealthState.warningWithHtml("\"<message1 & message2>\"","\"<message1 & message2>\"",HealthStateType.general(HealthStateScope.forPipeline("foo")),15L);
+  assertThat(warningState.getMessage(),is("\"<message1 & message2>\""));
+  assertThat(warningState.getDescription(),is("\"<message1 & message2>\""));
+  assertThat(warningStateWithTime.getMessage(),is("\"<message1 & message2>\""));
+  assertThat(warningStateWithTime.getDescription(),is("\"<message1 & message2>\""));
+}

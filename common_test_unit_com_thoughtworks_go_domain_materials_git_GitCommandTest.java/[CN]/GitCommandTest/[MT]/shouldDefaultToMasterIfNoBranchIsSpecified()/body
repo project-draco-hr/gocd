@@ -1,6 +1,6 @@
 {
-  assertThat((String)ReflectionUtil.getField(new GitCommand(null,gitLocalRepoDir,null,false),"branch"),Is.is("master"));
-  assertThat((String)ReflectionUtil.getField(new GitCommand(null,gitLocalRepoDir," ",false),"branch"),Is.is("master"));
-  assertThat((String)ReflectionUtil.getField(new GitCommand(null,gitLocalRepoDir,"master",false),"branch"),Is.is("master"));
-  assertThat((String)ReflectionUtil.getField(new GitCommand(null,gitLocalRepoDir,"branch",false),"branch"),Is.is("branch"));
+  assertThat((String)ReflectionUtil.getField(new GitCommand(null,gitLocalRepoDir,null,false,new HashMap<String,String>()),"branch"),Is.is("master"));
+  assertThat((String)ReflectionUtil.getField(new GitCommand(null,gitLocalRepoDir," ",false,new HashMap<String,String>()),"branch"),Is.is("master"));
+  assertThat((String)ReflectionUtil.getField(new GitCommand(null,gitLocalRepoDir,"master",false,new HashMap<String,String>()),"branch"),Is.is("master"));
+  assertThat((String)ReflectionUtil.getField(new GitCommand(null,gitLocalRepoDir,"branch",false,new HashMap<String,String>()),"branch"),Is.is("branch"));
 }

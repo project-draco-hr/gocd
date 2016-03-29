@@ -1,6 +1,6 @@
 {
   AgentInstance instance=AgentInstanceMother.building();
-  AgentService agentService=getAgentService(new AgentInstances(null,instance));
+  AgentService agentService=getAgentService(new AgentInstances(null,new SystemEnvironment(),instance));
   AgentInstances agents=agentService.findRegisteredAgents();
   String uuid=instance.agentConfig().getUuid();
   assertThat(agents.findAgentAndRefreshStatus(uuid).getStatus(),is(AgentStatus.Building));

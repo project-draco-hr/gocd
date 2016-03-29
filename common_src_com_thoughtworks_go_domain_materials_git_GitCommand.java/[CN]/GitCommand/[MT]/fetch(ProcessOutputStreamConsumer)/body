@@ -1,6 +1,6 @@
 {
   outputStreamConsumer.stdOutput("[GIT] Fetching changes");
-  CommandLine gitFetch=git().withArgs("fetch","origin").withWorkingDir(workingDir);
+  CommandLine gitFetch=git(environment).withArgs("fetch","origin").withWorkingDir(workingDir);
   int result=run(gitFetch,outputStreamConsumer);
   if (result != 0) {
     throw new RuntimeException(String.format("git fetch failed for [%s]",this.workingRepositoryUrl()));

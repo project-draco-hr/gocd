@@ -1,7 +1,7 @@
 {
   gitLocalRepoDir=createTempWorkingDirectory();
-  git=new GitCommand(null,gitLocalRepoDir,BRANCH,false);
-  GitCommand branchedGit=new GitCommand(null,gitLocalRepoDir,BRANCH,false);
+  git=new GitCommand(null,gitLocalRepoDir,BRANCH,false,new HashMap<String,String>());
+  GitCommand branchedGit=new GitCommand(null,gitLocalRepoDir,BRANCH,false,new HashMap<String,String>());
   branchedGit.cloneFrom(inMemoryConsumer(),gitFooBranchBundle.projectRepositoryUrl());
   InMemoryStreamConsumer output=inMemoryConsumer();
   CommandLine.createCommandLine("git").withEncoding("UTF-8").withArg("branch").withWorkingDir(gitLocalRepoDir).run(output,"");

@@ -3,7 +3,7 @@
   String submoduleDirectoryName="local-submodule";
   submoduleRepos.addSubmodule(SUBMODULE,submoduleDirectoryName);
   File cloneDirectory=createTempWorkingDirectory();
-  GitCommand clonedCopy=new GitCommand(null,cloneDirectory,GitMaterialConfig.DEFAULT_BRANCH,false);
+  GitCommand clonedCopy=new GitCommand(null,cloneDirectory,GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>());
   InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
   clonedCopy.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
   clonedCopy.resetWorkingDir(outputStreamConsumer,new StringRevision("HEAD"));

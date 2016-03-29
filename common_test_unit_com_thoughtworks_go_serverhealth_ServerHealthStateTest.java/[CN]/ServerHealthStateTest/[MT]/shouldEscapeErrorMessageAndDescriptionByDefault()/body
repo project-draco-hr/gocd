@@ -1,0 +1,5 @@
+{
+  ServerHealthState errorState=ServerHealthState.error("\"<message1 & message2>\"","\"<message1 & message2>\"",HealthStateType.general(HealthStateScope.forPipeline("foo")));
+  assertThat(errorState.getMessage(),is("&quot;&lt;message1 &amp; message2&gt;&quot;"));
+  assertThat(errorState.getDescription(),is("&quot;&lt;message1 &amp; message2&gt;&quot;"));
+}

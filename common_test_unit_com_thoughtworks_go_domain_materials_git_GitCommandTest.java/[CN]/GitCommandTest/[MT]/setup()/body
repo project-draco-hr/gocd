@@ -1,7 +1,7 @@
 {
   gitRepo=new GitTestRepo();
   gitLocalRepoDir=createTempWorkingDirectory();
-  git=new GitCommand(null,gitLocalRepoDir,GitMaterialConfig.DEFAULT_BRANCH,false);
+  git=new GitCommand(null,gitLocalRepoDir,GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>());
   repoLocation=gitRepo.gitRepository();
   repoUrl=gitRepo.projectRepositoryUrl();
   InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
@@ -10,4 +10,5 @@
     fail(outputStreamConsumer.getAllOutput());
   }
   gitFooBranchBundle=GitTestRepo.testRepoAtBranch(GIT_FOO_BRANCH_BUNDLE,BRANCH);
+  initMocks(this);
 }
