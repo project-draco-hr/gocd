@@ -1,0 +1,10 @@
+{
+  if (!systemEnvironment.isApiSafeModeEnabled()) {
+    return true;
+  }
+  String requestHeader=request.getHeader("Confirm");
+  if (requestHeader == null || !requestHeader.equalsIgnoreCase("true")) {
+    return false;
+  }
+  return true;
+}

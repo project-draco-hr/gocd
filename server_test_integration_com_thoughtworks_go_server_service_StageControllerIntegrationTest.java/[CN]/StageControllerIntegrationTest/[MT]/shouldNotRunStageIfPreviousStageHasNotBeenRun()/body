@@ -1,7 +1,7 @@
 {
   Pipeline pipeline=fixture.createPipelineWithFirstStagePassedAndSecondStageHasNotStarted();
   String thirdStage=fixture.stageName(3);
-  ModelAndView mav=controller.rerunStage(fixture.pipelineName,pipeline.getLabel(),thirdStage);
+  ModelAndView mav=controller.rerunStage(fixture.pipelineName,pipeline.getLabel(),thirdStage,response,request);
   Pipeline newPipeline=pipelineService.fullPipelineById(pipeline.getId());
   assertThat("Should not run " + thirdStage,newPipeline.getStages().hasStage(thirdStage),is(false));
   assertThat(((ResponseCodeView)mav.getView()).getStatusCode(),is(HttpServletResponse.SC_BAD_REQUEST));

@@ -1,5 +1,5 @@
 {
-  ModelAndView modelAndView=controller.rerunStage("pipeline","invalid-label","stage");
+  ModelAndView modelAndView=controller.rerunStage("pipeline","invalid-label","stage",response,request);
   ResponseCodeView codeView=(ResponseCodeView)modelAndView.getView();
   assertThat(codeView.getStatusCode(),is(HttpServletResponse.SC_BAD_REQUEST));
   assertThat(codeView.getContent(),is("Stage [pipeline/invalid-label/stage] not found"));
