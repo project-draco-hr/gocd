@@ -1,11 +1,12 @@
 {
   try {
-    ByteArrayOutputStream binaryOutput=new ByteArrayOutputStream();
-    try (ObjectOutputStream objectStream=new ObjectOutputStream(binaryOutput)){
-      objectStream.writeObject(work);
+    try (ByteArrayOutputStream binaryOutput=new ByteArrayOutputStream()){
+      try (ObjectOutputStream objectStream=new ObjectOutputStream(binaryOutput)){
+        objectStream.writeObject(work);
+      }
+       return Base64.encodeBase64String(binaryOutput.toByteArray());
     }
-     return Base64.encodeBase64String(binaryOutput.toByteArray());
-  }
+   }
  catch (  IOException e) {
     throw bomb(e);
   }

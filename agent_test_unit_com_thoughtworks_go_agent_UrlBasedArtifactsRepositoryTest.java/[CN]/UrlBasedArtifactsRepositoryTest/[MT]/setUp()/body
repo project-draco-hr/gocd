@@ -2,6 +2,6 @@
   httpService=mock(HttpService.class);
   artifactFolder=TestFileUtil.createTempFolder("artifact_folder");
   tempFile=TestFileUtil.createTestFile(artifactFolder,"file.txt");
-  console=new InMemoryConsumer();
+  console=new TestStreamConsumer();
   artifactsRepository=new UrlBasedArtifactsRepository(httpService,"http://baseurl/artifacts/","http://baseurl/properties/",new ZipUtil());
 }
