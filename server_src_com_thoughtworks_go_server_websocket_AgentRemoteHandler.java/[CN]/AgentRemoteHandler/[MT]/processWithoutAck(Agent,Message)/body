@@ -18,7 +18,7 @@ if (info.getCookie() == null) {
 }
 AgentInstruction instruction=this.buildRepositoryRemote.ping(info);
 if (instruction.isShouldCancelJob()) {
-cancelBuild(agent,info.getSupportsBuildCommandProtocol());
+agent.send(new Message(Action.cancelBuild));
 }
 break;
 case reportCurrentStatus:

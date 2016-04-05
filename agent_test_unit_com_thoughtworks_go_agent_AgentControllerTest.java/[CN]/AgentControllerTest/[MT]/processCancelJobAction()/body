@@ -15,7 +15,7 @@
 );
   buildingThread.start();
   waitForAgentRuntimeState(agentController.getAgentRuntimeInfo(),AgentRuntimeStatus.Building);
-  agentController.process(new Message(Action.cancelJob));
+  agentController.process(new Message(Action.cancelBuild));
   buildingThread.join(MAX_WAIT_IN_TEST);
   assertThat(agentController.getAgentRuntimeInfo().getRuntimeStatus(),is(AgentRuntimeStatus.Idle));
   verify(artifactsManipulator).setProperty(null,new Property("work1_result","done_canceled"));

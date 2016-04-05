@@ -13,5 +13,5 @@
   final JobInstance instance=jobInstanceService.buildByIdWithTransitions(jobPlan.getJobId());
   scheduleService.rescheduleJob(instance);
   assertThat(agent.messages.size(),is(2));
-  assertThat(agent.messages.get(1).getAction(),is(Action.cancelJob));
+  assertThat(agent.messages.get(1).getAction(),is(Action.cancelBuild));
 }

@@ -1,8 +1,9 @@
 {
 switch (message.getAction()) {
-case cancelJob:
+case cancelBuild:
     cancelJobIfThereIsOneRunning();
-  break;
+  cancelBuild();
+break;
 case setCookie:
 String cookie=MessageEncoding.decodeData(message.getData(),String.class);
 agentRuntimeInfo.setCookie(cookie);
@@ -26,9 +27,6 @@ case build:
 cancelBuild();
 BuildSettings buildSettings=MessageEncoding.decodeData(message.getData(),BuildSettings.class);
 runBuild(buildSettings);
-break;
-case cancelBuild:
-cancelBuild();
 break;
 case reregister:
 LOG.warn("Reregister: invalidate current agent certificate fingerprint {} and stop websocket client.",agentRegistry.uuid());

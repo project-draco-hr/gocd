@@ -3,8 +3,7 @@
     return;
   }
   Agent agent=agentSessions.get(uuid);
-  AgentInstance instance=agentService.findAgentAndRefreshStatus(uuid);
-  if (agent != null && instance != null) {
-    cancelBuild(agent,instance.getSupportsBuildCommandProtocol());
+  if (agent != null) {
+    agent.send(new Message(Action.cancelBuild));
   }
 }

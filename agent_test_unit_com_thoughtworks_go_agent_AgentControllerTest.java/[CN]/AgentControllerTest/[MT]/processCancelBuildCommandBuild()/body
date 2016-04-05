@@ -3,6 +3,7 @@
   when(httpService.httpClient()).thenReturn(httpClient);
   agentController=createAgentController();
   agentController.init();
+  agentController.getAgentRuntimeInfo().setSupportsBuildCommandProtocol(true);
   final BuildSettings build=new BuildSettings();
   build.setBuildId("b001");
   build.setConsoleUrl("http://foo.bar/console");
