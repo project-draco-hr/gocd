@@ -1,0 +1,18 @@
+{
+  when(serverConfigService.elasticJobStarvationThreshold()).thenReturn(0L);
+  JobPlan plan1=plan(1);
+  ArgumentCaptor<ServerHealthState> captorForHealthState=ArgumentCaptor.forClass(ServerHealthState.class);
+  ArgumentCaptor<CreateAgentMessage> captor=ArgumentCaptor.forClass(CreateAgentMessage.class);
+  service.createAgentsFor(new ArrayList<JobPlan>(),Arrays.asList(plan1));
+  service.createAgentsFor(Arrays.asList(plan1),Arrays.asList(plan1));
+  verify(createAgentQueue,times(2)).post(captor.capture());
+  CreateAgentMessage createAgentMessage=captor.getValue();
+  assertThat(createAgentMessage.autoregisterKey(),is(autoRegisterKey));
+  assertThat(createAgentMessage.pluginId(),is(plan1.getJobAgentConfig().getPluginId()));
+  assertThat(createAgentMessage.configuration(),is(plan1.getJobAgentConfig().getConfigurationAsMap(true)));
+  verifyNoMoreInteractions(createAgentQueue);
+  verify(serverHealthService,times(2)).update(captorForHealthState.capture());
+  ServerHealthState serverHealthState=captorForHealthState.getValue();
+  assertThat(serverHealthState.getLogLevel(),is(HealthStateLevel.OK));
+  assertThat(serverHealthState.getType(),is(HealthStateType.autoregisterKeyRequired()));
+}

@@ -1,0 +1,33 @@
+{
+  if (StringUtil.isBlank(serverConfigService.getAutoregisterKey())) {
+    String description="Auto-register agent key needs to be setup for elastic agent feature to work.";
+    serverHealthService.update(ServerHealthState.error("Auto-register agent key is not setup",description,HealthStateType.autoregisterKeyRequired()));
+    LOGGER.warn(description);
+    return;
+  }
+ else {
+    serverHealthService.update(ServerHealthState.success(HealthStateType.autoregisterKeyRequired()));
+  }
+  Collection<JobPlan> starvingJobs=new ArrayList<>();
+  for (  JobPlan jobPlan : newPlan) {
+    if (jobPlan.requiresElasticAgent()) {
+      if (!map.containsKey(jobPlan.getJobId())) {
+        continue;
+      }
+      long lastTryTime=map.get(jobPlan.getJobId());
+      if ((timeProvider.currentTimeMillis() - lastTryTime) >= serverConfigService.elasticJobStarvationThreshold()) {
+        starvingJobs.add(jobPlan);
+      }
+    }
+  }
+  ArrayList<JobPlan> jobsThatRequireAgent=new ArrayList<>();
+  jobsThatRequireAgent.addAll(disjunction(old,newPlan));
+  jobsThatRequireAgent.addAll(starvingJobs);
+  for (  JobPlan plan : jobsThatRequireAgent) {
+    if (plan.requiresElasticAgent()) {
+      String environment=environmentConfigService.envForPipeline(plan.getPipelineName());
+      map.put(plan.getJobId(),timeProvider.currentTimeMillis());
+      createAgentQueue.post(new CreateAgentMessage(serverConfigService.getAutoregisterKey(),environment,plan.getJobAgentConfig()));
+    }
+  }
+}

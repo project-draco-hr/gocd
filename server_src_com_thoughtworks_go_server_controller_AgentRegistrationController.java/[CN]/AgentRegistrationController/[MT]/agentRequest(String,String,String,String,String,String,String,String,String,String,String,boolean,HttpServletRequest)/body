@@ -10,14 +10,24 @@
       preferredHostname=getPreferredHostname(agentAutoRegisterHostname,hostname);
       LOG.info("[Agent Auto Registration] Auto registering agent with uuid {} ",uuid);
     }
+ else {
+      if (elasticAgentAutoregistrationInfoPresent(elasticAgentId,elasticPluginId)) {
+        throw new RuntimeException(String.format("Elastic agent registration requires an auto-register agent key to be setup on the server. Agent-id: [%s], Plugin-id: [%s]",elasticAgentId,elasticPluginId));
+      }
+    }
     AgentConfig agentConfig=new AgentConfig(uuid,preferredHostname,ipAddress);
-    agentConfig.setElasticAgentId(elasticAgentId);
-    agentConfig.setElasticPluginId(elasticPluginId);
+    if (partialElasticAgentAutoregistrationInfo(elasticAgentId,elasticPluginId)) {
+      throw new RuntimeException("Elastic agents must submit both elasticAgentId and elasticPluginId");
+    }
+    if (elasticAgentAutoregistrationInfoPresent(elasticAgentId,elasticPluginId)) {
+      agentConfig.setElasticAgentId(elasticAgentId);
+      agentConfig.setElasticPluginId(elasticPluginId);
+    }
     if (goConfigService.serverConfig().shouldAutoRegisterAgentWith(agentAutoRegisterKey)) {
       LOG.info(String.format("[Agent Auto Registration] Auto registering agent with uuid %s ",uuid));
       GoConfigDao.CompositeConfigCommand compositeConfigCommand=new GoConfigDao.CompositeConfigCommand(new AgentConfigService.AddAgentCommand(agentConfig),new UpdateResourceCommand(uuid,agentAutoRegisterResources),new UpdateEnvironmentsCommand(uuid,agentAutoRegisterEnvironments));
       HttpOperationResult result=new HttpOperationResult();
-      agentConfig=agentConfigService.updateAgent(compositeConfigCommand,uuid,result,Username.ANONYMOUS);
+      agentConfig=agentConfigService.updateAgent(compositeConfigCommand,uuid,result,agentService.agentUsername(uuid,ipAddress,preferredHostname));
       if (!result.isSuccess()) {
         List<ConfigErrors> errors=com.thoughtworks.go.config.ErrorCollector.getAllErrors(agentConfig);
         throw new GoConfigInvalidException(null,new AllConfigErrors(errors).asString());

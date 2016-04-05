@@ -1,10 +1,4 @@
 {
-  ArrayList<PluginDescriptor> plugins=new ArrayList<>();
-  plugins.add(new GoPluginDescriptor("p1",null,null,null,null,true));
-  plugins.add(new GoPluginDescriptor("p2",null,null,null,null,true));
-  when(registry.getPlugins()).thenReturn(plugins);
-  when(agentService.allElasticAgents()).thenReturn(new LinkedMultiValueMap<String,ElasticAgentMetadata>());
-  ElasticAgentPluginService service=new ElasticAgentPluginService(pluginManager,registry,agentService,environmentConfigService,null,serverPingQueue,null);
   service.heartbeat();
   ArgumentCaptor<ServerPingMessage> captor=ArgumentCaptor.forClass(ServerPingMessage.class);
   verify(serverPingQueue,times(2)).post(captor.capture());

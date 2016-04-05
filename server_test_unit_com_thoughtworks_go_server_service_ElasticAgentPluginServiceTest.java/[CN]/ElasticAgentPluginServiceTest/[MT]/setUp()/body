@@ -1,3 +1,11 @@
 {
   initMocks(this);
+  ArrayList<PluginDescriptor> plugins=new ArrayList<>();
+  plugins.add(new GoPluginDescriptor("p1",null,null,null,null,true));
+  plugins.add(new GoPluginDescriptor("p2",null,null,null,null,true));
+  when(registry.getPlugins()).thenReturn(plugins);
+  when(agentService.allElasticAgents()).thenReturn(new LinkedMultiValueMap<String,ElasticAgentMetadata>());
+  timeProvider=new TimeProvider();
+  service=new ElasticAgentPluginService(pluginManager,registry,agentService,environmentConfigService,createAgentQueue,serverPingQueue,serverConfigService,timeProvider,serverHealthService);
+  when(serverConfigService.getAutoregisterKey()).thenReturn(autoRegisterKey);
 }
