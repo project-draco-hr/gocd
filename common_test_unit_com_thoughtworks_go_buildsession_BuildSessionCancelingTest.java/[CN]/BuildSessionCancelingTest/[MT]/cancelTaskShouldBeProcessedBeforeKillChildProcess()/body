@@ -1,0 +1,16 @@
+{
+  final BuildSession buildSession=newBuildSession();
+  final BuildCommand printSubProcessCount=exec("/bin/bash","-c","pgrep -P " + new JavaSysMon().currentPid() + " | wc -l");
+  Thread buildingThread=new Thread(new Runnable(){
+    @Override public void run(){
+      buildSession.build(compose(compose(execSleepScript(50),echo("after sleep")).setOnCancel(printSubProcessCount)));
+    }
+  }
+);
+  buildingThread.start();
+  waitUntilSubProcessExists(execSleepScriptProcessCommand());
+  assertTrue(buildInfo(),buildSession.cancel(30,TimeUnit.SECONDS));
+  waitUntilSubProcessNotExists(execSleepScriptProcessCommand());
+  assertThat(console.lastLine().trim(),is("1"));
+  buildingThread.join();
+}

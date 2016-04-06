@@ -1,0 +1,20 @@
+{
+  final BuildSession buildSession=newBuildSession();
+  Thread buildingThread=new Thread(new Runnable(){
+    @Override public void run(){
+      buildSession.build(compose(compose(execSleepScript(50).setOnCancel(echo("exec canceled")),echo("after sleep")).setOnCancel(echo("inner oncancel"))).setOnCancel(echo("outter oncancel")));
+    }
+  }
+);
+  buildingThread.start();
+  waitUntilSubProcessExists(execSleepScriptProcessCommand());
+  assertTrue(buildInfo(),buildSession.cancel(30,TimeUnit.SECONDS));
+  waitUntilSubProcessNotExists(execSleepScriptProcessCommand());
+  assertThat(subProcessWithNameExists(execSleepScriptProcessCommand()),is(false));
+  assertThat(buildInfo(),getLast(statusReporter.results()),is(Cancelled));
+  assertThat(buildInfo(),console.output(),not(containsString("after sleep")));
+  assertThat(buildInfo(),console.output(),containsString("exec canceled"));
+  assertThat(buildInfo(),console.output(),containsString("inner oncancel"));
+  assertThat(buildInfo(),console.output(),containsString("outter oncancel"));
+  buildingThread.join();
+}

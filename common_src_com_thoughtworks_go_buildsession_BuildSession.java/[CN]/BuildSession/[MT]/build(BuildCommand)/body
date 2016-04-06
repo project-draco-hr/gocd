@@ -10,8 +10,15 @@
     try {
       buildStateReporter.reportCompleted(buildId,buildResult);
     }
-  finally {
-      doneLatch.countDown();
+ catch (    Exception e) {
+      reportException(e);
     }
+    try {
+      executorService.shutdownNow();
+    }
+ catch (    Exception e) {
+      reportException(e);
+    }
+    doneLatch.countDown();
   }
 }

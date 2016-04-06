@@ -12,7 +12,7 @@
   }
 );
   buildThread.start();
-  console.waitForContain("before sleep",5);
+  console.waitForContain("before sleep",Timeout.FIVE_SECONDS);
   assertTrue(buildSession.cancel(30,TimeUnit.SECONDS));
   assertThat(statusReporter.status(),is(Arrays.asList(Preparing,Building,Completed)));
   assertThat(statusReporter.results(),is(Collections.singletonList(Cancelled)));

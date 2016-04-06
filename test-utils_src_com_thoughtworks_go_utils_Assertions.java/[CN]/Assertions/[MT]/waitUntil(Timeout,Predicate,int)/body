@@ -1,0 +1,24 @@
+{
+  long end=System.currentTimeMillis() + timeout.inMillis();
+  Exception e=null;
+  while (true) {
+    try {
+      if (predicate.call()) {
+        return;
+      }
+    }
+ catch (    Exception caught) {
+      System.err.println("retrying after catching exception in Assertions.waitUntil: " + caught);
+      e=caught;
+    }
+    boolean timedout=System.currentTimeMillis() > end;
+    if (timedout) {
+      break;
+    }
+ else {
+      sleepMillis(sleepInMillis);
+    }
+  }
+  String msg=e == null ? "wait timed out after " + timeout + " for: "+ predicate.toString() : e.getMessage();
+  throw new RuntimeException(msg,e);
+}

@@ -6,7 +6,7 @@
     }
     BuildCommand test=command.getTest();
     if (test != null) {
-      if (!newTestingSession(console).processCommand(test)) {
+      if (newTestingSession(console).build(test) != JobResult.Passed) {
         return true;
       }
     }
@@ -21,7 +21,7 @@
   }
  finally {
     if (isCanceled() && onCancelCommand != null) {
-      newCancelSession().processCommand(onCancelCommand);
+      newCancelSession().build(onCancelCommand);
     }
   }
 }

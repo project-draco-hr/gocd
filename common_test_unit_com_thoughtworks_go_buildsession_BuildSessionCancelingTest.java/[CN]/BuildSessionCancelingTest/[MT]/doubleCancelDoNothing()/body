@@ -19,17 +19,14 @@
 ;
   Thread cancelThread1=new Thread(cancel);
   Thread cancelThread2=new Thread(cancel);
-  try {
-    buildingThread.start();
-    console.waitForContain("start sleeping",5);
-    cancelThread1.start();
-    cancelThread2.start();
-    cancelThread1.join();
-    cancelThread2.join();
-    assertThat(buildInfo(),getLast(statusReporter.results()),is(Cancelled));
-    assertThat(buildInfo(),console.output(),not(containsString("after sleep")));
-  }
-  finally {
-    buildingThread.join();
-  }
+  buildingThread.start();
+  waitUntilSubProcessExists(execSleepScriptProcessCommand());
+  cancelThread1.start();
+  cancelThread2.start();
+  cancelThread1.join();
+  cancelThread2.join();
+  waitUntilSubProcessNotExists(execSleepScriptProcessCommand());
+  assertThat(buildInfo(),getLast(statusReporter.results()),is(Cancelled));
+  assertThat(buildInfo(),console.output(),not(containsString("after sleep")));
+  buildingThread.join();
 }
