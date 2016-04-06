@@ -3,5 +3,10 @@
     return true;
   }
   cancelLatch.countDown();
-  return doneLatch.await(timeout,timeoutUnit);
+  try {
+    return doneLatch.await(timeout,timeoutUnit);
+  }
+  finally {
+    new JavaSysMon().infanticide();
+  }
 }

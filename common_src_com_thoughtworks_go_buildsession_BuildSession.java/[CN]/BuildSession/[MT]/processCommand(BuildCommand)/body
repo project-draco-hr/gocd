@@ -3,7 +3,7 @@
     buildResult=JobResult.Cancelled;
     return false;
   }
-  LOG.debug("Processing build command {}",command);
+  LOG.debug("Processing build command {}",command.getName());
   BuildCommandExecutor executor=executors.get(command.getName());
   if (executor == null) {
     LOG.error("Unknown command: " + command.getName());

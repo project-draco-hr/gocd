@@ -11,7 +11,7 @@
   build.setPropertyBaseUrl("http://foo.bar/properties");
   build.setBuildLocator("build1");
   build.setBuildLocatorForDisplay("build1ForDisplay");
-  build.setBuildCommand(BuildCommand.compose(BuildSessionTest.execSleepScript(MAX_WAIT_IN_TEST / 1000),BuildCommand.reportCurrentStatus(JobState.Building)));
+  build.setBuildCommand(BuildCommand.compose(BuildSessionBasedTestCase.execSleepScript(MAX_WAIT_IN_TEST / 1000),BuildCommand.reportCurrentStatus(JobState.Building)));
   Thread buildingThread=new Thread(new Runnable(){
     @Override public void run(){
       try {

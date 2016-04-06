@@ -1,0 +1,12 @@
+{
+  CommandLine commandLine;
+  if (SystemUtil.isWindows()) {
+    commandLine=CommandLine.createCommandLine("cmd");
+    commandLine.withArg("/c");
+    commandLine.withArg(StringUtils.replace(cmd,"/","\\"));
+  }
+ else {
+    commandLine=CommandLine.createCommandLine(cmd);
+  }
+  return commandLine;
+}
