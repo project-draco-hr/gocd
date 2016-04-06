@@ -7,10 +7,22 @@
   }
 );
   buildingThread.start();
-  waitUntilSubProcessExists(execSleepScriptProcessCommand());
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),true);
   assertTrue(buildInfo(),buildSession.cancel(30,TimeUnit.SECONDS));
-  waitUntilSubProcessNotExists(execSleepScriptProcessCommand());
-  assertThat(subProcessWithNameExists(execSleepScriptProcessCommand()),is(false));
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),false);
+  JavaSysMon javaSysMon=new JavaSysMon();
+  final boolean[] exists={false};
+  javaSysMon.visitProcessTree(javaSysMon.currentPid(),new ProcessVisitor(){
+    @Override public boolean visit(    OsProcess osProcess,    int i){
+      String command=osProcess.processInfo().getName();
+      if (execSleepScriptProcessCommand().equals(command)) {
+        exists[0]=true;
+      }
+      return false;
+    }
+  }
+);
+  assertThat(exists[0],is(false));
   assertThat(buildInfo(),getLast(statusReporter.results()),is(Cancelled));
   assertThat(buildInfo(),console.output(),not(containsString("after sleep")));
   assertThat(buildInfo(),console.output(),containsString("exec canceled"));

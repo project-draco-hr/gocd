@@ -1,0 +1,15 @@
+{
+  JavaSysMon javaSysMon=new JavaSysMon();
+  final List<String> names=new ArrayList<>();
+  final int currentPid=javaSysMon.currentPid();
+  javaSysMon.visitProcessTree(currentPid,new ProcessVisitor(){
+    @Override public boolean visit(    OsProcess osProcess,    int i){
+      if (osProcess.processInfo().getPid() != currentPid) {
+        names.add(osProcess.processInfo().getName());
+      }
+      return false;
+    }
+  }
+);
+  return names;
+}

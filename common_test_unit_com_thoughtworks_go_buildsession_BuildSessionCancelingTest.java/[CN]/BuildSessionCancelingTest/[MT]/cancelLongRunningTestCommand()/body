@@ -7,9 +7,9 @@
   }
 );
   buildingThread.start();
-  waitUntilSubProcessExists(execSleepScriptProcessCommand());
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),true);
   assertTrue(buildInfo(),buildSession.cancel(30,TimeUnit.SECONDS));
-  waitUntilSubProcessNotExists(execSleepScriptProcessCommand());
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),false);
   assertThat(buildInfo(),getLast(statusReporter.results()),is(Cancelled));
   assertThat(buildInfo(),console.output(),not(containsString("after sleep")));
   buildingThread.join();

@@ -8,9 +8,9 @@
   }
 );
   buildingThread.start();
-  waitUntilSubProcessExists(execSleepScriptProcessCommand());
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),true);
   assertTrue(buildInfo(),buildSession.cancel(30,TimeUnit.SECONDS));
-  waitUntilSubProcessNotExists(execSleepScriptProcessCommand());
-  assertThat(console.lastLine().trim(),is("1"));
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),false);
+  assertThat(Integer.parseInt(console.lastLine().trim()),greaterThan(0));
   buildingThread.join();
 }
