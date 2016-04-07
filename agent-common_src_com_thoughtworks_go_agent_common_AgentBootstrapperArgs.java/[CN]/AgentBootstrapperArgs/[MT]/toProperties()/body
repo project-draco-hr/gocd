@@ -1,0 +1,9 @@
+{
+  Properties properties=new Properties();
+  properties.put(SERVER_URL,serverUrl.toString());
+  properties.put(SSL_MODE,sslVerificationMode.name());
+  if (rootCertFile != null) {
+    properties.put(ROOT_CERT_FILE,rootCertFile.getAbsoluteFile().toString());
+  }
+  return properties;
+}

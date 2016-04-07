@@ -1,0 +1,9 @@
+{
+  try {
+    agentCLI.parse("-help");
+    Assert.fail("Was expecting an exception!");
+  }
+ catch (  ExitException e) {
+    assertThat(e.getStatus(),is(0));
+  }
+}

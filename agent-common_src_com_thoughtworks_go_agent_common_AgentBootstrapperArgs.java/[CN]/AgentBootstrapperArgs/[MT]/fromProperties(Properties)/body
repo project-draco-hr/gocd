@@ -1,0 +1,14 @@
+{
+  try {
+    URL serverUrl=new URL(properties.getProperty(SERVER_URL));
+    File rootCertFile=null;
+    SslMode sslVerificationMode=SslMode.valueOf(properties.getProperty(SSL_MODE));
+    if (properties.containsKey(ROOT_CERT_FILE)) {
+      rootCertFile=new File(properties.getProperty(ROOT_CERT_FILE));
+    }
+    return new AgentBootstrapperArgs(serverUrl,rootCertFile,sslVerificationMode);
+  }
+ catch (  MalformedURLException e) {
+    throw new RuntimeException(e);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  URL serverUrl;
+  try {
+    serverUrl=new URL(value);
+  }
+ catch (  MalformedURLException e) {
+    throw new ParameterException(name + " is not a valid url");
+  }
+  if (!serverUrl.getProtocol().equalsIgnoreCase("https")) {
+    throw new ParameterException(name + " must be an HTTPS url and must begin with https://");
+  }
+  if (!serverUrl.toString().endsWith("/go") && !serverUrl.toString().endsWith("/go/")) {
+    throw new ParameterException(name + " must end with '/go' (https://localhost:8154/go)");
+  }
+}
