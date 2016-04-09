@@ -1,0 +1,4 @@
+{
+  runBuild(compose(reportCurrentStatus(Preparing),reportCurrentStatus(Building),reportCurrentStatus(Completing)),Passed);
+  assertThat(statusReporter.status(),is(Arrays.asList(Preparing,Building,Completing,Completed)));
+}

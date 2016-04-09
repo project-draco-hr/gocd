@@ -11,6 +11,6 @@
   }
 );
   assertNotNull(message.getAckId());
-  agentController.process(new Message(Action.ack,message.getAckId()));
+  agentController.process(new Message(Action.ack,MessageEncoding.encodeData(message.getAckId())));
   assertTrue(callbackIsCalled.get());
 }

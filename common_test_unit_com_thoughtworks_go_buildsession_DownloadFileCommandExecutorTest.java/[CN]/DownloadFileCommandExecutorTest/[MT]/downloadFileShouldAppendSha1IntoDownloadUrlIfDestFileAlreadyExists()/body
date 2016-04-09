@@ -1,0 +1,10 @@
+{
+  File dest=new File(sandbox,"bar.jar");
+  Files.write(Paths.get(dest.getPath()),"foobar".getBytes());
+  String sha1=java.net.URLEncoder.encode(StringUtil.sha1Digest(dest),"UTF-8");
+  httpService.setupDownload("http://far.far.away/foo.jar","content without sha1");
+  httpService.setupDownload("http://far.far.away/foo.jar?sha1=" + sha1,"content with sha1");
+  runBuild(downloadFile(map("url","http://far.far.away/foo.jar","dest","bar.jar")),Passed);
+  assertThat(console.output(),containsString("Saved artifact"));
+  assertThat(FileUtil.readContentFromFile(dest),is("content with sha1"));
+}

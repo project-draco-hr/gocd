@@ -3,11 +3,12 @@
   createPipelinesFolderIfNotExist();
   sslInfrastructureService.createSslInfrastructure();
   AgentIdentifier identifier=agentIdentifier();
+  Boolean buildCommandProtocolEnabled=new SystemEnvironment().get(SystemEnvironment.ENABLE_BUILD_COMMAND_PROTOCOL);
   if (agentAutoRegistrationProperties.isElastic()) {
     agentRuntimeInfo=ElasticAgentRuntimeInfo.fromAgent(identifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),systemEnvironment.getAgentLauncherVersion(),agentAutoRegistrationProperties.agentAutoRegisterElasticAgentId(),agentAutoRegistrationProperties.agentAutoRegisterElasticPluginId());
   }
  else {
-    agentRuntimeInfo=AgentRuntimeInfo.fromAgent(identifier,AgentStatus.Idle.getRuntimeStatus(),currentWorkingDirectory(),systemEnvironment.getAgentLauncherVersion());
+    agentRuntimeInfo=AgentRuntimeInfo.fromAgent(identifier,AgentStatus.Idle.getRuntimeStatus(),currentWorkingDirectory(),systemEnvironment.getAgentLauncherVersion(),buildCommandProtocolEnabled);
   }
   subprocessLogger.registerAsExitHook("Following processes were alive at shutdown: ");
 }

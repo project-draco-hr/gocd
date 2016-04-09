@@ -1,0 +1,9 @@
+{
+  String data="Some text whose checksum can be asserted";
+  String secondData="some more";
+  FileUtils.writeStringToFile(tempFile,data);
+  File anotherFile=new File(artifactFolder,"bond/james_bond/another_file");
+  FileUtils.writeStringToFile(anotherFile,secondData);
+  when(httpService.upload(eq("http://baseurl/artifacts/dest?attempt=1&buildId=build42"),eq(FileUtils.sizeOfDirectory(artifactFolder)),any(File.class),eq(expectedProperties(data,secondData)))).thenReturn(HttpServletResponse.SC_OK);
+  artifactsRepository.upload(console,artifactFolder,"dest","build42");
+}

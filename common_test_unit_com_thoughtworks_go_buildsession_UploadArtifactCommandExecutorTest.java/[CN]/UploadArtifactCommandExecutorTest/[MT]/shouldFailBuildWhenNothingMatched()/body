@@ -1,0 +1,6 @@
+{
+  FileUtil.createFilesByPath(sandbox,"logs/pic-1/fail.png","logs/pic-1/pass.png","logs/pic-2/cancel.png","logs/pic-2/complete.png","README");
+  runBuild(uploadArtifact("logs/picture","mypic",false),Failed);
+  assertThat(artifactsRepository.getFileUploaded().size(),is(0));
+  assertThat(console.output(),printedRuleDoesNotMatchFailure(sandbox.getPath(),"logs/picture"));
+}

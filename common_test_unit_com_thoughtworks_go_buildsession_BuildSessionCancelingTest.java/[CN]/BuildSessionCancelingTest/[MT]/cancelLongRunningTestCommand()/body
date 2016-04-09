@@ -1,0 +1,16 @@
+{
+  final BuildSession buildSession=newBuildSession();
+  Thread buildingThread=new Thread(new Runnable(){
+    @Override public void run(){
+      buildSession.build(compose(echo("after sleep").setTest(execSleepScript(50))));
+    }
+  }
+);
+  buildingThread.start();
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),true);
+  assertTrue(buildInfo(),buildSession.cancel(30,TimeUnit.SECONDS));
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),false);
+  assertThat(buildInfo(),getLast(statusReporter.results()),is(Cancelled));
+  assertThat(buildInfo(),console.output(),not(containsString("after sleep")));
+  buildingThread.join();
+}

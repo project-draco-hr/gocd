@@ -1,0 +1,6 @@
+{
+  createSrcFile("xmlfile");
+  runBuild(BuildCommand.generateProperty(TEST_PROPERTY,"xmlfile","//buildplan/@name"),JobResult.Passed);
+  assertThat(console.output(),containsString("Property " + TEST_PROPERTY + " = test created"));
+  assertThat(artifactsRepository.propertyValue(TEST_PROPERTY),is("test"));
+}

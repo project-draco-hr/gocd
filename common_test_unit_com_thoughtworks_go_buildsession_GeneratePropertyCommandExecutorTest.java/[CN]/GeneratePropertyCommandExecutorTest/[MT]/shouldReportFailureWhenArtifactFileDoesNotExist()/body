@@ -1,0 +1,6 @@
+{
+  runBuild(BuildCommand.generateProperty(TEST_PROPERTY,"not-exists.xml","//src"),JobResult.Passed);
+  assertThat(console.output(),containsString("Failed to create property"));
+  assertThat(console.output(),containsString(new File(sandbox,"not-exists.xml").getAbsolutePath()));
+  assertThat(artifactsRepository.propertyValue(TEST_PROPERTY),nullValue());
+}

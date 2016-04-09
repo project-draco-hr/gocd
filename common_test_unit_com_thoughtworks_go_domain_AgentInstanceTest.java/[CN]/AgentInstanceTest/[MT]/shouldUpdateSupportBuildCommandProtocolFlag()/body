@@ -1,0 +1,8 @@
+{
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  assertThat(agentInstance.getSupportsBuildCommandProtocol(),is(false));
+  agentInstance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false));
+  assertThat(agentInstance.getSupportsBuildCommandProtocol(),is(false));
+  agentInstance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,true));
+  assertThat(agentInstance.getSupportsBuildCommandProtocol(),is(true));
+}

@@ -1,6 +1,6 @@
 {
-  AgentRuntimeInfo info=new AgentRuntimeInfo(new AgentIdentifier("HostName","ipAddress","uuid"),AgentRuntimeStatus.Idle,null,null,null);
+  AgentRuntimeInfo info=new AgentRuntimeInfo(new AgentIdentifier("HostName","ipAddress","uuid"),AgentRuntimeStatus.Idle,null,null,null,false);
   JobIdentifier jobIdentifier=new JobIdentifier();
-  handler.process(agent,new Message(Action.reportCurrentStatus,new Report(info,jobIdentifier,JobState.Preparing)));
+  handler.process(agent,new Message(Action.reportCurrentStatus,MessageEncoding.encodeData(new Report(info,jobIdentifier,JobState.Preparing))));
   verify(remote).reportCurrentStatus(info,jobIdentifier,JobState.Preparing);
 }

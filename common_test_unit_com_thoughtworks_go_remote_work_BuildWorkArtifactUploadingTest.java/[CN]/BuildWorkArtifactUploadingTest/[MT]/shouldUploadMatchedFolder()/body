@@ -5,7 +5,7 @@
   BuildWork work=new BuildWork(buildAssigment);
   GoArtifactsManipulatorStub manipulator=new GoArtifactsManipulatorStub();
   AgentIdentifier agentIdentifier=new AgentIdentifier("somename","127.0.0.1",AGENT_UUID);
-  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),manipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  work.doWork(agentIdentifier,new FakeBuildRepositoryRemote(),manipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),packageAsRepositoryExtension,scmExtension,taskExtension);
   List<UploadEntry> entries=manipulator.uploadEntries();
   assertThat(entries,not(uploadFileToDestination(new File(buildWorkingDirectory.getPath() + "/logs/pic/fail.png"),"mypic/logs/pic")));
   assertThat(entries,not(uploadFileToDestination(new File(buildWorkingDirectory.getPath() + "/logs/pic/pass.png"),"mypic/logs/pic")));

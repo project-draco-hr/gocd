@@ -1,0 +1,4 @@
+{
+  runBuild(compose(fail("force failure"),echo("on failure").runIf("failed")),Failed);
+  assertThat(console.lastLine(),is("on failure"));
+}

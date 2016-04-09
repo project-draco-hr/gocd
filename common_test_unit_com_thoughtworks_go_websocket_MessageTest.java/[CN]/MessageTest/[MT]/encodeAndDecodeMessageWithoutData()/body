@@ -1,7 +1,7 @@
 {
-  byte[] msg=Message.encode(new Message(Action.ping));
-  Message decoded=Message.decode(new ByteArrayInputStream(msg));
+  byte[] msg=MessageEncoding.encodeMessage(new Message(Action.ping));
+  Message decoded=MessageEncoding.decodeMessage(new ByteArrayInputStream(msg));
   assertThat(decoded.getAction(),is(Action.ping));
   assertNull(decoded.getData());
-  assertEquals(decoded,Message.decode(new ByteArrayInputStream(msg)));
+  assertEquals(decoded,MessageEncoding.decodeMessage(new ByteArrayInputStream(msg)));
 }

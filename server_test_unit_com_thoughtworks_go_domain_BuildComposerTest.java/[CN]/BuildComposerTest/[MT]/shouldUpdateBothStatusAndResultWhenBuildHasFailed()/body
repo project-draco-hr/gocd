@@ -1,0 +1,5 @@
+{
+  build(WILL_FAIL,PIPELINE_NAME,true,false);
+  assertThat(statusReporter.status(),is(Arrays.asList(Preparing,Building,Completing,Completed)));
+  assertThat(getLast(statusReporter.results()),is(Failed));
+}

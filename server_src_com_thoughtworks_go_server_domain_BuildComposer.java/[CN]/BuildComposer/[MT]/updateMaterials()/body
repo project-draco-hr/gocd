@@ -1,0 +1,8 @@
+{
+  if (!assignment.getPlan().shouldFetchMaterials()) {
+    return echoWithPrefix("Skipping material update since stage is configured not to fetch materials");
+  }
+  MaterialRevisions materialRevisions=assignment.materialRevisions();
+  Materials materials=materialRevisions.getMaterials();
+  return BuildCommand.compose(materials.cleanUpCommand(workingDirectory()),echoWithPrefix("Start to update materials \n"),materialRevisions.updateToCommand(workingDirectory()));
+}

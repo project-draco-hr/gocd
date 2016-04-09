@@ -15,5 +15,7 @@
     session.close();
   }
   LOGGER.info("Connecting to websocket endpoint: " + urlService.getAgentRemoteWebSocketUrl());
-  session=client.connect(this,new URI(urlService.getAgentRemoteWebSocketUrl())).get();
+  ClientUpgradeRequest request=new ClientUpgradeRequest();
+  request.addExtensions("fragment;maxLength=" + client.getPolicy().getMaxBinaryMessageBufferSize());
+  session=client.connect(this,new URI(urlService.getAgentRemoteWebSocketUrl()),request).get();
 }

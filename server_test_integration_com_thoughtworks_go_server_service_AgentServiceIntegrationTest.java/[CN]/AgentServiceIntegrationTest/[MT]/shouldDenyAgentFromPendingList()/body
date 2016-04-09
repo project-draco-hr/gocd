@@ -1,6 +1,6 @@
 {
   AgentInstance pending=AgentInstanceMother.pending();
-  agentService.requestRegistration(AgentRuntimeInfo.fromServer(pending.agentConfig(),false,"var/lib",0L,"linux"));
+  agentService.requestRegistration(AgentRuntimeInfo.fromServer(pending.agentConfig(),false,"var/lib",0L,"linux",false));
   String uuid=pending.getUuid();
   HttpOperationResult operationResult=new HttpOperationResult();
   agentService.disableAgents(USERNAME,operationResult,Arrays.asList(uuid));

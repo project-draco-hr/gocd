@@ -1,0 +1,6 @@
+{
+  String repositoryUrl=new GitTestRepo().projectRepositoryUrl();
+  GitMaterial material=new GitMaterial(repositoryUrl,false);
+  updateTo(material,new RevisionContext(REVISION_1),JobResult.Passed);
+  assertThat(console.output(),containsString(format("Start updating %s at revision %s from %s","files",REVISION_1.getRevision(),repositoryUrl)));
+}

@@ -1,0 +1,5 @@
+{
+  runBuild(compose(secret("foo:bar@ssss.com","foo:******@ssss.com"),exec("echo","connecting to foo:bar@ssss.com"),exec("echo","connecting to foo:bar@tttt.com")),Passed);
+  assertThat(console.firstLine(),containsString("connecting to foo:******@ssss.com"));
+  assertThat(console.asList().get(1),containsString("connecting to foo:bar@tttt.com"));
+}

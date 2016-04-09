@@ -1,0 +1,6 @@
+{
+  build(WITH_SECRET_ENV_VAR,PIPELINE_NAME,true,false);
+  assertThat(console.output(),containsString("[go] setting environment variable 'foo' to value 'foo(******)'"));
+  assertThat(console.output(),containsString("[go] setting environment variable 'bar' to value '********'"));
+  assertThat(console.output(),not(containsString("i am a secret")));
+}

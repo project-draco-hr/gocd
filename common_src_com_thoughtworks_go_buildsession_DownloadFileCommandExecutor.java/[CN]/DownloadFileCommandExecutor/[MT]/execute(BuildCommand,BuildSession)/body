@@ -1,0 +1,36 @@
+{
+  URLService urlService=new URLService();
+  String url=urlService.prefixPartialUrl(command.getStringArg("url"));
+  String dest=command.getStringArg("dest");
+  String src=command.getStringArg("src");
+  File artifact=buildSession.resolveRelativeDir(command.getWorkingDirectory(),dest);
+  FileHandler handler=new FileHandler(artifact,src);
+  String checksumUrl=null;
+  ChecksumFileHandler checksumFileHandler=null;
+  if (command.hasArg("checksumUrl")) {
+    checksumUrl=new URLService().prefixPartialUrl(command.getStringArg("checksumUrl"));
+    File checksumFile;
+    if (command.hasArg("checksumFile")) {
+      checksumFile=buildSession.resolveRelativeDir(command.getWorkingDirectory(),command.getStringArg("checksumFile"));
+    }
+ else {
+      checksumFile=TempFiles.createUniqueFile("checksum");
+    }
+    checksumFileHandler=new ChecksumFileHandler(checksumFile);
+  }
+  boolean fileExist=artifact.exists();
+  if (LOG.isDebugEnabled()) {
+    LOG.debug("Requesting the file [" + artifact.getAbsolutePath() + "], exist? ["+ fileExist+ "]");
+  }
+  if (fileExist && artifact.isFile()) {
+    try {
+      url+="?sha1=" + java.net.URLEncoder.encode(StringUtil.sha1Digest(artifact),"UTF-8");
+    }
+ catch (    UnsupportedEncodingException e) {
+      LOG.error("Download error",e);
+      return false;
+    }
+  }
+  buildSession.download(handler,url,checksumFileHandler,checksumUrl);
+  return true;
+}

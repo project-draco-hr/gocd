@@ -1,0 +1,11 @@
+{
+  String destFolder="dest\\test\\sub-folder";
+  File basedir=new File(sandbox,"pipelines/pipeline1");
+  basedir.mkdirs();
+  File artifact=new File(basedir,"artifact");
+  artifact.createNewFile();
+  build(willUploadToDest("artifact",destFolder),PIPELINE_NAME,true,false);
+  assertThat("build should pass, console output is" + console.output(),getLast(statusReporter.results()),is(Passed));
+  assertThat(artifactsRepository.getFileUploaded().size(),is(1));
+  assertThat(artifactsRepository.getFileUploaded().get(0).file,is(artifact));
+}

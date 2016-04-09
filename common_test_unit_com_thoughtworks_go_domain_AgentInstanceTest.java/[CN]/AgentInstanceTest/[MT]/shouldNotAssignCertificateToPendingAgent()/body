@@ -1,5 +1,5 @@
 {
-  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",0L,"linux");
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",0L,"linux",false);
   AgentInstance agentInstance=AgentInstance.createFromLiveAgent(agentRuntimeInfo,systemEnvironment);
   Registration entry=agentInstance.assignCertification();
   assertThat(entry.getChain().length,is(0));

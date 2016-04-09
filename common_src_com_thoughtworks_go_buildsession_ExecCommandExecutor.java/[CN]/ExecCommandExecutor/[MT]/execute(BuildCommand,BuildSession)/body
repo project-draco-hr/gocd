@@ -1,0 +1,29 @@
+{
+  File workingDir=buildSession.resolveRelativeDir(command.getWorkingDirectory());
+  if (!workingDir.isDirectory()) {
+    String message="Working directory \"" + workingDir.getAbsolutePath() + "\" is not a directory!";
+    LOG.error(message);
+    buildSession.println(message);
+    return false;
+  }
+  String cmd=command.getStringArg("command");
+  String[] args=command.getArrayArg("args");
+  Map<String,String> secrets=buildSession.getSecretSubstitutions();
+  Set<String> leftSecrets=new HashSet<>(secrets.keySet());
+  CommandLine commandLine=createCommandLine(cmd);
+  for (  String arg : args) {
+    if (secrets.containsKey(arg)) {
+      leftSecrets.remove(arg);
+      commandLine.withArg(new SubstitutableCommandArgument(arg,secrets.get(arg)));
+    }
+ else {
+      commandLine.withArg(arg);
+    }
+  }
+  for (  String secret : leftSecrets) {
+    commandLine.withNonArgSecret(new SecretSubstitution(secret,secrets.get(secret)));
+  }
+  commandLine.withWorkingDir(workingDir);
+  commandLine.withEnv(buildSession.getEnvs());
+  return executeCommandLine(buildSession,commandLine) == 0;
+}

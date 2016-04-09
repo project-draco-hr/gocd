@@ -1,0 +1,7 @@
+{
+  build(WILL_PASS,PIPELINE_NAME,false,false);
+  assertThat(console.output(),containsString("Start to prepare"));
+  assertThat(console.output(),not(containsString("Start updating")));
+  assertThat(console.output(),containsString("Skipping material update since stage is configured not to fetch materials"));
+  assertThat(statusReporter.status().contains(JobState.Preparing),is(true));
+}

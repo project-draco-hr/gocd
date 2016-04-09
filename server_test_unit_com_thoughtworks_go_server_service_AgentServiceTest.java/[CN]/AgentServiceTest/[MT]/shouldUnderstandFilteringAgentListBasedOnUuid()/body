@@ -1,6 +1,6 @@
 {
-  AgentInstance instance1=AgentInstance.createFromLiveAgent(AgentRuntimeInfo.fromServer(new AgentConfig("uuid-1","host-1","192.168.1.2"),true,"/foo/bar",100l,"linux"),new SystemEnvironment());
-  AgentInstance instance3=AgentInstance.createFromLiveAgent(AgentRuntimeInfo.fromServer(new AgentConfig("uuid-3","host-3","192.168.1.4"),true,"/baz/quux",300l,"linux"),new SystemEnvironment());
+  AgentInstance instance1=AgentInstance.createFromLiveAgent(AgentRuntimeInfo.fromServer(new AgentConfig("uuid-1","host-1","192.168.1.2"),true,"/foo/bar",100l,"linux",false),new SystemEnvironment());
+  AgentInstance instance3=AgentInstance.createFromLiveAgent(AgentRuntimeInfo.fromServer(new AgentConfig("uuid-3","host-3","192.168.1.4"),true,"/baz/quux",300l,"linux",false),new SystemEnvironment());
   when(agentInstances.filter(Arrays.asList("uuid-1","uuid-3"))).thenReturn(Arrays.asList(instance1,instance3));
   AgentsViewModel agents=agentService.filter(Arrays.asList("uuid-1","uuid-3"));
   AgentViewModel view1=new AgentViewModel(instance1);

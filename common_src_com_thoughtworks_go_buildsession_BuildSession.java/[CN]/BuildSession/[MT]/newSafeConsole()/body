@@ -1,0 +1,8 @@
+{
+  ProcessOutputStreamConsumer processConsumer=new ProcessOutputStreamConsumer<>(console,console);
+  SafeOutputStreamConsumer streamConsumer=new SafeOutputStreamConsumer(processConsumer);
+  for (  String secret : secretSubstitutions.keySet()) {
+    streamConsumer.addSecret(new SecretSubstitution(secret,secretSubstitutions.get(secret)));
+  }
+  return streamConsumer;
+}

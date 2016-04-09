@@ -1,0 +1,7 @@
+{
+  BuildAssignment assignment=getAssigment(jobXml,pipelineName,fetchMaterials,cleanWorkingDir);
+  final BuildCommand buildCommand=new BuildComposer(assignment).compose();
+  buildSession=newBuildSession();
+  buildSession.setEnv("GO_SERVER_URL",SERVER_URL);
+  buildSession.build(buildCommand);
+}

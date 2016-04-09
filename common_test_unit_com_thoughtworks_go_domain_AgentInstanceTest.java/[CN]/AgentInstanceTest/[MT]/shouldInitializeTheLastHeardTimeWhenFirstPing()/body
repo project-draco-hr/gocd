@@ -2,7 +2,7 @@
   AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
   Date time=agentInstance.getLastHeardTime();
   assertThat(time,is(nullValue()));
-  agentInstance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
+  agentInstance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false));
   time=agentInstance.getLastHeardTime();
   assertThat(time,is(not(nullValue())));
 }

@@ -1,7 +1,7 @@
 {
   runner.setWork(work);
-  runner.handleInstruction(new AgentInstruction(true),new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
+  runner.handleInstruction(new AgentInstruction(true),new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false));
   assertThat(work.getCallCount(),is(1));
-  runner.handleInstruction(new AgentInstruction(true),new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
+  runner.handleInstruction(new AgentInstruction(true),new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false));
   assertThat(work.getCallCount(),is(1));
 }

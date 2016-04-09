@@ -1,0 +1,10 @@
+{
+  copyAndClose(source("TestResult.xml"),target("test-result.xml"));
+  runBuild(BuildCommand.generateTestReport(Collections.singletonList("test-reports/test-result.xml"),"test-out"),JobResult.Passed);
+  assertThat(artifactsRepository.getFileUploaded().size(),is(1));
+  assertThat(artifactsRepository.getFileUploaded().get(0).destPath,is("test-out"));
+  assertThat(artifactsRepository.propertyValue(TestReportGenerator.TOTAL_TEST_COUNT),is("206"));
+  assertThat(artifactsRepository.propertyValue(TestReportGenerator.FAILED_TEST_COUNT),is("0"));
+  assertThat(artifactsRepository.propertyValue(TestReportGenerator.IGNORED_TEST_COUNT),is("0"));
+  assertThat(artifactsRepository.propertyValue(TestReportGenerator.TEST_TIME),is("NaN"));
+}

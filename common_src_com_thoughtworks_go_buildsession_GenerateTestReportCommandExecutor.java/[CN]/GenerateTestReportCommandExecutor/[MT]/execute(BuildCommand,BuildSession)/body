@@ -1,0 +1,27 @@
+{
+  File workingDirectory=buildSession.resolveRelativeDir(command.getWorkingDirectory());
+  String uploadPath=command.getStringArg("uploadPath");
+  String[] sources=command.getArrayArg("srcs");
+  ArrayList<File> allFiles=findMatchedSourceFiles(buildSession,workingDirectory,sources);
+  if (allFiles.size() > 0) {
+    File tempFolder=null;
+    try {
+      tempFolder=FileUtil.createTempFolder();
+      File testResultSource=new File(tempFolder,"result");
+      testResultSource.mkdirs();
+      UnitTestReportGenerator generator=new UnitTestReportGenerator(buildSession.getPublisher(),testResultSource);
+      generator.generate(allFiles.toArray(new File[allFiles.size()]),uploadPath);
+    }
+  finally {
+      if (tempFolder != null) {
+        FileUtil.deleteFolder(tempFolder);
+      }
+    }
+  }
+ else {
+    String message="No files were found in the Test Results folders";
+    buildSession.printlnWithPrefix(message);
+    LOG.warn(message);
+  }
+  return true;
+}

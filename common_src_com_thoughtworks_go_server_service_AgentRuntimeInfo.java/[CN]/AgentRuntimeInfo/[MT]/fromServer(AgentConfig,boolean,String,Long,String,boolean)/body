@@ -1,0 +1,13 @@
+{
+  if (StringUtils.isEmpty(location)) {
+    throw new RuntimeException("Agent should not register without installation path.");
+  }
+  AgentStatus status=AgentStatus.Pending;
+  if (SystemUtil.isLocalIpAddress(agentConfig.getIpAddress()) || registeredAlready) {
+    status=AgentStatus.Idle;
+  }
+  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),status.getRuntimeStatus(),location,null,null,supportsBuildCommandProtocol);
+  agentRuntimeInfo.setUsableSpace(usablespace);
+  agentRuntimeInfo.operatingSystemName=operatingSystem;
+  return agentRuntimeInfo;
+}

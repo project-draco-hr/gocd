@@ -1,0 +1,7 @@
+{
+  File dest=new File(sandbox,"bar.jar");
+  httpService.setupDownload("http://far.far.away/foo.jar","some content");
+  runBuild(downloadFile(map("url","http://far.far.away/foo.jar","dest","bar.jar")),Passed);
+  assertThat(console.output(),containsString("without verifying the integrity"));
+  assertThat(FileUtil.readContentFromFile(dest),is("some content"));
+}

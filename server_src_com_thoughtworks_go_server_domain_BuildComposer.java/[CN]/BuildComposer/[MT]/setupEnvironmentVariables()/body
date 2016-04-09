@@ -1,0 +1,9 @@
+{
+  EnvironmentVariableContext context=environmentVariableContext();
+  ArrayList<BuildCommand> commands=new ArrayList<>();
+  commands.add(export("GO_SERVER_URL"));
+  for (  String property : context.getPropertyKeys()) {
+    commands.add(export(property,context.getProperty(property),context.isPropertySecure(property)));
+  }
+  return BuildCommand.compose(commands);
+}

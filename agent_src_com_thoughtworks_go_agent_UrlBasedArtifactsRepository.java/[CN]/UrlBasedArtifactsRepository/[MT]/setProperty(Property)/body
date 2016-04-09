@@ -1,0 +1,8 @@
+{
+  try {
+    httpService.postProperty(getPropertiesUrl(property.getKey()),property.getValue());
+  }
+ catch (  Exception e) {
+    throw new ArtifactPublishingException(format("Failed to set property %s with value %s",property.getKey(),property.getValue()),e);
+  }
+}

@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)getWork(MULTIPLE_RUN_IFS,PIPELINE_NAME);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),packageAsRepositoryExtension,scmExtension,taskExtension);
   String actual=artifactManipulator.consoleOut();
   assertThat(actual,containsString("[go] Current job status: passed."));
   assertThat(actual,containsString("[go] Start to execute task: <exec command=\"echo\" args=\"run when status is failed, passed or cancelled\" />."));

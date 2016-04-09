@@ -1,0 +1,45 @@
+{
+  final String ipAddress=request.getRemoteAddr();
+  if (LOG.isDebugEnabled()) {
+    LOG.debug(String.format("Processing registration request from agent [%s/%s]",hostname,ipAddress));
+  }
+  Registration keyEntry;
+  String preferredHostname=hostname;
+  try {
+    if (goConfigService.serverConfig().shouldAutoRegisterAgentWith(agentAutoRegisterKey)) {
+      preferredHostname=getPreferredHostname(agentAutoRegisterHostname,hostname);
+      LOG.info(String.format("[Agent Auto Registration] Auto registering agent with uuid %s ",uuid));
+      GoConfigDao.CompositeConfigCommand compositeConfigCommand=new GoConfigDao.CompositeConfigCommand(new ApproveAgentCommand(uuid,ipAddress,preferredHostname),new UpdateResourceCommand(uuid,agentAutoRegisterResources),new UpdateEnvironmentsCommand(uuid,agentAutoRegisterEnvironments));
+      goConfigService.updateConfig(compositeConfigCommand);
+    }
+    AgentConfig agentConfig=new AgentConfig(uuid,preferredHostname,ipAddress);
+    boolean registeredAlready=goConfigService.hasAgent(uuid);
+    long usablespace=Long.parseLong(usablespaceAsString);
+    AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromServer(agentConfig,registeredAlready,location,usablespace,operatingSystem,supportsBuildCommandProtocol);
+    if (elasticAgentAutoregistrationInfoPresent(elasticAgentId,elasticPluginId)) {
+      agentRuntimeInfo=ElasticAgentRuntimeInfo.fromServer(agentRuntimeInfo,elasticAgentId,elasticPluginId);
+    }
+    keyEntry=agentService.requestRegistration(agentRuntimeInfo);
+  }
+ catch (  Exception e) {
+    keyEntry=Registration.createNullPrivateKeyEntry();
+    LOG.error("Error occured during agent registration process: ",e);
+  }
+  final Registration anotherCopy=keyEntry;
+  return new ModelAndView(new View(){
+    public String getContentType(){
+      return "application/json";
+    }
+    public void render(    Map model,    HttpServletRequest request,    HttpServletResponse response) throws IOException {
+      ServletOutputStream servletOutputStream=null;
+      try {
+        servletOutputStream=response.getOutputStream();
+        servletOutputStream.print(anotherCopy.toJson());
+      }
+  finally {
+        IOUtils.closeQuietly(servletOutputStream);
+      }
+    }
+  }
+);
+}

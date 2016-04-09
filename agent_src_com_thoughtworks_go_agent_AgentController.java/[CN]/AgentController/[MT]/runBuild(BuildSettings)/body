@@ -1,0 +1,25 @@
+{
+  URLService urlService=new URLService();
+  ConsoleOutputTransmitter buildConsole=new ConsoleOutputTransmitter(new RemoteConsoleAppender(urlService.prefixPartialUrl(buildSettings.getConsoleUrl()),httpService,agentRuntimeInfo.getIdentifier()));
+  ArtifactsRepository artifactsRepository=new UrlBasedArtifactsRepository(httpService,urlService.prefixPartialUrl(buildSettings.getArtifactUploadBaseUrl()),urlService.prefixPartialUrl(buildSettings.getPropertyBaseUrl()),new ZipUtil());
+  DefaultBuildStateReporter buildStateReporter=new DefaultBuildStateReporter(websocketService,agentRuntimeInfo);
+  TimeProvider clock=new TimeProvider();
+  BuildVariables buildVariables=new BuildVariables(agentRuntimeInfo,clock);
+  BuildSession build=new BuildSession(buildSettings.getBuildId(),buildStateReporter,buildConsole,buildVariables,artifactsRepository,httpService,clock,new File("."));
+  this.buildSession.set(build);
+  build.setEnv("GO_SERVER_URL",new SystemEnvironment().getPropertyImpl("serviceUrl"));
+  agentRuntimeInfo.idle();
+  try {
+    agentRuntimeInfo.busy(new AgentBuildingInfo(buildSettings.getBuildLocatorForDisplay(),buildSettings.getBuildLocator()));
+    build.build(buildSettings.getBuildCommand());
+  }
+  finally {
+    try {
+      buildConsole.stop();
+    }
+  finally {
+      agentRuntimeInfo.idle();
+    }
+  }
+  this.buildSession.set(null);
+}

@@ -1,0 +1,5 @@
+{
+  runBuild(exec("echo","should not show").setWorkingDirectory("not-exists"),Failed);
+  assertThat(console.lineCount(),is(1));
+  assertThat(console.firstLine(),containsString("not-exists\" is not a directory!"));
+}

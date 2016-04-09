@@ -1,0 +1,4 @@
+{
+  runBuild(compose(echo("foo"),echo("on passing").runIf("any"),fail("force failure"),echo("on failure").runIf("any")),Failed);
+  assertThat(console.asList(),is(Arrays.asList("foo","on passing","force failure","on failure")));
+}

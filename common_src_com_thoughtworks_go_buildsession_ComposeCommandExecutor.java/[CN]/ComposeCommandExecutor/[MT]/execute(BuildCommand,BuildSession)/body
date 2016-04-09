@@ -1,0 +1,9 @@
+{
+  boolean success=true;
+  for (  BuildCommand sub : command.getSubCommands()) {
+    if (!buildSession.processCommand(sub)) {
+      success=false;
+    }
+  }
+  return success;
+}

@@ -3,7 +3,7 @@
   addAgent(agentConfig);
   AgentIdentifier agentIdentifier=agentConfig.getAgentIdentifier();
   String cookie=agentService.assignCookie(agentIdentifier);
-  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),cookie,null);
+  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),cookie,null,false);
   agentRuntimeInfo.idle();
   agentService.updateRuntimeInfo(agentRuntimeInfo);
   assertTrue(agentService.findAgentAndRefreshStatus(uuid).isIdle());

@@ -1,16 +1,17 @@
 {
 switch (message.getAction()) {
-case cancelJob:
+case cancelBuild:
     cancelJobIfThereIsOneRunning();
-  break;
+  cancelBuild();
+break;
 case setCookie:
-String cookie=(String)message.getData();
+String cookie=MessageEncoding.decodeData(message.getData(),String.class);
 agentRuntimeInfo.setCookie(cookie);
 LOG.info("Got cookie: {}",cookie);
 break;
 case assignWork:
 cancelJobIfThereIsOneRunning();
-Work work=(Work)message.getData();
+Work work=MessageEncoding.decodeWork(message.getData());
 LOG.debug("Got work from server: [{}]",work.description());
 agentRuntimeInfo.idle();
 runner=new JobRunner();
@@ -22,13 +23,18 @@ agentRuntimeInfo.idle();
 updateServerAgentRuntimeInfo();
 }
 break;
+case build:
+cancelBuild();
+BuildSettings buildSettings=MessageEncoding.decodeData(message.getData(),BuildSettings.class);
+runBuild(buildSettings);
+break;
 case reregister:
 LOG.warn("Reregister: invalidate current agent certificate fingerprint {} and stop websocket client.",agentRegistry.uuid());
 websocketService.stop();
 sslInfrastructureService.invalidateAgentCertificate();
 break;
 case ack:
-callbacks.remove(message.getData()).call();
+callbacks.remove(MessageEncoding.decodeData(message.getData(),String.class)).call();
 break;
 default :
 throw new RuntimeException("Unknown action: " + message.getAction());

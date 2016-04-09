@@ -1,0 +1,35 @@
+{
+  when(agentRegistry.uuid()).thenReturn(agentUuid);
+  when(httpService.httpClient()).thenReturn(httpClient);
+  agentController=createAgentController();
+  agentController.init();
+  agentController.getAgentRuntimeInfo().setSupportsBuildCommandProtocol(true);
+  final BuildSettings build=new BuildSettings();
+  build.setBuildId("b001");
+  build.setConsoleUrl("http://foo.bar/console");
+  build.setArtifactUploadBaseUrl("http://foo.bar/artifacts");
+  build.setPropertyBaseUrl("http://foo.bar/properties");
+  build.setBuildLocator("build1");
+  build.setBuildLocatorForDisplay("build1ForDisplay");
+  build.setBuildCommand(BuildCommand.compose(BuildSessionBasedTestCase.execSleepScript(MAX_WAIT_IN_TEST / 1000),BuildCommand.reportCurrentStatus(JobState.Building)));
+  Thread buildingThread=new Thread(new Runnable(){
+    @Override public void run(){
+      try {
+        agentController.process(new Message(Action.build,MessageEncoding.encodeData(build)));
+      }
+ catch (      InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+);
+  buildingThread.start();
+  waitForAgentRuntimeState(agentController.getAgentRuntimeInfo(),AgentRuntimeStatus.Building);
+  agentController.process(new Message(Action.cancelBuild));
+  buildingThread.join(MAX_WAIT_IN_TEST);
+  AgentRuntimeInfo agentRuntimeInfo=cloneAgentRuntimeInfo(agentController.getAgentRuntimeInfo());
+  agentRuntimeInfo.busy(new AgentBuildingInfo("build1ForDisplay","build1"));
+  agentRuntimeInfo.cancel();
+  verify(agentWebsocketService).sendAndWaitForAck(new Message(Action.reportCompleted,MessageEncoding.encodeData(new Report(agentRuntimeInfo,"b001",null,JobResult.Cancelled))));
+  assertThat(agentController.getAgentRuntimeInfo().getRuntimeStatus(),is(AgentRuntimeStatus.Idle));
+}

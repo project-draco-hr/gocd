@@ -1,9 +1,9 @@
 {
   AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,systemEnvironment);
-  agentInstance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
+  agentInstance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false));
   Date time=agentInstance.getLastHeardTime();
   Thread.sleep(1000);
-  agentInstance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null));
+  agentInstance.update(new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false));
   Date newtime=agentInstance.getLastHeardTime();
   assertThat(newtime.after(time),is(true));
 }

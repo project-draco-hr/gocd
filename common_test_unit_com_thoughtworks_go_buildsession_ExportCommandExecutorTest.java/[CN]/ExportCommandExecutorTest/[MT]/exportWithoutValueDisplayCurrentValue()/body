@@ -1,0 +1,6 @@
+{
+  runBuild(export("foo"),Passed);
+  assertThat(console.lastLine(),is("[go] setting environment variable 'foo' to value 'null'"));
+  runBuild(compose(export("foo","bar",false),export("foo")),Passed);
+  assertThat(console.lastLine(),is("[go] setting environment variable 'foo' to value 'bar'"));
+}

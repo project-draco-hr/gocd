@@ -1,0 +1,23 @@
+{
+  if (isCanceled()) {
+    buildResult=JobResult.Cancelled;
+    return false;
+  }
+  LOG.debug("Processing build command {}",command.getName());
+  BuildCommandExecutor executor=executors.get(command.getName());
+  if (executor == null) {
+    LOG.error("Unknown command: " + command.getName());
+    println("error: build command " + command.getName() + " is not supported. Please upgrade GoCD agent");
+    buildResult=JobResult.Failed;
+    return false;
+  }
+  boolean success=doProcess(command,executor);
+  if (isCanceled()) {
+    buildResult=JobResult.Cancelled;
+    return false;
+  }
+  if (!success) {
+    this.buildResult=JobResult.Failed;
+  }
+  return success;
+}

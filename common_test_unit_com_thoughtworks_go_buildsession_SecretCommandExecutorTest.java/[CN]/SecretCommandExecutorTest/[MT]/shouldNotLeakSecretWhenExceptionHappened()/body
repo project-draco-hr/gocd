@@ -1,0 +1,5 @@
+{
+  runBuild(compose(secret("the-answer-is-42"),error("error: the-answer-is-42")),Failed);
+  assertThat(console.output(),containsString("error: ******"));
+  assertThat(console.output(),not(containsString("the-anwser-is-42")));
+}

@@ -1,0 +1,24 @@
+{
+  if (isDone()) {
+    throw bomb("Shall not reuse a build session!");
+  }
+  try {
+    processCommand(command);
+    return buildResult;
+  }
+  finally {
+    try {
+      buildStateReporter.reportCompleted(buildId,buildResult);
+    }
+ catch (    Exception e) {
+      reportException(e);
+    }
+    try {
+      executorService.shutdownNow();
+    }
+ catch (    Exception e) {
+      reportException(e);
+    }
+    doneLatch.countDown();
+  }
+}

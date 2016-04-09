@@ -1,0 +1,5 @@
+{
+  runBuild(echo("foo").setTest(test("-eq","42",compose(fail("42")))),Passed);
+  assertThat(statusReporter.singleResult(),is(Passed));
+  assertThat(console.output(),containsString("foo"));
+}

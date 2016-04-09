@@ -1,0 +1,52 @@
+{
+  if (!file.exists()) {
+    String message="Failed to find " + file.getAbsolutePath();
+    consumeLineWithPrefix(console,message);
+    throw bomb(message);
+  }
+  int publishingAttempts=0;
+  Throwable lastException=null;
+  while (publishingAttempts < PUBLISH_MAX_RETRIES) {
+    File tmpDir=null;
+    try {
+      publishingAttempts++;
+      tmpDir=FileUtil.createTempFolder();
+      File dataToUpload=new File(tmpDir,file.getName() + ".zip");
+      zipUtil.zip(file,dataToUpload,Deflater.BEST_SPEED);
+      long size;
+      if (file.isDirectory()) {
+        size=FileUtils.sizeOfDirectory(file);
+      }
+ else {
+        size=file.length();
+      }
+      consumeLineWithPrefix(console,format("Uploading artifacts from %s to %s",file.getAbsolutePath(),getDestPath(destPath)));
+      String normalizedDestPath=normalizePath(destPath);
+      String url=getUploadUrl(buildId,normalizedDestPath,publishingAttempts);
+      int statusCode=httpService.upload(url,size,dataToUpload,artifactChecksums(file,normalizedDestPath));
+      if (statusCode == HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE) {
+        String message=format("Artifact upload for file %s (Size: %s) was denied by the server. This usually happens when server runs out of disk space.",file.getAbsolutePath(),size);
+        consumeLineWithPrefix(console,message);
+        LOGGER.error("[Artifact Upload] Artifact upload was denied by the server. This usually happens when server runs out of disk space.");
+        publishingAttempts=PUBLISH_MAX_RETRIES;
+        throw bomb(message + ".  HTTP return code is " + statusCode);
+      }
+      if (statusCode < HttpServletResponse.SC_OK || statusCode >= HttpServletResponse.SC_MULTIPLE_CHOICES) {
+        throw bomb("Failed to upload " + file.getAbsolutePath() + ".  HTTP return code is "+ statusCode);
+      }
+      return;
+    }
+ catch (    Throwable e) {
+      String message="Failed to upload " + file.getAbsolutePath();
+      LOGGER.error(message,e);
+      consumeLineWithPrefix(console,message);
+      lastException=e;
+    }
+ finally {
+      FileUtil.deleteFolder(tmpDir);
+    }
+  }
+  if (lastException != null) {
+    throw new RuntimeException(lastException);
+  }
+}

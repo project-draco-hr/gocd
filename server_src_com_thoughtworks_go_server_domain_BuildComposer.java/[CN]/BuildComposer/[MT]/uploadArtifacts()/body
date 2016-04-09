@@ -1,0 +1,7 @@
+{
+  List<BuildCommand> commands=new ArrayList<>();
+  for (  ArtifactPlan ap : assignment.getPlan().getArtifactPlans()) {
+    commands.add(uploadArtifact(ap.getSrc(),ap.getDest(),ap.getArtifactType().isTest()).setWorkingDirectory(workingDirectory()));
+  }
+  return BuildCommand.compose(reportAction("Start to upload"),BuildCommand.compose(commands),generateTestReport());
+}

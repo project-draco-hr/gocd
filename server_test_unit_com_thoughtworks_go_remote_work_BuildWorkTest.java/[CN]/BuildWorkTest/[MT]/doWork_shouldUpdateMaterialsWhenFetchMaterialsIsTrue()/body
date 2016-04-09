@@ -1,6 +1,7 @@
 {
   buildWork=(BuildWork)getWork(WILL_PASS,PIPELINE_NAME,true,false);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),packageAsRepositoryExtension,scmExtension,taskExtension);
   assertThat(artifactManipulator.consoleOut(),containsString("Start to prepare"));
   assertThat(buildRepository.states.contains(JobState.Preparing),is(true));
+  assertThat(artifactManipulator.consoleOut(),containsString("Start to update materials"));
 }

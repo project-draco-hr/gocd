@@ -1,0 +1,15 @@
+{
+  PemObject obj=new PemObject(type,data);
+  StringWriter out=new StringWriter();
+  PemWriter writer=new PemWriter(out);
+  try {
+    writer.writeObject(obj);
+  }
+ catch (  IOException e) {
+    throw bomb(e);
+  }
+ finally {
+    IOUtils.closeQuietly(writer);
+  }
+  return out.toString();
+}

@@ -1,5 +1,5 @@
 {
-  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
+  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false);
   AgentInstance instance=AgentInstance.createFromLiveAgent(agentRuntimeInfo,systemEnvironment);
   instance.deny();
   assertThat(instance.getStatus(),is(AgentStatus.Disabled));

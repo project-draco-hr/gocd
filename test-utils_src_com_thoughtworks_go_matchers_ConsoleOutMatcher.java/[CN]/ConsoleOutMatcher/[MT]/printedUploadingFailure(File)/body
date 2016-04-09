@@ -3,14 +3,9 @@
     public String consoleOut;
     public String message;
     public boolean matchesSafely(    String consoleOut){
-      try {
-        this.consoleOut=consoleOut;
-        this.message="Failed to upload " + file.getCanonicalPath();
-        return StringUtils.contains(consoleOut.toLowerCase(),message.toLowerCase());
-      }
- catch (      IOException e) {
-        return false;
-      }
+      this.consoleOut=consoleOut;
+      this.message="Failed to upload " + file.getAbsolutePath();
+      return StringUtils.contains(consoleOut.toLowerCase(),message.toLowerCase());
     }
     public void describeTo(    Description description){
       description.appendText("Expected console to contain [" + message + "] but was "+ consoleOut);

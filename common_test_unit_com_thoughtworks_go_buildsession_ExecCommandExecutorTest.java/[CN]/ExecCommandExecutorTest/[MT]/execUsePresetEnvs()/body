@@ -1,0 +1,6 @@
+{
+  BuildSession buildSession=newBuildSession();
+  buildSession.setEnv("GO_SERVER_URL","https://far.far.away/go");
+  runBuild(buildSession,execEchoEnv("GO_SERVER_URL"),Passed);
+  assertThat(console.output(),is("https://far.far.away/go"));
+}

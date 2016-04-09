@@ -1,0 +1,13 @@
+{
+  LogFixture logFixture=LogFixture.startListening();
+  try {
+    LogFixture.enableDebug();
+    runBuild(compose(secret("topsecret"),exec("not-not-not-exist","topsecret")),Failed);
+    String logs=ArrayUtil.join(logFixture.getMessages());
+    assertThat(logs,containsString("not-not-not-exist ******"));
+    assertThat(logs,not(containsString("topsecret")));
+  }
+  finally {
+    logFixture.stopListening();
+  }
+}

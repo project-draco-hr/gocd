@@ -1,0 +1,8 @@
+{
+  String[] argsArray=CommandLine.translateCommandLine(args);
+  BuildCommand exec=BuildCommand.exec(command,argsArray);
+  if (workingDir != null) {
+    exec.setWorkingDirectory(workingDir.getPath());
+  }
+  return exec;
+}

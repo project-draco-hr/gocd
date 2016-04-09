@@ -1,0 +1,5 @@
+{
+  artifactsRepository.setUploadError(new RuntimeException("upload failed"));
+  build(willUpload("cruise-output/log.xml"),PIPELINE_NAME,true,false);
+  assertThat(statusReporter.results(),containsResult(Failed));
+}

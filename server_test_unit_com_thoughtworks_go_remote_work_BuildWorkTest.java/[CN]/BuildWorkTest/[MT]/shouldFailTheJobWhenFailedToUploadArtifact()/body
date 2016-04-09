@@ -1,7 +1,7 @@
 {
   buildWork=(BuildWork)getWork(willUpload("cruise-output/log.xml"),PIPELINE_NAME);
   artifactManipulator=new GoArtifactsManipulatorStub(new HttpServiceStub(SC_NOT_ACCEPTABLE));
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),packageAsRepositoryExtension,scmExtension,taskExtension);
   String actual=artifactManipulator.consoleOut();
   File basedir=new File("pipelines/pipeline1");
   assertThat(actual,printedUploadingFailure(new File(basedir,"cruise-output/log.xml")));

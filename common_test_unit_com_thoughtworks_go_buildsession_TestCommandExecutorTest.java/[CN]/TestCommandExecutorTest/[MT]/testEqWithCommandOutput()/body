@@ -1,0 +1,5 @@
+{
+  runBuild(test("-eq","foo",echo("foo")),Passed);
+  runBuild(test("-eq","bar",echo("foo")),Failed);
+  assertThat(console.lineCount(),is(0));
+}

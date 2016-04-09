@@ -1,0 +1,9 @@
+{
+  GitMaterial material=new GitMaterial(new GitTestRepo().projectRepositoryUrl(),true);
+  updateTo(material,new RevisionContext(new StringRevision("origin/master")),JobResult.Passed);
+  File shouldNotBeRemoved=new File(new File(workingDir,".git"),"shouldNotBeRemoved");
+  FileUtils.writeStringToFile(shouldNotBeRemoved,"gundi");
+  assertThat(shouldNotBeRemoved.exists(),is(true));
+  updateTo(material,new RevisionContext(new StringRevision("origin/master")),JobResult.Passed);
+  assertThat("Should not have deleted whole folder",shouldNotBeRemoved.exists(),is(true));
+}

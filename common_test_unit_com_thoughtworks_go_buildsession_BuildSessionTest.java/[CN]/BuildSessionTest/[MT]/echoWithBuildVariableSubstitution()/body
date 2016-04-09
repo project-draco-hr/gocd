@@ -1,0 +1,7 @@
+{
+  runBuild(echo("hello ${test.foo}"),Passed);
+  assertThat(console.lastLine(),is("hello ${test.foo}"));
+  buildVariables.put("test.foo","world");
+  runBuild(echo("hello ${test.foo}"),Passed);
+  assertThat(console.lastLine(),is("hello world"));
+}

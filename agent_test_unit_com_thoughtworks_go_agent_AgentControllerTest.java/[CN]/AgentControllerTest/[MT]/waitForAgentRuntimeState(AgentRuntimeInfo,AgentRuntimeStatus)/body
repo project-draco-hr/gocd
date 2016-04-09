@@ -1,0 +1,12 @@
+{
+  int elapsed=0;
+  int waitStep=100;
+  while (elapsed <= MAX_WAIT_IN_TEST) {
+    if (runtimeInfo.getRuntimeStatus() == status) {
+      return;
+    }
+    Thread.sleep(waitStep);
+    elapsed+=waitStep;
+  }
+  throw new RuntimeException("wait for agent status '" + status.name() + "' timeout, current status is '"+ runtimeInfo.getRuntimeStatus().name()+ "'");
+}

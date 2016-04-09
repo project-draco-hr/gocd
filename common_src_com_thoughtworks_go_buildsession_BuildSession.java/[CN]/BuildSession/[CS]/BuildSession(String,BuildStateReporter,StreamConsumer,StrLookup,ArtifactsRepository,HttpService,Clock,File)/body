@@ -1,0 +1,17 @@
+{
+  this.buildId=buildId;
+  this.buildStateReporter=buildStateReporter;
+  this.console=console;
+  this.buildVariables=buildVariables;
+  this.artifactsRepository=artifactsRepository;
+  this.httpService=httpService;
+  this.clock=clock;
+  this.workingDir=workingDir;
+  this.envs=new HashMap<>();
+  this.secretSubstitutions=new HashMap<>();
+  this.buildResult=JobResult.Passed;
+  this.doneLatch=new CountDownLatch(1);
+  this.cancelLatch=new CountDownLatch(1);
+  this.downloadAction=new DownloadAction(httpService,getPublisher(),clock);
+  this.executorService=Executors.newCachedThreadPool();
+}

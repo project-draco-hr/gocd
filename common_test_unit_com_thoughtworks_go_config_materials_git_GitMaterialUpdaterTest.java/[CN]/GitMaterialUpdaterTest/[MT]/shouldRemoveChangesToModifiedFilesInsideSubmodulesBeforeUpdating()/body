@@ -1,0 +1,12 @@
+{
+  GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
+  String submoduleDirectoryName="local-submodule";
+  File remoteSubmoduleLocation=submoduleRepos.addSubmodule(SUBMODULE,submoduleDirectoryName);
+  GitMaterial material=new GitMaterial(submoduleRepos.projectRepositoryUrl(),true);
+  updateTo(material,new RevisionContext(new StringRevision("origin/HEAD")),JobResult.Passed);
+  File fileInSubmodule=allFilesIn(new File(workingDir,submoduleDirectoryName),"file-").get(0);
+  FileUtils.writeStringToFile(fileInSubmodule,"Some other new content.");
+  List<Modification> modifications=submoduleRepos.modifyOneFileInSubmoduleAndUpdateMainRepo(remoteSubmoduleLocation,submoduleDirectoryName,fileInSubmodule.getName(),"NEW CONTENT OF FILE");
+  updateTo(material,new RevisionContext(new StringRevision(modifications.get(0).getRevision())),JobResult.Passed);
+  assertThat(FileUtils.readFileToString(fileInSubmodule),Matchers.is("NEW CONTENT OF FILE"));
+}

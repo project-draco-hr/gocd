@@ -1,0 +1,12 @@
+{
+  String pipelineName="p1";
+  File workingdir=new File(sandbox,"pipelines/" + pipelineName);
+  workingdir.mkdirs();
+  new File(workingdir,"foo").createNewFile();
+  new File(workingdir,"bar").mkdirs();
+  assertThat(workingdir.listFiles().length,is(2));
+  build(WILL_PASS,pipelineName,false,true);
+  assertThat(statusReporter.results().contains(Passed),is(true));
+  assertThat(workingdir.exists(),is(true));
+  assertThat(workingdir.listFiles().length,is(0));
+}

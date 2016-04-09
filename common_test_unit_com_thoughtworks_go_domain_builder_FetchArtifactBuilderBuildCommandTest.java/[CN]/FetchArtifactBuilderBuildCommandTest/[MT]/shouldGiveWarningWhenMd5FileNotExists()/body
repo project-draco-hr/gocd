@@ -1,0 +1,7 @@
+{
+  httpService.setupDownload(format("%s/remoting/files/cruise/1/dev/1/windows/a.jar",new URLService().baseRemoteURL()),"some content");
+  FetchArtifactBuilder builder=getBuilder(new JobIdentifier("cruise",-1,"1","dev","1","windows",1L),"a.jar","foo",new FileHandler(new File("pipelines/cruise/foo/a.jar"),"a.jar"));
+  runBuilder(builder,JobResult.Passed);
+  assertThat(new File(sandbox,"pipelines/cruise/foo/a.jar").isFile(),is(true));
+  assertThat(console.output(),containsString("[WARN] The md5checksum property file was not found"));
+}

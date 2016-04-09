@@ -1,0 +1,11 @@
+{
+  updateTo(new GitMaterial(new GitTestRepo().projectRepositoryUrl(),true),new RevisionContext(new StringRevision("origin/master")),JobResult.Passed);
+  File shouldBeRemoved=new File(workingDir,"shouldBeRemoved");
+  shouldBeRemoved.createNewFile();
+  assertThat(shouldBeRemoved.exists(),is(true));
+  String repositoryUrl=new GitTestRepo().projectRepositoryUrl();
+  GitMaterial material=new GitMaterial(repositoryUrl,true);
+  updateTo(material,new RevisionContext(REVISION_4),JobResult.Passed);
+  assertThat(localRepoFor(material).workingRepositoryUrl().forCommandline(),is(repositoryUrl));
+  assertThat(shouldBeRemoved.exists(),is(false));
+}

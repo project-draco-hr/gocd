@@ -1,0 +1,17 @@
+{
+  final String src=command.getStringArg("src");
+  final String dest=command.getStringArg("dest");
+  final Boolean ignoreUnmatchError=command.getBooleanArg("ignoreUnmatchError");
+  final File rootPath=buildSession.resolveRelativeDir(command.getWorkingDirectory());
+  WildcardScanner scanner=new WildcardScanner(rootPath,src);
+  File[] files=scanner.getFiles();
+  if (files.length == 0) {
+    String message="The rule [" + src + "] cannot match any resource under ["+ rootPath+ "]";
+    buildSession.printlnWithPrefix(message);
+    return ignoreUnmatchError;
+  }
+  for (  File file : files) {
+    buildSession.upload(file,destURL(rootPath,file,src,dest));
+  }
+  return true;
+}

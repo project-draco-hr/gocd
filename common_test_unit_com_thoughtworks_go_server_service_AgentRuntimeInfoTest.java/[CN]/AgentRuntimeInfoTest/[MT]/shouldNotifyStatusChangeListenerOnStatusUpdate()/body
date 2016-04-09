@@ -1,6 +1,6 @@
 {
   final AgentRuntimeStatus[] oldAndNewStatus=new AgentRuntimeStatus[2];
-  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromServer(new AgentConfig("uuid","localhost","176.19.4.1"),true,"/var/lib",0L,"linux");
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromServer(new AgentConfig("uuid","localhost","176.19.4.1"),true,"/var/lib",0L,"linux",false);
   assertThat(agentRuntimeInfo.getRuntimeStatus(),is(AgentRuntimeStatus.Idle));
   assertThat(oldAndNewStatus[OLD_IDX],is(nullValue()));
   agentRuntimeInfo.setRuntimeStatus(AgentRuntimeStatus.Building,new AgentRuntimeStatus.ChangeListener(){

@@ -10,7 +10,8 @@
   builder.add(new FetchArtifactBuilder(new RunIfConfigs(),new NullBuilder(),"desc",jobPlan().getIdentifier(),"srcdir","dest",new FileHandler(workingDir,"src"),new ChecksumFileHandler(workingDir)));
   BuildAssignment assignment=BuildAssignment.create(jobPlan(),buildCause,builder,workingDir);
   BuildWork work=new BuildWork(assignment);
-  byte[] msg=Message.encode(new Message(Action.assignWork,work));
-  Message decodedMsg=Message.decode(new ByteArrayInputStream(msg));
-  assertThat(((BuildWork)decodedMsg.getData()).getAssignment().getPlan().getPipelineName(),is("pipelineName"));
+  byte[] msg=MessageEncoding.encodeMessage(new Message(Action.assignWork,MessageEncoding.encodeWork(work)));
+  Message decodedMsg=MessageEncoding.decodeMessage(new ByteArrayInputStream(msg));
+  BuildWork decodedWork=(BuildWork)MessageEncoding.decodeWork(decodedMsg.getData());
+  assertThat(decodedWork.getAssignment().getPlan().getPipelineName(),is("pipelineName"));
 }

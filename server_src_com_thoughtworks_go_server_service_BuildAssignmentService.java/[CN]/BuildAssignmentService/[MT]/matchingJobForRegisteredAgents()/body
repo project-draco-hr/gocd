@@ -20,7 +20,13 @@
     }
     Work work=assignWorkToAgent(agentInstance);
     if (work != NO_WORK) {
-      agent.send(new Message(Action.assignWork,work));
+      if (agentInstance.getSupportsBuildCommandProtocol()) {
+        BuildSettings buildSettings=createBuildSettings(((BuildWork)work).getAssignment());
+        agent.send(new Message(Action.build,MessageEncoding.encodeData(buildSettings)));
+      }
+ else {
+        agent.send(new Message(Action.assignWork,MessageEncoding.encodeWork(work)));
+      }
     }
   }
   if (LOGGER.isDebugEnabled()) {

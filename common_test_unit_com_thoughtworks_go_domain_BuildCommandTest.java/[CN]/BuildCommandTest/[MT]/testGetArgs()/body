@@ -1,0 +1,6 @@
+{
+  assertThat(new BuildCommand("foo",map("foo",new Gson().toJson(new String[]{"arg1","arg2"}))).getArrayArg("foo"),is(new String[]{"arg1","arg2"}));
+  assertThat(new BuildCommand("foo",map("foo","true")).getBooleanArg("foo"),is(true));
+  assertThat(new BuildCommand("foo",map("foo","true")).getBooleanArg("bar"),is(false));
+  assertThat(new BuildCommand("foo",map("foo","bar")).getStringArg("foo"),is("bar"));
+}

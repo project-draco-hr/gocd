@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)getWork(WILL_NOT_RUN,PIPELINE_NAME);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),packageAsRepositoryExtension,scmExtension,taskExtension);
   String actual=artifactManipulator.consoleOut();
   assertThat(actual,not(containsString("run when status is failed")));
 }

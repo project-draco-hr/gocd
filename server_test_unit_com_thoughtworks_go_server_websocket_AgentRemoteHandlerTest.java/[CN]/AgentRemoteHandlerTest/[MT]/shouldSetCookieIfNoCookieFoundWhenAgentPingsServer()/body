@@ -1,11 +1,11 @@
 {
   AgentIdentifier identifier=new AgentIdentifier("HostName","ipAddress","uuid");
-  AgentRuntimeInfo info=new AgentRuntimeInfo(identifier,AgentRuntimeStatus.Idle,null,null,null);
+  AgentRuntimeInfo info=new AgentRuntimeInfo(identifier,AgentRuntimeStatus.Idle,null,null,null,false);
   when(remote.getCookie(identifier,info.getLocation())).thenReturn("new cookie");
-  when(remote.ping(info)).thenReturn(new AgentInstruction(false));
-  handler.process(agent,new Message(Action.ping,info));
-  verify(remote).ping(info);
+  when(remote.ping(any(AgentRuntimeInfo.class))).thenReturn(new AgentInstruction(false));
+  handler.process(agent,new Message(Action.ping,MessageEncoding.encodeData(info)));
+  verify(remote).ping(withCookie(info,"new cookie"));
   assertEquals(1,agent.messages.size());
   assertEquals(agent.messages.get(0).getAction(),Action.setCookie);
-  assertEquals(agent.messages.get(0).getData(),"new cookie");
+  assertEquals(MessageEncoding.decodeData(agent.messages.get(0).getData(),String.class),"new cookie");
 }

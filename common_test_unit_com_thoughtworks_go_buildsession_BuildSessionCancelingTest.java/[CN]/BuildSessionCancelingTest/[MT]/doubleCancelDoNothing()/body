@@ -1,0 +1,32 @@
+{
+  final BuildSession buildSession=newBuildSession();
+  Thread buildingThread=new Thread(new Runnable(){
+    @Override public void run(){
+      buildSession.build(execSleepScript(50));
+    }
+  }
+);
+  Runnable cancel=new Runnable(){
+    @Override public void run(){
+      try {
+        buildSession.cancel(30,TimeUnit.SECONDS);
+      }
+ catch (      InterruptedException e) {
+        throw bomb(e);
+      }
+    }
+  }
+;
+  Thread cancelThread1=new Thread(cancel);
+  Thread cancelThread2=new Thread(cancel);
+  buildingThread.start();
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),true);
+  cancelThread1.start();
+  cancelThread2.start();
+  cancelThread1.join();
+  cancelThread2.join();
+  waitUntilSubProcessExists(execSleepScriptProcessCommand(),false);
+  assertThat(buildInfo(),getLast(statusReporter.results()),is(Cancelled));
+  assertThat(buildInfo(),console.output(),not(containsString("after sleep")));
+  buildingThread.join();
+}

@@ -1,0 +1,7 @@
+{
+  httpService.setupDownload("http://far.far.away/foo.jar","some content");
+  httpService.setupDownload("http://far.far.away/foo.jar.md5","foo.jar=9893532233caff98cd083a116b013c0b");
+  runBuild(downloadFile(map("url","http://far.far.away/foo.jar","dest","dest.jar","src","foo.jar","checksumUrl","http://far.far.away/foo.jar.md5")),Passed);
+  assertThat(console.output(),containsString(String.format("Saved artifact to [%s] after verifying the integrity of its contents",new File(sandbox,"dest.jar").getPath())));
+  assertThat(FileUtil.readContentFromFile(new File(sandbox,"dest.jar")),is("some content"));
+}

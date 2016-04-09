@@ -1,0 +1,7 @@
+{
+  FileUtil.createFilesByPath(sandbox,"logs/pic/fail.png","logs/pic/pass.png","README");
+  runBuild(uploadArtifact("logs/pic/*.png","mypic",false),Passed);
+  assertThat(artifactsRepository.isFileUploaded(new File(sandbox,"logs/pic/pass.png"),"mypic"),is(true));
+  assertThat(artifactsRepository.isFileUploaded(new File(sandbox,"logs/pic/fail.png"),"mypic"),is(true));
+  assertThat(artifactsRepository.isFileUploaded(new File(sandbox,"logs/pic"),"mypic"),is(false));
+}

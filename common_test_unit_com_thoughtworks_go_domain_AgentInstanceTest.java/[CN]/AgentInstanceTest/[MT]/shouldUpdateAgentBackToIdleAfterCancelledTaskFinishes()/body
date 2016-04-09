@@ -1,6 +1,6 @@
 {
   AgentInstance cancelled=AgentInstanceMother.cancelled();
-  AgentRuntimeInfo fromAgent=new AgentRuntimeInfo(cancelled.agentConfig().getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null);
+  AgentRuntimeInfo fromAgent=new AgentRuntimeInfo(cancelled.agentConfig().getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false);
   fromAgent.idle();
   cancelled.update(fromAgent);
   assertThat(cancelled.getStatus(),is(AgentStatus.Idle));

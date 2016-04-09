@@ -1,0 +1,8 @@
+{
+  if (SystemUtil.isWindows()) {
+    return exec("echo","%" + envname + "%");
+  }
+ else {
+    return exec("/bin/sh","-c",String.format("echo ${%s}",envname));
+  }
+}

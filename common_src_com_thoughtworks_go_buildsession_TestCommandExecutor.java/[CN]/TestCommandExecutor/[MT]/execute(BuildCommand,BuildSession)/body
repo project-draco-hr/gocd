@@ -1,0 +1,24 @@
+{
+  String flag=command.getStringArg("flag");
+  String left=command.getStringArg("left");
+  if ("-eq".equals(flag)) {
+    return left.equals(captureSubCommandOutput(command,buildSession));
+  }
+  if ("-neq".equals(flag)) {
+    return !left.equals(captureSubCommandOutput(command,buildSession));
+  }
+  File target=buildSession.resolveRelativeDir(command.getWorkingDirectory(),left);
+  if ("-d".equals(flag)) {
+    return target.isDirectory();
+  }
+  if ("-nd".equals(flag)) {
+    return !target.isDirectory();
+  }
+  if ("-f".equals(flag)) {
+    return target.isFile();
+  }
+  if ("-nf".equals(flag)) {
+    return !target.isFile();
+  }
+  throw bomb(format("Unknown flag %s for command: %s",flag,command));
+}

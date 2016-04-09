@@ -1,0 +1,18 @@
+{
+  File dir=buildSession.resolveRelativeDir(command.getWorkingDirectory(),command.getStringArg("path"));
+  String[] allowed=command.getArrayArg("allowed");
+  if (allowed.length == 0) {
+    try {
+      FileUtils.cleanDirectory(dir);
+    }
+ catch (    IOException e) {
+      return false;
+    }
+  }
+ else {
+    DirectoryCleaner cleaner=new DirectoryCleaner(dir,buildSession.processOutputStreamConsumer());
+    cleaner.allowed(allowed);
+    cleaner.clean();
+  }
+  return true;
+}

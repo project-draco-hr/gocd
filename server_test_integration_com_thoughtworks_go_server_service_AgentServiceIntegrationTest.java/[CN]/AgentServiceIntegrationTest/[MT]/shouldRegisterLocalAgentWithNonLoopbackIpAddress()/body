@@ -3,7 +3,7 @@
   InetAddress inetAddress=InetAddress.getByName(nonLoopbackIp);
   assertThat(SystemUtil.isLocalIpAddress(nonLoopbackIp),is(true));
   AgentConfig agentConfig=new AgentConfig("uuid",inetAddress.getHostName(),nonLoopbackIp);
-  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",0L,"linux");
+  AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",0L,"linux",false);
   agentService.requestRegistration(agentRuntimeInfo);
   AgentInstance agentInstance=agentService.findRegisteredAgents().findAgentAndRefreshStatus("uuid");
   assertThat(agentInstance.agentConfig().getIpAddress(),is(nonLoopbackIp));

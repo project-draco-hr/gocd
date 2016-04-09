@@ -1,6 +1,6 @@
 {
   buildWork=(BuildWork)getWork(WITH_ENV_VAR,PIPELINE_NAME);
-  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null),packageAsRepositoryExtension,scmExtension,taskExtension);
+  buildWork.doWork(agentIdentifier,buildRepository,artifactManipulator,environmentVariableContext,new AgentRuntimeInfo(agentIdentifier,AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false),packageAsRepositoryExtension,scmExtension,taskExtension);
   String consoleOut=artifactManipulator.consoleOut();
   assertThat(consoleOut,matches("'GO_SERVER_URL' (to|with) value '" + SERVER_URL));
   assertThat(consoleOut,matches("'GO_PIPELINE_LABEL' (to|with) value '" + PIPELINE_LABEL));

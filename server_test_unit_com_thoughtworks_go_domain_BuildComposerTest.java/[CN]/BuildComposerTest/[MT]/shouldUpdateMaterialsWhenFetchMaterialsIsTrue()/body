@@ -1,0 +1,6 @@
+{
+  build(WILL_PASS,PIPELINE_NAME,true,false);
+  assertThat(console.output(),containsString("Start to prepare"));
+  assertThat(console.output(),containsString("Start to update materials"));
+  assertThat(statusReporter.status().contains(JobState.Preparing),is(true));
+}

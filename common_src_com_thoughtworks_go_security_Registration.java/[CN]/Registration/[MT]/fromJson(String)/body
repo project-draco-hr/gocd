@@ -1,0 +1,23 @@
+{
+  Map map=new Gson().fromJson(json,Map.class);
+  List<Certificate> chain=new ArrayList<>();
+  try {
+    PemReader reader=new PemReader(new StringReader((String)map.get("agentPrivateKey")));
+    KeyFactory kf=KeyFactory.getInstance("RSA");
+    PKCS8EncodedKeySpec spec=new PKCS8EncodedKeySpec(reader.readPemObject().getContent());
+    PrivateKey privateKey=kf.generatePrivate(spec);
+    String agentCertificate=(String)map.get("agentCertificate");
+    PemReader certReader=new PemReader(new StringReader(agentCertificate));
+    while (true) {
+      PemObject obj=certReader.readPemObject();
+      if (obj == null) {
+        break;
+      }
+      chain.add(new X509CertImpl(obj.getContent()));
+    }
+    return new Registration(privateKey,chain.toArray(new Certificate[chain.size()]));
+  }
+ catch (  IOException|NoSuchAlgorithmException|CertificateException|InvalidKeySpecException e) {
+    throw bomb(e);
+  }
+}

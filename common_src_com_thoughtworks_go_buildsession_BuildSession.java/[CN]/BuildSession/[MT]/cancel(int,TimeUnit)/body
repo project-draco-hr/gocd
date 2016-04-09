@@ -1,0 +1,12 @@
+{
+  if (isCanceled()) {
+    return true;
+  }
+  cancelLatch.countDown();
+  try {
+    return doneLatch.await(timeout,timeoutUnit);
+  }
+  finally {
+    new JavaSysMon().infanticide();
+  }
+}

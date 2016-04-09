@@ -3,7 +3,7 @@
   when(goConfigService.hasAgent(uuid)).thenReturn(false);
   ServerConfig serverConfig=new ServerConfig("artifacts",new SecurityConfig(),10,20,"1","");
   when(goConfigService.serverConfig()).thenReturn(serverConfig);
-  controller.agentRequest("host",uuid,"location","233232","osx","","","","","","",request);
-  verify(agentService).requestRegistration(AgentRuntimeInfo.fromServer(new AgentConfig(uuid,"host",request.getRemoteAddr()),false,"location",233232L,"osx"));
+  controller.agentRequest("host",uuid,"location","233232","osx","","","","","","",false,request);
+  verify(agentService).requestRegistration(AgentRuntimeInfo.fromServer(new AgentConfig(uuid,"host",request.getRemoteAddr()),false,"location",233232L,"osx",false));
   verify(goConfigService,never()).updateConfig(any(UpdateConfigCommand.class));
 }

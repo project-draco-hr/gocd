@@ -1,11 +1,11 @@
 {
   agentController=createAgentController();
   agentController.init();
-  final SleepWork work1=new SleepWork();
+  final SleepWork work1=new SleepWork("work1",MAX_WAIT_IN_TEST);
   Thread work1Thread=new Thread(new Runnable(){
     @Override public void run(){
       try {
-        agentController.process(new Message(Action.assignWork,work1));
+        agentController.process(new Message(Action.assignWork,MessageEncoding.encodeWork(work1)));
       }
  catch (      InterruptedException e) {
         throw new RuntimeException(e);
@@ -14,12 +14,10 @@
   }
 );
   work1Thread.start();
-  work1.started.await(MAX_WAIT_IN_TEST,TimeUnit.MILLISECONDS);
-  SleepWork work2=new SleepWork(0);
-  agentController.process(new Message(Action.assignWork,work2));
+  waitForAgentRuntimeState(agentController.getAgentRuntimeInfo(),AgentRuntimeStatus.Building);
+  SleepWork work2=new SleepWork("work2",1);
+  agentController.process(new Message(Action.assignWork,MessageEncoding.encodeWork(work2)));
   work1Thread.join(MAX_WAIT_IN_TEST);
-  assertThat(work1.done.get(),is(true));
-  assertThat(work1.canceled.get(),is(true));
-  assertThat(work2.done.get(),is(true));
-  assertThat(work2.canceled.get(),is(false));
+  verify(artifactsManipulator).setProperty(null,new Property("work1_result","done_canceled"));
+  verify(artifactsManipulator).setProperty(null,new Property("work2_result","done"));
 }

@@ -1,0 +1,11 @@
+{
+  try {
+    try (GZIPInputStream zipStream=new GZIPInputStream(input)){
+      String jsonStr=new String(IOUtils.toByteArray(zipStream),StandardCharsets.UTF_8);
+      return gson.fromJson(jsonStr,Message.class);
+    }
+   }
+ catch (  IOException e) {
+    throw bomb(e);
+  }
+}

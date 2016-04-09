@@ -1,0 +1,7 @@
+{
+  createSrcFile("xmlfile");
+  runBuild(BuildCommand.generateProperty(TEST_PROPERTY,"xmlfile","//HTML"),JobResult.Passed);
+  assertThat(console.output(),containsString("Failed to create property"));
+  assertThat(console.output(),containsString("Nothing matched xpath \"//HTML\""));
+  assertThat(artifactsRepository.propertyValue(TEST_PROPERTY),nullValue());
+}

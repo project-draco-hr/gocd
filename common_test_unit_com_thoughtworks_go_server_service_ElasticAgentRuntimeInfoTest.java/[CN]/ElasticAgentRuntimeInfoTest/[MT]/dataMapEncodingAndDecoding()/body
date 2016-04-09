@@ -1,0 +1,5 @@
+{
+  AgentRuntimeInfo info=new ElasticAgentRuntimeInfo(new AgentIdentifier("localhost","127.0.0.1","uuid"),AgentRuntimeStatus.Idle,"/foo/one",null,null,"42","go.cd.elastic-agent-plugin.docker");
+  AgentRuntimeInfo clonedInfo=MessageEncoding.decodeData(MessageEncoding.encodeData(info),AgentRuntimeInfo.class);
+  assertThat(clonedInfo,is(info));
+}

@@ -1,3 +1,4 @@
 {
-  service.sendAndWaitForAck(new Message(Action.reportCurrentStatus,new Report(agentRuntimeInfo,jobIdentifier,jobState)));
+  Report report=new Report(agentRuntimeInfo,jobIdentifier,jobState);
+  service.sendAndWaitForAck(new Message(Action.reportCurrentStatus,MessageEncoding.encodeData(report)));
 }
