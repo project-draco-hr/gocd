@@ -1,5 +1,5 @@
 {
-  registered=keyStoreManager.hasCertificates(CHAIN_ALIAS,AGENT_CERTIFICATE_FILE,AGENT_STORE_PASSWORD) && GuidService.guidPresent();
+  registered=keyStoreManager.hasCertificates(CHAIN_ALIAS,GoAgentServerHttpClientBuilder.AGENT_CERTIFICATE_FILE,httpClientBuilder().keystorePassword()) && GuidService.guidPresent();
   if (!registered) {
     LOGGER.info("[Agent Registration] Starting to register agent");
     register(agentAutoRegistrationProperties);

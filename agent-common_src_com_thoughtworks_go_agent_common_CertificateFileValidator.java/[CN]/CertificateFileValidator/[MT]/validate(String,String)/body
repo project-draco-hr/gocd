@@ -6,7 +6,7 @@
     throw new ParameterException(name + " must be a file that is readable");
   }
   try {
-    if (certificates(new File(value)).isEmpty()) {
+    if (new CertificateFileParser().certificates(new File(value)).isEmpty()) {
       throw badCertfile(name);
     }
   }

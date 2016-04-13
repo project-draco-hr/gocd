@@ -1,6 +1,7 @@
 {
   String url="http://cruise.com/go";
-  HttpClient httpClient=Mockito.mock(HttpClient.class);
+  GoAgentServerHttpClient httpClient=mock(GoAgentServerHttpClient.class);
+  when(httpClient.execute(argThat(isA(HttpUriRequest.class)))).thenReturn(mock(CloseableHttpResponse.class));
   final DefaultAgentRegistry defaultAgentRegistry=new DefaultAgentRegistry();
   Properties properties=new Properties();
   properties.put(AgentAutoRegistrationPropertiesImpl.AGENT_AUTO_REGISTER_KEY,"t0ps3cret");
@@ -8,5 +9,5 @@
   properties.put(AgentAutoRegistrationPropertiesImpl.AGENT_AUTO_REGISTER_ENVIRONMENTS,"uat, staging");
   properties.put(AgentAutoRegistrationPropertiesImpl.AGENT_AUTO_REGISTER_HOSTNAME,"agent01.example.com");
   remoteRegistryRequester(url,httpClient,defaultAgentRegistry).requestRegistration("cruise.com",new AgentAutoRegistrationPropertiesImpl(null,properties));
-  verify(httpClient).executeMethod(argThat(hasAllParams(defaultAgentRegistry.uuid(),"","")));
+  verify(httpClient).execute(argThat(hasAllParams(defaultAgentRegistry.uuid(),"","")));
 }

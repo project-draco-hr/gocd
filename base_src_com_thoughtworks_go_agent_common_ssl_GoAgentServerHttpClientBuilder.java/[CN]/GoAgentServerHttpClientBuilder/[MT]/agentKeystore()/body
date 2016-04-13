@@ -1,0 +1,7 @@
+{
+  KeyStore keyStore=KeyStore.getInstance("JKS");
+  try (InputStream is=keyStoreInputStream()){
+    keyStore.load(is,keystorePassword().toCharArray());
+  }
+   return keyStore;
+}

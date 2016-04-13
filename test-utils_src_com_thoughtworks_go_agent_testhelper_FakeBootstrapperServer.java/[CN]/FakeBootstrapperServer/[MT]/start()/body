@@ -1,6 +1,24 @@
 {
-  server=new Server(9090);
+  server=new Server();
+  ServerConnector connector=new ServerConnector(server);
+  connector.setPort(9090);
+  server.addConnector(connector);
+  SslContextFactory sslContextFactory=new SslContextFactory();
+  sslContextFactory.setCertAlias("cruise");
+  sslContextFactory.setKeyStorePath("testdata/keystore");
+  sslContextFactory.setKeyStorePassword("serverKeystorepa55w0rd");
+  ServerConnector secureConnnector=new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(new HttpConfiguration()));
+  secureConnnector.setPort(9091);
+  server.addConnector(secureConnnector);
   WebAppContext wac=new WebAppContext(".","/go");
+  ServletHolder holder=new ServletHolder();
+  holder.setServlet(new HttpServlet(){
+    @Override protected void doGet(    HttpServletRequest req,    HttpServletResponse resp) throws ServletException, IOException {
+      resp.getOutputStream().println("Hello");
+    }
+  }
+);
+  wac.addServlet(holder,"/hello");
   addFakeAgentBinaryServlet(wac,"/admin/agent",new File("testdata/test-agent.jar"));
   addFakeAgentBinaryServlet(wac,"/admin/agent-launcher.jar",new File("testdata/agent-launcher.jar"));
   addFakeAgentBinaryServlet(wac,"/admin/agent-plugins.zip",new File("testdata/agent-plugins.zip"));

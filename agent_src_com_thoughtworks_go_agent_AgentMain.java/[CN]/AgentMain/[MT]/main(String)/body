@@ -1,9 +1,11 @@
 {
-  if (args.length != 1) {
-    throw new RuntimeException("Usage: java -jar agent.jar https://<cruise server hostname>:<cruise server port>/go/");
-  }
+  AgentBootstrapperArgs args=new AgentCLI().parse(argv);
   LoggingHelper.configureLoggerIfNoneExists("go-agent.log","go-agent-log4j.properties");
-  setServiceUrl(args[0]);
+  new SystemEnvironment().setProperty(SystemEnvironment.SERVICE_URL,args.getServerUrl().toString());
+  new SystemEnvironment().setProperty(SystemEnvironment.AGENT_SSL_VERIFICATION_MODE,args.getSslMode().toString());
+  if (args.getRootCertFile() != null) {
+    new SystemEnvironment().setProperty(SystemEnvironment.AGENT_ROOT_CERT_FILE,args.getRootCertFile().toString());
+  }
   ClassPathXmlApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
   ctx.registerShutdownHook();
 }

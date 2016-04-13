@@ -1,8 +1,8 @@
 {
   remoteCalled=false;
-  SslInfrastructureService.AGENT_CERTIFICATE_FILE.delete();
-  SslInfrastructureService.AGENT_CERTIFICATE_FILE.deleteOnExit();
+  GoAgentServerHttpClientBuilder.AGENT_CERTIFICATE_FILE.delete();
+  GoAgentServerHttpClientBuilder.AGENT_CERTIFICATE_FILE.deleteOnExit();
   Registration registration=createRegistration();
-  sslInfrastructureService=new SslInfrastructureService(requesterStub(registration),httpClientStub(),httpConnectionManagerParams);
+  sslInfrastructureService=new SslInfrastructureService(requesterStub(registration),httpClientStub());
   GuidService.storeGuid("uuid");
 }

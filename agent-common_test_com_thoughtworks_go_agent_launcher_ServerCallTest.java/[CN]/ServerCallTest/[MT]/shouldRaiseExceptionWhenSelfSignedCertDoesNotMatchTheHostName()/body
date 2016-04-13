@@ -1,0 +1,9 @@
+{
+  try {
+    new ServerCall().invoke(new HttpGet("https://localhost:9091/go/hello"),new File("testdata/test_cert.pem"),SslVerificationMode.FULL);
+    fail("Was expecting an exception!");
+  }
+ catch (  Exception expected) {
+    assertThat(expected.getMessage(),containsString("Host name 'localhost' does not match the certificate subject provided by the peer"));
+  }
+}

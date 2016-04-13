@@ -1,6 +1,6 @@
 {
   URLService urlService=new URLService();
-  ConsoleOutputTransmitter buildConsole=new ConsoleOutputTransmitter(new RemoteConsoleAppender(urlService.prefixPartialUrl(buildSettings.getConsoleUrl()),httpService,agentRuntimeInfo.getIdentifier()));
+  ConsoleOutputTransmitter buildConsole=new ConsoleOutputTransmitter(new RemoteConsoleAppender(urlService.prefixPartialUrl(buildSettings.getConsoleUrl()),httpService));
   ArtifactsRepository artifactsRepository=new UrlBasedArtifactsRepository(httpService,urlService.prefixPartialUrl(buildSettings.getArtifactUploadBaseUrl()),urlService.prefixPartialUrl(buildSettings.getPropertyBaseUrl()),new ZipUtil());
   DefaultBuildStateReporter buildStateReporter=new DefaultBuildStateReporter(websocketService,agentRuntimeInfo);
   TimeProvider clock=new TimeProvider();

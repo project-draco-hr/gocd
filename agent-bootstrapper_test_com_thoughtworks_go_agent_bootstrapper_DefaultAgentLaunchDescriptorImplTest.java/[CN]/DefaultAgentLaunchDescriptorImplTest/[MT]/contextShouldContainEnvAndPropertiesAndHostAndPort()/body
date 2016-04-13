@@ -1,14 +1,8 @@
 {
   String hostname="xx.xx.xx";
   int port=20;
-  DefaultAgentLaunchDescriptorImpl launchDescriptor=new DefaultAgentLaunchDescriptorImpl(hostname,port,new AgentBootstrapper());
+  AgentBootstrapperArgs bootstrapperArgs=new AgentBootstrapperArgs(new URL("https://" + hostname + ":"+ port+ "/go"),null,AgentBootstrapperArgs.SslMode.NONE);
+  DefaultAgentLaunchDescriptorImpl launchDescriptor=new DefaultAgentLaunchDescriptorImpl(bootstrapperArgs,new AgentBootstrapper());
   Map context=launchDescriptor.context();
-  assertThat((String)context.get(AgentLaunchDescriptorKeys.HOSTNAME),is(hostname));
-  assertThat((Integer)context.get(AgentLaunchDescriptorKeys.PORT),is(port));
-  Set<String> envkeys=new HashSet<String>(System.getenv().keySet());
-  envkeys.removeAll(context.keySet());
-  assertThat(envkeys.isEmpty(),is(true));
-  Set<Object> propkeys=new HashSet<Object>(System.getProperties().keySet());
-  propkeys.removeAll(context.keySet());
-  assertThat(propkeys.isEmpty(),is(true));
+  assertEquals(context,bootstrapperArgs.toProperties());
 }

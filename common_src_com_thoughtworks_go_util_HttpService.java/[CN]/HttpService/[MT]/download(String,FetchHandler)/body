@@ -1,18 +1,21 @@
 {
-  GetMethod toGet=null;
+  HttpGet toGet=null;
   InputStream is=null;
   try {
     toGet=httpClientFactory.createGet(url);
     PerfTimer timer=PerfTimer.start(String.format("Downloading from url [%s]",url));
-    execute(toGet);
-    timer.stop();
-    int statusCode=toGet.getStatusCode();
-    if (statusCode == HttpServletResponse.SC_OK) {
-      is=toGet.getResponseBodyAsStream();
-      handler.handle(is);
+    try (CloseableHttpResponse response=execute(toGet)){
+      timer.stop();
+      int statusCode=response.getStatusLine().getStatusCode();
+      if (statusCode == HttpServletResponse.SC_OK) {
+        if (response.getEntity() != null) {
+          is=response.getEntity().getContent();
+        }
+        handler.handle(is);
+      }
+      return statusCode;
     }
-    return statusCode;
-  }
+   }
  catch (  IOException e) {
     LOGGER.error("Error while downloading [" + url + "]",e);
     throw e;

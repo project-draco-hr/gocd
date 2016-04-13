@@ -1,0 +1,14 @@
+{
+  builder.setDefaultSocketConfig(SocketConfig.custom().setTcpNoDelay(true).setSoKeepAlive(true).build()).setKeepAliveStrategy(DefaultConnectionKeepAliveStrategy.INSTANCE);
+  HostnameVerifier hostnameVerifier=sslVerificationMode.verifier();
+  TrustStrategy trustStrategy=sslVerificationMode.trustStrategy();
+  KeyStore trustStore=agentTruststore();
+  SSLContextBuilder sslContextBuilder=SSLContextBuilder.create().useProtocol(systemEnvironment.get(SystemEnvironment.GO_SSL_TRANSPORT_PROTOCOL_TO_BE_USED_BY_AGENT));
+  if (trustStore != null || trustStrategy != null) {
+    sslContextBuilder.loadTrustMaterial(trustStore,trustStrategy);
+  }
+  sslContextBuilder.loadKeyMaterial(agentKeystore(),keystorePassword().toCharArray());
+  SSLConnectionSocketFactory sslsf=new SSLConnectionSocketFactory(sslContextBuilder.build(),hostnameVerifier);
+  builder.setSSLSocketFactory(sslsf);
+  return builder;
+}

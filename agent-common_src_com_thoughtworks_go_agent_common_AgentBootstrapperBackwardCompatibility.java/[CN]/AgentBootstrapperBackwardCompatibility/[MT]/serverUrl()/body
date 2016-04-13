@@ -1,0 +1,8 @@
+{
+  if (context.containsKey(AgentBootstrapperArgs.SERVER_URL)) {
+    return (String)context.get(AgentBootstrapperArgs.SERVER_URL);
+  }
+ else {
+    return "http://" + context.get("hostname") + ":"+ context.get("port")+ "/go";
+  }
+}

@@ -2,11 +2,14 @@
   File uploadingFile=mock(File.class);
   java.util.Properties checksums=new java.util.Properties();
   String uploadUrl="url";
-  PostMethod mockPostMethod=mock(PostMethod.class);
+  HttpPost mockPostMethod=mock(HttpPost.class);
+  CloseableHttpResponse response=mock(CloseableHttpResponse.class);
+  when(response.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1,200,"OK"));
+  when(httpClient.execute(mockPostMethod)).thenReturn(response);
   when(uploadingFile.exists()).thenReturn(true);
   when(httpClientFactory.createPost(uploadUrl)).thenReturn(mockPostMethod);
   service.upload(uploadUrl,100L,uploadingFile,checksums);
-  verify(mockPostMethod).setRequestHeader(GO_ARTIFACT_PAYLOAD_SIZE,"100");
-  verify(httpClientFactory).createMultipartRequestEntity(uploadingFile,checksums,null);
-  verify(httpClient).executeMethod(mockPostMethod);
+  verify(mockPostMethod).setHeader(GO_ARTIFACT_PAYLOAD_SIZE,"100");
+  verify(httpClientFactory).createMultipartRequestEntity(uploadingFile,checksums);
+  verify(httpClient).execute(mockPostMethod);
 }

@@ -1,0 +1,8 @@
+{
+  AgentBootstrapperArgs args=new AgentBootstrapperArgs(new URL("https://go.example.com:8154/go"),new File("/path/to/certfile"),AgentBootstrapperArgs.SslMode.NO_VERIFY_HOST);
+  AgentBootstrapperBackwardCompatibility compatibility=new AgentBootstrapperBackwardCompatibility(args.toProperties());
+  assertEquals("/path/to/certfile",compatibility.rootCertFileAsString());
+  assertEquals(new File("/path/to/certfile"),compatibility.rootCertFile());
+  assertEquals(SslVerificationMode.NO_VERIFY_HOST,compatibility.sslVerificationMode());
+  assertEquals("https://go.example.com:8154/go",compatibility.sslServerUrl("8154"));
+}

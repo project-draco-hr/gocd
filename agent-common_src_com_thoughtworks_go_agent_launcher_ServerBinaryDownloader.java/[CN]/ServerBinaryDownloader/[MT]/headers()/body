@@ -1,5 +1,7 @@
 {
-  Map<String,String> headers=ServerCall.invoke(new HeadMethod(checkUrl())).headers;
-  checkHeaders(headers,downloadableFile.url(urlGenerator));
+  Map<String,String> headers=serverCall.invoke(new HttpHead(checkUrl()),rootCertFile,sslVerificationMode).headers;
+  if (!headers.containsKey(MD5_HEADER)) {
+    LOG.error(format("Contacted server at URL %s but the server did not send back a response containing the header %s",downloadableFile.url(urlGenerator),MD5_HEADER));
+  }
   return headers;
 }

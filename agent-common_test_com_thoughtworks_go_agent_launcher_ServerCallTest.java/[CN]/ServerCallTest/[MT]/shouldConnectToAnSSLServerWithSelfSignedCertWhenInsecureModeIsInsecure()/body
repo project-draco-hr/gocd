@@ -1,0 +1,4 @@
+{
+  ServerCall.ServerResponseWrapper invoke=new ServerCall().invoke(new HttpGet("https://localhost:9091/go/hello"),null,SslVerificationMode.NONE);
+  assertThat(IOUtils.toString(invoke.body).trim(),equalTo("Hello"));
+}

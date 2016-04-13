@@ -1,5 +1,8 @@
 {
-  this.serverTextField.setText(originalHost);
+  AgentBootstrapperArgs bootstrapperArgs=agentMacWindow.getBootstrapperArgs();
+  this.serverTextField.setText(bootstrapperArgs.getServerUrl().toString());
+  this.fileBrowser.setFile(bootstrapperArgs.getRootCertFile());
+  this.sslModeComponent.setSslMode(bootstrapperArgs.getSslMode());
   serverTextField.selectAll();
   serverTextField.grabFocus();
   setVisible(true);

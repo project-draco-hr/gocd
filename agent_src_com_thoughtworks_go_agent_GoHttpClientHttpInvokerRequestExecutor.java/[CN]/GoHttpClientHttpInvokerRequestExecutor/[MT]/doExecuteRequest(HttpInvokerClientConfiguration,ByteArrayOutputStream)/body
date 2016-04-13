@@ -1,0 +1,11 @@
+{
+  HttpPost postMethod=new HttpPost(config.getServiceUrl());
+  ByteArrayEntity entity=new ByteArrayEntity(baos.toByteArray());
+  entity.setContentType(getContentType());
+  postMethod.setEntity(entity);
+  try (CloseableHttpResponse response=goAgentServerHttpClient.execute(postMethod)){
+    validateResponse(response);
+    InputStream responseBody=getResponseBody(response);
+    return readRemoteInvocationResult(responseBody,config.getCodebaseUrl());
+  }
+ }

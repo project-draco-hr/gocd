@@ -1,10 +1,11 @@
 {
+  GoAgentServerHttpClientBuilder builder=new GoAgentServerHttpClientBuilder(environment);
   SslContextFactory sslContextFactory=new SslContextFactory();
-  sslContextFactory.setKeyStorePath(SslInfrastructureService.AGENT_CERTIFICATE_FILE.getAbsolutePath());
-  sslContextFactory.setKeyStorePassword(SslInfrastructureService.AGENT_STORE_PASSWORD);
-  sslContextFactory.setKeyManagerPassword(SslInfrastructureService.AGENT_STORE_PASSWORD);
-  sslContextFactory.setTrustStorePath(SslInfrastructureService.AGENT_TRUST_FILE.getAbsolutePath());
-  sslContextFactory.setTrustStorePassword(SslInfrastructureService.AGENT_STORE_PASSWORD);
+  sslContextFactory.setKeyStore(builder.agentKeystore());
+  sslContextFactory.setKeyStorePassword(builder.keystorePassword());
+  sslContextFactory.setKeyManagerPassword(builder.keystorePassword());
+  sslContextFactory.setTrustStore(builder.agentTruststore());
+  sslContextFactory.setTrustStorePassword(builder.keystorePassword());
   sslContextFactory.setWantClientAuth(true);
   if (client == null || client.isStopped()) {
     client=new WebSocketClient(sslContextFactory);

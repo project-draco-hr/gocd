@@ -1,0 +1,4 @@
+{
+  ServerCall.ServerResponseWrapper invoke=new ServerCall().invoke(new HttpGet("https://localhost:9091/go/hello"),new File("testdata/test_cert.pem"),SslVerificationMode.NO_VERIFY_HOST);
+  assertThat(IOUtils.toString(invoke.body).trim(),equalTo("Hello"));
+}

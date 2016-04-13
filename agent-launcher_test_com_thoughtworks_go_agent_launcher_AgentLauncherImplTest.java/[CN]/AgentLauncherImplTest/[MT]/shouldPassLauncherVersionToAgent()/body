@@ -3,7 +3,7 @@
   final String version="12.3";
   final List<String> actualVersion=new ArrayList<String>();
   final AgentLauncher launcher=new AgentLauncherImpl(new AgentLauncherImpl.AgentProcessParentRunner(){
-    public int run(    String launcherVersion,    String launcherMd5,    ServerUrlGenerator urlConstructor,    Map<String,String> environmentVariables){
+    public int run(    String launcherVersion,    String launcherMd5,    ServerUrlGenerator urlConstructor,    Map<String,String> environmentVariables,    Map context){
       actualVersion.add(launcherVersion);
       return 0;
     }

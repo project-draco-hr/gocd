@@ -5,7 +5,7 @@
       @Override void jvmExit(      int returnValue){
       }
     }
-.go(false,"IShouldNotResolveAtAll",9090);
+.go(false,new AgentBootstrapperArgs(new URL("http://" + "IShouldNotResolveAtAll" + ":" + 9090 + "/go"),null,AgentBootstrapperArgs.SslMode.NONE));
     fail("Shouldn't work if wrong URL provided");
   }
  catch (  Exception e) {

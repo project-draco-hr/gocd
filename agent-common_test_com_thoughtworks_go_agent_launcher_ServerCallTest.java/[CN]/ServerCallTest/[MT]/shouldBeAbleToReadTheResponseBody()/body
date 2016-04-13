@@ -1,6 +1,6 @@
 {
-  GetMethod getMethod=new GetMethod(DownloadableFile.AGENT.url(ServerUrlGeneratorMother.generatorFor("localhost",9090)));
-  ServerCall.ServerResponseWrapper response=ServerCall.invoke(getMethod);
+  HttpGet getMethod=new HttpGet(DownloadableFile.AGENT.url(ServerUrlGeneratorMother.generatorFor("localhost",9090)));
+  ServerCall.ServerResponseWrapper response=new ServerCall().invoke(getMethod,null,SslVerificationMode.NONE);
   List list=IOUtils.readLines(response.body);
   assertThat(list.isEmpty(),is(false));
 }

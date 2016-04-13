@@ -1,0 +1,21 @@
+{
+  JPanel controlsPanel=new JPanel(new FlowLayout(FlowLayout.RIGHT,10,10));
+  serverTextField=new JTextField("");
+  serverTextField.setColumns(15);
+  serverTextField.selectAll();
+  JPanel textPanel=new JPanel(new GridLayout(4,2,0,10));
+  textPanel.add(new JLabel("Go Server Hostname or IP"));
+  textPanel.add(serverTextField);
+  textPanel.add(new JLabel("SSL Mode"));
+  sslModeComponent=new SslModeComponent();
+  textPanel.add(sslModeComponent);
+  textPanel.add(new JLabel("Server root certificate"));
+  fileBrowser=new FileBrowser();
+  textPanel.add(fileBrowser);
+  controlsPanel.add(textPanel);
+  getContentPane().add(controlsPanel,BorderLayout.NORTH);
+  JPanel buttonPanel=new JPanel(new FlowLayout(FlowLayout.RIGHT,10,10));
+  okButton=new JButton("OK");
+  buttonPanel.add(okButton);
+  getContentPane().add(buttonPanel,BorderLayout.SOUTH);
+}

@@ -8,6 +8,7 @@ synchronized (downloadableFile.mutex()) {
         headers=headers();
         File localFile=new File(downloadableFile.getLocalFileName());
         md5=headers.get(MD5_HEADER);
+        sslPort=headers.get(SSL_PORT_HEADER);
         if (!localFile.exists() || !checksOut(localFile,md5)) {
           PerfTimer timer=PerfTimer.start("Downloading new " + downloadableFile + " with md5 signature: "+ md5);
           downloaded=download();
@@ -26,6 +27,6 @@ synchronized (downloadableFile.mutex()) {
         }
       }
     }
-    return new DownloadResult(downloaded,headers,urlGenerator);
+    return downloaded;
   }
 }

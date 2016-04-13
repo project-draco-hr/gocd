@@ -1,0 +1,10 @@
+{
+  HashMap context=new HashMap();
+  context.put("hostname","ci.example.com");
+  context.put("port","8153");
+  AgentBootstrapperBackwardCompatibility compatibility=new AgentBootstrapperBackwardCompatibility(context);
+  assertNull(compatibility.rootCertFileAsString());
+  assertNull(compatibility.rootCertFile());
+  assertEquals(SslVerificationMode.NONE,compatibility.sslVerificationMode());
+  assertEquals("https://ci.example.com:8154/go",compatibility.sslServerUrl("8154"));
+}

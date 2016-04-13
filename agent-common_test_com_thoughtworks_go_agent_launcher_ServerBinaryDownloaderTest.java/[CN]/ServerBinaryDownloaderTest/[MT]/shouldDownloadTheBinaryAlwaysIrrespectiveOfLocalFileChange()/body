@@ -1,5 +1,5 @@
 {
-  ServerBinaryDownloader downloader=new ServerBinaryDownloader(ServerUrlGeneratorMother.generatorFor("localhost",9090),DownloadableFile.AGENT);
+  ServerBinaryDownloader downloader=new ServerBinaryDownloader(ServerUrlGeneratorMother.generatorFor("localhost",9090),DownloadableFile.AGENT,null,SslVerificationMode.NONE);
   ServerBinaryDownloader.DownloadResult result=downloader.downloadAlways();
   assertThat(result.performedDownload,is(true));
   result=downloader.downloadAlways();

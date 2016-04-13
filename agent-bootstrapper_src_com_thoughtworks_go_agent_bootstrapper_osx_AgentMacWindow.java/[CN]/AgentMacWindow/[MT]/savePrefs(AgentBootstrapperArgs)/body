@@ -1,0 +1,10 @@
+{
+  try {
+    try (FileOutputStream fos=new FileOutputStream(PREFS_FILE)){
+      args.toProperties().store(fos,null);
+    }
+   }
+ catch (  IOException e) {
+    LOG.error("IO error on " + PREFS_FILE,e);
+  }
+}

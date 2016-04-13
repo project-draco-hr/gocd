@@ -1,0 +1,19 @@
+{
+  super();
+  setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+  textField=new JTextField(15);
+  textField.setEnabled(false);
+  add(textField);
+  browse=new JButton("Browse");
+  add(browse);
+  browse.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      JFileChooser jFileChooser=new JFileChooser(file != null ? file.getParentFile() : null);
+      int returnVal=jFileChooser.showOpenDialog(FileBrowser.this);
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+        setFile(jFileChooser.getSelectedFile());
+      }
+    }
+  }
+);
+}

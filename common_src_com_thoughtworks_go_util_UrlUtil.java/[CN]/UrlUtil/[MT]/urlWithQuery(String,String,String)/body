@@ -1,9 +1,5 @@
 {
-  URI url=new URI(oldUrl);
-  List<QueryTuple> splitQuery=QueryTuple.parse(url.getQuery());
-  splitQuery.add(new QueryTuple(paramName,paramValue));
-  String path="".equals(url.getPath()) ? "/" : url.getPath();
-  URI uri=new URI(url.getScheme(),url.getUserinfo(),url.getHost(),url.getPort(),path,null,url.getFragment());
-  uri.setEscapedQuery(QueryTuple.toString(splitQuery));
-  return uri.toString();
+  URIBuilder uriBuilder=new URIBuilder(oldUrl);
+  uriBuilder.addParameter(paramName,paramValue);
+  return uriBuilder.toString();
 }
