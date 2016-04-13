@@ -1,4 +1,8 @@
 {
+  if (originalMaxElementsInMemory == 0) {
+    originalMaxElementsInMemory=goCache.configuration().getMaxElementsInMemory();
+    originalTimeToLiveSeconds=goCache.configuration().getTimeToLiveSeconds();
+  }
   configHelper.usingCruiseConfigDao(goConfigDao);
   configHelper.onSetUp();
   dbHelper.onSetUp();

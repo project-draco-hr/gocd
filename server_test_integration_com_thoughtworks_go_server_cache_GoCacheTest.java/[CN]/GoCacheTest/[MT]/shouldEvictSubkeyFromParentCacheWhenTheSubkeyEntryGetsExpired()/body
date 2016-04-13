@@ -1,0 +1,16 @@
+{
+  goCache.configuration().setEternal(false);
+  goCache.configuration().setTimeToLiveSeconds(1);
+  String parentKey="parent";
+  goCache.put(parentKey,"child1","value");
+  assertThat(goCache.get(parentKey),is(not(nullValue())));
+  assertThat(goCache.get(parentKey + GoCache.SUB_KEY_DELIMITER + "child1"),is(not(nullValue())));
+  Thread.sleep(1000);
+  goCache.put(parentKey,"child2","value");
+  assertThat(goCache.get(parentKey),is(not(nullValue())));
+  assertThat(goCache.get(parentKey + GoCache.SUB_KEY_DELIMITER + "child1"),is(nullValue()));
+  assertThat(goCache.get(parentKey + GoCache.SUB_KEY_DELIMITER + "child2"),is(not(nullValue())));
+  GoCache.KeyList list=(GoCache.KeyList)goCache.get(parentKey);
+  assertThat(list.size(),is(1));
+  assertThat(list.contains("child2"),is(true));
+}
