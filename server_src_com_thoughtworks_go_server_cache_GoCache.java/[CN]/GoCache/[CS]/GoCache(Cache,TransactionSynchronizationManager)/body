@@ -1,6 +1,7 @@
 {
   this.ehCache=cache;
+  cache.getCacheEventNotificationService().registerListener(new CacheEvictionListener(this));
   this.transactionSynchronizationManager=transactionSynchronizationManager;
-  this.nullObjectClasses=new HashSet<Class<? extends PersistentObject>>();
+  this.nullObjectClasses=new HashSet<>();
   nullObjectClasses.add(NullUser.class);
 }

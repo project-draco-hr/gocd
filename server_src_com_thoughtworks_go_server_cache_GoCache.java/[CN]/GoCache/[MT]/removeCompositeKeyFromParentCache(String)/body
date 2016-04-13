@@ -1,0 +1,15 @@
+{
+  if (key.contains(SUB_KEY_DELIMITER)) {
+    String[] parts=StringUtils.splitByWholeSeparator(key,SUB_KEY_DELIMITER);
+    String parentKey=parts[0];
+    String childKey=parts[1];
+synchronized (parentKey.intern()) {
+      Element parent=ehCache.get(parentKey);
+      if (parent == null) {
+        return;
+      }
+      GoCache.KeyList subKeys=(GoCache.KeyList)parent.getValue();
+      subKeys.remove(childKey);
+    }
+  }
+}
