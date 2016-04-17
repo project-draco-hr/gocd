@@ -1,0 +1,12 @@
+{
+  goCache.configuration().setMaxElementsInMemory(3);
+  String parentKey="parent";
+  goCache.put(parentKey,new GoCache.KeyList());
+  Thread.sleep(1);
+  assertThat(goCache.get(parentKey),is(not(nullValue())));
+  goCache.put(parentKey,"child1","value");
+  goCache.put(parentKey,"child2","value");
+  goCache.put("unrelatedkey","value");
+  assertThat(goCache.getKeys().size(),is(1));
+  assertThat(((String)goCache.get("unrelatedkey")),is("value"));
+}

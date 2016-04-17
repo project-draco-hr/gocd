@@ -1,5 +1,12 @@
 {
-  if (key.contains(SUB_KEY_DELIMITER)) {
+  if (element.getValue() instanceof KeyList) {
+synchronized (key.intern()) {
+      for (      String subkey : (KeyList)element.getValue()) {
+        remove(compositeKey(key,subkey));
+      }
+    }
+  }
+ else   if (key.contains(SUB_KEY_DELIMITER)) {
     String[] parts=StringUtils.splitByWholeSeparator(key,SUB_KEY_DELIMITER);
     String parentKey=parts[0];
     String childKey=parts[1];
