@@ -7,6 +7,7 @@
   goCache.put(parentKey,"child1","value");
   goCache.put(parentKey,"child2","value");
   goCache.put("unrelatedkey","value");
+  waitForCacheElementsToExpire();
   assertThat(goCache.getKeys().size(),is(1));
   assertThat(((String)goCache.get("unrelatedkey")),is("value"));
 }
