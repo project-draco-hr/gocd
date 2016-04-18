@@ -1,0 +1,9 @@
+{
+  goCache.configuration().setMaxElementsInMemory(1);
+  NonSerializableClass value=new NonSerializableClass();
+  String key="key";
+  goCache.put(key,value);
+  Thread.sleep(1);
+  goCache.put("another_entry","value");
+  assertThat(goCache.get(key),is(nullValue()));
+}
