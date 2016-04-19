@@ -1,12 +1,11 @@
 {
+  ErrorCollection errors=new ErrorCollection();
   try {
     ResponseScratch responseMap=parseResponseForMigration(responseBody);
-    ErrorCollection errors=new ErrorCollection();
     ParseDirectoryResponseMessage parseDirectoryResponseMessage;
     if (responseMap.target_version == null) {
       errors.addError("Plugin response message","missing 'target_version' field");
-      String errorsText=errors.getErrorsAsText();
-      return new CRParseResult(errorsText);
+      return new CRParseResult(errors);
     }
  else {
       int version=responseMap.target_version;
@@ -17,14 +16,14 @@
       parseDirectoryResponseMessage=codec.getGson().fromJson(responseBody,ParseDirectoryResponseMessage.class);
       parseDirectoryResponseMessage.validateResponse(errors);
       errors.addErrors(parseDirectoryResponseMessage.getPluginErrors());
-      String errorsText=errors.getErrorsAsText();
-      return new CRParseResult(parseDirectoryResponseMessage.getEnvironments(),parseDirectoryResponseMessage.getPipelines(),errorsText);
+      return new CRParseResult(parseDirectoryResponseMessage.getEnvironments(),parseDirectoryResponseMessage.getPipelines(),errors);
     }
   }
  catch (  Exception ex) {
     StringBuilder builder=new StringBuilder();
     builder.append("Unexpected error when handling plugin response").append('\n');
     builder.append(ex);
-    return new CRParseResult(builder.toString());
+    errors.addError("runtime",builder.toString());
+    return new CRParseResult(errors);
   }
 }
