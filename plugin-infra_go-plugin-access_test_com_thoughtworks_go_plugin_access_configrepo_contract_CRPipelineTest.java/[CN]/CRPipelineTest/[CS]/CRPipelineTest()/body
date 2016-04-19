@@ -1,7 +1,7 @@
 {
   CRBuildTask rakeTask=CRBuildTask.rake();
   CRJob buildRake=new CRJob("build",rakeTask);
-  veryCustomGit=new CRGitMaterial("gitMaterial1","dir1",false,"gitrepo","feature12","externals","tools");
+  veryCustomGit=new CRGitMaterial("gitMaterial1","dir1",false,true,"gitrepo","feature12","externals","tools");
   buildStage=new CRStage("build",buildRake);
   pipe1=new CRPipeline("pipe1","group1",veryCustomGit,buildStage);
   customPipeline=new CRPipeline("pipe2","group1",veryCustomGit,buildStage);
