@@ -1,5 +1,10 @@
 {
   ArrayList<Revision> revisions=new ArrayList<>(this.revisions);
+  for (  MaterialRevision revision : materialRevisions) {
+    for (    Modification modification : revision.getModifications()) {
+      revisions.add(new SCMRevision(modification));
+    }
+  }
   Collections.sort(revisions,new Comparator<Revision>(){
     @Override public int compare(    Revision o1,    Revision o2){
       return ((SCMRevision)o1).compareTo((SCMRevision)o2);

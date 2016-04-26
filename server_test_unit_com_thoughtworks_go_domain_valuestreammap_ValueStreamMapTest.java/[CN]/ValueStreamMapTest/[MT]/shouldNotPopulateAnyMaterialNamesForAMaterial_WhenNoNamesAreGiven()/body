@@ -2,9 +2,9 @@
   String P1="P1";
   String currentPipeline="P2";
   ValueStreamMap graph=new ValueStreamMap(currentPipeline,null);
-  graph.addUpstreamMaterialNode(new SCMDependencyNode("git_fingerprint","http://git.com","git"),null,new Modifications(),currentPipeline);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("git_fingerprint","http://git.com","git"),null,currentPipeline,new MaterialRevision(null));
   graph.addUpstreamNode(new PipelineDependencyNode(P1,P1),null,currentPipeline);
-  graph.addUpstreamMaterialNode(new SCMDependencyNode("git_fingerprint","http://git.com","git"),null,new Modifications(),P1);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("git_fingerprint","http://git.com","git"),null,P1,new MaterialRevision(null));
   SCMDependencyNode node=(SCMDependencyNode)graph.findNode("git_fingerprint");
   assertTrue(node.getMaterialNames().isEmpty());
 }

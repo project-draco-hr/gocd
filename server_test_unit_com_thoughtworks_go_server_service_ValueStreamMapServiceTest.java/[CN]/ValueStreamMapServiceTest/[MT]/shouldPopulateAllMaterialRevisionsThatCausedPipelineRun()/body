@@ -14,6 +14,6 @@
   ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p2",1,user,result);
   VSMTestHelper.assertNodeHasRevisions(graph,"p1",new PipelineRevision("p1",1,"LABEL-p1-1"));
   VSMTestHelper.assertNodeHasRevisions(graph,"p2",new PipelineRevision("p2",1,"LABEL-P2"));
-  VSMTestHelper.assertNodeHasRevisions(graph,git.getFingerprint(),new SCMRevision(gitModifications.get(2)),new SCMRevision(gitModifications.get(1)),new SCMRevision(gitModifications.get(0)));
+  VSMTestHelper.assertSCMNodeHasMaterialRevisions(graph,git.getFingerprint(),new MaterialRevision(git,false,gitModifications));
   verify(runStagesPopulator).apply(any(ValueStreamMap.class));
 }

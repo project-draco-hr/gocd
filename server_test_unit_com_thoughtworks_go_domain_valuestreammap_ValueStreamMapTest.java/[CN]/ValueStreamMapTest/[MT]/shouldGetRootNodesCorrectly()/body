@@ -9,10 +9,10 @@
   graph.addUpstreamNode(new PipelineDependencyNode(plugins,plugins),null,acceptance);
   graph.addUpstreamNode(new PipelineDependencyNode(gitPlugins,gitPlugins),null,plugins);
   graph.addUpstreamNode(new PipelineDependencyNode(cruise,cruise),null,plugins);
-  graph.addUpstreamNode(new SCMDependencyNode(gitTrunk,gitTrunk,"git"),null,cruise);
-  graph.addUpstreamNode(new SCMDependencyNode(hgTrunk,hgTrunk,"hg"),null,cruise);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(gitTrunk,gitTrunk,"git"),null,cruise,new MaterialRevision(null));
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(hgTrunk,hgTrunk,"hg"),null,cruise,new MaterialRevision(null));
   graph.addUpstreamNode(new PipelineDependencyNode(cruise,cruise),null,acceptance);
-  graph.addUpstreamNode(new SCMDependencyNode(hgTrunk,hgTrunk,"hg"),null,acceptance);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(hgTrunk,hgTrunk,"hg"),null,acceptance,new MaterialRevision(null));
   List<Node> rootNodes=graph.getRootNodes();
   assertThat(rootNodes.size(),is(3));
   assertThat(getNodeIds(rootNodes),contains(gitPlugins,gitTrunk,hgTrunk));

@@ -1,7 +1,7 @@
 {
   String dependent="P1";
   ValueStreamMap graph=new ValueStreamMap(dependent,null);
-  graph.addUpstreamNode(new SCMDependencyNode("git_fingerprint","git","git"),null,dependent);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("git_fingerprint","git","git"),null,dependent,new MaterialRevision(null));
   List<List<Node>> nodesAtEachLevel=graph.presentationModel().getNodesAtEachLevel();
   assertThat(nodesAtEachLevel.size(),is(2));
   assertThat(nodesAtEachLevel.get(0).size(),is(1));

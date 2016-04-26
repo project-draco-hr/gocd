@@ -19,6 +19,6 @@
   VSMTestHelper.assertNodeHasRevisions(graph,"p1",new PipelineRevision("p1",1,"LABEL-p1-1"),new PipelineRevision("p1",2,"LABEL-p1-2"));
   VSMTestHelper.assertNodeHasRevisions(graph,"p2",new PipelineRevision("p2",1,"LABEL-p2-1"));
   VSMTestHelper.assertNodeHasRevisions(graph,"p3",new PipelineRevision("p3",1,"LABEL-P3"));
-  VSMTestHelper.assertNodeHasRevisions(graph,git.getFingerprint(),new SCMRevision(modifications.get(2)),new SCMRevision(modifications.get(1)),new SCMRevision(modifications.get(0)));
+  VSMTestHelper.assertSCMNodeHasMaterialRevisions(graph,git.getFingerprint(),new MaterialRevision(git,false,modifications));
   verify(runStagesPopulator).apply(any(ValueStreamMap.class));
 }

@@ -3,12 +3,12 @@
   ValueStreamMap graph=new ValueStreamMap(currentPipeline,null);
   graph.addUpstreamNode(new PipelineDependencyNode("d2","d2"),null,currentPipeline);
   graph.addUpstreamNode(new PipelineDependencyNode("d1","d1"),null,"d2");
-  graph.addUpstreamNode(new SCMDependencyNode("g1","g1","git"),null,"d1");
-  graph.addUpstreamNode(new SCMDependencyNode("g1","g1","git"),null,"d2");
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),null,"d1",new MaterialRevision(null));
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),null,"d2",new MaterialRevision(null));
   graph.addUpstreamNode(new PipelineDependencyNode("d4","d4"),null,currentPipeline);
   graph.addUpstreamNode(new PipelineDependencyNode("d3","d3"),null,"d4");
-  graph.addUpstreamNode(new SCMDependencyNode("g2","g2","git"),null,"d3");
-  graph.addUpstreamNode(new SCMDependencyNode("g2","g2","git"),null,"d4");
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g2","g2","git"),null,"d3",new MaterialRevision(null));
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g2","g2","git"),null,"d4",new MaterialRevision(null));
   NodeLevelMap nodeLevelMap=new LevelAssignment().apply(graph);
   dummyNodeCreation.apply(graph,nodeLevelMap);
   VSMTestHelper.assertNumberOfLevelsInGraph(nodeLevelMap,4);

@@ -5,7 +5,7 @@
   Node nodep4=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p4","p4"),"p2");
   valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p4","p4"),"p3");
   Node nodep5=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p5","p5"),"p4");
-  valueStreamMap.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),new Modifications(ModificationsMother.multipleModificationList()),"p");
+  valueStreamMap.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),"p",new MaterialRevision(null));
   GitMaterial g1=u.wf(new GitMaterial("g1"),"folder3");
   u.checkinInOrder(g1,"g_1");
   u.checkinInOrder(g1,"g_2");

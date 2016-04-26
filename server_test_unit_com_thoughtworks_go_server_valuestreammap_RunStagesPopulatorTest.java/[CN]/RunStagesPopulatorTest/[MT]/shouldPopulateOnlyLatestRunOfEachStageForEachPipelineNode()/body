@@ -1,7 +1,7 @@
 {
   ValueStreamMap graph=new ValueStreamMap("p2",new PipelineRevision("p2",1,""));
   graph.addUpstreamNode(new PipelineDependencyNode("p1","p1"),new PipelineRevision("p1",1,"1"),"p2");
-  graph.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),new Modifications(ModificationsMother.aCheckIn("1")),"p1");
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),"p1",new MaterialRevision(null));
   Node p3_node=graph.addDownstreamNode(new PipelineDependencyNode("p3","p3"),"p2");
   p3_node.addRevision(new PipelineRevision("p3",1,"1"));
   Stages stagesForP1_1=stages("s1_p1");

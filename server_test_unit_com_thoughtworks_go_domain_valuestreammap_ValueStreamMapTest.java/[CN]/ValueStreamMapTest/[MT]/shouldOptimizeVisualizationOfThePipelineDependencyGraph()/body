@@ -13,10 +13,10 @@
   graph.addUpstreamNode(new PipelineDependencyNode(plugins,plugins),null,acceptance);
   graph.addUpstreamNode(new PipelineDependencyNode(gitPlugins,gitPlugins),null,plugins);
   graph.addUpstreamNode(new PipelineDependencyNode(cruise,cruise),null,plugins);
-  graph.addUpstreamNode(new SCMDependencyNode(gitTrunk,gitTrunk,"git"),null,cruise);
-  graph.addUpstreamNode(new SCMDependencyNode(hgTrunk,hgTrunk,"hg"),null,cruise);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(gitTrunk,gitTrunk,"git"),null,cruise,new MaterialRevision(null));
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(hgTrunk,hgTrunk,"hg"),null,cruise,new MaterialRevision(null));
   graph.addUpstreamNode(new PipelineDependencyNode(cruise,cruise),null,acceptance);
-  graph.addUpstreamNode(new SCMDependencyNode(hgTrunk,hgTrunk,"hg"),null,acceptance);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(hgTrunk,hgTrunk,"hg"),null,acceptance,new MaterialRevision(null));
   graph.addDownstreamNode(new PipelineDependencyNode(deployGo03,deployGo03),acceptance);
   graph.addDownstreamNode(new PipelineDependencyNode(publish,publish),deployGo03);
   graph.addDownstreamNode(new PipelineDependencyNode(deployGo01,deployGo01),publish);

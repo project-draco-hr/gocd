@@ -1,0 +1,10 @@
+{
+  boolean anyRootNodeWithInCompatibleRevisions=false;
+  for (  Node rootNode : getRootNodes()) {
+    if (hasMultipleLatestRevisionString(((SCMDependencyNode)rootNode).getMaterialRevisions())) {
+      addWarning(rootNode);
+      anyRootNodeWithInCompatibleRevisions=true;
+    }
+  }
+  return anyRootNodeWithInCompatibleRevisions;
+}

@@ -1,0 +1,8 @@
+{
+  ScmMaterial gitMaterial=MaterialsMother.gitMaterial("/url/for/repo");
+  List<Modification> modifications=ModificationsMother.multipleModificationList();
+  SCMDependencyNode node=new SCMDependencyNode("nodeID","nodeName","GIT");
+  node.addMaterialRevision(new MaterialRevision(null,modifications));
+  node.addMaterialRevision(new MaterialRevision(gitMaterial,modifications));
+  assertThat(node.getMaterialRevisions().size(),is(2));
+}
