@@ -5,12 +5,7 @@
   TransformerFactory transformerFactory=TransformerFactory.newInstance();
   DocumentSource source=new DocumentSource(new SAXReader().read(new InputSource(new ByteArrayInputStream(nunitInputXml.getBytes("utf-8")))));
   DocumentResult result=new DocumentResult();
-  try {
-    Transformer transformer=transformerFactory.newTransformer(new StreamSource(xsl));
-    transformer.transform(source,result);
-    assertThat(result.getDocument().asXML(),is(expectedResultantJunitFormat));
-  }
- catch (  TransformerConfigurationException e) {
-    throw new InvalidGrddlTransformationException(e);
-  }
+  Transformer transformer=transformerFactory.newTransformer(new StreamSource(xsl));
+  transformer.transform(source,result);
+  assertThat(result.getDocument().asXML(),isIdenticalTo(expectedResultantJunitFormat));
 }
