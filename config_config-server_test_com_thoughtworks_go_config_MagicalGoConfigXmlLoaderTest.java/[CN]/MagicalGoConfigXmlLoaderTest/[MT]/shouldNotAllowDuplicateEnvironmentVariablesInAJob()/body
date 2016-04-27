@@ -1,5 +1,5 @@
 {
-  String content=ConfigFileFixture.configWithPipeline("<pipeline name='pipeline1'>" + "    <materials>" + "      <svn url ='svnurl'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      <environmentvariables>"+ "         <variable name='JOB_VARIABLE'>job variable</variable>"+ "         <variable name='JOB_VARIABLE'>job variable</variable>"+ "      </environmentvariables>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",16);
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='pipeline1'>" + "    <materials>" + "      <svn url ='svnurl'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      <environmentvariables>"+ "         <variable name='JOB_VARIABLE'><value>job variable</value></variable>"+ "         <variable name='JOB_VARIABLE'><value>job variable</value></variable>"+ "      </environmentvariables>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",CONFIG_SCHEMA_VERSION);
   try {
     ConfigMigrator.loadWithMigration(content);
     fail("Should not allow duplicate variable names");

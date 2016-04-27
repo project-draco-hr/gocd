@@ -1,5 +1,5 @@
 {
-  String content=ConfigFileFixture.configWithPipelines("<pipelines group=\"first\">\n" + "<authorization>" + "     <admins>\n"+ "         <user>foo</user>\n"+ "      </admins>"+ "</authorization>"+ "<pipeline name='pipeline1'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n<stage name='stage'><jobs><job name='job'></job></jobs></stage>"+ "</pipeline>\n"+ "</pipelines>\n",19);
+  String content=ConfigFileFixture.configWithPipelines("<pipelines group=\"first\">\n" + "<authorization>" + "     <admins>\n"+ "         <user>foo</user>\n"+ "      </admins>"+ "</authorization>"+ "<pipeline name='pipeline1'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n<stage name='stage'><jobs><job name='job'></job></jobs></stage>"+ "</pipeline>\n"+ "</pipelines>\n",CONFIG_SCHEMA_VERSION);
   CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
   ByteArrayOutputStream out=new ByteArrayOutputStream();
   xmlWriter.write(cruiseConfig,out,false);

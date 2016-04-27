@@ -1,5 +1,5 @@
 {
-  String content=ConfigFileFixture.configWithPipeline("<pipeline name='pipeline1'>" + "  <environmentvariables>" + "    <variable name='PIPELINE_VARIABLE'>pipeline variable</variable>"+ "  </environmentvariables>"+ "  <materials>"+ "    <svn url ='svnurl'/>"+ "  </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",17);
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='pipeline1'>" + "  <environmentvariables>" + "    <variable name='PIPELINE_VARIABLE'><value>pipeline variable</value></variable>"+ "  </environmentvariables>"+ "  <materials>"+ "    <svn url ='svnurl'/>"+ "  </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",CONFIG_SCHEMA_VERSION);
   CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
   assertThat(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline1")).getVariables(),hasItem(new EnvironmentVariableConfig("PIPELINE_VARIABLE","pipeline variable")));
 }

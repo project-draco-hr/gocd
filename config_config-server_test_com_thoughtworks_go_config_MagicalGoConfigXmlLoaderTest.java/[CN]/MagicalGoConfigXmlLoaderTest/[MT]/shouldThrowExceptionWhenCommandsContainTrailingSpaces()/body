@@ -1,5 +1,5 @@
 {
-  String configXml="<cruise schemaVersion='73'>" + "  <pipelines group='first'>" + "    <pipeline name='Test'>"+ "      <materials>"+ "        <hg url='../manual-testing/ant_hg/dummy' />"+ "      </materials>"+ "      <stage name='Functional'>"+ "        <jobs>"+ "          <job name='Functional'>"+ "            <tasks>"+ "              <exec command='bundle  ' args='arguments' />"+ "            </tasks>"+ "           </job>"+ "        </jobs>"+ "      </stage>"+ "    </pipeline>"+ "  </pipelines>"+ "</cruise>";
+  String configXml="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "  <pipelines group='first'>"+ "    <pipeline name='Test'>"+ "      <materials>"+ "        <hg url='../manual-testing/ant_hg/dummy' />"+ "      </materials>"+ "      <stage name='Functional'>"+ "        <jobs>"+ "          <job name='Functional'>"+ "            <tasks>"+ "              <exec command='bundle  ' args='arguments' />"+ "            </tasks>"+ "           </job>"+ "        </jobs>"+ "      </stage>"+ "    </pipeline>"+ "  </pipelines>"+ "</cruise>";
   try {
     ConfigMigrator.loadWithMigration(configXml);
     fail("Should not allow command with trailing spaces");

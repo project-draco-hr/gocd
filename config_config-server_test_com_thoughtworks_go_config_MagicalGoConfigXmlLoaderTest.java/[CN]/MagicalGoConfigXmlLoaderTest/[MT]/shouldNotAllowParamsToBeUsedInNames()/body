@@ -1,5 +1,5 @@
 {
-  String content="<cruise schemaVersion='22'>\n" + "<server artifactsdir='artifacts' />" + "<pipelines>\n"+ "<pipeline name='dev'>\n"+ "    <params>"+ "        <param name='command'>ls</param>"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "    <stage name='stage#{command}ab'>"+ "      <jobs>"+ "        <job name='job1'>"+ "            <tasks>"+ "                <exec command='/bin/#{command}##{b}' args='#{dir}'/>"+ "            </tasks>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
+  String content="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts' />"+ "<pipelines>\n"+ "<pipeline name='dev'>\n"+ "    <params>"+ "        <param name='command'>ls</param>"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "    <stage name='stage#{command}ab'>"+ "      <jobs>"+ "        <job name='job1'>"+ "            <tasks>"+ "                <exec command='/bin/#{command}##{b}' args='#{dir}'/>"+ "            </tasks>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
   try {
     ConfigMigrator.loadWithMigration(content);
     fail("Should not allow params in stage name");
