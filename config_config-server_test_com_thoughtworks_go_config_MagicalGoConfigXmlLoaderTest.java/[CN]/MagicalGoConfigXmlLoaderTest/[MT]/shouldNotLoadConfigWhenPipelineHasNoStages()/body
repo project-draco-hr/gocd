@@ -1,5 +1,5 @@
 {
-  String content="<cruise schemaVersion='17'>\n" + "<server artifactsdir='artifacts' />" + "<pipelines>\n"+ "<pipeline name='pipeline1'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
+  String content="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts' />"+ "<pipelines>\n"+ "<pipeline name='pipeline1'>\n"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
   try {
     ConfigMigrator.loadWithMigration(content);
     fail("Should not allow Pipeline with No Stages");

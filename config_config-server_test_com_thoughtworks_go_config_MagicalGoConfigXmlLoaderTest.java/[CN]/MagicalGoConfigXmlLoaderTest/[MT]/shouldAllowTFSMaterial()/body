@@ -1,5 +1,5 @@
 {
-  String content=ConfigFileFixture.configWithPipeline("<pipeline name='some_pipeline'>" + "    <materials>" + "      <tfs url='tfsurl' username='foo' password='bar' workspace='work-space' projectPath='project-path' workspaceOwner='foo'/>"+ "    </materials>"+ "  <stage name='some_stage'>"+ "    <jobs>"+ "      <job name='some_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",46);
+  String content=ConfigFileFixture.configWithPipeline("<pipeline name='some_pipeline'>" + "    <materials>" + "      <tfs url='tfsurl' username='foo' password='bar' projectPath='project-path' />"+ "    </materials>"+ "  <stage name='some_stage'>"+ "    <jobs>"+ "      <job name='some_job'>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline>",CONFIG_SCHEMA_VERSION);
   GoConfigHolder goConfigHolder=ConfigMigrator.loadWithMigration(content);
   MaterialConfigs materialConfigs=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("some_pipeline")).materialConfigs();
   assertThat(materialConfigs.size(),is(1));

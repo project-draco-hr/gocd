@@ -1,5 +1,5 @@
 {
-  String content=ConfigFileFixture.configWithEnvironmentsAndAgents("<environments>" + "  <environment name='uat'>" + "     <environmentvariables> "+ "         <variable name='FOO'>foo</variable>"+ "         <variable name='FOO'>foo</variable>"+ "     </environmentvariables> "+ "  </environment>"+ "</environments>","<agents>" + "  <agent uuid='1' hostname='test1.com' ipaddress='192.168.0.1' isDenied='true' />" + "</agents>");
+  String content=ConfigFileFixture.configWithEnvironmentsAndAgents("<environments>" + "  <environment name='uat'>" + "     <environmentvariables> "+ "         <variable name='FOO'><value>foo</value></variable>"+ "         <variable name='FOO'><value>foo</value></variable>"+ "     </environmentvariables> "+ "  </environment>"+ "</environments>","<agents>" + "  <agent uuid='1' hostname='test1.com' ipaddress='192.168.0.1' isDisabled='true' />" + "</agents>");
   try {
     ConfigMigrator.loadWithMigration(content);
     fail("Should not allow duplicate variable names");

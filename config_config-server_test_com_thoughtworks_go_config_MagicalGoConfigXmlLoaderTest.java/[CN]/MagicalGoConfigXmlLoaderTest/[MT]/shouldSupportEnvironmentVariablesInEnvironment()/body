@@ -1,5 +1,5 @@
 {
-  String content=ConfigFileFixture.configWithEnvironmentsAndAgents("<environments>" + "  <environment name='uat'>" + "     <environmentvariables> "+ "         <variable name='VAR_NAME_1'>variable_name_value_1</variable>"+ "         <variable name='CRUISE_ENVIRONEMNT_NAME'>variable_name_value_2</variable>"+ "     </environmentvariables> "+ "  </environment>"+ "</environments>","<agents>" + "  <agent uuid='1' hostname='test1.com' ipaddress='192.168.0.1' isDenied='true' />" + "</agents>");
+  String content=ConfigFileFixture.configWithEnvironmentsAndAgents("<environments>" + "  <environment name='uat'>" + "     <environmentvariables> "+ "         <variable name='VAR_NAME_1'><value>variable_name_value_1</value></variable>"+ "         <variable name='CRUISE_ENVIRONEMNT_NAME'><value>variable_name_value_2</value></variable>"+ "     </environmentvariables> "+ "  </environment>"+ "</environments>","<agents>" + "  <agent uuid='1' hostname='test1.com' ipaddress='192.168.0.1' isDisabled='true' />" + "</agents>");
   CruiseConfig config=ConfigMigrator.loadWithMigration(content).config;
   EnvironmentConfig element=new BasicEnvironmentConfig(new CaseInsensitiveString("uat"));
   element.addEnvironmentVariable("VAR_NAME_1","variable_name_value_1");

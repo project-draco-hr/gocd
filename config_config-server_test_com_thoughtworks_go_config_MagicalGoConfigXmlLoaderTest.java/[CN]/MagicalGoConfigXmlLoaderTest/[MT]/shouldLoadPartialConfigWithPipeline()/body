@@ -1,5 +1,5 @@
 {
-  String partialConfigWithPipeline="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<pipelines group=\"first\">\n"+ "<pipeline name=\"pipeline\">\n"+ "  <materials>\n"+ "    <hg url=\"/hgrepo\"/>\n"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <artifacts>\n"+ "          <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "        </artifacts>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>\n";
+  String partialConfigWithPipeline="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "<pipelines group=\"first\">\n"+ "<pipeline name=\"pipeline\">\n"+ "  <materials>\n"+ "    <hg url=\"/hgrepo\"/>\n"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <artifacts>\n"+ "          <log src=\"artifact1.xml\" dest=\"cruise-output\" />\n"+ "        </artifacts>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>\n";
   PartialConfig partialConfig=xmlLoader.fromXmlPartial(toInputStream(partialConfigWithPipeline),PartialConfig.class);
   assertThat(partialConfig.getGroups().size(),is(1));
   PipelineConfig pipeline=partialConfig.getGroups().get(0).getPipelines().get(0);

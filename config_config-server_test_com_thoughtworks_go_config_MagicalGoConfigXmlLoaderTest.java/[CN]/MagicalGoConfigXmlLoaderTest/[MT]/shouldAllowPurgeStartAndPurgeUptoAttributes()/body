@@ -1,5 +1,5 @@
 {
-  String content="<cruise schemaVersion='36'>\n" + "<server artifactsdir='artifacts' purgeStart='1' purgeUpto='3'>" + "</server></cruise>";
+  String content="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts' purgeStart='1' purgeUpto='3'>"+ "</server></cruise>";
   CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(content).config;
   assertThat(cruiseConfig.server().getPurgeStart(),is(1.0));
   assertThat(cruiseConfig.server().getPurgeUpto(),is(3.0));

@@ -1,5 +1,5 @@
 {
-  String configString="<cruise schemaVersion='69'>" + "   <templates>" + "       <pipeline name='template-name'>"+ "           <authorization>"+ "               <admins>"+ "               </admins>"+ "           </authorization>"+ "           <stage name='stage-name'>"+ "               <jobs>"+ "                   <job name='job-name'/>"+ "               </jobs>"+ "           </stage>"+ "       </pipeline>"+ "   </templates>"+ "</cruise>";
+  String configString="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "   <templates>"+ "       <pipeline name='template-name'>"+ "           <authorization>"+ "               <admins>"+ "               </admins>"+ "           </authorization>"+ "           <stage name='stage-name'>"+ "               <jobs>"+ "                   <job name='job-name'/>"+ "               </jobs>"+ "           </stage>"+ "       </pipeline>"+ "   </templates>"+ "</cruise>";
   CruiseConfig configForEdit=ConfigMigrator.loadWithMigration(configString).configForEdit;
   PipelineTemplateConfig template=configForEdit.getTemplateByName(new CaseInsensitiveString("template-name"));
   Authorization authorization=template.getAuthorization();
