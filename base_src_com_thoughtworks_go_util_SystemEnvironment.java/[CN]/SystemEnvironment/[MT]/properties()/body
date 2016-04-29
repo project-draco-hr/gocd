@@ -1,8 +1,8 @@
 {
   if (properties == null) {
     properties=new Properties();
-    try {
-      properties.load(getClass().getResourceAsStream(CRUISE_PROPERTIES));
+    try (InputStream is=getClass().getResourceAsStream(CRUISE_PROPERTIES)){
+      properties.load(is);
     }
  catch (    Exception e) {
       LOG.error("Unable to load newProperties file " + CRUISE_PROPERTIES);
