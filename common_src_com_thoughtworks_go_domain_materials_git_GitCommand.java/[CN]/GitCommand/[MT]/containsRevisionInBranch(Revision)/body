@@ -1,0 +1,11 @@
+{
+  String[] args={"branch","-r","--contains",revision.getRevision()};
+  CommandLine gitCommand=git(environment).withArgs(args).withWorkingDir(workingDir);
+  try {
+    ConsoleResult consoleResult=runOrBomb(gitCommand);
+    return (consoleResult.outputAsString()).contains(remoteBranch());
+  }
+ catch (  CommandLineException e) {
+    return false;
+  }
+}

@@ -2,8 +2,8 @@
   FileUtil.deleteFolder(this.gitLocalRepoDir);
   git.cloneFrom(inMemoryConsumer(),repoUrl,2);
   assertThat(git.isShallow(),is(true));
-  assertThat(git.hasRevision(GitTestRepo.REVISION_4),is(true));
-  assertThat(git.hasRevision(GitTestRepo.REVISION_3),is(true));
-  assertThat(git.hasRevision(GitTestRepo.REVISION_1),is(false));
-  assertThat(git.hasRevision(GitTestRepo.REVISION_0),is(false));
+  assertThat(git.containsRevisionInBranch(GitTestRepo.REVISION_4),is(true));
+  assertThat(git.containsRevisionInBranch(GitTestRepo.REVISION_3),is(true));
+  assertThat(git.containsRevisionInBranch(GitTestRepo.REVISION_1),is(false));
+  assertThat(git.containsRevisionInBranch(GitTestRepo.REVISION_0),is(false));
 }

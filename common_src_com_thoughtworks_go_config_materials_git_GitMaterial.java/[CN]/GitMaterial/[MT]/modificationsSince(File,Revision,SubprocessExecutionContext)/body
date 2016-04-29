@@ -1,5 +1,10 @@
 {
   GitCommand gitCommand=getGit(baseDir,DEFAULT_SHALLOW_CLONE_DEPTH,execCtx);
   unshallowIfNeeded(gitCommand,ProcessOutputStreamConsumer.inMemoryConsumer(),revision,baseDir);
-  return gitCommand.modificationsSince(revision);
+  if (gitCommand.containsRevisionInBranch(revision)) {
+    return gitCommand.modificationsSince(revision);
+  }
+ else {
+    return latestModification(baseDir,execCtx);
+  }
 }

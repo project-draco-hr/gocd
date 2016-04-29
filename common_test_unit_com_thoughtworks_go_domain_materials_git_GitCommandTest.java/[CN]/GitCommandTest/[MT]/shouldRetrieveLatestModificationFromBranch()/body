@@ -2,7 +2,7 @@
   GitTestRepo branchedRepo=GitTestRepo.testRepoAtBranch(GIT_FOO_BRANCH_BUNDLE,BRANCH);
   GitCommand branchedGit=new GitCommand(null,createTempWorkingDirectory(),BRANCH,false,new HashMap<String,String>());
   branchedGit.cloneFrom(inMemoryConsumer(),branchedRepo.projectRepositoryUrl());
-  Modification mod=branchedGit.latestModification();
+  Modification mod=branchedGit.latestModification().get(0);
   assertThat(mod.getUserName(),is("Chris Turner <cturner@thoughtworks.com>"));
   assertThat(mod.getComment(),is("Started foo branch"));
   assertThat(mod.getModifiedTime(),is(parseRFC822("Tue, 05 Feb 2009 14:28:08 -0800")));
