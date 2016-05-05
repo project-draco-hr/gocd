@@ -1,6 +1,13 @@
 {
-  this.buildCause=buildCause;
   this.buildWorkingDirectory=buildWorkingDirectory;
   this.builders=builder;
   this.plan=plan;
+  for (  MaterialRevision materialRevision : buildCause.getMaterialRevisions()) {
+    ArrayList<Modification> modifications=new ArrayList<>();
+    for (    Modification modification : materialRevision.getModifications()) {
+      modifications.add(new Modification(modification,false));
+    }
+    materialRevisions.addRevision(new MaterialRevision(materialRevision.getMaterial(),materialRevision.isChanged(),modifications));
+  }
+  approver=buildCause.getApprover();
 }
