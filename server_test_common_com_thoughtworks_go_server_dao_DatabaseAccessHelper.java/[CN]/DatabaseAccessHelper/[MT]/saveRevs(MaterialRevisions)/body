@@ -1,7 +1,14 @@
 {
+  final MaterialRevisions unsavedRevisions=new MaterialRevisions();
+  for (  MaterialRevision materialRevision : materialRevisions) {
+    unsavedRevisions.addRevision(filterUnsaved(materialRevision));
+  }
+  if (unsavedRevisions.isEmpty()) {
+    return;
+  }
   transactionTemplate.execute(new TransactionCallbackWithoutResult(){
     @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
-      materialRepository.save(materialRevisions);
+      materialRepository.save(unsavedRevisions);
     }
   }
 );

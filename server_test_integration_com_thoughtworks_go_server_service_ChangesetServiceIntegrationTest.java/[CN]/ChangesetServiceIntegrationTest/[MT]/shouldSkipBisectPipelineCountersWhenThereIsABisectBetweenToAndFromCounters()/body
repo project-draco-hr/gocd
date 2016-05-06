@@ -6,7 +6,7 @@
   Modification bisectModification=checkinWithComment("3","#4750 - Rev 3",now.plusDays(3).toDate());
   dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("2","#3750 - Rev 2",now.plusDays(2).toDate()),bisectModification,checkinWithComment("4","#4750 - Rev 4",now.plusDays(4).toDate())));
   dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("5","#5750 - Rev 5",now.plusDays(5).toDate())));
-  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,bisectModification));
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,new MaterialRevision(hg,bisectModification));
   Pipeline lastPipeline=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("6","#6760 - Rev 6",now.plusDays(6).toDate())));
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   List<MaterialRevision> revisionsBetween=changesetService.revisionsBetween("foo-bar",firstPipeline.getCounter(),lastPipeline.getCounter(),new Username(new CaseInsensitiveString("loser")),result,true,false);

@@ -1,0 +1,39 @@
+{
+  final MaterialInstance materialInstance=repo.findOrCreateFrom(new GitMaterial(UUID.randomUUID().toString(),"branch"));
+  final ArrayList<Modification> firstSetOfModifications=getModifications(3);
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveModifications(materialInstance,firstSetOfModifications);
+      return null;
+    }
+  }
+);
+  Modifications firstSetOfModificationsFromDb=repo.getModificationsFor(materialInstance,Pagination.pageByNumber(1,10,10));
+  assertThat(firstSetOfModificationsFromDb.size(),is(3));
+  for (  Modification modification : firstSetOfModifications) {
+    assertThat(firstSetOfModificationsFromDb.containsRevisionFor(modification),is(true));
+  }
+  final ArrayList<Modification> secondSetOfModificationsContainingDuplicateRevisions=getModifications(4);
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveModifications(materialInstance,secondSetOfModificationsContainingDuplicateRevisions);
+      return null;
+    }
+  }
+);
+  Modifications secondSetOfModificationsFromDb=repo.getModificationsFor(materialInstance,Pagination.pageByNumber(1,10,10));
+  assertThat(secondSetOfModificationsFromDb.size(),is(4));
+  for (  final Modification fromPreviousCycle : firstSetOfModificationsFromDb) {
+    Modification modification=ListUtil.find(secondSetOfModificationsFromDb,new ListUtil.Condition(){
+      @Override public <T>boolean isMet(      T item){
+        Modification modification=(Modification)item;
+        return modification.getId() == fromPreviousCycle.getId();
+      }
+    }
+);
+    assertThat(modification,is(notNullValue()));
+  }
+  for (  Modification modification : secondSetOfModificationsContainingDuplicateRevisions) {
+    assertThat(secondSetOfModificationsFromDb.containsRevisionFor(modification),is(true));
+  }
+}

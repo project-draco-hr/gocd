@@ -1,0 +1,28 @@
+{
+  DetachedCriteria criteria=DetachedCriteria.forClass(Modification.class);
+  criteria.setProjection(Projections.projectionList().add(Projections.property("revision")));
+  criteria.add(Restrictions.eq("materialInstance.id",materialInstance.getId()));
+  ArrayList<String> revisions=new ArrayList<>();
+  for (  Modification modification : newChanges) {
+    revisions.add(modification.getRevision());
+  }
+  criteria.add(Restrictions.in("revision",revisions));
+  List<String> matchingRevisionsFromDb=getHibernateTemplate().findByCriteria(criteria);
+  if (!matchingRevisionsFromDb.isEmpty()) {
+    for (    final String revision : matchingRevisionsFromDb) {
+      Modification modification=ListUtil.find(list,new ListUtil.Condition(){
+        @Override public <T>boolean isMet(        T item){
+          return ((Modification)item).getRevision().equals(revision);
+        }
+      }
+);
+      list.remove(modification);
+    }
+  }
+  if (!newChanges.isEmpty() && list.isEmpty()) {
+    throw new RuntimeException("All modifications already exist in db: " + revisions);
+  }
+  if (!matchingRevisionsFromDb.isEmpty()) {
+    LOGGER.info("Saving revisions for material [{}] after removing the following duplicates {}",materialInstance.toOldMaterial(null,null,null).getLongDescription(),matchingRevisionsFromDb);
+  }
+}

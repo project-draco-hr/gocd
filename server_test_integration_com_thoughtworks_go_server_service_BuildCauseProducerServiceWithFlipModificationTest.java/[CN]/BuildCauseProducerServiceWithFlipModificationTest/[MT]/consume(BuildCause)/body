@@ -1,7 +1,7 @@
 {
+  dbHelper.saveRevs(buildCause.getMaterialRevisions());
   transactionTemplate.execute(new TransactionCallbackWithoutResult(){
     @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
-      materialRepository.save(buildCause.getMaterialRevisions());
       Pipeline latestPipeline=pipelineScheduleQueue.createPipeline(buildCause,mingleConfig,new DefaultSchedulingContext(buildCause.getApprover(),new Agents()),"md5",new TimeProvider());
       pipelineDao.saveWithStages(latestPipeline);
       dbHelper.passStage(latestPipeline.getStages().first());

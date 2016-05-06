@@ -1,5 +1,8 @@
 {
-  final MaterialRevision revision=new MaterialRevision(material,modifications);
+  final MaterialRevision revision=filterUnsaved(new MaterialRevision(material,modifications));
+  if (revision.getModifications().isEmpty()) {
+    return revision;
+  }
   transactionTemplate.execute(new TransactionCallbackWithoutResult(){
     @Override protected void doInTransactionWithoutResult(    TransactionStatus status){
       materialRepository.saveMaterialRevision(revision);

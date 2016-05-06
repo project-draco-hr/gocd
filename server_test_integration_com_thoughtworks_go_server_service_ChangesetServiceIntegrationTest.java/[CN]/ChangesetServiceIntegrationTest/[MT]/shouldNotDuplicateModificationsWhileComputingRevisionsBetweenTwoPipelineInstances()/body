@@ -3,10 +3,11 @@
   ManualBuild build=new ManualBuild(loser);
   Date checkinTime=new Date();
   Modification hgCommit1=checkinWithComment("abcd","#4518 - foo",checkinTime);
-  Pipeline pipelineOne=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,hgCommit1));
-  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,hgCommit1));
-  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,hgCommit1));
-  Pipeline pipelineFour=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,hgCommit1));
+  MaterialRevision materialRevision=dbHelper.addRevisionsWithModifications(hg,hgCommit1);
+  Pipeline pipelineOne=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,materialRevision);
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,materialRevision);
+  dbHelper.checkinRevisionsToBuild(build,pipelineConfig,materialRevision);
+  Pipeline pipelineFour=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,materialRevision);
   List<MaterialRevision> expectedRevisions=Arrays.asList(new MaterialRevision(hg,hgCommit1));
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   List<MaterialRevision> revisions=changesetService.revisionsBetween(CaseInsensitiveString.str(pipelineConfig.name()),pipelineOne.getCounter(),pipelineFour.getCounter(),loser,result,true,false);

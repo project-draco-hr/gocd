@@ -1,0 +1,26 @@
+{
+  final MaterialInstance materialInstance1=repo.findOrCreateFrom(new GitMaterial(UUID.randomUUID().toString(),"branch"));
+  final MaterialInstance materialInstance2=repo.findOrCreateFrom(new GitMaterial(UUID.randomUUID().toString(),"branch"));
+  final ArrayList<Modification> modificationsForFirstMaterial=getModifications(3);
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveModifications(materialInstance1,modificationsForFirstMaterial);
+      return null;
+    }
+  }
+);
+  assertThat(repo.getModificationsFor(materialInstance1,Pagination.pageByNumber(1,10,10)).size(),is(3));
+  final ArrayList<Modification> modificationsForSecondMaterial=getModifications(3);
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveModifications(materialInstance2,modificationsForSecondMaterial);
+      return null;
+    }
+  }
+);
+  Modifications modificationsFromDb=repo.getModificationsFor(materialInstance2,Pagination.pageByNumber(1,10,10));
+  assertThat(modificationsFromDb.size(),is(3));
+  for (  Modification modification : modificationsForSecondMaterial) {
+    assertThat(modificationsFromDb.containsRevisionFor(modification),is(true));
+  }
+}
