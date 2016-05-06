@@ -1,9 +1,0 @@
-{
-  ArrayList<PipelineConfigs> list=new ArrayList<>();
-  for (  PipelineConfigs pipelineConfigs : goConfigService.getCurrentConfig().getGroups()) {
-    if (hasViewPermissionForGroup(CaseInsensitiveString.str(username.getUsername()),pipelineConfigs.getGroup())) {
-      list.add(pipelineConfigs);
-    }
-  }
-  return list;
-}

@@ -6,7 +6,7 @@
       data.put(key,request.getParameter(key));
     }
   }
-  List<PipelineConfigs> groups=securityService.viewableGroupsFor(getUserName());
+  List<PipelineConfigs> groups=pipelineConfigService.viewableGroupsFor(getUserName());
   data.put("pipelines",new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(getPipelineModelsSortedByNameFor(groups)));
   data.put("l",localizer);
   message.populateModel(data);
