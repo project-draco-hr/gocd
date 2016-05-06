@@ -2,7 +2,9 @@
   return createThread(new Runnable(){
     @Override public void run(){
       PipelineConfig pipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new GitMaterialConfig("FOO"));
-      pipelineConfigService.createPipelineConfig(new Username(new CaseInsensitiveString("root")),pipelineConfig,new HttpLocalizedOperationResult(),"default");
+      HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+      pipelineConfigService.createPipelineConfig(new Username(new CaseInsensitiveString("root")),pipelineConfig,result,"default");
+      assertThat(result.message(localizer),result.isSuccessful(),is(true));
     }
   }
 ,"pipeline-config-save-thread" + counter);
