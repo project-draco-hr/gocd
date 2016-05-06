@@ -2,7 +2,7 @@
   if (gitCommand.isShallow() && !gitCommand.containsRevisionInBranch(revision)) {
     gitCommand.unshallow(streamConsumer,UNSHALLOW_TRYOUT_STEP);
     if (gitCommand.isShallow() && !gitCommand.containsRevisionInBranch(revision)) {
-      gitCommand.unshallow(streamConsumer,Integer.MAX_VALUE);
+      fullyUnshallow(gitCommand,streamConsumer);
     }
   }
 }
