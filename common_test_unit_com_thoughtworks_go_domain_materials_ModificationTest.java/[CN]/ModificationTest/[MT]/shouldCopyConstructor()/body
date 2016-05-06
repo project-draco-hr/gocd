@@ -1,8 +1,14 @@
 {
   Modification modification=new Modification("user","comment","foo@bar.com",new Date(),"pipe/1/stage/2");
+  Map<String,String> additionalData=new HashMap<String,String>();
+  additionalData.put("a1","v1");
+  additionalData.put("a2","v2");
+  modification.setAdditionalData(new Gson().toJson(additionalData));
   MaterialInstance original=new SvnMaterialInstance("url","username",UUID.randomUUID().toString(),true);
   modification.setMaterialInstance(original);
   assertThat(new Modification(modification),is(modification));
   modification=new Modification(new Date(),"rev","label",121L);
-  assertThat(new Modification(modification),is(modification));
+  Modification copiedModification=new Modification(modification);
+  assertThat(copiedModification,is(modification));
+  assertThat(copiedModification.getAdditionalDataMap(),is(modification.getAdditionalDataMap()));
 }
