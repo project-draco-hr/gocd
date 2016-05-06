@@ -1,0 +1,13 @@
+{
+  List<Modification> modificationsForSvn=ModificationsMother.multipleModificationList();
+  List<Modification> modificationsForHg=ModificationsMother.multipleModificationList();
+  MaterialRevision svn=new MaterialRevision(MaterialsMother.svnMaterial(),modificationsForSvn);
+  MaterialRevision hg=new MaterialRevision(MaterialsMother.hgMaterial(),modificationsForHg);
+  MaterialRevisions materialRevisions=new MaterialRevisions(svn,hg);
+  BuildCause buildCause=BuildCause.createWithModifications(materialRevisions,"user1");
+  BuildAssignment buildAssignment=BuildAssignment.create(jobForPipeline("foo"),buildCause,new ArrayList<Builder>(),null);
+  assertThat(buildAssignment.getBuildApprover(),is("user1"));
+  assertThat(buildAssignment.materialRevisions().getRevisions().size(),is(materialRevisions.getRevisions().size()));
+  assertRevisions(buildAssignment,svn);
+  assertRevisions(buildAssignment,hg);
+}

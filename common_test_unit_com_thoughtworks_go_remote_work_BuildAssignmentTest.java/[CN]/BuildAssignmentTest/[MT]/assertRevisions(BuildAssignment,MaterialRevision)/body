@@ -1,0 +1,11 @@
+{
+  MaterialRevision actualRevision=buildAssignment.materialRevisions().findRevisionFor(expectedRevision.getMaterial());
+  assertThat(actualRevision.getMaterial(),is(expectedRevision.getMaterial()));
+  assertThat(actualRevision.getModifications().size(),is(expectedRevision.getModifications().size()));
+  for (int i=0; i < actualRevision.getModifications().size(); i++) {
+    final Modification actualModification=actualRevision.getModifications().get(i);
+    final Modification expectedModification=expectedRevision.getModifications().get(i);
+    assertThat(actualModification.getRevision(),is(expectedModification.getRevision()));
+    assertThat(actualModification.getModifiedFiles().isEmpty(),is(true));
+  }
+}
