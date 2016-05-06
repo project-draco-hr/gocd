@@ -2,7 +2,8 @@
   Thread thread=new Thread(runnable,name);
   thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
     public void uncaughtException(    Thread t,    Throwable e){
-      throw new RuntimeException(e);
+      e.printStackTrace();
+      throw new RuntimeException(e.getMessage(),e);
     }
   }
 );
