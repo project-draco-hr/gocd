@@ -1,0 +1,17 @@
+{
+  MaterialRevision packageMaterialRevision=ModificationsMother.createPackageMaterialRevision("revision");
+  Map<String,String> additionalData=new HashMap<String,String>();
+  additionalData.put("a1","v1");
+  additionalData.put("a2","v2");
+  String additionalDataAsString=new Gson().toJson(additionalData);
+  packageMaterialRevision.getModifications().first().setAdditionalData(additionalDataAsString);
+  MaterialRevisions materialRevisions=new MaterialRevisions(packageMaterialRevision);
+  BuildCause buildCause=BuildCause.createWithModifications(materialRevisions,"user1");
+  BuildAssignment buildAssignment=BuildAssignment.create(jobForPipeline("foo"),buildCause,new ArrayList<Builder>(),null);
+  assertThat(buildAssignment.getBuildApprover(),is("user1"));
+  assertThat(buildAssignment.materialRevisions().getRevisions().size(),is(materialRevisions.getRevisions().size()));
+  assertRevisions(buildAssignment,packageMaterialRevision);
+  Modification actualModification=buildAssignment.materialRevisions().getRevisions().get(0).getModification(0);
+  assertThat(actualModification.getAdditionalData(),is(additionalDataAsString));
+  assertThat(actualModification.getAdditionalDataMap(),is(additionalData));
+}
