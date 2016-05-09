@@ -1,8 +1,8 @@
 {
-  if (gitCommand.isShallow() && !gitCommand.hasRevision(revision)) {
+  if (gitCommand.isShallow() && !gitCommand.containsRevisionInBranch(revision)) {
     gitCommand.unshallow(streamConsumer,UNSHALLOW_TRYOUT_STEP);
-    if (gitCommand.isShallow() && !gitCommand.hasRevision(revision)) {
-      gitCommand.unshallow(streamConsumer,Integer.MAX_VALUE);
+    if (gitCommand.isShallow() && !gitCommand.containsRevisionInBranch(revision)) {
+      fullyUnshallow(gitCommand,streamConsumer);
     }
   }
 }

@@ -1,7 +1,7 @@
 {
-  String originalNode=git.latestModification().getRevision();
+  String originalNode=git.latestModification().get(0).getRevision();
   File testingFile=checkInNewRemoteFile();
-  Modification modification=git.latestModification();
+  Modification modification=git.latestModification().get(0);
   assertThat(modification.getRevision(),is(not(originalNode)));
   assertThat(modification.getComment(),is("New checkin of " + testingFile.getName()));
   assertThat(modification.getModifiedFiles().size(),is(1));

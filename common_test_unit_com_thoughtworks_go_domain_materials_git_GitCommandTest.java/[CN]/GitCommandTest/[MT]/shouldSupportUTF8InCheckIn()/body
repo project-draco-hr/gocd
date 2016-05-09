@@ -2,7 +2,7 @@
   String filename="???????????????.scn";
   String message="???????????????";
   gitRepo.addFileAndPush(filename,message);
-  Modification modification=git.latestModification();
+  Modification modification=git.latestModification().get(0);
   assertThat(modification.getModifiedFiles().get(0).getFileName(),containsString(filename));
   assertThat(modification.getComment(),is(message));
 }

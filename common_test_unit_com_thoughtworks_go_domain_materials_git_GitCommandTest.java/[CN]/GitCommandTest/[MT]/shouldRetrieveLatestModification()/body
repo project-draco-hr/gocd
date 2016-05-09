@@ -1,5 +1,5 @@
 {
-  Modification mod=git.latestModification();
+  Modification mod=git.latestModification().get(0);
   assertThat(mod.getUserName(),is("Chris Turner <cturner@thoughtworks.com>"));
   assertThat(mod.getComment(),is("Added 'run-till-file-exists' ant target"));
   assertThat(mod.getModifiedTime(),is(parseRFC822("Fri, 12 Feb 2010 16:12:04 -0800")));

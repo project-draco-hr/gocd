@@ -1,0 +1,7 @@
+{
+  File newFile=new File(gitRepo,fileName);
+  newFile.createNewFile();
+  new GitCommand(null,gitRepo,GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>()).add(newFile);
+  new GitCommandWithAmend(null,gitRepo,GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>()).commitWithAmend(message,gitRepo);
+  return createMaterial().latestModification(TestFileUtil.createUniqueTempFolder("working-dir-"),new TestSubprocessExecutionContext());
+}

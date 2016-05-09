@@ -8,7 +8,7 @@
  catch (  Exception e) {
     throw new RuntimeException(String.format("Working directory: %s\n%s",workingDir,outputStreamConsumer.getStdError()),e);
   }
-  CommandLine gitCmd=git(environment).withArg("log").withArg(remoteBranch()).withArgs(args).withWorkingDir(workingDir);
+  CommandLine gitCmd=git(environment).withArg("log").withArgs(args).withWorkingDir(workingDir);
   ConsoleResult result=runOrBomb(gitCmd);
   GitModificationParser parser=new GitModificationParser();
   List<Modification> mods=parser.parse(result.output());

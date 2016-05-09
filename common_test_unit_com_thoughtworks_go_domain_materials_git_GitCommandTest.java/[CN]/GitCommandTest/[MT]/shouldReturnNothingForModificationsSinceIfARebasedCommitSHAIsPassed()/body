@@ -1,0 +1,8 @@
+{
+  GitTestRepo remoteRepo=new GitTestRepo();
+  executeOnGitRepo("git","remote","rm","origin");
+  executeOnGitRepo("git","remote","add","origin",remoteRepo.projectRepositoryUrl());
+  GitCommand command=new GitCommand(remoteRepo.createMaterial().getFingerprint(),gitLocalRepoDir,"master",false,new HashMap<String,String>());
+  Modification modification=remoteRepo.addFileAndAmend("foo","amendedCommit").get(0);
+  assertThat(command.modificationsSince(new StringRevision(modification.getRevision())).isEmpty(),is(true));
+}
