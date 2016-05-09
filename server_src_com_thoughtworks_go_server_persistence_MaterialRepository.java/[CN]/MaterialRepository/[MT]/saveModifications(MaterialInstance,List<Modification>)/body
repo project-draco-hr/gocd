@@ -1,16 +1,17 @@
 {
-  ArrayList<Modification> list=new ArrayList<Modification>(newChanges);
+  ArrayList<Modification> list=new ArrayList<>(newChanges);
   Collections.reverse(list);
   for (  Modification modification : list) {
     modification.setMaterialInstance(materialInstance);
   }
   try {
+    checkAndRemoveDuplicates(materialInstance,newChanges,list);
     getHibernateTemplate().saveOrUpdateAll(list);
   }
  catch (  Exception e) {
-    String message="Cannot save modification";
+    String message="Cannot save modification: ";
     LOGGER.error(message,e);
-    throw new RuntimeException(message,e);
+    throw new RuntimeException(message + e.getMessage(),e);
   }
   for (  Modification modification : list) {
     removeLatestCachedModification(materialInstance,modification);

@@ -1,0 +1,26 @@
+{
+  final MaterialInstance materialInstance=repo.findOrCreateFrom(new GitMaterial(UUID.randomUUID().toString(),"branch"));
+  final ArrayList<Modification> firstSetOfModifications=getModifications(3);
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveModifications(materialInstance,firstSetOfModifications);
+      return null;
+    }
+  }
+);
+  Modifications firstSetOfModificationsFromDb=repo.getModificationsFor(materialInstance,Pagination.pageByNumber(1,10,10));
+  assertThat(firstSetOfModificationsFromDb.size(),is(3));
+  for (  Modification modification : firstSetOfModifications) {
+    assertThat(firstSetOfModificationsFromDb.containsRevisionFor(modification),is(true));
+  }
+  final ArrayList<Modification> secondSetOfModificationsContainingAllDuplicateRevisions=getModifications(3);
+  thrown.expect(RuntimeException.class);
+  thrown.expectMessage("All modifications already exist in db: [r0, r1, r2]");
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveModifications(materialInstance,secondSetOfModificationsContainingAllDuplicateRevisions);
+      return null;
+    }
+  }
+);
+}

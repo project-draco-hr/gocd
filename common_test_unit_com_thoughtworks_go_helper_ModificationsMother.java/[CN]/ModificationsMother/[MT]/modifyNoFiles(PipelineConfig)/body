@@ -2,7 +2,7 @@
   MaterialRevisions materialRevisions=new MaterialRevisions();
   for (  Material material : MaterialsMother.createMaterialsFromMaterialConfigs(config.materialConfigs())) {
     ArrayList<Modification> list=new ArrayList<Modification>();
-    list.add(new Modification("no-user","comment","dummy-email",new Date(),"Dummy Modification"));
+    list.add(new Modification("no-user","comment","dummy-email",new Date(),"Dummy Modification" + UUID.randomUUID().toString()));
     materialRevisions.addRevision(material,list);
   }
   return BuildCause.createWithModifications(materialRevisions,"");

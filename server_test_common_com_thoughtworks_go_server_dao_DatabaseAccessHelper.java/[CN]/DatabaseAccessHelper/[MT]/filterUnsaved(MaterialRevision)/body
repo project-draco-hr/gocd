@@ -1,0 +1,9 @@
+{
+  ArrayList<Modification> unsavedModifications=new ArrayList<>();
+  for (  Modification modification : materialRevision.getModifications()) {
+    if (!modification.hasId()) {
+      unsavedModifications.add(modification);
+    }
+  }
+  return new MaterialRevision(materialRevision.getMaterial(),unsavedModifications);
+}

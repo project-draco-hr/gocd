@@ -1,7 +1,7 @@
 {
   Username loser=new Username(new CaseInsensitiveString("loser"));
   ManualBuild build=new ManualBuild(loser);
-  Pipeline pipelineFrom=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("abcd","Commit made against no card number - foo",new Date())));
+  Pipeline pipelineFrom=dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,modificationWithNoCardNumberInComment(new Date())));
   dbHelper.checkinRevisionsToBuild(build,pipelineConfig,dbHelper.addRevisionsWithModifications(hg,checkinWithComment("8923","hg commit for card #2750 and #3400",new Date())));
   CruiseConfig config=configHelper.load();
   pipelineConfig=config.pipelineConfigByName(pipelineConfig.name());

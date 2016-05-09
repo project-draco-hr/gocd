@@ -1,0 +1,22 @@
+{
+  final MaterialInstance materialInstance=repo.findOrCreateFrom(new GitMaterial(UUID.randomUUID().toString(),"branch"));
+  int count=10000;
+  final ArrayList<Modification> firstSetOfModifications=getModifications(count);
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveModifications(materialInstance,firstSetOfModifications);
+      return null;
+    }
+  }
+);
+  assertThat(repo.getTotalModificationsFor(materialInstance),is(new Long(count)));
+  final ArrayList<Modification> secondSetOfModifications=getModifications(count + 1);
+  transactionTemplate.execute(new TransactionCallback(){
+    public Object doInTransaction(    TransactionStatus status){
+      repo.saveModifications(materialInstance,secondSetOfModifications);
+      return null;
+    }
+  }
+);
+  assertThat(repo.getTotalModificationsFor(materialInstance),is(new Long(count + 1)));
+}
