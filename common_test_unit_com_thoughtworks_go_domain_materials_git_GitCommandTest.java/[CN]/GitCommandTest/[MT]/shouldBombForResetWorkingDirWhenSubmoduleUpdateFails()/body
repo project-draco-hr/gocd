@@ -10,6 +10,6 @@
     fail("should have failed for non 0 return code");
   }
  catch (  Exception e) {
-    assertThat(e.getMessage(),containsString(String.format("Clone of '%s' into submodule path 'sub1' failed",submoduleFolder.getAbsolutePath())));
+    assertThat(e.getMessage(),CoreMatchers.anyOf(containsString(String.format("Clone of '%s' into submodule path 'sub1' failed",submoduleFolder.getAbsolutePath())),containsString(String.format("clone of '%s' into submodule path 'sub1' failed",submoduleFolder.getAbsolutePath()))));
   }
 }

@@ -1,0 +1,7 @@
+{
+  CommandLine commandLine=git(environment).withArgs("ls-remote").withArg(repoUrl).withArg("refs/heads/" + branch);
+  ConsoleResult result=commandLine.runOrBomb(repoUrl.forDisplay());
+  if (!hasOnlyOneMatchingBranch(result)) {
+    throw new CommandLineException(String.format("The branch %s could not be found.",branch));
+  }
+}
