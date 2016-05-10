@@ -1,9 +1,4 @@
 {
-  try {
-    final TestSubprocessExecutionContext executionContext=new TestSubprocessExecutionContext();
-    GitCommand.checkConnection(git.workingRepositoryUrl(),executionContext.getDefaultEnvironmentVariables());
-  }
- catch (  Exception e) {
-    fail();
-  }
+  final TestSubprocessExecutionContext executionContext=new TestSubprocessExecutionContext();
+  GitCommand.checkConnection(git.workingRepositoryUrl(),"master",executionContext.getDefaultEnvironmentVariables());
 }
