@@ -1,0 +1,6 @@
+{
+  GitMaterialInstance materialInstance=new GitMaterialInstance("url","branch",null,UUID.randomUUID().toString());
+  materialRepository.saveModifications(materialInstance,new ArrayList<Modification>());
+  verifyZeroInteractions(mockHibernateTemplate);
+  verifyZeroInteractions(goCache);
+}
