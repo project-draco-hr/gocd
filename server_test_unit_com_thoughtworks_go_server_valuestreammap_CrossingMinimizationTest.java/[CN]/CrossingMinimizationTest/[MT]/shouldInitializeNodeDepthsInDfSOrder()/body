@@ -11,8 +11,8 @@
   ValueStreamMap graph=new ValueStreamMap(p,null);
   graph.addUpstreamNode(new PipelineDependencyNode(p1,p1),null,p);
   graph.addUpstreamNode(new PipelineDependencyNode(p2,p2),null,p);
-  graph.addUpstreamNode(new SCMDependencyNode(g2,g2,"git"),null,p2);
-  graph.addUpstreamNode(new SCMDependencyNode(g1,g1,"git"),null,p1);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(g2,g2,"git"),null,p2,new MaterialRevision(null));
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(g1,g1,"git"),null,p1,new MaterialRevision(null));
   graph.addDownstreamNode(new PipelineDependencyNode(p3,p3),p);
   graph.addDownstreamNode(new PipelineDependencyNode(p4,p4),p);
   graph.addDownstreamNode(new PipelineDependencyNode(p6,p6),p4);

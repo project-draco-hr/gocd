@@ -1,0 +1,11 @@
+{
+  String current="current";
+  ValueStreamMap valueStreamMap=new ValueStreamMap(current,null);
+  SCMDependencyNode scmDependencyNode=new SCMDependencyNode("id","git_node","git");
+  MaterialRevision rev1=new MaterialRevision(MaterialsMother.gitMaterial("git/repo/url"),ModificationsMother.oneModifiedFile("rev1"));
+  MaterialRevision rev2=new MaterialRevision(MaterialsMother.gitMaterial("git/repo/url"),ModificationsMother.oneModifiedFile("rev1"),ModificationsMother.oneModifiedFile("rev2"));
+  valueStreamMap.addUpstreamMaterialNode(scmDependencyNode,new CaseInsensitiveString("git"),valueStreamMap.getCurrentPipeline().getId(),rev1);
+  valueStreamMap.addUpstreamMaterialNode(scmDependencyNode,new CaseInsensitiveString("git"),valueStreamMap.getCurrentPipeline().getId(),rev2);
+  valueStreamMap.addWarningIfBuiltFromInCompatibleRevisions();
+  assertNull(valueStreamMap.getCurrentPipeline().getViewType());
+}

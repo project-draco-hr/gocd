@@ -5,7 +5,7 @@
   Node p3=new PipelineDependencyNode("p3","p3");
   Node gitNode=new SCMDependencyNode("git","g","git");
   ValueStreamMap valueStreamMap=new ValueStreamMap(current,new PipelineRevision(current,1,"1"));
-  valueStreamMap.addUpstreamMaterialNode(gitNode,new CaseInsensitiveString("trunk"),new Modifications(ModificationsMother.aCheckIn("1")),"p");
+  valueStreamMap.addUpstreamMaterialNode(gitNode,new CaseInsensitiveString("trunk"),"p",new MaterialRevision(null));
   valueStreamMap.addDownstreamNode(p1,current);
   valueStreamMap.addDownstreamNode(p2,current);
   valueStreamMap.addDownstreamNode(p3,p1.getId());

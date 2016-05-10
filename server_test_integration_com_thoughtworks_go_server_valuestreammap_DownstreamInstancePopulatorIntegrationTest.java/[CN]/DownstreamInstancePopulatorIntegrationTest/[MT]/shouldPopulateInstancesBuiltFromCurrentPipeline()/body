@@ -4,7 +4,7 @@
   Node nodep3=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p3","p3"),"p2");
   Node nodep4=valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p4","p4"),"p3");
   valueStreamMap.addDownstreamNode(new PipelineDependencyNode("p4","p4"),"p2");
-  valueStreamMap.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),new Modifications(ModificationsMother.multipleModificationList()),"p");
+  valueStreamMap.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),new CaseInsensitiveString("git"),"p",new MaterialRevision(null));
   GitMaterial g1=u.wf(new GitMaterial("g1"),"folder3");
   u.checkinInOrder(g1,"g_1");
   ScheduleTestUtil.AddedPipeline p=u.saveConfigWith("p",u.m(g1));

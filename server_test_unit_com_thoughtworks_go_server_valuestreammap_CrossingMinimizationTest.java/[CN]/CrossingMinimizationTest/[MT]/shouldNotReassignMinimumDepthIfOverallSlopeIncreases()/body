@@ -1,11 +1,11 @@
 {
   ValueStreamMap graph=new ValueStreamMap("P",null);
-  Node g4=graph.addUpstreamNode(new SCMDependencyNode("g4","g4","git"),null,"P");
+  Node g4=graph.addUpstreamMaterialNode(new SCMDependencyNode("g4","g4","git"),null,"P",new MaterialRevision(null));
   Node p1=graph.addUpstreamNode(new PipelineDependencyNode("P1","P1"),null,"P");
-  Node g1=graph.addUpstreamNode(new SCMDependencyNode("g1","g1","git"),null,"P1");
-  Node g2=graph.addUpstreamNode(new SCMDependencyNode("g2","g2","git"),null,"P1");
+  Node g1=graph.addUpstreamMaterialNode(new SCMDependencyNode("g1","g1","git"),null,"P1",new MaterialRevision(null));
+  Node g2=graph.addUpstreamMaterialNode(new SCMDependencyNode("g2","g2","git"),null,"P1",new MaterialRevision(null));
   Node p2=graph.addUpstreamNode(new PipelineDependencyNode("P2","P2"),null,"P");
-  Node g3=graph.addUpstreamNode(new SCMDependencyNode("g3","g3","git"),null,"P2");
+  Node g3=graph.addUpstreamMaterialNode(new SCMDependencyNode("g3","g3","git"),null,"P2",new MaterialRevision(null));
   NodeLevelMap levelToNodesMap=nodeLevelMap(graph);
   crossingMinimization.apply(levelToNodesMap);
   assertThat(levelToNodesMap.get(0),is(Arrays.asList(graph.getCurrentPipeline())));

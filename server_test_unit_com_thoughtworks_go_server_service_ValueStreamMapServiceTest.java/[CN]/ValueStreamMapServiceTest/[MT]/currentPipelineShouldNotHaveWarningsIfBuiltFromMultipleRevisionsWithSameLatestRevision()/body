@@ -1,0 +1,21 @@
+{
+  GitMaterial git=new GitMaterial("git");
+  MaterialConfig gitConfig=git.config();
+  Modification rev1=ModificationsMother.oneModifiedFile("rev1");
+  Modification rev2=ModificationsMother.oneModifiedFile("rev2");
+  Modification rev3=ModificationsMother.oneModifiedFile("rev3");
+  BuildCause p1buildCause=createBuildCauseForRevisions(new ArrayList<DependencyMaterialDetail>(),asList(git),Arrays.asList(rev3,rev2,rev1));
+  BuildCause p2buildCause=createBuildCauseForRevisions(new ArrayList<DependencyMaterialDetail>(),asList(git),Arrays.asList(rev3));
+  BuildCause p3buildCause=createBuildCauseForRevisions(asList(dependencyMaterial("p1",1),dependencyMaterial("p2",1)),new ArrayList<GitMaterial>(),new ArrayList<Modification>());
+  when(pipelineService.buildCauseFor("p3",1)).thenReturn(p3buildCause);
+  when(pipelineService.buildCauseFor("p1",1)).thenReturn(p1buildCause);
+  when(pipelineService.buildCauseFor("p2",1)).thenReturn(p2buildCause);
+  PipelineConfig p1Config=PipelineConfigMother.pipelineConfig("p1",new MaterialConfigs(gitConfig));
+  PipelineConfig p2Config=PipelineConfigMother.pipelineConfig("p2",new MaterialConfigs(gitConfig));
+  PipelineConfig p3Config=PipelineConfigMother.pipelineConfig("p3",new MaterialConfigs(new DependencyMaterialConfig(p1Config.name(),p1Config.getFirstStageConfig().name()),new DependencyMaterialConfig(p2Config.name(),p2Config.getFirstStageConfig().name())));
+  CruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(p1Config,p2Config,p3Config));
+  when(pipelineService.findPipelineByCounterOrLabel("p3","1")).thenReturn(new Pipeline("p3","LABEL-P3",p3buildCause));
+  when(goConfigService.currentCruiseConfig()).thenReturn(cruiseConfig);
+  ValueStreamMapPresentationModel graph=valueStreamMapService.getValueStreamMap("p3",1,user,result);
+  assertNull(graph.getCurrentPipeline().getViewType());
+}

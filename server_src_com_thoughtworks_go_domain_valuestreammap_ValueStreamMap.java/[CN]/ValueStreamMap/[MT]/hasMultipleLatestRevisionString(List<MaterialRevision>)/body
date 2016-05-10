@@ -1,0 +1,9 @@
+{
+  int VALID_LATEST_REVISION_STRING_COUNT=1;
+  if (materialRevisions.size() == VALID_LATEST_REVISION_STRING_COUNT)   return false;
+  Set<String> latestRevisions=new HashSet<>();
+  for (  MaterialRevision revision : materialRevisions) {
+    latestRevisions.add(revision.getLatestRevisionString());
+  }
+  return latestRevisions.size() > VALID_LATEST_REVISION_STRING_COUNT;
+}

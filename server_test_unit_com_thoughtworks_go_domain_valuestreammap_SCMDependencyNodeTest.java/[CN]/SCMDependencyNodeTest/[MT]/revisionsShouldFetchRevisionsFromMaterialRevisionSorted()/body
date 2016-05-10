@@ -1,0 +1,14 @@
+{
+  ScmMaterial gitMaterial=MaterialsMother.gitMaterial("/url/for/repo");
+  Modification twoDaysAgo=ModificationsMother.oneModifiedFile("rev1",new DateTime().minusDays(2).toDate());
+  Modification yesterday=ModificationsMother.oneModifiedFile("rev2",new DateTime().minusDays(1).toDate());
+  Modification today=ModificationsMother.oneModifiedFile("rev3",new Date());
+  SCMDependencyNode node=new SCMDependencyNode("nodeID","nodeName","GIT");
+  node.addMaterialRevision(new MaterialRevision(gitMaterial,false,twoDaysAgo));
+  node.addMaterialRevision(new MaterialRevision(gitMaterial,false,yesterday));
+  node.addMaterialRevision(new MaterialRevision(gitMaterial,false,today));
+  assertThat(node.revisions().size(),is(3));
+  assertThat(node.revisions().get(0).getRevisionString(),is(today.getRevision()));
+  assertThat(node.revisions().get(1).getRevisionString(),is(yesterday.getRevision()));
+  assertThat(node.revisions().get(2).getRevisionString(),is(twoDaysAgo.getRevision()));
+}

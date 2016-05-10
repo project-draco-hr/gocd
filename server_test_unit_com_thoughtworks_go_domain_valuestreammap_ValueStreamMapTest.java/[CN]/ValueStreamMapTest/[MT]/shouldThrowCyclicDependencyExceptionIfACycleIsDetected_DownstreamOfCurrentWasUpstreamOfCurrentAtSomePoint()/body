@@ -8,7 +8,7 @@
   graph.addDownstreamNode(new PipelineDependencyNode(grandParent,grandParent),child);
   graph.addUpstreamNode(new PipelineDependencyNode(parent,parent),null,currentPipeline);
   graph.addUpstreamNode(new PipelineDependencyNode(grandParent,grandParent),null,parent);
-  graph.addUpstreamNode(new SCMDependencyNode("g","g","git"),null,grandParent);
-  graph.addUpstreamNode(new SCMDependencyNode("g","g","git"),null,parent);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g","g","git"),null,grandParent,new MaterialRevision(null));
+  graph.addUpstreamMaterialNode(new SCMDependencyNode("g","g","git"),null,parent,new MaterialRevision(null));
   assertThat(graph.hasCycle(),is(true));
 }

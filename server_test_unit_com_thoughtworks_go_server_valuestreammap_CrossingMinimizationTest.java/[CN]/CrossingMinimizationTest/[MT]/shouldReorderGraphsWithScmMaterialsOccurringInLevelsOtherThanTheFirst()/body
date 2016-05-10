@@ -5,10 +5,10 @@
   String p1="P1";
   String p="P";
   ValueStreamMap graph=new ValueStreamMap(p,null);
-  graph.addUpstreamNode(new SCMDependencyNode(g3,g3,"git"),null,p);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(g3,g3,"git"),null,p,new MaterialRevision(null));
   graph.addUpstreamNode(new PipelineDependencyNode(p1,p1),null,p);
-  graph.addUpstreamNode(new SCMDependencyNode(g1,g1,"git"),null,p1);
-  graph.addUpstreamNode(new SCMDependencyNode(g2,g2,"git"),null,p1);
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(g1,g1,"git"),null,p1,new MaterialRevision(null));
+  graph.addUpstreamMaterialNode(new SCMDependencyNode(g2,g2,"git"),null,p1,new MaterialRevision(null));
   NodeLevelMap levelToNodesMap=nodeLevelMap(graph);
   crossingMinimization.apply(levelToNodesMap);
   assertThat(levelToNodesMap.get(0),is(Arrays.asList(graph.findNode(p))));
