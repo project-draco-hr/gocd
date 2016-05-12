@@ -16,12 +16,10 @@
       timerThread=createThread(new Runnable(){
         @Override public void run(){
           try {
-            File configFile=new File(goConfigDao.fileLocation());
-            String currentConfig=FileUtil.readContentFromFile(configFile);
-            String updatedConfig=currentConfig.replaceFirst("artifactsdir=\".*\"","artifactsdir=\"" + UUID.randomUUID().toString() + "\"");
-            FileUtil.writeContentToFile(updatedConfig,configFile);
+            writeConfigToFile(new File(goConfigDao.fileLocation()));
           }
- catch (          IOException e) {
+ catch (          Exception e) {
+            e.printStackTrace();
             fail("Failed with error: " + e.getMessage());
           }
           cachedFileGoConfig.forceReload();
