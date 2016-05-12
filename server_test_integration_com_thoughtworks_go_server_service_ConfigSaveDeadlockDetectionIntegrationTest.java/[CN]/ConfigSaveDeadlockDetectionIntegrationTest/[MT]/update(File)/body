@@ -1,0 +1,5 @@
+{
+  String currentConfig=FileUtil.readContentFromFile(configFile);
+  String updatedConfig=currentConfig.replaceFirst("artifactsdir=\".*\"","artifactsdir=\"" + UUID.randomUUID().toString() + "\"");
+  FileUtil.writeContentToFile(updatedConfig,configFile);
+}
