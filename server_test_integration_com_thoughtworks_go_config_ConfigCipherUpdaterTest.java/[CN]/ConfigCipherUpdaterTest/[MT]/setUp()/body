@@ -21,8 +21,10 @@
 ,registry);
   registrar.initialize();
   magicalGoConfigXmlLoader=new MagicalGoConfigXmlLoader(configCache,registry);
-  configFileEncryptedWithFlawedCipher=new ClassPathResource("cruise-config-with-encrypted-with-flawed-cipher.xml").getFile();
+  File configFileEncryptedWithFlawedCipher=new ClassPathResource("cruise-config-with-encrypted-with-flawed-cipher.xml").getFile();
   FileUtil.writeContentToFile(ConfigCipherUpdater.FLAWED_VALUE,systemEnvironment.getCipherFile());
+  ReflectionUtil.setStaticField(CipherProvider.class,"cachedKey",null);
+  String xml=ConfigMigrator.migrate(FileUtil.readContentFromFile(configFileEncryptedWithFlawedCipher));
   originalConfigFile=new File(systemEnvironment.getCruiseConfigFile());
-  FileUtils.copyFile(configFileEncryptedWithFlawedCipher,originalConfigFile);
+  FileUtils.writeStringToFile(originalConfigFile,xml);
 }
