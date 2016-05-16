@@ -1,0 +1,11 @@
+{
+  AgentInstance agent=AgentInstanceMother.idle();
+  AgentConfig agentConfig=new AgentConfig(agent.getUuid(),agent.getHostname(),agent.getIpAddress());
+  agentConfig.setElasticAgentId("i-123456");
+  agentConfig.setElasticPluginId("com.example.aws");
+  assertFalse(agent.isElastic());
+  agent.syncConfig(agentConfig);
+  assertTrue(agent.isElastic());
+  assertEquals("i-123456",agent.elasticAgentMetadata().elasticAgentId());
+  assertEquals("com.example.aws",agent.elasticAgentMetadata().elasticPluginId());
+}

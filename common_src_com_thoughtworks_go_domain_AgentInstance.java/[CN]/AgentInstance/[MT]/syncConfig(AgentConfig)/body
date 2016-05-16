@@ -1,5 +1,8 @@
 {
   this.agentConfig=agentConfig;
+  if (agentConfig.isElastic()) {
+    agentRuntimeInfo=ElasticAgentRuntimeInfo.fromServer(agentRuntimeInfo,agentConfig.getElasticAgentId(),agentConfig.getElasticPluginId());
+  }
   if (agentRuntimeInfo.getRuntimeStatus() == AgentRuntimeStatus.Unknown) {
     agentRuntimeInfo.idle();
   }
