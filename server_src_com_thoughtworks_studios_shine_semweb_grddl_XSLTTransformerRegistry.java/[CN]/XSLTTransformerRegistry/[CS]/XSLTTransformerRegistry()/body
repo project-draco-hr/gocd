@@ -1,8 +1,13 @@
 {
-  transformerMap=new HashMap<String,Transformer>();
-  register("cruise/pipeline-graph-grddl.xsl");
-  register("cruise/stage-graph-grddl.xsl");
-  register("cruise/job-grddl.xsl");
-  register("xunit/ant-junit-grddl.xsl");
-  register("xunit/nunit-to-junit.xsl");
+  transformerMap=new HashMap<>();
+  try {
+    register("cruise/pipeline-graph-grddl.xsl");
+    register("cruise/stage-graph-grddl.xsl");
+    register("cruise/job-grddl.xsl");
+    register("xunit/ant-junit-grddl.xsl");
+    register("xunit/nunit-to-junit.xsl");
+  }
+ catch (  IOException e) {
+    throw bomb(e);
+  }
 }
