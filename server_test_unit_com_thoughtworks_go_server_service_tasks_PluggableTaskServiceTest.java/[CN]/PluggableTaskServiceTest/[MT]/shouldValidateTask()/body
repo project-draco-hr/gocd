@@ -1,6 +1,6 @@
 {
   Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"));
-  PluggableTask modifiedTask=new PluggableTask("abc",new PluginConfiguration(pluginId,"1"),configuration);
+  PluggableTask modifiedTask=new PluggableTask(new PluginConfiguration(pluginId,"1"),configuration);
   ValidationResult validationResult=new ValidationResult();
   validationResult.addError(new ValidationError("KEY1","error message"));
   when(taskExtension.validate(eq(modifiedTask.getPluginConfiguration().getId()),any(TaskConfig.class))).thenReturn(validationResult);
