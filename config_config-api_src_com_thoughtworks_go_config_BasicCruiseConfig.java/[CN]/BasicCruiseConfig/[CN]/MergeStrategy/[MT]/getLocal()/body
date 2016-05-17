@@ -25,6 +25,7 @@
   }
   Cloner cloner=new Cloner();
   BasicCruiseConfig configForSave=cloner.deepClone(this.main);
+  configForSave.strategy=new BasicStrategy();
   configForSave.setEnvironments(configsForSave);
   configForSave.groups=localGroups;
   return configForSave;

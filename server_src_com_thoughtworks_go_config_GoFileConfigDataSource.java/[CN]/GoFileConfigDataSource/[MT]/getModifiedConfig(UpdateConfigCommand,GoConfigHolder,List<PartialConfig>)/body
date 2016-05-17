@@ -6,7 +6,11 @@
     }
     return getMergedConfig((NoOverwriteUpdateConfigCommand)updatingCommand,configHolder.configForEdit.getMd5(),partials);
   }
-  CruiseConfig cruiseConfig=cloner.deepClone(configHolder.configForEdit);
+  CruiseConfig cruiseConfig;
+  if (configHolder.configForEdit.isLocal())   cruiseConfig=cloner.deepClone(configHolder.configForEdit);
+ else {
+    cruiseConfig=configHolder.configForEdit.getLocal();
+  }
   cruiseConfig.setPartials(partials);
   CruiseConfig config=updatingCommand.update(cruiseConfig);
   LOGGER.debug("[Config Save] ==-- Done getting modified config");
