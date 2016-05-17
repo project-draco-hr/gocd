@@ -1,0 +1,21 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("local-pipeline-1"));
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  PartialConfig partialConfig=PartialConfigMother.withPipelineInGroup("remote-pipeline-1","g2");
+  partialConfig.getGroups().get(0).setOrigins(new RepoConfigOrigin());
+  BasicEnvironmentConfig localEnvironment=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  localEnvironment.addPipeline(new CaseInsensitiveString("local-pipeline-1"));
+  mainCruiseConfig.addEnvironment(localEnvironment);
+  BasicEnvironmentConfig remoteEnvironment=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  remoteEnvironment.setOrigins(new RepoConfigOrigin());
+  remoteEnvironment.addPipeline(new CaseInsensitiveString("remote-pipeline-1"));
+  partialConfig.getEnvironments().add(remoteEnvironment);
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig);
+  cruiseConfig.merge(Arrays.asList(partialConfig),true);
+  assertThat(cruiseConfig.getEnvironments().size(),is(1));
+  EnvironmentConfig mergedEnvironment=cruiseConfig.getEnvironments().get(0);
+  assertThat(mergedEnvironment,instanceOf(MergeEnvironmentConfig.class));
+  CruiseConfig localPartForSave=cruiseConfig.getLocal();
+  assertThat(localPartForSave.getEnvironments().size(),is(1));
+  assertThat(localPartForSave.getEnvironments().get(0),instanceOf(BasicEnvironmentConfig.class));
+}

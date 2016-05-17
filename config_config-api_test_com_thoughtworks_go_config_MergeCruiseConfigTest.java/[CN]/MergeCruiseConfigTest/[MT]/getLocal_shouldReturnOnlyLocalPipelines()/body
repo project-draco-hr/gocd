@@ -1,0 +1,11 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("local-pipeline-1"));
+  cruiseConfig=new BasicCruiseConfig(pipelines);
+  PartialConfig partialConfig=PartialConfigMother.withPipelineInGroup("remote-pipeline-1","g2");
+  partialConfig.getGroups().get(0).setOrigins(new RepoConfigOrigin());
+  cruiseConfig.merge(Arrays.asList(partialConfig),true);
+  assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("local-pipeline-1")),is(true));
+  CruiseConfig localExtracted=cruiseConfig.getLocal();
+  assertThat(localExtracted.hasPipelineNamed(new CaseInsensitiveString("local-pipeline-1")),is(true));
+  assertThat(localExtracted.hasPipelineNamed(new CaseInsensitiveString("remote-pipeline-1")),is(false));
+}

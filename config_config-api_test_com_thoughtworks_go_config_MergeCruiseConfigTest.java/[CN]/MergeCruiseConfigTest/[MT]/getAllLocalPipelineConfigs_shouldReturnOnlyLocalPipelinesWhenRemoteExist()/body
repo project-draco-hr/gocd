@@ -1,0 +1,7 @@
+{
+  PipelineConfig pipeline1=createPipelineConfig("local-pipe-1","stage1");
+  cruiseConfig.getGroups().addPipeline("existing_group",pipeline1);
+  List<PipelineConfig> localPipelines=cruiseConfig.getAllLocalPipelineConfigs(false);
+  assertThat(localPipelines.size(),is(1));
+  assertThat(localPipelines,hasItem(pipeline1));
+}
