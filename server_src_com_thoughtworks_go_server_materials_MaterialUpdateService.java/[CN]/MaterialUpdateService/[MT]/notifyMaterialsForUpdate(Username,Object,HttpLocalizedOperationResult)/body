@@ -11,8 +11,8 @@
       return;
     }
     final PostCommitHookImplementer materialTypeImplementer=materialType.getImplementer();
-    final PipelineGroups allGroups=goConfigService.currentCruiseConfig().getGroups();
-    Set<Material> allUniquePostCommitSchedulableMaterials=materialConfigConverter.toMaterials(allGroups.getAllUniquePostCommitSchedulableMaterials());
+    final CruiseConfig cruiseConfig=goConfigService.currentCruiseConfig();
+    Set<Material> allUniquePostCommitSchedulableMaterials=materialConfigConverter.toMaterials(cruiseConfig.getAllUniquePostCommitSchedulableMaterials());
     final Set<Material> prunedMaterialList=materialTypeImplementer.prune(allUniquePostCommitSchedulableMaterials,attributes);
     if (prunedMaterialList.isEmpty()) {
       result.notFound(LocalizedMessage.string("MATERIAL_SUITABLE_FOR_NOTIFICATION_NOT_FOUND"),HealthStateType.general(HealthStateScope.GLOBAL));
