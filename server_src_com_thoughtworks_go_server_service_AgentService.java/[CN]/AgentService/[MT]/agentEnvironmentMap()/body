@@ -1,0 +1,7 @@
+{
+  Map<AgentInstance,Collection<String>> allAgents=new LinkedHashMap<>();
+  for (  AgentInstance agentInstance : agentInstances.allAgents()) {
+    allAgents.put(agentInstance,environmentConfigService.environmentsFor(agentInstance.getUuid()));
+  }
+  return allAgents;
+}
