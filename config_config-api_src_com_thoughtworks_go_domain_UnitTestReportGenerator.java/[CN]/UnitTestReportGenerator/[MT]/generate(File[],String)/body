@@ -6,9 +6,8 @@
   try {
     mergedResource=mergeAllTestResultToSingleFile(allTestFiles);
     transformedHtml=new FileOutputStream(mergedResults);
-    try {
+    try (InputStream xslt=getClass().getResourceAsStream("unittests.xsl")){
       mergedFileStream=new FileInputStream(mergedResource);
-      InputStream xslt=getClass().getResourceAsStream("unittests.xsl");
       Source xmlSource=new StreamSource(mergedFileStream);
       Source xsltSource=new StreamSource(xslt);
       TransformerFactory transFact=TransformerFactory.newInstance();
