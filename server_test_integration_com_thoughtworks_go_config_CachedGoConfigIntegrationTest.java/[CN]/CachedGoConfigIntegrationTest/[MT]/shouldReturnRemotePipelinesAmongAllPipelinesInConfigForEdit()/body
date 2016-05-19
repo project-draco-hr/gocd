@@ -1,0 +1,5 @@
+{
+  assertThat(configWatchList.getCurrentConfigRepos().size(),is(1));
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
+  assertThat(cachedGoConfig.loadForEditing().hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+}

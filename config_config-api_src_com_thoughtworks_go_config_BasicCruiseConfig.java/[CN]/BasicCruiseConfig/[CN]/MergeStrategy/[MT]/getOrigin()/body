@@ -1,3 +1,7 @@
 {
-  return new MergeConfigOrigin();
+  MergeConfigOrigin origins=new MergeConfigOrigin(BasicCruiseConfig.this.getOrigin());
+  for (  PartialConfig part : this.parts) {
+    origins.add(part.getOrigin());
+  }
+  return origins;
 }

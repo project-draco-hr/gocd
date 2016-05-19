@@ -1,11 +1,14 @@
 {
   PipelineGroups groups=new PipelineGroups();
   List<PipelineConfigs> allPipelineConfigs=new ArrayList<>();
-  for (  PipelineConfigs partPipesConf : this.main.getGroups()) {
+  for (  PipelineConfigs partPipesConf : BasicCruiseConfig.this.getGroups()) {
     allPipelineConfigs.add(partPipesConf);
   }
   for (  PartialConfig part : this.parts) {
     for (    PipelineConfigs partPipesConf : part.getGroups()) {
+      for (      PipelineConfig pipelineConfig : partPipesConf) {
+        BasicCruiseConfig.this.getAllPipelineConfigs().add(pipelineConfig);
+      }
       allPipelineConfigs.add(partPipesConf);
     }
   }

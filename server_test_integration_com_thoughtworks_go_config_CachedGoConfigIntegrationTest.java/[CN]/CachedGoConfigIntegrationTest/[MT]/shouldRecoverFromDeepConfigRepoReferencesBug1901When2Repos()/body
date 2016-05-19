@@ -1,0 +1,22 @@
+{
+  File downstreamExternalConfigRepo=temporaryFolder.newFolder();
+  String downstreamLatestCommit=setupExternalConfigRepo(downstreamExternalConfigRepo,"external_git_config_repo_referencing_first");
+  configHelper.addConfigRepo(new ConfigRepoConfig(new GitMaterialConfig(downstreamExternalConfigRepo.getAbsolutePath()),"gocd-xml"));
+  goConfigService.forceNotifyListeners();
+  ConfigRepoConfig downstreamConfigRepo=configWatchList.getCurrentConfigRepos().get(1);
+  assertThat(configWatchList.getCurrentConfigRepos().size(),is(2));
+  repoConfigDataSource.onCheckoutComplete(downstreamConfigRepo.getMaterialConfig(),downstreamExternalConfigRepo,downstreamLatestCommit);
+  assertThat(serverHealthService.filterByScope(HealthStateScope.GLOBAL).isEmpty(),is(false));
+  ArrayList<ServerHealthState> messageForInvalidMerge=findMessageFor(HealthStateType.invalidConfigMerge());
+  assertThat(messageForInvalidMerge.isEmpty(),is(false));
+  assertThat(messageForInvalidMerge.get(0).getDescription(),containsString("tries to fetch artifact from pipeline &quot;pipe1&quot;"));
+  assertThat(goConfigService.hasPipelineNamed(new CaseInsensitiveString("downstream")),is(false));
+  assertThat(cachedGoPartials.lastKnownPartials().size(),is(1));
+  assertThat(cachedGoPartials.lastValidPartials().size(),is(0));
+  assertThat(cachedGoPartials.lastKnownPartials().get(0).getGroups().get(0).hasPipeline(new CaseInsensitiveString("downstream")),is(true));
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
+  assertThat(findMessageFor(HealthStateType.invalidConfigMerge()).isEmpty(),is(true));
+  assertThat(findMessageFor(HealthStateType.invalidConfig()).isEmpty(),is(true));
+  assertThat(cachedGoConfig.currentConfig().hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+  assertThat(cachedGoConfig.currentConfig().hasPipelineNamed(new CaseInsensitiveString("downstream")),is(true));
+}

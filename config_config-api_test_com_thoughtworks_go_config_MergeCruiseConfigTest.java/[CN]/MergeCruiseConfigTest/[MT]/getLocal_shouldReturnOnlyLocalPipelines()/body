@@ -5,7 +5,7 @@
   partialConfig.getGroups().get(0).setOrigins(new RepoConfigOrigin());
   cruiseConfig.merge(Arrays.asList(partialConfig),true);
   assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("local-pipeline-1")),is(true));
-  CruiseConfig localExtracted=cruiseConfig.getLocal();
-  assertThat(localExtracted.hasPipelineNamed(new CaseInsensitiveString("local-pipeline-1")),is(true));
-  assertThat(localExtracted.hasPipelineNamed(new CaseInsensitiveString("remote-pipeline-1")),is(false));
+  cruiseConfig.stripRemotes();
+  assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("local-pipeline-1")),is(true));
+  assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("remote-pipeline-1")),is(false));
 }

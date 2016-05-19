@@ -1,14 +1,14 @@
 {
   EnvironmentsConfig localEnvironments=environments.getLocal();
-  EnvironmentsConfig configsForSave=new EnvironmentsConfig();
+  EnvironmentsConfig environmentsForSave=new EnvironmentsConfig();
   for (  EnvironmentConfig environmentConfig : localEnvironments) {
     if (environmentConfig.getOrigin() instanceof UIConfigOrigin) {
       if (!environmentConfig.isEnvironmentEmpty()) {
-        configsForSave.add(environmentConfig);
+        environmentsForSave.add(environmentConfig);
       }
     }
  else {
-      configsForSave.add(environmentConfig);
+      environmentsForSave.add(environmentConfig);
     }
   }
   PipelineGroups localGroups=groups.getLocal();
@@ -23,11 +23,8 @@
       pipelineConfigsForSave.add(pipelineConfigs);
     }
   }
-  Cloner cloner=new Cloner();
-  BasicCruiseConfig configForSave=cloner.deepClone(this.main);
-  configForSave.strategy=new BasicStrategy();
-  configForSave.setEnvironments(configsForSave);
-  configForSave.groups=localGroups;
-  configForSave.partials=null;
-  return configForSave;
+  groups=pipelineConfigsForSave;
+  environments=environmentsForSave;
+  allPipelineConfigs=null;
+  pipelineNameToConfigMap=new ConcurrentHashMap<CaseInsensitiveString,PipelineConfig>();
 }

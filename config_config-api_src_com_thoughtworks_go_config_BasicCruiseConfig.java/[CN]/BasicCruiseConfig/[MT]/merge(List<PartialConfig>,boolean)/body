@@ -2,9 +2,12 @@
   if (partList.isEmpty()) {
     return;
   }
-  MergeStrategy mergeStrategy=new MergeStrategy(this,partList,forEdit);
+  stripRemotes();
+  MergeStrategy mergeStrategy=new MergeStrategy(partList,forEdit);
   this.strategy=mergeStrategy;
   groups=mergeStrategy.mergePipelineConfigs();
   this.resetAllPipelineConfigsCache();
   environments=mergeStrategy.mergeEnvironmentConfigs();
+  pipelineNameToConfigMap=new ConcurrentHashMap<CaseInsensitiveString,PipelineConfig>();
+  allPipelineConfigs=null;
 }

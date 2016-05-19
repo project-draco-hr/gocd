@@ -1,0 +1,6 @@
+{
+  assertThat(cruiseConfig.allPipelines().size(),is(1));
+  cruiseConfig.merge(Arrays.asList(createPartial()),true);
+  assertThat(cruiseConfig.allPipelines().size(),is(1));
+  cruiseConfig.validateAfterPreprocess();
+}

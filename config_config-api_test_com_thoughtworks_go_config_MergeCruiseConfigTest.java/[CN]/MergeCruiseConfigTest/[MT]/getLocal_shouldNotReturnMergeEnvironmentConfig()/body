@@ -15,7 +15,7 @@
   assertThat(cruiseConfig.getEnvironments().size(),is(1));
   EnvironmentConfig mergedEnvironment=cruiseConfig.getEnvironments().get(0);
   assertThat(mergedEnvironment,instanceOf(MergeEnvironmentConfig.class));
-  CruiseConfig localPartForSave=cruiseConfig.getLocal();
-  assertThat(localPartForSave.getEnvironments().size(),is(1));
-  assertThat(localPartForSave.getEnvironments().get(0),instanceOf(BasicEnvironmentConfig.class));
+  cruiseConfig.stripRemotes();
+  assertThat(cruiseConfig.getEnvironments().size(),is(1));
+  assertThat(cruiseConfig.getEnvironments().get(0),instanceOf(BasicEnvironmentConfig.class));
 }

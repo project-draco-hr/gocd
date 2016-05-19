@@ -1,18 +1,18 @@
 {
   List<PipelineConfig> locals=new ArrayList<>();
-  PipelineGroups localGroups=this.main.groups.getLocal();
+  PipelineGroups localGroups=BasicCruiseConfig.this.groups.getLocal();
   for (  PipelineConfigs pipelineConfigs : localGroups) {
     if (pipelineConfigs.getOrigin() instanceof UIConfigOrigin) {
       if (!pipelineConfigs.isEmpty()) {
         for (        PipelineConfig pipelineConfig : pipelineConfigs.getPipelines()) {
-          if (excludeMembersOfRemoteEnvironments && this.main.getEnvironments().isPipelineAssociatedWithRemoteEnvironment(pipelineConfig.name()))           continue;
+          if (excludeMembersOfRemoteEnvironments && BasicCruiseConfig.this.getEnvironments().isPipelineAssociatedWithRemoteEnvironment(pipelineConfig.name()))           continue;
           locals.add(pipelineConfig);
         }
       }
     }
  else {
       for (      PipelineConfig pipelineConfig : pipelineConfigs.getPipelines()) {
-        if (excludeMembersOfRemoteEnvironments && this.main.getEnvironments().isPipelineAssociatedWithRemoteEnvironment(pipelineConfig.name()))         continue;
+        if (excludeMembersOfRemoteEnvironments && BasicCruiseConfig.this.getEnvironments().isPipelineAssociatedWithRemoteEnvironment(pipelineConfig.name()))         continue;
         locals.add(pipelineConfig);
       }
     }
