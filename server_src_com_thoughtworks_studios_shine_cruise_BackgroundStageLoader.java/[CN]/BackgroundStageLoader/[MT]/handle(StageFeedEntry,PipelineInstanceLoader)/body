@@ -4,7 +4,6 @@
     LOGGER.debug("handling stage:<" + stageIdentifier + ">...");
   }
   try {
-    transformerRegistry.reset();
     stageStorage.save(stageResourceImporter.load(stageIdentifier,new InMemoryTempGraphFactory(),transformerRegistry));
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("importing stage:<" + stageIdentifier + "> finished.");
