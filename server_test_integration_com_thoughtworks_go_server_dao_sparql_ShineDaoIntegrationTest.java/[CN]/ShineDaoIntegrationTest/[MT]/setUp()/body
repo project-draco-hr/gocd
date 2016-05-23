@@ -8,7 +8,7 @@
   String artifactsRoot=tempFolder.getAbsolutePath();
   stageStorage.clear();
   StageResourceImporter importer=new StageResourceImporter(artifactsRoot,xmlApiService,stageService,pipelineHistoryService,systemEnvironment);
-  LazyStageGraphLoader graphLoader=new LazyStageGraphLoader(importer,stageStorage,systemEnvironment);
+  LazyStageGraphLoader graphLoader=new LazyStageGraphLoader(importer,stageStorage);
   StagesQuery stagesQuery=new StagesQuery(graphLoader,stagesQueryCache);
   shineDao=new ShineDao(stagesQuery,stageService,pipelineHistoryService);
   goURLRepository=new StubGoURLRepository("http://localhost:8153",artifactsRoot);

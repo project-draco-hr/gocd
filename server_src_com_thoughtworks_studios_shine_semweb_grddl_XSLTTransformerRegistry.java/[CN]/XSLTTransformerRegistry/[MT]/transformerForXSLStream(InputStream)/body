@@ -1,7 +1,7 @@
 {
   TransformerFactory transformerFactory=TransformerFactory.newInstance();
   try {
-    return transformerFactory.newTransformer(new StreamSource(xsl));
+    return transformerFactory.newTemplates(new StreamSource(xsl));
   }
  catch (  TransformerConfigurationException e) {
     throw new InvalidGrddlTransformationException(e);
