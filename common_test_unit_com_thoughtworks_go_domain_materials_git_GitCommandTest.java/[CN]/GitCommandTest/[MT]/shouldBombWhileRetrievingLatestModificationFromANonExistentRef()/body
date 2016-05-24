@@ -1,0 +1,9 @@
+{
+  expectedException.expect(CommandLineException.class);
+  expectedException.expectMessage("ambiguous argument 'origin/non-existent-branch': unknown revision or path not in the working tree.");
+  GitTestRepo remoteRepo=new GitTestRepo();
+  executeOnGitRepo("git","remote","rm","origin");
+  executeOnGitRepo("git","remote","add","origin",remoteRepo.projectRepositoryUrl());
+  GitCommand command=new GitCommand(remoteRepo.createMaterial().getFingerprint(),gitLocalRepoDir,"non-existent-branch",false,new HashMap<String,String>());
+  command.latestModification();
+}
