@@ -1,0 +1,11 @@
+{
+  HashSet<String> pluginIds=new HashSet<>(Arrays.asList("github.oauth","google.oauth"));
+  when(registry.getAuthenticationPlugins()).thenReturn(pluginIds);
+  when(manager.getPluginDescriptorFor("github.oauth")).thenReturn(githubDescriptor);
+  PluginInfo pluginInfo=builder.pluginInfoFor("github.oauth");
+  assertThat(pluginInfo.getId(),is("github.oauth"));
+  assertThat(pluginInfo.getType(),is("authentication"));
+  assertThat(pluginInfo.getName(),is(githubDescriptor.about().name()));
+  assertThat(pluginInfo.getVersion(),is(githubDescriptor.about().version()));
+  assertNull(pluginInfo.getPluggableInstanceSettings());
+}

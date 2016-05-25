@@ -1,0 +1,10 @@
+{
+  if (!SCMMetadataStore.getInstance().hasPreferenceFor(pluginId)) {
+    return null;
+  }
+  GoPluginDescriptor descriptor=pluginManager.getPluginDescriptorFor(pluginId);
+  SCMPreference scmPreference=SCMMetadataStore.getInstance().preferenceFor(pluginId);
+  List<PluginConfiguration> pluginConfigurations=configurations(scmPreference.getScmConfigurations());
+  PluginView pluginView=new PluginView(scmPreference.getScmView().template());
+  return new PluginInfo(pluginId,descriptor.about().name(),descriptor.about().version(),SCMExtension.EXTENSION_NAME,scmPreference.getScmView().displayValue(),new PluggableInstanceSettings(pluginConfigurations,pluginView));
+}

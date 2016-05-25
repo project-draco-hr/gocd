@@ -1,0 +1,22 @@
+{
+  when(manager.getPluginDescriptorFor("github.pr")).thenReturn(githubPR);
+  PluginInfo pluginInfo=builder.pluginInfoFor("github.pr");
+  HashMap expectedMetadata=new HashMap<String,Object>(){
+{
+      put("required",true);
+      put("secure",false);
+      put("part_of_identity",true);
+    }
+  }
+;
+  List<PluginConfiguration> configurations=pluginInfo.getPluggableInstanceSettings().getConfigurations();
+  assertThat(configurations.size(),is(2));
+  PluginConfiguration configuration1=configurations.get(0);
+  assertThat(configuration1.getKey(),is("key1"));
+  assertNull(configuration1.getType());
+  assertThat(configuration1.getMetadata(),Is.<Map<String,Object>>is(expectedMetadata));
+  PluginConfiguration configuration2=configurations.get(1);
+  assertThat(configuration2.getKey(),is("key2"));
+  assertNull(configuration2.getType());
+  assertThat(configuration1.getMetadata(),Is.<Map<String,Object>>is(expectedMetadata));
+}

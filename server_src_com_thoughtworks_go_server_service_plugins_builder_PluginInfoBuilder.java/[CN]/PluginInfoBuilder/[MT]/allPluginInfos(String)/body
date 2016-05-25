@@ -1,0 +1,13 @@
+{
+  List<PluginInfo> plugins=new ArrayList<>();
+  if (type != null) {
+    if (!pluginExtensionToBuilder.containsKey(type)) {
+      throw new InvalidPluginTypeException();
+    }
+    return pluginExtensionToBuilder.get(type).allPluginInfos();
+  }
+  for (  ViewModelBuilder builder : pluginExtensionToBuilder.values()) {
+    plugins.addAll(builder.allPluginInfos());
+  }
+  return plugins;
+}

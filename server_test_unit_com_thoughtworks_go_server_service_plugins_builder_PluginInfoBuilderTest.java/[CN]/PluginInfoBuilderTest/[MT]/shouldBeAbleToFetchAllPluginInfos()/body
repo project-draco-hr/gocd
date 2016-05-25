@@ -1,0 +1,13 @@
+{
+  List<PluginInfo> pluginInfos=pluginViewModelBuilder.allPluginInfos(null);
+  assertThat(pluginInfos.size(),is(5));
+  List<String> expectedPlugins=new ArrayList();
+  for (  PluginInfo pluginInfo : pluginInfos) {
+    expectedPlugins.add(pluginInfo.getId());
+  }
+  assertTrue(expectedPlugins.contains(githubDescriptor.id()));
+  assertTrue(expectedPlugins.contains(emailNotifier.id()));
+  assertTrue(expectedPlugins.contains(yumPoller.id()));
+  assertTrue(expectedPlugins.contains(xunitConvertor.id()));
+  assertTrue(expectedPlugins.contains(githubPR.id()));
+}

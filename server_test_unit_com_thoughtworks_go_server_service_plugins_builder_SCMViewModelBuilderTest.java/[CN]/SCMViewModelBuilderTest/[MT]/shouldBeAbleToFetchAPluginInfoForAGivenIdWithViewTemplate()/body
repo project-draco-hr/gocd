@@ -1,0 +1,6 @@
+{
+  when(manager.getPluginDescriptorFor("github.pr")).thenReturn(githubPR);
+  PluginInfo pluginInfo=builder.pluginInfoFor("github.pr");
+  PluginView view=pluginInfo.getPluggableInstanceSettings().getView();
+  assertThat(view.getTemplate(),is("scm view template"));
+}

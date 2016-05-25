@@ -1,0 +1,13 @@
+{
+  when(manager.getPluginDescriptorFor("github.pr")).thenReturn(githubPR);
+  when(manager.getPluginDescriptorFor("stash.pr")).thenReturn(stashPR);
+  List<PluginInfo> pluginInfos=builder.allPluginInfos();
+  assertThat(pluginInfos.size(),is(2));
+  PluginInfo pluginInfo=pluginInfos.get(0).getId() == "github.pr" ? pluginInfos.get(0) : pluginInfos.get(1);
+  assertThat(pluginInfo.getId(),is("github.pr"));
+  assertThat(pluginInfo.getType(),is("scm"));
+  assertThat(pluginInfo.getName(),is(githubPR.about().name()));
+  assertThat(pluginInfo.getDisplayName(),is(preference.getScmView().displayValue()));
+  assertThat(pluginInfo.getVersion(),is(githubPR.about().version()));
+  assertNull(pluginInfo.getPluggableInstanceSettings());
+}

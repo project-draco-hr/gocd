@@ -1,0 +1,9 @@
+{
+  List<PluginInfo> pluginInfos=new ArrayList<>();
+  for (  String pluginId : PluggableTaskConfigStore.store().pluginIds()) {
+    GoPluginDescriptor descriptor=pluginManager.getPluginDescriptorFor(pluginId);
+    TaskPreference taskPreference=PluggableTaskConfigStore.store().preferenceFor(pluginId);
+    pluginInfos.add(new PluginInfo(pluginId,descriptor.about().name(),descriptor.about().version(),JsonBasedTaskExtension.TASK_EXTENSION,taskPreference.getView().displayValue()));
+  }
+  return pluginInfos;
+}

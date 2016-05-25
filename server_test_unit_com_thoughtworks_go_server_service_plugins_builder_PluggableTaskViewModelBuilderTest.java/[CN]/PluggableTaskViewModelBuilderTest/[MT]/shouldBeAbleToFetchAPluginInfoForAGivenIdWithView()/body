@@ -1,0 +1,6 @@
+{
+  when(manager.getPluginDescriptorFor("xunit.convertor")).thenReturn(xunitConvertor);
+  PluginInfo pluginInfo=builder.pluginInfoFor("xunit.convertor");
+  PluginView view=pluginInfo.getPluggableInstanceSettings().getView();
+  assertThat(view.getTemplate(),is("pluggable task view template"));
+}

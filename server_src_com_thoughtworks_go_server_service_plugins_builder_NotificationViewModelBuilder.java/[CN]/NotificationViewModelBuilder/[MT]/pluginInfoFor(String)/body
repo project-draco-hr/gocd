@@ -1,0 +1,7 @@
+{
+  if (!notificationPluginRegistry.getNotificationPlugins().contains(pluginId)) {
+    return null;
+  }
+  GoPluginDescriptor descriptor=pluginManager.getPluginDescriptorFor(pluginId);
+  return new PluginInfo(pluginId,descriptor.about().name(),descriptor.about().version(),NotificationExtension.EXTENSION_NAME,null);
+}

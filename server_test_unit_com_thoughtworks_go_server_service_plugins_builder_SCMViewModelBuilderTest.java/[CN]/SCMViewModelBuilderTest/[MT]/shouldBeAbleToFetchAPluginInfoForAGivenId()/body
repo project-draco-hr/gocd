@@ -1,0 +1,9 @@
+{
+  when(manager.getPluginDescriptorFor("github.pr")).thenReturn(githubPR);
+  PluginInfo pluginInfo=builder.pluginInfoFor("github.pr");
+  assertThat(pluginInfo.getId(),is("github.pr"));
+  assertThat(pluginInfo.getType(),is("scm"));
+  assertThat(pluginInfo.getName(),is(githubPR.about().name()));
+  assertThat(pluginInfo.getDisplayName(),is(preference.getScmView().displayValue()));
+  assertThat(pluginInfo.getVersion(),is(githubPR.about().version()));
+}

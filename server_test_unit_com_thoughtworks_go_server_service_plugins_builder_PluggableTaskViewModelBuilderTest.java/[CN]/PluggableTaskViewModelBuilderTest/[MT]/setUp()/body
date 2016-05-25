@@ -1,0 +1,24 @@
+{
+  initMocks(this);
+  builder=new PluggableTaskViewModelBuilder(manager);
+  xunitConvertor=new GoPluginDescriptor("xunit.convertor","version1",new GoPluginDescriptor.About("Xunit Convertor","1.0",null,null,null,null),null,null,false);
+  powershellTask=new GoPluginDescriptor("powershell.task","version1",new GoPluginDescriptor.About("Powershell Task","2.0",null,null,null,null),null,null,false);
+  JsonBasedPluggableTask jsonBasedPluggableTask=mock(JsonBasedPluggableTask.class);
+  TaskView taskView=new TaskView(){
+    @Override public String displayValue(){
+      return "task display value";
+    }
+    @Override public String template(){
+      return "pluggable task view template";
+    }
+  }
+;
+  TaskConfig taskConfig=new TaskConfig();
+  taskConfig.add(new TaskConfigProperty("key1",null));
+  taskConfig.add(new TaskConfigProperty("key2",null));
+  when(jsonBasedPluggableTask.config()).thenReturn(taskConfig);
+  when(jsonBasedPluggableTask.view()).thenReturn(taskView);
+  taskPreference=new TaskPreference(jsonBasedPluggableTask);
+  PluggableTaskConfigStore.store().setPreferenceFor("xunit.convertor",taskPreference);
+  PluggableTaskConfigStore.store().setPreferenceFor("powershell.task",taskPreference);
+}

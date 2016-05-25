@@ -1,0 +1,8 @@
+{
+  List<PluginInfo> pluginInfos=new ArrayList<>();
+  for (  String pluginId : PackageMetadataStore.getInstance().pluginIds()) {
+    GoPluginDescriptor descriptor=pluginManager.getPluginDescriptorFor(pluginId);
+    pluginInfos.add(new PluginInfo(pluginId,descriptor.about().name(),descriptor.about().version(),JsonBasedPackageRepositoryExtension.EXTENSION_NAME,null));
+  }
+  return pluginInfos;
+}

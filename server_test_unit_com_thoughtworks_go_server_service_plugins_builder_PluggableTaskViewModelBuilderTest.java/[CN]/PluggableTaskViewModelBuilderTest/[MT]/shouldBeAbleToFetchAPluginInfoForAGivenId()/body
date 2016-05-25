@@ -1,0 +1,9 @@
+{
+  when(manager.getPluginDescriptorFor("xunit.convertor")).thenReturn(xunitConvertor);
+  PluginInfo pluginInfo=builder.pluginInfoFor("xunit.convertor");
+  assertThat(pluginInfo.getId(),is("xunit.convertor"));
+  assertThat(pluginInfo.getType(),is("task"));
+  assertThat(pluginInfo.getName(),is(xunitConvertor.about().name()));
+  assertThat(pluginInfo.getDisplayName(),is("task display value"));
+  assertThat(pluginInfo.getVersion(),is(xunitConvertor.about().version()));
+}

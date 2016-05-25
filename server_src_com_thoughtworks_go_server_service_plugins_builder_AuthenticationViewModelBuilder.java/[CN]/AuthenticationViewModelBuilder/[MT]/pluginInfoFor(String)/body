@@ -1,0 +1,7 @@
+{
+  if (!registry.getAuthenticationPlugins().contains(pluginId)) {
+    return null;
+  }
+  GoPluginDescriptor descriptor=pluginManager.getPluginDescriptorFor(pluginId);
+  return new PluginInfo(pluginId,descriptor.about().name(),descriptor.about().version(),AuthenticationExtension.EXTENSION_NAME,null,null);
+}

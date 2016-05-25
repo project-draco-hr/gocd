@@ -1,0 +1,9 @@
+{
+  List<PluginInfo> pluginInfos=new ArrayList<>();
+  for (  String pluginId : SCMMetadataStore.getInstance().pluginIds()) {
+    GoPluginDescriptor descriptor=pluginManager.getPluginDescriptorFor(pluginId);
+    SCMPreference scmPreference=SCMMetadataStore.getInstance().preferenceFor(pluginId);
+    pluginInfos.add(new PluginInfo(pluginId,descriptor.about().name(),descriptor.about().version(),SCMExtension.EXTENSION_NAME,scmPreference.getScmView().displayValue()));
+  }
+  return pluginInfos;
+}

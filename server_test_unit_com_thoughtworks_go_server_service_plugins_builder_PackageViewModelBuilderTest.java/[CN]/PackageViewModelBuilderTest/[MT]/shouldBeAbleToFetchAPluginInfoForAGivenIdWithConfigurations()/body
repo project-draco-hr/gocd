@@ -1,0 +1,26 @@
+{
+  when(manager.getPluginDescriptorFor("yum.poller")).thenReturn(yumPoller);
+  PluginInfo pluginInfo=builder.pluginInfoFor("yum.poller");
+  HashMap expectedMetadata=new HashMap<String,Object>(){
+{
+      put("required",true);
+      put("secure",false);
+      put("part_of_identity",true);
+    }
+  }
+;
+  List<PluginConfiguration> configurations=pluginInfo.getPluggableInstanceSettings().getConfigurations();
+  assertThat(configurations.size(),is(3));
+  PluginConfiguration configuration2=configurations.get(0);
+  assertThat(configuration2.getKey(),is("key1"));
+  assertThat(configuration2.getType(),is("package"));
+  assertThat(configuration2.getMetadata(),Is.<Map<String,Object>>is(expectedMetadata));
+  PluginConfiguration configuration3=configurations.get(1);
+  assertThat(configuration3.getKey(),is("key2"));
+  assertThat(configuration3.getType(),is("package"));
+  assertThat(configuration3.getMetadata(),Is.<Map<String,Object>>is(expectedMetadata));
+  PluginConfiguration configuration1=configurations.get(2);
+  assertThat(configuration1.getKey(),is("key1"));
+  assertThat(configuration1.getType(),is("repository"));
+  assertThat(configuration1.getMetadata(),Is.<Map<String,Object>>is(expectedMetadata));
+}
