@@ -1,0 +1,13 @@
+{
+  GitMaterialConfig gitMaterial=new GitMaterialConfig("https://url","master");
+  gitMaterial.setAutoUpdate(true);
+  GitMaterialConfig modifiedGitMaterial=new GitMaterialConfig("https://url","master");
+  modifiedGitMaterial.setAutoUpdate(false);
+  MaterialConfigs configs=new MaterialConfigs();
+  configs.add(gitMaterial);
+  CruiseConfig config=GoConfigMother.configWithPipelines("one");
+  PipelineConfig pipelineOne=config.pipelineConfigByName(new CaseInsensitiveString("one"));
+  pipelineOne.setMaterialConfigs(new MaterialConfigs(modifiedGitMaterial));
+  configs.validate(ConfigSaveValidationContext.forChain(config));
+  assertTrue(gitMaterial.errors().isEmpty());
+}
