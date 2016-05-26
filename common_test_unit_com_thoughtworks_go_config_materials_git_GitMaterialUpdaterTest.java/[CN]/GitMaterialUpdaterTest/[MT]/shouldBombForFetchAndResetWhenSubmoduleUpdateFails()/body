@@ -5,5 +5,5 @@
   FileUtils.deleteDirectory(submoduleFolder);
   assertThat(submoduleFolder.exists(),Matchers.is(false));
   updateTo(material,new RevisionContext(new StringRevision("origin/HEAD")),JobResult.Failed);
-  assertThat(console.output(),anyOf(containsString(String.format("Clone of '%s' into submodule path 'sub1' failed",submoduleFolder.getAbsolutePath())),containsString(String.format("clone of '%s' into submodule path 'sub1' failed",submoduleFolder.getAbsolutePath()))));
+  assertThat(console.output(),new RegexMatcher(String.format("[Cc]lone of '%s' into submodule path '((.*)/)?sub1' failed",submoduleFolder.getAbsolutePath())));
 }
