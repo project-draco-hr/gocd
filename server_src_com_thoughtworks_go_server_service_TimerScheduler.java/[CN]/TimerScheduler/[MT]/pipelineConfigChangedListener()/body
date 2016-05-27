@@ -1,0 +1,9 @@
+{
+  return new EntityConfigChangedListener<PipelineConfig>(){
+    @Override public void onEntityConfigChange(    PipelineConfig pipelineConfig){
+      unscheduleJob(CaseInsensitiveString.str(pipelineConfig.name()));
+      scheduleJob(quartzScheduler,pipelineConfig);
+    }
+  }
+;
+}

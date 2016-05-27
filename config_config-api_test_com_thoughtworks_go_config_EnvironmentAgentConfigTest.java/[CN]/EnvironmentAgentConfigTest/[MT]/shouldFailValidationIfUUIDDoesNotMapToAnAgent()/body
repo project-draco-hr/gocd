@@ -1,0 +1,9 @@
+{
+  EnvironmentAgentConfig config=new EnvironmentAgentConfig("uuid1");
+  HashSet<String> uuids=new HashSet<String>();
+  uuids.add("uuid2");
+  uuids.add("uuid3");
+  boolean isValid=config.validateUuidPresent(new CaseInsensitiveString("foo"),uuids);
+  assertThat(isValid,is(false));
+  assertThat(config.errors().on(EnvironmentAgentConfig.UUID),is("Environment 'foo' has an invalid agent uuid 'uuid1'"));
+}

@@ -5,5 +5,5 @@
   when(goConfigService.serverConfig()).thenReturn(serverConfig);
   controller.agentRequest("host",uuid,"location","233232","osx","someKey","","","autoregister-hostname","","",false,request);
   verify(agentService).requestRegistration(AgentRuntimeInfo.fromServer(new AgentConfig(uuid,"autoregister-hostname",request.getRemoteAddr()),false,"location",233232L,"osx",false));
-  verify(goConfigService).updateConfig(any(UpdateConfigCommand.class));
+  verify(agentConfigService).updateAgent(any(UpdateConfigCommand.class),eq(uuid),any(HttpOperationResult.class),eq(Username.ANONYMOUS));
 }

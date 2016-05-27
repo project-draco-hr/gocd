@@ -5,7 +5,8 @@
   AgentInstance agentInstance=agentInstances.register(agentRuntimeInfo);
   Registration registration=agentInstance.assignCertification();
   if (agentInstance.isRegistered()) {
-    agentConfigService.saveOrUpdateAgent(agentInstance);
+    String userName=usernameForAgent(agentInstance.getUuid(),agentInstance.getIpAddress(),agentInstance.getHostname());
+    agentConfigService.saveOrUpdateAgent(agentInstance,new Username(new CaseInsensitiveString(userName)));
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("New Agent approved " + agentRuntimeInfo);
     }

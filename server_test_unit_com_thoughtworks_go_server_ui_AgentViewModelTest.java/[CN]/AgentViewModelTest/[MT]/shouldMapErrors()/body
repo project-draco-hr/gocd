@@ -1,0 +1,13 @@
+{
+  Resource resource1=new Resource("foo");
+  Resource resource2=new Resource("bar");
+  AgentConfig agentConfig=new AgentConfig("uuid","host","IP",new Resources(resource1,resource2));
+  agentConfig.addError(AgentConfig.IP_ADDRESS,"bad ip");
+  resource1.addError(Resource.NAME,"bad name for resource1");
+  resource2.addError(Resource.NAME,"bad name for resource2");
+  AgentViewModel model=new AgentViewModel(AgentInstance.createFromConfig(agentConfig,mock(SystemEnvironment.class)));
+  assertThat(model.errors().isEmpty(),is(false));
+  assertThat(model.errors().on(AgentConfig.IP_ADDRESS),is("bad ip"));
+  assertThat(model.errors().getAllOn(Resource.NAME).contains("bad name for resource1"),is(true));
+  assertThat(model.errors().getAllOn(Resource.NAME).contains("bad name for resource2"),is(true));
+}

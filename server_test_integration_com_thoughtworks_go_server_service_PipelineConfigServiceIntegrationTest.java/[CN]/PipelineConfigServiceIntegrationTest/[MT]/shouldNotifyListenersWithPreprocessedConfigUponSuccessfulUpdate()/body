@@ -1,0 +1,20 @@
+{
+  final String pipelineName=UUID.randomUUID().toString();
+  final String templateName=UUID.randomUUID().toString();
+  final boolean[] listenerInvoked={false};
+  setupPipelineWithTemplate(pipelineName,templateName);
+  EntityConfigChangedListener<PipelineConfig> pipelineConfigChangedListener=new EntityConfigChangedListener<PipelineConfig>(){
+    @Override public void onConfigChange(    CruiseConfig newCruiseConfig){
+    }
+    @Override public void onEntityConfigChange(    PipelineConfig pipelineConfig){
+      listenerInvoked[0]=true;
+      assertThat(pipelineConfig.first(),is(goConfigService.cruiseConfig().getTemplateByName(new CaseInsensitiveString(templateName)).first()));
+    }
+  }
+;
+  goConfigService.register(pipelineConfigChangedListener);
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfigWithTemplate(pipelineName,templateName);
+  pipeline.setVariables(new EnvironmentVariablesConfig());
+  pipelineConfigService.updatePipelineConfig(user,pipeline,new DefaultLocalizedOperationResult());
+  assertThat(listenerInvoked[0],is(true));
+}

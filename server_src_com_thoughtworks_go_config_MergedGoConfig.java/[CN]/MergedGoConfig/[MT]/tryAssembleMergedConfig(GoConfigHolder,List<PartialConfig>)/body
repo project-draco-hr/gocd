@@ -6,9 +6,9 @@
     }
  else {
       BasicCruiseConfig merge=new BasicCruiseConfig((BasicCruiseConfig)cruiseConfigHolder.config,partials);
-      List<ConfigErrors> allErrors=validate(merge);
+      AllConfigErrors allErrors=validate(merge);
       if (!allErrors.isEmpty()) {
-        throw new GoConfigInvalidException(merge,allErrors);
+        throw new GoConfigInvalidException(merge,allErrors.asString());
       }
       CruiseConfig basicForEdit=this.fileService.loadForEditing();
       CruiseConfig forEdit=new BasicCruiseConfig((BasicCruiseConfig)basicForEdit,partials);

@@ -1,0 +1,6 @@
+{
+  preprocessedPipelineConfig=preprocessedConfig.getPipelineConfigByName(pipelineConfig.name());
+  boolean isValid=preprocessedPipelineConfig.validateTree(PipelineConfigSaveValidationContext.forChain(false,getPipelineGroup(),preprocessedConfig,preprocessedPipelineConfig));
+  if (!isValid)   BasicCruiseConfig.copyErrors(preprocessedPipelineConfig,pipelineConfig);
+  return isValid;
+}

@@ -1,0 +1,9 @@
+{
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  BasicEnvironmentConfig environmentConfig=new BasicEnvironmentConfig(new CaseInsensitiveString("env"));
+  environmentConfig.addAgent("exists_1");
+  cruiseConfig.addEnvironment(environmentConfig);
+  cruiseConfig.agents().add(new AgentConfig("exists_1"));
+  new EnvironmentAgentValidator().validate(cruiseConfig);
+  assertThat(environmentConfig.getAgents().first().errors().isEmpty(),is(true));
+}

@@ -1,0 +1,8 @@
+{
+  AgentConfig agentConfig=new AgentConfig("");
+  agentConfig.validate(ConfigSaveValidationContext.forChain(agentConfig));
+  assertThat(agentConfig.errors().on(AgentConfig.UUID),is("UUID cannot be empty"));
+  agentConfig=new AgentConfig(null);
+  agentConfig.validate(ConfigSaveValidationContext.forChain(agentConfig));
+  assertThat(agentConfig.errors().on(AgentConfig.UUID),is("UUID cannot be empty"));
+}

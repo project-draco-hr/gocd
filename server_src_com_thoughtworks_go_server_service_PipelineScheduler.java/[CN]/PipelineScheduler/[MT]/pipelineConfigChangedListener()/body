@@ -1,0 +1,10 @@
+{
+  return new EntityConfigChangedListener<PipelineConfig>(){
+    @Override public void onEntityConfigChange(    PipelineConfig pipelineConfig){
+synchronized (pipelines) {
+        addPipelineIfNotPresent(pipelineConfig,pipelines);
+      }
+    }
+  }
+;
+}

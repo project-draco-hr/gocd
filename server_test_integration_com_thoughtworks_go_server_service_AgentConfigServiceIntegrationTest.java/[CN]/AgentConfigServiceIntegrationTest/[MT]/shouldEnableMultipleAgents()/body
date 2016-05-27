@@ -1,0 +1,17 @@
+{
+  AgentConfig agentConfig1=new AgentConfig(UUID.randomUUID().toString(),"remote-host1","50.40.30.21");
+  AgentConfig agentConfig2=new AgentConfig(UUID.randomUUID().toString(),"remote-host2","50.40.30.22");
+  agentConfig1.disable();
+  agentConfig2.disable();
+  AgentInstance fromConfigFile1=AgentInstance.createFromConfig(agentConfig1,new SystemEnvironment());
+  AgentInstance fromConfigFile2=AgentInstance.createFromConfig(agentConfig2,new SystemEnvironment());
+  agentConfigService.addAgent(agentConfig1,Username.ANONYMOUS);
+  agentConfigService.addAgent(agentConfig2,Username.ANONYMOUS);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.agents().getAgentByUuid(agentConfig1.getUuid()).isDisabled(),is(true));
+  assertThat(cruiseConfig.agents().getAgentByUuid(agentConfig1.getUuid()).isDisabled(),is(true));
+  agentConfigService.enableAgents(Username.ANONYMOUS,fromConfigFile1,fromConfigFile2);
+  cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.agents().getAgentByUuid(agentConfig1.getUuid()).isDisabled(),is(false));
+  assertThat(cruiseConfig.agents().getAgentByUuid(agentConfig2.getUuid()).isDisabled(),is(false));
+}

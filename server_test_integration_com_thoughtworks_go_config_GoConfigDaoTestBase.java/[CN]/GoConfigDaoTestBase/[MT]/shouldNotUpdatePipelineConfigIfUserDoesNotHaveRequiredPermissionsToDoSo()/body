@@ -1,10 +1,17 @@
 {
-  PipelineConfig pipelineConfig=mock(PipelineConfig.class);
-  LocalizedOperationResult result=mock(LocalizedOperationResult.class);
-  PipelineConfigService.SaveCommand saveCommand=mock(PipelineConfigService.SaveCommand.class);
-  when(saveCommand.hasWritePermissions()).thenReturn(false);
   CachedGoConfig cachedConfigService=mock(CachedGoConfig.class);
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(cachedConfigService.currentConfig()).thenReturn(cruiseConfig);
   goConfigDao=new GoConfigDao(cachedConfigService);
-  goConfigDao.updatePipeline(pipelineConfig,result,new Username(new CaseInsensitiveString("user")),saveCommand);
-  verifyZeroInteractions(cachedConfigService);
+  EntityConfigUpdateCommand command=mock(EntityConfigUpdateCommand.class);
+  when(command.canContinue(cruiseConfig)).thenReturn(false);
+  try {
+    goConfigDao.updateConfig(command,new Username(new CaseInsensitiveString("user")));
+    fail("Expected to throw exception of type:" + ConfigUpdateCheckFailedException.class.getName());
+  }
+ catch (  Exception e) {
+    assertTrue(e instanceof ConfigUpdateCheckFailedException);
+  }
+  verify(cachedConfigService).currentConfig();
+  verifyNoMoreInteractions(cachedConfigService);
 }

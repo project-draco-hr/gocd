@@ -3,14 +3,14 @@
   if (address == null) {
     return;
   }
-  if (address.trim().isEmpty()) {
-    addError("ipAddress","IpAddress cannot be empty if it is present.");
+  if (StringUtil.isBlank(address)) {
+    addError(IP_ADDRESS,"IpAddress cannot be empty if it is present.");
     return;
   }
   try {
     IpAddress.create(address);
   }
  catch (  Exception e) {
-    addError("ipAddress","IpAddress is invalid.");
+    addError(IP_ADDRESS,String.format("'%s' is an invalid IP address.",address));
   }
 }

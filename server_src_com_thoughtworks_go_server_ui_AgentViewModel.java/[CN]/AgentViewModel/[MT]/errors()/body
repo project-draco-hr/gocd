@@ -1,0 +1,8 @@
+{
+  ConfigErrors configErrors=new ConfigErrors();
+  configErrors.addAll(agentInstance.agentConfig().errors());
+  for (  Resource resource : agentInstance.getResources()) {
+    configErrors.addAll(resource.errors());
+  }
+  return configErrors;
+}

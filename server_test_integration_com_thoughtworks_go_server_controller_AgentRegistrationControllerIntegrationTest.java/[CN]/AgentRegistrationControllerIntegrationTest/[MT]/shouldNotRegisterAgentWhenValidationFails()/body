@@ -1,0 +1,7 @@
+{
+  MockHttpServletRequest request=new MockHttpServletRequest();
+  int totalAgentsBeforeRegistrationRequest=goConfigService.agents().size();
+  controller.agentRequest("hostname",null,"sandbox","100",null,null,null,null,null,null,null,false,request);
+  int totalAgentsAfterRegistrationRequest=goConfigService.agents().size();
+  assertThat(totalAgentsBeforeRegistrationRequest,is(totalAgentsAfterRegistrationRequest));
+}

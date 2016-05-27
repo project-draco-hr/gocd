@@ -1,0 +1,7 @@
+{
+  String uuid=UUID.randomUUID().toString();
+  MockHttpServletRequest request=new MockHttpServletRequest();
+  controller.agentRequest("hostname",uuid,"sandbox","100",null,null,null,null,null,null,null,false,request);
+  AgentConfig agentConfig=goConfigService.agentByUuid(uuid);
+  assertThat(agentConfig.getHostname(),is("hostname"));
+}

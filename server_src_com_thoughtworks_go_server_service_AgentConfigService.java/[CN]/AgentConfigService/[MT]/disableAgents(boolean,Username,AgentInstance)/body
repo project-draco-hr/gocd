@@ -1,0 +1,17 @@
+{
+  GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand();
+  ArrayList<String> uuids=new ArrayList<String>();
+  for (  AgentInstance agentInstance : instances) {
+    String uuid=agentInstance.getUuid();
+    uuids.add(uuid);
+    if (goConfigService.hasAgent(uuid)) {
+      command.addCommand(updateApprovalStatus(uuid,disabled));
+    }
+ else {
+      AgentConfig agentConfig=agentInstance.agentConfig();
+      agentConfig.disable(disabled);
+      command.addCommand(createAddAgentCommand(agentConfig));
+    }
+  }
+  updateAgentWithoutValidations(command,currentUser);
+}

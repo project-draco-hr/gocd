@@ -1,0 +1,12 @@
+{
+  CachedGoConfig cachedConfigService=mock(CachedGoConfig.class);
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(cachedConfigService.currentConfig()).thenReturn(cruiseConfig);
+  EntityConfigUpdateCommand saveCommand=mock(EntityConfigUpdateCommand.class);
+  when(saveCommand.isValid(cruiseConfig)).thenReturn(true);
+  when(saveCommand.canContinue(cruiseConfig)).thenReturn(true);
+  goConfigDao=new GoConfigDao(cachedConfigService);
+  Username currentUser=new Username(new CaseInsensitiveString("user"));
+  goConfigDao.updateConfig(saveCommand,currentUser);
+  verify(cachedConfigService).writeEntityWithLock(saveCommand,currentUser);
+}

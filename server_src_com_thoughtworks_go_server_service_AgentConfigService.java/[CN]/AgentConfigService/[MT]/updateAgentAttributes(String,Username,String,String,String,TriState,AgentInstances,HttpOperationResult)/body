@@ -1,0 +1,33 @@
+{
+  final GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand();
+  if (!goConfigService.hasAgent(uuid) && enable.isTrue()) {
+    AgentInstance agentInstance=agentInstances.findAgent(uuid);
+    AgentConfig agentConfig=agentInstance.agentConfig();
+    command.addCommand(createAddAgentCommand(agentConfig));
+  }
+  if (enable.isTrue()) {
+    command.addCommand(updateApprovalStatus(uuid,false));
+  }
+  if (enable.isFalse()) {
+    command.addCommand(updateApprovalStatus(uuid,true));
+  }
+  if (hostname != null) {
+    command.addCommand(new UpdateAgentHostname(uuid,hostname,username.getUsername().toString()));
+  }
+  if (resources != null) {
+    command.addCommand(new UpdateResourcesCommand(uuid,new Resources(resources)));
+  }
+  if (environments != null) {
+    Set<String> existingEnvironments=goConfigService.getCurrentConfig().getEnvironments().environmentsForAgent(uuid);
+    Set<String> newEnvironments=new HashSet<>(asList(environments.split(",")));
+    Set<String> environmentsToRemove=Sets.difference(existingEnvironments,newEnvironments);
+    Set<String> environmentsToAdd=Sets.difference(newEnvironments,existingEnvironments);
+    for (    String environmentToRemove : environmentsToRemove) {
+      command.addCommand(new GoConfigDao.ModifyEnvironmentCommand(uuid,environmentToRemove,TriStateSelection.Action.remove));
+    }
+    for (    String environmentToAdd : environmentsToAdd) {
+      command.addCommand(new GoConfigDao.ModifyEnvironmentCommand(uuid,environmentToAdd,TriStateSelection.Action.add));
+    }
+  }
+  return updateAgent(command,uuid,result,username);
+}

@@ -1,0 +1,6 @@
+{
+  ArgumentCaptor<AgentsUpdateCommand> captor=ArgumentCaptor.forClass(AgentsUpdateCommand.class);
+  verify(goConfigService).updateConfig(captor.capture(),eq(Username.ANONYMOUS));
+  AgentsUpdateCommand updateCommand=captor.getValue();
+  assertThat((UpdateConfigCommand)ReflectionUtil.getField(updateCommand,"command"),is(command));
+}

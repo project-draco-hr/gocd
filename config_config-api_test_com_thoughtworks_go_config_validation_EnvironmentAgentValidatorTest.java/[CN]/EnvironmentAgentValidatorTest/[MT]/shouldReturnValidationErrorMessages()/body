@@ -1,0 +1,13 @@
+{
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  BasicEnvironmentConfig environmentConfig=new BasicEnvironmentConfig(new CaseInsensitiveString("env"));
+  environmentConfig.addAgent("does_not_exist_1");
+  environmentConfig.addAgent("does_not_exist_2");
+  environmentConfig.addAgent("exists_3");
+  cruiseConfig.addEnvironment(environmentConfig);
+  cruiseConfig.agents().add(new AgentConfig("exists_3"));
+  List<ConfigErrors> errors=new EnvironmentAgentValidator().validateConfig(cruiseConfig);
+  assertThat(errors.size(),is(2));
+  assertThat(errors.get(0).on(EnvironmentAgentConfig.UUID),is("Environment 'env' has an invalid agent uuid 'does_not_exist_1'"));
+  assertThat(errors.get(1).on(EnvironmentAgentConfig.UUID),is("Environment 'env' has an invalid agent uuid 'does_not_exist_2'"));
+}

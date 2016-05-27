@@ -1,5 +1,7 @@
 {
+  boolean isValid=true;
   for (  EnvironmentConfig environmentConfig : this) {
-    environmentConfig.validateContainsOnlyUuids(uuids);
+    isValid=environmentConfig.validateContainsOnlyUuids(uuids) && isValid;
   }
+  return isValid;
 }

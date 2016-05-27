@@ -8,6 +8,7 @@
   agentService.updateRuntimeInfo(agentRuntimeInfo);
   assertTrue(agentService.findAgentAndRefreshStatus(uuid).isIdle());
   agentService.disableAgents(USERNAME,new HttpOperationResult(),Arrays.asList(agentConfig.getUuid()));
-  assertThat(isDisabled(agentConfig),is(true));
-  return agentConfig;
+  AgentConfig updatedAgent=goConfigDao.load().agents().getAgentByUuid(agentConfig.getUuid());
+  assertThat(isDisabled(updatedAgent),is(true));
+  return updatedAgent;
 }

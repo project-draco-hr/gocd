@@ -1,8 +1,5 @@
 {
-  for (  EnvironmentConfig environmentConfig : this) {
-    if (environmentConfig.name().equals(envName)) {
-      return environmentConfig;
-    }
-  }
+  EnvironmentConfig environmentConfig=find(envName);
+  if (environmentConfig != null)   return environmentConfig;
   throw new NoSuchEnvironmentException(envName);
 }

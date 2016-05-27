@@ -1,0 +1,9 @@
+{
+  boolean isValid=true;
+  for (  String uuid : agentsUuids) {
+    AgentConfig agentConfig=preprocessedConfig.agents().getAgentByUuid(uuid);
+    isValid=agentConfig.validateTree(ConfigSaveValidationContext.forChain(preprocessedConfig)) && isValid;
+    validatedAgents.add(agentConfig);
+  }
+  return isValid;
+}

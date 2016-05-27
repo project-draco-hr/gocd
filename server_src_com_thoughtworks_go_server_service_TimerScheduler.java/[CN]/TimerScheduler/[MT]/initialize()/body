@@ -4,6 +4,7 @@
     quartzScheduler.start();
     scheduleAllJobs(goConfigService.getAllPipelineConfigs());
     goConfigService.register(this);
+    goConfigService.register(pipelineConfigChangedListener());
   }
  catch (  SchedulerException e) {
     showGlobalError("Failed to initialize timer",e);

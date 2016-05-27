@@ -1,0 +1,8 @@
+{
+  Resource resource1=new Resource("foo%");
+  Resource resource2=new Resource("bar$");
+  AgentConfig agentConfig=new AgentConfig("uuid","host","IP",new Resources(resource1,resource2));
+  agentConfig.validateTree(ConfigSaveValidationContext.forChain(new BasicCruiseConfig()));
+  AgentInstance agentInstance=AgentInstance.createFromConfig(agentConfig,new SystemEnvironment());
+  return agentInstance;
+}

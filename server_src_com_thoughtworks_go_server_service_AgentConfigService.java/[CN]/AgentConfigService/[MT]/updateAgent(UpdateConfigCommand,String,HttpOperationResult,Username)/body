@@ -1,0 +1,19 @@
+{
+  AgentConfigsUpdateValidator validator=new AgentConfigsUpdateValidator(asList(uuid));
+  try {
+    updateAgents(command,validator,currentUser);
+    result.ok(String.format("Updated agent with uuid %s.",uuid));
+  }
+ catch (  Exception e) {
+    if (e instanceof GoConfigInvalidException) {
+      result.unprocessibleEntity("Updating agent failed:",e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
+      GoConfigInvalidException goConfigInvalidException=(GoConfigInvalidException)e;
+      return goConfigInvalidException.getCruiseConfig().agents().getAgentByUuid(uuid);
+    }
+ else {
+      result.internalServerError("Updating agent failed: " + e.getMessage(),HealthStateType.general(HealthStateScope.GLOBAL));
+      return null;
+    }
+  }
+  return goConfigService.agents().getAgentByUuid(uuid);
+}

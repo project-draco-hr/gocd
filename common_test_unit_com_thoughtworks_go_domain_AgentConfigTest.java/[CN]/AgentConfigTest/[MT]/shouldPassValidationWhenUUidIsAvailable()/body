@@ -1,0 +1,5 @@
+{
+  AgentConfig agentConfig=new AgentConfig("uuid");
+  agentConfig.validate(ConfigSaveValidationContext.forChain(agentConfig));
+  assertThat(agentConfig.errors().on(AgentConfig.UUID),is(nullValue()));
+}
