@@ -1,5 +1,5 @@
 {
-  final List<String> cmd=new ArrayList<String>();
+  final List<String> cmd=new ArrayList<>();
   AgentProcessParentImpl bootstrapper=createBootstrapper(cmd);
   int returnCode=bootstrapper.run("launcher_version","bar",getURLGenerator(),m(AgentProcessParentImpl.AGENT_STARTUP_ARGS,"foo bar  baz with%20some%20space"));
   String expectedAgentMd5=FileDigester.md5DigestOfFile(new File("testdata/test-agent.jar"));
