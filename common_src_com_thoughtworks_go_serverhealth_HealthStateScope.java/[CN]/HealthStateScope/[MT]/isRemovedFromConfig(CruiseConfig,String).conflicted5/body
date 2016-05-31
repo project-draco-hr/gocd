@@ -1,8 +1,4 @@
 {
-  for (  MaterialConfig materialConfig : cruiseConfig.getAllUniqueMaterials()) {
-    if (HealthStateScope.forMaterialConfigUpdate(materialConfig).getScope().equals(materialScope)) {
-      return false;
-    }
-  }
-  return true;
+  String[] parts=pipelineStage.split("/");
+  return !cruiseConfig.hasStageConfigNamed(new CaseInsensitiveString(parts[0]),new CaseInsensitiveString(parts[1]),true);
 }

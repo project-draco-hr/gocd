@@ -1,0 +1,11 @@
+{
+  HgMaterial hgMaterial=MaterialsMother.hgMaterial();
+  CruiseConfig config=new BasicCruiseConfig();
+  config.addPipeline("group",PipelineConfigMother.pipelineConfig(PIPELINE_NAME,new MaterialConfigs(hgMaterial.config())));
+  config.addPipeline("group",PipelineConfigMother.pipelineConfig("pipeline2",new MaterialConfigs(hgMaterial.config())));
+  config.addPipeline("group",PipelineConfigMother.pipelineConfig("pipeline3"));
+  serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.general(forMaterialUpdate(hgMaterial))));
+  String[] pipelines=(serverHealthService.getAllLogs().get(0)).getPipelineNames(config).split(",");
+  Arrays.sort(pipelines);
+  assertArrayEquals("pipeline,pipeline2".split(","),pipelines);
+}
