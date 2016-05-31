@@ -7,8 +7,8 @@
         result.conflict(LocalizedMessage.string("CANNOT_ADD_ENV_ALREADY_EXISTS",config.name()));
         return;
       }
-      goConfigService.addEnvironment(config);
+      goConfigService.updateConfig(new AddEnvironmentCommand(config,user));
     }
   }
-,config,user,result,noPermission,actionFailed);
+,user,result,noPermission,actionFailed);
 }

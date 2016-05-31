@@ -1,0 +1,8 @@
+{
+  String environmentName="foo-environment";
+  String pipelineName="up42";
+  environmentConfigService.sync(environmentsConfig(environmentName,pipelineName));
+  EnvironmentConfig expectedEnvironmentConfig=new BasicEnvironmentConfig(new CaseInsensitiveString(environmentName));
+  expectedEnvironmentConfig.addPipeline(new CaseInsensitiveString(pipelineName));
+  assertThat(environmentConfigService.getEnvironmentConfig(environmentName),is(expectedEnvironmentConfig));
+}

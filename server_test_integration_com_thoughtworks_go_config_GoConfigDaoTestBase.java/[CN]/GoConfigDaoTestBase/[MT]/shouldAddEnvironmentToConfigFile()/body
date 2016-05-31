@@ -1,7 +1,7 @@
 {
   CruiseConfig cruiseConfig=goConfigDao.load();
   int oldsize=cruiseConfig.getEnvironments().size();
-  goConfigDao.addEnvironment(new BasicEnvironmentConfig(new CaseInsensitiveString("foo-environment")));
+  goConfigDao.addEnvironment(new BasicEnvironmentConfig(new CaseInsensitiveString("foo-environment")),Username.ANONYMOUS);
   cruiseConfig=goConfigDao.load();
   assertThat(cruiseConfig.getEnvironments().size(),is(oldsize + 1));
 }

@@ -1,0 +1,16 @@
+{
+  Localizable noPermission=LocalizedMessage.string("NO_PERMISSION_TO_UPDATE_ENVIRONMENT",environmentName,username.getDisplayName());
+  Localizable.CurryableLocalizable actionFailed=LocalizedMessage.string("ENV_UPDATE_FAILED",environmentName);
+  editEnvironments(new EditEnvironments(){
+    public void performEdit(){
+      ConfigSaveState configSaveState=goConfigService.updateConfig(new UpdateEnvironmentCommand(environmentName,newEnvironmentConfig,username));
+      if (ConfigSaveState.MERGED.equals(configSaveState)) {
+        result.setMessage(LocalizedMessage.composite(LocalizedMessage.string("UPDATE_ENVIRONMENT_SUCCESS",environmentName),LocalizedMessage.string("CONFIG_MERGED")));
+      }
+ else       if (ConfigSaveState.UPDATED.equals(configSaveState)) {
+        result.setMessage(LocalizedMessage.string("UPDATE_ENVIRONMENT_SUCCESS",environmentName));
+      }
+    }
+  }
+,username,result,noPermission,actionFailed);
+}

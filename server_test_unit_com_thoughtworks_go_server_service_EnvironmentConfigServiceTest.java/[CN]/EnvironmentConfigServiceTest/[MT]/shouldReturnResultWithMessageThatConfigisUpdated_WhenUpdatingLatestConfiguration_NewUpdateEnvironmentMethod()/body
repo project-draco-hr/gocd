@@ -1,0 +1,10 @@
+{
+  String environmentName="env_name";
+  EnvironmentConfig environmentConfig=new BasicEnvironmentConfig(new CaseInsensitiveString(environmentName));
+  Username user=new Username(new CaseInsensitiveString("user"));
+  when(securityService.isUserAdmin(user)).thenReturn(true);
+  when(mockGoConfigService.updateConfig(any(UpdateEnvironmentCommand.class))).thenReturn(ConfigSaveState.UPDATED);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  environmentConfigService.updateEnvironment(environmentName,environmentConfig,user,result);
+  assertThat(result.localizable(),is((Localizable)LocalizedMessage.string("UPDATE_ENVIRONMENT_SUCCESS",environmentName)));
+}

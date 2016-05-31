@@ -23,10 +23,10 @@
     Set<String> environmentsToRemove=Sets.difference(existingEnvironments,newEnvironments);
     Set<String> environmentsToAdd=Sets.difference(newEnvironments,existingEnvironments);
     for (    String environmentToRemove : environmentsToRemove) {
-      command.addCommand(new GoConfigDao.ModifyEnvironmentCommand(uuid,environmentToRemove,TriStateSelection.Action.remove));
+      command.addCommand(new ModifyEnvironmentCommand(uuid,environmentToRemove,TriStateSelection.Action.remove));
     }
     for (    String environmentToAdd : environmentsToAdd) {
-      command.addCommand(new GoConfigDao.ModifyEnvironmentCommand(uuid,environmentToAdd,TriStateSelection.Action.add));
+      command.addCommand(new ModifyEnvironmentCommand(uuid,environmentToAdd,TriStateSelection.Action.add));
     }
   }
   return updateAgent(command,uuid,result,username);
