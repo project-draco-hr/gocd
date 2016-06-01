@@ -1,0 +1,15 @@
+{
+  Map<String,T> examples=getExamples();
+  for (  Map.Entry<String,T> example : examples.entrySet()) {
+    T value=example.getValue();
+    String json=gson.toJson(value);
+    json+="some extra non-json content";
+    try {
+      gson.fromJson(json,value.getClass());
+    }
+ catch (    Exception ex) {
+      return;
+    }
+    fail("Should have thrown invalid format for " + example.getKey());
+  }
+}

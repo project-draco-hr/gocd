@@ -1,0 +1,14 @@
+{
+  if (crTask == null)   throw new ConfigConvertionException("task cannot be null");
+  if (crTask instanceof CRPluggableTask)   return toPluggableTask((CRPluggableTask)crTask);
+ else   if (crTask instanceof CRBuildTask) {
+    return toBuildTask((CRBuildTask)crTask);
+  }
+ else   if (crTask instanceof CRExecTask) {
+    return toExecTask((CRExecTask)crTask);
+  }
+ else   if (crTask instanceof CRFetchArtifactTask) {
+    return toFetchTask((CRFetchArtifactTask)crTask);
+  }
+ else   throw new RuntimeException(String.format("unknown type of task '%s'",crTask));
+}

@@ -1,0 +1,5 @@
+{
+  PackageRepository packageRepositoryHaving=this.cachedFileGoConfig.currentConfig().getPackageRepositories().findPackageRepositoryHaving(packageId);
+  if (packageRepositoryHaving == null)   throw new ConfigConvertionException(String.format("Failed to find package repository with package id '%s'",packageId));
+  return packageRepositoryHaving.findPackage(packageId);
+}

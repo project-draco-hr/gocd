@@ -1,0 +1,6 @@
+{
+  CRApproval crApproval=new CRApproval(CRApprovalCondition.manual,new ArrayList<String>(),new ArrayList<String>());
+  Approval approval=configConverter.toApproval(crApproval);
+  assertThat(approval.isManual(),is(true));
+  assertThat(approval.isAuthorizationDefined(),is(false));
+}

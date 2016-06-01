@@ -1,0 +1,8 @@
+{
+  PartialConfigProvider plugin=service.partialConfigProviderFor("plugin-id");
+  assertThat(plugin instanceof ConfigRepoPlugin,is(true));
+  CRParseResult loaded=((ConfigRepoPlugin)plugin).parseDirectory(new File("dir"),mock(Collection.class));
+  assertSame(environments,parseResult.getEnvironments());
+  assertSame(pipelines,parseResult.getPipelines());
+  assertSame(errors,parseResult.getErrors());
+}

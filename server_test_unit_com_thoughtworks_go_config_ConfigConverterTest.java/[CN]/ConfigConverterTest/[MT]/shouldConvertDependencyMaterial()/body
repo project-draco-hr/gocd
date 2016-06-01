@@ -1,0 +1,7 @@
+{
+  CRDependencyMaterial crDependencyMaterial=new CRDependencyMaterial("name","pipe","stage");
+  DependencyMaterialConfig dependencyMaterialConfig=(DependencyMaterialConfig)configConverter.toMaterialConfig(crDependencyMaterial);
+  assertThat(dependencyMaterialConfig.getName().toLower(),is("name"));
+  assertThat(dependencyMaterialConfig.getPipelineName().toLower(),is("pipe"));
+  assertThat(dependencyMaterialConfig.getStageName().toLower(),is("stage"));
+}

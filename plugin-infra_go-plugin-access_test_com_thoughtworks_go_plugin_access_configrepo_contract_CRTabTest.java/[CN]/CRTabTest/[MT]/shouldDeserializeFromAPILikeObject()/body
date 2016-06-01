@@ -1,0 +1,8 @@
+{
+  String json="{\n" + "      \"name\": \"cobertura\",\n" + "      \"path\": \"target/site/cobertura/index.html\"\n"+ "    }";
+  CRTab deserializedValue=gson.fromJson(json,CRTab.class);
+  assertThat(deserializedValue.getName(),is("cobertura"));
+  assertThat(deserializedValue.getPath(),is("target/site/cobertura/index.html"));
+  ErrorCollection errors=deserializedValue.getErrors();
+  assertTrue(errors.isEmpty());
+}

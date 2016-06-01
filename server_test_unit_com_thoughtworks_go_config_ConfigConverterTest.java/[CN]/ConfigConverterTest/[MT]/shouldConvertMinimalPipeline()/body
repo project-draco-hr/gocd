@@ -1,0 +1,28 @@
+{
+  CRPipeline crPipeline=new CRPipeline();
+  crPipeline.setName("p1");
+  List<CRStage> min_stages=new ArrayList<>();
+  CRStage min_stage=new CRStage();
+  min_stage.setName("build");
+  Collection<CRJob> min_jobs=new ArrayList<>();
+  CRJob job=new CRJob();
+  job.setName("buildjob");
+  List<CRTask> min_tasks=new ArrayList<>();
+  min_tasks.add(new CRBuildTask("rake"));
+  job.setTasks(min_tasks);
+  min_jobs.add(job);
+  min_stage.setJobs(min_jobs);
+  min_stages.add(min_stage);
+  crPipeline.setStages(min_stages);
+  Collection<CRMaterial> min_materials=new ArrayList<>();
+  CRSvnMaterial crSvnMaterial=new CRSvnMaterial();
+  crSvnMaterial.setUrl("url");
+  min_materials.add(crSvnMaterial);
+  crPipeline.setMaterials(min_materials);
+  PipelineConfig pipelineConfig=configConverter.toPipelineConfig(crPipeline);
+  assertThat(pipelineConfig.name().toLower(),is("p1"));
+  assertThat(pipelineConfig.materialConfigs().first() instanceof SvnMaterialConfig,is(true));
+  assertThat(pipelineConfig.first().name().toLower(),is("build"));
+  ;
+  assertThat(pipelineConfig.getLabelTemplate(),is(PipelineLabel.COUNT_TEMPLATE));
+}

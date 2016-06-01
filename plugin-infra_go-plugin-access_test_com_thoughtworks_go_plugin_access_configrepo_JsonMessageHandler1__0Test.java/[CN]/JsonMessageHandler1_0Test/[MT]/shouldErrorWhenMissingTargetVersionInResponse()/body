@@ -1,0 +1,5 @@
+{
+  String json="{\n" + "  \"environments\" : [],\n" + "  \"pipelines\" : [],\n"+ "  \"errors\" : []\n"+ "}";
+  CRParseResult result=handler.responseMessageForParseDirectory(json);
+  assertThat(result.getErrors().getErrorsAsText(),contains("missing 'target_version' field"));
+}

@@ -1,0 +1,14 @@
+{
+  Map<String,T> examples=getExamples();
+  for (  Map.Entry<String,T> example : examples.entrySet()) {
+    String exampleName=example.getKey();
+    T value=example.getValue();
+    String location=value.getLocation("TEST_PARENT");
+    if (printExamples) {
+      System.out.print("-----\n");
+      System.out.print(String.format("Example '%s' Location:\n",exampleName));
+      System.out.print(location);
+    }
+    assertNotNull(location);
+  }
+}

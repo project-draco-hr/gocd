@@ -1,0 +1,8 @@
+{
+  CRApproval crApproval=new CRApproval(CRApprovalCondition.manual,authorizedRoles,authorizedUsers);
+  Approval approval=configConverter.toApproval(crApproval);
+  assertThat(approval.isManual(),is(true));
+  assertThat(approval.isAuthorizationDefined(),is(true));
+  assertThat(approval.getAuthConfig().getRoles(),hasItem(new AdminRole(new CaseInsensitiveString("authRole"))));
+  assertThat(approval.getAuthConfig().getUsers(),hasItem(new AdminUser(new CaseInsensitiveString("authUser"))));
+}

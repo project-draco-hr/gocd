@@ -1,0 +1,5 @@
+{
+  CRParseResult crParseResult=this.crExtension.parseDirectory(this.pluginId,configRepoCheckoutDirectory.getAbsolutePath(),cRconfigurations);
+  if (crParseResult.hasErrors())   throw new InvalidPartialConfigException(crParseResult,crParseResult.getErrors().getErrorsAsText());
+  return crParseResult;
+}

@@ -1,0 +1,11 @@
+{
+  CRApproval approval=new CRApproval(CRApprovalCondition.manual,authorizedRoles,authorizedUsers);
+  CRStage crStage=new CRStage("stageName",true,true,true,approval,environmentVariables,jobs);
+  StageConfig stageConfig=configConverter.toStage(crStage);
+  assertThat(stageConfig.name().toLower(),is("stagename"));
+  assertThat(stageConfig.isFetchMaterials(),is(true));
+  assertThat(stageConfig.isCleanWorkingDir(),is(true));
+  assertThat(stageConfig.isArtifactCleanupProhibited(),is(true));
+  assertThat(stageConfig.getVariables().hasVariable("key"),is(true));
+  assertThat(stageConfig.getJobs().size(),is(1));
+}

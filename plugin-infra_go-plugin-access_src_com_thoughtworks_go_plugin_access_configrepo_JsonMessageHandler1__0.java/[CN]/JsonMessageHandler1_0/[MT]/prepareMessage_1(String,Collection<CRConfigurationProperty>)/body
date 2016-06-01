@@ -1,0 +1,7 @@
+{
+  ParseDirectoryMessage requestMessage=new ParseDirectoryMessage(destinationFolder);
+  for (  CRConfigurationProperty conf : configurations) {
+    requestMessage.addConfiguration(conf.getKey(),conf.getValue(),conf.getEncryptedValue());
+  }
+  return requestMessage;
+}

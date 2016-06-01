@@ -1,0 +1,13 @@
+{
+  buildRake=new CRJob("build",rakeTask);
+  build2Rakes=new CRJob("build",rakeTask,CRBuildTask.rake("Rakefile.rb","compile"));
+  jobWithVar=new CRJob("build",rakeTask);
+  jobWithVar.addEnvironmentVariable("key1","value1");
+  jobWithResource=new CRJob("test",antTask);
+  jobWithResource.addResource("linux");
+  jobWithTab=new CRJob("test",antTask);
+  jobWithTab.addTab(new CRTab("test","results.xml"));
+  jobWithProp=new CRJob("perfTest",rakeTask);
+  jobWithProp.addProperty(new CRPropertyGenerator("perf","test.xml","substring-before(//report/data/all/coverage[starts-with(@type,'class')]/@value, '%')"));
+  invalidJobNoName=new CRJob();
+}

@@ -1,0 +1,6 @@
+{
+  CRTask value=simpleExecWithArgs;
+  String json=gson.toJson(value);
+  CRExecTask deserializedValue=(CRExecTask)gson.fromJson(json,CRTask.class);
+  assertThat(String.format("Deserialized value should equal to value before serialization"),deserializedValue,is(value));
+}

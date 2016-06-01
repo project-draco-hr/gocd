@@ -1,0 +1,8 @@
+{
+  Configuration configuration=new Configuration();
+  for (  CRConfigurationProperty p : properties) {
+    if (p.getValue() != null)     configuration.addNewConfigurationWithValue(p.getKey(),p.getValue(),false);
+ else     configuration.addNewConfigurationWithValue(p.getKey(),p.getEncryptedValue(),true);
+  }
+  return configuration;
+}

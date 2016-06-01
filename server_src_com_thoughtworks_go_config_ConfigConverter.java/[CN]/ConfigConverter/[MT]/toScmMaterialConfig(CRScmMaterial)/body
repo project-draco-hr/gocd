@@ -1,0 +1,56 @@
+{
+  String materialName=crScmMaterial.getName();
+  if (crScmMaterial instanceof CRGitMaterial) {
+    CRGitMaterial git=(CRGitMaterial)crScmMaterial;
+    Filter filter=toFilter(crScmMaterial);
+    String gitBranch=git.getBranch();
+    if (StringUtils.isBlank(gitBranch))     gitBranch=GitMaterialConfig.DEFAULT_BRANCH;
+    return new GitMaterialConfig(new UrlArgument(git.getUrl()),gitBranch,null,git.isAutoUpdate(),filter,crScmMaterial.getDirectory(),toMaterialName(materialName),git.shallowClone());
+  }
+ else   if (crScmMaterial instanceof CRHgMaterial) {
+    CRHgMaterial hg=(CRHgMaterial)crScmMaterial;
+    return new HgMaterialConfig(new HgUrlArgument(hg.getUrl()),hg.isAutoUpdate(),toFilter(crScmMaterial),hg.getDirectory(),toMaterialName(materialName));
+  }
+ else   if (crScmMaterial instanceof CRP4Material) {
+    CRP4Material crp4Material=(CRP4Material)crScmMaterial;
+    P4MaterialConfig p4MaterialConfig=new P4MaterialConfig(crp4Material.getServerAndPort(),crp4Material.getView(),cipher);
+    if (crp4Material.getEncryptedPassword() != null) {
+      p4MaterialConfig.setEncryptedPassword(crp4Material.getEncryptedPassword());
+    }
+ else {
+      p4MaterialConfig.setPassword(crp4Material.getPassword());
+    }
+    p4MaterialConfig.setUserName(crp4Material.getUserName());
+    p4MaterialConfig.setUseTickets(crp4Material.getUseTickets());
+    setCommonMaterialMembers(p4MaterialConfig,crScmMaterial);
+    setCommonScmMaterialMembers(p4MaterialConfig,crp4Material);
+    return p4MaterialConfig;
+  }
+ else   if (crScmMaterial instanceof CRSvnMaterial) {
+    CRSvnMaterial crSvnMaterial=(CRSvnMaterial)crScmMaterial;
+    SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig(crSvnMaterial.getUrl(),crSvnMaterial.getUserName(),crSvnMaterial.isCheckExternals(),cipher);
+    if (crSvnMaterial.getEncryptedPassword() != null) {
+      svnMaterialConfig.setEncryptedPassword(crSvnMaterial.getEncryptedPassword());
+    }
+ else {
+      svnMaterialConfig.setPassword(crSvnMaterial.getPassword());
+    }
+    setCommonMaterialMembers(svnMaterialConfig,crScmMaterial);
+    setCommonScmMaterialMembers(svnMaterialConfig,crSvnMaterial);
+    return svnMaterialConfig;
+  }
+ else   if (crScmMaterial instanceof CRTfsMaterial) {
+    CRTfsMaterial crTfsMaterial=(CRTfsMaterial)crScmMaterial;
+    TfsMaterialConfig tfsMaterialConfig=new TfsMaterialConfig(cipher,new UrlArgument(crTfsMaterial.getUrl()),crTfsMaterial.getUserName(),crTfsMaterial.getDomain(),crTfsMaterial.getProjectPath());
+    if (crTfsMaterial.getEncryptedPassword() != null) {
+      tfsMaterialConfig.setEncryptedPassword(crTfsMaterial.getEncryptedPassword());
+    }
+ else {
+      tfsMaterialConfig.setPassword(crTfsMaterial.getPassword());
+    }
+    setCommonMaterialMembers(tfsMaterialConfig,crTfsMaterial);
+    setCommonScmMaterialMembers(tfsMaterialConfig,crTfsMaterial);
+    return tfsMaterialConfig;
+  }
+ else   throw new ConfigConvertionException(String.format("unknown scm material type '%s'",crScmMaterial));
+}

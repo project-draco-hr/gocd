@@ -1,0 +1,36 @@
+{
+  if (this == o) {
+    return true;
+  }
+  CRJob that=(CRJob)o;
+  if (that == null)   return false;
+  if (name != null ? !name.equals(that.getName()) : that.getName() != null) {
+    return false;
+  }
+  if (environment_variables != null ? !CollectionUtils.isEqualCollection(this.environment_variables,that.environment_variables) : that.environment_variables != null) {
+    return false;
+  }
+  if (tabs != null ? !CollectionUtils.isEqualCollection(this.tabs,that.tabs) : that.tabs != null) {
+    return false;
+  }
+  if (resources != null ? !CollectionUtils.isEqualCollection(this.resources,that.resources) : that.resources != null) {
+    return false;
+  }
+  if (artifacts != null ? !CollectionUtils.isEqualCollection(this.artifacts,that.artifacts) : that.artifacts != null) {
+    return false;
+  }
+  if (properties != null ? !CollectionUtils.isEqualCollection(this.properties,that.properties) : that.properties != null) {
+    return false;
+  }
+  if (tasks != null ? this.tasks.size() != that.tasks.size() : that.tasks != null) {
+    return false;
+  }
+  for (int i=0; i < this.tasks.size(); i++) {
+    if (!tasks.get(i).equals(that.tasks.get(i)))     return false;
+  }
+  if (run_instance_count != null ? !run_instance_count.equals(that.run_instance_count) : that.run_instance_count != null) {
+    return false;
+  }
+  if (this.timeout != that.timeout)   return false;
+  return true;
+}

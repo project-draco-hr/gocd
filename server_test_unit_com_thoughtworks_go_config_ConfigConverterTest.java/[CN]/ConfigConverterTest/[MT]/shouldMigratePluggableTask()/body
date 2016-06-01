@@ -1,0 +1,10 @@
+{
+  ArrayList<CRConfigurationProperty> configs=new ArrayList<>();
+  configs.add(new CRConfigurationProperty("k","m",null));
+  CRPluggableTask pluggableTask=new CRPluggableTask(CRRunIf.any,null,new CRPluginConfiguration("myplugin","1"),configs);
+  PluggableTask result=(PluggableTask)configConverter.toAbstractTask(pluggableTask);
+  assertThat(result.getPluginConfiguration().getId(),is("myplugin"));
+  assertThat(result.getPluginConfiguration().getVersion(),is("1"));
+  assertThat(result.getConfiguration().getProperty("k").getValue(),is("m"));
+  assertThat(result.getConditions().first(),is(RunIfConfig.ANY));
+}

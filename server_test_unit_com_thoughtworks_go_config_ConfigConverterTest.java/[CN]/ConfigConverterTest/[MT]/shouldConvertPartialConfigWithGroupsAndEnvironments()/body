@@ -1,0 +1,14 @@
+{
+  CRPipeline pipeline=new CRPipeline("pipename","group","label",true,trackingTool,null,timer,environmentVariables,materials,stages);
+  ArrayList<String> agents=new ArrayList<>();
+  agents.add("12");
+  ArrayList<String> pipelineNames=new ArrayList<>();
+  pipelineNames.add("pipename");
+  CREnvironment crEnvironment=new CREnvironment("dev",environmentVariables,agents,pipelineNames);
+  CRParseResult crPartialConfig=new CRParseResult();
+  crPartialConfig.getEnvironments().add(crEnvironment);
+  crPartialConfig.getPipelines().add(pipeline);
+  PartialConfig partialConfig=configConverter.toPartialConfig(crPartialConfig);
+  assertThat(partialConfig.getGroups().size(),is(1));
+  assertThat(partialConfig.getEnvironments().size(),is(1));
+}
