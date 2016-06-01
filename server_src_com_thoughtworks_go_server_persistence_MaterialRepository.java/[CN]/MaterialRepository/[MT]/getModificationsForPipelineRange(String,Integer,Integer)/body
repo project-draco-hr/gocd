@@ -2,8 +2,8 @@
   return (List<Modification>)getHibernateTemplate().execute(new HibernateCallback(){
     public Object doInHibernate(    Session session) throws HibernateException, SQLException {
       final List<Long> fromInclusiveModificationList=fromInclusiveModificationsForPipelineRange(session,pipelineName,fromCounter,toCounter);
-      final Set<Long> fromModifications=new TreeSet<Long>(fromInclusiveModificationsForPipelineRange(session,pipelineName,fromCounter,fromCounter));
-      final Set<Long> fromExclusiveModificationList=new HashSet<Long>();
+      final Set<Long> fromModifications=new TreeSet<>(fromInclusiveModificationsForPipelineRange(session,pipelineName,fromCounter,fromCounter));
+      final Set<Long> fromExclusiveModificationList=new HashSet<>();
       for (      Long modification : fromInclusiveModificationList) {
         if (fromModifications.contains(modification)) {
           fromModifications.remove(modification);

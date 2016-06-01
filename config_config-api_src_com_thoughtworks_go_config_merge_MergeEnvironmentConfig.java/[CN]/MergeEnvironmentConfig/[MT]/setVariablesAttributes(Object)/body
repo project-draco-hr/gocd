@@ -1,7 +1,7 @@
 {
   if (variablesAttributes != null) {
     List<Map> variableAttributes=(List)variablesAttributes;
-    List<EnvironmentVariableConfig> newProposed=new ArrayList<EnvironmentVariableConfig>();
+    List<EnvironmentVariableConfig> newProposed=new ArrayList<>();
     for (    Map attributeMap : variableAttributes) {
       EnvironmentVariableConfig environmentVariableConfig=new EnvironmentVariableConfig(new GoCipher());
       try {
@@ -12,9 +12,9 @@
         continue;
       }
     }
-    List<EnvironmentVariableConfig> removals=new ArrayList<EnvironmentVariableConfig>();
-    List<EnvironmentVariableConfig> changes=new ArrayList<EnvironmentVariableConfig>();
-    List<EnvironmentVariableConfig> nochanges=new ArrayList<EnvironmentVariableConfig>();
+    List<EnvironmentVariableConfig> removals=new ArrayList<>();
+    List<EnvironmentVariableConfig> changes=new ArrayList<>();
+    List<EnvironmentVariableConfig> nochanges=new ArrayList<>();
     for (    EnvironmentConfig part : this) {
       for (      EnvironmentVariableConfig existingVariable : part.getVariables()) {
         boolean found=false;

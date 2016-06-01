@@ -2,7 +2,7 @@
   if (packageToPipelineMap == null) {
 synchronized (this) {
       if (packageToPipelineMap == null) {
-        packageToPipelineMap=new HashMap<String,List<Pair<PipelineConfig,PipelineConfigs>>>();
+        packageToPipelineMap=new HashMap<>();
         for (        PipelineConfigs pipelineConfigs : this) {
           for (          PipelineConfig pipelineConfig : pipelineConfigs) {
             for (            PackageMaterialConfig packageMaterialConfig : pipelineConfig.packageMaterialConfigs()) {
@@ -10,7 +10,7 @@ synchronized (this) {
               if (!packageToPipelineMap.containsKey(packageId)) {
                 packageToPipelineMap.put(packageId,new ArrayList<Pair<PipelineConfig,PipelineConfigs>>());
               }
-              packageToPipelineMap.get(packageId).add(new Pair<PipelineConfig,PipelineConfigs>(pipelineConfig,pipelineConfigs));
+              packageToPipelineMap.get(packageId).add(new Pair<>(pipelineConfig,pipelineConfigs));
             }
           }
         }

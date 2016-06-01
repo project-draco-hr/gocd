@@ -1,12 +1,12 @@
 {
   if (agentsAttributes != null) {
     List<Map> agentAttributes=(List)agentsAttributes;
-    List<EnvironmentAgentConfig> newProposed=new ArrayList<EnvironmentAgentConfig>();
+    List<EnvironmentAgentConfig> newProposed=new ArrayList<>();
     for (    Map attributeMap : agentAttributes) {
       EnvironmentAgentConfig agentInEnv=new EnvironmentAgentConfig((String)attributeMap.get("uuid"));
       newProposed.add(agentInEnv);
     }
-    List<EnvironmentAgentConfig> removals=new ArrayList<EnvironmentAgentConfig>();
+    List<EnvironmentAgentConfig> removals=new ArrayList<>();
     for (    EnvironmentConfig part : this) {
       for (      EnvironmentAgentConfig existingAgent : part.getAgents()) {
         if (!newProposed.contains(existingAgent)) {

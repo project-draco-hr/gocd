@@ -1,5 +1,5 @@
 {
-  HashMap<CaseInsensitiveString,List<CaseInsensitiveString>> templateToPipelines=new HashMap<CaseInsensitiveString,List<CaseInsensitiveString>>();
+  HashMap<CaseInsensitiveString,List<CaseInsensitiveString>> templateToPipelines=new HashMap<>();
   for (  PipelineTemplateConfig template : getTemplates()) {
     if (isAdministrator(username) || template.getAuthorization().getAdminsConfig().isAdmin(new AdminUser(new CaseInsensitiveString(username)),null)) {
       templateToPipelines.put(template.name(),new ArrayList<CaseInsensitiveString>());

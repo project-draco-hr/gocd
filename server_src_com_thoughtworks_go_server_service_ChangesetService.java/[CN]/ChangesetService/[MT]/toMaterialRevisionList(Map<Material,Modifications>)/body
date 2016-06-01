@@ -1,7 +1,7 @@
 {
-  List<MaterialRevision> materialRevisionsAcrossPipelines=new ArrayList<MaterialRevision>();
+  List<MaterialRevision> materialRevisionsAcrossPipelines=new ArrayList<>();
   for (  Map.Entry<Material,Modifications> materialToModifications : map.entrySet()) {
-    Modifications modifications=new Modifications(new ArrayList<Modification>(materialToModifications.getValue()));
+    Modifications modifications=new Modifications(new ArrayList<>(materialToModifications.getValue()));
     materialRevisionsAcrossPipelines.add(new MaterialRevision(materialToModifications.getKey(),modifications));
   }
   return materialRevisionsAcrossPipelines;

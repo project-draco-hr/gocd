@@ -1,9 +1,9 @@
 {
-  Set<CaseInsensitiveString> names=new TreeSet<CaseInsensitiveString>();
+  Set<CaseInsensitiveString> names=new TreeSet<>();
   for (  MaterialConfig material : this) {
     if (material instanceof DependencyMaterialConfig) {
       names.add(((DependencyMaterialConfig)material).getPipelineName());
     }
   }
-  return new ArrayList<CaseInsensitiveString>(names);
+  return new ArrayList<>(names);
 }

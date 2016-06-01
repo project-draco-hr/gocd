@@ -1,6 +1,6 @@
 {
   List<JobPlan> jobPlans=orderedScheduledBuilds();
-  List<WaitingJobPlan> waitingJobPlans=new ArrayList<WaitingJobPlan>();
+  List<WaitingJobPlan> waitingJobPlans=new ArrayList<>();
   for (  JobPlan jobPlan : jobPlans) {
     String envForJob=environmentConfigService.envForJob(jobPlan.getPipelineName());
     waitingJobPlans.add(new WaitingJobPlan(jobPlan,envForJob));

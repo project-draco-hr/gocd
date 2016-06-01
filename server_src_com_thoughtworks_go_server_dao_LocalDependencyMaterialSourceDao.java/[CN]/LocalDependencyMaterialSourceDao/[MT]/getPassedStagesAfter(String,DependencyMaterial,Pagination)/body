@@ -1,7 +1,7 @@
 {
   StageIdentifier identifier=new StageIdentifier(lastRevision);
   List<StageAsDMR> passedStagesAfter=stageDao.getPassedStagesAfter(identifier,pagination.getPageSize(),pagination.getOffset());
-  List<Modification> mods=new ArrayList<Modification>();
+  List<Modification> mods=new ArrayList<>();
   for (  StageAsDMR stage : passedStagesAfter) {
     StageIdentifier stageIdentifier=stage.getIdentifier();
     Modification modification=new Modification(stage.getCompletedDate(),stageIdentifier.stageLocator(),stageIdentifier.getPipelineLabel(),stage.getPipelineId());

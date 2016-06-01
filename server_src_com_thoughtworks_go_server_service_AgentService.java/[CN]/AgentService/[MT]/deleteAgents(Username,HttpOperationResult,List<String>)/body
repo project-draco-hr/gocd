@@ -2,7 +2,7 @@
   if (!hasOperatePermission(username,operationResult)) {
     return;
   }
-  List<AgentInstance> agents=new ArrayList<AgentInstance>();
+  List<AgentInstance> agents=new ArrayList<>();
   for (  String uuid : uuids) {
     AgentInstance agentInstance=findAgent(uuid);
     if (isUnknownAgent(agentInstance,operationResult)) {
@@ -10,7 +10,7 @@
     }
     agents.add(agentInstance);
   }
-  List<AgentInstance> failedToDeleteAgents=new ArrayList<AgentInstance>();
+  List<AgentInstance> failedToDeleteAgents=new ArrayList<>();
   for (  AgentInstance agentInstance : agents) {
     boolean isBuildingOrCancelled=agentInstance.isBuilding() || agentInstance.isCancelled();
     if (!agentInstance.isDisabled() || isBuildingOrCancelled) {

@@ -5,11 +5,11 @@
   if (!stageIdentifierScmMaterial.get(currentRevision).contains(revisionToSet.faninScmMaterial)) {
     return RevisionAlteration.NOT_APPLICABLE;
   }
-  List<StageIdentifier> stageIdentifiers=new ArrayList<StageIdentifier>(stageIdentifierScmMaterial.keySet());
+  List<StageIdentifier> stageIdentifiers=new ArrayList<>(stageIdentifierScmMaterial.keySet());
   int currentRevIndex=stageIdentifiers.indexOf(currentRevision);
   for (int i=currentRevIndex; i < stageIdentifiers.size(); i++) {
     final StageIdentifier key=stageIdentifiers.get(i);
-    final List<FaninScmMaterial> materials=new ArrayList<FaninScmMaterial>(stageIdentifierScmMaterial.get(key));
+    final List<FaninScmMaterial> materials=new ArrayList<>(stageIdentifierScmMaterial.get(key));
     final int index=materials.indexOf(revisionToSet.faninScmMaterial);
     if (index == -1) {
       return ALL_OPTIONS_EXHAUSTED;

@@ -2,7 +2,7 @@
   if (pluggableSCMMaterialToPipelineMap == null) {
 synchronized (this) {
       if (pluggableSCMMaterialToPipelineMap == null) {
-        pluggableSCMMaterialToPipelineMap=new HashMap<String,List<Pair<PipelineConfig,PipelineConfigs>>>();
+        pluggableSCMMaterialToPipelineMap=new HashMap<>();
         for (        PipelineConfigs pipelineConfigs : this) {
           for (          PipelineConfig pipelineConfig : pipelineConfigs) {
             for (            PluggableSCMMaterialConfig pluggableSCMMaterialConfig : pipelineConfig.pluggableSCMMaterialConfigs()) {
@@ -10,7 +10,7 @@ synchronized (this) {
               if (!pluggableSCMMaterialToPipelineMap.containsKey(scmId)) {
                 pluggableSCMMaterialToPipelineMap.put(scmId,new ArrayList<Pair<PipelineConfig,PipelineConfigs>>());
               }
-              pluggableSCMMaterialToPipelineMap.get(scmId).add(new Pair<PipelineConfig,PipelineConfigs>(pipelineConfig,pipelineConfigs));
+              pluggableSCMMaterialToPipelineMap.get(scmId).add(new Pair<>(pipelineConfig,pipelineConfigs));
             }
           }
         }

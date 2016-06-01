@@ -3,7 +3,7 @@
     JobHirarchyQueueEntry entry=bfsQueue.remove();
     CaseInsensitiveString pipelineName=entry.pipelineName;
     PipelineConfig pipelineConfig=cruiseConfig.pipelineConfigByName(pipelineName);
-    List<StageConfig> fetchableStages=new ArrayList<StageConfig>();
+    List<StageConfig> fetchableStages=new ArrayList<>();
     for (    StageConfig stageConfig : pipelineConfig) {
       fetchableStages.add(stageConfig);
       if (entry.stageName.equals(stageConfig.name())) {

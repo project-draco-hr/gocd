@@ -1,5 +1,5 @@
 {
-  List<Criterion> criterions=new ArrayList<Criterion>();
+  List<Criterion> criterions=new ArrayList<>();
   for (  PipelineMaterialRevision pmr : pmrs) {
     if (goCache.get(pmrModificationsKey(pmr)) != null) {
       continue;
@@ -15,7 +15,7 @@
     for (    String cacheKey : cacheKeys) {
       List<Modification> modificationList=(List<Modification>)goCache.get(cacheKey);
       if (modificationList == null) {
-        modificationList=new ArrayList<Modification>();
+        modificationList=new ArrayList<>();
         goCache.put(cacheKey,modificationList);
       }
       modificationList.add(modification);

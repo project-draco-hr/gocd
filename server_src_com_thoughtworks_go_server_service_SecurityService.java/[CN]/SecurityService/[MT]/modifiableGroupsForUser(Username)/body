@@ -2,7 +2,7 @@
   if (isUserAdmin(userName)) {
     return goConfigService.allGroups();
   }
-  List<String> modifiableGroups=new ArrayList<String>();
+  List<String> modifiableGroups=new ArrayList<>();
   for (  String group : goConfigService.allGroups()) {
     if (isUserAdminOfGroup(userName.getUsername(),group)) {
       modifiableGroups.add(group);

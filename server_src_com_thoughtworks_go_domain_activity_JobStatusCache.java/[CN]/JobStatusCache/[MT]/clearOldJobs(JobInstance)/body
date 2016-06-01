@@ -1,5 +1,5 @@
 {
-  Set<JobConfigIdentifier> cachedIds=new HashSet<JobConfigIdentifier>(jobs.keySet());
+  Set<JobConfigIdentifier> cachedIds=new HashSet<>(jobs.keySet());
   for (  JobConfigIdentifier cachedId : cachedIds) {
     JobInstance originalCached=jobs.get(cachedId);
     if ((originalCached == NEVER_RUN && !newJob.getIdentifier().jobConfigIdentifier().equals(cachedId))) {

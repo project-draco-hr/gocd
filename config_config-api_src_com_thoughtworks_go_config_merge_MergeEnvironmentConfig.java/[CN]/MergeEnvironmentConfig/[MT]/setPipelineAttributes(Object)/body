@@ -1,12 +1,12 @@
 {
   if (pipelinesAttributes != null) {
     List<Map> pipelineAttributes=(List)pipelinesAttributes;
-    List<EnvironmentPipelineConfig> newProposed=new ArrayList<EnvironmentPipelineConfig>();
+    List<EnvironmentPipelineConfig> newProposed=new ArrayList<>();
     for (    Map attributeMap : pipelineAttributes) {
       EnvironmentPipelineConfig pipeInEnv=new EnvironmentPipelineConfig(new CaseInsensitiveString((String)attributeMap.get("name")));
       newProposed.add(pipeInEnv);
     }
-    List<EnvironmentPipelineConfig> removals=new ArrayList<EnvironmentPipelineConfig>();
+    List<EnvironmentPipelineConfig> removals=new ArrayList<>();
     for (    EnvironmentConfig part : this) {
       for (      EnvironmentPipelineConfig existingPipeline : part.getPipelines()) {
         if (!newProposed.contains(existingPipeline)) {

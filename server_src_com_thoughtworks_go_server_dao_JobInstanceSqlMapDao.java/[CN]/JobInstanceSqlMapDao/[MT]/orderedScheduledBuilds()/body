@@ -1,6 +1,6 @@
 {
   List<Long> jobIds=(List<Long>)getSqlMapClientTemplate().queryForList("scheduledPlanIds");
-  List<JobPlan> plans=new ArrayList<JobPlan>();
+  List<JobPlan> plans=new ArrayList<>();
   for (  Long jobId : jobIds) {
     String cacheKey=cacheKeyForJobPlan(jobId);
 synchronized (cacheKey) {

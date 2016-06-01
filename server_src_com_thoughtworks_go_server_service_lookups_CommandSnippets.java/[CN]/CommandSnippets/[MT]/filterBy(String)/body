@@ -1,8 +1,8 @@
 {
   String prefixToCheckAgainst=prefix.toLowerCase();
-  ArrayList<CommandSnippet> exactNameMatchingSnippets=new ArrayList<CommandSnippet>();
-  ArrayList<CommandSnippet> partialNameMatchingSnippets=new ArrayList<CommandSnippet>();
-  ArrayList<CommandSnippet> exactKeywordMatchingSnippets=new ArrayList<CommandSnippet>();
+  ArrayList<CommandSnippet> exactNameMatchingSnippets=new ArrayList<>();
+  ArrayList<CommandSnippet> partialNameMatchingSnippets=new ArrayList<>();
+  ArrayList<CommandSnippet> exactKeywordMatchingSnippets=new ArrayList<>();
   for (  CommandSnippet snippet : snippets) {
     if (!snippet.isValid()) {
       continue;
@@ -19,7 +19,7 @@
       exactKeywordMatchingSnippets.add(snippet);
     }
   }
-  ArrayList<CommandSnippet> matchedSnippets=new ArrayList<CommandSnippet>();
+  ArrayList<CommandSnippet> matchedSnippets=new ArrayList<>();
   matchedSnippets.addAll(exactNameMatchingSnippets);
   matchedSnippets.addAll(partialNameMatchingSnippets);
   matchedSnippets.addAll(exactKeywordMatchingSnippets);

@@ -12,7 +12,7 @@
       Map<PipelineId,Set<Long>> relevantToLookedUpMap=relevantToLookedUpDependencyMap(session,pipelineIds);
       SQLQuery query=session.createSQLQuery("SELECT mods.*, pmr.pipelineId as pmrPipelineId, p.name as pmrPipelineName, m.type as materialType, m.fingerprint as fingerprint" + " FROM modifications mods " + "     INNER JOIN pipelineMaterialRevisions pmr ON (mods.id >= pmr.fromRevisionId AND mods.id <= pmr.toRevisionId) AND mods.materialId = pmr.materialId "+ "     INNER JOIN pipelines p ON pmr.pipelineId = p.id"+ "     INNER JOIN materials m ON mods.materialId = m.id"+ " WHERE pmr.pipelineId IN (:ids)");
       @SuppressWarnings({"unchecked"}) List<Object[]> allModifications=query.addEntity("mods",Modification.class).addScalar("pmrPipelineId",new LongType()).addScalar("pmrPipelineName",new StringType()).addScalar("materialType",new StringType()).addScalar("fingerprint",new StringType()).setParameterList("ids",CollectionUtil.map(relevantToLookedUpMap.keySet(),PipelineId.MAP_ID)).list();
-      Map<Long,List<ModificationForPipeline>> modificationsForPipeline=new HashMap<Long,List<ModificationForPipeline>>();
+      Map<Long,List<ModificationForPipeline>> modificationsForPipeline=new HashMap<>();
       CollectionUtil.CollectionValueMap<Long,ModificationForPipeline> modsForPipeline=CollectionUtil.collectionValMap(modificationsForPipeline,new CollectionUtil.ArrayList<ModificationForPipeline>());
       for (      Object[] modAndPmr : allModifications) {
         Modification mod=(Modification)modAndPmr[MODIFICATION];

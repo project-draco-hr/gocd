@@ -1,7 +1,7 @@
 {
   if (!securityService.hasViewPermissionForPipeline(username,pipelineName)) {
     result.unauthorized(LocalizedMessage.cannotViewPipeline(pipelineName),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
-    return new ArrayList<MatchedRevision>();
+    return new ArrayList<>();
   }
   try {
     MaterialConfig materialConfig=goConfigService.materialForPipelineWithFingerprint(pipelineName,fingerprint);
@@ -9,6 +9,6 @@
   }
  catch (  RuntimeException e) {
     result.notFound(LocalizedMessage.materialWithFingerPrintNotFound(pipelineName,fingerprint),HealthStateType.general(HealthStateScope.forPipeline(pipelineName)));
-    return new ArrayList<MatchedRevision>();
+    return new ArrayList<>();
   }
 }

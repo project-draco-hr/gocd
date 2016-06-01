@@ -9,7 +9,7 @@
     return 0;
   }
   PipelineTimelineEntry that=(PipelineTimelineEntry)o;
-  Map<Date,TreeSet<Integer>> earlierMods=new HashMap<Date,TreeSet<Integer>>();
+  Map<Date,TreeSet<Integer>> earlierMods=new HashMap<>();
   for (  String materialFlyweight : revisions.keySet()) {
     List<Revision> thisRevs=this.revisions.get(materialFlyweight);
     List<Revision> thatRevs=that.revisions.get(materialFlyweight);
@@ -31,7 +31,7 @@
   if (earlierMods.isEmpty()) {
     return counter < that.counter ? -1 : 1;
   }
-  TreeSet<Date> sortedModDate=new TreeSet<Date>(earlierMods.keySet());
+  TreeSet<Date> sortedModDate=new TreeSet<>(earlierMods.keySet());
   if (hasContentionOnEarliestMod(earlierMods,sortedModDate.first())) {
     return counter < that.counter ? -1 : 1;
   }

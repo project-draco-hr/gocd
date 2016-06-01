@@ -1,6 +1,6 @@
 {
-  List<ReportingRootFanInNode> scmMaterials=new ArrayList<ReportingRootFanInNode>();
-  List<ReportingDependencyFanInNode> depMaterials=new ArrayList<ReportingDependencyFanInNode>();
+  List<ReportingRootFanInNode> scmMaterials=new ArrayList<>();
+  List<ReportingDependencyFanInNode> depMaterials=new ArrayList<>();
   for (  ReportingFanInNode child : root.children) {
     if (child instanceof ReportingRootFanInNode) {
       scmMaterials.add((ReportingRootFanInNode)child);
@@ -9,5 +9,5 @@
       depMaterials.add((ReportingDependencyFanInNode)child);
     }
   }
-  return new Pair<List<ReportingRootFanInNode>,List<ReportingDependencyFanInNode>>(scmMaterials,depMaterials);
+  return new Pair<>(scmMaterials,depMaterials);
 }

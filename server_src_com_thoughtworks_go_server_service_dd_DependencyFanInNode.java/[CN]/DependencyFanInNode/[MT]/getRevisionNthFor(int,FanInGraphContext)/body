@@ -1,10 +1,10 @@
 {
-  List<FaninScmMaterial> scmMaterials=new ArrayList<FaninScmMaterial>();
+  List<FaninScmMaterial> scmMaterials=new ArrayList<>();
   PipelineTimeline pipelineTimeline=context.pipelineTimeline;
-  Queue<PipelineTimelineEntry.Revision> revisionQueue=new ConcurrentLinkedQueue<PipelineTimelineEntry.Revision>();
+  Queue<PipelineTimelineEntry.Revision> revisionQueue=new ConcurrentLinkedQueue<>();
   DependencyMaterialConfig dependencyMaterial=(DependencyMaterialConfig)materialConfig;
   PipelineTimelineEntry entry=pipelineTimeline.instanceFor(dependencyMaterial.getPipelineName(),totalInstanceCount - n);
-  Set<CaseInsensitiveString> visitedNodes=new HashSet<CaseInsensitiveString>();
+  Set<CaseInsensitiveString> visitedNodes=new HashSet<>();
   StageIdentifier dependentStageIdentifier=dependentStageIdentifier(context,entry,CaseInsensitiveString.str(dependencyMaterial.getStageName()));
   if (!StageIdentifier.NULL.equals(dependentStageIdentifier)) {
     addToRevisionQueue(entry,revisionQueue,scmMaterials,context,visitedNodes);
@@ -18,5 +18,5 @@
     PipelineTimelineEntry pte=pipelineTimeline.getEntryFor(new CaseInsensitiveString(dmr.getPipelineName()),dmr.getPipelineCounter());
     addToRevisionQueue(pte,revisionQueue,scmMaterials,context,visitedNodes);
   }
-  return new Pair<StageIdentifier,List<FaninScmMaterial>>(dependentStageIdentifier,scmMaterials);
+  return new Pair<>(dependentStageIdentifier,scmMaterials);
 }

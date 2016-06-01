@@ -1,5 +1,5 @@
 {
-  return convert(new HashSet<String>(Arrays.asList(Admin.GO_SYSTEM_ADMIN)),users,new Assigner<String,String>(){
+  return convert(new HashSet<>(Arrays.asList(Admin.GO_SYSTEM_ADMIN)),users,new Assigner<String,String>(){
     public boolean shouldAssociate(    String userName,    String ignore){
       return adminsConfig.hasUser(new CaseInsensitiveString(userName),userRoleMatcher);
     }
@@ -7,7 +7,7 @@
       return Admin.GO_SYSTEM_ADMIN;
     }
     public boolean shouldEnable(    String userName,    String ignore){
-      List<Role> roles=new ArrayList<Role>();
+      List<Role> roles=new ArrayList<>();
       for (      Role role : allRoles) {
         if (role.hasMember(new CaseInsensitiveString(userName))) {
           roles.add(role);
