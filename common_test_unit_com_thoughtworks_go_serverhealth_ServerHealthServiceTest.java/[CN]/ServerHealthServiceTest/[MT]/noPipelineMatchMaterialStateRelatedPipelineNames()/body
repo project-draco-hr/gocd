@@ -5,5 +5,5 @@
   config.addPipeline("group",PipelineConfigMother.pipelineConfig("pipeline2",new MaterialConfigs(hgMaterial.config())));
   config.addPipeline("group",PipelineConfigMother.pipelineConfig("pipeline3"));
   serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.general(forMaterial(MaterialsMother.p4Material()))));
-  assertThat((serverHealthService.getAllLogs().get(0)).getPipelineNames(config),is(""));
+  assertTrue((serverHealthService.getAllLogs().get(0)).getPipelineNames(config).isEmpty());
 }

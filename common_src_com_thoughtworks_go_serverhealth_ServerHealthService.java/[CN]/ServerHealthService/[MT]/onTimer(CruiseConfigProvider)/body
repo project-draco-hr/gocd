@@ -1,0 +1,11 @@
+{
+  CruiseConfig currentConfig=provider.getCurrentConfig();
+  getAllValidLogs(currentConfig);
+  LOG.debug("Recomputing material to pipeline mappings.");
+  HashMap<ServerHealthState,Set<String>> erroredPipelines=new HashMap<>();
+  for (  Map.Entry<HealthStateType,ServerHealthState> entry : serverHealth.entrySet()) {
+    erroredPipelines.put(entry.getValue(),entry.getValue().getPipelineNames(currentConfig));
+  }
+  pipelinesWithErrors=erroredPipelines;
+  LOG.debug("Done recomputing material to pipeline mappings.");
+}
