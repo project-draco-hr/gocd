@@ -1,0 +1,7 @@
+{
+  CREnvironmentVariable crEnvironmentVariable=new CREnvironmentVariable("key1","value");
+  EnvironmentVariableConfig result=configConverter.toEnvironmentVariableConfig(crEnvironmentVariable);
+  assertThat(result.getValue(),is("value"));
+  assertThat(result.getName(),is("key1"));
+  assertThat(result.isSecure(),is(false));
+}

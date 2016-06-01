@@ -1,0 +1,14 @@
+{
+  Map<String,T> examples=getExamples();
+  for (  Map.Entry<String,T> example : examples.entrySet()) {
+    String exampleName=example.getKey();
+    T value=example.getValue();
+    String json=gson.toJson(value);
+    if (printExamples) {
+      System.out.print("-----\n");
+      System.out.print(String.format("Example '%s':\n",exampleName));
+      System.out.print(json);
+      System.out.print("\n");
+    }
+  }
+}

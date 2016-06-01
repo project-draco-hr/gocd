@@ -1,0 +1,11 @@
+{
+  simpleExec=new CRExecTask("/usr/local/bin/ruby");
+  simpleExecWithArgs=new CRExecTask("/usr/local/bin/ruby");
+  simpleExecWithArgs.addArgument("backup.rb");
+  simpleExecRunIf=new CRExecTask("/usr/local/bin/ruby");
+  simpleExecRunIf.setRunIf(CRRunIf.failed);
+  customExec=new CRExecTask("rake","dir",120L,CRRunIf.any,simpleExec,"-f","Rakefile.rb");
+  execInDir=new CRExecTask("/usr/local/bin/rake");
+  execInDir.setWorkingDirectory("myProjectDir");
+  invalidNoCommand=new CRExecTask();
+}

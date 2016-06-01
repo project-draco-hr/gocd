@@ -4,7 +4,7 @@
   List<String> keys=Arrays.asList("Avengers 1","Avengers 2","Avengers 3","Avengers 4");
   List<String> values=Arrays.asList("Iron man","Hulk","Thor","Captain America");
   Configuration configuration=new Configuration(new ConfigurationProperty(new ConfigurationKey(keys.get(0)),new ConfigurationValue(values.get(0))),new ConfigurationProperty(new ConfigurationKey(keys.get(1)),new ConfigurationValue(values.get(1))),new ConfigurationProperty(new ConfigurationKey(keys.get(2)),new ConfigurationValue(values.get(2))),new ConfigurationProperty(new ConfigurationKey(keys.get(3)),new ConfigurationValue(values.get(3)),new EncryptedConfigurationValue(cipher.encrypt(values.get(3))),cipher));
-  PluggableTask task=new PluggableTask("test-task",pluginConfiguration,configuration);
+  PluggableTask task=new PluggableTask(pluginConfiguration,configuration);
   Map<String,Map<String,String>> configMap=task.configAsMap();
   assertThat(configMap.keySet().size(),is(keys.size()));
   assertThat(configMap.values().size(),is(values.size()));

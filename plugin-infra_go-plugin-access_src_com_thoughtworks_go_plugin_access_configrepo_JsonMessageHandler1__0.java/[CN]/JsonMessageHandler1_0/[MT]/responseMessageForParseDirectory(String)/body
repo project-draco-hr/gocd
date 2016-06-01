@@ -1,0 +1,29 @@
+{
+  ErrorCollection errors=new ErrorCollection();
+  try {
+    ResponseScratch responseMap=parseResponseForMigration(responseBody);
+    ParseDirectoryResponseMessage parseDirectoryResponseMessage;
+    if (responseMap.target_version == null) {
+      errors.addError("Plugin response message","missing 'target_version' field");
+      return new CRParseResult(errors);
+    }
+ else {
+      int version=responseMap.target_version;
+      while (version < CURRENT_CONTRACT_VERSION) {
+        migrate(responseBody,version);
+        version++;
+      }
+      parseDirectoryResponseMessage=codec.getGson().fromJson(responseBody,ParseDirectoryResponseMessage.class);
+      parseDirectoryResponseMessage.validateResponse(errors);
+      errors.addErrors(parseDirectoryResponseMessage.getPluginErrors());
+      return new CRParseResult(parseDirectoryResponseMessage.getEnvironments(),parseDirectoryResponseMessage.getPipelines(),errors);
+    }
+  }
+ catch (  Exception ex) {
+    StringBuilder builder=new StringBuilder();
+    builder.append("Unexpected error when handling plugin response").append('\n');
+    builder.append(ex);
+    errors.addError("runtime",builder.toString());
+    return new CRParseResult(errors);
+  }
+}

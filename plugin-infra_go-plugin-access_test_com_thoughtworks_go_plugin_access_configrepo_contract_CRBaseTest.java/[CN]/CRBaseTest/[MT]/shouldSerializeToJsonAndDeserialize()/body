@@ -1,0 +1,12 @@
+{
+  Map<String,T> examples=getExamples();
+  for (  Map.Entry<String,T> example : examples.entrySet()) {
+    T value=example.getValue();
+    String json=gson.toJson(value);
+    Type typeOfT=new TypeToken<T>(){
+    }
+.getType();
+    T deserializedValue=(T)gson.fromJson(json,value.getClass());
+    assertThat(String.format("Example %s - Deserialized value should equal to value before serialization",example.getKey()),deserializedValue,is(value));
+  }
+}

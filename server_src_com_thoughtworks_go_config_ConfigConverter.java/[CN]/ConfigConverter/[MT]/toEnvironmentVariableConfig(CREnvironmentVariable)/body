@@ -1,0 +1,8 @@
+{
+  if (crEnvironmentVariable.hasEncryptedValue()) {
+    return new EnvironmentVariableConfig(cipher,crEnvironmentVariable.getName(),crEnvironmentVariable.getEncryptedValue());
+  }
+ else {
+    return new EnvironmentVariableConfig(crEnvironmentVariable.getName(),crEnvironmentVariable.getValue());
+  }
+}

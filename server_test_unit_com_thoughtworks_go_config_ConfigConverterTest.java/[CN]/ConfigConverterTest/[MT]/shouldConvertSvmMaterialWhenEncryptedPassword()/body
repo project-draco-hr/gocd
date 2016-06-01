@@ -1,0 +1,12 @@
+{
+  CRSvnMaterial crSvnMaterial=CRSvnMaterial.withEncryptedPassword("name","folder",true,filter,"url","username","encryptedvalue",true);
+  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)configConverter.toMaterialConfig(crSvnMaterial);
+  assertThat(svnMaterialConfig.getName().toLower(),is("name"));
+  assertThat(svnMaterialConfig.getFolder(),is("folder"));
+  assertThat(svnMaterialConfig.getAutoUpdate(),is(true));
+  assertThat(svnMaterialConfig.getFilterAsString(),is("filter"));
+  assertThat(svnMaterialConfig.getUrl(),is("url"));
+  assertThat(svnMaterialConfig.getUserName(),is("username"));
+  assertThat(svnMaterialConfig.getPassword(),is("secret"));
+  assertThat(svnMaterialConfig.isCheckExternals(),is(true));
+}

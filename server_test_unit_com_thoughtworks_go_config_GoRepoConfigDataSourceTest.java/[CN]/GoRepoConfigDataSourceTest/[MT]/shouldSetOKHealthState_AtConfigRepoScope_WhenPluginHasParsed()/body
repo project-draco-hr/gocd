@@ -1,0 +1,11 @@
+{
+  ScmMaterialConfig material=new GitMaterialConfig("http://my.git");
+  ConfigRepoConfig configRepoConfig=new ConfigRepoConfig(material,"myplugin");
+  cruiseConfig.setConfigRepos(new ConfigReposConfig(configRepoConfig));
+  configWatchList.onConfigChange(cruiseConfig);
+  HealthStateScope scope=HealthStateScope.forPartialConfigRepo(configRepoConfig);
+  serverHealthService.update(ServerHealthState.error("Parse failed","Bad config format",HealthStateType.general(scope)));
+  assertFalse(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(configRepoConfig)).isEmpty());
+  repoConfigDataSource.onCheckoutComplete(material,folder,"7a8f");
+  assertTrue(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(configRepoConfig)).isEmpty());
+}

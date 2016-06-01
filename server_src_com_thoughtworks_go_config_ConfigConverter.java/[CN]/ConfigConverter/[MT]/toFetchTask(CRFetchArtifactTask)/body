@@ -1,0 +1,9 @@
+{
+  FetchTask fetchTask=new FetchTask(new CaseInsensitiveString(crTask.getPipelineName() == null ? "" : crTask.getPipelineName()),new CaseInsensitiveString(crTask.getStage()),new CaseInsensitiveString(crTask.getJob()),crTask.getSource(),crTask.getDestination());
+  if (crTask.sourceIsDirectory()) {
+    fetchTask.setSrcdir(crTask.getSource());
+    fetchTask.setSrcfile(null);
+  }
+  setCommonTaskMembers(fetchTask,crTask);
+  return fetchTask;
+}

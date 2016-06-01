@@ -1,0 +1,7 @@
+{
+  String json=gson.toJson(build2Rakes);
+  CRJob deserializedValue=(CRJob)gson.fromJson(json,CRJob.class);
+  CRTask task1=deserializedValue.getTasks().get(1);
+  assertThat(task1 instanceof CRBuildTask,is(true));
+  assertThat(((CRBuildTask)task1).getBuildFile(),is("Rakefile.rb"));
+}

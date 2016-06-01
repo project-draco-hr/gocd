@@ -1,0 +1,9 @@
+{
+  String json="{\n" + "    \"type\": \"manual\",\n" + "      \"roles\": [\n"+ "\n"+ "      ],\n"+ "      \"users\": [\n"+ "\n\"joe\""+ "      ]\n"+ "  }";
+  CRApproval deserializedValue=gson.fromJson(json,CRApproval.class);
+  assertThat(deserializedValue.getType(),is(CRApprovalCondition.manual));
+  assertThat(deserializedValue.getAuthorizedUsers().isEmpty(),is(false));
+  assertThat(deserializedValue.getAuthorizedRoles().isEmpty(),is(true));
+  ErrorCollection errors=deserializedValue.getErrors();
+  assertTrue(errors.isEmpty());
+}

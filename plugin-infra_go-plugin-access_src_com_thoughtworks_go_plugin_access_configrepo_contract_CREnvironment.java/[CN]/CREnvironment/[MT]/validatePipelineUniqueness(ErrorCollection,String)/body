@@ -1,0 +1,8 @@
+{
+  HashSet<String> keys=new HashSet<>();
+  for (  String pipeline : pipelines) {
+    String lowerCase=pipeline.toLowerCase();
+    if (keys.contains(lowerCase))     errors.addError(location,String.format("Pipeline %s is defined more than once",pipeline));
+ else     keys.add(lowerCase);
+  }
+}

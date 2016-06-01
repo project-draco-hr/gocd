@@ -1,0 +1,21 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  if (!super.equals(o)) {
+    return false;
+  }
+  CRPluggableTask that=(CRPluggableTask)o;
+  if (configuration != null && that.configuration == null)   return false;
+  if (configuration == null && that.configuration != null)   return false;
+  if (configuration != null ? !CollectionUtils.isEqualCollection(configuration,that.configuration) : that.configuration != null) {
+    return false;
+  }
+  if (plugin_configuration != null ? !plugin_configuration.equals(that.plugin_configuration) : that.plugin_configuration != null) {
+    return false;
+  }
+  return true;
+}

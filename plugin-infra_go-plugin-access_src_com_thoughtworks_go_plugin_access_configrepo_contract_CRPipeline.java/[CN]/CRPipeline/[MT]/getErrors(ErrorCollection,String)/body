@@ -1,0 +1,26 @@
+{
+  String location=this.getLocation(parentLocation);
+  errors.checkMissing(location,"name",name);
+  errors.checkMissing(location,"group",group);
+  errors.checkMissing(location,"materials",materials);
+  errors.checkMissing(location,"stages",stages);
+  validateAtLeastOneMaterial(errors,location);
+  if (materials != null) {
+    for (    CRMaterial material : this.materials) {
+      material.getErrors(errors,location);
+    }
+    if (materials.size() > 1) {
+      validateMaterialNameUniqueness(errors,location);
+      validateScmMaterials(errors,location);
+    }
+  }
+  validateAtLeastOneStage(errors,location);
+  if (stages != null) {
+    for (    CRStage stage : this.stages) {
+      stage.getErrors(errors,location);
+    }
+    if (stages.size() > 1) {
+      validateStageNameUniqueness(errors,location);
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  CRPipeline p=new CRPipeline();
+  p.setName("pipe4");
+  p.addMaterial(veryCustomGit);
+  p.setLocation("pipe4.json");
+  ErrorCollection errors=new ErrorCollection();
+  p.getErrors(errors,"TEST");
+  String fullError=errors.getErrorsAsText();
+  assertThat(fullError,contains("pipe4.json; Pipeline pipe4"));
+  assertThat(fullError,contains("Missing field 'group'"));
+  assertThat(fullError,contains("Pipeline has no stages"));
+}

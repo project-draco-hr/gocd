@@ -1,0 +1,10 @@
+{
+  List<CRPipeline> pipelines=new ArrayList<>();
+  pipelines.add(new CRPipeline("pipename","group","label",true,trackingTool,null,timer,environmentVariables,materials,stages));
+  Map<String,List<CRPipeline>> map=new HashedMap();
+  map.put("group",pipelines);
+  Map.Entry<String,List<CRPipeline>> crPipelineGroup=map.entrySet().iterator().next();
+  PipelineConfigs pipelineConfigs=configConverter.toBasicPipelineConfigs(crPipelineGroup);
+  assertThat(pipelineConfigs.getGroup(),is("group"));
+  assertThat(pipelineConfigs.getPipelines().size(),is(1));
+}

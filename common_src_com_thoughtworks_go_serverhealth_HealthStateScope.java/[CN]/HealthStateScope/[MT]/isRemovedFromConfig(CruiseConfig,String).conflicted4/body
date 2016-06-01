@@ -1,3 +1,8 @@
 {
-  return !cruiseConfig.hasPipelineGroup(group);
+  for (  MaterialConfig materialConfig : cruiseConfig.getAllUniqueMaterials()) {
+    if (HealthStateScope.forMaterialConfig(materialConfig).getScope().equals(materialScope)) {
+      return false;
+    }
+  }
+  return true;
 }

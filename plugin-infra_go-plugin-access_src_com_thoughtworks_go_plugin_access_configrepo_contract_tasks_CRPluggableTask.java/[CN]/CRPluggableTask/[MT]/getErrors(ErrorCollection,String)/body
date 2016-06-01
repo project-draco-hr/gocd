@@ -1,0 +1,11 @@
+{
+  String location=getLocation(parentLocation);
+  errors.checkMissing(location,"plugin_configuration",plugin_configuration);
+  if (this.plugin_configuration != null)   this.plugin_configuration.getErrors(errors,location);
+  if (this.configuration != null) {
+    for (    CRConfigurationProperty p : configuration) {
+      p.getErrors(errors,location);
+    }
+  }
+  validateKeyUniqueness(errors,location);
+}

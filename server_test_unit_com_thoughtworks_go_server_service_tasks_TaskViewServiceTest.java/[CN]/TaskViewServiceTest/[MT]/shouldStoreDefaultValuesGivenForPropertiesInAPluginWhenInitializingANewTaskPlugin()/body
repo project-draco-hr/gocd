@@ -6,7 +6,7 @@
   Property taskConfigProperty3=new TaskConfigProperty("key3",null);
   storeTaskPreferences(plugin,taskConfigProperty1.withDefault("default1"),taskConfigProperty2.withDefault("default2"),taskConfigProperty3);
   when(registry.implementersOf(Task.class)).thenReturn(Arrays.<Class<? extends Task>>asList(PluggableTask.class));
-  PluggableTask pluggableTask=(PluggableTask)taskViewService.taskInstanceFor(new PluggableTask("",new PluginConfiguration(plugin,"1"),new Configuration()).getTaskType());
+  PluggableTask pluggableTask=(PluggableTask)taskViewService.taskInstanceFor(new PluggableTask(new PluginConfiguration(plugin,"1"),new Configuration()).getTaskType());
   assertThat(pluggableTask.getConfiguration().getProperty("key1").getValue(),is("default1"));
   assertThat(pluggableTask.getConfiguration().getProperty("key2").getValue(),is("default2"));
   assertNull(pluggableTask.getConfiguration().getProperty("key3").getValue());

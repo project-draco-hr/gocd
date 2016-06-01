@@ -1,0 +1,12 @@
+{
+  CRGitMaterial crGitMaterial=new CRGitMaterial();
+  crGitMaterial.setUrl("url");
+  GitMaterialConfig gitMaterialConfig=(GitMaterialConfig)configConverter.toMaterialConfig(crGitMaterial);
+  assertNull(crGitMaterial.getName());
+  assertNull(crGitMaterial.getDirectory());
+  assertThat(gitMaterialConfig.getAutoUpdate(),is(true));
+  assertThat(gitMaterialConfig.isShallowClone(),is(false));
+  assertThat(gitMaterialConfig.filter(),is(new Filter()));
+  assertThat(gitMaterialConfig.getUrl(),is("url"));
+  assertThat(gitMaterialConfig.getBranch(),is("master"));
+}

@@ -1,0 +1,9 @@
+{
+  Approval approval=toApproval(crStage.getApproval());
+  StageConfig stageConfig=new StageConfig(new CaseInsensitiveString(crStage.getName()),crStage.isFetchMaterials(),crStage.isCleanWorkingDir(),approval,crStage.isArtifactCleanupProhibited(),toJobConfigs(crStage.getJobs()));
+  EnvironmentVariablesConfig environmentVariableConfigs=stageConfig.getVariables();
+  for (  CREnvironmentVariable crEnvironmentVariable : crStage.getEnvironmentVariables()) {
+    environmentVariableConfigs.add(toEnvironmentVariableConfig(crEnvironmentVariable));
+  }
+  return stageConfig;
+}

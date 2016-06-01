@@ -1,0 +1,11 @@
+{
+  Map<String,T> examples=getExamples();
+  for (  Map.Entry<String,T> example : examples.entrySet()) {
+    T value=example.getValue();
+    JsonObject jsonObject=(JsonObject)gson.toJsonTree(value);
+    jsonObject.add("extraProperty",new JsonPrimitive("This is not part of message type"));
+    String json=gson.toJson(jsonObject);
+    T deserializedValue=(T)gson.fromJson(json,value.getClass());
+    assertThat(String.format("Example %s - Deserialized value should equal to value before serialization",example.getKey()),deserializedValue,is(value));
+  }
+}

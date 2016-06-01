@@ -1,0 +1,10 @@
+{
+  String location="Plugin response message";
+  errors.checkMissing(location,"target_version",target_version);
+  for (  CRPipeline pipeline : pipelines) {
+    pipeline.getErrors(errors,location);
+  }
+  for (  CREnvironment environment : environments) {
+    environment.getErrors(errors,location);
+  }
+}

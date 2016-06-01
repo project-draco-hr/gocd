@@ -3,7 +3,7 @@
   property1.addError("key1","error msg");
   ConfigurationProperty property2=create("KEY2",false,"value2");
   Configuration configuration=new Configuration(property1,property2);
-  PluggableTask taskConfig=new PluggableTask("",new PluginConfiguration("plugin-1","2"),configuration);
+  PluggableTask taskConfig=new PluggableTask(new PluginConfiguration("plugin-1","2"),configuration);
   PluggableTaskViewModelFactory factory=new PluggableTaskViewModelFactory();
   PluggableViewModel<PluggableTask> viewModel=factory.viewModelFor(taskConfig,"new");
   String actualData=(String)viewModel.getParameters().get("data");

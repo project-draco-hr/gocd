@@ -1,6 +1,6 @@
 {
   Configuration configuration=new Configuration(ConfigurationPropertyMother.create("KEY1"));
-  PluggableTask modifiedTask=new PluggableTask("abc",new PluginConfiguration(pluginId,"1"),configuration);
+  PluggableTask modifiedTask=new PluggableTask(new PluginConfiguration(pluginId,"1"),configuration);
   ValidationResult validationResult=new ValidationResult();
   when(taskExtension.validate(eq(modifiedTask.getPluginConfiguration().getId()),any(TaskConfig.class))).thenReturn(validationResult);
   when(localizer.localize("MANDATORY_CONFIGURATION_FIELD")).thenReturn("MANDATORY_CONFIGURATION_FIELD");

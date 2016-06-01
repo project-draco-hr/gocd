@@ -1,0 +1,12 @@
+{
+  List<SourceCodeMaterial> allSCMMaterials=filterScmMaterials();
+  if (allSCMMaterials.size() > 1) {
+    for (    SourceCodeMaterial material : allSCMMaterials) {
+      String directory=material.getDestination();
+      if (StringUtil.isBlank(directory)) {
+        String location=material.getLocation(pipelineLocation);
+        errors.addError(location,"Material must have destination directory when there are many SCM materials");
+      }
+    }
+  }
+}

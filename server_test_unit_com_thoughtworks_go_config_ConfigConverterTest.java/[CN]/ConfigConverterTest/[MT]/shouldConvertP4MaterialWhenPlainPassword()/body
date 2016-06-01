@@ -1,0 +1,13 @@
+{
+  CRP4Material crp4Material=CRP4Material.withPlainPassword("name","folder",false,filter,"server:port","user","secret",true,"view");
+  P4MaterialConfig p4MaterialConfig=(P4MaterialConfig)configConverter.toMaterialConfig(crp4Material);
+  assertThat(p4MaterialConfig.getName().toLower(),is("name"));
+  assertThat(p4MaterialConfig.getFolder(),is("folder"));
+  assertThat(p4MaterialConfig.getAutoUpdate(),is(false));
+  assertThat(p4MaterialConfig.getFilterAsString(),is("filter"));
+  assertThat(p4MaterialConfig.getUrl(),is("server:port"));
+  assertThat(p4MaterialConfig.getUserName(),is("user"));
+  assertThat(p4MaterialConfig.getPassword(),is("secret"));
+  assertThat(p4MaterialConfig.getUseTickets(),is(true));
+  assertThat(p4MaterialConfig.getView(),is("view"));
+}

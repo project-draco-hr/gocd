@@ -1,0 +1,12 @@
+{
+  StringBuilder errorsBuilder=new StringBuilder();
+  for (  Map.Entry<String,List<String>> entry : this.errors.entrySet()) {
+    errorsBuilder.append('\n');
+    errorsBuilder.append(entry.getKey()).append(';');
+    for (    String message : entry.getValue()) {
+      errorsBuilder.append('\n').append('\t').append('-').append(' ');
+      errorsBuilder.append(message);
+    }
+  }
+  return errorsBuilder.toString();
+}
