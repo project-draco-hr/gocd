@@ -2,7 +2,7 @@
   this.pipelineConfig=goConfigService.pipelineConfigNamed(pipelineName);
   this.buildType=buildType;
   this.scheduleOptions=scheduleOptions;
-  pendingMaterials=new ConcurrentHashMap<String,Material>();
+  pendingMaterials=new ConcurrentHashMap<>();
   if (isConfigurationInMaterials()) {
     RepoConfigOrigin configRepo=(RepoConfigOrigin)this.pipelineConfig.getOrigin();
     MaterialConfig materialConfig=configRepo.getMaterial();

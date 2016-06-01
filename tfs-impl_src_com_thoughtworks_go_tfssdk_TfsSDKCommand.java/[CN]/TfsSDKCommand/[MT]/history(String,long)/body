@@ -3,7 +3,7 @@
     LOGGER.debug(String.format("[TFS SDK] History for Server: %s, Project Path: %s, Latest Revision: %s, RevToLoad: %s",getUrl(),getProjectPath(),latestRevision,revsToLoad));
   }
   Changeset[] changesets=retrieveChangeset(latestRevision,(int)revsToLoad);
-  ArrayList<Modification> modifications=new ArrayList<Modification>();
+  ArrayList<Modification> modifications=new ArrayList<>();
   for (  Changeset changeset : changesets) {
     Modification modification=new Modification(changeset.getCommitter(),changeset.getComment(),null,changeset.getDate().getTime(),String.valueOf(changeset.getChangesetID()));
     modification.setModifiedFiles(getModifiedFiles(changeset));

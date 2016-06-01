@@ -1,6 +1,6 @@
 {
-  Queue<PipelineConfigQueueEntry> configQueue=new LinkedList<PipelineConfigQueueEntry>();
-  Queue<PipelineConfigDependencyEntry> tmp=new LinkedList<PipelineConfigDependencyEntry>();
+  Queue<PipelineConfigQueueEntry> configQueue=new LinkedList<>();
+  Queue<PipelineConfigDependencyEntry> tmp=new LinkedList<>();
   tmp.add(new PipelineConfigDependencyEntry(this,new ArrayList<PipelineConfig>()));
   while (true) {
     PipelineConfigDependencyEntry currentHead=tmp.poll();
@@ -10,9 +10,9 @@
     PipelineConfigDependencyGraph current=currentHead.getNode();
     List<PipelineConfig> currentPath=currentHead.getPath();
     currentPath.add(current.getCurrent());
-    configQueue.add(new PipelineConfigQueueEntry(current.getCurrent(),new ArrayList<PipelineConfig>(currentPath)));
+    configQueue.add(new PipelineConfigQueueEntry(current.getCurrent(),new ArrayList<>(currentPath)));
     for (    PipelineConfigDependencyGraph upstream : current.getUpstreamDependencies()) {
-      List<PipelineConfig> parentsPath=new ArrayList<PipelineConfig>(currentPath);
+      List<PipelineConfig> parentsPath=new ArrayList<>(currentPath);
       tmp.add(new PipelineConfigDependencyEntry(upstream,parentsPath));
     }
   }

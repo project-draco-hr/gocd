@@ -1,7 +1,7 @@
 {
-  Map<DependencyMaterialConfig,Set<MaterialConfig>> dependencyMaterialListMap=new HashMap<DependencyMaterialConfig,Set<MaterialConfig>>();
+  Map<DependencyMaterialConfig,Set<MaterialConfig>> dependencyMaterialListMap=new HashMap<>();
   for (  Map.Entry<DependencyMaterialConfig,Set<String>> materialSetEntry : dependencyMaterialFingerprintMap.entrySet()) {
-    HashSet<MaterialConfig> scmMaterials=new HashSet<MaterialConfig>();
+    HashSet<MaterialConfig> scmMaterials=new HashSet<>();
     for (    String fingerprint : materialSetEntry.getValue()) {
       scmMaterials.add(fingerprintScmMaterialMap.get(fingerprint));
     }

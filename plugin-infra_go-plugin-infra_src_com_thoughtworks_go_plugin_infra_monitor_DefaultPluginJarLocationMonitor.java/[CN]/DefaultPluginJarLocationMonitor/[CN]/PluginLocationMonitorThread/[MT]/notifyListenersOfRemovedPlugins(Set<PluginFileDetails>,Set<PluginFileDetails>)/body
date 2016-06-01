@@ -1,5 +1,5 @@
 {
-  HashSet<PluginFileDetails> previouslyKnownPlugins=new HashSet<PluginFileDetails>(previouslyKnownPluginFiles);
+  HashSet<PluginFileDetails> previouslyKnownPlugins=new HashSet<>(previouslyKnownPluginFiles);
   previouslyKnownPlugins.removeAll(currentPluginFiles);
   for (  PluginFileDetails removedPluginFile : previouslyKnownPlugins) {
     doOnAllListeners().pluginJarRemoved(removedPluginFile);

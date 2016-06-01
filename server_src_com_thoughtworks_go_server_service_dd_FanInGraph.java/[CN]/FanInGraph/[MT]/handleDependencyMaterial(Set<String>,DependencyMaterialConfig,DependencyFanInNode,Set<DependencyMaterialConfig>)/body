@@ -4,7 +4,7 @@
     return;
   }
   visitedNodes.add(depMaterial);
-  final Set<String> scmMaterialFingerprintSet=new HashSet<String>();
+  final Set<String> scmMaterialFingerprintSet=new HashSet<>();
   buildRestOfTheGraph(node,cruiseConfig.pipelineConfigByName(depMaterial.getPipelineName()),scmMaterialFingerprintSet,visitedNodes);
   dependencyMaterialFingerprintMap.put(depMaterial,scmMaterialFingerprintSet);
   scmMaterialSet.addAll(scmMaterialFingerprintSet);

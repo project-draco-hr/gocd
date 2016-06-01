@@ -1,5 +1,5 @@
 {
-  Map<String,Object> stageMap=new LinkedHashMap<String,Object>();
+  Map<String,Object> stageMap=new LinkedHashMap<>();
   stageMap.put("name",stage.getName());
   stageMap.put("counter",new Integer(stage.getCounter()).toString());
   stageMap.put("approval-type",stage.getApprovalType());
@@ -8,7 +8,7 @@
   stageMap.put("result",stage.getResult().toString());
   stageMap.put("create-time",timestampToString(stage.getCreatedTime()));
   stageMap.put("last-transition-time",timestampToString(stage.getLastTransitionedTime()));
-  List<Map> jobsList=new ArrayList<Map>();
+  List<Map> jobsList=new ArrayList<>();
   for (  JobInstance currentJob : stage.getJobInstances()) {
     Map<String,Object> jobMap=createJobDataMap(currentJob);
     jobsList.add(jobMap);

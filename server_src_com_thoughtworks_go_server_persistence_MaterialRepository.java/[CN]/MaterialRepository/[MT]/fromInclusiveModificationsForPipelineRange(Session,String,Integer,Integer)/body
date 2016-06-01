@@ -3,7 +3,7 @@
   SQLQuery pipelineIdsQuery=session.createSQLQuery(pipelineIdsSql);
   final List ids=pipelineIdsQuery.list();
   if (ids.isEmpty()) {
-    return new ArrayList<Long>();
+    return new ArrayList<>();
   }
   String minMaxQuery=" SELECT mods1.materialId as materialId, min(mods1.id) as min, max(mods1.id) as max" + " FROM modifications mods1 " + "     INNER JOIN pipelineMaterialRevisions pmr ON (mods1.id >= pmr.actualFromRevisionId AND mods1.id <= pmr.toRevisionId) AND mods1.materialId = pmr.materialId "+ " WHERE pmr.pipelineId IN (:ids) "+ " GROUP BY mods1.materialId";
   SQLQuery query=session.createSQLQuery("SELECT mods.id " + " FROM modifications mods" + "     INNER JOIN (" + minMaxQuery + ") as edges on edges.materialId = mods.materialId and mods.id >= min and mods.id <= max"+ " ORDER BY mods.materialId ASC, mods.id DESC");

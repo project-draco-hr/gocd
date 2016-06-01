@@ -7,7 +7,7 @@
       Material material=materialConfigConverter.toMaterial(materialConfig);
       query.setString("finger_print",material.getFingerprint());
       query.setString("search_string","%" + searchString + "%");
-      final List<MatchedRevision> list=new ArrayList<MatchedRevision>();
+      final List<MatchedRevision> list=new ArrayList<>();
       for (      Modification mod : (List<Modification>)query.list()) {
         list.add(material.createMatchedRevision(mod,searchString));
       }

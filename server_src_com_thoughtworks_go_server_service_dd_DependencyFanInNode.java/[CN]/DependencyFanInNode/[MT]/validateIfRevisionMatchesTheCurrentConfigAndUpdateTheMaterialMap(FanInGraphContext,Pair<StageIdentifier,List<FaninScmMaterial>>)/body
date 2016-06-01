@@ -1,11 +1,11 @@
 {
   final Set<MaterialConfig> currentScmMaterials=context.pipelineScmDepMap.get(materialConfig);
-  final Set<FaninScmMaterial> scmMaterials=new HashSet<FaninScmMaterial>(stageIdentifierScmPair.last());
-  final Set<String> currentScmFingerprint=new HashSet<String>();
+  final Set<FaninScmMaterial> scmMaterials=new HashSet<>(stageIdentifierScmPair.last());
+  final Set<String> currentScmFingerprint=new HashSet<>();
   for (  MaterialConfig currentScmMaterial : currentScmMaterials) {
     currentScmFingerprint.add(currentScmMaterial.getFingerprint());
   }
-  final Set<String> scmMaterialsFingerprint=new HashSet<String>();
+  final Set<String> scmMaterialsFingerprint=new HashSet<>();
   for (  FaninScmMaterial scmMaterial : scmMaterials) {
     scmMaterialsFingerprint.add(scmMaterial.fingerprint);
   }

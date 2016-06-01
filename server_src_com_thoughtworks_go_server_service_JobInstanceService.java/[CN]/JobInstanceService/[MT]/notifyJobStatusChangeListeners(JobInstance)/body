@@ -3,7 +3,7 @@
     @Override public void afterCommit(){
       List<JobStatusListener> listeners1;
 synchronized (LISTENERS_MODIFICATION_MUTEX) {
-        listeners1=new ArrayList<JobStatusListener>(listeners);
+        listeners1=new ArrayList<>(listeners);
       }
       for (      JobStatusListener jobStatusListener : listeners1) {
         try {

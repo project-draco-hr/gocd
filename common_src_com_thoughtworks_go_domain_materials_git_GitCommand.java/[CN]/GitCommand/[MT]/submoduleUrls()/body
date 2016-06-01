@@ -3,7 +3,7 @@
   CommandLine gitCmd=git(environment).withArgs(args).withWorkingDir(workingDir);
   ConsoleResult result=runOrBomb(gitCmd,false);
   List<String> submoduleList=result.output();
-  HashMap<String,String> submoduleUrls=new HashMap<String,String>();
+  HashMap<String,String> submoduleUrls=new HashMap<>();
   for (  String submoduleLine : submoduleList) {
     Matcher m=GIT_SUBMODULE_URL_PATTERN.matcher(submoduleLine);
     if (!m.find()) {

@@ -11,7 +11,7 @@ synchronized (key.getKey().intern()) {
     }
     Graph graph=stageGraphLoader.load(stageIdentifier);
     List<BoundVariables> boundVariableses=graph.select(sparql);
-    mappedResults=new ArrayList<T>();
+    mappedResults=new ArrayList<>();
     for (    BoundVariables bv : boundVariableses) {
       mappedResults.add(mapper.map(bv));
     }

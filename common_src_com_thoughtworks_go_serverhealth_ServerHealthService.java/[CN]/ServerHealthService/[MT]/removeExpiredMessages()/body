@@ -1,5 +1,5 @@
 {
-  for (  Map.Entry<HealthStateType,ServerHealthState> entry : new HashSet<Map.Entry<HealthStateType,ServerHealthState>>(serverHealth.entrySet())) {
+  for (  Map.Entry<HealthStateType,ServerHealthState> entry : new HashSet<>(serverHealth.entrySet())) {
     ServerHealthState value=entry.getValue();
     if (value.hasExpired()) {
       serverHealth.remove(entry.getKey());
