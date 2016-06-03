@@ -4,6 +4,8 @@
   GoConfigHolder holderBeforeUpdate=cachedGoConfig.loadConfigHolder();
   Username user=new Username(new CaseInsensitiveString("user"));
   EntityConfigSaveResult entityConfigSaveResult=mock(EntityConfigSaveResult.class);
+  when(entityConfigSaveResult.getConfigHolder()).thenReturn(savedConfig);
+  when(entityConfigSaveResult.getEntityConfig()).thenReturn(new PipelineConfig());
   when(dataSource.writeEntityWithLock(saveCommand,holderBeforeUpdate,user)).thenReturn(entityConfigSaveResult);
   cachedGoConfig.writeEntityWithLock(saveCommand,user);
   assertThat(cachedGoConfig.loadConfigHolder(),is(savedConfig));

@@ -2,7 +2,7 @@
   String fingerprint=repoConfig.getMaterialConfig().getFingerprint();
   if (this.configWatchList.hasConfigRepoWithFingerprint(fingerprint)) {
     cachedGoPartials.addOrUpdate(fingerprint,newPart);
-    if (updateConfig(newPart,fingerprint)) {
+    if (updateConfig(newPart,fingerprint,repoConfig)) {
       cachedGoPartials.markAsValid(fingerprint,newPart);
     }
   }

@@ -6,7 +6,7 @@
     configRepository.initialize();
     ConfigCache configCache=new ConfigCache();
     ConfigElementImplementationRegistry configElementImplementationRegistry=ConfigElementImplementationRegistryMother.withNoPlugins();
-    CachedGoPartials cachedGoPartials=new CachedGoPartials();
+    CachedGoPartials cachedGoPartials=new CachedGoPartials(serverHealthService);
     GoFileConfigDataSource dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,systemEnvironment,new TimeProvider(),configCache,new ServerVersion(),configElementImplementationRegistry,serverHealthService,cachedGoPartials);
     dataSource.upgradeIfNecessary();
     CachedGoConfig cachedConfigService=new CachedGoConfig(serverHealthService,dataSource);

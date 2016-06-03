@@ -7,7 +7,7 @@
       serverHealthService.update(ServerHealthState.success(HealthStateType.invalidConfigMerge()));
     }
  catch (    GoConfigInvalidException e) {
-      if (cachedGoPartials.lastValidPartials().isEmpty()) {
+      if (cachedGoPartials.lastValidPartials().isEmpty() && !(updatingCommand instanceof GoPartialConfig.GoPartialUpdateCommand)) {
         throw e;
       }
  else {

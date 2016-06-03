@@ -1,0 +1,9 @@
+{
+  return ListUtil.find(partialConfigs,new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      PartialConfig config=(PartialConfig)item;
+      return partialConfig.getEnvironments().equals(config.getEnvironments()) && partialConfig.getGroups().equals(config.getGroups()) && partialConfig.getOrigin().equals(config.getOrigin());
+    }
+  }
+) != null;
+}

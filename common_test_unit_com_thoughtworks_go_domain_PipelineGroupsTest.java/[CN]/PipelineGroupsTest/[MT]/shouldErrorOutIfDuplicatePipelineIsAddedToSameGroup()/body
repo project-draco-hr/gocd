@@ -5,7 +5,7 @@
   PipelineGroups pipelineGroups=new PipelineGroups(defaultGroup);
   pipelineGroups.validate(null);
   assertThat(pipeline1.errors().isEmpty(),is(false));
-  assertThat(pipeline1.errors().on(PipelineConfig.NAME),is("You have defined multiple pipelines named 'pipeline1'. Pipeline names must be unique."));
+  assertThat(pipeline1.errors().on(PipelineConfig.NAME),is("You have defined multiple pipelines named 'pipeline1'. Pipeline names must be unique. Source(s): [cruise-config.xml]"));
   assertThat(pipeline2.errors().isEmpty(),is(false));
-  assertThat(pipeline2.errors().on(PipelineConfig.NAME),is("You have defined multiple pipelines named 'pipeline1'. Pipeline names must be unique."));
+  assertThat(pipeline2.errors().on(PipelineConfig.NAME),is("You have defined multiple pipelines named 'pipeline1'. Pipeline names must be unique. Source(s): [cruise-config.xml]"));
 }

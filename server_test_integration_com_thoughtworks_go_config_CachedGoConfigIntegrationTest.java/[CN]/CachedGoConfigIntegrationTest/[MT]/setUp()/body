@@ -4,7 +4,7 @@
   configHelper.onSetUp();
   externalConfigRepo=temporaryFolder.newFolder();
   latestCommit=setupExternalConfigRepo(externalConfigRepo);
-  configHelper.addConfigRepo(new ConfigRepoConfig(new GitMaterialConfig(externalConfigRepo.getAbsolutePath()),"plugin"));
+  configHelper.addConfigRepo(new ConfigRepoConfig(new GitMaterialConfig(externalConfigRepo.getAbsolutePath()),XmlPartialConfigProvider.providerName));
   goConfigService.forceNotifyListeners();
   configRepo=configWatchList.getCurrentConfigRepos().get(0);
   cachedGoPartials.clear();

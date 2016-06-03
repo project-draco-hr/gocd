@@ -1,5 +1,6 @@
 {
   if (fingerprintToLatestValidConfigMap.containsKey(fingerprint)) {
     fingerprintToLatestValidConfigMap.remove(fingerprint);
+    serverHealthService.removeByScope(HealthStateScope.forPartialConfigRepo(fingerprint));
   }
 }

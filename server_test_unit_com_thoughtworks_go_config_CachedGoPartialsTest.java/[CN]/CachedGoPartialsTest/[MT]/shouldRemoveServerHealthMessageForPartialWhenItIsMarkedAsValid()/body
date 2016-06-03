@@ -1,0 +1,10 @@
+{
+  serverHealthService.update(ServerHealthState.error("error-repo-1","error-desc-1",HealthStateType.general(HealthStateScope.forPartialConfigRepo(fingerprintForRepo1))));
+  serverHealthService.update(ServerHealthState.error("error-repo-2","error-desc-2",HealthStateType.general(HealthStateScope.forPartialConfigRepo(fingerprintForRepo2))));
+  partials.markAsValid(fingerprintForRepo1,part1);
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(fingerprintForRepo1)).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(fingerprintForRepo2)).get(0).getMessage(),is("error-repo-2"));
+  partials.markAllKnownAsValid();
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(fingerprintForRepo1)).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(fingerprintForRepo2)).isEmpty(),is(true));
+}
