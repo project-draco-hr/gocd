@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipelineConfig=createPipelineConfig("pipeline1","stage1");
+  PipelineConfigs defaultGroup=createGroup("defaultGroup",pipelineConfig);
+  PipelineGroups pipelineGroups=new PipelineGroups(defaultGroup);
+  assertThat(pipelineGroups.size(),is(1));
+  pipelineGroups.deletePipeline(pipelineConfig);
+  assertThat(pipelineGroups.size(),is(1));
+  assertThat(defaultGroup.size(),is(0));
+}
