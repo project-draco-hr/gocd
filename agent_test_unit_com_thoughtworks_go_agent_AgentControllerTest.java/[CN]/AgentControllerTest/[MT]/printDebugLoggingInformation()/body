@@ -1,0 +1,9 @@
+{
+  if (printOutLogMessagesOnExit) {
+    System.err.println("Debug information:");
+    for (    StackTraceElement traceElement : Thread.currentThread().getStackTrace()) {
+      System.err.println("  " + traceElement);
+    }
+    System.err.println(logListener.allLogsWithVerboseInformation());
+  }
+}
