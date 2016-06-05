@@ -1,0 +1,13 @@
+{
+  env.setOrigins(new FileConfigOrigin());
+  BasicEnvironmentConfig prodLocalPart=new BasicEnvironmentConfig(new CaseInsensitiveString("PROD"));
+  prodLocalPart.addAgent("1235");
+  prodLocalPart.setOrigins(new FileConfigOrigin());
+  BasicEnvironmentConfig prodRemotePart=new BasicEnvironmentConfig(new CaseInsensitiveString("PROD"));
+  prodRemotePart.setOrigins(new RepoConfigOrigin());
+  MergeEnvironmentConfig pairEnvironmentConfig=new MergeEnvironmentConfig(prodLocalPart,prodRemotePart);
+  configs.add(pairEnvironmentConfig);
+  assertThat(configs.getLocal().size(),is(2));
+  assertThat(configs.getLocal(),hasItem(env));
+  assertThat(configs.getLocal(),hasItem(prodLocalPart));
+}
