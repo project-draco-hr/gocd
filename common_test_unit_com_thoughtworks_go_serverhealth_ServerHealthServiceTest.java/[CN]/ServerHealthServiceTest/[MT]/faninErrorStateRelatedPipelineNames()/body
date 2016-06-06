@@ -5,6 +5,6 @@
   config.addPipeline("group",PipelineConfigMother.pipelineConfig("pipeline2",new MaterialConfigs(hgMaterial.config())));
   config.addPipeline("group",PipelineConfigMother.pipelineConfig("pipeline3"));
   serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.general(HealthStateScope.forFanin("pipeline2"))));
-  String pipelines=(serverHealthService.getAllLogs().get(0)).getPipelineNames(config);
-  assertThat(pipelines,is("pipeline2"));
+  Set<String> pipelines=(serverHealthService.getAllLogs().get(0)).getPipelineNames(config);
+  assertEquals(Sets.newHashSet("pipeline2"),pipelines);
 }

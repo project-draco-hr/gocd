@@ -6,11 +6,11 @@
   config.addPipeline("group",PipelineConfigMother.pipelineConfig("pipeline3"));
   serverHealthService=new ServerHealthService();
   serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.general(forPipeline(PIPELINE_NAME))));
-  assertThat((serverHealthService.getAllLogs().get(0)).getPipelineNames(config),is(PIPELINE_NAME));
+  assertThat((serverHealthService.getAllLogs().get(0)).getPipelineNames(config),equalTo(Collections.singleton(PIPELINE_NAME)));
   serverHealthService=new ServerHealthService();
   serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.general(forStage(PIPELINE_NAME,"stage1"))));
-  assertThat((serverHealthService.getAllLogs().get(0)).getPipelineNames(config),is(PIPELINE_NAME));
+  assertThat((serverHealthService.getAllLogs().get(0)).getPipelineNames(config),equalTo(Collections.singleton(PIPELINE_NAME)));
   serverHealthService=new ServerHealthService();
   serverHealthService.update(ServerHealthState.error("message","description",HealthStateType.general(forJob(PIPELINE_NAME,"stage1","job1"))));
-  assertThat((serverHealthService.getAllLogs().get(0)).getPipelineNames(config),is(PIPELINE_NAME));
+  assertThat((serverHealthService.getAllLogs().get(0)).getPipelineNames(config),equalTo(Collections.singleton(PIPELINE_NAME)));
 }
