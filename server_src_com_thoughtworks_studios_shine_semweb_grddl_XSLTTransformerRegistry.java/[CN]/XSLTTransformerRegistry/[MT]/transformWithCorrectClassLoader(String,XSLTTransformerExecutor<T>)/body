@@ -1,0 +1,10 @@
+{
+  ClassLoader orig=Thread.currentThread().getContextClassLoader();
+  try {
+    Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+    return executor.execute(getTransformer(key));
+  }
+  finally {
+    Thread.currentThread().setContextClassLoader(orig);
+  }
+}

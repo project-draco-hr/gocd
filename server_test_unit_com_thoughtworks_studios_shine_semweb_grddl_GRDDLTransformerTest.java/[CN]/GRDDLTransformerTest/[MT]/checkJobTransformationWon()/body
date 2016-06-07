@@ -1,7 +1,7 @@
 {
   InputStream xsl=getClass().getResourceAsStream("/cruise/job-grddl.xsl");
   InputStream jobXML=getClass().getResourceAsStream("/cruise/jobs/job-1622.xml");
-  GRDDLTransformer transformer=new GRDDLTransformer(transformerForXSLStream(xsl));
+  GRDDLTransformer transformer=new GRDDLTransformer(transformerForXSLStream(xsl,"foo.xsl"),"foo.xsl");
   Graph transformedGraph=transformer.transform(jobXML,new InMemoryTempGraphFactory());
   String askIfJobIsGood="" + "PREFIX cruise: <" + GoOntology.URI + "> "+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> "+ "ASK WHERE {"+ "  <http://10.2.12.30:8153/go/api/jobs/1622.xml> a cruise:Job . "+ "  <http://10.2.12.30:8153/go/api/jobs/1622.xml> cruise:hasArtifacts ?artifacts . "+ "  FILTER(isIRI(?artifacts)) "+ "  FILTER(regex(str(?artifacts), '^urn:uuid:.+')) "+ "  ?artifacts cruise:artifactsBaseURL 'http://10.2.12.30:8153/go/files/sf04/62/build/1/firefox-1'^^xsd:string . "+ "  ?artifacts cruise:pathFromArtifactRoot 'pipelines/sf04/62/build/1/firefox-1'^^xsd:string . "+ "  ?artifacts cruise:hasArtifact ?artifact1 . "+ "  FILTER(isIRI(?artifact1)) "+ "  FILTER(regex(str(?artifact1), '^urn:uuid:.+')) "+ "  ?artifact1 cruise:artifactPath 'cruise-output/log.xml'^^xsd:string . "+ "  ?artifact1 cruise:artifactType 'file'^^xsd:string . "+ "  ?artifacts cruise:hasArtifact ?artifact2 . "+ "  FILTER(isIRI(?artifact2)) "+ "  FILTER(regex(str(?artifact2), '^urn:uuid:.+')) "+ "  ?artifact2 cruise:artifactPath 'reports'^^xsd:string . "+ "  ?artifact2 cruise:artifactType 'unit'^^xsd:string . "+ "}";
   assertTrue(transformedGraph.ask(askIfJobIsGood));

@@ -1,5 +1,5 @@
 {
-  final GoGRDDLResourceRDFizer pipeline=new GoGRDDLResourceRDFizer("pipeline","cruise/pipeline-graph-grddl.xsl",graph,transformerRegistry,xmlApiService);
+  final GoGRDDLResourceRDFizer pipeline=new GoGRDDLResourceRDFizer("pipeline",XSLTTransformerRegistry.CRUISE_PIPELINE_GRAPH_GRDDL_XSL,graph,transformerRegistry,xmlApiService);
   Graph pipelineGraph=pipeline.importURIUsingGRDDL(new PipelineXmlViewModel(pipelineInstance),baseUri);
   graph.addTriplesFromGraph(pipelineGraph);
 }
