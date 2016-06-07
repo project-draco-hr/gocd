@@ -1,0 +1,6 @@
+{
+  EnvironmentVariableConfig variable=new EnvironmentVariableConfig();
+  variable.deserialize("PASSWORD",null,false,"cipherText");
+  variable.validateTree(null);
+  assertThat(variable.errors().getAllOn("encryptedValue"),is(Arrays.asList("You may specify encrypted value only when option 'secure' is true.")));
+}
