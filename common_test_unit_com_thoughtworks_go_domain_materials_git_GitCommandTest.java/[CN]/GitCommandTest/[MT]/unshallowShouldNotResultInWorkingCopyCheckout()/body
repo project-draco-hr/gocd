@@ -1,6 +1,6 @@
 {
   FileUtil.deleteFolder(this.gitLocalRepoDir);
-  git.cloneFrom(inMemoryConsumer(),repoUrl,2);
+  git.cloneWithNoCheckout(inMemoryConsumer(),repoUrl);
   git.unshallow(inMemoryConsumer(),3);
   assertWorkingCopyNotCheckedOut();
 }

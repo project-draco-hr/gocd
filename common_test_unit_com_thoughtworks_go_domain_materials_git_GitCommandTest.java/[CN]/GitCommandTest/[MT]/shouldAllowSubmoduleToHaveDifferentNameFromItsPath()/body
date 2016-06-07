@@ -6,6 +6,6 @@
   submoduleRepos.addSubmodule(SUBMODULE,submoduleNameInGitModulesFile,submoduleDirectoryName);
   File cloneDirectory=createTempWorkingDirectory();
   GitCommand clonedCopy=new GitCommand(null,cloneDirectory,GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>());
-  clonedCopy.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
+  clonedCopy.clone(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
   clonedCopy.resetWorkingDir(outputStreamConsumer,new StringRevision("HEAD"));
 }

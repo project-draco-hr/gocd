@@ -5,7 +5,7 @@
   repoLocation=gitRepo.gitRepository();
   repoUrl=gitRepo.projectRepositoryUrl();
   InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
-  int returnCode=git.cloneFrom(outputStreamConsumer,repoUrl);
+  int returnCode=git.cloneWithNoCheckout(outputStreamConsumer,repoUrl);
   if (returnCode > 0) {
     fail(outputStreamConsumer.getAllOutput());
   }

@@ -1,4 +1,7 @@
 {
-  git.modificationsSince(workingDir,REVISION_0,new TestSubprocessExecutionContext());
+  SystemEnvironment mockSystemEnvironment=mock(SystemEnvironment.class);
+  GitMaterial material=new GitMaterial(repositoryUrl,true);
+  when(mockSystemEnvironment.get(SystemEnvironment.GO_SERVER_SHALLOW_CLONE)).thenReturn(false);
+  material.modificationsSince(workingDir,REVISION_0,new TestSubprocessExecutionContext(mockSystemEnvironment,true));
   assertWorkingCopyNotCheckedOut(workingDir);
 }

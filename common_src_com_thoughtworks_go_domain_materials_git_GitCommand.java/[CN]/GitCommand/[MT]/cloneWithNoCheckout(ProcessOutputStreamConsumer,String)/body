@@ -1,0 +1,5 @@
+{
+  CommandLine gitClone=cloneCommand().withArg("--no-checkout");
+  gitClone.withArg(new UrlArgument(url)).withArg(workingDir.getAbsolutePath());
+  return run(gitClone,outputStreamConsumer);
+}

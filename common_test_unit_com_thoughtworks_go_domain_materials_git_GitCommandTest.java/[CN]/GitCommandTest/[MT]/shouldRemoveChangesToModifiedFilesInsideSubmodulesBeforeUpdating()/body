@@ -5,7 +5,7 @@
   File cloneDirectory=createTempWorkingDirectory();
   File remoteSubmoduleLocation=submoduleRepos.addSubmodule(SUBMODULE,submoduleDirectoryName);
   GitCommand clonedCopy=new GitCommand(null,cloneDirectory,GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>());
-  clonedCopy.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
+  clonedCopy.clone(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
   clonedCopy.resetWorkingDir(outputStreamConsumer,new StringRevision("HEAD"));
   File fileInSubmodule=allFilesIn(new File(cloneDirectory,submoduleDirectoryName),"file-").get(0);
   FileUtils.writeStringToFile(fileInSubmodule,"Some other new content.");

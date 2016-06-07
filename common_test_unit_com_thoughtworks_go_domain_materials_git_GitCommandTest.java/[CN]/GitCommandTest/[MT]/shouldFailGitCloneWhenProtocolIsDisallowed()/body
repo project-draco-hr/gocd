@@ -5,6 +5,6 @@
   when(executionContext.getDefaultEnvironmentVariables()).thenReturn(whiteListWhichDoesNotContainFileProtocol);
   GitCommand gitCommand=new GitCommand("unique-material",null,"master",false,executionContext.getDefaultEnvironmentVariables());
   InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
-  gitCommand.cloneFrom(outputStreamConsumer,gitRepo.projectRepositoryUrl());
+  gitCommand.clone(outputStreamConsumer,gitRepo.projectRepositoryUrl());
   GitCommand.checkConnection(new UrlArgument("git://somewhere.is.not.exist"),"master",testSubprocessExecutionContext.getDefaultEnvironmentVariables());
 }

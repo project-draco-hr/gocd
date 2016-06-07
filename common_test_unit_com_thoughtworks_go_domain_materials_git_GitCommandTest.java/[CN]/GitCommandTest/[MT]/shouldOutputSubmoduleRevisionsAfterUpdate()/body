@@ -2,7 +2,7 @@
   GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
   submoduleRepos.addSubmodule(SUBMODULE,"sub1");
   GitCommand gitWithSubmodule=new GitCommand(null,createTempWorkingDirectory(),GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>());
-  gitWithSubmodule.cloneFrom(inMemoryConsumer(),submoduleRepos.mainRepo().getUrl());
+  gitWithSubmodule.clone(inMemoryConsumer(),submoduleRepos.mainRepo().getUrl());
   InMemoryStreamConsumer outConsumer=new InMemoryStreamConsumer();
   gitWithSubmodule.resetWorkingDir(outConsumer,new StringRevision("HEAD"));
   Matcher matcher=Pattern.compile(".*^\\s[a-f0-9A-F]{40} sub1 \\(heads/master\\)$.*",Pattern.MULTILINE | Pattern.DOTALL).matcher(outConsumer.getAllOutput());
