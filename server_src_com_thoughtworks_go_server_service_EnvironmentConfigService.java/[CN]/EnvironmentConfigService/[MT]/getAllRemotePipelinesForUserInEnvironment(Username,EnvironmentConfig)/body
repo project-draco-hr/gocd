@@ -1,0 +1,11 @@
+{
+  List<EnvironmentPipelineModel> pipelines=new ArrayList<EnvironmentPipelineModel>();
+  for (  EnvironmentPipelineConfig pipelineConfig : environment.getRemotePipelines()) {
+    String pipelineName=CaseInsensitiveString.str(pipelineConfig.getName());
+    if (securityService.hasViewPermissionForPipeline(user,pipelineName)) {
+      pipelines.add(new EnvironmentPipelineModel(pipelineName,CaseInsensitiveString.str(environment.name())));
+    }
+  }
+  Collections.sort(pipelines);
+  return pipelines;
+}

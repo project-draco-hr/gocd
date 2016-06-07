@@ -1,0 +1,8 @@
+{
+  BasicEnvironmentConfig uatLocalPart=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  uatLocalPart.setOrigins(new FileConfigOrigin());
+  BasicEnvironmentConfig uatRemotePart=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  uatRemotePart.setOrigins(new RepoConfigOrigin());
+  environmentConfig=new MergeEnvironmentConfig(uatLocalPart,uatRemotePart);
+  assertThat(environmentConfig.isLocal(),is(false));
+}

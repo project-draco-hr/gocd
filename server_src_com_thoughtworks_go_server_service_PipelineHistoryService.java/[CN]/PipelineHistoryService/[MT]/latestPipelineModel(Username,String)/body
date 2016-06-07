@@ -7,7 +7,8 @@
     populateLockStatus(instanceModel.getName(),username,instanceModel);
     pipelineModel.addPipelineInstance(instanceModel);
     String groupName=goConfigService.findGroupNameByPipeline(new CaseInsensitiveString(pipelineName));
-    pipelineModel.updateAdministrability(goConfigService.isUserAdminOfGroup(username.getUsername(),groupName));
+    if (goConfigService.isPipelineEditableViaUI(pipelineName))     pipelineModel.updateAdministrability(goConfigService.isUserAdminOfGroup(username.getUsername(),groupName));
+ else     pipelineModel.updateAdministrability(false);
     return pipelineModel;
   }
   return null;

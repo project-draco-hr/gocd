@@ -1,0 +1,6 @@
+{
+  BasicEnvironmentConfig uatLocalPart=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  uatLocalPart.setOrigins(new FileConfigOrigin());
+  environmentConfig=new MergeEnvironmentConfig(uatLocalPart);
+  assertThat(environmentConfig.isLocal(),is(true));
+}

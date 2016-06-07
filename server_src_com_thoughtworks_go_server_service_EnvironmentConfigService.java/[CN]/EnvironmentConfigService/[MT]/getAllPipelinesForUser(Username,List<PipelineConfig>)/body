@@ -1,0 +1,17 @@
+{
+  List<EnvironmentPipelineModel> pipelines=new ArrayList<EnvironmentPipelineModel>();
+  for (  PipelineConfig pipelineConfig : pipelineConfigs) {
+    String pipelineName=CaseInsensitiveString.str(pipelineConfig.name());
+    if (securityService.hasViewPermissionForPipeline(user,pipelineName)) {
+      EnvironmentConfig environment=environments.findEnvironmentForPipeline(new CaseInsensitiveString(pipelineName));
+      if (environment != null) {
+        pipelines.add(new EnvironmentPipelineModel(pipelineName,CaseInsensitiveString.str(environment.name())));
+      }
+ else {
+        pipelines.add(new EnvironmentPipelineModel(pipelineName));
+      }
+    }
+  }
+  Collections.sort(pipelines);
+  return pipelines;
+}

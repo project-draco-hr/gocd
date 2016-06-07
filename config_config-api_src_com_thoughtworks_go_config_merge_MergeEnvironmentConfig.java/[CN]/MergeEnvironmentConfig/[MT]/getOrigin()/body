@@ -1,3 +1,7 @@
 {
-  throw new RuntimeException("Not implemented");
+  MergeConfigOrigin mergeConfigOrigin=new MergeConfigOrigin();
+  for (  EnvironmentConfig part : this) {
+    mergeConfigOrigin.add(part.getOrigin());
+  }
+  return mergeConfigOrigin;
 }

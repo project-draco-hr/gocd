@@ -1,0 +1,8 @@
+{
+  PipelineConfigs group=new BasicPipelineConfigs();
+  PipelineConfig pipelineConfig=createPipelineConfig("pipeline","name","plan");
+  pipelineConfig.setOrigin(new RepoConfigOrigin());
+  group.add(pipelineConfig);
+  expectLoad(new BasicCruiseConfig(group));
+  assertThat(goConfigService.isPipelineEditableViaUI("pipeline"),is(false));
+}

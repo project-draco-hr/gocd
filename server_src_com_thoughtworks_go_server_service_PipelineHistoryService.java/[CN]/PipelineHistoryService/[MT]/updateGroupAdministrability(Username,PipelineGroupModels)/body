@@ -4,7 +4,7 @@
       continue;
     }
     for (    PipelineModel pipelineModel : groupModel.getPipelineModels()) {
-      pipelineModel.updateAdministrability(true);
+      if (goConfigService.isPipelineEditableViaUI(pipelineModel.getName()))       pipelineModel.updateAdministrability(true);
     }
   }
 }

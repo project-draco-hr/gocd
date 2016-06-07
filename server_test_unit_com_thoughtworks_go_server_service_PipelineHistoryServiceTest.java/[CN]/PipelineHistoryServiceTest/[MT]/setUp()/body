@@ -1,6 +1,7 @@
 {
   initMocks(this);
   when(featureToggleService.isToggleOn(Toggles.PIPELINE_COMMENT_FEATURE_TOGGLE_KEY)).thenReturn(true);
+  when(goConfigService.isPipelineEditableViaUI(any(String.class))).thenReturn(true);
   Toggles.initializeWith(featureToggleService);
   pipelineHistoryService=new PipelineHistoryService(pipelineDao,stageDao,goConfigService,securityService,scheduleService,mock(MaterialRepository.class),JobDurationStrategy.ALWAYS_ZERO,mock(TriggerMonitor.class),pipelineTimeline,pipelineUnlockService,schedulingCheckerService,pipelineLockService,pipelinePauseService);
   config=CRUISE_CONFIG.pipelineConfigByName(new CaseInsensitiveString("pipeline"));

@@ -1,7 +1,8 @@
 {
   Map<CaseInsensitiveString,CanDeleteResult> pipelineToCanDeleteIt=pipelineConfigService.canDeletePipelines();
-  assertThat(pipelineToCanDeleteIt.size(),is(3));
+  assertThat(pipelineToCanDeleteIt.size(),is(4));
   assertThat(pipelineToCanDeleteIt.get(new CaseInsensitiveString("down")),is(new CanDeleteResult(true,LocalizedMessage.string("CAN_DELETE_PIPELINE"))));
   assertThat(pipelineToCanDeleteIt.get(new CaseInsensitiveString("in_env")),is(new CanDeleteResult(false,LocalizedMessage.string("CANNOT_DELETE_PIPELINE_IN_ENVIRONMENT",new CaseInsensitiveString("in_env"),new CaseInsensitiveString("foo")))));
   assertThat(pipelineToCanDeleteIt.get(new CaseInsensitiveString("pipeline")),is(new CanDeleteResult(false,LocalizedMessage.string("CANNOT_DELETE_PIPELINE_USED_AS_MATERIALS",new CaseInsensitiveString("pipeline"),new CaseInsensitiveString("down")))));
+  assertThat(pipelineToCanDeleteIt.get(new CaseInsensitiveString("remote")),is(new CanDeleteResult(false,LocalizedMessage.string("CANNOT_DELETE_REMOTE_PIPELINE",new CaseInsensitiveString("remote"),"url at 1234"))));
 }
