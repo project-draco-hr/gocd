@@ -1,8 +1,14 @@
 {
-  DocumentResult result=new DocumentResult();
+  final DocumentResult result=new DocumentResult();
   try {
-    DocumentSource source=new DocumentSource(inputDoc);
-    transformer.transform(source,result);
+    xsltTransformerRegistry.transformWithCorrectClassLoader(key,new XSLTTransformerExecutor<Void>(){
+      @Override public Void execute(      Transformer transformer) throws TransformerException {
+        DocumentSource source=new DocumentSource(inputDoc);
+        transformer.transform(source,result);
+        return null;
+      }
+    }
+);
     Graph graph=graphFactory.createTempGraph();
     graph.addTriplesFromRDFXMLAbbrev(new StringReader(result.getDocument().asXML()));
     return graph;

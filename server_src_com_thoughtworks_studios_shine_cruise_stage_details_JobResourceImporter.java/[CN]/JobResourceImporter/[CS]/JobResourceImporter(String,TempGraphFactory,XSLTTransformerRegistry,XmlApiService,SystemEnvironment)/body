@@ -1,6 +1,6 @@
 {
   this.artifactBaseDir=artifactBaseDir;
-  rdfizer=new GoGRDDLResourceRDFizer("job","cruise/job-grddl.xsl",graphFactory,transformerRegistry,xmlApiService);
+  rdfizer=new GoGRDDLResourceRDFizer("job",XSLTTransformerRegistry.CRUISE_JOB_GRDDL_XSL,graphFactory,transformerRegistry,xmlApiService);
   importer=new XMLArtifactImporter(systemEnvironment);
   AntJUnitReportRDFizer junitRDFizer=new AntJUnitReportRDFizer(graphFactory,transformerRegistry);
   importer.registerHandler(junitRDFizer);

@@ -1,6 +1,16 @@
 {
   XSLTTransformerRegistry registry=new XSLTTransformerRegistry();
-  Transformer transformer1=registry.getTransformer("xunit/ant-junit-grddl.xsl");
-  Transformer transformer2=registry.getTransformer("xunit/ant-junit-grddl.xsl");
+  Transformer transformer1=registry.transformWithCorrectClassLoader("xunit/ant-junit-grddl.xsl",new XSLTTransformerExecutor<Transformer>(){
+    @Override public Transformer execute(    Transformer transformer) throws TransformerException, GrddlTransformException {
+      return transformer;
+    }
+  }
+);
+  Transformer transformer2=registry.transformWithCorrectClassLoader("xunit/ant-junit-grddl.xsl",new XSLTTransformerExecutor<Transformer>(){
+    @Override public Transformer execute(    Transformer transformer) throws TransformerException, GrddlTransformException {
+      return transformer;
+    }
+  }
+);
   assertNotSame(transformer1,transformer2);
 }
