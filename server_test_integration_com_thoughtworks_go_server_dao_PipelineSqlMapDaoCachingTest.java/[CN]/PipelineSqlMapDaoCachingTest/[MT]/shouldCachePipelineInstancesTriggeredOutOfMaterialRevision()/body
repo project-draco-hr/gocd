@@ -5,7 +5,7 @@
   when(mockTemplate.queryForList(eq("pipelineInstancesTriggeredOffOfMaterialRevision"),anyString())).thenReturn(results);
   assertThat(goCache.get(cacheKey),is(Matchers.nullValue()));
   List<PipelineIdentifier> actual=pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial("p1",materialInstance,"r1");
-  pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial("p1",materialInstance,"r1");
+  pipelineDao.getPipelineInstancesTriggeredWithDependencyMaterial("p1".toUpperCase(),materialInstance,"r1");
   assertThat((List<PipelineIdentifier>)goCache.get(cacheKey),is(actual));
   verify(mockTemplate,times(1)).queryForList(eq("pipelineInstancesTriggeredOffOfMaterialRevision"),anyString());
 }
