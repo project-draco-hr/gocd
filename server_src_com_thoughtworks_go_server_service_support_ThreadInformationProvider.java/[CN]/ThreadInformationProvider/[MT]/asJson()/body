@@ -1,0 +1,8 @@
+{
+  ThreadMXBean threadMXBean=ManagementFactory.getThreadMXBean();
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  json.put("Thread Count",getThreadCount(threadMXBean));
+  json.put("DeadLock Threads",getDeadLockThreadInformation(threadMXBean));
+  json.put("Stack Trace",getStackTraceInformation(threadMXBean));
+  return json;
+}

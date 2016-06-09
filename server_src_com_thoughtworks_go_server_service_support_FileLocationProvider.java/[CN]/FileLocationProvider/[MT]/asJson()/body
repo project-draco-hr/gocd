@@ -1,0 +1,27 @@
+{
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  json.put("loc.config.dir",systemEnvironment.configDir().getAbsolutePath());
+  List<Logger> loggers=new ArrayList<>();
+  Logger rootLogger=Logger.getRootLogger();
+  loggers.add(rootLogger);
+  Enumeration currentLoggers=rootLogger.getLoggerRepository().getCurrentLoggers();
+  while (currentLoggers.hasMoreElements()) {
+    loggers.add((Logger)currentLoggers.nextElement());
+  }
+  int index=0;
+  for (  Logger logger : loggers) {
+    Enumeration appenders=logger.getAllAppenders();
+    while (appenders.hasMoreElements()) {
+      Appender appender=(Appender)appenders.nextElement();
+      if (!isFileAppender(appender)) {
+        continue;
+      }
+      FileAppender fileAppender=(FileAppender)appender;
+      File logFile=new File(fileAppender.getFile());
+      json.put("loc.log.root." + index,new File(logFile.getAbsolutePath()).getParent());
+      json.put("loc.log.basename." + index,logFile.getName());
+      ++index;
+    }
+  }
+  return json;
+}

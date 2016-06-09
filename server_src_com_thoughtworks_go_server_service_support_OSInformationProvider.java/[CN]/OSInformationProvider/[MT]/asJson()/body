@@ -1,0 +1,10 @@
+{
+  OperatingSystemMXBean operatingSystemMXBean=ManagementFactory.getOperatingSystemMXBean();
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  json.put("OS Name",operatingSystemMXBean.getName());
+  json.put("OS Version",operatingSystemMXBean.getVersion());
+  json.put("System Architecture",operatingSystemMXBean.getArch());
+  json.put("Available Processors",operatingSystemMXBean.getAvailableProcessors());
+  json.put("Average System Load",operatingSystemMXBean.getSystemLoadAverage());
+  return json;
+}

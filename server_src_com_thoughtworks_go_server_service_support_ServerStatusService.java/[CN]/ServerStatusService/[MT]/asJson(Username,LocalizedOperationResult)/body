@@ -1,0 +1,18 @@
+{
+  if (!securityService.isUserAdmin(username)) {
+    result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_ADMINISTER"),HealthStateType.unauthorised());
+    return null;
+  }
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  json.put("Timestamp",new Date().toString());
+  for (  ServerInfoProvider provider : providers) {
+    try {
+      json.put(provider.name(),provider.asJson());
+    }
+ catch (    Exception e) {
+      json.put(provider.getClass().getCanonicalName(),String.format("Provider %s threw an exception: %s",provider.getClass(),e.getMessage()));
+      LOGGER.warn("An API support page provider failed.",e);
+    }
+  }
+  return json;
+}

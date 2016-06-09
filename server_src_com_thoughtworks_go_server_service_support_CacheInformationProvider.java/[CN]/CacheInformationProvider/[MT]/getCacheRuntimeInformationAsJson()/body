@@ -1,0 +1,23 @@
+{
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  LiveCacheStatistics statistics=goCache.statistics();
+  json.put("Statistics enabled",statistics.isStatisticsEnabled());
+  LinkedHashMap<String,Object> time=new LinkedHashMap<>();
+  time.put("Average",statistics.getAverageGetTimeMillis());
+  time.put("Minimum",statistics.getMinGetTimeMillis());
+  time.put("Maximum",statistics.getMinGetTimeMillis());
+  json.put("Get Time in milliseconds",time);
+  json.put("Cache Size",statistics.getSize());
+  json.put("Accuracy",statistics.getStatisticsAccuracyDescription());
+  LinkedHashMap<String,Object> cacheCount=new LinkedHashMap<>();
+  cacheCount.put("Hits",statistics.getCacheHitCount());
+  cacheCount.put("Miss",statistics.getCacheMissCount());
+  cacheCount.put("Expired",statistics.getExpiredCount());
+  cacheCount.put("Eviction",statistics.getEvictedCount());
+  cacheCount.put("Put",statistics.getPutCount());
+  cacheCount.put("Remove",statistics.getRemovedCount());
+  json.put("Cache Counts",cacheCount);
+  json.put("Cache Size (Disk)",statistics.getOnDiskSize());
+  json.put("Cache Count (Disk)",statistics.getOnDiskHitCount());
+  return json;
+}
