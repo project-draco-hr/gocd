@@ -1,0 +1,11 @@
+{
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  ServerHealthStates allLogs=service.getAllLogs();
+  json.put("Messages Count",allLogs.size());
+  ArrayList<Map<String,String>> messages=new ArrayList<>();
+  for (  ServerHealthState log : allLogs) {
+    messages.add(log.asJson());
+  }
+  json.put("Messages",messages);
+  return json;
+}

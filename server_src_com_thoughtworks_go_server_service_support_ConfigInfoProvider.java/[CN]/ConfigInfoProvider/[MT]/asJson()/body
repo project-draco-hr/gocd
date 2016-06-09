@@ -1,0 +1,16 @@
+{
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  CruiseConfig currentConfig=service.getCurrentConfig();
+  LinkedHashMap<String,Object> validConfig=new LinkedHashMap<>();
+  validConfig.put("Number of pipelines",service.getAllPipelineConfigs().size());
+  validConfig.put("Number of agents",service.agents().size());
+  validConfig.put("Number of environments",currentConfig.getEnvironments().size());
+  validConfig.put("Number of unique materials",currentConfig.getAllUniqueMaterials().size());
+  validConfig.put("Number of schedulable materials",service.getSchedulableMaterials().size());
+  LinkedHashMap<String,Object> security=new LinkedHashMap<>();
+  security.put("LDAP",service.security().ldapConfig().isEnabled());
+  security.put("Password",service.security().passwordFileConfig().isEnabled());
+  json.put("Valid Config",validConfig);
+  json.put("Security",security);
+  return json;
+}

@@ -1,0 +1,12 @@
+{
+  List<GarbageCollectorMXBean> garbageCollectorMXBeans=ManagementFactory.getGarbageCollectorMXBeans();
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  for (  GarbageCollectorMXBean gcBean : garbageCollectorMXBeans) {
+    LinkedHashMap<String,Object> gcBeanParms=new LinkedHashMap<>();
+    gcBeanParms.put("Memory Pool Names",Arrays.toString(gcBean.getMemoryPoolNames()));
+    gcBeanParms.put("Collection Count",gcBean.getCollectionCount());
+    gcBeanParms.put("Collection Time",gcBean.getCollectionTime());
+    json.put(gcBean.getName(),gcBeanParms);
+  }
+  return json;
+}

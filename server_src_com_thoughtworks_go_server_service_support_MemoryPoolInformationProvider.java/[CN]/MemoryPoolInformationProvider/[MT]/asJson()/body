@@ -1,0 +1,10 @@
+{
+  LinkedHashMap<String,Object> json=new LinkedHashMap<String,Object>();
+  List<MemoryPoolMXBean> memoryPoolMXBeans=ManagementFactory.getMemoryPoolMXBeans();
+  for (  MemoryPoolMXBean memoryPoolMXBean : memoryPoolMXBeans) {
+    Map<String,Object> params=formatInJson(memoryPoolMXBean.getUsage());
+    params.put("Type",memoryPoolMXBean.getType());
+    json.put(memoryPoolMXBean.getName(),params);
+  }
+  return json;
+}

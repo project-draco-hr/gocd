@@ -1,0 +1,17 @@
+{
+  ArrayList<Map<String,Object>> maps=new ArrayList<>();
+  ThreadInfo[] threadInfos=threadMXBean.dumpAllThreads(true,true);
+  for (  ThreadInfo threadInfo : threadInfos) {
+    LinkedHashMap<String,Object> threadStackTrace=new LinkedHashMap<>();
+    threadStackTrace.put("Id",threadInfo.getThreadId());
+    threadStackTrace.put("Name",threadInfo.getThreadName());
+    threadStackTrace.put("State",threadInfo.getThreadState());
+    threadStackTrace.put("Locked Monitors",mapToString(threadInfo.getLockedMonitors()));
+    threadStackTrace.put("Locked Synchronizers",mapToString(threadInfo.getLockedSynchronizers()));
+    StackTraceElement[] stackTrace=threadInfo.getStackTrace();
+    ArrayList<String> strings=mapToString(stackTrace);
+    threadStackTrace.put("Stack Trace",strings);
+    maps.add(threadStackTrace);
+  }
+  return maps;
+}

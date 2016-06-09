@@ -1,0 +1,7 @@
+{
+  List<GarbageCollectorMXBean> garbageCollectorMXBeans=ManagementFactory.getGarbageCollectorMXBeans();
+  builder.addSection("GC information");
+  for (  GarbageCollectorMXBean gcBean : garbageCollectorMXBeans) {
+    builder.append(String.format("%s %s %s : %s (Count : Time)\n",gcBean.getName(),Arrays.toString(gcBean.getMemoryPoolNames()),gcBean.getCollectionCount(),gcBean.getCollectionTime()));
+  }
+}

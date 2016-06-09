@@ -1,0 +1,29 @@
+{
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  long[] deadlockedThreads=threadMXBean.findDeadlockedThreads();
+  if (deadlockedThreads != null && deadlockedThreads.length > 0) {
+    json.put("Count",deadlockedThreads.length);
+    for (    long deadlockedThread : deadlockedThreads) {
+      LinkedHashMap<String,Object> threadsInfo=new LinkedHashMap<>();
+      LinkedHashMap<String,Object> lockedMonitorsInfo=new LinkedHashMap<>();
+      LinkedHashMap<String,Object> stackTrackInfo=new LinkedHashMap<>();
+      ThreadInfo threadInfo=threadMXBean.getThreadInfo(deadlockedThread);
+      LockInfo lockInfo=threadInfo.getLockInfo();
+      if (lockInfo != null) {
+        threadsInfo.put(threadInfo.getThreadName(),lockInfo);
+      }
+ else {
+        threadsInfo.put(threadInfo.getThreadName(),"This thread is not waiting for any locks");
+      }
+      MonitorInfo[] lockedMonitors=threadInfo.getLockedMonitors();
+      for (      MonitorInfo lockedMonitor : lockedMonitors) {
+        lockedMonitorsInfo.put("Monitor for class " + lockedMonitor.getClassName(),"taken at stack frame " + lockedMonitor.getLockedStackFrame());
+      }
+      stackTrackInfo.put(Long.toString(deadlockedThread),Arrays.toString(threadInfo.getStackTrace()));
+      json.put("Thread Information",threadsInfo);
+      json.put("Monitor Information Stack Frame where locks were taken",lockedMonitorsInfo);
+      json.put("Stack Trace Of DeadLock Threads",stackTrackInfo);
+    }
+  }
+  return json;
+}
