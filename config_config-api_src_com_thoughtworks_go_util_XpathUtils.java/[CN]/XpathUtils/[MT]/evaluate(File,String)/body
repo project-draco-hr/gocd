@@ -1,3 +1,10 @@
 {
-  return evaluate(XPathFactory.newInstance(),file,xpath);
+  InputStream stream=(new FileInputStream(file));
+  try {
+    InputSource inputSource=new InputSource(stream);
+    return evaluate(xPathFactory,inputSource,xpath);
+  }
+  finally {
+    IOUtils.closeQuietly(stream);
+  }
 }
