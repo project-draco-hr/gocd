@@ -1,7 +1,7 @@
 {
   try {
     String xpath="//div/p/span[@class='" + cssClass + "']";
-    String output=XpathUtils.evaluate(factory,xmlFile,xpath);
+    String output=XpathUtils.evaluate(xmlFile,xpath);
     output=output.startsWith(".") ? "0" + output : output;
     Property property=new Property(cruiseProperty,output);
     publisher.setProperty(property);

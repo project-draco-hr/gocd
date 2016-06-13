@@ -6,20 +6,14 @@
   try {
     mergedResource=mergeAllTestResultToSingleFile(allTestFiles);
     transformedHtml=new FileOutputStream(mergedResults);
-    try (InputStream xslt=getClass().getResourceAsStream("unittests.xsl")){
+    try {
       mergedFileStream=new FileInputStream(mergedResource);
       Source xmlSource=new StreamSource(mergedFileStream);
-      Source xsltSource=new StreamSource(xslt);
-      TransformerFactory transFact=TransformerFactory.newInstance();
-      Transformer trans=transFact.newTransformer(xsltSource);
       StreamResult result=new StreamResult(transformedHtml);
-      trans.transform(xmlSource,result);
+      templates.newTransformer().transform(xmlSource,result);
     }
  catch (    Exception e) {
       publisher.reportErrorMessage("Unable to publish test properties. Error was " + e.getMessage(),e);
-    }
- finally {
-      IOUtils.closeQuietly(mergedFileStream);
     }
     extractProperties(mergedResults);
     publisher.upload(mergedResults,uploadDestPath);
