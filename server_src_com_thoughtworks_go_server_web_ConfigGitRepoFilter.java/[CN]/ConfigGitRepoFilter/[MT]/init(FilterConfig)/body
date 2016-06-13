@@ -1,0 +1,8 @@
+{
+  ConfigRepository configRepository=ContextLoader.getCurrentWebApplicationContext().getBean(ConfigRepository.class);
+  FileResolver<HttpServletRequest> resolver=new FileResolver<>();
+  resolver.exportRepository("config-repository",configRepository.getGitRepo());
+  setRepositoryResolver(resolver);
+  setReceivePackFactory(null);
+  super.init(config);
+}
