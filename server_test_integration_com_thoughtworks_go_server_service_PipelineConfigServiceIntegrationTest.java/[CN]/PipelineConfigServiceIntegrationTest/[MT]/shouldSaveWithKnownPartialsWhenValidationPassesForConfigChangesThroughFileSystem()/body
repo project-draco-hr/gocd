@@ -1,0 +1,16 @@
+{
+  PipelineConfig remoteDownstreamPipeline=partialConfig.getGroups().first().getPipelines().get(0);
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(remoteDownstreamPipeline.name()),is(true));
+  final CaseInsensitiveString upstreamStageRenamed=new CaseInsensitiveString("upstream_stage_renamed");
+  partialConfig=PartialConfigMother.pipelineWithDependencyMaterial("remote-downstream",new PipelineConfig(pipelineConfig.name(),pipelineConfig.materialConfigs(),new StageConfig(upstreamStageRenamed,new JobConfigs())),new RepoConfigOrigin(repoConfig,"r2"));
+  goPartialConfig.onSuccessPartialConfig(repoConfig,partialConfig);
+  DependencyMaterialConfig dependencyMaterialForRemotePipelineInConfigCache=goConfigService.getCurrentConfig().getPipelineConfigByName(remoteDownstreamPipeline.name()).materialConfigs().findDependencyMaterial(pipelineConfig.name());
+  assertThat(dependencyMaterialForRemotePipelineInConfigCache.getStageName(),is(new CaseInsensitiveString("stage")));
+  pipelineConfig.getFirstStageConfig().setName(upstreamStageRenamed);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  assertThat(result.isSuccessful(),is(true));
+  CruiseConfig currentConfig=goConfigService.getCurrentConfig();
+  assertThat(currentConfig.getAllPipelineNames().contains(remoteDownstreamPipeline.name()),is(true));
+  assertThat(currentConfig.getPipelineConfigByName(remoteDownstreamPipeline.name()).materialConfigs().findDependencyMaterial(pipelineConfig.name()).getStageName(),is(upstreamStageRenamed));
+  assertThat(currentConfig.getPipelineConfigByName(pipelineConfig.name()).getFirstStageConfig().name(),is(upstreamStageRenamed));
+}

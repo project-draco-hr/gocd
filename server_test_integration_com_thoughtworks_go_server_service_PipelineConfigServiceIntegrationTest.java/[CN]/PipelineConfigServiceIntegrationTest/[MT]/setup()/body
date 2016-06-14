@@ -1,4 +1,5 @@
 {
+  cachedGoPartials.clear();
   configHelper=new GoConfigFileHelper();
   dbHelper.onSetUp();
   configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
@@ -7,10 +8,21 @@
   user=new Username(new CaseInsensitiveString("current"));
   pipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new GitMaterialConfig("FOO"));
   goConfigService.addPipeline(pipelineConfig,groupName);
+  repoConfig=new ConfigRepoConfig(MaterialConfigsMother.gitMaterialConfig("url"),XmlPartialConfigProvider.providerName);
+  goConfigService.updateConfig(new UpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.getConfigRepos().add(repoConfig);
+      return cruiseConfig;
+    }
+  }
+);
   GoCipher goCipher=new GoCipher();
   goConfigService.updateServerConfig(new MailHost(goCipher),new LdapConfig(goCipher),new PasswordFileConfig("path"),false,goConfigService.configFileMd5(),"artifacts",null,null,"0",null,null,"foo");
   UpdateConfigCommand command=goConfigService.modifyAdminPrivilegesCommand(Arrays.asList(user.getUsername().toString()),new TriStateSelection(Admin.GO_SYSTEM_ADMIN,TriStateSelection.Action.add));
   goConfigService.updateConfig(command);
+  remoteDownstreamPipelineName="remote-downstream";
+  partialConfig=PartialConfigMother.pipelineWithDependencyMaterial(remoteDownstreamPipelineName,pipelineConfig,new RepoConfigOrigin(repoConfig,"r1"));
+  goPartialConfig.onSuccessPartialConfig(repoConfig,partialConfig);
   result=new HttpLocalizedOperationResult();
   headCommitBeforeUpdate=configRepository.getCurrentRevCommit().name();
   entityHashingService.initializeWith(new EntityDigest(){

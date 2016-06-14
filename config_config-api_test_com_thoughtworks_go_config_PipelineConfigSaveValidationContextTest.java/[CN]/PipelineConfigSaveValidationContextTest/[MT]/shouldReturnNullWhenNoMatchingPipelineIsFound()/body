@@ -1,0 +1,5 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("p1");
+  PipelineConfigSaveValidationContext context=PipelineConfigSaveValidationContext.forChain(true,"group",cruiseConfig,new PipelineConfig(new CaseInsensitiveString("p2"),new MaterialConfigs()));
+  assertThat(context.getPipelineConfigByName(new CaseInsensitiveString("does_not_exist")),is(nullValue()));
+}

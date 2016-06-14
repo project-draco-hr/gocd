@@ -1,0 +1,8 @@
+{
+  String cruiseConfigFile=systemEnvironment.getCruiseConfigFile();
+  CruiseConfig updatedConfig=new Cloner().deepClone(goConfigService.getConfigForEditing());
+  updateConfig.update(updatedConfig);
+  File configFile=new File(cruiseConfigFile);
+  FileOutputStream outputStream=new FileOutputStream(configFile);
+  new MagicalGoConfigXmlWriter(configCache,configElementImplementationRegistry).write(updatedConfig,outputStream,true);
+}

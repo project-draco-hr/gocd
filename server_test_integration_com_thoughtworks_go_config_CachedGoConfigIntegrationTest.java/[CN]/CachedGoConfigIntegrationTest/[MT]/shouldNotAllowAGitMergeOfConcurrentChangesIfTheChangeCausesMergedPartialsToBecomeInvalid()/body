@@ -1,0 +1,27 @@
+{
+  final String upstream=UUID.randomUUID().toString();
+  String remoteDownstream="remote-downstream";
+  setupExternalConfigRepoWithDependencyMaterialOnPipelineInMainXml(upstream,remoteDownstream);
+  final String md5=cachedGoConfig.currentConfig().getMd5();
+  cachedGoConfig.writeWithLock(new NoOverwriteUpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.server().setCommandRepositoryLocation("new_location");
+      return cruiseConfig;
+    }
+    @Override public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+  thrown.expectMessage(String.format("Stage with name 'stage' does not exist on pipeline '%s', it is being referred to from pipeline 'remote-downstream' (%s at r1)",upstream,configRepo.getMaterialConfig().getDisplayName()));
+  cachedGoConfig.writeWithLock(new NoOverwriteUpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString(upstream)).getFirstStageConfig().setName(new CaseInsensitiveString("new_name"));
+      return cruiseConfig;
+    }
+    @Override public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+}

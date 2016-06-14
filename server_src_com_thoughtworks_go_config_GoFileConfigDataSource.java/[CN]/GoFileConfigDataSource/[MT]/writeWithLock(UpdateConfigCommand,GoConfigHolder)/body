@@ -4,7 +4,7 @@
     List<PartialConfig> lastKnownPartials=cachedGoPartials.lastKnownPartials();
     try {
       String configAsXml=trySavingConfig(updatingCommand,configHolder,lastKnownPartials);
-      validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
+      validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),lastKnownPartials);
       updateMergedConfigForEdit(validatedConfigHolder,lastKnownPartials);
       serverHealthService.update(ServerHealthState.success(HealthStateType.invalidConfigMerge()));
     }
@@ -18,7 +18,7 @@
         serverHealthService.update(ServerHealthState.error(GoPartialConfig.INVALID_CRUISE_CONFIG_MERGE,GoConfigValidity.invalid(e).errorMessage(),HealthStateType.invalidConfigMerge()));
         try {
           String configAsXml=trySavingConfig(updatingCommand,configHolder,lastValidPartials);
-          validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
+          validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),lastValidPartials);
           int previousValidPartialsCount=lastValidPartials.size();
           lastValidPartials=cachedGoPartials.lastValidPartials();
           updateMergedConfigForEdit(validatedConfigHolder,lastValidPartials);

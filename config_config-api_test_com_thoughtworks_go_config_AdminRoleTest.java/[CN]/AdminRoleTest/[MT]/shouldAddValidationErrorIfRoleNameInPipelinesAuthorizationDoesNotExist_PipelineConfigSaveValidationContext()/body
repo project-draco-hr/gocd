@@ -3,7 +3,6 @@
   PipelineConfig pipelineConfig=new PipelineConfig();
   PipelineConfigs pipelinesConfig=new BasicPipelineConfigs(new Authorization(new ViewConfig(role)),pipelineConfig);
   CruiseConfig config=new BasicCruiseConfig(pipelinesConfig);
-  PipelineConfigurationCache.getInstance().onConfigChange(config);
   role.validate(PipelineConfigSaveValidationContext.forChain(true,"group",config,pipelineConfig));
   ConfigErrors errors=role.errors();
   assertThat(errors.isEmpty(),is(false));

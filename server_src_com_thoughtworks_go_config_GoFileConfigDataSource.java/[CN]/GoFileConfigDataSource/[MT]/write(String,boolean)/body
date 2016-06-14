@@ -4,7 +4,7 @@
     if (shouldMigrate) {
       configFileContent=upgrader.upgradeIfNecessary(configFileContent);
     }
-    GoConfigHolder configHolder=internalLoad(configFileContent,new ConfigModifyingUser());
+    GoConfigHolder configHolder=internalLoad(configFileContent,new ConfigModifyingUser(),new ArrayList<PartialConfig>());
     String toWrite=configAsXml(configHolder.configForEdit,false);
     if (LOGGER.isTraceEnabled()) {
       LOGGER.trace("Writing config file: " + configFile.getAbsolutePath());

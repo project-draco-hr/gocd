@@ -4,7 +4,6 @@
   cruiseConfig.server().security().adminsConfig().addRole(new AdminRole(new CaseInsensitiveString("super-admin")));
   PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("p1"),new MaterialConfigs());
   cruiseConfig.addPipeline("g1",pipelineConfig);
-  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
   assertThat(approval.validateTree(PipelineConfigSaveValidationContext.forChain(true,"g1",cruiseConfig,pipelineConfig)),is(false));
   assertThat(approval.getAuthConfig().errors().isEmpty(),is(false));
   assertThat(approval.getAuthConfig().errors().firstError(),is("Role \"role\" does not exist."));

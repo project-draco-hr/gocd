@@ -1,8 +1,3 @@
 {
-  CruiseConfig configForEdit;
-  CruiseConfig config;
-  LOGGER.debug("[Config Save] Loading config holder");
-  configForEdit=deserializeConfig(content);
-  config=preprocessAndValidate(configForEdit);
-  return new GoConfigHolder(config,configForEdit);
+  return loadConfigHolder(content,null);
 }

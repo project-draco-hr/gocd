@@ -4,7 +4,6 @@
   StageConfig stage=pipeline.get(0);
   StageConfigMother.addApprovalWithUsers(stage,"not-present");
   Approval approval=stage.getApproval();
-  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
   approval.validate(PipelineConfigSaveValidationContext.forChain(true,DEFAULT_GROUP,cruiseConfig,pipeline,stage));
   assertNoErrors(approval.getAuthConfig().getUsers().get(0));
 }

@@ -1,7 +1,0 @@
-{
-  GoConfigHolder configHolder=magicalGoConfigXmlLoader.loadConfigHolder(content);
-  CruiseConfig config=configHolder.config;
-  reloadStrategy.latestState(config);
-  configRepository.checkin(new GoConfigRevision(content,configHolder.configForEdit.getMd5(),configModifyingUser.getUserName(),serverVersion.version(),timeProvider));
-  return configHolder;
-}

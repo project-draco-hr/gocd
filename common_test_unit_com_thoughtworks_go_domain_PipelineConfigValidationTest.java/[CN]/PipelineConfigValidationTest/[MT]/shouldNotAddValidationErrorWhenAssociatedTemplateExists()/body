@@ -2,7 +2,6 @@
   PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("wunderbar"),new MaterialConfigs());
   config.addPipeline("group",pipelineConfig);
   config.addTemplate(new PipelineTemplateConfig(new CaseInsensitiveString("t1")));
-  PipelineConfigurationCache.getInstance().onConfigChange(config);
   pipelineConfig.setTemplateName(new CaseInsensitiveString("t1"));
   pipelineConfig.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",config,pipelineConfig));
   assertThat(pipelineConfig.errors().getAllOn("template"),is(CoreMatchers.nullValue()));

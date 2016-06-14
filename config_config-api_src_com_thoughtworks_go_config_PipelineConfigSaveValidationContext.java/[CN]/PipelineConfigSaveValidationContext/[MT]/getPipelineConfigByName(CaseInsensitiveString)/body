@@ -1,4 +1,8 @@
 {
-  if (pipelineBeingValidated.name().equals(pipelineName))   return pipelineBeingValidated;
-  return PipelineConfigurationCache.getInstance().getPipelineConfig(pipelineName.toString());
+  try {
+    return cruiseConfig.pipelineConfigByName(pipelineName);
+  }
+ catch (  PipelineNotFoundException e) {
+    return null;
+  }
 }

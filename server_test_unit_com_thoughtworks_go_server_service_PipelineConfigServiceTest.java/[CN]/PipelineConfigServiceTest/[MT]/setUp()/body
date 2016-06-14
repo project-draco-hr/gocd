@@ -11,6 +11,5 @@
   pluggableTaskService=mock(PluggableTaskService.class);
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
   when(goConfigService.getConfigForEditing()).thenReturn(cruiseConfig);
-  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
   pipelineConfigService=new PipelineConfigService(goConfigService,securityService,pluggableTaskService,null);
 }

@@ -1,0 +1,35 @@
+{
+  final String upstream=UUID.randomUUID().toString();
+  String remoteDownstream="remote-downstream";
+  setupExternalConfigRepoWithDependencyMaterialOnPipelineInMainXml(upstream,remoteDownstream);
+  PartialConfig partialWithStageRenamed=new Cloner().deepClone(goPartialConfig.lastPartials().get(0));
+  PipelineConfig pipelineInRemoteConfigRepo=partialWithStageRenamed.getGroups().get(0).getPipelines().get(0);
+  pipelineInRemoteConfigRepo.materialConfigs().getDependencyMaterial().setStageName(new CaseInsensitiveString("new_name"));
+  partialWithStageRenamed.setOrigin(new RepoConfigOrigin(configRepo,"r2"));
+  goPartialConfig.onSuccessPartialConfig(configRepo,partialWithStageRenamed);
+  final String md5=cachedGoConfig.currentConfig().getMd5();
+  cachedGoConfig.writeWithLock(new NoOverwriteUpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.server().setCommandRepositoryLocation("new_location");
+      return cruiseConfig;
+    }
+    @Override public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+  ConfigSaveState saveState=cachedGoConfig.writeWithLock(new NoOverwriteUpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString(upstream)).getFirstStageConfig().setName(new CaseInsensitiveString("new_name"));
+      return cruiseConfig;
+    }
+    @Override public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+  assertThat(saveState,is(ConfigSaveState.MERGED));
+  assertThat(cachedGoPartials.lastValidPartials().get(0).getGroups().first().get(0).materialConfigs().getDependencyMaterial().getStageName(),is(new CaseInsensitiveString("new_name")));
+  assertThat(goConfigService.getConfigForEditing().getPipelineConfigByName(new CaseInsensitiveString(upstream)).getFirstStageConfig().name(),is(new CaseInsensitiveString("new_name")));
+  assertThat(goConfigService.getCurrentConfig().getPipelineConfigByName(new CaseInsensitiveString(upstream)).getFirstStageConfig().name(),is(new CaseInsensitiveString("new_name")));
+}
