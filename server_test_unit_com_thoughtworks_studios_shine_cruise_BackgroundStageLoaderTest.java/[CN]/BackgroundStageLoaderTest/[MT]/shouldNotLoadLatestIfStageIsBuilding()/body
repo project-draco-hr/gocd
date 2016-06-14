@@ -1,5 +1,5 @@
 {
-  when(systemEnvironment.getEnvironmentVariable("SHINE_ENABLED")).thenReturn("true");
+  when(systemEnvironment.isShineEnabled()).thenReturn(true);
   ReflectionUtil.setField(stage,"state",StageState.Building);
   listener.stageStatusChanged(stage);
   verify(stageFeedsReader,never()).readFromLatest(backgroundStageLoader,pipelineInstanceLoader);

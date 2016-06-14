@@ -1,6 +1,5 @@
 {
-  String shineEnabled=systemEnvironment.getEnvironmentVariable("SHINE_ENABLED");
-  if (shineEnabled != null && !"false".equalsIgnoreCase(shineEnabled)) {
+  if (systemEnvironment.isShineEnabled()) {
     if (stage.isCompleted()) {
       backgroundStageLoader.load();
     }

@@ -1,7 +1,7 @@
 {
   when(jobInstances.stageState()).thenReturn(StageState.Passed);
   stage.setJobInstances(jobInstances);
-  when(systemEnvironment.getEnvironmentVariable("SHINE_ENABLED")).thenReturn("true");
+  when(systemEnvironment.isShineEnabled()).thenReturn(true);
   listener.stageStatusChanged(stage);
   verify(stageFeedsReader).readFromLatest(backgroundStageLoader,pipelineInstanceLoader);
 }
