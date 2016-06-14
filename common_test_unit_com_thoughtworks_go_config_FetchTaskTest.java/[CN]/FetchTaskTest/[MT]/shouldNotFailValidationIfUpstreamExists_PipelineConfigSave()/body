@@ -4,6 +4,6 @@
   FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("upstream-pipeline"),new CaseInsensitiveString("upstream-stage"),new CaseInsensitiveString("upstream-job"),"quux.c","bang-file");
   job.addTask(fetchTask);
   PipelineConfig downstream=new PipelineConfig(new CaseInsensitiveString("downstream-pipeline"),new MaterialConfigs(new DependencyMaterialConfig(upstream.name(),upstream.getFirstStageConfig().name())),new StageConfig(new CaseInsensitiveString("downstream-stage"),new JobConfigs(job)));
-  fetchTask.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",downstream,downstream.getFirstStageConfig(),downstream.getFirstStageConfig().getJobs().first()));
+  fetchTask.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",new BasicCruiseConfig(new BasicPipelineConfigs(upstream,downstream)),downstream,downstream.getFirstStageConfig(),downstream.getFirstStageConfig().getJobs().first()));
   assertThat(fetchTask.errors().isEmpty(),is(true));
 }

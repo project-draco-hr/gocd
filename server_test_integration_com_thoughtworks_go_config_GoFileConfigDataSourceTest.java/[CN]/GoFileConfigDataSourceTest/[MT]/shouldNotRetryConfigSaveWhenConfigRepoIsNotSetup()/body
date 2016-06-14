@@ -24,6 +24,6 @@
  catch (  Exception e) {
     verifyZeroInteractions(configRepository);
     verifyZeroInteractions(serverHealthService);
-    verify(loader,times(1)).loadConfigHolder(Matchers.any(String.class));
+    verify(loader,times(1)).loadConfigHolder(Matchers.any(String.class),Matchers.any(MagicalGoConfigXmlLoader.Callback.class));
   }
 }

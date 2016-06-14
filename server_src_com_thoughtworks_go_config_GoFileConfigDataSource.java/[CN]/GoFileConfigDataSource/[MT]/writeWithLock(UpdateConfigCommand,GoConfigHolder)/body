@@ -10,7 +10,7 @@
     }
  catch (    GoConfigInvalidException e) {
       List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
-      if (lastValidPartials.isEmpty() && !(updatingCommand instanceof GoPartialConfig.GoPartialUpdateCommand)) {
+      if (cachedGoPartials.lastKnownPartials().isEmpty()) {
         throw e;
       }
  else {

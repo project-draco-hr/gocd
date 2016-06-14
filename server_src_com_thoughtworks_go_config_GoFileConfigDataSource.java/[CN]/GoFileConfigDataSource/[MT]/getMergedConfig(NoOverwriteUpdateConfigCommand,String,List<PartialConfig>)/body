@@ -6,7 +6,7 @@
   String modifiedConfigAsXml=convertMutatedConfigToXml(modifiedConfig,latestMd5);
   GoConfigRevision configRevision=new GoConfigRevision(modifiedConfigAsXml,"temporary-md5-for-branch",getConfigUpdatingUser(noOverwriteCommand).getUserName(),serverVersion.version(),timeProvider);
   String mergedConfigXml=configRepository.getConfigMergedWithLatestRevision(configRevision,oldMd5);
-  validateMergedXML(mergedConfigXml,latestMd5);
+  validateMergedXML(mergedConfigXml,latestMd5,partials);
   cachedGoPartials.markAsValid(modifiedConfig.getPartials());
   return mergedConfigXml;
 }

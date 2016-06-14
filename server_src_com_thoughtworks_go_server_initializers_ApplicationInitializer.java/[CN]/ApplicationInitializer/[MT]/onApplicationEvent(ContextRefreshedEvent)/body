@@ -7,9 +7,6 @@
     pluginsInitializer.initialize();
     pluginsZip.create();
     configCipherUpdater.migrate();
-    MagicalGoConfigXmlLoader loader=new MagicalGoConfigXmlLoader(configCache,configElementImplementationRegistry);
-    ConfigRepoPartialPreprocessor preprocessor=(ConfigRepoPartialPreprocessor)loader.getPreprocessorOfType(ConfigRepoPartialPreprocessor.class);
-    preprocessor.init(goPartialConfig);
     configElementImplementationRegistrar.initialize();
     configRepository.initialize();
     goFileConfigDataSource.upgradeIfNecessary();

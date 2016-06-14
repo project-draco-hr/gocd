@@ -1,12 +1,6 @@
 {
   final PartialConfig partialConfig=PartialConfigMother.withPipeline("partial");
   ConfigRepoPartialPreprocessor preprocessor=new ConfigRepoPartialPreprocessor();
-  preprocessor.init(new PartialsProvider(){
-    @Override public List<PartialConfig> lastPartials(){
-      return new ArrayList<>();
-    }
-  }
-);
   PipelineConfig pipelineInMain=PipelineConfigMother.createPipelineConfig("main_pipeline","stage","job");
   BasicCruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(pipelineInMain));
   cruiseConfig.setPartials(asList(partialConfig));

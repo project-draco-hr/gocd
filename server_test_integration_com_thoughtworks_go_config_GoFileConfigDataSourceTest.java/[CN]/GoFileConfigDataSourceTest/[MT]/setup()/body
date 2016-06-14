@@ -22,16 +22,9 @@
   goConfigDao=new GoConfigDao(cachedGoConfig);
   configHelper.load();
   configHelper.usingCruiseConfigDao(goConfigDao);
-  ConfigRepoPartialPreprocessor preprocessor=(ConfigRepoPartialPreprocessor)ListUtil.find(MagicalGoConfigXmlLoader.PREPROCESSORS,new ListUtil.Condition(){
-    @Override public <GoConfigPreprocessor>boolean isMet(    GoConfigPreprocessor item){
-      return item instanceof ConfigRepoPartialPreprocessor;
-    }
-  }
-);
   GoConfigWatchList configWatchList=new GoConfigWatchList(cachedGoConfig);
   ConfigElementImplementationRegistry configElementImplementationRegistry=new ConfigElementImplementationRegistry(new NoPluginsInstalled());
   GoConfigPluginService configPluginService=new GoConfigPluginService(mock(ConfigRepoExtension.class),new ConfigCache(),configElementImplementationRegistry,cachedGoConfig);
-  preprocessor.init(new GoPartialConfig(new GoRepoConfigDataSource(configWatchList,configPluginService,serverHealthService),configWatchList,new GoConfigService(goConfigDao,null,new GoConfigMigration(configRepository,new TimeProvider(),configCache,configElementImplementationRegistry),new StubGoCache(new TestTransactionSynchronizationManager()),configRepository,configCache,configElementImplementationRegistry,new InstanceFactory(),cachedGoPartials),cachedGoPartials,serverHealthService));
   repoConfig=new ConfigRepoConfig(new GitMaterialConfig("url"),"plugin");
   configHelper.addConfigRepo(repoConfig);
 }

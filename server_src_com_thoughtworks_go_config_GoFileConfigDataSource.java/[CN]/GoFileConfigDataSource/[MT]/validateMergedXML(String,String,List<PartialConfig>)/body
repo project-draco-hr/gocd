@@ -1,7 +1,12 @@
 {
   LOGGER.debug("[Config Save] -=- Converting merged config to XML");
   try {
-    return magicalGoConfigXmlLoader.loadConfigHolder(mergedConfigXml).configForEdit;
+    return magicalGoConfigXmlLoader.loadConfigHolder(mergedConfigXml,new MagicalGoConfigXmlLoader.Callback(){
+      @Override public void call(      CruiseConfig cruiseConfig){
+        cruiseConfig.setPartials(partials);
+      }
+    }
+).configForEdit;
   }
  catch (  Exception e) {
     LOGGER.info(format("[CONFIG_MERGE] Post merge validation failed, latest-md5: %s",latestMd5));
