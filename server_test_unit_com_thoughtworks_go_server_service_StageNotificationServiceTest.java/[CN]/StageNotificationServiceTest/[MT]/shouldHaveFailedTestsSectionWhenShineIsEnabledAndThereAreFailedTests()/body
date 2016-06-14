@@ -1,0 +1,11 @@
+{
+  String mail=prepareOneMatchedUser();
+  stubPipelineAndStage(new Date());
+  when(systemEnvironment.getEnvironmentVariable("SHINE_ENABLED")).thenReturn("true");
+  ArrayList<TestSuite> testSuites=new ArrayList<>();
+  testSuites.add(new TestSuite("blah"));
+  when(shineDao.failedTestsFor(stageIdentifier)).thenReturn(testSuites);
+  stageNotificationService.sendNotifications(stageIdentifier,StageEvent.Fails,new Username(new CaseInsensitiveString("loser")));
+  String body=inMemoryEmailNotificationTopic.getBody(mail);
+  assertThat(body,containsString(StageNotificationService.FAILED_TEST_SECTION));
+}
