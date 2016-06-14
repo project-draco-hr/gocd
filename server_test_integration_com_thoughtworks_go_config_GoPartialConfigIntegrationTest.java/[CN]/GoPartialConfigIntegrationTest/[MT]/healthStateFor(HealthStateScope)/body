@@ -1,0 +1,8 @@
+{
+  return ListUtil.find(serverHealthService.getAllLogs(),new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      return ((ServerHealthState)item).getType().getScope().equals(scope);
+    }
+  }
+);
+}

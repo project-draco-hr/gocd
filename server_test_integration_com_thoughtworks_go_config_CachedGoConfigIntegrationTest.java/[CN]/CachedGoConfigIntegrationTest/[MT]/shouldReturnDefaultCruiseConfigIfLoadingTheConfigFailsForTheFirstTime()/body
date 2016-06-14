@@ -1,0 +1,5 @@
+{
+  ReflectionUtil.setField(cachedGoConfig,"currentConfig",null);
+  configHelper.writeXmlToConfigFile("invalid-xml");
+  Assert.assertThat(cachedGoConfig.currentConfig(),Matchers.<CruiseConfig>is(new BasicCruiseConfig()));
+}

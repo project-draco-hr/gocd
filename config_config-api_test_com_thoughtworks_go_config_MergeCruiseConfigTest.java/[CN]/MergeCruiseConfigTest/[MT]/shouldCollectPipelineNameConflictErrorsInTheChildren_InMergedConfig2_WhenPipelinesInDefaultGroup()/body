@@ -1,0 +1,11 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("pipeline1");
+  PartialConfig remotePart=PartialConfigMother.withPipelineInGroup("pipeline1","defaultGroup");
+  remotePart.setOrigin(new RepoConfigOrigin());
+  BasicCruiseConfig merged=new BasicCruiseConfig((BasicCruiseConfig)cruiseConfig,remotePart);
+  List<ConfigErrors> allErrors=merged.validateAfterPreprocess();
+  assertThat(remotePart.getGroups().get(0).getPipelines().get(0).errors().size(),is(1));
+  assertThat(allErrors.size(),is(2));
+  assertThat(allErrors.get(0).on("name"),is("You have defined multiple pipelines named 'pipeline1'. Pipeline names must be unique. Source(s): [cruise-config.xml]"));
+  assertThat(allErrors.get(1).on("name"),is("You have defined multiple pipelines named 'pipeline1'. Pipeline names must be unique. Source(s): [cruise-config.xml]"));
+}

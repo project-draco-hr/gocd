@@ -1,4 +1,8 @@
 {
-  String[] parts=pipelineStage.split("/");
-  return !cruiseConfig.hasStageConfigNamed(new CaseInsensitiveString(parts[0]),new CaseInsensitiveString(parts[1]),true);
+  for (  ConfigRepoConfig configRepoConfig : cruiseConfig.getConfigRepos()) {
+    if (HealthStateScope.forPartialConfigRepo(configRepoConfig).getScope().equals(materialScope)) {
+      return false;
+    }
+  }
+  return true;
 }

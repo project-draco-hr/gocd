@@ -1,0 +1,6 @@
+{
+  cachedGoConfig.writeWithLock(updateFirstAgentResources("osx"));
+  assertThat(cachedGoConfig.currentConfig().agents().get(0).getResources().toString(),Matchers.is("osx"));
+  cachedGoConfig.writeWithLock(updateFirstAgentResources("osx, firefox"));
+  assertThat(cachedGoConfig.currentConfig().agents().get(0).getResources().toString(),Matchers.is("firefox | osx"));
+}

@@ -1,0 +1,15 @@
+{
+  String content="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts' >"+ "</server>"+ "<pipelines>\n"+ "<pipeline name='dev' template='abc'>\n"+ "    <params>"+ "        <param name='command'>ls</param>"+ "        <param name='dir'>/tmp</param>"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "</pipeline>\n"+ "<pipeline name='acceptance' template='abc'>\n"+ "    <params>"+ "        <param name='command'>twist</param>"+ "        <param name='dir'>./acceptance</param>"+ "    </params>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "<templates>\n"+ "  <pipeline name='abc'>\n"+ "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1'>"+ "            <tasks>"+ "                <exec command='/bin/#{command}' args='#{dir}'/>"+ "            </tasks>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "  </pipeline>\n"+ "</templates>\n"+ "</cruise>";
+  configHelper.writeXmlToConfigFile(content);
+  cachedGoConfig.forceReload();
+  CruiseConfig cruiseConfig=cachedGoConfig.currentConfig();
+  ExecTask devExec=(ExecTask)cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("dev")).getFirstStageConfig().jobConfigByConfigName(new CaseInsensitiveString("job1")).getTasks().first();
+  assertThat(devExec,Is.is(new ExecTask("/bin/ls","/tmp",(String)null)));
+  ExecTask acceptanceExec=(ExecTask)cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("acceptance")).getFirstStageConfig().jobConfigByConfigName(new CaseInsensitiveString("job1")).getTasks().first();
+  assertThat(acceptanceExec,Is.is(new ExecTask("/bin/twist","./acceptance",(String)null)));
+  cruiseConfig=cachedGoConfig.loadForEditing();
+  devExec=(ExecTask)cruiseConfig.getTemplateByName(new CaseInsensitiveString("abc")).get(0).jobConfigByConfigName(new CaseInsensitiveString("job1")).getTasks().first();
+  assertThat(devExec,Is.is(new ExecTask("/bin/#{command}","#{dir}",(String)null)));
+  assertThat(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("dev")).size(),Matchers.is(0));
+  assertThat(cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("acceptance")).size(),Matchers.is(0));
+}

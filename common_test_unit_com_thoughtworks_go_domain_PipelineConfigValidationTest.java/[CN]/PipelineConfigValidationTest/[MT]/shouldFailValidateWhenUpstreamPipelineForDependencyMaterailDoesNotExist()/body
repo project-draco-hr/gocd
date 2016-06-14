@@ -7,5 +7,5 @@
   assertThat(isValid,is(false));
   ConfigErrors materialErrors=pipelineConfig.materialConfigs().first().errors();
   assertThat(materialErrors.isEmpty(),is(false));
-  assertThat(materialErrors.firstError(),is("Pipeline with name 'non-existant' does not exist"));
+  assertThat(materialErrors.firstError(),is("Pipeline with name 'non-existant' does not exist, it is defined as a dependency for pipeline 'pipeline' (cruise-config.xml)"));
 }

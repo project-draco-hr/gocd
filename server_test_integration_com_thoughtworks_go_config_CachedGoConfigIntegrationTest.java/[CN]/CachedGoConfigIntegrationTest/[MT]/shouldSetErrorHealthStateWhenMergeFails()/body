@@ -1,0 +1,10 @@
+{
+  checkinPartial("config_repo_with_invalid_partial");
+  ConfigRepoConfig configRepo=configWatchList.getCurrentConfigRepos().get(0);
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
+  assertThat(serverHealthService.filterByScope(HealthStateScope.GLOBAL).isEmpty(),is(false));
+  ArrayList<ServerHealthState> messageForInvalidMerge=findMessageFor(HealthStateType.invalidConfigMerge());
+  assertThat(messageForInvalidMerge.isEmpty(),is(false));
+  assertThat(messageForInvalidMerge.get(0).getDescription().contains("Pipeline 'pipeline_with_no_stage' does not have any stages configured"),is(true));
+  assertThat(findMessageFor(HealthStateType.invalidConfig()).size(),is(0));
+}

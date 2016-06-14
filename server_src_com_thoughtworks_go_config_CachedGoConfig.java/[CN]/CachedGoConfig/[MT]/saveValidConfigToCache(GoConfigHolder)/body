@@ -1,0 +1,10 @@
+{
+  if (configHolder != null) {
+    LOGGER.debug("[Config Save] Saving config to the cache");
+    this.lastException=null;
+    this.configHolder=configHolder;
+    this.currentConfig=this.configHolder.config;
+    this.currentConfigForEdit=this.configHolder.configForEdit;
+    serverHealthService.update(ServerHealthState.success(HealthStateType.invalidConfig()));
+  }
+}

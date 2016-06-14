@@ -1,0 +1,17 @@
+{
+  String pipelineName="mingle";
+  cachedGoConfig.save(configXmlWithPipeline(pipelineName),false);
+  PipelineConfig reloadedPipelineConfig=cachedGoConfig.currentConfig().pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  HgMaterialConfig hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
+  Assert.assertThat(hgMaterialConfig.getUrl(),Matchers.is("http://hg-server/repo-name"));
+  reloadedPipelineConfig=cachedGoConfig.loadForEditing().pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
+  Assert.assertThat(hgMaterialConfig.getUrl(),Matchers.is("http://#{foo}/#{bar}"));
+  GoConfigHolder configHolder=cachedGoConfig.loadConfigHolder();
+  reloadedPipelineConfig=configHolder.config.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
+  Assert.assertThat(hgMaterialConfig.getUrl(),Matchers.is("http://hg-server/repo-name"));
+  reloadedPipelineConfig=configHolder.configForEdit.pipelineConfigByName(new CaseInsensitiveString(pipelineName));
+  hgMaterialConfig=(HgMaterialConfig)byFolder(reloadedPipelineConfig.materialConfigs(),"folder");
+  Assert.assertThat(hgMaterialConfig.getUrl(),Matchers.is("http://#{foo}/#{bar}"));
+}

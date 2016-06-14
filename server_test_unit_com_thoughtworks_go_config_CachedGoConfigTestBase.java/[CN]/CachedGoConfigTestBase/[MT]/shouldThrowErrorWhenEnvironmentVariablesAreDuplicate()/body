@@ -1,7 +1,0 @@
-{
-  String content="<cruise schemaVersion='" + GoConstants.CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts' />"+ "<pipelines>\n"+ "<pipeline name='dev'>\n"+ "    <params>"+ "        <param name='product'>GO</param>"+ "    </params>"+ "    <environmentvariables>"+ "        <variable name='#{product}_WORKING_DIR'><value>go_dir</value></variable>"+ "        <variable name='GO_WORKING_DIR'><value>dir</value></variable>"+ "    </environmentvariables>"+ "    <materials>\n"+ "      <svn url =\"svnurl\"/>"+ "    </materials>\n"+ "    <stage name='stage1'>"+ "      <jobs>"+ "        <job name='job1'>"+ "            <tasks>"+ "                <exec command='/bin/ls' args='some'/>"+ "            </tasks>"+ "        </job>"+ "      </jobs>"+ "    </stage>"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>";
-  configHelper.writeXmlToConfigFile(content);
-  GoConfigValidity configValidity=cachedGoConfig.checkConfigFileValid();
-  assertThat(configValidity.isValid(),is(false));
-  assertThat(configValidity.errorMessage(),containsString("Environment Variable name 'GO_WORKING_DIR' is not unique for pipeline 'dev'"));
-}

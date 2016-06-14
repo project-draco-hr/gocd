@@ -1,0 +1,10 @@
+{
+  ClassPathResource resource=new ClassPathResource(partial);
+  if (resource.getFile().isDirectory()) {
+    FileUtils.copyDirectory(resource.getFile(),externalConfigRepo);
+  }
+ else {
+    FileUtils.copyFileToDirectory(resource.getFile(),externalConfigRepo);
+  }
+  gitAddDotAndCommit(externalConfigRepo);
+}

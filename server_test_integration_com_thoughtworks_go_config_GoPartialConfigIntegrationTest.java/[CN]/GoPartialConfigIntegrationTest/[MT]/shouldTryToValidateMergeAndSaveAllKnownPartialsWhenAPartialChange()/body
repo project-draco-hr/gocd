@@ -1,0 +1,8 @@
+{
+  cachedGoPartials.addOrUpdate(repoConfig1.getMaterialConfig().getFingerprint(),PartialConfigMother.withPipeline("p1_repo1",new RepoConfigOrigin(repoConfig1,"1234")));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1_repo1")),is(false));
+  goPartialConfig.onSuccessPartialConfig(repoConfig2,PartialConfigMother.withPipeline("p2_repo2",new RepoConfigOrigin(repoConfig2,"4567")));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1_repo1")),is(true));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p2_repo2")),is(true));
+  assertThat(healthStateFor(HealthStateType.invalidConfigMerge()),is(nullValue()));
+}

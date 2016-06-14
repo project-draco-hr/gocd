@@ -1,9 +1,0 @@
-{
-  assertThat(configWatchList.getCurrentConfigRepos().size(),is(1));
-  ConfigRepoConfig configRepo=configWatchList.getCurrentConfigRepos().get(0);
-  PartialConfig part1=new PartialConfig(new PipelineGroups(PipelineConfigMother.createGroup("part1",PipelineConfigMother.pipelineConfig("pipe1"))));
-  when(plugin.load(any(File.class),any(PartialConfigLoadContext.class))).thenReturn(part1);
-  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),folder,"321e");
-  assertThat(repoConfigDataSource.latestPartialConfigForMaterial(configRepo.getMaterialConfig()),is(part1));
-  assertThat(cachedGoConfig.currentConfig().hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
-}

@@ -1,0 +1,25 @@
+{
+  assertThat(configWatchList.getCurrentConfigRepos().size(),is(1));
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
+  assertThat(cachedGoConfig.currentConfig().hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+  PipelineConfig dupPipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("pipe1","ut","www.spring.com");
+  try {
+    goConfigDao.updateConfig(new CreatePipelineConfigCommand(goConfigService,dupPipelineConfig,Username.ANONYMOUS,new DefaultLocalizedOperationResult(),"default"),Username.ANONYMOUS);
+    fail("Should have thrown");
+  }
+ catch (  RuntimeException ex) {
+    PipelineConfig pipe1=goConfigService.pipelineConfigNamed(new CaseInsensitiveString("pipe1"));
+    String errorMessage=dupPipelineConfig.errors().on(PipelineConfig.NAME);
+    assertThat(errorMessage,containsString("You have defined multiple pipelines named 'pipe1'. Pipeline names must be unique. Source(s):"));
+    Matcher matcher=Pattern.compile("^.*\\[(.*),\\s(.*)\\].*$").matcher(errorMessage);
+    assertThat(matcher.matches(),is(true));
+    assertThat(matcher.groupCount(),is(2));
+    List<String> expectedSources=asList(dupPipelineConfig.getOriginDisplayName(),pipe1.getOriginDisplayName());
+    List<String> actualSources=new ArrayList<>();
+    for (int i=1; i <= matcher.groupCount(); i++) {
+      actualSources.add(matcher.group(i));
+    }
+    assertThat(actualSources.size(),is(expectedSources.size()));
+    assertThat(actualSources.containsAll(expectedSources),is(true));
+  }
+}

@@ -1,0 +1,10 @@
+{
+  if (partList.isEmpty()) {
+    return;
+  }
+  MergeStrategy mergeStrategy=new MergeStrategy(this,partList);
+  this.strategy=mergeStrategy;
+  groups=mergeStrategy.mergePipelineConfigs();
+  this.resetAllPipelineConfigsCache();
+  environments=mergeStrategy.mergeEnvironmentConfigs();
+}

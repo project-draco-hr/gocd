@@ -1,9 +1,9 @@
 {
-  InOrder inOrder=inOrder(configCipherUpdater,configElementImplementationRegistrar,configRepository,goFileConfigDataSource,mergedGoConfig,goConfigService);
+  InOrder inOrder=inOrder(configCipherUpdater,configElementImplementationRegistrar,configRepository,goFileConfigDataSource,cachedGoConfig,goConfigService);
   inOrder.verify(configCipherUpdater).migrate();
   inOrder.verify(configElementImplementationRegistrar).initialize();
   inOrder.verify(configRepository).initialize();
   inOrder.verify(goFileConfigDataSource).upgradeIfNecessary();
-  inOrder.verify(mergedGoConfig).loadConfigIfNull();
+  inOrder.verify(cachedGoConfig).loadConfigIfNull();
   inOrder.verify(goConfigService).initialize();
 }

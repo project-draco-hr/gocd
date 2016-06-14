@@ -1,0 +1,12 @@
+{
+  ConfigChangeListenerStub listener=new ConfigChangeListenerStub();
+  cachedGoConfig.registerListener(listener);
+  assertThat(listener.invocationCount,is(1));
+  cachedGoConfig.writeWithLock(new UpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      return cruiseConfig;
+    }
+  }
+);
+  assertThat(listener.invocationCount,is(2));
+}

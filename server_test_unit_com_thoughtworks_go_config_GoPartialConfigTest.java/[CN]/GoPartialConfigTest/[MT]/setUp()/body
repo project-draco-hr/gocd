@@ -4,9 +4,14 @@
   plugin=mock(PartialConfigProvider.class);
   when(configPluginService.partialConfigProviderFor(any(ConfigRepoConfig.class))).thenReturn(plugin);
   cruiseConfig=new BasicCruiseConfig();
-  CachedFileGoConfig fileMock=mock(CachedFileGoConfig.class);
-  when(fileMock.currentConfig()).thenReturn(cruiseConfig);
-  configWatchList=new GoConfigWatchList(fileMock);
+  configRepoConfig=new ConfigRepoConfig(new GitMaterialConfig("url"),"plugin");
+  cruiseConfig.setConfigRepos(new ConfigReposConfig(configRepoConfig));
+  cachedGoConfig=mock(CachedGoConfig.class);
+  when(cachedGoConfig.currentConfig()).thenReturn(cruiseConfig);
+  configWatchList=new GoConfigWatchList(cachedGoConfig);
   repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,configPluginService,serverHealthService);
-  partialConfig=new GoPartialConfig(repoConfigDataSource,configWatchList);
+  cachedGoPartials=new CachedGoPartials(serverHealthService);
+  goConfigService=mock(GoConfigService.class);
+  serverHealthService=mock(ServerHealthService.class);
+  partialConfig=new GoPartialConfig(repoConfigDataSource,configWatchList,goConfigService,cachedGoPartials,serverHealthService);
 }

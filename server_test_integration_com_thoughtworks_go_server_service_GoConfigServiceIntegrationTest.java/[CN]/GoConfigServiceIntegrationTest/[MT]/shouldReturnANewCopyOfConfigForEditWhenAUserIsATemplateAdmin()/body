@@ -2,7 +2,7 @@
   configHelper.turnOnSecurity();
   configHelper.addAdmins("hero");
   configHelper.addTemplate("pipeline",new Authorization(new AdminsConfig(new AdminUser(new CaseInsensitiveString("template-admin")))),"stage");
-  mergedGoConfig.forceReload();
+  cachedGoConfig.forceReload();
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
   CruiseConfig config=goConfigService.loadCruiseConfigForEdit(new Username(new CaseInsensitiveString("template-admin")),result);
   assertThat(result.isSuccessful(),is(true));

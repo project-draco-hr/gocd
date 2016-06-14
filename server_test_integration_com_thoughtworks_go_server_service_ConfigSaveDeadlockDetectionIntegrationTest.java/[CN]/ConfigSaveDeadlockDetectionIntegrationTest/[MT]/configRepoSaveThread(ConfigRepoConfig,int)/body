@@ -1,0 +1,8 @@
+{
+  return createThread(new Runnable(){
+    @Override public void run(){
+      goPartialConfig.onSuccessPartialConfig(configRepoConfig,PartialConfigMother.withPipeline("remote-pipeline" + counter,new RepoConfigOrigin(configRepoConfig,"1")));
+    }
+  }
+,"config-repo-save-thread" + counter);
+}

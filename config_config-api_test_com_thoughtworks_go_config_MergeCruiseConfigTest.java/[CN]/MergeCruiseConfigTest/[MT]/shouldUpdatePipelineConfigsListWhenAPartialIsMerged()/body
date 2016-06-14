@@ -1,0 +1,7 @@
+{
+  PartialConfig partial=PartialConfigMother.withPipeline("pipeline3");
+  cruiseConfig.merge(Arrays.asList(partial));
+  PipelineConfig pipeline3=partial.getGroups().first().findBy(new CaseInsensitiveString("pipeline3"));
+  assertThat(cruiseConfig.getAllPipelineConfigs().contains(pipeline3),is(true));
+  assertThat(cruiseConfig.getAllPipelineNames().contains(pipeline3.name()),is(true));
+}

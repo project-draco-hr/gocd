@@ -1,0 +1,8 @@
+{
+  CruiseConfig before=cachedGoConfig.currentConfig();
+  assertThat(before.agents().size(),Matchers.is(1));
+  configHelper.writeXmlToConfigFile("invalid-xml");
+  cachedGoConfig.forceReload();
+  assertTrue(cachedGoConfig.currentConfig() == before);
+  assertThat(cachedGoConfig.checkConfigFileValid().isValid(),Matchers.is(false));
+}

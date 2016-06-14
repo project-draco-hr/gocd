@@ -4,8 +4,8 @@
   plugin=mock(PartialConfigProvider.class);
   when(configPluginService.partialConfigProviderFor(any(ConfigRepoConfig.class))).thenReturn(plugin);
   cruiseConfig=new BasicCruiseConfig();
-  CachedFileGoConfig fileMock=mock(CachedFileGoConfig.class);
-  when(fileMock.currentConfig()).thenReturn(cruiseConfig);
-  configWatchList=new GoConfigWatchList(fileMock);
+  CachedGoConfig cachedGoConfig=mock(CachedGoConfig.class);
+  when(cachedGoConfig.currentConfig()).thenReturn(cruiseConfig);
+  configWatchList=new GoConfigWatchList(cachedGoConfig);
   repoConfigDataSource=new GoRepoConfigDataSource(configWatchList,configPluginService,serverHealthService);
 }

@@ -2,12 +2,7 @@
   CruiseConfig configForEdit;
   CruiseConfig config;
   LOGGER.debug("[Config Save] Loading config holder");
-  String md5=CachedDigestUtils.md5Hex(content);
-  Element element=parseInputStream(new ByteArrayInputStream(content.getBytes()));
-  LOGGER.debug("[Config Save] Updating config cache with new XML");
-  configForEdit=classParser(element,BasicCruiseConfig.class,configCache,new GoCipher(),registry,new ConfigReferenceElements()).parse();
-  setMd5(configForEdit,md5);
-  configForEdit.setOrigins(new FileConfigOrigin());
+  configForEdit=deserializeConfig(content);
   config=preprocessAndValidate(configForEdit);
   return new GoConfigHolder(config,configForEdit);
 }

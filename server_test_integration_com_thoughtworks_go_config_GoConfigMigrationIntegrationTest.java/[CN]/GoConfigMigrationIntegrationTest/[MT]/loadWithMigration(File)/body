@@ -12,7 +12,7 @@
   }
 ,configRepository,new TimeProvider(),configCache,registry);
   SystemEnvironment sysEnv=new SystemEnvironment();
-  GoFileConfigDataSource configDataSource=new GoFileConfigDataSource(migration,configRepository,sysEnv,new TimeProvider(),configCache,serverVersion,registry,serverHealthService);
+  GoFileConfigDataSource configDataSource=new GoFileConfigDataSource(migration,configRepository,sysEnv,new TimeProvider(),configCache,serverVersion,registry,serverHealthService,cachedGoPartials);
   configDataSource.upgradeIfNecessary();
   return configDataSource.forceLoad(configFile);
 }

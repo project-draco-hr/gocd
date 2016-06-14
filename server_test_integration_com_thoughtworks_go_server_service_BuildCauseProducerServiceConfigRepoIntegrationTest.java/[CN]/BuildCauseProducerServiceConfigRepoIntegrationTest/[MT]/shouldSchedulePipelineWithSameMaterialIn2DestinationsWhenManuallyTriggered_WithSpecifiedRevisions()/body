@@ -10,11 +10,11 @@
   List<Modification> firstBuildModifications=configTestRepo.addPipelineToRepositoryAndPush(fileName,pipelineConfig);
   materialUpdateService.updateMaterial(material);
   waitForMaterialNotInProgress();
-  mergedGoConfig.throwExceptionIfExists();
+  cachedGoConfig.throwExceptionIfExists();
   final HashMap<String,String> revisions=new HashMap<String,String>();
   final HashMap<String,String> environmentVariables=new HashMap<String,String>();
   buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,Username.ANONYMOUS,new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
-  mergedGoConfig.throwExceptionIfExists();
+  cachedGoConfig.throwExceptionIfExists();
   Map<String,BuildCause> afterLoad=scheduleHelper.waitForAnyScheduled(5);
   assertThat(afterLoad.keySet(),hasItem(PIPELINE_NAME));
   BuildCause cause=afterLoad.get(PIPELINE_NAME);
@@ -26,7 +26,7 @@
   String explicitRevision=firstBuildModifications.get(0).getRevision();
   revisions.put(materialConfig.getPipelineUniqueFingerprint(),explicitRevision);
   buildCauseProducer.manualProduceBuildCauseAndSave(PIPELINE_NAME,new Username(new CaseInsensitiveString("Admin")),new ScheduleOptions(revisions,environmentVariables,new HashMap<String,String>()),new ServerHealthStateOperationResult());
-  mergedGoConfig.throwExceptionIfExists();
+  cachedGoConfig.throwExceptionIfExists();
   afterLoad=scheduleHelper.waitForAnyScheduled(5);
   assertThat(afterLoad.keySet(),hasItem(PIPELINE_NAME));
   cause=afterLoad.get(PIPELINE_NAME);

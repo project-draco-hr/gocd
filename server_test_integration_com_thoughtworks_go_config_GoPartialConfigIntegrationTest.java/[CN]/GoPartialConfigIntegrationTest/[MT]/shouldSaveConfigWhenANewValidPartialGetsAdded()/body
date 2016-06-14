@@ -1,0 +1,4 @@
+{
+  goPartialConfig.onSuccessPartialConfig(repoConfig1,PartialConfigMother.withPipeline("p1",new RepoConfigOrigin(repoConfig1,"4567")));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1")),is(true));
+}

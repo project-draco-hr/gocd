@@ -1,0 +1,21 @@
+{
+  return createThread(new Runnable(){
+    @Override public void run(){
+      goConfigService.updateConfig(new UpdateConfigCommand(){
+        @Override public CruiseConfig update(        CruiseConfig cruiseConfig) throws Exception {
+          ConfigRepoConfig repoConfig=ListUtil.find(cruiseConfig.getConfigRepos(),new ListUtil.Condition(){
+            @Override public <T>boolean isMet(            T item){
+              ConfigRepoConfig configRepoConfig=(ConfigRepoConfig)item;
+              return configRepoToBeDeleted.getMaterialConfig().equals(configRepoConfig.getMaterialConfig());
+            }
+          }
+);
+          cruiseConfig.getConfigRepos().remove(repoConfig);
+          return cruiseConfig;
+        }
+      }
+);
+    }
+  }
+,"config-repo-delete-thread" + counter);
+}

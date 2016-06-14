@@ -1,9 +1,0 @@
-{
-  configHelper.addPipeline("foo","bar");
-  cachedGoConfig=new CachedFileGoConfig(dataSource,new ServerHealthService());
-  dataSource.reloadIfModified();
-  cachedGoConfig.forceReload();
-  GoConfigHolder loaded=cachedGoConfig.loadConfigHolder();
-  assertThat(loaded.config.hasPipelineNamed(new CaseInsensitiveString("foo")),is(true));
-  assertThat(loaded.configForEdit.hasPipelineNamed(new CaseInsensitiveString("foo")),is(true));
-}

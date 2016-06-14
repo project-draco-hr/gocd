@@ -1,0 +1,13 @@
+{
+  assertThat(pipeline.errors().isEmpty(),is(false));
+  String errorMessage=pipeline.errors().on(PipelineConfig.NAME);
+  assertThat(errorMessage,containsString("You have defined multiple pipelines named 'pipeline1'. Pipeline names must be unique. Source(s):"));
+  Matcher matcher=Pattern.compile("^.*\\[(.*),\\s(.*),\\s(.*)\\].*$").matcher(errorMessage);
+  assertThat(matcher.matches(),is(true));
+  assertThat(matcher.groupCount(),is(sourceCount));
+  List<String> actualSources=new ArrayList<>();
+  for (int i=1; i <= matcher.groupCount(); i++) {
+    actualSources.add(matcher.group(i));
+  }
+  assertThat(actualSources.containsAll(expectedSources),is(true));
+}

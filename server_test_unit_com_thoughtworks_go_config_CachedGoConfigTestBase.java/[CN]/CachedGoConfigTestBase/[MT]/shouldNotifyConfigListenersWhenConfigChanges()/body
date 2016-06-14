@@ -1,7 +1,0 @@
-{
-  final ConfigChangedListener listener=mock(ConfigChangedListener.class);
-  cachedGoConfig.forceReload();
-  cachedGoConfig.registerListener(listener);
-  cachedGoConfig.writeWithLock(updateFirstAgentResources("osx"));
-  verify(listener,times(2)).onConfigChange(any(BasicCruiseConfig.class));
-}

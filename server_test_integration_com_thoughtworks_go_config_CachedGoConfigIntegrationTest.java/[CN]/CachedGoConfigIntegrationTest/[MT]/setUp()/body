@@ -1,0 +1,12 @@
+{
+  configHelper=new GoConfigFileHelper(DEFAULT_XML_WITH_2_AGENTS);
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
+  configHelper.onSetUp();
+  externalConfigRepo=temporaryFolder.newFolder();
+  latestCommit=setupExternalConfigRepo(externalConfigRepo);
+  configHelper.addConfigRepo(new ConfigRepoConfig(new GitMaterialConfig(externalConfigRepo.getAbsolutePath()),XmlPartialConfigProvider.providerName));
+  goConfigService.forceNotifyListeners();
+  configRepo=configWatchList.getCurrentConfigRepos().get(0);
+  cachedGoPartials.clear();
+  configHelper.addAgent("hostname1","uuid1");
+}

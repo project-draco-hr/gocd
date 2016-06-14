@@ -1,0 +1,22 @@
+{
+  goPartialConfig.onSuccessPartialConfig(repoConfig1,PartialConfigMother.withPipeline("p1_repo1",new RepoConfigOrigin(repoConfig1,"1")));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1_repo1")),is(true));
+  assertThat(healthStateFor(HealthStateScope.forPartialConfigRepo(repoConfig1.getMaterialConfig().getFingerprint())),is(nullValue()));
+  assertThat(healthStateFor(HealthStateType.invalidConfigMerge()),is(nullValue()));
+  final String invalidPipelineInPartial="p1_repo1_invalid";
+  PartialConfig invalidPartial=PartialConfigMother.invalidPartial(invalidPipelineInPartial,new RepoConfigOrigin(repoConfig1,"2"));
+  goPartialConfig.onSuccessPartialConfig(repoConfig1,invalidPartial);
+  assertThat(findPartial(invalidPipelineInPartial,cachedGoPartials.lastValidPartials()),is(nullValue()));
+  assertThat(findPartial(invalidPipelineInPartial,cachedGoPartials.lastKnownPartials()),is(invalidPartial));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString(invalidPipelineInPartial)),is(false));
+  assertThat(healthStateFor(HealthStateScope.forPartialConfigRepo(repoConfig1)),is(notNullValue()));
+  goPartialConfig.onSuccessPartialConfig(repoConfig2,PartialConfigMother.withPipeline("p2_repo2",new RepoConfigOrigin(repoConfig2,"1")));
+  assertThat(findPartial(invalidPipelineInPartial,cachedGoPartials.lastValidPartials()),is(nullValue()));
+  assertThat(findPartial(invalidPipelineInPartial,cachedGoPartials.lastKnownPartials()),is(invalidPartial));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p1_repo1")),is(true));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString("p2_repo2")),is(true));
+  assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(new CaseInsensitiveString(invalidPipelineInPartial)),is(false));
+  assertThat(healthStateFor(HealthStateType.invalidConfigMerge()),is(notNullValue()));
+  assertThat(healthStateFor(HealthStateScope.forPartialConfigRepo(repoConfig1)),is(notNullValue()));
+  assertThat(healthStateFor(HealthStateScope.forPartialConfigRepo(repoConfig2)),is(nullValue()));
+}
