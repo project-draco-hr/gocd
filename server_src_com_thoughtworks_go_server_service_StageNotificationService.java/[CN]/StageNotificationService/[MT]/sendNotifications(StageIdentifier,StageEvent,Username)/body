@@ -6,7 +6,11 @@
   Stage stage=stageService.findStageWithIdentifier(stageIdentifier);
   Pipeline pipeline=pipelineService.fullPipelineById(stage.getPipelineId());
   MaterialRevisions materialRevisions=pipeline.getMaterialRevisions();
-  final List<TestSuite> failedTestSuites=shineDao.failedTestsFor(stageIdentifier);
+  List<TestSuite> failedTestSuites=null;
+  String shineEnabled=systemEnvironment.getEnvironmentVariable("SHINE_ENABLED");
+  if (shineEnabled != null && !"false".equalsIgnoreCase(shineEnabled)) {
+    failedTestSuites=shineDao.failedTestsFor(stageIdentifier);
+  }
   String emailBody=new EmailBodyGenerator(materialRevisions,cancelledBy,systemEnvironment,stageIdentifier,failedTestSuites).getContent();
   String subject="Stage [" + stageIdentifier.stageLocator() + "]"+ event.describe();
   if (LOGGER.isDebugEnabled()) {
