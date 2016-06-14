@@ -1,5 +1,5 @@
 {
-  ArrayList<Map<String,Object>> maps=new ArrayList<>();
+  TreeMap<Long,Map<String,Object>> traces=new TreeMap<>();
   ThreadInfo[] threadInfos=threadMXBean.dumpAllThreads(true,true);
   for (  ThreadInfo threadInfo : threadInfos) {
     LinkedHashMap<String,Object> threadStackTrace=new LinkedHashMap<>();
@@ -30,7 +30,7 @@
     StackTraceElement[] stackTrace=threadInfo.getStackTrace();
     ArrayList<String> strings=mapToString(stackTrace);
     threadStackTrace.put("Stack Trace",strings);
-    maps.add(threadStackTrace);
+    traces.put(threadInfo.getThreadId(),threadStackTrace);
   }
-  return maps;
+  return traces;
 }

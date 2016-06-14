@@ -4,7 +4,7 @@
     return null;
   }
   LinkedHashMap<String,Object> json=new LinkedHashMap<>();
-  json.put("Timestamp",new Date().toString());
+  json.put("Timestamp",DateUtils.formatISO8601(new Date()));
   for (  ServerInfoProvider provider : providers) {
     try {
       json.put(provider.name(),provider.asJson());
