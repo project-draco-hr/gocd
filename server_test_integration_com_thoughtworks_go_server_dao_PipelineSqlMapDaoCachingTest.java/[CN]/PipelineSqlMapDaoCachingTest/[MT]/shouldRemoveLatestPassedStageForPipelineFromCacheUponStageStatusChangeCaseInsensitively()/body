@@ -1,0 +1,8 @@
+{
+  String stage="stage";
+  Stage passedStage=StageMother.passedStageInstance(stage.toUpperCase(),"job","pipeline-name");
+  passedStage.setPipelineId(10L);
+  goCache.put(pipelineDao.cacheKeyForlatestPassedStage(passedStage.getPipelineId(),stage),new StageIdentifier());
+  pipelineDao.stageStatusChanged(passedStage);
+  assertThat(goCache.get(pipelineDao.cacheKeyForlatestPassedStage(passedStage.getPipelineId(),stage)),is(nullValue()));
+}

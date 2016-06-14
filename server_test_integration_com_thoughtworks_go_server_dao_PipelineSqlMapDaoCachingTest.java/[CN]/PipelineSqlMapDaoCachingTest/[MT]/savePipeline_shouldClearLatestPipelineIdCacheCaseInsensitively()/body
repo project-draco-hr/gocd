@@ -2,7 +2,7 @@
   when(mockTemplate.queryForList(eq("getPipelineRange"),any())).thenReturn(Arrays.asList(99L));
   pipelineDao.save(PipelineMother.pipeline("pipelineName"));
   pipelineDao.findPipelineIds("pipelineName",1,0);
-  pipelineDao.save(PipelineMother.pipeline("pipelineName"));
+  pipelineDao.save(PipelineMother.pipeline("pipelineName".toUpperCase()));
   pipelineDao.findPipelineIds("pipelineName",1,0);
   verify(mockTemplate,times(2)).queryForList(eq("getPipelineRange"),any());
 }

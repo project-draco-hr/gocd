@@ -13,7 +13,7 @@
   verify(mockTemplate).queryForObject("findPipelineByNameAndCounter",m("name","pipeline","counter",15));
   verify(repository).findMaterialRevisionsForPipeline(3);
   assertThat(buildCause.getMaterialRevisions(),is(originalMaterialRevisions));
-  buildCause=pipelineDao.findBuildCauseOfPipelineByNameAndCounter("pipeline",15);
+  buildCause=pipelineDao.findBuildCauseOfPipelineByNameAndCounter("pipeline".toUpperCase(),15);
   assertThat(buildCause.getMaterialRevisions(),is(originalMaterialRevisions));
   verifyNoMoreInteractions(mockTemplate,repository);
 }

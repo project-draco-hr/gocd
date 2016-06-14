@@ -1,0 +1,17 @@
+{
+  String pipelineName="pipelineName";
+  String pauseBy="foo";
+  String pauseCause="waiting";
+  Map<String,Object> args=arguments("pipelineName",pipelineName).and("pauseCause",pauseCause).and("pauseBy",pauseBy).and("paused",true).asMap();
+  when(mockTemplate.update("updatePipelinePauseState",args)).thenReturn(0);
+  PipelinePauseInfo notPausedPipelineInfo=new PipelinePauseInfo(true,pauseCause,pauseBy);
+  when(mockTemplate.queryForObject("getPipelinePauseState",pipelineName)).thenReturn(notPausedPipelineInfo);
+  PipelinePauseInfo pausedPipelineInfo=new PipelinePauseInfo(true,pauseCause,pauseBy);
+  when(mockTemplate.queryForObject("getPipelinePauseState",pipelineName.toUpperCase())).thenReturn(pausedPipelineInfo);
+  assertThat(pipelineDao.pauseState(pipelineName),is(pausedPipelineInfo));
+  pipelineDao.pause(pipelineName.toUpperCase(),pauseCause,pauseBy);
+  assertThat(pipelineDao.pauseState(pipelineName),is(pausedPipelineInfo));
+  verify(mockTemplate,times(2)).queryForObject("getPipelinePauseState",pipelineName);
+  verify(mockTemplate).queryForObject("getPipelinePauseState",pipelineName.toUpperCase());
+  verify(mockTemplate).update(eq("updatePipelinePauseState"),anyObject());
+}
