@@ -1,0 +1,16 @@
+{
+  List<ConfigurationProperty> configurationProperties=Arrays.asList(ConfigurationPropertyMother.create("key","value","encValue"),new ConfigurationProperty());
+  PluginConfiguration pluginConfiguration=new PluginConfiguration("github.pr","1.1");
+  TaskPreference taskPreference=mock(TaskPreference.class);
+  TaskConfig taskConfig=new TaskConfig();
+  Configuration configuration=new Configuration();
+  ConfigurationPropertyBuilder builder=mock(ConfigurationPropertyBuilder.class);
+  PluggableTaskConfigStore.store().setPreferenceFor(pluginConfiguration.getId(),taskPreference);
+  TaskConfigProperty taskConfigProperty=taskConfig.addProperty("key");
+  when(taskPreference.getConfig()).thenReturn(taskConfig);
+  PluggableTask pluggableTask=new PluggableTask(pluginConfiguration,configuration,builder);
+  pluggableTask.addConfigurations(configurationProperties);
+  assertThat(configuration.size(),is(2));
+  verify(builder).create("key","value","encValue",taskConfigProperty);
+  verify(builder).create(null,null,null,null);
+}

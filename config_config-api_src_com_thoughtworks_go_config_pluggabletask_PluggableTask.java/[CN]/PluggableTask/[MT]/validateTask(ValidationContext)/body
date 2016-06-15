@@ -1,2 +1,8 @@
 {
+  if (PluggableTaskConfigStore.store().preferenceFor(pluginConfiguration.getId()) == null) {
+    addError(TYPE,String.format("Could not find plugin for given pluggable id:[%s].",pluginConfiguration.getId()));
+  }
+  for (  ConfigurationProperty property : configuration) {
+    property.validate(validationContext);
+  }
 }

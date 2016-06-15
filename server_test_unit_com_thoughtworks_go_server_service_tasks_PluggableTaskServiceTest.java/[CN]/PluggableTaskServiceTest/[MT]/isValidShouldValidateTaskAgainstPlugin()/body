@@ -1,0 +1,12 @@
+{
+  TaskConfig taskConfig=mock(TaskConfig.class);
+  ValidationResult validationResult=mock(ValidationResult.class);
+  PluggableTask pluggableTask=mock(PluggableTask.class);
+  PluginConfiguration pluginConfiguration=new PluginConfiguration("plugin_id","version");
+  when(pluggableTask.isValid()).thenReturn(true);
+  when(pluggableTask.getPluginConfiguration()).thenReturn(pluginConfiguration);
+  when(pluggableTask.toTaskConfig()).thenReturn(taskConfig);
+  when(taskExtension.validate(pluginConfiguration.getId(),taskConfig)).thenReturn(validationResult);
+  when(validationResult.isSuccessful()).thenReturn(true);
+  assertTrue(pluggableTaskService.isValid(pluggableTask));
+}

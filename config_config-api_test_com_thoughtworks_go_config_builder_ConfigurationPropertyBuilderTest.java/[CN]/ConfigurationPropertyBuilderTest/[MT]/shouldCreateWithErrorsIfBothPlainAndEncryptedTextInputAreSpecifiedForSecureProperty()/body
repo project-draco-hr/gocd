@@ -1,0 +1,9 @@
+{
+  Property key=new Property("key");
+  key.with(Property.SECURE,true);
+  ConfigurationProperty property=new ConfigurationPropertyBuilder().create("key","value","enc_value",key);
+  assertThat(property.errors().get("configurationValue").get(0),is("You may only specify `value` or `encrypted_value`, not both!"));
+  assertThat(property.errors().get("encryptedValue").get(0),is("You may only specify `value` or `encrypted_value`, not both!"));
+  assertThat(property.getConfigurationValue().getValue(),is("value"));
+  assertThat(property.getEncryptedValue().getValue(),is("enc_value"));
+}

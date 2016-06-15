@@ -1,0 +1,11 @@
+{
+  List<ConfigurationProperty> configurationProperties=Arrays.asList(ConfigurationPropertyMother.create("source",false,"src_dir"),ConfigurationPropertyMother.create("destination",false,"des_dir"));
+  Configuration configuration=new Configuration();
+  configuration.addAll(configurationProperties);
+  PluginConfiguration pluginConfiguration=new PluginConfiguration("plugin_id","version");
+  PluggableTask pluggableTask=new PluggableTask(pluginConfiguration,configuration);
+  TaskConfig taskConfig=pluggableTask.toTaskConfig();
+  assertThat(taskConfig.size(),is(2));
+  assertThat(taskConfig.get("source").getValue(),is("src_dir"));
+  assertThat(taskConfig.get("destination").getValue(),is("des_dir"));
+}

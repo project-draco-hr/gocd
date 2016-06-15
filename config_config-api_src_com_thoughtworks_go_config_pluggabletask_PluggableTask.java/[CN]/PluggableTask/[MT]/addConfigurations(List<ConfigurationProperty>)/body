@@ -1,0 +1,8 @@
+{
+  for (  ConfigurationProperty property : configurations) {
+    String configKey=property.getConfigurationKey() != null ? property.getConfigKeyName() : null;
+    String encryptedValue=property.getEncryptedValue() != null ? property.getEncryptedValue().getValue() : null;
+    String configValue=property.getConfigurationValue() != null ? property.getConfigValue() : null;
+    configuration.add(this.builder.create(configKey,configValue,encryptedValue,propertyFor(configKey)));
+  }
+}

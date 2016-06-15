@@ -1,0 +1,12 @@
+{
+  PluggableTask xUnit=mock(PluggableTask.class);
+  PluggableTask docker=mock(PluggableTask.class);
+  JobConfig job1=JobConfigMother.job();
+  JobConfig job2=JobConfigMother.job();
+  job1.addTask(xUnit);
+  job2.addTask(docker);
+  PipelineConfig pipeline=PipelineConfigMother.pipelineConfig("P1",new StageConfig(new CaseInsensitiveString("S1"),new JobConfigs(job1)),new StageConfig(new CaseInsensitiveString("S2"),new JobConfigs(job2)));
+  pipelineConfigService.updatePipelineConfig(null,pipeline,null);
+  verify(pluggableTaskService).isValid(xUnit);
+  verify(pluggableTaskService).isValid(docker);
+}

@@ -1,0 +1,12 @@
+{
+  PluginConfiguration pluginConfiguration=new PluginConfiguration("plugin_id","version");
+  ValidationResult validationResult=new ValidationResult();
+  validationResult.addError(new ValidationError("source","source is mandatory"));
+  PluggableTask pluggableTask=mock(PluggableTask.class);
+  when(pluggableTask.isValid()).thenReturn(true);
+  when(pluggableTask.getPluginConfiguration()).thenReturn(pluginConfiguration);
+  when(pluggableTask.getConfiguration()).thenReturn(new Configuration());
+  when(taskExtension.validate(any(String.class),any(TaskConfig.class))).thenReturn(validationResult);
+  assertFalse(pluggableTaskService.isValid(pluggableTask));
+  verify(pluggableTask).addError("source","source is mandatory");
+}

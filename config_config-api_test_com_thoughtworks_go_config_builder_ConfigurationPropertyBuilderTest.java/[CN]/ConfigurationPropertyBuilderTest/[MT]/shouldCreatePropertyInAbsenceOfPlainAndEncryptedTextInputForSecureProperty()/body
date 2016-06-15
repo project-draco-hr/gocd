@@ -1,0 +1,8 @@
+{
+  Property key=new Property("key");
+  key.with(Property.SECURE,true);
+  ConfigurationProperty property=new ConfigurationPropertyBuilder().create("key",null,null,key);
+  assertThat(property.getConfigKeyName(),is("key"));
+  assertNull(property.getEncryptedValue());
+  assertNull(property.getConfigurationValue());
+}

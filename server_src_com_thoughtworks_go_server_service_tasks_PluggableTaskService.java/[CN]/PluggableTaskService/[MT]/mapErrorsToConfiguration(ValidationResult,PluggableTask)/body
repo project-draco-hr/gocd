@@ -1,0 +1,11 @@
+{
+  for (  ValidationError validationError : result.getErrors()) {
+    ConfigurationProperty property=task.getConfiguration().getProperty(validationError.getKey());
+    if (property != null) {
+      property.addError(validationError.getKey(),validationError.getMessage());
+    }
+ else {
+      task.addError(validationError.getKey(),validationError.getMessage());
+    }
+  }
+}

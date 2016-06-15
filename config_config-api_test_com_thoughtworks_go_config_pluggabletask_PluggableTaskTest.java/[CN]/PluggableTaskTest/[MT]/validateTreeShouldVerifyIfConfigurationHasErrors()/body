@@ -1,0 +1,6 @@
+{
+  ConfigurationProperty outputDirectory=mock(ConfigurationProperty.class);
+  PluggableTask pluggableTask=new PluggableTask(new PluginConfiguration(),new Configuration(outputDirectory));
+  when(outputDirectory.hasErrors()).thenReturn(true);
+  assertFalse(pluggableTask.validateTree(null));
+}

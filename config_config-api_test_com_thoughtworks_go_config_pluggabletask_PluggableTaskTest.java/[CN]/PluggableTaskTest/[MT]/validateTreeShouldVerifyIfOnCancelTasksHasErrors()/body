@@ -1,0 +1,6 @@
+{
+  PluggableTask pluggableTask=new PluggableTask(new PluginConfiguration(),new Configuration());
+  pluggableTask.onCancelConfig=mock(OnCancelConfig.class);
+  when(pluggableTask.onCancelConfig.validateTree(null)).thenReturn(false);
+  assertFalse(pluggableTask.validateTree(null));
+}
