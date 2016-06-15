@@ -9,7 +9,7 @@
     CachedGoPartials cachedGoPartials=new CachedGoPartials(serverHealthService);
     GoFileConfigDataSource dataSource=new GoFileConfigDataSource(new DoNotUpgrade(),configRepository,systemEnvironment,new TimeProvider(),configCache,new ServerVersion(),configElementImplementationRegistry,serverHealthService,cachedGoPartials);
     dataSource.upgradeIfNecessary();
-    CachedGoConfig cachedConfigService=new CachedGoConfig(serverHealthService,dataSource);
+    CachedGoConfig cachedConfigService=new CachedGoConfig(serverHealthService,dataSource,cachedGoPartials);
     cachedConfigService.loadConfigIfNull();
     return new GoConfigDao(cachedConfigService);
   }

@@ -5,7 +5,7 @@
     try {
       String configAsXml=trySavingConfig(updatingCommand,configHolder,lastKnownPartials);
       validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
-      validatedConfigHolder.configForEdit.merge(lastKnownPartials,true);
+      updateMergedConfigForEdit(validatedConfigHolder,lastKnownPartials);
       serverHealthService.update(ServerHealthState.success(HealthStateType.invalidConfigMerge()));
     }
  catch (    GoConfigInvalidException e) {
@@ -21,7 +21,7 @@
           validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
           int previousValidPartialsCount=lastValidPartials.size();
           lastValidPartials=cachedGoPartials.lastValidPartials();
-          validatedConfigHolder.configForEdit.merge(lastValidPartials,true);
+          updateMergedConfigForEdit(validatedConfigHolder,lastValidPartials);
           LOGGER.info(String.format("Update operation on merged configuration succeeded with old %s LAST VALID partials. Now there are %s LAST VALID partials",previousValidPartialsCount,lastValidPartials.size()));
         }
  catch (        GoConfigInvalidException fallbackFailed) {

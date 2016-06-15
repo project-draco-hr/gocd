@@ -6,7 +6,7 @@
     }
     return getMergedConfig((NoOverwriteUpdateConfigCommand)updatingCommand,configHolder.configForEdit.getMd5(),partials);
   }
-  CruiseConfig deepCloneForEdit=configHolder.configForEdit.cloneForValidation();
+  CruiseConfig deepCloneForEdit=cloner.deepClone(configHolder.configForEdit);
   deepCloneForEdit.setPartials(partials);
   CruiseConfig config=updatingCommand.update(deepCloneForEdit);
   String configAsXml=configAsXml(config,false);
