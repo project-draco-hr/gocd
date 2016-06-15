@@ -1,6 +1,9 @@
 {
   LOGGER.debug("[Serializing Config] Starting to write. Validation skipped? " + skipPreprocessingAndValidation);
   MagicalGoConfigXmlLoader loader=new MagicalGoConfigXmlLoader(configCache,registry);
+  if (!configForEdit.getOrigin().isLocal()) {
+    throw new GoConfigInvalidException(configForEdit,"Attempted to save merged configuration with patials");
+  }
   if (!skipPreprocessingAndValidation) {
     loader.preprocessAndValidate(configForEdit);
     LOGGER.debug("[Serializing Config] Done with cruise config validators.");

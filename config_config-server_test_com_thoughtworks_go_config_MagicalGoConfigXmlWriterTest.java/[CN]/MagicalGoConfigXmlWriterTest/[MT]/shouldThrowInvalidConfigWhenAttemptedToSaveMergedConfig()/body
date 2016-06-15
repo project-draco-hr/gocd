@@ -4,6 +4,12 @@
   PartialConfig remotePart=PartialConfigMother.withPipeline("some-pipe");
   remotePart.setOrigin(new RepoConfigOrigin());
   BasicCruiseConfig merged=new BasicCruiseConfig((BasicCruiseConfig)cruiseConfig,remotePart);
-  xmlWriter.write(merged,output,true);
-  assertXmlEquals(xml,output.toString());
+  try {
+    xmlWriter.write(merged,output,true);
+  }
+ catch (  GoConfigInvalidException ex) {
+    assertThat(ex.getMessage(),is("Attempted to save merged configuration with patials"));
+    return;
+  }
+  fail("should have thrown when saving merged configuration");
 }

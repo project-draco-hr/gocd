@@ -1,7 +1,0 @@
-{
-  cruiseConfig=new BasicCruiseConfig(new BasicCruiseConfig(pipelines),PartialConfigMother.withEnvironment("remote-env"));
-  assertThat(cruiseConfig.getEnvironments().size(),is(1));
-  cruiseConfig.merge(Arrays.asList(PartialConfigMother.withEnvironment("remote-env")),true);
-  assertThat(cruiseConfig.getEnvironments().size(),is(1));
-  cruiseConfig.validateAfterPreprocess();
-}
