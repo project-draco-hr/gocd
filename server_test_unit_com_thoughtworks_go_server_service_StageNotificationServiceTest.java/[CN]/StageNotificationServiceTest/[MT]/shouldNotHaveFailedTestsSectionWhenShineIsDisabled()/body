@@ -1,7 +1,7 @@
 {
   String mail=prepareOneMatchedUser();
   stubPipelineAndStage(new Date());
-  when(systemEnvironment.getEnvironmentVariable("SHINE_ENABLED")).thenReturn("false");
+  when(systemEnvironment.isShineEnabled()).thenReturn(false);
   stageNotificationService.sendNotifications(stageIdentifier,StageEvent.Fails,new Username(new CaseInsensitiveString("loser")));
   String body=inMemoryEmailNotificationTopic.getBody(mail);
   assertThat(body,not(containsString(StageNotificationService.FAILED_TEST_SECTION)));

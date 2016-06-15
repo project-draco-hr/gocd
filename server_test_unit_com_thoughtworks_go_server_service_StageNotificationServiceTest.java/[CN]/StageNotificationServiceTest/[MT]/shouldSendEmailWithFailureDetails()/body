@@ -18,7 +18,7 @@
     }
   }
 );
-  when(systemEnvironment.getEnvironmentVariable("SHINE_ENABLED")).thenReturn("true");
+  when(systemEnvironment.isShineEnabled()).thenReturn(true);
   when(shineDao.failedTestsFor(stageIdentifier)).thenReturn(Arrays.asList(suite1,suite2));
   stageNotificationService.sendNotifications(stageIdentifier,StageEvent.Fails,new Username(new CaseInsensitiveString("loser")));
   String body=inMemoryEmailNotificationTopic.getBody(jezMail);

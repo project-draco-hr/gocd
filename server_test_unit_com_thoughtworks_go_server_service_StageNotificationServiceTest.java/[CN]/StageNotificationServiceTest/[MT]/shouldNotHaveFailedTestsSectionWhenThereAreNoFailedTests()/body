@@ -1,7 +1,7 @@
 {
   String jezMail=prepareOneMatchedUser();
   stubPipelineAndStage(new Date());
-  when(systemEnvironment.getEnvironmentVariable("SHINE_ENABLED")).thenReturn("true");
+  when(systemEnvironment.isShineEnabled()).thenReturn(true);
   when(shineDao.failedTestsFor(stageIdentifier)).thenReturn(new ArrayList<TestSuite>());
   stageNotificationService.sendNotifications(stageIdentifier,StageEvent.Fails,new Username(new CaseInsensitiveString("loser")));
   String body=inMemoryEmailNotificationTopic.getBody(jezMail);
