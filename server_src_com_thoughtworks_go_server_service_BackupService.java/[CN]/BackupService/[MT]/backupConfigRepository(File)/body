@@ -1,13 +1,6 @@
 {
   File configRepoDir=systemEnvironment.getConfigRepoDir();
-  ZipOutputStream configRepoZipStream=null;
-  try {
-    configRepoZipStream=new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(new File(backupDir,CONFIG_REPOSITORY_BACKUP_ZIP))));
+  try (ZipOutputStream configRepoZipStream=new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(new File(backupDir,CONFIG_REPOSITORY_BACKUP_ZIP))))){
     new DirectoryStructureWalker(configRepoDir.getAbsolutePath(),configRepoZipStream).walk();
   }
-  finally {
-    if (configRepoZipStream != null) {
-      configRepoZipStream.close();
-    }
-  }
-}
+ }

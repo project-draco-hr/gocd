@@ -2,19 +2,12 @@
   File parentFile=dest.getParentFile();
   parentFile.mkdirs();
   LOGGER.trace("Updating console log [" + dest.getAbsolutePath() + "]");
-  BufferedWriter writer=null;
-  try {
-    writer=new BufferedWriter(new FileWriter(dest,dest.exists()));
+  try (BufferedWriter writer=new BufferedWriter(new FileWriter(dest,dest.exists()))){
     IOUtils.copy(in,writer);
   }
  catch (  IOException e) {
     LOGGER.error("Failed to update console log at : [" + dest.getAbsolutePath() + "]",e);
     return false;
-  }
- finally {
-    if (writer != null) {
-      writer.close();
-    }
   }
   if (LOGGER.isTraceEnabled()) {
     LOGGER.trace("Console log [" + dest.getAbsolutePath() + "] saved.");

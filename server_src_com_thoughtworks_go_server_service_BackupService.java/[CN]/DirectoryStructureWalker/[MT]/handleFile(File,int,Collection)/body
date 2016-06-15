@@ -3,14 +3,7 @@
     return;
   }
   zipStream.putNextEntry(new ZipEntry(fromRoot(file)));
-  BufferedInputStream in=null;
-  try {
-    in=new BufferedInputStream(new FileInputStream(file));
+  try (BufferedInputStream in=new BufferedInputStream(new FileInputStream(file))){
     IOUtils.copy(in,zipStream);
   }
-  finally {
-    if (in != null) {
-      in.close();
-    }
-  }
-}
+ }

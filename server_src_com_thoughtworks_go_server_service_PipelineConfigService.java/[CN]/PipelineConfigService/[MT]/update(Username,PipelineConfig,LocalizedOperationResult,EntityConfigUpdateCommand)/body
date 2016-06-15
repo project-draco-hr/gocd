@@ -6,10 +6,7 @@
     if (e instanceof GoConfigInvalidException) {
       result.unprocessableEntity(LocalizedMessage.string("ENTITY_CONFIG_VALIDATION_FAILED",pipelineConfig.getClass().getAnnotation(ConfigTag.class),CaseInsensitiveString.str(pipelineConfig.name())));
     }
- else     if (e instanceof ConfigUpdateCheckFailedException) {
-      return;
-    }
- else {
+ else     if (!(e instanceof ConfigUpdateCheckFailedException)) {
       LOGGER.error(e.getMessage(),e);
       result.internalServerError(LocalizedMessage.string("SAVE_FAILED_WITH_REASON",e.getMessage()));
     }

@@ -1,13 +1,13 @@
 {
   int lineNumber=0;
-  StringBuffer buffer=new StringBuffer();
+  StringBuilder builder=new StringBuilder();
   try {
     BufferedReader reader=new BufferedReader(new InputStreamReader(inputStream));
     String consoleLine;
     while (null != (consoleLine=reader.readLine())) {
       if (lineNumber >= startingLine) {
-        buffer.append(consoleLine);
-        buffer.append(FileUtil.lineSeparator());
+        builder.append(consoleLine);
+        builder.append(FileUtil.lineSeparator());
       }
       lineNumber++;
     }
@@ -20,5 +20,5 @@
  finally {
     inputStream.close();
   }
-  return new ConsoleOut(buffer.toString(),startingLine,lineNumber);
+  return new ConsoleOut(builder.toString(),startingLine,lineNumber);
 }

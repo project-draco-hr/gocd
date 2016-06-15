@@ -1,6 +1,6 @@
 {
   String header=request.getHeader("Accept");
   String contentType=request.getContentType();
-  String url=request.getRequestURI().toString();
+  String url=request.getRequestURI();
   return header != null && header.contains(type) || url != null && url.endsWith(type) || contentType != null && contentType.contains(type);
 }

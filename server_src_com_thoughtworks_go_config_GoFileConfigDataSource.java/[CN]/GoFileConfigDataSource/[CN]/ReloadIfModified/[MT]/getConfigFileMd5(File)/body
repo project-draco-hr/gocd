@@ -1,22 +1,10 @@
 {
   String newMd5;
-  FileInputStream inputStream=null;
-  try {
-    inputStream=new FileInputStream(configFile);
+  try (FileInputStream inputStream=new FileInputStream(configFile)){
     newMd5=CachedDigestUtils.md5Hex(inputStream);
   }
  catch (  IOException e) {
     throw new RuntimeException(e);
-  }
- finally {
-    if (inputStream != null) {
-      try {
-        inputStream.close();
-      }
- catch (      IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
   }
   return newMd5;
 }

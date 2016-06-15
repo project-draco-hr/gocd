@@ -16,7 +16,7 @@
     BuildCause buildCause=null;
     boolean materialConfigurationChanged=hasConfigChanged(previousBuild,expandedMaterials);
     if (previousBuild.hasNeverRun() || materialConfigurationChanged) {
-      LOGGER.debug("Using latest modifications from respository for " + pipelineConfig.name());
+      LOGGER.debug("Using latest modifications from repository for " + pipelineConfig.name());
       MaterialRevisions revisions=materialChecker.findLatestRevisions(peggedRevisions,materials);
       if (!revisions.isMissingModifications()) {
         buildCause=buildType.onModifications(revisions,materialConfigurationChanged,null);

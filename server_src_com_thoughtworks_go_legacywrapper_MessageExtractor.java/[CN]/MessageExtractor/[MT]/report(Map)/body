@@ -1,8 +1,8 @@
 {
   if (!messages.isEmpty()) {
     StringBuilder result=new StringBuilder("");
-    for (Iterator i=messages.iterator(); i.hasNext(); ) {
-      result.append(i.next().toString());
+    for (    Object message : messages) {
+      result.append(message.toString());
     }
     resultSet.put("message",new BuildMessage(result.toString(),MessageLevel.getLevelForPriority(priority)));
   }

@@ -5,10 +5,7 @@
     File to=chooser.findArtifact(locatableEntity,getConsoleOutputFolderAndFileName());
     FileUtils.moveFile(from,to);
   }
- catch (  IOException e) {
-    throw new RuntimeException(e);
-  }
-catch (  IllegalArtifactLocationException e) {
+ catch (  IOException|IllegalArtifactLocationException e) {
     throw new RuntimeException(e);
   }
 }
