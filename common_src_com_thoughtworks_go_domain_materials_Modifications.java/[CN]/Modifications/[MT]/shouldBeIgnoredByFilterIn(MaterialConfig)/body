@@ -12,5 +12,10 @@
     LOG.debug("Ignored files : " + ignoredFiles + "");
     LOG.debug("Changed files : " + CollectionUtils.subtract(allFiles,ignoredFiles) + "");
   }
-  return ignoredFiles.containsAll(allFiles);
+  if (materialConfig.isInvertFilter()) {
+    return Collections.disjoint(allFiles,ignoredFiles);
+  }
+ else {
+    return ignoredFiles.containsAll(allFiles);
+  }
 }
