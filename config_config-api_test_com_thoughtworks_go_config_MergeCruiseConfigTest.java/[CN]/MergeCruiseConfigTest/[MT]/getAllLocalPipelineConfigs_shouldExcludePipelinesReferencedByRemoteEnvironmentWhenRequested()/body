@@ -1,0 +1,14 @@
+{
+  pipelines=new BasicPipelineConfigs("group_main",new Authorization(),PipelineConfigMother.pipelineConfig("local-pipeline-1"));
+  cruiseConfig=new BasicCruiseConfig(pipelines);
+  PartialConfig partialConfig=PartialConfigMother.withPipelineInGroup("remote-pipeline-1","g2");
+  partialConfig.getGroups().get(0).setOrigins(new RepoConfigOrigin());
+  BasicEnvironmentConfig remoteEnvironment=new BasicEnvironmentConfig(new CaseInsensitiveString("UAT"));
+  remoteEnvironment.setOrigins(new RepoConfigOrigin());
+  remoteEnvironment.addPipeline(new CaseInsensitiveString("local-pipeline-1"));
+  partialConfig.getEnvironments().add(remoteEnvironment);
+  cruiseConfig.merge(Arrays.asList(partialConfig),true);
+  assertThat(cruiseConfig.hasPipelineNamed(new CaseInsensitiveString("local-pipeline-1")),is(true));
+  List<PipelineConfig> localPipelines=cruiseConfig.getAllLocalPipelineConfigs(true);
+  assertThat(localPipelines.size(),is(0));
+}

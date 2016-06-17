@@ -1,0 +1,13 @@
+{
+  BasicPipelineConfigs fileConfigs=new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline1"));
+  fileConfigs.setOrigin(new FileConfigOrigin());
+  BasicPipelineConfigs remoteConfigs=new BasicPipelineConfigs(PipelineConfigMother.pipelineConfig("pipeline2"));
+  remoteConfigs.setOrigin(new RepoConfigOrigin());
+  PipelineConfigs group=new MergePipelineConfigs(fileConfigs,remoteConfigs);
+  ConfigOrigin allOrigins=group.getOrigin();
+  assertThat(allOrigins instanceof MergeConfigOrigin,is(true));
+  MergeConfigOrigin mergeConfigOrigin=(MergeConfigOrigin)allOrigins;
+  assertThat(mergeConfigOrigin.size(),is(2));
+  assertThat(mergeConfigOrigin.contains(new FileConfigOrigin()),is(true));
+  assertThat(mergeConfigOrigin.contains(new RepoConfigOrigin()),is(true));
+}

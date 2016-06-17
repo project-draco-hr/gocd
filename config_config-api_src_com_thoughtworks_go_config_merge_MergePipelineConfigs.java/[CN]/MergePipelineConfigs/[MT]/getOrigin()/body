@@ -1,3 +1,7 @@
 {
-  throw new RuntimeException("Not implemented");
+  MergeConfigOrigin origins=new MergeConfigOrigin();
+  for (  PipelineConfigs part : this.parts) {
+    origins.add(part.getOrigin());
+  }
+  return origins;
 }

@@ -1,0 +1,7 @@
+{
+  PipelineConfigs defaultGroup=createGroup("defaultGroup",createPipelineConfig("pipeline1","stage1"));
+  defaultGroup.setOrigins(new FileConfigOrigin());
+  PipelineGroups groups=new PipelineGroups(defaultGroup);
+  assertThat(groups.getLocal().size(),is(1));
+  assertThat(groups.getLocal().get(0),is(defaultGroup));
+}

@@ -1,0 +1,10 @@
+{
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  PartialConfig partialConfig=PartialConfigMother.withEnvironment("remoteEnv");
+  partialConfig.setOrigins(new RepoConfigOrigin());
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,false,partialConfig);
+  assertThat(cruiseConfig.getEnvironments().size(),is(1));
+  assertThat(cruiseConfig.getEnvironments().get(0) instanceof MergeEnvironmentConfig,is(false));
+  assertThat(cruiseConfig.getEnvironments().get(0).name(),is(new CaseInsensitiveString("remoteEnv")));
+  assertThat(cruiseConfig.getEnvironments().get(0).isLocal(),is(false));
+}

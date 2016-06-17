@@ -1,0 +1,15 @@
+{
+  String xml=ConfigFileFixture.TWO_PIPELINES;
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(IOUtils.toInputStream(xml)).config;
+  PartialConfig remotePart=PartialConfigMother.withPipeline("some-pipe");
+  remotePart.setOrigin(new RepoConfigOrigin());
+  BasicCruiseConfig merged=new BasicCruiseConfig((BasicCruiseConfig)cruiseConfig,remotePart);
+  try {
+    xmlWriter.write(merged,output,true);
+  }
+ catch (  GoConfigInvalidException ex) {
+    assertThat(ex.getMessage(),is("Attempted to save merged configuration with patials"));
+    return;
+  }
+  fail("should have thrown when saving merged configuration");
+}

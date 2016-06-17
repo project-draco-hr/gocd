@@ -6,11 +6,11 @@
     }
     return getMergedConfig((NoOverwriteUpdateConfigCommand)updatingCommand,configHolder.configForEdit.getMd5(),partials);
   }
-  CruiseConfig cruiseConfig=cloner.deepClone(configHolder.configForEdit);
-  cruiseConfig.setPartials(partials);
-  CruiseConfig config=updatingCommand.update(cruiseConfig);
-  LOGGER.debug("[Config Save] ==-- Done getting modified config");
+  CruiseConfig deepCloneForEdit=cloner.deepClone(configHolder.configForEdit);
+  deepCloneForEdit.setPartials(partials);
+  CruiseConfig config=updatingCommand.update(deepCloneForEdit);
   String configAsXml=configAsXml(config,false);
-  cachedGoPartials.markAsValid(cruiseConfig.getPartials());
+  if (deepCloneForEdit.getPartials().size() < partials.size())   throw new RuntimeException("should never be called");
+  cachedGoPartials.markAsValid(deepCloneForEdit.getPartials());
   return configAsXml;
 }

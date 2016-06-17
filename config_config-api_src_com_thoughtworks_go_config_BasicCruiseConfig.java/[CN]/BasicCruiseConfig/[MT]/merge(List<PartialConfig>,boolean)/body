@@ -1,0 +1,13 @@
+{
+  if (partList.isEmpty()) {
+    return;
+  }
+  if (this.strategy instanceof MergeStrategy)   throw new RuntimeException("cannot merge partials to already merged configuration");
+  MergeStrategy mergeStrategy=new MergeStrategy(partList,forEdit);
+  this.strategy=mergeStrategy;
+  groups=mergeStrategy.mergePipelineConfigs();
+  this.resetAllPipelineConfigsCache();
+  environments=mergeStrategy.mergeEnvironmentConfigs();
+  pipelineNameToConfigMap=new ConcurrentHashMap<CaseInsensitiveString,PipelineConfig>();
+  allPipelineConfigs=null;
+}

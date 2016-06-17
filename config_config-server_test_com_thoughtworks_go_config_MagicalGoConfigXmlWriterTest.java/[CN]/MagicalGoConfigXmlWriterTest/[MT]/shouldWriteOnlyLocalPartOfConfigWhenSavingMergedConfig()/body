@@ -1,9 +1,0 @@
-{
-  String xml=ConfigFileFixture.TWO_PIPELINES;
-  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(IOUtils.toInputStream(xml)).config;
-  PartialConfig remotePart=PartialConfigMother.withPipeline("some-pipe");
-  remotePart.setOrigin(new RepoConfigOrigin());
-  BasicCruiseConfig merged=new BasicCruiseConfig((BasicCruiseConfig)cruiseConfig,remotePart);
-  xmlWriter.write(merged,output,true);
-  assertXmlEquals(xml,output.toString());
-}

@@ -1,19 +1,33 @@
 {
   try {
     GoConfigHolder validatedConfigHolder;
+    List<PartialConfig> lastKnownPartials=cachedGoPartials.lastKnownPartials();
     try {
-      String configAsXml=trySavingConfig(updatingCommand,configHolder,cachedGoPartials.lastKnownPartials());
+      String configAsXml=trySavingConfig(updatingCommand,configHolder,lastKnownPartials);
       validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
+      updateMergedConfigForEdit(validatedConfigHolder,lastKnownPartials);
       serverHealthService.update(ServerHealthState.success(HealthStateType.invalidConfigMerge()));
     }
  catch (    GoConfigInvalidException e) {
-      if (cachedGoPartials.lastValidPartials().isEmpty() && !(updatingCommand instanceof GoPartialConfig.GoPartialUpdateCommand)) {
+      List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
+      if (lastValidPartials.isEmpty() && !(updatingCommand instanceof GoPartialConfig.GoPartialUpdateCommand)) {
         throw e;
       }
  else {
+        LOGGER.warn(String.format("Merged config update operation failed on LATEST %s partials. Falling back to using LAST VALID %s partials. Exception message was: %s",lastKnownPartials.size(),lastValidPartials.size(),e.getMessage()),e);
         serverHealthService.update(ServerHealthState.error(GoPartialConfig.INVALID_CRUISE_CONFIG_MERGE,GoConfigValidity.invalid(e).errorMessage(),HealthStateType.invalidConfigMerge()));
-        String configAsXml=trySavingConfig(updatingCommand,configHolder,cachedGoPartials.lastValidPartials());
-        validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
+        try {
+          String configAsXml=trySavingConfig(updatingCommand,configHolder,lastValidPartials);
+          validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand));
+          int previousValidPartialsCount=lastValidPartials.size();
+          lastValidPartials=cachedGoPartials.lastValidPartials();
+          updateMergedConfigForEdit(validatedConfigHolder,lastValidPartials);
+          LOGGER.info(String.format("Update operation on merged configuration succeeded with old %s LAST VALID partials. Now there are %s LAST VALID partials",previousValidPartialsCount,lastValidPartials.size()));
+        }
+ catch (        GoConfigInvalidException fallbackFailed) {
+          LOGGER.warn(String.format("Merged config update operation failed using fallback LAST VALID %s partials. Exception message was: %s",lastValidPartials.size(),fallbackFailed.getMessage()),fallbackFailed);
+          throw new GoConfigInvalidMergeException("Fallback merge failed",lastValidPartials,fallbackFailed);
+        }
       }
     }
     ConfigSaveState configSaveState=shouldMergeConfig(updatingCommand,configHolder) ? ConfigSaveState.MERGED : ConfigSaveState.UPDATED;

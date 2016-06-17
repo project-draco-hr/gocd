@@ -1,7 +1,7 @@
 {
   ConfigElementForEdit<EnvironmentConfig> edit=null;
   try {
-    CruiseConfig config=goConfigService.getConfigForEditing();
+    CruiseConfig config=goConfigService.getMergedConfigForEditing();
     EnvironmentConfig env=config.getEnvironments().named(new CaseInsensitiveString(environmentName));
     edit=new ConfigElementForEdit<>(cloner.deepClone(env),config.getMd5());
   }

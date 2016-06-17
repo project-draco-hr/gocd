@@ -1,0 +1,7 @@
+{
+  Cloner cloner=new Cloner();
+  BasicCruiseConfig configForValidation=cloner.deepClone(BasicCruiseConfig.this);
+  configForValidation.allPipelineConfigs=null;
+  configForValidation.pipelineNameToConfigMap=new ConcurrentHashMap<CaseInsensitiveString,PipelineConfig>();
+  return configForValidation;
+}

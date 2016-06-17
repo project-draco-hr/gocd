@@ -1,0 +1,11 @@
+{
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig(pipelines);
+  BasicEnvironmentConfig envInFile=new BasicEnvironmentConfig(new CaseInsensitiveString("Env"));
+  mainCruiseConfig.addEnvironment(envInFile);
+  mainCruiseConfig.setOrigins(new FileConfigOrigin());
+  PartialConfig partialConfig=PartialConfigMother.withEnvironment("Env");
+  partialConfig.setOrigins(new RepoConfigOrigin());
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,true,partialConfig);
+  cruiseConfig.getEnvironments().get(0).addAgent("agent");
+  assertThat(envInFile.getAgents(),hasItem(new EnvironmentAgentConfig("agent")));
+}

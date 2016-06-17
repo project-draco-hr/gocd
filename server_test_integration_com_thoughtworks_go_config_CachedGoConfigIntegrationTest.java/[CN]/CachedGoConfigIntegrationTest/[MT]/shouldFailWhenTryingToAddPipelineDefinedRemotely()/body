@@ -1,0 +1,14 @@
+{
+  assertThat(configWatchList.getCurrentConfigRepos().size(),is(1));
+  repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
+  assertThat(cachedGoConfig.loadMergedForEditing().hasPipelineNamed(new CaseInsensitiveString("pipe1")),is(true));
+  PipelineConfig dupPipelineConfig=PipelineMother.twoBuildPlansWithResourcesAndSvnMaterialsAtUrl("pipe1","ut","www.spring.com");
+  try {
+    goConfigDao.addPipeline(dupPipelineConfig,PipelineConfigs.DEFAULT_GROUP);
+  }
+ catch (  RuntimeException ex) {
+    assertThat(ex.getMessage(),containsString("You have defined multiple pipelines named 'pipe1'. Pipeline names must be unique. Source(s):"));
+    return;
+  }
+  fail("Should have thrown");
+}

@@ -1,0 +1,14 @@
+{
+  BasicCruiseConfig mainCruiseConfig=new BasicCruiseConfig();
+  PartialConfig partialConfig=PartialConfigMother.withPipelineInGroup("pipe1","group1");
+  partialConfig.setOrigins(new RepoConfigOrigin());
+  cruiseConfig=new BasicCruiseConfig(mainCruiseConfig,true,partialConfig);
+  assertThat(cruiseConfig.getGroups().size(),is(1));
+  assertThat(cruiseConfig.getGroups().get(0) instanceof MergePipelineConfigs,is(true));
+  assertThat(cruiseConfig.getGroups().get(0).getGroup(),is("group1"));
+  MergePipelineConfigs mergedEnv=(MergePipelineConfigs)cruiseConfig.getGroups().get(0);
+  assertThat(mergedEnv.getLocal().getOrigin(),Is.<ConfigOrigin>is(new UIConfigOrigin()));
+  Authorization authorization=new Authorization(new AdminsConfig(new AdminUser(new CaseInsensitiveString("firstTemplate-admin"))));
+  cruiseConfig.getGroups().get(0).setAuthorization(authorization);
+  assertThat(mergedEnv.getLocal().getAuthorization(),is(authorization));
+}

@@ -2,7 +2,8 @@
   LOGGER.debug("[Config Save] In validateCruiseConfig: Starting.");
   List<ConfigErrors> allErrors=validate(config);
   if (!allErrors.isEmpty()) {
-    throw new GoConfigInvalidException(config,allErrors.get(0).firstError());
+    if (config.isLocal())     throw new GoConfigInvalidException(config,allErrors.get(0).asString());
+ else     throw new GoConfigInvalidMergeException("Merged validation failed",config,config.getMergedPartials(),allErrors);
   }
   LOGGER.debug("[Config Save] In validateCruiseConfig: Running validate.");
   for (  GoConfigValidator validator : VALIDATORS) {

@@ -1,7 +1,7 @@
 {
   EnvironmentsConfig environments=new EnvironmentsConfig();
   List<EnvironmentConfig> allEnvConfigs=new ArrayList<>();
-  for (  EnvironmentConfig envConfig : this.main.getEnvironments()) {
+  for (  EnvironmentConfig envConfig : BasicCruiseConfig.this.getEnvironments()) {
     allEnvConfigs.add(envConfig);
   }
   for (  PartialConfig part : this.parts) {
@@ -18,8 +18,32 @@
     map.get(key).add(env);
   }
   for (  List<EnvironmentConfig> oneEnv : map.values()) {
-    if (oneEnv.size() == 1)     environments.add(oneEnv.get(0));
- else     environments.add(new MergeEnvironmentConfig(oneEnv));
+    if (forEdit) {
+      if (oneEnv.size() == 1) {
+        EnvironmentConfig sole=oneEnv.get(0);
+        if (sole.isLocal()) {
+          environments.add(sole);
+        }
+ else {
+          BasicEnvironmentConfig environmentConfigForEdit=new BasicEnvironmentConfig(sole.name());
+          environmentConfigForEdit.setOrigins(new UIConfigOrigin());
+          environments.add(new MergeEnvironmentConfig(environmentConfigForEdit,sole));
+        }
+      }
+ else {
+        MergeEnvironmentConfig merge=new MergeEnvironmentConfig(oneEnv);
+        if (merge.getFirstEditablePartOrNull() == null) {
+          BasicEnvironmentConfig environmentConfigForEdit=new BasicEnvironmentConfig(merge.name());
+          environmentConfigForEdit.setOrigins(new UIConfigOrigin());
+          merge.add(environmentConfigForEdit);
+        }
+        environments.add(merge);
+      }
+    }
+ else {
+      if (oneEnv.size() == 1)       environments.add(oneEnv.get(0));
+ else       environments.add(new MergeEnvironmentConfig(oneEnv));
+    }
   }
   return environments;
 }

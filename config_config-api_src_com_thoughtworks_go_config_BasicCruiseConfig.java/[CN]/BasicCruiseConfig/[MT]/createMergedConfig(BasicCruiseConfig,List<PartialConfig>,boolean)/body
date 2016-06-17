@@ -1,0 +1,14 @@
+{
+  this.serverConfig=main.serverConfig;
+  this.packageRepositories=main.packageRepositories;
+  this.scms=main.scms;
+  this.templatesConfig=main.templatesConfig;
+  this.agents=main.agents;
+  this.configRepos=main.configRepos;
+  this.groups=main.groups;
+  this.environments=main.environments;
+  MergeStrategy mergeStrategy=new MergeStrategy(partList,forEdit);
+  this.strategy=mergeStrategy;
+  groups=mergeStrategy.mergePipelineConfigs();
+  environments=mergeStrategy.mergeEnvironmentConfigs();
+}

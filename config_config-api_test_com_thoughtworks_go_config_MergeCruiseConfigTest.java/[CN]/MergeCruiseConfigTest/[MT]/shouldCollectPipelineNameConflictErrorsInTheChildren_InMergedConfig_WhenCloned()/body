@@ -7,6 +7,6 @@
   CruiseConfig cloned=CLONER.deepClone(config);
   List<ConfigErrors> allErrors=cloned.validateAfterPreprocess();
   assertThat(allErrors.size(),is(2));
-  assertThat(allErrors.get(0).on("name"),is("You have defined multiple pipelines named 'pipeline-1'. Pipeline names must be unique. Source(s): [cruise-config.xml]"));
-  assertThat(allErrors.get(1).on("name"),is("You have defined multiple pipelines named 'pipeline-1'. Pipeline names must be unique. Source(s): [cruise-config.xml]"));
+  assertThat(allErrors.get(0).on("name"),is("You have defined multiple pipelines named 'pipeline-1'. Pipeline names must be unique. Source(s): [http://some.git at 1234fed, cruise-config.xml]"));
+  assertThat(allErrors.get(1).on("name"),is("You have defined multiple pipelines named 'pipeline-1'. Pipeline names must be unique. Source(s): [http://some.git at 1234fed, cruise-config.xml]"));
 }

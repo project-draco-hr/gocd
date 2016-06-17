@@ -1,0 +1,9 @@
+{
+  for (  PartialConfig part : this.parts) {
+    for (    PipelineConfigs partGroup : part.getGroups()) {
+      if (partGroup.hasPipeline(pipelineConfig.name())) {
+        throw bomb("Pipeline called '" + pipelineConfig.name() + "' is already defined in configuration repository "+ part.getOrigin().displayName());
+      }
+    }
+  }
+}
