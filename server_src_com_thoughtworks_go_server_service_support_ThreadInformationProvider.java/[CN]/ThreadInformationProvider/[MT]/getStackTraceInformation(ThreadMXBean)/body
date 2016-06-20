@@ -7,8 +7,18 @@
     threadStackTrace.put("Name",threadInfo.getThreadName());
     threadStackTrace.put("State",threadInfo.getThreadState());
     LinkedHashMap<String,Object> lockMonitorInfo=new LinkedHashMap<>();
-    lockMonitorInfo.put("Locked Monitors",mapToString(threadInfo.getLockedMonitors()));
-    lockMonitorInfo.put("Locked Synchronizers",mapToString(threadInfo.getLockedSynchronizers()));
+    MonitorInfo[] lockedMonitors=threadInfo.getLockedMonitors();
+    ArrayList<Map<String,Object>> lockedMonitorsJson=new ArrayList<>();
+    for (    MonitorInfo lockedMonitor : lockedMonitors) {
+      LinkedHashMap<String,Object> lockedMonitorJson=new LinkedHashMap<>();
+      lockedMonitorJson.put("Class",lockedMonitor.getClassName());
+      lockedMonitorJson.put("IdentityHashCode",lockedMonitor.getIdentityHashCode());
+      lockedMonitorJson.put("LockedStackDepth",lockedMonitor.getLockedStackDepth());
+      lockedMonitorJson.put("StackFrame",lockedMonitor.getLockedStackFrame().toString());
+      lockedMonitorsJson.add(lockedMonitorJson);
+    }
+    lockMonitorInfo.put("Locked Monitors",lockedMonitorsJson);
+    lockMonitorInfo.put("Locked Synchronizers",asJSON(threadInfo.getLockedSynchronizers()));
     threadStackTrace.put("Lock Monitor Info",lockMonitorInfo);
     LinkedHashMap<String,Object> blockedInfo=new LinkedHashMap<>();
     blockedInfo.put("Blocked Time",threadInfo.getBlockedTime() == -1 ? null : threadInfo.getBlockedTime());
@@ -19,13 +29,8 @@
     timeInfo.put("Waited Count",threadInfo.getWaitedCount());
     threadStackTrace.put("Time Info",timeInfo);
     LinkedHashMap<String,Object> lockInfoMap=new LinkedHashMap<>();
-    LinkedHashMap<String,Object> lockedOn=new LinkedHashMap<>();
     LockInfo lockInfo=threadInfo.getLockInfo();
-    if (lockInfo != null) {
-      lockedOn.put("Class",lockInfo.getClassName());
-      lockedOn.put("Hashcode",lockInfo.getIdentityHashCode());
-    }
-    lockInfoMap.put("Locked On",lockedOn);
+    lockInfoMap.put("Locked On",asJSON(lockInfo));
     lockInfoMap.put("Lock Owner Thread Id",threadInfo.getLockOwnerId() == -1 ? null : threadInfo.getLockOwnerId());
     lockInfoMap.put("Lock Owner Thread Name",threadInfo.getLockOwnerName());
     threadStackTrace.put("Lock Info",lockInfoMap);
@@ -33,9 +38,7 @@
     stateInfo.put("Suspended",threadInfo.isSuspended());
     stateInfo.put("InNative",threadInfo.isInNative());
     threadStackTrace.put("State Info",stateInfo);
-    StackTraceElement[] stackTrace=threadInfo.getStackTrace();
-    ArrayList<String> strings=mapToString(stackTrace);
-    threadStackTrace.put("Stack Trace",strings);
+    threadStackTrace.put("Stack Trace",asJSON(threadInfo.getStackTrace()));
     traces.put(threadInfo.getThreadId(),threadStackTrace);
   }
   return traces;
