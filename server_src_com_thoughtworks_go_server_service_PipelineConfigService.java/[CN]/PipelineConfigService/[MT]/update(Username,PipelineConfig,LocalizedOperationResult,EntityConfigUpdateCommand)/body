@@ -4,7 +4,9 @@
   }
  catch (  Exception e) {
     if (e instanceof GoConfigInvalidException) {
-      result.unprocessableEntity(LocalizedMessage.string("ENTITY_CONFIG_VALIDATION_FAILED",pipelineConfig.getClass().getAnnotation(ConfigTag.class).value(),CaseInsensitiveString.str(pipelineConfig.name())));
+      if (!result.hasMessage()) {
+        result.unprocessableEntity(LocalizedMessage.string("ENTITY_CONFIG_VALIDATION_FAILED",pipelineConfig.getClass().getAnnotation(ConfigTag.class).value(),CaseInsensitiveString.str(pipelineConfig.name())));
+      }
     }
  else     if (!(e instanceof ConfigUpdateCheckFailedException)) {
       LOGGER.error(e.getMessage(),e);
