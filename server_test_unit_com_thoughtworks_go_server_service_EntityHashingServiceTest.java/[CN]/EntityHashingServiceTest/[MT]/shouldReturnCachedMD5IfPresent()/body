@@ -1,0 +1,6 @@
+{
+  when(goCache.get("GO_PIPELINE_CONFIGS_ETAGS_CACHE","p1")).thenReturn("pipeline_config_md5");
+  assertThat(entityHashingService.md5ForPipelineConfig("P1"),is("pipeline_config_md5"));
+  verifyZeroInteractions(goConfigService);
+  verifyZeroInteractions(entityDigest);
+}

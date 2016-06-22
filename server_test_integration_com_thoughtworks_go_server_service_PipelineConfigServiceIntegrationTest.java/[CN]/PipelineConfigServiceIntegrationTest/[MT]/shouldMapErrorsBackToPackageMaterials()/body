@@ -4,7 +4,7 @@
   saveScmMaterialToConfig(packageid);
   PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig(packageid);
   pipelineConfig.materialConfigs().add(packageMaterialConfig);
-  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
   assertThat(result.toString(),result.isSuccessful(),is(false));
   assertThat(result.message(localizer),is(String.format("Validations failed for pipeline '%s'. Please correct and resubmit.",pipelineConfig.name())));
   assertThat(packageMaterialConfig.errors().on(PackageMaterialConfig.PACKAGE_ID),is("Could not find repository for given package id:[packageid]"));

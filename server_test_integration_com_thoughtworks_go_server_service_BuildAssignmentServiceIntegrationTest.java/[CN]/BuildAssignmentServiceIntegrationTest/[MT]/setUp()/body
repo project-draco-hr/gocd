@@ -12,4 +12,10 @@
   goCache.clear();
   u=new ScheduleTestUtil(transactionTemplate,materialRepository,dbHelper,configHelper);
   agent=new AgentStub();
+  entityHashingService.initializeWith(new EntityDigest(){
+    @Override public String md5ForPipeline(    PipelineConfig pipelineConfig){
+      return pipelineConfigMD5;
+    }
+  }
+);
 }

@@ -13,4 +13,10 @@
   goConfigService.updateConfig(command);
   result=new HttpLocalizedOperationResult();
   headCommitBeforeUpdate=configRepository.getCurrentRevCommit().name();
+  entityHashingService.initializeWith(new EntityDigest(){
+    @Override public String md5ForPipeline(    PipelineConfig pipelineConfig){
+      return pipelineConfigMD5;
+    }
+  }
+);
 }

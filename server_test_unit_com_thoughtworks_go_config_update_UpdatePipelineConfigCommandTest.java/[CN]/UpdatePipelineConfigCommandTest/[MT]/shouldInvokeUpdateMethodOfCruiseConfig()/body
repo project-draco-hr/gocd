@@ -1,0 +1,7 @@
+{
+  UpdatePipelineConfigCommand command=new UpdatePipelineConfigCommand(goConfigService,null,pipelineConfig,username,"stale_md5",localizedOperationResult);
+  CruiseConfig cruiseConfig=mock(CruiseConfig.class);
+  when(goConfigService.findGroupNameByPipeline(pipelineConfig.name())).thenReturn("group1");
+  command.update(cruiseConfig);
+  verify(cruiseConfig).update("group1",pipelineConfig.name().toString(),pipelineConfig);
+}

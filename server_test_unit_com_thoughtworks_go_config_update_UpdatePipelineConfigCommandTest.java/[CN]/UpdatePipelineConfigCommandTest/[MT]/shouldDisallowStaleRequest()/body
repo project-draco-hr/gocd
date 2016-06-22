@@ -1,0 +1,7 @@
+{
+  UpdatePipelineConfigCommand command=new UpdatePipelineConfigCommand(goConfigService,entityHashingService,pipelineConfig,username,"stale_md5",localizedOperationResult);
+  when(goConfigService.findGroupNameByPipeline(pipelineConfig.name())).thenReturn("group1");
+  when(goConfigService.canEditPipeline(pipelineConfig.name().toString(),username,localizedOperationResult,"group1")).thenReturn(true);
+  when(entityHashingService.md5ForPipelineConfig(pipelineConfig.name().toString())).thenReturn("latest_md5");
+  assertFalse(command.canContinue(mock(CruiseConfig.class)));
+}
