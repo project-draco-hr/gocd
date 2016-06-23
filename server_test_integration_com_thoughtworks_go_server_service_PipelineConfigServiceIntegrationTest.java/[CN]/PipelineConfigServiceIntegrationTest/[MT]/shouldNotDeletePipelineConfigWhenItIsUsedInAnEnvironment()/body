@@ -1,0 +1,13 @@
+{
+  BasicEnvironmentConfig env=new BasicEnvironmentConfig(new CaseInsensitiveString("Dev"));
+  env.addPipeline(pipelineConfig.name());
+  goConfigService.addEnvironment(env);
+  assertThat(goConfigService.getAllPipelineConfigs().size(),is(1));
+  assertTrue(goConfigService.hasPipelineNamed(pipelineConfig.name()));
+  pipelineConfigService.deletePipelineConfig(user,pipelineConfig,result);
+  assertFalse(result.isSuccessful());
+  assertThat(result.toString(),result.toString().contains("CANNOT_DELETE_PIPELINE_IN_ENVIRONMENT"),is(true));
+  assertThat(result.httpCode(),is(422));
+  assertThat(goConfigService.getAllPipelineConfigs().size(),is(1));
+  assertTrue(goConfigService.hasPipelineNamed(pipelineConfig.name()));
+}

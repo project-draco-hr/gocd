@@ -1,3 +1,17 @@
 {
+  for (  PipelineConfig pipeline : preprocessedConfig.getAllPipelineConfigs()) {
+    if (pipeline.materialConfigs().hasDependencyMaterial(pipelineConfig)) {
+      Localizable.CurryableLocalizable message=LocalizedMessage.string("CANNOT_DELETE_PIPELINE_USED_AS_MATERIALS",pipelineConfig.name(),String.format("%s (%s)",pipeline.name(),pipeline.getOriginDisplayName()));
+      this.result.unprocessableEntity(message);
+      return false;
+    }
+  }
+  for (  EnvironmentConfig environment : preprocessedConfig.getEnvironments()) {
+    if (environment.getPipelineNames().contains(pipelineConfig.name())) {
+      Localizable.CurryableLocalizable message=LocalizedMessage.string("CANNOT_DELETE_PIPELINE_IN_ENVIRONMENT",pipelineConfig.name(),environment.name());
+      this.result.unprocessableEntity(message);
+      return false;
+    }
+  }
   return true;
 }
