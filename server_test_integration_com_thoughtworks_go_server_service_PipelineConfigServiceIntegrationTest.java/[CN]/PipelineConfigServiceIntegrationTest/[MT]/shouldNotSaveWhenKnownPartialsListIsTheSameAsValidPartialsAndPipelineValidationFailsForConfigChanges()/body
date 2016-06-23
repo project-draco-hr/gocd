@@ -1,0 +1,21 @@
+{
+  PipelineConfig remoteDownstreamPipeline=partialConfig.getGroups().first().getPipelines().get(0);
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(remoteDownstreamPipeline.name()),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).isEmpty(),is(true));
+  DependencyMaterialConfig dependencyMaterialForRemotePipelineInConfigCache=goConfigService.getCurrentConfig().getPipelineConfigByName(remoteDownstreamPipeline.name()).materialConfigs().findDependencyMaterial(pipelineConfig.name());
+  assertThat(dependencyMaterialForRemotePipelineInConfigCache.getStageName(),is(new CaseInsensitiveString("stage")));
+  pipelineConfig.getFirstStageConfig().setName(new CaseInsensitiveString("new_name"));
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  assertThat(result.isSuccessful(),is(false));
+  assertThat(result.message(localizer),is(String.format("Validations failed for pipeline '%s'. Error(s): [Validation failed.]. Please correct and resubmit.",pipelineConfig.name())));
+  CruiseConfig currentConfig=goConfigService.getCurrentConfig();
+  assertThat(currentConfig.getAllPipelineNames().contains(remoteDownstreamPipeline.name()),is(true));
+  assertThat(cachedGoPartials.lastValidPartials().contains(partialConfig),is(true));
+  assertThat(cachedGoPartials.lastKnownPartials().contains(partialConfig),is(true));
+  assertThat(cachedGoPartials.lastKnownPartials().equals(cachedGoPartials.lastValidPartials()),is(true));
+  assertThat(currentConfig.getPipelineConfigByName(remoteDownstreamPipeline.name()).materialConfigs().findDependencyMaterial(pipelineConfig.name()).getStageName(),is(new CaseInsensitiveString("stage")));
+  assertThat(currentConfig.getPipelineConfigByName(pipelineConfig.name()).getFirstStageConfig().name(),is(new CaseInsensitiveString("stage")));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).isEmpty(),is(true));
+}

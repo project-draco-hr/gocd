@@ -1,0 +1,34 @@
+{
+  PipelineConfig remoteDownstreamPipeline=partialConfig.getGroups().first().getPipelines().get(0);
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(remoteDownstreamPipeline.name()),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).isEmpty(),is(true));
+  final CaseInsensitiveString upstreamStageRenamed=new CaseInsensitiveString("upstream_stage_renamed");
+  partialConfig=PartialConfigMother.pipelineWithDependencyMaterial("remote-downstream",new PipelineConfig(pipelineConfig.name(),pipelineConfig.materialConfigs(),new StageConfig(upstreamStageRenamed,new JobConfigs())),new RepoConfigOrigin(repoConfig1,"repo1_r2"));
+  goPartialConfig.onSuccessPartialConfig(repoConfig1,partialConfig);
+  CruiseConfig currentConfig=goConfigService.getCurrentConfig();
+  DependencyMaterialConfig dependencyMaterialForRemotePipelineInConfigCache=currentConfig.getPipelineConfigByName(remoteDownstreamPipeline.name()).materialConfigs().findDependencyMaterial(pipelineConfig.name());
+  assertThat(dependencyMaterialForRemotePipelineInConfigCache.getStageName(),is(new CaseInsensitiveString("stage")));
+  assertThat(((RepoConfigOrigin)currentConfig.getPipelineConfigByName(remoteDownstreamPipeline.name()).getOrigin()).getRevision(),is("repo1_r1"));
+  assertThat(((RepoConfigOrigin)cachedGoPartials.getValid(repoConfig1.getMaterialConfig().getFingerprint()).getOrigin()).getRevision(),is("repo1_r1"));
+  assertThat(((RepoConfigOrigin)cachedGoPartials.getKnown(repoConfig1.getMaterialConfig().getFingerprint()).getOrigin()).getRevision(),is("repo1_r2"));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).size(),is(1));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).get(0).getMessage(),is("Invalid Merged Configuration"));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).get(0).getDescription(),is(String.format("1+ errors :: Stage with name 'upstream_stage_renamed' does not exist on pipeline '%s', it is being referred to from pipeline 'remote-downstream' (url at repo1_r2);;  -  Config-Repo: url at repo1_r2",pipelineConfig.name())));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).isEmpty(),is(true));
+  pipelineConfig.getFirstStageConfig().setName(new CaseInsensitiveString("upstream_stage_renamed"));
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  assertThat(result.isSuccessful(),is(true));
+  currentConfig=goConfigService.getCurrentConfig();
+  assertThat(currentConfig.getAllPipelineNames().contains(remoteDownstreamPipeline.name()),is(true));
+  assertThat(cachedGoPartials.lastValidPartials().contains(partialConfig),is(true));
+  assertThat(cachedGoPartials.lastKnownPartials().contains(partialConfig),is(true));
+  assertThat(cachedGoPartials.lastKnownPartials().equals(cachedGoPartials.lastValidPartials()),is(true));
+  assertThat(currentConfig.getPipelineConfigByName(remoteDownstreamPipeline.name()).materialConfigs().findDependencyMaterial(pipelineConfig.name()).getStageName(),is(upstreamStageRenamed));
+  assertThat(currentConfig.getPipelineConfigByName(pipelineConfig.name()).getFirstStageConfig().name(),is(upstreamStageRenamed));
+  assertThat(((RepoConfigOrigin)currentConfig.getPipelineConfigByName(remoteDownstreamPipeline.name()).getOrigin()).getRevision(),is("repo1_r2"));
+  assertThat(((RepoConfigOrigin)cachedGoPartials.getValid(repoConfig1.getMaterialConfig().getFingerprint()).getOrigin()).getRevision(),is("repo1_r2"));
+  assertThat(((RepoConfigOrigin)cachedGoPartials.getKnown(repoConfig1.getMaterialConfig().getFingerprint()).getOrigin()).getRevision(),is("repo1_r2"));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).isEmpty(),is(true));
+}

@@ -1,6 +1,7 @@
 {
   PipelineConfig pipe=PipelineConfigMother.pipelineConfig(name);
-  BasicPipelineConfigs pipes=new BasicPipelineConfigs(pipe);
+  pipe.getFirstStageConfig().setName(new CaseInsensitiveString(""));
+  BasicPipelineConfigs pipes=new BasicPipelineConfigs("grp",new Authorization(),pipe);
   PartialConfig partialConfig=new PartialConfig(new PipelineGroups(pipes));
   partialConfig.setOrigins(repoOrigin);
   return partialConfig;

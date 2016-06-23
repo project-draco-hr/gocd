@@ -1,12 +1,13 @@
 {
   PipelineConfig dependency=GoConfigMother.createPipelineConfigWithMaterialConfig(new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
   goConfigService.addPipeline(dependency,groupName);
-  assertThat(goConfigService.getAllPipelineConfigs().size(),is(2));
+  int pipelineCountBefore=goConfigService.getAllPipelineConfigs().size();
   assertTrue(goConfigService.hasPipelineNamed(pipelineConfig.name()));
   pipelineConfigService.deletePipelineConfig(user,pipelineConfig,result);
   assertFalse(result.isSuccessful());
   assertThat(result.toString(),result.toString().contains("CANNOT_DELETE_PIPELINE_USED_AS_MATERIALS"),is(true));
   assertThat(result.httpCode(),is(422));
-  assertThat(goConfigService.getAllPipelineConfigs().size(),is(2));
+  int pipelineCountAfter=goConfigService.getAllPipelineConfigs().size();
+  assertThat(pipelineCountAfter,is(pipelineCountBefore));
   assertTrue(goConfigService.hasPipelineNamed(pipelineConfig.name()));
 }

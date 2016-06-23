@@ -1,0 +1,25 @@
+{
+  modifiedConfig.setPartials(partials);
+  CruiseConfig preprocessedConfig=cloner.deepClone(modifiedConfig);
+  MagicalGoConfigXmlLoader.preprocess(preprocessedConfig);
+  if (updatingCommand.isValid(preprocessedConfig)) {
+    try {
+      LOGGER.info("[Configuration Changed] Saving updated configuration.");
+      String configAsXml=configAsXml(modifiedConfig,true);
+      String md5=CachedDigestUtils.md5Hex(configAsXml);
+      MagicalGoConfigXmlLoader.setMd5(modifiedConfig,md5);
+      MagicalGoConfigXmlLoader.setMd5(preprocessedConfig,md5);
+      writeToConfigXmlFile(configAsXml);
+      configRepository.checkin(new GoConfigRevision(configAsXml,md5,currentUser.getUsername().toString(),serverVersion.version(),timeProvider));
+      LOGGER.debug("[Config Save] Done writing with lock");
+      reloadStrategy.latestState(preprocessedConfig);
+      return new EntityConfigSaveResult(updatingCommand.getPreprocessedEntityConfig(),new GoConfigHolder(preprocessedConfig,modifiedConfig));
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("failed to save : " + e.getMessage());
+    }
+  }
+ else {
+    throw new GoConfigInvalidException(preprocessedConfig,"Validation failed.");
+  }
+}

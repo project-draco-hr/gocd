@@ -3,6 +3,6 @@
   pipelineConfig.getFirstStageConfig().setName(new CaseInsensitiveString("upstream_stage_renamed"));
   pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
   assertThat(result.isSuccessful(),is(false));
-  assertThat(pipelineConfig.errors().on("base"),is(String.format("Stage with name 'stage' does not exist on pipeline '%s', it is being referred to from pipeline 'remote-downstream' (url at r1)",pipelineConfig.name())));
-  assertThat(result.message(localizer),is(String.format("Validations failed for pipeline '%s'. Please correct and resubmit.",pipelineConfig.name())));
+  assertThat(pipelineConfig.errors().on("base"),is(String.format("Stage with name 'stage' does not exist on pipeline '%s', it is being referred to from pipeline 'remote-downstream' (url at repo1_r1)",pipelineConfig.name())));
+  assertThat(result.message(localizer),is(String.format("Validations failed for pipeline '%s'. Error(s): [Validation failed.]. Please correct and resubmit.",pipelineConfig.name())));
 }

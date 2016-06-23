@@ -6,7 +6,7 @@
   pipelineConfig.materialConfigs().add(packageMaterialConfig);
   pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
   assertThat(result.toString(),result.isSuccessful(),is(false));
-  assertThat(result.message(localizer),is(String.format("Validations failed for pipeline '%s'. Please correct and resubmit.",pipelineConfig.name())));
+  assertThat(result.message(localizer),is(String.format("Validations failed for pipeline '%s'. Error(s): [Validation failed.]. Please correct and resubmit.",pipelineConfig.name())));
   assertThat(packageMaterialConfig.errors().on(PackageMaterialConfig.PACKAGE_ID),is("Could not find repository for given package id:[packageid]"));
   assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
   assertThat(goConfigDao.loadConfigHolder().configForEdit,is(goConfigHolder.configForEdit));

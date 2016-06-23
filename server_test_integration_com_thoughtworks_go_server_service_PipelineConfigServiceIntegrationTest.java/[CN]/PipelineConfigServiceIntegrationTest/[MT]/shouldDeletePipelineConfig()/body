@@ -1,8 +1,11 @@
 {
-  assertThat(goConfigService.getAllPipelineConfigs().size(),is(2));
-  assertTrue(goConfigService.hasPipelineNamed(pipelineConfig.name()));
-  pipelineConfigService.deletePipelineConfig(user,pipelineConfig,result);
+  PipelineConfig pipeline=PipelineConfigMother.createPipelineConfigWithStages(UUID.randomUUID().toString(),"stage");
+  goConfigService.addPipeline(pipeline,"default");
+  assertTrue(goConfigService.hasPipelineNamed(pipeline.name()));
+  int pipelineCountBefore=goConfigService.getAllPipelineConfigs().size();
+  pipelineConfigService.deletePipelineConfig(user,pipeline,result);
   assertTrue(result.isSuccessful());
-  assertThat(goConfigService.getAllPipelineConfigs().size(),is(1));
-  assertFalse(goConfigService.hasPipelineNamed(pipelineConfig.name()));
+  int pipelineCountAfter=goConfigService.getAllPipelineConfigs().size();
+  assertThat(pipelineCountBefore - pipelineCountAfter,is(1));
+  assertFalse(goConfigService.hasPipelineNamed(pipeline.name()));
 }
