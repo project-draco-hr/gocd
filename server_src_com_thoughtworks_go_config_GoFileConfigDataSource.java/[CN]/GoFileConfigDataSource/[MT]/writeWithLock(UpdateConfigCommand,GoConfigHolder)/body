@@ -2,14 +2,14 @@
   try {
     GoConfigHolder validatedConfigHolder;
     List<PartialConfig> lastKnownPartials=cachedGoPartials.lastKnownPartials();
+    List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
     try {
       String configAsXml=trySavingConfig(updatingCommand,configHolder,lastKnownPartials);
       validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),lastKnownPartials);
       updateMergedConfigForEdit(validatedConfigHolder,lastKnownPartials);
     }
  catch (    GoConfigInvalidException e) {
-      List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
-      if (cachedGoPartials.lastKnownPartials().isEmpty()) {
+      if (lastKnownPartials.isEmpty() || areKnownPartialsSameAsValidPartials(lastKnownPartials,lastValidPartials)) {
         throw e;
       }
  else {

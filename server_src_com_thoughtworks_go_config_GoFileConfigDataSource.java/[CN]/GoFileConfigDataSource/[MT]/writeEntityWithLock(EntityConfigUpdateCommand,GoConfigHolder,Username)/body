@@ -8,7 +8,7 @@
   }
   List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
   List<PartialConfig> lastKnownPartials=cachedGoPartials.lastKnownPartials();
-  if (lastKnownPartials.isEmpty() || lastValidPartials.equals(lastKnownPartials)) {
+  if (lastKnownPartials.isEmpty() || areKnownPartialsSameAsValidPartials(lastKnownPartials,lastValidPartials)) {
     return trySavingEntity(updatingCommand,currentUser,modifiedConfig,lastValidPartials);
   }
  else {

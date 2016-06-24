@@ -1,0 +1,9 @@
+{
+  ConfigRepoConfig repo1=new ConfigRepoConfig(MaterialConfigsMother.gitMaterialConfig(),"plugin");
+  ConfigRepoConfig repo2=new ConfigRepoConfig(MaterialConfigsMother.svnMaterialConfig(),"plugin");
+  PartialConfig partialConfig1=PartialConfigMother.withPipeline("p1",new RepoConfigOrigin(repo1,"git_r1"));
+  PartialConfig partialConfig2=PartialConfigMother.withPipeline("p2",new RepoConfigOrigin(repo2,"svn_r1"));
+  List<PartialConfig> known=asList(partialConfig1,partialConfig2);
+  List<PartialConfig> valid=new ArrayList<>();
+  assertThat(dataSource.areKnownPartialsSameAsValidPartials(known,valid),is(false));
+}
