@@ -1,0 +1,8 @@
+{
+  if (!task.isValid()) {
+    return false;
+  }
+  ValidationResult validationResult=taskExtension.validate(task.getPluginConfiguration().getId(),task.toTaskConfig());
+  mapErrorsToConfiguration(validationResult,task);
+  return validationResult.isSuccessful();
+}

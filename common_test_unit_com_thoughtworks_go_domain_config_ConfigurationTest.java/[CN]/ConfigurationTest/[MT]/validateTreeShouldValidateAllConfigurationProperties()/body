@@ -1,0 +1,8 @@
+{
+  ConfigurationProperty outputDirectory=mock(ConfigurationProperty.class);
+  ConfigurationProperty inputDirectory=mock(ConfigurationProperty.class);
+  Configuration configuration=new Configuration(outputDirectory,inputDirectory);
+  configuration.validateTree();
+  verify(outputDirectory).validate(null);
+  verify(inputDirectory).validate(null);
+}

@@ -1,0 +1,13 @@
+{
+  List<PluggableTask> tasks=new ArrayList<>();
+  for (  StageConfig stageConfig : config.getStages()) {
+    for (    JobConfig jobConfig : stageConfig.getJobs()) {
+      for (      Task task : jobConfig.getTasks()) {
+        if (task instanceof PluggableTask) {
+          tasks.add((PluggableTask)task);
+        }
+      }
+    }
+  }
+  return tasks;
+}

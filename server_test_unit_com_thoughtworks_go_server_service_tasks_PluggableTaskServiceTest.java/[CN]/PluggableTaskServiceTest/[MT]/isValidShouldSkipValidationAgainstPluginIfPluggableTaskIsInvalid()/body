@@ -1,0 +1,6 @@
+{
+  PluggableTask pluggableTask=mock(PluggableTask.class);
+  when(pluggableTask.isValid()).thenReturn(false);
+  assertFalse(pluggableTaskService.isValid(pluggableTask));
+  verifyZeroInteractions(taskExtension);
+}

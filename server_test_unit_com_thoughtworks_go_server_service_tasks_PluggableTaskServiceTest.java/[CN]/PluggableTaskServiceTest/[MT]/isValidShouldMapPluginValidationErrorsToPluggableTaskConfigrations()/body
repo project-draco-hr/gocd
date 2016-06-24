@@ -1,0 +1,17 @@
+{
+  PluginConfiguration pluginConfiguration=new PluginConfiguration("plugin_id","version");
+  Configuration configuration=new Configuration();
+  configuration.add(ConfigurationPropertyMother.create("source",false,"src_dir"));
+  configuration.add(ConfigurationPropertyMother.create("destination",false,"dest_dir"));
+  ValidationResult validationResult=new ValidationResult();
+  validationResult.addError(new ValidationError("source","source directory format is invalid"));
+  validationResult.addError(new ValidationError("destination","destination directory format is invalid"));
+  PluggableTask pluggableTask=mock(PluggableTask.class);
+  when(pluggableTask.isValid()).thenReturn(true);
+  when(pluggableTask.getPluginConfiguration()).thenReturn(pluginConfiguration);
+  when(pluggableTask.getConfiguration()).thenReturn(configuration);
+  when(taskExtension.validate(any(String.class),any(TaskConfig.class))).thenReturn(validationResult);
+  assertFalse(pluggableTaskService.isValid(pluggableTask));
+  assertThat(configuration.getProperty("source").errors().get("source").get(0),is("source directory format is invalid"));
+  assertThat(configuration.getProperty("destination").errors().get("destination").get(0),is("destination directory format is invalid"));
+}

@@ -1,0 +1,10 @@
+{
+  PluginConfiguration pluginConfiguration=new PluginConfiguration("github.pr","1.1");
+  Configuration configuration=mock(Configuration.class);
+  PluggableTaskConfigStore.store().setPreferenceFor(pluginConfiguration.getId(),mock(TaskPreference.class));
+  when(configuration.hasErrors()).thenReturn(true);
+  PluggableTask pluggableTask=new PluggableTask(pluginConfiguration,configuration);
+  assertFalse(pluggableTask.isValid());
+  verify(configuration).validateTree();
+  verify(configuration).hasErrors();
+}

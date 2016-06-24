@@ -1,0 +1,6 @@
+{
+  Configuration configuration=mock(Configuration.class);
+  PluggableTask pluggableTask=new PluggableTask(new PluginConfiguration(),configuration);
+  when(configuration.hasErrors()).thenReturn(true);
+  assertFalse(pluggableTask.validateTree(null));
+}

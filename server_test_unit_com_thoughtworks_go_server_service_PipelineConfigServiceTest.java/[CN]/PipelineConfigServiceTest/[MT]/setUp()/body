@@ -8,9 +8,10 @@
   cruiseConfig.addPipeline("group",remotePipeline);
   goConfigService=mock(GoConfigService.class);
   securityService=mock(SecurityService.class);
+  pluggableTaskService=mock(PluggableTaskService.class);
   when(goConfigService.getCurrentConfig()).thenReturn(cruiseConfig);
   when(goConfigService.getConfigForEditing()).thenReturn(cruiseConfig);
   goCache=mock(GoCache.class);
   PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
-  pipelineConfigService=new PipelineConfigService(goConfigService,goCache,securityService);
+  pipelineConfigService=new PipelineConfigService(goConfigService,goCache,securityService,pluggableTaskService);
 }
