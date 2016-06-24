@@ -1,0 +1,10 @@
+{
+  ConfigurationProperty outputDirectory=mock(ConfigurationProperty.class);
+  ConfigurationProperty inputDirectory=mock(ConfigurationProperty.class);
+  when(outputDirectory.hasErrors()).thenReturn(false);
+  when(inputDirectory.hasErrors()).thenReturn(true);
+  Configuration configuration=new Configuration(outputDirectory,inputDirectory);
+  assertTrue(configuration.hasErrors());
+  verify(outputDirectory).hasErrors();
+  verify(inputDirectory).hasErrors();
+}

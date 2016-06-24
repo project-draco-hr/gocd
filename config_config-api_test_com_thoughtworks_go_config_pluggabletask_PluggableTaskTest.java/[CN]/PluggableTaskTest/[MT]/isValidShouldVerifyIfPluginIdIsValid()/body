@@ -2,6 +2,6 @@
   PluginConfiguration pluginConfiguration=new PluginConfiguration("does_not_exist","1.1");
   Configuration configuration=new Configuration();
   PluggableTask pluggableTask=new PluggableTask(pluginConfiguration,configuration);
-  pluggableTask.validate(null);
+  pluggableTask.isValid();
   assertThat(pluggableTask.errors().get("pluggable_task").get(0),is("Could not find plugin for given pluggable id:[does_not_exist]."));
 }

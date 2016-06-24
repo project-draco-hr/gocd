@@ -1,4 +1,7 @@
 {
-  validateTask(null);
-  return (errors.isEmpty() && !configurationHasErrors());
+  if (PluggableTaskConfigStore.store().preferenceFor(pluginConfiguration.getId()) == null) {
+    addError(TYPE,String.format("Could not find plugin for given pluggable id:[%s].",pluginConfiguration.getId()));
+  }
+  configuration.validateTree();
+  return (errors.isEmpty() && !configuration.hasErrors());
 }

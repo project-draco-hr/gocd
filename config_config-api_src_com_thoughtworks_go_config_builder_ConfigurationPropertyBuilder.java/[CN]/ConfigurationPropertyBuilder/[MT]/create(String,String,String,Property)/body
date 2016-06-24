@@ -1,10 +1,10 @@
 {
-  if (property == null) {
+  if (pluginConfiguration == null) {
     return createInAbsenceOfProperty(key,value,encryptedValue);
   }
   ConfigurationProperty configurationProperty=new ConfigurationProperty();
   configurationProperty.setConfigurationKey(new ConfigurationKey(key));
-  Boolean isSecure=property.getOption(Property.SECURE);
+  Boolean isSecure=pluginConfiguration.getOption(Property.SECURE);
   if (isNotBlank(value) && isNotBlank(encryptedValue)) {
     configurationProperty.addError("configurationValue","You may only specify `value` or `encrypted_value`, not both!");
     configurationProperty.addError("encryptedValue","You may only specify `value` or `encrypted_value`, not both!");

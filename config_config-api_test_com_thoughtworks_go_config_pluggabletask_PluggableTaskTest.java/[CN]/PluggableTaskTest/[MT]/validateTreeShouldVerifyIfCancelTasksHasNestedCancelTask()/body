@@ -3,7 +3,8 @@
   pluggableTask.onCancelConfig=mock(OnCancelConfig.class);
   com.thoughtworks.go.domain.Task cancelTask=mock(com.thoughtworks.go.domain.Task.class);
   when(pluggableTask.onCancelConfig.getTask()).thenReturn(cancelTask);
-  when(cancelTask.hasCancelTask()).thenReturn(false);
-  when(pluggableTask.onCancelConfig.validateTree(null)).thenReturn(false);
+  when(cancelTask.hasCancelTask()).thenReturn(true);
+  when(pluggableTask.onCancelConfig.validateTree(null)).thenReturn(true);
   assertFalse(pluggableTask.validateTree(null));
+  assertThat(pluggableTask.errors().get("onCancelConfig").get(0),is("Cannot nest 'oncancel' within a cancel task"));
 }
