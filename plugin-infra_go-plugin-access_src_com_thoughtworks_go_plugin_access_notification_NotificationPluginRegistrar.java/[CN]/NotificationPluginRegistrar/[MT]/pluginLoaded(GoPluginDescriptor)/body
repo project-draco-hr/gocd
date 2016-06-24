@@ -1,6 +1,7 @@
 {
   if (notificationExtension.canHandlePlugin(pluginDescriptor.id())) {
     try {
+      notificationPluginRegistry.registerPlugin(pluginDescriptor.id());
       List<String> notificationsInterestedIn=notificationExtension.getNotificationsOfInterestFor(pluginDescriptor.id());
       if (notificationsInterestedIn != null && !notificationsInterestedIn.isEmpty()) {
         checkNotificationTypes(pluginDescriptor,notificationsInterestedIn);

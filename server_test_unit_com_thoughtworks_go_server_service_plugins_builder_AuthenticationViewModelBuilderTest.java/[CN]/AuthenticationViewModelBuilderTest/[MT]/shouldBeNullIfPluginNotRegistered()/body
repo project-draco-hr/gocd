@@ -1,0 +1,5 @@
+{
+  HashSet<String> pluginIds=new HashSet<>(Arrays.asList("github.oauth","google.oauth"));
+  when(registry.getAuthenticationPlugins()).thenReturn(pluginIds);
+  assertNull(builder.pluginInfoFor("unregistered_plugin"));
+}

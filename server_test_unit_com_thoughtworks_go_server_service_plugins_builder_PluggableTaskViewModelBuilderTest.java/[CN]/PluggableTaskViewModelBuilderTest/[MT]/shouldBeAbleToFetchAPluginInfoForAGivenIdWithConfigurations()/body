@@ -1,0 +1,21 @@
+{
+  when(manager.getPluginDescriptorFor("xunit.convertor")).thenReturn(xunitConvertor);
+  PluginInfo pluginInfo=builder.pluginInfoFor("xunit.convertor");
+  HashMap expectedMetadata=new HashMap<String,Object>(){
+{
+      put("required",false);
+      put("secure",false);
+    }
+  }
+;
+  List<PluginConfiguration> configurations=pluginInfo.getPluggableInstanceSettings().getConfigurations();
+  assertThat(configurations.size(),is(2));
+  PluginConfiguration configuration1=configurations.get(0);
+  assertThat(configuration1.getKey(),is("key1"));
+  assertNull(configuration1.getType());
+  assertThat(configuration1.getMetadata(),Is.<Map<String,Object>>is(expectedMetadata));
+  PluginConfiguration configuration2=configurations.get(1);
+  assertThat(configuration2.getKey(),is("key2"));
+  assertNull(configuration2.getType());
+  assertThat(configuration1.getMetadata(),Is.<Map<String,Object>>is(expectedMetadata));
+}

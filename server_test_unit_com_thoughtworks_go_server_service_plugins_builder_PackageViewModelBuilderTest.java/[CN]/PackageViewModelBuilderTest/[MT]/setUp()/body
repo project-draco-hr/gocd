@@ -1,0 +1,14 @@
+{
+  initMocks(this);
+  builder=new PackageViewModelBuilder(manager);
+  yumPoller=new GoPluginDescriptor("yum.poller","version1",new GoPluginDescriptor.About("Yum Poller","1.0",null,null,null,null),null,null,false);
+  npmPoller=new GoPluginDescriptor("npm.poller","version1",new GoPluginDescriptor.About("NPM Poller","2.0",null,null,null,null),null,null,false);
+  PackageConfigurations packageConfigurations=new PackageConfigurations();
+  packageConfigurations.add(new PackageConfiguration("key1"));
+  packageConfigurations.add(new PackageConfiguration("key2"));
+  PackageConfigurations repositoryConfigurations=new PackageConfigurations();
+  repositoryConfigurations.add(new PackageConfiguration("key1"));
+  PackageMetadataStore.getInstance().addMetadataFor(yumPoller.id(),packageConfigurations);
+  PackageMetadataStore.getInstance().addMetadataFor(npmPoller.id(),new PackageConfigurations());
+  RepositoryMetadataStore.getInstance().addMetadataFor(yumPoller.id(),repositoryConfigurations);
+}

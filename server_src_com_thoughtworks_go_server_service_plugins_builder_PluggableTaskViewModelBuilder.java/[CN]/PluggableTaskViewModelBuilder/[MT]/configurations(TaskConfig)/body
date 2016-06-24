@@ -1,0 +1,10 @@
+{
+  ArrayList<PluginConfiguration> pluginConfigurations=new ArrayList<>();
+  for (  Property property : config.list()) {
+    Map<String,Object> metaData=new HashMap<>();
+    metaData.put(REQUIRED_OPTION,property.getOption(Property.REQUIRED));
+    metaData.put(SECURE_OPTION,property.getOption(Property.SECURE));
+    pluginConfigurations.add(new PluginConfiguration(property.getKey(),metaData));
+  }
+  return pluginConfigurations;
+}

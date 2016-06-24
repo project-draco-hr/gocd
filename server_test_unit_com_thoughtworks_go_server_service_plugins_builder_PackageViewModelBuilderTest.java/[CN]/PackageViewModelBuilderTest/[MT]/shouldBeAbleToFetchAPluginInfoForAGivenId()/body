@@ -1,0 +1,9 @@
+{
+  when(manager.getPluginDescriptorFor("yum.poller")).thenReturn(yumPoller);
+  PluginInfo pluginInfo=builder.pluginInfoFor("yum.poller");
+  assertThat(pluginInfo.getId(),is("yum.poller"));
+  assertThat(pluginInfo.getType(),is("package-repository"));
+  assertThat(pluginInfo.getName(),is(yumPoller.about().name()));
+  assertThat(pluginInfo.getVersion(),is(yumPoller.about().version()));
+  assertNull(pluginInfo.getPluggableInstanceSettings().getView());
+}

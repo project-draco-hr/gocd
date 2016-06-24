@@ -1,0 +1,8 @@
+{
+  List<PluginInfo> pluginInfos=new ArrayList<>();
+  for (  String pluginId : registry.getAuthenticationPlugins()) {
+    GoPluginDescriptor descriptor=pluginManager.getPluginDescriptorFor(pluginId);
+    pluginInfos.add(new PluginInfo(pluginId,descriptor.about().name(),descriptor.about().version(),AuthenticationExtension.EXTENSION_NAME,null));
+  }
+  return pluginInfos;
+}

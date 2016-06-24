@@ -1,0 +1,21 @@
+{
+  initMocks(this);
+  builder=new SCMViewModelBuilder(manager);
+  githubPR=new GoPluginDescriptor("github.pr","version1",new GoPluginDescriptor.About("Github PR","1.0",null,null,null,null),null,null,false);
+  stashPR=new GoPluginDescriptor("stash.pr","version1",new GoPluginDescriptor.About("Stash PR","2.0",null,null,null,null),null,null,false);
+  SCMConfigurations configurations=new SCMConfigurations();
+  configurations.add(new SCMConfiguration("key1"));
+  configurations.add(new SCMConfiguration("key2"));
+  SCMView view=new SCMView(){
+    @Override public String displayValue(){
+      return "SCM Display Value";
+    }
+    @Override public String template(){
+      return "scm view template";
+    }
+  }
+;
+  preference=new SCMPreference(configurations,view);
+  SCMMetadataStore.getInstance().setPreferenceFor("github.pr",preference);
+  SCMMetadataStore.getInstance().setPreferenceFor("stash.pr",preference);
+}

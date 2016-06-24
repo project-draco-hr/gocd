@@ -1,0 +1,30 @@
+{
+  initMocks(this);
+  githubDescriptor=new GoPluginDescriptor("github.oauth","version1",new GoPluginDescriptor.About("Github OAuth Plugin","1.0",null,null,null,null),null,null,false);
+  emailNotifier=new GoPluginDescriptor("email.notifier","version1",new GoPluginDescriptor.About("Email Notifier","1.0",null,null,null,null),null,null,false);
+  yumPoller=new GoPluginDescriptor("yum.poller","version1",new GoPluginDescriptor.About("Yum Poller","1.0",null,null,null,null),null,null,false);
+  xunitConvertor=new GoPluginDescriptor("xunit.convertor","version1",new GoPluginDescriptor.About("Xunit Convertor","1.0",null,null,null,null),null,null,false);
+  githubPR=new GoPluginDescriptor("github.pr","version1",new GoPluginDescriptor.About("Github PR","1.0",null,null,null,null),null,null,false);
+  JsonBasedPluggableTask jsonBasedPluggableTask=mock(JsonBasedPluggableTask.class);
+  TaskView taskView=new TaskView(){
+    @Override public String displayValue(){
+      return "task display value";
+    }
+    @Override public String template(){
+      return "pluggable task view template";
+    }
+  }
+;
+  when(authenticationPluginRegistry.getAuthenticationPlugins()).thenReturn(new HashSet<>(Arrays.asList("github.oauth")));
+  when(notificationPluginRegistry.getNotificationPlugins()).thenReturn(new HashSet<>(Arrays.asList("email.notifier")));
+  when(jsonBasedPluggableTask.view()).thenReturn(taskView);
+  when(manager.getPluginDescriptorFor("github.oauth")).thenReturn(githubDescriptor);
+  when(manager.getPluginDescriptorFor("email.notifier")).thenReturn(emailNotifier);
+  when(manager.getPluginDescriptorFor("yum.poller")).thenReturn(yumPoller);
+  when(manager.getPluginDescriptorFor("xunit.convertor")).thenReturn(xunitConvertor);
+  when(manager.getPluginDescriptorFor("github.pr")).thenReturn(githubPR);
+  PackageMetadataStore.getInstance().addMetadataFor(yumPoller.id(),new PackageConfigurations());
+  PluggableTaskConfigStore.store().setPreferenceFor("xunit.convertor",new TaskPreference(jsonBasedPluggableTask));
+  SCMMetadataStore.getInstance().setPreferenceFor("github.pr",new SCMPreference(new SCMConfigurations(),mock(SCMView.class)));
+  pluginViewModelBuilder=new PluginInfoBuilder(authenticationPluginRegistry,notificationPluginRegistry,manager);
+}

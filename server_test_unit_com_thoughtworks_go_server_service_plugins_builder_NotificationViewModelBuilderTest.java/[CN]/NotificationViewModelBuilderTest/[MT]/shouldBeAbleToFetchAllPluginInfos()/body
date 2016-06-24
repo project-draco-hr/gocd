@@ -1,0 +1,14 @@
+{
+  HashSet<String> pluginIds=new HashSet<>(Arrays.asList("email.notifier","slack.notifier"));
+  when(registry.getNotificationPlugins()).thenReturn(pluginIds);
+  when(manager.getPluginDescriptorFor("email.notifier")).thenReturn(emailNotifier);
+  when(manager.getPluginDescriptorFor("slack.notifier")).thenReturn(slackNotifier);
+  List<PluginInfo> pluginInfos=builder.allPluginInfos();
+  assertThat(pluginInfos.size(),is(2));
+  PluginInfo pluginInfo=pluginInfos.get(0).getId() == "email.notifier" ? pluginInfos.get(0) : pluginInfos.get(1);
+  assertThat(pluginInfo.getId(),is("email.notifier"));
+  assertThat(pluginInfo.getType(),is("notification"));
+  assertThat(pluginInfo.getName(),is(emailNotifier.about().name()));
+  assertThat(pluginInfo.getVersion(),is(emailNotifier.about().version()));
+  assertNull(pluginInfo.getPluggableInstanceSettings());
+}
