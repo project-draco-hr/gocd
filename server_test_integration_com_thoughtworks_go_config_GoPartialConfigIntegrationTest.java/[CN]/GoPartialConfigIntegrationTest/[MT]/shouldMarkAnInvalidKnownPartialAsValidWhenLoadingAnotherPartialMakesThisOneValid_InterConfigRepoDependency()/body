@@ -12,8 +12,8 @@
   p1.addMaterialConfig(new DependencyMaterialConfig(p3.name(),p3.first().name()));
   goPartialConfig.onSuccessPartialConfig(repoConfig2,repo2);
   assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(p2.name()),is(false));
-  ServerHealthState healthStateForInvalidConfigMerge=healthStateFor(HealthStateScope.forPartialConfigRepo(repoConfig2));
-  assertThat(healthStateForInvalidConfigMerge,is(notNullValue()));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).isEmpty(),is(false));
+  ServerHealthState healthStateForInvalidConfigMerge=serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).get(0);
   assertThat(healthStateForInvalidConfigMerge.getMessage(),is("Invalid Merged Configuration"));
   assertThat(healthStateForInvalidConfigMerge.getDescription(),is("3+ errors :: Pipeline &quot;p1_repo1&quot; does not exist. It is used from pipeline &quot;p2_repo2&quot;.;; Pipeline with name 'p1_repo1' does not exist, it is defined as a dependency for pipeline 'p2_repo2' (url2 at 1);; Pipeline with name 'p3_repo3' does not exist, it is defined as a dependency for pipeline 'p2_repo2' (url2 at 1);;  -  Config-Repo: url2 at 1"));
   assertThat(healthStateForInvalidConfigMerge.getLogLevel(),is(HealthStateLevel.ERROR));
@@ -25,7 +25,7 @@
   assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(p3.name()),is(true));
   assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(p2.name()),is(false));
   assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(p1.name()),is(false));
-  assertThat(healthStateFor(HealthStateType.invalidConfigMerge()),is(notNullValue()));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig3)).isEmpty(),is(true));
   assertThat(cachedGoPartials.lastValidPartials().size(),is(1));
   assertThat(cacheContainsPartial(cachedGoPartials.lastValidPartials(),repo2),is(false));
   assertThat(cacheContainsPartial(cachedGoPartials.lastValidPartials(),repo3),is(true));
@@ -36,7 +36,7 @@
   assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(p1.name()),is(true));
   assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(p2.name()),is(true));
   assertThat(goConfigDao.loadConfigHolder().config.getAllPipelineNames().contains(p3.name()),is(true));
-  assertThat(healthStateFor(HealthStateType.invalidConfigMerge()),is(nullValue()));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).isEmpty(),is(true));
   assertThat(cachedGoPartials.lastValidPartials().size(),is(3));
   assertThat(cacheContainsPartial(cachedGoPartials.lastValidPartials(),repo2),is(true));
   assertThat(cacheContainsPartial(cachedGoPartials.lastValidPartials(),repo1),is(true));
