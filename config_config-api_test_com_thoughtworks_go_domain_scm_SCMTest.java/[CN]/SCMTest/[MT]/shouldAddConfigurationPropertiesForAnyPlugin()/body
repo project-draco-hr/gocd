@@ -1,0 +1,8 @@
+{
+  List<ConfigurationProperty> configurationProperties=Arrays.asList(ConfigurationPropertyMother.create("key","value","encValue"));
+  Configuration configuration=new Configuration();
+  SCM scm=SCMMother.create("id","name","does_not_exist","1.1",configuration);
+  assertThat(configuration.size(),is(0));
+  scm.addConfigurations(configurationProperties);
+  assertThat(configuration.size(),is(1));
+}

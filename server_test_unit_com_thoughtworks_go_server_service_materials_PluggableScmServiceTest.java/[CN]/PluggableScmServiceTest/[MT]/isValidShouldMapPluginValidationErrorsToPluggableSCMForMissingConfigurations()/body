@@ -1,0 +1,12 @@
+{
+  PluginConfiguration pluginConfiguration=new PluginConfiguration("plugin_id","version");
+  ValidationResult validationResult=new ValidationResult();
+  validationResult.addError(new ValidationError("url","URL is a required field"));
+  SCM scmConfig=mock(SCM.class);
+  when(scmConfig.doesPluginExist()).thenReturn(true);
+  when(scmConfig.getPluginConfiguration()).thenReturn(pluginConfiguration);
+  when(scmConfig.getConfiguration()).thenReturn(new Configuration());
+  when(scmExtension.isSCMConfigurationValid(any(String.class),any(SCMPropertyConfiguration.class))).thenReturn(validationResult);
+  assertFalse(pluggableScmService.isValid(scmConfig));
+  verify(scmConfig).addError("url","URL is a required field");
+}

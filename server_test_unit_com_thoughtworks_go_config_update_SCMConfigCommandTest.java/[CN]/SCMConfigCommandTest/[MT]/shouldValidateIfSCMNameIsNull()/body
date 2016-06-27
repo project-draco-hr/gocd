@@ -1,0 +1,6 @@
+{
+  cruiseConfig.setSCMs(scms);
+  CreateSCMConfigCommand command=new CreateSCMConfigCommand(scm,pluggableScmService,result,currentUser,goConfigService);
+  assertThat(command.isValid(cruiseConfig),is(false));
+  assertThat(scm.errors().getAllOn("name"),is(Arrays.asList("Please provide name")));
+}

@@ -1,0 +1,17 @@
+{
+  PluginConfiguration pluginConfiguration=new PluginConfiguration("plugin_id","version");
+  Configuration configuration=new Configuration();
+  configuration.add(ConfigurationPropertyMother.create("url",false,"url"));
+  configuration.add(ConfigurationPropertyMother.create("username",false,"admin"));
+  ValidationResult validationResult=new ValidationResult();
+  validationResult.addError(new ValidationError("url","invalid"));
+  validationResult.addError(new ValidationError("username","invalid"));
+  SCM scmConfig=mock(SCM.class);
+  when(scmConfig.doesPluginExist()).thenReturn(true);
+  when(scmConfig.getPluginConfiguration()).thenReturn(pluginConfiguration);
+  when(scmConfig.getConfiguration()).thenReturn(configuration);
+  when(scmExtension.isSCMConfigurationValid(any(String.class),any(SCMPropertyConfiguration.class))).thenReturn(validationResult);
+  assertFalse(pluggableScmService.isValid(scmConfig));
+  assertThat(configuration.getProperty("url").errors().get("url").get(0),is("invalid"));
+  assertThat(configuration.getProperty("username").errors().get("username").get(0),is("invalid"));
+}

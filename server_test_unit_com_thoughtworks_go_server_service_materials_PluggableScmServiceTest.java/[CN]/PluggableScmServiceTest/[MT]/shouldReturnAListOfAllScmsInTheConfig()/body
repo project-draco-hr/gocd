@@ -1,0 +1,7 @@
+{
+  ArrayList<SCM> list=new ArrayList<>();
+  list.add(new SCM());
+  when(goConfigService.getSCMs()).thenReturn(list);
+  ArrayList<SCM> scms=pluggableScmService.listAllScms();
+  assertThat(scms,is(list));
+}

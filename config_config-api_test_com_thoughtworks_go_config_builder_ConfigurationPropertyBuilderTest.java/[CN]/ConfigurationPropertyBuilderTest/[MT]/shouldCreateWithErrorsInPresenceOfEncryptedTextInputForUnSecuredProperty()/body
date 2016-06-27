@@ -1,7 +1,7 @@
 {
   Property key=new Property("key");
   key.with(Property.SECURE,false);
-  ConfigurationProperty property=new ConfigurationPropertyBuilder().create("key",null,"enc_value",key);
+  ConfigurationProperty property=new ConfigurationPropertyBuilder().create("key",null,"enc_value",false);
   assertThat(property.errors().get("encryptedValue").get(0),is("encrypted_value cannot be specified to a unsecured property."));
   assertThat(property.getEncryptedValue().getValue(),is("enc_value"));
 }

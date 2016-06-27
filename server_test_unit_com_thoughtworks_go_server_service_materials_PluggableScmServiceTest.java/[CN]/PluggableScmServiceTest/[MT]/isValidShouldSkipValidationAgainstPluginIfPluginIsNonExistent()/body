@@ -1,0 +1,7 @@
+{
+  SCM scmConfig=mock(SCM.class);
+  when(scmConfig.doesPluginExist()).thenReturn(false);
+  thrown.expect(RuntimeException.class);
+  pluggableScmService.isValid(scmConfig);
+  verifyZeroInteractions(scmExtension);
+}

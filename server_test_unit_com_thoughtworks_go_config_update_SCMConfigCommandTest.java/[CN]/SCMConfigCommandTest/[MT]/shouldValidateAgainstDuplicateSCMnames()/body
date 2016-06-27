@@ -1,0 +1,10 @@
+{
+  scm.setName("material");
+  SCM duplicateSCM=new SCM("another-id",new PluginConfiguration("non-existent-plugin-id","1"),new Configuration(new ConfigurationProperty(new ConfigurationKey("key"),new ConfigurationValue("value"))));
+  duplicateSCM.setName("material");
+  scms.add(duplicateSCM);
+  cruiseConfig.setSCMs(scms);
+  CreateSCMConfigCommand command=new CreateSCMConfigCommand(duplicateSCM,pluggableScmService,result,currentUser,goConfigService);
+  assertThat(command.isValid(cruiseConfig),is(false));
+  assertThat(duplicateSCM.errors().getAllOn("name"),is(Arrays.asList("Cannot save SCM, found multiple SCMs called 'material'. SCM names are case-insensitive and must be unique.")));
+}

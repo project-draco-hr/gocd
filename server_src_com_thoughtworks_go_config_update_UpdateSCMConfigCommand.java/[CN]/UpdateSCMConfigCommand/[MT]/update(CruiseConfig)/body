@@ -1,0 +1,12 @@
+{
+  SCMs scms=modifiedConfig.getSCMs();
+  SCM scm=scms.find(globalScmConfig.getSCMId());
+  if (scm != null) {
+    scm.setAutoUpdate(globalScmConfig.isAutoUpdate());
+    scm.setConfiguration(globalScmConfig.getConfiguration());
+  }
+ else {
+    result.notFound(LocalizedMessage.string("SCM_MATERIAL_NOT_FOUND"),HealthStateType.notFound());
+    throw new NullPointerException(String.format("The pluggable scm material with id '%s' is not found.",globalScmConfig.getSCMId()));
+  }
+}
