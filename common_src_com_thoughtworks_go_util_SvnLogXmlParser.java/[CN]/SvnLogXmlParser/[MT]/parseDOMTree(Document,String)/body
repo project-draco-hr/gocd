@@ -4,7 +4,10 @@
   List logEntries=rootElement.getChildren("logentry");
   for (Iterator iterator=logEntries.iterator(); iterator.hasNext(); ) {
     Element logEntry=(Element)iterator.next();
-    modifications.add(parseLogEntry(logEntry,path));
+    Modification modification=parseLogEntry(logEntry,path);
+    if (modification != null) {
+      modifications.add(modification);
+    }
   }
   return modifications;
 }
