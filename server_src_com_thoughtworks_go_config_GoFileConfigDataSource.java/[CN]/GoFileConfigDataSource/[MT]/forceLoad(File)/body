@@ -5,18 +5,16 @@
   GoConfigHolder holder;
   try {
     try {
-      List<PartialConfig> partials=cachedGoPartials.lastKnownPartials();
-      holder=internalLoad(FileUtils.readFileToString(configFile),new ConfigModifyingUser(FILESYSTEM),partials);
-      cachedGoPartials.markAsValid(partials);
+      List<PartialConfig> lastKnownPartials=cloner.deepClone(cachedGoPartials.lastKnownPartials());
+      holder=internalLoad(FileUtils.readFileToString(configFile),new ConfigModifyingUser(FILESYSTEM),lastKnownPartials);
     }
  catch (    GoConfigInvalidException e) {
       if (cachedGoPartials.lastValidPartials().isEmpty()) {
         throw e;
       }
  else {
-        List<PartialConfig> partials=cachedGoPartials.lastValidPartials();
-        holder=internalLoad(FileUtils.readFileToString(configFile),new ConfigModifyingUser(FILESYSTEM),partials);
-        cachedGoPartials.markAsValid(partials);
+        List<PartialConfig> lastValidPartials=cloner.deepClone(cachedGoPartials.lastValidPartials());
+        holder=internalLoad(FileUtils.readFileToString(configFile),new ConfigModifyingUser(FILESYSTEM),lastValidPartials);
       }
     }
     return holder;

@@ -6,37 +6,33 @@
  catch (  Exception e) {
     bomb(e);
   }
-  List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
-  List<PartialConfig> lastKnownPartials=cachedGoPartials.lastKnownPartials();
+  List<PartialConfig> lastValidPartials=cloner.deepClone(cachedGoPartials.lastValidPartials());
+  List<PartialConfig> lastKnownPartials=cloner.deepClone(cachedGoPartials.lastKnownPartials());
   if (lastKnownPartials.isEmpty() || areKnownPartialsSameAsValidPartials(lastKnownPartials,lastValidPartials)) {
     return trySavingEntity(updatingCommand,currentUser,modifiedConfig,lastValidPartials);
   }
- else {
+  try {
+    return trySavingEntity(updatingCommand,currentUser,modifiedConfig,lastValidPartials);
+  }
+ catch (  GoConfigInvalidException e) {
+    StringBuilder errorMessageBuilder=new StringBuilder();
     try {
-      return trySavingEntity(updatingCommand,currentUser,modifiedConfig,lastValidPartials);
+      String message=String.format("Merged update operation failed on VALID %s partials. Falling back to using LAST KNOWN %s partials. Exception message was: [%s %s]",lastValidPartials.size(),lastKnownPartials.size(),e.getMessage(),e.getAllErrorMessages());
+      errorMessageBuilder.append(message);
+      LOGGER.warn(message,e);
+      updatingCommand.clearErrors();
+      modifiedConfig.setPartials(lastKnownPartials);
+      String configAsXml=configAsXml(modifiedConfig,false);
+      GoConfigHolder holder=internalLoad(configAsXml,new ConfigModifyingUser(currentUser.getUsername().toString()),lastKnownPartials);
+      LOGGER.info(String.format("Update operation on merged configuration succeeded with %s KNOWN partials. Now there are %s LAST KNOWN partials",lastKnownPartials.size(),cachedGoPartials.lastKnownPartials().size()));
+      return new EntityConfigSaveResult(holder.config,holder);
     }
- catch (    GoConfigInvalidException e) {
-      StringBuilder errorMessageBuilder=new StringBuilder();
-      try {
-        String message=String.format("Merged update operation failed on VALID %s partials. Falling back to using LAST KNOWN %s partials. Exception message was: [%s %s]",lastValidPartials.size(),lastKnownPartials.size(),e.getMessage(),e.getAllErrorMessages());
-        errorMessageBuilder.append(message);
-        LOGGER.warn(message,e);
-        updatingCommand.clearErrors();
-        List<PartialConfig> partials=lastKnownPartials;
-        modifiedConfig.setPartials(partials);
-        String configAsXml=configAsXml(modifiedConfig,false);
-        cachedGoPartials.markAsValid(partials);
-        GoConfigHolder holder=internalLoad(configAsXml,new ConfigModifyingUser(currentUser.getUsername().toString()),partials);
-        LOGGER.info(String.format("Update operation on merged configuration succeeded with %s KNOWN partials. Now there are %s LAST KNOWN partials",lastKnownPartials.size(),cachedGoPartials.lastKnownPartials().size()));
-        return new EntityConfigSaveResult(holder.config,holder);
-      }
- catch (      Exception exceptionDuringFallbackValidation) {
-        String message=String.format("Merged config update operation failed using fallback LAST KNOWN %s partials. Exception message was: %s",lastKnownPartials.size(),exceptionDuringFallbackValidation.getMessage());
-        LOGGER.warn(message,exceptionDuringFallbackValidation);
-        errorMessageBuilder.append(System.lineSeparator());
-        errorMessageBuilder.append(message);
-        throw new GoConfigInvalidException(e.getCruiseConfig(),errorMessageBuilder.toString());
-      }
+ catch (    Exception exceptionDuringFallbackValidation) {
+      String message=String.format("Merged config update operation failed using fallback LAST KNOWN %s partials. Exception message was: %s",lastKnownPartials.size(),exceptionDuringFallbackValidation.getMessage());
+      LOGGER.warn(message,exceptionDuringFallbackValidation);
+      errorMessageBuilder.append(System.lineSeparator());
+      errorMessageBuilder.append(message);
+      throw new GoConfigInvalidException(e.getCruiseConfig(),errorMessageBuilder.toString());
     }
   }
 }

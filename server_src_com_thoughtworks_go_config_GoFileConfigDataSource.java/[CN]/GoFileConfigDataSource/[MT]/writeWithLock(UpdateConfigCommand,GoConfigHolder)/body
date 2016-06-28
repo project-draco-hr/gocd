@@ -1,8 +1,8 @@
 {
   try {
     GoConfigHolder validatedConfigHolder;
-    List<PartialConfig> lastKnownPartials=cachedGoPartials.lastKnownPartials();
-    List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
+    List<PartialConfig> lastKnownPartials=cloner.deepClone(cachedGoPartials.lastKnownPartials());
+    List<PartialConfig> lastValidPartials=cloner.deepClone(cachedGoPartials.lastValidPartials());
     try {
       String configAsXml=trySavingConfig(updatingCommand,configHolder,lastKnownPartials);
       validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),lastKnownPartials);
@@ -16,7 +16,7 @@
         LOGGER.warn(String.format("Merged config update operation failed on LATEST %s partials. Falling back to using LAST VALID %s partials. Exception message was: %s",lastKnownPartials.size(),lastValidPartials.size(),e.getMessage()),e);
         try {
           String configAsXml=trySavingConfig(updatingCommand,configHolder,lastValidPartials);
-          validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),cachedGoPartials.lastValidPartials());
+          validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),lastValidPartials);
           int previousValidPartialsCount=lastValidPartials.size();
           lastValidPartials=cachedGoPartials.lastValidPartials();
           updateMergedConfigForEdit(validatedConfigHolder,lastValidPartials);
