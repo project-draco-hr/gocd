@@ -3,7 +3,7 @@
   submoduleRepos.addSubmodule(SUBMODULE,"sub1");
   GitCommand gitWithSubmodule=new GitCommand(null,createTempWorkingDirectory(),GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>());
   InMemoryStreamConsumer outputStreamConsumer=inMemoryConsumer();
-  gitWithSubmodule.cloneFrom(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
+  gitWithSubmodule.clone(outputStreamConsumer,submoduleRepos.mainRepo().getUrl());
   gitWithSubmodule.fetchAndResetToHead(outputStreamConsumer);
   gitWithSubmodule.updateSubmoduleWithInit(outputStreamConsumer);
   List<String> folders=gitWithSubmodule.submoduleFolders();

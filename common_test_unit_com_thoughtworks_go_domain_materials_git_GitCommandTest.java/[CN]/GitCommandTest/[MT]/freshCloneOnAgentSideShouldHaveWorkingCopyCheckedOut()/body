@@ -1,0 +1,7 @@
+{
+  InMemoryStreamConsumer output=inMemoryConsumer();
+  File workingDir=createTempWorkingDirectory();
+  GitCommand git=new GitCommand(null,workingDir,GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>());
+  git.clone(output,repoUrl);
+  assertWorkingCopyCheckedOut(workingDir);
+}

@@ -2,7 +2,7 @@
   GitSubmoduleRepos submoduleRepos=new GitSubmoduleRepos();
   File submoduleFolder=submoduleRepos.addSubmodule(SUBMODULE,"sub1");
   GitCommand gitWithSubmodule=new GitCommand(null,createTempWorkingDirectory(),GitMaterialConfig.DEFAULT_BRANCH,false,new HashMap<String,String>());
-  gitWithSubmodule.cloneFrom(inMemoryConsumer(),submoduleRepos.mainRepo().getUrl());
+  gitWithSubmodule.clone(inMemoryConsumer(),submoduleRepos.mainRepo().getUrl());
   FileUtils.deleteDirectory(submoduleFolder);
   assertThat(submoduleFolder.exists(),is(false));
   try {
