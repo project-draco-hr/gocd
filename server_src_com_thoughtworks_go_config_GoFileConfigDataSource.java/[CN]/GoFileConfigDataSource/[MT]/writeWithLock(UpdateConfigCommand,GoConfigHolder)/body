@@ -17,10 +17,8 @@
         try {
           String configAsXml=trySavingConfig(updatingCommand,configHolder,lastValidPartials);
           validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),lastValidPartials);
-          int previousValidPartialsCount=lastValidPartials.size();
-          lastValidPartials=cachedGoPartials.lastValidPartials();
           updateMergedConfigForEdit(validatedConfigHolder,lastValidPartials);
-          LOGGER.info(String.format("Update operation on merged configuration succeeded with old %s LAST VALID partials. Now there are %s LAST VALID partials",previousValidPartialsCount,lastValidPartials.size()));
+          LOGGER.info(String.format("Update operation on merged configuration succeeded with old %s LAST VALID partials.",lastValidPartials.size()));
         }
  catch (        GoConfigInvalidException fallbackFailed) {
           LOGGER.warn(String.format("Merged config update operation failed using fallback LAST VALID %s partials. Exception message was: %s",lastValidPartials.size(),fallbackFailed.getMessage()),fallbackFailed);
