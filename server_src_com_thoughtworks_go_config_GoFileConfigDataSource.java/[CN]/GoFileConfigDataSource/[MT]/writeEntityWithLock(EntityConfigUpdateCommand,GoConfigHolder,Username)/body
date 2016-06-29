@@ -6,8 +6,8 @@
  catch (  Exception e) {
     bomb(e);
   }
-  List<PartialConfig> lastValidPartials=cloner.deepClone(cachedGoPartials.lastValidPartials());
-  List<PartialConfig> lastKnownPartials=cloner.deepClone(cachedGoPartials.lastKnownPartials());
+  List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
+  List<PartialConfig> lastKnownPartials=cachedGoPartials.lastKnownPartials();
   if (lastKnownPartials.isEmpty() || areKnownPartialsSameAsValidPartials(lastKnownPartials,lastValidPartials)) {
     return trySavingEntity(updatingCommand,currentUser,modifiedConfig,lastValidPartials);
   }
