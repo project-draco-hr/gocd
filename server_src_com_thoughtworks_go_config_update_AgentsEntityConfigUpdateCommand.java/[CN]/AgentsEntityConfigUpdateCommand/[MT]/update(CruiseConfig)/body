@@ -1,0 +1,30 @@
+{
+  List<AgentConfig> goodAgents=getValidAgents(uuids,result,preprocessedConfig.agents());
+  Set<CaseInsensitiveString> allEnvironmentNames=new HashSet<>(goConfigService.getEnvironments().names());
+  validateEnvironment(allEnvironmentNames,environmentsToAdd,result);
+  validateEnvironment(allEnvironmentNames,environmentsToRemove,result);
+  for (  AgentConfig agentConfig : goodAgents) {
+    if (state.isFalse()) {
+      agentConfig.disable();
+    }
+    if (state.isTrue()) {
+      agentConfig.enable();
+    }
+    for (    String r : resourcesToAdd) {
+      agentConfig.addResource(new Resource(r));
+    }
+    for (    String r : resourcesToRemove) {
+      agentConfig.removeResource(new Resource(r));
+    }
+    for (    String environment : environmentsToAdd) {
+      EnvironmentConfig environmentConfig=preprocessedConfig.getEnvironments().find(new CaseInsensitiveString(environment));
+      if (environmentConfig != null) {
+        environmentConfig.addAgentIfNew(agentConfig.getUuid());
+      }
+    }
+    for (    String environment : environmentsToRemove) {
+      EnvironmentConfig environmentConfig=preprocessedConfig.getEnvironments().find(new CaseInsensitiveString(environment));
+      if (environmentConfig != null)       environmentConfig.removeAgent(agentConfig.getUuid());
+    }
+  }
+}

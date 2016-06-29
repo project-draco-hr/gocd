@@ -1,0 +1,25 @@
+{
+  AgentConfig agentConfig1=new AgentConfig(UUID.randomUUID().toString(),"remote-host1","50.40.30.21");
+  AgentConfig agentConfig2=new AgentConfig(UUID.randomUUID().toString(),"remote-host2","50.40.30.22");
+  agentConfigService.addAgent(agentConfig1,Username.ANONYMOUS);
+  agentConfigService.addAgent(agentConfig2,Username.ANONYMOUS);
+  BasicEnvironmentConfig devEnvironment=new BasicEnvironmentConfig(new CaseInsensitiveString("Dev"));
+  BasicEnvironmentConfig testEnvironment=new BasicEnvironmentConfig(new CaseInsensitiveString("Test"));
+  goConfigDao.addEnvironment(devEnvironment,Username.ANONYMOUS);
+  goConfigDao.addEnvironment(testEnvironment,Username.ANONYMOUS);
+  testEnvironment.addAgent(agentConfig1.getUuid());
+  devEnvironment.addAgent(agentConfig1.getUuid());
+  devEnvironment.addAgent(agentConfig2.getUuid());
+  assertThat(devEnvironment.getAgents().getUuids(),containsInAnyOrder(agentConfig1.getUuid(),agentConfig2.getUuid()));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ArrayList<String> uuids=new ArrayList<>();
+  uuids.add(agentConfig1.getUuid());
+  uuids.add(agentConfig2.getUuid());
+  ArrayList<String> environmentsToRemove=new ArrayList<>();
+  environmentsToRemove.add("Dev");
+  agentConfigService.bulkUpdateAgentAttributes(Username.ANONYMOUS,result,uuids,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<String>(),environmentsToRemove,TriState.TRUE);
+  assertTrue(result.isSuccessful());
+  assertThat(result.toString(),containsString("BULK_AGENT_UPDATE_SUCESSFUL"));
+  assertFalse(goConfigDao.load().getEnvironments().find(new CaseInsensitiveString("Dev")).hasAgent(agentConfig1.getUuid()));
+  assertFalse(goConfigDao.load().getEnvironments().find(new CaseInsensitiveString("Dev")).hasAgent(agentConfig2.getUuid()));
+}

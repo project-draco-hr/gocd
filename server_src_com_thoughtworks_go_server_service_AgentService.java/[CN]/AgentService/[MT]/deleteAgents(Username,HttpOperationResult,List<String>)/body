@@ -3,12 +3,8 @@
     return;
   }
   List<AgentInstance> agents=new ArrayList<>();
-  for (  String uuid : uuids) {
-    AgentInstance agentInstance=findAgent(uuid);
-    if (isUnknownAgent(agentInstance,operationResult)) {
-      return;
-    }
-    agents.add(agentInstance);
+  if (!populateAgentInstancesForUUIDs(operationResult,uuids,agents)) {
+    return;
   }
   List<AgentInstance> failedToDeleteAgents=new ArrayList<>();
   for (  AgentInstance agentInstance : agents) {

@@ -1,0 +1,14 @@
+{
+  EntityConfigUpdateCommand<Agents> agentsEntityConfigUpdateCommand=new AgentsEntityConfigUpdateCommand(username,result,uuids,environmentsToAdd,environmentsToRemove,enable,resourcesToAdd,resourcesToRemove,goConfigService);
+  try {
+    goConfigService.updateConfig(agentsEntityConfigUpdateCommand,username);
+    if (result.isSuccessful()) {
+      result.setMessage(LocalizedMessage.string("BULK_AGENT_UPDATE_SUCESSFUL",StringUtils.join(uuids,", ")));
+    }
+  }
+ catch (  Exception e) {
+    if (e.getMessage() == null) {
+      result.internalServerError(LocalizedMessage.string("INTERNAL_SERVER_ERROR"));
+    }
+  }
+}

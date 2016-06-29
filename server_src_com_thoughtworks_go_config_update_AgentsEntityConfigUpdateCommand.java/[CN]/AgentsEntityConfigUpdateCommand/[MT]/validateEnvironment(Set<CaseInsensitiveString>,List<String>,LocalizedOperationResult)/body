@@ -1,0 +1,9 @@
+{
+  for (  String environment : environmentsToOperate) {
+    CaseInsensitiveString environmentName=new CaseInsensitiveString(environment);
+    if (!allEnvironmentNames.contains(environmentName)) {
+      result.badRequest(LocalizedMessage.string("ENV_NOT_FOUND",environmentName));
+      throw new NoSuchEnvironmentException(environmentName);
+    }
+  }
+}

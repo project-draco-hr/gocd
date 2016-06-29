@@ -1,0 +1,6 @@
+{
+  final Username user=new Username(new CaseInsensitiveString("user"));
+  expectLoad(mock(BasicCruiseConfig.class));
+  goConfigService.isAdministrator(user.getUsername());
+  verify(goConfigDao.load()).isAdministrator(user.getUsername().toString());
+}
