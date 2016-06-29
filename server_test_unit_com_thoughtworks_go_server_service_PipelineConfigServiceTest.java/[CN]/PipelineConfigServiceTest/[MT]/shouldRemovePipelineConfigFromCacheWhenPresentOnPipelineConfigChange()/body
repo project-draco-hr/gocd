@@ -1,7 +1,0 @@
-{
-  EntityConfigChangedListener<PipelineConfig> pipelineConfigChangeListener=getPipelineConfigEntityConfigChangedListener();
-  when(goCache.get("GO_PIPELINE_CONFIGS_ETAGS_CACHE","p")).thenReturn(new Object());
-  PipelineConfig pipelineConfig=new PipelineConfig(new CaseInsensitiveString("p"),new MaterialConfigs());
-  pipelineConfigChangeListener.onEntityConfigChange(pipelineConfig);
-  verify(goCache).remove("GO_PIPELINE_CONFIGS_ETAGS_CACHE","p");
-}

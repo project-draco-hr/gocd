@@ -4,7 +4,7 @@
   saveScmMaterialToConfig(scmid);
   PluggableSCMMaterialConfig scmMaterialConfig=new PluggableSCMMaterialConfig(scmid);
   pipelineConfig.materialConfigs().add(scmMaterialConfig);
-  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
   assertThat(result.toString(),result.isSuccessful(),is(false));
   assertThat(scmMaterialConfig.errors().on(PluggableSCMMaterialConfig.FOLDER),is("Destination directory is required when specifying multiple scm materials"));
   assertThat(scmMaterialConfig.errors().on(PluggableSCMMaterialConfig.SCM_ID),is("Could not find plugin for scm-id: [scmid]."));

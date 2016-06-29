@@ -1,0 +1,5 @@
+{
+  EntityHashingService.PipelineConfigChangedListener listener=entityHashingService.new PipelineConfigChangedListener();
+  listener.onEntityConfigChange(PipelineConfigMother.pipelineConfig("P1"));
+  verify(goCache).remove("GO_PIPELINE_CONFIGS_ETAGS_CACHE","p1");
+}

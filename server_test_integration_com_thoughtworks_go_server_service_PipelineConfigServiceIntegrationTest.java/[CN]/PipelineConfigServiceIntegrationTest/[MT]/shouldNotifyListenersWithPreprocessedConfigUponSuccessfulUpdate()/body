@@ -15,6 +15,6 @@
   goConfigService.register(pipelineConfigChangedListener);
   PipelineConfig pipeline=PipelineConfigMother.pipelineConfigWithTemplate(pipelineName,templateName);
   pipeline.setVariables(new EnvironmentVariablesConfig());
-  pipelineConfigService.updatePipelineConfig(user,pipeline,new DefaultLocalizedOperationResult());
+  pipelineConfigService.updatePipelineConfig(user,pipeline,pipelineConfigMD5,new DefaultLocalizedOperationResult());
   assertThat(listenerInvoked[0],is(true));
 }

@@ -4,7 +4,7 @@
   GoConfigHolder goConfigHolder=goConfigDao.loadConfigHolder();
   pipelineConfig.clear();
   pipelineConfig.setTemplateName(templateName);
-  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,result);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
   assertThat(result.toString(),result.isSuccessful(),is(false));
   assertThat(result.toString(),result.toString().contains("Parameter 'SOME_PARAM' is not defined"),is(true));
   assertThat(configRepository.getCurrentRevCommit().name(),is(headCommitBeforeUpdate));
