@@ -1,0 +1,8 @@
+{
+  EnvironmentsConfig environments=cruiseConfig.getEnvironments();
+  EnvironmentConfig oldConfig=environments.named(new CaseInsensitiveString(environmentToUpdate));
+  int index=environments.indexOf(oldConfig);
+  environments.remove(index);
+  environments.add(index,newEnvironmentConfig);
+  return cruiseConfig;
+}

@@ -1,0 +1,11 @@
+{
+  return goConfigDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
+    public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      return new UpdateEnvironmentCommand(named,newEnvDefinition,username).update(cruiseConfig);
+    }
+    public String unmodifiedMd5(){
+      return md5;
+    }
+  }
+);
+}

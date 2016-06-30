@@ -4,7 +4,7 @@
   String md5="md5";
   Username user=new Username(new CaseInsensitiveString("user"));
   when(securityService.isUserAdmin(user)).thenReturn(true);
-  when(mockGoConfigService.updateEnvironment(environmentName,environmentConfig,md5)).thenReturn(ConfigSaveState.MERGED);
+  when(mockGoConfigService.updateEnvironment(environmentName,environmentConfig,user,md5)).thenReturn(ConfigSaveState.MERGED);
   HttpLocalizedOperationResult result=environmentConfigService.updateEnvironment(environmentName,environmentConfig,user,md5);
   assertThat(result.localizable(),is(LocalizedMessage.composite(LocalizedMessage.string("UPDATE_ENVIRONMENT_SUCCESS",environmentName),LocalizedMessage.string("CONFIG_MERGED"))));
 }

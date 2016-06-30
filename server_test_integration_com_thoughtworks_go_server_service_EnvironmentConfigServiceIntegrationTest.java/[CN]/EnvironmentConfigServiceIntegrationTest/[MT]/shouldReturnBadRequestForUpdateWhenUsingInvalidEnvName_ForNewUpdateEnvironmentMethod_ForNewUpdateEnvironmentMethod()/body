@@ -1,0 +1,7 @@
+{
+  configHelper.addEnvironments("foo-env");
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  service.updateEnvironment("foo-env",env("foo env",new ArrayList<String>(),new ArrayList<Map<String,String>>(),new ArrayList<String>()),new Username(new CaseInsensitiveString("any")),result);
+  assertThat(result.httpCode(),is(HttpServletResponse.SC_BAD_REQUEST));
+  assertThat(result.message(localizer),containsString("Failed to update environment 'foo-env'."));
+}
