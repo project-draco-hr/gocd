@@ -3,12 +3,11 @@
   PipelineConfig p1=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("p1"));
   PipelineConfig p2=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("p2"));
   p2.addMaterialConfig(new DependencyMaterialConfig(p1.name(),p1.first().name()));
-  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
+  String group=cruiseConfig.getGroups().first().getGroup();
   StageConfig stageConfig=new StageConfig(new CaseInsensitiveString("s1"),new JobConfigs(new JobConfig(new CaseInsensitiveString("j1"))));
   PipelineConfig pipelineConfig=new PipelineConfig(p1.name(),new MaterialConfigs(),stageConfig);
-  PipelineConfigSaveValidationContext validationContext=PipelineConfigSaveValidationContext.forChain(false,cruiseConfig.getGroups().first().getGroup(),cruiseConfig,pipelineConfig);
+  cruiseConfig.update(group,pipelineConfig.name().toString(),pipelineConfig);
+  PipelineConfigSaveValidationContext validationContext=PipelineConfigSaveValidationContext.forChain(false,group,cruiseConfig,pipelineConfig);
   pipelineConfig.validateTree(validationContext);
   assertThat(pipelineConfig.errors().on("base"),is("Stage with name 'stage' does not exist on pipeline 'p1', it is being referred to from pipeline 'p2' (cruise-config.xml)"));
-  p2=PipelineConfigurationCache.getInstance().getPipelineConfig("p2");
-  assertThat(p2.materialConfigs().getDependencyMaterial().errors().isEmpty(),is(true));
 }

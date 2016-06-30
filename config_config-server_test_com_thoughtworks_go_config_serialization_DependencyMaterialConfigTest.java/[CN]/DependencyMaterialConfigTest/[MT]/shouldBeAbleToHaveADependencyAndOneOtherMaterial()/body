@@ -5,7 +5,6 @@
   pipelineConfig.addMaterialConfig(new P4MaterialConfig("localhost:1666","foo"));
   ByteArrayOutputStream buffer=new ByteArrayOutputStream();
   CruiseConfig cruiseConfig=mother.cruiseConfig();
-  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
   writer.write(cruiseConfig,buffer,false);
   final ByteArrayInputStream inputStream=new ByteArrayInputStream(buffer.toByteArray());
   CruiseConfig config=loader.loadConfigHolder(FileUtil.readToEnd(inputStream)).config;

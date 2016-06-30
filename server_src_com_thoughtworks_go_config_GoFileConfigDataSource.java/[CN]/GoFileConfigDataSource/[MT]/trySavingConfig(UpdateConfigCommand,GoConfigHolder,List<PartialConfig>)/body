@@ -1,6 +1,5 @@
 {
-  List<PartialConfig> clonedPartials=new Cloner().deepClone(partials);
-  String configAsXml=getModifiedConfig(updatingCommand,configHolder,clonedPartials);
+  String configAsXml=getModifiedConfig(updatingCommand,configHolder,partials);
   LOGGER.info(String.format("[Configuration Changed] Saving updated configuration."));
   writeToConfigXmlFile(configAsXml);
   return configAsXml;

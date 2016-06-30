@@ -1,0 +1,11 @@
+{
+  GoConfigHolder configHolder=magicalGoConfigXmlLoader.loadConfigHolder(content,new MagicalGoConfigXmlLoader.Callback(){
+    @Override public void call(    CruiseConfig cruiseConfig){
+      cruiseConfig.setPartials(partials);
+    }
+  }
+);
+  CruiseConfig config=configHolder.config;
+  checkinConfigToGitRepo(partials,config,content,configHolder.configForEdit.getMd5(),configModifyingUser.getUserName());
+  return configHolder;
+}

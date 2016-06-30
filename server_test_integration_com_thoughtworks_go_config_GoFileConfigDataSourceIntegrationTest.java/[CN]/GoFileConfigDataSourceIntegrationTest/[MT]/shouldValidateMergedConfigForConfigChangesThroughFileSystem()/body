@@ -1,0 +1,13 @@
+{
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstream)),is(true));
+  updateConfigOnFileSystem(new UpdateConfig(){
+    @Override public void update(    CruiseConfig cruiseConfig){
+      PipelineConfig updatedUpstream=cruiseConfig.getPipelineConfigByName(upstreamPipeline.name());
+      updatedUpstream.getFirstStageConfig().setName(new CaseInsensitiveString("upstream_stage_renamed"));
+    }
+  }
+);
+  thrown.expect(org.hamcrest.Matchers.any(GoConfigInvalidException.class));
+  thrown.expectMessage("Stage with name 'upstream_stage_original' does not exist on pipeline 'upstream', it is being referred to from pipeline 'remote_downstream' (url at r1)");
+  dataSource.forceLoad(new File(systemEnvironment.getCruiseConfigFile()));
+}

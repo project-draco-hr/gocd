@@ -5,7 +5,6 @@
   p2.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString(pipelineName),new CaseInsensitiveString("stage")));
   PipelineConfig p3=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString("p3"));
   p3.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("p2"),new CaseInsensitiveString("stage")));
-  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
   PipelineConfig p1=cruiseConfig.getPipelineConfigByName(new CaseInsensitiveString(pipelineName));
   p1=new Cloner().deepClone(p1);
   p1.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("p3"),new CaseInsensitiveString("stage")));

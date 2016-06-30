@@ -6,8 +6,7 @@
   downstream.setMaterialConfigs(new MaterialConfigs(MaterialConfigsMother.dependencyMaterialConfig("upstream","up-stage1"),MaterialConfigsMother.dependencyMaterialConfig("upstreams_peer","peer-stage")));
   FetchTask task=new FetchTask(new CaseInsensitiveString("upstream/uppest_stream"),new CaseInsensitiveString("up-stage1"),new CaseInsensitiveString("up-job1"),"src","dest");
   StageConfig stage=downstream.getStage(new CaseInsensitiveString("stage"));
-  PipelineConfigurationCache.getInstance().onConfigChange(config);
-  task.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",downstream,stage,stage.getJobs().get(0)));
+  task.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",config,downstream,stage,stage.getJobs().get(0)));
   assertThat(task.errors().isEmpty(),is(false));
   assertThat(task.errors().on(FetchTask.PIPELINE_NAME),is("Pipeline named 'uppest_stream' exists, but is not an ancestor of 'downstream' as declared in 'upstream/uppest_stream'."));
 }

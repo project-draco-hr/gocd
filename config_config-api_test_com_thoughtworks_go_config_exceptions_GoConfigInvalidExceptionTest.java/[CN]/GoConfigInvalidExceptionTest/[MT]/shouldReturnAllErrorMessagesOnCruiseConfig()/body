@@ -1,0 +1,9 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.defaultCruiseConfig();
+  cruiseConfig.addError("BasicCruiseConfig_key","BasicCruiseConfig_error");
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("");
+  pipelineConfig.addError("PipelineConfig_key","PipelineConfig_error");
+  cruiseConfig.addPipeline("default",pipelineConfig);
+  GoConfigInvalidException exception=new GoConfigInvalidException(cruiseConfig,"");
+  assertThat(exception.getAllErrorMessages(),is("BasicCruiseConfig_error, PipelineConfig_error"));
+}

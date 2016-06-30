@@ -1,13 +1,16 @@
 {
   BasicEnvironmentConfig env=new BasicEnvironmentConfig(new CaseInsensitiveString("Dev"));
-  env.addPipeline(pipelineConfig.name());
+  PipelineConfig pipeline=PipelineConfigMother.createPipelineConfigWithStages(UUID.randomUUID().toString(),"stage");
+  goConfigService.addPipeline(pipeline,"default");
+  env.addPipeline(pipeline.name());
   goConfigService.addEnvironment(env);
-  assertThat(goConfigService.getAllPipelineConfigs().size(),is(1));
-  assertTrue(goConfigService.hasPipelineNamed(pipelineConfig.name()));
-  pipelineConfigService.deletePipelineConfig(user,pipelineConfig,result);
+  int pipelineCountBefore=goConfigService.getAllPipelineConfigs().size();
+  assertTrue(goConfigService.hasPipelineNamed(pipeline.name()));
+  pipelineConfigService.deletePipelineConfig(user,pipeline,result);
   assertFalse(result.isSuccessful());
   assertThat(result.toString(),result.toString().contains("CANNOT_DELETE_PIPELINE_IN_ENVIRONMENT"),is(true));
   assertThat(result.httpCode(),is(422));
-  assertThat(goConfigService.getAllPipelineConfigs().size(),is(1));
-  assertTrue(goConfigService.hasPipelineNamed(pipelineConfig.name()));
+  int pipelineCountAfter=goConfigService.getAllPipelineConfigs().size();
+  assertThat(pipelineCountAfter,is(pipelineCountBefore));
+  assertTrue(goConfigService.hasPipelineNamed(pipeline.name()));
 }

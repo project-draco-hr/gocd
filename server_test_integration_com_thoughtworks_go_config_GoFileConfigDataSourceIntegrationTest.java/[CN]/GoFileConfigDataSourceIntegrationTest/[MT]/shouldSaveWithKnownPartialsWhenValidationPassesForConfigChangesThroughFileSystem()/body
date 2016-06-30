@@ -1,0 +1,20 @@
+{
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstream)),is(true));
+  PipelineConfig remoteDownstreamPipeline=partialConfig.getGroups().first().getPipelines().get(0);
+  DependencyMaterialConfig dependencyMaterial=remoteDownstreamPipeline.materialConfigs().findDependencyMaterial(upstreamPipeline.name());
+  dependencyMaterial.setStageName(new CaseInsensitiveString("upstream_stage_renamed"));
+  goPartialConfig.onSuccessPartialConfig(configRepo,partialConfig);
+  DependencyMaterialConfig dependencyMaterialForRemotePipelineInConfigCache=goConfigService.getCurrentConfig().getPipelineConfigByName(new CaseInsensitiveString(remoteDownstream)).materialConfigs().findDependencyMaterial(upstreamPipeline.name());
+  assertThat(dependencyMaterialForRemotePipelineInConfigCache.getStageName(),is(new CaseInsensitiveString("upstream_stage_original")));
+  final CaseInsensitiveString upstreamStageRenamed=new CaseInsensitiveString("upstream_stage_renamed");
+  updateConfigOnFileSystem(new UpdateConfig(){
+    @Override public void update(    CruiseConfig cruiseConfig){
+      cruiseConfig.getPipelineConfigByName(upstreamPipeline.name()).first().setName(upstreamStageRenamed);
+    }
+  }
+);
+  GoConfigHolder goConfigHolder=dataSource.forceLoad(new File(systemEnvironment.getCruiseConfigFile()));
+  assertThat(goConfigHolder.config.getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstream)),is(true));
+  assertThat(goConfigHolder.config.getPipelineConfigByName(remoteDownstreamPipeline.name()).materialConfigs().findDependencyMaterial(upstreamPipeline.name()).getStageName(),is(upstreamStageRenamed));
+  assertThat(goConfigHolder.config.getPipelineConfigByName(upstreamPipeline.name()).getFirstStageConfig().name(),is(upstreamStageRenamed));
+}

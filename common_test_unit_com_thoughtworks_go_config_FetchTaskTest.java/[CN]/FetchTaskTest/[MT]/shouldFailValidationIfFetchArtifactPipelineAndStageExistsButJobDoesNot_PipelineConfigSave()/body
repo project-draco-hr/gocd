@@ -4,8 +4,7 @@
   FetchTask fetchTask=new FetchTask(new CaseInsensitiveString("upstream-pipeline"),new CaseInsensitiveString("upstream-stage"),new CaseInsensitiveString("some-random-job"),"quux.c","bang-file");
   job.addTask(fetchTask);
   PipelineConfig downstream=new PipelineConfig(new CaseInsensitiveString("downstream-pipeline"),new MaterialConfigs(new DependencyMaterialConfig(upstream.name(),upstream.getFirstStageConfig().name())),new StageConfig(new CaseInsensitiveString("downstream-stage"),new JobConfigs(job)));
-  PipelineConfigurationCache.getInstance().onConfigChange(new BasicCruiseConfig(new BasicPipelineConfigs(upstream,downstream)));
-  fetchTask.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",downstream,downstream.getFirstStageConfig(),downstream.getFirstStageConfig().getJobs().first()));
+  fetchTask.validateTree(PipelineConfigSaveValidationContext.forChain(true,"group",new BasicCruiseConfig(new BasicPipelineConfigs(upstream,downstream)),downstream,downstream.getFirstStageConfig(),downstream.getFirstStageConfig().getJobs().first()));
   assertThat(fetchTask.errors().isEmpty(),is(false));
   assertThat(fetchTask.errors().on(FetchTask.JOB),is("\"downstream-pipeline :: downstream-stage :: downstream-job\" tries to fetch artifact from job \"upstream-pipeline :: upstream-stage :: some-random-job\" which does not exist."));
 }

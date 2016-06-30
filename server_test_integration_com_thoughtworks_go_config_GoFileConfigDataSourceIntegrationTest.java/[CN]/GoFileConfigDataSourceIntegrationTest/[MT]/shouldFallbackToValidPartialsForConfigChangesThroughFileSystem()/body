@@ -1,0 +1,18 @@
+{
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstream)),is(true));
+  String remoteInvalidPipeline="remote_invalid_pipeline";
+  PartialConfig invalidPartial=PartialConfigMother.invalidPartial(remoteInvalidPipeline,new RepoConfigOrigin(configRepo,"r2"));
+  goPartialConfig.onSuccessPartialConfig(configRepo,invalidPartial);
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteInvalidPipeline)),is(false));
+  final String newArtifactLocation="some_random_change_to_config";
+  updateConfigOnFileSystem(new UpdateConfig(){
+    @Override public void update(    CruiseConfig cruiseConfig){
+      cruiseConfig.server().setArtifactsDir(newArtifactLocation);
+    }
+  }
+);
+  GoConfigHolder goConfigHolder=dataSource.forceLoad(new File(systemEnvironment.getCruiseConfigFile()));
+  assertThat(goConfigHolder.config.server().artifactsDir(),is(newArtifactLocation));
+  assertThat(goConfigHolder.config.getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstream)),is(true));
+  assertThat(goConfigHolder.config.getAllPipelineNames().contains(new CaseInsensitiveString(remoteInvalidPipeline)),is(false));
+}

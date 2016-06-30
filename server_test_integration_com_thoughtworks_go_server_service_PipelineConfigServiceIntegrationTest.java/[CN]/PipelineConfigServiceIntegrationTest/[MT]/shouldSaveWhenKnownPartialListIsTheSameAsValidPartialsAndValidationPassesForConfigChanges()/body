@@ -1,0 +1,16 @@
+{
+  PipelineConfig remoteDownstreamPipeline=partialConfig.getGroups().first().getPipelines().get(0);
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(remoteDownstreamPipeline.name()),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).isEmpty(),is(true));
+  DependencyMaterialConfig dependencyMaterialForRemotePipelineInConfigCache=goConfigService.getCurrentConfig().getPipelineConfigByName(remoteDownstreamPipeline.name()).materialConfigs().findDependencyMaterial(pipelineConfig.name());
+  assertThat(dependencyMaterialForRemotePipelineInConfigCache.getStageName(),is(new CaseInsensitiveString("stage")));
+  pipelineConfig.setVariables(new EnvironmentVariablesConfig(asList(new EnvironmentVariableConfig("key","value"))));
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  assertThat(result.isSuccessful(),is(true));
+  CruiseConfig currentConfig=goConfigService.getCurrentConfig();
+  assertThat(currentConfig.getAllPipelineNames().contains(remoteDownstreamPipeline.name()),is(true));
+  assertThat(currentConfig.getPipelineConfigByName(pipelineConfig.name()).getVariables().contains(new EnvironmentVariableConfig("key","value")),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig1)).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(repoConfig2)).isEmpty(),is(true));
+}

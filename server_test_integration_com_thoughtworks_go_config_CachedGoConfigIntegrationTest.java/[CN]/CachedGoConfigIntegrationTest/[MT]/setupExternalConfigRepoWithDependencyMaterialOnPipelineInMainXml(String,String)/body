@@ -1,0 +1,6 @@
+{
+  PipelineConfig upstreamPipelineConfig=GoConfigMother.createPipelineConfigWithMaterialConfig(upstream,new GitMaterialConfig("FOO"));
+  goConfigService.addPipeline(upstreamPipelineConfig,"default");
+  PartialConfig partialConfig=PartialConfigMother.pipelineWithDependencyMaterial(remoteDownstreamPipelineName,upstreamPipelineConfig,new RepoConfigOrigin(configRepo,"r1"));
+  goPartialConfig.onSuccessPartialConfig(configRepo,partialConfig);
+}

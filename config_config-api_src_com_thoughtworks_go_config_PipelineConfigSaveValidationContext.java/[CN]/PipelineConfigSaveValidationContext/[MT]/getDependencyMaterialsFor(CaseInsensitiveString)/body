@@ -1,3 +1,6 @@
 {
-  return PipelineConfigurationCache.getInstance().getDependencyMaterialsFor(pipelineName);
+  if (getDependencies().containsKey(pipelineName)) {
+    return getDependencies().get(pipelineName);
+  }
+  return new Node(new ArrayList<Node.DependencyNode>());
 }

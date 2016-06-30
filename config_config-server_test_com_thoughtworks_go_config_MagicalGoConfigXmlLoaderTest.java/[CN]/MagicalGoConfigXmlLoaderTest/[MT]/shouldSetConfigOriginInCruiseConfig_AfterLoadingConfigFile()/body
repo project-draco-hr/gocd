@@ -1,2 +1,10 @@
 {
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(ConfigFileFixture.CONFIG,new MagicalGoConfigXmlLoader.Callback(){
+    @Override public void call(    CruiseConfig cruiseConfig){
+      cruiseConfig.setPartials(asList(new PartialConfig()));
+    }
+  }
+);
+  assertThat(goConfigHolder.config.getOrigin(),Is.<ConfigOrigin>is(new MergeConfigOrigin()));
+  assertThat(goConfigHolder.configForEdit.getOrigin(),Is.<ConfigOrigin>is(new FileConfigOrigin()));
 }

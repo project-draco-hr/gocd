@@ -2,8 +2,8 @@
   ConfigRepoConfig configRepo=configWatchList.getCurrentConfigRepos().get(0);
   checkinPartial("config_repo_with_invalid_partial/bad_partial.gocd.xml");
   repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
-  assertThat(findMessageFor(HealthStateType.invalidConfigMerge()).isEmpty(),is(false));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(configRepo)).isEmpty(),is(false));
   deletePartial("bad_partial.gocd.xml");
   repoConfigDataSource.onCheckoutComplete(configRepo.getMaterialConfig(),externalConfigRepo,latestCommit);
-  assertThat(findMessageFor(HealthStateType.invalidConfigMerge()).isEmpty(),is(true));
+  assertThat(serverHealthService.filterByScope(HealthStateScope.forPartialConfigRepo(configRepo)).isEmpty(),is(true));
 }

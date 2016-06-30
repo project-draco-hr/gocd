@@ -1,0 +1,9 @@
+{
+  if (dependencies == null) {
+    dependencies=new Hashtable<>();
+    for (    PipelineConfig pipeline : cruiseConfig.getAllPipelineConfigs()) {
+      dependencies.put(pipeline.name(),pipeline.getDependenciesAsNode());
+    }
+  }
+  return dependencies;
+}

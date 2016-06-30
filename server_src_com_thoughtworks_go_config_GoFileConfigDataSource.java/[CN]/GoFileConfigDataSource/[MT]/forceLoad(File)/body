@@ -2,8 +2,22 @@
   if (LOGGER.isDebugEnabled()) {
     LOGGER.debug("Reloading config file: " + configFile.getAbsolutePath());
   }
+  GoConfigHolder holder;
   try {
-    return internalLoad(FileUtils.readFileToString(configFile),new ConfigModifyingUser(FILESYSTEM));
+    try {
+      List<PartialConfig> lastKnownPartials=cloner.deepClone(cachedGoPartials.lastKnownPartials());
+      holder=internalLoad(FileUtils.readFileToString(configFile),new ConfigModifyingUser(FILESYSTEM),lastKnownPartials);
+    }
+ catch (    GoConfigInvalidException e) {
+      if (cachedGoPartials.lastValidPartials().isEmpty()) {
+        throw e;
+      }
+ else {
+        List<PartialConfig> lastValidPartials=cloner.deepClone(cachedGoPartials.lastValidPartials());
+        holder=internalLoad(FileUtils.readFileToString(configFile),new ConfigModifyingUser(FILESYSTEM),lastValidPartials);
+      }
+    }
+    return holder;
   }
  catch (  Exception e) {
     LOGGER.error("Unable to load config file: " + configFile.getAbsolutePath() + " "+ e.getMessage(),e);

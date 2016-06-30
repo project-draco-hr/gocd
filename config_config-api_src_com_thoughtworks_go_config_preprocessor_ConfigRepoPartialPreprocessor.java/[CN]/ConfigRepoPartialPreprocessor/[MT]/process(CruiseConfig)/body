@@ -1,8 +1,5 @@
 {
-  if (cruiseConfig.getPartials().isEmpty() && partialsProvider != null) {
-    cruiseConfig.merge(new Cloner().deepClone(partialsProvider.lastPartials()),false);
-  }
- else {
+  if (!cruiseConfig.getPartials().isEmpty()) {
     cruiseConfig.merge(cruiseConfig.getPartials(),false);
   }
 }

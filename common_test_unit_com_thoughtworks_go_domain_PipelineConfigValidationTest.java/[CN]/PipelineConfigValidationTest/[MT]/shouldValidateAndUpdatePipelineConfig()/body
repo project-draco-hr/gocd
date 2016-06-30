@@ -7,7 +7,6 @@
   pipeline.getStages().add(stage1);
   pipeline.getStages().add(stage2);
   BasicCruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs("group",new Authorization(),pipeline));
-  PipelineConfigurationCache.getInstance().onConfigChange(cruiseConfig);
   boolean isValid=pipeline.validateTree(PipelineConfigSaveValidationContext.forChain(true,cruiseConfig.getGroups().first().getGroup(),cruiseConfig,pipeline));
   assertThat(isValid,is(true));
   assertThat(pipeline.materialConfigs().errors().isEmpty(),is(true));

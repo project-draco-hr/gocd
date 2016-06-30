@@ -1,0 +1,14 @@
+{
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstreamPipelineName)),is(true));
+  String remoteInvalidPipeline="remote_invalid_pipeline";
+  PartialConfig invalidPartial=PartialConfigMother.invalidPartial(remoteInvalidPipeline,new RepoConfigOrigin(repoConfig1,"repo1_r2"));
+  goPartialConfig.onSuccessPartialConfig(repoConfig1,invalidPartial);
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteInvalidPipeline)),is(false));
+  assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstreamPipelineName)),is(true));
+  pipelineConfig.getFirstStageConfig().getJobs().first().addTask(new ExecTask("executable",new Arguments(new Argument("foo")),"working"));
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  assertThat(result.isSuccessful(),is(true));
+  CruiseConfig currentConfig=goConfigService.getCurrentConfig();
+  assertThat(currentConfig.getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstreamPipelineName)),is(true));
+  assertThat(currentConfig.getAllPipelineNames().contains(new CaseInsensitiveString(remoteInvalidPipeline)),is(false));
+}

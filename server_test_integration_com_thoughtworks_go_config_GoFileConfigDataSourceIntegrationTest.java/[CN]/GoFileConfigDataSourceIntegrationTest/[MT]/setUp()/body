@@ -2,4 +2,15 @@
   File configDir=temporaryFolder.newFolder();
   String absolutePath=new File(configDir,"cruise-config.xml").getAbsolutePath();
   systemEnvironment.setProperty(SystemEnvironment.CONFIG_FILE_PROPERTY,absolutePath);
+  configHelper=new GoConfigFileHelper(DEFAULT_XML_WITH_2_AGENTS);
+  configHelper.usingCruiseConfigDao(goConfigDao).initializeConfigFile();
+  configHelper.onSetUp();
+  configHelper.addConfigRepo(new ConfigRepoConfig(MaterialConfigsMother.gitMaterialConfig("url"),XmlPartialConfigProvider.providerName));
+  configHelper.addPipeline("upstream","upstream_stage_original");
+  goConfigService.forceNotifyListeners();
+  cachedGoPartials.clear();
+  configRepo=configWatchList.getCurrentConfigRepos().get(0);
+  upstreamPipeline=goConfigService.pipelineConfigNamed(new CaseInsensitiveString("upstream"));
+  partialConfig=PartialConfigMother.pipelineWithDependencyMaterial(remoteDownstream,upstreamPipeline,new RepoConfigOrigin(configRepo,"r1"));
+  goPartialConfig.onSuccessPartialConfig(configRepo,partialConfig);
 }
