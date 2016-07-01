@@ -1,0 +1,13 @@
+{
+  SCMs scms=preprocessedConfig.getSCMs();
+  preprocessedGlobalScmConfig=scms.find(globalScmConfig.getSCMId());
+  preprocessedGlobalScmConfig.validate(null);
+  if (preprocessedGlobalScmConfig.getAllErrors().isEmpty()) {
+    scms.validate(null);
+    boolean isValid=pluggableScmService.isValid(preprocessedGlobalScmConfig);
+    BasicCruiseConfig.copyErrors(preprocessedGlobalScmConfig,globalScmConfig);
+    return preprocessedGlobalScmConfig.getAllErrors().isEmpty() && scms.errors().isEmpty() && isValid;
+  }
+  BasicCruiseConfig.copyErrors(preprocessedGlobalScmConfig,globalScmConfig);
+  return false;
+}

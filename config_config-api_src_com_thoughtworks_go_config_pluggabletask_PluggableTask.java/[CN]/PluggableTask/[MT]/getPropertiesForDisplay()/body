@@ -1,7 +1,7 @@
 {
   ArrayList<TaskProperty> taskProperties=new ArrayList<>();
   if (PluggableTaskConfigStore.store().hasPreferenceFor(pluginConfiguration.getId())) {
-    TaskPreference preference=PluggableTaskConfigStore.store().preferenceFor(pluginConfiguration.getId());
+    TaskPreference preference=taskPreference();
     List<? extends Property> propertyDefinitions=preference.getConfig().list();
     for (    Property propertyDefinition : propertyDefinitions) {
       ConfigurationProperty configuredProperty=configuration.getProperty(propertyDefinition.getKey());

@@ -1,0 +1,8 @@
+{
+  SCM scm=new SCM("1",null,null);
+  scm.setName("foo");
+  ArrayList<SCM> list=new ArrayList<>();
+  list.add(scm);
+  when(goConfigService.getSCMs()).thenReturn(list);
+  assertThat(pluggableScmService.findPluggableScmMaterial("foo"),is(scm));
+}

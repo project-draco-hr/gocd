@@ -1,0 +1,8 @@
+{
+  if (!scmConfig.doesPluginExist()) {
+    throw new RuntimeException(String.format("Plugin with id '%s' is not found.",scmConfig.getPluginConfiguration().getId()));
+  }
+  ValidationResult validationResult=scmExtension.isSCMConfigurationValid(scmConfig.getPluginConfiguration().getId(),getScmPropertyConfiguration(scmConfig));
+  addErrorsToConfiguration(validationResult,scmConfig);
+  return validationResult.isSuccessful();
+}
