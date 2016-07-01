@@ -1,0 +1,7 @@
+{
+  cruiseConfig.setSCMs(scms);
+  CreateSCMConfigCommand command=new CreateSCMConfigCommand(scm,pluggableScmService,result,currentUser,goConfigService);
+  assertThat(command.isValid(cruiseConfig),is(false));
+  command.clearErrors();
+  assertTrue(cruiseConfig.errors().isEmpty());
+}
