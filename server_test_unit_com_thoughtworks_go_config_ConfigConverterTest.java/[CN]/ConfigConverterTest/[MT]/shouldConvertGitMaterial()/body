@@ -1,9 +1,10 @@
 {
-  CRGitMaterial crGitMaterial=new CRGitMaterial("name","folder",true,true,filter,"url","branch");
+  CRGitMaterial crGitMaterial=new CRGitMaterial("name","folder",true,true,filter,"url","branch",false);
   GitMaterialConfig gitMaterialConfig=(GitMaterialConfig)configConverter.toMaterialConfig(crGitMaterial);
   assertThat(gitMaterialConfig.getName().toLower(),is("name"));
   assertThat(gitMaterialConfig.getFolder(),is("folder"));
   assertThat(gitMaterialConfig.getAutoUpdate(),is(true));
+  assertThat(gitMaterialConfig.isInvertFilter(),is(false));
   assertThat(gitMaterialConfig.getFilterAsString(),is("filter"));
   assertThat(gitMaterialConfig.getUrl(),is("url"));
   assertThat(gitMaterialConfig.getBranch(),is("branch"));

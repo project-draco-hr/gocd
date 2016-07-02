@@ -3,5 +3,5 @@
   String id=crPluggableScmMaterial.getScmId();
   SCM scmConfig=scms.find(id);
   if (scmConfig == null)   throw new ConfigConvertionException(String.format("Failed to find referenced scm '%s'",id));
-  return new PluggableSCMMaterialConfig(toMaterialName(crPluggableScmMaterial.getName()),scmConfig,crPluggableScmMaterial.getDirectory(),toFilter(crPluggableScmMaterial.getFilterIgnores()));
+  return new PluggableSCMMaterialConfig(toMaterialName(crPluggableScmMaterial.getName()),scmConfig,crPluggableScmMaterial.getDirectory(),toFilter(crPluggableScmMaterial.getFilterList()));
 }

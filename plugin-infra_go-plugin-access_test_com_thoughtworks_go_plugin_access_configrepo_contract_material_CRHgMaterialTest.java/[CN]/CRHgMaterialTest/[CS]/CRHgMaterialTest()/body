@@ -1,6 +1,8 @@
 {
   simpleHg=new CRHgMaterial();
   simpleHg.setUrl("myHgRepo");
-  customHg=new CRHgMaterial("hgMaterial1","dir1",false,"repos/myhg","externals","tools");
+  customHg=new CRHgMaterial("hgMaterial1","dir1",false,"repos/myhg",false,"externals","tools");
   invalidHgNoUrl=new CRHgMaterial();
+  invalidHgWhitelistAndIgnores=new CRHgMaterial("hgMaterial1","dir1",false,"repos/myhg",false,"externals","tools");
+  invalidHgWhitelistAndIgnores.setWhitelistNoCheck("src","tests");
 }

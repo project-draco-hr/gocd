@@ -5,7 +5,10 @@
     Filter filter=toFilter(crScmMaterial);
     String gitBranch=git.getBranch();
     if (StringUtils.isBlank(gitBranch))     gitBranch=GitMaterialConfig.DEFAULT_BRANCH;
-    return new GitMaterialConfig(new UrlArgument(git.getUrl()),gitBranch,null,git.isAutoUpdate(),filter,false,crScmMaterial.getDirectory(),toMaterialName(materialName),git.shallowClone());
+    GitMaterialConfig gitConfig=new GitMaterialConfig(git.getUrl(),gitBranch,git.shallowClone());
+    setCommonMaterialMembers(gitConfig,crScmMaterial);
+    setCommonScmMaterialMembers(gitConfig,git);
+    return gitConfig;
   }
  else   if (crScmMaterial instanceof CRHgMaterial) {
     CRHgMaterial hg=(CRHgMaterial)crScmMaterial;
