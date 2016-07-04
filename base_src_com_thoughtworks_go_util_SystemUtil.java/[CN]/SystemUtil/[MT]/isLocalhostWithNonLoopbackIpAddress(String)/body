@@ -1,7 +1,5 @@
 {
-  Iterator<NetworkInterface> iterator=localInterfaces.iterator();
-  while (iterator.hasNext()) {
-    NetworkInterface networkInterface=iterator.next();
+  for (  NetworkInterface networkInterface : localInterfaces) {
     Enumeration<InetAddress> inetAddressEnumeration=networkInterface.getInetAddresses();
     while (inetAddressEnumeration.hasMoreElements()) {
       InetAddress address=inetAddressEnumeration.nextElement();
