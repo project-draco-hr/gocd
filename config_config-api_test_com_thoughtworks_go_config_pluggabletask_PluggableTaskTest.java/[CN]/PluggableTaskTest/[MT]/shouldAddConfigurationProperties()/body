@@ -4,14 +4,12 @@
   TaskPreference taskPreference=mock(TaskPreference.class);
   TaskConfig taskConfig=new TaskConfig();
   Configuration configuration=new Configuration();
-  ConfigurationPropertyBuilder builder=mock(ConfigurationPropertyBuilder.class);
   Property property=new Property("key");
   property.with(Property.SECURE,false);
   PluggableTaskConfigStore.store().setPreferenceFor(pluginConfiguration.getId(),taskPreference);
   TaskConfigProperty taskConfigProperty=taskConfig.addProperty("key");
   when(taskPreference.getConfig()).thenReturn(taskConfig);
-  PluggableTask pluggableTask=new PluggableTask(pluginConfiguration,configuration,builder);
+  PluggableTask pluggableTask=new PluggableTask(pluginConfiguration,configuration);
   pluggableTask.addConfigurations(configurationProperties);
   assertThat(configuration.size(),is(2));
-  verify(builder).create("key","value","encValue",false);
 }
