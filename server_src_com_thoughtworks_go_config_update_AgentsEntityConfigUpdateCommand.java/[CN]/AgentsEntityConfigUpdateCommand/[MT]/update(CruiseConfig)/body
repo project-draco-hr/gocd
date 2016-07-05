@@ -24,7 +24,9 @@
     }
     for (    String environment : environmentsToRemove) {
       EnvironmentConfig environmentConfig=preprocessedConfig.getEnvironments().find(new CaseInsensitiveString(environment));
-      if (environmentConfig != null)       environmentConfig.removeAgent(agentConfig.getUuid());
+      if (environmentConfig != null) {
+        environmentConfig.removeAgent(agentConfig.getUuid());
+      }
     }
   }
 }
