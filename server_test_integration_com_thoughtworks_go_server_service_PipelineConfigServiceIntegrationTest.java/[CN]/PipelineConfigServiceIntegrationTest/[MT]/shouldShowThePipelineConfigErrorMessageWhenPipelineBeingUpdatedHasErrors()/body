@@ -1,0 +1,15 @@
+{
+  ExecTask execTask=new ExecTask("ls","-al","#{foo}");
+  FetchTask fetchTask=new FetchTask(pipelineConfig.name(),new CaseInsensitiveString("stage"),new CaseInsensitiveString("job"),"srcfile","/usr/dest");
+  JobConfig job=new JobConfig("default-job");
+  job.addTask(execTask);
+  job.addTask(fetchTask);
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("default-stage"),new JobConfigs(job));
+  pipelineConfig.add(stage);
+  pipelineConfig.addParam(new ParamConfig("foo","."));
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  String expectedError=String.format("Task of job 'default-job' in stage 'default-stage' of pipeline '%s' has dest path '/usr/dest' which is outside the working directory.",pipelineConfig.name());
+  assertThat(fetchTask.errors().on("dest"),is(expectedError));
+}
