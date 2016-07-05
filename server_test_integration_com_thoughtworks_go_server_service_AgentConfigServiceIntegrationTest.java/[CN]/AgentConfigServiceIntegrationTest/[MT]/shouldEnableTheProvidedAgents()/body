@@ -1,0 +1,21 @@
+{
+  AgentConfig agentConfig1=new AgentConfig(UUID.randomUUID().toString(),"remote-host1","50.40.30.21");
+  AgentConfig agentConfig2=new AgentConfig(UUID.randomUUID().toString(),"remote-host2","50.40.30.22");
+  agentConfig1.disable();
+  agentConfig2.disable();
+  agentConfigService.addAgent(agentConfig1,Username.ANONYMOUS);
+  agentConfigService.addAgent(agentConfig2,Username.ANONYMOUS);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  assertThat(cruiseConfig.agents().getAgentByUuid(agentConfig1.getUuid()).isDisabled(),is(true));
+  assertThat(cruiseConfig.agents().getAgentByUuid(agentConfig2.getUuid()).isDisabled(),is(true));
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  ArrayList<String> uuids=new ArrayList<>();
+  uuids.add(agentConfig1.getUuid());
+  uuids.add(agentConfig2.getUuid());
+  agentConfigService.bulkUpdateAgentAttributes(Username.ANONYMOUS,result,uuids,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<String>(),new ArrayList<String>(),TriState.TRUE);
+  cruiseConfig=goConfigDao.load();
+  assertTrue(result.isSuccessful());
+  assertTrue(result.toString(),result.toString().contains("BULK_AGENT_UPDATE_SUCESSFUL"));
+  assertFalse(cruiseConfig.agents().getAgentByUuid(agentConfig1.getUuid()).isDisabled());
+  assertFalse(cruiseConfig.agents().getAgentByUuid(agentConfig2.getUuid()).isDisabled());
+}
