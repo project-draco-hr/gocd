@@ -7,12 +7,12 @@
   ConfigurationProperty secureRepoProperty=new ConfigurationProperty(new ConfigurationKey("key2"),null,new EncryptedConfigurationValue("value"),goCipher);
   PackageRepository packageRepository=createPackageRepository("plugin-id","version","id","name",new Configuration(secureRepoProperty,nonSecureRepoProperty),new Packages(packageDefinition));
   packageRepository.applyPackagePluginMetadata();
-  assertThat(secureProperty.getEncryptedValue(),is(notNullValue()));
+  assertThat(secureProperty.getEncryptedConfigurationValue(),is(notNullValue()));
   assertThat(secureProperty.getConfigurationValue(),is(nullValue()));
   assertThat(nonSecureProperty.getConfigurationValue(),is(notNullValue()));
-  assertThat(nonSecureProperty.getEncryptedValue(),is(nullValue()));
-  assertThat(secureRepoProperty.getEncryptedValue(),is(notNullValue()));
+  assertThat(nonSecureProperty.getEncryptedConfigurationValue(),is(nullValue()));
+  assertThat(secureRepoProperty.getEncryptedConfigurationValue(),is(notNullValue()));
   assertThat(secureRepoProperty.getConfigurationValue(),is(nullValue()));
   assertThat(nonSecureRepoProperty.getConfigurationValue(),is(notNullValue()));
-  assertThat(nonSecureRepoProperty.getEncryptedValue(),is(nullValue()));
+  assertThat(nonSecureRepoProperty.getEncryptedConfigurationValue(),is(nullValue()));
 }

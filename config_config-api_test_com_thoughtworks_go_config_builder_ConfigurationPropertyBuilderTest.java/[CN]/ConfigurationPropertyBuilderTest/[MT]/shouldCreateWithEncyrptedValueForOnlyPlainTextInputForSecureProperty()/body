@@ -3,6 +3,6 @@
   key.with(Property.SECURE,true);
   ConfigurationProperty property=new ConfigurationPropertyBuilder().create("key","value",null,true);
   assertThat(property.getConfigKeyName(),is("key"));
-  assertThat(property.getEncryptedValue().getValue(),is(new GoCipher().encrypt("value")));
+  assertThat(property.getEncryptedValue(),is(new GoCipher().encrypt("value")));
   assertNull(property.getConfigurationValue());
 }

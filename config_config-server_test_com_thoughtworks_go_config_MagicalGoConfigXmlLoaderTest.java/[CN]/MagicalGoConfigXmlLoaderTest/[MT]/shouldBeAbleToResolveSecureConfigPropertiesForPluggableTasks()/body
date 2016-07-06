@@ -1,0 +1,27 @@
+{
+  String encryptedValue=new GoCipher().encrypt("password");
+  String configString="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ " <pipelines>"+ "<pipeline name='pipeline1'>"+ "    <materials>"+ "      <svn url='svnurl' username='admin' password='%s'/>"+ "    </materials>"+ "  <stage name='mingle'>"+ "    <jobs>"+ "      <job name='do-something'><tasks>"+ "        <task>"+ "          <pluginConfiguration id='plugin-id-1' version='1.0'/>"+ "          <configuration>"+ "            <property><key>username</key><value>godev</value></property>"+ "            <property><key>password</key><value>password</value></property>"+ "          </configuration>"+ "        </task> </tasks>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "</pipeline></pipelines>"+ "</cruise>";
+  PluggableTaskConfigStore.store().setPreferenceFor("plugin-id-1",new TaskPreference(new com.thoughtworks.go.plugin.api.task.Task(){
+    @Override public TaskConfig config(){
+      TaskConfig taskConfig=new TaskConfig();
+      taskConfig.addProperty("username").with(Property.SECURE,false);
+      taskConfig.addProperty("password").with(Property.SECURE,true);
+      return taskConfig;
+    }
+    @Override public TaskExecutor executor(){
+      return null;
+    }
+    @Override public TaskView view(){
+      return null;
+    }
+    @Override public ValidationResult validate(    TaskConfig configuration){
+      return null;
+    }
+  }
+));
+  GoConfigHolder goConfigHolder=xmlLoader.loadConfigHolder(configString);
+  PipelineConfig pipelineConfig=goConfigHolder.config.pipelineConfigByName(new CaseInsensitiveString("pipeline1"));
+  PluggableTask task=(PluggableTask)pipelineConfig.getStage("mingle").getJobs().getJob(new CaseInsensitiveString("do-something")).getTasks().first();
+  assertFalse(task.getConfiguration().getProperty("username").isSecure());
+  assertTrue(task.getConfiguration().getProperty("password").isSecure());
+}

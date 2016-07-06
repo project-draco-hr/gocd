@@ -14,10 +14,10 @@
   PackageRepositories packageRepositories=goConfigHolder.config.getPackageRepositories();
   assertThat(packageRepositories,is(configToSave.getPackageRepositories()));
   assertThat(packageRepositories.get(0).getConfiguration().first().getConfigurationValue().getValue(),is("http://go"));
-  assertThat(packageRepositories.get(0).getConfiguration().first().getEncryptedValue(),is(nullValue()));
-  assertThat(packageRepositories.get(0).getConfiguration().last().getEncryptedValue().getValue(),is(new GoCipher().encrypt("secure")));
+  assertThat(packageRepositories.get(0).getConfiguration().first().getEncryptedConfigurationValue(),is(nullValue()));
+  assertThat(packageRepositories.get(0).getConfiguration().last().getEncryptedValue(),is(new GoCipher().encrypt("secure")));
   assertThat(packageRepositories.get(0).getConfiguration().last().getConfigurationValue(),is(nullValue()));
   assertThat(packageRepositories.get(0).getPackages().get(0),is(packageDefinition));
   assertThat(packageRepositories.get(0).getPackages().get(0).getConfiguration().first().getConfigurationValue().getValue(),is("go-agent"));
-  assertThat(packageRepositories.get(0).getPackages().get(0).getConfiguration().first().getEncryptedValue(),is(nullValue()));
+  assertThat(packageRepositories.get(0).getPackages().get(0).getConfiguration().first().getEncryptedConfigurationValue(),is(nullValue()));
 }

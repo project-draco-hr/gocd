@@ -9,8 +9,8 @@
   SCM scm=SCMMother.create("scm-id","scm-name","plugin-id","1.0",new Configuration(secureProperty,nonSecureProperty));
   scm.applyPluginMetadata();
   assertThat(secureProperty.isSecure(),is(true));
-  assertThat(secureProperty.getEncryptedValue(),is(notNullValue()));
-  assertThat(secureProperty.getEncryptedValue().getValue(),is(goCipher.encrypt("value1")));
+  assertThat(secureProperty.getEncryptedConfigurationValue(),is(notNullValue()));
+  assertThat(secureProperty.getEncryptedValue(),is(goCipher.encrypt("value1")));
   assertThat(nonSecureProperty.isSecure(),is(false));
   assertThat(nonSecureProperty.getValue(),is("value2"));
 }

@@ -14,10 +14,10 @@
   assertThat(packageMaterialConfig.getPackageDefinition(),is(packageDefinition));
   Configuration repoConfig=packageMaterialConfig.getPackageDefinition().getRepository().getConfiguration();
   assertThat(repoConfig.get(0).getConfigurationValue().getValue(),is("value"));
-  assertThat(repoConfig.get(1).getEncryptedValue().getValue(),is(new GoCipher().encrypt("secure-value")));
-  assertThat(repoConfig.get(2).getEncryptedValue().getValue(),is(encryptedValue));
+  assertThat(repoConfig.get(1).getEncryptedValue(),is(new GoCipher().encrypt("secure-value")));
+  assertThat(repoConfig.get(2).getEncryptedValue(),is(encryptedValue));
   Configuration packageConfig=packageMaterialConfig.getPackageDefinition().getConfiguration();
   assertThat(packageConfig.get(0).getConfigurationValue().getValue(),is("value"));
-  assertThat(packageConfig.get(1).getEncryptedValue().getValue(),is(new GoCipher().encrypt("secure-value")));
-  assertThat(packageConfig.get(2).getEncryptedValue().getValue(),is(encryptedValue));
+  assertThat(packageConfig.get(1).getEncryptedValue(),is(new GoCipher().encrypt("secure-value")));
+  assertThat(packageConfig.get(2).getEncryptedValue(),is(encryptedValue));
 }
