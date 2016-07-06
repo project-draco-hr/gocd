@@ -1,7 +1,18 @@
 {
-  PostMethod post=mock(PostMethod.class);
+  HttpPost post=mock(HttpPost.class);
   when(httpClientFactory.createPost("url")).thenReturn(post);
+  CloseableHttpResponse response=mock(CloseableHttpResponse.class);
+  when(response.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1,200,"OK"));
+  when(httpClient.execute(post)).thenReturn(response);
+  ArgumentCaptor<UrlEncodedFormEntity> entityCaptor=ArgumentCaptor.forClass(UrlEncodedFormEntity.class);
   service.postProperty("url","value");
-  verify(post).setRequestHeader("Confirm","true");
-  verify(post).setRequestBody(new NameValuePair[]{new NameValuePair("value","value")});
+  verify(post).setHeader("Confirm","true");
+  verify(post).setEntity(entityCaptor.capture());
+  UrlEncodedFormEntity expected=new UrlEncodedFormEntity(Arrays.asList(new BasicNameValuePair("value","value")));
+  UrlEncodedFormEntity actual=entityCaptor.getValue();
+  assertEquals(IOUtils.toString(expected.getContent()),IOUtils.toString(actual.getContent()));
+  assertEquals(expected.getContentLength(),expected.getContentLength());
+  assertEquals(expected.getContentType(),expected.getContentType());
+  assertEquals(expected.getContentEncoding(),expected.getContentEncoding());
+  assertEquals(expected.isChunked(),expected.isChunked());
 }

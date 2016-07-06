@@ -1,0 +1,26 @@
+{
+  super();
+  setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+  fullModeRadioButton=new JRadioButton("Full Verification");
+  fullModeRadioButton.putClientProperty("SSL_MODE",AgentBootstrapperArgs.SslMode.FULL);
+  fullModeRadioButton.setToolTipText("Perform a complete SSL verification before connecting to the agent.");
+  noneModeRadioButton=new JRadioButton("No verification");
+  noneModeRadioButton.putClientProperty("SSL_MODE",AgentBootstrapperArgs.SslMode.NONE);
+  noneModeRadioButton.setToolTipText("Completely disable any SSL verification");
+  noHostVerifyModeRadioButton=new JRadioButton("Don't verify host");
+  noHostVerifyModeRadioButton.putClientProperty("SSL_MODE",AgentBootstrapperArgs.SslMode.NO_VERIFY_HOST);
+  noHostVerifyModeRadioButton.setToolTipText("Verify the server certificate, but not the hostname.");
+  ButtonGroup sslModeButtonGroup=new ButtonGroup();
+  ActionListener actionListener=new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      JRadioButton b=(JRadioButton)e.getSource();
+      setSslMode((AgentBootstrapperArgs.SslMode)b.getClientProperty("SSL_MODE"));
+    }
+  }
+;
+  for (  JRadioButton button : Arrays.asList(fullModeRadioButton,noneModeRadioButton,noHostVerifyModeRadioButton)) {
+    sslModeButtonGroup.add(button);
+    add(button);
+    button.addActionListener(actionListener);
+  }
+}

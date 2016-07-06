@@ -7,7 +7,7 @@
       pluginZip.setLastModified(System.currentTimeMillis() - 10 * 1000);
       long expectedModifiedDate=pluginZip.lastModified();
       AgentProcessParentImpl bootstrapper=createBootstrapper(new ArrayList<String>());
-      bootstrapper.run("launcher_version","bar",getURLGenerator(),m(AgentProcessParentImpl.AGENT_STARTUP_ARGS,"foo bar  baz with%20some%20space"));
+      bootstrapper.run("launcher_version","bar",getURLGenerator(),m(AgentProcessParentImpl.AGENT_STARTUP_ARGS,"foo bar  baz with%20some%20space"),context());
       assertThat(new File(Downloader.AGENT_PLUGINS).lastModified(),is(expectedModifiedDate));
     }
   finally {

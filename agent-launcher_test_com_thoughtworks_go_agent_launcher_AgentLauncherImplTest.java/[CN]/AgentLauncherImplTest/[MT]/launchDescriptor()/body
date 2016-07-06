@@ -1,8 +1,8 @@
 {
   AgentLaunchDescriptor launchDescriptor=mock(AgentLaunchDescriptor.class);
   Map contextMap=new ConcurrentHashMap();
-  contextMap.put(AgentLaunchDescriptorKeys.HOSTNAME,"localhost");
-  contextMap.put(AgentLaunchDescriptorKeys.PORT,9090);
+  contextMap.put(AgentBootstrapperArgs.SERVER_URL,"http://localhost:9090/go");
+  contextMap.put(AgentBootstrapperArgs.SSL_VERIFICATION_MODE,"NONE");
   when(launchDescriptor.context()).thenReturn(contextMap);
   return launchDescriptor;
 }

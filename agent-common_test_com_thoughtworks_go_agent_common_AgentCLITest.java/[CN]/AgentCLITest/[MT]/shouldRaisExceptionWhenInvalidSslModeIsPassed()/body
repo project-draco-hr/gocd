@@ -1,0 +1,11 @@
+{
+  try {
+    agentCLI.parse("-serverUrl","https://go.example.com:8154/go","-sslVerificationMode","FOOBAR");
+    Assert.fail("Was expecting an exception!");
+  }
+ catch (  ExitException e) {
+    assertThat(e.getStatus(),is(1));
+    assertThat(errorStream.toString(),containsString("Invalid value for -sslVerificationMode parameter. Allowed values:[FULL, NONE, NO_VERIFY_HOST]"));
+    assertThat(errorStream.toString(),containsString("Usage: java -jar agent-bootstrapper.jar"));
+  }
+}

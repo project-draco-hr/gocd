@@ -1,5 +1,5 @@
 {
-  URI baseUri=new URI(baseUrl,false,"UTF-8");
+  URIBuilder baseUri=new URIBuilder(baseUrl);
   String originalPath=baseUri.getPath();
   if (originalPath == null) {
     originalPath="";
@@ -7,6 +7,5 @@
   if (originalPath.endsWith(DELIMITER) && path.startsWith(DELIMITER)) {
     path=path.replaceFirst(DELIMITER,"");
   }
-  baseUri.setPath(originalPath + path);
-  return baseUri.toString();
+  return baseUri.setPath(originalPath + path).toString();
 }

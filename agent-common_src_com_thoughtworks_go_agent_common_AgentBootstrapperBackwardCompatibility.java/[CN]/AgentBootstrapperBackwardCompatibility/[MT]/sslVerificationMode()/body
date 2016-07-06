@@ -1,0 +1,9 @@
+{
+  try {
+    return SslVerificationMode.valueOf((String)context.get(AgentBootstrapperArgs.SSL_VERIFICATION_MODE));
+  }
+ catch (  Exception e) {
+    LOG.warn("SslVerificationMode could not parsed. Disabling SSL verification.");
+    return SslVerificationMode.NONE;
+  }
+}

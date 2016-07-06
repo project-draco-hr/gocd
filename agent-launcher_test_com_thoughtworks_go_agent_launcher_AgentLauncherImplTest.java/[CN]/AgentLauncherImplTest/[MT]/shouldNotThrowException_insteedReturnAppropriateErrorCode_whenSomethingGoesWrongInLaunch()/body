@@ -1,6 +1,6 @@
 {
   AgentLaunchDescriptor launchDesc=mock(AgentLaunchDescriptor.class);
-  when((String)launchDesc.context().get(AgentLaunchDescriptorKeys.HOSTNAME)).thenThrow(new RuntimeException("Ouch!"));
+  when((String)launchDesc.context().get(AgentBootstrapperArgs.SERVER_URL)).thenThrow(new RuntimeException("Ouch!"));
   try {
     assertThat(new AgentLauncherImpl().launch(launchDesc),is(-273));
   }

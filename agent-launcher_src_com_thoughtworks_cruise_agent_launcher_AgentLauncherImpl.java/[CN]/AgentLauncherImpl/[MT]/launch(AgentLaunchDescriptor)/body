@@ -7,15 +7,18 @@
       return IRRECOVERABLE_ERROR;
     }
     shutdownHook=registerShutdownHook();
-    ServerUrlGenerator urlGenerator=getUrlGenerator(descriptor);
-    ServerBinaryDownloader launcherDownloader=new ServerBinaryDownloader(urlGenerator,DownloadableFile.LAUNCHER);
-    ServerBinaryDownloader.DownloadResult downloadResult=launcherDownloader.downloadIfNecessary();
-    if (downloadResult.performedDownload) {
+    Map context=descriptor.context();
+    AgentBootstrapperBackwardCompatibility backwardCompatibility=backwardCompatibility(context);
+    ServerUrlGenerator urlGenerator=backwardCompatibility.getUrlGenerator();
+    File rootCertFile=backwardCompatibility.rootCertFile();
+    SslVerificationMode sslVerificationMode=backwardCompatibility.sslVerificationMode();
+    ServerBinaryDownloader launcherDownloader=new ServerBinaryDownloader(urlGenerator,DownloadableFile.LAUNCHER,rootCertFile,sslVerificationMode);
+    if (launcherDownloader.downloadIfNecessary()) {
       return LAUNCHER_NOT_UP_TO_DATE;
     }
-    ServerBinaryDownloader agentDownloader=new ServerBinaryDownloader(urlGenerator,DownloadableFile.AGENT);
+    ServerBinaryDownloader agentDownloader=new ServerBinaryDownloader(urlGenerator,DownloadableFile.AGENT,rootCertFile,sslVerificationMode);
     agentDownloader.downloadIfNecessary();
-    returnValue=agentProcessParentRunner.run(getLauncherVersion(),launcherDownloader.md5(),urlGenerator,System.getenv());
+    returnValue=agentProcessParentRunner.run(getLauncherVersion(),launcherDownloader.md5(),urlGenerator,System.getenv(),context);
     try {
       Thread.sleep(1000);
     }

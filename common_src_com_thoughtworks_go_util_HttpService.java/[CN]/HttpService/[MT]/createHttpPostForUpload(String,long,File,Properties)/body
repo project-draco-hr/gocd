@@ -1,0 +1,6 @@
+{
+  HttpPost filePost=httpClientFactory.createPost(url);
+  setSizeHeader(filePost,size);
+  filePost.setEntity(httpClientFactory.createMultipartRequestEntity(artifactFile,artifactChecksums));
+  return filePost;
+}

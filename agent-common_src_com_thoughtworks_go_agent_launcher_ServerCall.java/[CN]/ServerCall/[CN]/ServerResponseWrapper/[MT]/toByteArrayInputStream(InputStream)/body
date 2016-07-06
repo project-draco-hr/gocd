@@ -2,8 +2,8 @@
   if (body == null) {
     return null;
   }
-  ByteArrayOutputStream baos=new ByteArrayOutputStream();
-  IOUtils.copy(body,baos);
-  baos.close();
-  return new ByteArrayInputStream(baos.toByteArray());
-}
+  try (ByteArrayOutputStream baos=new ByteArrayOutputStream()){
+    IOUtils.copy(body,baos);
+    return new ByteArrayInputStream(baos.toByteArray());
+  }
+ }

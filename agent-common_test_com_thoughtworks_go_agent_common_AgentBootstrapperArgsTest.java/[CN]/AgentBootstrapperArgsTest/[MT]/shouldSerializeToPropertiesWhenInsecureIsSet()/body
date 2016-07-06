@@ -1,0 +1,6 @@
+{
+  AgentBootstrapperArgs original=new AgentBootstrapperArgs(new URL("https://go.example.com:8154/go"),null,AgentBootstrapperArgs.SslMode.NONE);
+  Properties properties=original.toProperties();
+  AgentBootstrapperArgs reHydrated=AgentBootstrapperArgs.fromProperties(properties);
+  assertEquals(original,reHydrated);
+}

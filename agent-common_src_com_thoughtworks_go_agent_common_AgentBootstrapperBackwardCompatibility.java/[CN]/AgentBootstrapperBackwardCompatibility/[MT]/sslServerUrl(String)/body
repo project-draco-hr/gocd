@@ -1,0 +1,14 @@
+{
+  String serverUrl=serverUrl();
+  try {
+    URIBuilder url=new URIBuilder(serverUrl);
+    if (url.getScheme().equals("http")) {
+      url.setPort(Integer.valueOf(sslPort));
+      url.setScheme("https");
+    }
+    return url.toString();
+  }
+ catch (  URISyntaxException e) {
+    throw bomb(e);
+  }
+}

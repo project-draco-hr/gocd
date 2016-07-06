@@ -1,8 +1,8 @@
 {
-  resetHttpConnectionManager();
   try {
-    keyStoreManager.deleteEntry(CHAIN_ALIAS,AGENT_CERTIFICATE_FILE,AGENT_STORE_PASSWORD);
-    keyStoreManager.deleteEntry(CRUISE_SERVER,AGENT_TRUST_FILE,AGENT_STORE_PASSWORD);
+    httpClient.reset();
+    keyStoreManager.deleteEntry(CHAIN_ALIAS,GoAgentServerHttpClientBuilder.AGENT_CERTIFICATE_FILE,httpClientBuilder().keystorePassword());
+    keyStoreManager.deleteEntry(CRUISE_SERVER,GoAgentServerHttpClientBuilder.AGENT_TRUST_FILE,httpClientBuilder().keystorePassword());
   }
  catch (  Exception e) {
     LOGGER.fatal("[Agent Registration] Error while deleting key from key store",e);

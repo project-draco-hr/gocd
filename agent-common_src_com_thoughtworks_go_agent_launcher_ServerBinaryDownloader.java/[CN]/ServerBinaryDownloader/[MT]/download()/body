@@ -1,18 +1,11 @@
 {
-  HttpClient httpClient=new HttpClient();
-  HttpMethod method=new GetMethod(checkUrl());
   InputStream body=null;
-  OutputStream outputFile=null;
-  httpClient.setConnectionTimeout(ServerCall.HTTP_TIMEOUT_IN_MILLISECONDS);
-  try {
-    LOG.info("download started at " + new Date());
-    final int status=httpClient.executeMethod(method);
-    if (status != 200) {
-      throw new Exception("Got status " + status + " "+ method.getStatusText()+ " from server");
-    }
-    body=new BufferedInputStream(method.getResponseBodyAsStream());
+  File toDownload=new File(downloadableFile.getLocalFileName());
+  try (OutputStream outputFile=new BufferedOutputStream(new FileOutputStream(toDownload))){
+    LOG.info("download of " + toDownload + " started at "+ new Date());
+    ServerCall.ServerResponseWrapper invoke=serverCall.invoke(new HttpGet(checkUrl()),rootCertFile,sslVerificationMode);
+    body=invoke.body;
     LOG.info("got server response at " + new Date());
-    outputFile=new BufferedOutputStream(new FileOutputStream(new File(downloadableFile.getLocalFileName())));
     IOUtils.copy(body,outputFile);
     LOG.info("pipe the stream to " + downloadableFile + " at "+ new Date());
     return true;
@@ -24,7 +17,5 @@
   }
  finally {
     IOUtils.closeQuietly(body);
-    IOUtils.closeQuietly(outputFile);
-    method.releaseConnection();
   }
 }

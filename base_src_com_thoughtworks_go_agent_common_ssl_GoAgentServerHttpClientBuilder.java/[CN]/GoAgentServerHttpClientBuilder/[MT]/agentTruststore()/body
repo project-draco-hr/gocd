@@ -1,0 +1,12 @@
+{
+  KeyStore trustStore=null;
+  List<X509Certificate> certificates=new CertificateFileParser().certificates(rootCertFile);
+  for (  X509Certificate certificate : certificates) {
+    if (trustStore == null) {
+      trustStore=KeyStore.getInstance(KeyStore.getDefaultType());
+      trustStore.load(null,null);
+    }
+    trustStore.setCertificateEntry(certificate.getSubjectX500Principal().getName(),certificate);
+  }
+  return trustStore;
+}

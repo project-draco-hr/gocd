@@ -1,15 +1,14 @@
 {
   try {
-    String query=new URI(url,false).getQuery();
-    List<QueryTuple> parse=QueryTuple.parse(query);
-    for (    QueryTuple queryTuple : parse) {
-      if (queryTuple.key.equals(paramName)) {
-        return queryTuple.val;
+    List<NameValuePair> queryParams=new URIBuilder(url).getQueryParams();
+    for (    NameValuePair pair : queryParams) {
+      if (pair.getName().equals(paramName)) {
+        return pair.getValue();
       }
     }
     return StringUtils.EMPTY;
   }
- catch (  URIException e) {
+ catch (  URISyntaxException e) {
     return StringUtils.EMPTY;
   }
 }

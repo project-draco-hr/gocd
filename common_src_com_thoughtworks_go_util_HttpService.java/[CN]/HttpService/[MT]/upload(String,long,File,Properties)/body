@@ -1,13 +1,14 @@
 {
   String absolutePath=artifactFile.getAbsolutePath();
   if (!artifactFile.exists()) {
-    LOGGER.error("Failed to find file [" + absolutePath + "]");
-    return 0;
+    String message="Failed to find file [" + absolutePath + "]";
+    LOGGER.error(message);
+    throw new FileNotFoundException(message);
   }
   LOGGER.info(String.format("Uploading file [%s] to url [%s]",absolutePath,url));
-  PostMethod filePost=createPostMethodForUpload(url,size,artifactFile,artifactChecksums);
-  try {
-    return execute(filePost);
+  HttpPost filePost=createHttpPostForUpload(url,size,artifactFile,artifactChecksums);
+  try (CloseableHttpResponse response=execute(filePost)){
+    return response.getStatusLine().getStatusCode();
   }
  catch (  IOException e) {
     LOGGER.error("Error while uploading file [" + artifactFile.getAbsolutePath() + "]",e);

@@ -3,7 +3,7 @@
   File configFile=folder.newFile();
   shouldCreateSslInfrastucture();
   sslInfrastructureService.registerIfNecessary(new AgentAutoRegistrationPropertiesImpl(configFile));
-  assertThat(SslInfrastructureService.AGENT_CERTIFICATE_FILE,exists());
+  assertThat(GoAgentServerHttpClientBuilder.AGENT_CERTIFICATE_FILE,exists());
   assertRemoteCalled();
   sslInfrastructureService.registerIfNecessary(new AgentAutoRegistrationPropertiesImpl(configFile));
   assertRemoteNotCalled();

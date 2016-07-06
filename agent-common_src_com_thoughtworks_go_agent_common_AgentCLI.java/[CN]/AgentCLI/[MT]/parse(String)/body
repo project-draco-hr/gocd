@@ -1,0 +1,15 @@
+{
+  AgentBootstrapperArgs result=new AgentBootstrapperArgs();
+  try {
+    new JCommander(result,args);
+    if (result.help) {
+      printUsageAndExit(0);
+    }
+    return result;
+  }
+ catch (  ParameterException e) {
+    stderr.println(e.getMessage());
+    printUsageAndExit(1);
+  }
+  return null;
+}

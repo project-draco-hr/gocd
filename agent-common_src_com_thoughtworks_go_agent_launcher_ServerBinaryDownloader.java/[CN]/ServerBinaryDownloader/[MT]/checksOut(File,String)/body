@@ -1,17 +1,8 @@
 {
-  FileInputStream input=null;
-  try {
-    try {
-      input=new FileInputStream(file);
-      FileDigester fileDigester=new FileDigester(input,new NullOutputStream());
-      fileDigester.copy();
-      return expectedSignature.equals(fileDigester.md5());
-    }
-  finally {
-      if (input != null) {
-        input.close();
-      }
-    }
+  try (FileInputStream input=new FileInputStream(file)){
+    FileDigester fileDigester=new FileDigester(input,new NullOutputStream());
+    fileDigester.copy();
+    return expectedSignature.equals(fileDigester.md5());
   }
  catch (  Exception e) {
     throw new RuntimeException(e);

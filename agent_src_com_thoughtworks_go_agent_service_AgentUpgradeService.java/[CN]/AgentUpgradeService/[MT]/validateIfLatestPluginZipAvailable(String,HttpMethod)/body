@@ -1,9 +1,0 @@
-{
-  final Header newLauncherMd5=method.getResponseHeader(SystemEnvironment.AGENT_PLUGINS_ZIP_MD5_HEADER);
-  if (!"".equals(agentPluginsMd5)) {
-    if (!agentPluginsMd5.equals(newLauncherMd5.getValue())) {
-      LOGGER.fatal(String.format("[Agent Launcher Upgrade] Agent needs to upgrade its plugins. Currently agents plugins has md5 [%s] but server's latest plugins md5 has md5 [%s]. Exiting.",agentPluginsMd5,newLauncherMd5));
-      jvmExit();
-    }
-  }
-}

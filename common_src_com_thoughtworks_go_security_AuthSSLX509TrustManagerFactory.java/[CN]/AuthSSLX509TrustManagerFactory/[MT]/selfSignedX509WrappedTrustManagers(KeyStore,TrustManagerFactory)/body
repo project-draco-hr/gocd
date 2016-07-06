@@ -1,9 +1,0 @@
-{
-  TrustManager[] trustmanagers=tmfactory.getTrustManagers();
-  for (int i=0; i < trustmanagers.length; i++) {
-    if (trustmanagers[i] instanceof X509TrustManager) {
-      trustmanagers[i]=new SelfSignedCertificateX509TrustManager(keystore,(X509TrustManager)trustmanagers[i],truststore,truststorePassword);
-    }
-  }
-  return trustmanagers;
-}

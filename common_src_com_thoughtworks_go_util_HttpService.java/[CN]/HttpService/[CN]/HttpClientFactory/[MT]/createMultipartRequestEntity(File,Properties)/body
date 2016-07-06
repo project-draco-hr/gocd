@@ -1,0 +1,10 @@
+{
+  MultipartEntityBuilder entityBuilder=MultipartEntityBuilder.create();
+  entityBuilder.addPart(GoConstants.ZIP_MULTIPART_FILENAME,new FileBody(artifact));
+  if (artifactChecksums != null) {
+    ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+    artifactChecksums.store(outputStream,"");
+    entityBuilder.addPart(GoConstants.CHECKSUM_MULTIPART_FILENAME,new ByteArrayBody(outputStream.toByteArray(),"checksum_file"));
+  }
+  return entityBuilder.build();
+}

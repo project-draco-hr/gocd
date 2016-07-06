@@ -1,9 +1,11 @@
 {
   systemEnvironment=mock(SystemEnvironment.class);
   urlService=mock(URLService.class);
-  HttpClient httpClient=mock(HttpClient.class);
+  GoAgentServerHttpClient httpClient=mock(GoAgentServerHttpClient.class);
   agentUpgradeService=spy(new AgentUpgradeService(urlService,httpClient,systemEnvironment));
-  httpMethod=mock(GetMethod.class);
+  httpMethod=mock(HttpGet.class);
   doReturn(httpMethod).when(agentUpgradeService).getAgentLatestStatusGetMethod();
-  when(httpClient.executeMethod(httpMethod)).thenReturn(200);
+  closeableHttpResponse=mock(CloseableHttpResponse.class);
+  when(closeableHttpResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1,200,"OK"));
+  when(httpClient.execute(httpMethod)).thenReturn(closeableHttpResponse);
 }

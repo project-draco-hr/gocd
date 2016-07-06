@@ -1,8 +1,8 @@
 {
   new SystemEnvironment().setProperty("serviceUrl",SERVER_URL);
   new SystemEnvironment().setProperty("WORKCREATOR",LongWorkCreator.class.getCanonicalName());
-  SslInfrastructureService.AGENT_CERTIFICATE_FILE.delete();
-  SslInfrastructureService.AGENT_TRUST_FILE.delete();
+  GoAgentServerHttpClientBuilder.AGENT_CERTIFICATE_FILE.delete();
+  GoAgentServerHttpClientBuilder.AGENT_TRUST_FILE.delete();
   fakeGoServer=new FakeGoServer(9090,8443);
   fakeGoServer.start();
   FakeBuildRepositoryRemote.AGENT_STATUS.clear();

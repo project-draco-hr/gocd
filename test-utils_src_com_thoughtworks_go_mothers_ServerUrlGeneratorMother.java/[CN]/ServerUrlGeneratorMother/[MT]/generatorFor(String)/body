@@ -1,0 +1,11 @@
+{
+  return new ServerUrlGenerator(){
+    @Override public String serverUrlFor(    String subPath){
+      if (subPath == null || subPath.trim().length() == 0) {
+        return serverUrl;
+      }
+      return serverUrl + "/" + subPath;
+    }
+  }
+;
+}

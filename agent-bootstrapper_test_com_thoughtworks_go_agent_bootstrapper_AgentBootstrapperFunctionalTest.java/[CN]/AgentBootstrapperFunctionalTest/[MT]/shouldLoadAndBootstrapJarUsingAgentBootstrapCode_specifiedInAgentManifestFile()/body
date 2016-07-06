@@ -10,9 +10,9 @@
         @Override void jvmExit(        int returnValue){
         }
       }
-.go(false,"localhost",9090);
+.go(false,new AgentBootstrapperArgs(new URL("http://" + "localhost" + ":" + 9090 + "/go"),null,AgentBootstrapperArgs.SslMode.NONE));
       agentJar.delete();
-      assertThat(new String(os.toByteArray()),is("Hello World Fellas!"));
+      assertThat(new String(os.toByteArray()),containsString("Hello World Fellas!"));
     }
   finally {
       System.setErr(err);

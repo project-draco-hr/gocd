@@ -5,7 +5,7 @@
     Process subProcess=mockProcess();
     when(subProcess.waitFor()).thenThrow(new InterruptedException("bang bang!"));
     AgentProcessParentImpl bootstrapper=createBootstrapper(cmd,subProcess);
-    int returnCode=bootstrapper.run("bootstrapper_version","bar",getURLGenerator(),new HashMap<String,String>());
+    int returnCode=bootstrapper.run("bootstrapper_version","bar",getURLGenerator(),new HashMap<String,String>(),context());
     assertThat(returnCode,is(0));
     assertThat(logFixture.contains(Level.ERROR,"Agent was interrupted. Terminating agent and respawning. java.lang.InterruptedException: bang bang!"),is(true));
     verify(subProcess).destroy();

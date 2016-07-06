@@ -1,0 +1,16 @@
+{
+  try {
+    if (this.client != null) {
+      this.client.close();
+    }
+  }
+ catch (  Exception e) {
+    LOG.warn("Could not close http client",e);
+  }
+  try {
+    init();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

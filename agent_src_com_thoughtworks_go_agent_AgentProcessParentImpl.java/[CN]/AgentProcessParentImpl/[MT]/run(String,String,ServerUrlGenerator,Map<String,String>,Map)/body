@@ -1,0 +1,41 @@
+{
+  int exitValue=0;
+  LOG.info("Agent is version: " + JarUtil.getGoVersion(Downloader.AGENT_BINARY));
+  String command[]=new String[]{};
+  try {
+    AgentBootstrapperBackwardCompatibility backwardCompatibility=backwardCompatibility(context);
+    File rootCertFile=backwardCompatibility.rootCertFile();
+    SslVerificationMode sslVerificationMode=backwardCompatibility.sslVerificationMode();
+    ServerBinaryDownloader agentDownloader=new ServerBinaryDownloader(urlGenerator,DownloadableFile.AGENT,rootCertFile,sslVerificationMode);
+    agentDownloader.downloadIfNecessary();
+    ServerBinaryDownloader pluginZipDownloader=new ServerBinaryDownloader(urlGenerator,DownloadableFile.AGENT_PLUGINS,rootCertFile,sslVerificationMode);
+    pluginZipDownloader.downloadIfNecessary();
+    command=agentInvocationCommand(agentDownloader.md5(),launcherMd5,pluginZipDownloader.md5(),env,context,agentDownloader.sslPort(),launcherVersion);
+    LOG.info("Launching Agent with command: " + join(command," "));
+    Process agent=invoke(command);
+    agent.getOutputStream().close();
+    AgentConsoleLogThread stdErrThd=new AgentConsoleLogThread(agent.getErrorStream(),STDERR,GO_AGENT_STDERR_LOG);
+    stdErrThd.start();
+    AgentConsoleLogThread stdOutThd=new AgentConsoleLogThread(agent.getInputStream(),STDOUT,GO_AGENT_STDOUT_LOG);
+    stdOutThd.start();
+    Shutdown shutdownHook=new Shutdown(agent);
+    Runtime.getRuntime().addShutdownHook(shutdownHook);
+    try {
+      exitValue=agent.waitFor();
+    }
+ catch (    InterruptedException ie) {
+      LOG.error("Agent was interrupted. Terminating agent and respawning. " + ie.toString());
+      agent.destroy();
+    }
+ finally {
+      removeShutdownHook(shutdownHook);
+      stdErrThd.stopAndJoin();
+      stdOutThd.stopAndJoin();
+    }
+  }
+ catch (  Exception e) {
+    LOG.error("Exception while executing command: " + join(command," ") + " - "+ e.toString());
+    exitValue=EXCEPTION_OCCURRED;
+  }
+  return exitValue;
+}

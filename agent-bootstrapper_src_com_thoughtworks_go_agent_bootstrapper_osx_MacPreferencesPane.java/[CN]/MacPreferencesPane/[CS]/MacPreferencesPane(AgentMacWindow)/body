@@ -1,33 +1,51 @@
 {
   super();
-  getContentPane().setLayout(new BorderLayout(10,10));
-  JLabel prefsText=new JLabel("Go Server Hostname or IP");
-  serverTextField=new JTextField("");
-  serverTextField.setColumns(15);
-  serverTextField.selectAll();
-  JPanel textPanel=new JPanel(new FlowLayout(FlowLayout.LEFT,10,10));
-  textPanel.add(prefsText);
-  textPanel.add(serverTextField);
-  getContentPane().add(textPanel,BorderLayout.NORTH);
-  JPanel buttonPanel=new JPanel(new FlowLayout(FlowLayout.RIGHT,10,10));
-  JButton okButton=new JButton("OK");
-  buttonPanel.add(okButton);
-  okButton.addActionListener(new ActionListener(){
-    public void actionPerformed(    ActionEvent newEvent){
-      String newHost=serverTextField.getText();
-      if (!originalHost.equals(newHost)) {
-        LOG.info("Server changed to " + newHost);
-        agentMacWindow.setHost(newHost);
-      }
- else {
-        LOG.info("Server is still " + originalHost);
-      }
-      setVisible(false);
+  this.agentMacWindow=agentMacWindow;
+  BorderLayout border=new BorderLayout(10,10);
+  getContentPane().setLayout(border);
+  createView();
+  sslModeComponent.noneModeRadioButton.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      fileBrowser.setEnabled(!sslModeComponent.noneModeRadioButton.isSelected());
     }
   }
 );
-  getContentPane().add(buttonPanel,BorderLayout.SOUTH);
+  okButton.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent newEvent){
+      try {
+        AgentBootstrapperArgs newArgs=new AgentBootstrapperArgs(new URL(serverTextField.getText()),fileBrowser.getFile(),sslModeComponent.getSslMode());
+        try {
+          new ServerUrlValidator().validate("The server url",newArgs.getServerUrl().toExternalForm());
+        }
+ catch (        ParameterException e) {
+          JOptionPane.showMessageDialog(getContentPane(),e.getMessage(),"Invalid server url",JOptionPane.ERROR_MESSAGE);
+          return;
+        }
+        if (newArgs.getRootCertFile() != null) {
+          try {
+            new CertificateFileValidator().validate("The server root certificate",newArgs.getRootCertFile().getPath());
+          }
+ catch (          ParameterException e) {
+            JOptionPane.showMessageDialog(getContentPane(),e.getMessage(),"Invalid server root certificate",JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+        }
+        if (!newArgs.equals(agentMacWindow.getBootstrapperArgs())) {
+          agentMacWindow.setBootstrapperArgs(newArgs);
+          LOG.info("Updating preferences to " + newArgs);
+        }
+ else {
+          LOG.info("Preferences are unchanged " + newArgs);
+        }
+        setVisible(false);
+      }
+ catch (      MalformedURLException e) {
+        JOptionPane.showMessageDialog(getContentPane(),"The server url must be an HTTPS url and must begin with https://","Invalid server url",JOptionPane.ERROR_MESSAGE);
+      }
+    }
+  }
+);
   setSize(getPreferredSize());
-  setLocation(20,40);
+  setLocation(20,30);
   setResizable(false);
 }

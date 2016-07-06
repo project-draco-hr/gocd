@@ -1,0 +1,7 @@
+{
+  ServerBinaryDownloader downloader=new ServerBinaryDownloader(ServerUrlGeneratorMother.generatorFor("https://localhost:9091/go"),DownloadableFile.AGENT,new File("testdata/test_cert.pem"),SslVerificationMode.NO_VERIFY_HOST);
+  ServerBinaryDownloader.DownloadResult result=downloader.downloadAlways();
+  assertThat(result.performedDownload,is(true));
+  result=downloader.downloadAlways();
+  assertThat(result.performedDownload,is(true));
+}

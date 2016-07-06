@@ -32,5 +32,5 @@
   }
 ;
   AgentBootstrapper spy=stubJVMExit(agentBootstrapper);
-  spy.go(true,"localhost",80);
+  spy.go(true,new AgentBootstrapperArgs(new URL("http://" + "localhost" + ":" + 80 + "/go"),null,AgentBootstrapperArgs.SslMode.NONE));
 }

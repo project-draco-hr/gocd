@@ -9,7 +9,7 @@
       }
     }
 ;
-    int returnCode=bootstrapper.run("bootstrapper_version","bar",getURLGenerator(),new HashMap<String,String>());
+    int returnCode=bootstrapper.run("bootstrapper_version","bar",getURLGenerator(),new HashMap<String,String>(),context());
     assertThat(returnCode,is(-373));
     assertThat(logFixture.contains(Level.ERROR,"Exception while executing command: " + StringUtils.join(cmd," ") + " - java.lang.RuntimeException: something failed!"),is(true));
   }
