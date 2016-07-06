@@ -1,8 +1,10 @@
 {
   final PartialConfig partialConfig=PartialConfigMother.withPipeline("partial");
+  partialConfig.setOrigin(new RepoConfigOrigin(configRepoConfig,"sha-1"));
   ConfigRepoPartialPreprocessor preprocessor=new ConfigRepoPartialPreprocessor();
   PipelineConfig pipelineInMain=PipelineConfigMother.createPipelineConfig("main_pipeline","stage","job");
   BasicCruiseConfig cruiseConfig=new BasicCruiseConfig(new BasicPipelineConfigs(pipelineInMain));
+  cruiseConfig.setConfigRepos(reposConfig);
   cruiseConfig.setPartials(asList(partialConfig));
   preprocessor.process(cruiseConfig);
   assertThat(cruiseConfig.getAllPipelineNames().contains(pipelineInMain.name()),is(true));
