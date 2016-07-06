@@ -1,9 +1,10 @@
 {
-  boolean cleaned=cleanDirectoryIfRepoChanged(workingdir(baseDir),outputConsumer);
+  File workingDir=execCtx.isServer() ? baseDir : workingdir(baseDir);
+  boolean cleaned=cleanDirectoryIfRepoChanged(workingDir,outputConsumer);
   String revision=revisionContext.getLatestRevision().getRevision();
   try {
     outputConsumer.stdOutput(format("[%s] Start updating %s at revision %s from %s",GoConstants.PRODUCT_NAME,updatingTarget(),revision,serverAndPort));
-    p4(baseDir,outputConsumer).sync(parseLong(revision),cleaned,outputConsumer);
+    p4(workingDir,outputConsumer).sync(parseLong(revision),cleaned,outputConsumer);
     outputConsumer.stdOutput(format("[%s] Done.\n",GoConstants.PRODUCT_NAME));
   }
  catch (  Exception e) {

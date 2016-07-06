@@ -1,4 +1,4 @@
 {
-  P4Client p4=getP4(baseDir);
+  P4Client p4=getP4(execCtx.isServer() ? baseDir : workingdir(baseDir));
   return p4.changesSince(revision);
 }

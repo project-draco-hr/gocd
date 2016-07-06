@@ -1,0 +1,5 @@
+{
+  MaterialUpdateSuccessfulMessage message=new MaterialUpdateSuccessfulMessage(material,123);
+  this.configUpdater.onMessage(message);
+  verify(poller,times(1)).checkout(any(Material.class),any(File.class),any(Revision.class),any(SubprocessExecutionContext.class));
+}
