@@ -2,6 +2,7 @@
   if (partList.isEmpty()) {
     return;
   }
+  partList=removePartialsThatDoNotCorrespondToTheCurrentConfigReposList(partList);
   if (this.strategy instanceof MergeStrategy)   throw new RuntimeException("cannot merge partials to already merged configuration");
   MergeStrategy mergeStrategy=new MergeStrategy(partList,forEdit);
   this.strategy=mergeStrategy;

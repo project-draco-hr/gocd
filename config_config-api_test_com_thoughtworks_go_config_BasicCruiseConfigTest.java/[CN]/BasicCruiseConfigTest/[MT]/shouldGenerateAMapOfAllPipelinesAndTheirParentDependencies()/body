@@ -6,7 +6,7 @@
   p3.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("p1"),new CaseInsensitiveString("s1")));
   PipelineConfig p4=createPipelineConfig("p4","s4","j1");
   p4.addMaterialConfig(new DependencyMaterialConfig(new CaseInsensitiveString("p2"),new CaseInsensitiveString("s2")));
-  pipelines.addAll(Arrays.asList(p4,p2,p1,p3));
+  pipelines.addAll(asList(p4,p2,p1,p3));
   Map<String,List<PipelineConfig>> expectedPipelines=cruiseConfig.generatePipelineVsDownstreamMap();
   assertThat(expectedPipelines.size(),is(4));
   assertThat(expectedPipelines.get("p1"),hasItems(p2,p3));

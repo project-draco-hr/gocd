@@ -1,0 +1,11 @@
+{
+  List<Object> notToBeMerged=new ArrayList<>();
+  for (  PartialConfig partialConfig : partList) {
+    if (partialConfig.getOrigin() instanceof RepoConfigOrigin) {
+      RepoConfigOrigin origin=(RepoConfigOrigin)partialConfig.getOrigin();
+      if (!configRepos.hasMaterialWithFingerprint(origin.getMaterial().getFingerprint()))       notToBeMerged.add(partialConfig);
+    }
+  }
+  partList=ListUtils.removeAll(partList,notToBeMerged);
+  return partList;
+}

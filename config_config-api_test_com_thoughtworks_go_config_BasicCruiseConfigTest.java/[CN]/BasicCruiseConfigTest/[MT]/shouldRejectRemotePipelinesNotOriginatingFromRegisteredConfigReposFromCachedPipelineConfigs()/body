@@ -1,0 +1,11 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("p1","p2");
+  ConfigRepoConfig repoConfig1=new ConfigRepoConfig(MaterialConfigsMother.gitMaterialConfig("url1"),"plugin");
+  ConfigRepoConfig repoConfig2=new ConfigRepoConfig(MaterialConfigsMother.gitMaterialConfig("url2"),"plugin");
+  cruiseConfig.setConfigRepos(new ConfigReposConfig(repoConfig2));
+  PartialConfig partialConfigInRepo1=PartialConfigMother.withPipeline("pipeline_in_repo1",new RepoConfigOrigin(repoConfig1,"repo1_r1"));
+  PartialConfig partialConfigInRepo2=PartialConfigMother.withPipeline("pipeline_in_repo2",new RepoConfigOrigin(repoConfig2,"repo2_r1"));
+  cruiseConfig.merge(asList(partialConfigInRepo1,partialConfigInRepo2),false);
+  assertThat(cruiseConfig.getAllPipelineNames().contains(new CaseInsensitiveString("pipeline_in_repo1")),is(false));
+  assertThat(cruiseConfig.getAllPipelineNames().contains(new CaseInsensitiveString("pipeline_in_repo2")),is(true));
+}
