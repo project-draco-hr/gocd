@@ -1,0 +1,11 @@
+{
+  try {
+    URL url=new URL(serviceUrl);
+    try (Socket socket=new Socket(url.getHost(),url.getPort())){
+      return socket.getLocalAddress().getHostAddress();
+    }
+   }
+ catch (  Exception e) {
+    return SystemUtil.getFirstLocalNonLoopbackIpAddress();
+  }
+}
