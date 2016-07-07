@@ -1,8 +1,0 @@
-{
-  PipelineConfig pipelineConfig=mock(PipelineConfig.class);
-  when(goConfigService.pipelineConfigNamed(any(CaseInsensitiveString.class))).thenReturn(pipelineConfig);
-  when(entityDigest.md5ForPipeline(pipelineConfig)).thenReturn("pipeline_config_md5");
-  String md5ForPipeline=entityHashingService.md5ForPipelineConfig("P1");
-  assertThat(md5ForPipeline,is("pipeline_config_md5"));
-  verify(goCache).put("GO_PIPELINE_CONFIGS_ETAGS_CACHE","p1","pipeline_config_md5");
-}

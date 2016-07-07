@@ -1,0 +1,9 @@
+{
+  when(goConfigService.isUserAdmin(currentUser)).thenReturn(true);
+  when(goConfigService.isGroupAdministrator(currentUser.getUsername())).thenReturn(false);
+  SCM updatedScm=new SCM("non-existent-id",new PluginConfiguration("plugin-id","1"),new Configuration(new ConfigurationProperty(new ConfigurationKey("key1"),new ConfigurationValue("value1"))));
+  UpdateSCMConfigCommand command=new UpdateSCMConfigCommand(updatedScm,pluggableScmService,goConfigService,currentUser,result,"md5",entityHashingService);
+  thrown.expect(NullPointerException.class);
+  thrown.expectMessage("The pluggable scm material with id 'non-existent-id' is not found.");
+  assertThat(command.canContinue(cruiseConfig),is(false));
+}

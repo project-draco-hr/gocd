@@ -3,8 +3,10 @@
   String packageid="packageid";
   saveScmMaterialToConfig(packageid);
   PackageMaterialConfig packageMaterialConfig=new PackageMaterialConfig(packageid);
+  String xml=new MagicalGoConfigXmlWriter(configCache,registry).toXmlPartial(pipelineConfig);
+  String md5=CachedDigestUtils.md5Hex(xml);
   pipelineConfig.materialConfigs().add(packageMaterialConfig);
-  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,md5,result);
   assertThat(result.toString(),result.isSuccessful(),is(false));
   assertThat(result.message(localizer),is(String.format("Validations failed for pipeline '%s'. Error(s): [Validation failed.]. Please correct and resubmit.",pipelineConfig.name())));
   assertThat(packageMaterialConfig.errors().on(PackageMaterialConfig.PACKAGE_ID),is("Could not find repository for given package id:[packageid]"));

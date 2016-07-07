@@ -1,6 +1,7 @@
 {
   SCM updatedScm=new SCM("id",new PluginConfiguration("plugin-id","1"),new Configuration(new ConfigurationProperty(new ConfigurationKey("key1"),new ConfigurationValue("value1"))));
-  UpdateSCMConfigCommand command=new UpdateSCMConfigCommand(updatedScm,pluggableScmService,goConfigService,currentUser,result);
+  updatedScm.setName("material");
+  UpdateSCMConfigCommand command=new UpdateSCMConfigCommand(updatedScm,pluggableScmService,goConfigService,currentUser,result,"md5",entityHashingService);
   assertThat(cruiseConfig.getSCMs().contains(scm),is(true));
   command.update(cruiseConfig);
   assertThat(cruiseConfig.getSCMs().contains(updatedScm),is(true));

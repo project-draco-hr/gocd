@@ -5,8 +5,10 @@
   goPartialConfig.onSuccessPartialConfig(repoConfig1,invalidPartial);
   assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteInvalidPipeline)),is(false));
   assertThat(goConfigService.getCurrentConfig().getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstreamPipelineName)),is(true));
+  String xml=new MagicalGoConfigXmlWriter(configCache,registry).toXmlPartial(pipelineConfig);
+  String md5=CachedDigestUtils.md5Hex(xml);
   pipelineConfig.getFirstStageConfig().getJobs().first().addTask(new ExecTask("executable",new Arguments(new Argument("foo")),"working"));
-  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,md5,result);
   assertThat(result.isSuccessful(),is(true));
   CruiseConfig currentConfig=goConfigService.getCurrentConfig();
   assertThat(currentConfig.getAllPipelineNames().contains(new CaseInsensitiveString(remoteDownstreamPipelineName)),is(true));

@@ -1,7 +1,9 @@
 {
   GoConfigHolder goConfigHolderBeforeUpdate=goConfigDao.loadConfigHolder();
+  String xml=new MagicalGoConfigXmlWriter(configCache,registry).toXmlPartial(pipelineConfig);
+  String md5=CachedDigestUtils.md5Hex(xml);
   pipelineConfig.add(new StageConfig(new CaseInsensitiveString("additional_stage"),new JobConfigs(new JobConfig(new CaseInsensitiveString("addtn_job")))));
-  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,md5,result);
   assertThat(result.toString(),result.isSuccessful(),is(true));
   assertThat(goConfigDao.loadConfigHolder(),is(not(goConfigHolderBeforeUpdate)));
   StageConfig newlyAddedStage=goConfigDao.loadForEditing().getPipelineConfigByName(pipelineConfig.name()).getStage(new CaseInsensitiveString("additional_stage"));

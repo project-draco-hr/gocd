@@ -1,3 +1,4 @@
 {
-  goCache.remove(PIPELINE_CONFIG_CACHE_KEY,pipelineConfig.name().toLower());
+  String cacheKey=pipelineConfig.getClass().getName() + pipelineConfig.name().toLower();
+  goCache.remove(ETAG_CACHE_KEY,cacheKey.toLowerCase());
 }

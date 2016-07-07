@@ -1,7 +1,9 @@
 {
   GoConfigHolder goConfigHolder=goConfigDao.loadConfigHolder();
+  String xml=new MagicalGoConfigXmlWriter(configCache,registry).toXmlPartial(pipelineConfig);
+  String md5=CachedDigestUtils.md5Hex(xml);
   pipelineConfig.setLabelTemplate("LABEL");
-  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,md5,result);
   assertThat(result.toString(),result.isSuccessful(),is(false));
   assertThat(result.httpCode(),is(422));
   assertThat(pipelineConfig.errors().on(PipelineConfig.LABEL_TEMPLATE),contains("Invalid label"));

@@ -1,0 +1,5 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("P1");
+  String xml=new MagicalGoConfigXmlWriter(configCache,registry).toXmlPartial(pipelineConfig);
+  assertThat(entityHashingService.md5ForEntity(pipelineConfig,"P1"),is(CachedDigestUtils.md5Hex(xml)));
+}

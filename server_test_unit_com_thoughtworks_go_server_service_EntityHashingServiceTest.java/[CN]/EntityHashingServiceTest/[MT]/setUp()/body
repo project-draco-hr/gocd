@@ -1,7 +1,7 @@
 {
-  this.entityDigest=mock(EntityDigest.class);
   this.goConfigService=mock(GoConfigService.class);
   this.goCache=mock(GoCache.class);
-  this.entityHashingService=new EntityHashingService(this.goConfigService,this.goCache);
-  this.entityHashingService.initializeWith(entityDigest);
+  this.configCache=new ConfigCache();
+  this.registry=ConfigElementImplementationRegistryMother.withNoPlugins();
+  this.entityHashingService=new EntityHashingService(this.goConfigService,this.goCache,configCache,registry);
 }

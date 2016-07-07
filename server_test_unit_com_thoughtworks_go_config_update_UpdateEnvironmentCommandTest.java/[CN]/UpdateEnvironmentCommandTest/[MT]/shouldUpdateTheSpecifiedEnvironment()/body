@@ -1,5 +1,5 @@
 {
-  UpdateEnvironmentCommand command=new UpdateEnvironmentCommand(goConfigService,oldEnvironmentConfig,newEnvironmentConfig,currentUser,actionFailed,result);
+  UpdateEnvironmentCommand command=new UpdateEnvironmentCommand(goConfigService,oldEnvironmentConfig,newEnvironmentConfig,currentUser,actionFailed,md5,entityHashingService,result);
   assertFalse(cruiseConfig.getEnvironments().hasEnvironmentNamed(newEnvironmentName));
   command.update(cruiseConfig);
   assertTrue(cruiseConfig.getEnvironments().hasEnvironmentNamed(newEnvironmentName));
