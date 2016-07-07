@@ -16,13 +16,13 @@
   RepositoryMetadataStore.getInstance().addMetadataFor("plugin-id",repositoryConfiguration);
   packageRepository.applyPackagePluginMetadata();
   assertThat(secureProperty.isSecure(),is(true));
-  assertThat(secureProperty.getEncryptedValue(),is(notNullValue()));
-  assertThat(secureProperty.getEncryptedValue().getValue(),is(goCipher.encrypt("value1")));
+  assertThat(secureProperty.getEncryptedConfigurationValue(),is(notNullValue()));
+  assertThat(secureProperty.getEncryptedValue(),is(goCipher.encrypt("value1")));
   assertThat(nonSecureProperty.isSecure(),is(false));
   assertThat(nonSecureProperty.getValue(),is("value2"));
   assertThat(secureRepoProperty.isSecure(),is(true));
-  assertThat(secureRepoProperty.getEncryptedValue(),is(notNullValue()));
-  assertThat(secureRepoProperty.getEncryptedValue().getValue(),is(goCipher.encrypt("value1")));
+  assertThat(secureRepoProperty.getEncryptedConfigurationValue(),is(notNullValue()));
+  assertThat(secureRepoProperty.getEncryptedValue(),is(goCipher.encrypt("value1")));
   assertThat(nonSecureRepoProperty.isSecure(),is(false));
   assertThat(nonSecureRepoProperty.getValue(),is("value2"));
 }

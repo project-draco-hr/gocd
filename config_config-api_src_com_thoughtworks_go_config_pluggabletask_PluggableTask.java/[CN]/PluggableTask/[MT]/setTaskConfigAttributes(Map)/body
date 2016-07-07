@@ -3,10 +3,12 @@
   for (  Property property : taskConfig.list()) {
     String key=property.getKey();
     if (attributes.containsKey(key)) {
+      Boolean isSecure=property.getOption(Property.SECURE);
       if (configuration.getProperty(key) == null) {
-        configuration.addNewConfiguration(property.getKey(),property.getOption(Property.SECURE));
+        configuration.addNewConfiguration(property.getKey(),isSecure);
       }
       configuration.getProperty(key).setConfigurationValue(new ConfigurationValue((String)attributes.get(key)));
+      configuration.getProperty(key).handleSecureValueConfiguration(isSecure);
     }
   }
 }

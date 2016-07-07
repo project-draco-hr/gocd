@@ -5,7 +5,7 @@
   ConfigurationProperty property=new ConfigurationProperty(new ConfigurationKey("secureKey"),new ConfigurationValue("secureValue"),new EncryptedConfigurationValue("old-encrypted-text"),goCipher);
   property.handleSecureValueConfiguration(true);
   assertThat(property.isSecure(),is(true));
-  assertThat(property.getEncryptedValue().getValue(),is(encryptedText));
+  assertThat(property.getEncryptedValue(),is(encryptedText));
   assertThat(property.getConfigurationKey().getName(),is("secureKey"));
   assertThat(property.getConfigurationValue(),is(nullValue()));
 }

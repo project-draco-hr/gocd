@@ -2,6 +2,6 @@
   GoCipher goCipher=mock(GoCipher.class);
   ConfigurationProperty property=new ConfigurationProperty(new ConfigurationKey("secureKey"),new ConfigurationValue(""),new EncryptedConfigurationValue("old"),goCipher);
   property.handleSecureValueConfiguration(true);
-  assertThat(property.getEncryptedValue().getValue(),is(""));
+  assertThat(property.getEncryptedValue(),is(""));
   verify(cipher,never()).decrypt(anyString());
 }

@@ -1,0 +1,10 @@
+{
+  if (taskPreference() != null) {
+    for (    ConfigurationProperty configurationProperty : configuration) {
+      if (isValidPluginConfiguration(configurationProperty.getConfigKeyName())) {
+        Boolean isSecure=pluginConfigurationFor(configurationProperty.getConfigKeyName()).getOption(Property.SECURE);
+        configurationProperty.handleSecureValueConfiguration(isSecure);
+      }
+    }
+  }
+}

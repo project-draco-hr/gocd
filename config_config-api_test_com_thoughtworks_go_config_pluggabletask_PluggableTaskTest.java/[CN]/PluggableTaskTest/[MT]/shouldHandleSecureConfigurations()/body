@@ -1,0 +1,14 @@
+{
+  TaskPreference taskPreference=mock(TaskPreference.class);
+  Configuration configuration=new Configuration();
+  PluggableTaskConfigStore.store().setPreferenceFor("abc.def",taskPreference);
+  PluggableTask task=new PluggableTask(new PluginConfiguration("abc.def","1"),configuration);
+  Map<String,String> attributeMap=DataStructureUtils.m("KEY1","value1");
+  TaskConfig taskConfig=new TaskConfig();
+  taskConfig.addProperty("KEY1").with(Property.SECURE,true);
+  when(taskPreference.getConfig()).thenReturn(taskConfig);
+  task.setTaskConfigAttributes(attributeMap);
+  assertThat(task.getConfiguration().size(),is(1));
+  assertTrue(task.getConfiguration().first().isSecure());
+  assertThat(task.getConfiguration().first().getValue(),is("value1"));
+}

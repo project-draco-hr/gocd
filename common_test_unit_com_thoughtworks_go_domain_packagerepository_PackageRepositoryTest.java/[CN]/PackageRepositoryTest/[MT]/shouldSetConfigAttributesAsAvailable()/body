@@ -26,10 +26,10 @@
   assertThat(packageRepository.getConfiguration().get(1).getConfigurationKey().getName(),is(username.name));
   assertThat(packageRepository.getConfiguration().get(1).getConfigurationValue().getValue(),is(username.value));
   assertThat(packageRepository.getConfiguration().get(2).getConfigurationKey().getName(),is(password.name));
-  assertThat(packageRepository.getConfiguration().get(2).getEncryptedValue().getValue(),is(new GoCipher().encrypt(password.value)));
+  assertThat(packageRepository.getConfiguration().get(2).getEncryptedValue(),is(new GoCipher().encrypt(password.value)));
   assertThat(packageRepository.getConfiguration().get(2).getConfigurationValue(),is(nullValue()));
   assertThat(packageRepository.getConfiguration().get(3).getConfigurationKey().getName(),is(secureKeyNotChanged.name));
-  assertThat(packageRepository.getConfiguration().get(3).getEncryptedValue().getValue(),is(oldEncryptedValue));
+  assertThat(packageRepository.getConfiguration().get(3).getEncryptedValue(),is(oldEncryptedValue));
   assertThat(packageRepository.getConfiguration().get(3).getConfigurationValue(),is(nullValue()));
   assertSame(packageRepository.getPackages(),packages);
 }
