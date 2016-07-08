@@ -1,7 +1,7 @@
 {
   List linesInLog=FileUtils.readLines(pluginLogFile);
   for (  Object line : linesInLog) {
-    if (((String)line).matches(String.format("^.*%s \\[main\\] %s:.* - %s$",expectedLoggingLevel,loggerName,expectedLogMessage))) {
+    if (((String)line).matches(String.format("^.*%s \\[%s\\] %s:.* - %s$",expectedLoggingLevel,Thread.currentThread().getName(),loggerName,expectedLogMessage))) {
       return;
     }
   }
