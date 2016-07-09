@@ -1,7 +1,6 @@
 {
   if (!OS_CHECKER.satisfy()) {
     File stalePluginZip=null;
-    File agentLauncher=null;
     try {
       stalePluginZip=randomFile("agent-plugins.zip");
       long original=stalePluginZip.length();
@@ -10,7 +9,7 @@
       assertThat(stalePluginZip.length(),not(original));
     }
   finally {
-      delete(stalePluginZip,agentLauncher);
+      delete(stalePluginZip);
     }
   }
 }

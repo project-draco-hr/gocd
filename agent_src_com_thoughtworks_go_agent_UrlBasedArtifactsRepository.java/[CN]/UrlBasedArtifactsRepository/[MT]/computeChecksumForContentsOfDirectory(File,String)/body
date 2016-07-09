@@ -3,16 +3,9 @@
   Properties checksumProperties=new Properties();
   for (  File file : fileStructure) {
     String filePath=removeStart(file.getAbsolutePath(),directory.getParentFile().getAbsolutePath());
-    FileInputStream inputStream=null;
-    try {
-      inputStream=new FileInputStream(file);
+    try (FileInputStream inputStream=new FileInputStream(file)){
       checksumProperties.setProperty(getEffectiveFileName(destPath,normalizePath(filePath)),md5Hex(inputStream));
     }
-  finally {
-      if (inputStream != null) {
-        inputStream.close();
-      }
-    }
-  }
+   }
   return checksumProperties;
 }

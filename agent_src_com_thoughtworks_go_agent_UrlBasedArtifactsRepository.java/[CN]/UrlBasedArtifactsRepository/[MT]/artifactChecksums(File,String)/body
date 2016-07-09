@@ -2,16 +2,9 @@
   if (source.isDirectory()) {
     return computeChecksumForContentsOfDirectory(source,destPath);
   }
-  FileInputStream inputStream=null;
-  Properties properties=null;
-  try {
-    inputStream=new FileInputStream(source);
+  Properties properties;
+  try (FileInputStream inputStream=new FileInputStream(source)){
     properties=computeChecksumForFile(source.getName(),md5Hex(inputStream),destPath);
   }
-  finally {
-    if (inputStream != null) {
-      inputStream.close();
-    }
-  }
-  return properties;
+   return properties;
 }

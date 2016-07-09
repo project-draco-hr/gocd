@@ -2,10 +2,5 @@
   if (e == null) {
     return false;
   }
-  if (e instanceof GeneralSecurityException) {
-    return true;
-  }
- else {
-    return isCausedBySecurity(e.getCause());
-  }
+  return (e instanceof GeneralSecurityException) || isCausedBySecurity(e.getCause());
 }

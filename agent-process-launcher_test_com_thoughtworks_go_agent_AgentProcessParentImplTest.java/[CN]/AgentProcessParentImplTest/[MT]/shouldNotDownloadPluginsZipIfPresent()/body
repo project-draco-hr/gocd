@@ -1,7 +1,6 @@
 {
   if (!OS_CHECKER.satisfy()) {
     File pluginZip=null;
-    File agentLauncher=null;
     try {
       FileUtils.copyFile(new File("testdata/agent-plugins.zip"),pluginZip=new File(Downloader.AGENT_PLUGINS));
       pluginZip.setLastModified(System.currentTimeMillis() - 10 * 1000);
@@ -11,7 +10,7 @@
       assertThat(new File(Downloader.AGENT_PLUGINS).lastModified(),is(expectedModifiedDate));
     }
   finally {
-      delete(pluginZip,agentLauncher);
+      delete(pluginZip);
     }
   }
 }
