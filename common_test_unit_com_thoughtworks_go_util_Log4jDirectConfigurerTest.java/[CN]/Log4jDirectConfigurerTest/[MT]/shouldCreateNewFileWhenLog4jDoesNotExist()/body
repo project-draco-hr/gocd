@@ -1,6 +1,7 @@
 {
+  File file=new File(temporaryFolder.newFolder(),"anotherLog4jFile.properties");
   assertThat(file.exists(),is(false));
-  Log4jDirectConfigurer log4jDirectConfigurer=new Log4jDirectConfigurer(file.getName());
+  Log4jDirectConfigurer log4jDirectConfigurer=new Log4jDirectConfigurer(file.getAbsolutePath());
   log4jDirectConfigurer.afterPropertiesSet();
   assertThat(file.exists(),is(true));
 }
