@@ -3,8 +3,10 @@
   EnvironmentConfig environmentConfig=new BasicEnvironmentConfig(new CaseInsensitiveString(environmentName));
   Username user=new Username(new CaseInsensitiveString("user"));
   when(securityService.isUserAdmin(user)).thenReturn(true);
-  when(mockGoConfigService.updateConfig(any(UpdateEnvironmentCommand.class))).thenReturn(ConfigSaveState.MERGED);
+  when(mockGoConfigService.updateConfig(any(UpdateConfigCommand.class))).thenReturn(ConfigSaveState.MERGED);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  environmentConfigService.updateEnvironment(environmentName,environmentConfig,user,result);
-  assertThat(result.localizable(),is(LocalizedMessage.composite(LocalizedMessage.string("UPDATE_ENVIRONMENT_SUCCESS",environmentName),LocalizedMessage.string("CONFIG_MERGED"))));
+  environmentConfigService.updateEnvironment(environmentConfig,environmentConfig,user,result);
+  assertTrue(result.isSuccessful());
+  assertThat(result.toString(),containsString("UPDATE_ENVIRONMENT_SUCCESS"));
+  assertThat(result.toString(),containsString(environmentName));
 }

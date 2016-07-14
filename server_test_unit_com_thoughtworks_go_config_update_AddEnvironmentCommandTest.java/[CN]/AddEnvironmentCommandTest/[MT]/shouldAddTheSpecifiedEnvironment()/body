@@ -1,0 +1,6 @@
+{
+  AddEnvironmentCommand command=new AddEnvironmentCommand(goConfigService,environmentConfig,currentUser,result);
+  assertFalse(cruiseConfig.getEnvironments().hasEnvironmentNamed(environmentName));
+  command.update(cruiseConfig);
+  assertTrue(cruiseConfig.getEnvironments().hasEnvironmentNamed(environmentName));
+}

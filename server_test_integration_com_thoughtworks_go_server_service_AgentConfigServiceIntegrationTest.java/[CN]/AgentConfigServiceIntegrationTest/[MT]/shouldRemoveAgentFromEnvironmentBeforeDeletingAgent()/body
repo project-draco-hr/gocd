@@ -7,7 +7,7 @@
   BasicEnvironmentConfig env=new BasicEnvironmentConfig(new CaseInsensitiveString(UUID.randomUUID().toString()));
   env.addAgent(agentConfig1.getUuid());
   env.addAgent(agentConfig2.getUuid());
-  goConfigDao.addEnvironment(env,Username.ANONYMOUS);
+  goConfigDao.addEnvironment(env);
   CruiseConfig cruiseConfig=goConfigDao.load();
   assertThat(cruiseConfig.getEnvironments().named(env.name()).getAgents().size(),is(2));
   agentConfigService.deleteAgents(Username.ANONYMOUS,fromConfigFile1);

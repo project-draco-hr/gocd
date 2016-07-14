@@ -1,0 +1,10 @@
+{
+  environmentConfig.addPipeline(new CaseInsensitiveString("Invalid-pipeline-name"));
+  AddEnvironmentCommand command=new AddEnvironmentCommand(goConfigService,environmentConfig,currentUser,result);
+  command.update(cruiseConfig);
+  assertThat(command.isValid(cruiseConfig),is(false));
+  assertFalse(result.isSuccessful());
+  assertThat(result.httpCode(),is(400));
+  assertThat(result.toString(),containsString("ENV_ADD_FAILED"));
+  assertThat(result.toString(),containsString("Environment 'Dev' refers to an unknown pipeline 'Invalid-pipeline-name'."));
+}

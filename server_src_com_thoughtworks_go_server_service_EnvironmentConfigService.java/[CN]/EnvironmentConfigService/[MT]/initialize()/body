@@ -6,4 +6,10 @@
     }
   }
 );
+  goConfigService.register(new EntityConfigChangedListener<EnvironmentConfig>(){
+    @Override public void onEntityConfigChange(    EnvironmentConfig entity){
+      sync(goConfigService.getEnvironments());
+    }
+  }
+);
 }

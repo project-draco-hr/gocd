@@ -1,0 +1,13 @@
+{
+  if (!goConfigService.isUserAdmin(user)) {
+    Localizable noPermission=LocalizedMessage.string("NO_PERMISSION_TO_ADD_ENVIRONMENT",user.getDisplayName());
+    result.unauthorized(noPermission,HealthStateType.unauthorised());
+    return false;
+  }
+  CaseInsensitiveString environmentName=environmentConfig.name();
+  if (goConfigService.hasEnvironmentNamed(environmentName)) {
+    result.conflict(LocalizedMessage.string("CANNOT_ADD_ENV_ALREADY_EXISTS",environmentName));
+    return false;
+  }
+  return true;
+}

@@ -4,7 +4,7 @@
   agentConfigService.addAgent(agentConfig1,Username.ANONYMOUS);
   agentConfigService.addAgent(agentConfig2,Username.ANONYMOUS);
   BasicEnvironmentConfig environment=new BasicEnvironmentConfig(new CaseInsensitiveString("Dev"));
-  goConfigDao.addEnvironment(environment,Username.ANONYMOUS);
+  goConfigDao.addEnvironment(environment);
   assertFalse(environment.hasAgent(agentConfig1.getUuid()));
   assertFalse(environment.hasAgent(agentConfig2.getUuid()));
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();

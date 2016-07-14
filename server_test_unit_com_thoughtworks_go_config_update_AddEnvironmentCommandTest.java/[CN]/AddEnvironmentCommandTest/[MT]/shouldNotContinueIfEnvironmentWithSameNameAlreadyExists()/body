@@ -1,0 +1,10 @@
+{
+  AddEnvironmentCommand command=new AddEnvironmentCommand(goConfigService,environmentConfig,currentUser,result);
+  when(goConfigService.isUserAdmin(currentUser)).thenReturn(true);
+  when(goConfigService.hasEnvironmentNamed(environmentName)).thenReturn(true);
+  assertThat(command.canContinue(cruiseConfig),is(false));
+  assertFalse(result.isSuccessful());
+  assertThat(result.httpCode(),is(409));
+  assertThat(result.toString(),containsString("CANNOT_ADD_ENV_ALREADY_EXISTS"));
+  assertThat(result.toString(),containsString(environmentName.toString()));
+}

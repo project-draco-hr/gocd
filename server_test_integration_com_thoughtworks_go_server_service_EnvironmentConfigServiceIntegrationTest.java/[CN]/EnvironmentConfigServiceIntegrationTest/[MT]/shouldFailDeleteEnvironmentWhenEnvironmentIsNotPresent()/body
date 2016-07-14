@@ -1,7 +1,0 @@
-{
-  String environmentName="dev";
-  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  assertFalse(goConfigService.hasEnvironmentNamed(new CaseInsensitiveString(environmentName)));
-  service.deleteEnvironment(environmentName,new Username(new CaseInsensitiveString("foo")),result);
-  assertThat(result.message(localizer),containsString("Environment 'dev' not found."));
-}

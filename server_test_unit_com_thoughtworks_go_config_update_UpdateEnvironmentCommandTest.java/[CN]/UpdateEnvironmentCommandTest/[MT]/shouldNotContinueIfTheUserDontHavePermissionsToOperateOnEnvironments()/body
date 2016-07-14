@@ -1,0 +1,9 @@
+{
+  UpdateEnvironmentCommand command=new UpdateEnvironmentCommand(goConfigService,oldEnvironmentConfig,newEnvironmentConfig,currentUser,result);
+  when(goConfigService.isUserAdmin(currentUser)).thenReturn(false);
+  assertThat(command.canContinue(cruiseConfig),is(false));
+  assertFalse(result.isSuccessful());
+  assertThat(result.httpCode(),is(401));
+  assertThat(result.toString(),containsString("NO_PERMISSION_TO_UPDATE_ENVIRONMENT"));
+  assertThat(result.toString(),containsString(currentUser.getUsername().toString()));
+}

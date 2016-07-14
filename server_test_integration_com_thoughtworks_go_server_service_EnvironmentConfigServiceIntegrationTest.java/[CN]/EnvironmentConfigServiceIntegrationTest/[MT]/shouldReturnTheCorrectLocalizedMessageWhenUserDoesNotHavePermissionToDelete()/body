@@ -3,6 +3,6 @@
   configHelper.turnOnSecurity();
   configHelper.addAdmins("super_hero");
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  service.deleteEnvironment("foo",new Username(new CaseInsensitiveString("evil_hacker")),result);
+  service.deleteEnvironment(service.getEnvironmentConfig("foo"),new Username(new CaseInsensitiveString("evil_hacker")),result);
   assertThat(result.message(localizer),is("Failed to delete environment 'foo'. User 'evil_hacker' does not have permission to update environments"));
 }
