@@ -1,11 +1,9 @@
 {
-  systemEnvironment.clearProperty("jetty.home");
-  systemEnvironment.clearProperty("jetty.base");
-  systemEnvironment.setProperty("user.dir","junk");
-  JettyWorkDirValidator jettyWorkDirValidator=new JettyWorkDirValidator();
+  when(systemEnvironment.getPropertyImpl("jetty.home")).thenReturn("");
+  when(systemEnvironment.getPropertyImpl("user.dir")).thenReturn("junk");
   Validation val=new Validation();
   jettyWorkDirValidator.validate(val);
   assertThat(val.isSuccessful(),is(true));
-  assertThat(SystemEnvironment.getProperty("jetty.home"),is("junk"));
-  assertThat(SystemEnvironment.getProperty("jetty.base"),is("junk"));
+  verify(systemEnvironment).getPropertyImpl("user.dir");
+  verify(systemEnvironment).setProperty("jetty.home","junk");
 }

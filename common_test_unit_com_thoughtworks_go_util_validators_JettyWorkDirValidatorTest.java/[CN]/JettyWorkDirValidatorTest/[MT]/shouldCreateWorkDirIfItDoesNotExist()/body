@@ -1,6 +1,5 @@
 {
-  systemEnvironment.setProperty("jetty.home",homeDir.getAbsolutePath());
-  JettyWorkDirValidator jettyWorkDirValidator=new JettyWorkDirValidator();
+  when(systemEnvironment.getPropertyImpl("jetty.home")).thenReturn(homeDir.getAbsolutePath());
   Validation val=new Validation();
   jettyWorkDirValidator.validate(val);
   assertThat(val.isSuccessful(),is(true));
