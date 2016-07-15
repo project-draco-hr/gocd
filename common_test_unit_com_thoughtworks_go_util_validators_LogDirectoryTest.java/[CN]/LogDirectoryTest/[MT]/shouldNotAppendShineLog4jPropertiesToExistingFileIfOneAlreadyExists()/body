@@ -1,9 +1,0 @@
-{
-  writeContentToFile(readFileToString(log4jPropertiesFile) + "\nlog4j.logger.com.thoughtworks.studios.shine=INFO,FooFileAppender\n",log4jPropertiesFile);
-  LogDirectory logDirectory=new LogDirectory(existingLogFolder.getAbsolutePath());
-  logDirectory.update(log4jPropertiesFile,new Validation());
-  String upgradedFile=readFileToString(log4jPropertiesFile);
-  assertThat(upgradedFile,containsString("log4j.logger.com.thoughtworks.studios.shine=INFO,FooFileAppender\n"));
-  assertThat(upgradedFile,not(containsString("log4j.logger.com.thoughtworks.studios.shine=WARN,ShineFileAppender\n")));
-  assertThat(upgradedFile,not(containsString("#upgrade_check")));
-}

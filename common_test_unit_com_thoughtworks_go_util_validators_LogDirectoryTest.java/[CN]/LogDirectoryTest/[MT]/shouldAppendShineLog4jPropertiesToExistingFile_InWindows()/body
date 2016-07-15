@@ -1,8 +1,0 @@
-{
-  String dir=existingLogFolder.getAbsolutePath();
-  LogDirectory logDirectory=new LogDirectory(dir);
-  logDirectory.update(log4jPropertiesFile,new Validation());
-  String upgradedFile=readFileToString(log4jPropertiesFile);
-  assertThat(upgradedFile,containsString("log4j.logger.com.thoughtworks.studios.shine=WARN,ShineFileAppender\r\n" + "# Rolling log file output for shine...\r\n" + "log4j.appender.ShineFileAppender=org.apache.log4j.RollingFileAppender\r\n"+ "log4j.appender.ShineFileAppender.File=" + dir + "/go-shine.log\r\n"+ "log4j.appender.ShineFileAppender.MaxFileSize=10240KB\r\n"+ "log4j.appender.ShineFileAppender.MaxBackupIndex=50\r\n"+ "log4j.appender.ShineFileAppender.layout=org.apache.log4j.PatternLayout\r\n"+ "log4j.appender.ShineFileAppender.layout.conversionPattern=%d{ISO8601} %5p [%t] %c{1}:%L - %m%n"));
-  assertThat(upgradedFile,not(containsString("#upgrade_check")));
-}

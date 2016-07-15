@@ -5,13 +5,10 @@
 {
       atLeast(1).of(env).getConfigDir();
       will(returnValue(path));
-      one(env).getCurrentOperatingSystem();
-      will(returnValue(LINUX));
     }
   }
 );
   LoggingValidator validator=new LoggingValidator(env);
   assertThat(validator.getLog4jFile(),is(new File(tempFolder,"log4j.properties")));
   assertThat((FileValidator)validator.getLog4jPropertiesValidator(),is(FileValidator.configFile("log4j.properties",env)));
-  assertThat(validator.getLogDirectory(),is(LogDirectory.fromEnvironment(LINUX)));
 }
