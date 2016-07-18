@@ -1,0 +1,8 @@
+{
+  DefaultHeadersFilter filter=new DefaultHeadersFilter();
+  filter.doFilter(request,response,chain);
+  verify(response).setHeader("X-XSS-Protection","1; mode=block");
+  verify(response).setHeader("X-Content-Type-Options","nosniff");
+  verify(response).setHeader("X-Frame-Options","SAMEORIGIN");
+  verify(response).setHeader("X-UA-Compatible","chrome=1");
+}

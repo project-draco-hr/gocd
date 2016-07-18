@@ -1,3 +1,5 @@
 {
-  webAppContext.getSessionHandler().getSessionManager().getSessionCookieConfig().setMaxAge(cookieExpirePeriod);
+  SessionCookieConfig cookieConfig=webAppContext.getSessionHandler().getSessionManager().getSessionCookieConfig();
+  cookieConfig.setHttpOnly(true);
+  cookieConfig.setMaxAge(cookieExpirePeriod);
 }

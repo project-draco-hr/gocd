@@ -1,5 +1,12 @@
 {
-  if (target.equals("/")) {
+  if ("/go".equals(request.getPathInfo()) || request.getPathInfo().startsWith("/go/")) {
+    return;
+  }
+  response.setHeader("X-XSS-Protection","1; mode=block");
+  response.setHeader("X-Content-Type-Options","nosniff");
+  response.setHeader("X-Frame-Options","SAMEORIGIN");
+  response.setHeader("X-UA-Compatible","chrome=1");
+  if ("/".equals(target)) {
     response.setHeader("Location",GoConstants.GO_URL_CONTEXT + "/home");
     response.setStatus(301);
     response.setHeader("Content-Type","text/html");

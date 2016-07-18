@@ -1,0 +1,17 @@
+{
+  ArgumentCaptor<HandlerCollection> captor=ArgumentCaptor.forClass(HandlerCollection.class);
+  jetty9Server.configure();
+  verify(server,times(1)).setHandler(captor.capture());
+  HandlerCollection handlerCollection=captor.getValue();
+  Jetty9Server.GoServerWelcomeFileHandler handler=(Jetty9Server.GoServerWelcomeFileHandler)handlerCollection.getHandlers()[0];
+  Handler rootPathHandler=handler.getHandler();
+  HttpServletResponse response=mock(HttpServletResponse.class);
+  when(response.getWriter()).thenReturn(mock(PrintWriter.class));
+  HttpServletRequest request=mock(HttpServletRequest.class);
+  when(request.getPathInfo()).thenReturn("/");
+  rootPathHandler.handle("/",mock(Request.class),request,response);
+  verify(response).setHeader("X-XSS-Protection","1; mode=block");
+  verify(response).setHeader("X-Content-Type-Options","nosniff");
+  verify(response).setHeader("X-Frame-Options","SAMEORIGIN");
+  verify(response).setHeader("X-UA-Compatible","chrome=1");
+}
