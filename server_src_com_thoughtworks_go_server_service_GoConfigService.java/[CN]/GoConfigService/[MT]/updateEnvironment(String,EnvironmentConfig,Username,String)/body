@@ -1,7 +1,12 @@
 {
   return goConfigDao.updateConfig(new NoOverwriteUpdateConfigCommand(){
     public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
-      return new UpdateEnvironmentCommand(named,newEnvDefinition,username).update(cruiseConfig);
+      EnvironmentsConfig environments=cruiseConfig.getEnvironments();
+      EnvironmentConfig oldConfig=environments.find(new CaseInsensitiveString(named));
+      int index=environments.indexOf(oldConfig);
+      environments.remove(index);
+      environments.add(index,newEnvDefinition);
+      return cruiseConfig;
     }
     public String unmodifiedMd5(){
       return md5;

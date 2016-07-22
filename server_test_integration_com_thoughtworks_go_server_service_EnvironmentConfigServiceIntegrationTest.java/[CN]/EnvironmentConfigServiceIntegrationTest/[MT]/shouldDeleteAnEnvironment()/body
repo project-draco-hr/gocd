@@ -1,9 +1,9 @@
 {
   String environmentName="dev";
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  goConfigService.addEnvironment(new BasicEnvironmentConfig(new CaseInsensitiveString(environmentName)),Username.ANONYMOUS);
+  goConfigService.addEnvironment(new BasicEnvironmentConfig(new CaseInsensitiveString(environmentName)));
   assertTrue(goConfigService.hasEnvironmentNamed(new CaseInsensitiveString(environmentName)));
-  service.deleteEnvironment(environmentName,new Username(new CaseInsensitiveString("foo")),result);
+  service.deleteEnvironment(service.getEnvironmentConfig(environmentName),new Username(new CaseInsensitiveString("foo")),result);
   assertFalse(goConfigService.hasEnvironmentNamed(new CaseInsensitiveString(environmentName)));
   assertThat(result.message(localizer),containsString("Environment 'dev' was deleted successfully."));
 }

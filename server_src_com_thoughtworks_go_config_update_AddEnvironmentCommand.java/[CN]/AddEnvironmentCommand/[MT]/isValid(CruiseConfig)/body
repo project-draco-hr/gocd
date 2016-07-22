@@ -1,0 +1,13 @@
+{
+  for (  GoConfigValidator validator : VALIDATORS) {
+    try {
+      validator.validate(preprocessedConfig);
+    }
+ catch (    Exception e) {
+      Localizable.CurryableLocalizable actionFailed=LocalizedMessage.string("ENV_ADD_FAILED");
+      result.badRequest(actionFailed.addParam(e.getMessage()));
+      return false;
+    }
+  }
+  return true;
+}

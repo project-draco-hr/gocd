@@ -1,0 +1,9 @@
+{
+  String environmentName=environmentConfig.name().toString();
+  DeleteEnvironmentCommand deleteEnvironmentCommand=new DeleteEnvironmentCommand(goConfigService,environmentConfig,username,result);
+  Localizable.CurryableLocalizable actionFailed=LocalizedMessage.string("ENV_DELETE_FAILED",environmentName);
+  update(deleteEnvironmentCommand,environmentConfig,username,result,actionFailed);
+  if (result.isSuccessful()) {
+    result.setMessage(LocalizedMessage.string("ENVIRONMENT_DELETE_SUCCESSFUL",environmentName));
+  }
+}

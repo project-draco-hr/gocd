@@ -1,0 +1,13 @@
+{
+  try {
+    goConfigService.updateConfig(command,currentUser);
+  }
+ catch (  Exception e) {
+    if ((e instanceof GoConfigInvalidException) && !result.hasMessage()) {
+      result.unprocessableEntity(LocalizedMessage.string("ENTITY_CONFIG_VALIDATION_FAILED",config.getClass().getAnnotation(ConfigTag.class).value(),config.name(),e.getMessage()));
+    }
+ else     if (!result.hasMessage()) {
+      result.badRequest(actionFailed.addParam(e.getMessage()));
+    }
+  }
+}

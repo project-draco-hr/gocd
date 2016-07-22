@@ -5,7 +5,7 @@
   agentConfigService.addAgent(agentConfig2,Username.ANONYMOUS);
   CruiseConfig cruiseConfig=goConfigDao.load();
   BasicEnvironmentConfig environment=new BasicEnvironmentConfig(new CaseInsensitiveString("Dev"));
-  goConfigDao.addEnvironment(environment,Username.ANONYMOUS);
+  goConfigDao.addEnvironment(environment);
   assertThat(environment.getAgents().getUuids(),not(containsInAnyOrder(agentConfig1.getUuid(),agentConfig2.getUuid())));
   assertFalse(cruiseConfig.agents().getAgentByUuid(agentConfig1.getUuid()).isDisabled());
   assertFalse(cruiseConfig.agents().getAgentByUuid(agentConfig1.getUuid()).isDisabled());

@@ -1,7 +1,0 @@
-{
-  ConfigSaveState expectedSaveState=ConfigSaveState.MERGED;
-  UpdateEnvironmentCommand command=new UpdateEnvironmentCommand("env",new BasicEnvironmentConfig(),new Username("bob"));
-  when(goConfigDao.updateConfig(command)).thenReturn(expectedSaveState);
-  ConfigSaveState configSaveState=goConfigService.updateConfig(command);
-  assertThat(configSaveState,is(expectedSaveState));
-}
