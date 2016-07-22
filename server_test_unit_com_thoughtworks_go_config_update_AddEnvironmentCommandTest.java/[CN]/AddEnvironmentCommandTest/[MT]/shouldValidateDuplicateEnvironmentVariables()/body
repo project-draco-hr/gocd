@@ -1,9 +1,10 @@
 {
-  environmentConfig.addPipeline(new CaseInsensitiveString("Invalid-pipeline-name"));
+  environmentConfig.addEnvironmentVariable("foo","bar");
+  environmentConfig.addEnvironmentVariable("foo","baz");
   AddEnvironmentCommand command=new AddEnvironmentCommand(goConfigService,environmentConfig,currentUser,actionFailed,result);
   command.update(cruiseConfig);
   HttpLocalizedOperationResult expectedResult=new HttpLocalizedOperationResult();
-  expectedResult.badRequest(actionFailed.addParam("Environment 'Dev' refers to an unknown pipeline 'Invalid-pipeline-name'."));
+  expectedResult.badRequest(actionFailed.addParam("Environment Variable name 'foo' is not unique for environment 'Dev'."));
   assertThat(command.isValid(cruiseConfig),is(false));
   assertThat(result,is(expectedResult));
 }

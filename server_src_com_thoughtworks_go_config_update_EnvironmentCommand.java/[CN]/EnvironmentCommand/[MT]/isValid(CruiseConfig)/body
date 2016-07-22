@@ -1,0 +1,19 @@
+{
+  BasicEnvironmentConfig config=(BasicEnvironmentConfig)preprocessedConfig.getEnvironments().find(this.config.name());
+  config.getVariables().validate(ConfigSaveValidationContext.forChain(config));
+  List<ConfigErrors> allErrors=preprocessedConfig.getAllErrors();
+  if (!allErrors.isEmpty()) {
+    result.badRequest(actionFailed.addParam(allErrors.get(0).firstError()));
+    return false;
+  }
+  for (  GoConfigValidator validator : VALIDATORS) {
+    try {
+      validator.validate(preprocessedConfig);
+    }
+ catch (    Exception e) {
+      result.badRequest(actionFailed.addParam(e.getMessage()));
+      return false;
+    }
+  }
+  return true;
+}
