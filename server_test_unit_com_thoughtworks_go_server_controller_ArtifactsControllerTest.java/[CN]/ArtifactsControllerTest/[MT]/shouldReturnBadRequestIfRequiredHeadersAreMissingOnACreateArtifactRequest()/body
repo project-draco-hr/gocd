@@ -1,0 +1,8 @@
+{
+  MultipartHttpServletRequest multipartHttpServletRequest=new MockMultipartHttpServletRequest();
+  when(systemEnvironment.isApiSafeModeEnabled()).thenReturn(true);
+  ModelAndView modelAndView=artifactsController.postArtifact("pipeline","invalid-label","stage","stage-counter","job-name",3L,"file-path",3,multipartHttpServletRequest);
+  ResponseCodeView codeView=(ResponseCodeView)modelAndView.getView();
+  assertThat(codeView.getStatusCode(),is(HttpServletResponse.SC_BAD_REQUEST));
+  assertThat(codeView.getContent(),is("Missing required header 'Confirm'"));
+}

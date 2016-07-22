@@ -1,5 +1,8 @@
 {
   JobIdentifier jobIdentifier;
+  if (!headerConstraint.isSatisfied(request)) {
+    return ResponseCodeView.create(HttpServletResponse.SC_BAD_REQUEST,"Missing required header 'Confirm'");
+  }
   try {
     jobIdentifier=restfulService.findJob(pipelineName,counterOrLabel,stageName,stageCounter,buildName,buildId);
   }
