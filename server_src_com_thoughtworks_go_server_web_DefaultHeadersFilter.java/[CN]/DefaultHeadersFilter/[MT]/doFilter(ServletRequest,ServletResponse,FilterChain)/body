@@ -1,8 +1,10 @@
 {
   HttpServletResponse response=(HttpServletResponse)resp;
-  response.setHeader("X-XSS-Protection","1; mode=block");
-  response.setHeader("X-Content-Type-Options","nosniff");
-  response.setHeader("X-Frame-Options","SAMEORIGIN");
-  response.setHeader("X-UA-Compatible","chrome=1");
   chain.doFilter(req,resp);
+  if (!response.isCommitted()) {
+    addSecureHeader(response,"X-XSS-Protection","1; mode=block");
+    addSecureHeader(response,"X-Content-Type-Options","nosniff");
+    addSecureHeader(response,"X-Frame-Options","SAMEORIGIN");
+    addSecureHeader(response,"X-UA-Compatible","chrome=1");
+  }
 }

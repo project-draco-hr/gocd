@@ -1,0 +1,6 @@
+{
+  when(response.isCommitted()).thenReturn(true);
+  filter.doFilter(request,response,chain);
+  verify(response).isCommitted();
+  verifyNoMoreInteractions(response);
+}
