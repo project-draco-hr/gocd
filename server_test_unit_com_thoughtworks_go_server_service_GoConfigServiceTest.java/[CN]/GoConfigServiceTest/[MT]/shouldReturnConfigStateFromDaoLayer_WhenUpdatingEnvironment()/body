@@ -1,6 +1,0 @@
-{
-  ConfigSaveState expectedSaveState=ConfigSaveState.MERGED;
-  when(goConfigDao.updateConfig(org.mockito.Matchers.<UpdateConfigCommand>any())).thenReturn(expectedSaveState);
-  ConfigSaveState configSaveState=goConfigService.updateEnvironment("env",new BasicEnvironmentConfig(),new Username("bob"),"md5");
-  assertThat(configSaveState,is(expectedSaveState));
-}
