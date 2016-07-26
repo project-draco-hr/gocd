@@ -12,21 +12,9 @@
     transport.sendMessage(msg,msg.getRecipients(TO));
     return ValidationBean.valid();
   }
- catch (  AuthenticationFailedException e) {
+ catch (  Exception e) {
     LOGGER.error(String.format("Sending failed for email [%s] to [%s]",subject,to),e);
-    return ValidationBean.notValid("Failed to send the email. Caused by: Authentication failed");
-  }
-catch (  NoSuchProviderException e) {
-    LOGGER.error(String.format("Sending failed for email [%s] to [%s]",subject,to),e);
-    return ValidationBean.notValid("Failed to send the email. Caused by: " + e.getMessage());
-  }
-catch (  MessagingException e) {
-    LOGGER.error(String.format("Sending failed for email [%s] to [%s]",subject,to),e);
-    return ValidationBean.notValid("Failed to send the email. Caused by: " + e.getMessage());
-  }
-catch (  Exception e) {
-    LOGGER.error(String.format("Sending failed for email [%s] to [%s]",subject,to),e);
-    return ValidationBean.notValid("Failed to send the email. Caused by: " + e.getMessage());
+    return ValidationBean.notValid(ERROR_MESSAGE);
   }
  finally {
     if (transport != null) {

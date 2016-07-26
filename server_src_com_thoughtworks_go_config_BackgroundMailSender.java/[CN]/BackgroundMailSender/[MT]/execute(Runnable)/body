@@ -10,6 +10,7 @@
     return validation;
   }
  catch (  InterruptedException e) {
+    LOGGER.error("Timed out when sending an email. Please check email configuration.");
     return ValidationBean.notValid(ERROR_MESSAGE);
   }
 }
