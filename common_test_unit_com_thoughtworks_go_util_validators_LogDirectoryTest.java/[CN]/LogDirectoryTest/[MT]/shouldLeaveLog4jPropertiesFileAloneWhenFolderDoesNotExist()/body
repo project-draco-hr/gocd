@@ -1,6 +1,0 @@
-{
-  File notExists=new File(existingLogFolder.getAbsolutePath() + "-not-exists");
-  LogDirectory logDirectory=new LogDirectory(notExists.getAbsolutePath());
-  logDirectory.update(log4jPropertiesFile,new Validation());
-  assertThat(readFileToString(log4jPropertiesFile),containsString("log4j.appender.FileAppender.File=go-server.log"));
-}
