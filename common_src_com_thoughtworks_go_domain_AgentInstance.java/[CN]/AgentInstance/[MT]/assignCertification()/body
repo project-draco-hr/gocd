@@ -4,8 +4,5 @@
   }
   X509CertificateGenerator certificateGenerator=new X509CertificateGenerator();
   Registration entry=certificateGenerator.createAgentCertificate(new SystemEnvironment().agentkeystore(),agentConfig.getHostname());
-  if (AgentType.VIRTUAL.equals(agentType)) {
-    return new Registration(entry.getPrivateKey(),entry.getChain());
-  }
   return new Registration(entry.getPrivateKey(),entry.getChain());
 }

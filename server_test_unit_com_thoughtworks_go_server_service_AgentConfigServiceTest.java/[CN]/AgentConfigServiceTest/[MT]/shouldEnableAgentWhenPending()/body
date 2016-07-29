@@ -4,5 +4,5 @@
   AgentRuntimeInfo agentRuntimeInfo=AgentRuntimeInfo.fromAgent(new AgentIdentifier("remote-host","50.40.30.20",agentId),AgentRuntimeStatus.Unknown,"cookie",null,false);
   AgentInstance instance=AgentInstance.createFromLiveAgent(agentRuntimeInfo,new SystemEnvironment());
   agentConfigService.enableAgents(Username.ANONYMOUS,instance);
-  shouldPerformCommand(new GoConfigDao.CompositeConfigCommand(AgentConfigService.createAddAgentCommand(agentConfig)));
+  shouldPerformCommand(new GoConfigDao.CompositeConfigCommand(new AgentConfigService.AddAgentCommand(agentConfig)));
 }

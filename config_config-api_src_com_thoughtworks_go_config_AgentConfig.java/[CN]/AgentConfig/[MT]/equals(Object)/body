@@ -12,14 +12,17 @@
   if (ipAddress != null ? !ipAddress.equals(agentConfig.ipAddress) : agentConfig.ipAddress != null) {
     return false;
   }
-  if (isDisabled != null ? !isDisabled.equals(agentConfig.isDisabled) : agentConfig.isDisabled != null) {
-    return false;
-  }
-  if (resources != null ? !resources.equals(agentConfig.resources) : agentConfig.resources != null) {
-    return false;
-  }
   if (uuid != null ? !uuid.equals(agentConfig.uuid) : agentConfig.uuid != null) {
     return false;
   }
-  return true;
+  if (isDisabled != null ? !isDisabled.equals(agentConfig.isDisabled) : agentConfig.isDisabled != null) {
+    return false;
+  }
+  if (elasticAgentId != null ? !elasticAgentId.equals(agentConfig.elasticAgentId) : agentConfig.elasticAgentId != null) {
+    return false;
+  }
+  if (elasticPluginId != null ? !elasticPluginId.equals(agentConfig.elasticPluginId) : agentConfig.elasticPluginId != null) {
+    return false;
+  }
+  return resources != null ? resources.equals(agentConfig.resources) : agentConfig.resources == null;
 }

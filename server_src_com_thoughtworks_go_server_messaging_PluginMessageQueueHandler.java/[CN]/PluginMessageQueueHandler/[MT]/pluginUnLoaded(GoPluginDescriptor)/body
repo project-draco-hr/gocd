@@ -1,0 +1,15 @@
+{
+  if (this.queues.containsKey(pluginDescriptor.id())) {
+    try {
+      PluginAwareMessageQueue queue=queues.get(pluginDescriptor.id());
+      queue.stop();
+    }
+ catch (    Exception e) {
+      LOGGER.error("Unable to stop queue for {}, ERROR: {}",pluginDescriptor.id(),e.getMessage(),e);
+      bomb(e);
+    }
+ finally {
+      this.queues.remove(pluginDescriptor.id());
+    }
+  }
+}

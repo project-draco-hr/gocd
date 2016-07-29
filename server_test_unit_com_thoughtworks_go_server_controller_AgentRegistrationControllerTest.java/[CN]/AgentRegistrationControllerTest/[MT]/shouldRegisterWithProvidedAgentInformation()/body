@@ -2,7 +2,8 @@
   when(goConfigService.hasAgent("blahAgent-uuid")).thenReturn(false);
   ServerConfig serverConfig=new ServerConfig("artifacts",new SecurityConfig(),10,20,"1",null);
   when(goConfigService.serverConfig()).thenReturn(serverConfig);
+  when(agentService.agentUsername("blahAgent-uuid",request.getRemoteAddr(),"blahAgent-host")).thenReturn(new Username("some-agent-login-name"));
   ModelAndView modelAndView=controller.agentRequest("blahAgent-host","blahAgent-uuid","blah-location","34567","osx","","","","","","",false,request);
   assertThat(modelAndView.getView().getContentType(),is("application/json"));
-  verify(agentService).requestRegistration(AgentRuntimeInfo.fromServer(new AgentConfig("blahAgent-uuid","blahAgent-host",request.getRemoteAddr()),false,"blah-location",34567L,"osx",false));
+  verify(agentService).requestRegistration(new Username("some-agent-login-name"),AgentRuntimeInfo.fromServer(new AgentConfig("blahAgent-uuid","blahAgent-host",request.getRemoteAddr()),false,"blah-location",34567L,"osx",false));
 }

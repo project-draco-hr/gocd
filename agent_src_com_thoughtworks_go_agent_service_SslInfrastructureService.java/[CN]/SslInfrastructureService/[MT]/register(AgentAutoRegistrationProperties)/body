@@ -9,9 +9,6 @@
       LOGGER.error("[Agent Registration] There was a problem registering with the go server.",e);
       throw e;
     }
- finally {
-      agentAutoRegistrationProperties.scrubRegistrationProperties();
-    }
     try {
       Thread.sleep(REGISTER_RETRY_INTERVAL);
     }
@@ -20,4 +17,5 @@
   }
   LOGGER.info("[Agent Registration] Retrieved registration from Go server.");
   storeChainIntoAgentStore(keyEntry);
+  agentAutoRegistrationProperties.scrubRegistrationProperties();
 }

@@ -8,7 +8,7 @@
   when(jsonMessageHandler.requestMessageSessionGetAndRemove(requestBody)).thenReturn(pluginId);
   SessionRequestProcessor applicationAccessorSpy=spy(processor);
   doReturn(session).when(applicationAccessorSpy).getUserSession();
-  GoApiResponse response=applicationAccessorSpy.process(getGoPluginApiRequest("1.0",SessionRequestProcessor.GET_FROM_SESSION,requestBody));
+  GoApiResponse response=applicationAccessorSpy.process(pluginDescriptor,getGoPluginApiRequest("1.0",SessionRequestProcessor.GET_FROM_SESSION,requestBody));
   assertThat(response.responseCode(),is(200));
   assertEquals(JsonHelper.fromJson(response.responseBody(),Map.class),sessionData);
   verify(session).getAttribute(pluginId);

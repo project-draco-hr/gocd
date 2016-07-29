@@ -4,10 +4,9 @@
   AgentInstance building=AgentInstanceMother.building();
   AgentInstance denied=AgentInstanceMother.disabled();
   AgentService agentService=getAgentService(new AgentInstances(null,new SystemEnvironment(),idle,pending,building,denied));
-  AgentInstances agents=agentService.findPhysicalAgents();
-  assertThat(agents.size(),is(4));
-  assertThat(agents.findAgentAndRefreshStatus(idle.agentConfig().getUuid()),is(idle));
-  assertThat(agents.findAgentAndRefreshStatus(pending.agentConfig().getUuid()),is(pending));
-  assertThat(agents.findAgentAndRefreshStatus(building.agentConfig().getUuid()),is(building));
-  assertThat(agents.findAgentAndRefreshStatus(denied.agentConfig().getUuid()),is(denied));
+  assertThat(agentService.agents().size(),is(4));
+  assertThat(agentService.findAgentAndRefreshStatus(idle.agentConfig().getUuid()),is(idle));
+  assertThat(agentService.findAgentAndRefreshStatus(pending.agentConfig().getUuid()),is(pending));
+  assertThat(agentService.findAgentAndRefreshStatus(building.agentConfig().getUuid()),is(building));
+  assertThat(agentService.findAgentAndRefreshStatus(denied.agentConfig().getUuid()),is(denied));
 }

@@ -4,7 +4,7 @@
   GoPlugginOSGiFrameworkStub osGiFrameworkStub=new GoPlugginOSGiFrameworkStub(goPlugin);
   osGiFrameworkStub.addHasReferenceFor(GoPlugin.class,pluginId,true);
   when(goPlugin.pluginIdentifier()).thenReturn(new GoPluginIdentifier("sample-extension",asList("1.0","2.0")));
-  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,osGiFrameworkStub,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,osGiFrameworkStub,jarChangeListener,pluginRequestProcessorRegistry,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener);
   try {
     pluginManager.resolveExtensionVersion(pluginId,asList("3.0","4.0"));
     fail("should have thrown exception for not finding matching extension version");

@@ -4,6 +4,6 @@
     LOGGER.warn("Registered agent with the same uuid [" + agentInstance + "] already approved.");
   }
  else {
-    updateAgent(createAddAgentCommand(agentInstance.agentConfig()),agentInstance.getUuid(),new HttpOperationResult(),Username.ANONYMOUS);
+    updateAgent(new AddAgentCommand(agentInstance.agentConfig()),agentInstance.getUuid(),new HttpOperationResult(),Username.ANONYMOUS);
   }
 }

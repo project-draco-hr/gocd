@@ -1,0 +1,9 @@
+{
+  return ListUtil.find(plugins,new ListUtil.Condition(){
+    @Override public <T>boolean isMet(    T item){
+      PluginDescriptor pluginDescriptor=(PluginDescriptor)item;
+      return pluginDescriptor.id().equals(pluginId);
+    }
+  }
+);
+}

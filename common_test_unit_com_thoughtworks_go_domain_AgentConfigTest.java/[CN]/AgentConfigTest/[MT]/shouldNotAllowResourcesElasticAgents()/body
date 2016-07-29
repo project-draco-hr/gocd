@@ -1,0 +1,11 @@
+{
+  BasicCruiseConfig cruiseConfig=GoConfigMother.configWithPipelines("dev","qa");
+  AgentConfig agentConfig=new AgentConfig("uuid","hostname","10.10.10.10");
+  cruiseConfig.agents().add(agentConfig);
+  agentConfig.setElasticPluginId("com.example.foo");
+  agentConfig.setElasticAgentId("foobar");
+  agentConfig.addResource(new Resource("foo"));
+  assertThat(cruiseConfig.validateAfterPreprocess().isEmpty(),is(false));
+  assertEquals(1,agentConfig.errors().size());
+  assertThat(agentConfig.errors().on("elasticAgentId"),is("Elastic agents cannot have resources."));
+}

@@ -4,7 +4,7 @@
   EnvironmentVariablesConfig variables=new EnvironmentVariablesConfig();
   variables.add("VARIABLE_NAME","variable value");
   variables.add("TRIGGER_VAR","junk val");
-  JobPlan plan=new DefaultJobPlan(new Resources(),new ArtifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier(),null,variables,new EnvironmentVariablesConfig());
+  JobPlan plan=new DefaultJobPlan(new Resources(),new ArtifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier(),null,variables,new EnvironmentVariablesConfig(),null);
   jobInstanceDao.save(instance.getId(),plan);
   environmentVariableDao.save(savedPipeline.getId(),EnvironmentVariableDao.EnvironmentVariableType.Trigger,GoConfigFileHelper.env("TRIGGER_VAR","trigger val"));
   JobPlan retrieved=jobInstanceDao.loadPlan(plan.getJobId());

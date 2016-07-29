@@ -7,7 +7,7 @@
   when(goConfigService.hasAgent(fromConfigFile.getUuid())).thenReturn(true);
   when(goConfigService.hasAgent(pending.getUuid())).thenReturn(false);
   agentConfigService.enableAgents(Username.ANONYMOUS,pending,fromConfigFile);
-  GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand(AgentConfigService.createAddAgentCommand(pending.agentConfig()),AgentConfigService.updateApprovalStatus("UUID2",false));
+  GoConfigDao.CompositeConfigCommand command=new GoConfigDao.CompositeConfigCommand(new AgentConfigService.AddAgentCommand(pending.agentConfig()),new AgentConfigService.UpdateAgentApprovalStatus("UUID2",false));
   ArgumentCaptor<AgentsUpdateCommand> captor=ArgumentCaptor.forClass(AgentsUpdateCommand.class);
   verify(goConfigService).updateConfig(captor.capture(),eq(Username.ANONYMOUS));
   AgentsUpdateCommand updateCommand=captor.getValue();

@@ -2,7 +2,7 @@
   try {
     Session session=connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
     MessageConsumer consumer=session.createConsumer(session.createTopic(topic));
-    JMSMessageListenerAdapter.startListening(consumer,listener);
+    return JMSMessageListenerAdapter.startListening(consumer,listener);
   }
  catch (  Exception e) {
     throw bomb(e);

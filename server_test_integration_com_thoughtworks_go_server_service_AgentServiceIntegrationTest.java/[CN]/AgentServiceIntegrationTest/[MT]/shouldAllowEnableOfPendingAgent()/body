@@ -4,7 +4,7 @@
   AgentConfig agentConfig=new AgentConfig(agentId,agentName,"50.40.30.9");
   AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(agentConfig.getAgentIdentifier(),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false);
   agentRuntimeInfo.busy(new AgentBuildingInfo("path","buildLocator"));
-  agentService.requestRegistration(agentRuntimeInfo);
+  agentService.requestRegistration(new Username("bob"),agentRuntimeInfo);
   HttpOperationResult operationResult=new HttpOperationResult();
   agentService.enableAgents(USERNAME,operationResult,Arrays.asList(agentId));
   assertThat(operationResult.httpCode(),is(200));

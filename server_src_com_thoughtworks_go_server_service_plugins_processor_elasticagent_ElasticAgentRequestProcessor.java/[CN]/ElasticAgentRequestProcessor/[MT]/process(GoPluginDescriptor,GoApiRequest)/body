@@ -1,0 +1,16 @@
+{
+  Collection<AgentMetadata> agents=elasticAgentExtension.getElasticAgentMessageConverter(goPluginApiRequest.apiVersion()).deleteAndDisableAgentRequestBody(goPluginApiRequest.requestBody());
+  if (agents.isEmpty()) {
+    return new DefaultGoApiResponse(200);
+  }
+switch (goPluginApiRequest.api()) {
+case PROCESS_DISABLE_AGENTS:
+    return processDisableAgent(pluginDescriptor,goPluginApiRequest);
+case PROCESS_DELETE_AGENTS:
+  return processDeleteAgent(pluginDescriptor,goPluginApiRequest);
+case REQUEST_SERVER_LIST_AGENTS:
+return processListAgents(pluginDescriptor,goPluginApiRequest);
+default :
+return DefaultGoApiResponse.error("Illegal api request");
+}
+}

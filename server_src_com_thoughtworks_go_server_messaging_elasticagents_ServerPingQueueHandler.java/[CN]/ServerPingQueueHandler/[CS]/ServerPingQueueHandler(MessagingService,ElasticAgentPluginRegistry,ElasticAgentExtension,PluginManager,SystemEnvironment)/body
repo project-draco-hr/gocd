@@ -1,0 +1,16 @@
+{
+  super(elasticAgentExtension,messaging,pluginManager,new QueueFactory(){
+    @Override public PluginAwareMessageQueue create(    GoPluginDescriptor pluginDescriptor){
+      return new PluginAwareMessageQueue(messaging,pluginDescriptor.id(),QUEUE_NAME_PREFIX + pluginDescriptor.id(),systemEnvironment.get(SystemEnvironment.GO_ELASTIC_PLUGIN_SERVER_PING_THREADS),listener());
+    }
+    public ListenerFactory listener(){
+      return new ListenerFactory(){
+        @Override public GoMessageListener create(){
+          return new ServerPingListener(elasticAgentPluginRegistry);
+        }
+      }
+;
+    }
+  }
+);
+}

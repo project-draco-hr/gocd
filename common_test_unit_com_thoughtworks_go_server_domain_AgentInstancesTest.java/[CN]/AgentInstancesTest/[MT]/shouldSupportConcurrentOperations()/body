@@ -1,15 +1,11 @@
 {
   final AgentInstances agentInstances=new AgentInstances(null);
-  AgentAdder agentAdder=AgentAdder.startAdding(agentInstances);
-  try {
-    while (agentInstances.size() < 100) {
-      Thread.sleep(100);
-    }
-    for (int i=0; i < 1000; i++) {
-      agentInstances.findRegisteredAgents();
-    }
+  for (int i=0; i < 100; i++) {
+    AgentConfig agentConfig=new AgentConfig("uuid" + i,"CCeDev_" + i,"10.18.5." + i);
+    agentInstances.register(AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",Long.MAX_VALUE,"linux",false));
   }
-  finally {
-    agentAdder.stop();
-  }
+  thrown.expect(MaxPendingAgentsLimitReachedException.class);
+  thrown.expectMessage("Max pending agents allowed 100, limit reached");
+  AgentConfig agentConfig=new AgentConfig("uuid" + 200,"CCeDev_" + 200,"10.18.5." + 200);
+  agentInstances.register(AgentRuntimeInfo.fromServer(agentConfig,false,"/var/lib",Long.MAX_VALUE,"linux",false));
 }

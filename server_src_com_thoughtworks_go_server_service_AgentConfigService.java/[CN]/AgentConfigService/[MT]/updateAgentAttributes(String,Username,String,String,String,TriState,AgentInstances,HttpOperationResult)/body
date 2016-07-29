@@ -3,13 +3,13 @@
   if (!goConfigService.hasAgent(uuid) && enable.isTrue()) {
     AgentInstance agentInstance=agentInstances.findAgent(uuid);
     AgentConfig agentConfig=agentInstance.agentConfig();
-    command.addCommand(createAddAgentCommand(agentConfig));
+    command.addCommand(new AddAgentCommand(agentConfig));
   }
   if (enable.isTrue()) {
-    command.addCommand(updateApprovalStatus(uuid,false));
+    command.addCommand(new UpdateAgentApprovalStatus(uuid,false));
   }
   if (enable.isFalse()) {
-    command.addCommand(updateApprovalStatus(uuid,true));
+    command.addCommand(new UpdateAgentApprovalStatus(uuid,true));
   }
   if (hostname != null) {
     command.addCommand(new UpdateAgentHostname(uuid,hostname,username.getUsername().toString()));

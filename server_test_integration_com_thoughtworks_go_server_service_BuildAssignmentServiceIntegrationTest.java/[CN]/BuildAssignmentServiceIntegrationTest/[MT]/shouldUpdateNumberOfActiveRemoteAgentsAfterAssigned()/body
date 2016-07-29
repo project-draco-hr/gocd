@@ -3,8 +3,9 @@
   configHelper.addAgent(agentConfig);
   fixture.createPipelineWithFirstStageScheduled();
   buildAssignmentService.onTimer();
-  int before=agentService.numberOfActiveRemoteAgents();
+  AgentInstance agent=agentService.findAgent(agentConfig.getUuid());
+  assertFalse(agent.isBuilding());
   Work work=buildAssignmentService.assignWorkToAgent(agent(agentConfig));
   assertThat(work,instanceOf(BuildWork.class));
-  assertThat(agentService.numberOfActiveRemoteAgents(),is(before + 1));
+  assertTrue(agent.isBuilding());
 }

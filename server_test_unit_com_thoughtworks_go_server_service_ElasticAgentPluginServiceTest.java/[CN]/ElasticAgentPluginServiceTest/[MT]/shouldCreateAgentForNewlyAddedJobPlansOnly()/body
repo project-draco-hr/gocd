@@ -1,0 +1,18 @@
+{
+  JobPlan plan1=plan(1);
+  JobPlan plan2=plan(2);
+  ArgumentCaptor<ServerHealthState> captorForHealthState=ArgumentCaptor.forClass(ServerHealthState.class);
+  ArgumentCaptor<CreateAgentMessage> captor=ArgumentCaptor.forClass(CreateAgentMessage.class);
+  when(environmentConfigService.envForPipeline("pipeline-2")).thenReturn("env-2");
+  service.createAgentsFor(Arrays.asList(plan1),Arrays.asList(plan1,plan2));
+  verify(createAgentQueue).post(captor.capture());
+  CreateAgentMessage createAgentMessage=captor.getValue();
+  assertThat(createAgentMessage.autoregisterKey(),is(autoRegisterKey));
+  assertThat(createAgentMessage.pluginId(),is(plan2.getJobAgentConfig().getPluginId()));
+  assertThat(createAgentMessage.configuration(),is(plan2.getJobAgentConfig().getConfigurationAsMap(true)));
+  assertThat(createAgentMessage.environment(),is("env-2"));
+  verify(serverHealthService).update(captorForHealthState.capture());
+  ServerHealthState serverHealthState=captorForHealthState.getValue();
+  assertThat(serverHealthState.getLogLevel(),is(HealthStateLevel.OK));
+  assertThat(serverHealthState.getType(),is(HealthStateType.autoregisterKeyRequired()));
+}

@@ -1,7 +1,9 @@
 {
   AgentInstances agentInstances=new AgentInstances(changeListener);
   for (  AgentInstance agentInstance : currentInstances()) {
-    agentInstance.addToEnabled(agentInstances);
+    if (agentInstance.getStatus().isEnabled()) {
+      agentInstances.add(agentInstance);
+    }
   }
   return agentInstances;
 }

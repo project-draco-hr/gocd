@@ -1,0 +1,8 @@
+{
+  extension=mock(GoPluginExtension.class);
+  messaging=mock(MessagingService.class);
+  queueFactory=new MyQueueFactory();
+  handler=new PluginMessageQueueHandler<FooMessage>(extension,messaging,mock(PluginManager.class),queueFactory){
+  }
+;
+}

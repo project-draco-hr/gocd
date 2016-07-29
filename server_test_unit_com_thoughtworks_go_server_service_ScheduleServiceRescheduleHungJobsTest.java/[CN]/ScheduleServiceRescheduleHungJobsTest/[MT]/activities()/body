@@ -1,8 +1,7 @@
 {
   final AgentInstances activities=new AgentInstances(null);
   SystemEnvironment systemEnvironment=new SystemEnvironment();
-  HashSet<EnvironmentPipelineMatcher> noEnvironments=new HashSet<EnvironmentPipelineMatcher>();
-  activities.add(AgentInstance.create(new AgentConfig("uuid1"),false,systemEnvironment));
-  activities.add(AgentInstance.create(new AgentConfig("uuid2"),false,systemEnvironment));
+  activities.add(AgentInstance.createFromConfig(new AgentConfig("uuid1"),systemEnvironment));
+  activities.add(AgentInstance.createFromConfig(new AgentConfig("uuid2"),systemEnvironment));
   return activities;
 }

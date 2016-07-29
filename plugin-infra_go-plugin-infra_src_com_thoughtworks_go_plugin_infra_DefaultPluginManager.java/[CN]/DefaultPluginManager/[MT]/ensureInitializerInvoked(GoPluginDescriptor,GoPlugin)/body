@@ -1,0 +1,10 @@
+{
+synchronized (initializedPlugins) {
+    if (initializedPlugins.contains(pluginDescriptor)) {
+      return;
+    }
+    initializedPlugins.add(pluginDescriptor);
+    PluginAwareDefaultGoApplicationAccessor accessor=new PluginAwareDefaultGoApplicationAccessor(pluginDescriptor,requestProcesRegistry);
+    plugin.initializeGoApplicationAccessor(accessor);
+  }
+}

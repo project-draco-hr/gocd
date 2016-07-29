@@ -1,7 +1,7 @@
 {
   return goPluginOSGiFramework.doOn(GoPlugin.class,pluginId,new ActionWithReturn<GoPlugin,GoPluginApiResponse>(){
     @Override public GoPluginApiResponse execute(    GoPlugin plugin,    GoPluginDescriptor pluginDescriptor){
-      plugin.initializeGoApplicationAccessor(goApplicationAccessor);
+      ensureInitializerInvoked(pluginDescriptor,plugin);
       try {
         return plugin.handle(apiRequest);
       }

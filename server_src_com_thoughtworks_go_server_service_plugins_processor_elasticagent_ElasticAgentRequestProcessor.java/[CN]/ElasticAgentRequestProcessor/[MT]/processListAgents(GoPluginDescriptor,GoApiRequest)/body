@@ -1,0 +1,18 @@
+{
+  LOGGER.debug("Listing agents for plugin {}",pluginDescriptor.id());
+  List<ElasticAgentMetadata> elasticAgents=agentService.allElasticAgents().get(pluginDescriptor.id());
+  Collection<AgentMetadata> metadata;
+  if (elasticAgents == null) {
+    metadata=new ArrayList<>();
+  }
+ else {
+    metadata=ListUtil.map(elasticAgents,new ListUtil.Transformer<ElasticAgentMetadata,AgentMetadata>(){
+      @Override public AgentMetadata transform(      ElasticAgentMetadata obj){
+        return toAgentMetadata(obj);
+      }
+    }
+);
+  }
+  String responseBody=elasticAgentExtension.getElasticAgentMessageConverter(goPluginApiRequest.apiVersion()).listAgentsResponseBody(metadata);
+  return DefaultGoApiResponse.success(responseBody);
+}

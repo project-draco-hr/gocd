@@ -6,7 +6,7 @@
   ArtifactPropertiesGenerator prop5=new ArtifactPropertiesGenerator("test5","src","//xpath");
   JobInstance instance=jobInstanceDao.save(stageId,new JobInstance(projectOne));
   instance.setIdentifier(new JobIdentifier(savedPipeline,savedStage,instance));
-  JobPlan savedPlan=new DefaultJobPlan(new Resources(),artifactPlans(),new ArtifactPropertiesGenerators(prop1,prop2,prop3,prop4,prop5),instance.getId(),instance.getIdentifier());
+  JobPlan savedPlan=new DefaultJobPlan(new Resources(),artifactPlans(),new ArtifactPropertiesGenerators(prop1,prop2,prop3,prop4,prop5),instance.getId(),instance.getIdentifier(),null,new EnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),null);
   jobInstanceDao.save(instance.getId(),savedPlan);
   JobPlan plan=findPlan(jobInstanceDao.orderedScheduledBuilds(),projectOne);
   List<ArtifactPropertiesGenerator> generators=plan.getPropertyGenerators();

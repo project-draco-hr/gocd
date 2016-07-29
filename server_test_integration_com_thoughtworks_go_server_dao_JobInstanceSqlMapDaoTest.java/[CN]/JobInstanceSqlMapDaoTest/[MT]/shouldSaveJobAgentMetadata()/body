@@ -1,0 +1,9 @@
+{
+  JobInstance instance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME));
+  instance.setIdentifier(new JobIdentifier(savedPipeline,savedStage,instance));
+  JobAgentConfig jobAgentConfig=new JobAgentConfig("cd.go.elastic-agent:docker",Arrays.asList(new ConfigurationProperty(new ConfigurationKey("key"),new ConfigurationValue("value"))));
+  JobPlan plan=new DefaultJobPlan(new Resources("something"),new ArtifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier(),null,new EnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),jobAgentConfig);
+  jobInstanceDao.save(instance.getId(),plan);
+  JobPlan retrieved=jobInstanceDao.loadPlan(plan.getJobId());
+  assertThat(retrieved.getJobAgentConfig(),is(jobAgentConfig));
+}

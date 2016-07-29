@@ -6,7 +6,7 @@
   final File testFile3=TestFileUtil.createTestFile(src1,"readme.pdf");
   artifactPlans.add(new ArtifactPlan(src1.getName() + "/*","dest"));
   StubGoPublisher publisher=new StubGoPublisher();
-  DefaultJobPlan plan=new DefaultJobPlan(new Resources(),artifactPlans,new ArtifactPropertiesGenerators(),-1,null);
+  DefaultJobPlan plan=new DefaultJobPlan(new Resources(),artifactPlans,new ArtifactPropertiesGenerators(),-1,null,null,new EnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),null);
   plan.publishArtifacts(publisher,workingFolder);
   Map<File,String> expectedFiles=new HashMap<File,String>(){
 {

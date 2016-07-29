@@ -10,7 +10,7 @@
   agentInstance.cancel();
   AgentConfig needRegisterAgentConfig=AgentMother.remoteAgent();
   AgentRuntimeInfo needRegisterAgentInfo=AgentRuntimeInfo.fromServer(needRegisterAgentConfig,true,"location",1000000l,"OS",false);
-  agentService.requestRegistration(needRegisterAgentInfo);
+  agentService.requestRegistration(new Username("bob"),needRegisterAgentInfo);
   needRegisterAgentInfo.setCookie("cookie2");
   AgentStub needRegisterAgent=new AgentStub();
   agentRemoteHandler.process(needRegisterAgent,new Message(Action.ping,MessageEncoding.encodeData(needRegisterAgentInfo)));

@@ -1,3 +1,8 @@
 {
-  return format("Agent [%s, %s, %s]",hostName,ipAddress,uuid);
+  if (isElastic()) {
+    return format("ElasticAgent [%s, %s, %s, %s, %s]",hostName,ipAddress,uuid,elasticAgentId,elasticPluginId);
+  }
+ else {
+    return format("Agent [%s, %s, %s]",hostName,ipAddress,uuid);
+  }
 }

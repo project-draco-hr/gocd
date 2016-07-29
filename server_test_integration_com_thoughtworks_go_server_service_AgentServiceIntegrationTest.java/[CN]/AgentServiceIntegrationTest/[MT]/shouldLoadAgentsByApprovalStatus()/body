@@ -8,10 +8,10 @@
   CONFIG_HELPER.addAgent(new AgentConfig("uuid3","approvedAgent1","127.0.0.3"));
   goConfigDao.load();
   agentService.initialize();
-  AgentInstances approvedAgents=agentService.findPhysicalAgents().findEnabledAgents();
+  AgentInstances approvedAgents=agentService.findEnabledAgents();
   assertThat(approvedAgents.size(),is(1));
   assertThat(approvedAgents.findAgentAndRefreshStatus("uuid3").agentConfig().getHostname(),is("approvedAgent1"));
-  AgentInstances deniedAgents=agentService.findPhysicalAgents().findAgents(AgentStatus.Disabled);
+  AgentInstances deniedAgents=agentService.findDisabledAgents();
   assertThat(deniedAgents.size(),is(2));
   assertThat(deniedAgents.findAgentAndRefreshStatus("uuid1").agentConfig().getHostname(),is("deniedAgent1"));
   assertThat(deniedAgents.findAgentAndRefreshStatus("uuid2").agentConfig().getHostname(),is("deniedAgent2"));

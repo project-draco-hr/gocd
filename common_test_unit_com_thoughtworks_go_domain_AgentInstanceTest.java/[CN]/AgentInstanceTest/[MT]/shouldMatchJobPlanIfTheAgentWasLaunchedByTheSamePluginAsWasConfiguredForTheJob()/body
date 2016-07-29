@@ -1,0 +1,11 @@
+{
+  AgentConfig agentConfig=new AgentConfig("uuid");
+  agentConfig.setElasticAgentId("elastic-agent-id-1");
+  String elasticPluginId="elastic-plugin-id-1";
+  agentConfig.setElasticPluginId(elasticPluginId);
+  AgentInstance agentInstance=new AgentInstance(agentConfig,REMOTE,mock(SystemEnvironment.class));
+  DefaultJobPlan jobPlan1=new DefaultJobPlan();
+  jobPlan1.setJobAgentConfig(new JobAgentConfig(elasticPluginId,new ArrayList<ConfigurationProperty>()));
+  List<JobPlan> jobPlans=asList(jobPlan1,(JobPlan)new DefaultJobPlan());
+  assertThat(agentInstance.firstMatching(jobPlans),Is.<JobPlan>is(jobPlan1));
+}

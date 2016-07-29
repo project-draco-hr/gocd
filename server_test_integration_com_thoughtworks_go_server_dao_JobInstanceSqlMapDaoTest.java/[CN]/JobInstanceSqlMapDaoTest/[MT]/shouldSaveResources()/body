@@ -1,7 +1,7 @@
 {
   JobInstance instance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME));
   instance.setIdentifier(new JobIdentifier(savedPipeline,savedStage,instance));
-  JobPlan plan=new DefaultJobPlan(new Resources("something"),new ArtifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier());
+  JobPlan plan=new DefaultJobPlan(new Resources("something"),new ArtifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier(),null,new EnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),null);
   jobInstanceDao.save(instance.getId(),plan);
   JobPlan retrieved=jobInstanceDao.loadPlan(plan.getJobId());
   assertThat(retrieved,is(plan));

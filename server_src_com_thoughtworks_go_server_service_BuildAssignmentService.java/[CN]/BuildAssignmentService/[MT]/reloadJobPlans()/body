@@ -1,5 +1,14 @@
 {
 synchronized (this) {
-    jobPlans=jobInstanceService.orderedScheduledBuilds();
+    if (jobPlans == null) {
+      jobPlans=jobInstanceService.orderedScheduledBuilds();
+      elasticAgentPluginService.createAgentsFor(jobPlans,new ArrayList<JobPlan>());
+    }
+ else {
+      List<JobPlan> old=jobPlans;
+      List<JobPlan> newPlan=jobInstanceService.orderedScheduledBuilds();
+      jobPlans=newPlan;
+      elasticAgentPluginService.createAgentsFor(old,newPlan);
+    }
   }
 }

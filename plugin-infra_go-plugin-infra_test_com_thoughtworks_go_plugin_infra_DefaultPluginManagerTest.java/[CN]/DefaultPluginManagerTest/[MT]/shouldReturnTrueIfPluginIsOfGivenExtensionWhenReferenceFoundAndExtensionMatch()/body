@@ -12,6 +12,6 @@
   }
 ).when(goPluginOSGiFramework).doOn(eq(GoPlugin.class),eq(pluginId),any(ActionWithReturn.class));
   when(goPlugin.pluginIdentifier()).thenReturn(pluginIdentifier);
-  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,applicationAccessor,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener);
+  DefaultPluginManager pluginManager=new DefaultPluginManager(monitor,registry,goPluginOSGiFramework,jarChangeListener,pluginRequestProcessorRegistry,pluginWriter,pluginValidator,systemEnvironment,pluginsZipUpdater,pluginsListListener);
   assertTrue(pluginManager.isPluginOfType("sample-extension",pluginId));
 }
