@@ -7,5 +7,5 @@
   runBuild(cleandir("","file2","foo2").setWorkingDirectory("bar"),Passed);
   assertThat(new File(sandbox,"bar").isDirectory(),is(true));
   assertThat(new File(sandbox,"file3").exists(),is(true));
-  assertThat(new File(sandbox,"bar").listFiles(),is(new File[]{new File(sandbox,"bar/file2"),new File(sandbox,"bar/foo2")}));
+  assertThat(new File(sandbox,"bar").listFiles(),arrayContainingInAnyOrder(new File(sandbox,"bar/file2"),new File(sandbox,"bar/foo2")));
 }
