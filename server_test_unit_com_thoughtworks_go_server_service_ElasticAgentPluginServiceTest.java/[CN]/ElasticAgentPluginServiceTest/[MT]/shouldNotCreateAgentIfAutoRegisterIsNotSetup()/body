@@ -1,6 +1,6 @@
 {
   JobPlan plan=plan(1);
-  when(serverConfigService.getAutoregisterKey()).thenReturn(null);
+  when(serverConfigService.hasAutoregisterKey()).thenReturn(false);
   ArgumentCaptor<ServerHealthState> captor=ArgumentCaptor.forClass(ServerHealthState.class);
   service.createAgentsFor(new ArrayList<JobPlan>(),Arrays.asList(plan));
   verify(serverHealthService).update(captor.capture());

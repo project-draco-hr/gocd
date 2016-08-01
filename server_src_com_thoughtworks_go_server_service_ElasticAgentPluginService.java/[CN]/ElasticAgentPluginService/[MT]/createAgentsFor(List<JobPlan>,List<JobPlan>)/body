@@ -1,13 +1,4 @@
 {
-  if (StringUtil.isBlank(serverConfigService.getAutoregisterKey())) {
-    String description="Auto-register agent key needs to be setup for elastic agent feature to work.";
-    serverHealthService.update(ServerHealthState.error("Auto-register agent key is not setup",description,HealthStateType.autoregisterKeyRequired()));
-    LOGGER.warn(description);
-    return;
-  }
- else {
-    serverHealthService.update(ServerHealthState.success(HealthStateType.autoregisterKeyRequired()));
-  }
   Collection<JobPlan> starvingJobs=new ArrayList<>();
   for (  JobPlan jobPlan : newPlan) {
     if (jobPlan.requiresElasticAgent()) {
@@ -23,11 +14,20 @@
   ArrayList<JobPlan> jobsThatRequireAgent=new ArrayList<>();
   jobsThatRequireAgent.addAll(disjunction(old,newPlan));
   jobsThatRequireAgent.addAll(starvingJobs);
-  for (  JobPlan plan : jobsThatRequireAgent) {
-    if (plan.requiresElasticAgent()) {
+  ArrayList<JobPlan> plansThatRequireElasticAgent=ListUtil.filterInto(new ArrayList<JobPlan>(),jobsThatRequireAgent,isElasticAgent());
+  if (serverConfigService.hasAutoregisterKey()) {
+    serverHealthService.update(ServerHealthState.success(HealthStateType.autoregisterKeyRequired()));
+    for (    JobPlan plan : plansThatRequireElasticAgent) {
       String environment=environmentConfigService.envForPipeline(plan.getPipelineName());
       map.put(plan.getJobId(),timeProvider.currentTimeMillis());
       createAgentQueue.post(new CreateAgentMessage(serverConfigService.getAutoregisterKey(),environment,plan.getJobAgentConfig()));
+    }
+  }
+ else {
+    if (!plansThatRequireElasticAgent.isEmpty()) {
+      String description="Auto-register agent key needs to be setup for elastic agent feature to work.";
+      serverHealthService.update(ServerHealthState.error("Auto-register agent key is not setup",description,HealthStateType.autoregisterKeyRequired()));
+      LOGGER.warn(description);
     }
   }
 }

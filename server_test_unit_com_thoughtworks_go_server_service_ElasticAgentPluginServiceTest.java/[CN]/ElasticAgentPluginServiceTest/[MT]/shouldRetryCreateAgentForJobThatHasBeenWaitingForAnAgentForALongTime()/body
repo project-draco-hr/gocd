@@ -1,4 +1,5 @@
 {
+  when(serverConfigService.hasAutoregisterKey()).thenReturn(true);
   when(serverConfigService.elasticJobStarvationThreshold()).thenReturn(0L);
   JobPlan plan1=plan(1);
   ArgumentCaptor<ServerHealthState> captorForHealthState=ArgumentCaptor.forClass(ServerHealthState.class);
