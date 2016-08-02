@@ -2,5 +2,5 @@
   BackgroundMailSender background=new BackgroundMailSender(neverReturns,1);
   ValidationBean validationBean=background.send("Subject","body","to@someone");
   assertThat(validationBean.isValid(),is(false));
-  assertThat(validationBean.getError(),containsString("Timeout when sending email"));
+  assertThat(validationBean.getError(),containsString("Failed to send an email. Please check the GoCD server logs for any extra information that might be present."));
 }
