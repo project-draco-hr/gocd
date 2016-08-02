@@ -18,7 +18,7 @@
   }
   CRTimer crTimer=crPipeline.getTimer();
   if (crTimer != null) {
-    pipelineConfig.setTimer(new TimerConfig(crTimer.getTimerSpec(),crTimer.isOnlyOnChanges()));
+    pipelineConfig.setTimer(toTimerConfig(crTimer));
   }
   EnvironmentVariablesConfig variables=pipelineConfig.getVariables();
   for (  CREnvironmentVariable crEnvironmentVariable : crPipeline.getEnvironmentVariables()) {

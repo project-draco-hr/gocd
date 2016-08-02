@@ -1,0 +1,6 @@
+{
+  CRTimer timer=new CRTimer("0 15 * * 6",true);
+  TimerConfig result=configConverter.toTimerConfig(timer);
+  assertThat(result.getTimerSpec(),is("0 15 * * 6"));
+  assertThat(result.getOnlyOnChanges(),is(true));
+}

@@ -1,0 +1,5 @@
+{
+  String spec=crTimer.getTimerSpec();
+  if (StringUtil.isBlank(spec))   throw new RuntimeException("timer schedule is not specified");
+  return new TimerConfig(spec,crTimer.isOnlyOnChanges() == null ? false : crTimer.isOnlyOnChanges());
+}
