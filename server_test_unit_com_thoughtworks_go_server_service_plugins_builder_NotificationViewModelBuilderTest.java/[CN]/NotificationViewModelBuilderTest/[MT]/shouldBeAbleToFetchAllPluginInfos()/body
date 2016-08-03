@@ -5,7 +5,7 @@
   when(manager.getPluginDescriptorFor("slack.notifier")).thenReturn(slackNotifier);
   List<PluginInfo> pluginInfos=builder.allPluginInfos();
   assertThat(pluginInfos.size(),is(2));
-  PluginInfo pluginInfo=pluginInfos.get(0).getId() == "email.notifier" ? pluginInfos.get(0) : pluginInfos.get(1);
+  PluginInfo pluginInfo=pluginInfos.get(0).getId().equals("email.notifier") ? pluginInfos.get(0) : pluginInfos.get(1);
   assertThat(pluginInfo.getId(),is("email.notifier"));
   assertThat(pluginInfo.getType(),is("notification"));
   assertThat(pluginInfo.getName(),is(emailNotifier.about().name()));

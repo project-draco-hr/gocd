@@ -2,7 +2,6 @@
   HashSet<String> pluginIds=new HashSet<>(Arrays.asList("email.notifier","slack.notifier"));
   when(registry.getNotificationPlugins()).thenReturn(pluginIds);
   when(manager.getPluginDescriptorFor("email.notifier")).thenReturn(emailNotifier);
-  ;
   PluginInfo pluginInfo=builder.pluginInfoFor("email.notifier");
   assertThat(pluginInfo.getId(),is("email.notifier"));
   assertThat(pluginInfo.getType(),is("notification"));
