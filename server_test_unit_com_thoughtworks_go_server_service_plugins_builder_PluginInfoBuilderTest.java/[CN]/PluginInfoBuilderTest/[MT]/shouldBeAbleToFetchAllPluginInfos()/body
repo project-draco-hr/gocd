@@ -1,7 +1,7 @@
 {
   List<PluginInfo> pluginInfos=pluginViewModelBuilder.allPluginInfos(null);
-  assertThat(pluginInfos.size(),is(5));
-  List<String> expectedPlugins=new ArrayList();
+  assertThat(pluginInfos.size(),is(6));
+  List<String> expectedPlugins=new ArrayList<>();
   for (  PluginInfo pluginInfo : pluginInfos) {
     expectedPlugins.add(pluginInfo.getId());
   }
@@ -10,4 +10,5 @@
   assertTrue(expectedPlugins.contains(yumPoller.id()));
   assertTrue(expectedPlugins.contains(xunitConvertor.id()));
   assertTrue(expectedPlugins.contains(githubPR.id()));
+  assertTrue(expectedPlugins.contains(dockerElasticAgentPlugin.id()));
 }

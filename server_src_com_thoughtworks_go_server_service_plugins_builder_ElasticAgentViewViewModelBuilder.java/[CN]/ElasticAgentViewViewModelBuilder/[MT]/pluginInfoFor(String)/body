@@ -1,0 +1,11 @@
+{
+  PluginDescriptor plugin=registry.findPlugin(pluginId);
+  if (plugin == null) {
+    return null;
+  }
+  PluginSettingsConfiguration config=new ElasticAgentExtension(pluginManager).getPluginSettingsConfiguration(pluginId);
+  ArrayList<PluginConfiguration> pluginConfigurations=getPluginConfigurations(config);
+  PluginView pluginView=new PluginView(new ElasticAgentExtension(pluginManager).getPluginSettingsView(pluginId));
+  PluggableInstanceSettings settings=new PluggableInstanceSettings(pluginConfigurations,pluginView);
+  return new PluginInfo(plugin,Constants.EXTENSION_NAME,null,settings);
+}
