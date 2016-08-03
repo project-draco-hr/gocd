@@ -3,9 +3,11 @@
   fixture.createPipelineWithFirstStageScheduled();
   buildAssignmentService.onTimer();
   PipelineConfig pipelineConfig=new Cloner().deepClone(configHelper.getCachedGoConfig().currentConfig().getPipelineConfigByName(new CaseInsensitiveString(fixture.pipelineName)));
+  String xml=new MagicalGoConfigXmlWriter(configCache,registry).toXmlPartial(pipelineConfig);
+  String md5=CachedDigestUtils.md5Hex(xml);
   StageConfig devStage=pipelineConfig.findBy(new CaseInsensitiveString(fixture.devStage));
   pipelineConfig.remove(devStage);
-  pipelineConfigService.updatePipelineConfig(loserUser,pipelineConfig,pipelineConfigMD5,new HttpLocalizedOperationResult());
+  pipelineConfigService.updatePipelineConfig(loserUser,pipelineConfig,md5,new HttpLocalizedOperationResult());
   Pipeline pipeline=pipelineDao.mostRecentPipeline(fixture.pipelineName);
   JobInstance job=pipeline.getFirstStage().getJobInstances().first();
   assertThat(job.getState(),is(JobState.Completed));

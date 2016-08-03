@@ -3,8 +3,10 @@
   String scmid="scmid";
   saveScmMaterialToConfig(scmid);
   PluggableSCMMaterialConfig scmMaterialConfig=new PluggableSCMMaterialConfig(scmid);
+  String xml=new MagicalGoConfigXmlWriter(configCache,registry).toXmlPartial(pipelineConfig);
+  String md5=CachedDigestUtils.md5Hex(xml);
   pipelineConfig.materialConfigs().add(scmMaterialConfig);
-  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,pipelineConfigMD5,result);
+  pipelineConfigService.updatePipelineConfig(user,pipelineConfig,md5,result);
   assertThat(result.toString(),result.isSuccessful(),is(false));
   assertThat(scmMaterialConfig.errors().on(PluggableSCMMaterialConfig.FOLDER),is("Destination directory is required when specifying multiple scm materials"));
   assertThat(scmMaterialConfig.errors().on(PluggableSCMMaterialConfig.SCM_ID),is("Could not find plugin for scm-id: [scmid]."));

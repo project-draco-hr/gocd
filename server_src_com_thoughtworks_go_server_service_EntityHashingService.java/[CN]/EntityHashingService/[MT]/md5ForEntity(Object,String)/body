@@ -1,0 +1,5 @@
+{
+  String cacheKey=domainObject.getClass().getName() + subkey;
+  String cachedMD5=cachedMD5(cacheKey);
+  return cachedMD5 != null ? cachedMD5 : cachingFor(domainObject,cacheKey);
+}

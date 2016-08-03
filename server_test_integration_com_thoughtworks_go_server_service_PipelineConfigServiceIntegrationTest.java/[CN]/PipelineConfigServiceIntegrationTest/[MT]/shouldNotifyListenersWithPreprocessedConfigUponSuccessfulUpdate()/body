@@ -3,6 +3,9 @@
   final String templateName=UUID.randomUUID().toString();
   final boolean[] listenerInvoked={false};
   setupPipelineWithTemplate(pipelineName,templateName);
+  PipelineConfig pipelineConfig1=goConfigService.pipelineConfigNamed(new CaseInsensitiveString(pipelineName));
+  String xml=new MagicalGoConfigXmlWriter(configCache,registry).toXmlPartial(pipelineConfig1);
+  String md5=CachedDigestUtils.md5Hex(xml);
   EntityConfigChangedListener<PipelineConfig> pipelineConfigChangedListener=new EntityConfigChangedListener<PipelineConfig>(){
     @Override public void onConfigChange(    CruiseConfig newCruiseConfig){
     }
@@ -15,6 +18,6 @@
   goConfigService.register(pipelineConfigChangedListener);
   PipelineConfig pipeline=PipelineConfigMother.pipelineConfigWithTemplate(pipelineName,templateName);
   pipeline.setVariables(new EnvironmentVariablesConfig());
-  pipelineConfigService.updatePipelineConfig(user,pipeline,pipelineConfigMD5,new DefaultLocalizedOperationResult());
+  pipelineConfigService.updatePipelineConfig(user,pipeline,md5,new DefaultLocalizedOperationResult());
   assertThat(listenerInvoked[0],is(true));
 }

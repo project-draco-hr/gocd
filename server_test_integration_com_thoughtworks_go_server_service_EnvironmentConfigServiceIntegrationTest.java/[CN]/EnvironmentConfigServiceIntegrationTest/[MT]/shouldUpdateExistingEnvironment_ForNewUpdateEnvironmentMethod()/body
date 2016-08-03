@@ -19,7 +19,8 @@
   newUat.addAgent("uuid-1");
   newUat.addEnvironmentVariable("env-three","THREE");
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  service.updateEnvironment(uat,newUat,new Username(new CaseInsensitiveString("foo")),result);
+  String md5=entityHashingService.md5ForEntity(uat,uat.name().toString());
+  service.updateEnvironment(uat,newUat,new Username(new CaseInsensitiveString("foo")),md5,result);
   EnvironmentConfig updatedEnv=service.named("prod");
   assertThat(updatedEnv.name(),is(new CaseInsensitiveString("prod")));
   assertThat(updatedEnv.getAgents().getUuids(),is(Arrays.asList("uuid-1")));

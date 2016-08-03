@@ -5,7 +5,8 @@
   when(securityService.isUserAdmin(user)).thenReturn(true);
   when(mockGoConfigService.updateConfig(any(UpdateConfigCommand.class))).thenReturn(ConfigSaveState.UPDATED);
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  environmentConfigService.updateEnvironment(environmentConfig,environmentConfig,user,result);
+  String md5="md5";
+  environmentConfigService.updateEnvironment(environmentConfig,environmentConfig,user,md5,result);
   assertTrue(result.isSuccessful());
   assertThat(result.toString(),containsString("UPDATE_ENVIRONMENT_SUCCESS"));
   assertThat(result.toString(),containsString(environmentName));

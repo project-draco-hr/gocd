@@ -1,0 +1,11 @@
+{
+  SCMs scms=modifiedConfig.getSCMs();
+  SCM existingSCM=scms.find(globalScmConfig.getSCMId());
+  if (existingSCM == null) {
+    result.notFound(LocalizedMessage.string("RESOURCE_NOT_FOUND"),HealthStateType.notFound());
+    throw new NullPointerException(String.format("The pluggable scm material with id '%s' is not found.",globalScmConfig.getSCMId()));
+  }
+ else {
+    return existingSCM;
+  }
+}

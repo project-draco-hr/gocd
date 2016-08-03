@@ -1,7 +1,7 @@
 {
   newEnvironmentConfig.addEnvironmentVariable("foo","bar");
   newEnvironmentConfig.addEnvironmentVariable("foo","baz");
-  UpdateEnvironmentCommand command=new UpdateEnvironmentCommand(goConfigService,oldEnvironmentConfig,newEnvironmentConfig,currentUser,actionFailed,result);
+  UpdateEnvironmentCommand command=new UpdateEnvironmentCommand(goConfigService,oldEnvironmentConfig,newEnvironmentConfig,currentUser,actionFailed,md5,entityHashingService,result);
   command.update(cruiseConfig);
   HttpLocalizedOperationResult expectResult=new HttpLocalizedOperationResult();
   expectResult.badRequest(actionFailed.addParam("Environment Variable name 'foo' is not unique for environment 'Test'."));
