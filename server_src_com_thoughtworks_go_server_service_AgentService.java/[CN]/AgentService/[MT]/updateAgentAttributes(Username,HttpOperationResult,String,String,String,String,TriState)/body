@@ -7,6 +7,8 @@
     return null;
   }
   AgentConfig agentConfig=agentConfigService.updateAgentAttributes(uuid,username,newHostname,resources,environments,enable,agentInstances,result);
-  if (agentConfig != null)   return AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  if (agentConfig != null) {
+    return AgentInstance.createFromConfig(agentConfig,systemEnvironment);
+  }
   return null;
 }
