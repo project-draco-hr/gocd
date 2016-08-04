@@ -4,6 +4,7 @@
   File checksumFile=createFileWithContent(artifactsRoot,"/tmp/foobar.html.checksum","baz/foobar.html:FooMD5\n");
   MockMultipartFile artifactMultipart=new MockMultipartFile("file",new FileInputStream(fooFile));
   MockMultipartFile checksumMultipart=new MockMultipartFile("file_checksum",new FileInputStream(checksumFile));
+  request.addHeader("Confirm","true");
   StubMultipartHttpServletRequest multipartRequest=new StubMultipartHttpServletRequest(request,artifactMultipart,checksumMultipart);
   postFileWithChecksum("baz/foobar.html",multipartRequest);
   assertThat(file(artifactsRoot,"baz/foobar.html"),exists());
