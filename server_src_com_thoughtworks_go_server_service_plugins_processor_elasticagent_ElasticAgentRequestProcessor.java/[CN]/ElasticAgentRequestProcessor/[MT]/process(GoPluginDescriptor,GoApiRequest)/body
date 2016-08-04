@@ -1,13 +1,17 @@
 {
-  Collection<AgentMetadata> agents=elasticAgentExtension.getElasticAgentMessageConverter(goPluginApiRequest.apiVersion()).deleteAndDisableAgentRequestBody(goPluginApiRequest.requestBody());
-  if (agents.isEmpty()) {
-    return new DefaultGoApiResponse(200);
-  }
 switch (goPluginApiRequest.api()) {
 case PROCESS_DISABLE_AGENTS:
-    return processDisableAgent(pluginDescriptor,goPluginApiRequest);
+    Collection<AgentMetadata> agentsToDisable=elasticAgentExtension.getElasticAgentMessageConverter(goPluginApiRequest.apiVersion()).deleteAndDisableAgentRequestBody(goPluginApiRequest.requestBody());
+  if (agentsToDisable.isEmpty()) {
+    return new DefaultGoApiResponse(200);
+  }
+return processDisableAgent(pluginDescriptor,goPluginApiRequest);
 case PROCESS_DELETE_AGENTS:
-  return processDeleteAgent(pluginDescriptor,goPluginApiRequest);
+Collection<AgentMetadata> agentsToDelete=elasticAgentExtension.getElasticAgentMessageConverter(goPluginApiRequest.apiVersion()).deleteAndDisableAgentRequestBody(goPluginApiRequest.requestBody());
+if (agentsToDelete.isEmpty()) {
+return new DefaultGoApiResponse(200);
+}
+return processDeleteAgent(pluginDescriptor,goPluginApiRequest);
 case REQUEST_SERVER_LIST_AGENTS:
 return processListAgents(pluginDescriptor,goPluginApiRequest);
 default :

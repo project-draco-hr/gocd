@@ -1,0 +1,8 @@
+{
+  LinkedMultiValueMap<String,ElasticAgentMetadata> allAgents=new LinkedMultiValueMap<>();
+  ElasticAgentMetadata agent=new ElasticAgentMetadata("foo","bar","docker",AgentRuntimeStatus.Building,AgentConfigStatus.Disabled);
+  allAgents.put("docker",Arrays.asList(agent));
+  when(agentService.allElasticAgents()).thenReturn(allAgents);
+  GoApiResponse response=processor.process(pluginDescriptor,new DefaultGoApiRequest(REQUEST_SERVER_LIST_AGENTS,"1.0",pluginIdentifier));
+  JSONAssert.assertEquals("[{\"agent_id\":\"bar\",\"agent_state\":\"Building\",\"build_state\":\"Building\",\"config_state\":\"Disabled\"}]",response.responseBody(),true);
+}

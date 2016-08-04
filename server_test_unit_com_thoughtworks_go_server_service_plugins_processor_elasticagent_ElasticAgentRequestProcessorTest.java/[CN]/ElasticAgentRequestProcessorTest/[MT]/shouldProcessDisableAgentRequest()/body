@@ -1,0 +1,9 @@
+{
+  AgentMetadata agent=new AgentMetadata("foo",null,null,null);
+  DefaultGoApiRequest goPluginApiRequest=new DefaultGoApiRequest(PROCESS_DISABLE_AGENTS,"1.0",pluginIdentifier);
+  goPluginApiRequest.setRequestBody(extension.getElasticAgentMessageConverter(goPluginApiRequest.apiVersion()).listAgentsResponseBody(Arrays.asList(agent)));
+  AgentInstance agentInstance=AgentInstance.createFromConfig(new AgentConfig("uuid"),null);
+  when(agentService.findElasticAgent("foo","docker")).thenReturn(agentInstance);
+  processor.process(pluginDescriptor,goPluginApiRequest);
+  verify(agentConfigService).disableAgents(processor.usernameFor(pluginDescriptor),agentInstance);
+}
