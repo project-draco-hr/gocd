@@ -12,7 +12,7 @@
     }
   }
   ArrayList<JobPlan> jobsThatRequireAgent=new ArrayList<>();
-  jobsThatRequireAgent.addAll(disjunction(old,newPlan));
+  jobsThatRequireAgent.addAll(Sets.difference(new HashSet<>(newPlan),new HashSet<>(old)));
   jobsThatRequireAgent.addAll(starvingJobs);
   ArrayList<JobPlan> plansThatRequireElasticAgent=ListUtil.filterInto(new ArrayList<JobPlan>(),jobsThatRequireAgent,isElasticAgent());
   if (serverConfigService.hasAutoregisterKey()) {
