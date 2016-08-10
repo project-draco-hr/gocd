@@ -1,4 +1,10 @@
 {
+  if (!isAuthPlugin(pluginId)) {
+    return ResponseCodeView.create(SC_FORBIDDEN,"Plugin interact endpoint is enabled only for Authentication Plugins");
+  }
+  if (isRestrictedRequestName(requestName)) {
+    return ResponseCodeView.create(SC_FORBIDDEN,String.format("Plugin interact for '%s' requestName is disallowed.",requestName));
+  }
   DefaultGoPluginApiRequest apiRequest=new DefaultGoPluginApiRequest(null,null,requestName);
   apiRequest.setRequestParams(getParameterMap(request));
   addRequestHeaders(request,apiRequest);

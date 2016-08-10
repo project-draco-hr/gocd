@@ -1,0 +1,6 @@
+{
+  when(pluginManager.isPluginOfType("authentication","github.pr")).thenReturn(false);
+  ModelAndView modelAndView=pluginController.handlePluginInteractRequest(PLUGIN_ID,REQUEST_NAME,servletRequest);
+  ResponseCodeView view=(ResponseCodeView)modelAndView.getView();
+  assertThat(view.getStatusCode(),is(403));
+}
