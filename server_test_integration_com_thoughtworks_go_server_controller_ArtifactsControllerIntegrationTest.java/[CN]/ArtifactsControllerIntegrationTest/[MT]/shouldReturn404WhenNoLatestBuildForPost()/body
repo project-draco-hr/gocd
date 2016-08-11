@@ -1,4 +1,6 @@
 {
-  ModelAndView mav=artifactsController.postArtifact(pipelineName,"latest","stage","1","build2",null,"/foo.xml",1,null);
+  request.addHeader("Confirm","true");
+  StubMultipartHttpServletRequest multipartRequest=new StubMultipartHttpServletRequest(request);
+  ModelAndView mav=artifactsController.postArtifact(pipelineName,"latest","stage","1","build2",null,"/foo.xml",1,multipartRequest);
   assertValidContentAndStatus(mav,SC_NOT_FOUND,"Job " + pipelineName + "/latest/stage/1/build2 not found.");
 }
