@@ -1,6 +1,0 @@
-{
-  configHelper.addEnvironments("foo-env");
-  configHelper.addEnvironments("bar-env");
-  HttpLocalizedOperationResult result=service.updateEnvironment("bar-env",env("foo-env",new ArrayList<String>(),new ArrayList<Map<String,String>>(),new ArrayList<String>()),new Username(new CaseInsensitiveString("any")),goConfigDao.md5OfConfigFile());
-  assertThat(result.message(localizer),is("Failed to update environment 'bar-env'. Duplicate unique value [foo-env] declared for identity constraint \"uniqueEnvironmentName\" of element \"environments\"."));
-}
