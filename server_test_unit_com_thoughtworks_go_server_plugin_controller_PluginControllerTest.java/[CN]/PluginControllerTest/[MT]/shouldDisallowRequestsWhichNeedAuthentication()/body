@@ -1,0 +1,9 @@
+{
+  when(pluginManager.isPluginOfType(any(String.class),any(String.class))).thenReturn(true);
+  List<String> restrictedRequests=Arrays.asList("go.plugin-settings.get-configuration","go.plugin-settings.get-view","go.plugin-settings.validate-configuration","go.authentication.plugin-configuration","go.authentication.authenticate-user","go.authentication.search-user");
+  for (  String requestName : restrictedRequests) {
+    ModelAndView modelAndView=pluginController.handlePluginInteractRequest(PLUGIN_ID,requestName,servletRequest);
+    ResponseCodeView view=(ResponseCodeView)modelAndView.getView();
+    assertThat(view.getStatusCode(),is(403));
+  }
+}

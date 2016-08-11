@@ -1,5 +1,6 @@
 {
   when(pluginManager.submitTo(eq(PLUGIN_ID),requestArgumentCaptor.capture())).thenReturn(new DefaultGoPluginApiResponse(200));
+  when(pluginManager.isPluginOfType(any(String.class),any(String.class))).thenReturn(true);
   Map<String,String[]> springParameterMap=new HashMap<String,String[]>();
   springParameterMap.put("k1",new String[]{"v1"});
   springParameterMap.put("k2",new String[]{"v2","v3"});
