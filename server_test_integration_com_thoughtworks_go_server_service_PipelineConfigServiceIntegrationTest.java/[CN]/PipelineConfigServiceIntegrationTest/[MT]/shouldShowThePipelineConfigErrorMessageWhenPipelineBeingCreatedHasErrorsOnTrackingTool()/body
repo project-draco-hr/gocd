@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipeline=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
+  TrackingTool trackingTool=new TrackingTool();
+  pipeline.setTrackingTool(trackingTool);
+  pipelineConfigService.createPipelineConfig(user,pipeline,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  assertThat(trackingTool.errors().firstError(),is(String.format("Regex should be populated",pipeline.name())));
+}

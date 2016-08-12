@@ -1,0 +1,21 @@
+{
+  JobConfigs jobConfigs=new JobConfigs();
+  jobConfigs.add(new JobConfig(new CaseInsensitiveString("Job")));
+  StageConfig stage=new StageConfig(new CaseInsensitiveString("Stage-1"),jobConfigs);
+  final PipelineTemplateConfig templateConfig=new PipelineTemplateConfig(new CaseInsensitiveString("foo"),stage);
+  goConfigDao.updateConfig(new UpdateConfigCommand(){
+    @Override public CruiseConfig update(    CruiseConfig cruiseConfig) throws Exception {
+      cruiseConfig.addTemplate(templateConfig);
+      return cruiseConfig;
+    }
+  }
+);
+  PipelineConfig pipeline=GoConfigMother.createPipelineConfigWithMaterialConfig();
+  pipeline.templatize(templateConfig.name());
+  DependencyMaterialConfig material=new DependencyMaterialConfig(new CaseInsensitiveString("Invalid-pipeline"),new CaseInsensitiveString("Stage"));
+  pipeline.addMaterialConfig(material);
+  pipelineConfigService.createPipelineConfig(user,pipeline,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  assertThat(material.errors().firstError(),is(String.format("Pipeline with name 'Invalid-pipeline' does not exist, it is defined as a dependency for pipeline 'pipeline' (cruise-config.xml)",pipeline.name())));
+}
