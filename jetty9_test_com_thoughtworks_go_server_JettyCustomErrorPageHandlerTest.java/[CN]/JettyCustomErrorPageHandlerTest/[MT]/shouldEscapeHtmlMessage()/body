@@ -1,6 +1,0 @@
-{
-  errorHandler.writeErrorPage(request,writer,500,"<script>alert(1)</script>",false);
-  verify(writer).write(captor.capture());
-  String fileContents=captor.getValue();
-  assertThat(fileContents,containsString("&lt;script&gt;alert(1)&lt;/script&gt;"));
-}

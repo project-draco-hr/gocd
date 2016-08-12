@@ -1,5 +1,5 @@
 {
-  errorHandler.writeErrorPage(request,writer,404,"Not Found",false);
+  errorHandler.writeErrorPage(request,writer,404,null,false);
   verify(writer).write(captor.capture());
   String fileContents=captor.getValue();
   assertThat(fileContents,containsString("<h1>404</h1>"));

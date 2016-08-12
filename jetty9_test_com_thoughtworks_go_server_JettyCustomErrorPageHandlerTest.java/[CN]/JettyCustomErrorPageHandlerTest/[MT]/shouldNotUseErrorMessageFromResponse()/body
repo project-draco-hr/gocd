@@ -1,0 +1,6 @@
+{
+  errorHandler.writeErrorPage(request,writer,500,"this message should not be rendered",false);
+  verify(writer).write(captor.capture());
+  String fileContents=captor.getValue();
+  assertThat(fileContents,not(containsString("this message should not be rendered")));
+}

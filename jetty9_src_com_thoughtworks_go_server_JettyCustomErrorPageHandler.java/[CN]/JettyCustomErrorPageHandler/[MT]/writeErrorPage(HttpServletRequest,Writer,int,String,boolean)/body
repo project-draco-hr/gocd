@@ -1,5 +1,5 @@
 {
-  message=getDefaultMessageIfNull(code,message);
-  String errorPage=replaceHtml(code,StringEscapeUtils.escapeHtml(message));
+  String defaultErrorMessage=HttpStatus.getMessage(code);
+  String errorPage=replaceHtml(code,defaultErrorMessage);
   writer.write(errorPage);
 }
