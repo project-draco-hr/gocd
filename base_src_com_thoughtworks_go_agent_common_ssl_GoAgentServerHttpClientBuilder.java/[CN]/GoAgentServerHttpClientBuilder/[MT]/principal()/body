@@ -1,0 +1,11 @@
+{
+  try {
+    KeyStore keyStore=agentKeystore();
+    if (keyStore.containsAlias("agent")) {
+      return ((X509Certificate)keyStore.getCertificate("agent")).getSubjectX500Principal();
+    }
+  }
+ catch (  Exception e) {
+  }
+  return null;
+}

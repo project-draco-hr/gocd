@@ -3,7 +3,12 @@
   ByteArrayEntity entity=new ByteArrayEntity(baos.toByteArray());
   entity.setContentType(getContentType());
   postMethod.setEntity(entity);
-  try (CloseableHttpResponse response=goAgentServerHttpClient.execute(postMethod)){
+  BasicHttpContext context=null;
+  if (environment.useSslContext()) {
+    context=new BasicHttpContext();
+    context.setAttribute(HttpClientContext.USER_TOKEN,goAgentServerHttpClient.principal());
+  }
+  try (CloseableHttpResponse response=goAgentServerHttpClient.execute(postMethod,context)){
     validateResponse(response);
     InputStream responseBody=getResponseBody(response);
     return readRemoteInvocationResult(responseBody,config.getCodebaseUrl());
