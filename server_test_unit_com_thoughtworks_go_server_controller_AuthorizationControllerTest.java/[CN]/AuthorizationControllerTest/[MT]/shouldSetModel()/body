@@ -1,0 +1,13 @@
+{
+  ModelAndView responseModel=authorizationController.login(false,response);
+  Map<String,Object> modelMap=new ModelMap(){
+{
+      put("login_error",false);
+      put("l",localizer);
+      put("authentication_plugin_registry",authenticationPluginRegistry);
+    }
+  }
+;
+  Map<String,Object> responseModelMap=responseModel.getModel();
+  assertThat(responseModelMap,is(modelMap));
+}
