@@ -1,5 +1,5 @@
 {
-  File folder=TestFileUtil.createUniqueTempFolder("foo");
-  TestFileUtil.createTestFile(folder,"bar");
+  File folder=temporaryFolder.newFolder("foo");
+  new File(folder,"subfolder").createNewFile();
   assertThat(FileUtil.isFolderEmpty(folder),is(false));
 }

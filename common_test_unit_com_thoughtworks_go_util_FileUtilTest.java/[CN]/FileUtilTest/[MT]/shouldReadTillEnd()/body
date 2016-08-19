@@ -1,6 +1,7 @@
 {
   String content="Hello" + FileUtil.lineSeparator() + "World";
-  File file=TestFileUtil.writeStringToTempFileInFolder("foo","txt",content);
+  File file=temporaryFolder.newFile("foo.txt");
+  FileUtils.writeStringToFile(file,content,Charset.defaultCharset());
   String message=FileUtil.readToEnd(file);
   assertThat(message,is(content));
 }
