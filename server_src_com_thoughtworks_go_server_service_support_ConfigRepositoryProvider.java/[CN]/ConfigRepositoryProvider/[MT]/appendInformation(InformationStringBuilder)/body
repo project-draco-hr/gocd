@@ -1,0 +1,11 @@
+{
+  infoCollector.addSection(name());
+  try {
+    infoCollector.append("Number of commits :" + configRepository.commitCountOnMaster()).append("\n");
+    infoCollector.addSubSection("GC Statistics");
+    infoCollector.append(configRepository.getStatistics().toString());
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

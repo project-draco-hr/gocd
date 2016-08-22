@@ -1,7 +1,7 @@
 {
   return doLocked(new ThrowingFn<Long,GitAPIException>(){
     public Long call() throws GitAPIException {
-      return (Long)git.gc().getStatistics().get("numberOfLooseObjects");
+      return (Long)getStatistics().get("numberOfLooseObjects");
     }
   }
 );
