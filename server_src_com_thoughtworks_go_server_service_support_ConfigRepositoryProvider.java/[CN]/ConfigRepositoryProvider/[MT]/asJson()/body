@@ -1,0 +1,11 @@
+{
+  LinkedHashMap<String,Object> json=new LinkedHashMap<>();
+  try {
+    json.put("Number of commits",configRepository.commitCountOnMaster());
+    json.put("GC Statistics",configRepository.getStatistics());
+  }
+ catch (  GitAPIException|IncorrectObjectTypeException|MissingObjectException e) {
+    throw new RuntimeException(e);
+  }
+  return json;
+}

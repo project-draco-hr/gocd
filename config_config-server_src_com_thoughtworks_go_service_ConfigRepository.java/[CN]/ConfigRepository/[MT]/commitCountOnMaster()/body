@@ -1,0 +1,14 @@
+{
+  List<Ref> branches=git.branchList().call();
+  for (  Ref branch : branches) {
+    if (branch.getName().equals("refs/heads/master")) {
+      Iterable<RevCommit> commits=git.log().add(branch.getObjectId()).call();
+      long count=0;
+      for (      RevCommit commit : commits) {
+        count++;
+      }
+      return count;
+    }
+  }
+  return Long.valueOf(-1);
+}
