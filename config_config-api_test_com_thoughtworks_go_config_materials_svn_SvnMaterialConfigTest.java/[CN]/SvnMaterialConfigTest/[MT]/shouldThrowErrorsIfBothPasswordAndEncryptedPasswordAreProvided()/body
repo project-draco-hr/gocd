@@ -1,0 +1,6 @@
+{
+  SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig(new UrlArgument("foo/bar"),"password","encryptedPassword",new GoCipher(),null,false,"folder");
+  svnMaterialConfig.validate(new ConfigSaveValidationContext(null));
+  assertThat(svnMaterialConfig.errors().on("password"),is("You may only specify `password` or `encrypted_password`, not both!"));
+  assertThat(svnMaterialConfig.errors().on("encryptedPassword"),is("You may only specify `password` or `encrypted_password`, not both!"));
+}

@@ -1,0 +1,6 @@
+{
+  TfsMaterialConfig materialConfig=new TfsMaterialConfig(new UrlArgument("foo/bar"),"password","encryptedPassword",new GoCipher());
+  materialConfig.validate(new ConfigSaveValidationContext(null));
+  assertThat(materialConfig.errors().on("password"),is("You may only specify `password` or `encrypted_password`, not both!"));
+  assertThat(materialConfig.errors().on("encryptedPassword"),is("You may only specify `password` or `encrypted_password`, not both!"));
+}

@@ -1,0 +1,5 @@
+{
+  P4MaterialConfig materialConfig=new P4MaterialConfig("foo/bar, 80","","encryptedPassword",new GoCipher());
+  materialConfig.validate(new ConfigSaveValidationContext(null));
+  assertThat(materialConfig.errors().on("encryptedPassword"),is("Encrypted password value for P4 material with serverAndPort 'foo/bar, 80' is invalid. This usually happens when the cipher text is modified to have an invalid value."));
+}
