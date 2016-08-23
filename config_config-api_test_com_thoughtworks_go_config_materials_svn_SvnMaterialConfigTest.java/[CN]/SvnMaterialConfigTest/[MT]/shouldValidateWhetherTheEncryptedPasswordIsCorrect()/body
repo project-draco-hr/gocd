@@ -1,0 +1,5 @@
+{
+  SvnMaterialConfig svnMaterialConfig=new SvnMaterialConfig(new UrlArgument("foo/bar"),"","encryptedPassword",new GoCipher(),null,false,"folder");
+  svnMaterialConfig.validate(new ConfigSaveValidationContext(null));
+  assertThat(svnMaterialConfig.errors().on("encryptedPassword"),is("Encrypted password value for svn material with url 'foo/bar' is invalid. This usually happens when the cipher text is modified to have an invalid value."));
+}

@@ -2,7 +2,7 @@
   try {
     return StringUtil.isBlank(encryptedPassword) ? null : this.goCipher.decrypt(encryptedPassword);
   }
- catch (  InvalidCipherTextException e) {
+ catch (  Exception e) {
     throw new RuntimeException("Could not decrypt the password to get the real password",e);
   }
 }

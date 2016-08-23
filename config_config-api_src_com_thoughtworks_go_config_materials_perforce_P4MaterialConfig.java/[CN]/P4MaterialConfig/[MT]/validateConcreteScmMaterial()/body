@@ -9,4 +9,12 @@
     addError("password","You may only specify `password` or `encrypted_password`, not both!");
     addError("encryptedPassword","You may only specify `password` or `encrypted_password`, not both!");
   }
+  if (isNotEmpty(this.encryptedPassword)) {
+    try {
+      currentPassword();
+    }
+ catch (    Exception e) {
+      addError("encryptedPassword",format("Encrypted password value for P4 material with serverAndPort '%s' is invalid. This usually happens when the cipher text is modified to have an invalid value.",this.getServerAndPort()));
+    }
+  }
 }

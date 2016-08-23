@@ -1,0 +1,5 @@
+{
+  TfsMaterialConfig materialConfig=new TfsMaterialConfig(new UrlArgument("foo/bar"),"","encryptedPassword",new GoCipher());
+  materialConfig.validate(new ConfigSaveValidationContext(null));
+  assertThat(materialConfig.errors().on("encryptedPassword"),is("Encrypted password value for TFS material with url 'foo/bar' is invalid. This usually happens when the cipher text is modified to have an invalid value."));
+}
