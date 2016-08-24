@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipeline=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
+  ParamConfig param=new ParamConfig("","Foo");
+  pipeline.addParam(param);
+  pipelineConfigService.createPipelineConfig(user,pipeline,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  assertThat(param.errors().firstError(),is(String.format("Parameter cannot have an empty name for pipeline '" + pipeline.name() + "'.",pipeline.name())));
+}

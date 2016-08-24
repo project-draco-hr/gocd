@@ -1,0 +1,12 @@
+{
+  PipelineConfig pipeline=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
+  JobConfig jobConfig=pipeline.get(0).getJobs().get(0);
+  ArtifactPropertiesGenerators properties=new ArtifactPropertiesGenerators();
+  ArtifactPropertiesGenerator artifactPropertiesGenerator=new ArtifactPropertiesGenerator();
+  properties.add(artifactPropertiesGenerator);
+  jobConfig.setProperties(properties);
+  pipelineConfigService.createPipelineConfig(user,pipeline,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  assertThat(artifactPropertiesGenerator.errors().firstError(),is(String.format("Invalid property name 'null'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters.",pipeline.name())));
+}

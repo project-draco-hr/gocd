@@ -1,0 +1,9 @@
+{
+  PipelineConfig pipeline=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
+  JobConfig jobConfig=pipeline.get(0).getJobs().get(0);
+  jobConfig.addTab("","/foo");
+  pipelineConfigService.createPipelineConfig(user,pipeline,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  assertThat(jobConfig.getTabs().first().errors().firstError(),is(String.format("Tab name '' is invalid. This must be alphanumeric and can contain underscores and periods.",pipeline.name())));
+}

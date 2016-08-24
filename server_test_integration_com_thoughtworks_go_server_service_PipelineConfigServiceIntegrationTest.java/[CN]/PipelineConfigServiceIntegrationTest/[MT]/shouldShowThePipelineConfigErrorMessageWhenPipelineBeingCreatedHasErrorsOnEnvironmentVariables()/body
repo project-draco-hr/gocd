@@ -1,0 +1,20 @@
+{
+  PipelineConfig pipeline=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
+  pipeline.addEnvironmentVariable("","PipelineEnvVar");
+  EnvironmentVariablesConfig stageVariables=new EnvironmentVariablesConfig();
+  EnvironmentVariableConfig stageVar=new EnvironmentVariableConfig("","StageEnvVar");
+  stageVariables.add(stageVar);
+  EnvironmentVariablesConfig jobVariables=new EnvironmentVariablesConfig();
+  EnvironmentVariableConfig jobVar=new EnvironmentVariableConfig("","JobEnvVar");
+  jobVariables.add(jobVar);
+  StageConfig stageConfig=pipeline.get(0);
+  stageConfig.setVariables(stageVariables);
+  JobConfig jobConfig=stageConfig.getJobs().get(0);
+  jobConfig.setVariables(jobVariables);
+  pipelineConfigService.createPipelineConfig(user,pipeline,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  assertThat(pipeline.getVariables().get(0).errors().firstError(),is(String.format("Environment Variable cannot have an empty name for pipeline '" + pipeline.name() + "'.",pipeline.name())));
+  assertThat(stageVar.errors().firstError(),is(String.format("Environment Variable cannot have an empty name for stage 'stage'.",pipeline.name())));
+  assertThat(jobVar.errors().firstError(),is(String.format("Environment Variable cannot have an empty name for job 'job'.",pipeline.name())));
+}
