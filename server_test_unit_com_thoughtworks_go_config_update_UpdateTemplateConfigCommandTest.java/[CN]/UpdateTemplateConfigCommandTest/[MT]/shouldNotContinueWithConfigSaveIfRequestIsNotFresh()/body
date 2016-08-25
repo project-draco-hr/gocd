@@ -4,4 +4,5 @@
   when(entityHashingService.md5ForEntity(pipelineTemplateConfig,pipelineTemplateConfig.name().toString())).thenReturn("another-md5");
   UpdateTemplateConfigCommand command=new UpdateTemplateConfigCommand(pipelineTemplateConfig,currentUser,goConfigService,result,"md5",entityHashingService);
   assertThat(command.canContinue(cruiseConfig),is(false));
+  assertThat(result.toString(),containsString("STALE_RESOURCE_CONFIG"));
 }

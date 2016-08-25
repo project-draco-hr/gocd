@@ -1,0 +1,6 @@
+{
+  new GoConfigMother().addPipelineWithTemplate(cruiseConfig,"p1",pipelineTemplateConfig.name().toString(),"s1","j1");
+  DeleteTemplateConfigCommand command=new DeleteTemplateConfigCommand(pipelineTemplateConfig,result,goConfigService,currentUser);
+  thrown.expectMessage("The template 'template' is being referenced by pipeline(s): [p1]");
+  assertThat(command.isValid(cruiseConfig),is(false));
+}
