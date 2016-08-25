@@ -1,0 +1,12 @@
+{
+  TemplatesConfig templatesConfig=preprocessedConfig.getTemplates();
+  preprocessedTemplateConfig=findAddedTemplate(preprocessedConfig);
+  preprocessedTemplateConfig.validate(null);
+  if (preprocessedTemplateConfig.getAllErrors().isEmpty()) {
+    templatesConfig.validate(null);
+    BasicCruiseConfig.copyErrors(preprocessedTemplateConfig,templateConfig);
+    return preprocessedTemplateConfig.getAllErrors().isEmpty() && templatesConfig.errors().isEmpty();
+  }
+  BasicCruiseConfig.copyErrors(preprocessedTemplateConfig,templateConfig);
+  return false;
+}

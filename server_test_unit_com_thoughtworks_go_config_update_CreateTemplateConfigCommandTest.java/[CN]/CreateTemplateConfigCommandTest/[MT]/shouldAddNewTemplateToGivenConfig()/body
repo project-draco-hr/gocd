@@ -1,0 +1,6 @@
+{
+  CreateTemplateConfigCommand createTemplateConfigCommand=new CreateTemplateConfigCommand(pipelineTemplateConfig,currentUser,goConfigService,result);
+  assertThat(cruiseConfig.getTemplates().contains(pipelineTemplateConfig),is(false));
+  createTemplateConfigCommand.update(cruiseConfig);
+  assertThat(cruiseConfig.getTemplates().contains(pipelineTemplateConfig),is(true));
+}

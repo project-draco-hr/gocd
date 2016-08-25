@@ -1,0 +1,7 @@
+{
+  PipelineTemplateConfig templateConfig=new PipelineTemplateConfig(null,StageConfigMother.oneBuildPlanWithResourcesAndMaterials("stage","job"));
+  cruiseConfig.addTemplate(templateConfig);
+  TemplateConfigCommand command=new CreateTemplateConfigCommand(templateConfig,currentUser,goConfigService,result);
+  thrown.expectMessage("The template with name 'null' is not found or should not be null.");
+  command.isValid(cruiseConfig);
+}

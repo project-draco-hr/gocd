@@ -1,0 +1,5 @@
+{
+  when(goConfigService.isUserAdmin(currentUser)).thenReturn(false);
+  CreateTemplateConfigCommand command=new CreateTemplateConfigCommand(pipelineTemplateConfig,currentUser,goConfigService,result);
+  assertThat(command.canContinue(cruiseConfig),is(false));
+}

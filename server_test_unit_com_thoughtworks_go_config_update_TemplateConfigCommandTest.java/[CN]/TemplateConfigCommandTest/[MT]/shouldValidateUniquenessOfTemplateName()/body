@@ -1,0 +1,9 @@
+{
+  PipelineTemplateConfig templateConfig1=new PipelineTemplateConfig(new CaseInsensitiveString("template"),StageConfigMother.oneBuildPlanWithResourcesAndMaterials("stage","job"));
+  PipelineTemplateConfig templateConfig2=new PipelineTemplateConfig(new CaseInsensitiveString("template"),StageConfigMother.oneBuildPlanWithResourcesAndMaterials("stage","job"));
+  cruiseConfig.addTemplate(templateConfig1);
+  cruiseConfig.addTemplate(templateConfig2);
+  TemplateConfigCommand command=new CreateTemplateConfigCommand(templateConfig2,currentUser,goConfigService,result);
+  assertThat(command.isValid(cruiseConfig),is(false));
+  assertThat(templateConfig2.errors().getAllOn("name"),is(Arrays.asList("Template name 'template' is not unique")));
+}

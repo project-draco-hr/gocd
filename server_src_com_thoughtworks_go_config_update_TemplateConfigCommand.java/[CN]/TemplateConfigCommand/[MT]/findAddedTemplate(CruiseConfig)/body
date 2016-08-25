@@ -1,0 +1,13 @@
+{
+  try {
+    PipelineTemplateConfig pipelineTemplateConfig=cruiseConfig.findTemplate(templateConfig.name());
+    if (pipelineTemplateConfig == null) {
+      result.notFound(LocalizedMessage.string("RESOURCE_NOT_FOUND"),HealthStateType.notFound());
+      throw new NullPointerException(String.format("The template with name '%s' is not found or should not be null.",templateConfig.name()));
+    }
+    return pipelineTemplateConfig;
+  }
+ catch (  NullPointerException e) {
+    throw new NullPointerException(String.format("The template with name '%s' is not found or should not be null.",templateConfig.name()));
+  }
+}

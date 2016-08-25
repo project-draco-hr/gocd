@@ -1,0 +1,7 @@
+{
+  PipelineTemplateConfig templateConfig=new PipelineTemplateConfig(new CaseInsensitiveString("@#$#"),StageConfigMother.oneBuildPlanWithResourcesAndMaterials("stage","job"));
+  cruiseConfig.addTemplate(templateConfig);
+  TemplateConfigCommand command=new CreateTemplateConfigCommand(templateConfig,currentUser,goConfigService,result);
+  assertThat(command.isValid(cruiseConfig),is(false));
+  assertThat(templateConfig.errors().getAllOn("name"),is(Arrays.asList("Invalid template name '@#$#'. This must be alphanumeric and can contain underscores and periods (however, it cannot start with a period). The maximum allowed length is 255 characters.")));
+}

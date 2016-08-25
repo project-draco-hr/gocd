@@ -1,0 +1,5 @@
+{
+  when(goConfigService.isUserAdmin(currentUser)).thenReturn(false);
+  UpdateTemplateConfigCommand command=new UpdateTemplateConfigCommand(pipelineTemplateConfig,currentUser,goConfigService,result,"md5",entityHashingService);
+  assertThat(command.canContinue(cruiseConfig),is(false));
+}
