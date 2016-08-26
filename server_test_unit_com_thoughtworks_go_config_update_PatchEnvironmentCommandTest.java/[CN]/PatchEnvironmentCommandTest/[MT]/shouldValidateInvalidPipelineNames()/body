@@ -1,0 +1,12 @@
+{
+  String pipelineName="invalid-pipeline-name";
+  pipelinesToAdd.add(pipelineName);
+  PatchEnvironmentCommand command=new PatchEnvironmentCommand(goConfigService,environmentConfig,pipelinesToAdd,pipelinesToRemove,agentsToAdd,agentsToRemove,currentUser,actionFailed,result);
+  assertFalse(cruiseConfig.getEnvironments().find(environmentName).hasAgent(pipelineName));
+  command.update(cruiseConfig);
+  assertFalse(cruiseConfig.getEnvironments().find(environmentName).hasAgent(pipelineName));
+  HttpLocalizedOperationResult expectResult=new HttpLocalizedOperationResult();
+  expectResult.badRequest(LocalizedMessage.string("PIPELINES_WITH_NAMES_NOT_FOUND",pipelinesToAdd));
+  assertFalse(result.isSuccessful());
+  assertThat(result,is(expectResult));
+}

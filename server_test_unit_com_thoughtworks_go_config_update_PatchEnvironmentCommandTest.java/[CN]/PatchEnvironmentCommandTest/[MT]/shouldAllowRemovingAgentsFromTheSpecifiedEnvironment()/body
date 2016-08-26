@@ -1,0 +1,8 @@
+{
+  environmentConfig.addAgent(agentConfig.getUuid());
+  agentsToRemove.add(agentConfig.getUuid());
+  PatchEnvironmentCommand command=new PatchEnvironmentCommand(goConfigService,environmentConfig,pipelinesToAdd,pipelinesToRemove,agentsToAdd,agentsToRemove,currentUser,actionFailed,result);
+  assertTrue(cruiseConfig.getEnvironments().find(environmentName).hasAgent(agentConfig.getUuid()));
+  command.update(cruiseConfig);
+  assertFalse(cruiseConfig.getEnvironments().find(environmentName).hasAgent(agentConfig.getUuid()));
+}

@@ -1,0 +1,14 @@
+{
+  List<String> unknownAgents=new ArrayList<>();
+  for (  String uuid : uuids) {
+    AgentConfig agent=agents.getAgentByUuid(uuid);
+    if (agent.isNull()) {
+      unknownAgents.add(uuid);
+    }
+  }
+  if (!unknownAgents.isEmpty()) {
+    result.badRequest(LocalizedMessage.string("AGENTS_WITH_UUIDS_NOT_FOUND",unknownAgents));
+    return false;
+  }
+  return true;
+}

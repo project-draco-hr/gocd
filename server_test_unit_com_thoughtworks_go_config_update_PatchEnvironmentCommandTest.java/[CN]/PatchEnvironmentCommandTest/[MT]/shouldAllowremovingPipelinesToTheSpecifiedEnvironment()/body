@@ -1,0 +1,8 @@
+{
+  environmentConfig.addPipeline(pipelineConfig.name());
+  pipelinesToRemove.add(pipelineConfig.name().toString());
+  PatchEnvironmentCommand command=new PatchEnvironmentCommand(goConfigService,environmentConfig,pipelinesToAdd,pipelinesToRemove,agentsToAdd,agentsToRemove,currentUser,actionFailed,result);
+  assertTrue(cruiseConfig.getEnvironments().find(environmentName).contains(pipelineConfig.name().toString()));
+  command.update(cruiseConfig);
+  assertFalse(cruiseConfig.getEnvironments().find(environmentName).contains(pipelineConfig.name().toString()));
+}

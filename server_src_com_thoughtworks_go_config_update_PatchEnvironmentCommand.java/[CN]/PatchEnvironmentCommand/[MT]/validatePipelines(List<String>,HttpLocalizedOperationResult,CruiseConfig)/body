@@ -1,0 +1,16 @@
+{
+  ArrayList<String> unknownPipelines=new ArrayList<>();
+  for (  String pipeline : pipelines) {
+    try {
+      config.pipelineConfigByName(new CaseInsensitiveString(pipeline));
+    }
+ catch (    PipelineNotFoundException e) {
+      unknownPipelines.add(pipeline);
+    }
+  }
+  if (!unknownPipelines.isEmpty()) {
+    result.badRequest(LocalizedMessage.string("PIPELINES_WITH_NAMES_NOT_FOUND",unknownPipelines));
+    return false;
+  }
+  return true;
+}

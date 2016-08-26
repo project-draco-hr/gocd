@@ -1,0 +1,20 @@
+{
+  initMocks(this);
+  pipelinesToAdd=new ArrayList<>();
+  pipelinesToRemove=new ArrayList<>();
+  agentsToAdd=new ArrayList<>();
+  agentsToRemove=new ArrayList<>();
+  result=new HttpLocalizedOperationResult();
+  currentUser=new Username(new CaseInsensitiveString("user"));
+  cruiseConfig=new GoConfigMother().defaultCruiseConfig();
+  environmentName=new CaseInsensitiveString("Dev");
+  environmentConfig=new BasicEnvironmentConfig(environmentName);
+  cruiseConfig.addEnvironment(environmentConfig);
+  pipelineConfig=new PipelineConfig();
+  String pipelineName="pipeline-1";
+  pipelineConfig.setName(pipelineName);
+  cruiseConfig.addPipeline("First-Group",pipelineConfig);
+  agentConfig=new AgentConfig("uuid-1");
+  cruiseConfig.agents().add(agentConfig);
+  actionFailed=LocalizedMessage.string("ENV_UPDATE_FAILED",environmentConfig.name());
+}
