@@ -1,7 +1,5 @@
 {
-  String output=str.replaceAll("[()',]+","");
-  if (isBlank(output)) {
-    throw new RuntimeException("The linux distribution string is empty");
-  }
-  return output;
+  String array[]=str.substring(1,str.length() - 1).split(",");
+  array=StringUtils.stripAll(array,"' ");
+  return StringUtils.join(array,' ');
 }
