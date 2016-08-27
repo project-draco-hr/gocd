@@ -2,7 +2,7 @@
   return new BaseMatcher<String>(){
     @Override public boolean matches(    Object o){
       String actualFile=(String)o;
-      if ("Windows".equals(new SystemEnvironment().getOperatingSystemFamilyName())) {
+      if (OperatingSystem.WINDOWS.equals(new SystemEnvironment().getCurrentOperatingSystem())) {
         return expected.equalsIgnoreCase(actualFile);
       }
       return expected.equals(actualFile);

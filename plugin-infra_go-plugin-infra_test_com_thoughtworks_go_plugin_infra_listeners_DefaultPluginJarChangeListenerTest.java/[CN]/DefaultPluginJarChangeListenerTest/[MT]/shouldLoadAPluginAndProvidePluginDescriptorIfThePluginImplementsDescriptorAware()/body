@@ -3,7 +3,7 @@
   File pluginJarFile=new File(PLUGIN_DIR,pluginJarFileName);
   copyPluginToTheDirectory(PLUGIN_DIR,pluginJarFileName);
   GoPluginDescriptor descriptor=new GoPluginDescriptor("some.old.id","1.0",new GoPluginDescriptor.About(null,null,null,null,null,null),null,new File(pluginJarFileName),false);
-  when(systemEnvironment.getOperatingSystemFamilyName()).thenReturn("Windows");
+  when(systemEnvironment.getCurrentOperatingSystem()).thenReturn(OperatingSystem.WINDOWS);
   when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(descriptor);
   when(osgiFramework.hasReferenceFor(PluginDescriptorAware.class,descriptor.id())).thenReturn(true);
   doAnswer(new Answer(){

@@ -7,7 +7,7 @@
   when(goPluginDescriptorBuilder.build(pluginJarFile,false)).thenReturn(newPluginDescriptor);
   GoPluginDescriptor oldPluginDescriptor=new GoPluginDescriptor(pluginID,"1.0",new GoPluginDescriptor.About(null,null,null,null,null,asList("Linux","Mac OS X")),null,new File(pluginJarFileName),true);
   when(registry.getPluginByIdOrFileName(pluginID,pluginJarFileName)).thenReturn(oldPluginDescriptor);
-  when(systemEnvironment.getOperatingSystemFamilyName()).thenReturn("Linux");
+  when(systemEnvironment.getCurrentOperatingSystem()).thenReturn(OperatingSystem.LINUX);
   when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(newPluginDescriptor);
   when(registry.unloadPlugin(newPluginDescriptor)).thenReturn(oldPluginDescriptor);
   listener=new DefaultPluginJarChangeListener(registry,osgiManifestGenerator,osgiFramework,goPluginDescriptorBuilder,systemEnvironment);

@@ -1,0 +1,5 @@
+{
+  AgentRuntimeInfo agentRuntimeInfo=new AgentRuntimeInfo(new AgentIdentifier("localhost","127.0.0.1","uuid"),AgentRuntimeStatus.Idle,currentWorkingDirectory(),"cookie",null,false);
+  agentRuntimeInfo.refreshOperatingSystem();
+  assertThat(agentRuntimeInfo.getOperatingSystem(),is(new SystemEnvironment().getOperatingSystemName()));
+}

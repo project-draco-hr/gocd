@@ -1,8 +1,9 @@
 {
   assertThat(SystemEnvironment.GO_SSL_RENEGOTIATION_ALLOWED.propertyName(),is("go.ssl.renegotiation.allowed"));
-  assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_RENEGOTIATION_ALLOWED),is(true));
+  boolean defaultValue=true;
+  assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_RENEGOTIATION_ALLOWED),is(defaultValue));
   System.clearProperty("go.ssl.renegotiation.allowed");
-  assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_RENEGOTIATION_ALLOWED),is(true));
+  assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_RENEGOTIATION_ALLOWED),is(defaultValue));
   System.setProperty("go.ssl.renegotiation.allowed","false");
   assertThat(systemEnvironment.get(SystemEnvironment.GO_SSL_RENEGOTIATION_ALLOWED),is(false));
 }
