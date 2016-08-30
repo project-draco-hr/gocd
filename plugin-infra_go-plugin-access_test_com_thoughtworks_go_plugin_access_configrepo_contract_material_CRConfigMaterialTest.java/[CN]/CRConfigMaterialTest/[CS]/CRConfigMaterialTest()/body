@@ -1,4 +1,11 @@
 {
-  named=new CRConfigMaterial("primary",null);
-  namedDest=new CRConfigMaterial("primary","folder");
+  named=new CRConfigMaterial("primary",null,null);
+  namedDest=new CRConfigMaterial("primary","folder",null);
+  List<String> patterns=new ArrayList<>();
+  patterns.add("externals");
+  patterns.add("tools");
+  blacklist=new CRConfigMaterial("primary","folder",new CRFilter(patterns,false));
+  CRFilter badFilter=new CRFilter(patterns,false);
+  badFilter.setWhitelistNoCheck(patterns);
+  invalidList=new CRConfigMaterial("primary","folder",badFilter);
 }

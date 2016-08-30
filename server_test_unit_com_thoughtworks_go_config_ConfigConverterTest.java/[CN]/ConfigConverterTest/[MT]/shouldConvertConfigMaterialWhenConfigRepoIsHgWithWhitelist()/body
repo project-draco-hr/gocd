@@ -1,0 +1,14 @@
+{
+  HgMaterialConfig configRepoMaterial=new HgMaterialConfig("url","folder");
+  when(context.configMaterial()).thenReturn(configRepoMaterial);
+  CRConfigMaterial crConfigMaterial=new CRConfigMaterial(null,null,new CRFilter(filter,true));
+  MaterialConfig materialConfig=configConverter.toMaterialConfig(crConfigMaterial,context);
+  assertNull("shouldSetEmptyMaterialNameAsInConfigRepoSourceCode",materialConfig.getName());
+  HgMaterialConfig hgMaterialConfig=(HgMaterialConfig)materialConfig;
+  assertThat(hgMaterialConfig.getAutoUpdate(),is(true));
+  assertThat(hgMaterialConfig.getFilterAsString(),is("filter"));
+  assertThat(hgMaterialConfig.getUrl(),is("url"));
+  Filter whitelistFilter=new Filter(new IgnoredFiles("filter"));
+  assertThat(hgMaterialConfig.filter(),is(whitelistFilter));
+  assertThat(hgMaterialConfig.isInvertFilter(),is(true));
+}

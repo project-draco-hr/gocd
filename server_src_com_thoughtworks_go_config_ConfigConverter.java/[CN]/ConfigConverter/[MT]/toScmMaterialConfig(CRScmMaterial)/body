@@ -2,7 +2,6 @@
   String materialName=crScmMaterial.getName();
   if (crScmMaterial instanceof CRGitMaterial) {
     CRGitMaterial git=(CRGitMaterial)crScmMaterial;
-    Filter filter=toFilter(crScmMaterial);
     String gitBranch=git.getBranch();
     if (StringUtils.isBlank(gitBranch))     gitBranch=GitMaterialConfig.DEFAULT_BRANCH;
     GitMaterialConfig gitConfig=new GitMaterialConfig(git.getUrl(),gitBranch,git.shallowClone());

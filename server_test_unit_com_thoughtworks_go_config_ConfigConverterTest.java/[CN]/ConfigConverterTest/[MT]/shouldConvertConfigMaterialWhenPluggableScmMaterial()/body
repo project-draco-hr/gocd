@@ -1,0 +1,16 @@
+{
+  SCM myscm=new SCM("scmid",new PluginConfiguration(),new Configuration());
+  SCMs scms=new SCMs(myscm);
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  cruiseConfig.setSCMs(scms);
+  when(cachedGoConfig.currentConfig()).thenReturn(cruiseConfig);
+  PluggableSCMMaterialConfig configRepoMaterial=new PluggableSCMMaterialConfig(new CaseInsensitiveString("scmid"),myscm,null,null);
+  when(context.configMaterial()).thenReturn(configRepoMaterial);
+  CRConfigMaterial crConfigMaterial=new CRConfigMaterial("example","dest1",null);
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=(PluggableSCMMaterialConfig)configConverter.toMaterialConfig(crConfigMaterial,context);
+  assertThat(pluggableSCMMaterialConfig.getName().toLower(),is("example"));
+  assertThat(pluggableSCMMaterialConfig.getSCMConfig(),is(myscm));
+  assertThat(pluggableSCMMaterialConfig.getScmId(),is("scmid"));
+  assertThat(pluggableSCMMaterialConfig.getFolder(),is("dest1"));
+  assertThat(pluggableSCMMaterialConfig.getFilterAsString(),is(""));
+}

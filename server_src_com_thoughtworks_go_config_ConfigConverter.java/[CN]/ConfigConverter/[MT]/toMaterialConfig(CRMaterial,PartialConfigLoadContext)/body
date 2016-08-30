@@ -18,6 +18,18 @@
     MaterialConfig repoMaterial=cloner.deepClone(context.configMaterial());
     if (StringUtils.isNotEmpty(crConfigMaterial.getName()))     repoMaterial.setName(new CaseInsensitiveString(crConfigMaterial.getName()));
     if (StringUtils.isNotEmpty(crConfigMaterial.getDestination()))     setDestination(repoMaterial,crConfigMaterial.getDestination());
+    if (crConfigMaterial.getFilter() != null && !crConfigMaterial.getFilter().isEmpty()) {
+      if (repoMaterial instanceof ScmMaterialConfig) {
+        ScmMaterialConfig scmMaterialConfig=(ScmMaterialConfig)repoMaterial;
+        scmMaterialConfig.setFilter(toFilter(crConfigMaterial.getFilter().getList()));
+        scmMaterialConfig.setInvertFilter(crConfigMaterial.getFilter().isWhitelist());
+      }
+ else {
+        PluggableSCMMaterialConfig pluggableSCMMaterial=(PluggableSCMMaterialConfig)repoMaterial;
+        pluggableSCMMaterial.setFilter(toFilter(crConfigMaterial.getFilter().getList()));
+        if (crConfigMaterial.getFilter().isWhitelist())         throw new ConfigConvertionException("Plugable SCMs do not support whitelisting");
+      }
+    }
     return repoMaterial;
   }
  else   throw new ConfigConvertionException(String.format("unknown material type '%s'",crMaterial));

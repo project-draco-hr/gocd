@@ -1,0 +1,17 @@
+{
+  SCM myscm=new SCM("scmid",new PluginConfiguration(),new Configuration());
+  SCMs scms=new SCMs(myscm);
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  cruiseConfig.setSCMs(scms);
+  when(cachedGoConfig.currentConfig()).thenReturn(cruiseConfig);
+  PluggableSCMMaterialConfig configRepoMaterial=new PluggableSCMMaterialConfig(new CaseInsensitiveString("scmid"),myscm,null,null);
+  when(context.configMaterial()).thenReturn(configRepoMaterial);
+  CRConfigMaterial crConfigMaterial=new CRConfigMaterial("example","dest1",new CRFilter(filter,true));
+  try {
+    configConverter.toMaterialConfig(crConfigMaterial,context);
+    fail("should have thrown");
+  }
+ catch (  ConfigConvertionException ex) {
+    assertThat(ex.getMessage(),is("Plugable SCMs do not support whitelisting"));
+  }
+}
