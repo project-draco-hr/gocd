@@ -1,0 +1,12 @@
+{
+  ScmMaterial material=mock(ScmMaterial.class);
+  when(material.isAutoUpdate()).thenReturn(true);
+  when(material.getFingerprint()).thenReturn("fingerprint");
+  when(watchList.hasConfigRepoWithFingerprint("fingerprint")).thenReturn(true);
+  MaterialUpdateMessage message=new MaterialUpdateMessage(material,0);
+  doNothing().when(configQueue).post(message);
+  service.updateMaterial(material);
+  service.updateMaterial(material);
+  verify(configQueue,times(1)).post(message);
+  verify(material).isAutoUpdate();
+}

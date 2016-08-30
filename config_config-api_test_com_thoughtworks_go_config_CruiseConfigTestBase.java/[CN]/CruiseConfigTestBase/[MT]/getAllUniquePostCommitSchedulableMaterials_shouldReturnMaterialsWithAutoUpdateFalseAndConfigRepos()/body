@@ -1,0 +1,17 @@
+{
+  GitMaterialConfig gitAutoMaterial=MaterialConfigsMother.gitMaterialConfig("url");
+  PipelineConfig pipelineAuto=pipelineConfig("pipelineAuto",new MaterialConfigs(gitAutoMaterial));
+  GitMaterialConfig gitNonAutoMaterial=new GitMaterialConfig(new UrlArgument("other-url"),"master","dest",false,null,false,null,new CaseInsensitiveString("git"),false);
+  PipelineConfig pipelineTriggerable=pipelineConfig("pipelineTriggerable",new MaterialConfigs(gitNonAutoMaterial));
+  PipelineConfigs defaultGroup=createGroup("defaultGroup",pipelineAuto,pipelineTriggerable);
+  cruiseConfig=new BasicCruiseConfig(defaultGroup);
+  ConfigReposConfig reposConfig=new ConfigReposConfig();
+  GitMaterialConfig configRepoMaterial=new GitMaterialConfig("http://git");
+  reposConfig.add(new ConfigRepoConfig(configRepoMaterial,"myplug"));
+  cruiseConfig.setConfigRepos(reposConfig);
+  PipelineGroups pipelineGroups=new PipelineGroups(defaultGroup);
+  Set<MaterialConfig> materials=cruiseConfig.getAllUniquePostCommitSchedulableMaterials();
+  assertThat(materials.size(),is(2));
+  assertThat(materials,hasItem(gitNonAutoMaterial));
+  assertThat(materials,hasItem(configRepoMaterial));
+}
