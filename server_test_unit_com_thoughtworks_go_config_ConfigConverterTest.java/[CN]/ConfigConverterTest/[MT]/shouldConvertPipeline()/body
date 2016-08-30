@@ -1,6 +1,6 @@
 {
   CRPipeline crPipeline=new CRPipeline("pipename","group1","label",true,trackingTool,null,timer,environmentVariables,materials,stages);
-  PipelineConfig pipelineConfig=configConverter.toPipelineConfig(crPipeline);
+  PipelineConfig pipelineConfig=configConverter.toPipelineConfig(crPipeline,context);
   assertThat(pipelineConfig.name().toLower(),is("pipename"));
   assertThat(pipelineConfig.materialConfigs().first() instanceof GitMaterialConfig,is(true));
   assertThat(pipelineConfig.first().name().toLower(),is("stagename"));

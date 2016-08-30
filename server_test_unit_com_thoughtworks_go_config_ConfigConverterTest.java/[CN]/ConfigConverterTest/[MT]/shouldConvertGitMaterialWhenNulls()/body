@@ -1,7 +1,7 @@
 {
   CRGitMaterial crGitMaterial=new CRGitMaterial();
   crGitMaterial.setUrl("url");
-  GitMaterialConfig gitMaterialConfig=(GitMaterialConfig)configConverter.toMaterialConfig(crGitMaterial);
+  GitMaterialConfig gitMaterialConfig=(GitMaterialConfig)configConverter.toMaterialConfig(crGitMaterial,context);
   assertNull(crGitMaterial.getName());
   assertNull(crGitMaterial.getDirectory());
   assertThat(gitMaterialConfig.getAutoUpdate(),is(true));

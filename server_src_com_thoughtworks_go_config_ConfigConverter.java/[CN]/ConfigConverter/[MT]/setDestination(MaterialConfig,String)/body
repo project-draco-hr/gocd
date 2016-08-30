@@ -1,0 +1,9 @@
+{
+  if (repoMaterial instanceof ScmMaterialConfig) {
+    ((ScmMaterialConfig)repoMaterial).setFolder(destination);
+  }
+ else   if (repoMaterial instanceof PluggableSCMMaterialConfig) {
+    ((PluggableSCMMaterialConfig)repoMaterial).setFolder(destination);
+  }
+ else   LOGGER.warn("Unknown material type " + repoMaterial.getTypeForDisplay());
+}

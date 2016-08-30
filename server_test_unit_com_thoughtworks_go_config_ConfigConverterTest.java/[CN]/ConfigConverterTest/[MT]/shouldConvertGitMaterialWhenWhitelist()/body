@@ -1,6 +1,6 @@
 {
   CRGitMaterial crGitMaterial=new CRGitMaterial("name","folder",true,true,filter,"url","branch",true);
-  GitMaterialConfig gitMaterialConfig=(GitMaterialConfig)configConverter.toMaterialConfig(crGitMaterial);
+  GitMaterialConfig gitMaterialConfig=(GitMaterialConfig)configConverter.toMaterialConfig(crGitMaterial,context);
   assertThat(gitMaterialConfig.getName().toLower(),is("name"));
   assertThat(gitMaterialConfig.getFolder(),is("folder"));
   assertThat(gitMaterialConfig.getAutoUpdate(),is(true));

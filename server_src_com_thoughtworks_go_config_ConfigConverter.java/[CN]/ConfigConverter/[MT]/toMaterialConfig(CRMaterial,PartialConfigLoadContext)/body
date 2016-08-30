@@ -1,0 +1,24 @@
+{
+  if (crMaterial == null)   throw new ConfigConvertionException("material cannot be null");
+  if (crMaterial instanceof CRDependencyMaterial)   return toDependencyMaterialConfig((CRDependencyMaterial)crMaterial);
+ else   if (crMaterial instanceof CRScmMaterial) {
+    CRScmMaterial crScmMaterial=(CRScmMaterial)crMaterial;
+    return toScmMaterialConfig(crScmMaterial);
+  }
+ else   if (crMaterial instanceof CRPluggableScmMaterial) {
+    CRPluggableScmMaterial crPluggableScmMaterial=(CRPluggableScmMaterial)crMaterial;
+    return toPluggableScmMaterialConfig(crPluggableScmMaterial);
+  }
+ else   if (crMaterial instanceof CRPackageMaterial) {
+    CRPackageMaterial crPackageMaterial=(CRPackageMaterial)crMaterial;
+    return toPackageMaterial(crPackageMaterial);
+  }
+ else   if (crMaterial instanceof CRConfigMaterial) {
+    CRConfigMaterial crConfigMaterial=(CRConfigMaterial)crMaterial;
+    MaterialConfig repoMaterial=cloner.deepClone(context.configMaterial());
+    if (StringUtils.isNotEmpty(crConfigMaterial.getName()))     repoMaterial.setName(new CaseInsensitiveString(crConfigMaterial.getName()));
+    if (StringUtils.isNotEmpty(crConfigMaterial.getDestination()))     setDestination(repoMaterial,crConfigMaterial.getDestination());
+    return repoMaterial;
+  }
+ else   throw new ConfigConvertionException(String.format("unknown material type '%s'",crMaterial));
+}

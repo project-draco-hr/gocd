@@ -5,7 +5,7 @@
   cruiseConfig.setSCMs(scms);
   when(cachedGoConfig.currentConfig()).thenReturn(cruiseConfig);
   CRPluggableScmMaterial crPluggableScmMaterial=new CRPluggableScmMaterial("name","scmid","directory",filter);
-  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=(PluggableSCMMaterialConfig)configConverter.toMaterialConfig(crPluggableScmMaterial);
+  PluggableSCMMaterialConfig pluggableSCMMaterialConfig=(PluggableSCMMaterialConfig)configConverter.toMaterialConfig(crPluggableScmMaterial,context);
   assertThat(pluggableSCMMaterialConfig.getName().toLower(),is("name"));
   assertThat(pluggableSCMMaterialConfig.getSCMConfig(),is(myscm));
   assertThat(pluggableSCMMaterialConfig.getScmId(),is("scmid"));

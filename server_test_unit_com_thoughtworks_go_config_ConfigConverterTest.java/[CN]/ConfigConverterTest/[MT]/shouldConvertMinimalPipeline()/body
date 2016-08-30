@@ -19,7 +19,7 @@
   crSvnMaterial.setUrl("url");
   min_materials.add(crSvnMaterial);
   crPipeline.setMaterials(min_materials);
-  PipelineConfig pipelineConfig=configConverter.toPipelineConfig(crPipeline);
+  PipelineConfig pipelineConfig=configConverter.toPipelineConfig(crPipeline,context);
   assertThat(pipelineConfig.name().toLower(),is("p1"));
   assertThat(pipelineConfig.materialConfigs().first() instanceof SvnMaterialConfig,is(true));
   assertThat(pipelineConfig.first().name().toLower(),is("build"));

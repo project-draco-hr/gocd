@@ -1,6 +1,6 @@
 {
   CRSvnMaterial crSvnMaterial=new CRSvnMaterial("name","folder",true,false,filter,"url","username","secret",true);
-  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)configConverter.toMaterialConfig(crSvnMaterial);
+  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)configConverter.toMaterialConfig(crSvnMaterial,context);
   assertThat(svnMaterialConfig.getName().toLower(),is("name"));
   assertThat(svnMaterialConfig.getFolder(),is("folder"));
   assertThat(svnMaterialConfig.getAutoUpdate(),is(true));

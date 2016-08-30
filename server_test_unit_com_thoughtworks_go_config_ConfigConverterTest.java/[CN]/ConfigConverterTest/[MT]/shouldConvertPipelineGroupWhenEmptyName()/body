@@ -4,7 +4,7 @@
   Map<String,List<CRPipeline>> map=new HashedMap();
   map.put("",pipelines);
   Map.Entry<String,List<CRPipeline>> crPipelineGroup=map.entrySet().iterator().next();
-  PipelineConfigs pipelineConfigs=configConverter.toBasicPipelineConfigs(crPipelineGroup);
+  PipelineConfigs pipelineConfigs=configConverter.toBasicPipelineConfigs(crPipelineGroup,context);
   assertThat(pipelineConfigs.getGroup(),is(PipelineConfigs.DEFAULT_GROUP));
   assertThat(pipelineConfigs.getPipelines().size(),is(1));
 }

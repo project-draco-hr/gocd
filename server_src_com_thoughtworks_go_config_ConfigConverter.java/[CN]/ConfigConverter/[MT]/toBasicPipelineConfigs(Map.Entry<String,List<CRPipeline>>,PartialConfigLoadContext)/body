@@ -1,0 +1,9 @@
+{
+  String name=crPipelineGroup.getKey();
+  BasicPipelineConfigs pipelineConfigs=new BasicPipelineConfigs();
+  pipelineConfigs.setGroup(name);
+  for (  CRPipeline crPipeline : crPipelineGroup.getValue()) {
+    pipelineConfigs.add(toPipelineConfig(crPipeline,context));
+  }
+  return pipelineConfigs;
+}

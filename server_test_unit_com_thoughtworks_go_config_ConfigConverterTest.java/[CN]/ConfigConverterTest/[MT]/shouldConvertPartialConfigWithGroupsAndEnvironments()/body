@@ -8,7 +8,7 @@
   CRParseResult crPartialConfig=new CRParseResult();
   crPartialConfig.getEnvironments().add(crEnvironment);
   crPartialConfig.getPipelines().add(pipeline);
-  PartialConfig partialConfig=configConverter.toPartialConfig(crPartialConfig);
+  PartialConfig partialConfig=configConverter.toPartialConfig(crPartialConfig,context);
   assertThat(partialConfig.getGroups().size(),is(1));
   assertThat(partialConfig.getEnvironments().size(),is(1));
 }

@@ -1,6 +1,6 @@
 {
   CRSvnMaterial crSvnMaterial=CRSvnMaterial.withEncryptedPassword("name","folder",true,false,filter,"url","username","encryptedvalue",true);
-  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)configConverter.toMaterialConfig(crSvnMaterial);
+  SvnMaterialConfig svnMaterialConfig=(SvnMaterialConfig)configConverter.toMaterialConfig(crSvnMaterial,context);
   assertThat(svnMaterialConfig.getName().toLower(),is("name"));
   assertThat(svnMaterialConfig.getFolder(),is("folder"));
   assertThat(svnMaterialConfig.getAutoUpdate(),is(true));

@@ -1,0 +1,16 @@
+{
+  GitMaterialConfig configRepoMaterial=new GitMaterialConfig("url");
+  when(context.configMaterial()).thenReturn(configRepoMaterial);
+  CRConfigMaterial crConfigMaterial=new CRConfigMaterial();
+  MaterialConfig materialConfig=configConverter.toMaterialConfig(crConfigMaterial,context);
+  assertNull("shouldSetEmptyMaterialNameAsInConfigRepoSourceCode",materialConfig.getName());
+  GitMaterialConfig gitMaterialConfig=(GitMaterialConfig)materialConfig;
+  assertThat(gitMaterialConfig.getAutoUpdate(),is(true));
+  assertThat(gitMaterialConfig.getUrl(),is("url"));
+  assertNull(gitMaterialConfig.getFolder());
+  assertThat(gitMaterialConfig.getAutoUpdate(),is(true));
+  assertThat(gitMaterialConfig.isShallowClone(),is(false));
+  assertThat(gitMaterialConfig.filter(),is(new Filter()));
+  assertThat(gitMaterialConfig.getUrl(),is("url"));
+  assertThat(gitMaterialConfig.getBranch(),is("master"));
+}

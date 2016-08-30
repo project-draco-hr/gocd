@@ -1,0 +1,12 @@
+{
+  HgMaterialConfig configRepoMaterial=new HgMaterialConfig(new HgUrlArgument("url"),true,new Filter(new IgnoredFiles("ignore")),false,"folder",new CaseInsensitiveString("name"));
+  when(context.configMaterial()).thenReturn(configRepoMaterial);
+  CRConfigMaterial crConfigMaterial=new CRConfigMaterial("example","dest1");
+  MaterialConfig materialConfig=configConverter.toMaterialConfig(crConfigMaterial,context);
+  assertThat("shouldSetMaterialNameAsInConfigRepoSourceCode",materialConfig.getName().toLower(),is("example"));
+  assertThat("shouldUseFolderFromConfigRepoWhenSpecified",materialConfig.getFolder(),is("dest1"));
+  HgMaterialConfig hgMaterialConfig=(HgMaterialConfig)materialConfig;
+  assertThat(hgMaterialConfig.getAutoUpdate(),is(true));
+  assertThat(hgMaterialConfig.getFilterAsString(),is("ignore"));
+  assertThat(hgMaterialConfig.getUrl(),is("url"));
+}

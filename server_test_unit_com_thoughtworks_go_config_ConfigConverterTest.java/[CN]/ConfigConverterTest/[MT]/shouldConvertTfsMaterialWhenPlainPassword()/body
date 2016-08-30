@@ -1,6 +1,6 @@
 {
   CRTfsMaterial crTfsMaterial=CRTfsMaterial.withPlainPassword("name","folder",false,false,filter,"url","domain","user","secret","project");
-  TfsMaterialConfig tfsMaterialConfig=(TfsMaterialConfig)configConverter.toMaterialConfig(crTfsMaterial);
+  TfsMaterialConfig tfsMaterialConfig=(TfsMaterialConfig)configConverter.toMaterialConfig(crTfsMaterial,context);
   assertThat(tfsMaterialConfig.getName().toLower(),is("name"));
   assertThat(tfsMaterialConfig.getFolder(),is("folder"));
   assertThat(tfsMaterialConfig.getAutoUpdate(),is(false));

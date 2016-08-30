@@ -8,7 +8,7 @@
   cruiseConfig.setPackageRepositories(repositories);
   when(cachedGoConfig.currentConfig()).thenReturn(cruiseConfig);
   CRPackageMaterial crPackageMaterial=new CRPackageMaterial("name","package-id");
-  PackageMaterialConfig packageMaterialConfig=(PackageMaterialConfig)configConverter.toMaterialConfig(crPackageMaterial);
+  PackageMaterialConfig packageMaterialConfig=(PackageMaterialConfig)configConverter.toMaterialConfig(crPackageMaterial,context);
   assertThat(packageMaterialConfig.getName().toLower(),is("name"));
   assertThat(packageMaterialConfig.getPackageId(),is("package-id"));
   assertThat(packageMaterialConfig.getPackageDefinition(),is(definition));
