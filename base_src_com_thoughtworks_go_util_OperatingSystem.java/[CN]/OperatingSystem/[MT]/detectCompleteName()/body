@@ -1,0 +1,18 @@
+{
+  String[] command={"python","-c","import platform;print(platform.linux_distribution())"};
+  try {
+    Process process=Runtime.getRuntime().exec(command);
+    Scanner scanner=new Scanner(process.getInputStream());
+    String line=scanner.nextLine();
+    OS_COMPLETE_NAME=cleanUpPythonOutput(line);
+  }
+ catch (  Exception e) {
+    try {
+      OS_COMPLETE_NAME=readFromOsRelease();
+    }
+ catch (    Exception ignored) {
+      OS_COMPLETE_NAME=OS_FAMILY_NAME;
+    }
+  }
+  return OS_COMPLETE_NAME;
+}

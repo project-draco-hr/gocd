@@ -1,0 +1,7 @@
+{
+  try (FileReader fileReader=new FileReader(new File("/etc/os-release"))){
+    Properties properties=new Properties();
+    properties.load(fileReader);
+    return unQuote(properties.getProperty("PRETTY_NAME"));
+  }
+ }

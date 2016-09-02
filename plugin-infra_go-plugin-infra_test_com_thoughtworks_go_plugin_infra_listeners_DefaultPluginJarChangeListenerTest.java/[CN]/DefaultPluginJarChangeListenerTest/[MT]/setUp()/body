@@ -8,6 +8,6 @@
   systemEnvironment=mock(SystemEnvironment.class);
   when(systemEnvironment.get(PLUGIN_ACTIVATOR_JAR_PATH)).thenReturn("defaultFiles/go-plugin-activator.jar");
   when(systemEnvironment.get(PLUGIN_BUNDLE_PATH)).thenReturn(TEST_BUNDLES_DIR);
-  when(systemEnvironment.getCurrentOperatingSystem()).thenReturn(OperatingSystem.LINUX);
+  when(systemEnvironment.getOperatingSystemFamilyName()).thenReturn("Linux");
   listener=new DefaultPluginJarChangeListener(registry,osgiManifestGenerator,osgiFramework,goPluginDescriptorBuilder,systemEnvironment);
 }

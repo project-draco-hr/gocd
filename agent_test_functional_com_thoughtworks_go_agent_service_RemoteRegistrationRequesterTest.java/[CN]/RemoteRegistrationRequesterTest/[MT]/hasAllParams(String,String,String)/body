@@ -8,7 +8,7 @@
         assertThat(getParameter(params,"uuid"),is(uuid));
         String workingDir=SystemUtil.currentWorkingDirectory();
         assertThat(getParameter(params,"location"),is(workingDir));
-        assertThat(getParameter(params,"operatingSystem"),is("minix"));
+        assertThat(getParameter(params,"operatingSystem"),not(nullValue()));
         assertThat(getParameter(params,"agentAutoRegisterKey"),is("t0ps3cret"));
         assertThat(getParameter(params,"agentAutoRegisterResources"),is("linux, java"));
         assertThat(getParameter(params,"agentAutoRegisterEnvironments"),is("uat, staging"));

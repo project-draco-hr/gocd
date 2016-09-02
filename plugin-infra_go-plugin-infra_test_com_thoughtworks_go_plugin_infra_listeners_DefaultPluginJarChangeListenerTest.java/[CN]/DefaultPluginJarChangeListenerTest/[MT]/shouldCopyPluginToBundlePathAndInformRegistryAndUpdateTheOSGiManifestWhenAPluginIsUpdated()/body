@@ -18,7 +18,7 @@
   when(newDescriptor.isInvalid()).thenReturn(false);
   when(newDescriptor.bundleLocation()).thenReturn(explodedDirectory);
   when(newDescriptor.fileName()).thenReturn(pluginJarFileName);
-  when(newDescriptor.isCurrentOSValidForThisPlugin(systemEnvironment.getCurrentOperatingSystem())).thenReturn(true);
+  when(newDescriptor.isCurrentOSValidForThisPlugin(systemEnvironment.getOperatingSystemFamilyName())).thenReturn(true);
   when(goPluginDescriptorBuilder.build(pluginJarFile,true)).thenReturn(newDescriptor);
   when(registry.getPluginByIdOrFileName(pluginId,pluginJarFileName)).thenReturn(oldDescriptor);
   when(registry.unloadPlugin(newDescriptor)).thenReturn(oldDescriptor);
