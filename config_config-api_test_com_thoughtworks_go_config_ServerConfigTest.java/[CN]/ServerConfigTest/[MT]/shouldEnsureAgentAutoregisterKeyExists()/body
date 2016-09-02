@@ -1,0 +1,7 @@
+{
+  ServerConfig serverConfig=new ServerConfig();
+  assertNull(serverConfig.getAgentAutoRegisterKey());
+  assertNotNull(serverConfig.getClass().getMethod("ensureAgentAutoregisterKeyExists").getAnnotation(PostConstruct.class));
+  serverConfig.ensureAgentAutoregisterKeyExists();
+  assertTrue(StringUtils.isNotBlank(serverConfig.getAgentAutoRegisterKey()));
+}
