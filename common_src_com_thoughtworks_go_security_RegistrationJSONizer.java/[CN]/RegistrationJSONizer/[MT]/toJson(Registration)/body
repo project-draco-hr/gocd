@@ -1,0 +1,17 @@
+{
+  Map<String,Object> ret=new HashMap<>();
+  if (registration.isValid()) {
+    ret.put("agentPrivateKey",serialize("RSA PRIVATE KEY",registration.getPrivateKey().getEncoded()));
+    StringBuilder builder=new StringBuilder();
+    for (    Certificate c : registration.getChain()) {
+      try {
+        builder.append(serialize("CERTIFICATE",c.getEncoded()));
+      }
+ catch (      CertificateEncodingException e) {
+        throw bomb(e);
+      }
+    }
+    ret.put("agentCertificate",builder.toString());
+  }
+  return GSON.toJson(ret);
+}

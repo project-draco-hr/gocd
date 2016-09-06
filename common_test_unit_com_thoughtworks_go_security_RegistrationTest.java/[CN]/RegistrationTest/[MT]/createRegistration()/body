@@ -1,5 +1,5 @@
 {
-  File tempKeystoreFile=TestFileUtil.createUniqueTempFile(authorityKeystorePath);
+  File tempKeystoreFile=tmpFolder.newFile();
   X509CertificateGenerator certificateGenerator=new X509CertificateGenerator();
   certificateGenerator.createAndStoreCACertificates(tempKeystoreFile);
   return certificateGenerator.createAgentCertificate(tempKeystoreFile,"blah");

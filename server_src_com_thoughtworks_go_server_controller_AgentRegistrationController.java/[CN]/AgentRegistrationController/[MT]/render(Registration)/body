@@ -1,0 +1,14 @@
+{
+  return new ModelAndView(new View(){
+    public String getContentType(){
+      return "application/json";
+    }
+    public void render(    Map model,    HttpServletRequest request,    HttpServletResponse response) throws IOException {
+      if (!registration.isValid()) {
+        response.setStatus(HttpServletResponse.SC_ACCEPTED);
+      }
+      response.getWriter().print(RegistrationJSONizer.toJson(registration));
+    }
+  }
+);
+}

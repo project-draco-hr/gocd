@@ -1,5 +1,8 @@
 {
-  Map map=new Gson().fromJson(json,Map.class);
+  Map map=GSON.fromJson(json,Map.class);
+  if (map.isEmpty()) {
+    return Registration.createNullPrivateKeyEntry();
+  }
   List<Certificate> chain=new ArrayList<>();
   try {
     PemReader reader=new PemReader(new StringReader((String)map.get("agentPrivateKey")));
