@@ -12,7 +12,7 @@
   }
   PipelinePauseInfo pauseInfo=pipelinePauseService.pipelinePauseInfo(pipelineName);
   boolean hasBuildCauseInBuffer=pipelineScheduleQueue.hasBuildCause(CaseInsensitiveString.str(pipelineConfig.name()));
-  PipelineInstanceModels pipelineHistory=pipelineHistoryService.load(pipelineName,pagination,username,true);
+  PipelineInstanceModels pipelineHistory=StringUtil.isBlank(labelFilter) ? pipelineHistoryService.load(pipelineName,pagination,username,true) : pipelineHistoryService.findMatchingPipelineInstances(pipelineName,labelFilter,perPageParam,UserHelper.getUserName(),new HttpLocalizedOperationResult());
   boolean hasForcedBuildCause=pipelineScheduleQueue.hasForcedBuildCause(pipelineName);
   PipelineHistoryJsonPresentationModel historyJsonPresenter=new PipelineHistoryJsonPresentationModel(pauseInfo,pipelineHistory,pipelineConfig,pagination,canForce(pipelineConfig,username),hasForcedBuildCause,hasBuildCauseInBuffer,canPause(pipelineConfig,username));
   return jsonFound(historyJsonPresenter.toJson()).respond(response);
