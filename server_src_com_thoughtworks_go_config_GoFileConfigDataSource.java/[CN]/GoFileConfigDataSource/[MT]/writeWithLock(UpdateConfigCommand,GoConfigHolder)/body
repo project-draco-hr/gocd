@@ -4,8 +4,7 @@
     List<PartialConfig> lastKnownPartials=cachedGoPartials.lastKnownPartials();
     List<PartialConfig> lastValidPartials=cachedGoPartials.lastValidPartials();
     try {
-      String configAsXml=trySavingConfig(updatingCommand,configHolder,lastKnownPartials);
-      validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),lastKnownPartials);
+      validatedConfigHolder=trySavingConfig(updatingCommand,configHolder,lastKnownPartials);
       updateMergedConfigForEdit(validatedConfigHolder,lastKnownPartials);
     }
  catch (    Exception e) {
@@ -15,8 +14,7 @@
  else {
         LOGGER.warn(String.format("Merged config update operation failed on LATEST %s partials. Falling back to using LAST VALID %s partials. Exception message was: %s",lastKnownPartials.size(),lastValidPartials.size(),e.getMessage()),e);
         try {
-          String configAsXml=trySavingConfig(updatingCommand,configHolder,lastValidPartials);
-          validatedConfigHolder=internalLoad(configAsXml,getConfigUpdatingUser(updatingCommand),lastValidPartials);
+          validatedConfigHolder=trySavingConfig(updatingCommand,configHolder,lastValidPartials);
           updateMergedConfigForEdit(validatedConfigHolder,lastValidPartials);
           LOGGER.info(String.format("Update operation on merged configuration succeeded with old %s LAST VALID partials.",lastValidPartials.size()));
         }

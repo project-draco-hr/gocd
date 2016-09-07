@@ -1,0 +1,8 @@
+{
+  CruiseConfig deepCloneForEdit=cloner.deepClone(configHolder.configForEdit);
+  deepCloneForEdit.setPartials(partials);
+  CruiseConfig config=updatingCommand.update(deepCloneForEdit);
+  String configAsXml=configAsXml(config,false);
+  if (deepCloneForEdit.getPartials().size() < partials.size())   throw new RuntimeException("should never be called");
+  return configAsXml;
+}
