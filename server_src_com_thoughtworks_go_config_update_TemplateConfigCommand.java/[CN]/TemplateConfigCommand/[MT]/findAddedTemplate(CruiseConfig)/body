@@ -1,7 +1,7 @@
 {
-  if (templateConfig == null || templateConfig.name() == null) {
-    result.unprocessableEntity(LocalizedMessage.string("TEMPLATE_INVALID"));
-    throw new NullPointerException("Template name cannot be null.");
+  if (templateConfig == null || templateConfig.name() == null || templateConfig.name().isBlank()) {
+    result.unprocessableEntity(LocalizedMessage.string("TEMPLATE_NAME_CANNOT_BE_NULL"));
+    throw new IllegalArgumentException("Template name cannot be null.");
   }
  else {
     PipelineTemplateConfig pipelineTemplateConfig=cruiseConfig.findTemplate(templateConfig.name());
