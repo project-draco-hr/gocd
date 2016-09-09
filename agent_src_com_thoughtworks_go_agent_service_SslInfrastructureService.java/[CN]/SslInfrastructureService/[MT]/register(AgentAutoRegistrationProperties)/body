@@ -9,10 +9,13 @@
       LOGGER.error("[Agent Registration] There was a problem registering with the go server.",e);
       throw e;
     }
-    try {
-      Thread.sleep(REGISTER_RETRY_INTERVAL);
-    }
- catch (    InterruptedException e) {
+    if ((!keyEntry.isValid())) {
+      try {
+        LOGGER.debug("[Agent Registration] Retrieved agent key from Go server is not valid.");
+        Thread.sleep(REGISTER_RETRY_INTERVAL);
+      }
+ catch (      InterruptedException e) {
+      }
     }
   }
   LOGGER.info("[Agent Registration] Retrieved registration from Go server.");
