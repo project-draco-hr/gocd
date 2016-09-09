@@ -1,7 +1,7 @@
 {
   validate(validationContext);
   boolean isValid=errors.isEmpty();
-  PipelineConfigSaveValidationContext contextForChildren=validationContext.withParent(this);
+  ValidationContext contextForChildren=validationContext.withParent(this);
   isValid=tasks.validateTree(contextForChildren) && isValid;
   isValid=variables.validateTree(contextForChildren) && isValid;
   isValid=resources.validateTree(contextForChildren) && isValid;

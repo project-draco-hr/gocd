@@ -1,7 +1,7 @@
 {
   TemplatesConfig templatesConfig=preprocessedConfig.getTemplates();
   preprocessedTemplateConfig=findAddedTemplate(preprocessedConfig);
-  preprocessedTemplateConfig.validate(null);
+  preprocessedTemplateConfig.validate(ConfigSaveValidationContext.forChain(preprocessedConfig));
   if (preprocessedTemplateConfig.getAllErrors().isEmpty()) {
     templatesConfig.validate(null);
     BasicCruiseConfig.copyErrors(preprocessedTemplateConfig,templateConfig);
