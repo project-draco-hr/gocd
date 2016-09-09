@@ -1,0 +1,6 @@
+{
+  when(agentService.findRegisteredAgents()).thenReturn(new AgentInstances(null));
+  scheduleService.rescheduleHungJobs();
+  verify(agentService).findRegisteredAgents();
+  verify(jobInstanceService,times(0)).findHungJobs((List<String>)any());
+}
