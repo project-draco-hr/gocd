@@ -1,0 +1,19 @@
+{
+  String environmentName="env";
+  BasicEnvironmentConfig env=environmentConfig(environmentName);
+  Username user=Username.ANONYMOUS;
+  String uuid="uuid-1";
+  agentConfigService.addAgent(new AgentConfig(uuid,"host-1","192.168.1.2"),user);
+  goConfigService.addEnvironment(env);
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<String> agentsToremove=new ArrayList<>();
+  List<String> agentsToAdd=new ArrayList<>();
+  agentsToAdd.add(uuid);
+  List<String> pipelinesToAdd=new ArrayList<>();
+  List<String> pipelinesToRemove=new ArrayList<>();
+  service.patchEnvironment(service.getEnvironmentConfig(environmentName),pipelinesToAdd,pipelinesToRemove,agentsToAdd,agentsToremove,user,result);
+  EnvironmentConfig updatedEnv=service.named(env.name().toString());
+  assertThat(updatedEnv.name(),is(new CaseInsensitiveString(environmentName)));
+  assertThat(updatedEnv.getAgents().getUuids(),is(Arrays.asList("uuid-1")));
+  assertThat(result.message(localizer),containsString("Updated environment 'env'."));
+}

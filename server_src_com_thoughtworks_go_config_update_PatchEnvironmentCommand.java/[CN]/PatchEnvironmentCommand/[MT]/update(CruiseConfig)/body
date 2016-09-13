@@ -1,0 +1,19 @@
+{
+  EnvironmentsConfig environments=preprocessedConfig.getEnvironments();
+  int index=environments.indexOf(environmentConfig);
+  EnvironmentConfig preprocessedEnvironmentConfig=environments.get(index);
+  if (isValidConfig(preprocessedConfig)) {
+    for (    String uuid : agentsToAdd) {
+      preprocessedEnvironmentConfig.addAgent(uuid);
+    }
+    for (    String uuid : agentsToRemove) {
+      preprocessedEnvironmentConfig.removeAgent(uuid);
+    }
+    for (    String pipelineName : pipelinesToAdd) {
+      preprocessedEnvironmentConfig.addPipeline(new CaseInsensitiveString(pipelineName));
+    }
+    for (    String pipelineName : pipelinesToRemove) {
+      preprocessedEnvironmentConfig.removePipeline(new CaseInsensitiveString(pipelineName));
+    }
+  }
+}

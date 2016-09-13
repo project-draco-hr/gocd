@@ -1,0 +1,12 @@
+{
+  String uuid="invalid-agent-uuid";
+  agentsToAdd.add(uuid);
+  PatchEnvironmentCommand command=new PatchEnvironmentCommand(goConfigService,environmentConfig,pipelinesToAdd,pipelinesToRemove,agentsToAdd,agentsToRemove,currentUser,actionFailed,result);
+  assertFalse(cruiseConfig.getEnvironments().find(environmentName).hasAgent(uuid));
+  command.update(cruiseConfig);
+  assertFalse(cruiseConfig.getEnvironments().find(environmentName).hasAgent(uuid));
+  HttpLocalizedOperationResult expectResult=new HttpLocalizedOperationResult();
+  expectResult.badRequest(LocalizedMessage.string("AGENTS_WITH_UUIDS_NOT_FOUND",agentsToAdd));
+  assertFalse(result.isSuccessful());
+  assertThat(result,is(expectResult));
+}

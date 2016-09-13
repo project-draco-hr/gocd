@@ -1,0 +1,8 @@
+{
+  Localizable.CurryableLocalizable actionFailed=LocalizedMessage.string("ENV_UPDATE_FAILED",environmentConfig.name());
+  PatchEnvironmentCommand patchEnvironmentCommand=new PatchEnvironmentCommand(goConfigService,environmentConfig,pipelinesToAdd,pipelinesToRemove,agentsToAdd,agentsToRemove,username,actionFailed,result);
+  update(patchEnvironmentCommand,environmentConfig,username,result,actionFailed);
+  if (result.isSuccessful()) {
+    result.setMessage(LocalizedMessage.string("UPDATE_ENVIRONMENT_SUCCESS",environmentConfig.name()));
+  }
+}
