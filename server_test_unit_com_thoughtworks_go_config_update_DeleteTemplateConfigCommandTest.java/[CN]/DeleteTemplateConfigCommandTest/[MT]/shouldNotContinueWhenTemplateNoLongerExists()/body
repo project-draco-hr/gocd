@@ -1,0 +1,5 @@
+{
+  when(goConfigService.isUserAdmin(currentUser)).thenReturn(true);
+  DeleteTemplateConfigCommand command=new DeleteTemplateConfigCommand(pipelineTemplateConfig,result,goConfigService,currentUser);
+  assertThat(command.canContinue(cruiseConfig),is(false));
+}

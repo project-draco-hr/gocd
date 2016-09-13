@@ -1,0 +1,11 @@
+{
+  ArrayList<CaseInsensitiveString> pipelines=new ArrayList<>();
+  if (templateName != null) {
+    for (    PipelineConfig pipelineConfig : getAllPipelineConfigs()) {
+      if (pipelineConfig.hasTemplate() && pipelineConfig.getTemplateName().equals(templateName)) {
+        pipelines.add(pipelineConfig.getName());
+      }
+    }
+  }
+  return pipelines;
+}

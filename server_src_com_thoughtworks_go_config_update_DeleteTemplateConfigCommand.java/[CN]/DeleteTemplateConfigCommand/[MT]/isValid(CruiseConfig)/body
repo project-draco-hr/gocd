@@ -1,0 +1,8 @@
+{
+  List<CaseInsensitiveString> pipelinesAssociatedWithTemplate=preprocessedConfig.pipelinesAssociatedWithTemplate(templateConfig.name());
+  if (!pipelinesAssociatedWithTemplate.isEmpty()) {
+    result.unprocessableEntity(LocalizedMessage.string("CANNOT_DELETE_TEMPLATE"));
+    throw new GoConfigInvalidException(preprocessedConfig,String.format("The template '%s' is being referenced by pipeline(s): %s",templateConfig.name(),pipelinesAssociatedWithTemplate));
+  }
+  return true;
+}

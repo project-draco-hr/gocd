@@ -1,0 +1,7 @@
+{
+  cruiseConfig.addTemplate(pipelineTemplateConfig);
+  DeleteTemplateConfigCommand command=new DeleteTemplateConfigCommand(pipelineTemplateConfig,result,goConfigService,currentUser);
+  assertThat(cruiseConfig.getTemplates().contains(pipelineTemplateConfig),is(true));
+  command.update(cruiseConfig);
+  assertThat(cruiseConfig.getTemplates().contains(pipelineTemplateConfig),is(false));
+}

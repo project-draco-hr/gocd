@@ -1,0 +1,6 @@
+{
+  when(goConfigService.isUserAdmin(currentUser)).thenReturn(false);
+  DeleteTemplateConfigCommand command=new DeleteTemplateConfigCommand(pipelineTemplateConfig,result,goConfigService,currentUser);
+  assertThat(command.canContinue(cruiseConfig),is(false));
+  assertThat(result.toString(),containsString("UNAUTHORIZED_TO_EDIT"));
+}

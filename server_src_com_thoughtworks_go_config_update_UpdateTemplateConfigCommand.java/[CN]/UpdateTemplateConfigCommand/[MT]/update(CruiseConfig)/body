@@ -1,0 +1,7 @@
+{
+  PipelineTemplateConfig existingTemplateConfig=findAddedTemplate(modifiedConfig);
+  TemplatesConfig templatesConfig=modifiedConfig.getTemplates();
+  templatesConfig.removeTemplateNamed(existingTemplateConfig.name());
+  templatesConfig.add(templateConfig);
+  modifiedConfig.setTemplates(templatesConfig);
+}

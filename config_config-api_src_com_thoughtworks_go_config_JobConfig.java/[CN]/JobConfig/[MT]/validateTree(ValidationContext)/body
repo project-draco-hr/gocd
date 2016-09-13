@@ -1,0 +1,12 @@
+{
+  validate(validationContext);
+  boolean isValid=errors.isEmpty();
+  ValidationContext contextForChildren=validationContext.withParent(this);
+  isValid=tasks.validateTree(contextForChildren) && isValid;
+  isValid=variables.validateTree(contextForChildren) && isValid;
+  isValid=resources.validateTree(contextForChildren) && isValid;
+  isValid=artifactPropertiesGenerators.validateTree(contextForChildren) && isValid;
+  isValid=tabs.validateTree(contextForChildren) && isValid;
+  isValid=artifactPlans.validateTree(contextForChildren) && isValid;
+  return isValid;
+}

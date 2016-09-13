@@ -1,0 +1,9 @@
+{
+  PipelineTemplateConfig updatedTemplateConfig=new PipelineTemplateConfig(new CaseInsensitiveString("template"),StageConfigMother.oneBuildPlanWithResourcesAndMaterials("stage","job"),StageConfigMother.oneBuildPlanWithResourcesAndMaterials("stage2"));
+  cruiseConfig.addTemplate(pipelineTemplateConfig);
+  UpdateTemplateConfigCommand command=new UpdateTemplateConfigCommand(updatedTemplateConfig,currentUser,goConfigService,result,"md5",entityHashingService);
+  assertThat(cruiseConfig.getTemplates().contains(pipelineTemplateConfig),is(true));
+  command.update(cruiseConfig);
+  assertThat(cruiseConfig.getTemplates().contains(pipelineTemplateConfig),is(false));
+  assertThat(cruiseConfig.getTemplates().contains(updatedTemplateConfig),is(true));
+}

@@ -1,0 +1,7 @@
+{
+  PipelineTemplateConfig templateConfig=new PipelineTemplateConfig(new CaseInsensitiveString("template"),StageConfigMother.oneBuildPlanWithResourcesAndMaterials("stage","job"),StageConfigMother.oneBuildPlanWithResourcesAndMaterials("stage","job"));
+  cruiseConfig.addTemplate(templateConfig);
+  TemplateConfigCommand command=new CreateTemplateConfigCommand(templateConfig,currentUser,goConfigService,result);
+  assertThat(command.isValid(cruiseConfig),is(false));
+  assertThat(templateConfig.getStage(new CaseInsensitiveString("stage")).errors().getAllOn("name"),is(Arrays.asList("You have defined multiple stages called 'stage'. Stage names are case-insensitive and must be unique.")));
+}

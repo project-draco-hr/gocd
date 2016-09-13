@@ -1,0 +1,16 @@
+{
+  try {
+    goConfigService.updateConfig(command,currentUser);
+  }
+ catch (  Exception e) {
+    if (e instanceof GoConfigInvalidException) {
+      result.unprocessableEntity(LocalizedMessage.string("ENTITY_CONFIG_VALIDATION_FAILED",templateConfig.getClass().getAnnotation(ConfigTag.class).value(),templateConfig.name(),e.getMessage()));
+    }
+ else {
+      if (!result.hasMessage()) {
+        LOGGER.error(e.getMessage(),e);
+        result.internalServerError(LocalizedMessage.string("SAVE_FAILED_WITH_REASON","An error occurred while saving the template config. Please check the logs for more information."));
+      }
+    }
+  }
+}
