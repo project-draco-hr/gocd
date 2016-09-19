@@ -1,0 +1,9 @@
+{
+  String cachedMD5=getFromCache(cacheKey);
+  if (cachedMD5 != null) {
+    return cachedMD5;
+  }
+  String md5=computeMd5For(domainObject);
+  goCache.put(ETAG_CACHE_KEY,cacheKey,md5);
+  return md5;
+}

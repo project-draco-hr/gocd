@@ -3,7 +3,7 @@
   configHelper.turnOnSecurity();
   configHelper.addAdmins("super_hero");
   HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  String md5=entityHashingService.md5ForEntity(service.getEnvironmentConfig("foo"),"foo");
+  String md5=entityHashingService.md5ForEntity(service.getEnvironmentConfig("foo"));
   service.updateEnvironment(service.getEnvironmentConfig("foo"),env("foo-env",new ArrayList<String>(),new ArrayList<Map<String,String>>(),new ArrayList<String>()),new Username(new CaseInsensitiveString("evil_hacker")),md5,result);
   assertThat(result.message(localizer),is("Failed to update environment 'foo'. User 'evil_hacker' does not have permission to update environments"));
 }

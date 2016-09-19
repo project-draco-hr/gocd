@@ -1,0 +1,8 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.pipelineConfig("UPPER_CASE_NAME");
+  when(goCache.get("GO_ETAG_CACHE","com.thoughtworks.go.config.PipelineConfig.upper_case_name")).thenReturn("foo");
+  String checksum=entityHashingService.md5ForEntity(pipelineConfig);
+  assertThat(checksum,is("foo"));
+  verify(goCache).get("GO_ETAG_CACHE","com.thoughtworks.go.config.PipelineConfig.upper_case_name");
+  verifyNoMoreInteractions(goCache);
+}

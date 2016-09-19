@@ -1,6 +1,6 @@
 {
   PipelineTemplateConfig pipelineTemplateConfig=findAddedTemplate(cruiseConfig);
-  boolean freshRequest=entityHashingService.md5ForEntity(pipelineTemplateConfig,pipelineTemplateConfig.name().toString()).equals(md5);
+  boolean freshRequest=entityHashingService.md5ForEntity(pipelineTemplateConfig).equals(md5);
   if (!freshRequest) {
     result.stale(LocalizedMessage.string("STALE_RESOURCE_CONFIG","Template",templateConfig.name()));
   }
