@@ -1,0 +1,11 @@
+{
+  PipelineConfig pipeline=GoConfigMother.createPipelineConfigWithMaterialConfig(UUID.randomUUID().toString(),new DependencyMaterialConfig(pipelineConfig.name(),pipelineConfig.first().name()));
+  StageConfig stageConfig=pipeline.get(0);
+  Approval approval=new Approval();
+  approval.setType("not-success-or-manual");
+  stageConfig.setApproval(approval);
+  pipelineConfigService.createPipelineConfig(user,pipeline,result,groupName);
+  assertThat(result.toString(),result.isSuccessful(),is(false));
+  assertThat(result.httpCode(),is(422));
+  assertThat(stageConfig.getApproval().errors().firstError(),is("You have defined approval type as 'not-success-or-manual'. Approval can only be of the type 'manual' or 'success'."));
+}
