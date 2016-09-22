@@ -9,8 +9,8 @@
   verify(createAgentQueue,times(2)).post(captor.capture());
   CreateAgentMessage createAgentMessage=captor.getValue();
   assertThat(createAgentMessage.autoregisterKey(),is(autoRegisterKey));
-  assertThat(createAgentMessage.pluginId(),is(plan1.getJobAgentConfig().getPluginId()));
-  assertThat(createAgentMessage.configuration(),is(plan1.getJobAgentConfig().getConfigurationAsMap(true)));
+  assertThat(createAgentMessage.pluginId(),is(plan1.getElasticProfile().getPluginId()));
+  assertThat(createAgentMessage.configuration(),is(plan1.getElasticProfile().getConfigurationAsMap(true)));
   verifyNoMoreInteractions(createAgentQueue);
   verify(serverHealthService,times(2)).update(captorForHealthState.capture());
   ServerHealthState serverHealthState=captorForHealthState.getValue();

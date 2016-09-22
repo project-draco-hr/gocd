@@ -1,0 +1,8 @@
+{
+  ElasticProfiles profiles=goConfigService.serverConfig().getElasticConfig().getProfiles();
+  HashMap<String,ElasticProfile> result=new HashMap<>();
+  for (  ElasticProfile profile : profiles) {
+    result.put(profile.getId(),new ElasticProfile(profile));
+  }
+  return result;
+}

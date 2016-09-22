@@ -20,7 +20,7 @@
     for (    JobPlan plan : plansThatRequireElasticAgent) {
       String environment=environmentConfigService.envForPipeline(plan.getPipelineName());
       map.put(plan.getJobId(),timeProvider.currentTimeMillis());
-      createAgentQueue.post(new CreateAgentMessage(serverConfigService.getAutoregisterKey(),environment,plan.getJobAgentConfig()));
+      createAgentQueue.post(new CreateAgentMessage(serverConfigService.getAutoregisterKey(),environment,plan.getElasticProfile()));
     }
   }
  else {

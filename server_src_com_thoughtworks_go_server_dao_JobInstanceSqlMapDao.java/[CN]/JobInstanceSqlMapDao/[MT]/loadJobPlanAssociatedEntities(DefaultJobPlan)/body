@@ -6,6 +6,6 @@
   plan.setTriggerVariables(environmentVariableDao.load(plan.getPipelineId(),EnvironmentVariableSqlMapDao.EnvironmentVariableType.Trigger));
   JobAgentMetadata jobAgentMetadata=jobAgentMetadataDao.load(plan.getJobId());
   if (jobAgentMetadata != null) {
-    plan.setJobAgentConfig(jobAgentMetadata.jobAgentConfig());
+    plan.setElasticProfile(jobAgentMetadata.elasticProfile());
   }
 }

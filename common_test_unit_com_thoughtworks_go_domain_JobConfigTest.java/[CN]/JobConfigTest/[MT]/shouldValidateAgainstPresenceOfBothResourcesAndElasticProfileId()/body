@@ -1,0 +1,12 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfigWithJobConfigs("pipeline1");
+  JobConfig jobConfig=JobConfigMother.createJobConfigWithJobNameAndEmptyResources();
+  ValidationContext validationContext=mock(ValidationContext.class);
+  jobConfig.setElasticProfileId("docker.unit-test");
+  when(validationContext.getPipeline()).thenReturn(pipelineConfig);
+  when(validationContext.getStage()).thenReturn(pipelineConfig.getFirstStageConfig());
+  jobConfig.validate(validationContext);
+  assertThat(jobConfig.errors().isEmpty(),is(false));
+  assertThat(jobConfig.errors().on(JobConfig.ELASTIC_PROFILE_ID),is("Job cannot have both `resource` and `elasticProfileId`"));
+  assertThat(jobConfig.errors().on(JobConfig.RESOURCES),is("Job cannot have both `resource` and `elasticProfileId`"));
+}

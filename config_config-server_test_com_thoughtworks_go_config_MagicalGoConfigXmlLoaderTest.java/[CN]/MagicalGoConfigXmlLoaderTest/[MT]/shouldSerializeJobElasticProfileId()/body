@@ -1,0 +1,6 @@
+{
+  String configWithJobElasticProfileId="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "<server>\n"+ "  <elastic jobStarvationTimeout=\"10\">\n"+ "    <profiles>\n"+ "      <profile id='unit-test' pluginId='aws'>\n"+ "        <property>\n"+ "          <key>instance-type</key>\n"+ "          <value>m1.small</value>\n"+ "        </property>\n"+ "      </profile>\n"+ "    </profiles>\n"+ "  </elastic>\n"+ "</server>\n"+ "<pipelines group=\"first\">\n"+ "<pipeline name=\"pipeline\">\n"+ "  <materials>\n"+ "    <hg url=\"/hgrepo\"/>\n"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\" elasticProfileId=\"unit-test\">\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>\n";
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(configWithJobElasticProfileId).configForEdit;
+  String elasticProfileId=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline")).getStage("mingle").jobConfigByConfigName("functional").getElasticProfileId();
+  assertThat(elasticProfileId,is("unit-test"));
+}

@@ -1,0 +1,12 @@
+{
+  String configXml="<cruise schemaVersion='85'>" + "  <server serverId='dev-id'>" + "  </server>"+ "  <pipelines group='first'>"+ "    <pipeline name='up42'>"+ "      <materials>"+ "        <hg url='../manual-testing/ant_hg/dummy' />"+ "      </materials>"+ "  <stage name='dist'>"+ "    <jobs>"+ "      <job name='test'>"+ "       <agentConfig pluginId='docker'>"+ "         <property>"+ "           <key>instance-type</key>"+ "           <value>m1.small</value>"+ "         </property>"+ "       </agentConfig>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "   </pipeline>"+ "  </pipelines>"+ "</cruise>";
+  CruiseConfig migratedConfig=migrateConfigAndLoadTheNewConfig(configXml,85);
+  PipelineConfig pipelineConfig=migratedConfig.pipelineConfigByName(new CaseInsensitiveString("up42"));
+  JobConfig jobConfig=pipelineConfig.getStages().get(0).getJobs().get(0);
+  assertThat(migratedConfig.schemaVersion(),is(87));
+  ElasticProfiles profiles=migratedConfig.server().getElasticConfig().getProfiles();
+  assertThat(profiles.size(),is(1));
+  ElasticProfile expectedProfile=new ElasticProfile(jobConfig.getElasticProfileId(),"docker",new ConfigurationProperty(new ConfigurationKey("instance-type"),new ConfigurationValue("m1.small")));
+  ElasticProfile elasticProfile=profiles.get(0);
+  assertThat(elasticProfile,is(expectedProfile));
+}

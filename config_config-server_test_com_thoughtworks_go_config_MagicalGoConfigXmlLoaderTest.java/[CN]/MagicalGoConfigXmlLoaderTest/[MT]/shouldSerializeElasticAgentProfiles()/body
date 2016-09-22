@@ -1,0 +1,11 @@
+{
+  String configWithElasticProfile="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "<server artifactsdir='artifacts'>\n"+ "  <elastic jobStarvationTimeout=\"2\">\n"+ "    <profiles>\n"+ "      <profile id=\"foo\" pluginId=\"docker\">\n"+ "          <property>\n"+ "           <key>USERNAME</key>\n"+ "           <value>bob</value>\n"+ "          </property>\n"+ "      </profile>\n"+ "    </profiles>\n"+ "  </elastic>\n"+ "</server>\n"+ "</cruise>\n";
+  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(configWithElasticProfile).configForEdit;
+  assertThat(cruiseConfig.server().getElasticConfig().getJobStarvationTimeout(),is(120000L));
+  assertThat(cruiseConfig.server().getElasticConfig().getProfiles().size(),is(1));
+  ElasticProfile elasticProfile=cruiseConfig.server().getElasticConfig().getProfiles().find("foo");
+  assertThat(elasticProfile,is(notNullValue()));
+  assertThat(elasticProfile.getPluginId(),is("docker"));
+  assertThat(elasticProfile.size(),is(1));
+  assertThat(elasticProfile.getProperty("USERNAME").getValue(),is("bob"));
+}

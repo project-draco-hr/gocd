@@ -1,0 +1,15 @@
+{
+  String configXml="<cruise schemaVersion='85'>" + " <server serverId='dev-id'>" + " </server>"+ " <pipelines group='first'>"+ "   <pipeline name='up42'>"+ "     <materials>"+ "       <hg url='../manual-testing/ant_hg/dummy' />"+ "     </materials>"+ "  <stage name='build'>"+ "    <jobs>"+ "      <job name='test1'>"+ "       <agentConfig pluginId='docker'>"+ "         <property>"+ "           <key>instance-type</key>"+ "           <value>m1.small</value>"+ "         </property>"+ "       </agentConfig>"+ "      </job>"+ "      <job name='test2'>"+ "       <agentConfig pluginId='aws'>"+ "         <property>"+ "           <key>ami</key>"+ "           <value>some.ami</value>"+ "         </property>"+ "         <property>"+ "           <key>ram</key>"+ "           <value>1024</value>"+ "         </property>"+ "         <property>"+ "           <key>diskSpace</key>"+ "           <value>10G</value>"+ "         </property>"+ "       </agentConfig>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "  <stage name='dist'>"+ "    <jobs>"+ "      <job name='package'>"+ "       <agentConfig pluginId='docker'>"+ "         <property>"+ "           <key>instance-type</key>"+ "           <value>m1.small</value>"+ "         </property>"+ "       </agentConfig>"+ "      </job>"+ "    </jobs>"+ "  </stage>"+ "   </pipeline>"+ "  </pipelines>"+ "</cruise>";
+  CruiseConfig migratedConfig=migrateConfigAndLoadTheNewConfig(configXml,85);
+  PipelineConfig pipelineConfig=migratedConfig.pipelineConfigByName(new CaseInsensitiveString("up42"));
+  JobConfigs buildJobs=pipelineConfig.getStages().get(0).getJobs();
+  JobConfigs distJobs=pipelineConfig.getStages().get(1).getJobs();
+  ElasticProfiles profiles=migratedConfig.server().getElasticConfig().getProfiles();
+  assertThat(profiles.size(),is(3));
+  ElasticProfile expectedDockerProfile=new ElasticProfile(buildJobs.get(0).getElasticProfileId(),"docker",new ConfigurationProperty(new ConfigurationKey("instance-type"),new ConfigurationValue("m1.small")));
+  assertThat(profiles.get(0),is(expectedDockerProfile));
+  ElasticProfile expectedAWSProfile=new ElasticProfile(buildJobs.get(1).getElasticProfileId(),"aws",new ConfigurationProperty(new ConfigurationKey("ami"),new ConfigurationValue("some.ami")),new ConfigurationProperty(new ConfigurationKey("ram"),new ConfigurationValue("1024")),new ConfigurationProperty(new ConfigurationKey("diskSpace"),new ConfigurationValue("10G")));
+  assertThat(profiles.get(1),is(expectedAWSProfile));
+  ElasticProfile expectedSecondDockerProfile=new ElasticProfile(distJobs.get(0).getElasticProfileId(),"docker",new ConfigurationProperty(new ConfigurationKey("instance-type"),new ConfigurationValue("m1.small")));
+  assertThat(profiles.get(2),is(expectedSecondDockerProfile));
+}

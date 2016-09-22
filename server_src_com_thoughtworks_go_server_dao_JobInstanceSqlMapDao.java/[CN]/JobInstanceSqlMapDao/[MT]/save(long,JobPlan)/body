@@ -10,6 +10,6 @@
   }
   environmentVariableDao.save(jobId,EnvironmentVariableSqlMapDao.EnvironmentVariableType.Job,plan.getVariables());
   if (plan.requiresElasticAgent()) {
-    jobAgentMetadataDao.save(new JobAgentMetadata(jobId,plan.getJobAgentConfig()));
+    jobAgentMetadataDao.save(new JobAgentMetadata(jobId,plan.getElasticProfile()));
   }
 }

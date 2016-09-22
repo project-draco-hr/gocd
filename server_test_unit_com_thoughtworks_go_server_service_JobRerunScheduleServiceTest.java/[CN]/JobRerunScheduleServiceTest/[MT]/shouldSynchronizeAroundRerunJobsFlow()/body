@@ -38,7 +38,7 @@
     }
   }
 ;
-  service=new ScheduleService(goConfigService,pipelineService,stageService,schedulingChecker,mock(PipelineScheduledTopic.class),mock(PipelineDao.class),mock(StageDao.class),mock(StageOrderService.class),securityService,pipelineScheduleQueue,jobInstanceService,mock(JobInstanceDao.class),mock(AgentAssignment.class),environmentConfigService,lockService,serverHealthService,template,mock(AgentService.class),null,timeProvider,null,null,mock(InstanceFactory.class),schedulingPerformanceLogger){
+  service=new ScheduleService(goConfigService,pipelineService,stageService,schedulingChecker,mock(PipelineScheduledTopic.class),mock(PipelineDao.class),mock(StageDao.class),mock(StageOrderService.class),securityService,pipelineScheduleQueue,jobInstanceService,mock(JobInstanceDao.class),mock(AgentAssignment.class),environmentConfigService,lockService,serverHealthService,template,mock(AgentService.class),null,timeProvider,null,null,mock(InstanceFactory.class),schedulingPerformanceLogger,elasticProfileService){
     @Override public Stage scheduleStage(    Pipeline pipeline,    String stageName,    String username,    StageInstanceCreator creator,    ErrorConditionHandler errorHandler){
       Stage stage=super.scheduleStage(pipeline,stageName,username,creator,errorHandler);
       if (requestNumber.get() == 0) {
