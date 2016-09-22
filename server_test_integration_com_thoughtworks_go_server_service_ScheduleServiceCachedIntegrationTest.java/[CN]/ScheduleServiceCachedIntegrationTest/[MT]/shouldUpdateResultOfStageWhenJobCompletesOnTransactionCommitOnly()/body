@@ -2,7 +2,7 @@
   StageService stageService=mock(StageService.class);
   StageDao stageDao=mock(StageDao.class);
   SchedulingPerformanceLogger schedulingPerformanceLogger=mock(SchedulingPerformanceLogger.class);
-  ScheduleService service=new ScheduleService(goConfigService,pipelineService,stageService,schedulingChecker,pipelineScheduledTopic,pipelineDao,stageDao,stageOrderService,securityService,pipelineScheduleQueue,jobInstanceService,jobInstanceDao,agentAssignment,environmentConfigService,pipelineLockService,serverHealthService,transactionTemplate,agentService,synchronizationManager,null,null,null,null,schedulingPerformanceLogger);
+  ScheduleService service=new ScheduleService(goConfigService,pipelineService,stageService,schedulingChecker,pipelineScheduledTopic,pipelineDao,stageDao,stageOrderService,securityService,pipelineScheduleQueue,jobInstanceService,jobInstanceDao,agentAssignment,environmentConfigService,pipelineLockService,serverHealthService,transactionTemplate,agentService,synchronizationManager,null,null,null,null,schedulingPerformanceLogger,null);
   Pipeline assigned=preCondition.createPipelineWithFirstStageAssigned();
   Stage stage=assigned.findStage(preCondition.devStage);
   when(stageService.stageById(stage.getId())).thenThrow(new RuntimeException("find fails"));

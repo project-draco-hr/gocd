@@ -1,4 +1,9 @@
 {
   JobIdentifier identifier=new JobIdentifier();
-  return new DefaultJobPlan(config.resources(),config.artifactPlans(),config.getProperties(),-1,identifier,null,context.overrideEnvironmentVariables(config.getVariables()).getEnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),config.getJobAgentConfig());
+  String elasticProfileId=config.getElasticProfileId();
+  ElasticProfile elasticProfile=null;
+  if (elasticProfileId != null) {
+    elasticProfile=context.getElasticProfile(elasticProfileId);
+  }
+  return new DefaultJobPlan(config.resources(),config.artifactPlans(),config.getProperties(),-1,identifier,null,context.overrideEnvironmentVariables(config.getVariables()).getEnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),elasticProfile);
 }

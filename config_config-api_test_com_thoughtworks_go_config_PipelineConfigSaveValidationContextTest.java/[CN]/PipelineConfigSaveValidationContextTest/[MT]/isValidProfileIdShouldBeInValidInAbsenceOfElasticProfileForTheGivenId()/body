@@ -1,0 +1,8 @@
+{
+  BasicCruiseConfig cruiseConfig=new BasicCruiseConfig();
+  ElasticConfig elasticConfig=new ElasticConfig();
+  elasticConfig.setProfiles(new ElasticProfiles(new ElasticProfile("docker.unit-test","docker")));
+  cruiseConfig.setServerConfig(new ServerConfig(elasticConfig));
+  ValidationContext context=PipelineConfigSaveValidationContext.forChain(true,"group",cruiseConfig,new PipelineConfig());
+  assertFalse(context.isValidProfileId("invalid.profile-id"));
+}

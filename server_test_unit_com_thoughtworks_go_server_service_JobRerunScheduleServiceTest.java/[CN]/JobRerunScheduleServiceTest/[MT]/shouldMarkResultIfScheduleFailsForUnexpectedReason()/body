@@ -5,7 +5,7 @@
   stub(mingleConfig,pipeline,firstStage);
   schedulingChecker=mock(SchedulingCheckerService.class);
   doThrow(new NullPointerException("The whole world is a big null.")).when(schedulingChecker).canSchedule(any(OperationResult.class));
-  service=new ScheduleService(goConfigService,pipelineService,stageService,schedulingChecker,mock(PipelineScheduledTopic.class),mock(PipelineDao.class),mock(StageDao.class),mock(StageOrderService.class),securityService,pipelineScheduleQueue,jobInstanceService,mock(JobInstanceDao.class),mock(AgentAssignment.class),environmentConfigService,lockService,serverHealthService,txnTemplate,mock(AgentService.class),null,null,null,null,null,schedulingPerformanceLogger);
+  service=new ScheduleService(goConfigService,pipelineService,stageService,schedulingChecker,mock(PipelineScheduledTopic.class),mock(PipelineDao.class),mock(StageDao.class),mock(StageOrderService.class),securityService,pipelineScheduleQueue,jobInstanceService,mock(JobInstanceDao.class),mock(AgentAssignment.class),environmentConfigService,lockService,serverHealthService,txnTemplate,mock(AgentService.class),null,null,null,null,null,schedulingPerformanceLogger,null);
   HttpOperationResult result=new HttpOperationResult();
   LogFixture logFixture=LogFixture.startListening();
   Stage stage=service.rerunJobs(firstStage,a("unit"),result);

@@ -1,0 +1,11 @@
+{
+  String configWithJobElasticProfile="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "<pipelines group=\"first\">\n"+ "<pipeline name=\"pipeline\">\n"+ "  <materials>\n"+ "    <hg url=\"/hgrepo\"/>\n"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\" elasticProfileId=\"docker.unit-test\">\n"+ "        <resources>\n"+ "          <resource>foo</resource>\n"+ "        </resources>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>\n";
+  try {
+    CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(configWithJobElasticProfile).configForEdit;
+    fail("expected exception!");
+  }
+ catch (  Exception e) {
+    assertThat(e.getCause().getCause(),instanceOf(GoConfigInvalidException.class));
+    assertThat(e.getCause().getCause().getMessage(),is("Job cannot have both `resource` and `elasticProfileId`, No profile defined corresponding to profile_id 'docker.unit-test', Job cannot have both `resource` and `elasticProfileId`"));
+  }
+}

@@ -1,0 +1,8 @@
+{
+  Gson gson=new Gson();
+  Map<String,Object> map=new LinkedHashMap<>();
+  map.put("pluginId",elasticProfile.getPluginId());
+  map.put("id",elasticProfile.getId());
+  map.put("properties",elasticProfile.getConfigurationAsMap(true));
+  return gson.toJson(map);
+}

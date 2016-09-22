@@ -1,9 +1,9 @@
 {
   JobInstance instance=jobInstanceDao.save(stageId,new JobInstance(JOB_NAME));
   instance.setIdentifier(new JobIdentifier(savedPipeline,savedStage,instance));
-  JobAgentConfig jobAgentConfig=null;
-  JobPlan plan=new DefaultJobPlan(new Resources("something"),new ArtifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier(),null,new EnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),jobAgentConfig);
+  ElasticProfile elasticProfile=null;
+  JobPlan plan=new DefaultJobPlan(new Resources("something"),new ArtifactPlans(),new ArtifactPropertiesGenerators(),instance.getId(),instance.getIdentifier(),null,new EnvironmentVariablesConfig(),new EnvironmentVariablesConfig(),elasticProfile);
   jobInstanceDao.save(instance.getId(),plan);
   JobPlan retrieved=jobInstanceDao.loadPlan(plan.getJobId());
-  assertThat(retrieved.getJobAgentConfig(),is(jobAgentConfig));
+  assertThat(retrieved.getElasticProfile(),is(elasticProfile));
 }

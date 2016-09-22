@@ -1,7 +1,0 @@
-{
-  String configWithJobAgentConfig="<cruise schemaVersion='" + CONFIG_SCHEMA_VERSION + "'>\n"+ "<pipelines group=\"first\">\n"+ "<pipeline name=\"pipeline\">\n"+ "  <materials>\n"+ "    <hg url=\"/hgrepo\"/>\n"+ "  </materials>\n"+ "  <stage name=\"mingle\">\n"+ "    <jobs>\n"+ "      <job name=\"functional\">\n"+ "        <agentConfig pluginId=\"cd.go-contrib.elastic-agent.docker\">\n"+ "          <property>\n"+ "           <key>USERNAME</key>\n"+ "           <value>bob</value>\n"+ "          </property>\n"+ "        </agentConfig>\n"+ "      </job>\n"+ "    </jobs>\n"+ "  </stage>\n"+ "</pipeline>\n"+ "</pipelines>\n"+ "</cruise>\n";
-  CruiseConfig cruiseConfig=ConfigMigrator.loadWithMigration(configWithJobAgentConfig).configForEdit;
-  JobAgentConfig jobAgentConfig=cruiseConfig.pipelineConfigByName(new CaseInsensitiveString("pipeline")).getStage("mingle").jobConfigByConfigName("functional").getJobAgentConfig();
-  assertThat(jobAgentConfig.getPluginId(),is("cd.go-contrib.elastic-agent.docker"));
-  assertThat(jobAgentConfig.getProperty("USERNAME").getValue(),is("bob"));
-}

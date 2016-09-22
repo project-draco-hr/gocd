@@ -1,0 +1,9 @@
+{
+  super.validateUniqueness("elastic profile " + (isBlank(id) ? "(noname)" : "'" + id + "'"));
+  if (isBlank(id)) {
+    addError(ID,"Elastic profile cannot have a blank id.");
+  }
+  if (isBlank(pluginId)) {
+    addError(PLUGIN_ID,"Elastic profile cannot have a blank plugin id.");
+  }
+}

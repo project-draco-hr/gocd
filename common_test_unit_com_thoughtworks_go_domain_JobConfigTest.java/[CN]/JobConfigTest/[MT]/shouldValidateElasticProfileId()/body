@@ -1,0 +1,13 @@
+{
+  PipelineConfig pipelineConfig=PipelineConfigMother.createPipelineConfigWithJobConfigs("pipeline1");
+  JobConfig jobConfig=JobConfigMother.createJobConfigWithJobNameAndEmptyResources();
+  ValidationContext validationContext=mock(ValidationContext.class);
+  jobConfig.setResources(new Resources());
+  jobConfig.setElasticProfileId("non-existent-profile-id");
+  when(validationContext.getPipeline()).thenReturn(pipelineConfig);
+  when(validationContext.getStage()).thenReturn(pipelineConfig.getFirstStageConfig());
+  when(validationContext.isValidProfileId("non-existent-profile-id")).thenReturn(false);
+  jobConfig.validate(validationContext);
+  assertThat(jobConfig.errors().isEmpty(),is(false));
+  assertThat(jobConfig.errors().on(JobConfig.ELASTIC_PROFILE_ID),is("No profile defined corresponding to profile_id 'non-existent-profile-id'"));
+}

@@ -1,0 +1,7 @@
+{
+  ElasticProfile profile=new ElasticProfile();
+  profile.validate(null);
+  assertThat(profile.errors().size(),is(2));
+  assertThat(profile.errors().on(ElasticProfile.PLUGIN_ID),is("Elastic profile cannot have a blank plugin id."));
+  assertThat(profile.errors().on(ElasticProfile.ID),is("Elastic profile cannot have a blank id."));
+}
