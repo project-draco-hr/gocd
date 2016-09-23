@@ -1,0 +1,15 @@
+{
+  AgentConfig elasticAgent=AgentMother.elasticAgent();
+  agentConfigService.addAgent(elasticAgent,Username.ANONYMOUS);
+  CruiseConfig cruiseConfig=goConfigDao.load();
+  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
+  List<String> uuids=Arrays.asList(elasticAgent.getUuid());
+  List<String> resourcesToAdd=Arrays.asList("resource");
+  assertTrue(cruiseConfig.agents().getAgentByUuid(elasticAgent.getUuid()).getResources().isEmpty());
+  agentConfigService.bulkUpdateAgentAttributes(Username.ANONYMOUS,result,uuids,resourcesToAdd,new ArrayList<String>(),new ArrayList<String>(),new ArrayList<String>(),TriState.FALSE);
+  cruiseConfig=goConfigDao.load();
+  HttpLocalizedOperationResult expectedResult=new HttpLocalizedOperationResult();
+  expectedResult.badRequest(LocalizedMessage.string("CAN_NOT_UPDATE_RESOURCES_ON_ELASTIC_AGENT",uuids));
+  assertThat(result,is(expectedResult));
+  assertTrue(cruiseConfig.agents().getAgentByUuid(elasticAgent.getUuid()).getResources().isEmpty());
+}

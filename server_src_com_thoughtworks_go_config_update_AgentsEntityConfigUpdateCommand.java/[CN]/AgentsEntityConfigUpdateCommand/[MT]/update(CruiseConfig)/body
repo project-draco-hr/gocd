@@ -1,5 +1,6 @@
 {
   List<AgentConfig> goodAgents=getValidAgents(uuids,result,preprocessedConfig.agents());
+  checkElasticAgentsResourceUpdated(goodAgents,resourcesToAdd,resourcesToRemove);
   Set<CaseInsensitiveString> allEnvironmentNames=new HashSet<>(goConfigService.getEnvironments().names());
   validateEnvironment(allEnvironmentNames,environmentsToAdd,result);
   validateEnvironment(allEnvironmentNames,environmentsToRemove,result);
