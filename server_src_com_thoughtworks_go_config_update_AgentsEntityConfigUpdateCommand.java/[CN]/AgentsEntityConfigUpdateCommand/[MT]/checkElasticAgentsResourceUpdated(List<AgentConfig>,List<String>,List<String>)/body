@@ -1,0 +1,11 @@
+{
+  ArrayList<String> elasticAgentUUIDs=findAllElasticAgentUuids(uuids);
+  if (elasticAgentUUIDs.isEmpty()) {
+    return;
+  }
+  if (resourcesToAdd.isEmpty() && resourcesToRemove.isEmpty()) {
+    return;
+  }
+  result.badRequest(LocalizedMessage.string("CAN_NOT_UPDATE_RESOURCES_ON_ELASTIC_AGENT",elasticAgentUUIDs));
+  throw new ElasticAgentsResourceUpdateException(elasticAgentUUIDs);
+}
