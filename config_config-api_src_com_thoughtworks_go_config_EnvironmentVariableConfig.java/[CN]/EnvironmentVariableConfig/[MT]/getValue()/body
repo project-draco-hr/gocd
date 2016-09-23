@@ -4,6 +4,7 @@
       return goCipher.decrypt(encryptedValue.getValue());
     }
  catch (    InvalidCipherTextException e) {
+      errors().add(VALUE,String.format("Encrypted value for variable named '%s' is invalid",getName()));
       throw new RuntimeException(String.format("Could not decrypt secure environment variable value for name %s",getName()),e);
     }
   }

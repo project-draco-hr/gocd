@@ -1,20 +1,22 @@
 {
   boolean inserted=pendingCacheFiles.add(artifactLocation);
-  if (inserted) {
-    Thread cacheCreatorThread=new Thread("cache-creator-thread-" + UUID.randomUUID().toString()){
-      public void run(){
-        try {
-          createCachedFile(artifactLocation);
-        }
- catch (        Exception e) {
-          pendingExceptions.putIfAbsent(artifactLocation,e);
-        }
+  Thread cacheCreatorThread=new Thread("cache-creator-thread-" + UUID.randomUUID().toString()){
+    public void run(){
+      try {
+        createCachedFile(artifactLocation);
+      }
+ catch (      Exception e) {
+        LOG.error("An error occurred while trying to create the artifact zip file of directory {}",artifactLocation,e);
+        pendingExceptions.putIfAbsent(artifactLocation,e);
+      }
  finally {
-          pendingCacheFiles.remove(artifactLocation);
-        }
+        pendingCacheFiles.remove(artifactLocation);
       }
     }
+  }
 ;
+  if (inserted) {
     cacheCreatorThread.start();
   }
+  return cacheCreatorThread.getId();
 }

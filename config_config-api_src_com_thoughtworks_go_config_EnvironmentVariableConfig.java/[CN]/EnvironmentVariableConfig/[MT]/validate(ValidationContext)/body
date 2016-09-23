@@ -3,6 +3,10 @@
     getValue();
   }
  catch (  Exception e) {
-    errors().add(VALUE,String.format("Encrypted value for variable named '%s' is invalid. This usually happens when the cipher text is modified to have an invalid value.",getName()));
+    if (e instanceof DataLengthException) {
+      errors().add(VALUE,String.format("Encrypted value for variable named '%s' is invalid",getName()));
+    }
+    LOG.error(String.format("An error occurred while validating environment variable '%s'. May be the encrypted value or the cipher text is invalid.",getName()),e);
+    errors().add(VALUE,String.format("Please check the log for error details while validating environment variable '%s'.",getName()));
   }
 }
