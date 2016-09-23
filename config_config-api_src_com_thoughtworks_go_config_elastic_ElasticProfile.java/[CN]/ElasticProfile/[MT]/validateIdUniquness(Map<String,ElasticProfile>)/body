@@ -1,0 +1,10 @@
+{
+  ElasticProfile profileWithSameId=profiles.get(id);
+  if (profileWithSameId == null) {
+    profiles.put(id,this);
+  }
+ else {
+    profileWithSameId.addError(ID,String.format("Elastic agent profile id '%s' is not unique",id));
+    this.addError(ID,String.format("Elastic agent profile id '%s' is not unique",id));
+  }
+}
