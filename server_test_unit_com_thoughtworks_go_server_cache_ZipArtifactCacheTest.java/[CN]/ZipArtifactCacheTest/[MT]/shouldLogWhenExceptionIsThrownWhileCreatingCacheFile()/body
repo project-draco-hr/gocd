@@ -1,8 +1,0 @@
-{
-  ZipArtifactCache zipArtifactCache1=spy(zipArtifactCache);
-  doThrow(FileAlreadyExistsException.class).when(zipArtifactCache1).createCachedFile(artifactFolder);
-  long threadId=zipArtifactCache1.startCacheCreationThread(artifactFolder);
-  waitForCacheFileCreation(threadId);
-  assertThat(logFixture.allLogs(),containsString("An error occurred while trying to create the artifact zip file of directory"));
-  assertThat(logFixture.allLogs(),containsString("FileAlreadyExistsException"));
-}
