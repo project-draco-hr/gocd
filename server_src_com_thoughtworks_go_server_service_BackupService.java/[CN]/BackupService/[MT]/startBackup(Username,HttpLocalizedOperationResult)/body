@@ -5,42 +5,23 @@
   }
 synchronized (BACKUP_MUTEX) {
     DateTime now=timeProvider.currentDateTime();
-    LOGGER.info(String.format("Backup started at %s by user '%s'",now,username.getDisplayName()));
     final File destDir=new File(backupLocation(),BACKUP + now.toString("YYYYMMdd-HHmmss"));
     if (!destDir.mkdirs()) {
       result.badRequest(LocalizedMessage.string("BACKUP_UNSUCCESSFUL","Could not create the backup directory."));
       return null;
     }
     try {
-      StopWatch stopWatch=new StopWatch("stop watch");
       backupRunningSince=now;
       backupStartedBy=username.getUsername().toString();
-      LOGGER.info("Backing up GoCD version file.");
-      stopWatch.start("GoCD version file");
       backupVersion(destDir);
-      stopWatch.stop();
-      System.out.println(stopWatch.getLastTaskName());
-      LOGGER.info("Finished backing up {}. Took {} ms.",stopWatch.getLastTaskName(),stopWatch.getLastTaskTimeMillis());
-      LOGGER.info("Backing up config directory.");
-      stopWatch.start("config directory");
       backupConfig(destDir);
-      stopWatch.stop();
-      LOGGER.info("Finished backing up {}. Took {} ms.",stopWatch.getLastTaskName(),stopWatch.getLastTaskTimeMillis());
-      LOGGER.info("Backing up config.git repository");
-      stopWatch.start("config.git repository");
       configRepository.doLocked(new VoidThrowingFn<IOException>(){
         @Override public void run() throws IOException {
           backupConfigRepository(destDir);
         }
       }
 );
-      stopWatch.stop();
-      LOGGER.info("Finished backing up {}. Took {} ms.",stopWatch.getLastTaskName(),stopWatch.getLastTaskTimeMillis());
-      LOGGER.info("Backing up the database.");
-      stopWatch.start("database");
       backupDb(destDir);
-      stopWatch.stop();
-      LOGGER.info("Finished backing up {}. Took {} ms.",stopWatch.getLastTaskName(),stopWatch.getLastTaskTimeMillis());
       ServerBackup serverBackup=new ServerBackup(destDir.getAbsolutePath(),now.toDate(),username.getUsername().toString());
       serverBackupRepository.save(serverBackup);
       mailSender.send(EmailMessageDrafter.backupSuccessfullyCompletedMessage(destDir.getAbsolutePath(),goConfigService.adminEmail(),username));

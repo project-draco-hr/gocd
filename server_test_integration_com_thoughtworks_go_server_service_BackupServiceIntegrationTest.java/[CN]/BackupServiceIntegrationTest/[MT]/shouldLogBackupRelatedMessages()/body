@@ -1,6 +1,0 @@
-{
-  HttpLocalizedOperationResult result=new HttpLocalizedOperationResult();
-  backupService.startBackup(admin,result);
-  assertThat(result.isSuccessful(),is(true));
-  assertThat(logFixture.allLogs(),allOf(containsString("Backing up GoCD version file"),containsString("Backing up config directory"),containsString(" Backing up config.git repository"),containsString("Backing up the database")));
-}
